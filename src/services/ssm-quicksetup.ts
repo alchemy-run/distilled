@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "SSM QuickSetup",
   serviceShapeName: "QuickSetup",
@@ -292,6 +300,9 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type IAMRoleArn = string;
 
 //# Schemas
 export interface GetServiceSettingsRequest {}
@@ -912,7 +923,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { Message: S.optional(S.String) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -921,7 +934,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String) },
@@ -931,7 +946,17 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Returns settings configured for Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
  */
-export const getServiceSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getServiceSettings: (
+  input: GetServiceSettingsRequest,
+) => Effect.Effect<
+  GetServiceSettingsOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceSettingsRequest,
   output: GetServiceSettingsOutput,
   errors: [
@@ -944,7 +969,17 @@ export const getServiceSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the available Quick Setup types.
  */
-export const listQuickSetupTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listQuickSetupTypes: (
+  input: ListQuickSetupTypesRequest,
+) => Effect.Effect<
+  ListQuickSetupTypesOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListQuickSetupTypesRequest,
   output: ListQuickSetupTypesOutput,
   errors: [
@@ -957,7 +992,19 @@ export const listQuickSetupTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns details about the specified configuration.
  */
-export const getConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConfiguration: (
+  input: GetConfigurationInput,
+) => Effect.Effect<
+  GetConfigurationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigurationInput,
   output: GetConfigurationOutput,
   errors: [
@@ -972,46 +1019,103 @@ export const getConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a configuration manager.
  */
-export const getConfigurationManager = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetConfigurationManagerInput,
-    output: GetConfigurationManagerOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getConfigurationManager: (
+  input: GetConfigurationManagerInput,
+) => Effect.Effect<
+  GetConfigurationManagerOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfigurationManagerInput,
+  output: GetConfigurationManagerOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns configurations deployed by Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
  */
-export const listConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listConfigurations: {
+  (
     input: ListConfigurationsInput,
-    output: ListConfigurationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "StartingToken",
-      outputToken: "NextToken",
-      items: "ConfigurationsList",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListConfigurationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfigurationsInput,
+  ) => Stream.Stream<
+    ListConfigurationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfigurationsInput,
+  ) => Stream.Stream<
+    ConfigurationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfigurationsInput,
+  output: ListConfigurationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "StartingToken",
+    outputToken: "NextToken",
+    items: "ConfigurationsList",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Returns tags assigned to the resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1026,23 +1130,46 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a Quick Setup configuration definition.
  */
-export const updateConfigurationDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConfigurationDefinitionInput,
-    output: UpdateConfigurationDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateConfigurationDefinition: (
+  input: UpdateConfigurationDefinitionInput,
+) => Effect.Effect<
+  UpdateConfigurationDefinitionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfigurationDefinitionInput,
+  output: UpdateConfigurationDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Assigns key-value pairs of metadata to Amazon Web Services resources.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceResponse,
   errors: [
@@ -1057,7 +1184,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceResponse,
   errors: [
@@ -1072,89 +1211,163 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a Quick Setup configuration manager.
  */
-export const updateConfigurationManager = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConfigurationManagerInput,
-    output: UpdateConfigurationManagerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateConfigurationManager: (
+  input: UpdateConfigurationManagerInput,
+) => Effect.Effect<
+  UpdateConfigurationManagerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfigurationManagerInput,
+  output: UpdateConfigurationManagerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates settings configured for Quick Setup.
  */
-export const updateServiceSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServiceSettingsInput,
-    output: UpdateServiceSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateServiceSettings: (
+  input: UpdateServiceSettingsInput,
+) => Effect.Effect<
+  UpdateServiceSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceSettingsInput,
+  output: UpdateServiceSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a Quick Setup configuration manager resource. This object is a collection
  * of desired state configurations for multiple configuration definitions and
  * summaries describing the deployments of those definitions.
  */
-export const createConfigurationManager = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConfigurationManagerInput,
-    output: CreateConfigurationManagerOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createConfigurationManager: (
+  input: CreateConfigurationManagerInput,
+) => Effect.Effect<
+  CreateConfigurationManagerOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConfigurationManagerInput,
+  output: CreateConfigurationManagerOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a configuration manager.
  */
-export const deleteConfigurationManager = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConfigurationManagerInput,
-    output: DeleteConfigurationManagerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteConfigurationManager: (
+  input: DeleteConfigurationManagerInput,
+) => Effect.Effect<
+  DeleteConfigurationManagerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConfigurationManagerInput,
+  output: DeleteConfigurationManagerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns Quick Setup configuration managers.
  */
-export const listConfigurationManagers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConfigurationManagers: {
+  (
     input: ListConfigurationManagersInput,
-    output: ListConfigurationManagersOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "StartingToken",
-      outputToken: "NextToken",
-      items: "ConfigurationManagersList",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConfigurationManagersOutput,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfigurationManagersInput,
+  ) => Stream.Stream<
+    ListConfigurationManagersOutput,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfigurationManagersInput,
+  ) => Stream.Stream<
+    ConfigurationManagerSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfigurationManagersInput,
+  output: ListConfigurationManagersOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "StartingToken",
+    outputToken: "NextToken",
+    items: "ConfigurationManagersList",
+    pageSize: "MaxItems",
+  } as const,
+}));

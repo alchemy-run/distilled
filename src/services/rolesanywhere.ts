@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "RolesAnywhere",
   serviceShapeName: "RolesAnywhere",
@@ -241,6 +249,20 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type AmazonResourceName = string;
+export type Uuid = string;
+export type TagKey = string;
+export type ResourceName = string;
+export type TrustAnchorArn = string;
+export type RoleArn = string;
+export type CertificateField = string;
+export type NotificationEvent = string;
+export type NotificationChannel = string;
+export type TagValue = string;
+export type ProfileArn = string;
+export type TrustAnchorType = string;
+
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
@@ -310,6 +332,9 @@ export type ProfileDetails = ProfileDetail[];
 export const ProfileDetails = S.Array(ProfileDetail);
 export type SpecifierList = string[];
 export const SpecifierList = S.Array(S.String);
+export type SourceData =
+  | { x509CertificateData: string }
+  | { acmPcaArn: string };
 export const SourceData = S.Union(
   S.Struct({ x509CertificateData: S.String }),
   S.Struct({ acmPcaArn: S.String }),
@@ -1066,7 +1091,13 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
  *
  * **Required permissions: ** `rolesanywhere:GetCrl`.
  */
-export const getCrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCrl: (
+  input: ScalarCrlRequest,
+) => Effect.Effect<
+  CrlDetailResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarCrlRequest,
   output: CrlDetailResponse,
   errors: [ResourceNotFoundException],
@@ -1076,7 +1107,13 @@ export const getCrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:DeleteCrl`.
  */
-export const deleteCrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCrl: (
+  input: ScalarCrlRequest,
+) => Effect.Effect<
+  CrlDetailResponse,
+  AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarCrlRequest,
   output: CrlDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
@@ -1086,7 +1123,13 @@ export const deleteCrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:CreateProfile`.
  */
-export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProfile: (
+  input: CreateProfileRequest,
+) => Effect.Effect<
+  ProfileDetailResponse,
+  AccessDeniedException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProfileRequest,
   output: ProfileDetailResponse,
   errors: [AccessDeniedException, ValidationException],
@@ -1094,40 +1137,73 @@ export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete an entry from the attribute mapping rules enforced by a given profile.
  */
-export const deleteAttributeMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAttributeMappingRequest,
-    output: DeleteAttributeMappingResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAttributeMapping: (
+  input: DeleteAttributeMappingRequest,
+) => Effect.Effect<
+  DeleteAttributeMappingResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAttributeMappingRequest,
+  output: DeleteAttributeMappingResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the subjects in the authenticated account and Amazon Web Services Region.
  *
  * **Required permissions: ** `rolesanywhere:ListSubjects`.
  */
-export const listSubjects = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSubjects: {
+  (
     input: ListRequest,
-    output: ListSubjectsResponse,
-    errors: [AccessDeniedException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "subjects",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSubjectsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRequest,
+  ) => Stream.Stream<
+    ListSubjectsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRequest,
+  ) => Stream.Stream<
+    SubjectSummary,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRequest,
+  output: ListSubjectsResponse,
+  errors: [AccessDeniedException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "subjects",
+  } as const,
+}));
 /**
  * Disables a certificate revocation list (CRL).
  *
  * **Required permissions: ** `rolesanywhere:DisableCrl`.
  */
-export const disableCrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableCrl: (
+  input: ScalarCrlRequest,
+) => Effect.Effect<
+  CrlDetailResponse,
+  AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarCrlRequest,
   output: CrlDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
@@ -1137,7 +1213,13 @@ export const disableCrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:GetProfile`.
  */
-export const getProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getProfile: (
+  input: ScalarProfileRequest,
+) => Effect.Effect<
+  ProfileDetailResponse,
+  AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarProfileRequest,
   output: ProfileDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
@@ -1147,7 +1229,16 @@ export const getProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:UpdateProfile`.
  */
-export const updateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProfile: (
+  input: UpdateProfileRequest,
+) => Effect.Effect<
+  ProfileDetailResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProfileRequest,
   output: ProfileDetailResponse,
   errors: [
@@ -1161,7 +1252,16 @@ export const updateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:GetTrustAnchor`.
  */
-export const getTrustAnchor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTrustAnchor: (
+  input: ScalarTrustAnchorRequest,
+) => Effect.Effect<
+  TrustAnchorDetailResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarTrustAnchorRequest,
   output: TrustAnchorDetailResponse,
   errors: [
@@ -1175,7 +1275,16 @@ export const getTrustAnchor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:UpdateTrustAnchor`.
  */
-export const updateTrustAnchor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTrustAnchor: (
+  input: UpdateTrustAnchorRequest,
+) => Effect.Effect<
+  TrustAnchorDetailResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrustAnchorRequest,
   output: TrustAnchorDetailResponse,
   errors: [
@@ -1189,7 +1298,13 @@ export const updateTrustAnchor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:EnableCrl`.
  */
-export const enableCrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableCrl: (
+  input: ScalarCrlRequest,
+) => Effect.Effect<
+  CrlDetailResponse,
+  AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarCrlRequest,
   output: CrlDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
@@ -1199,7 +1314,13 @@ export const enableCrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:DisableProfile`.
  */
-export const disableProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableProfile: (
+  input: ScalarProfileRequest,
+) => Effect.Effect<
+  ProfileDetailResponse,
+  AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarProfileRequest,
   output: ProfileDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
@@ -1209,7 +1330,13 @@ export const disableProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:EnableProfile`.
  */
-export const enableProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableProfile: (
+  input: ScalarProfileRequest,
+) => Effect.Effect<
+  ProfileDetailResponse,
+  AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarProfileRequest,
   output: ProfileDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
@@ -1219,7 +1346,13 @@ export const enableProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:DisableTrustAnchor`.
  */
-export const disableTrustAnchor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableTrustAnchor: (
+  input: ScalarTrustAnchorRequest,
+) => Effect.Effect<
+  TrustAnchorDetailResponse,
+  AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarTrustAnchorRequest,
   output: TrustAnchorDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
@@ -1229,7 +1362,13 @@ export const disableTrustAnchor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:EnableTrustAnchor`.
  */
-export const enableTrustAnchor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableTrustAnchor: (
+  input: ScalarTrustAnchorRequest,
+) => Effect.Effect<
+  TrustAnchorDetailResponse,
+  AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarTrustAnchorRequest,
   output: TrustAnchorDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
@@ -1239,7 +1378,16 @@ export const enableTrustAnchor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:UntagResource`.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1253,7 +1401,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:UpdateCrl`.
  */
-export const updateCrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCrl: (
+  input: UpdateCrlRequest,
+) => Effect.Effect<
+  CrlDetailResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCrlRequest,
   output: CrlDetailResponse,
   errors: [
@@ -1267,7 +1424,16 @@ export const updateCrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:ListTagsForResource`.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1281,41 +1447,87 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:ListProfiles`.
  */
-export const listProfiles = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProfiles: {
+  (
     input: ListRequest,
-    output: ListProfilesResponse,
-    errors: [AccessDeniedException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "profiles",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProfilesResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRequest,
+  ) => Stream.Stream<
+    ListProfilesResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRequest,
+  ) => Stream.Stream<
+    ProfileDetail,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRequest,
+  output: ListProfilesResponse,
+  errors: [AccessDeniedException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "profiles",
+  } as const,
+}));
 /**
  * Lists the trust anchors in the authenticated account and Amazon Web Services Region.
  *
  * **Required permissions: ** `rolesanywhere:ListTrustAnchors`.
  */
-export const listTrustAnchors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTrustAnchors: {
+  (
     input: ListRequest,
-    output: ListTrustAnchorsResponse,
-    errors: [AccessDeniedException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "trustAnchors",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTrustAnchorsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRequest,
+  ) => Stream.Stream<
+    ListTrustAnchorsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRequest,
+  ) => Stream.Stream<
+    TrustAnchorDetail,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRequest,
+  output: ListTrustAnchorsResponse,
+  errors: [AccessDeniedException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "trustAnchors",
+  } as const,
+}));
 /**
  * Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing credentials.
  *
  * **Required permissions: ** `rolesanywhere:ImportCrl`.
  */
-export const importCrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importCrl: (
+  input: ImportCrlRequest,
+) => Effect.Effect<
+  CrlDetailResponse,
+  AccessDeniedException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportCrlRequest,
   output: CrlDetailResponse,
   errors: [AccessDeniedException, ValidationException],
@@ -1325,7 +1537,29 @@ export const importCrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:ListCrls`.
  */
-export const listCrls = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCrls: {
+  (
+    input: ListRequest,
+  ): Effect.Effect<
+    ListCrlsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRequest,
+  ) => Stream.Stream<
+    ListCrlsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRequest,
+  ) => Stream.Stream<
+    CrlDetail,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRequest,
   output: ListCrlsResponse,
   errors: [AccessDeniedException, ValidationException],
@@ -1342,39 +1576,59 @@ export const listCrls = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * **Required permissions: ** `rolesanywhere:PutNotificationSettings`.
  */
-export const putNotificationSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutNotificationSettingsRequest,
-    output: PutNotificationSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const putNotificationSettings: (
+  input: PutNotificationSettingsRequest,
+) => Effect.Effect<
+  PutNotificationSettingsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutNotificationSettingsRequest,
+  output: PutNotificationSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Resets the *custom notification setting* to IAM Roles Anywhere default setting.
  *
  * **Required permissions: ** `rolesanywhere:ResetNotificationSettings`.
  */
-export const resetNotificationSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetNotificationSettingsRequest,
-    output: ResetNotificationSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const resetNotificationSettings: (
+  input: ResetNotificationSettingsRequest,
+) => Effect.Effect<
+  ResetNotificationSettingsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetNotificationSettingsRequest,
+  output: ResetNotificationSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a profile.
  *
  * **Required permissions: ** `rolesanywhere:DeleteProfile`.
  */
-export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProfile: (
+  input: ScalarProfileRequest,
+) => Effect.Effect<
+  ProfileDetailResponse,
+  AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarProfileRequest,
   output: ProfileDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
@@ -1382,7 +1636,16 @@ export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Put an entry in the attribute mapping rules that will be enforced by a given profile. A mapping specifies a certificate field and one or more specifiers that have contextual meanings.
  */
-export const putAttributeMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putAttributeMapping: (
+  input: PutAttributeMappingRequest,
+) => Effect.Effect<
+  PutAttributeMappingResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAttributeMappingRequest,
   output: PutAttributeMappingResponse,
   errors: [
@@ -1396,7 +1659,13 @@ export const putAttributeMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:CreateTrustAnchor`.
  */
-export const createTrustAnchor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTrustAnchor: (
+  input: CreateTrustAnchorRequest,
+) => Effect.Effect<
+  TrustAnchorDetailResponse,
+  AccessDeniedException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrustAnchorRequest,
   output: TrustAnchorDetailResponse,
   errors: [AccessDeniedException, ValidationException],
@@ -1406,7 +1675,13 @@ export const createTrustAnchor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:DeleteTrustAnchor`.
  */
-export const deleteTrustAnchor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTrustAnchor: (
+  input: ScalarTrustAnchorRequest,
+) => Effect.Effect<
+  TrustAnchorDetailResponse,
+  AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarTrustAnchorRequest,
   output: TrustAnchorDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
@@ -1416,7 +1691,17 @@ export const deleteTrustAnchor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:TagResource`.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1431,7 +1716,13 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Required permissions: ** `rolesanywhere:GetSubject`.
  */
-export const getSubject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSubject: (
+  input: ScalarSubjectRequest,
+) => Effect.Effect<
+  SubjectDetailResponse,
+  AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalarSubjectRequest,
   output: SubjectDetailResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Wickr",
   serviceShapeName: "WickrAdminApi",
@@ -292,6 +300,16 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type NetworkId = string;
+export type ClientToken = string;
+export type UserId = string;
+export type GenericString = string;
+export type SensitiveString = string;
+export type BotId = string;
+export type SecurityGroupId = string;
+export type Uname = string;
 
 //# Schemas
 export type UserIds = string[];
@@ -2555,11 +2573,15 @@ export class ForbiddenError extends S.TaggedError<ForbiddenError>()(
 export class InternalServerError extends S.TaggedError<InternalServerError>()(
   "InternalServerError",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class RateLimitError extends S.TaggedError<RateLimitError>()(
   "RateLimitError",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundError extends S.TaggedError<ResourceNotFoundError>()(
   "ResourceNotFoundError",
   { message: S.optional(S.String) },
@@ -2577,30 +2599,81 @@ export class ValidationError extends S.TaggedError<ValidationError>()(
 /**
  * Retrieves a paginated list of all Wickr networks associated with your Amazon Web Services account. You can sort the results by network ID or name.
  */
-export const listNetworks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listNetworks: {
+  (
     input: ListNetworksRequest,
-    output: ListNetworksResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "networks",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListNetworksResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNetworksRequest,
+  ) => Stream.Stream<
+    ListNetworksResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNetworksRequest,
+  ) => Stream.Stream<
+    Network,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNetworksRequest,
+  output: ListNetworksResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "networks",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a new security group in a Wickr network. Security groups allow you to organize users and control their permissions, features, and security settings.
  */
-export const createSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSecurityGroup: (
+  input: CreateSecurityGroupRequest,
+) => Effect.Effect<
+  CreateSecurityGroupResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSecurityGroupRequest,
   output: CreateSecurityGroupResponse,
   errors: [
@@ -2616,25 +2689,49 @@ export const createSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates network-level settings for a Wickr network. You can modify settings such as client metrics, data retention, and other network-wide options.
  */
-export const updateNetworkSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateNetworkSettingsRequest,
-    output: UpdateNetworkSettingsResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }),
-);
+export const updateNetworkSettings: (
+  input: UpdateNetworkSettingsRequest,
+) => Effect.Effect<
+  UpdateNetworkSettingsResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNetworkSettingsRequest,
+  output: UpdateNetworkSettingsResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
 /**
  * Updates the properties of an existing security group in a Wickr network, such as its name or settings.
  */
-export const updateSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSecurityGroup: (
+  input: UpdateSecurityGroupRequest,
+) => Effect.Effect<
+  UpdateSecurityGroupResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSecurityGroupRequest,
   output: UpdateSecurityGroupResponse,
   errors: [
@@ -2650,43 +2747,78 @@ export const updateSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Resets multiple devices for a specific user in a Wickr network. This operation forces the selected devices to log out and requires users to re-authenticate, which is useful for security purposes or when devices need to be revoked.
  */
-export const batchResetDevicesForUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchResetDevicesForUserRequest,
-    output: BatchResetDevicesForUserResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }),
-);
+export const batchResetDevicesForUser: (
+  input: BatchResetDevicesForUserRequest,
+) => Effect.Effect<
+  BatchResetDevicesForUserResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchResetDevicesForUserRequest,
+  output: BatchResetDevicesForUserResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
 /**
  * Retrieves historical guest user count data for a Wickr network, showing the number of guest users per billing period over the past 90 days.
  */
-export const getGuestUserHistoryCount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetGuestUserHistoryCountRequest,
-    output: GetGuestUserHistoryCountResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }),
-);
+export const getGuestUserHistoryCount: (
+  input: GetGuestUserHistoryCountRequest,
+) => Effect.Effect<
+  GetGuestUserHistoryCountResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGuestUserHistoryCountRequest,
+  output: GetGuestUserHistoryCountResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
 /**
  * Retrieves all network-level settings for a Wickr network, including client metrics, data retention, and other configuration options.
  */
-export const getNetworkSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getNetworkSettings: (
+  input: GetNetworkSettingsRequest,
+) => Effect.Effect<
+  GetNetworkSettingsResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNetworkSettingsRequest,
   output: GetNetworkSettingsResponse,
   errors: [
@@ -2702,7 +2834,20 @@ export const getNetworkSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the OpenID Connect (OIDC) configuration for a Wickr network, including SSO settings and optional token information if access token parameters are provided.
  */
-export const getOidcInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getOidcInfo: (
+  input: GetOidcInfoRequest,
+) => Effect.Effect<
+  GetOidcInfoResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOidcInfoRequest,
   output: GetOidcInfoResponse,
   errors: [
@@ -2718,7 +2863,20 @@ export const getOidcInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a specific security group in a Wickr network, including its settings, member counts, and configuration.
  */
-export const getSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSecurityGroup: (
+  input: GetSecurityGroupRequest,
+) => Effect.Effect<
+  GetSecurityGroupResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSecurityGroupRequest,
   output: GetSecurityGroupResponse,
   errors: [
@@ -2734,30 +2892,115 @@ export const getSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a paginated list of guest users who have been blocked from a Wickr network. You can filter and sort the results.
  */
-export const listBlockedGuestUsers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBlockedGuestUsers: {
+  (
     input: ListBlockedGuestUsersRequest,
-    output: ListBlockedGuestUsersResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "blocklist",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBlockedGuestUsersResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBlockedGuestUsersRequest,
+  ) => Stream.Stream<
+    ListBlockedGuestUsersResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBlockedGuestUsersRequest,
+  ) => Stream.Stream<
+    BlockedGuestUser,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBlockedGuestUsersRequest,
+  output: ListBlockedGuestUsersResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "blocklist",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a paginated list of bots in a specified Wickr network. You can filter and sort the results based on various criteria.
  */
-export const listBots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBots: {
+  (
+    input: ListBotsRequest,
+  ): Effect.Effect<
+    ListBotsResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBotsRequest,
+  ) => Stream.Stream<
+    ListBotsResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBotsRequest,
+  ) => Stream.Stream<
+    Bot,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBotsRequest,
   output: ListBotsResponse,
   errors: [
@@ -2779,80 +3022,217 @@ export const listBots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Retrieves a paginated list of devices associated with a specific user in a Wickr network. This operation returns information about all devices where the user has logged into Wickr.
  */
-export const listDevicesForUser = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDevicesForUser: {
+  (
     input: ListDevicesForUserRequest,
-    output: ListDevicesForUserResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "devices",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDevicesForUserResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDevicesForUserRequest,
+  ) => Stream.Stream<
+    ListDevicesForUserResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDevicesForUserRequest,
+  ) => Stream.Stream<
+    BasicDeviceObject,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDevicesForUserRequest,
+  output: ListDevicesForUserResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "devices",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a paginated list of guest users who have communicated with your Wickr network. Guest users are external users from federated networks who can communicate with network members.
  */
-export const listGuestUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listGuestUsers: {
+  (
     input: ListGuestUsersRequest,
-    output: ListGuestUsersResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "guestlist",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListGuestUsersResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGuestUsersRequest,
+  ) => Stream.Stream<
+    ListGuestUsersResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGuestUsersRequest,
+  ) => Stream.Stream<
+    GuestUser,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGuestUsersRequest,
+  output: ListGuestUsersResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "guestlist",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a paginated list of users who belong to a specific security group in a Wickr network.
  */
-export const listSecurityGroupUsers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSecurityGroupUsers: {
+  (
     input: ListSecurityGroupUsersRequest,
-    output: ListSecurityGroupUsersResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "users",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSecurityGroupUsersResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecurityGroupUsersRequest,
+  ) => Stream.Stream<
+    ListSecurityGroupUsersResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecurityGroupUsersRequest,
+  ) => Stream.Stream<
+    User,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecurityGroupUsersRequest,
+  output: ListSecurityGroupUsersResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "users",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates the properties of an existing user in a Wickr network. This operation allows you to modify the user's name, password, security group membership, and invite code settings.
  *
  * `codeValidation`, `inviteCode`, and `inviteCodeTtl` are restricted to networks under preview only.
  */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUser: (
+  input: UpdateUserRequest,
+) => Effect.Effect<
+  UpdateUserResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,
   output: UpdateUserResponse,
   errors: [
@@ -2868,24 +3248,49 @@ export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Suspends or unsuspends multiple users in a Wickr network. Suspended users cannot access the network until they are unsuspended. This operation is useful for temporarily restricting access without deleting user accounts.
  */
-export const batchToggleUserSuspendStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchToggleUserSuspendStatusRequest,
-    output: BatchToggleUserSuspendStatusResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }));
+export const batchToggleUserSuspendStatus: (
+  input: BatchToggleUserSuspendStatusRequest,
+) => Effect.Effect<
+  BatchToggleUserSuspendStatusResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchToggleUserSuspendStatusRequest,
+  output: BatchToggleUserSuspendStatusResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
 /**
  * Creates a new bot in a specified Wickr network. Bots are automated accounts that can send and receive messages, enabling integration with external systems and automation of tasks.
  */
-export const createBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBot: (
+  input: CreateBotRequest,
+) => Effect.Effect<
+  CreateBotResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBotRequest,
   output: CreateBotResponse,
   errors: [
@@ -2901,42 +3306,78 @@ export const createBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a data retention bot in a Wickr network. Data retention bots are specialized bots that handle message archiving and compliance by capturing and storing messages for regulatory or organizational requirements.
  */
-export const createDataRetentionBot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataRetentionBotRequest,
-    output: CreateDataRetentionBotResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }),
-);
+export const createDataRetentionBot: (
+  input: CreateDataRetentionBotRequest,
+) => Effect.Effect<
+  CreateDataRetentionBotResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataRetentionBotRequest,
+  output: CreateDataRetentionBotResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
 /**
  * Creates a new challenge password for the data retention bot. This password is used for authentication when the bot connects to the network.
  */
-export const createDataRetentionBotChallenge =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDataRetentionBotChallengeRequest,
-    output: CreateDataRetentionBotChallengeResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }));
+export const createDataRetentionBotChallenge: (
+  input: CreateDataRetentionBotChallengeRequest,
+) => Effect.Effect<
+  CreateDataRetentionBotChallengeResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataRetentionBotChallengeRequest,
+  output: CreateDataRetentionBotChallengeResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
 /**
  * Creates a new Wickr network with specified access level and configuration. This operation provisions a new communication network for your organization.
  */
-export const createNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createNetwork: (
+  input: CreateNetworkRequest,
+) => Effect.Effect<
+  CreateNetworkResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNetworkRequest,
   output: CreateNetworkResponse,
   errors: [
@@ -2952,7 +3393,20 @@ export const createNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a bot from a specified Wickr network. This operation permanently removes the bot account and its associated data from the network.
  */
-export const deleteBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBot: (
+  input: DeleteBotRequest,
+) => Effect.Effect<
+  DeleteBotResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBotRequest,
   output: DeleteBotResponse,
   errors: [
@@ -2968,25 +3422,49 @@ export const deleteBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the data retention bot from a Wickr network. This operation permanently removes the bot and all its associated data from the database.
  */
-export const deleteDataRetentionBot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDataRetentionBotRequest,
-    output: DeleteDataRetentionBotResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }),
-);
+export const deleteDataRetentionBot: (
+  input: DeleteDataRetentionBotRequest,
+) => Effect.Effect<
+  DeleteDataRetentionBotResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataRetentionBotRequest,
+  output: DeleteDataRetentionBotResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
 /**
  * Deletes a Wickr network and all its associated resources, including users, bots, security groups, and settings. This operation is permanent and cannot be undone.
  */
-export const deleteNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteNetwork: (
+  input: DeleteNetworkRequest,
+) => Effect.Effect<
+  DeleteNetworkResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNetworkRequest,
   output: DeleteNetworkResponse,
   errors: [
@@ -3002,7 +3480,20 @@ export const deleteNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a security group from a Wickr network. This operation cannot be performed on the default security group.
  */
-export const deleteSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSecurityGroup: (
+  input: DeleteSecurityGroupRequest,
+) => Effect.Effect<
+  DeleteSecurityGroupResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSecurityGroupRequest,
   output: DeleteSecurityGroupResponse,
   errors: [
@@ -3018,7 +3509,20 @@ export const deleteSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a specific bot in a Wickr network, including its status, group membership, and authentication details.
  */
-export const getBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBot: (
+  input: GetBotRequest,
+) => Effect.Effect<
+  GetBotResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBotRequest,
   output: GetBotResponse,
   errors: [
@@ -3034,7 +3538,20 @@ export const getBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the count of bots in a Wickr network, categorized by their status (pending, active, and total).
  */
-export const getBotsCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBotsCount: (
+  input: GetBotsCountRequest,
+) => Effect.Effect<
+  GetBotsCountResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBotsCountRequest,
   output: GetBotsCountResponse,
   errors: [
@@ -3050,7 +3567,20 @@ export const getBotsCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the data retention bot in a Wickr network, including its status and whether the data retention service is enabled.
  */
-export const getDataRetentionBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDataRetentionBot: (
+  input: GetDataRetentionBotRequest,
+) => Effect.Effect<
+  GetDataRetentionBotResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataRetentionBotRequest,
   output: GetDataRetentionBotResponse,
   errors: [
@@ -3066,7 +3596,20 @@ export const getDataRetentionBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a specific Wickr network, including its configuration, access level, and status.
  */
-export const getNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getNetwork: (
+  input: GetNetworkRequest,
+) => Effect.Effect<
+  GetNetworkResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNetworkRequest,
   output: GetNetworkResponse,
   errors: [
@@ -3082,7 +3625,20 @@ export const getNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a specific user in a Wickr network, including their profile, status, and activity history.
  */
-export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUser: (
+  input: GetUserRequest,
+) => Effect.Effect<
+  GetUserResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserRequest,
   output: GetUserResponse,
   errors: [
@@ -3098,7 +3654,20 @@ export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the count of users in a Wickr network, categorized by their status (pending, active, rejected) and showing how many users can still be added.
  */
-export const getUsersCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUsersCount: (
+  input: GetUsersCountRequest,
+) => Effect.Effect<
+  GetUsersCountResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsersCountRequest,
   output: GetUsersCountResponse,
   errors: [
@@ -3114,31 +3683,115 @@ export const getUsersCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a paginated list of security groups in a specified Wickr network. You can sort the results by various criteria.
  */
-export const listSecurityGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSecurityGroups: {
+  (
     input: ListSecurityGroupsRequest,
-    output: ListSecurityGroupsResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "securityGroups",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSecurityGroupsResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecurityGroupsRequest,
+  ) => Stream.Stream<
+    ListSecurityGroupsResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecurityGroupsRequest,
+  ) => Stream.Stream<
+    SecurityGroup,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecurityGroupsRequest,
+  output: ListSecurityGroupsResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "securityGroups",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a paginated list of users in a specified Wickr network. You can filter and sort the results based on various criteria such as name, status, or security group membership.
  */
-export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUsers: {
+  (
+    input: ListUsersRequest,
+  ): Effect.Effect<
+    ListUsersResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    ListUsersResponse,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    User,
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | RateLimitError
+    | ResourceNotFoundError
+    | UnauthorizedError
+    | ValidationError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse,
   errors: [
@@ -3160,7 +3813,20 @@ export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Registers and saves an OpenID Connect (OIDC) configuration for a Wickr network, enabling Single Sign-On (SSO) authentication through an identity provider.
  */
-export const registerOidcConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerOidcConfig: (
+  input: RegisterOidcConfigRequest,
+) => Effect.Effect<
+  RegisterOidcConfigResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterOidcConfigRequest,
   output: RegisterOidcConfigResponse,
   errors: [
@@ -3176,25 +3842,49 @@ export const registerOidcConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Tests an OpenID Connect (OIDC) configuration for a Wickr network by validating the connection to the identity provider and retrieving its supported capabilities.
  */
-export const registerOidcConfigTest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterOidcConfigTestRequest,
-    output: RegisterOidcConfigTestResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }),
-);
+export const registerOidcConfigTest: (
+  input: RegisterOidcConfigTestRequest,
+) => Effect.Effect<
+  RegisterOidcConfigTestResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterOidcConfigTestRequest,
+  output: RegisterOidcConfigTestResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
 /**
  * Updates the properties of an existing bot in a Wickr network. This operation allows you to modify the bot's display name, security group, password, or suspension status.
  */
-export const updateBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBot: (
+  input: UpdateBotRequest,
+) => Effect.Effect<
+  UpdateBotResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBotRequest,
   output: UpdateBotResponse,
   errors: [
@@ -3210,7 +3900,20 @@ export const updateBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the data retention bot settings, allowing you to enable or disable the data retention service, or acknowledge the public key message.
  */
-export const updateDataRetention = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDataRetention: (
+  input: UpdateDataRetentionRequest,
+) => Effect.Effect<
+  UpdateDataRetentionResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataRetentionRequest,
   output: UpdateDataRetentionResponse,
   errors: [
@@ -3226,7 +3929,20 @@ export const updateDataRetention = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the block status of a guest user in a Wickr network. This operation allows you to block or unblock a guest user from accessing the network.
  */
-export const updateGuestUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGuestUser: (
+  input: UpdateGuestUserRequest,
+) => Effect.Effect<
+  UpdateGuestUserResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGuestUserRequest,
   output: UpdateGuestUserResponse,
   errors: [
@@ -3242,7 +3958,20 @@ export const updateGuestUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the properties of an existing Wickr network, such as its name or encryption key configuration.
  */
-export const updateNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateNetwork: (
+  input: UpdateNetworkRequest,
+) => Effect.Effect<
+  UpdateNetworkResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNetworkRequest,
   output: UpdateNetworkResponse,
   errors: [
@@ -3260,7 +3989,20 @@ export const updateNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * `codeValidation`, `inviteCode`, and `inviteCodeTtl` are restricted to networks under preview only.
  */
-export const batchCreateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchCreateUser: (
+  input: BatchCreateUserRequest,
+) => Effect.Effect<
+  BatchCreateUserResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateUserRequest,
   output: BatchCreateUserResponse,
   errors: [
@@ -3276,7 +4018,20 @@ export const batchCreateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes multiple users from a specified Wickr network. This operation permanently removes user accounts and their associated data from the network.
  */
-export const batchDeleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchDeleteUser: (
+  input: BatchDeleteUserRequest,
+) => Effect.Effect<
+  BatchDeleteUserResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteUserRequest,
   output: BatchDeleteUserResponse,
   errors: [
@@ -3292,25 +4047,49 @@ export const batchDeleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Looks up multiple user usernames from their unique username hashes (unames). This operation allows you to retrieve the email addresses associated with a list of username hashes.
  */
-export const batchLookupUserUname = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchLookupUserUnameRequest,
-    output: BatchLookupUserUnameResponse,
-    errors: [
-      BadRequestError,
-      ForbiddenError,
-      InternalServerError,
-      RateLimitError,
-      ResourceNotFoundError,
-      UnauthorizedError,
-      ValidationError,
-    ],
-  }),
-);
+export const batchLookupUserUname: (
+  input: BatchLookupUserUnameRequest,
+) => Effect.Effect<
+  BatchLookupUserUnameResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchLookupUserUnameRequest,
+  output: BatchLookupUserUnameResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
 /**
  * Resends invitation codes to multiple users who have pending invitations in a Wickr network. This operation is useful when users haven't accepted their initial invitations or when invitations have expired.
  */
-export const batchReinviteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchReinviteUser: (
+  input: BatchReinviteUserRequest,
+) => Effect.Effect<
+  BatchReinviteUserResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchReinviteUserRequest,
   output: BatchReinviteUserResponse,
   errors: [

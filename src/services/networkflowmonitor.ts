@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "NetworkFlowMonitor",
   serviceShapeName: "NetworkFlowMonitor",
@@ -104,6 +112,28 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type TagKey = string;
+export type ResourceName = string;
+export type UuidString = string;
+export type MaxResults = number;
+export type Limit = number;
+export type ScopeId = string;
+export type TagValue = string;
+export type AwsRegion = string;
+export type MonitorArn = string;
+export type InstanceId = string;
+export type VpcId = string;
+export type AvailabilityZone = string;
+export type SubnetId = string;
+export type InstanceArn = string;
+export type SubnetArn = string;
+export type VpcArn = string;
+export type AccountId = string;
+export type Component = string;
+export type ComponentType = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -393,6 +423,7 @@ export const GetScopeInput = S.suspend(() =>
 ).annotations({
   identifier: "GetScopeInput",
 }) as any as S.Schema<GetScopeInput>;
+export type TargetId = { accountId: string };
 export const TargetId = S.Union(S.Struct({ accountId: S.String }));
 export interface TargetIdentifier {
   targetId: (typeof TargetId)["Type"];
@@ -1220,7 +1251,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.optional(S.String) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -1229,7 +1262,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
@@ -1243,24 +1278,56 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * List all monitors in an account. Optionally, you can list only monitors that have a specific status, by using the `STATUS` parameter.
  */
-export const listMonitors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMonitors: {
+  (
     input: ListMonitorsInput,
-    output: ListMonitorsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "monitors",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMonitorsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMonitorsInput,
+  ) => Stream.Stream<
+    ListMonitorsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMonitorsInput,
+  ) => Stream.Stream<
+    MonitorSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMonitorsInput,
+  output: ListMonitorsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "monitors",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * In Network Flow Monitor, you specify a scope for the service to generate metrics for. By using the scope, Network Flow Monitor can generate a topology of all the resources to measure performance metrics for. When you create a scope, you enable permissions for Network Flow Monitor.
  *
@@ -1274,7 +1341,19 @@ export const listMonitors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - *Target identifiers*, made up of a targetID (currently always an account ID) and a targetType (currently always an account).
  */
-export const createScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createScope: (
+  input: CreateScopeInput,
+) => Effect.Effect<
+  CreateScopeOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScopeInput,
   output: CreateScopeOutput,
   errors: [
@@ -1289,7 +1368,44 @@ export const createScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List all the scopes for an account.
  */
-export const listScopes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listScopes: {
+  (
+    input: ListScopesInput,
+  ): Effect.Effect<
+    ListScopesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListScopesInput,
+  ) => Stream.Stream<
+    ListScopesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListScopesInput,
+  ) => Stream.Stream<
+    ScopeSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListScopesInput,
   output: ListScopesOutput,
   errors: [
@@ -1315,25 +1431,64 @@ export const listScopes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
-export const getQueryResultsWorkloadInsightsTopContributors =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getQueryResultsWorkloadInsightsTopContributors: {
+  (
     input: GetQueryResultsWorkloadInsightsTopContributorsInput,
-    output: GetQueryResultsWorkloadInsightsTopContributorsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "topContributors",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetQueryResultsWorkloadInsightsTopContributorsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetQueryResultsWorkloadInsightsTopContributorsInput,
+  ) => Stream.Stream<
+    GetQueryResultsWorkloadInsightsTopContributorsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetQueryResultsWorkloadInsightsTopContributorsInput,
+  ) => Stream.Stream<
+    WorkloadInsightsTopContributorsRow,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetQueryResultsWorkloadInsightsTopContributorsInput,
+  output: GetQueryResultsWorkloadInsightsTopContributorsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "topContributors",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Return the data for a query with the Network Flow Monitor query interface. Specify the query that you want to return results for by providing a query ID and a scope ID.
  *
@@ -1345,29 +1500,81 @@ export const getQueryResultsWorkloadInsightsTopContributors =
  *
  * The top contributor network flows overall are for a specific metric type, for example, the number of retransmissions.
  */
-export const getQueryResultsWorkloadInsightsTopContributorsData =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getQueryResultsWorkloadInsightsTopContributorsData: {
+  (
     input: GetQueryResultsWorkloadInsightsTopContributorsDataInput,
-    output: GetQueryResultsWorkloadInsightsTopContributorsDataOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "datapoints",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetQueryResultsWorkloadInsightsTopContributorsDataOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetQueryResultsWorkloadInsightsTopContributorsDataInput,
+  ) => Stream.Stream<
+    GetQueryResultsWorkloadInsightsTopContributorsDataOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetQueryResultsWorkloadInsightsTopContributorsDataInput,
+  ) => Stream.Stream<
+    WorkloadInsightsTopContributorsDataPoint,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetQueryResultsWorkloadInsightsTopContributorsDataInput,
+  output: GetQueryResultsWorkloadInsightsTopContributorsDataOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "datapoints",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Update a scope to add or remove resources that you want to be available for Network Flow Monitor to generate metrics for, when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend.
  */
-export const updateScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateScope: (
+  input: UpdateScopeInput,
+) => Effect.Effect<
+  UpdateScopeOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateScopeInput,
   output: UpdateScopeOutput,
   errors: [
@@ -1383,7 +1590,19 @@ export const updateScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a monitor in Network Flow Monitor.
  */
-export const deleteMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMonitor: (
+  input: DeleteMonitorInput,
+) => Effect.Effect<
+  DeleteMonitorOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMonitorInput,
   output: DeleteMonitorOutput,
   errors: [
@@ -1398,7 +1617,20 @@ export const deleteMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a scope that has been defined.
  */
-export const deleteScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteScope: (
+  input: DeleteScopeInput,
+) => Effect.Effect<
+  DeleteScopeOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScopeInput,
   output: DeleteScopeOutput,
   errors: [
@@ -1414,7 +1646,19 @@ export const deleteScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns all the tags for a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -1429,7 +1673,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds a tag to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -1444,7 +1700,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update a monitor to add or remove local or remote resources.
  */
-export const updateMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMonitor: (
+  input: UpdateMonitorInput,
+) => Effect.Effect<
+  UpdateMonitorOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMonitorInput,
   output: UpdateMonitorOutput,
   errors: [
@@ -1458,7 +1725,19 @@ export const updateMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a scope, including the name, status, tags, and target details. The scope in Network Flow Monitor is an account.
  */
-export const getScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getScope: (
+  input: GetScopeInput,
+) => Effect.Effect<
+  GetScopeOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetScopeInput,
   output: GetScopeOutput,
   errors: [
@@ -1473,7 +1752,19 @@ export const getScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -1488,7 +1779,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a monitor in Network Flow Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information.
  */
-export const getMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMonitor: (
+  input: GetMonitorInput,
+) => Effect.Effect<
+  GetMonitorOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMonitorInput,
   output: GetMonitorOutput,
   errors: [
@@ -1506,18 +1808,28 @@ export const getMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you run a query, use this call to check the status of the query to make sure that the query has `SUCCEEDED` before you review the results.
  */
-export const getQueryStatusMonitorTopContributors =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetQueryStatusMonitorTopContributorsInput,
-    output: GetQueryStatusMonitorTopContributorsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getQueryStatusMonitorTopContributors: (
+  input: GetQueryStatusMonitorTopContributorsInput,
+) => Effect.Effect<
+  GetQueryStatusMonitorTopContributorsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQueryStatusMonitorTopContributorsInput,
+  output: GetQueryStatusMonitorTopContributorsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Create a query that you can use with the Network Flow Monitor query interface to return the top contributors for a monitor. Specify the monitor that you want to create the query for.
  *
@@ -1525,18 +1837,28 @@ export const getQueryStatusMonitorTopContributors =
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
  */
-export const startQueryMonitorTopContributors =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartQueryMonitorTopContributorsInput,
-    output: StartQueryMonitorTopContributorsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startQueryMonitorTopContributors: (
+  input: StartQueryMonitorTopContributorsInput,
+) => Effect.Effect<
+  StartQueryMonitorTopContributorsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartQueryMonitorTopContributorsInput,
+  output: StartQueryMonitorTopContributorsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Return the data for a query with the Network Flow Monitor query interface. Specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for workload insights.
  *
@@ -1544,18 +1866,28 @@ export const startQueryMonitorTopContributors =
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
-export const getQueryStatusWorkloadInsightsTopContributors =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetQueryStatusWorkloadInsightsTopContributorsInput,
-    output: GetQueryStatusWorkloadInsightsTopContributorsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getQueryStatusWorkloadInsightsTopContributors: (
+  input: GetQueryStatusWorkloadInsightsTopContributorsInput,
+) => Effect.Effect<
+  GetQueryStatusWorkloadInsightsTopContributorsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQueryStatusWorkloadInsightsTopContributorsInput,
+  output: GetQueryStatusWorkloadInsightsTopContributorsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call returns the query status for the top contributors data for workload insights.
  *
@@ -1565,18 +1897,28 @@ export const getQueryStatusWorkloadInsightsTopContributors =
  *
  * The top contributor network flows overall are for a specific metric type, for example, the number of retransmissions.
  */
-export const getQueryStatusWorkloadInsightsTopContributorsData =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetQueryStatusWorkloadInsightsTopContributorsDataInput,
-    output: GetQueryStatusWorkloadInsightsTopContributorsDataOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getQueryStatusWorkloadInsightsTopContributorsData: (
+  input: GetQueryStatusWorkloadInsightsTopContributorsDataInput,
+) => Effect.Effect<
+  GetQueryStatusWorkloadInsightsTopContributorsDataOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQueryStatusWorkloadInsightsTopContributorsDataInput,
+  output: GetQueryStatusWorkloadInsightsTopContributorsDataOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Create a query with the Network Flow Monitor query interface that you can run to return workload insights top contributors. Specify the scope that you want to create a query for.
  *
@@ -1584,18 +1926,28 @@ export const getQueryStatusWorkloadInsightsTopContributorsData =
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
  */
-export const startQueryWorkloadInsightsTopContributors =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartQueryWorkloadInsightsTopContributorsInput,
-    output: StartQueryWorkloadInsightsTopContributorsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startQueryWorkloadInsightsTopContributors: (
+  input: StartQueryWorkloadInsightsTopContributorsInput,
+) => Effect.Effect<
+  StartQueryWorkloadInsightsTopContributorsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartQueryWorkloadInsightsTopContributorsInput,
+  output: StartQueryWorkloadInsightsTopContributorsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Create a query with the Network Flow Monitor query interface that you can run to return data for workload insights top contributors. Specify the scope that you want to create a query for.
  *
@@ -1603,73 +1955,125 @@ export const startQueryWorkloadInsightsTopContributors =
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
-export const startQueryWorkloadInsightsTopContributorsData =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartQueryWorkloadInsightsTopContributorsDataInput,
-    output: StartQueryWorkloadInsightsTopContributorsDataOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startQueryWorkloadInsightsTopContributorsData: (
+  input: StartQueryWorkloadInsightsTopContributorsDataInput,
+) => Effect.Effect<
+  StartQueryWorkloadInsightsTopContributorsDataOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartQueryWorkloadInsightsTopContributorsDataInput,
+  output: StartQueryWorkloadInsightsTopContributorsDataOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Stop a top contributors query for a monitor. Specify the query that you want to stop by providing a query ID and a monitor name.
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
-export const stopQueryMonitorTopContributors =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopQueryMonitorTopContributorsInput,
-    output: StopQueryMonitorTopContributorsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const stopQueryMonitorTopContributors: (
+  input: StopQueryMonitorTopContributorsInput,
+) => Effect.Effect<
+  StopQueryMonitorTopContributorsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopQueryMonitorTopContributorsInput,
+  output: StopQueryMonitorTopContributorsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Stop a top contributors query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID.
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
-export const stopQueryWorkloadInsightsTopContributors =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopQueryWorkloadInsightsTopContributorsInput,
-    output: StopQueryWorkloadInsightsTopContributorsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const stopQueryWorkloadInsightsTopContributors: (
+  input: StopQueryWorkloadInsightsTopContributorsInput,
+) => Effect.Effect<
+  StopQueryWorkloadInsightsTopContributorsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopQueryWorkloadInsightsTopContributorsInput,
+  output: StopQueryWorkloadInsightsTopContributorsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Stop a top contributors data query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID.
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
-export const stopQueryWorkloadInsightsTopContributorsData =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopQueryWorkloadInsightsTopContributorsDataInput,
-    output: StopQueryWorkloadInsightsTopContributorsDataOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const stopQueryWorkloadInsightsTopContributorsData: (
+  input: StopQueryWorkloadInsightsTopContributorsDataInput,
+) => Effect.Effect<
+  StopQueryWorkloadInsightsTopContributorsDataOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopQueryWorkloadInsightsTopContributorsDataInput,
+  output: StopQueryWorkloadInsightsTopContributorsDataOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed end-to-end performance metrics and a network health indicator (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
  */
-export const createMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMonitor: (
+  input: CreateMonitorInput,
+) => Effect.Effect<
+  CreateMonitorOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMonitorInput,
   output: CreateMonitorOutput,
   errors: [
@@ -1688,22 +2092,61 @@ export const createMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
-export const getQueryResultsMonitorTopContributors =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getQueryResultsMonitorTopContributors: {
+  (
     input: GetQueryResultsMonitorTopContributorsInput,
-    output: GetQueryResultsMonitorTopContributorsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "topContributors",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetQueryResultsMonitorTopContributorsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetQueryResultsMonitorTopContributorsInput,
+  ) => Stream.Stream<
+    GetQueryResultsMonitorTopContributorsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetQueryResultsMonitorTopContributorsInput,
+  ) => Stream.Stream<
+    MonitorTopContributorsRow,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetQueryResultsMonitorTopContributorsInput,
+  output: GetQueryResultsMonitorTopContributorsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "topContributors",
+    pageSize: "maxResults",
+  } as const,
+}));

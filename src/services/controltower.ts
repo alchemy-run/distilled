@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region as Rgn,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "ControlTower",
   serviceShapeName: "AWSControlTowerApis",
@@ -240,6 +248,27 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ControlIdentifier = string;
+export type TargetIdentifier = string;
+export type Arn = string;
+export type OperationIdentifier = string;
+export type BaselineArn = string;
+export type ListBaselinesMaxResults = number;
+export type ListControlOperationsNextToken = string;
+export type ListControlOperationsMaxResults = number;
+export type BaselineVersion = string;
+export type ListEnabledBaselinesNextToken = string;
+export type ListEnabledBaselinesMaxResults = number;
+export type MaxResults = number;
+export type ListLandingZoneOperationsMaxResults = number;
+export type LandingZoneVersion = string;
+export type ListLandingZonesMaxResults = number;
+export type TagKey = string;
+export type TagValue = string;
+export type ParentIdentifier = string;
+export type RegionName = string;
 
 //# Schemas
 export type RemediationTypes = string[];
@@ -1563,7 +1592,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.String },
@@ -1585,7 +1616,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String },
@@ -1599,7 +1632,16 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Applies tags to a resource. For usage examples, see the *Controls Reference Guide* .
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -1611,7 +1653,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new landing zone. This API call starts an asynchronous operation that creates and configures a landing zone, based on the parameters specified in the manifest JSON file.
  */
-export const createLandingZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLandingZone: (
+  input: CreateLandingZoneInput,
+) => Effect.Effect<
+  CreateLandingZoneOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLandingZoneInput,
   output: CreateLandingZoneOutput,
   errors: [
@@ -1625,7 +1678,19 @@ export const createLandingZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This API call updates the landing zone. It starts an asynchronous operation that updates the landing zone based on the new landing zone version, or on the changed parameters specified in the updated manifest file.
  */
-export const updateLandingZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLandingZone: (
+  input: UpdateLandingZoneInput,
+) => Effect.Effect<
+  UpdateLandingZoneOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLandingZoneInput,
   output: UpdateLandingZoneOutput,
   errors: [
@@ -1642,7 +1707,19 @@ export const updateLandingZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Decommissioning a landing zone is a process with significant consequences, and it cannot be undone. We strongly recommend that you perform this decommissioning process only if you intend to stop using your landing zone.
  */
-export const deleteLandingZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLandingZone: (
+  input: DeleteLandingZoneInput,
+) => Effect.Effect<
+  DeleteLandingZoneOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLandingZoneInput,
   output: DeleteLandingZoneOutput,
   errors: [
@@ -1657,7 +1734,19 @@ export const deleteLandingZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This API call resets a landing zone. It starts an asynchronous operation that resets the landing zone to the parameters specified in the original configuration, which you specified in the manifest file. Nothing in the manifest file's original landing zone configuration is changed during the reset process, by default. This API is not the same as a rollback of a landing zone version, which is not a supported operation.
  */
-export const resetLandingZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resetLandingZone: (
+  input: ResetLandingZoneInput,
+) => Effect.Effect<
+  ResetLandingZoneOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetLandingZoneInput,
   output: ResetLandingZoneOutput,
   errors: [
@@ -1674,28 +1763,71 @@ export const resetLandingZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Returns one landing zone ARN.
  */
-export const listLandingZones = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLandingZones: {
+  (
     input: ListLandingZonesInput,
-    output: ListLandingZonesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "landingZones",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLandingZonesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLandingZonesInput,
+  ) => Stream.Stream<
+    ListLandingZonesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLandingZonesInput,
+  ) => Stream.Stream<
+    LandingZoneSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLandingZonesInput,
+  output: ListLandingZonesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "landingZones",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieve details about an existing `Baseline` resource by specifying its identifier. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const getBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBaseline: (
+  input: GetBaselineInput,
+) => Effect.Effect<
+  GetBaselineOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBaselineInput,
   output: GetBaselineOutput,
   errors: [
@@ -1709,23 +1841,43 @@ export const getBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the details of an asynchronous baseline operation, as initiated by any of these APIs: `EnableBaseline`, `DisableBaseline`, `UpdateEnabledBaseline`, `ResetEnabledBaseline`. A status message is displayed in case of operation failure. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const getBaselineOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBaselineOperationInput,
-    output: GetBaselineOperationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getBaselineOperation: (
+  input: GetBaselineOperationInput,
+) => Effect.Effect<
+  GetBaselineOperationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBaselineOperationInput,
+  output: GetBaselineOperationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the status of a particular `EnableControl` or `DisableControl` operation. Displays a message in case of error. Details for an operation are available for 90 days. For usage examples, see the *Controls Reference Guide* .
  */
-export const getControlOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getControlOperation: (
+  input: GetControlOperationInput,
+) => Effect.Effect<
+  GetControlOperationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetControlOperationInput,
   output: GetControlOperationOutput,
   errors: [
@@ -1739,23 +1891,41 @@ export const getControlOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the status of the specified landing zone operation. Details for an operation are available for 90 days.
  */
-export const getLandingZoneOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLandingZoneOperationInput,
-    output: GetLandingZoneOperationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getLandingZoneOperation: (
+  input: GetLandingZoneOperationInput,
+) => Effect.Effect<
+  GetLandingZoneOperationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLandingZoneOperationInput,
+  output: GetLandingZoneOperationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes tags from a resource. For usage examples, see the *Controls Reference Guide* .
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -1767,7 +1937,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of tags associated with the resource. For usage examples, see the *Controls Reference Guide* .
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -1779,109 +1958,287 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a summary list of all available baselines. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const listBaselines = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBaselines: {
+  (
     input: ListBaselinesInput,
-    output: ListBaselinesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "baselines",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBaselinesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBaselinesInput,
+  ) => Stream.Stream<
+    ListBaselinesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBaselinesInput,
+  ) => Stream.Stream<
+    BaselineSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBaselinesInput,
+  output: ListBaselinesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "baselines",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Provides a list of operations in progress or queued. For usage examples, see ListControlOperation examples.
  */
-export const listControlOperations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listControlOperations: {
+  (
     input: ListControlOperationsInput,
-    output: ListControlOperationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "controlOperations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListControlOperationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListControlOperationsInput,
+  ) => Stream.Stream<
+    ListControlOperationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListControlOperationsInput,
+  ) => Stream.Stream<
+    ControlOperationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListControlOperationsInput,
+  output: ListControlOperationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "controlOperations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of summaries describing `EnabledBaseline` resources. You can filter the list by the corresponding `Baseline` or `Target` of the `EnabledBaseline` resources. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const listEnabledBaselines =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEnabledBaselines: {
+  (
     input: ListEnabledBaselinesInput,
-    output: ListEnabledBaselinesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "enabledBaselines",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEnabledBaselinesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnabledBaselinesInput,
+  ) => Stream.Stream<
+    ListEnabledBaselinesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnabledBaselinesInput,
+  ) => Stream.Stream<
+    EnabledBaselineSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnabledBaselinesInput,
+  output: ListEnabledBaselinesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "enabledBaselines",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the controls enabled by Amazon Web Services Control Tower on the specified organizational unit and the accounts it contains. For usage examples, see the *Controls Reference Guide* .
  */
-export const listEnabledControls =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEnabledControls: {
+  (
     input: ListEnabledControlsInput,
-    output: ListEnabledControlsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "enabledControls",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEnabledControlsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnabledControlsInput,
+  ) => Stream.Stream<
+    ListEnabledControlsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnabledControlsInput,
+  ) => Stream.Stream<
+    EnabledControlSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnabledControlsInput,
+  output: ListEnabledControlsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "enabledControls",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all landing zone operations from the past 90 days. Results are sorted by time, with the most recent operation first.
  */
-export const listLandingZoneOperations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLandingZoneOperations: {
+  (
     input: ListLandingZoneOperationsInput,
-    output: ListLandingZoneOperationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "landingZoneOperations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListLandingZoneOperationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLandingZoneOperationsInput,
+  ) => Stream.Stream<
+    ListLandingZoneOperationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLandingZoneOperationsInput,
+  ) => Stream.Stream<
+    LandingZoneOperationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLandingZoneOperationsInput,
+  output: ListLandingZoneOperationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "landingZoneOperations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns details about the landing zone. Displays a message in case of error.
  */
-export const getLandingZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLandingZone: (
+  input: GetLandingZoneInput,
+) => Effect.Effect<
+  GetLandingZoneOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLandingZoneInput,
   output: GetLandingZoneOutput,
   errors: [
@@ -1895,7 +2252,20 @@ export const getLandingZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This API call turns off a control. It starts an asynchronous operation that deletes Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources will vary according to the control that you specify. For usage examples, see the *Controls Reference Guide* .
  */
-export const disableControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableControl: (
+  input: DisableControlInput,
+) => Effect.Effect<
+  DisableControlOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableControlInput,
   output: DisableControlOutput,
   errors: [
@@ -1911,7 +2281,20 @@ export const disableControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enable (apply) a `Baseline` to a Target. This API starts an asynchronous operation to deploy resources specified by the `Baseline` to the specified Target. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const enableBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableBaseline: (
+  input: EnableBaselineInput,
+) => Effect.Effect<
+  EnableBaselineOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableBaselineInput,
   output: EnableBaselineOutput,
   errors: [
@@ -1927,7 +2310,20 @@ export const enableBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This API call activates a control. It starts an asynchronous operation that creates Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify. For usage examples, see the *Controls Reference Guide* .
  */
-export const enableControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableControl: (
+  input: EnableControlInput,
+) => Effect.Effect<
+  EnableControlOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableControlInput,
   output: EnableControlOutput,
   errors: [
@@ -1943,25 +2339,49 @@ export const enableControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an `EnabledBaseline` resource's applied parameters or version. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const updateEnabledBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEnabledBaselineInput,
-    output: UpdateEnabledBaselineOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateEnabledBaseline: (
+  input: UpdateEnabledBaselineInput,
+) => Effect.Effect<
+  UpdateEnabledBaselineOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEnabledBaselineInput,
+  output: UpdateEnabledBaselineOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disable an `EnabledBaseline` resource on the specified Target. This API starts an asynchronous operation to remove all resources deployed as part of the baseline enablement. The resource will vary depending on the enabled baseline. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const disableBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableBaseline: (
+  input: DisableBaselineInput,
+) => Effect.Effect<
+  DisableBaselineOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableBaselineInput,
   output: DisableBaselineOutput,
   errors: [
@@ -1977,21 +2397,32 @@ export const disableBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Re-enables an `EnabledBaseline` resource. For example, this API can re-apply the existing `Baseline` after a new member account is moved to the target OU. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const resetEnabledBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetEnabledBaselineInput,
-    output: ResetEnabledBaselineOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const resetEnabledBaseline: (
+  input: ResetEnabledBaselineInput,
+) => Effect.Effect<
+  ResetEnabledBaselineOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetEnabledBaselineInput,
+  output: ResetEnabledBaselineOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the configuration of an already enabled control.
  *
@@ -2001,25 +2432,49 @@ export const resetEnabledBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * If the `DriftSummary` status for the control shows as `DRIFTED`, you cannot call this API. Instead, you can update the control by calling the `ResetEnabledControl` API. Alternatively, you can call `DisableControl` and then call `EnableControl` again. Also, you can run an extending governance operation to repair drift. For usage examples, see the *Controls Reference Guide* .
  */
-export const updateEnabledControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEnabledControlInput,
-    output: UpdateEnabledControlOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateEnabledControl: (
+  input: UpdateEnabledControlInput,
+) => Effect.Effect<
+  UpdateEnabledControlOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEnabledControlInput,
+  output: UpdateEnabledControlOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Resets an enabled control. Does not work for controls implemented with SCPs.
  */
-export const resetEnabledControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resetEnabledControl: (
+  input: ResetEnabledControlInput,
+) => Effect.Effect<
+  ResetEnabledControlOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetEnabledControlInput,
   output: ResetEnabledControlOutput,
   errors: [
@@ -2035,7 +2490,18 @@ export const resetEnabledControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve details of an `EnabledBaseline` resource by specifying its identifier.
  */
-export const getEnabledBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEnabledBaseline: (
+  input: GetEnabledBaselineInput,
+) => Effect.Effect<
+  GetEnabledBaselineOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnabledBaselineInput,
   output: GetEnabledBaselineOutput,
   errors: [
@@ -2049,7 +2515,18 @@ export const getEnabledBaseline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details about an enabled control. For usage examples, see the *Controls Reference Guide* .
  */
-export const getEnabledControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEnabledControl: (
+  input: GetEnabledControlInput,
+) => Effect.Effect<
+  GetEnabledControlOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnabledControlInput,
   output: GetEnabledControlOutput,
   errors: [

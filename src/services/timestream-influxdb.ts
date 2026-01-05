@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Timestream InfluxDB",
   serviceShapeName: "AmazonTimestreamInfluxDB",
@@ -292,6 +300,29 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type TagKey = string;
+export type DbClusterName = string;
+export type Username = string;
+export type Password = string;
+export type Organization = string;
+export type Bucket = string;
+export type Port = number;
+export type DbParameterGroupIdentifier = string;
+export type AllocatedStorage = number;
+export type VpcSubnetId = string;
+export type VpcSecurityGroupId = string;
+export type DbClusterId = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type DbInstanceId = string;
+export type DbInstanceName = string;
+export type DbInstanceIdentifier = string;
+export type DbParameterGroupName = string;
+export type TagValue = string;
+export type DbParameterGroupId = string;
 
 //# Schemas
 export type TagKeys = string[];
@@ -1005,6 +1036,7 @@ export const InfluxDBv2Parameters = S.suspend(() =>
 ).annotations({
   identifier: "InfluxDBv2Parameters",
 }) as any as S.Schema<InfluxDBv2Parameters>;
+export type PercentOrAbsoluteLong = { percent: string } | { absolute: number };
 export const PercentOrAbsoluteLong = S.Union(
   S.Struct({ percent: S.String }),
   S.Struct({ absolute: S.Number }),
@@ -1207,6 +1239,10 @@ export const InfluxDBv3EnterpriseParameters = S.suspend(() =>
 ).annotations({
   identifier: "InfluxDBv3EnterpriseParameters",
 }) as any as S.Schema<InfluxDBv3EnterpriseParameters>;
+export type Parameters =
+  | { InfluxDBv2: InfluxDBv2Parameters }
+  | { InfluxDBv3Core: InfluxDBv3CoreParameters }
+  | { InfluxDBv3Enterprise: InfluxDBv3EnterpriseParameters };
 export const Parameters = S.Union(
   S.Struct({ InfluxDBv2: InfluxDBv2Parameters }),
   S.Struct({ InfluxDBv3Core: InfluxDBv3CoreParameters }),
@@ -1518,7 +1554,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -1530,7 +1568,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String, reason: S.String },
@@ -1540,7 +1580,13 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Removes the tag from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
@@ -1548,7 +1594,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * A list of tags applied to the resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
@@ -1556,7 +1608,15 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Tags are composed of a Key/Value pairs. You can use tags to categorize and track your Timestream for InfluxDB resources.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException, ServiceQuotaExceededException],
@@ -1564,7 +1624,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a Timestream for InfluxDB cluster.
  */
-export const getDbCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDbCluster: (
+  input: GetDbClusterInput,
+) => Effect.Effect<
+  GetDbClusterOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDbClusterInput,
   output: GetDbClusterOutput,
   errors: [
@@ -1578,25 +1649,48 @@ export const getDbCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new Timestream for InfluxDB DB parameter group to associate with DB instances.
  */
-export const createDbParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDbParameterGroupInput,
-    output: CreateDbParameterGroupOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createDbParameterGroup: (
+  input: CreateDbParameterGroupInput,
+) => Effect.Effect<
+  CreateDbParameterGroupOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDbParameterGroupInput,
+  output: CreateDbParameterGroupOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a Timestream for InfluxDB cluster.
  */
-export const updateDbCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDbCluster: (
+  input: UpdateDbClusterInput,
+) => Effect.Effect<
+  UpdateDbClusterOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDbClusterInput,
   output: UpdateDbClusterOutput,
   errors: [
@@ -1611,93 +1705,246 @@ export const updateDbCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of Timestream for InfluxDB DB clusters.
  */
-export const listDbClusters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDbClusters: {
+  (
     input: ListDbClustersInput,
-    output: ListDbClustersOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDbClustersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDbClustersInput,
+  ) => Stream.Stream<
+    ListDbClustersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDbClustersInput,
+  ) => Stream.Stream<
+    DbClusterSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDbClustersInput,
+  output: ListDbClustersOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of Timestream for InfluxDB clusters.
  */
-export const listDbInstancesForCluster =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDbInstancesForCluster: {
+  (
     input: ListDbInstancesForClusterInput,
-    output: ListDbInstancesForClusterOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDbInstancesForClusterOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDbInstancesForClusterInput,
+  ) => Stream.Stream<
+    ListDbInstancesForClusterOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDbInstancesForClusterInput,
+  ) => Stream.Stream<
+    DbInstanceForClusterSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDbInstancesForClusterInput,
+  output: ListDbInstancesForClusterOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of Timestream for InfluxDB DB instances.
  */
-export const listDbInstances = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDbInstances: {
+  (
     input: ListDbInstancesInput,
-    output: ListDbInstancesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDbInstancesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDbInstancesInput,
+  ) => Stream.Stream<
+    ListDbInstancesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDbInstancesInput,
+  ) => Stream.Stream<
+    DbInstanceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDbInstancesInput,
+  output: ListDbInstancesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of Timestream for InfluxDB DB parameter groups.
  */
-export const listDbParameterGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDbParameterGroups: {
+  (
     input: ListDbParameterGroupsInput,
-    output: ListDbParameterGroupsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDbParameterGroupsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDbParameterGroupsInput,
+  ) => Stream.Stream<
+    ListDbParameterGroupsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDbParameterGroupsInput,
+  ) => Stream.Stream<
+    DbParameterGroupSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDbParameterGroupsInput,
+  output: ListDbParameterGroupsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a Timestream for InfluxDB DB instance.
  */
-export const getDbInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDbInstance: (
+  input: GetDbInstanceInput,
+) => Effect.Effect<
+  GetDbInstanceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDbInstanceInput,
   output: GetDbInstanceOutput,
   errors: [
@@ -1711,7 +1958,18 @@ export const getDbInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a Timestream for InfluxDB DB parameter group.
  */
-export const getDbParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDbParameterGroup: (
+  input: GetDbParameterGroupInput,
+) => Effect.Effect<
+  GetDbParameterGroupOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDbParameterGroupInput,
   output: GetDbParameterGroupOutput,
   errors: [
@@ -1725,7 +1983,19 @@ export const getDbParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a Timestream for InfluxDB cluster.
  */
-export const deleteDbCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDbCluster: (
+  input: DeleteDbClusterInput,
+) => Effect.Effect<
+  DeleteDbClusterOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDbClusterInput,
   output: DeleteDbClusterOutput,
   errors: [
@@ -1740,7 +2010,19 @@ export const deleteDbCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Reboots a Timestream for InfluxDB cluster.
  */
-export const rebootDbCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rebootDbCluster: (
+  input: RebootDbClusterInput,
+) => Effect.Effect<
+  RebootDbClusterOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootDbClusterInput,
   output: RebootDbClusterOutput,
   errors: [
@@ -1755,7 +2037,20 @@ export const rebootDbCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new Timestream for InfluxDB DB instance.
  */
-export const createDbInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDbInstance: (
+  input: CreateDbInstanceInput,
+) => Effect.Effect<
+  CreateDbInstanceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDbInstanceInput,
   output: CreateDbInstanceOutput,
   errors: [
@@ -1771,7 +2066,19 @@ export const createDbInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a Timestream for InfluxDB DB instance.
  */
-export const updateDbInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDbInstance: (
+  input: UpdateDbInstanceInput,
+) => Effect.Effect<
+  UpdateDbInstanceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDbInstanceInput,
   output: UpdateDbInstanceOutput,
   errors: [
@@ -1786,7 +2093,19 @@ export const updateDbInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a Timestream for InfluxDB DB instance.
  */
-export const deleteDbInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDbInstance: (
+  input: DeleteDbInstanceInput,
+) => Effect.Effect<
+  DeleteDbInstanceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDbInstanceInput,
   output: DeleteDbInstanceOutput,
   errors: [
@@ -1801,7 +2120,19 @@ export const deleteDbInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Reboots a Timestream for InfluxDB instance.
  */
-export const rebootDbInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rebootDbInstance: (
+  input: RebootDbInstanceInput,
+) => Effect.Effect<
+  RebootDbInstanceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootDbInstanceInput,
   output: RebootDbInstanceOutput,
   errors: [
@@ -1816,7 +2147,20 @@ export const rebootDbInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new Timestream for InfluxDB cluster.
  */
-export const createDbCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDbCluster: (
+  input: CreateDbClusterInput,
+) => Effect.Effect<
+  CreateDbClusterOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDbClusterInput,
   output: CreateDbClusterOutput,
   errors: [

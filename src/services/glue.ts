@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "Glue", serviceShapeName: "AWSGlue" });
 const auth = T.AwsAuthSigv4({ name: "glue" });
 const ver = T.ServiceVersion("2017-03-31");
@@ -237,6 +245,262 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type CatalogIdString = string;
+export type NameString = string;
+export type TransactionIdString = string;
+export type VersionString = string;
+export type OrchestrationNameString = string;
+export type HashString = string;
+export type GenericString = string;
+export type IdString = string;
+export type IntegerValue = number;
+export type SchemaDefinitionString = string;
+export type Generic512CharString = string;
+export type OrchestrationS3Location = string;
+export type CatalogNameString = string;
+export type CronExpression = string;
+export type SampleSizePercentage = number;
+export type Role = string;
+export type DatabaseName = string;
+export type DescriptionString = string;
+export type TablePrefix = string;
+export type CrawlerConfiguration = string;
+export type CrawlerSecurityConfiguration = string;
+export type DataQualityRulesetString = string;
+export type RoleArn = string;
+export type GlueVersionString = string;
+export type NullableInteger = number;
+export type IdentityCenterInstanceArn = string;
+export type IdentityCenterScope = string;
+export type String128 = string;
+export type String512 = string;
+export type IntegrationDescription = string;
+export type String2048 = string;
+export type UriString = string;
+export type RoleString = string;
+export type MaxRetries = number;
+export type Timeout = number;
+export type NullableDouble = number;
+export type MaintenanceWindow = string;
+export type SchemaRegistryNameString = string;
+export type OrchestrationRoleArn = string;
+export type WorkflowDescriptionString = string;
+export type ValueString = string;
+export type MessageString = string;
+export type GlueResourceArn = string;
+export type VersionsString = string;
+export type EntityName = string;
+export type NextToken = string;
+export type ApiVersion = string;
+export type IntegrationInteger = number;
+export type PageSize = number;
+export type Token = string;
+export type CatalogGetterPageSize = number;
+export type PythonScript = string;
+export type FilterPredicate = string;
+export type Limit = number;
+export type EntityFieldName = string;
+export type ApplicationArn = string;
+export type JobName = string;
+export type RunId = string;
+export type OrchestrationPageSize200 = number;
+export type PaginationToken = string;
+export type PredicateString = string;
+export type SchemaVersionIdString = string;
+export type FilterString = string;
+export type ArnString = string;
+export type OrchestrationPageSize25 = number;
+export type MaxResults = number;
+export type String1024 = string;
+export type MaxResultsNumber = number;
+export type SchemaRegistryTokenString = string;
+export type OrchestrationToken = string;
+export type MaxListTableOptimizerRunsTokenResults = number;
+export type ListTableOptimizerRunsToken = string;
+export type PolicyJsonString = string;
+export type QuerySchemaVersionMetadataMaxResults = number;
+export type OrchestrationStatementCodeString = string;
+export type BlueprintParameters = string;
+export type OrchestrationIAMRoleArn = string;
+export type OrchestrationPolicyJsonString = string;
+export type TagKey = string;
+export type DescriptionStringRemovable = string;
+export type CommitIdString = string;
+export type AuthTokenString = string;
+export type databaseNameString = string;
+export type tableNameString = string;
+export type TagValue = string;
+export type Classification = string;
+export type GrokPattern = string;
+export type CustomPatterns = string;
+export type RowTag = string;
+export type JsonPath = string;
+export type CsvColumnDelimiter = string;
+export type CsvQuoteSymbol = string;
+export type AccountId = string;
+export type URI = string;
+export type IntegrationString = string;
+export type MaxConcurrentRuns = number;
+export type ScriptLocationString = string;
+export type PythonVersionString = string;
+export type RuntimeNameString = string;
+export type ConnectionString = string;
+export type NotifyDelayAfter = number;
+export type NodeId = string;
+export type CodeGenIdentifier = string;
+export type CodeGenNodeType = string;
+export type Integer = number;
+export type CodeGenArgName = string;
+export type OrchestrationArgumentsValue = string;
+export type NonNegativeInteger = number;
+export type ViewTextString = string;
+export type TableTypeString = string;
+export type BatchSize = number;
+export type BatchWindow = number;
+export type ConnectionSchemaVersion = number;
+export type OptionKey = string;
+export type OptionValue = string;
+export type TotalSegmentsInteger = number;
+export type TableName = string;
+export type SchemaPathString = string;
+export type FieldType = string;
+export type VersionLongNumber = number;
+export type AuditContextString = string;
+export type ColumnNameString = string;
+export type NullableString = string;
+export type ViewDialectVersionString = string;
+export type MetadataKeyString = string;
+export type MetadataValueString = string;
+export type TypeString = string;
+export type SchemaValidationError = string;
+export type Description = string;
+export type GenericBoundedDouble = number;
+export type ExecutionTime = number;
+export type LabelCount = number;
+export type CreatedTimestamp = string;
+export type UpdatedTimestamp = string;
+export type SchemaCheckpointNumber = number;
+export type SchemaDefinitionDiff = string;
+export type LocationString = string;
+export type FormatString = string;
+export type KeyString = string;
+export type ParametersMapValue = string;
+export type FederationIdentifier = string;
+export type ResourceArnString = string;
+export type PropertyKey = string;
+export type PropertyValue = string;
+export type SecretArn = string;
+export type KmsKeyArn = string;
+export type Path = string;
+export type ConnectionName = string;
+export type EventQueueArn = string;
+export type CodeGenArgValue = string;
+export type ColumnTypeString = string;
+export type CommentString = string;
+export type TableVersionId = number;
+export type RefreshSeconds = number;
+export type glueConnectionNameString = string;
+export type ContextKey = string;
+export type ContextValue = string;
+export type IAMRoleArn = string;
+export type PreProcessingQueryString = string;
+export type BlueprintParameterSpec = string;
+export type ErrorString = string;
+export type MillisecondsCount = number;
+export type VersionId = number;
+export type PropertyName = string;
+export type ComputeEnvironmentName = string;
+export type FieldLabel = string;
+export type FieldDescription = string;
+export type PositiveInteger = number;
+export type NonNegativeDouble = number;
+export type LongValueString = string;
+export type DataQualityRuleResultDescription = string;
+export type DataQualityObservationDescription = string;
+export type JsonValue = string;
+export type AttemptCount = number;
+export type OrchestrationMessageString = string;
+export type DoubleValue = number;
+export type IdleTimeout = number;
+export type LongValue = number;
+export type DisplayName = string;
+export type Vendor = string;
+export type UrlString = string;
+export type StatisticNameString = string;
+export type Double = number;
+export type EntityLabel = string;
+export type EntityDescription = string;
+export type Category = string;
+export type IntegerFlag = number;
+export type ColumnValuesString = string;
+export type DataLakePrincipalString = string;
+export type TokenUrl = string;
+export type Username = string;
+export type Password = string;
+export type CredentialKey = string;
+export type CredentialValue = string;
+export type NodeName = string;
+export type EnclosedInStringProperty = string;
+export type EnclosedInStringPropertyWithQuote = string;
+export type SqlQuery = string;
+export type BoxedNonNegativeInt = number;
+export type NumberTargetPartitionsString = string;
+export type Topk = number;
+export type Prob = number;
+export type NonNegativeInt = number;
+export type ExtendedString = string;
+export type BoxedPositiveInt = number;
+export type BoxedDoubleFraction = number;
+export type MaskValue = string;
+export type GenericLimitedString = string;
+export type DQDLString = string;
+export type BoxedLong = number;
+export type ConfigValueString = string;
+export type NonNegativeLong = number;
+export type Long = number;
+export type IntegrationErrorMessage = string;
+export type ScalaCode = string;
+export type LogGroup = string;
+export type LogStream = string;
+export type MessagePrefix = string;
+export type ErrorCodeString = string;
+export type ErrorMessageString = string;
+export type PropertyDescriptionString = string;
+export type ComputeEnvironmentConfigurationDescriptionString = string;
+export type UserManagedClientApplicationClientId = string;
+export type AWSManagedClientApplicationReference = string;
+export type TokenUrlParameterKey = string;
+export type TokenUrlParameterValue = string;
+export type AuthorizationCode = string;
+export type RedirectUri = string;
+export type UserManagedClientApplicationClientSecret = string;
+export type AccessToken = string;
+export type RefreshToken = string;
+export type JwtToken = string;
+export type BoxedNonNegativeLong = number;
+export type PollingTime = number;
+export type PositiveLong = number;
+export type RecipeVersion = string;
+export type EncryptionKeyIdString = string;
+export type CrawlId = string;
+export type AllowedValueDescriptionString = string;
+export type AllowedValueValueString = string;
+export type RecordsCount = number;
+export type metricCounts = number;
+export type dpuHours = number;
+export type dpuCounts = number;
+export type dpuDurationInHour = number;
+export type GlueStudioColumnNameString = string;
+export type Operation = string;
+export type DatabrewCondition = string;
+export type DatabrewConditionValue = string;
+export type TargetColumn = string;
+export type IcebergTransformString = string;
+export type EncryptedKeyMetadataString = string;
+export type ParameterName = string;
+export type ParameterValue = string;
 
 //# Schemas
 export interface DeleteGlueIdentityCenterConfigurationRequest {}
@@ -4517,6 +4781,7 @@ export const UpdateSourceControlFromJobRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateSourceControlFromJobRequest",
 }) as any as S.Schema<UpdateSourceControlFromJobRequest>;
+export type TableOptimizerVpcConfiguration = { glueConnectionName: string };
 export const TableOptimizerVpcConfiguration = S.Union(
   S.Struct({ glueConnectionName: S.String }),
 );
@@ -15051,7 +15316,9 @@ export class IllegalSessionStateException extends S.TaggedError<IllegalSessionSt
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class IntegrationConflictOperationFault extends S.TaggedError<IntegrationConflictOperationFault>()(
   "IntegrationConflictOperationFault",
   { Message: S.optional(S.String) },
@@ -15176,7 +15443,17 @@ export class KMSKeyNotAccessibleFault extends S.TaggedError<KMSKeyNotAccessibleF
 /**
  * Delete the entire registry including schema and all of its versions. To get the status of the delete operation, you can call the `GetRegistry` API after the asynchronous call. Deleting a registry will deactivate all online operations for the registry such as the `UpdateRegistry`, `CreateSchema`, `UpdateSchema`, and `RegisterSchemaVersion` APIs.
  */
-export const deleteRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRegistry: (
+  input: DeleteRegistryInput,
+) => Effect.Effect<
+  DeleteRegistryResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRegistryInput,
   output: DeleteRegistryResponse,
   errors: [
@@ -15189,7 +15466,17 @@ export const deleteRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the entire schema set, including the schema set and all of its versions. To get the status of the delete operation, you can call `GetSchema` API after the asynchronous call. Deleting a registry will deactivate all online operations for the schema, such as the `GetSchemaByDefinition`, and `RegisterSchemaVersion` APIs.
  */
-export const deleteSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSchema: (
+  input: DeleteSchemaInput,
+) => Effect.Effect<
+  DeleteSchemaResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSchemaInput,
   output: DeleteSchemaResponse,
   errors: [
@@ -15202,7 +15489,19 @@ export const deleteSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the session.
  */
-export const deleteSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSession: (
+  input: DeleteSessionRequest,
+) => Effect.Effect<
+  DeleteSessionResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | IllegalSessionStateException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSessionRequest,
   output: DeleteSessionResponse,
   errors: [
@@ -15217,7 +15516,16 @@ export const deleteSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the details of a blueprint run.
  */
-export const getBlueprintRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBlueprintRun: (
+  input: GetBlueprintRunRequest,
+) => Effect.Effect<
+  GetBlueprintRunResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBlueprintRunRequest,
   output: GetBlueprintRunResponse,
   errors: [
@@ -15229,98 +15537,189 @@ export const getBlueprintRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the status of a migration operation.
  */
-export const getCatalogImportStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCatalogImportStatusRequest,
-    output: GetCatalogImportStatusResponse,
-    errors: [InternalServiceException, OperationTimeoutException],
-  }),
-);
+export const getCatalogImportStatus: (
+  input: GetCatalogImportStatusRequest,
+) => Effect.Effect<
+  GetCatalogImportStatusResponse,
+  InternalServiceException | OperationTimeoutException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCatalogImportStatusRequest,
+  output: GetCatalogImportStatusResponse,
+  errors: [InternalServiceException, OperationTimeoutException],
+}));
 /**
  * Retrieves partition statistics of columns.
  *
  * The Identity and Access Management (IAM) permission required for this operation is `GetPartition`.
  */
-export const getColumnStatisticsForPartition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetColumnStatisticsForPartitionRequest,
-    output: GetColumnStatisticsForPartitionResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const getColumnStatisticsForPartition: (
+  input: GetColumnStatisticsForPartitionRequest,
+) => Effect.Effect<
+  GetColumnStatisticsForPartitionResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetColumnStatisticsForPartitionRequest,
+  output: GetColumnStatisticsForPartitionResponse,
+  errors: [
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Get the associated metadata/information for a task run, given a task run ID.
  */
-export const getColumnStatisticsTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetColumnStatisticsTaskRunRequest,
-    output: GetColumnStatisticsTaskRunResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const getColumnStatisticsTaskRun: (
+  input: GetColumnStatisticsTaskRunRequest,
+) => Effect.Effect<
+  GetColumnStatisticsTaskRunResponse,
+  | EntityNotFoundException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetColumnStatisticsTaskRunRequest,
+  output: GetColumnStatisticsTaskRunResponse,
+  errors: [
+    EntityNotFoundException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Retrieves a list of connection definitions from the Data Catalog.
  */
-export const getConnections = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getConnections: {
+  (
     input: GetConnectionsRequest,
-    output: GetConnectionsResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetConnectionsResponse,
+    | EntityNotFoundException
+    | GlueEncryptionException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetConnectionsRequest,
+  ) => Stream.Stream<
+    GetConnectionsResponse,
+    | EntityNotFoundException
+    | GlueEncryptionException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetConnectionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | GlueEncryptionException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetConnectionsRequest,
+  output: GetConnectionsResponse,
+  errors: [
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves metrics about specified crawlers.
  */
-export const getCrawlerMetrics = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getCrawlerMetrics: {
+  (
     input: GetCrawlerMetricsRequest,
-    output: GetCrawlerMetricsResponse,
-    errors: [OperationTimeoutException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetCrawlerMetricsResponse,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCrawlerMetricsRequest,
+  ) => Stream.Stream<
+    GetCrawlerMetricsResponse,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCrawlerMetricsRequest,
+  ) => Stream.Stream<
+    unknown,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCrawlerMetricsRequest,
+  output: GetCrawlerMetricsResponse,
+  errors: [OperationTimeoutException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieve a statistic's predictions for a given Profile ID.
  */
-export const getDataQualityModelResult = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDataQualityModelResultRequest,
-    output: GetDataQualityModelResultResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const getDataQualityModelResult: (
+  input: GetDataQualityModelResultRequest,
+) => Effect.Effect<
+  GetDataQualityModelResultResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataQualityModelResultRequest,
+  output: GetDataQualityModelResultResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Creates mappings.
  */
-export const getMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMapping: (
+  input: GetMappingRequest,
+) => Effect.Effect<
+  GetMappingResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMappingRequest,
   output: GetMappingResponse,
   errors: [
@@ -15333,7 +15732,16 @@ export const getMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets code to perform a specified mapping.
  */
-export const getPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPlan: (
+  input: GetPlanRequest,
+) => Effect.Effect<
+  GetPlanResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPlanRequest,
   output: GetPlanResponse,
   errors: [
@@ -15351,27 +15759,70 @@ export const getPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * permission on the KMS key, the operation can't return the Data Catalog resource
  * policy.
  */
-export const getResourcePolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getResourcePolicies: {
+  (
     input: GetResourcePoliciesRequest,
-    output: GetResourcePoliciesResponse,
-    errors: [
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "GetResourcePoliciesResponseList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetResourcePoliciesResponse,
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetResourcePoliciesRequest,
+  ) => Stream.Stream<
+    GetResourcePoliciesResponse,
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetResourcePoliciesRequest,
+  ) => Stream.Stream<
+    GluePolicy,
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetResourcePoliciesRequest,
+  output: GetResourcePoliciesResponse,
+  errors: [
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "GetResourcePoliciesResponseList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Get the specified schema by its unique ID assigned when a version of the schema is created or registered. Schema versions in Deleted status will not be included in the results.
  */
-export const getSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSchemaVersion: (
+  input: GetSchemaVersionInput,
+) => Effect.Effect<
+  GetSchemaVersionResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSchemaVersionInput,
   output: GetSchemaVersionResponse,
   errors: [
@@ -15384,22 +15835,41 @@ export const getSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a specified security configuration.
  */
-export const getSecurityConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSecurityConfigurationRequest,
-    output: GetSecurityConfigurationResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const getSecurityConfiguration: (
+  input: GetSecurityConfigurationRequest,
+) => Effect.Effect<
+  GetSecurityConfigurationResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSecurityConfigurationRequest,
+  output: GetSecurityConfigurationResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Retrieves the session.
  */
-export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSession: (
+  input: GetSessionRequest,
+) => Effect.Effect<
+  GetSessionResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
   output: GetSessionResponse,
   errors: [
@@ -15413,7 +15883,18 @@ export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a specified version of a table.
  */
-export const getTableVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTableVersion: (
+  input: GetTableVersionRequest,
+) => Effect.Effect<
+  GetTableVersionResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableVersionRequest,
   output: GetTableVersionResponse,
   errors: [
@@ -15427,152 +15908,319 @@ export const getTableVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a specified function definition from the Data Catalog.
  */
-export const getUserDefinedFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetUserDefinedFunctionRequest,
-    output: GetUserDefinedFunctionResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const getUserDefinedFunction: (
+  input: GetUserDefinedFunctionRequest,
+) => Effect.Effect<
+  GetUserDefinedFunctionResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUserDefinedFunctionRequest,
+  output: GetUserDefinedFunctionResponse,
+  errors: [
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Returns a list of registries that you have created, with minimal registry information. Registries in the `Deleting` status will not be included in the results. Empty results will be returned if there are no registries available.
  */
-export const listRegistries = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRegistries: {
+  (
     input: ListRegistriesInput,
-    output: ListRegistriesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidInputException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Registries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRegistriesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRegistriesInput,
+  ) => Stream.Stream<
+    ListRegistriesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRegistriesInput,
+  ) => Stream.Stream<
+    RegistryListItem,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRegistriesInput,
+  output: ListRegistriesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidInputException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Registries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of schemas with minimal details. Schemas in Deleting status will not be included in the results. Empty results will be returned if there are no schemas available.
  *
  * When the `RegistryId` is not provided, all the schemas across registries will be part of the API response.
  */
-export const listSchemas = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSchemas: {
+  (
     input: ListSchemasInput,
-    output: ListSchemasResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Schemas",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSchemasResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSchemasInput,
+  ) => Stream.Stream<
+    ListSchemasResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSchemasInput,
+  ) => Stream.Stream<
+    SchemaListItem,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSchemasInput,
+  output: ListSchemasResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Schemas",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema versions available.
  */
-export const listSchemaVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSchemaVersions: {
+  (
     input: ListSchemaVersionsInput,
-    output: ListSchemaVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Schemas",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSchemaVersionsResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSchemaVersionsInput,
+  ) => Stream.Stream<
+    ListSchemaVersionsResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSchemaVersionsInput,
+  ) => Stream.Stream<
+    SchemaVersionListItem,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSchemaVersionsInput,
+  output: ListSchemaVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Schemas",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Sets the security configuration for a specified catalog. After the configuration has been
  * set, the specified encryption is applied to every catalog write thereafter.
  */
-export const putDataCatalogEncryptionSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutDataCatalogEncryptionSettingsRequest,
-    output: PutDataCatalogEncryptionSettingsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const putDataCatalogEncryptionSettings: (
+  input: PutDataCatalogEncryptionSettingsRequest,
+) => Effect.Effect<
+  PutDataCatalogEncryptionSettingsResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutDataCatalogEncryptionSettingsRequest,
+  output: PutDataCatalogEncryptionSettingsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions.
  *
  * You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search.
  */
-export const searchTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchTables: {
+  (
     input: SearchTablesRequest,
-    output: SearchTablesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchTablesResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchTablesRequest,
+  ) => Stream.Stream<
+    SearchTablesResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchTablesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchTablesRequest,
+  output: SearchTablesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Once you have a ruleset definition (either recommended or your own), you call this operation to evaluate the ruleset against a data source (Glue table). The evaluation computes results which you can retrieve with the `GetDataQualityResult` API.
  */
-export const startDataQualityRulesetEvaluationRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDataQualityRulesetEvaluationRunRequest,
-    output: StartDataQualityRulesetEvaluationRunResponse,
-    errors: [
-      ConflictException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const startDataQualityRulesetEvaluationRun: (
+  input: StartDataQualityRulesetEvaluationRunRequest,
+) => Effect.Effect<
+  StartDataQualityRulesetEvaluationRunResponse,
+  | ConflictException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDataQualityRulesetEvaluationRunRequest,
+  output: StartDataQualityRulesetEvaluationRunResponse,
+  errors: [
+    ConflictException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Stops a task run for the specified table.
  */
-export const stopColumnStatisticsTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopColumnStatisticsTaskRunRequest,
-    output: StopColumnStatisticsTaskRunResponse,
-    errors: [
-      ColumnStatisticsTaskNotRunningException,
-      ColumnStatisticsTaskStoppingException,
-      EntityNotFoundException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const stopColumnStatisticsTaskRun: (
+  input: StopColumnStatisticsTaskRunRequest,
+) => Effect.Effect<
+  StopColumnStatisticsTaskRunResponse,
+  | ColumnStatisticsTaskNotRunningException
+  | ColumnStatisticsTaskStoppingException
+  | EntityNotFoundException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopColumnStatisticsTaskRunRequest,
+  output: StopColumnStatisticsTaskRunResponse,
+  errors: [
+    ColumnStatisticsTaskNotRunningException,
+    ColumnStatisticsTaskStoppingException,
+    EntityNotFoundException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * If the specified crawler is running, stops the crawl.
  */
-export const stopCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopCrawler: (
+  input: StopCrawlerRequest,
+) => Effect.Effect<
+  StopCrawlerResponse,
+  | CrawlerNotRunningException
+  | CrawlerStoppingException
+  | EntityNotFoundException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopCrawlerRequest,
   output: StopCrawlerResponse,
   errors: [
@@ -15587,22 +16235,43 @@ export const stopCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The Identity and Access Management (IAM) permission required for this operation is `UpdateTable`.
  */
-export const updateColumnStatisticsForTable =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateColumnStatisticsForTableRequest,
-    output: UpdateColumnStatisticsForTableResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const updateColumnStatisticsForTable: (
+  input: UpdateColumnStatisticsForTableRequest,
+) => Effect.Effect<
+  UpdateColumnStatisticsForTableResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateColumnStatisticsForTableRequest,
+  output: UpdateColumnStatisticsForTableResponse,
+  errors: [
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Updates an existing job definition. The previous job definition is completely overwritten by this information.
  */
-export const updateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateJob: (
+  input: UpdateJobRequest,
+) => Effect.Effect<
+  UpdateJobResponse,
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobRequest,
   output: UpdateJobResponse,
   errors: [
@@ -15618,7 +16287,18 @@ export const updateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
  */
-export const updateTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTrigger: (
+  input: UpdateTriggerRequest,
+) => Effect.Effect<
+  UpdateTriggerResponse,
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTriggerRequest,
   output: UpdateTriggerResponse,
   errors: [
@@ -15632,7 +16312,18 @@ export const updateTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops the execution of the specified workflow run.
  */
-export const stopWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopWorkflowRun: (
+  input: StopWorkflowRunRequest,
+) => Effect.Effect<
+  StopWorkflowRunResponse,
+  | EntityNotFoundException
+  | IllegalWorkflowStateException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopWorkflowRunRequest,
   output: StopWorkflowRunResponse,
   errors: [
@@ -15646,118 +16337,238 @@ export const stopWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a specified partition index from an existing table.
  */
-export const deletePartitionIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePartitionIndexRequest,
-    output: DeletePartitionIndexResponse,
-    errors: [
-      ConflictException,
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const deletePartitionIndex: (
+  input: DeletePartitionIndexRequest,
+) => Effect.Effect<
+  DeletePartitionIndexResponse,
+  | ConflictException
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePartitionIndexRequest,
+  output: DeletePartitionIndexResponse,
+  errors: [
+    ConflictException,
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Retrieves table statistics of columns.
  *
  * The Identity and Access Management (IAM) permission required for this operation is `GetTable`.
  */
-export const getColumnStatisticsForTable = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetColumnStatisticsForTableRequest,
-    output: GetColumnStatisticsForTableResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const getColumnStatisticsForTable: (
+  input: GetColumnStatisticsForTableRequest,
+) => Effect.Effect<
+  GetColumnStatisticsForTableResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetColumnStatisticsForTableRequest,
+  output: GetColumnStatisticsForTableResponse,
+  errors: [
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Retrieves a list of strings that identify available versions of
  * a specified table.
  */
-export const getTableVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getTableVersions: {
+  (
     input: GetTableVersionsRequest,
-    output: GetTableVersionsResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetTableVersionsResponse,
+    | EntityNotFoundException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTableVersionsRequest,
+  ) => Stream.Stream<
+    GetTableVersionsResponse,
+    | EntityNotFoundException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTableVersionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTableVersionsRequest,
+  output: GetTableVersionsResponse,
+  errors: [
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves multiple function definitions from the Data Catalog.
  */
-export const getUserDefinedFunctions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getUserDefinedFunctions: {
+  (
     input: GetUserDefinedFunctionsRequest,
-    output: GetUserDefinedFunctionsResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetUserDefinedFunctionsResponse,
+    | EntityNotFoundException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetUserDefinedFunctionsRequest,
+  ) => Stream.Stream<
+    GetUserDefinedFunctionsResponse,
+    | EntityNotFoundException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetUserDefinedFunctionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetUserDefinedFunctionsRequest,
+  output: GetUserDefinedFunctionsResponse,
+  errors: [
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Delete the partition column statistics of a column.
  *
  * The Identity and Access Management (IAM) permission required for this operation is `DeletePartition`.
  */
-export const deleteColumnStatisticsForPartition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteColumnStatisticsForPartitionRequest,
-    output: DeleteColumnStatisticsForPartitionResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const deleteColumnStatisticsForPartition: (
+  input: DeleteColumnStatisticsForPartitionRequest,
+) => Effect.Effect<
+  DeleteColumnStatisticsForPartitionResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteColumnStatisticsForPartitionRequest,
+  output: DeleteColumnStatisticsForPartitionResponse,
+  errors: [
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Retrieves table statistics of columns.
  *
  * The Identity and Access Management (IAM) permission required for this operation is `DeleteTable`.
  */
-export const deleteColumnStatisticsForTable =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteColumnStatisticsForTableRequest,
-    output: DeleteColumnStatisticsForTableResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const deleteColumnStatisticsForTable: (
+  input: DeleteColumnStatisticsForTableRequest,
+) => Effect.Effect<
+  DeleteColumnStatisticsForTableResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteColumnStatisticsForTableRequest,
+  output: DeleteColumnStatisticsForTableResponse,
+  errors: [
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Updates a connection definition in the Data Catalog.
  */
-export const updateConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateConnection: (
+  input: UpdateConnectionRequest,
+) => Effect.Effect<
+  UpdateConnectionResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectionRequest,
   output: UpdateConnectionResponse,
   errors: [
@@ -15770,7 +16581,18 @@ export const updateConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a partition.
  */
-export const updatePartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePartition: (
+  input: UpdatePartitionRequest,
+) => Effect.Effect<
+  UpdatePartitionResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePartitionRequest,
   output: UpdatePartitionResponse,
   errors: [
@@ -15784,52 +16606,108 @@ export const updatePartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing function definition in the Data Catalog.
  */
-export const updateUserDefinedFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserDefinedFunctionRequest,
-    output: UpdateUserDefinedFunctionResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const updateUserDefinedFunction: (
+  input: UpdateUserDefinedFunctionRequest,
+) => Effect.Effect<
+  UpdateUserDefinedFunctionResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserDefinedFunctionRequest,
+  output: UpdateUserDefinedFunctionResponse,
+  errors: [
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Lists all classifier objects in the Data Catalog.
  */
-export const getClassifiers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getClassifiers: {
+  (
     input: GetClassifiersRequest,
-    output: GetClassifiersResponse,
-    errors: [OperationTimeoutException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetClassifiersResponse,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetClassifiersRequest,
+  ) => Stream.Stream<
+    GetClassifiersResponse,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetClassifiersRequest,
+  ) => Stream.Stream<
+    unknown,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetClassifiersRequest,
+  output: GetClassifiersResponse,
+  errors: [OperationTimeoutException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves information about all runs associated with the specified table.
  */
-export const getColumnStatisticsTaskRuns =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getColumnStatisticsTaskRuns: {
+  (
     input: GetColumnStatisticsTaskRunsRequest,
-    output: GetColumnStatisticsTaskRunsResponse,
-    errors: [OperationTimeoutException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetColumnStatisticsTaskRunsResponse,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetColumnStatisticsTaskRunsRequest,
+  ) => Stream.Stream<
+    GetColumnStatisticsTaskRunsResponse,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetColumnStatisticsTaskRunsRequest,
+  ) => Stream.Stream<
+    unknown,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetColumnStatisticsTaskRunsRequest,
+  output: GetColumnStatisticsTaskRunsResponse,
+  errors: [OperationTimeoutException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves metadata for a specified crawler.
  */
-export const getCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCrawler: (
+  input: GetCrawlerRequest,
+) => Effect.Effect<
+  GetCrawlerResponse,
+  EntityNotFoundException | OperationTimeoutException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCrawlerRequest,
   output: GetCrawlerResponse,
   errors: [EntityNotFoundException, OperationTimeoutException],
@@ -15838,32 +16716,73 @@ export const getCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves metadata for all crawlers defined in the customer
  * account.
  */
-export const getCrawlers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getCrawlers: {
+  (
     input: GetCrawlersRequest,
-    output: GetCrawlersResponse,
-    errors: [OperationTimeoutException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetCrawlersResponse,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCrawlersRequest,
+  ) => Stream.Stream<
+    GetCrawlersResponse,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCrawlersRequest,
+  ) => Stream.Stream<
+    unknown,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCrawlersRequest,
+  output: GetCrawlersResponse,
+  errors: [OperationTimeoutException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List all task runs for a particular account.
  */
-export const listColumnStatisticsTaskRuns =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listColumnStatisticsTaskRuns: {
+  (
     input: ListColumnStatisticsTaskRunsRequest,
-    output: ListColumnStatisticsTaskRunsResponse,
-    errors: [OperationTimeoutException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListColumnStatisticsTaskRunsResponse,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListColumnStatisticsTaskRunsRequest,
+  ) => Stream.Stream<
+    ListColumnStatisticsTaskRunsResponse,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListColumnStatisticsTaskRunsRequest,
+  ) => Stream.Stream<
+    unknown,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListColumnStatisticsTaskRunsRequest,
+  output: ListColumnStatisticsTaskRunsResponse,
+  errors: [OperationTimeoutException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the names of all crawler resources in this Amazon Web Services account, or the
  * resources with the specified tag. This operation allows you to see which
@@ -15873,22 +16792,48 @@ export const listColumnStatisticsTaskRuns =
  * the response so that tagged resources can be retrieved as a group. If you choose to use tags
  * filtering, only resources with the tag are retrieved.
  */
-export const listCrawlers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCrawlers: {
+  (
     input: ListCrawlersRequest,
-    output: ListCrawlersResponse,
-    errors: [OperationTimeoutException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCrawlersResponse,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCrawlersRequest,
+  ) => Stream.Stream<
+    ListCrawlersResponse,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCrawlersRequest,
+  ) => Stream.Stream<
+    unknown,
+    OperationTimeoutException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCrawlersRequest,
+  output: ListCrawlersResponse,
+  errors: [OperationTimeoutException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Removes a classifier from the Data Catalog.
  */
-export const deleteClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteClassifier: (
+  input: DeleteClassifierRequest,
+) => Effect.Effect<
+  DeleteClassifierResponse,
+  EntityNotFoundException | OperationTimeoutException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClassifierRequest,
   output: DeleteClassifierResponse,
   errors: [EntityNotFoundException, OperationTimeoutException],
@@ -15896,7 +16841,13 @@ export const deleteClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a connection from the Data Catalog.
  */
-export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConnection: (
+  input: DeleteConnectionRequest,
+) => Effect.Effect<
+  DeleteConnectionResponse,
+  EntityNotFoundException | OperationTimeoutException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionRequest,
   output: DeleteConnectionResponse,
   errors: [EntityNotFoundException, OperationTimeoutException],
@@ -15906,7 +16857,16 @@ export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * of what is scheduled. If the crawler is already running, returns a
  * CrawlerRunningException.
  */
-export const startCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startCrawler: (
+  input: StartCrawlerRequest,
+) => Effect.Effect<
+  StartCrawlerResponse,
+  | CrawlerRunningException
+  | EntityNotFoundException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCrawlerRequest,
   output: StartCrawlerResponse,
   errors: [
@@ -15918,7 +16878,13 @@ export const startCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Imports an existing Amazon Athena Data Catalog to Glue.
  */
-export const importCatalogToGlue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importCatalogToGlue: (
+  input: ImportCatalogToGlueRequest,
+) => Effect.Effect<
+  ImportCatalogToGlueResponse,
+  InternalServiceException | OperationTimeoutException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportCatalogToGlueRequest,
   output: ImportCatalogToGlueResponse,
   errors: [InternalServiceException, OperationTimeoutException],
@@ -15926,7 +16892,21 @@ export const importCatalogToGlue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing catalog's properties in the Glue Data Catalog.
  */
-export const updateCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCatalog: (
+  input: UpdateCatalogRequest,
+) => Effect.Effect<
+  UpdateCatalogResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | FederationSourceException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCatalogRequest,
   output: UpdateCatalogResponse,
   errors: [
@@ -15947,7 +16927,21 @@ export const updateCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To ensure the immediate deletion of all related resources before calling the `DeleteCatalog` operation, use `DeleteTableVersion` (or `BatchDeleteTableVersion`), `DeletePartition` (or `BatchDeletePartition`), `DeleteTable` (or `BatchDeleteTable`), `DeleteUserDefinedFunction` and `DeleteDatabase` to delete any resources that belong to the catalog.
  */
-export const deleteCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCatalog: (
+  input: DeleteCatalogRequest,
+) => Effect.Effect<
+  DeleteCatalogResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | FederationSourceException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCatalogRequest,
   output: DeleteCatalogResponse,
   errors: [
@@ -15964,7 +16958,17 @@ export const deleteCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a workflow.
  */
-export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkflow: (
+  input: DeleteWorkflowRequest,
+) => Effect.Effect<
+  DeleteWorkflowResponse,
+  | ConcurrentModificationException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkflowRequest,
   output: DeleteWorkflowResponse,
   errors: [
@@ -15977,7 +16981,17 @@ export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the details of a blueprint.
  */
-export const getBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBlueprint: (
+  input: GetBlueprintRequest,
+) => Effect.Effect<
+  GetBlueprintResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBlueprintRequest,
   output: GetBlueprintResponse,
   errors: [
@@ -15990,27 +17004,70 @@ export const getBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the details of blueprint runs for a specified blueprint.
  */
-export const getBlueprintRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getBlueprintRuns: {
+  (
     input: GetBlueprintRunsRequest,
-    output: GetBlueprintRunsResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetBlueprintRunsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetBlueprintRunsRequest,
+  ) => Stream.Stream<
+    GetBlueprintRunsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetBlueprintRunsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetBlueprintRunsRequest,
+  output: GetBlueprintRunsResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the details of a custom pattern by specifying its name.
  */
-export const getCustomEntityType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCustomEntityType: (
+  input: GetCustomEntityTypeRequest,
+) => Effect.Effect<
+  GetCustomEntityTypeResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomEntityTypeRequest,
   output: GetCustomEntityTypeResponse,
   errors: [
@@ -16024,20 +17081,37 @@ export const getCustomEntityType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the security configuration for a specified catalog.
  */
-export const getDataCatalogEncryptionSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDataCatalogEncryptionSettingsRequest,
-    output: GetDataCatalogEncryptionSettingsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const getDataCatalogEncryptionSettings: (
+  input: GetDataCatalogEncryptionSettingsRequest,
+) => Effect.Effect<
+  GetDataCatalogEncryptionSettingsResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataCatalogEncryptionSettingsRequest,
+  output: GetDataCatalogEncryptionSettingsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Transforms a Python script into a directed acyclic graph (DAG).
  */
-export const getDataflowGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDataflowGraph: (
+  input: GetDataflowGraphRequest,
+) => Effect.Effect<
+  GetDataflowGraphResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataflowGraphRequest,
   output: GetDataflowGraphResponse,
   errors: [
@@ -16049,7 +17123,17 @@ export const getDataflowGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve the training status of the model along with more information (CompletedOn, StartedOn, FailureReason).
  */
-export const getDataQualityModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDataQualityModel: (
+  input: GetDataQualityModelRequest,
+) => Effect.Effect<
+  GetDataQualityModelResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataQualityModelRequest,
   output: GetDataQualityModelResponse,
   errors: [
@@ -16062,46 +17146,72 @@ export const getDataQualityModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the specified recommendation run that was used to generate rules.
  */
-export const getDataQualityRuleRecommendationRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDataQualityRuleRecommendationRunRequest,
-    output: GetDataQualityRuleRecommendationRunResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const getDataQualityRuleRecommendationRun: (
+  input: GetDataQualityRuleRecommendationRunRequest,
+) => Effect.Effect<
+  GetDataQualityRuleRecommendationRunResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataQualityRuleRecommendationRunRequest,
+  output: GetDataQualityRuleRecommendationRunResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Returns an existing ruleset by identifier or name.
  */
-export const getDataQualityRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDataQualityRulesetRequest,
-    output: GetDataQualityRulesetResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const getDataQualityRuleset: (
+  input: GetDataQualityRulesetRequest,
+) => Effect.Effect<
+  GetDataQualityRulesetResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataQualityRulesetRequest,
+  output: GetDataQualityRulesetResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Retrieves a specific run where a ruleset is evaluated against a data source.
  */
-export const getDataQualityRulesetEvaluationRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDataQualityRulesetEvaluationRunRequest,
-    output: GetDataQualityRulesetEvaluationRunResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const getDataQualityRulesetEvaluationRun: (
+  input: GetDataQualityRulesetEvaluationRunRequest,
+) => Effect.Effect<
+  GetDataQualityRulesetEvaluationRunResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataQualityRulesetEvaluationRunRequest,
+  output: GetDataQualityRulesetEvaluationRunResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Retrieves information about a specified development endpoint.
  *
@@ -16109,7 +17219,17 @@ export const getDataQualityRulesetEvaluationRun =
  * a private IP address, and the public IP address field is not populated. When you create a
  * non-VPC development endpoint, Glue returns only a public IP address.
  */
-export const getDevEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDevEndpoint: (
+  input: GetDevEndpointRequest,
+) => Effect.Effect<
+  GetDevEndpointResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDevEndpointRequest,
   output: GetDevEndpointResponse,
   errors: [
@@ -16126,27 +17246,69 @@ export const getDevEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * and the public IP address field is not populated. When you create a non-VPC development
  * endpoint, Glue returns only a public IP address.
  */
-export const getDevEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getDevEndpoints: {
+  (
     input: GetDevEndpointsRequest,
-    output: GetDevEndpointsResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetDevEndpointsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetDevEndpointsRequest,
+  ) => Stream.Stream<
+    GetDevEndpointsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetDevEndpointsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetDevEndpointsRequest,
+  output: GetDevEndpointsResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves an existing job definition.
  */
-export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJob: (
+  input: GetJobRequest,
+) => Effect.Effect<
+  GetJobResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRequest,
   output: GetJobResponse,
   errors: [
@@ -16161,7 +17323,41 @@ export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * `GetJobRuns` returns the job runs in chronological order, with the newest jobs returned first.
  */
-export const getJobRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getJobRuns: {
+  (
+    input: GetJobRunsRequest,
+  ): Effect.Effect<
+    GetJobRunsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetJobRunsRequest,
+  ) => Stream.Stream<
+    GetJobRunsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetJobRunsRequest,
+  ) => Stream.Stream<
+    JobRun,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetJobRunsRequest,
   output: GetJobRunsResponse,
   errors: [
@@ -16180,7 +17376,41 @@ export const getJobRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Retrieves all current job definitions.
  */
-export const getJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getJobs: {
+  (
+    input: GetJobsRequest,
+  ): Effect.Effect<
+    GetJobsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetJobsRequest,
+  ) => Stream.Stream<
+    GetJobsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetJobsRequest,
+  ) => Stream.Stream<
+    Job,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetJobsRequest,
   output: GetJobsResponse,
   errors: [
@@ -16199,7 +17429,17 @@ export const getJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Describes the specified registry in detail.
  */
-export const getRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRegistry: (
+  input: GetRegistryInput,
+) => Effect.Effect<
+  GetRegistryResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegistryInput,
   output: GetRegistryResponse,
   errors: [
@@ -16212,7 +17452,17 @@ export const getRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a specified resource policy.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => Effect.Effect<
+  GetResourcePolicyResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
   errors: [
@@ -16225,7 +17475,17 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the specified schema in detail.
  */
-export const getSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSchema: (
+  input: GetSchemaInput,
+) => Effect.Effect<
+  GetSchemaResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSchemaInput,
   output: GetSchemaResponse,
   errors: [
@@ -16238,59 +17498,118 @@ export const getSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a schema by the `SchemaDefinition`. The schema definition is sent to the Schema Registry, canonicalized, and hashed. If the hash is matched within the scope of the `SchemaName` or ARN (or the default registry, if none is supplied), that schema’s metadata is returned. Otherwise, a 404 or NotFound error is returned. Schema versions in `Deleted` statuses will not be included in the results.
  */
-export const getSchemaByDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSchemaByDefinitionInput,
-    output: GetSchemaByDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-    ],
-  }),
-);
+export const getSchemaByDefinition: (
+  input: GetSchemaByDefinitionInput,
+) => Effect.Effect<
+  GetSchemaByDefinitionResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSchemaByDefinitionInput,
+  output: GetSchemaByDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+  ],
+}));
 /**
  * Fetches the schema version difference in the specified difference type between two stored schema versions in the Schema Registry.
  *
  * This API allows you to compare two schema versions between two schema definitions under the same schema.
  */
-export const getSchemaVersionsDiff = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSchemaVersionsDiffInput,
-    output: GetSchemaVersionsDiffResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-    ],
-  }),
-);
+export const getSchemaVersionsDiff: (
+  input: GetSchemaVersionsDiffInput,
+) => Effect.Effect<
+  GetSchemaVersionsDiffResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSchemaVersionsDiffInput,
+  output: GetSchemaVersionsDiffResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+  ],
+}));
 /**
  * Retrieves a list of all security configurations.
  */
-export const getSecurityConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getSecurityConfigurations: {
+  (
     input: GetSecurityConfigurationsRequest,
-    output: GetSecurityConfigurationsResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SecurityConfigurations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetSecurityConfigurationsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetSecurityConfigurationsRequest,
+  ) => Stream.Stream<
+    GetSecurityConfigurationsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSecurityConfigurationsRequest,
+  ) => Stream.Stream<
+    SecurityConfiguration,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetSecurityConfigurationsRequest,
+  output: GetSecurityConfigurationsResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SecurityConfigurations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of tags associated with a resource.
  */
-export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTags: (
+  input: GetTagsRequest,
+) => Effect.Effect<
+  GetTagsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTagsRequest,
   output: GetTagsResponse,
   errors: [
@@ -16303,7 +17622,17 @@ export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the definition of a trigger.
  */
-export const getTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTrigger: (
+  input: GetTriggerRequest,
+) => Effect.Effect<
+  GetTriggerResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTriggerRequest,
   output: GetTriggerResponse,
   errors: [
@@ -16316,28 +17645,70 @@ export const getTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets all the triggers associated with a job.
  */
-export const getTriggers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getTriggers: {
+  (
     input: GetTriggersRequest,
-    output: GetTriggersResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Triggers",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetTriggersResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTriggersRequest,
+  ) => Stream.Stream<
+    GetTriggersResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTriggersRequest,
+  ) => Stream.Stream<
+    Trigger,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTriggersRequest,
+  output: GetTriggersResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Triggers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves resource metadata for a workflow.
  */
-export const getWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkflow: (
+  input: GetWorkflowRequest,
+) => Effect.Effect<
+  GetWorkflowResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowRequest,
   output: GetWorkflowResponse,
   errors: [
@@ -16350,77 +17721,176 @@ export const getWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the workflow run properties which were set during the run.
  */
-export const getWorkflowRunProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetWorkflowRunPropertiesRequest,
-    output: GetWorkflowRunPropertiesResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const getWorkflowRunProperties: (
+  input: GetWorkflowRunPropertiesRequest,
+) => Effect.Effect<
+  GetWorkflowRunPropertiesResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkflowRunPropertiesRequest,
+  output: GetWorkflowRunPropertiesResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Retrieves metadata for all runs of a given workflow.
  */
-export const getWorkflowRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getWorkflowRuns: {
+  (
     input: GetWorkflowRunsRequest,
-    output: GetWorkflowRunsResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Runs",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetWorkflowRunsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetWorkflowRunsRequest,
+  ) => Stream.Stream<
+    GetWorkflowRunsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetWorkflowRunsRequest,
+  ) => Stream.Stream<
+    WorkflowRun,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetWorkflowRunsRequest,
+  output: GetWorkflowRunsResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Runs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the blueprint names in an account.
  */
-export const listBlueprints = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBlueprints: {
+  (
     input: ListBlueprintsRequest,
-    output: ListBlueprintsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Blueprints",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBlueprintsResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBlueprintsRequest,
+  ) => Stream.Stream<
+    ListBlueprintsResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBlueprintsRequest,
+  ) => Stream.Stream<
+    OrchestrationNameString,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBlueprintsRequest,
+  output: ListBlueprintsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Blueprints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the custom patterns that have been created.
  */
-export const listCustomEntityTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCustomEntityTypes: {
+  (
     input: ListCustomEntityTypesRequest,
-    output: ListCustomEntityTypesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCustomEntityTypesResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCustomEntityTypesRequest,
+  ) => Stream.Stream<
+    ListCustomEntityTypesResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCustomEntityTypesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCustomEntityTypesRequest,
+  output: ListCustomEntityTypesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the names of all `DevEndpoint` resources in this Amazon Web Services account, or the
  * resources with the specified tag. This operation allows you to see which resources are
@@ -16430,23 +17900,55 @@ export const listCustomEntityTypes =
  * the response so that tagged resources can be retrieved as a group. If you choose to use tags
  * filtering, only resources with the tag are retrieved.
  */
-export const listDevEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDevEndpoints: {
+  (
     input: ListDevEndpointsRequest,
-    output: ListDevEndpointsResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDevEndpointsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDevEndpointsRequest,
+  ) => Stream.Stream<
+    ListDevEndpointsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDevEndpointsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDevEndpointsRequest,
+  output: ListDevEndpointsResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the names of all job resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names.
  *
@@ -16454,7 +17956,41 @@ export const listDevEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * the response so that tagged resources can be retrieved as a group. If you choose to use tags
  * filtering, only resources with the tag are retrieved.
  */
-export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listJobs: {
+  (
+    input: ListJobsRequest,
+  ): Effect.Effect<
+    ListJobsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobsRequest,
+  ) => Stream.Stream<
+    ListJobsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobsRequest,
+  ) => Stream.Stream<
+    NameString,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListJobsRequest,
   output: ListJobsResponse,
   errors: [
@@ -16476,43 +18012,107 @@ export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag
  * filtering, only resources with the tags are retrieved.
  */
-export const listMLTransforms = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMLTransforms: {
+  (
     input: ListMLTransformsRequest,
-    output: ListMLTransformsResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMLTransformsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMLTransformsRequest,
+  ) => Stream.Stream<
+    ListMLTransformsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMLTransformsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMLTransformsRequest,
+  output: ListMLTransformsResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieve a list of sessions.
  */
-export const listSessions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSessions: {
+  (
     input: ListSessionsRequest,
-    output: ListSessionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSessionsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSessionsRequest,
+  ) => Stream.Stream<
+    ListSessionsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSessionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSessionsRequest,
+  output: ListSessionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the names of all trigger resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names.
  *
@@ -16520,48 +18120,120 @@ export const listSessions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * the response so that tagged resources can be retrieved as a group. If you choose to use tags
  * filtering, only resources with the tag are retrieved.
  */
-export const listTriggers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTriggers: {
+  (
     input: ListTriggersRequest,
-    output: ListTriggersResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TriggerNames",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTriggersResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTriggersRequest,
+  ) => Stream.Stream<
+    ListTriggersResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTriggersRequest,
+  ) => Stream.Stream<
+    NameString,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTriggersRequest,
+  output: ListTriggersResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TriggerNames",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists names of workflows created in the account.
  */
-export const listWorkflows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkflows: {
+  (
     input: ListWorkflowsRequest,
-    output: ListWorkflowsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Workflows",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkflowsResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowsRequest,
+  ) => Stream.Stream<
+    ListWorkflowsResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowsRequest,
+  ) => Stream.Stream<
+    NameString,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowsRequest,
+  output: ListWorkflowsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Workflows",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Sets the Data Catalog resource policy for access control.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | ConditionCheckFailureException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [
@@ -16575,17 +18247,24 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a key value pair from the schema version metadata for the specified schema version ID.
  */
-export const removeSchemaVersionMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveSchemaVersionMetadataInput,
-    output: RemoveSchemaVersionMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InvalidInputException,
-    ],
-  }),
-);
+export const removeSchemaVersionMetadata: (
+  input: RemoveSchemaVersionMetadataInput,
+) => Effect.Effect<
+  RemoveSchemaVersionMetadataResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveSchemaVersionMetadataInput,
+  output: RemoveSchemaVersionMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InvalidInputException,
+  ],
+}));
 /**
  * Resets a bookmark entry.
  *
@@ -16597,7 +18276,17 @@ export const removeSchemaVersionMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Job structure
  */
-export const resetJobBookmark = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resetJobBookmark: (
+  input: ResetJobBookmarkRequest,
+) => Effect.Effect<
+  ResetJobBookmarkResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetJobBookmarkRequest,
   output: ResetJobBookmarkResponse,
   errors: [
@@ -16618,22 +18307,41 @@ export const resetJobBookmark = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `TaskRunId`. You can check on the status of your task run by calling the
  * `GetMLTaskRun` API.
  */
-export const startExportLabelsTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartExportLabelsTaskRunRequest,
-    output: StartExportLabelsTaskRunResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const startExportLabelsTaskRun: (
+  input: StartExportLabelsTaskRunRequest,
+) => Effect.Effect<
+  StartExportLabelsTaskRunResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartExportLabelsTaskRunRequest,
+  output: StartExportLabelsTaskRunResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Stops a specified trigger.
  */
-export const stopTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopTrigger: (
+  input: StopTriggerRequest,
+) => Effect.Effect<
+  StopTriggerResponse,
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopTriggerRequest,
   output: StopTriggerResponse,
   errors: [
@@ -16651,7 +18359,18 @@ export const stopTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * operation to assess how well your new parameters achieved your goals (such as improving the
  * quality of your machine learning transform, or making it more cost-effective).
  */
-export const updateMLTransform = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMLTransform: (
+  input: UpdateMLTransformRequest,
+) => Effect.Effect<
+  UpdateMLTransformResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMLTransformRequest,
   output: UpdateMLTransformResponse,
   errors: [
@@ -16665,7 +18384,18 @@ export const updateMLTransform = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not modify any of the schemas within the registry.
  */
-export const updateRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRegistry: (
+  input: UpdateRegistryInput,
+) => Effect.Effect<
+  UpdateRegistryResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRegistryInput,
   output: UpdateRegistryResponse,
   errors: [
@@ -16685,7 +18415,18 @@ export const updateRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This update will happen only if the schema is in the AVAILABLE state.
  */
-export const updateSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSchema: (
+  input: UpdateSchemaInput,
+) => Effect.Effect<
+  UpdateSchemaResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSchemaInput,
   output: UpdateSchemaResponse,
   errors: [
@@ -16699,7 +18440,18 @@ export const updateSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing workflow.
  */
-export const updateWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWorkflow: (
+  input: UpdateWorkflowRequest,
+) => Effect.Effect<
+  UpdateWorkflowResponse,
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkflowRequest,
   output: UpdateWorkflowResponse,
   errors: [
@@ -16713,49 +18465,84 @@ export const updateWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels a run where a ruleset is being evaluated against a data source.
  */
-export const cancelDataQualityRulesetEvaluationRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CancelDataQualityRulesetEvaluationRunRequest,
-    output: CancelDataQualityRulesetEvaluationRunResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const cancelDataQualityRulesetEvaluationRun: (
+  input: CancelDataQualityRulesetEvaluationRunRequest,
+) => Effect.Effect<
+  CancelDataQualityRulesetEvaluationRunResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelDataQualityRulesetEvaluationRunRequest,
+  output: CancelDataQualityRulesetEvaluationRunResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Deletes settings for a column statistics task.
  */
-export const deleteColumnStatisticsTaskSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteColumnStatisticsTaskSettingsRequest,
-    output: DeleteColumnStatisticsTaskSettingsResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const deleteColumnStatisticsTaskSettings: (
+  input: DeleteColumnStatisticsTaskSettingsRequest,
+) => Effect.Effect<
+  DeleteColumnStatisticsTaskSettingsResponse,
+  | EntityNotFoundException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteColumnStatisticsTaskSettingsRequest,
+  output: DeleteColumnStatisticsTaskSettingsResponse,
+  errors: [
+    EntityNotFoundException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Deletes a data quality ruleset.
  */
-export const deleteDataQualityRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDataQualityRulesetRequest,
-    output: DeleteDataQualityRulesetResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const deleteDataQualityRuleset: (
+  input: DeleteDataQualityRulesetRequest,
+) => Effect.Effect<
+  DeleteDataQualityRulesetResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataQualityRulesetRequest,
+  output: DeleteDataQualityRulesetResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Deletes a specified development endpoint.
  */
-export const deleteDevEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDevEndpoint: (
+  input: DeleteDevEndpointRequest,
+) => Effect.Effect<
+  DeleteDevEndpointResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDevEndpointRequest,
   output: DeleteDevEndpointResponse,
   errors: [
@@ -16768,7 +18555,17 @@ export const deleteDevEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a specified partition.
  */
-export const deletePartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePartition: (
+  input: DeletePartitionRequest,
+) => Effect.Effect<
+  DeletePartitionResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePartitionRequest,
   output: DeletePartitionResponse,
   errors: [
@@ -16781,22 +18578,40 @@ export const deletePartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a specified security configuration.
  */
-export const deleteSecurityConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSecurityConfigurationRequest,
-    output: DeleteSecurityConfigurationResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const deleteSecurityConfiguration: (
+  input: DeleteSecurityConfigurationRequest,
+) => Effect.Effect<
+  DeleteSecurityConfigurationResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSecurityConfigurationRequest,
+  output: DeleteSecurityConfigurationResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Deletes a specified version of a table.
  */
-export const deleteTableVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTableVersion: (
+  input: DeleteTableVersionRequest,
+) => Effect.Effect<
+  DeleteTableVersionResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableVersionRequest,
   output: DeleteTableVersionResponse,
   errors: [
@@ -16809,64 +18624,107 @@ export const deleteTableVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing function definition from the Data Catalog.
  */
-export const deleteUserDefinedFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteUserDefinedFunctionRequest,
-    output: DeleteUserDefinedFunctionResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const deleteUserDefinedFunction: (
+  input: DeleteUserDefinedFunctionRequest,
+) => Effect.Effect<
+  DeleteUserDefinedFunctionResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserDefinedFunctionRequest,
+  output: DeleteUserDefinedFunctionResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Annotate all datapoints for a Profile.
  */
-export const putDataQualityProfileAnnotation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutDataQualityProfileAnnotationRequest,
-    output: PutDataQualityProfileAnnotationResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-    ],
-  }));
+export const putDataQualityProfileAnnotation: (
+  input: PutDataQualityProfileAnnotationRequest,
+) => Effect.Effect<
+  PutDataQualityProfileAnnotationResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutDataQualityProfileAnnotationRequest,
+  output: PutDataQualityProfileAnnotationResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+  ],
+}));
 /**
  * Starts a column statistics task run schedule.
  */
-export const startColumnStatisticsTaskRunSchedule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartColumnStatisticsTaskRunScheduleRequest,
-    output: StartColumnStatisticsTaskRunScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const startColumnStatisticsTaskRunSchedule: (
+  input: StartColumnStatisticsTaskRunScheduleRequest,
+) => Effect.Effect<
+  StartColumnStatisticsTaskRunScheduleResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartColumnStatisticsTaskRunScheduleRequest,
+  output: StartColumnStatisticsTaskRunScheduleResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Stops a column statistics task run schedule.
  */
-export const stopColumnStatisticsTaskRunSchedule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopColumnStatisticsTaskRunScheduleRequest,
-    output: StopColumnStatisticsTaskRunScheduleResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const stopColumnStatisticsTaskRunSchedule: (
+  input: StopColumnStatisticsTaskRunScheduleRequest,
+) => Effect.Effect<
+  StopColumnStatisticsTaskRunScheduleResponse,
+  | EntityNotFoundException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopColumnStatisticsTaskRunScheduleRequest,
+  output: StopColumnStatisticsTaskRunScheduleResponse,
+  errors: [
+    EntityNotFoundException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Adds tags to a resource. A tag is a label you can assign to an Amazon Web Services resource.
  * In Glue, you can tag only certain resources. For information about what
  * resources you can tag, see Amazon Web Services Tags in Glue.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -16879,7 +18737,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -16894,7 +18762,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `XMLClassifier`, a `JsonClassifier`, or a `CsvClassifier`,
  * depending on which field of the request is present.
  */
-export const createClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createClassifier: (
+  input: CreateClassifierRequest,
+) => Effect.Effect<
+  CreateClassifierResponse,
+  | AlreadyExistsException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClassifierRequest,
   output: CreateClassifierResponse,
   errors: [
@@ -16907,89 +18784,152 @@ export const createClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM
  * Identity Center for authentication and authorization.
  */
-export const createGlueIdentityCenterConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateGlueIdentityCenterConfigurationRequest,
-    output: CreateGlueIdentityCenterConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      ConcurrentModificationException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const createGlueIdentityCenterConfiguration: (
+  input: CreateGlueIdentityCenterConfigurationRequest,
+) => Effect.Effect<
+  CreateGlueIdentityCenterConfigurationResponse,
+  | AccessDeniedException
+  | AlreadyExistsException
+  | ConcurrentModificationException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGlueIdentityCenterConfigurationRequest,
+  output: CreateGlueIdentityCenterConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    ConcurrentModificationException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Deletes the existing Glue Identity Center configuration, removing the integration between Glue and
  * Amazon Web Services IAM Identity Center.
  */
-export const deleteGlueIdentityCenterConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteGlueIdentityCenterConfigurationRequest,
-    output: DeleteGlueIdentityCenterConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const deleteGlueIdentityCenterConfiguration: (
+  input: DeleteGlueIdentityCenterConfigurationRequest,
+) => Effect.Effect<
+  DeleteGlueIdentityCenterConfigurationResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGlueIdentityCenterConfigurationRequest,
+  output: DeleteGlueIdentityCenterConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Retrieves the current Glue Identity Center configuration details, including the associated Identity Center instance and
  * application information.
  */
-export const getGlueIdentityCenterConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetGlueIdentityCenterConfigurationRequest,
-    output: GetGlueIdentityCenterConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const getGlueIdentityCenterConfiguration: (
+  input: GetGlueIdentityCenterConfigurationRequest,
+) => Effect.Effect<
+  GetGlueIdentityCenterConfigurationResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGlueIdentityCenterConfigurationRequest,
+  output: GetGlueIdentityCenterConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Updates the existing Glue Identity Center configuration, allowing modification of scopes and permissions for the integration.
  */
-export const updateGlueIdentityCenterConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateGlueIdentityCenterConfigurationRequest,
-    output: UpdateGlueIdentityCenterConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const updateGlueIdentityCenterConfiguration: (
+  input: UpdateGlueIdentityCenterConfigurationRequest,
+) => Effect.Effect<
+  UpdateGlueIdentityCenterConfigurationResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGlueIdentityCenterConfigurationRequest,
+  output: UpdateGlueIdentityCenterConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Cancels the specified recommendation run that was being used to generate rules.
  */
-export const cancelDataQualityRuleRecommendationRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CancelDataQualityRuleRecommendationRunRequest,
-    output: CancelDataQualityRuleRecommendationRunResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const cancelDataQualityRuleRecommendationRun: (
+  input: CancelDataQualityRuleRecommendationRunRequest,
+) => Effect.Effect<
+  CancelDataQualityRuleRecommendationRunResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelDataQualityRuleRecommendationRunRequest,
+  output: CancelDataQualityRuleRecommendationRunResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can cancel a
  * machine learning task run at any time by calling `CancelMLTaskRun` with a task
  * run's parent transform's `TransformID` and the task run's `TaskRunId`.
  */
-export const cancelMLTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelMLTaskRun: (
+  input: CancelMLTaskRunRequest,
+) => Effect.Effect<
+  CancelMLTaskRunResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelMLTaskRunRequest,
   output: CancelMLTaskRunResponse,
   errors: [
@@ -17002,21 +18942,37 @@ export const cancelMLTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using `DataFormat` as the format. Since it does not take a schema set name, no compatibility checks are performed.
  */
-export const checkSchemaVersionValidity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CheckSchemaVersionValidityInput,
-    output: CheckSchemaVersionValidityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidInputException,
-    ],
-  }),
-);
+export const checkSchemaVersionValidity: (
+  input: CheckSchemaVersionValidityInput,
+) => Effect.Effect<
+  CheckSchemaVersionValidityResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CheckSchemaVersionValidityInput,
+  output: CheckSchemaVersionValidityResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidInputException,
+  ],
+}));
 /**
  * Deletes an existing blueprint.
  */
-export const deleteBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBlueprint: (
+  input: DeleteBlueprintRequest,
+) => Effect.Effect<
+  DeleteBlueprintResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBlueprintRequest,
   output: DeleteBlueprintResponse,
   errors: [
@@ -17028,24 +18984,42 @@ export const deleteBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a custom pattern by specifying its name.
  */
-export const deleteCustomEntityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCustomEntityTypeRequest,
-    output: DeleteCustomEntityTypeResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const deleteCustomEntityType: (
+  input: DeleteCustomEntityTypeRequest,
+) => Effect.Effect<
+  DeleteCustomEntityTypeResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomEntityTypeRequest,
+  output: DeleteCustomEntityTypeResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Deletes a specified job definition. If the job definition
  * is not found, no exception is thrown.
  */
-export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteJob: (
+  input: DeleteJobRequest,
+) => Effect.Effect<
+  DeleteJobResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobRequest,
   output: DeleteJobResponse,
   errors: [
@@ -17062,7 +19036,17 @@ export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `DeleteMLTransforms`. However, any Glue jobs that still reference the deleted
  * transform will no longer succeed.
  */
-export const deleteMLTransform = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMLTransform: (
+  input: DeleteMLTransformRequest,
+) => Effect.Effect<
+  DeleteMLTransformResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMLTransformRequest,
   output: DeleteMLTransformResponse,
   errors: [
@@ -17075,24 +19059,43 @@ export const deleteMLTransform = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a specified policy.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      ConditionCheckFailureException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | ConditionCheckFailureException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    ConditionCheckFailureException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Deletes a specified trigger. If the trigger is not found, no
  * exception is thrown.
  */
-export const deleteTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTrigger: (
+  input: DeleteTriggerRequest,
+) => Effect.Effect<
+  DeleteTriggerResponse,
+  | ConcurrentModificationException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTriggerRequest,
   output: DeleteTriggerResponse,
   errors: [
@@ -17105,68 +19108,107 @@ export const deleteTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a specified batch of versions of a table.
  */
-export const batchDeleteTableVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDeleteTableVersionRequest,
-    output: BatchDeleteTableVersionResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const batchDeleteTableVersion: (
+  input: BatchDeleteTableVersionRequest,
+) => Effect.Effect<
+  BatchDeleteTableVersionResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteTableVersionRequest,
+  output: BatchDeleteTableVersionResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Retrieves the details for the custom patterns specified by a list of names.
  */
-export const batchGetCustomEntityTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetCustomEntityTypesRequest,
-    output: BatchGetCustomEntityTypesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const batchGetCustomEntityTypes: (
+  input: BatchGetCustomEntityTypesRequest,
+) => Effect.Effect<
+  BatchGetCustomEntityTypesResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetCustomEntityTypesRequest,
+  output: BatchGetCustomEntityTypesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Retrieves a list of data quality results for the specified result IDs.
  */
-export const batchGetDataQualityResult = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetDataQualityResultRequest,
-    output: BatchGetDataQualityResultResponse,
-    errors: [
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const batchGetDataQualityResult: (
+  input: BatchGetDataQualityResultRequest,
+) => Effect.Effect<
+  BatchGetDataQualityResultResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetDataQualityResultRequest,
+  output: BatchGetDataQualityResultResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Returns a list of resource metadata for a given list of development endpoint names. After
  * calling the `ListDevEndpoints` operation, you can call this operation to access the
  * data to which you have been granted permissions. This operation supports all IAM permissions,
  * including permission conditions that uses tags.
  */
-export const batchGetDevEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetDevEndpointsRequest,
-    output: BatchGetDevEndpointsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const batchGetDevEndpoints: (
+  input: BatchGetDevEndpointsRequest,
+) => Effect.Effect<
+  BatchGetDevEndpointsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetDevEndpointsRequest,
+  output: BatchGetDevEndpointsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Returns a list of resource metadata for a given list of job names. After calling the `ListJobs` operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
  */
-export const batchGetJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetJobs: (
+  input: BatchGetJobsRequest,
+) => Effect.Effect<
+  BatchGetJobsResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetJobsRequest,
   output: BatchGetJobsResponse,
   errors: [
@@ -17178,7 +19220,16 @@ export const batchGetJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of resource metadata for a given list of trigger names. After calling the `ListTriggers` operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
  */
-export const batchGetTriggers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetTriggers: (
+  input: BatchGetTriggersRequest,
+) => Effect.Effect<
+  BatchGetTriggersResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetTriggersRequest,
   output: BatchGetTriggersResponse,
   errors: [
@@ -17190,7 +19241,16 @@ export const batchGetTriggers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops one or more job runs for a specified job definition.
  */
-export const batchStopJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchStopJobRun: (
+  input: BatchStopJobRunRequest,
+) => Effect.Effect<
+  BatchStopJobRunResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchStopJobRunRequest,
   output: BatchStopJobRunResponse,
   errors: [
@@ -17202,7 +19262,19 @@ export const batchStopJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists statements for the session.
  */
-export const listStatements = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listStatements: (
+  input: ListStatementsRequest,
+) => Effect.Effect<
+  ListStatementsResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | IllegalSessionStateException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListStatementsRequest,
   output: ListStatementsResponse,
   errors: [
@@ -17217,7 +19289,19 @@ export const listStatements = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops the session.
  */
-export const stopSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopSession: (
+  input: StopSessionRequest,
+) => Effect.Effect<
+  StopSessionResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | IllegalSessionStateException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopSessionRequest,
   output: StopSessionResponse,
   errors: [
@@ -17232,7 +19316,19 @@ export const stopSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels the statement.
  */
-export const cancelStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelStatement: (
+  input: CancelStatementRequest,
+) => Effect.Effect<
+  CancelStatementResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | IllegalSessionStateException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelStatementRequest,
   output: CancelStatementResponse,
   errors: [
@@ -17263,22 +19359,44 @@ export const cancelStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Note: The role used to write the generated labeling set to the `OutputS3Path` is the role
  * associated with the Machine Learning Transform, specified in the `CreateMLTransform` API.
  */
-export const startMLLabelingSetGenerationTaskRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartMLLabelingSetGenerationTaskRunRequest,
-    output: StartMLLabelingSetGenerationTaskRunResponse,
-    errors: [
-      ConcurrentRunsExceededException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const startMLLabelingSetGenerationTaskRun: (
+  input: StartMLLabelingSetGenerationTaskRunRequest,
+) => Effect.Effect<
+  StartMLLabelingSetGenerationTaskRunResponse,
+  | ConcurrentRunsExceededException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMLLabelingSetGenerationTaskRunRequest,
+  output: StartMLLabelingSetGenerationTaskRunResponse,
+  errors: [
+    ConcurrentRunsExceededException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Updates a registered blueprint.
  */
-export const updateBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBlueprint: (
+  input: UpdateBlueprintRequest,
+) => Effect.Effect<
+  UpdateBlueprintResponse,
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | IllegalBlueprintStateException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBlueprintRequest,
   output: UpdateBlueprintResponse,
   errors: [
@@ -17293,7 +19411,19 @@ export const updateBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Restarts selected nodes of a previous partially completed workflow run and resumes the workflow run. The selected nodes and all nodes that are downstream from the selected nodes are run.
  */
-export const resumeWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resumeWorkflowRun: (
+  input: ResumeWorkflowRunRequest,
+) => Effect.Effect<
+  ResumeWorkflowRunResponse,
+  | ConcurrentRunsExceededException
+  | EntityNotFoundException
+  | IllegalWorkflowStateException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeWorkflowRunRequest,
   output: ResumeWorkflowRunResponse,
   errors: [
@@ -17308,32 +19438,53 @@ export const resumeWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a list of connection definitions from the Data Catalog.
  */
-export const batchDeleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDeleteConnectionRequest,
-    output: BatchDeleteConnectionResponse,
-    errors: [InternalServiceException, OperationTimeoutException],
-  }),
-);
+export const batchDeleteConnection: (
+  input: BatchDeleteConnectionRequest,
+) => Effect.Effect<
+  BatchDeleteConnectionResponse,
+  InternalServiceException | OperationTimeoutException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteConnectionRequest,
+  output: BatchDeleteConnectionResponse,
+  errors: [InternalServiceException, OperationTimeoutException],
+}));
 /**
  * Deletes one or more partitions in a batch operation.
  */
-export const batchDeletePartition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDeletePartitionRequest,
-    output: BatchDeletePartitionResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const batchDeletePartition: (
+  input: BatchDeletePartitionRequest,
+) => Effect.Effect<
+  BatchDeletePartitionResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeletePartitionRequest,
+  output: BatchDeletePartitionResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Retrieves information about a list of blueprints.
  */
-export const batchGetBlueprints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetBlueprints: (
+  input: BatchGetBlueprintsRequest,
+) => Effect.Effect<
+  BatchGetBlueprintsResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetBlueprintsRequest,
   output: BatchGetBlueprintsResponse,
   errors: [
@@ -17345,7 +19496,13 @@ export const batchGetBlueprints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of resource metadata for a given list of crawler names. After calling the `ListCrawlers` operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
  */
-export const batchGetCrawlers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetCrawlers: (
+  input: BatchGetCrawlersRequest,
+) => Effect.Effect<
+  BatchGetCrawlersResponse,
+  InvalidInputException | OperationTimeoutException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetCrawlersRequest,
   output: BatchGetCrawlersResponse,
   errors: [InvalidInputException, OperationTimeoutException],
@@ -17353,23 +19510,41 @@ export const batchGetCrawlers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates one or more partitions in a batch operation.
  */
-export const batchUpdatePartition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchUpdatePartitionRequest,
-    output: BatchUpdatePartitionResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const batchUpdatePartition: (
+  input: BatchUpdatePartitionRequest,
+) => Effect.Effect<
+  BatchUpdatePartitionResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdatePartitionRequest,
+  output: BatchUpdatePartitionResponse,
+  errors: [
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Transforms a directed acyclic graph (DAG) into code.
  */
-export const createScript = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createScript: (
+  input: CreateScriptRequest,
+) => Effect.Effect<
+  CreateScriptResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScriptRequest,
   output: CreateScriptResponse,
   errors: [
@@ -17382,7 +19557,17 @@ export const createScript = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes a specified crawler from the Glue Data Catalog, unless the crawler state is
  * `RUNNING`.
  */
-export const deleteCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCrawler: (
+  input: DeleteCrawlerRequest,
+) => Effect.Effect<
+  DeleteCrawlerResponse,
+  | CrawlerRunningException
+  | EntityNotFoundException
+  | OperationTimeoutException
+  | SchedulerTransitioningException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCrawlerRequest,
   output: DeleteCrawlerResponse,
   errors: [
@@ -17407,7 +19592,20 @@ export const deleteCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `DeleteTable` or `BatchDeleteTable`, to delete any resources that
  * belong to the database.
  */
-export const deleteDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDatabase: (
+  input: DeleteDatabaseRequest,
+) => Effect.Effect<
+  DeleteDatabaseResponse,
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatabaseRequest,
   output: DeleteDatabaseResponse,
   errors: [
@@ -17429,22 +19627,36 @@ export const deleteDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned.
  */
-export const deleteSchemaVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSchemaVersionsInput,
-    output: DeleteSchemaVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      InvalidInputException,
-    ],
-  }),
-);
+export const deleteSchemaVersions: (
+  input: DeleteSchemaVersionsInput,
+) => Effect.Effect<
+  DeleteSchemaVersionsResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSchemaVersionsInput,
+  output: DeleteSchemaVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InvalidInputException,
+  ],
+}));
 /**
  * Retrieve a classifier by name.
  */
-export const getClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getClassifier: (
+  input: GetClassifierRequest,
+) => Effect.Effect<
+  GetClassifierResponse,
+  EntityNotFoundException | OperationTimeoutException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetClassifierRequest,
   output: GetClassifierResponse,
   errors: [EntityNotFoundException, OperationTimeoutException],
@@ -17452,16 +19664,24 @@ export const getClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets settings for a column statistics task.
  */
-export const getColumnStatisticsTaskSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetColumnStatisticsTaskSettingsRequest,
-    output: GetColumnStatisticsTaskSettingsResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const getColumnStatisticsTaskSettings: (
+  input: GetColumnStatisticsTaskSettingsRequest,
+) => Effect.Effect<
+  GetColumnStatisticsTaskSettingsResponse,
+  | EntityNotFoundException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetColumnStatisticsTaskSettingsRequest,
+  output: GetColumnStatisticsTaskSettingsResponse,
+  errors: [
+    EntityNotFoundException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * This API is used to query preview data from a given connection type or from a native Amazon S3 based Glue Data Catalog.
  *
@@ -17469,7 +19689,20 @@ export const getColumnStatisticsTaskSettings =
  *
  * Spark connectors generate schemas according to the same data type mapping as in the `DescribeEntity` API. Spark connectors convert data to the appropriate data types matching the schema when returning rows.
  */
-export const getEntityRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEntityRecords: (
+  input: GetEntityRecordsRequest,
+) => Effect.Effect<
+  GetEntityRecordsResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | FederationSourceException
+  | GlueEncryptionException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEntityRecordsRequest,
   output: GetEntityRecordsResponse,
   errors: [
@@ -17485,24 +19718,46 @@ export const getEntityRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This API is used for fetching the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target)
  */
-export const getIntegrationResourceProperty =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetIntegrationResourcePropertyRequest,
-    output: GetIntegrationResourcePropertyResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const getIntegrationResourceProperty: (
+  input: GetIntegrationResourcePropertyRequest,
+) => Effect.Effect<
+  GetIntegrationResourcePropertyResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServerException
+  | InternalServiceException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIntegrationResourcePropertyRequest,
+  output: GetIntegrationResourcePropertyResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServerException,
+    InternalServiceException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the metadata for a given job run. Job run history is accessible for 365 days for your workflow and job run.
  */
-export const getJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJobRun: (
+  input: GetJobRunRequest,
+) => Effect.Effect<
+  GetJobRunResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRunRequest,
   output: GetJobRunResponse,
   errors: [
@@ -17519,7 +19774,17 @@ export const getJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `GetMLTaskRun` with the `TaskRunID` and its parent transform's
  * `TransformID`.
  */
-export const getMLTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMLTaskRun: (
+  input: GetMLTaskRunRequest,
+) => Effect.Effect<
+  GetMLTaskRunResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMLTaskRunRequest,
   output: GetMLTaskRunResponse,
   errors: [
@@ -17538,47 +19803,126 @@ export const getMLTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation returns a list of historic runs and must be paginated.
  */
-export const getMLTaskRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getMLTaskRuns: {
+  (
     input: GetMLTaskRunsRequest,
-    output: GetMLTaskRunsResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetMLTaskRunsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetMLTaskRunsRequest,
+  ) => Stream.Stream<
+    GetMLTaskRunsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetMLTaskRunsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetMLTaskRunsRequest,
+  output: GetMLTaskRunsResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the partition indexes associated with a table.
  */
-export const getPartitionIndexes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getPartitionIndexes: {
+  (
     input: GetPartitionIndexesRequest,
-    output: GetPartitionIndexesResponse,
-    errors: [
-      ConflictException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PartitionIndexDescriptorList",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetPartitionIndexesResponse,
+    | ConflictException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetPartitionIndexesRequest,
+  ) => Stream.Stream<
+    GetPartitionIndexesResponse,
+    | ConflictException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetPartitionIndexesRequest,
+  ) => Stream.Stream<
+    PartitionIndexDescriptor,
+    | ConflictException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetPartitionIndexesRequest,
+  output: GetPartitionIndexesResponse,
+  errors: [
+    ConflictException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PartitionIndexDescriptorList",
+  } as const,
+}));
 /**
  * Returns the configuration of all optimizers associated with a specified table.
  */
-export const getTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTableOptimizer: (
+  input: GetTableOptimizerRequest,
+) => Effect.Effect<
+  GetTableOptimizerResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableOptimizerRequest,
   output: GetTableOptimizerResponse,
   errors: [
@@ -17592,7 +19936,17 @@ export const getTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the metadata for a given workflow run. Job run history is accessible for 90 days for your workflow and job run.
  */
-export const getWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkflowRun: (
+  input: GetWorkflowRunRequest,
+) => Effect.Effect<
+  GetWorkflowRunResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowRunRequest,
   output: GetWorkflowRunResponse,
   errors: [
@@ -17605,18 +19959,39 @@ export const getWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The `ListConnectionTypes` API provides a discovery mechanism to learn available connection types in Glue. The response contains a list of connection types with high-level details of what is supported for each connection type. The connection types listed are the set of supported options for the `ConnectionType` value in the `CreateConnection` API.
  */
-export const listConnectionTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConnectionTypes: {
+  (
     input: ListConnectionTypesRequest,
-    output: ListConnectionTypesResponse,
-    errors: [AccessDeniedException, InternalServiceException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConnectionTypes",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConnectionTypesResponse,
+    AccessDeniedException | InternalServiceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectionTypesRequest,
+  ) => Stream.Stream<
+    ListConnectionTypesResponse,
+    AccessDeniedException | InternalServiceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectionTypesRequest,
+  ) => Stream.Stream<
+    ConnectionTypeBrief,
+    AccessDeniedException | InternalServiceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectionTypesRequest,
+  output: ListConnectionTypesResponse,
+  errors: [AccessDeniedException, InternalServiceException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConnectionTypes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns all the crawls of a specified crawler. Returns only the crawls that have occurred since the launch date of the crawler history feature, and only retains up to 12 months of crawls. Older crawls will not be returned.
  *
@@ -17630,7 +20005,16 @@ export const listConnectionTypes =
  *
  * - Retrieve all the crawls of a specified crawler with a particular state, crawl ID, or DPU hour value.
  */
-export const listCrawls = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listCrawls: (
+  input: ListCrawlsRequest,
+) => Effect.Effect<
+  ListCrawlsResponse,
+  | EntityNotFoundException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCrawlsRequest,
   output: ListCrawlsResponse,
   errors: [
@@ -17642,191 +20026,414 @@ export const listCrawls = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns all data quality execution results for your account.
  */
-export const listDataQualityResults =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataQualityResults: {
+  (
     input: ListDataQualityResultsRequest,
-    output: ListDataQualityResultsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataQualityResultsResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataQualityResultsRequest,
+  ) => Stream.Stream<
+    ListDataQualityResultsResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataQualityResultsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataQualityResultsRequest,
+  output: ListDataQualityResultsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the recommendation runs meeting the filter criteria.
  */
-export const listDataQualityRuleRecommendationRuns =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataQualityRuleRecommendationRuns: {
+  (
     input: ListDataQualityRuleRecommendationRunsRequest,
-    output: ListDataQualityRuleRecommendationRunsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataQualityRuleRecommendationRunsResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataQualityRuleRecommendationRunsRequest,
+  ) => Stream.Stream<
+    ListDataQualityRuleRecommendationRunsResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataQualityRuleRecommendationRunsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataQualityRuleRecommendationRunsRequest,
+  output: ListDataQualityRuleRecommendationRunsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the runs meeting the filter criteria, where a ruleset is evaluated against a data source.
  */
-export const listDataQualityRulesetEvaluationRuns =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataQualityRulesetEvaluationRuns: {
+  (
     input: ListDataQualityRulesetEvaluationRunsRequest,
-    output: ListDataQualityRulesetEvaluationRunsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataQualityRulesetEvaluationRunsResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataQualityRulesetEvaluationRunsRequest,
+  ) => Stream.Stream<
+    ListDataQualityRulesetEvaluationRunsResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataQualityRulesetEvaluationRunsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataQualityRulesetEvaluationRunsRequest,
+  output: ListDataQualityRulesetEvaluationRunsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a paginated list of rulesets for the specified list of Glue tables.
  */
-export const listDataQualityRulesets =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataQualityRulesets: {
+  (
     input: ListDataQualityRulesetsRequest,
-    output: ListDataQualityRulesetsResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataQualityRulesetsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataQualityRulesetsRequest,
+  ) => Stream.Stream<
+    ListDataQualityRulesetsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataQualityRulesetsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataQualityRulesetsRequest,
+  output: ListDataQualityRulesetsResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieve annotations for a data quality statistic.
  */
-export const listDataQualityStatisticAnnotations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDataQualityStatisticAnnotationsRequest,
-    output: ListDataQualityStatisticAnnotationsResponse,
-    errors: [InternalServiceException, InvalidInputException],
-  }));
+export const listDataQualityStatisticAnnotations: (
+  input: ListDataQualityStatisticAnnotationsRequest,
+) => Effect.Effect<
+  ListDataQualityStatisticAnnotationsResponse,
+  InternalServiceException | InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDataQualityStatisticAnnotationsRequest,
+  output: ListDataQualityStatisticAnnotationsResponse,
+  errors: [InternalServiceException, InvalidInputException],
+}));
 /**
  * Retrieves a list of data quality statistics.
  */
-export const listDataQualityStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDataQualityStatisticsRequest,
-    output: ListDataQualityStatisticsResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-    ],
-  }),
-);
+export const listDataQualityStatistics: (
+  input: ListDataQualityStatisticsRequest,
+) => Effect.Effect<
+  ListDataQualityStatisticsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDataQualityStatisticsRequest,
+  output: ListDataQualityStatisticsResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+  ],
+}));
 /**
  * List integration resource properties for a single customer. It supports the filters, maxRecords and markers.
  */
-export const listIntegrationResourceProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListIntegrationResourcePropertiesRequest,
-    output: ListIntegrationResourcePropertiesResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const listIntegrationResourceProperties: (
+  input: ListIntegrationResourcePropertiesRequest,
+) => Effect.Effect<
+  ListIntegrationResourcePropertiesResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServerException
+  | InternalServiceException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIntegrationResourcePropertiesRequest,
+  output: ListIntegrationResourcePropertiesResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServerException,
+    InternalServiceException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * List all the Glue usage profiles.
  */
-export const listUsageProfiles = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listUsageProfiles: {
+  (
     input: ListUsageProfilesRequest,
-    output: ListUsageProfilesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidInputException,
-      OperationNotSupportedException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Profiles",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListUsageProfilesResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationNotSupportedException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUsageProfilesRequest,
+  ) => Stream.Stream<
+    ListUsageProfilesResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationNotSupportedException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUsageProfilesRequest,
+  ) => Stream.Stream<
+    UsageProfileDefinition,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationNotSupportedException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUsageProfilesRequest,
+  output: ListUsageProfilesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationNotSupportedException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Profiles",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Puts the metadata key value pair for a specified schema version ID. A maximum of 10 key value pairs will be allowed per schema version. They can be added over one or more calls.
  */
-export const putSchemaVersionMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutSchemaVersionMetadataInput,
-    output: PutSchemaVersionMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      EntityNotFoundException,
-      InvalidInputException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
+export const putSchemaVersionMetadata: (
+  input: PutSchemaVersionMetadataInput,
+) => Effect.Effect<
+  PutSchemaVersionMetadataResponse,
+  | AccessDeniedException
+  | AlreadyExistsException
+  | EntityNotFoundException
+  | InvalidInputException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutSchemaVersionMetadataInput,
+  output: PutSchemaVersionMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    EntityNotFoundException,
+    InvalidInputException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
 /**
  * Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking.
  *
  * Recommendation runs are automatically deleted after 90 days.
  */
-export const startDataQualityRuleRecommendationRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDataQualityRuleRecommendationRunRequest,
-    output: StartDataQualityRuleRecommendationRunResponse,
-    errors: [
-      ConflictException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const startDataQualityRuleRecommendationRun: (
+  input: StartDataQualityRuleRecommendationRunRequest,
+) => Effect.Effect<
+  StartDataQualityRuleRecommendationRunResponse,
+  | ConflictException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDataQualityRuleRecommendationRunRequest,
+  output: StartDataQualityRuleRecommendationRunResponse,
+  errors: [
+    ConflictException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Changes the schedule state of the specified crawler to
  * `SCHEDULED`, unless the crawler is already running or the
  * schedule state is already `SCHEDULED`.
  */
-export const startCrawlerSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartCrawlerScheduleRequest,
-    output: StartCrawlerScheduleResponse,
-    errors: [
-      EntityNotFoundException,
-      NoScheduleException,
-      OperationTimeoutException,
-      SchedulerRunningException,
-      SchedulerTransitioningException,
-    ],
-  }),
-);
+export const startCrawlerSchedule: (
+  input: StartCrawlerScheduleRequest,
+) => Effect.Effect<
+  StartCrawlerScheduleResponse,
+  | EntityNotFoundException
+  | NoScheduleException
+  | OperationTimeoutException
+  | SchedulerRunningException
+  | SchedulerTransitioningException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCrawlerScheduleRequest,
+  output: StartCrawlerScheduleResponse,
+  errors: [
+    EntityNotFoundException,
+    NoScheduleException,
+    OperationTimeoutException,
+    SchedulerRunningException,
+    SchedulerTransitioningException,
+  ],
+}));
 /**
  * Creates a new catalog in the Glue Data Catalog.
  */
-export const createCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCatalog: (
+  input: CreateCatalogRequest,
+) => Effect.Effect<
+  CreateCatalogResponse,
+  | AccessDeniedException
+  | AlreadyExistsException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | FederatedResourceAlreadyExistsException
+  | FederationSourceException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCatalogRequest,
   output: CreateCatalogResponse,
   errors: [
@@ -17856,7 +20463,19 @@ export const createCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `BatchDeletePartition`, to delete any resources that belong to the
  * table.
  */
-export const batchDeleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchDeleteTable: (
+  input: BatchDeleteTableRequest,
+) => Effect.Effect<
+  BatchDeleteTableResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNotReadyException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteTableRequest,
   output: BatchDeleteTableResponse,
   errors: [
@@ -17873,7 +20492,17 @@ export const batchDeleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `NOT_SCHEDULED`, but does not stop the crawler if it is
  * already running.
  */
-export const stopCrawlerSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopCrawlerSchedule: (
+  input: StopCrawlerScheduleRequest,
+) => Effect.Effect<
+  StopCrawlerScheduleResponse,
+  | EntityNotFoundException
+  | OperationTimeoutException
+  | SchedulerNotRunningException
+  | SchedulerTransitioningException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopCrawlerScheduleRequest,
   output: StopCrawlerScheduleResponse,
   errors: [
@@ -17886,7 +20515,20 @@ export const stopCrawlerSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the definition of a specified database.
  */
-export const getDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDatabase: (
+  input: GetDatabaseRequest,
+) => Effect.Effect<
+  GetDatabaseResponse,
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDatabaseRequest,
   output: GetDatabaseResponse,
   errors: [
@@ -17903,7 +20545,21 @@ export const getDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves the `Table` definition in a Data Catalog for
  * a specified table.
  */
-export const getTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTable: (
+  input: GetTableRequest,
+) => Effect.Effect<
+  GetTableResponse,
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNotReadyException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableRequest,
   output: GetTableResponse,
   errors: [
@@ -17920,7 +20576,21 @@ export const getTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves all catalogs defined in a catalog in the Glue Data Catalog. For a Redshift-federated catalog use case, this operation returns the list of catalogs mapped to Redshift databases in the Redshift namespace catalog.
  */
-export const getCatalogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCatalogs: (
+  input: GetCatalogsRequest,
+) => Effect.Effect<
+  GetCatalogsResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCatalogsRequest,
   output: GetCatalogsResponse,
   errors: [
@@ -17937,30 +20607,84 @@ export const getCatalogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves all databases defined in a given Data Catalog.
  */
-export const getDatabases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getDatabases: {
+  (
     input: GetDatabasesRequest,
-    output: GetDatabasesResponse,
-    errors: [
-      EntityNotFoundException,
-      FederationSourceException,
-      FederationSourceRetryableException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetDatabasesResponse,
+    | EntityNotFoundException
+    | FederationSourceException
+    | FederationSourceRetryableException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetDatabasesRequest,
+  ) => Stream.Stream<
+    GetDatabasesResponse,
+    | EntityNotFoundException
+    | FederationSourceException
+    | FederationSourceRetryableException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetDatabasesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | FederationSourceException
+    | FederationSourceRetryableException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetDatabasesRequest,
+  output: GetDatabasesResponse,
+  errors: [
+    EntityNotFoundException,
+    FederationSourceException,
+    FederationSourceRetryableException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves information about a specified partition.
  */
-export const getPartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPartition: (
+  input: GetPartitionRequest,
+) => Effect.Effect<
+  GetPartitionResponse,
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPartitionRequest,
   output: GetPartitionResponse,
   errors: [
@@ -17976,7 +20700,22 @@ export const getPartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing database definition in a Data Catalog.
  */
-export const updateDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDatabase: (
+  input: UpdateDatabaseRequest,
+) => Effect.Effect<
+  UpdateDatabaseResponse,
+  | AlreadyExistsException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDatabaseRequest,
   output: UpdateDatabaseResponse,
   errors: [
@@ -18004,7 +20743,21 @@ export const updateDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `BatchDeletePartition`, to delete any resources that belong to the
  * table.
  */
-export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTable: (
+  input: DeleteTableRequest,
+) => Effect.Effect<
+  DeleteTableResponse,
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNotReadyException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableRequest,
   output: DeleteTableResponse,
   errors: [
@@ -18021,7 +20774,23 @@ export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new database in a Data Catalog.
  */
-export const createDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDatabase: (
+  input: CreateDatabaseRequest,
+) => Effect.Effect<
+  CreateDatabaseResponse,
+  | AlreadyExistsException
+  | ConcurrentModificationException
+  | FederatedResourceAlreadyExistsException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatabaseRequest,
   output: CreateDatabaseResponse,
   errors: [
@@ -18042,7 +20811,17 @@ export const createDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * an `XMLClassifier`, a `JsonClassifier`, or a `CsvClassifier`, depending on
  * which field is present).
  */
-export const updateClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateClassifier: (
+  input: UpdateClassifierRequest,
+) => Effect.Effect<
+  UpdateClassifierResponse,
+  | EntityNotFoundException
+  | InvalidInputException
+  | OperationTimeoutException
+  | VersionMismatchException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClassifierRequest,
   output: UpdateClassifierResponse,
   errors: [
@@ -18063,7 +20842,18 @@ export const updateClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Job structure
  */
-export const getJobBookmark = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJobBookmark: (
+  input: GetJobBookmarkRequest,
+) => Effect.Effect<
+  GetJobBookmarkResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobBookmarkRequest,
   output: GetJobBookmarkResponse,
   errors: [
@@ -18077,30 +20867,82 @@ export const getJobBookmark = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the available entities supported by the connection type.
  */
-export const listEntities = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEntities: {
+  (
     input: ListEntitiesRequest,
-    output: ListEntitiesResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      FederationSourceException,
-      GlueEncryptionException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Entities",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEntitiesResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | FederationSourceException
+    | GlueEncryptionException
+    | InvalidInputException
+    | OperationTimeoutException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEntitiesRequest,
+  ) => Stream.Stream<
+    ListEntitiesResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | FederationSourceException
+    | GlueEncryptionException
+    | InvalidInputException
+    | OperationTimeoutException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEntitiesRequest,
+  ) => Stream.Stream<
+    Entity,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | FederationSourceException
+    | GlueEncryptionException
+    | InvalidInputException
+    | OperationTimeoutException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEntitiesRequest,
+  output: ListEntitiesResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    FederationSourceException,
+    GlueEncryptionException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Entities",
+  } as const,
+}));
 /**
  * Updates a specified development endpoint.
  */
-export const updateDevEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDevEndpoint: (
+  input: UpdateDevEndpointRequest,
+) => Effect.Effect<
+  UpdateDevEndpointResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDevEndpointRequest,
   output: UpdateDevEndpointResponse,
   errors: [
@@ -18116,278 +20958,487 @@ export const updateDevEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API supports optional parameters which take in the repository information.
  */
-export const updateJobFromSourceControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateJobFromSourceControlRequest,
-    output: UpdateJobFromSourceControlResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateJobFromSourceControl: (
+  input: UpdateJobFromSourceControlRequest,
+) => Effect.Effect<
+  UpdateJobFromSourceControlResponse,
+  | AccessDeniedException
+  | AlreadyExistsException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateJobFromSourceControlRequest,
+  output: UpdateJobFromSourceControlResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ValidationException,
+  ],
+}));
 /**
  * Synchronizes a job to the source control repository. This operation takes the job artifacts from the Glue internal stores and makes a commit to the remote repository that is configured on the job.
  *
  * This API supports optional parameters which take in the repository information.
  */
-export const updateSourceControlFromJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSourceControlFromJobRequest,
-    output: UpdateSourceControlFromJobResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateSourceControlFromJob: (
+  input: UpdateSourceControlFromJobRequest,
+) => Effect.Effect<
+  UpdateSourceControlFromJobResponse,
+  | AccessDeniedException
+  | AlreadyExistsException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSourceControlFromJobRequest,
+  output: UpdateSourceControlFromJobResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ValidationException,
+  ],
+}));
 /**
  * Provides details regarding the entity used with the connection type, with a description of the data model for each field in the selected entity.
  *
  * The response includes all the fields which make up the entity.
  */
-export const describeEntity = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeEntity: {
+  (
     input: DescribeEntityRequest,
-    output: DescribeEntityResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      FederationSourceException,
-      GlueEncryptionException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Fields",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeEntityResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | FederationSourceException
+    | GlueEncryptionException
+    | InvalidInputException
+    | OperationTimeoutException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEntityRequest,
+  ) => Stream.Stream<
+    DescribeEntityResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | FederationSourceException
+    | GlueEncryptionException
+    | InvalidInputException
+    | OperationTimeoutException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEntityRequest,
+  ) => Stream.Stream<
+    Field,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | FederationSourceException
+    | GlueEncryptionException
+    | InvalidInputException
+    | OperationTimeoutException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEntityRequest,
+  output: DescribeEntityResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    FederationSourceException,
+    GlueEncryptionException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Fields",
+  } as const,
+}));
 /**
  * The API is used to retrieve a list of integrations.
  */
-export const describeIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeIntegrationsRequest,
-    output: DescribeIntegrationsResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      IntegrationNotFoundFault,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeIntegrations: (
+  input: DescribeIntegrationsRequest,
+) => Effect.Effect<
+  DescribeIntegrationsResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | IntegrationNotFoundFault
+  | InternalServerException
+  | InternalServiceException
+  | InvalidInputException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIntegrationsRequest,
+  output: DescribeIntegrationsResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    IntegrationNotFoundFault,
+    InternalServerException,
+    InternalServiceException,
+    InvalidInputException,
+    ValidationException,
+  ],
+}));
 /**
  * This API is used to retrieve optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partition for source and target tables.
  */
-export const getIntegrationTableProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetIntegrationTablePropertiesRequest,
-    output: GetIntegrationTablePropertiesResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const getIntegrationTableProperties: (
+  input: GetIntegrationTablePropertiesRequest,
+) => Effect.Effect<
+  GetIntegrationTablePropertiesResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServerException
+  | InternalServiceException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIntegrationTablePropertiesRequest,
+  output: GetIntegrationTablePropertiesResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServerException,
+    InternalServiceException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * This API can be used for updating the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, updating resource properties will impact all the integrations using it.
  */
-export const updateIntegrationResourceProperty =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateIntegrationResourcePropertyRequest,
-    output: UpdateIntegrationResourcePropertyResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const updateIntegrationResourceProperty: (
+  input: UpdateIntegrationResourcePropertyRequest,
+) => Effect.Effect<
+  UpdateIntegrationResourcePropertyResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServerException
+  | InternalServiceException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIntegrationResourcePropertyRequest,
+  output: UpdateIntegrationResourcePropertyResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServerException,
+    InternalServiceException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * This API is used for deleting the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target).
  */
-export const deleteIntegrationResourceProperty =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteIntegrationResourcePropertyRequest,
-    output: DeleteIntegrationResourcePropertyResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const deleteIntegrationResourceProperty: (
+  input: DeleteIntegrationResourcePropertyRequest,
+) => Effect.Effect<
+  DeleteIntegrationResourcePropertyResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServerException
+  | InternalServiceException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIntegrationResourcePropertyRequest,
+  output: DeleteIntegrationResourcePropertyResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServerException,
+    InternalServiceException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the table properties that have been created for the tables that need to be replicated.
  */
-export const deleteIntegrationTableProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteIntegrationTablePropertiesRequest,
-    output: DeleteIntegrationTablePropertiesResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const deleteIntegrationTableProperties: (
+  input: DeleteIntegrationTablePropertiesRequest,
+) => Effect.Effect<
+  DeleteIntegrationTablePropertiesResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServerException
+  | InternalServiceException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIntegrationTablePropertiesRequest,
+  output: DeleteIntegrationTablePropertiesResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServerException,
+    InternalServiceException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * This API is used to provide optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as `ResourceArn` with `SourceTableConfig`, and the Glue database ARN as `ResourceArn` with `TargetTableConfig` respectively.
  *
  * The override will be reflected across all the integrations using same `ResourceArn` and source table.
  */
-export const updateIntegrationTableProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateIntegrationTablePropertiesRequest,
-    output: UpdateIntegrationTablePropertiesResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const updateIntegrationTableProperties: (
+  input: UpdateIntegrationTablePropertiesRequest,
+) => Effect.Effect<
+  UpdateIntegrationTablePropertiesResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServerException
+  | InternalServiceException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIntegrationTablePropertiesRequest,
+  output: UpdateIntegrationTablePropertiesResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServerException,
+    InternalServiceException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * This API can be used for setting up the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. To set both source and target properties the same API needs to be invoked with the Glue connection ARN as `ResourceArn` with `SourceProcessingProperties` and the Glue database ARN as `ResourceArn` with `TargetProcessingProperties` respectively.
  */
-export const createIntegrationResourceProperty =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateIntegrationResourcePropertyRequest,
-    output: CreateIntegrationResourcePropertyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const createIntegrationResourceProperty: (
+  input: CreateIntegrationResourcePropertyRequest,
+) => Effect.Effect<
+  CreateIntegrationResourcePropertyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | EntityNotFoundException
+  | InternalServerException
+  | InternalServiceException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIntegrationResourcePropertyRequest,
+  output: CreateIntegrationResourcePropertyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    EntityNotFoundException,
+    InternalServerException,
+    InternalServiceException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * This API is used to provide optional override properties for the the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as `ResourceArn` with `SourceTableConfig`, and the Glue database ARN as `ResourceArn` with `TargetTableConfig` respectively.
  */
-export const createIntegrationTableProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateIntegrationTablePropertiesRequest,
-    output: CreateIntegrationTablePropertiesResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const createIntegrationTableProperties: (
+  input: CreateIntegrationTablePropertiesRequest,
+) => Effect.Effect<
+  CreateIntegrationTablePropertiesResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServerException
+  | InternalServiceException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIntegrationTablePropertiesRequest,
+  output: CreateIntegrationTablePropertiesResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServerException,
+    InternalServiceException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an optimizer and all associated metadata for a table. The optimization will no longer be performed on the table.
  */
-export const deleteTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTableOptimizerRequest,
-    output: DeleteTableOptimizerResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteTableOptimizer: (
+  input: DeleteTableOptimizerRequest,
+) => Effect.Effect<
+  DeleteTableOptimizerResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTableOptimizerRequest,
+  output: DeleteTableOptimizerResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the configuration for an existing table optimizer.
  */
-export const updateTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTableOptimizerRequest,
-    output: UpdateTableOptimizerResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateTableOptimizer: (
+  input: UpdateTableOptimizerRequest,
+) => Effect.Effect<
+  UpdateTableOptimizerResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTableOptimizerRequest,
+  output: UpdateTableOptimizerResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the configuration for the specified table optimizers.
  */
-export const batchGetTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetTableOptimizerRequest,
-    output: BatchGetTableOptimizerResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const batchGetTableOptimizer: (
+  input: BatchGetTableOptimizerRequest,
+) => Effect.Effect<
+  BatchGetTableOptimizerResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetTableOptimizerRequest,
+  output: BatchGetTableOptimizerResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a new table optimizer for a specific function.
  */
-export const createTableOptimizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTableOptimizerRequest,
-    output: CreateTableOptimizerResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createTableOptimizer: (
+  input: CreateTableOptimizerRequest,
+) => Effect.Effect<
+  CreateTableOptimizerResponse,
+  | AccessDeniedException
+  | AlreadyExistsException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTableOptimizerRequest,
+  output: CreateTableOptimizerResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the Glue specified usage profile.
  */
-export const deleteUsageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUsageProfile: (
+  input: DeleteUsageProfileRequest,
+) => Effect.Effect<
+  DeleteUsageProfileResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationNotSupportedException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUsageProfileRequest,
   output: DeleteUsageProfileResponse,
   errors: [
@@ -18400,7 +21451,18 @@ export const deleteUsageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the specified Glue usage profile.
  */
-export const getUsageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUsageProfile: (
+  input: GetUsageProfileRequest,
+) => Effect.Effect<
+  GetUsageProfileResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationNotSupportedException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsageProfileRequest,
   output: GetUsageProfileResponse,
   errors: [
@@ -18414,7 +21476,19 @@ export const getUsageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update an Glue usage profile.
  */
-export const updateUsageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUsageProfile: (
+  input: UpdateUsageProfileRequest,
+) => Effect.Effect<
+  UpdateUsageProfileResponse,
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationNotSupportedException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUsageProfileRequest,
   output: UpdateUsageProfileResponse,
   errors: [
@@ -18429,7 +21503,19 @@ export const updateUsageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a new run of the specified blueprint.
  */
-export const startBlueprintRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startBlueprintRun: (
+  input: StartBlueprintRunRequest,
+) => Effect.Effect<
+  StartBlueprintRunResponse,
+  | EntityNotFoundException
+  | IllegalBlueprintStateException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartBlueprintRunRequest,
   output: StartBlueprintRunResponse,
   errors: [
@@ -18444,55 +21530,88 @@ export const startBlueprintRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a column statistics task run, for a specified table and columns.
  */
-export const startColumnStatisticsTaskRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartColumnStatisticsTaskRunRequest,
-    output: StartColumnStatisticsTaskRunResponse,
-    errors: [
-      AccessDeniedException,
-      ColumnStatisticsTaskRunningException,
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }));
+export const startColumnStatisticsTaskRun: (
+  input: StartColumnStatisticsTaskRunRequest,
+) => Effect.Effect<
+  StartColumnStatisticsTaskRunResponse,
+  | AccessDeniedException
+  | ColumnStatisticsTaskRunningException
+  | EntityNotFoundException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartColumnStatisticsTaskRunRequest,
+  output: StartColumnStatisticsTaskRunResponse,
+  errors: [
+    AccessDeniedException,
+    ColumnStatisticsTaskRunningException,
+    EntityNotFoundException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
 /**
  * Updates the specified data quality ruleset.
  */
-export const updateDataQualityRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDataQualityRulesetRequest,
-    output: UpdateDataQualityRulesetResponse,
-    errors: [
-      AlreadyExistsException,
-      EntityNotFoundException,
-      IdempotentParameterMismatchException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
+export const updateDataQualityRuleset: (
+  input: UpdateDataQualityRulesetRequest,
+) => Effect.Effect<
+  UpdateDataQualityRulesetResponse,
+  | AlreadyExistsException
+  | EntityNotFoundException
+  | IdempotentParameterMismatchException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataQualityRulesetRequest,
+  output: UpdateDataQualityRulesetResponse,
+  errors: [
+    AlreadyExistsException,
+    EntityNotFoundException,
+    IdempotentParameterMismatchException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
 /**
  * Creates a specified partition index in an existing table.
  */
-export const createPartitionIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePartitionIndexRequest,
-    output: CreatePartitionIndexResponse,
-    errors: [
-      AlreadyExistsException,
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
+export const createPartitionIndex: (
+  input: CreatePartitionIndexRequest,
+) => Effect.Effect<
+  CreatePartitionIndexResponse,
+  | AlreadyExistsException
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePartitionIndexRequest,
+  output: CreatePartitionIndexResponse,
+  errors: [
+    AlreadyExistsException,
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
 /**
  * Tests a connection to a service to validate the service credentials that you provide.
  *
@@ -18500,7 +21619,22 @@ export const createPartitionIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * If the action is successful, the service sends back an HTTP 200 response.
  */
-export const testConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testConnection: (
+  input: TestConnectionRequest,
+) => Effect.Effect<
+  TestConnectionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | EntityNotFoundException
+  | FederationSourceException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestConnectionRequest,
   output: TestConnectionResponse,
   errors: [
@@ -18522,20 +21656,30 @@ export const testConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If the same schema definition is already stored in Schema Registry as a version, the schema ID of the existing schema is returned to the caller.
  */
-export const registerSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterSchemaVersionInput,
-    output: RegisterSchemaVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
+export const registerSchemaVersion: (
+  input: RegisterSchemaVersionInput,
+) => Effect.Effect<
+  RegisterSchemaVersionResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterSchemaVersionInput,
+  output: RegisterSchemaVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
 /**
  * Enables you to provide additional labels (examples of truth) to be used to teach the
  * machine learning transform and improve its quality. This API operation is generally used as
@@ -18563,41 +21707,73 @@ export const registerSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can check on the status of your task run by calling the `GetMLTaskRun`
  * operation.
  */
-export const startImportLabelsTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartImportLabelsTaskRunRequest,
-    output: StartImportLabelsTaskRunResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
+export const startImportLabelsTaskRun: (
+  input: StartImportLabelsTaskRunRequest,
+) => Effect.Effect<
+  StartImportLabelsTaskRunResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartImportLabelsTaskRunRequest,
+  output: StartImportLabelsTaskRunResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
 /**
  * Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
  */
-export const putWorkflowRunProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutWorkflowRunPropertiesRequest,
-    output: PutWorkflowRunPropertiesResponse,
-    errors: [
-      AlreadyExistsException,
-      ConcurrentModificationException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
+export const putWorkflowRunProperties: (
+  input: PutWorkflowRunPropertiesRequest,
+) => Effect.Effect<
+  PutWorkflowRunPropertiesResponse,
+  | AlreadyExistsException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutWorkflowRunPropertiesRequest,
+  output: PutWorkflowRunPropertiesResponse,
+  errors: [
+    AlreadyExistsException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
 /**
  * Creates a new registry which may be used to hold a collection of schemas.
  */
-export const createRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRegistry: (
+  input: CreateRegistryInput,
+) => Effect.Effect<
+  CreateRegistryResponse,
+  | AccessDeniedException
+  | AlreadyExistsException
+  | ConcurrentModificationException
+  | InternalServiceException
+  | InvalidInputException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRegistryInput,
   output: CreateRegistryResponse,
   errors: [
@@ -18612,7 +21788,18 @@ export const createRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Registers a blueprint with Glue.
  */
-export const createBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBlueprint: (
+  input: CreateBlueprintRequest,
+) => Effect.Effect<
+  CreateBlueprintResponse,
+  | AlreadyExistsException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBlueprintRequest,
   output: CreateBlueprintResponse,
   errors: [
@@ -18628,7 +21815,17 @@ export const createBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * At least one crawl target must be specified, in the `s3Targets` field, the
  * `jdbcTargets` field, or the `DynamoDBTargets` field.
  */
-export const createCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCrawler: (
+  input: CreateCrawlerRequest,
+) => Effect.Effect<
+  CreateCrawlerResponse,
+  | AlreadyExistsException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCrawlerRequest,
   output: CreateCrawlerResponse,
   errors: [
@@ -18643,23 +21840,45 @@ export const createCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide.
  */
-export const createDataQualityRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataQualityRulesetRequest,
-    output: CreateDataQualityRulesetResponse,
-    errors: [
-      AlreadyExistsException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
+export const createDataQualityRuleset: (
+  input: CreateDataQualityRulesetRequest,
+) => Effect.Effect<
+  CreateDataQualityRulesetResponse,
+  | AlreadyExistsException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataQualityRulesetRequest,
+  output: CreateDataQualityRulesetResponse,
+  errors: [
+    AlreadyExistsException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
 /**
  * Creates a new partition.
  */
-export const createPartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPartition: (
+  input: CreatePartitionRequest,
+) => Effect.Effect<
+  CreatePartitionResponse,
+  | AlreadyExistsException
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePartitionRequest,
   output: CreatePartitionResponse,
   errors: [
@@ -18679,7 +21898,20 @@ export const createPartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When this API is called without a `RegistryId`, this will create an entry for a "default-registry" in the registry database tables, if it is not already present.
  */
-export const createSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSchema: (
+  input: CreateSchemaInput,
+) => Effect.Effect<
+  CreateSchemaResponse,
+  | AccessDeniedException
+  | AlreadyExistsException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSchemaInput,
   output: CreateSchemaResponse,
   errors: [
@@ -18695,25 +21927,48 @@ export const createSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new function definition in the Data Catalog.
  */
-export const createUserDefinedFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateUserDefinedFunctionRequest,
-    output: CreateUserDefinedFunctionResponse,
-    errors: [
-      AlreadyExistsException,
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
+export const createUserDefinedFunction: (
+  input: CreateUserDefinedFunctionRequest,
+) => Effect.Effect<
+  CreateUserDefinedFunctionResponse,
+  | AlreadyExistsException
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserDefinedFunctionRequest,
+  output: CreateUserDefinedFunctionResponse,
+  errors: [
+    AlreadyExistsException,
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
 /**
  * Creates a new workflow.
  */
-export const createWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkflow: (
+  input: CreateWorkflowRequest,
+) => Effect.Effect<
+  CreateWorkflowResponse,
+  | AlreadyExistsException
+  | ConcurrentModificationException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkflowRequest,
   output: CreateWorkflowResponse,
   errors: [
@@ -18728,7 +21983,21 @@ export const createWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Executes the statement.
  */
-export const runStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const runStatement: (
+  input: RunStatementRequest,
+) => Effect.Effect<
+  RunStatementResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | IllegalSessionStateException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunStatementRequest,
   output: RunStatementResponse,
   errors: [
@@ -18745,7 +22014,19 @@ export const runStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a job run using a job definition.
  */
-export const startJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startJobRun: (
+  input: StartJobRunRequest,
+) => Effect.Effect<
+  StartJobRunResponse,
+  | ConcurrentRunsExceededException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartJobRunRequest,
   output: StartJobRunResponse,
   errors: [
@@ -18762,7 +22043,19 @@ export const startJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Jobs for information about how different types of trigger are
  * started.
  */
-export const startTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startTrigger: (
+  input: StartTriggerRequest,
+) => Effect.Effect<
+  StartTriggerResponse,
+  | ConcurrentRunsExceededException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTriggerRequest,
   output: StartTriggerResponse,
   errors: [
@@ -18777,7 +22070,19 @@ export const startTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a new run of the specified workflow.
  */
-export const startWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startWorkflowRun: (
+  input: StartWorkflowRunRequest,
+) => Effect.Effect<
+  StartWorkflowRunResponse,
+  | ConcurrentRunsExceededException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartWorkflowRunRequest,
   output: StartWorkflowRunResponse,
   errors: [
@@ -18792,44 +22097,81 @@ export const startWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates settings for a column statistics task.
  */
-export const createColumnStatisticsTaskSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateColumnStatisticsTaskSettingsRequest,
-    output: CreateColumnStatisticsTaskSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      ColumnStatisticsTaskRunningException,
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }));
+export const createColumnStatisticsTaskSettings: (
+  input: CreateColumnStatisticsTaskSettingsRequest,
+) => Effect.Effect<
+  CreateColumnStatisticsTaskSettingsResponse,
+  | AccessDeniedException
+  | AlreadyExistsException
+  | ColumnStatisticsTaskRunningException
+  | EntityNotFoundException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateColumnStatisticsTaskSettingsRequest,
+  output: CreateColumnStatisticsTaskSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    ColumnStatisticsTaskRunningException,
+    EntityNotFoundException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
 /**
  * Creates a custom pattern that is used to detect sensitive data across the columns and rows of your structured data.
  *
  * Each custom pattern you create specifies a regular expression and an optional list of context words. If no context words are passed only a regular expression is checked.
  */
-export const createCustomEntityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCustomEntityTypeRequest,
-    output: CreateCustomEntityTypeResponse,
-    errors: [
-      AccessDeniedException,
-      AlreadyExistsException,
-      IdempotentParameterMismatchException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
+export const createCustomEntityType: (
+  input: CreateCustomEntityTypeRequest,
+) => Effect.Effect<
+  CreateCustomEntityTypeResponse,
+  | AccessDeniedException
+  | AlreadyExistsException
+  | IdempotentParameterMismatchException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomEntityTypeRequest,
+  output: CreateCustomEntityTypeResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    IdempotentParameterMismatchException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
 /**
  * Creates a new development endpoint.
  */
-export const createDevEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDevEndpoint: (
+  input: CreateDevEndpointRequest,
+) => Effect.Effect<
+  CreateDevEndpointResponse,
+  | AccessDeniedException
+  | AlreadyExistsException
+  | IdempotentParameterMismatchException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDevEndpointRequest,
   output: CreateDevEndpointResponse,
   errors: [
@@ -18846,7 +22188,21 @@ export const createDevEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new session.
  */
-export const createSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSession: (
+  input: CreateSessionRequest,
+) => Effect.Effect<
+  CreateSessionResponse,
+  | AccessDeniedException
+  | AlreadyExistsException
+  | IdempotentParameterMismatchException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSessionRequest,
   output: CreateSessionResponse,
   errors: [
@@ -18865,17 +22221,26 @@ export const createSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The API requires both profileID and statisticID as part of the InclusionAnnotation input.
  * The API only works for a single statisticId across multiple profiles.
  */
-export const batchPutDataQualityStatisticAnnotation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchPutDataQualityStatisticAnnotationRequest,
-    output: BatchPutDataQualityStatisticAnnotationResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      ResourceNumberLimitExceededException,
-    ],
-  }));
+export const batchPutDataQualityStatisticAnnotation: (
+  input: BatchPutDataQualityStatisticAnnotationRequest,
+) => Effect.Effect<
+  BatchPutDataQualityStatisticAnnotationResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchPutDataQualityStatisticAnnotationRequest,
+  output: BatchPutDataQualityStatisticAnnotationResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
 /**
  * Creates an Glue machine learning transform. This operation creates the transform and
  * all the necessary parameters to train it.
@@ -18891,7 +22256,20 @@ export const batchPutDataQualityStatisticAnnotation =
  * `AllocatedCapacity`, `Timeout`, and `MaxRetries`. For more
  * information, see Jobs.
  */
-export const createMLTransform = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMLTransform: (
+  input: CreateMLTransformRequest,
+) => Effect.Effect<
+  CreateMLTransformResponse,
+  | AccessDeniedException
+  | AlreadyExistsException
+  | IdempotentParameterMismatchException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMLTransformRequest,
   output: CreateMLTransformResponse,
   errors: [
@@ -18907,25 +22285,48 @@ export const createMLTransform = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in Glue, see Encrypting Data Written by Crawlers, Jobs, and Development Endpoints.
  */
-export const createSecurityConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSecurityConfigurationRequest,
-    output: CreateSecurityConfigurationResponse,
-    errors: [
-      AlreadyExistsException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
+export const createSecurityConfiguration: (
+  input: CreateSecurityConfigurationRequest,
+) => Effect.Effect<
+  CreateSecurityConfigurationResponse,
+  | AlreadyExistsException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSecurityConfigurationRequest,
+  output: CreateSecurityConfigurationResponse,
+  errors: [
+    AlreadyExistsException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
 /**
  * Creates a new trigger.
  *
  * Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
  */
-export const createTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTrigger: (
+  input: CreateTriggerRequest,
+) => Effect.Effect<
+  CreateTriggerResponse,
+  | AlreadyExistsException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | IdempotentParameterMismatchException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTriggerRequest,
   output: CreateTriggerResponse,
   errors: [
@@ -18949,41 +22350,72 @@ export const createTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns a unique identifier for the run. You can call `GetMLTaskRun` to get more
  * information about the stats of the `EvaluationTaskRun`.
  */
-export const startMLEvaluationTaskRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMLEvaluationTaskRunRequest,
-    output: StartMLEvaluationTaskRunResponse,
-    errors: [
-      ConcurrentRunsExceededException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      MLTransformNotReadyException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const startMLEvaluationTaskRun: (
+  input: StartMLEvaluationTaskRunRequest,
+) => Effect.Effect<
+  StartMLEvaluationTaskRunResponse,
+  | ConcurrentRunsExceededException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | MLTransformNotReadyException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMLEvaluationTaskRunRequest,
+  output: StartMLEvaluationTaskRunResponse,
+  errors: [
+    ConcurrentRunsExceededException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    MLTransformNotReadyException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Updates settings for a column statistics task.
  */
-export const updateColumnStatisticsTaskSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateColumnStatisticsTaskSettingsRequest,
-    output: UpdateColumnStatisticsTaskSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-      VersionMismatchException,
-    ],
-  }));
+export const updateColumnStatisticsTaskSettings: (
+  input: UpdateColumnStatisticsTaskSettingsRequest,
+) => Effect.Effect<
+  UpdateColumnStatisticsTaskSettingsResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InvalidInputException
+  | OperationTimeoutException
+  | VersionMismatchException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateColumnStatisticsTaskSettingsRequest,
+  output: UpdateColumnStatisticsTaskSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InvalidInputException,
+    OperationTimeoutException,
+    VersionMismatchException,
+  ],
+}));
 /**
  * Updates a crawler. If a crawler is
  * running, you must stop it using `StopCrawler` before updating
  * it.
  */
-export const updateCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCrawler: (
+  input: UpdateCrawlerRequest,
+) => Effect.Effect<
+  UpdateCrawlerResponse,
+  | CrawlerRunningException
+  | EntityNotFoundException
+  | InvalidInputException
+  | OperationTimeoutException
+  | VersionMismatchException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCrawlerRequest,
   output: UpdateCrawlerResponse,
   errors: [
@@ -18997,23 +22429,44 @@ export const updateCrawler = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the schedule of a crawler using a `cron` expression.
  */
-export const updateCrawlerSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCrawlerScheduleRequest,
-    output: UpdateCrawlerScheduleResponse,
-    errors: [
-      EntityNotFoundException,
-      InvalidInputException,
-      OperationTimeoutException,
-      SchedulerTransitioningException,
-      VersionMismatchException,
-    ],
-  }),
-);
+export const updateCrawlerSchedule: (
+  input: UpdateCrawlerScheduleRequest,
+) => Effect.Effect<
+  UpdateCrawlerScheduleResponse,
+  | EntityNotFoundException
+  | InvalidInputException
+  | OperationTimeoutException
+  | SchedulerTransitioningException
+  | VersionMismatchException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCrawlerScheduleRequest,
+  output: UpdateCrawlerScheduleResponse,
+  errors: [
+    EntityNotFoundException,
+    InvalidInputException,
+    OperationTimeoutException,
+    SchedulerTransitioningException,
+    VersionMismatchException,
+  ],
+}));
 /**
  * Creates an Glue usage profile.
  */
-export const createUsageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUsageProfile: (
+  input: CreateUsageProfileRequest,
+) => Effect.Effect<
+  CreateUsageProfileResponse,
+  | AlreadyExistsException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationNotSupportedException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUsageProfileRequest,
   output: CreateUsageProfileResponse,
   errors: [
@@ -19028,22 +22481,44 @@ export const createUsageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The `DescribeConnectionType` API provides full details of the supported options for a given connection type in Glue.
  */
-export const describeConnectionType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConnectionTypeRequest,
-    output: DescribeConnectionTypeResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidInputException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeConnectionType: (
+  input: DescribeConnectionTypeRequest,
+) => Effect.Effect<
+  DescribeConnectionTypeResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidInputException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConnectionTypeRequest,
+  output: DescribeConnectionTypeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidInputException,
+    ValidationException,
+  ],
+}));
 /**
  * The name of the Catalog to retrieve. This should be all lowercase.
  */
-export const getCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCatalog: (
+  input: GetCatalogRequest,
+) => Effect.Effect<
+  GetCatalogResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCatalogRequest,
   output: GetCatalogResponse,
   errors: [
@@ -19060,7 +22535,17 @@ export const getCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a connection definition from the Data Catalog.
  */
-export const getConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConnection: (
+  input: GetConnectionRequest,
+) => Effect.Effect<
+  GetConnectionResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionRequest,
   output: GetConnectionResponse,
   errors: [
@@ -19073,18 +22558,26 @@ export const getConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the result of a data quality rule evaluation.
  */
-export const getDataQualityResult = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDataQualityResultRequest,
-    output: GetDataQualityResultResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }),
-);
+export const getDataQualityResult: (
+  input: GetDataQualityResultRequest,
+) => Effect.Effect<
+  GetDataQualityResultResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataQualityResultRequest,
+  output: GetDataQualityResultResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Gets an Glue machine learning transform artifact and all its corresponding metadata.
  * Machine learning transforms are a special type of transform that use machine learning to learn
@@ -19092,7 +22585,17 @@ export const getDataQualityResult = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * humans. These transformations are then saved by Glue. You can retrieve their metadata by
  * calling `GetMLTransform`.
  */
-export const getMLTransform = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMLTransform: (
+  input: GetMLTransformRequest,
+) => Effect.Effect<
+  GetMLTransformResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMLTransformRequest,
   output: GetMLTransformResponse,
   errors: [
@@ -19109,27 +22612,71 @@ export const getMLTransform = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * These transformations are then saved by Glue, and you can retrieve their metadata by
  * calling `GetMLTransforms`.
  */
-export const getMLTransforms = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getMLTransforms: {
+  (
     input: GetMLTransformsRequest,
-    output: GetMLTransformsResponse,
-    errors: [
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetMLTransformsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetMLTransformsRequest,
+  ) => Stream.Stream<
+    GetMLTransformsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetMLTransformsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetMLTransformsRequest,
+  output: GetMLTransformsResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the statement.
  */
-export const getStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStatement: (
+  input: GetStatementRequest,
+) => Effect.Effect<
+  GetStatementResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | IllegalSessionStateException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStatementRequest,
   output: GetStatementResponse,
   errors: [
@@ -19147,86 +22694,209 @@ export const getStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For IAM authorization, the public IAM action associated with this API is `glue:GetPartition`.
  */
-export const getUnfilteredPartitionMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetUnfilteredPartitionMetadataRequest,
-    output: GetUnfilteredPartitionMetadataResponse,
-    errors: [
-      EntityNotFoundException,
-      FederationSourceException,
-      FederationSourceRetryableException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      PermissionTypeMismatchException,
-    ],
-  }));
+export const getUnfilteredPartitionMetadata: (
+  input: GetUnfilteredPartitionMetadataRequest,
+) => Effect.Effect<
+  GetUnfilteredPartitionMetadataResponse,
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | PermissionTypeMismatchException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUnfilteredPartitionMetadataRequest,
+  output: GetUnfilteredPartitionMetadataResponse,
+  errors: [
+    EntityNotFoundException,
+    FederationSourceException,
+    FederationSourceRetryableException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    PermissionTypeMismatchException,
+  ],
+}));
 /**
  * Lists the history of previous optimizer runs for a specific table.
  */
-export const listTableOptimizerRuns =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTableOptimizerRuns: {
+  (
     input: ListTableOptimizerRunsRequest,
-    output: ListTableOptimizerRunsResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InternalServiceException,
-      InvalidInputException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TableOptimizerRuns",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTableOptimizerRunsResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTableOptimizerRunsRequest,
+  ) => Stream.Stream<
+    ListTableOptimizerRunsResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTableOptimizerRunsRequest,
+  ) => Stream.Stream<
+    TableOptimizerRun,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTableOptimizerRunsRequest,
+  output: ListTableOptimizerRunsResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TableOptimizerRuns",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Queries for the schema version metadata information.
  */
-export const querySchemaVersionMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: QuerySchemaVersionMetadataInput,
-    output: QuerySchemaVersionMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      InvalidInputException,
-    ],
-  }),
-);
+export const querySchemaVersionMetadata: (
+  input: QuerySchemaVersionMetadataInput,
+) => Effect.Effect<
+  QuerySchemaVersionMetadataResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: QuerySchemaVersionMetadataInput,
+  output: QuerySchemaVersionMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InvalidInputException,
+  ],
+}));
 /**
  * Retrieves information about the partitions in a table.
  */
-export const getPartitions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getPartitions: {
+  (
     input: GetPartitionsRequest,
-    output: GetPartitionsResponse,
-    errors: [
-      EntityNotFoundException,
-      FederationSourceException,
-      FederationSourceRetryableException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      InvalidStateException,
-      OperationTimeoutException,
-      ResourceNotReadyException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetPartitionsResponse,
+    | EntityNotFoundException
+    | FederationSourceException
+    | FederationSourceRetryableException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | InvalidStateException
+    | OperationTimeoutException
+    | ResourceNotReadyException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetPartitionsRequest,
+  ) => Stream.Stream<
+    GetPartitionsResponse,
+    | EntityNotFoundException
+    | FederationSourceException
+    | FederationSourceRetryableException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | InvalidStateException
+    | OperationTimeoutException
+    | ResourceNotReadyException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetPartitionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | FederationSourceException
+    | FederationSourceRetryableException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | InvalidStateException
+    | OperationTimeoutException
+    | ResourceNotReadyException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetPartitionsRequest,
+  output: GetPartitionsResponse,
+  errors: [
+    EntityNotFoundException,
+    FederationSourceException,
+    FederationSourceRetryableException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    InvalidStateException,
+    OperationTimeoutException,
+    ResourceNotReadyException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Modifies a Zero-ETL integration in the caller's account.
  */
-export const modifyIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyIntegration: (
+  input: ModifyIntegrationRequest,
+) => Effect.Effect<
+  ModifyIntegrationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | EntityNotFoundException
+  | IntegrationConflictOperationFault
+  | IntegrationNotFoundFault
+  | InternalServerException
+  | InternalServiceException
+  | InvalidInputException
+  | InvalidIntegrationStateFault
+  | InvalidStateException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyIntegrationRequest,
   output: ModifyIntegrationResponse,
   errors: [
@@ -19248,72 +22918,156 @@ export const modifyIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For IAM authorization, the public IAM action associated with this API is `glue:GetTable`.
  */
-export const getUnfilteredTableMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetUnfilteredTableMetadataRequest,
-    output: GetUnfilteredTableMetadataResponse,
-    errors: [
-      EntityNotFoundException,
-      FederationSourceException,
-      FederationSourceRetryableException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      PermissionTypeMismatchException,
-    ],
-  }),
-);
+export const getUnfilteredTableMetadata: (
+  input: GetUnfilteredTableMetadataRequest,
+) => Effect.Effect<
+  GetUnfilteredTableMetadataResponse,
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | PermissionTypeMismatchException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUnfilteredTableMetadataRequest,
+  output: GetUnfilteredTableMetadataResponse,
+  errors: [
+    EntityNotFoundException,
+    FederationSourceException,
+    FederationSourceRetryableException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    PermissionTypeMismatchException,
+  ],
+}));
 /**
  * Retrieves partition metadata from the Data Catalog that contains unfiltered
  * metadata.
  *
  * For IAM authorization, the public IAM action associated with this API is `glue:GetPartitions`.
  */
-export const getUnfilteredPartitionsMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getUnfilteredPartitionsMetadata: {
+  (
     input: GetUnfilteredPartitionsMetadataRequest,
-    output: GetUnfilteredPartitionsMetadataResponse,
-    errors: [
-      EntityNotFoundException,
-      FederationSourceException,
-      FederationSourceRetryableException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      PermissionTypeMismatchException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetUnfilteredPartitionsMetadataResponse,
+    | EntityNotFoundException
+    | FederationSourceException
+    | FederationSourceRetryableException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | PermissionTypeMismatchException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetUnfilteredPartitionsMetadataRequest,
+  ) => Stream.Stream<
+    GetUnfilteredPartitionsMetadataResponse,
+    | EntityNotFoundException
+    | FederationSourceException
+    | FederationSourceRetryableException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | PermissionTypeMismatchException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetUnfilteredPartitionsMetadataRequest,
+  ) => Stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | FederationSourceException
+    | FederationSourceRetryableException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | PermissionTypeMismatchException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetUnfilteredPartitionsMetadataRequest,
+  output: GetUnfilteredPartitionsMetadataResponse,
+  errors: [
+    EntityNotFoundException,
+    FederationSourceException,
+    FederationSourceRetryableException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    PermissionTypeMismatchException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of inbound integrations for the specified integration.
  */
-export const describeInboundIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInboundIntegrationsRequest,
-    output: DescribeInboundIntegrationsResponse,
-    errors: [
-      AccessDeniedException,
-      EntityNotFoundException,
-      IntegrationNotFoundFault,
-      InternalServerException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationNotSupportedException,
-      TargetResourceNotFound,
-      ValidationException,
-    ],
-  }),
-);
+export const describeInboundIntegrations: (
+  input: DescribeInboundIntegrationsRequest,
+) => Effect.Effect<
+  DescribeInboundIntegrationsResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | IntegrationNotFoundFault
+  | InternalServerException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationNotSupportedException
+  | TargetResourceNotFound
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInboundIntegrationsRequest,
+  output: DescribeInboundIntegrationsResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    IntegrationNotFoundFault,
+    InternalServerException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationNotSupportedException,
+    TargetResourceNotFound,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves partitions in a batch request.
  */
-export const batchGetPartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetPartition: (
+  input: BatchGetPartitionRequest,
+) => Effect.Effect<
+  BatchGetPartitionResponse,
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | InvalidStateException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetPartitionRequest,
   output: BatchGetPartitionResponse,
   errors: [
@@ -19330,7 +23084,24 @@ export const batchGetPartition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified Zero-ETL integration.
  */
-export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIntegration: (
+  input: DeleteIntegrationRequest,
+) => Effect.Effect<
+  DeleteIntegrationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | EntityNotFoundException
+  | IntegrationConflictOperationFault
+  | IntegrationNotFoundFault
+  | InternalServerException
+  | InternalServiceException
+  | InvalidInputException
+  | InvalidIntegrationStateFault
+  | InvalidStateException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntegrationRequest,
   output: DeleteIntegrationResponse,
   errors: [
@@ -19350,27 +23121,49 @@ export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates one or more partitions in a batch operation.
  */
-export const batchCreatePartition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchCreatePartitionRequest,
-    output: BatchCreatePartitionResponse,
-    errors: [
-      AlreadyExistsException,
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-      ResourceNumberLimitExceededException,
-    ],
-  }),
-);
+export const batchCreatePartition: (
+  input: BatchCreatePartitionRequest,
+) => Effect.Effect<
+  BatchCreatePartitionResponse,
+  | AlreadyExistsException
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCreatePartitionRequest,
+  output: BatchCreatePartitionResponse,
+  errors: [
+    AlreadyExistsException,
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
 /**
  * Creates a connection definition in the Data Catalog.
  *
  * Connections used for creating federated resources require the IAM `glue:PassConnection` permission.
  */
-export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConnection: (
+  input: CreateConnectionRequest,
+) => Effect.Effect<
+  CreateConnectionResponse,
+  | AlreadyExistsException
+  | GlueEncryptionException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectionRequest,
   output: CreateConnectionResponse,
   errors: [
@@ -19384,7 +23177,25 @@ export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a Zero-ETL integration in the caller's account between two resources with Amazon Resource Names (ARNs): the `SourceArn` and `TargetArn`.
  */
-export const createIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIntegration: (
+  input: CreateIntegrationRequest,
+) => Effect.Effect<
+  CreateIntegrationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | EntityNotFoundException
+  | IntegrationConflictOperationFault
+  | IntegrationQuotaExceededFault
+  | InternalServerException
+  | InternalServiceException
+  | InvalidInputException
+  | KMSKeyNotAccessibleFault
+  | ResourceNotFoundException
+  | ResourceNumberLimitExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIntegrationRequest,
   output: CreateIntegrationResponse,
   errors: [
@@ -19405,7 +23216,24 @@ export const createIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new table definition in the Data Catalog.
  */
-export const createTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTable: (
+  input: CreateTableRequest,
+) => Effect.Effect<
+  CreateTableResponse,
+  | AlreadyExistsException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNotReadyException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTableRequest,
   output: CreateTableResponse,
   errors: [
@@ -19426,7 +23254,50 @@ export const createTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves the definitions of some or all of the tables in a given
  * `Database`.
  */
-export const getTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getTables: {
+  (
+    input: GetTablesRequest,
+  ): Effect.Effect<
+    GetTablesResponse,
+    | EntityNotFoundException
+    | FederationSourceException
+    | FederationSourceRetryableException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTablesRequest,
+  ) => Stream.Stream<
+    GetTablesResponse,
+    | EntityNotFoundException
+    | FederationSourceException
+    | FederationSourceRetryableException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTablesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | FederationSourceException
+    | FederationSourceRetryableException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetTablesRequest,
   output: GetTablesResponse,
   errors: [
@@ -19449,22 +23320,49 @@ export const getTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * The Identity and Access Management (IAM) permission required for this operation is `UpdatePartition`.
  */
-export const updateColumnStatisticsForPartition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateColumnStatisticsForPartitionRequest,
-    output: UpdateColumnStatisticsForPartitionResponse,
-    errors: [
-      EntityNotFoundException,
-      GlueEncryptionException,
-      InternalServiceException,
-      InvalidInputException,
-      OperationTimeoutException,
-    ],
-  }));
+export const updateColumnStatisticsForPartition: (
+  input: UpdateColumnStatisticsForPartitionRequest,
+) => Effect.Effect<
+  UpdateColumnStatisticsForPartitionResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateColumnStatisticsForPartitionRequest,
+  output: UpdateColumnStatisticsForPartitionResponse,
+  errors: [
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
 /**
  * Updates a metadata table in the Data Catalog.
  */
-export const updateTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTable: (
+  input: UpdateTableRequest,
+) => Effect.Effect<
+  UpdateTableResponse,
+  | AlreadyExistsException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNotReadyException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTableRequest,
   output: UpdateTableResponse,
   errors: [
@@ -19484,7 +23382,16 @@ export const updateTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of resource metadata for a given list of workflow names. After calling the `ListWorkflows` operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
  */
-export const batchGetWorkflows = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetWorkflows: (
+  input: BatchGetWorkflowsRequest,
+) => Effect.Effect<
+  BatchGetWorkflowsResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetWorkflowsRequest,
   output: BatchGetWorkflowsResponse,
   errors: [
@@ -19496,7 +23403,20 @@ export const batchGetWorkflows = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new job definition.
  */
-export const createJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createJob: (
+  input: CreateJobRequest,
+) => Effect.Effect<
+  CreateJobResponse,
+  | AlreadyExistsException
+  | ConcurrentModificationException
+  | IdempotentParameterMismatchException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobRequest,
   output: CreateJobResponse,
   errors: [

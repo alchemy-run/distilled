@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "AppStream",
   serviceShapeName: "PhotonAdminProxyService",
@@ -280,6 +288,54 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type Name = string;
+export type RegionName = string;
+export type Description = string;
+export type DisplayName = string;
+export type Long = number;
+export type DirectoryName = string;
+export type OrganizationalUnitDistinguishedName = string;
+export type AmiName = string;
+export type Integer = number;
+export type UsbDeviceFilterString = string;
+export type AppstreamAgentVersion = string;
+export type PhotonAmiId = string;
+export type ImageImportDescription = string;
+export type ImageImportDisplayName = string;
+export type RedirectURL = string;
+export type FeedbackURL = string;
+export type EmbedHostDomain = string;
+export type StreamingUrlUserId = string;
+export type ThemeTitleText = string;
+export type Username = string;
+export type UserAttributeValue = string;
+export type AwsAccountId = string;
+export type ErrorMessage = string;
+export type MaxResults = number;
+export type DescribeImagesMaxResults = number;
+export type UserId = string;
+export type UUID = string;
+export type TagKey = string;
+export type S3Bucket = string;
+export type S3Key = string;
+export type TagValue = string;
+export type AccountName = string;
+export type AccountPassword = string;
+export type InstanceType = string;
+export type AppName = string;
+export type AppDisplayName = string;
+export type FilePath = string;
+export type LaunchParameters = string;
+export type ResourceIdentifier = string;
+export type Domain = string;
+export type SettingsGroup = string;
+export type ThemeFooterLinkDisplayName = string;
+export type ThemeFooterLinkURL = string;
+export type FilterName = string;
+export type FilterValue = string;
 
 //# Schemas
 export interface CreateUsageReportSubscriptionRequest {}
@@ -3552,7 +3608,13 @@ export class DryRunOperationException extends S.TaggedError<DryRunOperationExcep
 /**
  * Immediately stops the specified streaming session.
  */
-export const expireSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const expireSession: (
+  input: ExpireSessionRequest,
+) => Effect.Effect<
+  ExpireSessionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExpireSessionRequest,
   output: ExpireSessionResult,
   errors: [],
@@ -3560,48 +3622,73 @@ export const expireSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disables usage report generation.
  */
-export const deleteUsageReportSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteUsageReportSubscriptionRequest,
-    output: DeleteUsageReportSubscriptionResult,
-    errors: [InvalidAccountStatusException, ResourceNotFoundException],
-  }));
+export const deleteUsageReportSubscription: (
+  input: DeleteUsageReportSubscriptionRequest,
+) => Effect.Effect<
+  DeleteUsageReportSubscriptionResult,
+  | InvalidAccountStatusException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUsageReportSubscriptionRequest,
+  output: DeleteUsageReportSubscriptionResult,
+  errors: [InvalidAccountStatusException, ResourceNotFoundException],
+}));
 /**
  * Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.
  */
-export const describeImageBuilders = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeImageBuildersRequest,
-    output: DescribeImageBuildersResult,
-    errors: [ResourceNotFoundException],
-  }),
-);
+export const describeImageBuilders: (
+  input: DescribeImageBuildersRequest,
+) => Effect.Effect<
+  DescribeImageBuildersResult,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeImageBuildersRequest,
+  output: DescribeImageBuildersResult,
+  errors: [ResourceNotFoundException],
+}));
 /**
  * Retrieves the name of the fleet that is associated with the specified stack.
  */
-export const listAssociatedFleets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAssociatedFleetsRequest,
-    output: ListAssociatedFleetsResult,
-    errors: [],
-  }),
-);
+export const listAssociatedFleets: (
+  input: ListAssociatedFleetsRequest,
+) => Effect.Effect<
+  ListAssociatedFleetsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAssociatedFleetsRequest,
+  output: ListAssociatedFleetsResult,
+  errors: [],
+}));
 /**
  * Retrieves the name of the stack with which the specified fleet is associated.
  */
-export const listAssociatedStacks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAssociatedStacksRequest,
-    output: ListAssociatedStacksResult,
-    errors: [],
-  }),
-);
+export const listAssociatedStacks: (
+  input: ListAssociatedStacksRequest,
+) => Effect.Effect<
+  ListAssociatedStacksResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAssociatedStacksRequest,
+  output: ListAssociatedStacksResult,
+  errors: [],
+}));
 /**
  * Retrieves a list of all tags for the specified WorkSpaces Applications resource. You can tag WorkSpaces Applications image builders, images, fleets, and stacks.
  *
  * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
@@ -3617,7 +3704,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InvalidAccountStatusException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3629,21 +3725,37 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds or updates permissions for the specified private image.
  */
-export const updateImagePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateImagePermissionsRequest,
-    output: UpdateImagePermissionsResult,
-    errors: [
-      LimitExceededException,
-      ResourceNotAvailableException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateImagePermissions: (
+  input: UpdateImagePermissionsRequest,
+) => Effect.Effect<
+  UpdateImagePermissionsResult,
+  | LimitExceededException
+  | ResourceNotAvailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateImagePermissionsRequest,
+  output: UpdateImagePermissionsResult,
+  errors: [
+    LimitExceededException,
+    ResourceNotAvailableException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes an app block.
  */
-export const deleteAppBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAppBlock: (
+  input: DeleteAppBlockRequest,
+) => Effect.Effect<
+  DeleteAppBlockResult,
+  | ConcurrentModificationException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppBlockRequest,
   output: DeleteAppBlockResult,
   errors: [
@@ -3655,7 +3767,16 @@ export const deleteAppBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified fleet.
  */
-export const deleteFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFleet: (
+  input: DeleteFleetRequest,
+) => Effect.Effect<
+  DeleteFleetResult,
+  | ConcurrentModificationException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFleetRequest,
   output: DeleteFleetResult,
   errors: [
@@ -3667,7 +3788,15 @@ export const deleteFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops the specified fleet.
  */
-export const stopFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopFleet: (
+  input: StopFleetRequest,
+) => Effect.Effect<
+  StopFleetResult,
+  | ConcurrentModificationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopFleetRequest,
   output: StopFleetResult,
   errors: [ConcurrentModificationException, ResourceNotFoundException],
@@ -3675,20 +3804,34 @@ export const stopFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a usage report subscription. Usage reports are generated daily.
  */
-export const createUsageReportSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateUsageReportSubscriptionRequest,
-    output: CreateUsageReportSubscriptionResult,
-    errors: [
-      InvalidAccountStatusException,
-      InvalidRoleException,
-      LimitExceededException,
-    ],
-  }));
+export const createUsageReportSubscription: (
+  input: CreateUsageReportSubscriptionRequest,
+) => Effect.Effect<
+  CreateUsageReportSubscriptionResult,
+  | InvalidAccountStatusException
+  | InvalidRoleException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUsageReportSubscriptionRequest,
+  output: CreateUsageReportSubscriptionResult,
+  errors: [
+    InvalidAccountStatusException,
+    InvalidRoleException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Deletes a user from the user pool.
  */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUser: (
+  input: DeleteUserRequest,
+) => Effect.Effect<
+  DeleteUserResult,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
   output: DeleteUserResult,
   errors: [ResourceNotFoundException],
@@ -3696,7 +3839,13 @@ export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disables the specified user in the user pool. Users can't sign in to WorkSpaces Applications until they are re-enabled. This action does not delete the user.
  */
-export const disableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableUser: (
+  input: DisableUserRequest,
+) => Effect.Effect<
+  DisableUserResult,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableUserRequest,
   output: DisableUserResult,
   errors: [ResourceNotFoundException],
@@ -3704,7 +3853,15 @@ export const disableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables a user in the user pool. After being enabled, users can sign in to WorkSpaces Applications and open applications from the stacks to which they are assigned.
  */
-export const enableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableUser: (
+  input: EnableUserRequest,
+) => Effect.Effect<
+  EnableUserResult,
+  | InvalidAccountStatusException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableUserRequest,
   output: EnableUserResult,
   errors: [InvalidAccountStatusException, ResourceNotFoundException],
@@ -3716,7 +3873,13 @@ export const enableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
@@ -3724,51 +3887,102 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified Directory Config object from WorkSpaces Applications. This object includes the information required to join streaming instances to an Active Directory domain.
  */
-export const deleteDirectoryConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDirectoryConfigRequest,
-    output: DeleteDirectoryConfigResult,
-    errors: [ResourceInUseException, ResourceNotFoundException],
-  }),
-);
+export const deleteDirectoryConfig: (
+  input: DeleteDirectoryConfigRequest,
+) => Effect.Effect<
+  DeleteDirectoryConfigResult,
+  ResourceInUseException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDirectoryConfigRequest,
+  output: DeleteDirectoryConfigResult,
+  errors: [ResourceInUseException, ResourceNotFoundException],
+}));
 /**
  * Deletes permissions for the specified private image. After you delete permissions for an image, AWS accounts to which you previously granted these permissions can no longer use the image.
  */
-export const deleteImagePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteImagePermissionsRequest,
-    output: DeleteImagePermissionsResult,
-    errors: [ResourceNotAvailableException, ResourceNotFoundException],
-  }),
-);
+export const deleteImagePermissions: (
+  input: DeleteImagePermissionsRequest,
+) => Effect.Effect<
+  DeleteImagePermissionsResult,
+  | ResourceNotAvailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteImagePermissionsRequest,
+  output: DeleteImagePermissionsResult,
+  errors: [ResourceNotAvailableException, ResourceNotFoundException],
+}));
 /**
  * Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
  */
-export const describeImages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeImages: {
+  (
     input: DescribeImagesRequest,
-    output: DescribeImagesResult,
-    errors: [InvalidParameterCombinationException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeImagesResult,
+    | InvalidParameterCombinationException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeImagesRequest,
+  ) => Stream.Stream<
+    DescribeImagesResult,
+    | InvalidParameterCombinationException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeImagesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParameterCombinationException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeImagesRequest,
+  output: DescribeImagesResult,
+  errors: [InvalidParameterCombinationException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a URL to start a create app block builder streaming session.
  */
-export const createAppBlockBuilderStreamingURL =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateAppBlockBuilderStreamingURLRequest,
-    output: CreateAppBlockBuilderStreamingURLResult,
-    errors: [OperationNotPermittedException, ResourceNotFoundException],
-  }));
+export const createAppBlockBuilderStreamingURL: (
+  input: CreateAppBlockBuilderStreamingURLRequest,
+) => Effect.Effect<
+  CreateAppBlockBuilderStreamingURLResult,
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAppBlockBuilderStreamingURLRequest,
+  output: CreateAppBlockBuilderStreamingURLResult,
+  errors: [OperationNotPermittedException, ResourceNotFoundException],
+}));
 /**
  * Retrieves a list that describes one or more app blocks.
  */
-export const describeAppBlocks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAppBlocks: (
+  input: DescribeAppBlocksRequest,
+) => Effect.Effect<
+  DescribeAppBlocksResult,
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppBlocksRequest,
   output: DescribeAppBlocksResult,
   errors: [OperationNotPermittedException, ResourceNotFoundException],
@@ -3776,63 +3990,108 @@ export const describeAppBlocks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves license included application usage information.
  */
-export const describeAppLicenseUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAppLicenseUsageRequest,
-    output: DescribeAppLicenseUsageResult,
-    errors: [
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const describeAppLicenseUsage: (
+  input: DescribeAppLicenseUsageRequest,
+) => Effect.Effect<
+  DescribeAppLicenseUsageResult,
+  | InvalidParameterCombinationException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAppLicenseUsageRequest,
+  output: DescribeAppLicenseUsageResult,
+  errors: [
+    InvalidParameterCombinationException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Retrieves a list that describes one or more specified Directory Config objects for WorkSpaces Applications, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
  *
  * Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
  */
-export const describeDirectoryConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDirectoryConfigsRequest,
-    output: DescribeDirectoryConfigsResult,
-    errors: [ResourceNotFoundException],
-  }),
-);
+export const describeDirectoryConfigs: (
+  input: DescribeDirectoryConfigsRequest,
+) => Effect.Effect<
+  DescribeDirectoryConfigsResult,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDirectoryConfigsRequest,
+  output: DescribeDirectoryConfigsResult,
+  errors: [ResourceNotFoundException],
+}));
 /**
  * Retrieves a list that describes one of more entitlements.
  */
-export const describeEntitlements = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEntitlementsRequest,
-    output: DescribeEntitlementsResult,
-    errors: [
-      EntitlementNotFoundException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const describeEntitlements: (
+  input: DescribeEntitlementsRequest,
+) => Effect.Effect<
+  DescribeEntitlementsResult,
+  | EntitlementNotFoundException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEntitlementsRequest,
+  output: DescribeEntitlementsResult,
+  errors: [
+    EntitlementNotFoundException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own.
  */
-export const describeImagePermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeImagePermissions: {
+  (
     input: DescribeImagePermissionsRequest,
-    output: DescribeImagePermissionsResult,
-    errors: [ResourceNotFoundException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeImagePermissionsResult,
+    ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeImagePermissionsRequest,
+  ) => Stream.Stream<
+    DescribeImagePermissionsResult,
+    ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeImagePermissionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeImagePermissionsRequest,
+  output: DescribeImagePermissionsResult,
+  errors: [ResourceNotFoundException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list that describes the streaming sessions for a specified stack and fleet. If a UserId is provided for the stack and fleet,
  * only streaming sessions for that user are described. If an authentication type is not provided,
  * the default is to authenticate users using a streaming URL.
  */
-export const describeSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeSessions: (
+  input: DescribeSessionsRequest,
+) => Effect.Effect<
+  DescribeSessionsResult,
+  InvalidParameterCombinationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSessionsRequest,
   output: DescribeSessionsResult,
   errors: [InvalidParameterCombinationException],
@@ -3840,26 +4099,48 @@ export const describeSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves license included application associations for a specified resource.
  */
-export const describeSoftwareAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeSoftwareAssociationsRequest,
-    output: DescribeSoftwareAssociationsResult,
-    errors: [OperationNotPermittedException, ResourceNotFoundException],
-  }));
+export const describeSoftwareAssociations: (
+  input: DescribeSoftwareAssociationsRequest,
+) => Effect.Effect<
+  DescribeSoftwareAssociationsResult,
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSoftwareAssociationsRequest,
+  output: DescribeSoftwareAssociationsResult,
+  errors: [OperationNotPermittedException, ResourceNotFoundException],
+}));
 /**
  * Retrieves a list that describes the theme for a specified stack. A theme is custom branding that customizes the appearance of the streaming application catalog page.
  */
-export const describeThemeForStack = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeThemeForStackRequest,
-    output: DescribeThemeForStackResult,
-    errors: [OperationNotPermittedException, ResourceNotFoundException],
-  }),
-);
+export const describeThemeForStack: (
+  input: DescribeThemeForStackRequest,
+) => Effect.Effect<
+  DescribeThemeForStackResult,
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeThemeForStackRequest,
+  output: DescribeThemeForStackResult,
+  errors: [OperationNotPermittedException, ResourceNotFoundException],
+}));
 /**
  * Retrieves a list that describes one or more specified users in the user pool.
  */
-export const describeUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeUsers: (
+  input: DescribeUsersRequest,
+) => Effect.Effect<
+  DescribeUsersResult,
+  | InvalidParameterCombinationException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUsersRequest,
   output: DescribeUsersResult,
   errors: [
@@ -3871,31 +4152,53 @@ export const describeUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of entitled applications.
  */
-export const listEntitledApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListEntitledApplicationsRequest,
-    output: ListEntitledApplicationsResult,
-    errors: [
-      EntitlementNotFoundException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const listEntitledApplications: (
+  input: ListEntitledApplicationsRequest,
+) => Effect.Effect<
+  ListEntitledApplicationsResult,
+  | EntitlementNotFoundException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEntitledApplicationsRequest,
+  output: ListEntitledApplicationsResult,
+  errors: [
+    EntitlementNotFoundException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Lists export image tasks, with optional filtering and pagination. Use this operation to monitor the status of multiple export operations.
  */
-export const listExportImageTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListExportImageTasksRequest,
-    output: ListExportImageTasksResult,
-    errors: [OperationNotPermittedException],
-  }),
-);
+export const listExportImageTasks: (
+  input: ListExportImageTasksRequest,
+) => Effect.Effect<
+  ListExportImageTasksResult,
+  OperationNotPermittedException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListExportImageTasksRequest,
+  output: ListExportImageTasksResult,
+  errors: [OperationNotPermittedException],
+}));
 /**
  * Starts the specified image builder.
  */
-export const startImageBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startImageBuilder: (
+  input: StartImageBuilderRequest,
+) => Effect.Effect<
+  StartImageBuilderResult,
+  | ConcurrentModificationException
+  | IncompatibleImageException
+  | InvalidAccountStatusException
+  | ResourceNotAvailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImageBuilderRequest,
   output: StartImageBuilderResult,
   errors: [
@@ -3909,24 +4212,49 @@ export const startImageBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
  */
-export const updateDirectoryConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDirectoryConfigRequest,
-    output: UpdateDirectoryConfigResult,
-    errors: [
-      ConcurrentModificationException,
-      IncompatibleImageException,
-      InvalidRoleException,
-      OperationNotPermittedException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateDirectoryConfig: (
+  input: UpdateDirectoryConfigRequest,
+) => Effect.Effect<
+  UpdateDirectoryConfigResult,
+  | ConcurrentModificationException
+  | IncompatibleImageException
+  | InvalidRoleException
+  | OperationNotPermittedException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDirectoryConfigRequest,
+  output: UpdateDirectoryConfigResult,
+  errors: [
+    ConcurrentModificationException,
+    IncompatibleImageException,
+    InvalidRoleException,
+    OperationNotPermittedException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Updates the specified fields for the specified stack.
  */
-export const updateStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateStack: (
+  input: UpdateStackRequest,
+) => Effect.Effect<
+  UpdateStackResult,
+  | ConcurrentModificationException
+  | IncompatibleImageException
+  | InvalidAccountStatusException
+  | InvalidParameterCombinationException
+  | InvalidRoleException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStackRequest,
   output: UpdateStackResult,
   errors: [
@@ -3944,32 +4272,59 @@ export const updateStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates license included application(s) with an existing image builder instance.
  */
-export const associateSoftwareToImageBuilder =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateSoftwareToImageBuilderRequest,
-    output: AssociateSoftwareToImageBuilderResult,
-    errors: [
-      ConcurrentModificationException,
-      IncompatibleImageException,
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const associateSoftwareToImageBuilder: (
+  input: AssociateSoftwareToImageBuilderRequest,
+) => Effect.Effect<
+  AssociateSoftwareToImageBuilderResult,
+  | ConcurrentModificationException
+  | IncompatibleImageException
+  | InvalidParameterCombinationException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateSoftwareToImageBuilderRequest,
+  output: AssociateSoftwareToImageBuilderResult,
+  errors: [
+    ConcurrentModificationException,
+    IncompatibleImageException,
+    InvalidParameterCombinationException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a URL to start an image builder streaming session.
  */
-export const createImageBuilderStreamingURL =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateImageBuilderStreamingURLRequest,
-    output: CreateImageBuilderStreamingURLResult,
-    errors: [OperationNotPermittedException, ResourceNotFoundException],
-  }));
+export const createImageBuilderStreamingURL: (
+  input: CreateImageBuilderStreamingURLRequest,
+) => Effect.Effect<
+  CreateImageBuilderStreamingURLResult,
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateImageBuilderStreamingURLRequest,
+  output: CreateImageBuilderStreamingURLResult,
+  errors: [OperationNotPermittedException, ResourceNotFoundException],
+}));
 /**
  * Deletes the specified image. You cannot delete an image when it is in use.
  * After you delete an image, you cannot provision new capacity using the image.
  */
-export const deleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteImage: (
+  input: DeleteImageRequest,
+) => Effect.Effect<
+  DeleteImageResult,
+  | ConcurrentModificationException
+  | OperationNotPermittedException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImageRequest,
   output: DeleteImageResult,
   errors: [
@@ -3982,7 +4337,16 @@ export const deleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified image builder and releases the capacity.
  */
-export const deleteImageBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteImageBuilder: (
+  input: DeleteImageBuilderRequest,
+) => Effect.Effect<
+  DeleteImageBuilderResult,
+  | ConcurrentModificationException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImageBuilderRequest,
   output: DeleteImageBuilderResult,
   errors: [
@@ -3994,17 +4358,31 @@ export const deleteImageBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list that describes one or more applications.
  */
-export const describeApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeApplicationsRequest,
-    output: DescribeApplicationsResult,
-    errors: [OperationNotPermittedException, ResourceNotFoundException],
-  }),
-);
+export const describeApplications: (
+  input: DescribeApplicationsRequest,
+) => Effect.Effect<
+  DescribeApplicationsResult,
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeApplicationsRequest,
+  output: DescribeApplicationsResult,
+  errors: [OperationNotPermittedException, ResourceNotFoundException],
+}));
 /**
  * Retrieves information about an export image task, including its current state, progress, and any error details.
  */
-export const getExportImageTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getExportImageTask: (
+  input: GetExportImageTaskRequest,
+) => Effect.Effect<
+  GetExportImageTaskResult,
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExportImageTaskRequest,
   output: GetExportImageTaskResult,
   errors: [OperationNotPermittedException, ResourceNotFoundException],
@@ -4015,7 +4393,16 @@ export const getExportImageTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Stopping an app block builder terminates the instance, and the instance state is not
  * persisted.
  */
-export const stopAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopAppBlockBuilder: (
+  input: StopAppBlockBuilderRequest,
+) => Effect.Effect<
+  StopAppBlockBuilderResult,
+  | ConcurrentModificationException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopAppBlockBuilderRequest,
   output: StopAppBlockBuilderResult,
   errors: [
@@ -4027,7 +4414,16 @@ export const stopAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops the specified image builder.
  */
-export const stopImageBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopImageBuilder: (
+  input: StopImageBuilderRequest,
+) => Effect.Effect<
+  StopImageBuilderResult,
+  | ConcurrentModificationException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopImageBuilderRequest,
   output: StopImageBuilderResult,
   errors: [
@@ -4039,7 +4435,16 @@ export const stopImageBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified application.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApplication: (
+  input: UpdateApplicationRequest,
+) => Effect.Effect<
+  UpdateApplicationResult,
+  | ConcurrentModificationException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
   output: UpdateApplicationResult,
   errors: [
@@ -4051,7 +4456,17 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified entitlement.
  */
-export const updateEntitlement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEntitlement: (
+  input: UpdateEntitlementRequest,
+) => Effect.Effect<
+  UpdateEntitlementResult,
+  | ConcurrentModificationException
+  | EntitlementNotFoundException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEntitlementRequest,
   output: UpdateEntitlementResult,
   errors: [
@@ -4064,38 +4479,64 @@ export const updateEntitlement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified application from the specified entitlement.
  */
-export const disassociateApplicationFromEntitlement =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateApplicationFromEntitlementRequest,
-    output: DisassociateApplicationFromEntitlementResult,
-    errors: [
-      EntitlementNotFoundException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const disassociateApplicationFromEntitlement: (
+  input: DisassociateApplicationFromEntitlementRequest,
+) => Effect.Effect<
+  DisassociateApplicationFromEntitlementResult,
+  | EntitlementNotFoundException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateApplicationFromEntitlementRequest,
+  output: DisassociateApplicationFromEntitlementResult,
+  errors: [
+    EntitlementNotFoundException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes an app block builder.
  *
  * An app block builder can only be deleted when it has no association with an app
  * block.
  */
-export const deleteAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAppBlockBuilderRequest,
-    output: DeleteAppBlockBuilderResult,
-    errors: [
-      ConcurrentModificationException,
-      OperationNotPermittedException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteAppBlockBuilder: (
+  input: DeleteAppBlockBuilderRequest,
+) => Effect.Effect<
+  DeleteAppBlockBuilderResult,
+  | ConcurrentModificationException
+  | OperationNotPermittedException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAppBlockBuilderRequest,
+  output: DeleteAppBlockBuilderResult,
+  errors: [
+    ConcurrentModificationException,
+    OperationNotPermittedException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes an application.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplication: (
+  input: DeleteApplicationRequest,
+) => Effect.Effect<
+  DeleteApplicationResult,
+  | ConcurrentModificationException
+  | OperationNotPermittedException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResult,
   errors: [
@@ -4108,7 +4549,17 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified entitlement.
  */
-export const deleteEntitlement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEntitlement: (
+  input: DeleteEntitlementRequest,
+) => Effect.Effect<
+  DeleteEntitlementResult,
+  | ConcurrentModificationException
+  | EntitlementNotFoundException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEntitlementRequest,
   output: DeleteEntitlementResult,
   errors: [
@@ -4121,7 +4572,17 @@ export const deleteEntitlement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released.
  */
-export const deleteStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteStack: (
+  input: DeleteStackRequest,
+) => Effect.Effect<
+  DeleteStackResult,
+  | ConcurrentModificationException
+  | OperationNotPermittedException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStackRequest,
   output: DeleteStackResult,
   errors: [
@@ -4134,7 +4595,16 @@ export const deleteStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes custom branding that customizes the appearance of the streaming application catalog page.
  */
-export const deleteThemeForStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteThemeForStack: (
+  input: DeleteThemeForStackRequest,
+) => Effect.Effect<
+  DeleteThemeForStackResult,
+  | ConcurrentModificationException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThemeForStackRequest,
   output: DeleteThemeForStackResult,
   errors: [
@@ -4146,7 +4616,17 @@ export const deleteThemeForStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates the specified fleet from the specified stack.
  */
-export const disassociateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateFleet: (
+  input: DisassociateFleetRequest,
+) => Effect.Effect<
+  DisassociateFleetResult,
+  | ConcurrentModificationException
+  | OperationNotPermittedException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateFleetRequest,
   output: DisassociateFleetResult,
   errors: [
@@ -4159,34 +4639,61 @@ export const disassociateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Initiates license included applications deployment to an image builder instance.
  */
-export const startSoftwareDeploymentToImageBuilder =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartSoftwareDeploymentToImageBuilderRequest,
-    output: StartSoftwareDeploymentToImageBuilderResult,
-    errors: [
-      ConcurrentModificationException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const startSoftwareDeploymentToImageBuilder: (
+  input: StartSoftwareDeploymentToImageBuilderRequest,
+) => Effect.Effect<
+  StartSoftwareDeploymentToImageBuilderResult,
+  | ConcurrentModificationException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSoftwareDeploymentToImageBuilderRequest,
+  output: StartSoftwareDeploymentToImageBuilderResult,
+  errors: [
+    ConcurrentModificationException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Associates an application to entitle.
  */
-export const associateApplicationToEntitlement =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateApplicationToEntitlementRequest,
-    output: AssociateApplicationToEntitlementResult,
-    errors: [
-      EntitlementNotFoundException,
-      LimitExceededException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const associateApplicationToEntitlement: (
+  input: AssociateApplicationToEntitlementRequest,
+) => Effect.Effect<
+  AssociateApplicationToEntitlementResult,
+  | EntitlementNotFoundException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateApplicationToEntitlementRequest,
+  output: AssociateApplicationToEntitlementResult,
+  errors: [
+    EntitlementNotFoundException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a temporary URL to start an WorkSpaces Applications streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
  */
-export const createStreamingURL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createStreamingURL: (
+  input: CreateStreamingURLRequest,
+) => Effect.Effect<
+  CreateStreamingURLResult,
+  | InvalidParameterCombinationException
+  | OperationNotPermittedException
+  | ResourceNotAvailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStreamingURLRequest,
   output: CreateStreamingURLResult,
   errors: [
@@ -4199,32 +4706,66 @@ export const createStreamingURL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list that describes one or more app block builder associations.
  */
-export const describeAppBlockBuilderAppBlockAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAppBlockBuilderAppBlockAssociations: {
+  (
     input: DescribeAppBlockBuilderAppBlockAssociationsRequest,
-    output: DescribeAppBlockBuilderAppBlockAssociationsResult,
-    errors: [
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAppBlockBuilderAppBlockAssociationsResult,
+    | InvalidParameterCombinationException
+    | OperationNotPermittedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAppBlockBuilderAppBlockAssociationsRequest,
+  ) => Stream.Stream<
+    DescribeAppBlockBuilderAppBlockAssociationsResult,
+    | InvalidParameterCombinationException
+    | OperationNotPermittedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAppBlockBuilderAppBlockAssociationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParameterCombinationException
+    | OperationNotPermittedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAppBlockBuilderAppBlockAssociationsRequest,
+  output: DescribeAppBlockBuilderAppBlockAssociationsResult,
+  errors: [
+    InvalidParameterCombinationException,
+    OperationNotPermittedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified.
  */
-export const describeApplicationFleetAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeApplicationFleetAssociationsRequest,
-    output: DescribeApplicationFleetAssociationsResult,
-    errors: [
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-    ],
-  }));
+export const describeApplicationFleetAssociations: (
+  input: DescribeApplicationFleetAssociationsRequest,
+) => Effect.Effect<
+  DescribeApplicationFleetAssociationsResult,
+  | InvalidParameterCombinationException
+  | OperationNotPermittedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeApplicationFleetAssociationsRequest,
+  output: DescribeApplicationFleetAssociationsResult,
+  errors: [
+    InvalidParameterCombinationException,
+    OperationNotPermittedException,
+  ],
+}));
 /**
  * Retrieves a list that describes the UserStackAssociation objects. You must specify either or both of the following:
  *
@@ -4232,19 +4773,38 @@ export const describeApplicationFleetAssociations =
  *
  * - The user name (email address of the user associated with the stack) and the authentication type for the user
  */
-export const describeUserStackAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeUserStackAssociationsRequest,
-    output: DescribeUserStackAssociationsResult,
-    errors: [
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-    ],
-  }));
+export const describeUserStackAssociations: (
+  input: DescribeUserStackAssociationsRequest,
+) => Effect.Effect<
+  DescribeUserStackAssociationsResult,
+  | InvalidParameterCombinationException
+  | OperationNotPermittedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUserStackAssociationsRequest,
+  output: DescribeUserStackAssociationsResult,
+  errors: [
+    InvalidParameterCombinationException,
+    OperationNotPermittedException,
+  ],
+}));
 /**
  * Updates custom branding that customizes the appearance of the streaming application catalog page.
  */
-export const updateThemeForStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateThemeForStack: (
+  input: UpdateThemeForStackRequest,
+) => Effect.Effect<
+  UpdateThemeForStackResult,
+  | ConcurrentModificationException
+  | InvalidAccountStatusException
+  | InvalidParameterCombinationException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThemeForStackRequest,
   output: UpdateThemeForStackResult,
   errors: [
@@ -4259,79 +4819,136 @@ export const updateThemeForStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates a specified app block builder from a specified app block.
  */
-export const disassociateAppBlockBuilderAppBlock =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateAppBlockBuilderAppBlockRequest,
-    output: DisassociateAppBlockBuilderAppBlockResult,
-    errors: [
-      ConcurrentModificationException,
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const disassociateAppBlockBuilderAppBlock: (
+  input: DisassociateAppBlockBuilderAppBlockRequest,
+) => Effect.Effect<
+  DisassociateAppBlockBuilderAppBlockResult,
+  | ConcurrentModificationException
+  | InvalidParameterCombinationException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateAppBlockBuilderAppBlockRequest,
+  output: DisassociateAppBlockBuilderAppBlockResult,
+  errors: [
+    ConcurrentModificationException,
+    InvalidParameterCombinationException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Disassociates the specified application from the fleet.
  */
-export const disassociateApplicationFleet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateApplicationFleetRequest,
-    output: DisassociateApplicationFleetResult,
-    errors: [
-      ConcurrentModificationException,
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-    ],
-  }));
+export const disassociateApplicationFleet: (
+  input: DisassociateApplicationFleetRequest,
+) => Effect.Effect<
+  DisassociateApplicationFleetResult,
+  | ConcurrentModificationException
+  | InvalidParameterCombinationException
+  | OperationNotPermittedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateApplicationFleetRequest,
+  output: DisassociateApplicationFleetResult,
+  errors: [
+    ConcurrentModificationException,
+    InvalidParameterCombinationException,
+    OperationNotPermittedException,
+  ],
+}));
 /**
  * Removes license included application(s) association(s) from an image builder instance.
  */
-export const disassociateSoftwareFromImageBuilder =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateSoftwareFromImageBuilderRequest,
-    output: DisassociateSoftwareFromImageBuilderResult,
-    errors: [
-      ConcurrentModificationException,
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const disassociateSoftwareFromImageBuilder: (
+  input: DisassociateSoftwareFromImageBuilderRequest,
+) => Effect.Effect<
+  DisassociateSoftwareFromImageBuilderResult,
+  | ConcurrentModificationException
+  | InvalidParameterCombinationException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateSoftwareFromImageBuilderRequest,
+  output: DisassociateSoftwareFromImageBuilderResult,
+  errors: [
+    ConcurrentModificationException,
+    InvalidParameterCombinationException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Associates the specified app block builder with the specified app block.
  */
-export const associateAppBlockBuilderAppBlock =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateAppBlockBuilderAppBlockRequest,
-    output: AssociateAppBlockBuilderAppBlockResult,
-    errors: [
-      ConcurrentModificationException,
-      InvalidParameterCombinationException,
-      LimitExceededException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const associateAppBlockBuilderAppBlock: (
+  input: AssociateAppBlockBuilderAppBlockRequest,
+) => Effect.Effect<
+  AssociateAppBlockBuilderAppBlockResult,
+  | ConcurrentModificationException
+  | InvalidParameterCombinationException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateAppBlockBuilderAppBlockRequest,
+  output: AssociateAppBlockBuilderAppBlockResult,
+  errors: [
+    ConcurrentModificationException,
+    InvalidParameterCombinationException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
  */
-export const associateApplicationFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateApplicationFleetRequest,
-    output: AssociateApplicationFleetResult,
-    errors: [
-      ConcurrentModificationException,
-      InvalidParameterCombinationException,
-      LimitExceededException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const associateApplicationFleet: (
+  input: AssociateApplicationFleetRequest,
+) => Effect.Effect<
+  AssociateApplicationFleetResult,
+  | ConcurrentModificationException
+  | InvalidParameterCombinationException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateApplicationFleetRequest,
+  output: AssociateApplicationFleetResult,
+  errors: [
+    ConcurrentModificationException,
+    InvalidParameterCombinationException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Associates the specified fleet with the specified stack.
  */
-export const associateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateFleet: (
+  input: AssociateFleetRequest,
+) => Effect.Effect<
+  AssociateFleetResult,
+  | ConcurrentModificationException
+  | IncompatibleImageException
+  | InvalidAccountStatusException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateFleetRequest,
   output: AssociateFleetResult,
   errors: [
@@ -4346,46 +4963,68 @@ export const associateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates the specified users with the specified stacks. Users in a user pool cannot be assigned to stacks with fleets that are joined to an Active Directory domain.
  */
-export const batchAssociateUserStack = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchAssociateUserStackRequest,
-    output: BatchAssociateUserStackResult,
-    errors: [
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-    ],
-  }),
-);
+export const batchAssociateUserStack: (
+  input: BatchAssociateUserStackRequest,
+) => Effect.Effect<
+  BatchAssociateUserStackResult,
+  | InvalidParameterCombinationException
+  | OperationNotPermittedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchAssociateUserStackRequest,
+  output: BatchAssociateUserStackResult,
+  errors: [
+    InvalidParameterCombinationException,
+    OperationNotPermittedException,
+  ],
+}));
 /**
  * Disassociates the specified users from the specified stacks.
  */
-export const batchDisassociateUserStack = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDisassociateUserStackRequest,
-    output: BatchDisassociateUserStackResult,
-    errors: [
-      InvalidParameterCombinationException,
-      OperationNotPermittedException,
-    ],
-  }),
-);
+export const batchDisassociateUserStack: (
+  input: BatchDisassociateUserStackRequest,
+) => Effect.Effect<
+  BatchDisassociateUserStackResult,
+  | InvalidParameterCombinationException
+  | OperationNotPermittedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDisassociateUserStackRequest,
+  output: BatchDisassociateUserStackResult,
+  errors: [
+    InvalidParameterCombinationException,
+    OperationNotPermittedException,
+  ],
+}));
 /**
  * Creates a Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
  */
-export const createDirectoryConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDirectoryConfigRequest,
-    output: CreateDirectoryConfigResult,
-    errors: [
-      InvalidAccountStatusException,
-      InvalidRoleException,
-      LimitExceededException,
-      OperationNotPermittedException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const createDirectoryConfig: (
+  input: CreateDirectoryConfigRequest,
+) => Effect.Effect<
+  CreateDirectoryConfigResult,
+  | InvalidAccountStatusException
+  | InvalidRoleException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDirectoryConfigRequest,
+  output: CreateDirectoryConfigResult,
+  errors: [
+    InvalidAccountStatusException,
+    InvalidRoleException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a new entitlement. Entitlements control access to specific applications within
  * a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user
@@ -4394,7 +5033,17 @@ export const createDirectoryConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * application, or to applications managed by a dynamic app provider using the Dynamic
  * Application Framework.
  */
-export const createEntitlement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEntitlement: (
+  input: CreateEntitlementRequest,
+) => Effect.Effect<
+  CreateEntitlementResult,
+  | EntitlementAlreadyExistsException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEntitlementRequest,
   output: CreateEntitlementResult,
   errors: [
@@ -4407,25 +5056,53 @@ export const createEntitlement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a task to export a WorkSpaces Applications image to an EC2 AMI. This allows you to use your customized WorkSpaces Applications images with other AWS services or for backup purposes.
  */
-export const createExportImageTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateExportImageTaskRequest,
-    output: CreateExportImageTaskResult,
-    errors: [
-      ConcurrentModificationException,
-      InvalidAccountStatusException,
-      InvalidRoleException,
-      LimitExceededException,
-      OperationNotPermittedException,
-      ResourceNotAvailableException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const createExportImageTask: (
+  input: CreateExportImageTaskRequest,
+) => Effect.Effect<
+  CreateExportImageTaskResult,
+  | ConcurrentModificationException
+  | InvalidAccountStatusException
+  | InvalidRoleException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceNotAvailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateExportImageTaskRequest,
+  output: CreateExportImageTaskResult,
+  errors: [
+    ConcurrentModificationException,
+    InvalidAccountStatusException,
+    InvalidRoleException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    ResourceNotAvailableException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a fleet. A fleet consists of streaming instances that your users access for their applications and desktops.
  */
-export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFleet: (
+  input: CreateFleetRequest,
+) => Effect.Effect<
+  CreateFleetResult,
+  | ConcurrentModificationException
+  | IncompatibleImageException
+  | InvalidAccountStatusException
+  | InvalidParameterCombinationException
+  | InvalidRoleException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | RequestLimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotAvailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFleetRequest,
   output: CreateFleetResult,
   errors: [
@@ -4447,7 +5124,24 @@ export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The initial state of the builder is `PENDING`. When it is ready, the state is `RUNNING`.
  */
-export const createImageBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createImageBuilder: (
+  input: CreateImageBuilderRequest,
+) => Effect.Effect<
+  CreateImageBuilderResult,
+  | ConcurrentModificationException
+  | IncompatibleImageException
+  | InvalidAccountStatusException
+  | InvalidParameterCombinationException
+  | InvalidRoleException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | RequestLimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotAvailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateImageBuilderRequest,
   output: CreateImageBuilderResult,
   errors: [
@@ -4467,7 +5161,21 @@ export const createImageBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a custom WorkSpaces Applications image by importing an EC2 AMI. This allows you to use your own customized AMI to create WorkSpaces Applications images that support additional instance types beyond the standard stream.* instances.
  */
-export const createImportedImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createImportedImage: (
+  input: CreateImportedImageRequest,
+) => Effect.Effect<
+  CreateImportedImageResult,
+  | DryRunOperationException
+  | IncompatibleImageException
+  | InvalidAccountStatusException
+  | InvalidRoleException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateImportedImageRequest,
   output: CreateImportedImageResult,
   errors: [
@@ -4487,7 +5195,20 @@ export const createImportedImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see the "Update an Image by Using
  * Managed WorkSpaces Applications Image Updates" section in Administer Your WorkSpaces Applications Images, in the *Amazon WorkSpaces Applications Administration Guide*.
  */
-export const createUpdatedImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUpdatedImage: (
+  input: CreateUpdatedImageRequest,
+) => Effect.Effect<
+  CreateUpdatedImageResult,
+  | ConcurrentModificationException
+  | IncompatibleImageException
+  | InvalidAccountStatusException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUpdatedImageRequest,
   output: CreateUpdatedImageResult,
   errors: [
@@ -4503,21 +5224,54 @@ export const createUpdatedImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list that describes one or more app block builders.
  */
-export const describeAppBlockBuilders =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAppBlockBuilders: {
+  (
     input: DescribeAppBlockBuildersRequest,
-    output: DescribeAppBlockBuildersResult,
-    errors: [OperationNotPermittedException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAppBlockBuildersResult,
+    | OperationNotPermittedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAppBlockBuildersRequest,
+  ) => Stream.Stream<
+    DescribeAppBlockBuildersResult,
+    | OperationNotPermittedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAppBlockBuildersRequest,
+  ) => Stream.Stream<
+    unknown,
+    | OperationNotPermittedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAppBlockBuildersRequest,
+  output: DescribeAppBlockBuildersResult,
+  errors: [OperationNotPermittedException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list that describes one or more specified fleets, if the fleet names are provided. Otherwise, all fleets in the account are described.
  */
-export const describeFleets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeFleets: (
+  input: DescribeFleetsRequest,
+) => Effect.Effect<
+  DescribeFleetsResult,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFleetsRequest,
   output: DescribeFleetsResult,
   errors: [ResourceNotFoundException],
@@ -4525,7 +5279,13 @@ export const describeFleets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list that describes one or more specified stacks, if the stack names are provided. Otherwise, all stacks in the account are described.
  */
-export const describeStacks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeStacks: (
+  input: DescribeStacksRequest,
+) => Effect.Effect<
+  DescribeStacksResult,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStacksRequest,
   output: DescribeStacksResult,
   errors: [ResourceNotFoundException],
@@ -4533,16 +5293,37 @@ export const describeStacks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list that describes one or more usage report subscriptions.
  */
-export const describeUsageReportSubscriptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeUsageReportSubscriptionsRequest,
-    output: DescribeUsageReportSubscriptionsResult,
-    errors: [InvalidAccountStatusException, ResourceNotFoundException],
-  }));
+export const describeUsageReportSubscriptions: (
+  input: DescribeUsageReportSubscriptionsRequest,
+) => Effect.Effect<
+  DescribeUsageReportSubscriptionsResult,
+  | InvalidAccountStatusException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUsageReportSubscriptionsRequest,
+  output: DescribeUsageReportSubscriptionsResult,
+  errors: [InvalidAccountStatusException, ResourceNotFoundException],
+}));
 /**
  * Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations.
  */
-export const createStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createStack: (
+  input: CreateStackRequest,
+) => Effect.Effect<
+  CreateStackResult,
+  | ConcurrentModificationException
+  | InvalidAccountStatusException
+  | InvalidParameterCombinationException
+  | InvalidRoleException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStackRequest,
   output: CreateStackResult,
   errors: [
@@ -4559,7 +5340,19 @@ export const createStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates custom branding that customizes the appearance of the streaming application catalog page.
  */
-export const createThemeForStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createThemeForStack: (
+  input: CreateThemeForStackRequest,
+) => Effect.Effect<
+  CreateThemeForStackResult,
+  | ConcurrentModificationException
+  | InvalidAccountStatusException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateThemeForStackRequest,
   output: CreateThemeForStackResult,
   errors: [
@@ -4574,7 +5367,19 @@ export const createThemeForStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Copies the image within the same region or to a new region within the same AWS account. Note that any tags you added to the image will not be copied.
  */
-export const copyImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copyImage: (
+  input: CopyImageRequest,
+) => Effect.Effect<
+  CopyImageResponse,
+  | IncompatibleImageException
+  | InvalidAccountStatusException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotAvailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyImageRequest,
   output: CopyImageResponse,
   errors: [
@@ -4589,7 +5394,18 @@ export const copyImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new user in the user pool.
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUser: (
+  input: CreateUserRequest,
+) => Effect.Effect<
+  CreateUserResult,
+  | InvalidAccountStatusException
+  | InvalidParameterCombinationException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
   output: CreateUserResult,
   errors: [
@@ -4611,7 +5427,17 @@ export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This is only supported for Elastic fleets.
  */
-export const createAppBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAppBlock: (
+  input: CreateAppBlockRequest,
+) => Effect.Effect<
+  CreateAppBlockResult,
+  | ConcurrentModificationException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppBlockRequest,
   output: CreateAppBlockResult,
   errors: [
@@ -4632,7 +5458,18 @@ export const createAppBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This is only supported for Elastic fleets.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationRequest,
+) => Effect.Effect<
+  CreateApplicationResult,
+  | ConcurrentModificationException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
   output: CreateApplicationResult,
   errors: [
@@ -4668,7 +5505,24 @@ export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If the fleet is in the `STARTING` or `STOPPED` state, you can't update it.
  */
-export const updateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFleet: (
+  input: UpdateFleetRequest,
+) => Effect.Effect<
+  UpdateFleetResult,
+  | ConcurrentModificationException
+  | IncompatibleImageException
+  | InvalidAccountStatusException
+  | InvalidParameterCombinationException
+  | InvalidRoleException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | RequestLimitExceededException
+  | ResourceInUseException
+  | ResourceNotAvailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFleetRequest,
   output: UpdateFleetResult,
   errors: [
@@ -4694,25 +5548,50 @@ export const updateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Starting an app block builder starts a new instance, which is equivalent to an elastic
  * fleet instance with application builder assistance functionality.
  */
-export const startAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartAppBlockBuilderRequest,
-    output: StartAppBlockBuilderResult,
-    errors: [
-      ConcurrentModificationException,
-      InvalidAccountStatusException,
-      LimitExceededException,
-      OperationNotPermittedException,
-      RequestLimitExceededException,
-      ResourceNotAvailableException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const startAppBlockBuilder: (
+  input: StartAppBlockBuilderRequest,
+) => Effect.Effect<
+  StartAppBlockBuilderResult,
+  | ConcurrentModificationException
+  | InvalidAccountStatusException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | RequestLimitExceededException
+  | ResourceNotAvailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAppBlockBuilderRequest,
+  output: StartAppBlockBuilderResult,
+  errors: [
+    ConcurrentModificationException,
+    InvalidAccountStatusException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    RequestLimitExceededException,
+    ResourceNotAvailableException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Starts the specified fleet.
  */
-export const startFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startFleet: (
+  input: StartFleetRequest,
+) => Effect.Effect<
+  StartFleetResult,
+  | ConcurrentModificationException
+  | InvalidAccountStatusException
+  | InvalidRoleException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | RequestLimitExceededException
+  | ResourceNotAvailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFleetRequest,
   output: StartFleetResult,
   errors: [
@@ -4734,42 +5613,70 @@ export const startFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * state, you can only update the DisplayName and Description. If the app block builder is
  * in the `STOPPED` state, you can update any attribute except the Name.
  */
-export const updateAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAppBlockBuilderRequest,
-    output: UpdateAppBlockBuilderResult,
-    errors: [
-      ConcurrentModificationException,
-      InvalidAccountStatusException,
-      InvalidParameterCombinationException,
-      InvalidRoleException,
-      LimitExceededException,
-      OperationNotPermittedException,
-      RequestLimitExceededException,
-      ResourceInUseException,
-      ResourceNotAvailableException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateAppBlockBuilder: (
+  input: UpdateAppBlockBuilderRequest,
+) => Effect.Effect<
+  UpdateAppBlockBuilderResult,
+  | ConcurrentModificationException
+  | InvalidAccountStatusException
+  | InvalidParameterCombinationException
+  | InvalidRoleException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | RequestLimitExceededException
+  | ResourceInUseException
+  | ResourceNotAvailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAppBlockBuilderRequest,
+  output: UpdateAppBlockBuilderResult,
+  errors: [
+    ConcurrentModificationException,
+    InvalidAccountStatusException,
+    InvalidParameterCombinationException,
+    InvalidRoleException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    RequestLimitExceededException,
+    ResourceInUseException,
+    ResourceNotAvailableException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates an app block builder.
  */
-export const createAppBlockBuilder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAppBlockBuilderRequest,
-    output: CreateAppBlockBuilderResult,
-    errors: [
-      ConcurrentModificationException,
-      InvalidAccountStatusException,
-      InvalidParameterCombinationException,
-      InvalidRoleException,
-      LimitExceededException,
-      OperationNotPermittedException,
-      RequestLimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceNotAvailableException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const createAppBlockBuilder: (
+  input: CreateAppBlockBuilderRequest,
+) => Effect.Effect<
+  CreateAppBlockBuilderResult,
+  | ConcurrentModificationException
+  | InvalidAccountStatusException
+  | InvalidParameterCombinationException
+  | InvalidRoleException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | RequestLimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotAvailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAppBlockBuilderRequest,
+  output: CreateAppBlockBuilderResult,
+  errors: [
+    ConcurrentModificationException,
+    InvalidAccountStatusException,
+    InvalidParameterCombinationException,
+    InvalidRoleException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    RequestLimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotAvailableException,
+    ResourceNotFoundException,
+  ],
+}));

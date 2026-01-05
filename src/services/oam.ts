@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "OAM", serviceShapeName: "oamservice" });
 const auth = T.AwsAuthSigv4({ name: "oam" });
 const ver = T.ServiceVersion("2022-06-10");
@@ -289,6 +297,21 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type LabelTemplate = string;
+export type ResourceIdentifier = string;
+export type SinkName = string;
+export type ListAttachedLinksMaxResults = number;
+export type NextToken = string;
+export type ListLinksMaxResults = number;
+export type ListSinksMaxResults = number;
+export type Arn = string;
+export type SinkPolicy = string;
+export type TagKey = string;
+export type TagValue = string;
+export type LogsFilter = string;
+export type MetricsFilter = string;
 
 //# Schemas
 export type ResourceTypesInput = string[];
@@ -867,7 +890,9 @@ export class InternalServiceFault extends S.TaggedError<InternalServiceFault>()(
     Message: S.optional(S.String),
     amznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -910,7 +935,9 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
     Message: S.optional(S.String),
     amznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
@@ -918,7 +945,38 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  *
  * To find a list of links for one monitoring account sink, use ListAttachedLinks from within the monitoring account.
  */
-export const listLinks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLinks: {
+  (
+    input: ListLinksInput,
+  ): Effect.Effect<
+    ListLinksOutput,
+    | InternalServiceFault
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLinksInput,
+  ) => Stream.Stream<
+    ListLinksOutput,
+    | InternalServiceFault
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLinksInput,
+  ) => Stream.Stream<
+    ListLinksItem,
+    | InternalServiceFault
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLinksInput,
   output: ListLinksOutput,
   errors: [
@@ -936,7 +994,38 @@ export const listLinks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Use this operation in a monitoring account to return the list of sinks created in that account.
  */
-export const listSinks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSinks: {
+  (
+    input: ListSinksInput,
+  ): Effect.Effect<
+    ListSinksOutput,
+    | InternalServiceFault
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSinksInput,
+  ) => Stream.Stream<
+    ListSinksOutput,
+    | InternalServiceFault
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSinksInput,
+  ) => Stream.Stream<
+    ListSinksItem,
+    | InternalServiceFault
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSinksInput,
   output: ListSinksOutput,
   errors: [
@@ -956,7 +1045,13 @@ export const listSinks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the `oam:ResourceTag` permission. The `iam:TagResource` permission does not allow you to tag and untag links and sinks.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [ResourceNotFoundException, ValidationException],
@@ -964,7 +1059,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Displays the tags associated with a resource. Both sinks and links support tagging.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [ResourceNotFoundException, ValidationException],
@@ -982,7 +1083,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the `oam:ResourceTag` permission. The `iam:ResourceTag` permission does not allow you to tag and untag links and sinks.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -994,7 +1104,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a link between a monitoring account sink and a source account. You must run this operation in the source account.
  */
-export const deleteLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLink: (
+  input: DeleteLinkInput,
+) => Effect.Effect<
+  DeleteLinkOutput,
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLinkInput,
   output: DeleteLinkOutput,
   errors: [
@@ -1011,28 +1131,71 @@ export const deleteLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To find a list of links for one source account, use ListLinks.
  */
-export const listAttachedLinks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAttachedLinks: {
+  (
     input: ListAttachedLinksInput,
-    output: ListAttachedLinksOutput,
-    errors: [
-      InternalServiceFault,
-      InvalidParameterException,
-      MissingRequiredParameterException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAttachedLinksOutput,
+    | InternalServiceFault
+    | InvalidParameterException
+    | MissingRequiredParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttachedLinksInput,
+  ) => Stream.Stream<
+    ListAttachedLinksOutput,
+    | InternalServiceFault
+    | InvalidParameterException
+    | MissingRequiredParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttachedLinksInput,
+  ) => Stream.Stream<
+    ListAttachedLinksItem,
+    | InternalServiceFault
+    | InvalidParameterException
+    | MissingRequiredParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttachedLinksInput,
+  output: ListAttachedLinksOutput,
+  errors: [
+    InternalServiceFault,
+    InvalidParameterException,
+    MissingRequiredParameterException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes a sink. You must delete all links to a sink before you can delete that sink.
  */
-export const deleteSink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSink: (
+  input: DeleteSinkInput,
+) => Effect.Effect<
+  DeleteSinkOutput,
+  | ConflictException
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSinkInput,
   output: DeleteSinkOutput,
   errors: [
@@ -1048,7 +1211,17 @@ export const deleteSink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To use this operation, provide the link ARN. To retrieve a list of link ARNs, use ListLinks.
  */
-export const getLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLink: (
+  input: GetLinkInput,
+) => Effect.Effect<
+  GetLinkOutput,
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLinkInput,
   output: GetLinkOutput,
   errors: [
@@ -1063,7 +1236,17 @@ export const getLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use ListSinks.
  */
-export const getSink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSink: (
+  input: GetSinkInput,
+) => Effect.Effect<
+  GetSinkOutput,
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSinkInput,
   output: GetSinkOutput,
   errors: [
@@ -1076,7 +1259,17 @@ export const getSink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the current sink policy attached to this sink. The sink policy specifies what accounts can attach to this sink as source accounts, and what types of data they can share.
  */
-export const getSinkPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSinkPolicy: (
+  input: GetSinkPolicyInput,
+) => Effect.Effect<
+  GetSinkPolicyOutput,
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSinkPolicyInput,
   output: GetSinkPolicyOutput,
   errors: [
@@ -1105,7 +1298,17 @@ export const getSinkPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * See the examples in this section to see how to specify permitted source accounts and data types.
  */
-export const putSinkPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putSinkPolicy: (
+  input: PutSinkPolicyInput,
+) => Effect.Effect<
+  PutSinkPolicyOutput,
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSinkPolicyInput,
   output: PutSinkPolicyOutput,
   errors: [
@@ -1122,7 +1325,17 @@ export const putSinkPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To update the list of tags associated with the sink, use TagResource.
  */
-export const updateLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLink: (
+  input: UpdateLinkInput,
+) => Effect.Effect<
+  UpdateLinkOutput,
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLinkInput,
   output: UpdateLinkOutput,
   errors: [
@@ -1139,7 +1352,18 @@ export const updateLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Each account can contain one sink per Region. If you delete a sink, you can then create a new one in that Region.
  */
-export const createSink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSink: (
+  input: CreateSinkInput,
+) => Effect.Effect<
+  CreateSinkOutput,
+  | ConflictException
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSinkInput,
   output: CreateSinkOutput,
   errors: [
@@ -1161,7 +1385,18 @@ export const createSink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Each source account can be linked to as many as five monitoring accounts.
  */
-export const createLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLink: (
+  input: CreateLinkInput,
+) => Effect.Effect<
+  CreateLinkOutput,
+  | ConflictException
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLinkInput,
   output: CreateLinkOutput,
   errors: [

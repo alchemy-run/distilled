@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://config.amazonaws.com/doc/2014-11-12/");
 const svc = T.AwsApiService({
   sdkId: "Config Service",
@@ -261,6 +269,98 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AmazonResourceName = string;
+export type ConfigurationAggregatorName = string;
+export type AccountId = string;
+export type AwsRegion = string;
+export type ConfigRuleName = string;
+export type RecorderName = string;
+export type ConformancePackName = string;
+export type ChannelName = string;
+export type StringWithCharLimit64 = string;
+export type OrganizationConfigRuleName = string;
+export type OrganizationConformancePackName = string;
+export type ResourceTypeString = string;
+export type ResourceId = string;
+export type RetentionConfigurationName = string;
+export type ServicePrincipal = string;
+export type QueryName = string;
+export type GroupByAPILimit = number;
+export type NextToken = string;
+export type Limit = number;
+export type StringWithCharLimit256 = string;
+export type BaseResourceId = string;
+export type RuleLimit = number;
+export type DescribeConformancePackComplianceLimit = number;
+export type PageSizeLimit = number;
+export type CosmosPageLimit = number;
+export type DescribePendingAggregationRequestsLimit = number;
+export type ResourceEvaluationId = string;
+export type GetConformancePackComplianceDetailsLimit = number;
+export type MaxResults = number;
+export type ResourceName = string;
+export type ListResourceEvaluationsPageItemLimit = number;
+export type TemplateS3Uri = string;
+export type TemplateBody = string;
+export type DeliveryS3Bucket = string;
+export type DeliveryS3KeyPrefix = string;
+export type StringWithCharLimit1024 = string;
+export type SchemaVersionId = string;
+export type Configuration = string;
+export type RetentionPeriodInDays = number;
+export type Expression = string;
+export type EvaluationTimeout = number;
+export type ClientToken = string;
+export type TagKey = string;
+export type ConfigurationRecorderFilterValue = string;
+export type EvaluationContextIdentifier = string;
+export type TagValue = string;
+export type EmptiableStringWithCharLimit256 = string;
+export type ParameterName = string;
+export type ParameterValue = string;
+export type SSMDocumentName = string;
+export type SSMDocumentVersion = string;
+export type StringWithCharLimit256Min0 = string;
+export type StringWithCharLimit2048 = string;
+export type StringWithCharLimit768 = string;
+export type StringWithCharLimit128 = string;
+export type PolicyRuntime = string;
+export type PolicyText = string;
+export type AutoRemediationAttempts = number;
+export type AutoRemediationAttemptSeconds = number;
+export type Name = string;
+export type Value = string;
+export type QueryId = string;
+export type QueryArn = string;
+export type QueryDescription = string;
+export type QueryExpression = string;
+export type ResourceConfiguration = string;
+export type ErrorMessage = string;
+export type Long = number;
+export type Integer = number;
+export type ResourceTypeValue = string;
+export type ServicePrincipalValue = string;
+export type ConfigurationAggregatorArn = string;
+export type ConformancePackArn = string;
+export type ConformancePackId = string;
+export type StackArn = string;
+export type ConformancePackStatusReason = string;
+export type Version = string;
+export type ConfigurationStateId = string;
+export type ConfigurationItemMD5Hash = string;
+export type ARN = string;
+export type AvailabilityZone = string;
+export type RelatedEvent = string;
+export type Description = string;
+export type Percentage = number;
+export type RelationshipName = string;
+export type SupplementaryConfigurationName = string;
+export type SupplementaryConfigurationValue = string;
+export type FieldName = string;
+export type Annotation = string;
+export type ComplianceScore = string;
 
 //# Schemas
 export interface GetComplianceSummaryByConfigRuleRequest {}
@@ -5757,52 +5857,94 @@ export class NoSuchBucketException extends S.TaggedError<NoSuchBucketException>(
  * Deletes the authorization granted to the specified
  * configuration aggregator account in a specified region.
  */
-export const deleteAggregationAuthorization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAggregationAuthorizationRequest,
-    output: DeleteAggregationAuthorizationResponse,
-    errors: [InvalidParameterValueException],
-  }));
+export const deleteAggregationAuthorization: (
+  input: DeleteAggregationAuthorizationRequest,
+) => Effect.Effect<
+  DeleteAggregationAuthorizationResponse,
+  InvalidParameterValueException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAggregationAuthorizationRequest,
+  output: DeleteAggregationAuthorizationResponse,
+  errors: [InvalidParameterValueException],
+}));
 /**
  * Deletes the specified configuration aggregator and the
  * aggregated data associated with the aggregator.
  */
-export const deleteConfigurationAggregator =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteConfigurationAggregatorRequest,
-    output: DeleteConfigurationAggregatorResponse,
-    errors: [NoSuchConfigurationAggregatorException],
-  }));
+export const deleteConfigurationAggregator: (
+  input: DeleteConfigurationAggregatorRequest,
+) => Effect.Effect<
+  DeleteConfigurationAggregatorResponse,
+  NoSuchConfigurationAggregatorException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConfigurationAggregatorRequest,
+  output: DeleteConfigurationAggregatorResponse,
+  errors: [NoSuchConfigurationAggregatorException],
+}));
 /**
  * Returns the details of one or more remediation configurations.
  */
-export const describeRemediationConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeRemediationConfigurationsRequest,
-    output: DescribeRemediationConfigurationsResponse,
-    errors: [],
-  }));
+export const describeRemediationConfigurations: (
+  input: DescribeRemediationConfigurationsRequest,
+) => Effect.Effect<
+  DescribeRemediationConfigurationsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRemediationConfigurationsRequest,
+  output: DescribeRemediationConfigurationsResponse,
+  errors: [],
+}));
 /**
  * Returns the evaluation results for the specified Amazon Web Services resource.
  * The results indicate which Config rules were used to evaluate
  * the resource, when each rule was last invoked, and whether the resource
  * complies with each rule.
  */
-export const getComplianceDetailsByResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getComplianceDetailsByResource: {
+  (
     input: GetComplianceDetailsByResourceRequest,
-    output: GetComplianceDetailsByResourceResponse,
-    errors: [InvalidParameterValueException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EvaluationResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetComplianceDetailsByResourceResponse,
+    InvalidParameterValueException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetComplianceDetailsByResourceRequest,
+  ) => Stream.Stream<
+    GetComplianceDetailsByResourceResponse,
+    InvalidParameterValueException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetComplianceDetailsByResourceRequest,
+  ) => Stream.Stream<
+    EvaluationResult,
+    InvalidParameterValueException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetComplianceDetailsByResourceRequest,
+  output: GetComplianceDetailsByResourceResponse,
+  errors: [InvalidParameterValueException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EvaluationResults",
+  } as const,
+}));
 /**
  * Returns the policy definition containing the logic for your Config Custom Policy rule.
  */
-export const getCustomRulePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCustomRulePolicy: (
+  input: GetCustomRulePolicyRequest,
+) => Effect.Effect<
+  GetCustomRulePolicyResponse,
+  NoSuchConfigRuleException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomRulePolicyRequest,
   output: GetCustomRulePolicyResponse,
   errors: [NoSuchConfigRuleException],
@@ -5811,23 +5953,34 @@ export const getCustomRulePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Add or updates the evaluations for process checks.
  * This API checks if the rule is a process check when the name of the Config rule is provided.
  */
-export const putExternalEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutExternalEvaluationRequest,
-    output: PutExternalEvaluationResponse,
-    errors: [InvalidParameterValueException, NoSuchConfigRuleException],
-  }),
-);
+export const putExternalEvaluation: (
+  input: PutExternalEvaluationRequest,
+) => Effect.Effect<
+  PutExternalEvaluationResponse,
+  | InvalidParameterValueException
+  | NoSuchConfigRuleException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutExternalEvaluationRequest,
+  output: PutExternalEvaluationResponse,
+  errors: [InvalidParameterValueException, NoSuchConfigRuleException],
+}));
 /**
  * Deletes pending authorization requests for a specified
  * aggregator account in a specified region.
  */
-export const deletePendingAggregationRequest =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeletePendingAggregationRequestRequest,
-    output: DeletePendingAggregationRequestResponse,
-    errors: [InvalidParameterValueException],
-  }));
+export const deletePendingAggregationRequest: (
+  input: DeletePendingAggregationRequestRequest,
+) => Effect.Effect<
+  DeletePendingAggregationRequestResponse,
+  InvalidParameterValueException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePendingAggregationRequestRequest,
+  output: DeletePendingAggregationRequestResponse,
+  errors: [InvalidParameterValueException],
+}));
 /**
  * Deletes the specified Config rule and all of its evaluation
  * results.
@@ -5853,7 +6006,13 @@ export const deletePendingAggregationRequest =
  * However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource’s history.
  */
-export const deleteConfigRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConfigRule: (
+  input: DeleteConfigRuleRequest,
+) => Effect.Effect<
+  DeleteConfigRuleResponse,
+  NoSuchConfigRuleException | ResourceInUseException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigRuleRequest,
   output: DeleteConfigRuleResponse,
   errors: [NoSuchConfigRuleException, ResourceInUseException],
@@ -5868,28 +6027,40 @@ export const deleteConfigRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * be able to access this information in the Config console until
  * you have created a new customer managed configuration recorder.
  */
-export const deleteConfigurationRecorder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConfigurationRecorderRequest,
-    output: DeleteConfigurationRecorderResponse,
-    errors: [NoSuchConfigurationRecorderException, UnmodifiableEntityException],
-  }),
-);
+export const deleteConfigurationRecorder: (
+  input: DeleteConfigurationRecorderRequest,
+) => Effect.Effect<
+  DeleteConfigurationRecorderResponse,
+  | NoSuchConfigurationRecorderException
+  | UnmodifiableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConfigurationRecorderRequest,
+  output: DeleteConfigurationRecorderResponse,
+  errors: [NoSuchConfigurationRecorderException, UnmodifiableEntityException],
+}));
 /**
  * Deletes the delivery channel.
  *
  * Before you can delete the delivery channel, you must stop the customer managed configuration recorder. You can use the StopConfigurationRecorder operation to stop the customer managed configuration recorder.
  */
-export const deleteDeliveryChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDeliveryChannelRequest,
-    output: DeleteDeliveryChannelResponse,
-    errors: [
-      LastDeliveryChannelDeleteFailedException,
-      NoSuchDeliveryChannelException,
-    ],
-  }),
-);
+export const deleteDeliveryChannel: (
+  input: DeleteDeliveryChannelRequest,
+) => Effect.Effect<
+  DeleteDeliveryChannelResponse,
+  | LastDeliveryChannelDeleteFailedException
+  | NoSuchDeliveryChannelException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDeliveryChannelRequest,
+  output: DeleteDeliveryChannelResponse,
+  errors: [
+    LastDeliveryChannelDeleteFailedException,
+    NoSuchDeliveryChannelException,
+  ],
+}));
 /**
  * Deletes the specified organization Config rule and all of its evaluation results from all member accounts in that organization.
  *
@@ -5912,26 +6083,40 @@ export const deleteDeliveryChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource’s history.
  */
-export const deleteOrganizationConfigRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteOrganizationConfigRuleRequest,
-    output: DeleteOrganizationConfigRuleResponse,
-    errors: [
-      NoSuchOrganizationConfigRuleException,
-      OrganizationAccessDeniedException,
-      ResourceInUseException,
-    ],
-  }));
+export const deleteOrganizationConfigRule: (
+  input: DeleteOrganizationConfigRuleRequest,
+) => Effect.Effect<
+  DeleteOrganizationConfigRuleResponse,
+  | NoSuchOrganizationConfigRuleException
+  | OrganizationAccessDeniedException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOrganizationConfigRuleRequest,
+  output: DeleteOrganizationConfigRuleResponse,
+  errors: [
+    NoSuchOrganizationConfigRuleException,
+    OrganizationAccessDeniedException,
+    ResourceInUseException,
+  ],
+}));
 /**
  * Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History.
  */
-export const deleteResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourceConfigRequest,
-    output: DeleteResourceConfigResponse,
-    errors: [NoRunningConfigurationRecorderException, ValidationException],
-  }),
-);
+export const deleteResourceConfig: (
+  input: DeleteResourceConfigRequest,
+) => Effect.Effect<
+  DeleteResourceConfigResponse,
+  | NoRunningConfigurationRecorderException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourceConfigRequest,
+  output: DeleteResourceConfigResponse,
+  errors: [NoRunningConfigurationRecorderException, ValidationException],
+}));
 /**
  * Schedules delivery of a configuration snapshot to the Amazon S3
  * bucket in the specified delivery channel. After the delivery has
@@ -5946,17 +6131,24 @@ export const deleteResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - Notification of delivery failure, if the delivery
  * failed.
  */
-export const deliverConfigSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeliverConfigSnapshotRequest,
-    output: DeliverConfigSnapshotResponse,
-    errors: [
-      NoAvailableConfigurationRecorderException,
-      NoRunningConfigurationRecorderException,
-      NoSuchDeliveryChannelException,
-    ],
-  }),
-);
+export const deliverConfigSnapshot: (
+  input: DeliverConfigSnapshotRequest,
+) => Effect.Effect<
+  DeliverConfigSnapshotResponse,
+  | NoAvailableConfigurationRecorderException
+  | NoRunningConfigurationRecorderException
+  | NoSuchDeliveryChannelException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeliverConfigSnapshotRequest,
+  output: DeliverConfigSnapshotResponse,
+  errors: [
+    NoAvailableConfigurationRecorderException,
+    NoRunningConfigurationRecorderException,
+    NoSuchDeliveryChannelException,
+  ],
+}));
 /**
  * Returns the current status of the configuration
  * recorder you specify as well as the status of the last recording event for the configuration recorders.
@@ -5968,34 +6160,51 @@ export const deliverConfigSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * When making a request to this operation, you can only specify one configuration recorder.
  */
-export const describeConfigurationRecorderStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConfigurationRecorderStatusRequest,
-    output: DescribeConfigurationRecorderStatusResponse,
-    errors: [NoSuchConfigurationRecorderException, ValidationException],
-  }));
+export const describeConfigurationRecorderStatus: (
+  input: DescribeConfigurationRecorderStatusRequest,
+) => Effect.Effect<
+  DescribeConfigurationRecorderStatusResponse,
+  | NoSuchConfigurationRecorderException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConfigurationRecorderStatusRequest,
+  output: DescribeConfigurationRecorderStatusResponse,
+  errors: [NoSuchConfigurationRecorderException, ValidationException],
+}));
 /**
  * Returns the number of Config rules that are compliant and
  * noncompliant, up to a maximum of 25 for each.
  */
-export const getComplianceSummaryByConfigRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetComplianceSummaryByConfigRuleRequest,
-    output: GetComplianceSummaryByConfigRuleResponse,
-    errors: [],
-  }));
+export const getComplianceSummaryByConfigRule: (
+  input: GetComplianceSummaryByConfigRuleRequest,
+) => Effect.Effect<
+  GetComplianceSummaryByConfigRuleResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetComplianceSummaryByConfigRuleRequest,
+  output: GetComplianceSummaryByConfigRuleResponse,
+  errors: [],
+}));
 /**
  * Returns the number of resources that are compliant and the
  * number that are noncompliant. You can specify one or more resource
  * types to get these numbers for each resource type. The maximum
  * number returned is 100.
  */
-export const getComplianceSummaryByResourceType =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetComplianceSummaryByResourceTypeRequest,
-    output: GetComplianceSummaryByResourceTypeResponse,
-    errors: [InvalidParameterValueException],
-  }));
+export const getComplianceSummaryByResourceType: (
+  input: GetComplianceSummaryByResourceTypeRequest,
+) => Effect.Effect<
+  GetComplianceSummaryByResourceTypeResponse,
+  InvalidParameterValueException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetComplianceSummaryByResourceTypeRequest,
+  output: GetComplianceSummaryByResourceTypeResponse,
+  errors: [InvalidParameterValueException],
+}));
 /**
  * Returns a summary of resource evaluation for the specified resource evaluation ID from the proactive rules that were run.
  * The results indicate which evaluation context was used to evaluate the rules, which resource details were evaluated,
@@ -6004,12 +6213,17 @@ export const getComplianceSummaryByResourceType =
  * To see additional information about the evaluation result, such as which rule flagged a resource as NON_COMPLIANT, use the GetComplianceDetailsByResource API.
  * For more information, see the Examples section.
  */
-export const getResourceEvaluationSummary =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetResourceEvaluationSummaryRequest,
-    output: GetResourceEvaluationSummaryResponse,
-    errors: [ResourceNotFoundException],
-  }));
+export const getResourceEvaluationSummary: (
+  input: GetResourceEvaluationSummaryRequest,
+) => Effect.Effect<
+  GetResourceEvaluationSummaryResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceEvaluationSummaryRequest,
+  output: GetResourceEvaluationSummaryResponse,
+  errors: [ResourceNotFoundException],
+}));
 /**
  * Authorizes the aggregator account and region to collect data
  * from the source account and region.
@@ -6021,13 +6235,17 @@ export const getResourceEvaluationSummary =
  *
  * Use TagResource and UntagResource to update tags after creation.
  */
-export const putAggregationAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutAggregationAuthorizationRequest,
-    output: PutAggregationAuthorizationResponse,
-    errors: [InvalidParameterValueException],
-  }),
-);
+export const putAggregationAuthorization: (
+  input: PutAggregationAuthorizationRequest,
+) => Effect.Effect<
+  PutAggregationAuthorizationResponse,
+  InvalidParameterValueException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAggregationAuthorizationRequest,
+  output: PutAggregationAuthorizationResponse,
+  errors: [InvalidParameterValueException],
+}));
 /**
  * A remediation exception is when a specified resource is no longer considered for auto-remediation.
  * This API adds a new exception or updates an existing exception for a specified resource with a specified Config rule.
@@ -6064,13 +6282,19 @@ export const putAggregationAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
  */
-export const putRemediationExceptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRemediationExceptionsRequest,
-    output: PutRemediationExceptionsResponse,
-    errors: [InsufficientPermissionsException, InvalidParameterValueException],
-  }),
-);
+export const putRemediationExceptions: (
+  input: PutRemediationExceptionsRequest,
+) => Effect.Effect<
+  PutRemediationExceptionsResponse,
+  | InsufficientPermissionsException
+  | InvalidParameterValueException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRemediationExceptionsRequest,
+  output: PutRemediationExceptionsResponse,
+  errors: [InsufficientPermissionsException, InvalidParameterValueException],
+}));
 /**
  * Records the configuration state for the resource provided in the request.
  *
@@ -6083,7 +6307,17 @@ export const putRemediationExceptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Write-only schema properites are not recorded as part of the published configuration item.
  */
-export const putResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourceConfig: (
+  input: PutResourceConfigRequest,
+) => Effect.Effect<
+  PutResourceConfigResponse,
+  | InsufficientPermissionsException
+  | MaxActiveResourcesExceededException
+  | NoRunningConfigurationRecorderException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourceConfigRequest,
   output: PutResourceConfigResponse,
   errors: [
@@ -6105,16 +6339,22 @@ export const putResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Currently, Config supports only one retention
  * configuration per region in your account.
  */
-export const putRetentionConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRetentionConfigurationRequest,
-    output: PutRetentionConfigurationResponse,
-    errors: [
-      InvalidParameterValueException,
-      MaxNumberOfRetentionConfigurationsExceededException,
-    ],
-  }),
-);
+export const putRetentionConfiguration: (
+  input: PutRetentionConfigurationRequest,
+) => Effect.Effect<
+  PutRetentionConfigurationResponse,
+  | InvalidParameterValueException
+  | MaxNumberOfRetentionConfigurationsExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRetentionConfigurationRequest,
+  output: PutRetentionConfigurationResponse,
+  errors: [
+    InvalidParameterValueException,
+    MaxNumberOfRetentionConfigurationsExceededException,
+  ],
+}));
 /**
  * Deletes an existing service-linked configuration recorder.
  *
@@ -6128,44 +6368,66 @@ export const putRetentionConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.
  */
-export const deleteServiceLinkedConfigurationRecorder =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteServiceLinkedConfigurationRecorderRequest,
-    output: DeleteServiceLinkedConfigurationRecorderResponse,
-    errors: [
-      ConflictException,
-      NoSuchConfigurationRecorderException,
-      ValidationException,
-    ],
-  }));
+export const deleteServiceLinkedConfigurationRecorder: (
+  input: DeleteServiceLinkedConfigurationRecorderRequest,
+) => Effect.Effect<
+  DeleteServiceLinkedConfigurationRecorderResponse,
+  | ConflictException
+  | NoSuchConfigurationRecorderException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceLinkedConfigurationRecorderRequest,
+  output: DeleteServiceLinkedConfigurationRecorderResponse,
+  errors: [
+    ConflictException,
+    NoSuchConfigurationRecorderException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes all resource types specified in the `ResourceTypes` list from the RecordingGroup of configuration recorder and excludes these resource types when recording.
  *
  * For this operation, the configuration recorder must use a RecordingStrategy that is either `INCLUSION_BY_RESOURCE_TYPES` or `EXCLUSION_BY_RESOURCE_TYPES`.
  */
-export const disassociateResourceTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateResourceTypesRequest,
-    output: DisassociateResourceTypesResponse,
-    errors: [
-      ConflictException,
-      NoSuchConfigurationRecorderException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateResourceTypes: (
+  input: DisassociateResourceTypesRequest,
+) => Effect.Effect<
+  DisassociateResourceTypesResponse,
+  | ConflictException
+  | NoSuchConfigurationRecorderException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateResourceTypesRequest,
+  output: DisassociateResourceTypesResponse,
+  errors: [
+    ConflictException,
+    NoSuchConfigurationRecorderException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the retention configuration.
  */
-export const deleteRetentionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRetentionConfigurationRequest,
-    output: DeleteRetentionConfigurationResponse,
-    errors: [
-      InvalidParameterValueException,
-      NoSuchRetentionConfigurationException,
-    ],
-  }));
+export const deleteRetentionConfiguration: (
+  input: DeleteRetentionConfigurationRequest,
+) => Effect.Effect<
+  DeleteRetentionConfigurationResponse,
+  | InvalidParameterValueException
+  | NoSuchRetentionConfigurationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRetentionConfigurationRequest,
+  output: DeleteRetentionConfigurationResponse,
+  errors: [
+    InvalidParameterValueException,
+    NoSuchRetentionConfigurationException,
+  ],
+}));
 /**
  * Runs an on-demand evaluation for the specified Config rules
  * against the last known configuration state of the resources. Use
@@ -6208,18 +6470,26 @@ export const deleteRetentionConfiguration =
  * - Your custom rule will still run periodic evaluations
  * every 24 hours.
  */
-export const startConfigRulesEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartConfigRulesEvaluationRequest,
-    output: StartConfigRulesEvaluationResponse,
-    errors: [
-      InvalidParameterValueException,
-      LimitExceededException,
-      NoSuchConfigRuleException,
-      ResourceInUseException,
-    ],
-  }),
-);
+export const startConfigRulesEvaluation: (
+  input: StartConfigRulesEvaluationRequest,
+) => Effect.Effect<
+  StartConfigRulesEvaluationResponse,
+  | InvalidParameterValueException
+  | LimitExceededException
+  | NoSuchConfigRuleException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartConfigRulesEvaluationRequest,
+  output: StartConfigRulesEvaluationResponse,
+  errors: [
+    InvalidParameterValueException,
+    LimitExceededException,
+    NoSuchConfigRuleException,
+    ResourceInUseException,
+  ],
+}));
 /**
  * Deletes the specified conformance pack and all the Config rules, remediation actions, and all evaluation results within that
  * conformance pack.
@@ -6239,53 +6509,74 @@ export const startConfigRulesEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource’s history.
  */
-export const deleteConformancePack = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConformancePackRequest,
-    output: DeleteConformancePackResponse,
-    errors: [NoSuchConformancePackException, ResourceInUseException],
-  }),
-);
+export const deleteConformancePack: (
+  input: DeleteConformancePackRequest,
+) => Effect.Effect<
+  DeleteConformancePackResponse,
+  NoSuchConformancePackException | ResourceInUseException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConformancePackRequest,
+  output: DeleteConformancePackResponse,
+  errors: [NoSuchConformancePackException, ResourceInUseException],
+}));
 /**
  * Deletes the evaluation results for the specified Config
  * rule. You can specify one Config rule per request. After you
  * delete the evaluation results, you can call the StartConfigRulesEvaluation API to start evaluating
  * your Amazon Web Services resources against the rule.
  */
-export const deleteEvaluationResults = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEvaluationResultsRequest,
-    output: DeleteEvaluationResultsResponse,
-    errors: [NoSuchConfigRuleException, ResourceInUseException],
-  }),
-);
+export const deleteEvaluationResults: (
+  input: DeleteEvaluationResultsRequest,
+) => Effect.Effect<
+  DeleteEvaluationResultsResponse,
+  NoSuchConfigRuleException | ResourceInUseException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEvaluationResultsRequest,
+  output: DeleteEvaluationResultsResponse,
+  errors: [NoSuchConfigRuleException, ResourceInUseException],
+}));
 /**
  * Starts the customer managed configuration recorder. The customer managed configuration recorder will begin recording configuration changes for the resource types you specify.
  *
  * You must have created a delivery channel to
  * successfully start the customer managed configuration recorder. You can use the PutDeliveryChannel operation to create a delivery channel.
  */
-export const startConfigurationRecorder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartConfigurationRecorderRequest,
-    output: StartConfigurationRecorderResponse,
-    errors: [
-      NoAvailableDeliveryChannelException,
-      NoSuchConfigurationRecorderException,
-      UnmodifiableEntityException,
-    ],
-  }),
-);
+export const startConfigurationRecorder: (
+  input: StartConfigurationRecorderRequest,
+) => Effect.Effect<
+  StartConfigurationRecorderResponse,
+  | NoAvailableDeliveryChannelException
+  | NoSuchConfigurationRecorderException
+  | UnmodifiableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartConfigurationRecorderRequest,
+  output: StartConfigurationRecorderResponse,
+  errors: [
+    NoAvailableDeliveryChannelException,
+    NoSuchConfigurationRecorderException,
+    UnmodifiableEntityException,
+  ],
+}));
 /**
  * Stops the customer managed configuration recorder. The customer managed configuration recorder will stop recording configuration changes for the resource types you have specified.
  */
-export const stopConfigurationRecorder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopConfigurationRecorderRequest,
-    output: StopConfigurationRecorderResponse,
-    errors: [NoSuchConfigurationRecorderException, UnmodifiableEntityException],
-  }),
-);
+export const stopConfigurationRecorder: (
+  input: StopConfigurationRecorderRequest,
+) => Effect.Effect<
+  StopConfigurationRecorderResponse,
+  | NoSuchConfigurationRecorderException
+  | UnmodifiableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopConfigurationRecorderRequest,
+  output: StopConfigurationRecorderResponse,
+  errors: [NoSuchConfigurationRecorderException, UnmodifiableEntityException],
+}));
 /**
  * Returns details about the specified delivery channel. If a
  * delivery channel is not specified, this operation returns the details
@@ -6294,13 +6585,17 @@ export const stopConfigurationRecorder = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Currently, you can specify only one delivery channel per
  * region in your account.
  */
-export const describeDeliveryChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDeliveryChannelsRequest,
-    output: DescribeDeliveryChannelsResponse,
-    errors: [NoSuchDeliveryChannelException],
-  }),
-);
+export const describeDeliveryChannels: (
+  input: DescribeDeliveryChannelsRequest,
+) => Effect.Effect<
+  DescribeDeliveryChannelsResponse,
+  NoSuchDeliveryChannelException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDeliveryChannelsRequest,
+  output: DescribeDeliveryChannelsResponse,
+  errors: [NoSuchDeliveryChannelException],
+}));
 /**
  * Deletes the specified organization conformance pack and all of the Config rules and remediation actions from
  * all member accounts in that organization.
@@ -6324,48 +6619,76 @@ export const describeDeliveryChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource’s history.
  */
-export const deleteOrganizationConformancePack =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteOrganizationConformancePackRequest,
-    output: DeleteOrganizationConformancePackResponse,
-    errors: [
-      NoSuchOrganizationConformancePackException,
-      OrganizationAccessDeniedException,
-      ResourceInUseException,
-    ],
-  }));
+export const deleteOrganizationConformancePack: (
+  input: DeleteOrganizationConformancePackRequest,
+) => Effect.Effect<
+  DeleteOrganizationConformancePackResponse,
+  | NoSuchOrganizationConformancePackException
+  | OrganizationAccessDeniedException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOrganizationConformancePackRequest,
+  output: DeleteOrganizationConformancePackResponse,
+  errors: [
+    NoSuchOrganizationConformancePackException,
+    OrganizationAccessDeniedException,
+    ResourceInUseException,
+  ],
+}));
 /**
  * Returns the policy definition containing the logic for your organization Config Custom Policy rule.
  */
-export const getOrganizationCustomRulePolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetOrganizationCustomRulePolicyRequest,
-    output: GetOrganizationCustomRulePolicyResponse,
-    errors: [
-      NoSuchOrganizationConfigRuleException,
-      OrganizationAccessDeniedException,
-    ],
-  }));
+export const getOrganizationCustomRulePolicy: (
+  input: GetOrganizationCustomRulePolicyRequest,
+) => Effect.Effect<
+  GetOrganizationCustomRulePolicyResponse,
+  | NoSuchOrganizationConfigRuleException
+  | OrganizationAccessDeniedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOrganizationCustomRulePolicyRequest,
+  output: GetOrganizationCustomRulePolicyResponse,
+  errors: [
+    NoSuchOrganizationConfigRuleException,
+    OrganizationAccessDeniedException,
+  ],
+}));
 /**
  * Runs an on-demand remediation for the specified Config rules against the last known remediation configuration. It runs an execution against the current state of your resources. Remediation execution is asynchronous.
  *
  * You can specify up to 100 resource keys per request. An existing StartRemediationExecution call for the specified resource keys must complete before you can call the API again.
  */
-export const startRemediationExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartRemediationExecutionRequest,
-    output: StartRemediationExecutionResponse,
-    errors: [
-      InsufficientPermissionsException,
-      InvalidParameterValueException,
-      NoSuchRemediationConfigurationException,
-    ],
-  }),
-);
+export const startRemediationExecution: (
+  input: StartRemediationExecutionRequest,
+) => Effect.Effect<
+  StartRemediationExecutionResponse,
+  | InsufficientPermissionsException
+  | InvalidParameterValueException
+  | NoSuchRemediationConfigurationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartRemediationExecutionRequest,
+  output: StartRemediationExecutionResponse,
+  errors: [
+    InsufficientPermissionsException,
+    InvalidParameterValueException,
+    NoSuchRemediationConfigurationException,
+  ],
+}));
 /**
  * Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
  */
-export const deleteStoredQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteStoredQuery: (
+  input: DeleteStoredQueryRequest,
+) => Effect.Effect<
+  DeleteStoredQueryResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStoredQueryRequest,
   output: DeleteStoredQueryResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -6378,16 +6701,29 @@ export const deleteStoredQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When making a request to this operation, you can only specify one configuration recorder.
  */
-export const describeConfigurationRecorders =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConfigurationRecordersRequest,
-    output: DescribeConfigurationRecordersResponse,
-    errors: [NoSuchConfigurationRecorderException, ValidationException],
-  }));
+export const describeConfigurationRecorders: (
+  input: DescribeConfigurationRecordersRequest,
+) => Effect.Effect<
+  DescribeConfigurationRecordersResponse,
+  | NoSuchConfigurationRecorderException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConfigurationRecordersRequest,
+  output: DescribeConfigurationRecordersResponse,
+  errors: [NoSuchConfigurationRecorderException, ValidationException],
+}));
 /**
  * Returns the details of a specific stored query.
  */
-export const getStoredQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStoredQuery: (
+  input: GetStoredQueryRequest,
+) => Effect.Effect<
+  GetStoredQueryResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStoredQueryRequest,
   output: GetStoredQueryResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -6395,7 +6731,13 @@ export const getStoredQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes specified tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -6405,22 +6747,38 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For this operation, the specified configuration recorder must use a RecordingStrategy that is either `INCLUSION_BY_RESOURCE_TYPES` or `EXCLUSION_BY_RESOURCE_TYPES`.
  */
-export const associateResourceTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateResourceTypesRequest,
-    output: AssociateResourceTypesResponse,
-    errors: [
-      ConflictException,
-      NoSuchConfigurationRecorderException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateResourceTypes: (
+  input: AssociateResourceTypesRequest,
+) => Effect.Effect<
+  AssociateResourceTypesResponse,
+  | ConflictException
+  | NoSuchConfigurationRecorderException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateResourceTypesRequest,
+  output: AssociateResourceTypesResponse,
+  errors: [
+    ConflictException,
+    NoSuchConfigurationRecorderException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates the specified tags to a resource with the specified `ResourceArn`. If existing tags on a resource are not specified in the request parameters, they are not changed.
  * If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -6444,13 +6802,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * supplementaryConfiguration section of the API
  * response.
  */
-export const batchGetResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetResourceConfigRequest,
-    output: BatchGetResourceConfigResponse,
-    errors: [NoAvailableConfigurationRecorderException, ValidationException],
-  }),
-);
+export const batchGetResourceConfig: (
+  input: BatchGetResourceConfigRequest,
+) => Effect.Effect<
+  BatchGetResourceConfigResponse,
+  | NoAvailableConfigurationRecorderException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetResourceConfigRequest,
+  output: BatchGetResourceConfigResponse,
+  errors: [NoAvailableConfigurationRecorderException, ValidationException],
+}));
 /**
  * Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the `ServicePrincipal` you specify.
  *
@@ -6470,17 +6834,26 @@ export const batchGetResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Use TagResource and UntagResource to update tags after creation.
  */
-export const putServiceLinkedConfigurationRecorder =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutServiceLinkedConfigurationRecorderRequest,
-    output: PutServiceLinkedConfigurationRecorderResponse,
-    errors: [
-      ConflictException,
-      InsufficientPermissionsException,
-      LimitExceededException,
-      ValidationException,
-    ],
-  }));
+export const putServiceLinkedConfigurationRecorder: (
+  input: PutServiceLinkedConfigurationRecorderRequest,
+) => Effect.Effect<
+  PutServiceLinkedConfigurationRecorderResponse,
+  | ConflictException
+  | InsufficientPermissionsException
+  | LimitExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutServiceLinkedConfigurationRecorderRequest,
+  output: PutServiceLinkedConfigurationRecorderResponse,
+  errors: [
+    ConflictException,
+    InsufficientPermissionsException,
+    LimitExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the current configuration items for resources that are present in your Config aggregator. The operation also returns a list of resources that are not processed in the current request.
  * If there are no unprocessed resources, the operation returns an empty `unprocessedResourceIdentifiers` list.
@@ -6489,26 +6862,42 @@ export const putServiceLinkedConfigurationRecorder =
  *
  * - The API does not return tags and relationships.
  */
-export const batchGetAggregateResourceConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetAggregateResourceConfigRequest,
-    output: BatchGetAggregateResourceConfigResponse,
-    errors: [NoSuchConfigurationAggregatorException, ValidationException],
-  }));
+export const batchGetAggregateResourceConfig: (
+  input: BatchGetAggregateResourceConfigRequest,
+) => Effect.Effect<
+  BatchGetAggregateResourceConfigResponse,
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetAggregateResourceConfigRequest,
+  output: BatchGetAggregateResourceConfigResponse,
+  errors: [NoSuchConfigurationAggregatorException, ValidationException],
+}));
 /**
  * Deletes the remediation configuration.
  */
-export const deleteRemediationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRemediationConfigurationRequest,
-    output: DeleteRemediationConfigurationResponse,
-    errors: [
-      InsufficientPermissionsException,
-      InvalidParameterValueException,
-      NoSuchRemediationConfigurationException,
-      RemediationInProgressException,
-    ],
-  }));
+export const deleteRemediationConfiguration: (
+  input: DeleteRemediationConfigurationRequest,
+) => Effect.Effect<
+  DeleteRemediationConfigurationResponse,
+  | InsufficientPermissionsException
+  | InvalidParameterValueException
+  | NoSuchRemediationConfigurationException
+  | RemediationInProgressException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRemediationConfigurationRequest,
+  output: DeleteRemediationConfigurationResponse,
+  errors: [
+    InsufficientPermissionsException,
+    InvalidParameterValueException,
+    NoSuchRemediationConfigurationException,
+    RemediationInProgressException,
+  ],
+}));
 /**
  * Indicates whether the specified Amazon Web Services resources are compliant. If
  * a resource is noncompliant, this operation returns the number of Config rules that the resource does not comply with.
@@ -6541,18 +6930,45 @@ export const deleteRemediationConfiguration =
  * This can occur if the resources were deleted or removed from
  * the rule's scope.
  */
-export const describeComplianceByResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeComplianceByResource: {
+  (
     input: DescribeComplianceByResourceRequest,
-    output: DescribeComplianceByResourceResponse,
-    errors: [InvalidNextTokenException, InvalidParameterValueException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ComplianceByResources",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeComplianceByResourceResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeComplianceByResourceRequest,
+  ) => Stream.Stream<
+    DescribeComplianceByResourceResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeComplianceByResourceRequest,
+  ) => Stream.Stream<
+    ComplianceByResource,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeComplianceByResourceRequest,
+  output: DescribeComplianceByResourceResponse,
+  errors: [InvalidNextTokenException, InvalidParameterValueException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ComplianceByResources",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns the current status of the specified delivery channel.
  * If a delivery channel is not specified, this operation returns the
@@ -6562,12 +6978,17 @@ export const describeComplianceByResource =
  * Currently, you can specify only one delivery channel per
  * region in your account.
  */
-export const describeDeliveryChannelStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDeliveryChannelStatusRequest,
-    output: DescribeDeliveryChannelStatusResponse,
-    errors: [NoSuchDeliveryChannelException],
-  }));
+export const describeDeliveryChannelStatus: (
+  input: DescribeDeliveryChannelStatusRequest,
+) => Effect.Effect<
+  DescribeDeliveryChannelStatusResponse,
+  NoSuchDeliveryChannelException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDeliveryChannelStatusRequest,
+  output: DescribeDeliveryChannelStatusResponse,
+  errors: [NoSuchDeliveryChannelException],
+}));
 /**
  * Returns a list of organization Config rules.
  *
@@ -6589,43 +7010,106 @@ export const describeDeliveryChannelStatus =
  * the organization-related resource that were deployed from within the account calling
  * those APIs.
  */
-export const describeOrganizationConfigRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeOrganizationConfigRules: {
+  (
     input: DescribeOrganizationConfigRulesRequest,
-    output: DescribeOrganizationConfigRulesResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchOrganizationConfigRuleException,
-      OrganizationAccessDeniedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "OrganizationConfigRules",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeOrganizationConfigRulesResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConfigRuleException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeOrganizationConfigRulesRequest,
+  ) => Stream.Stream<
+    DescribeOrganizationConfigRulesResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConfigRuleException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeOrganizationConfigRulesRequest,
+  ) => Stream.Stream<
+    OrganizationConfigRule,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConfigRuleException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeOrganizationConfigRulesRequest,
+  output: DescribeOrganizationConfigRulesResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoSuchOrganizationConfigRuleException,
+    OrganizationAccessDeniedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "OrganizationConfigRules",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Provides a detailed view of a Remediation Execution for a set of resources including state, timestamps for when steps for the remediation execution occur, and any error messages for steps that have failed.
  * When you specify the limit and the next token, you receive a paginated response.
  */
-export const describeRemediationExecutionStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRemediationExecutionStatus: {
+  (
     input: DescribeRemediationExecutionStatusRequest,
-    output: DescribeRemediationExecutionStatusResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchRemediationConfigurationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RemediationExecutionStatuses",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRemediationExecutionStatusResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchRemediationConfigurationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRemediationExecutionStatusRequest,
+  ) => Stream.Stream<
+    DescribeRemediationExecutionStatusResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchRemediationConfigurationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRemediationExecutionStatusRequest,
+  ) => Stream.Stream<
+    RemediationExecutionStatus,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchRemediationConfigurationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRemediationExecutionStatusRequest,
+  output: DescribeRemediationExecutionStatusResponse,
+  errors: [
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    NoSuchRemediationConfigurationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RemediationExecutionStatuses",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns the number of compliant and noncompliant rules for one
  * or more accounts and regions in an aggregator.
@@ -6634,99 +7118,252 @@ export const describeRemediationExecutionStatus =
  * have a nextToken, the results are displayed on the next
  * page.
  */
-export const getAggregateConfigRuleComplianceSummary =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getAggregateConfigRuleComplianceSummary: {
+  (
     input: GetAggregateConfigRuleComplianceSummaryRequest,
-    output: GetAggregateConfigRuleComplianceSummaryResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchConfigurationAggregatorException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetAggregateConfigRuleComplianceSummaryResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetAggregateConfigRuleComplianceSummaryRequest,
+  ) => Stream.Stream<
+    GetAggregateConfigRuleComplianceSummaryResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetAggregateConfigRuleComplianceSummaryRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetAggregateConfigRuleComplianceSummaryRequest,
+  output: GetAggregateConfigRuleComplianceSummaryResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoSuchConfigurationAggregatorException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns the resource counts across accounts and regions that are present in your Config aggregator. You can request the resource counts by providing filters and GroupByKey.
  *
  * For example, if the input contains accountID 12345678910 and region us-east-1 in filters, the API returns the count of resources in account ID 12345678910 and region us-east-1.
  * If the input contains ACCOUNT_ID as a GroupByKey, the API returns resource counts for all source accounts that are present in your aggregator.
  */
-export const getAggregateDiscoveredResourceCounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getAggregateDiscoveredResourceCounts: {
+  (
     input: GetAggregateDiscoveredResourceCountsRequest,
-    output: GetAggregateDiscoveredResourceCountsResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchConfigurationAggregatorException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetAggregateDiscoveredResourceCountsResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetAggregateDiscoveredResourceCountsRequest,
+  ) => Stream.Stream<
+    GetAggregateDiscoveredResourceCountsResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetAggregateDiscoveredResourceCountsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetAggregateDiscoveredResourceCountsRequest,
+  output: GetAggregateDiscoveredResourceCountsResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoSuchConfigurationAggregatorException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns detailed status for each member account within an organization for a given organization Config rule.
  */
-export const getOrganizationConfigRuleDetailedStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getOrganizationConfigRuleDetailedStatus: {
+  (
     input: GetOrganizationConfigRuleDetailedStatusRequest,
-    output: GetOrganizationConfigRuleDetailedStatusResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchOrganizationConfigRuleException,
-      OrganizationAccessDeniedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "OrganizationConfigRuleDetailedStatus",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetOrganizationConfigRuleDetailedStatusResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConfigRuleException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetOrganizationConfigRuleDetailedStatusRequest,
+  ) => Stream.Stream<
+    GetOrganizationConfigRuleDetailedStatusResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConfigRuleException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetOrganizationConfigRuleDetailedStatusRequest,
+  ) => Stream.Stream<
+    MemberAccountStatus,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConfigRuleException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetOrganizationConfigRuleDetailedStatusRequest,
+  output: GetOrganizationConfigRuleDetailedStatusResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoSuchOrganizationConfigRuleException,
+    OrganizationAccessDeniedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "OrganizationConfigRuleDetailedStatus",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns detailed status for each member account within an organization for a given organization conformance pack.
  */
-export const getOrganizationConformancePackDetailedStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getOrganizationConformancePackDetailedStatus: {
+  (
     input: GetOrganizationConformancePackDetailedStatusRequest,
-    output: GetOrganizationConformancePackDetailedStatusResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchOrganizationConformancePackException,
-      OrganizationAccessDeniedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "OrganizationConformancePackDetailedStatuses",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetOrganizationConformancePackDetailedStatusResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConformancePackException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetOrganizationConformancePackDetailedStatusRequest,
+  ) => Stream.Stream<
+    GetOrganizationConformancePackDetailedStatusResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConformancePackException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetOrganizationConformancePackDetailedStatusRequest,
+  ) => Stream.Stream<
+    OrganizationConformancePackDetailedStatus,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConformancePackException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetOrganizationConformancePackDetailedStatusRequest,
+  output: GetOrganizationConformancePackDetailedStatusResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoSuchOrganizationConformancePackException,
+    OrganizationAccessDeniedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "OrganizationConformancePackDetailedStatuses",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns a list of configuration recorders depending on the filters you specify.
  */
-export const listConfigurationRecorders =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConfigurationRecorders: {
+  (
     input: ListConfigurationRecordersRequest,
-    output: ListConfigurationRecordersResponse,
-    errors: [ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConfigurationRecorderSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConfigurationRecordersResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfigurationRecordersRequest,
+  ) => Stream.Stream<
+    ListConfigurationRecordersResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfigurationRecordersRequest,
+  ) => Stream.Stream<
+    ConfigurationRecorderSummary,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfigurationRecordersRequest,
+  output: ListConfigurationRecordersResponse,
+  errors: [ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConfigurationRecorderSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of conformance pack compliance scores.
  * A compliance score is the percentage of the number of compliant rule-resource combinations in a conformance pack compared to the number of total possible rule-resource combinations in the conformance pack.
@@ -6735,27 +7372,66 @@ export const listConfigurationRecorders =
  *
  * Conformance packs with no evaluation results will have a compliance score of `INSUFFICIENT_DATA`.
  */
-export const listConformancePackComplianceScores =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConformancePackComplianceScores: {
+  (
     input: ListConformancePackComplianceScoresRequest,
-    output: ListConformancePackComplianceScoresResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConformancePackComplianceScoresResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConformancePackComplianceScoresRequest,
+  ) => Stream.Stream<
+    ListConformancePackComplianceScoresResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConformancePackComplianceScoresRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConformancePackComplianceScoresRequest,
+  output: ListConformancePackComplianceScoresResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Used by an Lambda function to deliver evaluation results to
  * Config. This operation is required in every Lambda function
  * that is invoked by an Config rule.
  */
-export const putEvaluations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putEvaluations: (
+  input: PutEvaluationsRequest,
+) => Effect.Effect<
+  PutEvaluationsResponse,
+  | InvalidParameterValueException
+  | InvalidResultTokenException
+  | NoSuchConfigRuleException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEvaluationsRequest,
   output: PutEvaluationsResponse,
   errors: [
@@ -6773,7 +7449,16 @@ export const putEvaluations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `PutStoredQuery` is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different `tags` values,
  * Config will ignore these differences and treat it as an idempotent request of the previous. In this case, `tags` will not be updated, even if they are different.
  */
-export const putStoredQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putStoredQuery: (
+  input: PutStoredQueryRequest,
+) => Effect.Effect<
+  PutStoredQueryResponse,
+  | ResourceConcurrentModificationException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutStoredQueryRequest,
   output: PutStoredQueryResponse,
   errors: [
@@ -6797,23 +7482,56 @@ export const putStoredQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you run a non-aggregation query (i.e., not using `GROUP BY` or aggregate function; e.g., `SELECT * WHERE resourceType = 'AWS::IAM::Role'`)
  * and do not specify the `MaxResults` or the `Limit` query parameters, the default page size is set to 25.
  */
-export const selectAggregateResourceConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const selectAggregateResourceConfig: {
+  (
     input: SelectAggregateResourceConfigRequest,
-    output: SelectAggregateResourceConfigResponse,
-    errors: [
-      InvalidExpressionException,
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchConfigurationAggregatorException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Results",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SelectAggregateResourceConfigResponse,
+    | InvalidExpressionException
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SelectAggregateResourceConfigRequest,
+  ) => Stream.Stream<
+    SelectAggregateResourceConfigResponse,
+    | InvalidExpressionException
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SelectAggregateResourceConfigRequest,
+  ) => Stream.Stream<
+    String,
+    | InvalidExpressionException
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SelectAggregateResourceConfigRequest,
+  output: SelectAggregateResourceConfigResponse,
+  errors: [
+    InvalidExpressionException,
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoSuchConfigurationAggregatorException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Results",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Runs an on-demand evaluation for the specified resource to determine whether the resource details will comply with configured Config rules.
  * You can also use it for evaluation purposes. Config recommends using an evaluation context. It runs an execution against the resource details with all
@@ -6828,51 +7546,117 @@ export const selectAggregateResourceConfig =
  * For more information, see Managing extensions through the CloudFormation registry
  * and Amazon Web Services resource and property types reference in the CloudFormation User Guide.
  */
-export const startResourceEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartResourceEvaluationRequest,
-    output: StartResourceEvaluationResponse,
-    errors: [IdempotentParameterMismatch, InvalidParameterValueException],
-  }),
-);
+export const startResourceEvaluation: (
+  input: StartResourceEvaluationRequest,
+) => Effect.Effect<
+  StartResourceEvaluationResponse,
+  | IdempotentParameterMismatch
+  | InvalidParameterValueException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartResourceEvaluationRequest,
+  output: StartResourceEvaluationResponse,
+  errors: [IdempotentParameterMismatch, InvalidParameterValueException],
+}));
 /**
  * Returns status information for each of your Config managed rules. The status includes information such as the last time Config invoked the rule, the last time Config failed to invoke
  * the rule, and the related error for the last failure.
  */
-export const describeConfigRuleEvaluationStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeConfigRuleEvaluationStatus: {
+  (
     input: DescribeConfigRuleEvaluationStatusRequest,
-    output: DescribeConfigRuleEvaluationStatusResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConfigRuleException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConfigRulesEvaluationStatus",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeConfigRuleEvaluationStatusResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeConfigRuleEvaluationStatusRequest,
+  ) => Stream.Stream<
+    DescribeConfigRuleEvaluationStatusResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeConfigRuleEvaluationStatusRequest,
+  ) => Stream.Stream<
+    ConfigRuleEvaluationStatus,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeConfigRuleEvaluationStatusRequest,
+  output: DescribeConfigRuleEvaluationStatusResponse,
+  errors: [
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    NoSuchConfigRuleException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConfigRulesEvaluationStatus",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns details about your Config rules.
  */
-export const describeConfigRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeConfigRules: {
+  (
     input: DescribeConfigRulesRequest,
-    output: DescribeConfigRulesResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConfigRuleException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConfigRules",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeConfigRulesResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeConfigRulesRequest,
+  ) => Stream.Stream<
+    DescribeConfigRulesResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeConfigRulesRequest,
+  ) => Stream.Stream<
+    ConfigRule,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeConfigRulesRequest,
+  output: DescribeConfigRulesResponse,
+  errors: [
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    NoSuchConfigRuleException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConfigRules",
+  } as const,
+}));
 /**
  * Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted.
  * When you specify the limit and the next token, you receive a paginated response.
@@ -6884,17 +7668,44 @@ export const describeConfigRules =
  *
  * Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources.
  */
-export const describeRemediationExceptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRemediationExceptions: {
+  (
     input: DescribeRemediationExceptionsRequest,
-    output: DescribeRemediationExceptionsResponse,
-    errors: [InvalidNextTokenException, InvalidParameterValueException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRemediationExceptionsResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRemediationExceptionsRequest,
+  ) => Stream.Stream<
+    DescribeRemediationExceptionsResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRemediationExceptionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRemediationExceptionsRequest,
+  output: DescribeRemediationExceptionsResponse,
+  errors: [InvalidNextTokenException, InvalidParameterValueException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns the details of one or more retention configurations. If
  * the retention configuration name is not specified, this operation
@@ -6904,43 +7715,103 @@ export const describeRemediationExceptions =
  * Currently, Config supports only one retention
  * configuration per region in your account.
  */
-export const describeRetentionConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRetentionConfigurations: {
+  (
     input: DescribeRetentionConfigurationsRequest,
-    output: DescribeRetentionConfigurationsResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchRetentionConfigurationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RetentionConfigurations",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRetentionConfigurationsResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchRetentionConfigurationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRetentionConfigurationsRequest,
+  ) => Stream.Stream<
+    DescribeRetentionConfigurationsResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchRetentionConfigurationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRetentionConfigurationsRequest,
+  ) => Stream.Stream<
+    RetentionConfiguration,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchRetentionConfigurationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRetentionConfigurationsRequest,
+  output: DescribeRetentionConfigurationsResponse,
+  errors: [
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    NoSuchRetentionConfigurationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RetentionConfigurations",
+  } as const,
+}));
 /**
  * Returns the evaluation results for the specified Config
  * rule. The results indicate which Amazon Web Services resources were evaluated by the
  * rule, when each resource was last evaluated, and whether each
  * resource complies with the rule.
  */
-export const getComplianceDetailsByConfigRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getComplianceDetailsByConfigRule: {
+  (
     input: GetComplianceDetailsByConfigRuleRequest,
-    output: GetComplianceDetailsByConfigRuleResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConfigRuleException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EvaluationResults",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetComplianceDetailsByConfigRuleResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetComplianceDetailsByConfigRuleRequest,
+  ) => Stream.Stream<
+    GetComplianceDetailsByConfigRuleResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetComplianceDetailsByConfigRuleRequest,
+  ) => Stream.Stream<
+    EvaluationResult,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetComplianceDetailsByConfigRuleRequest,
+  output: GetComplianceDetailsByConfigRuleResponse,
+  errors: [
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    NoSuchConfigRuleException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EvaluationResults",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Accepts a resource type and returns a list of resource identifiers that are aggregated for a specific resource type across accounts and regions.
  * A resource identifier includes the resource type, ID, (if available) the custom resource name, source account, and source region.
@@ -6948,23 +7819,56 @@ export const getComplianceDetailsByConfigRule =
  *
  * For example, if the input consists of accountID 12345678910 and the region is us-east-1 for resource type `AWS::EC2::Instance` then the API returns all the EC2 instance identifiers of accountID 12345678910 and region us-east-1.
  */
-export const listAggregateDiscoveredResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAggregateDiscoveredResources: {
+  (
     input: ListAggregateDiscoveredResourcesRequest,
-    output: ListAggregateDiscoveredResourcesResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchConfigurationAggregatorException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ResourceIdentifiers",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAggregateDiscoveredResourcesResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAggregateDiscoveredResourcesRequest,
+  ) => Stream.Stream<
+    ListAggregateDiscoveredResourcesResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAggregateDiscoveredResourcesRequest,
+  ) => Stream.Stream<
+    AggregateResourceIdentifier,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAggregateDiscoveredResourcesRequest,
+  output: ListAggregateDiscoveredResourcesResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoSuchConfigurationAggregatorException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourceIdentifiers",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns a list of resource
  * resource identifiers for the specified resource types for the resources of that type. A *resource identifier*
@@ -7001,38 +7905,91 @@ export const listAggregateDiscoveredResources =
  * for that stack in Config, even after the stack is deleted. This helps make sure that Config only
  * tracks resources that were successfully provisioned.
  */
-export const listDiscoveredResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDiscoveredResources: {
+  (
     input: ListDiscoveredResourcesRequest,
-    output: ListDiscoveredResourcesResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoAvailableConfigurationRecorderException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "resourceIdentifiers",
-      pageSize: "limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDiscoveredResourcesResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoAvailableConfigurationRecorderException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDiscoveredResourcesRequest,
+  ) => Stream.Stream<
+    ListDiscoveredResourcesResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoAvailableConfigurationRecorderException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDiscoveredResourcesRequest,
+  ) => Stream.Stream<
+    ResourceIdentifier,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoAvailableConfigurationRecorderException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDiscoveredResourcesRequest,
+  output: ListDiscoveredResourcesResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoAvailableConfigurationRecorderException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "resourceIdentifiers",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
  */
-export const listStoredQueries = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listStoredQueries: {
+  (
     input: ListStoredQueriesRequest,
-    output: ListStoredQueriesResponse,
-    errors: [InvalidNextTokenException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListStoredQueriesResponse,
+    InvalidNextTokenException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStoredQueriesRequest,
+  ) => Stream.Stream<
+    ListStoredQueriesResponse,
+    InvalidNextTokenException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStoredQueriesRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidNextTokenException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStoredQueriesRequest,
+  output: ListStoredQueriesResponse,
+  errors: [InvalidNextTokenException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Accepts a structured query language (SQL) `SELECT` command, performs the corresponding search, and returns resource configurations matching the properties.
  *
@@ -7041,147 +7998,369 @@ export const listStoredQueries = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * **Query Components**
  * section in the *Config Developer Guide*.
  */
-export const selectResourceConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const selectResourceConfig: {
+  (
     input: SelectResourceConfigRequest,
-    output: SelectResourceConfigResponse,
-    errors: [
-      InvalidExpressionException,
-      InvalidLimitException,
-      InvalidNextTokenException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Results",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SelectResourceConfigResponse,
+    | InvalidExpressionException
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SelectResourceConfigRequest,
+  ) => Stream.Stream<
+    SelectResourceConfigResponse,
+    | InvalidExpressionException
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SelectResourceConfigRequest,
+  ) => Stream.Stream<
+    String,
+    | InvalidExpressionException
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SelectResourceConfigRequest,
+  output: SelectResourceConfigResponse,
+  errors: [
+    InvalidExpressionException,
+    InvalidLimitException,
+    InvalidNextTokenException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Results",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * List the tags for Config resource.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceRequest,
-    output: ListTagsForResourceResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Tags",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    ListTagsForResourceResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    Tag,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Tags",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns a list of authorizations granted to various aggregator
  * accounts and regions.
  */
-export const describeAggregationAuthorizations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAggregationAuthorizations: {
+  (
     input: DescribeAggregationAuthorizationsRequest,
-    output: DescribeAggregationAuthorizationsResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AggregationAuthorizations",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAggregationAuthorizationsResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAggregationAuthorizationsRequest,
+  ) => Stream.Stream<
+    DescribeAggregationAuthorizationsResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAggregationAuthorizationsRequest,
+  ) => Stream.Stream<
+    AggregationAuthorization,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAggregationAuthorizationsRequest,
+  output: DescribeAggregationAuthorizationsResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AggregationAuthorizations",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns the details of one or more configuration aggregators.
  * If the configuration aggregator is not specified, this operation
  * returns the details for all the configuration aggregators associated
  * with the account.
  */
-export const describeConfigurationAggregators =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeConfigurationAggregators: {
+  (
     input: DescribeConfigurationAggregatorsRequest,
-    output: DescribeConfigurationAggregatorsResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConfigurationAggregatorException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConfigurationAggregators",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeConfigurationAggregatorsResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigurationAggregatorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeConfigurationAggregatorsRequest,
+  ) => Stream.Stream<
+    DescribeConfigurationAggregatorsResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigurationAggregatorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeConfigurationAggregatorsRequest,
+  ) => Stream.Stream<
+    ConfigurationAggregator,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigurationAggregatorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeConfigurationAggregatorsRequest,
+  output: DescribeConfigurationAggregatorsResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    NoSuchConfigurationAggregatorException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConfigurationAggregators",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns status information for sources within an aggregator.
  * The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message.
  */
-export const describeConfigurationAggregatorSourcesStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeConfigurationAggregatorSourcesStatus: {
+  (
     input: DescribeConfigurationAggregatorSourcesStatusRequest,
-    output: DescribeConfigurationAggregatorSourcesStatusResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConfigurationAggregatorException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AggregatedSourceStatusList",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeConfigurationAggregatorSourcesStatusResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigurationAggregatorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeConfigurationAggregatorSourcesStatusRequest,
+  ) => Stream.Stream<
+    DescribeConfigurationAggregatorSourcesStatusResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigurationAggregatorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeConfigurationAggregatorSourcesStatusRequest,
+  ) => Stream.Stream<
+    AggregatedSourceStatus,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigurationAggregatorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeConfigurationAggregatorSourcesStatusRequest,
+  output: DescribeConfigurationAggregatorSourcesStatusResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    NoSuchConfigurationAggregatorException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AggregatedSourceStatusList",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns a list of one or more conformance packs.
  */
-export const describeConformancePacks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeConformancePacks: {
+  (
     input: DescribeConformancePacksRequest,
-    output: DescribeConformancePacksResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConformancePackException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConformancePackDetails",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeConformancePacksResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConformancePackException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeConformancePacksRequest,
+  ) => Stream.Stream<
+    DescribeConformancePacksResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConformancePackException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeConformancePacksRequest,
+  ) => Stream.Stream<
+    ConformancePackDetail,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConformancePackException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeConformancePacksRequest,
+  output: DescribeConformancePacksResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    NoSuchConformancePackException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConformancePackDetails",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Provides one or more conformance packs deployment status.
  *
  * If there are no conformance packs then you will see an empty result.
  */
-export const describeConformancePackStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeConformancePackStatus: {
+  (
     input: DescribeConformancePackStatusRequest,
-    output: DescribeConformancePackStatusResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConformancePackStatusDetails",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeConformancePackStatusResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeConformancePackStatusRequest,
+  ) => Stream.Stream<
+    DescribeConformancePackStatusResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeConformancePackStatusRequest,
+  ) => Stream.Stream<
+    ConformancePackStatusDetail,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeConformancePackStatusRequest,
+  output: DescribeConformancePackStatusResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConformancePackStatusDetails",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Provides organization Config rule deployment status for an organization.
  *
@@ -7192,23 +8371,56 @@ export const describeConformancePackStatus =
  * Limit and next token are not applicable if you specify organization Config rule names.
  * It is only applicable, when you request all the organization Config rules.
  */
-export const describeOrganizationConfigRuleStatuses =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeOrganizationConfigRuleStatuses: {
+  (
     input: DescribeOrganizationConfigRuleStatusesRequest,
-    output: DescribeOrganizationConfigRuleStatusesResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchOrganizationConfigRuleException,
-      OrganizationAccessDeniedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "OrganizationConfigRuleStatuses",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeOrganizationConfigRuleStatusesResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConfigRuleException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeOrganizationConfigRuleStatusesRequest,
+  ) => Stream.Stream<
+    DescribeOrganizationConfigRuleStatusesResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConfigRuleException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeOrganizationConfigRuleStatusesRequest,
+  ) => Stream.Stream<
+    OrganizationConfigRuleStatus,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConfigRuleException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeOrganizationConfigRuleStatusesRequest,
+  output: DescribeOrganizationConfigRuleStatusesResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoSuchOrganizationConfigRuleException,
+    OrganizationAccessDeniedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "OrganizationConfigRuleStatuses",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns a list of organization conformance packs.
  *
@@ -7230,23 +8442,56 @@ export const describeOrganizationConfigRuleStatuses =
  * the organization-related resource that were deployed from within the account calling
  * those APIs.
  */
-export const describeOrganizationConformancePacks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeOrganizationConformancePacks: {
+  (
     input: DescribeOrganizationConformancePacksRequest,
-    output: DescribeOrganizationConformancePacksResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchOrganizationConformancePackException,
-      OrganizationAccessDeniedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "OrganizationConformancePacks",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeOrganizationConformancePacksResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConformancePackException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeOrganizationConformancePacksRequest,
+  ) => Stream.Stream<
+    DescribeOrganizationConformancePacksResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConformancePackException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeOrganizationConformancePacksRequest,
+  ) => Stream.Stream<
+    OrganizationConformancePack,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConformancePackException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeOrganizationConformancePacksRequest,
+  output: DescribeOrganizationConformancePacksResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoSuchOrganizationConformancePackException,
+    OrganizationAccessDeniedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "OrganizationConformancePacks",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Provides organization conformance pack deployment status for an organization.
  *
@@ -7257,61 +8502,154 @@ export const describeOrganizationConformancePacks =
  * Limit and next token are not applicable if you specify organization conformance pack names.
  * They are only applicable, when you request all the organization conformance packs.
  */
-export const describeOrganizationConformancePackStatuses =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeOrganizationConformancePackStatuses: {
+  (
     input: DescribeOrganizationConformancePackStatusesRequest,
-    output: DescribeOrganizationConformancePackStatusesResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchOrganizationConformancePackException,
-      OrganizationAccessDeniedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "OrganizationConformancePackStatuses",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeOrganizationConformancePackStatusesResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConformancePackException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeOrganizationConformancePackStatusesRequest,
+  ) => Stream.Stream<
+    DescribeOrganizationConformancePackStatusesResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConformancePackException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeOrganizationConformancePackStatusesRequest,
+  ) => Stream.Stream<
+    OrganizationConformancePackStatus,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchOrganizationConformancePackException
+    | OrganizationAccessDeniedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeOrganizationConformancePackStatusesRequest,
+  output: DescribeOrganizationConformancePackStatusesResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoSuchOrganizationConformancePackException,
+    OrganizationAccessDeniedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "OrganizationConformancePackStatuses",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns a list of all pending aggregation requests.
  */
-export const describePendingAggregationRequests =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describePendingAggregationRequests: {
+  (
     input: DescribePendingAggregationRequestsRequest,
-    output: DescribePendingAggregationRequestsResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PendingAggregationRequests",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribePendingAggregationRequestsResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribePendingAggregationRequestsRequest,
+  ) => Stream.Stream<
+    DescribePendingAggregationRequestsResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribePendingAggregationRequestsRequest,
+  ) => Stream.Stream<
+    PendingAggregationRequest,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribePendingAggregationRequestsRequest,
+  output: DescribePendingAggregationRequestsResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PendingAggregationRequests",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
  */
-export const getConformancePackComplianceSummary =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getConformancePackComplianceSummary: {
+  (
     input: GetConformancePackComplianceSummaryRequest,
-    output: GetConformancePackComplianceSummaryResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchConformancePackException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConformancePackComplianceSummaryList",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetConformancePackComplianceSummaryResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConformancePackException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetConformancePackComplianceSummaryRequest,
+  ) => Stream.Stream<
+    GetConformancePackComplianceSummaryResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConformancePackException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetConformancePackComplianceSummaryRequest,
+  ) => Stream.Stream<
+    ConformancePackComplianceSummary,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConformancePackException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetConformancePackComplianceSummaryRequest,
+  output: GetConformancePackComplianceSummaryResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoSuchConformancePackException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConformancePackComplianceSummaryList",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns the resource types, the number of each resource type,
  * and the total number of resources that Config is recording in
@@ -7357,21 +8695,51 @@ export const getConformancePackComplianceSummary =
  * count your resources. Wait a few minutes and then retry the
  * GetDiscoveredResourceCounts action.
  */
-export const getDiscoveredResourceCounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getDiscoveredResourceCounts: {
+  (
     input: GetDiscoveredResourceCountsRequest,
-    output: GetDiscoveredResourceCountsResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetDiscoveredResourceCountsResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetDiscoveredResourceCountsRequest,
+  ) => Stream.Stream<
+    GetDiscoveredResourceCountsResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetDiscoveredResourceCountsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetDiscoveredResourceCountsRequest,
+  output: GetDiscoveredResourceCountsResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Returns a list of compliant and noncompliant rules with the
  * number of resources for compliant and noncompliant rules. Does not display rules that do not have compliance results.
@@ -7380,22 +8748,55 @@ export const getDiscoveredResourceCounts =
  * have a `nextToken`, the results are displayed on the next
  * page.
  */
-export const describeAggregateComplianceByConfigRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAggregateComplianceByConfigRules: {
+  (
     input: DescribeAggregateComplianceByConfigRulesRequest,
-    output: DescribeAggregateComplianceByConfigRulesResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchConfigurationAggregatorException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAggregateComplianceByConfigRulesResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAggregateComplianceByConfigRulesRequest,
+  ) => Stream.Stream<
+    DescribeAggregateComplianceByConfigRulesResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAggregateComplianceByConfigRulesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAggregateComplianceByConfigRulesRequest,
+  output: DescribeAggregateComplianceByConfigRulesResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoSuchConfigurationAggregatorException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Indicates whether the specified Config rules are compliant.
  * If a rule is noncompliant, this operation returns the number of Amazon Web Services
@@ -7428,79 +8829,182 @@ export const describeAggregateComplianceByConfigRules =
  * This can occur if the resources were deleted or removed from
  * the rule's scope.
  */
-export const describeComplianceByConfigRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeComplianceByConfigRule: {
+  (
     input: DescribeComplianceByConfigRuleRequest,
-    output: DescribeComplianceByConfigRuleResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConfigRuleException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ComplianceByConfigRules",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeComplianceByConfigRuleResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeComplianceByConfigRuleRequest,
+  ) => Stream.Stream<
+    DescribeComplianceByConfigRuleResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeComplianceByConfigRuleRequest,
+  ) => Stream.Stream<
+    ComplianceByConfigRule,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeComplianceByConfigRuleRequest,
+  output: DescribeComplianceByConfigRuleResponse,
+  errors: [
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    NoSuchConfigRuleException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ComplianceByConfigRules",
+  } as const,
+}));
 /**
  * Deletes one or more remediation exceptions mentioned in the resource keys.
  *
  * Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource.
  * Remediation exceptions blocks auto-remediation until the exception is cleared.
  */
-export const deleteRemediationExceptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRemediationExceptionsRequest,
-    output: DeleteRemediationExceptionsResponse,
-    errors: [NoSuchRemediationExceptionException],
-  }),
-);
+export const deleteRemediationExceptions: (
+  input: DeleteRemediationExceptionsRequest,
+) => Effect.Effect<
+  DeleteRemediationExceptionsResponse,
+  NoSuchRemediationExceptionException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRemediationExceptionsRequest,
+  output: DeleteRemediationExceptionsResponse,
+  errors: [NoSuchRemediationExceptionException],
+}));
 /**
  * Returns a list of the existing and deleted conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each
  * conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data.
  *
  * The results can return an empty result page, but if you have a `nextToken`, the results are displayed on the next page.
  */
-export const describeAggregateComplianceByConformancePacks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAggregateComplianceByConformancePacks: {
+  (
     input: DescribeAggregateComplianceByConformancePacksRequest,
-    output: DescribeAggregateComplianceByConformancePacksResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchConfigurationAggregatorException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AggregateComplianceByConformancePacks",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAggregateComplianceByConformancePacksResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAggregateComplianceByConformancePacksRequest,
+  ) => Stream.Stream<
+    DescribeAggregateComplianceByConformancePacksResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAggregateComplianceByConformancePacksRequest,
+  ) => Stream.Stream<
+    AggregateComplianceByConformancePack,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAggregateComplianceByConformancePacksRequest,
+  output: DescribeAggregateComplianceByConformancePacksResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoSuchConfigurationAggregatorException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AggregateComplianceByConformancePacks",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns compliance details for each rule in that conformance pack.
  *
  * You must provide exact rule names.
  */
-export const describeConformancePackCompliance =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeConformancePackCompliance: {
+  (
     input: DescribeConformancePackComplianceRequest,
-    output: DescribeConformancePackComplianceResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConfigRuleInConformancePackException,
-      NoSuchConformancePackException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeConformancePackComplianceResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleInConformancePackException
+    | NoSuchConformancePackException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeConformancePackComplianceRequest,
+  ) => Stream.Stream<
+    DescribeConformancePackComplianceResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleInConformancePackException
+    | NoSuchConformancePackException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeConformancePackComplianceRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleInConformancePackException
+    | NoSuchConformancePackException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeConformancePackComplianceRequest,
+  output: DescribeConformancePackComplianceResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    NoSuchConfigRuleInConformancePackException,
+    NoSuchConformancePackException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns the evaluation results for the specified Config
  * rule for a specific resource in a rule. The results indicate which
@@ -7511,44 +9015,110 @@ export const describeConformancePackCompliance =
  * have a `nextToken`, the results are displayed on the next
  * page.
  */
-export const getAggregateComplianceDetailsByConfigRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getAggregateComplianceDetailsByConfigRule: {
+  (
     input: GetAggregateComplianceDetailsByConfigRuleRequest,
-    output: GetAggregateComplianceDetailsByConfigRuleResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchConfigurationAggregatorException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AggregateEvaluationResults",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetAggregateComplianceDetailsByConfigRuleResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetAggregateComplianceDetailsByConfigRuleRequest,
+  ) => Stream.Stream<
+    GetAggregateComplianceDetailsByConfigRuleResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetAggregateComplianceDetailsByConfigRuleRequest,
+  ) => Stream.Stream<
+    AggregateEvaluationResult,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetAggregateComplianceDetailsByConfigRuleRequest,
+  output: GetAggregateComplianceDetailsByConfigRuleResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoSuchConfigurationAggregatorException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AggregateEvaluationResults",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns the count of compliant and noncompliant conformance packs across all Amazon Web Services accounts and Amazon Web Services Regions in an aggregator. You can filter based on Amazon Web Services account ID or Amazon Web Services Region.
  *
  * The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
  */
-export const getAggregateConformancePackComplianceSummary =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getAggregateConformancePackComplianceSummary: {
+  (
     input: GetAggregateConformancePackComplianceSummaryRequest,
-    output: GetAggregateConformancePackComplianceSummaryResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      NoSuchConfigurationAggregatorException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetAggregateConformancePackComplianceSummaryResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetAggregateConformancePackComplianceSummaryRequest,
+  ) => Stream.Stream<
+    GetAggregateConformancePackComplianceSummaryResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetAggregateConformancePackComplianceSummaryRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | NoSuchConfigurationAggregatorException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetAggregateConformancePackComplianceSummaryRequest,
+  output: GetAggregateConformancePackComplianceSummaryResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    NoSuchConfigurationAggregatorException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Adds or updates an Config rule to evaluate if your
  * Amazon Web Services resources comply with your desired configurations. For information on how many Config rules you can have per account,
@@ -7603,7 +9173,18 @@ export const getAggregateConformancePackComplianceSummary =
  *
  * Use TagResource and UntagResource to update tags after creation.
  */
-export const putConfigRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putConfigRule: (
+  input: PutConfigRuleRequest,
+) => Effect.Effect<
+  PutConfigRuleResponse,
+  | InsufficientPermissionsException
+  | InvalidParameterValueException
+  | MaxNumberOfConfigRulesExceededException
+  | NoAvailableConfigurationRecorderException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigRuleRequest,
   output: PutConfigRuleResponse,
   errors: [
@@ -7637,7 +9218,18 @@ export const putConfigRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must specify only one of the follow parameters: `TemplateS3Uri`, `TemplateBody` or `TemplateSSMDocumentDetails`.
  */
-export const putConformancePack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putConformancePack: (
+  input: PutConformancePackRequest,
+) => Effect.Effect<
+  PutConformancePackResponse,
+  | ConformancePackTemplateValidationException
+  | InsufficientPermissionsException
+  | InvalidParameterValueException
+  | MaxNumberOfConformancePacksExceededException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConformancePackRequest,
   output: PutConformancePackResponse,
   errors: [
@@ -7651,23 +9243,59 @@ export const putConformancePack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack.
  */
-export const getConformancePackComplianceDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getConformancePackComplianceDetails: {
+  (
     input: GetConformancePackComplianceDetailsRequest,
-    output: GetConformancePackComplianceDetailsResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      NoSuchConfigRuleInConformancePackException,
-      NoSuchConformancePackException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetConformancePackComplianceDetailsResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleInConformancePackException
+    | NoSuchConformancePackException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetConformancePackComplianceDetailsRequest,
+  ) => Stream.Stream<
+    GetConformancePackComplianceDetailsResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleInConformancePackException
+    | NoSuchConformancePackException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetConformancePackComplianceDetailsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | NoSuchConfigRuleInConformancePackException
+    | NoSuchConformancePackException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetConformancePackComplianceDetailsRequest,
+  output: GetConformancePackComplianceDetailsResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    NoSuchConfigRuleInConformancePackException,
+    NoSuchConformancePackException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Adds or updates an Config rule for your entire organization to evaluate if your Amazon Web Services resources comply with your
  * desired configurations. For information on how many organization Config rules you can have per account,
@@ -7712,22 +9340,34 @@ export const getConformancePackComplianceDetails =
  *
  * Make sure to specify one of either `OrganizationCustomPolicyRuleMetadata` for Custom Policy rules, `OrganizationCustomRuleMetadata` for Custom Lambda rules, or `OrganizationManagedRuleMetadata` for managed rules.
  */
-export const putOrganizationConfigRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutOrganizationConfigRuleRequest,
-    output: PutOrganizationConfigRuleResponse,
-    errors: [
-      InsufficientPermissionsException,
-      InvalidParameterValueException,
-      MaxNumberOfOrganizationConfigRulesExceededException,
-      NoAvailableOrganizationException,
-      OrganizationAccessDeniedException,
-      OrganizationAllFeaturesNotEnabledException,
-      ResourceInUseException,
-      ValidationException,
-    ],
-  }),
-);
+export const putOrganizationConfigRule: (
+  input: PutOrganizationConfigRuleRequest,
+) => Effect.Effect<
+  PutOrganizationConfigRuleResponse,
+  | InsufficientPermissionsException
+  | InvalidParameterValueException
+  | MaxNumberOfOrganizationConfigRulesExceededException
+  | NoAvailableOrganizationException
+  | OrganizationAccessDeniedException
+  | OrganizationAllFeaturesNotEnabledException
+  | ResourceInUseException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutOrganizationConfigRuleRequest,
+  output: PutOrganizationConfigRuleResponse,
+  errors: [
+    InsufficientPermissionsException,
+    InvalidParameterValueException,
+    MaxNumberOfOrganizationConfigRulesExceededException,
+    NoAvailableOrganizationException,
+    OrganizationAccessDeniedException,
+    OrganizationAllFeaturesNotEnabledException,
+    ResourceInUseException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates and updates the configuration aggregator with the
  * selected source accounts and regions. The source account can be
@@ -7752,56 +9392,104 @@ export const putOrganizationConfigRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Use TagResource and UntagResource to update tags after creation.
  */
-export const putConfigurationAggregator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutConfigurationAggregatorRequest,
-    output: PutConfigurationAggregatorResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRoleException,
-      LimitExceededException,
-      NoAvailableOrganizationException,
-      OrganizationAccessDeniedException,
-      OrganizationAllFeaturesNotEnabledException,
-    ],
-  }),
-);
+export const putConfigurationAggregator: (
+  input: PutConfigurationAggregatorRequest,
+) => Effect.Effect<
+  PutConfigurationAggregatorResponse,
+  | InvalidParameterValueException
+  | InvalidRoleException
+  | LimitExceededException
+  | NoAvailableOrganizationException
+  | OrganizationAccessDeniedException
+  | OrganizationAllFeaturesNotEnabledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutConfigurationAggregatorRequest,
+  output: PutConfigurationAggregatorResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRoleException,
+    LimitExceededException,
+    NoAvailableOrganizationException,
+    OrganizationAccessDeniedException,
+    OrganizationAllFeaturesNotEnabledException,
+  ],
+}));
 /**
  * Returns a list of proactive resource evaluations.
  */
-export const listResourceEvaluations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourceEvaluations: {
+  (
     input: ListResourceEvaluationsRequest,
-    output: ListResourceEvaluationsResponse,
-    errors: [
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      InvalidTimeRangeException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ResourceEvaluations",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourceEvaluationsResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | InvalidTimeRangeException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceEvaluationsRequest,
+  ) => Stream.Stream<
+    ListResourceEvaluationsResponse,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | InvalidTimeRangeException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceEvaluationsRequest,
+  ) => Stream.Stream<
+    ResourceEvaluation,
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | InvalidTimeRangeException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceEvaluationsRequest,
+  output: ListResourceEvaluationsResponse,
+  errors: [
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    InvalidTimeRangeException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourceEvaluations",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns configuration item that is aggregated for your specific resource in a specific source account and region.
  *
  * The API does not return results for deleted resources.
  */
-export const getAggregateResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAggregateResourceConfigRequest,
-    output: GetAggregateResourceConfigResponse,
-    errors: [
-      NoSuchConfigurationAggregatorException,
-      OversizedConfigurationItemException,
-      ResourceNotDiscoveredException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAggregateResourceConfig: (
+  input: GetAggregateResourceConfigRequest,
+) => Effect.Effect<
+  GetAggregateResourceConfigResponse,
+  | NoSuchConfigurationAggregatorException
+  | OversizedConfigurationItemException
+  | ResourceNotDiscoveredException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAggregateResourceConfigRequest,
+  output: GetAggregateResourceConfigResponse,
+  errors: [
+    NoSuchConfigurationAggregatorException,
+    OversizedConfigurationItemException,
+    ResourceNotDiscoveredException,
+    ValidationException,
+  ],
+}));
 /**
  * Deploys conformance packs across member accounts in an Amazon Web Services Organization. For information on how many organization conformance packs and how many Config rules you can have per account,
  * see
@@ -7839,21 +9527,34 @@ export const getAggregateResourceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Config sets the state of a conformance pack to CREATE_IN_PROGRESS and UPDATE_IN_PROGRESS until the conformance pack is created or updated.
  * You cannot update a conformance pack while it is in this state.
  */
-export const putOrganizationConformancePack =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutOrganizationConformancePackRequest,
-    output: PutOrganizationConformancePackResponse,
-    errors: [
-      InsufficientPermissionsException,
-      MaxNumberOfOrganizationConformancePacksExceededException,
-      NoAvailableOrganizationException,
-      OrganizationAccessDeniedException,
-      OrganizationAllFeaturesNotEnabledException,
-      OrganizationConformancePackTemplateValidationException,
-      ResourceInUseException,
-      ValidationException,
-    ],
-  }));
+export const putOrganizationConformancePack: (
+  input: PutOrganizationConformancePackRequest,
+) => Effect.Effect<
+  PutOrganizationConformancePackResponse,
+  | InsufficientPermissionsException
+  | MaxNumberOfOrganizationConformancePacksExceededException
+  | NoAvailableOrganizationException
+  | OrganizationAccessDeniedException
+  | OrganizationAllFeaturesNotEnabledException
+  | OrganizationConformancePackTemplateValidationException
+  | ResourceInUseException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutOrganizationConformancePackRequest,
+  output: PutOrganizationConformancePackResponse,
+  errors: [
+    InsufficientPermissionsException,
+    MaxNumberOfOrganizationConformancePacksExceededException,
+    NoAvailableOrganizationException,
+    OrganizationAccessDeniedException,
+    OrganizationAllFeaturesNotEnabledException,
+    OrganizationConformancePackTemplateValidationException,
+    ResourceInUseException,
+    ValidationException,
+  ],
+}));
 /**
  * For accurate reporting on the compliance status, you must record the `AWS::Config::ResourceCompliance` resource type.
  *
@@ -7885,25 +9586,64 @@ export const putOrganizationConformancePack =
  * you can make another call, using the
  * `nextToken`.
  */
-export const getResourceConfigHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getResourceConfigHistory: {
+  (
     input: GetResourceConfigHistoryRequest,
-    output: GetResourceConfigHistoryResponse,
-    errors: [
-      InvalidLimitException,
-      InvalidNextTokenException,
-      InvalidTimeRangeException,
-      NoAvailableConfigurationRecorderException,
-      ResourceNotDiscoveredException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "configurationItems",
-      pageSize: "limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetResourceConfigHistoryResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidTimeRangeException
+    | NoAvailableConfigurationRecorderException
+    | ResourceNotDiscoveredException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetResourceConfigHistoryRequest,
+  ) => Stream.Stream<
+    GetResourceConfigHistoryResponse,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidTimeRangeException
+    | NoAvailableConfigurationRecorderException
+    | ResourceNotDiscoveredException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetResourceConfigHistoryRequest,
+  ) => Stream.Stream<
+    ConfigurationItem,
+    | InvalidLimitException
+    | InvalidNextTokenException
+    | InvalidTimeRangeException
+    | NoAvailableConfigurationRecorderException
+    | ResourceNotDiscoveredException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetResourceConfigHistoryRequest,
+  output: GetResourceConfigHistoryResponse,
+  errors: [
+    InvalidLimitException,
+    InvalidNextTokenException,
+    InvalidTimeRangeException,
+    NoAvailableConfigurationRecorderException,
+    ResourceNotDiscoveredException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "configurationItems",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Creates or updates the customer managed configuration recorder.
  *
@@ -7932,20 +9672,30 @@ export const getResourceConfigHistory =
  *
  * Use TagResource and UntagResource to update tags after creation.
  */
-export const putConfigurationRecorder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutConfigurationRecorderRequest,
-    output: PutConfigurationRecorderResponse,
-    errors: [
-      InvalidConfigurationRecorderNameException,
-      InvalidRecordingGroupException,
-      InvalidRoleException,
-      MaxNumberOfConfigurationRecordersExceededException,
-      UnmodifiableEntityException,
-      ValidationException,
-    ],
-  }),
-);
+export const putConfigurationRecorder: (
+  input: PutConfigurationRecorderRequest,
+) => Effect.Effect<
+  PutConfigurationRecorderResponse,
+  | InvalidConfigurationRecorderNameException
+  | InvalidRecordingGroupException
+  | InvalidRoleException
+  | MaxNumberOfConfigurationRecordersExceededException
+  | UnmodifiableEntityException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutConfigurationRecorderRequest,
+  output: PutConfigurationRecorderResponse,
+  errors: [
+    InvalidConfigurationRecorderNameException,
+    InvalidRecordingGroupException,
+    InvalidRoleException,
+    MaxNumberOfConfigurationRecordersExceededException,
+    UnmodifiableEntityException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds or updates the remediation configuration with a specific Config rule with the
  * selected target or action.
@@ -7976,12 +9726,19 @@ export const putConfigurationRecorder = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
  */
-export const putRemediationConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutRemediationConfigurationsRequest,
-    output: PutRemediationConfigurationsResponse,
-    errors: [InsufficientPermissionsException, InvalidParameterValueException],
-  }));
+export const putRemediationConfigurations: (
+  input: PutRemediationConfigurationsRequest,
+) => Effect.Effect<
+  PutRemediationConfigurationsResponse,
+  | InsufficientPermissionsException
+  | InvalidParameterValueException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRemediationConfigurationsRequest,
+  output: PutRemediationConfigurationsResponse,
+  errors: [InsufficientPermissionsException, InvalidParameterValueException],
+}));
 /**
  * Creates or updates a delivery channel to deliver configuration
  * information and other compliance information.
@@ -7997,7 +9754,21 @@ export const putRemediationConfigurations =
  *
  * You can have only one delivery channel for each account for each Amazon Web Services Region.
  */
-export const putDeliveryChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putDeliveryChannel: (
+  input: PutDeliveryChannelRequest,
+) => Effect.Effect<
+  PutDeliveryChannelResponse,
+  | InsufficientDeliveryPolicyException
+  | InvalidDeliveryChannelNameException
+  | InvalidS3KeyPrefixException
+  | InvalidS3KmsKeyArnException
+  | InvalidSNSTopicARNException
+  | MaxNumberOfDeliveryChannelsExceededException
+  | NoAvailableConfigurationRecorderException
+  | NoSuchBucketException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDeliveryChannelRequest,
   output: PutDeliveryChannelResponse,
   errors: [

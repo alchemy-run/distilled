@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Compute Optimizer Automation",
   serviceShapeName: "ComputeOptimizerAutomationService",
@@ -292,6 +300,28 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AccountId = string;
+export type ClientToken = string;
+export type RuleName = string;
+export type RuleDescription = string;
+export type RuleArn = string;
+export type EventId = string;
+export type NextToken = string;
+export type RecommendedActionId = string;
+export type TagKey = string;
+export type TagValue = string;
+export type AutomationEventFilterName = string;
+export type FilterValue = string;
+export type AutomationRuleFilterName = string;
+export type RecommendedActionFilterName = string;
+export type ResourceArn = string;
+export type ResourceId = string;
+export type RuleId = string;
+export type StringCriteriaValue = string;
+export type StepId = string;
+export type SummaryDimensionKey = string;
 
 //# Schemas
 export interface GetEnrollmentConfigurationRequest {}
@@ -1361,6 +1391,7 @@ export interface EbsVolume {
 export const EbsVolume = S.suspend(() =>
   S.Struct({ configuration: S.optional(EbsVolumeConfiguration) }),
 ).annotations({ identifier: "EbsVolume" }) as any as S.Schema<EbsVolume>;
+export type ResourceDetails = { ebsVolume: EbsVolume };
 export const ResourceDetails = S.Union(S.Struct({ ebsVolume: EbsVolume }));
 export interface RecommendedAction {
   recommendedActionId?: string;
@@ -1592,7 +1623,9 @@ export class IdempotencyTokenInUseException extends S.TaggedError<IdempotencyTok
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class IdempotentParameterMismatchException extends S.TaggedError<IdempotentParameterMismatchException>()(
   "IdempotentParameterMismatchException",
   { message: S.optional(S.String) },
@@ -1616,11 +1649,15 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
@@ -1632,96 +1669,169 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  *
  * Only the management account or a delegated administrator can perform this action.
  */
-export const disassociateAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateAccountsRequest,
-    output: DisassociateAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      IdempotencyTokenInUseException,
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidParameterValueException,
-      NotManagementAccountException,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const disassociateAccounts: (
+  input: DisassociateAccountsRequest,
+) => Effect.Effect<
+  DisassociateAccountsResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | IdempotencyTokenInUseException
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidParameterValueException
+  | NotManagementAccountException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateAccountsRequest,
+  output: DisassociateAccountsResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    IdempotencyTokenInUseException,
+    IdempotentParameterMismatchException,
+    InternalServerException,
+    InvalidParameterValueException,
+    NotManagementAccountException,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Initiates a one-time, on-demand automation for the specified recommended action.
  *
  * Management accounts and delegated administrators can only initiate recommended actions for associated member accounts. You can associate a member account using `AssociateAccounts`.
  */
-export const startAutomationEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartAutomationEventRequest,
-    output: StartAutomationEventResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      IdempotencyTokenInUseException,
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const startAutomationEvent: (
+  input: StartAutomationEventRequest,
+) => Effect.Effect<
+  StartAutomationEventResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | IdempotencyTokenInUseException
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAutomationEventRequest,
+  output: StartAutomationEventResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    IdempotencyTokenInUseException,
+    IdempotentParameterMismatchException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Initiates a rollback for a completed automation event.
  *
  * Management accounts and delegated administrators can only initiate a rollback for events belonging to associated member accounts. You can associate a member account using `AssociateAccounts`.
  */
-export const rollbackAutomationEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RollbackAutomationEventRequest,
-    output: RollbackAutomationEventResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      IdempotencyTokenInUseException,
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const rollbackAutomationEvent: (
+  input: RollbackAutomationEventRequest,
+) => Effect.Effect<
+  RollbackAutomationEventResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | IdempotencyTokenInUseException
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RollbackAutomationEventRequest,
+  output: RollbackAutomationEventResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    IdempotencyTokenInUseException,
+    IdempotentParameterMismatchException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates an existing automation rule.
  */
-export const updateAutomationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAutomationRuleRequest,
-    output: UpdateAutomationRuleResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      IdempotencyTokenInUseException,
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateAutomationRule: (
+  input: UpdateAutomationRuleRequest,
+) => Effect.Effect<
+  UpdateAutomationRuleResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | IdempotencyTokenInUseException
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAutomationRuleRequest,
+  output: UpdateAutomationRuleResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    IdempotencyTokenInUseException,
+    IdempotentParameterMismatchException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Adds tags to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | IdempotencyTokenInUseException
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1740,7 +1850,23 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | IdempotencyTokenInUseException
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1759,31 +1885,90 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the steps for a specific automation event. You can only list steps for events created within the past year.
  */
-export const listAutomationEventSteps =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAutomationEventSteps: {
+  (
     input: ListAutomationEventStepsRequest,
-    output: ListAutomationEventStepsResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "automationEventSteps",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAutomationEventStepsResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAutomationEventStepsRequest,
+  ) => Stream.Stream<
+    ListAutomationEventStepsResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAutomationEventStepsRequest,
+  ) => Stream.Stream<
+    AutomationEventStep,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAutomationEventStepsRequest,
+  output: ListAutomationEventStepsResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "automationEventSteps",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves details about a specific automation rule.
  */
-export const getAutomationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAutomationRule: (
+  input: GetAutomationRuleRequest,
+) => Effect.Effect<
+  GetAutomationRuleResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutomationRuleRequest,
   output: GetAutomationRuleResponse,
   errors: [
@@ -1800,7 +1985,21 @@ export const getAutomationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags for a specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1817,212 +2016,522 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the current enrollment configuration for Compute Optimizer Automation.
  */
-export const getEnrollmentConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEnrollmentConfigurationRequest,
-    output: GetEnrollmentConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getEnrollmentConfiguration: (
+  input: GetEnrollmentConfigurationRequest,
+) => Effect.Effect<
+  GetEnrollmentConfigurationResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEnrollmentConfigurationRequest,
+  output: GetEnrollmentConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes an existing automation rule.
  */
-export const deleteAutomationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAutomationRuleRequest,
-    output: DeleteAutomationRuleResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      IdempotencyTokenInUseException,
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteAutomationRule: (
+  input: DeleteAutomationRuleRequest,
+) => Effect.Effect<
+  DeleteAutomationRuleResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | IdempotencyTokenInUseException
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAutomationRuleRequest,
+  output: DeleteAutomationRuleResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    IdempotencyTokenInUseException,
+    IdempotentParameterMismatchException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates your account’s Compute Optimizer Automation enrollment configuration.
  */
-export const updateEnrollmentConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateEnrollmentConfigurationRequest,
-    output: UpdateEnrollmentConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      IdempotencyTokenInUseException,
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidParameterValueException,
-      NotManagementAccountException,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const updateEnrollmentConfiguration: (
+  input: UpdateEnrollmentConfigurationRequest,
+) => Effect.Effect<
+  UpdateEnrollmentConfigurationResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | IdempotencyTokenInUseException
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidParameterValueException
+  | NotManagementAccountException
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEnrollmentConfigurationRequest,
+  output: UpdateEnrollmentConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    IdempotencyTokenInUseException,
+    IdempotentParameterMismatchException,
+    InternalServerException,
+    InvalidParameterValueException,
+    NotManagementAccountException,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists automation events based on specified filters. You can retrieve events that were created within the past year.
  */
-export const listAutomationEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAutomationEvents: {
+  (
     input: ListAutomationEventsRequest,
-    output: ListAutomationEventsResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "automationEvents",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAutomationEventsResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAutomationEventsRequest,
+  ) => Stream.Stream<
+    ListAutomationEventsResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAutomationEventsRequest,
+  ) => Stream.Stream<
+    AutomationEvent,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAutomationEventsRequest,
+  output: ListAutomationEventsResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "automationEvents",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Provides a summary of automation events based on specified filters. Only events created within the past year will be included in the summary.
  */
-export const listAutomationEventSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAutomationEventSummaries: {
+  (
     input: ListAutomationEventSummariesRequest,
-    output: ListAutomationEventSummariesResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "automationEventSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAutomationEventSummariesResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAutomationEventSummariesRequest,
+  ) => Stream.Stream<
+    ListAutomationEventSummariesResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAutomationEventSummariesRequest,
+  ) => Stream.Stream<
+    AutomationEventSummary,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAutomationEventSummariesRequest,
+  output: ListAutomationEventSummariesResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "automationEventSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a summary of the recommended actions that match your rule preview configuration and criteria.
  */
-export const listAutomationRulePreviewSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAutomationRulePreviewSummaries: {
+  (
     input: ListAutomationRulePreviewSummariesRequest,
-    output: ListAutomationRulePreviewSummariesResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "previewResultSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAutomationRulePreviewSummariesResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAutomationRulePreviewSummariesRequest,
+  ) => Stream.Stream<
+    ListAutomationRulePreviewSummariesResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAutomationRulePreviewSummariesRequest,
+  ) => Stream.Stream<
+    PreviewResultSummary,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAutomationRulePreviewSummariesRequest,
+  output: ListAutomationRulePreviewSummariesResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "previewResultSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the automation rules that match specified filters.
  */
-export const listAutomationRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAutomationRules: {
+  (
     input: ListAutomationRulesRequest,
-    output: ListAutomationRulesResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "automationRules",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAutomationRulesResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAutomationRulesRequest,
+  ) => Stream.Stream<
+    ListAutomationRulesResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAutomationRulesRequest,
+  ) => Stream.Stream<
+    AutomationRule,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAutomationRulesRequest,
+  output: ListAutomationRulesResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "automationRules",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the recommended actions based that match specified filters.
  *
  * Management accounts and delegated administrators can retrieve recommended actions that include associated member accounts. You can associate a member account using `AssociateAccounts`.
  */
-export const listRecommendedActions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecommendedActions: {
+  (
     input: ListRecommendedActionsRequest,
-    output: ListRecommendedActionsResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "recommendedActions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecommendedActionsResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecommendedActionsRequest,
+  ) => Stream.Stream<
+    ListRecommendedActionsResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommendedActionsRequest,
+  ) => Stream.Stream<
+    RecommendedAction,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommendedActionsRequest,
+  output: ListRecommendedActionsResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "recommendedActions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Provides a summary of recommended actions based on specified filters.
  *
  * Management accounts and delegated administrators can retrieve recommended actions that include associated member accounts. You can associate a member account using `AssociateAccounts`.
  */
-export const listRecommendedActionSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecommendedActionSummaries: {
+  (
     input: ListRecommendedActionSummariesRequest,
-    output: ListRecommendedActionSummariesResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "recommendedActionSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecommendedActionSummariesResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecommendedActionSummariesRequest,
+  ) => Stream.Stream<
+    ListRecommendedActionSummariesResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommendedActionSummariesRequest,
+  ) => Stream.Stream<
+    RecommendedActionSummary,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommendedActionSummariesRequest,
+  output: ListRecommendedActionSummariesResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "recommendedActionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Associates one or more member accounts with your organization's management account, enabling centralized implementation of optimization actions across those accounts. Once associated, the management account (or a delegated administrator) can apply recommended actions to the member account. When you associate a member account, its organization rule mode is automatically set to "Any allowed," which permits the management account to create Automation rules that automatically apply actions to that account. If the member account has not previously enabled the Automation feature, the association process automatically enables it.
  *
  * Only the management account or a delegated administrator can perform this action.
  */
-export const associateAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateAccounts: (
+  input: AssociateAccountsRequest,
+) => Effect.Effect<
+  AssociateAccountsResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | IdempotencyTokenInUseException
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidParameterValueException
+  | NotManagementAccountException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAccountsRequest,
   output: AssociateAccountsResponse,
   errors: [
@@ -2043,32 +2552,90 @@ export const associateAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Only the management account or a delegated administrator can perform this action.
  */
-export const listAccounts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAccounts: {
+  (
     input: ListAccountsRequest,
-    output: ListAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      InternalServerException,
-      InvalidParameterValueException,
-      NotManagementAccountException,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "accounts",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAccountsResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | NotManagementAccountException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccountsRequest,
+  ) => Stream.Stream<
+    ListAccountsResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | NotManagementAccountException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccountsRequest,
+  ) => Stream.Stream<
+    AccountInfo,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | NotManagementAccountException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsRequest,
+  output: ListAccountsResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    NotManagementAccountException,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "accounts",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves details about a specific automation event.
  */
-export const getAutomationEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAutomationEvent: (
+  input: GetAutomationEventRequest,
+) => Effect.Effect<
+  GetAutomationEventResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutomationEventRequest,
   output: GetAutomationEventResponse,
   errors: [
@@ -2085,45 +2652,102 @@ export const getAutomationEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a preview of the recommended actions that match your Automation rule's configuration and criteria.
  */
-export const listAutomationRulePreview =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAutomationRulePreview: {
+  (
     input: ListAutomationRulePreviewRequest,
-    output: ListAutomationRulePreviewResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "previewResults",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAutomationRulePreviewResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAutomationRulePreviewRequest,
+  ) => Stream.Stream<
+    ListAutomationRulePreviewResponse,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAutomationRulePreviewRequest,
+  ) => Stream.Stream<
+    PreviewResult,
+    | AccessDeniedException
+    | ForbiddenException
+    | InternalServerException
+    | InvalidParameterValueException
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAutomationRulePreviewRequest,
+  output: ListAutomationRulePreviewResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "previewResults",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a new automation rule to apply recommended actions to resources based on specified criteria.
  */
-export const createAutomationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAutomationRuleRequest,
-    output: CreateAutomationRuleResponse,
-    errors: [
-      AccessDeniedException,
-      ForbiddenException,
-      IdempotencyTokenInUseException,
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidParameterValueException,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createAutomationRule: (
+  input: CreateAutomationRuleRequest,
+) => Effect.Effect<
+  CreateAutomationRuleResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | IdempotencyTokenInUseException
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAutomationRuleRequest,
+  output: CreateAutomationRuleResponse,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    IdempotencyTokenInUseException,
+    IdempotentParameterMismatchException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));

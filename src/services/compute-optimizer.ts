@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Compute Optimizer",
   serviceShapeName: "ComputeOptimizerService",
@@ -240,6 +248,97 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type JobId = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type AccountId = string;
+export type AutoScalingGroupArn = string;
+export type VolumeArn = string;
+export type InstanceArn = string;
+export type Period = number;
+export type ServiceArn = string;
+export type ResourceArn = string;
+export type StatusReason = string;
+export type NumberOfMemberAccountsOptedIn = number;
+export type IdleMaxResults = number;
+export type FunctionArn = string;
+export type ScopeValue = string;
+export type FilterValue = string;
+export type DestinationBucket = string;
+export type DestinationKeyPrefix = string;
+export type PreferredResourceValue = string;
+export type ErrorMessage = string;
+export type DestinationKey = string;
+export type MetadataKey = string;
+export type AutoScalingGroupName = string;
+export type LookBackPeriodInDays = number;
+export type Identifier = string;
+export type Code = string;
+export type Message = string;
+export type InstanceName = string;
+export type CurrentInstanceType = string;
+export type RecommendedInstanceType = string;
+export type Rank = number;
+export type CpuSize = number;
+export type MemorySize = number;
+export type FunctionVersion = string;
+export type NumberOfInvocations = number;
+export type RecommendedDBInstanceClass = string;
+export type Engine = string;
+export type EngineVersion = string;
+export type PromotionTier = number;
+export type CurrentDBInstanceClass = string;
+export type DBClusterIdentifier = string;
+export type MetricValue = number;
+export type DesiredCapacity = number;
+export type MinSize = number;
+export type MaxSize = number;
+export type NullableInstanceType = string;
+export type NullableEstimatedInstanceHourReductionPercentage = number;
+export type MixedInstanceType = string;
+export type PerformanceRisk = number;
+export type VolumeType = string;
+export type VolumeSize = number;
+export type VolumeBaselineIOPS = number;
+export type VolumeBurstIOPS = number;
+export type VolumeBaselineThroughput = number;
+export type VolumeBurstThroughput = number;
+export type TagKey = string;
+export type TagValue = string;
+export type InstanceType = string;
+export type RecommendationSourceArn = string;
+export type ExternalMetricStatusReason = string;
+export type NullableMemory = number;
+export type NullableCpu = number;
+export type TaskDefinitionArn = string;
+export type NumberOfCores = number;
+export type OperatingSystem = string;
+export type LicenseVersion = string;
+export type StorageType = string;
+export type AllocatedStorage = number;
+export type NullableIOPS = number;
+export type NullableMaxAllocatedStorage = number;
+export type NullableStorageThroughput = number;
+export type DBInstanceClass = string;
+export type SummaryValue = number;
+export type SavingsOpportunityPercentage = number;
+export type High = number;
+export type Medium = number;
+export type Low = number;
+export type VeryLow = number;
+export type FailureReason = string;
+export type ResourceId = string;
+export type IdleFindingDescription = string;
+export type GpuCount = number;
+export type GpuMemorySizeInMiB = number;
+export type ContainerName = string;
+export type LowerBoundValue = number;
+export type UpperBoundValue = number;
+export type MetricProviderArn = string;
+export type Value = number;
+export type NullableMemoryReservation = number;
 
 //# Schemas
 export interface GetEnrollmentStatusRequest {}
@@ -2988,7 +3087,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
   "InvalidParameterValueException",
   { message: S.optional(S.String) },
@@ -3004,7 +3105,9 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class OptInRequiredException extends S.TaggedError<OptInRequiredException>()(
   "OptInRequiredException",
   { message: S.optional(S.String) },
@@ -3012,7 +3115,9 @@ export class OptInRequiredException extends S.TaggedError<OptInRequiredException
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -3027,7 +3132,19 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
  * the enrollment status of member accounts of the organization. Use the GetEnrollmentStatusesForOrganization action to get detailed information
  * about the enrollment status of member accounts of an organization.
  */
-export const getEnrollmentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEnrollmentStatus: (
+  input: GetEnrollmentStatusRequest,
+) => Effect.Effect<
+  GetEnrollmentStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnrollmentStatusRequest,
   output: GetEnrollmentStatusResponse,
   errors: [
@@ -3047,47 +3164,98 @@ export const getEnrollmentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * requirements in the Compute Optimizer User
  * Guide.
  */
-export const getLicenseRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLicenseRecommendationsRequest,
-    output: GetLicenseRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getLicenseRecommendations: (
+  input: GetLicenseRecommendationsRequest,
+) => Effect.Effect<
+  GetLicenseRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLicenseRecommendationsRequest,
+  output: GetLicenseRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the Compute Optimizer enrollment (opt-in) status of organization member
  * accounts, if your account is an organization management account.
  *
  * To get the enrollment status of standalone accounts, use the GetEnrollmentStatus action.
  */
-export const getEnrollmentStatusesForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getEnrollmentStatusesForOrganization: {
+  (
     input: GetEnrollmentStatusesForOrganizationRequest,
-    output: GetEnrollmentStatusesForOrganizationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "accountEnrollmentStatuses",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetEnrollmentStatusesForOrganizationResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidParameterValueException
+    | MissingAuthenticationToken
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetEnrollmentStatusesForOrganizationRequest,
+  ) => Stream.Stream<
+    GetEnrollmentStatusesForOrganizationResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidParameterValueException
+    | MissingAuthenticationToken
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetEnrollmentStatusesForOrganizationRequest,
+  ) => Stream.Stream<
+    AccountEnrollmentStatus,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidParameterValueException
+    | MissingAuthenticationToken
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetEnrollmentStatusesForOrganizationRequest,
+  output: GetEnrollmentStatusesForOrganizationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "accountEnrollmentStatuses",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates the enrollment (opt in and opt out) status of an account to the Compute Optimizer service.
  *
@@ -3101,20 +3269,30 @@ export const getEnrollmentStatusesForOrganization =
  * account to access its data. For more information, see Using
  * Service-Linked Roles for Compute Optimizer in the *Compute Optimizer User Guide*.
  */
-export const updateEnrollmentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEnrollmentStatusRequest,
-    output: UpdateEnrollmentStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateEnrollmentStatus: (
+  input: UpdateEnrollmentStatusRequest,
+) => Effect.Effect<
+  UpdateEnrollmentStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEnrollmentStatusRequest,
+  output: UpdateEnrollmentStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the optimization findings for an account.
  *
@@ -3142,26 +3320,68 @@ export const updateEnrollmentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - Amazon Aurora and Amazon RDS databases in an account that are `Underprovisioned`,
  * `Overprovisioned`, `Optimized`, or `NotOptimized`.
  */
-export const getRecommendationSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getRecommendationSummaries: {
+  (
     input: GetRecommendationSummariesRequest,
-    output: GetRecommendationSummariesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "recommendationSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetRecommendationSummariesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidParameterValueException
+    | MissingAuthenticationToken
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetRecommendationSummariesRequest,
+  ) => Stream.Stream<
+    GetRecommendationSummariesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidParameterValueException
+    | MissingAuthenticationToken
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetRecommendationSummariesRequest,
+  ) => Stream.Stream<
+    RecommendationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidParameterValueException
+    | MissingAuthenticationToken
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetRecommendationSummariesRequest,
+  output: GetRecommendationSummariesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "recommendationSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Exports optimization recommendations for Amazon EC2 Auto Scaling groups.
  *
@@ -3172,21 +3392,34 @@ export const getRecommendationSummaries =
  *
  * You can have only one Amazon EC2 Auto Scaling group export job in progress per Amazon Web Services Region.
  */
-export const exportAutoScalingGroupRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExportAutoScalingGroupRecommendationsRequest,
-    output: ExportAutoScalingGroupRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const exportAutoScalingGroupRecommendations: (
+  input: ExportAutoScalingGroupRecommendationsRequest,
+) => Effect.Effect<
+  ExportAutoScalingGroupRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportAutoScalingGroupRecommendationsRequest,
+  output: ExportAutoScalingGroupRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Exports optimization recommendations for Amazon EBS volumes.
  *
@@ -3197,21 +3430,34 @@ export const exportAutoScalingGroupRecommendations =
  *
  * You can have only one Amazon EBS volume export job in progress per Amazon Web Services Region.
  */
-export const exportEBSVolumeRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExportEBSVolumeRecommendationsRequest,
-    output: ExportEBSVolumeRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const exportEBSVolumeRecommendations: (
+  input: ExportEBSVolumeRecommendationsRequest,
+) => Effect.Effect<
+  ExportEBSVolumeRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportEBSVolumeRecommendationsRequest,
+  output: ExportEBSVolumeRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Exports optimization recommendations for Amazon EC2 instances.
  *
@@ -3222,21 +3468,34 @@ export const exportEBSVolumeRecommendations =
  *
  * You can have only one Amazon EC2 instance export job in progress per Amazon Web Services Region.
  */
-export const exportEC2InstanceRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExportEC2InstanceRecommendationsRequest,
-    output: ExportEC2InstanceRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const exportEC2InstanceRecommendations: (
+  input: ExportEC2InstanceRecommendationsRequest,
+) => Effect.Effect<
+  ExportEC2InstanceRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportEC2InstanceRecommendationsRequest,
+  output: ExportEC2InstanceRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Exports optimization recommendations for Amazon ECS services on Fargate.
  *
@@ -3247,21 +3506,34 @@ export const exportEC2InstanceRecommendations =
  *
  * You can only have one Amazon ECS service export job in progress per Amazon Web Services Region.
  */
-export const exportECSServiceRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExportECSServiceRecommendationsRequest,
-    output: ExportECSServiceRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const exportECSServiceRecommendations: (
+  input: ExportECSServiceRecommendationsRequest,
+) => Effect.Effect<
+  ExportECSServiceRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportECSServiceRecommendationsRequest,
+  output: ExportECSServiceRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Export optimization recommendations for your idle resources.
  *
@@ -3272,22 +3544,34 @@ export const exportECSServiceRecommendations =
  *
  * You can have only one idle resource export job in progress per Amazon Web Services Region.
  */
-export const exportIdleRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExportIdleRecommendationsRequest,
-    output: ExportIdleRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const exportIdleRecommendations: (
+  input: ExportIdleRecommendationsRequest,
+) => Effect.Effect<
+  ExportIdleRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportIdleRecommendationsRequest,
+  output: ExportIdleRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Exports optimization recommendations for Lambda functions.
  *
@@ -3298,21 +3582,34 @@ export const exportIdleRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can have only one Lambda function export job in progress per Amazon Web Services Region.
  */
-export const exportLambdaFunctionRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExportLambdaFunctionRecommendationsRequest,
-    output: ExportLambdaFunctionRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const exportLambdaFunctionRecommendations: (
+  input: ExportLambdaFunctionRecommendationsRequest,
+) => Effect.Effect<
+  ExportLambdaFunctionRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportLambdaFunctionRecommendationsRequest,
+  output: ExportLambdaFunctionRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Export optimization recommendations for your licenses.
  *
@@ -3323,21 +3620,34 @@ export const exportLambdaFunctionRecommendations =
  *
  * You can have only one license export job in progress per Amazon Web Services Region.
  */
-export const exportLicenseRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExportLicenseRecommendationsRequest,
-    output: ExportLicenseRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const exportLicenseRecommendations: (
+  input: ExportLicenseRecommendationsRequest,
+) => Effect.Effect<
+  ExportLicenseRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportLicenseRecommendationsRequest,
+  output: ExportLicenseRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Export optimization recommendations for your Amazon Aurora and Amazon Relational Database Service (Amazon RDS) databases.
  *
@@ -3348,21 +3658,34 @@ export const exportLicenseRecommendations =
  *
  * You can have only one Amazon Aurora or RDS export job in progress per Amazon Web Services Region.
  */
-export const exportRDSDatabaseRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExportRDSDatabaseRecommendationsRequest,
-    output: ExportRDSDatabaseRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const exportRDSDatabaseRecommendations: (
+  input: ExportRDSDatabaseRecommendationsRequest,
+) => Effect.Effect<
+  ExportRDSDatabaseRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportRDSDatabaseRecommendationsRequest,
+  output: ExportRDSDatabaseRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns Lambda function recommendations.
  *
@@ -3371,27 +3694,72 @@ export const exportRDSDatabaseRecommendations =
  * requirements in the Compute Optimizer User
  * Guide.
  */
-export const getLambdaFunctionRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getLambdaFunctionRecommendations: {
+  (
     input: GetLambdaFunctionRecommendationsRequest,
-    output: GetLambdaFunctionRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "lambdaFunctionRecommendations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetLambdaFunctionRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidParameterValueException
+    | LimitExceededException
+    | MissingAuthenticationToken
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetLambdaFunctionRecommendationsRequest,
+  ) => Stream.Stream<
+    GetLambdaFunctionRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidParameterValueException
+    | LimitExceededException
+    | MissingAuthenticationToken
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetLambdaFunctionRecommendationsRequest,
+  ) => Stream.Stream<
+    LambdaFunctionRecommendation,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidParameterValueException
+    | LimitExceededException
+    | MissingAuthenticationToken
+    | OptInRequiredException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetLambdaFunctionRecommendationsRequest,
+  output: GetLambdaFunctionRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "lambdaFunctionRecommendations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns Amazon Aurora and RDS database recommendations.
  *
@@ -3401,39 +3769,65 @@ export const getLambdaFunctionRecommendations =
  * requirements in the Compute Optimizer User
  * Guide.
  */
-export const getRDSDatabaseRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRDSDatabaseRecommendationsRequest,
-    output: GetRDSDatabaseRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const getRDSDatabaseRecommendations: (
+  input: GetRDSDatabaseRecommendationsRequest,
+) => Effect.Effect<
+  GetRDSDatabaseRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRDSDatabaseRecommendationsRequest,
+  output: GetRDSDatabaseRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the projected metrics of Aurora and RDS database recommendations.
  */
-export const getRDSDatabaseRecommendationProjectedMetrics =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRDSDatabaseRecommendationProjectedMetricsRequest,
-    output: GetRDSDatabaseRecommendationProjectedMetricsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const getRDSDatabaseRecommendationProjectedMetrics: (
+  input: GetRDSDatabaseRecommendationProjectedMetricsRequest,
+) => Effect.Effect<
+  GetRDSDatabaseRecommendationProjectedMetricsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRDSDatabaseRecommendationProjectedMetricsRequest,
+  output: GetRDSDatabaseRecommendationProjectedMetricsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns existing recommendation preferences, such as enhanced infrastructure
  * metrics.
@@ -3446,27 +3840,72 @@ export const getRDSDatabaseRecommendationProjectedMetrics =
  * enhanced infrastructure metrics in the Compute Optimizer User
  * Guide.
  */
-export const getRecommendationPreferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getRecommendationPreferences: {
+  (
     input: GetRecommendationPreferencesRequest,
-    output: GetRecommendationPreferencesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "recommendationPreferencesDetails",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetRecommendationPreferencesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidParameterValueException
+    | MissingAuthenticationToken
+    | OptInRequiredException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetRecommendationPreferencesRequest,
+  ) => Stream.Stream<
+    GetRecommendationPreferencesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidParameterValueException
+    | MissingAuthenticationToken
+    | OptInRequiredException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetRecommendationPreferencesRequest,
+  ) => Stream.Stream<
+    RecommendationPreferencesDetail,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidParameterValueException
+    | MissingAuthenticationToken
+    | OptInRequiredException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetRecommendationPreferencesRequest,
+  output: GetRecommendationPreferencesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "recommendationPreferencesDetails",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a new recommendation preference or updates an existing recommendation
  * preference, such as enhanced infrastructure metrics.
@@ -3475,21 +3914,34 @@ export const getRecommendationPreferences =
  * enhanced infrastructure metrics in the Compute Optimizer User
  * Guide.
  */
-export const putRecommendationPreferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutRecommendationPreferencesRequest,
-    output: PutRecommendationPreferencesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const putRecommendationPreferences: (
+  input: PutRecommendationPreferencesRequest,
+) => Effect.Effect<
+  PutRecommendationPreferencesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRecommendationPreferencesRequest,
+  output: PutRecommendationPreferencesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a recommendation preference, such as enhanced infrastructure metrics.
  *
@@ -3497,21 +3949,34 @@ export const putRecommendationPreferences =
  * enhanced infrastructure metrics in the Compute Optimizer User
  * Guide.
  */
-export const deleteRecommendationPreferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRecommendationPreferencesRequest,
-    output: DeleteRecommendationPreferencesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteRecommendationPreferences: (
+  input: DeleteRecommendationPreferencesRequest,
+) => Effect.Effect<
+  DeleteRecommendationPreferencesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRecommendationPreferencesRequest,
+  output: DeleteRecommendationPreferencesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the recommendation preferences that are in effect for a given resource, such
  * as enhanced infrastructure metrics. Considers all applicable preferences that you might
@@ -3521,21 +3986,34 @@ export const deleteRecommendationPreferences =
  * `Active` or `Inactive`. Use this action to view the
  * recommendation preferences that are in effect, or `Active`.
  */
-export const getEffectiveRecommendationPreferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetEffectiveRecommendationPreferencesRequest,
-    output: GetEffectiveRecommendationPreferencesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const getEffectiveRecommendationPreferences: (
+  input: GetEffectiveRecommendationPreferencesRequest,
+) => Effect.Effect<
+  GetEffectiveRecommendationPreferencesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEffectiveRecommendationPreferencesRequest,
+  output: GetEffectiveRecommendationPreferencesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the projected utilization metrics of Amazon EC2 instance
  * recommendations.
@@ -3545,39 +4023,65 @@ export const getEffectiveRecommendationPreferences =
  * `Memory` metric is returned only for resources that have the unified
  * CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.
  */
-export const getEC2RecommendationProjectedMetrics =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetEC2RecommendationProjectedMetricsRequest,
-    output: GetEC2RecommendationProjectedMetricsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const getEC2RecommendationProjectedMetrics: (
+  input: GetEC2RecommendationProjectedMetricsRequest,
+) => Effect.Effect<
+  GetEC2RecommendationProjectedMetricsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEC2RecommendationProjectedMetricsRequest,
+  output: GetEC2RecommendationProjectedMetricsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the projected metrics of Amazon ECS service recommendations.
  */
-export const getECSServiceRecommendationProjectedMetrics =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetECSServiceRecommendationProjectedMetricsRequest,
-    output: GetECSServiceRecommendationProjectedMetricsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const getECSServiceRecommendationProjectedMetrics: (
+  input: GetECSServiceRecommendationProjectedMetricsRequest,
+) => Effect.Effect<
+  GetECSServiceRecommendationProjectedMetricsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetECSServiceRecommendationProjectedMetricsRequest,
+  output: GetECSServiceRecommendationProjectedMetricsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes recommendation export jobs created in the last seven days.
  *
@@ -3585,27 +4089,72 @@ export const getECSServiceRecommendationProjectedMetrics =
  * recommendations. Then use the DescribeRecommendationExportJobs action
  * to view your export jobs.
  */
-export const describeRecommendationExportJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRecommendationExportJobs: {
+  (
     input: DescribeRecommendationExportJobsRequest,
-    output: DescribeRecommendationExportJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "recommendationExportJobs",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRecommendationExportJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidParameterValueException
+    | MissingAuthenticationToken
+    | OptInRequiredException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRecommendationExportJobsRequest,
+  ) => Stream.Stream<
+    DescribeRecommendationExportJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidParameterValueException
+    | MissingAuthenticationToken
+    | OptInRequiredException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRecommendationExportJobsRequest,
+  ) => Stream.Stream<
+    RecommendationExportJob,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidParameterValueException
+    | MissingAuthenticationToken
+    | OptInRequiredException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRecommendationExportJobsRequest,
+  output: DescribeRecommendationExportJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "recommendationExportJobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns Amazon EC2 Auto Scaling group recommendations.
  *
@@ -3614,21 +4163,34 @@ export const describeRecommendationExportJobs =
  * resources and requirements in the Compute Optimizer User
  * Guide.
  */
-export const getAutoScalingGroupRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetAutoScalingGroupRecommendationsRequest,
-    output: GetAutoScalingGroupRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const getAutoScalingGroupRecommendations: (
+  input: GetAutoScalingGroupRecommendationsRequest,
+) => Effect.Effect<
+  GetAutoScalingGroupRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAutoScalingGroupRecommendationsRequest,
+  output: GetAutoScalingGroupRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns Amazon Elastic Block Store (Amazon EBS) volume recommendations.
  *
@@ -3637,22 +4199,34 @@ export const getAutoScalingGroupRecommendations =
  * resources and requirements in the Compute Optimizer User
  * Guide.
  */
-export const getEBSVolumeRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEBSVolumeRecommendationsRequest,
-    output: GetEBSVolumeRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getEBSVolumeRecommendations: (
+  input: GetEBSVolumeRecommendationsRequest,
+) => Effect.Effect<
+  GetEBSVolumeRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEBSVolumeRecommendationsRequest,
+  output: GetEBSVolumeRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns Amazon EC2 instance recommendations.
  *
@@ -3661,21 +4235,34 @@ export const getEBSVolumeRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * requirements in the Compute Optimizer User
  * Guide.
  */
-export const getEC2InstanceRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetEC2InstanceRecommendationsRequest,
-    output: GetEC2InstanceRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const getEC2InstanceRecommendations: (
+  input: GetEC2InstanceRecommendationsRequest,
+) => Effect.Effect<
+  GetEC2InstanceRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEC2InstanceRecommendationsRequest,
+  output: GetEC2InstanceRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns Amazon ECS service recommendations.
  *
@@ -3685,40 +4272,65 @@ export const getEC2InstanceRecommendations =
  * requirements in the Compute Optimizer User
  * Guide.
  */
-export const getECSServiceRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetECSServiceRecommendationsRequest,
-    output: GetECSServiceRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const getECSServiceRecommendations: (
+  input: GetECSServiceRecommendationsRequest,
+) => Effect.Effect<
+  GetECSServiceRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetECSServiceRecommendationsRequest,
+  output: GetECSServiceRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns idle resource recommendations. Compute Optimizer generates recommendations for
  * idle resources that meet a specific set of requirements. For more information, see
  * Resource requirements in the
  * *Compute Optimizer User Guide*
  */
-export const getIdleRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIdleRecommendationsRequest,
-    output: GetIdleRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidParameterValueException,
-      MissingAuthenticationToken,
-      OptInRequiredException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getIdleRecommendations: (
+  input: GetIdleRecommendationsRequest,
+) => Effect.Effect<
+  GetIdleRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdleRecommendationsRequest,
+  output: GetIdleRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterValueException,
+    MissingAuthenticationToken,
+    OptInRequiredException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));

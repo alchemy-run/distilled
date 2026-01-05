@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "billingconductor",
   serviceShapeName: "AWSBillingConductor",
@@ -270,6 +278,61 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type BillingGroupArn = string;
+export type MaxBillingGroupCostReportResults = number;
+export type Token = string;
+export type BillingPeriod = string;
+export type MaxBillingGroupResults = number;
+export type Arn = string;
+export type TagKey = string;
+export type ClientToken = string;
+export type BillingGroupName = string;
+export type AccountId = string;
+export type BillingGroupDescription = string;
+export type CustomLineItemName = string;
+export type CustomLineItemDescription = string;
+export type CustomLineItemArn = string;
+export type MaxCustomLineItemResults = number;
+export type CustomLineItemAssociationElement = string;
+export type PricingPlanName = string;
+export type PricingPlanDescription = string;
+export type PricingRuleArn = string;
+export type PricingPlanArn = string;
+export type MaxPricingPlanResults = number;
+export type MaxPricingRuleResults = number;
+export type PricingRuleName = string;
+export type PricingRuleDescription = string;
+export type ModifierPercentage = number;
+export type Service = string;
+export type BillingEntity = string;
+export type UsageType = string;
+export type Operation = string;
+export type Association = string;
+export type TagValue = string;
+export type ResponsibilityTransferArn = string;
+export type PricingPlanFullArn = string;
+export type NumberOfAssociatedPricingRules = number;
+export type Instant = number;
+export type SearchValue = string;
+export type CustomLineItemChargeValue = number;
+export type CustomLineItemPercentageChargeValue = number;
+export type AttributeValue = string;
+export type RetryAfterSeconds = number;
+export type NumberOfAccounts = number;
+export type BillingGroupStatusReason = string;
+export type AWSCost = string;
+export type ProformaCost = string;
+export type Margin = string;
+export type MarginPercentage = string;
+export type Currency = string;
+export type AccountName = string;
+export type AccountEmail = string;
+export type CustomLineItemProductCode = string;
+export type NumberOfAssociations = number;
+export type NumberOfPricingPlansAssociatedWith = number;
+export type BillingGroupFullArn = string;
 
 //# Schemas
 export type GroupByAttributesList = string[];
@@ -2195,7 +2258,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     Message: S.String,
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -2215,7 +2280,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     Message: S.String,
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExceededException>()(
   "ServiceLimitExceededException",
   {
@@ -2239,7 +2306,17 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Deletes a billing group.
  */
-export const deleteBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBillingGroup: (
+  input: DeleteBillingGroupInput,
+) => Effect.Effect<
+  DeleteBillingGroupOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBillingGroupInput,
   output: DeleteBillingGroupOutput,
   errors: [
@@ -2252,65 +2329,159 @@ export const deleteBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates a batch of resources from a percentage custom line item.
  */
-export const batchDisassociateResourcesFromCustomLineItem =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDisassociateResourcesFromCustomLineItemInput,
-    output: BatchDisassociateResourcesFromCustomLineItemOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchDisassociateResourcesFromCustomLineItem: (
+  input: BatchDisassociateResourcesFromCustomLineItemInput,
+) => Effect.Effect<
+  BatchDisassociateResourcesFromCustomLineItemOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDisassociateResourcesFromCustomLineItemInput,
+  output: BatchDisassociateResourcesFromCustomLineItemOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * A list of the pricing plans that are associated with a pricing rule.
  */
-export const listPricingPlansAssociatedWithPricingRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPricingPlansAssociatedWithPricingRule: {
+  (
     input: ListPricingPlansAssociatedWithPricingRuleInput,
-    output: ListPricingPlansAssociatedWithPricingRuleOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PricingPlanArns",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPricingPlansAssociatedWithPricingRuleOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPricingPlansAssociatedWithPricingRuleInput,
+  ) => Stream.Stream<
+    ListPricingPlansAssociatedWithPricingRuleOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPricingPlansAssociatedWithPricingRuleInput,
+  ) => Stream.Stream<
+    PricingPlanArn,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPricingPlansAssociatedWithPricingRuleInput,
+  output: ListPricingPlansAssociatedWithPricingRuleOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PricingPlanArns",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the pricing rules that are associated with a pricing plan.
  */
-export const listPricingRulesAssociatedToPricingPlan =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPricingRulesAssociatedToPricingPlan: {
+  (
     input: ListPricingRulesAssociatedToPricingPlanInput,
-    output: ListPricingRulesAssociatedToPricingPlanOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PricingRuleArns",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPricingRulesAssociatedToPricingPlanOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPricingRulesAssociatedToPricingPlanInput,
+  ) => Stream.Stream<
+    ListPricingRulesAssociatedToPricingPlanOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPricingRulesAssociatedToPricingPlanInput,
+  ) => Stream.Stream<
+    PricingRuleArn,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPricingRulesAssociatedToPricingPlanInput,
+  output: ListPricingRulesAssociatedToPricingPlanOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PricingRuleArns",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * A list the tags for a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2324,7 +2495,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates the specified tags to a resource with the specified `resourceArn`. If existing tags on a resource are not specified in the request parameters, they are not changed.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2338,24 +2520,46 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the specified list of account IDs from the given billing group.
  */
-export const disassociateAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateAccountsInput,
-    output: DisassociateAccountsOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateAccounts: (
+  input: DisassociateAccountsInput,
+) => Effect.Effect<
+  DisassociateAccountsOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateAccountsInput,
+  output: DisassociateAccountsOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * This updates an existing pricing plan.
  */
-export const updatePricingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePricingPlan: (
+  input: UpdatePricingPlanInput,
+) => Effect.Effect<
+  UpdatePricingPlanOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePricingPlanInput,
   output: UpdatePricingPlanOutput,
   errors: [
@@ -2370,24 +2574,46 @@ export const updatePricingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates a list of pricing rules from a pricing plan.
  */
-export const disassociatePricingRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociatePricingRulesInput,
-    output: DisassociatePricingRulesOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociatePricingRules: (
+  input: DisassociatePricingRulesInput,
+) => Effect.Effect<
+  DisassociatePricingRulesOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociatePricingRulesInput,
+  output: DisassociatePricingRulesOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * This updates an existing billing group.
  */
-export const updateBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBillingGroup: (
+  input: UpdateBillingGroupInput,
+) => Effect.Effect<
+  UpdateBillingGroupOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBillingGroupInput,
   output: UpdateBillingGroupOutput,
   errors: [
@@ -2402,48 +2628,132 @@ export const updateBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
  */
-export const listAccountAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAccountAssociations: {
+  (
     input: ListAccountAssociationsInput,
-    output: ListAccountAssociationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LinkedAccounts",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAccountAssociationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccountAssociationsInput,
+  ) => Stream.Stream<
+    ListAccountAssociationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccountAssociationsInput,
+  ) => Stream.Stream<
+    AccountAssociationsListElement,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountAssociationsInput,
+  output: ListAccountAssociationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LinkedAccounts",
+  } as const,
+}));
 /**
  * A paginated call to retrieve a summary report of actual Amazon Web Services charges and the calculated Amazon Web Services charges based on the associated pricing plan of a billing group.
  */
-export const listBillingGroupCostReports =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBillingGroupCostReports: {
+  (
     input: ListBillingGroupCostReportsInput,
-    output: ListBillingGroupCostReportsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "BillingGroupCostReports",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBillingGroupCostReportsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBillingGroupCostReportsInput,
+  ) => Stream.Stream<
+    ListBillingGroupCostReportsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBillingGroupCostReportsInput,
+  ) => Stream.Stream<
+    BillingGroupCostReportElement,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBillingGroupCostReportsInput,
+  output: ListBillingGroupCostReportsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BillingGroupCostReports",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a billing group that resembles a consolidated billing family that Amazon Web Services charges, based off of the predefined pricing plan computation.
  */
-export const createBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBillingGroup: (
+  input: CreateBillingGroupInput,
+) => Effect.Effect<
+  CreateBillingGroupOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBillingGroupInput,
   output: CreateBillingGroupOutput,
   errors: [
@@ -2458,23 +2768,43 @@ export const createBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the custom line item identified by the given ARN in the current, or previous billing period.
  */
-export const deleteCustomLineItem = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCustomLineItemInput,
-    output: DeleteCustomLineItemOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteCustomLineItem: (
+  input: DeleteCustomLineItemInput,
+) => Effect.Effect<
+  DeleteCustomLineItemOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomLineItemInput,
+  output: DeleteCustomLineItemOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a pricing plan. The pricing plan must not be associated with any billing groups to delete successfully.
  */
-export const deletePricingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePricingPlan: (
+  input: DeletePricingPlanInput,
+) => Effect.Effect<
+  DeletePricingPlanOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePricingPlanInput,
   output: DeletePricingPlanOutput,
   errors: [
@@ -2488,7 +2818,18 @@ export const deletePricingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the pricing rule that's identified by the input Amazon Resource Name (ARN).
  */
-export const deletePricingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePricingRule: (
+  input: DeletePricingRuleInput,
+) => Effect.Effect<
+  DeletePricingRuleOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePricingRuleInput,
   output: DeletePricingRuleOutput,
   errors: [
@@ -2502,7 +2843,18 @@ export const deletePricingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes specified tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2516,65 +2868,154 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update an existing custom line item in the current or previous billing period.
  */
-export const updateCustomLineItem = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCustomLineItemInput,
-    output: UpdateCustomLineItemOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateCustomLineItem: (
+  input: UpdateCustomLineItemInput,
+) => Effect.Effect<
+  UpdateCustomLineItemOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCustomLineItemInput,
+  output: UpdateCustomLineItemOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List the resources that are associated to a custom line item.
  */
-export const listResourcesAssociatedToCustomLineItem =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourcesAssociatedToCustomLineItem: {
+  (
     input: ListResourcesAssociatedToCustomLineItemInput,
-    output: ListResourcesAssociatedToCustomLineItemOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AssociatedResources",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourcesAssociatedToCustomLineItemOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourcesAssociatedToCustomLineItemInput,
+  ) => Stream.Stream<
+    ListResourcesAssociatedToCustomLineItemOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourcesAssociatedToCustomLineItemInput,
+  ) => Stream.Stream<
+    ListResourcesAssociatedToCustomLineItemResponseElement,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourcesAssociatedToCustomLineItemInput,
+  output: ListResourcesAssociatedToCustomLineItemOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AssociatedResources",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * A paginated call to get pricing plans for the given billing period. If you don't provide a billing period, the current billing period is used.
  */
-export const listPricingPlans = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPricingPlans: {
+  (
     input: ListPricingPlansInput,
-    output: ListPricingPlansOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PricingPlans",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPricingPlansOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPricingPlansInput,
+  ) => Stream.Stream<
+    ListPricingPlansOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPricingPlansInput,
+  ) => Stream.Stream<
+    PricingPlanListElement,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPricingPlansInput,
+  output: ListPricingPlansOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PricingPlans",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates an existing pricing rule.
  */
-export const updatePricingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePricingRule: (
+  input: UpdatePricingRuleInput,
+) => Effect.Effect<
+  UpdatePricingRuleOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePricingRuleInput,
   output: UpdatePricingRuleOutput,
   errors: [
@@ -2589,41 +3030,75 @@ export const updatePricingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a custom line item that can be used to create a one-time fixed charge that can be applied to a single billing group for the current or previous billing period. The one-time fixed charge is either a fee or discount.
  */
-export const createCustomLineItem = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCustomLineItemInput,
-    output: CreateCustomLineItemOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceLimitExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createCustomLineItem: (
+  input: CreateCustomLineItemInput,
+) => Effect.Effect<
+  CreateCustomLineItemOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomLineItemInput,
+  output: CreateCustomLineItemOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceLimitExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a batch of resources to a percentage custom line item.
  */
-export const batchAssociateResourcesToCustomLineItem =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchAssociateResourcesToCustomLineItemInput,
-    output: BatchAssociateResourcesToCustomLineItemOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceLimitExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchAssociateResourcesToCustomLineItem: (
+  input: BatchAssociateResourcesToCustomLineItemInput,
+) => Effect.Effect<
+  BatchAssociateResourcesToCustomLineItemOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchAssociateResourcesToCustomLineItemInput,
+  output: BatchAssociateResourcesToCustomLineItemOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceLimitExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a pricing rule can be associated to a pricing plan, or a set of pricing plans.
  */
-export const createPricingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPricingRule: (
+  input: CreatePricingRuleInput,
+) => Effect.Effect<
+  CreatePricingRuleOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePricingRuleInput,
   output: CreatePricingRuleOutput,
   errors: [
@@ -2638,7 +3113,20 @@ export const createPricingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Connects an array of account IDs in a consolidated billing family to a predefined billing group. The account IDs must be a part of the consolidated billing family during the current month, and not already associated with another billing group. The maximum number of accounts that can be associated in one call is 30.
  */
-export const associateAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateAccounts: (
+  input: AssociateAccountsInput,
+) => Effect.Effect<
+  AssociateAccountsOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAccountsInput,
   output: AssociateAccountsOutput,
   errors: [
@@ -2654,7 +3142,20 @@ export const associateAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a pricing plan that is used for computing Amazon Web Services charges for billing groups.
  */
-export const createPricingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPricingPlan: (
+  input: CreatePricingPlanInput,
+) => Effect.Effect<
+  CreatePricingPlanOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePricingPlanInput,
   output: CreatePricingPlanOutput,
   errors: [
@@ -2670,123 +3171,306 @@ export const createPricingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Connects an array of `PricingRuleArns` to a defined `PricingPlan`. The maximum number `PricingRuleArn` that can be associated in one call is 30.
  */
-export const associatePricingRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociatePricingRulesInput,
-    output: AssociatePricingRulesOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceLimitExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associatePricingRules: (
+  input: AssociatePricingRulesInput,
+) => Effect.Effect<
+  AssociatePricingRulesOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociatePricingRulesInput,
+  output: AssociatePricingRulesOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceLimitExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Services service for a specific billing group.
  */
-export const getBillingGroupCostReport =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getBillingGroupCostReport: {
+  (
     input: GetBillingGroupCostReportInput,
-    output: GetBillingGroupCostReportOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "BillingGroupCostReportResults",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetBillingGroupCostReportOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetBillingGroupCostReportInput,
+  ) => Stream.Stream<
+    GetBillingGroupCostReportOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetBillingGroupCostReportInput,
+  ) => Stream.Stream<
+    BillingGroupCostReportResultElement,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetBillingGroupCostReportInput,
+  output: GetBillingGroupCostReportOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BillingGroupCostReportResults",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * A paginated call to get a list of all custom line item versions.
  */
-export const listCustomLineItemVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCustomLineItemVersions: {
+  (
     input: ListCustomLineItemVersionsInput,
-    output: ListCustomLineItemVersionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CustomLineItemVersions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCustomLineItemVersionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCustomLineItemVersionsInput,
+  ) => Stream.Stream<
+    ListCustomLineItemVersionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCustomLineItemVersionsInput,
+  ) => Stream.Stream<
+    CustomLineItemVersionListElement,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCustomLineItemVersionsInput,
+  output: ListCustomLineItemVersionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CustomLineItemVersions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * A paginated call to retrieve a list of billing groups for the given billing period. If you don't provide a billing group, the current billing period is used.
  */
-export const listBillingGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBillingGroups: {
+  (
     input: ListBillingGroupsInput,
-    output: ListBillingGroupsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "BillingGroups",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBillingGroupsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBillingGroupsInput,
+  ) => Stream.Stream<
+    ListBillingGroupsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBillingGroupsInput,
+  ) => Stream.Stream<
+    BillingGroupListElement,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBillingGroupsInput,
+  output: ListBillingGroupsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BillingGroups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * A paginated call to get a list of all custom line items (FFLIs) for the given billing period. If you don't provide a billing period, the current billing period is used.
  */
-export const listCustomLineItems =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCustomLineItems: {
+  (
     input: ListCustomLineItemsInput,
-    output: ListCustomLineItemsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CustomLineItems",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCustomLineItemsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCustomLineItemsInput,
+  ) => Stream.Stream<
+    ListCustomLineItemsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCustomLineItemsInput,
+  ) => Stream.Stream<
+    CustomLineItemListElement,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCustomLineItemsInput,
+  output: ListCustomLineItemsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CustomLineItems",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes a pricing rule that can be associated to a pricing plan, or set of pricing plans.
  */
-export const listPricingRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPricingRules: {
+  (
     input: ListPricingRulesInput,
-    output: ListPricingRulesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PricingRules",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPricingRulesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPricingRulesInput,
+  ) => Stream.Stream<
+    ListPricingRulesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPricingRulesInput,
+  ) => Stream.Stream<
+    PricingRuleListElement,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPricingRulesInput,
+  output: ListPricingRulesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PricingRules",
+    pageSize: "MaxResults",
+  } as const,
+}));

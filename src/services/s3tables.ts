@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "S3Tables",
   serviceShapeName: "S3TableBuckets",
@@ -292,6 +300,30 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ResourceArn = string;
+export type TagKey = string;
+export type TableBucketARN = string;
+export type NamespaceName = string;
+export type NextToken = string;
+export type ListNamespacesLimit = number;
+export type ResourcePolicy = string;
+export type VersionToken = string;
+export type TableBucketName = string;
+export type ListTableBucketsLimit = number;
+export type TableName = string;
+export type TableARN = string;
+export type ListTablesLimit = number;
+export type MetadataLocation = string;
+export type TagValue = string;
+export type IAMRole = string;
+export type ErrorMessage = string;
+export type AccountId = string;
+export type NamespaceId = string;
+export type TableBucketId = string;
+export type WarehouseLocation = string;
+export type PositiveInteger = number;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -1651,6 +1683,9 @@ export const IcebergUnreferencedFileRemovalSettings = S.suspend(() =>
 ).annotations({
   identifier: "IcebergUnreferencedFileRemovalSettings",
 }) as any as S.Schema<IcebergUnreferencedFileRemovalSettings>;
+export type TableBucketMaintenanceSettings = {
+  icebergUnreferencedFileRemoval: IcebergUnreferencedFileRemovalSettings;
+};
 export const TableBucketMaintenanceSettings = S.Union(
   S.Struct({
     icebergUnreferencedFileRemoval: IcebergUnreferencedFileRemovalSettings,
@@ -1721,6 +1756,9 @@ export const IcebergSnapshotManagementSettings = S.suspend(() =>
 ).annotations({
   identifier: "IcebergSnapshotManagementSettings",
 }) as any as S.Schema<IcebergSnapshotManagementSettings>;
+export type TableMaintenanceSettings =
+  | { icebergCompaction: IcebergCompactionSettings }
+  | { icebergSnapshotManagement: IcebergSnapshotManagementSettings };
 export const TableMaintenanceSettings = S.Union(
   S.Struct({ icebergCompaction: IcebergCompactionSettings }),
   S.Struct({ icebergSnapshotManagement: IcebergSnapshotManagementSettings }),
@@ -2182,6 +2220,7 @@ export const IcebergMetadata = S.suspend(() =>
 ).annotations({
   identifier: "IcebergMetadata",
 }) as any as S.Schema<IcebergMetadata>;
+export type TableMetadata = { iceberg: IcebergMetadata };
 export const TableMetadata = S.Union(S.Struct({ iceberg: IcebergMetadata }));
 export interface PutTableBucketReplicationResponse {
   versionToken: string;
@@ -2255,7 +2294,9 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { message: S.optional(S.String) },
@@ -2267,7 +2308,9 @@ export class MethodNotAllowedException extends S.TaggedError<MethodNotAllowedExc
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
@@ -2277,20 +2320,30 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
  *
  * You must have the `s3tables:GetTableBucketStorageClass` permission to use this operation.
  */
-export const getTableBucketStorageClass = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTableBucketStorageClassRequest,
-    output: GetTableBucketStorageClassResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getTableBucketStorageClass: (
+  input: GetTableBucketStorageClassRequest,
+) => Effect.Effect<
+  GetTableBucketStorageClassResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableBucketStorageClassRequest,
+  output: GetTableBucketStorageClassResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2308,7 +2361,19 @@ export const getTableBucketStorageClass = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Additionally, If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
  */
-export const createTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTable: (
+  input: CreateTableRequest,
+) => Effect.Effect<
+  CreateTableResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTableRequest,
   output: CreateTableResponse,
   errors: [
@@ -2327,19 +2392,30 @@ export const createTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:GetTableRecordExpirationJobStatus` permission to use this operation.
  */
-export const getTableRecordExpirationJobStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTableRecordExpirationJobStatusRequest,
-    output: GetTableRecordExpirationJobStatusResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getTableRecordExpirationJobStatus: (
+  input: GetTableRecordExpirationJobStatusRequest,
+) => Effect.Effect<
+  GetTableRecordExpirationJobStatusResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableRecordExpirationJobStatusRequest,
+  output: GetTableRecordExpirationJobStatusResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates a new maintenance configuration or replaces an existing maintenance configuration for a table bucket. For more information, see Amazon S3 table bucket maintenance in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2347,19 +2423,30 @@ export const getTableRecordExpirationJobStatus =
  *
  * You must have the `s3tables:PutTableBucketMaintenanceConfiguration` permission to use this operation.
  */
-export const putTableBucketMaintenanceConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutTableBucketMaintenanceConfigurationRequest,
-    output: PutTableBucketMaintenanceConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const putTableBucketMaintenanceConfiguration: (
+  input: PutTableBucketMaintenanceConfigurationRequest,
+) => Effect.Effect<
+  PutTableBucketMaintenanceConfigurationResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutTableBucketMaintenanceConfigurationRequest,
+  output: PutTableBucketMaintenanceConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves the replication status for a table, including the status of replication to each destination. This operation provides visibility into replication health and progress.
  *
@@ -2367,20 +2454,30 @@ export const putTableBucketMaintenanceConfiguration =
  *
  * You must have the `s3tables:GetTableReplicationStatus` permission to use this operation.
  */
-export const getTableReplicationStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTableReplicationStatusRequest,
-    output: GetTableReplicationStatusResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getTableReplicationStatus: (
+  input: GetTableReplicationStatusRequest,
+) => Effect.Effect<
+  GetTableReplicationStatusResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableReplicationStatusRequest,
+  output: GetTableReplicationStatusResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates or updates the replication configuration for a specific table. This operation allows you to define table-level replication independently of bucket-level replication, providing granular control over which tables are replicated and where.
  *
@@ -2402,7 +2499,20 @@ export const getTableReplicationStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - You must have `iam:PassRole` permission with condition allowing roles to be passed to `replication.s3tables.amazonaws.com`.
  */
-export const putTableReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putTableReplication: (
+  input: PutTableReplicationRequest,
+) => Effect.Effect<
+  PutTableReplicationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTableReplicationRequest,
   output: PutTableReplicationResponse,
   errors: [
@@ -2422,7 +2532,20 @@ export const putTableReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:GetTable` permission to use this operation.
  */
-export const getTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTable: (
+  input: GetTableRequest,
+) => Effect.Effect<
+  GetTableResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableRequest,
   output: GetTableResponse,
   errors: [
@@ -2442,19 +2565,30 @@ export const getTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:GetTableMaintenanceJobStatus` permission to use this operation.
  */
-export const getTableMaintenanceJobStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTableMaintenanceJobStatusRequest,
-    output: GetTableMaintenanceJobStatusResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getTableMaintenanceJobStatus: (
+  input: GetTableMaintenanceJobStatusRequest,
+) => Effect.Effect<
+  GetTableMaintenanceJobStatusResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableMaintenanceJobStatusRequest,
+  output: GetTableMaintenanceJobStatusResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates a new maintenance configuration or replaces an existing maintenance configuration for a table. For more information, see S3 Tables maintenance in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2462,19 +2596,30 @@ export const getTableMaintenanceJobStatus =
  *
  * You must have the `s3tables:PutTableMaintenanceConfiguration` permission to use this operation.
  */
-export const putTableMaintenanceConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutTableMaintenanceConfigurationRequest,
-    output: PutTableMaintenanceConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const putTableMaintenanceConfiguration: (
+  input: PutTableMaintenanceConfigurationRequest,
+) => Effect.Effect<
+  PutTableMaintenanceConfigurationResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutTableMaintenanceConfigurationRequest,
+  output: PutTableMaintenanceConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Lists table buckets for your account. For more information, see S3 Table buckets in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2482,27 +2627,68 @@ export const putTableMaintenanceConfiguration =
  *
  * You must have the `s3tables:ListTableBuckets` permission to use this operation.
  */
-export const listTableBuckets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTableBuckets: {
+  (
     input: ListTableBucketsRequest,
-    output: ListTableBucketsResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "continuationToken",
-      outputToken: "continuationToken",
-      items: "tableBuckets",
-      pageSize: "maxBuckets",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTableBucketsResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTableBucketsRequest,
+  ) => Stream.Stream<
+    ListTableBucketsResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTableBucketsRequest,
+  ) => Stream.Stream<
+    TableBucketSummary,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTableBucketsRequest,
+  output: ListTableBucketsResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "continuationToken",
+    outputToken: "continuationToken",
+    items: "tableBuckets",
+    pageSize: "maxBuckets",
+  } as const,
+}));
 /**
  * Gets details about the maintenance configuration of a table. For more information, see S3 Tables maintenance in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2512,19 +2698,30 @@ export const listTableBuckets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - You must have the `s3tables:GetTableData` permission to use set the compaction strategy to `sort` or `zorder`.
  */
-export const getTableMaintenanceConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTableMaintenanceConfigurationRequest,
-    output: GetTableMaintenanceConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getTableMaintenanceConfiguration: (
+  input: GetTableMaintenanceConfigurationRequest,
+) => Effect.Effect<
+  GetTableMaintenanceConfigurationResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableMaintenanceConfigurationRequest,
+  output: GetTableMaintenanceConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * List tables in the given table bucket. For more information, see S3 Tables in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2532,7 +2729,47 @@ export const getTableMaintenanceConfiguration =
  *
  * You must have the `s3tables:ListTables` permission to use this operation.
  */
-export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTables: {
+  (
+    input: ListTablesRequest,
+  ): Effect.Effect<
+    ListTablesResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTablesRequest,
+  ) => Stream.Stream<
+    ListTablesResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTablesRequest,
+  ) => Stream.Stream<
+    TableSummary,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTablesRequest,
   output: ListTablesResponse,
   errors: [
@@ -2557,7 +2794,19 @@ export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * You must have the `s3tables:CreateNamespace` permission to use this operation.
  */
-export const createNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createNamespace: (
+  input: CreateNamespaceRequest,
+) => Effect.Effect<
+  CreateNamespaceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNamespaceRequest,
   output: CreateNamespaceResponse,
   errors: [
@@ -2578,20 +2827,30 @@ export const createNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption in the *Amazon Simple Storage Service User Guide*.
  */
-export const putTableBucketEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutTableBucketEncryptionRequest,
-    output: PutTableBucketEncryptionResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const putTableBucketEncryption: (
+  input: PutTableBucketEncryptionRequest,
+) => Effect.Effect<
+  PutTableBucketEncryptionResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutTableBucketEncryptionRequest,
+  output: PutTableBucketEncryptionResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets details about a table bucket policy. For more information, see Viewing a table bucket policy in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2599,20 +2858,30 @@ export const putTableBucketEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must have the `s3tables:GetTableBucketPolicy` permission to use this operation.
  */
-export const getTableBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTableBucketPolicyRequest,
-    output: GetTableBucketPolicyResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getTableBucketPolicy: (
+  input: GetTableBucketPolicyRequest,
+) => Effect.Effect<
+  GetTableBucketPolicyResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableBucketPolicyRequest,
+  output: GetTableBucketPolicyResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes the replication configuration for a table bucket. After deletion, new table updates will no longer be replicated to destination buckets, though existing replicated tables will remain in destination buckets.
  *
@@ -2620,20 +2889,32 @@ export const getTableBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must have the `s3tables:DeleteTableBucketReplication` permission to use this operation.
  */
-export const deleteTableBucketReplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTableBucketReplicationRequest,
-    output: DeleteTableBucketReplicationResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const deleteTableBucketReplication: (
+  input: DeleteTableBucketReplicationRequest,
+) => Effect.Effect<
+  DeleteTableBucketReplicationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTableBucketReplicationRequest,
+  output: DeleteTableBucketReplicationResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves the replication configuration for a table bucket.This operation returns the IAM role, `versionToken`, and replication rules that define how tables in this bucket are replicated to other buckets.
  *
@@ -2641,21 +2922,32 @@ export const deleteTableBucketReplication =
  *
  * You must have the `s3tables:GetTableBucketReplication` permission to use this operation.
  */
-export const getTableBucketReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTableBucketReplicationRequest,
-    output: GetTableBucketReplicationResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getTableBucketReplication: (
+  input: GetTableBucketReplicationRequest,
+) => Effect.Effect<
+  GetTableBucketReplicationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableBucketReplicationRequest,
+  output: GetTableBucketReplicationResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets details on a table bucket. For more information, see Viewing details about an Amazon S3 table bucket in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2663,7 +2955,20 @@ export const getTableBucketReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must have the `s3tables:GetTableBucket` permission to use this operation.
  */
-export const getTableBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTableBucket: (
+  input: GetTableBucketRequest,
+) => Effect.Effect<
+  GetTableBucketResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableBucketRequest,
   output: GetTableBucketResponse,
   errors: [
@@ -2683,19 +2988,30 @@ export const getTableBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:GetTableBucketMetricsConfiguration` permission to use this operation.
  */
-export const getTableBucketMetricsConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTableBucketMetricsConfigurationRequest,
-    output: GetTableBucketMetricsConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getTableBucketMetricsConfiguration: (
+  input: GetTableBucketMetricsConfigurationRequest,
+) => Effect.Effect<
+  GetTableBucketMetricsConfigurationResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableBucketMetricsConfigurationRequest,
+  output: GetTableBucketMetricsConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets details about a table policy. For more information, see Viewing a table policy in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2703,7 +3019,19 @@ export const getTableBucketMetricsConfiguration =
  *
  * You must have the `s3tables:GetTablePolicy` permission to use this operation.
  */
-export const getTablePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTablePolicy: (
+  input: GetTablePolicyRequest,
+) => Effect.Effect<
+  GetTablePolicyResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTablePolicyRequest,
   output: GetTablePolicyResponse,
   errors: [
@@ -2722,7 +3050,20 @@ export const getTablePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:GetTableReplication` permission to use this operation.
  */
-export const getTableReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTableReplication: (
+  input: GetTableReplicationRequest,
+) => Effect.Effect<
+  GetTableReplicationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableReplicationRequest,
   output: GetTableReplicationResponse,
   errors: [
@@ -2742,20 +3083,30 @@ export const getTableReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:GetTableMetadataLocation` permission to use this operation.
  */
-export const getTableMetadataLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTableMetadataLocationRequest,
-    output: GetTableMetadataLocationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getTableMetadataLocation: (
+  input: GetTableMetadataLocationRequest,
+) => Effect.Effect<
+  GetTableMetadataLocationResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableMetadataLocationRequest,
+  output: GetTableMetadataLocationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Updates the metadata location for a table. The metadata location of a table must be an S3 URI that begins with the table's warehouse location. The metadata location for an Apache Iceberg table must end with `.metadata.json`, or if the metadata file is Gzip-compressed, `.metadata.json.gz`.
  *
@@ -2763,20 +3114,30 @@ export const getTableMetadataLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must have the `s3tables:UpdateTableMetadataLocation` permission to use this operation.
  */
-export const updateTableMetadataLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTableMetadataLocationRequest,
-    output: UpdateTableMetadataLocationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateTableMetadataLocation: (
+  input: UpdateTableMetadataLocationRequest,
+) => Effect.Effect<
+  UpdateTableMetadataLocationResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTableMetadataLocationRequest,
+  output: UpdateTableMetadataLocationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes a namespace. For more information, see Delete a namespace in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2784,7 +3145,19 @@ export const updateTableMetadataLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must have the `s3tables:DeleteNamespace` permission to use this operation.
  */
-export const deleteNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteNamespace: (
+  input: DeleteNamespaceRequest,
+) => Effect.Effect<
+  DeleteNamespaceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNamespaceRequest,
   output: DeleteNamespaceResponse,
   errors: [
@@ -2803,20 +3176,30 @@ export const deleteNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:DeleteTableBucketEncryption` permission to use this operation.
  */
-export const deleteTableBucketEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTableBucketEncryptionRequest,
-    output: DeleteTableBucketEncryptionResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const deleteTableBucketEncryption: (
+  input: DeleteTableBucketEncryptionRequest,
+) => Effect.Effect<
+  DeleteTableBucketEncryptionResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTableBucketEncryptionRequest,
+  output: DeleteTableBucketEncryptionResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes a table bucket policy. For more information, see Deleting a table bucket policy in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2824,20 +3207,30 @@ export const deleteTableBucketEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must have the `s3tables:DeleteTableBucketPolicy` permission to use this operation.
  */
-export const deleteTableBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTableBucketPolicyRequest,
-    output: DeleteTableBucketPolicyResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const deleteTableBucketPolicy: (
+  input: DeleteTableBucketPolicyRequest,
+) => Effect.Effect<
+  DeleteTableBucketPolicyResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTableBucketPolicyRequest,
+  output: DeleteTableBucketPolicyResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates a new table bucket policy or replaces an existing table bucket policy for a table bucket. For more information, see Adding a table bucket policy in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2845,20 +3238,30 @@ export const deleteTableBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must have the `s3tables:PutTableBucketPolicy` permission to use this operation.
  */
-export const putTableBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutTableBucketPolicyRequest,
-    output: PutTableBucketPolicyResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const putTableBucketPolicy: (
+  input: PutTableBucketPolicyRequest,
+) => Effect.Effect<
+  PutTableBucketPolicyResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutTableBucketPolicyRequest,
+  output: PutTableBucketPolicyResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes a table bucket. For more information, see Deleting a table bucket in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2866,7 +3269,19 @@ export const putTableBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must have the `s3tables:DeleteTableBucket` permission to use this operation.
  */
-export const deleteTableBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTableBucket: (
+  input: DeleteTableBucketRequest,
+) => Effect.Effect<
+  DeleteTableBucketResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableBucketRequest,
   output: DeleteTableBucketResponse,
   errors: [
@@ -2885,19 +3300,30 @@ export const deleteTableBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:DeleteTableBucketMetricsConfiguration` permission to use this operation.
  */
-export const deleteTableBucketMetricsConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTableBucketMetricsConfigurationRequest,
-    output: DeleteTableBucketMetricsConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const deleteTableBucketMetricsConfiguration: (
+  input: DeleteTableBucketMetricsConfigurationRequest,
+) => Effect.Effect<
+  DeleteTableBucketMetricsConfigurationResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTableBucketMetricsConfigurationRequest,
+  output: DeleteTableBucketMetricsConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Sets the metrics configuration for a table bucket.
  *
@@ -2905,19 +3331,30 @@ export const deleteTableBucketMetricsConfiguration =
  *
  * You must have the `s3tables:PutTableBucketMetricsConfiguration` permission to use this operation.
  */
-export const putTableBucketMetricsConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutTableBucketMetricsConfigurationRequest,
-    output: PutTableBucketMetricsConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const putTableBucketMetricsConfiguration: (
+  input: PutTableBucketMetricsConfigurationRequest,
+) => Effect.Effect<
+  PutTableBucketMetricsConfigurationResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutTableBucketMetricsConfigurationRequest,
+  output: PutTableBucketMetricsConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Sets or updates the storage class configuration for a table bucket. This configuration serves as the default storage class for all new tables created in the bucket, allowing you to optimize storage costs at the bucket level.
  *
@@ -2925,20 +3362,30 @@ export const putTableBucketMetricsConfiguration =
  *
  * You must have the `s3tables:PutTableBucketStorageClass` permission to use this operation.
  */
-export const putTableBucketStorageClass = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutTableBucketStorageClassRequest,
-    output: PutTableBucketStorageClassResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const putTableBucketStorageClass: (
+  input: PutTableBucketStorageClassRequest,
+) => Effect.Effect<
+  PutTableBucketStorageClassResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutTableBucketStorageClassRequest,
+  output: PutTableBucketStorageClassResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes a table policy. For more information, see Deleting a table policy in the *Amazon Simple Storage Service User Guide*.
  *
@@ -2946,7 +3393,19 @@ export const putTableBucketStorageClass = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must have the `s3tables:DeleteTablePolicy` permission to use this operation.
  */
-export const deleteTablePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTablePolicy: (
+  input: DeleteTablePolicyRequest,
+) => Effect.Effect<
+  DeleteTablePolicyResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTablePolicyRequest,
   output: DeleteTablePolicyResponse,
   errors: [
@@ -2965,7 +3424,19 @@ export const deleteTablePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:PutTablePolicy` permission to use this operation.
  */
-export const putTablePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putTablePolicy: (
+  input: PutTablePolicyRequest,
+) => Effect.Effect<
+  PutTablePolicyResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTablePolicyRequest,
   output: PutTablePolicyResponse,
   errors: [
@@ -2984,7 +3455,19 @@ export const putTablePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:DeleteTable` permission to use this operation.
  */
-export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTable: (
+  input: DeleteTableRequest,
+) => Effect.Effect<
+  DeleteTableResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableRequest,
   output: DeleteTableResponse,
   errors: [
@@ -3003,7 +3486,19 @@ export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:RenameTable` permission to use this operation.
  */
-export const renameTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const renameTable: (
+  input: RenameTableRequest,
+) => Effect.Effect<
+  RenameTableResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RenameTableRequest,
   output: RenameTableResponse,
   errors: [
@@ -3024,7 +3519,19 @@ export const renameTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For tables and table buckets, you must have the `s3tables:ListTagsForResource` permission to use this operation.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3045,7 +3552,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For tables and table buckets, you must have the `s3tables:TagResource` permission to use this operation.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3064,21 +3583,32 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:DeleteTableReplication` permission to use this operation.
  */
-export const deleteTableReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTableReplicationRequest,
-    output: DeleteTableReplicationResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const deleteTableReplication: (
+  input: DeleteTableReplicationRequest,
+) => Effect.Effect<
+  DeleteTableReplicationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTableReplicationRequest,
+  output: DeleteTableReplicationResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets details about a namespace. For more information, see Table namespaces in the *Amazon Simple Storage Service User Guide*.
  *
@@ -3086,7 +3616,20 @@ export const deleteTableReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must have the `s3tables:GetNamespace` permission to use this operation.
  */
-export const getNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getNamespace: (
+  input: GetNamespaceRequest,
+) => Effect.Effect<
+  GetNamespaceResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNamespaceRequest,
   output: GetNamespaceResponse,
   errors: [
@@ -3106,7 +3649,19 @@ export const getNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:GetTableEncryption` permission to use this operation.
  */
-export const getTableEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTableEncryption: (
+  input: GetTableEncryptionRequest,
+) => Effect.Effect<
+  GetTableEncryptionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableEncryptionRequest,
   output: GetTableEncryptionResponse,
   errors: [
@@ -3125,20 +3680,30 @@ export const getTableEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:GetTableStorageClass` permission to use this operation.
  */
-export const getTableStorageClass = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTableStorageClassRequest,
-    output: GetTableStorageClassResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getTableStorageClass: (
+  input: GetTableStorageClassRequest,
+) => Effect.Effect<
+  GetTableStorageClassResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableStorageClassRequest,
+  output: GetTableStorageClassResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets the encryption configuration for a table bucket.
  *
@@ -3146,20 +3711,30 @@ export const getTableStorageClass = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must have the `s3tables:GetTableBucketEncryption` permission to use this operation.
  */
-export const getTableBucketEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTableBucketEncryptionRequest,
-    output: GetTableBucketEncryptionResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getTableBucketEncryption: (
+  input: GetTableBucketEncryptionRequest,
+) => Effect.Effect<
+  GetTableBucketEncryptionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableBucketEncryptionRequest,
+  output: GetTableBucketEncryptionResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Removes the specified user-defined tags from an Amazon S3 Tables resource. You can pass one or more tag keys.
  *
@@ -3169,7 +3744,19 @@ export const getTableBucketEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For tables and table buckets, you must have the `s3tables:UntagResource` permission to use this operation.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3188,27 +3775,68 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:ListNamespaces` permission to use this operation.
  */
-export const listNamespaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listNamespaces: {
+  (
     input: ListNamespacesRequest,
-    output: ListNamespacesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "continuationToken",
-      outputToken: "continuationToken",
-      items: "namespaces",
-      pageSize: "maxNamespaces",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListNamespacesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNamespacesRequest,
+  ) => Stream.Stream<
+    ListNamespacesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNamespacesRequest,
+  ) => Stream.Stream<
+    NamespaceSummary,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNamespacesRequest,
+  output: ListNamespacesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "continuationToken",
+    outputToken: "continuationToken",
+    items: "namespaces",
+    pageSize: "maxNamespaces",
+  } as const,
+}));
 /**
  * Creates a table bucket. For more information, see Creating a table bucket in the *Amazon Simple Storage Service User Guide*.
  *
@@ -3222,7 +3850,19 @@ export const listNamespaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - To create a table bucket with tags, you must have the `s3tables:TagResource` permission in addition to `s3tables:CreateTableBucket` permission.
  */
-export const createTableBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTableBucket: (
+  input: CreateTableBucketRequest,
+) => Effect.Effect<
+  CreateTableBucketResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTableBucketRequest,
   output: CreateTableBucketResponse,
   errors: [
@@ -3241,19 +3881,30 @@ export const createTableBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3tables:GetTableBucketMaintenanceConfiguration` permission to use this operation.
  */
-export const getTableBucketMaintenanceConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTableBucketMaintenanceConfigurationRequest,
-    output: GetTableBucketMaintenanceConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getTableBucketMaintenanceConfiguration: (
+  input: GetTableBucketMaintenanceConfigurationRequest,
+) => Effect.Effect<
+  GetTableBucketMaintenanceConfigurationResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableBucketMaintenanceConfigurationRequest,
+  output: GetTableBucketMaintenanceConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates or updates the replication configuration for a table bucket. This operation defines how tables in the source bucket are replicated to destination buckets. Replication helps ensure data availability and disaster recovery across regions or accounts.
  *
@@ -3277,21 +3928,32 @@ export const getTableBucketMaintenanceConfiguration =
  *
  * - You must have `iam:PassRole` permission with condition allowing roles to be passed to `replication.s3tables.amazonaws.com`.
  */
-export const putTableBucketReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutTableBucketReplicationRequest,
-    output: PutTableBucketReplicationResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const putTableBucketReplication: (
+  input: PutTableBucketReplicationRequest,
+) => Effect.Effect<
+  PutTableBucketReplicationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutTableBucketReplicationRequest,
+  output: PutTableBucketReplicationResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates or updates the expiration configuration settings for records in a table, including the status of the configuration. If you enable record expiration for a table, records expire and are automatically removed from the table after the number of days that you specify.
  *
@@ -3299,19 +3961,30 @@ export const putTableBucketReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must have the `s3tables:PutTableRecordExpirationConfiguration` permission to use this operation.
  */
-export const putTableRecordExpirationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutTableRecordExpirationConfigurationRequest,
-    output: PutTableRecordExpirationConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const putTableRecordExpirationConfiguration: (
+  input: PutTableRecordExpirationConfigurationRequest,
+) => Effect.Effect<
+  PutTableRecordExpirationConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutTableRecordExpirationConfigurationRequest,
+  output: PutTableRecordExpirationConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves the expiration configuration settings for records in a table, and the status of the configuration. If the status of the configuration is `enabled`, records expire and are automatically removed from the table after the specified number of days.
  *
@@ -3319,16 +3992,27 @@ export const putTableRecordExpirationConfiguration =
  *
  * You must have the `s3tables:GetTableRecordExpirationConfiguration` permission to use this operation.
  */
-export const getTableRecordExpirationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTableRecordExpirationConfigurationRequest,
-    output: GetTableRecordExpirationConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getTableRecordExpirationConfiguration: (
+  input: GetTableRecordExpirationConfigurationRequest,
+) => Effect.Effect<
+  GetTableRecordExpirationConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableRecordExpirationConfigurationRequest,
+  output: GetTableRecordExpirationConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Migration Hub",
   serviceShapeName: "AWSMigrationHub",
@@ -240,6 +248,29 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ProgressUpdateStream = string;
+export type MigrationTaskName = string;
+export type ApplicationId = string;
+export type CreatedArtifactName = string;
+export type ConfigurationId = string;
+export type SourceResourceName = string;
+export type Token = string;
+export type MaxResults = number;
+export type MaxResultsCreatedArtifacts = number;
+export type MaxResultsResources = number;
+export type ResourceName = string;
+export type MaxResultsSourceResources = number;
+export type NextUpdateSeconds = number;
+export type CreatedArtifactDescription = string;
+export type DiscoveredResourceDescription = string;
+export type SourceResourceDescription = string;
+export type StatusDetail = string;
+export type ProgressPercent = number;
+export type ResourceAttributeValue = string;
+export type ErrorMessage = string;
+export type RetryAfterSeconds = number;
 
 //# Schemas
 export type ApplicationIds = string[];
@@ -965,7 +996,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     Message: S.String,
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class UnauthorizedOperation extends S.TaggedError<UnauthorizedOperation>()(
   "UnauthorizedOperation",
   { Message: S.optional(S.String) },
@@ -984,109 +1017,255 @@ export class UnauthorizedOperation extends S.TaggedError<UnauthorizedOperation>(
  *
  * - Lists created artifacts in a paginated interface.
  */
-export const listCreatedArtifacts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCreatedArtifacts: {
+  (
     input: ListCreatedArtifactsRequest,
-    output: ListCreatedArtifactsResult,
-    errors: [
-      AccessDeniedException,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CreatedArtifactList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCreatedArtifactsResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCreatedArtifactsRequest,
+  ) => Stream.Stream<
+    ListCreatedArtifactsResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCreatedArtifactsRequest,
+  ) => Stream.Stream<
+    CreatedArtifact,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCreatedArtifactsRequest,
+  output: ListCreatedArtifactsResult,
+  errors: [
+    AccessDeniedException,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CreatedArtifactList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists discovered resources associated with the given `MigrationTask`.
  */
-export const listDiscoveredResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDiscoveredResources: {
+  (
     input: ListDiscoveredResourcesRequest,
-    output: ListDiscoveredResourcesResult,
-    errors: [
-      AccessDeniedException,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DiscoveredResourceList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDiscoveredResourcesResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDiscoveredResourcesRequest,
+  ) => Stream.Stream<
+    ListDiscoveredResourcesResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDiscoveredResourcesRequest,
+  ) => Stream.Stream<
+    DiscoveredResource,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDiscoveredResourcesRequest,
+  output: ListDiscoveredResourcesResult,
+  errors: [
+    AccessDeniedException,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DiscoveredResourceList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of all attributes associated with a specific migration task.
  */
-export const describeMigrationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeMigrationTaskRequest,
-    output: DescribeMigrationTaskResult,
-    errors: [
-      AccessDeniedException,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeMigrationTask: (
+  input: DescribeMigrationTaskRequest,
+) => Effect.Effect<
+  DescribeMigrationTaskResult,
+  | AccessDeniedException
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeMigrationTaskRequest,
+  output: DescribeMigrationTaskResult,
+  errors: [
+    AccessDeniedException,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This is a paginated API that returns all the migration-task states for the specified
  * `MigrationTaskName` and `ProgressUpdateStream`.
  */
-export const listMigrationTaskUpdates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMigrationTaskUpdates: {
+  (
     input: ListMigrationTaskUpdatesRequest,
-    output: ListMigrationTaskUpdatesResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MigrationTaskUpdateList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMigrationTaskUpdatesResult,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMigrationTaskUpdatesRequest,
+  ) => Stream.Stream<
+    ListMigrationTaskUpdatesResult,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMigrationTaskUpdatesRequest,
+  ) => Stream.Stream<
+    MigrationTaskUpdate,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMigrationTaskUpdatesRequest,
+  output: ListMigrationTaskUpdatesResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MigrationTaskUpdateList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the migration status of an application.
  */
-export const describeApplicationState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeApplicationStateRequest,
-    output: DescribeApplicationStateResult,
-    errors: [
-      AccessDeniedException,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      PolicyErrorException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeApplicationState: (
+  input: DescribeApplicationStateRequest,
+) => Effect.Effect<
+  DescribeApplicationStateResult,
+  | AccessDeniedException
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | PolicyErrorException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeApplicationStateRequest,
+  output: DescribeApplicationStateResult,
+  errors: [
+    AccessDeniedException,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    PolicyErrorException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists all, or filtered by resource name, migration tasks associated with the user
  * account making this call. This API has the following traits:
@@ -1098,97 +1277,258 @@ export const describeApplicationState = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Lists migration tasks in a paginated interface.
  */
-export const listMigrationTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMigrationTasks: {
+  (
     input: ListMigrationTasksRequest,
-    output: ListMigrationTasksResult,
-    errors: [
-      AccessDeniedException,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      PolicyErrorException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MigrationTaskSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMigrationTasksResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | PolicyErrorException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMigrationTasksRequest,
+  ) => Stream.Stream<
+    ListMigrationTasksResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | PolicyErrorException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMigrationTasksRequest,
+  ) => Stream.Stream<
+    MigrationTaskSummary,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | PolicyErrorException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMigrationTasksRequest,
+  output: ListMigrationTasksResult,
+  errors: [
+    AccessDeniedException,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    PolicyErrorException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MigrationTaskSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the migration statuses for your applications. If you use the optional
  * `ApplicationIds` parameter, only the migration statuses for those
  * applications will be returned.
  */
-export const listApplicationStates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApplicationStates: {
+  (
     input: ListApplicationStatesRequest,
-    output: ListApplicationStatesResult,
-    errors: [
-      AccessDeniedException,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ApplicationStateList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListApplicationStatesResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationStatesRequest,
+  ) => Stream.Stream<
+    ListApplicationStatesResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationStatesRequest,
+  ) => Stream.Stream<
+    ApplicationState,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationStatesRequest,
+  output: ListApplicationStatesResult,
+  errors: [
+    AccessDeniedException,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ApplicationStateList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists progress update streams associated with the user account making this call.
  */
-export const listProgressUpdateStreams =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProgressUpdateStreams: {
+  (
     input: ListProgressUpdateStreamsRequest,
-    output: ListProgressUpdateStreamsResult,
-    errors: [
-      AccessDeniedException,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProgressUpdateStreamSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProgressUpdateStreamsResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProgressUpdateStreamsRequest,
+  ) => Stream.Stream<
+    ListProgressUpdateStreamsResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProgressUpdateStreamsRequest,
+  ) => Stream.Stream<
+    ProgressUpdateStreamSummary,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProgressUpdateStreamsRequest,
+  output: ListProgressUpdateStreamsResult,
+  errors: [
+    AccessDeniedException,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProgressUpdateStreamSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the source resource that are associated with the specified
  * `MigrationTaskName` and `ProgressUpdateStream`.
  */
-export const listSourceResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSourceResources: {
+  (
     input: ListSourceResourcesRequest,
-    output: ListSourceResourcesResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SourceResourceList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSourceResourcesResult,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSourceResourcesRequest,
+  ) => Stream.Stream<
+    ListSourceResourcesResult,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSourceResourcesRequest,
+  ) => Stream.Stream<
+    SourceResource,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSourceResourcesRequest,
+  output: ListSourceResourcesResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SourceResourceList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a progress update stream which is an AWS resource used for access control as
  * well as a namespace for migration task names that is implicitly linked to your AWS account.
@@ -1196,22 +1536,34 @@ export const listSourceResources =
  * tool; however, it does not need to be unique for each AWS account because it is scoped to
  * the AWS account.
  */
-export const createProgressUpdateStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateProgressUpdateStreamRequest,
-    output: CreateProgressUpdateStreamResult,
-    errors: [
-      AccessDeniedException,
-      DryRunOperation,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedOperation,
-    ],
-  }),
-);
+export const createProgressUpdateStream: (
+  input: CreateProgressUpdateStreamRequest,
+) => Effect.Effect<
+  CreateProgressUpdateStreamResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProgressUpdateStreamRequest,
+  output: CreateProgressUpdateStreamResult,
+  errors: [
+    AccessDeniedException,
+    DryRunOperation,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedOperation,
+  ],
+}));
 /**
  * Notifies Migration Hub of the current status, progress, or other detail regarding a
  * migration task. This API has the following traits:
@@ -1225,23 +1577,36 @@ export const createProgressUpdateStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - `ProgressUpdateStream` is used for access control and to provide a
  * namespace for each migration tool.
  */
-export const notifyMigrationTaskState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: NotifyMigrationTaskStateRequest,
-    output: NotifyMigrationTaskStateResult,
-    errors: [
-      AccessDeniedException,
-      DryRunOperation,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedOperation,
-    ],
-  }),
-);
+export const notifyMigrationTaskState: (
+  input: NotifyMigrationTaskStateRequest,
+) => Effect.Effect<
+  NotifyMigrationTaskStateResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: NotifyMigrationTaskStateRequest,
+  output: NotifyMigrationTaskStateResult,
+  errors: [
+    AccessDeniedException,
+    DryRunOperation,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedOperation,
+  ],
+}));
 /**
  * Provides identifying details of the resource being migrated so that it can be associated
  * in the Application Discovery Service repository. This association occurs asynchronously
@@ -1262,23 +1627,36 @@ export const notifyMigrationTaskState = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * association occurs or not. To confirm if an association was found based on the provided
  * details, call `ListDiscoveredResources`.
  */
-export const putResourceAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutResourceAttributesRequest,
-    output: PutResourceAttributesResult,
-    errors: [
-      AccessDeniedException,
-      DryRunOperation,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedOperation,
-    ],
-  }),
-);
+export const putResourceAttributes: (
+  input: PutResourceAttributesRequest,
+) => Effect.Effect<
+  PutResourceAttributesResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourceAttributesRequest,
+  output: PutResourceAttributesResult,
+  errors: [
+    AccessDeniedException,
+    DryRunOperation,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedOperation,
+  ],
+}));
 /**
  * Deletes a progress update stream, including all of its tasks, which was previously
  * created as an AWS resource used for access control. This API has the following
@@ -1304,23 +1682,36 @@ export const putResourceAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * succeed, and that stream will be an entirely new logical resource (without any
  * resources associated with the old stream).
  */
-export const deleteProgressUpdateStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteProgressUpdateStreamRequest,
-    output: DeleteProgressUpdateStreamResult,
-    errors: [
-      AccessDeniedException,
-      DryRunOperation,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedOperation,
-    ],
-  }),
-);
+export const deleteProgressUpdateStream: (
+  input: DeleteProgressUpdateStreamRequest,
+) => Effect.Effect<
+  DeleteProgressUpdateStreamResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProgressUpdateStreamRequest,
+  output: DeleteProgressUpdateStreamResult,
+  errors: [
+    AccessDeniedException,
+    DryRunOperation,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedOperation,
+  ],
+}));
 /**
  * Disassociates a created artifact of an AWS resource with a migration task performed by a
  * migration tool that was previously associated. This API has the following traits:
@@ -1335,62 +1726,101 @@ export const deleteProgressUpdateStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - Examples of the AWS resource behind the created artifact are, AMI's, EC2 instance,
  * or RDS instance, etc.
  */
-export const disassociateCreatedArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateCreatedArtifactRequest,
-    output: DisassociateCreatedArtifactResult,
-    errors: [
-      AccessDeniedException,
-      DryRunOperation,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedOperation,
-    ],
-  }),
-);
+export const disassociateCreatedArtifact: (
+  input: DisassociateCreatedArtifactRequest,
+) => Effect.Effect<
+  DisassociateCreatedArtifactResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateCreatedArtifactRequest,
+  output: DisassociateCreatedArtifactResult,
+  errors: [
+    AccessDeniedException,
+    DryRunOperation,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedOperation,
+  ],
+}));
 /**
  * Disassociate an Application Discovery Service discovered resource from a migration
  * task.
  */
-export const disassociateDiscoveredResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateDiscoveredResourceRequest,
-    output: DisassociateDiscoveredResourceResult,
-    errors: [
-      AccessDeniedException,
-      DryRunOperation,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedOperation,
-    ],
-  }));
+export const disassociateDiscoveredResource: (
+  input: DisassociateDiscoveredResourceRequest,
+) => Effect.Effect<
+  DisassociateDiscoveredResourceResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateDiscoveredResourceRequest,
+  output: DisassociateDiscoveredResourceResult,
+  errors: [
+    AccessDeniedException,
+    DryRunOperation,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedOperation,
+  ],
+}));
 /**
  * Removes the association between a source resource and a migration task.
  */
-export const disassociateSourceResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateSourceResourceRequest,
-    output: DisassociateSourceResourceResult,
-    errors: [
-      AccessDeniedException,
-      DryRunOperation,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedOperation,
-    ],
-  }),
-);
+export const disassociateSourceResource: (
+  input: DisassociateSourceResourceRequest,
+) => Effect.Effect<
+  DisassociateSourceResourceResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateSourceResourceRequest,
+  output: DisassociateSourceResourceResult,
+  errors: [
+    AccessDeniedException,
+    DryRunOperation,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedOperation,
+  ],
+}));
 /**
  * Registers a new migration task which represents a server, database, etc., being migrated
  * to AWS by a migration tool.
@@ -1398,7 +1828,22 @@ export const disassociateSourceResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This API is a prerequisite to calling the `NotifyMigrationTaskState` API as
  * the migration tool must first register the migration task with Migration Hub.
  */
-export const importMigrationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importMigrationTask: (
+  input: ImportMigrationTaskRequest,
+) => Effect.Effect<
+  ImportMigrationTaskResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportMigrationTaskRequest,
   output: ImportMigrationTaskResult,
   errors: [
@@ -1428,86 +1873,139 @@ export const importMigrationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - Examples of the AWS resource behind the created artifact are, AMI's, EC2 instance,
  * or DMS endpoint, etc.
  */
-export const associateCreatedArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateCreatedArtifactRequest,
-    output: AssociateCreatedArtifactResult,
-    errors: [
-      AccessDeniedException,
-      DryRunOperation,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedOperation,
-    ],
-  }),
-);
+export const associateCreatedArtifact: (
+  input: AssociateCreatedArtifactRequest,
+) => Effect.Effect<
+  AssociateCreatedArtifactResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateCreatedArtifactRequest,
+  output: AssociateCreatedArtifactResult,
+  errors: [
+    AccessDeniedException,
+    DryRunOperation,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedOperation,
+  ],
+}));
 /**
  * Associates a source resource with a migration task. For example, the source resource can
  * be a source server, an application, or a migration wave.
  */
-export const associateSourceResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateSourceResourceRequest,
-    output: AssociateSourceResourceResult,
-    errors: [
-      AccessDeniedException,
-      DryRunOperation,
-      InternalServerError,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedOperation,
-    ],
-  }),
-);
+export const associateSourceResource: (
+  input: AssociateSourceResourceRequest,
+) => Effect.Effect<
+  AssociateSourceResourceResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateSourceResourceRequest,
+  output: AssociateSourceResourceResult,
+  errors: [
+    AccessDeniedException,
+    DryRunOperation,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedOperation,
+  ],
+}));
 /**
  * Associates a discovered resource ID from Application Discovery Service with a migration
  * task.
  */
-export const associateDiscoveredResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateDiscoveredResourceRequest,
-    output: AssociateDiscoveredResourceResult,
-    errors: [
-      AccessDeniedException,
-      DryRunOperation,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      PolicyErrorException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedOperation,
-    ],
-  }),
-);
+export const associateDiscoveredResource: (
+  input: AssociateDiscoveredResourceRequest,
+) => Effect.Effect<
+  AssociateDiscoveredResourceResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | PolicyErrorException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateDiscoveredResourceRequest,
+  output: AssociateDiscoveredResourceResult,
+  errors: [
+    AccessDeniedException,
+    DryRunOperation,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    PolicyErrorException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedOperation,
+  ],
+}));
 /**
  * Sets the migration state of an application. For a given application identified by the
  * value passed to `ApplicationId`, its status is set or updated by passing one of
  * three values to `Status`: NOT_STARTED | IN_PROGRESS |
  * COMPLETED.
  */
-export const notifyApplicationState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: NotifyApplicationStateRequest,
-    output: NotifyApplicationStateResult,
-    errors: [
-      AccessDeniedException,
-      DryRunOperation,
-      HomeRegionNotSetException,
-      InternalServerError,
-      InvalidInputException,
-      PolicyErrorException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedOperation,
-    ],
-  }),
-);
+export const notifyApplicationState: (
+  input: NotifyApplicationStateRequest,
+) => Effect.Effect<
+  NotifyApplicationStateResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | PolicyErrorException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: NotifyApplicationStateRequest,
+  output: NotifyApplicationStateResult,
+  errors: [
+    AccessDeniedException,
+    DryRunOperation,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    PolicyErrorException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedOperation,
+  ],
+}));

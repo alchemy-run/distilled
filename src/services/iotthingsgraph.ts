@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "IoTThingsGraph",
   serviceShapeName: "IotThingsGraphFrontEndService",
@@ -260,6 +268,35 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ThingName = string;
+export type Urn = string;
+export type Version = number;
+export type GroupName = string;
+export type S3BucketName = string;
+export type RoleArn = string;
+export type Arn = string;
+export type NamespaceName = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type UploadId = string;
+export type FlowExecutionId = string;
+export type ResourceArn = string;
+export type TagKey = string;
+export type DefinitionText = string;
+export type TagValue = string;
+export type EntityFilterValue = string;
+export type FlowTemplateFilterValue = string;
+export type SystemInstanceFilterValue = string;
+export type SystemTemplateFilterValue = string;
+export type ErrorMessage = string;
+export type GreengrassDeploymentId = string;
+export type GreengrassGroupId = string;
+export type GreengrassGroupVersionId = string;
+export type FlowExecutionMessageId = string;
+export type FlowExecutionMessagePayload = string;
+export type ThingArn = string;
 
 //# Schemas
 export interface DeleteNamespaceRequest {}
@@ -1359,7 +1396,9 @@ export const GetSystemInstanceResponse = S.suspend(() =>
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { message: S.optional(S.String) },
@@ -1367,7 +1406,9 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -1390,7 +1431,13 @@ export class ResourceInUseException extends S.TaggedError<ResourceInUseException
  * Deletes the specified namespace. This action deletes all of the entities in the namespace. Delete the systems and flows that use entities in the namespace before performing this action. This action takes no
  * request parameters.
  */
-export const deleteNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteNamespace: (
+  input: DeleteNamespaceRequest,
+) => Effect.Effect<
+  DeleteNamespaceResponse,
+  InternalFailureException | ThrottlingException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNamespaceRequest,
   output: DeleteNamespaceResponse,
   errors: [InternalFailureException, ThrottlingException],
@@ -1410,141 +1457,290 @@ export const deleteNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Valid entities are `Device`, `DeviceModel`, `Service`, `Capability`, `State`, `Action`, `Event`, `Property`,
  * `Mapping`, `Enum`.
  */
-export const uploadEntityDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UploadEntityDefinitionsRequest,
-    output: UploadEntityDefinitionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const uploadEntityDefinitions: (
+  input: UploadEntityDefinitionsRequest,
+) => Effect.Effect<
+  UploadEntityDefinitionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UploadEntityDefinitionsRequest,
+  output: UploadEntityDefinitionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets the status of a namespace deletion task.
  */
-export const getNamespaceDeletionStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetNamespaceDeletionStatusRequest,
-    output: GetNamespaceDeletionStatusResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getNamespaceDeletionStatus: (
+  input: GetNamespaceDeletionStatusRequest,
+) => Effect.Effect<
+  GetNamespaceDeletionStatusResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetNamespaceDeletionStatusRequest,
+  output: GetNamespaceDeletionStatusResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
  */
-export const searchEntities = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchEntities: {
+  (
     input: SearchEntitiesRequest,
-    output: SearchEntitiesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "descriptions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchEntitiesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchEntitiesRequest,
+  ) => Stream.Stream<
+    SearchEntitiesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchEntitiesRequest,
+  ) => Stream.Stream<
+    EntityDescription,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchEntitiesRequest,
+  output: SearchEntitiesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "descriptions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Searches for summary information about workflows.
  */
-export const searchFlowTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchFlowTemplates: {
+  (
     input: SearchFlowTemplatesRequest,
-    output: SearchFlowTemplatesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "summaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchFlowTemplatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchFlowTemplatesRequest,
+  ) => Stream.Stream<
+    SearchFlowTemplatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchFlowTemplatesRequest,
+  ) => Stream.Stream<
+    FlowTemplateSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchFlowTemplatesRequest,
+  output: SearchFlowTemplatesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "summaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Searches for system instances in the user's account.
  */
-export const searchSystemInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchSystemInstances: {
+  (
     input: SearchSystemInstancesRequest,
-    output: SearchSystemInstancesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "summaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchSystemInstancesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchSystemInstancesRequest,
+  ) => Stream.Stream<
+    SearchSystemInstancesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchSystemInstancesRequest,
+  ) => Stream.Stream<
+    SystemInstanceSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchSystemInstancesRequest,
+  output: SearchSystemInstancesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "summaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
  */
-export const searchSystemTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchSystemTemplates: {
+  (
     input: SearchSystemTemplatesRequest,
-    output: SearchSystemTemplatesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "summaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchSystemTemplatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchSystemTemplatesRequest,
+  ) => Stream.Stream<
+    SearchSystemTemplatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchSystemTemplatesRequest,
+  ) => Stream.Stream<
+    SystemTemplateSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchSystemTemplatesRequest,
+  output: SearchSystemTemplatesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "summaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Associates a device with a concrete thing that is in the user's registry.
  *
  * A thing can be associated with only one device at a time. If you associate a thing with a new device id, its previous association will be removed.
  */
-export const associateEntityToThing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateEntityToThingRequest,
-    output: AssociateEntityToThingResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const associateEntityToThing: (
+  input: AssociateEntityToThingRequest,
+) => Effect.Effect<
+  AssociateEntityToThingResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateEntityToThingRequest,
+  output: AssociateEntityToThingResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a system. The system is validated against the entities in the
  * latest version of the user's namespace unless another namespace version is specified in the request.
  */
-export const createSystemTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSystemTemplateRequest,
-    output: CreateSystemTemplateResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceAlreadyExistsException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createSystemTemplate: (
+  input: CreateSystemTemplateRequest,
+) => Effect.Effect<
+  CreateSystemTemplateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSystemTemplateRequest,
+  output: CreateSystemTemplateResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ThrottlingException,
+  ],
+}));
 /**
  * **Greengrass and Cloud Deployments**
  *
@@ -1560,23 +1756,42 @@ export const createSystemTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For information about the artifacts that get added to your Greengrass core device when you use this API, see AWS IoT Things Graph and AWS IoT Greengrass.
  */
-export const deploySystemInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeploySystemInstanceRequest,
-    output: DeploySystemInstanceResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deploySystemInstance: (
+  input: DeploySystemInstanceRequest,
+) => Effect.Effect<
+  DeploySystemInstanceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeploySystemInstanceRequest,
+  output: DeploySystemInstanceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets a system instance.
  */
-export const getSystemInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSystemInstance: (
+  input: GetSystemInstanceRequest,
+) => Effect.Effect<
+  GetSystemInstanceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSystemInstanceRequest,
   output: GetSystemInstanceResponse,
   errors: [
@@ -1610,7 +1825,17 @@ export const getSystemInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This action doesn't return definitions for systems, flows, and deployments.
  */
-export const getEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEntities: (
+  input: GetEntitiesRequest,
+) => Effect.Effect<
+  GetEntitiesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEntitiesRequest,
   output: GetEntitiesResponse,
   errors: [
@@ -1623,7 +1848,17 @@ export const getEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the latest version of the `DefinitionDocument` and `FlowTemplateSummary` for the specified workflow.
  */
-export const getFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFlowTemplate: (
+  input: GetFlowTemplateRequest,
+) => Effect.Effect<
+  GetFlowTemplateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFlowTemplateRequest,
   output: GetFlowTemplateResponse,
   errors: [
@@ -1637,27 +1872,70 @@ export const getFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets revisions of the specified workflow. Only the last 100 revisions are stored. If the workflow has been deprecated,
  * this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
  */
-export const getFlowTemplateRevisions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getFlowTemplateRevisions: {
+  (
     input: GetFlowTemplateRevisionsRequest,
-    output: GetFlowTemplateRevisionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "summaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetFlowTemplateRevisionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetFlowTemplateRevisionsRequest,
+  ) => Stream.Stream<
+    GetFlowTemplateRevisionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetFlowTemplateRevisionsRequest,
+  ) => Stream.Stream<
+    FlowTemplateSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetFlowTemplateRevisionsRequest,
+  output: GetFlowTemplateRevisionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "summaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a system.
  */
-export const getSystemTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSystemTemplate: (
+  input: GetSystemTemplateRequest,
+) => Effect.Effect<
+  GetSystemTemplateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSystemTemplateRequest,
   output: GetSystemTemplateResponse,
   errors: [
@@ -1670,43 +1948,109 @@ export const getSystemTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of objects that contain information about events in a flow execution.
  */
-export const listFlowExecutionMessages =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFlowExecutionMessages: {
+  (
     input: ListFlowExecutionMessagesRequest,
-    output: ListFlowExecutionMessagesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "messages",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFlowExecutionMessagesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFlowExecutionMessagesRequest,
+  ) => Stream.Stream<
+    ListFlowExecutionMessagesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFlowExecutionMessagesRequest,
+  ) => Stream.Stream<
+    FlowExecutionMessage,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFlowExecutionMessagesRequest,
+  output: ListFlowExecutionMessagesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "messages",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Searches for AWS IoT Things Graph workflow execution instances.
  */
-export const searchFlowExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchFlowExecutions: {
+  (
     input: SearchFlowExecutionsRequest,
-    output: SearchFlowExecutionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "summaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchFlowExecutionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchFlowExecutionsRequest,
+  ) => Stream.Stream<
+    SearchFlowExecutionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchFlowExecutionsRequest,
+  ) => Stream.Stream<
+    FlowExecutionSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchFlowExecutionsRequest,
+  output: SearchFlowExecutionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "summaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Searches for things associated with the specified entity. You can search by both device and device model.
  *
@@ -1715,28 +2059,70 @@ export const searchFlowExecutions =
  *
  * This action searches for exact matches and doesn't perform partial text matching.
  */
-export const searchThings = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchThings: {
+  (
     input: SearchThingsRequest,
-    output: SearchThingsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "things",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchThingsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchThingsRequest,
+  ) => Stream.Stream<
+    SearchThingsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchThingsRequest,
+  ) => Stream.Stream<
+    Thing,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchThingsRequest,
+  output: SearchThingsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "things",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets the latest version of the user's namespace and the public version that it is tracking.
  */
-export const describeNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeNamespace: (
+  input: DescribeNamespaceRequest,
+) => Effect.Effect<
+  DescribeNamespaceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNamespaceRequest,
   output: DescribeNamespaceResponse,
   errors: [
@@ -1750,27 +2136,70 @@ export const describeNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets revisions made to the specified system template. Only the previous 100 revisions are stored. If the system has been deprecated, this action will return
  * the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
  */
-export const getSystemTemplateRevisions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getSystemTemplateRevisions: {
+  (
     input: GetSystemTemplateRevisionsRequest,
-    output: GetSystemTemplateRevisionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "summaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetSystemTemplateRevisionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetSystemTemplateRevisionsRequest,
+  ) => Stream.Stream<
+    GetSystemTemplateRevisionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSystemTemplateRevisionsRequest,
+  ) => Stream.Stream<
+    SystemTemplateSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetSystemTemplateRevisionsRequest,
+  output: GetSystemTemplateRevisionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "summaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets the status of the specified upload.
  */
-export const getUploadStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUploadStatus: (
+  input: GetUploadStatusRequest,
+) => Effect.Effect<
+  GetUploadStatusResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUploadStatusRequest,
   output: GetUploadStatusResponse,
   errors: [
@@ -1784,7 +2213,17 @@ export const getUploadStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the specified workflow. All deployed systems and system instances that use the workflow will see the changes in the flow when it is redeployed. If you don't want this
  * behavior, copy the workflow (creating a new workflow with a different ID), and update the copy. The workflow can contain only entities in the specified namespace.
  */
-export const updateFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFlowTemplate: (
+  input: UpdateFlowTemplateRequest,
+) => Effect.Effect<
+  UpdateFlowTemplateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlowTemplateRequest,
   output: UpdateFlowTemplateResponse,
   errors: [
@@ -1797,64 +2236,96 @@ export const updateFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified system. You don't need to run this action after updating a workflow. Any deployment that uses the system will see the changes in the system when it is redeployed.
  */
-export const updateSystemTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSystemTemplateRequest,
-    output: UpdateSystemTemplateResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateSystemTemplate: (
+  input: UpdateSystemTemplateRequest,
+) => Effect.Effect<
+  UpdateSystemTemplateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSystemTemplateRequest,
+  output: UpdateSystemTemplateResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deprecates the specified workflow. This action marks the workflow for deletion. Deprecated flows can't be deployed, but existing deployments will continue to run.
  */
-export const deprecateFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeprecateFlowTemplateRequest,
-    output: DeprecateFlowTemplateResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deprecateFlowTemplate: (
+  input: DeprecateFlowTemplateRequest,
+) => Effect.Effect<
+  DeprecateFlowTemplateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeprecateFlowTemplateRequest,
+  output: DeprecateFlowTemplateResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deprecates the specified system.
  */
-export const deprecateSystemTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeprecateSystemTemplateRequest,
-    output: DeprecateSystemTemplateResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deprecateSystemTemplate: (
+  input: DeprecateSystemTemplateRequest,
+) => Effect.Effect<
+  DeprecateSystemTemplateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeprecateSystemTemplateRequest,
+  output: DeprecateSystemTemplateResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Dissociates a device entity from a concrete thing. The action takes only the type of the entity that you need to dissociate because only
  * one entity of a particular type can be associated with a thing.
  */
-export const dissociateEntityFromThing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DissociateEntityFromThingRequest,
-    output: DissociateEntityFromThingResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const dissociateEntityFromThing: (
+  input: DissociateEntityFromThingRequest,
+) => Effect.Effect<
+  DissociateEntityFromThingResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DissociateEntityFromThingRequest,
+  output: DissociateEntityFromThingResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a system instance.
  *
@@ -1870,43 +2341,95 @@ export const dissociateEntityFromThing = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * If the definition document doesn't specify a version of the user's namespace, the latest version will be used by default.
  */
-export const createSystemInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSystemInstanceRequest,
-    output: CreateSystemInstanceResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createSystemInstance: (
+  input: CreateSystemInstanceRequest,
+) => Effect.Effect<
+  CreateSystemInstanceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSystemInstanceRequest,
+  output: CreateSystemInstanceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists all tags on an AWS IoT Things Graph resource.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceRequest,
-    output: ListTagsForResourceResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceAlreadyExistsException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "tags",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceAlreadyExistsException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    ListTagsForResourceResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceAlreadyExistsException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    Tag,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceAlreadyExistsException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tags",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a tag for the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1919,7 +2442,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1934,7 +2467,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * entities.) The workflow can contain only entities in the specified namespace. The workflow is validated against the entities in the
  * latest version of the user's namespace unless another namespace version is specified in the request.
  */
-export const createFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFlowTemplate: (
+  input: CreateFlowTemplateRequest,
+) => Effect.Effect<
+  CreateFlowTemplateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFlowTemplateRequest,
   output: CreateFlowTemplateResponse,
   errors: [
@@ -1948,24 +2492,43 @@ export const createFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a system instance from its target (Cloud or Greengrass).
  */
-export const undeploySystemInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UndeploySystemInstanceRequest,
-    output: UndeploySystemInstanceResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const undeploySystemInstance: (
+  input: UndeploySystemInstanceRequest,
+) => Effect.Effect<
+  UndeploySystemInstanceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UndeploySystemInstanceRequest,
+  output: UndeploySystemInstanceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a workflow. Any new system or deployment that contains this workflow will fail to update or deploy.
  * Existing deployments that contain the workflow will continue to run (since they use a snapshot of the workflow taken at the time of deployment).
  */
-export const deleteFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFlowTemplate: (
+  input: DeleteFlowTemplateRequest,
+) => Effect.Effect<
+  DeleteFlowTemplateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFlowTemplateRequest,
   output: DeleteFlowTemplateResponse,
   errors: [
@@ -1981,31 +2544,47 @@ export const deleteFlowTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Users can create a new system instance that has the same ID as a deleted system instance.
  */
-export const deleteSystemInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSystemInstanceRequest,
-    output: DeleteSystemInstanceResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteSystemInstance: (
+  input: DeleteSystemInstanceRequest,
+) => Effect.Effect<
+  DeleteSystemInstanceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSystemInstanceRequest,
+  output: DeleteSystemInstanceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a system. New deployments can't contain the system after its deletion.
  * Existing deployments that contain the system will continue to work because they use a snapshot of the system that is taken when it is deployed.
  */
-export const deleteSystemTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSystemTemplateRequest,
-    output: DeleteSystemTemplateResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteSystemTemplate: (
+  input: DeleteSystemTemplateRequest,
+) => Effect.Effect<
+  DeleteSystemTemplateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSystemTemplateRequest,
+  output: DeleteSystemTemplateResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ThrottlingException,
+  ],
+}));

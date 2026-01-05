@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Scheduler",
   serviceShapeName: "AWSChronosService",
@@ -292,6 +300,58 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type TagResourceArn = string;
+export type TagKey = string;
+export type Name = string;
+export type ScheduleGroupName = string;
+export type ScheduleExpression = string;
+export type Description = string;
+export type ScheduleExpressionTimezone = string;
+export type ScheduleState = string;
+export type KmsKeyArn = string;
+export type ClientToken = string;
+export type ActionAfterCompletion = string;
+export type NamePrefix = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type ScheduleGroupNamePrefix = string;
+export type TagValue = string;
+export type TargetArn = string;
+export type RoleArn = string;
+export type TargetInput = string;
+export type FlexibleTimeWindowMode = string;
+export type MaximumWindowInMinutes = number;
+export type ScheduleArn = string;
+export type ScheduleGroupArn = string;
+export type ScheduleGroupState = string;
+export type ResourceArn = string;
+export type MaximumEventAgeInSeconds = number;
+export type MaximumRetryAttempts = number;
+export type TaskDefinitionArn = string;
+export type TaskCount = number;
+export type LaunchType = string;
+export type PlatformVersion = string;
+export type Group = string;
+export type PropagateTags = string;
+export type ReferenceId = string;
+export type DetailType = string;
+export type Source = string;
+export type TargetPartitionKey = string;
+export type MessageGroupId = string;
+export type CapacityProvider = string;
+export type CapacityProviderStrategyItemWeight = number;
+export type CapacityProviderStrategyItemBase = number;
+export type PlacementConstraintType = string;
+export type PlacementConstraintExpression = string;
+export type PlacementStrategyType = string;
+export type PlacementStrategyField = string;
+export type SageMakerPipelineParameterName = string;
+export type SageMakerPipelineParameterValue = string;
+export type Subnet = string;
+export type SecurityGroup = string;
+export type AssignPublicIp = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -1006,7 +1066,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String },
@@ -1014,7 +1076,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.String },
@@ -1028,23 +1092,63 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Returns a paginated list of your schedule groups.
  */
-export const listScheduleGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listScheduleGroups: {
+  (
     input: ListScheduleGroupsInput,
-    output: ListScheduleGroupsOutput,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ScheduleGroups",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListScheduleGroupsOutput,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListScheduleGroupsInput,
+  ) => Stream.Stream<
+    ListScheduleGroupsOutput,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListScheduleGroupsInput,
+  ) => Stream.Stream<
+    ScheduleGroupSummary,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListScheduleGroupsInput,
+  output: ListScheduleGroupsOutput,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ScheduleGroups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates the specified schedule group.
  */
-export const createScheduleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createScheduleGroup: (
+  input: CreateScheduleGroupInput,
+) => Effect.Effect<
+  CreateScheduleGroupOutput,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScheduleGroupInput,
   output: CreateScheduleGroupOutput,
   errors: [
@@ -1058,7 +1162,18 @@ export const createScheduleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes one or more tags from the specified EventBridge Scheduler schedule group.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -1072,7 +1187,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the specified schedule.
  */
-export const getSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSchedule: (
+  input: GetScheduleInput,
+) => Effect.Effect<
+  GetScheduleOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetScheduleInput,
   output: GetScheduleOutput,
   errors: [
@@ -1090,7 +1215,18 @@ export const getSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Before calling this operation, we recommend that you call the `GetSchedule` API operation and make a note of all optional parameters
  * for your `UpdateSchedule` call.
  */
-export const updateSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSchedule: (
+  input: UpdateScheduleInput,
+) => Effect.Effect<
+  UpdateScheduleOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateScheduleInput,
   output: UpdateScheduleOutput,
   errors: [
@@ -1104,7 +1240,17 @@ export const updateSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the specified schedule group.
  */
-export const getScheduleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getScheduleGroup: (
+  input: GetScheduleGroupInput,
+) => Effect.Effect<
+  GetScheduleGroupOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetScheduleGroupInput,
   output: GetScheduleGroupOutput,
   errors: [
@@ -1117,7 +1263,18 @@ export const getScheduleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified schedule.
  */
-export const deleteSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSchedule: (
+  input: DeleteScheduleInput,
+) => Effect.Effect<
+  DeleteScheduleOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScheduleInput,
   output: DeleteScheduleOutput,
   errors: [
@@ -1136,7 +1293,18 @@ export const deleteSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation is eventually consistent.
  */
-export const deleteScheduleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteScheduleGroup: (
+  input: DeleteScheduleGroupInput,
+) => Effect.Effect<
+  DeleteScheduleGroupOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScheduleGroupInput,
   output: DeleteScheduleGroupOutput,
   errors: [
@@ -1150,7 +1318,18 @@ export const deleteScheduleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Assigns one or more tags (key-value pairs) to the specified EventBridge Scheduler resource. You can only assign tags to schedule groups.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -1164,7 +1343,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags associated with the Scheduler resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -1177,28 +1366,72 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a paginated list of your EventBridge Scheduler schedules.
  */
-export const listSchedules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSchedules: {
+  (
     input: ListSchedulesInput,
-    output: ListSchedulesOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Schedules",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSchedulesOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSchedulesInput,
+  ) => Stream.Stream<
+    ListSchedulesOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSchedulesInput,
+  ) => Stream.Stream<
+    ScheduleSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSchedulesInput,
+  output: ListSchedulesOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Schedules",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates the specified schedule.
  */
-export const createSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSchedule: (
+  input: CreateScheduleInput,
+) => Effect.Effect<
+  CreateScheduleOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScheduleInput,
   output: CreateScheduleOutput,
   errors: [

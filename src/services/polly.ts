@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://polly.amazonaws.com/doc/v1");
 const svc = T.AwsApiService({ sdkId: "Polly", serviceShapeName: "Parrot_v1" });
 const auth = T.AwsAuthSigv4({ name: "polly" });
@@ -238,6 +246,29 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type LexiconName = string;
+export type NextToken = string;
+export type TaskId = string;
+export type MaxResults = number;
+export type LexiconContent = string;
+export type OutputS3BucketName = string;
+export type OutputS3KeyPrefix = string;
+export type SampleRate = string;
+export type SnsTopicArn = string;
+export type Text = string;
+export type ErrorMessage = string;
+export type ContentType = string;
+export type RequestCharacters = number;
+export type LanguageName = string;
+export type VoiceName = string;
+export type Alphabet = string;
+export type LexiconArn = string;
+export type LexemesCount = number;
+export type Size = number;
+export type TaskStatusReason = string;
+export type OutputUri = string;
 
 //# Schemas
 export type LexiconNameList = string[];
@@ -682,7 +713,9 @@ export class InvalidLexiconException extends S.TaggedError<InvalidLexiconExcepti
 export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
   "ServiceFailureException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
   "InvalidNextTokenException",
   { message: S.optional(S.String) },
@@ -764,7 +797,13 @@ export class TextLengthExceededException extends S.TaggedError<TextLengthExceede
  *
  * For more information, see Managing Lexicons.
  */
-export const deleteLexicon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLexicon: (
+  input: DeleteLexiconInput,
+) => Effect.Effect<
+  DeleteLexiconOutput,
+  LexiconNotFoundException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLexiconInput,
   output: DeleteLexiconOutput,
   errors: [LexiconNotFoundException, ServiceFailureException],
@@ -773,7 +812,13 @@ export const deleteLexicon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns the content of the specified pronunciation lexicon stored
  * in an Amazon Web Services Region. For more information, see Managing Lexicons.
  */
-export const getLexicon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLexicon: (
+  input: GetLexiconInput,
+) => Effect.Effect<
+  GetLexiconOutput,
+  LexiconNotFoundException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLexiconInput,
   output: GetLexiconOutput,
   errors: [LexiconNotFoundException, ServiceFailureException],
@@ -783,17 +828,38 @@ export const getLexicon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * creation date. This operation can filter the tasks by their status, for
  * example, allowing users to list only tasks that are completed.
  */
-export const listSpeechSynthesisTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSpeechSynthesisTasks: {
+  (
     input: ListSpeechSynthesisTasksInput,
-    output: ListSpeechSynthesisTasksOutput,
-    errors: [InvalidNextTokenException, ServiceFailureException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSpeechSynthesisTasksOutput,
+    InvalidNextTokenException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSpeechSynthesisTasksInput,
+  ) => Stream.Stream<
+    ListSpeechSynthesisTasksOutput,
+    InvalidNextTokenException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSpeechSynthesisTasksInput,
+  ) => Stream.Stream<
+    unknown,
+    InvalidNextTokenException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSpeechSynthesisTasksInput,
+  output: ListSpeechSynthesisTasksOutput,
+  errors: [InvalidNextTokenException, ServiceFailureException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the list of voices that are available for use when
  * requesting speech synthesis. Each voice speaks a specified language, is
@@ -816,7 +882,13 @@ export const listSpeechSynthesisTasks =
  * This operation requires permissions to perform the
  * `polly:DescribeVoices` action.
  */
-export const describeVoices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeVoices: (
+  input: DescribeVoicesInput,
+) => Effect.Effect<
+  DescribeVoicesOutput,
+  InvalidNextTokenException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVoicesInput,
   output: DescribeVoicesOutput,
   errors: [InvalidNextTokenException, ServiceFailureException],
@@ -824,7 +896,13 @@ export const describeVoices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of pronunciation lexicons stored in an Amazon Web Services Region. For more information, see Managing Lexicons.
  */
-export const listLexicons = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listLexicons: (
+  input: ListLexiconsInput,
+) => Effect.Effect<
+  ListLexiconsOutput,
+  InvalidNextTokenException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLexiconsInput,
   output: ListLexiconsOutput,
   errors: [InvalidNextTokenException, ServiceFailureException],
@@ -835,17 +913,24 @@ export const listLexicons = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * including the status of the task, and a link to the S3 bucket containing
  * the output of the task.
  */
-export const getSpeechSynthesisTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSpeechSynthesisTaskInput,
-    output: GetSpeechSynthesisTaskOutput,
-    errors: [
-      InvalidTaskIdException,
-      ServiceFailureException,
-      SynthesisTaskNotFoundException,
-    ],
-  }),
-);
+export const getSpeechSynthesisTask: (
+  input: GetSpeechSynthesisTaskInput,
+) => Effect.Effect<
+  GetSpeechSynthesisTaskOutput,
+  | InvalidTaskIdException
+  | ServiceFailureException
+  | SynthesisTaskNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSpeechSynthesisTaskInput,
+  output: GetSpeechSynthesisTaskOutput,
+  errors: [
+    InvalidTaskIdException,
+    ServiceFailureException,
+    SynthesisTaskNotFoundException,
+  ],
+}));
 /**
  * Stores a pronunciation lexicon in an Amazon Web Services Region. If
  * a lexicon with the same name already exists in the region, it is
@@ -855,7 +940,20 @@ export const getSpeechSynthesisTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information, see Managing Lexicons.
  */
-export const putLexicon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putLexicon: (
+  input: PutLexiconInput,
+) => Effect.Effect<
+  PutLexiconOutput,
+  | InvalidLexiconException
+  | LexiconSizeExceededException
+  | MaxLexemeLengthExceededException
+  | MaxLexiconsNumberExceededException
+  | ServiceFailureException
+  | UnsupportedPlsAlphabetException
+  | UnsupportedPlsLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLexiconInput,
   output: PutLexiconOutput,
   errors: [
@@ -875,7 +973,22 @@ export const putLexicon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * all by English voices) unless phoneme mapping is used. For more
  * information, see How it Works.
  */
-export const synthesizeSpeech = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const synthesizeSpeech: (
+  input: SynthesizeSpeechInput,
+) => Effect.Effect<
+  SynthesizeSpeechOutput,
+  | EngineNotSupportedException
+  | InvalidSampleRateException
+  | InvalidSsmlException
+  | LanguageNotSupportedException
+  | LexiconNotFoundException
+  | MarksNotSupportedForFormatException
+  | ServiceFailureException
+  | SsmlMarksNotSupportedForTextTypeException
+  | TextLengthExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SynthesizeSpeechInput,
   output: SynthesizeSpeechOutput,
   errors: [
@@ -902,23 +1015,39 @@ export const synthesizeSpeech = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `SpeechSynthesisTask` object is available for 72 hours after
  * starting the asynchronous synthesis task.
  */
-export const startSpeechSynthesisTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartSpeechSynthesisTaskInput,
-    output: StartSpeechSynthesisTaskOutput,
-    errors: [
-      EngineNotSupportedException,
-      InvalidS3BucketException,
-      InvalidS3KeyException,
-      InvalidSampleRateException,
-      InvalidSnsTopicArnException,
-      InvalidSsmlException,
-      LanguageNotSupportedException,
-      LexiconNotFoundException,
-      MarksNotSupportedForFormatException,
-      ServiceFailureException,
-      SsmlMarksNotSupportedForTextTypeException,
-      TextLengthExceededException,
-    ],
-  }),
-);
+export const startSpeechSynthesisTask: (
+  input: StartSpeechSynthesisTaskInput,
+) => Effect.Effect<
+  StartSpeechSynthesisTaskOutput,
+  | EngineNotSupportedException
+  | InvalidS3BucketException
+  | InvalidS3KeyException
+  | InvalidSampleRateException
+  | InvalidSnsTopicArnException
+  | InvalidSsmlException
+  | LanguageNotSupportedException
+  | LexiconNotFoundException
+  | MarksNotSupportedForFormatException
+  | ServiceFailureException
+  | SsmlMarksNotSupportedForTextTypeException
+  | TextLengthExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSpeechSynthesisTaskInput,
+  output: StartSpeechSynthesisTaskOutput,
+  errors: [
+    EngineNotSupportedException,
+    InvalidS3BucketException,
+    InvalidS3KeyException,
+    InvalidSampleRateException,
+    InvalidSnsTopicArnException,
+    InvalidSsmlException,
+    LanguageNotSupportedException,
+    LexiconNotFoundException,
+    MarksNotSupportedForFormatException,
+    ServiceFailureException,
+    SsmlMarksNotSupportedForTextTypeException,
+    TextLengthExceededException,
+  ],
+}));

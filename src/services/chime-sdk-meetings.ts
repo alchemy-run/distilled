@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Chime SDK Meetings",
   serviceShapeName: "ChimeMeetingsSDKService",
@@ -240,6 +248,27 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type GuidString = string;
+export type ExternalUserId = string;
+export type ClientRequestToken = string;
+export type MediaRegion = string;
+export type ExternalMeetingId = string;
+export type PrimaryMeetingId = string;
+export type TenantId = string;
+export type ResultMax = number;
+export type AmazonResourceName = string;
+export type TagKey = string;
+export type Arn = string;
+export type TagValue = string;
+export type AttendeeMax = number;
+export type TranscribePiiEntityTypes = string;
+export type TranscribeLanguageModelName = string;
+export type TranscribeLanguageOptions = string;
+export type TranscribeVocabularyNamesOrFilterNamesString = string;
+export type JoinTokenString = string;
+export type RetryAfterSeconds = string;
 
 //# Schemas
 export type TenantIdList = string[];
@@ -1056,7 +1085,9 @@ export class ServiceFailureException extends S.TaggedError<ServiceFailureExcepti
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
@@ -1074,7 +1105,9 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
     RequestId: S.optional(S.String),
     RetryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   {
@@ -1082,7 +1115,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
   {
@@ -1116,7 +1151,20 @@ export class UnprocessableEntityException extends S.TaggedError<UnprocessableEnt
  * Using the Amazon Chime SDK
  * in the *Amazon Chime Developer Guide*.
  */
-export const deleteAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAttendee: (
+  input: DeleteAttendeeRequest,
+) => Effect.Effect<
+  DeleteAttendeeResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAttendeeRequest,
   output: DeleteAttendeeResponse,
   errors: [
@@ -1132,7 +1180,22 @@ export const deleteAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The resource that supports tags.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | ForbiddenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | TooManyTagsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1179,28 +1242,53 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - When you change a `video` or `content` capability from `None` or `Receive` to `Send` or `SendReceive` ,
  * and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
  */
-export const updateAttendeeCapabilities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAttendeeCapabilitiesRequest,
-    output: UpdateAttendeeCapabilitiesResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateAttendeeCapabilities: (
+  input: UpdateAttendeeCapabilitiesRequest,
+) => Effect.Effect<
+  UpdateAttendeeCapabilitiesResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAttendeeCapabilitiesRequest,
+  output: UpdateAttendeeCapabilitiesResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see
  * Using the Amazon Chime SDK
  * in the *Amazon Chime Developer Guide*.
  */
-export const getAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAttendee: (
+  input: GetAttendeeRequest,
+) => Effect.Effect<
+  GetAttendeeResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAttendeeRequest,
   output: GetAttendeeResponse,
   errors: [
@@ -1218,7 +1306,20 @@ export const getAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Using the Amazon Chime SDK
  * in the *Amazon Chime Developer Guide*.
  */
-export const getMeeting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMeeting: (
+  input: GetMeetingRequest,
+) => Effect.Effect<
+  GetMeetingResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMeetingRequest,
   output: GetMeetingResponse,
   errors: [
@@ -1236,33 +1337,87 @@ export const getMeeting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Using the Amazon Chime SDK
  * in the *Amazon Chime Developer Guide*.
  */
-export const listAttendees = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAttendees: {
+  (
     input: ListAttendeesRequest,
-    output: ListAttendeesResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAttendeesResponse,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttendeesRequest,
+  ) => Stream.Stream<
+    ListAttendeesResponse,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttendeesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttendeesRequest,
+  output: ListAttendeesResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from
  * joining the meeting. For more information about the Amazon Chime SDK, see
  * Using the Amazon Chime SDK in the
  * *Amazon Chime Developer Guide*.
  */
-export const deleteMeeting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMeeting: (
+  input: DeleteMeetingRequest,
+) => Effect.Effect<
+  DeleteMeetingResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMeetingRequest,
   output: DeleteMeetingResponse,
   errors: [
@@ -1307,21 +1462,34 @@ export const deleteMeeting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - When you change a `video` or `content` capability from `None` or `Receive` to `Send` or `SendReceive` ,
  * and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
  */
-export const batchUpdateAttendeeCapabilitiesExcept =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchUpdateAttendeeCapabilitiesExceptRequest,
-    output: BatchUpdateAttendeeCapabilitiesExceptResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }));
+export const batchUpdateAttendeeCapabilitiesExcept: (
+  input: BatchUpdateAttendeeCapabilitiesExceptRequest,
+) => Effect.Effect<
+  BatchUpdateAttendeeCapabilitiesExceptResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateAttendeeCapabilitiesExceptRequest,
+  output: BatchUpdateAttendeeCapabilitiesExceptResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see
  * Available Regions and
@@ -1338,7 +1506,21 @@ export const batchUpdateAttendeeCapabilitiesExcept =
  *
  * - Video.MaxResolution: HD
  */
-export const createMeeting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMeeting: (
+  input: CreateMeetingRequest,
+) => Effect.Effect<
+  CreateMeetingResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | LimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMeetingRequest,
   output: CreateMeetingResponse,
   errors: [
@@ -1368,26 +1550,52 @@ export const createMeeting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Video.MaxResolution: HD
  */
-export const createMeetingWithAttendees = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMeetingWithAttendeesRequest,
-    output: CreateMeetingWithAttendeesResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      LimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createMeetingWithAttendees: (
+  input: CreateMeetingWithAttendeesRequest,
+) => Effect.Effect<
+  CreateMeetingWithAttendeesResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | LimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMeetingWithAttendeesRequest,
+  output: CreateMeetingWithAttendeesResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    LimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Returns a list of the tags available for the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | BadRequestException
+  | ForbiddenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1419,7 +1627,21 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * `ChimeSDKMeetings:DeleteTags`
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | ForbiddenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1450,23 +1672,36 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * that the session or communication is being recorded, and obtaining all necessary consents. You can opt out from Amazon Web Services using audio content to develop and
  * improve AWS AI/ML services by configuring an AI services opt out policy using Amazon Web Services Organizations.
  */
-export const startMeetingTranscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMeetingTranscriptionRequest,
-    output: StartMeetingTranscriptionResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
+export const startMeetingTranscription: (
+  input: StartMeetingTranscriptionRequest,
+) => Effect.Effect<
+  StartMeetingTranscriptionResponse,
+  | BadRequestException
+  | ForbiddenException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMeetingTranscriptionRequest,
+  output: StartMeetingTranscriptionResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    UnprocessableEntityException,
+  ],
+}));
 /**
  * Stops transcription for the specified `meetingId`. For more information, refer to
  * Using Amazon Chime SDK live transcription
@@ -1479,27 +1714,54 @@ export const startMeetingTranscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * that the session or communication is being recorded, and obtaining all necessary consents. You can opt out from Amazon Web Services using audio content to develop and
  * improve Amazon Web Services AI/ML services by configuring an AI services opt out policy using Amazon Web Services Organizations.
  */
-export const stopMeetingTranscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopMeetingTranscriptionRequest,
-    output: StopMeetingTranscriptionResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
+export const stopMeetingTranscription: (
+  input: StopMeetingTranscriptionRequest,
+) => Effect.Effect<
+  StopMeetingTranscriptionResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopMeetingTranscriptionRequest,
+  output: StopMeetingTranscriptionResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    UnprocessableEntityException,
+  ],
+}));
 /**
  * Creates up to 100 attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
  * Using the Amazon Chime SDK in the *Amazon Chime Developer Guide*.
  */
-export const batchCreateAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchCreateAttendee: (
+  input: BatchCreateAttendeeRequest,
+) => Effect.Effect<
+  BatchCreateAttendeeResponse,
+  | BadRequestException
+  | ForbiddenException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateAttendeeRequest,
   output: BatchCreateAttendeeResponse,
   errors: [
@@ -1520,7 +1782,22 @@ export const batchCreateAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * in the
  * *Amazon Chime Developer Guide*.
  */
-export const createAttendee = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAttendee: (
+  input: CreateAttendeeRequest,
+) => Effect.Effect<
+  CreateAttendeeResponse,
+  | BadRequestException
+  | ForbiddenException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAttendeeRequest,
   output: CreateAttendeeResponse,
   errors: [

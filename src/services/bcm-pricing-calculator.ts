@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "BCM Pricing Calculator",
   serviceShapeName: "AWSBCMPricingCalculator",
@@ -120,6 +128,30 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type ResourceTagKey = string;
+export type ResourceId = string;
+export type BillEstimateName = string;
+export type ClientToken = string;
+export type NextPageToken = string;
+export type MaxResults = number;
+export type BillScenarioName = string;
+export type CostCategoryArn = string;
+export type WorkloadEstimateName = string;
+export type WorkloadEstimateUsageMaxResults = number;
+export type ResourceTagValue = string;
+export type Key = string;
+export type UsageGroup = string;
+export type AccountId = string;
+export type ServiceCode = string;
+export type UsageType = string;
+export type Operation = string;
+export type AvailabilityZone = string;
+export type Uuid = string;
+export type ReservedInstanceInstanceCount = number;
+export type SavingsPlanCommitment = number;
 
 //# Schemas
 export interface GetPreferencesRequest {}
@@ -1296,6 +1328,11 @@ export const NegateSavingsPlanAction = S.suspend(() =>
 ).annotations({
   identifier: "NegateSavingsPlanAction",
 }) as any as S.Schema<NegateSavingsPlanAction>;
+export type BillScenarioCommitmentModificationAction =
+  | { addReservedInstanceAction: AddReservedInstanceAction }
+  | { addSavingsPlanAction: AddSavingsPlanAction }
+  | { negateReservedInstanceAction: NegateReservedInstanceAction }
+  | { negateSavingsPlanAction: NegateSavingsPlanAction };
 export const BillScenarioCommitmentModificationAction = S.Union(
   S.Struct({ addReservedInstanceAction: AddReservedInstanceAction }),
   S.Struct({ addSavingsPlanAction: AddSavingsPlanAction }),
@@ -2280,7 +2317,13 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Retrieves the current preferences for Pricing Calculator.
  */
-export const getPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPreferences: (
+  input: GetPreferencesRequest,
+) => Effect.Effect<
+  GetPreferencesResponse,
+  DataUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPreferencesRequest,
   output: GetPreferencesResponse,
   errors: [DataUnavailableException],
@@ -2288,7 +2331,13 @@ export const getPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes one or more tags from a specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
@@ -2296,7 +2345,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details of a specific bill estimate.
  */
-export const getBillEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBillEstimate: (
+  input: GetBillEstimateRequest,
+) => Effect.Effect<
+  GetBillEstimateResponse,
+  DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBillEstimateRequest,
   output: GetBillEstimateResponse,
   errors: [DataUnavailableException, ResourceNotFoundException],
@@ -2304,7 +2359,13 @@ export const getBillEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing bill estimate.
  */
-export const deleteBillEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBillEstimate: (
+  input: DeleteBillEstimateRequest,
+) => Effect.Effect<
+  DeleteBillEstimateResponse,
+  ConflictException | DataUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBillEstimateRequest,
   output: DeleteBillEstimateResponse,
   errors: [ConflictException, DataUnavailableException],
@@ -2312,7 +2373,13 @@ export const deleteBillEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details of a specific bill scenario.
  */
-export const getBillScenario = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBillScenario: (
+  input: GetBillScenarioRequest,
+) => Effect.Effect<
+  GetBillScenarioResponse,
+  DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBillScenarioRequest,
   output: GetBillScenarioResponse,
   errors: [DataUnavailableException, ResourceNotFoundException],
@@ -2320,7 +2387,16 @@ export const getBillScenario = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing bill scenario.
  */
-export const updateBillScenario = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBillScenario: (
+  input: UpdateBillScenarioRequest,
+) => Effect.Effect<
+  UpdateBillScenarioResponse,
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBillScenarioRequest,
   output: UpdateBillScenarioResponse,
   errors: [
@@ -2332,7 +2408,13 @@ export const updateBillScenario = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details of a specific workload estimate.
  */
-export const getWorkloadEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkloadEstimate: (
+  input: GetWorkloadEstimateRequest,
+) => Effect.Effect<
+  GetWorkloadEstimateResponse,
+  DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkloadEstimateRequest,
   output: GetWorkloadEstimateResponse,
   errors: [DataUnavailableException, ResourceNotFoundException],
@@ -2340,31 +2422,48 @@ export const getWorkloadEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing workload estimate.
  */
-export const updateWorkloadEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWorkloadEstimateRequest,
-    output: UpdateWorkloadEstimateResponse,
-    errors: [
-      ConflictException,
-      DataUnavailableException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateWorkloadEstimate: (
+  input: UpdateWorkloadEstimateRequest,
+) => Effect.Effect<
+  UpdateWorkloadEstimateResponse,
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkloadEstimateRequest,
+  output: UpdateWorkloadEstimateResponse,
+  errors: [
+    ConflictException,
+    DataUnavailableException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes an existing workload estimate.
  */
-export const deleteWorkloadEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWorkloadEstimateRequest,
-    output: DeleteWorkloadEstimateResponse,
-    errors: [DataUnavailableException],
-  }),
-);
+export const deleteWorkloadEstimate: (
+  input: DeleteWorkloadEstimateRequest,
+) => Effect.Effect<
+  DeleteWorkloadEstimateResponse,
+  DataUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkloadEstimateRequest,
+  output: DeleteWorkloadEstimateResponse,
+  errors: [DataUnavailableException],
+}));
 /**
  * Lists all tags associated with a specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
@@ -2372,7 +2471,13 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing bill scenario.
  */
-export const deleteBillScenario = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBillScenario: (
+  input: DeleteBillScenarioRequest,
+) => Effect.Effect<
+  DeleteBillScenarioResponse,
+  ConflictException | DataUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBillScenarioRequest,
   output: DeleteBillScenarioResponse,
   errors: [ConflictException, DataUnavailableException],
@@ -2380,7 +2485,16 @@ export const deleteBillScenario = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing bill estimate.
  */
-export const updateBillEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBillEstimate: (
+  input: UpdateBillEstimateRequest,
+) => Effect.Effect<
+  UpdateBillEstimateResponse,
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBillEstimateRequest,
   output: UpdateBillEstimateResponse,
   errors: [
@@ -2392,7 +2506,15 @@ export const updateBillEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the preferences for Pricing Calculator.
  */
-export const updatePreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePreferences: (
+  input: UpdatePreferencesRequest,
+) => Effect.Effect<
+  UpdatePreferencesResponse,
+  | DataUnavailableException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePreferencesRequest,
   output: UpdatePreferencesResponse,
   errors: [DataUnavailableException, ServiceQuotaExceededException],
@@ -2400,83 +2522,159 @@ export const updatePreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the input commitment modifications associated with a bill estimate.
  */
-export const listBillEstimateInputCommitmentModifications =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBillEstimateInputCommitmentModifications: {
+  (
     input: ListBillEstimateInputCommitmentModificationsRequest,
-    output: ListBillEstimateInputCommitmentModificationsResponse,
-    errors: [DataUnavailableException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBillEstimateInputCommitmentModificationsResponse,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBillEstimateInputCommitmentModificationsRequest,
+  ) => Stream.Stream<
+    ListBillEstimateInputCommitmentModificationsResponse,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBillEstimateInputCommitmentModificationsRequest,
+  ) => Stream.Stream<
+    BillEstimateInputCommitmentModificationSummary,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBillEstimateInputCommitmentModificationsRequest,
+  output: ListBillEstimateInputCommitmentModificationsResponse,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the commitment modifications associated with a bill scenario.
  */
-export const listBillScenarioCommitmentModifications =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBillScenarioCommitmentModifications: {
+  (
     input: ListBillScenarioCommitmentModificationsRequest,
-    output: ListBillScenarioCommitmentModificationsResponse,
-    errors: [DataUnavailableException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBillScenarioCommitmentModificationsResponse,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBillScenarioCommitmentModificationsRequest,
+  ) => Stream.Stream<
+    ListBillScenarioCommitmentModificationsResponse,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBillScenarioCommitmentModificationsRequest,
+  ) => Stream.Stream<
+    BillScenarioCommitmentModificationItem,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBillScenarioCommitmentModificationsRequest,
+  output: ListBillScenarioCommitmentModificationsResponse,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Delete commitment that you have created in a Bill Scenario. You can only delete a commitment that you had added and cannot model deletion (or removal) of a existing commitment. If you want model deletion of an existing commitment, see the negate BillScenarioCommitmentModificationAction of BatchCreateBillScenarioCommitmentModification operation.
  *
  * The `BatchDeleteBillScenarioCommitmentModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:DeleteBillScenarioCommitmentModification` in your policies.
  */
-export const batchDeleteBillScenarioCommitmentModification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDeleteBillScenarioCommitmentModificationRequest,
-    output: BatchDeleteBillScenarioCommitmentModificationResponse,
-    errors: [
-      ConflictException,
-      DataUnavailableException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const batchDeleteBillScenarioCommitmentModification: (
+  input: BatchDeleteBillScenarioCommitmentModificationRequest,
+) => Effect.Effect<
+  BatchDeleteBillScenarioCommitmentModificationResponse,
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteBillScenarioCommitmentModificationRequest,
+  output: BatchDeleteBillScenarioCommitmentModificationResponse,
+  errors: [
+    ConflictException,
+    DataUnavailableException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Delete usage that you have created in a Bill Scenario. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateBillScenarioUsageModification.
  *
  * The `BatchDeleteBillScenarioUsageModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:DeleteBillScenarioUsageModification` in your policies.
  */
-export const batchDeleteBillScenarioUsageModification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDeleteBillScenarioUsageModificationRequest,
-    output: BatchDeleteBillScenarioUsageModificationResponse,
-    errors: [
-      ConflictException,
-      DataUnavailableException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }));
+export const batchDeleteBillScenarioUsageModification: (
+  input: BatchDeleteBillScenarioUsageModificationRequest,
+) => Effect.Effect<
+  BatchDeleteBillScenarioUsageModificationResponse,
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteBillScenarioUsageModificationRequest,
+  output: BatchDeleteBillScenarioUsageModificationResponse,
+  errors: [
+    ConflictException,
+    DataUnavailableException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateWorkloadEstimateUsage.
  *
  * The `BatchDeleteWorkloadEstimateUsage` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:DeleteWorkloadEstimateUsage` in your policies.
  */
-export const batchDeleteWorkloadEstimateUsage =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDeleteWorkloadEstimateUsageRequest,
-    output: BatchDeleteWorkloadEstimateUsageResponse,
-    errors: [
-      DataUnavailableException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }));
+export const batchDeleteWorkloadEstimateUsage: (
+  input: BatchDeleteWorkloadEstimateUsageRequest,
+) => Effect.Effect<
+  BatchDeleteWorkloadEstimateUsageResponse,
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteWorkloadEstimateUsageRequest,
+  output: BatchDeleteWorkloadEstimateUsageResponse,
+  errors: [
+    DataUnavailableException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Creates a new bill scenario to model potential changes to Amazon Web Services usage and costs.
  */
-export const createBillScenario = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBillScenario: (
+  input: CreateBillScenarioRequest,
+) => Effect.Effect<
+  CreateBillScenarioResponse,
+  | ConflictException
+  | DataUnavailableException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBillScenarioRequest,
   output: CreateBillScenarioResponse,
   errors: [
@@ -2488,21 +2686,36 @@ export const createBillScenario = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new workload estimate to model costs for a specific workload.
  */
-export const createWorkloadEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWorkloadEstimateRequest,
-    output: CreateWorkloadEstimateResponse,
-    errors: [
-      ConflictException,
-      DataUnavailableException,
-      ServiceQuotaExceededException,
-    ],
-  }),
-);
+export const createWorkloadEstimate: (
+  input: CreateWorkloadEstimateRequest,
+) => Effect.Effect<
+  CreateWorkloadEstimateResponse,
+  | ConflictException
+  | DataUnavailableException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWorkloadEstimateRequest,
+  output: CreateWorkloadEstimateResponse,
+  errors: [
+    ConflictException,
+    DataUnavailableException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Adds one or more tags to a specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException, ServiceQuotaExceededException],
@@ -2510,7 +2723,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a Bill estimate from a Bill scenario. In the Bill scenario you can model usage addition, usage changes, and usage removal. You can also model commitment addition and commitment removal. After all changes in a Bill scenario is made satisfactorily, you can call this API with a Bill scenario ID to generate the Bill estimate. Bill estimate calculates the pre-tax cost for your consolidated billing family, incorporating all modeled usage and commitments alongside existing usage and commitments from your most recent completed anniversary bill, with any applicable discounts applied.
  */
-export const createBillEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBillEstimate: (
+  input: CreateBillEstimateRequest,
+) => Effect.Effect<
+  CreateBillEstimateResponse,
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBillEstimateRequest,
   output: CreateBillEstimateResponse,
   errors: [
@@ -2522,215 +2744,432 @@ export const createBillEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all bill estimates for the account.
  */
-export const listBillEstimates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBillEstimates: {
+  (
     input: ListBillEstimatesRequest,
-    output: ListBillEstimatesResponse,
-    errors: [DataUnavailableException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBillEstimatesResponse,
+    DataUnavailableException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBillEstimatesRequest,
+  ) => Stream.Stream<
+    ListBillEstimatesResponse,
+    DataUnavailableException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBillEstimatesRequest,
+  ) => Stream.Stream<
+    BillEstimateSummary,
+    DataUnavailableException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBillEstimatesRequest,
+  output: ListBillEstimatesResponse,
+  errors: [DataUnavailableException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the commitments associated with a bill estimate.
  */
-export const listBillEstimateCommitments =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBillEstimateCommitments: {
+  (
     input: ListBillEstimateCommitmentsRequest,
-    output: ListBillEstimateCommitmentsResponse,
-    errors: [DataUnavailableException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBillEstimateCommitmentsResponse,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBillEstimateCommitmentsRequest,
+  ) => Stream.Stream<
+    ListBillEstimateCommitmentsResponse,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBillEstimateCommitmentsRequest,
+  ) => Stream.Stream<
+    BillEstimateCommitmentSummary,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBillEstimateCommitmentsRequest,
+  output: ListBillEstimateCommitmentsResponse,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the input usage modifications associated with a bill estimate.
  */
-export const listBillEstimateInputUsageModifications =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBillEstimateInputUsageModifications: {
+  (
     input: ListBillEstimateInputUsageModificationsRequest,
-    output: ListBillEstimateInputUsageModificationsResponse,
-    errors: [DataUnavailableException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBillEstimateInputUsageModificationsResponse,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBillEstimateInputUsageModificationsRequest,
+  ) => Stream.Stream<
+    ListBillEstimateInputUsageModificationsResponse,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBillEstimateInputUsageModificationsRequest,
+  ) => Stream.Stream<
+    BillEstimateInputUsageModificationSummary,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBillEstimateInputUsageModificationsRequest,
+  output: ListBillEstimateInputUsageModificationsResponse,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all bill scenarios for the account.
  */
-export const listBillScenarios = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBillScenarios: {
+  (
     input: ListBillScenariosRequest,
-    output: ListBillScenariosResponse,
-    errors: [DataUnavailableException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBillScenariosResponse,
+    DataUnavailableException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBillScenariosRequest,
+  ) => Stream.Stream<
+    ListBillScenariosResponse,
+    DataUnavailableException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBillScenariosRequest,
+  ) => Stream.Stream<
+    BillScenarioSummary,
+    DataUnavailableException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBillScenariosRequest,
+  output: ListBillScenariosResponse,
+  errors: [DataUnavailableException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Update a newly added or existing commitment. You can update the commitment group based on a commitment ID and a Bill scenario ID.
  *
  * The `BatchUpdateBillScenarioCommitmentModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:UpdateBillScenarioCommitmentModification` in your policies.
  */
-export const batchUpdateBillScenarioCommitmentModification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchUpdateBillScenarioCommitmentModificationRequest,
-    output: BatchUpdateBillScenarioCommitmentModificationResponse,
-    errors: [
-      ConflictException,
-      DataUnavailableException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const batchUpdateBillScenarioCommitmentModification: (
+  input: BatchUpdateBillScenarioCommitmentModificationRequest,
+) => Effect.Effect<
+  BatchUpdateBillScenarioCommitmentModificationResponse,
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateBillScenarioCommitmentModificationRequest,
+  output: BatchUpdateBillScenarioCommitmentModificationResponse,
+  errors: [
+    ConflictException,
+    DataUnavailableException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Lists the usage modifications associated with a bill scenario.
  */
-export const listBillScenarioUsageModifications =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBillScenarioUsageModifications: {
+  (
     input: ListBillScenarioUsageModificationsRequest,
-    output: ListBillScenarioUsageModificationsResponse,
-    errors: [DataUnavailableException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBillScenarioUsageModificationsResponse,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBillScenarioUsageModificationsRequest,
+  ) => Stream.Stream<
+    ListBillScenarioUsageModificationsResponse,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBillScenarioUsageModificationsRequest,
+  ) => Stream.Stream<
+    BillScenarioUsageModificationItem,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBillScenarioUsageModificationsRequest,
+  output: ListBillScenarioUsageModificationsResponse,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Update a newly added or existing usage lines. You can update the usage amounts, usage hour, and usage group based on a usage ID and a Bill scenario ID.
  *
  * The `BatchUpdateBillScenarioUsageModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:UpdateBillScenarioUsageModification` in your policies.
  */
-export const batchUpdateBillScenarioUsageModification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchUpdateBillScenarioUsageModificationRequest,
-    output: BatchUpdateBillScenarioUsageModificationResponse,
-    errors: [
-      ConflictException,
-      DataUnavailableException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }));
+export const batchUpdateBillScenarioUsageModification: (
+  input: BatchUpdateBillScenarioUsageModificationRequest,
+) => Effect.Effect<
+  BatchUpdateBillScenarioUsageModificationResponse,
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateBillScenarioUsageModificationRequest,
+  output: BatchUpdateBillScenarioUsageModificationResponse,
+  errors: [
+    ConflictException,
+    DataUnavailableException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Lists all workload estimates for the account.
  */
-export const listWorkloadEstimates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWorkloadEstimates: {
+  (
     input: ListWorkloadEstimatesRequest,
-    output: ListWorkloadEstimatesResponse,
-    errors: [DataUnavailableException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWorkloadEstimatesResponse,
+    DataUnavailableException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkloadEstimatesRequest,
+  ) => Stream.Stream<
+    ListWorkloadEstimatesResponse,
+    DataUnavailableException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkloadEstimatesRequest,
+  ) => Stream.Stream<
+    WorkloadEstimateSummary,
+    DataUnavailableException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkloadEstimatesRequest,
+  output: ListWorkloadEstimatesResponse,
+  errors: [DataUnavailableException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the usage associated with a workload estimate.
  */
-export const listWorkloadEstimateUsage =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWorkloadEstimateUsage: {
+  (
     input: ListWorkloadEstimateUsageRequest,
-    output: ListWorkloadEstimateUsageResponse,
-    errors: [DataUnavailableException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWorkloadEstimateUsageResponse,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkloadEstimateUsageRequest,
+  ) => Stream.Stream<
+    ListWorkloadEstimateUsageResponse,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkloadEstimateUsageRequest,
+  ) => Stream.Stream<
+    WorkloadEstimateUsageItem,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkloadEstimateUsageRequest,
+  output: ListWorkloadEstimateUsageResponse,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Create Amazon Web Services service usage that you want to model in a Workload Estimate.
  *
  * The `BatchCreateWorkloadEstimateUsage` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:CreateWorkloadEstimateUsage` in your policies.
  */
-export const batchCreateWorkloadEstimateUsage =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchCreateWorkloadEstimateUsageRequest,
-    output: BatchCreateWorkloadEstimateUsageResponse,
-    errors: [
-      ConflictException,
-      DataUnavailableException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }));
+export const batchCreateWorkloadEstimateUsage: (
+  input: BatchCreateWorkloadEstimateUsageRequest,
+) => Effect.Effect<
+  BatchCreateWorkloadEstimateUsageResponse,
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCreateWorkloadEstimateUsageRequest,
+  output: BatchCreateWorkloadEstimateUsageResponse,
+  errors: [
+    ConflictException,
+    DataUnavailableException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID.
  *
  * The `BatchUpdateWorkloadEstimateUsage` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:UpdateWorkloadEstimateUsage` in your policies.
  */
-export const batchUpdateWorkloadEstimateUsage =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchUpdateWorkloadEstimateUsageRequest,
-    output: BatchUpdateWorkloadEstimateUsageResponse,
-    errors: [
-      DataUnavailableException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }));
+export const batchUpdateWorkloadEstimateUsage: (
+  input: BatchUpdateWorkloadEstimateUsageRequest,
+) => Effect.Effect<
+  BatchUpdateWorkloadEstimateUsageResponse,
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateWorkloadEstimateUsageRequest,
+  output: BatchUpdateWorkloadEstimateUsageResponse,
+  errors: [
+    DataUnavailableException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Lists the line items associated with a bill estimate.
  */
-export const listBillEstimateLineItems =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBillEstimateLineItems: {
+  (
     input: ListBillEstimateLineItemsRequest,
-    output: ListBillEstimateLineItemsResponse,
-    errors: [DataUnavailableException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBillEstimateLineItemsResponse,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBillEstimateLineItemsRequest,
+  ) => Stream.Stream<
+    ListBillEstimateLineItemsResponse,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBillEstimateLineItemsRequest,
+  ) => Stream.Stream<
+    BillEstimateLineItemSummary,
+    DataUnavailableException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBillEstimateLineItemsRequest,
+  output: ListBillEstimateLineItemsResponse,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Create Compute Savings Plans, EC2 Instance Savings Plans, or EC2 Reserved Instances commitments that you want to model in a Bill Scenario.
  *
  * The `BatchCreateBillScenarioCommitmentModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:CreateBillScenarioCommitmentModification` in your policies.
  */
-export const batchCreateBillScenarioCommitmentModification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchCreateBillScenarioCommitmentModificationRequest,
-    output: BatchCreateBillScenarioCommitmentModificationResponse,
-    errors: [
-      ConflictException,
-      DataUnavailableException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const batchCreateBillScenarioCommitmentModification: (
+  input: BatchCreateBillScenarioCommitmentModificationRequest,
+) => Effect.Effect<
+  BatchCreateBillScenarioCommitmentModificationResponse,
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCreateBillScenarioCommitmentModificationRequest,
+  output: BatchCreateBillScenarioCommitmentModificationResponse,
+  errors: [
+    ConflictException,
+    DataUnavailableException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Create Amazon Web Services service usage that you want to model in a Bill Scenario.
  *
  * The `BatchCreateBillScenarioUsageModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:CreateBillScenarioUsageModification` in your policies.
  */
-export const batchCreateBillScenarioUsageModification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchCreateBillScenarioUsageModificationRequest,
-    output: BatchCreateBillScenarioUsageModificationResponse,
-    errors: [
-      ConflictException,
-      DataUnavailableException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }));
+export const batchCreateBillScenarioUsageModification: (
+  input: BatchCreateBillScenarioUsageModificationRequest,
+) => Effect.Effect<
+  BatchCreateBillScenarioUsageModificationResponse,
+  | ConflictException
+  | DataUnavailableException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCreateBillScenarioUsageModificationRequest,
+  output: BatchCreateBillScenarioUsageModificationResponse,
+  errors: [
+    ConflictException,
+    DataUnavailableException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+  ],
+}));

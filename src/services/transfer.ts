@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Transfer",
   serviceShapeName: "TransferService",
@@ -240,6 +248,111 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type HomeDirectory = string;
+export type Policy = string;
+export type Role = string;
+export type ServerId = string;
+export type ExternalId = string;
+export type HostKeyId = string;
+export type SshPublicKeyId = string;
+export type UserName = string;
+export type ExecutionId = string;
+export type WorkflowId = string;
+export type SecurityPolicyName = string;
+export type HostKey = string;
+export type HostKeyDescription = string;
+export type SshPublicKeyBody = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type ConnectorId = string;
+export type TransferId = string;
+export type Arn = string;
+export type CallbackToken = string;
+export type FilePath = string;
+export type MaxItems = number;
+export type SourceIp = string;
+export type UserPassword = string;
+export type TagKey = string;
+export type Description = string;
+export type ProfileId = string;
+export type AgreementId = string;
+export type CertificateBodyType = string;
+export type CertificateChainType = string;
+export type PrivateKeyType = string;
+export type CertificateId = string;
+export type Url = string;
+export type ConnectorSecurityPolicyName = string;
+export type As2Id = string;
+export type Certificate = string;
+export type NullableRole = string;
+export type PostAuthenticationLoginBanner = string;
+export type PreAuthenticationLoginBanner = string;
+export type WebAppId = string;
+export type WebAppTitle = string;
+export type WebAppAccessEndpoint = string;
+export type WorkflowDescription = string;
+export type MapEntry = string;
+export type MapTarget = string;
+export type PosixId = number;
+export type TagValue = string;
+export type MessageSubject = string;
+export type As2ConnectorSecretId = string;
+export type SecretId = string;
+export type SftpConnectorTrustedHostKey = string;
+export type MaxConcurrentConnections = number;
+export type AddressAllocationId = string;
+export type SubnetId = string;
+export type VpcEndpointId = string;
+export type VpcId = string;
+export type SecurityGroupId = string;
+export type DirectoryId = string;
+export type PassiveIp = string;
+export type WebAppUnitCount = number;
+export type Message = string;
+export type ServiceErrorMessage = string;
+export type ListingId = string;
+export type OutputFileName = string;
+export type DeleteId = string;
+export type MoveId = string;
+export type Status = string;
+export type Response = string;
+export type StatusCode = number;
+export type VpcLatticeResourceConfigurationArn = string;
+export type SftpPort = number;
+export type IdentityCenterInstanceArn = string;
+export type WorkflowStepName = string;
+export type SourceFileLocation = string;
+export type CustomStepTarget = string;
+export type CustomStepTimeoutSeconds = number;
+export type HostKeyFingerprint = string;
+export type HostKeyType = string;
+export type SecurityPolicyOption = string;
+export type FailureCode = string;
+export type SftpConnectorHostKey = string;
+export type CertSerial = string;
+export type ServiceManagedEgressIpAddress = string;
+export type ConnectorErrorMessage = string;
+export type UserCount = number;
+export type SshPublicKeyCount = number;
+export type WebAppEndpoint = string;
+export type S3TagKey = string;
+export type S3TagValue = string;
+export type LogGroupName = string;
+export type S3Bucket = string;
+export type S3Key = string;
+export type EfsFileSystemId = string;
+export type EfsPath = string;
+export type S3VersionId = string;
+export type S3Etag = string;
+export type SessionId = string;
+export type StepResultOutputsJson = string;
+export type IdentityCenterApplicationArn = string;
+export type Resource = string;
+export type ResourceType = string;
+export type RetryAfterSeconds = string;
+export type ExecutionErrorMessage = string;
 
 //# Schemas
 export type FilePaths = string[];
@@ -1505,6 +1618,7 @@ export const SftpConnectorConfig = S.suspend(() =>
 ).annotations({
   identifier: "SftpConnectorConfig",
 }) as any as S.Schema<SftpConnectorConfig>;
+export type WebAppUnits = { Provisioned: number };
 export const WebAppUnits = S.Union(S.Struct({ Provisioned: S.Number }));
 export interface CreateAccessRequest {
   HomeDirectory?: string;
@@ -2228,9 +2342,15 @@ export const ListedCertificate = S.suspend(() =>
 }) as any as S.Schema<ListedCertificate>;
 export type ListedCertificates = ListedCertificate[];
 export const ListedCertificates = S.Array(ListedCertificate);
+export type ConnectorEgressConfig = {
+  VpcLattice: ConnectorVpcLatticeEgressConfig;
+};
 export const ConnectorEgressConfig = S.Union(
   S.Struct({ VpcLattice: ConnectorVpcLatticeEgressConfig }),
 );
+export type UpdateConnectorEgressConfig = {
+  VpcLattice: UpdateConnectorVpcLatticeEgressConfig;
+};
 export const UpdateConnectorEgressConfig = S.Union(
   S.Struct({ VpcLattice: UpdateConnectorVpcLatticeEgressConfig }),
 );
@@ -2406,15 +2526,23 @@ export const DescribedWebAppCustomization = S.suspend(() =>
 ).annotations({
   identifier: "DescribedWebAppCustomization",
 }) as any as S.Schema<DescribedWebAppCustomization>;
+export type WebAppIdentityProviderDetails = {
+  IdentityCenterConfig: IdentityCenterConfig;
+};
 export const WebAppIdentityProviderDetails = S.Union(
   S.Struct({ IdentityCenterConfig: IdentityCenterConfig }),
 );
+export type WebAppEndpointDetails = { Vpc: WebAppVpcConfig };
 export const WebAppEndpointDetails = S.Union(
   S.Struct({ Vpc: WebAppVpcConfig }),
 );
+export type UpdateWebAppIdentityProviderDetails = {
+  IdentityCenterConfig: UpdateWebAppIdentityCenterConfig;
+};
 export const UpdateWebAppIdentityProviderDetails = S.Union(
   S.Struct({ IdentityCenterConfig: UpdateWebAppIdentityCenterConfig }),
 );
+export type UpdateWebAppEndpointDetails = { Vpc: UpdateWebAppVpcConfig };
 export const UpdateWebAppEndpointDetails = S.Union(
   S.Struct({ Vpc: UpdateWebAppVpcConfig }),
 );
@@ -3077,12 +3205,19 @@ export const UpdateWebAppResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateWebAppResponse",
 }) as any as S.Schema<UpdateWebAppResponse>;
+export type DescribedConnectorEgressConfig = {
+  VpcLattice: DescribedConnectorVpcLatticeEgressConfig;
+};
 export const DescribedConnectorEgressConfig = S.Union(
   S.Struct({ VpcLattice: DescribedConnectorVpcLatticeEgressConfig }),
 );
+export type DescribedWebAppIdentityProviderDetails = {
+  IdentityCenterConfig: DescribedIdentityCenterConfig;
+};
 export const DescribedWebAppIdentityProviderDetails = S.Union(
   S.Struct({ IdentityCenterConfig: DescribedIdentityCenterConfig }),
 );
+export type DescribedWebAppEndpointDetails = { Vpc: DescribedWebAppVpcConfig };
 export const DescribedWebAppEndpointDetails = S.Union(
   S.Struct({ Vpc: DescribedWebAppVpcConfig }),
 );
@@ -3271,7 +3406,9 @@ export const CreateWorkflowResponse = S.suspend(() =>
 export class InternalServiceError extends S.TaggedError<InternalServiceError>()(
   "InternalServiceError",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { Message: S.optional(S.String) },
@@ -3301,39 +3438,86 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
   "ServiceUnavailableException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ServiceUnavailable", httpResponseCode: 503 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { RetryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
  * Lists the security policies that are attached to your servers and SFTP connectors. For more information about security policies, see Working with security policies for servers or Working with security policies for SFTP connectors.
  */
-export const listSecurityPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSecurityPolicies: {
+  (
     input: ListSecurityPoliciesRequest,
-    output: ListSecurityPoliciesResponse,
-    errors: [
-      InternalServiceError,
-      InvalidNextTokenException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SecurityPolicyNames",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSecurityPoliciesResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecurityPoliciesRequest,
+  ) => Stream.Stream<
+    ListSecurityPoliciesResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecurityPoliciesRequest,
+  ) => Stream.Stream<
+    SecurityPolicyName,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecurityPoliciesRequest,
+  output: ListSecurityPoliciesResponse,
+  errors: [
+    InternalServiceError,
+    InvalidNextTokenException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SecurityPolicyNames",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the user assigned to the specific file transfer protocol-enabled server, as identified by its `ServerId` property.
  *
  * The response from this call returns the properties of the user associated with the `ServerId` value that was specified.
  */
-export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeUser: (
+  input: DescribeUserRequest,
+) => Effect.Effect<
+  DescribeUserResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserRequest,
   output: DescribeUserResponse,
   errors: [
@@ -3348,30 +3532,72 @@ export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
-export const listWebApps = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWebApps: {
+  (
     input: ListWebAppsRequest,
-    output: ListWebAppsResponse,
-    errors: [
-      InternalServiceError,
-      InvalidNextTokenException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "WebApps",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWebAppsResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWebAppsRequest,
+  ) => Stream.Stream<
+    ListWebAppsResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWebAppsRequest,
+  ) => Stream.Stream<
+    ListedWebApp,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWebAppsRequest,
+  output: ListWebAppsResponse,
+  errors: [
+    InternalServiceError,
+    InvalidNextTokenException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "WebApps",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the access that is assigned to the specific file transfer protocol-enabled server, as identified by its `ServerId` property and its `ExternalId`.
  *
  * The response from this call returns the properties of the access that is associated with the `ServerId` value that was specified.
  */
-export const describeAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAccess: (
+  input: DescribeAccessRequest,
+) => Effect.Effect<
+  DescribeAccessResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccessRequest,
   output: DescribeAccessResponse,
   errors: [
@@ -3384,7 +3610,17 @@ export const describeAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the details of the host key that's specified by the `HostKeyId` and `ServerId`.
  */
-export const describeHostKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeHostKey: (
+  input: DescribeHostKeyRequest,
+) => Effect.Effect<
+  DescribeHostKeyResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHostKeyRequest,
   output: DescribeHostKeyResponse,
   errors: [
@@ -3397,44 +3633,95 @@ export const describeHostKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the security policy that is attached to your server or SFTP connector. The response contains a description of the security policy's properties. For more information about security policies, see Working with security policies for servers or Working with security policies for SFTP connectors.
  */
-export const describeSecurityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSecurityPolicyRequest,
-    output: DescribeSecurityPolicyResponse,
-    errors: [
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const describeSecurityPolicy: (
+  input: DescribeSecurityPolicyRequest,
+) => Effect.Effect<
+  DescribeSecurityPolicyResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSecurityPolicyRequest,
+  output: DescribeSecurityPolicyResponse,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Returns real-time updates and detailed information on the status of each individual file being transferred in a specific file transfer operation. You specify the file transfer by providing its `ConnectorId` and its `TransferId`.
  *
  * File transfer results are available up to 7 days after an operation has been requested.
  */
-export const listFileTransferResults =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFileTransferResults: {
+  (
     input: ListFileTransferResultsRequest,
-    output: ListFileTransferResultsResponse,
-    errors: [
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FileTransferResults",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFileTransferResultsResponse,
+    | InternalServiceError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFileTransferResultsRequest,
+  ) => Stream.Stream<
+    ListFileTransferResultsResponse,
+    | InternalServiceError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFileTransferResultsRequest,
+  ) => Stream.Stream<
+    ConnectorFileTransferResult,
+    | InternalServiceError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFileTransferResultsRequest,
+  output: ListFileTransferResultsResponse,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FileTransferResults",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Tests whether your SFTP connector is set up successfully. We highly recommend that you call this operation to test your ability to transfer files between local Amazon Web Services storage and a trading partner's SFTP server.
  */
-export const testConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testConnection: (
+  input: TestConnectionRequest,
+) => Effect.Effect<
+  TestConnectionResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestConnectionRequest,
   output: TestConnectionResponse,
   errors: [
@@ -3447,7 +3734,17 @@ export const testConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the agreement that's identified by the `AgreementId`.
  */
-export const describeAgreement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAgreement: (
+  input: DescribeAgreementRequest,
+) => Effect.Effect<
+  DescribeAgreementResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAgreementRequest,
   output: DescribeAgreementResponse,
   errors: [
@@ -3460,31 +3757,76 @@ export const describeAgreement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the agreements for the server that's identified by the `ServerId` that you supply. If you want to limit the results to a certain number, supply a value for the `MaxResults` parameter. If you ran the command previously and received a value for `NextToken`, you can supply that value to continue listing agreements from where you left off.
  */
-export const listAgreements = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAgreements: {
+  (
     input: ListAgreementsRequest,
-    output: ListAgreementsResponse,
-    errors: [
-      InternalServiceError,
-      InvalidNextTokenException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Agreements",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAgreementsResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAgreementsRequest,
+  ) => Stream.Stream<
+    ListAgreementsResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAgreementsRequest,
+  ) => Stream.Stream<
+    ListedAgreement,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAgreementsRequest,
+  output: ListAgreementsResponse,
+  errors: [
+    InternalServiceError,
+    InvalidNextTokenException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Agreements",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the certificate that's identified by the `CertificateId`.
  *
  * Transfer Family automatically publishes a Amazon CloudWatch metric called `DaysUntilExpiry` for imported certificates. This metric tracks the number of days until the certificate expires based on the `InactiveDate`. The metric is available in the `AWS/Transfer` namespace and includes the `CertificateId` as a dimension.
  */
-export const describeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCertificate: (
+  input: DescribeCertificateRequest,
+) => Effect.Effect<
+  DescribeCertificateResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCertificateRequest,
   output: DescribeCertificateResponse,
   errors: [
@@ -3497,51 +3839,131 @@ export const describeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the current certificates that have been imported into Transfer Family. If you want to limit the results to a certain number, supply a value for the `MaxResults` parameter. If you ran the command previously and received a value for the `NextToken` parameter, you can supply that value to continue listing certificates from where you left off.
  */
-export const listCertificates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCertificates: {
+  (
     input: ListCertificatesRequest,
-    output: ListCertificatesResponse,
-    errors: [
-      InternalServiceError,
-      InvalidNextTokenException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Certificates",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCertificatesResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCertificatesRequest,
+  ) => Stream.Stream<
+    ListCertificatesResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCertificatesRequest,
+  ) => Stream.Stream<
+    ListedCertificate,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCertificatesRequest,
+  output: ListCertificatesResponse,
+  errors: [
+    InternalServiceError,
+    InvalidNextTokenException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Certificates",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the connectors for the specified Region.
  */
-export const listConnectors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listConnectors: {
+  (
     input: ListConnectorsRequest,
-    output: ListConnectorsResponse,
-    errors: [
-      InternalServiceError,
-      InvalidNextTokenException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Connectors",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListConnectorsResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectorsRequest,
+  ) => Stream.Stream<
+    ListConnectorsResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectorsRequest,
+  ) => Stream.Stream<
+    ListedConnector,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectorsRequest,
+  output: ListConnectorsResponse,
+  errors: [
+    InternalServiceError,
+    InvalidNextTokenException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Connectors",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the details of the profile that's specified by the `ProfileId`.
  */
-export const describeProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeProfile: (
+  input: DescribeProfileRequest,
+) => Effect.Effect<
+  DescribeProfileResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProfileRequest,
   output: DescribeProfileResponse,
   errors: [
@@ -3554,31 +3976,76 @@ export const describeProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the profiles for your system. If you want to limit the results to a certain number, supply a value for the `MaxResults` parameter. If you ran the command previously and received a value for `NextToken`, you can supply that value to continue listing profiles from where you left off.
  */
-export const listProfiles = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProfiles: {
+  (
     input: ListProfilesRequest,
-    output: ListProfilesResponse,
-    errors: [
-      InternalServiceError,
-      InvalidNextTokenException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Profiles",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProfilesResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProfilesRequest,
+  ) => Stream.Stream<
+    ListProfilesResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProfilesRequest,
+  ) => Stream.Stream<
+    ListedProfile,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProfilesRequest,
+  output: ListProfilesResponse,
+  errors: [
+    InternalServiceError,
+    InvalidNextTokenException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Profiles",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes a file transfer protocol-enabled server that you specify by passing the `ServerId` parameter.
  *
  * The response contains a description of a server's properties. When you set `EndpointType` to VPC, the response will contain the `EndpointDetails`.
  */
-export const describeServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeServer: (
+  input: DescribeServerRequest,
+) => Effect.Effect<
+  DescribeServerResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeServerRequest,
   output: DescribeServerResponse,
   errors: [
@@ -3591,7 +4058,44 @@ export const describeServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the users for a file transfer protocol-enabled server that you specify by passing the `ServerId` parameter.
  */
-export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUsers: {
+  (
+    input: ListUsersRequest,
+  ): Effect.Effect<
+    ListUsersResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    ListUsersResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    ListedUser,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse,
   errors: [
@@ -3611,23 +4115,42 @@ export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Describes the web app customization object that's identified by `WebAppId`.
  */
-export const describeWebAppCustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeWebAppCustomizationRequest,
-    output: DescribeWebAppCustomizationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeWebAppCustomization: (
+  input: DescribeWebAppCustomizationRequest,
+) => Effect.Effect<
+  DescribeWebAppCustomizationResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeWebAppCustomizationRequest,
+  output: DescribeWebAppCustomizationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the specified workflow.
  */
-export const describeWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeWorkflow: (
+  input: DescribeWorkflowRequest,
+) => Effect.Effect<
+  DescribeWorkflowResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkflowRequest,
   output: DescribeWorkflowResponse,
   errors: [
@@ -3642,20 +4165,30 @@ export const describeWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The `ExecutionId`, `WorkflowId`, and `Token` are passed to the target resource during execution of a custom step of a workflow. You must include those with their callback as well as providing a status.
  */
-export const sendWorkflowStepState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendWorkflowStepStateRequest,
-    output: SendWorkflowStepStateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const sendWorkflowStepState: (
+  input: SendWorkflowStepStateRequest,
+) => Effect.Effect<
+  SendWorkflowStepStateResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendWorkflowStepStateRequest,
+  output: SendWorkflowStepStateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves a list of the contents of a directory from a remote SFTP server. You specify the connector ID, the output path, and the remote directory path. You can also specify the optional `MaxItems` value to control the maximum number of items that are listed from the remote directory. This API returns a list of all files and directories in the remote directory (up to the maximum value), but does not return files or folders in sub-directories. That is, it only returns a list of files and directories one-level deep.
  *
@@ -3673,19 +4206,28 @@ export const sendWorkflowStepState = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - `truncated`: a flag indicating whether the list output contains all of the items contained in the remote directory or not. If your `Truncated` output value is true, you can increase the value provided in the optional `max-items` input attribute to be able to list more items (up to the maximum allowed list size of 10,000 items).
  */
-export const startDirectoryListing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDirectoryListingRequest,
-    output: StartDirectoryListingResponse,
-    errors: [
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const startDirectoryListing: (
+  input: StartDirectoryListingRequest,
+) => Effect.Effect<
+  StartDirectoryListingResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDirectoryListingRequest,
+  output: StartDirectoryListingResponse,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Begins a file transfer between local Amazon Web Services storage and a remote AS2 or SFTP server.
  *
@@ -3697,7 +4239,18 @@ export const startDirectoryListing = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - If you are transferring file to a partner's SFTP server from Amazon Web Services storage, you specify one or more `SendFilePaths` to identify the files you want to transfer, and a `RemoteDirectoryPath` to specify the destination folder.
  */
-export const startFileTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startFileTransfer: (
+  input: StartFileTransferRequest,
+) => Effect.Effect<
+  StartFileTransferResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFileTransferRequest,
   output: StartFileTransferResponse,
   errors: [
@@ -3711,7 +4264,18 @@ export const startFileTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a file or directory on the remote SFTP server.
  */
-export const startRemoteDelete = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startRemoteDelete: (
+  input: StartRemoteDeleteRequest,
+) => Effect.Effect<
+  StartRemoteDeleteResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRemoteDeleteRequest,
   output: StartRemoteDeleteResponse,
   errors: [
@@ -3725,7 +4289,18 @@ export const startRemoteDelete = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Moves or renames a file or directory on the remote SFTP server.
  */
-export const startRemoteMove = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startRemoteMove: (
+  input: StartRemoteMoveRequest,
+) => Effect.Effect<
+  StartRemoteMoveResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRemoteMoveRequest,
   output: StartRemoteMoveResponse,
   errors: [
@@ -3761,22 +4336,41 @@ export const startRemoteMove = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * It is possible your sever is in a different region. You can specify a region by adding the following: `--region region-code`, such as `--region us-east-2` to specify a server in **US East (Ohio)**.
  */
-export const testIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TestIdentityProviderRequest,
-    output: TestIdentityProviderResponse,
-    errors: [
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const testIdentityProvider: (
+  input: TestIdentityProviderRequest,
+) => Effect.Effect<
+  TestIdentityProviderResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestIdentityProviderRequest,
+  output: TestIdentityProviderResponse,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Updates the description for the host key that's specified by the `ServerId` and `HostKeyId` parameters.
  */
-export const updateHostKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateHostKey: (
+  input: UpdateHostKeyRequest,
+) => Effect.Effect<
+  UpdateHostKeyResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHostKeyRequest,
   output: UpdateHostKeyResponse,
   errors: [
@@ -3810,7 +4404,17 @@ export const updateHostKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - **Frequency:** Published daily
  */
-export const importCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importCertificate: (
+  input: ImportCertificateRequest,
+) => Effect.Effect<
+  ImportCertificateResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportCertificateRequest,
   output: ImportCertificateResponse,
   errors: [
@@ -3823,7 +4427,18 @@ export const importCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the active and inactive dates for a certificate.
  */
-export const updateCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCertificate: (
+  input: UpdateCertificateRequest,
+) => Effect.Effect<
+  UpdateCertificateResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCertificateRequest,
   output: UpdateCertificateResponse,
   errors: [
@@ -3837,7 +4452,18 @@ export const updateCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates the local or partner profile to use for AS2 transfers.
  */
-export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProfile: (
+  input: CreateProfileRequest,
+) => Effect.Effect<
+  CreateProfileResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProfileRequest,
   output: CreateProfileResponse,
   errors: [
@@ -3851,7 +4477,18 @@ export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates some of the parameters for an existing profile. Provide the `ProfileId` for the profile that you want to update, along with the new values for the parameters to update.
  */
-export const updateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProfile: (
+  input: UpdateProfileRequest,
+) => Effect.Effect<
+  UpdateProfileResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProfileRequest,
   output: UpdateProfileResponse,
   errors: [
@@ -3873,7 +4510,18 @@ export const updateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * ` aws transfer update-user --server-id <server-id> --user-name admin-user --home-directory-type LOGICAL --home-directory-mappings "[{\"Entry\":\"/\", \"Target\":\"/test/admin-user\"}]"`
  */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUser: (
+  input: UpdateUserRequest,
+) => Effect.Effect<
+  UpdateUserResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,
   output: UpdateUserResponse,
   errors: [
@@ -3887,7 +4535,18 @@ export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the host key that's specified in the `HostKeyId` parameter.
  */
-export const deleteHostKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteHostKey: (
+  input: DeleteHostKeyRequest,
+) => Effect.Effect<
+  DeleteHostKeyResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHostKeyRequest,
   output: DeleteHostKeyResponse,
   errors: [
@@ -3901,7 +4560,18 @@ export const deleteHostKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a user's Secure Shell (SSH) public key.
  */
-export const deleteSshPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSshPublicKey: (
+  input: DeleteSshPublicKeyRequest,
+) => Effect.Effect<
+  DeleteSshPublicKeyResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSshPublicKeyRequest,
   output: DeleteSshPublicKeyResponse,
   errors: [
@@ -3919,7 +4589,18 @@ export const deleteSshPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * No response is returned from this call.
  */
-export const startServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startServer: (
+  input: StartServerRequest,
+) => Effect.Effect<
+  StartServerResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartServerRequest,
   output: StartServerResponse,
   errors: [
@@ -3939,7 +4620,18 @@ export const startServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * No response is returned from this call.
  */
-export const stopServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopServer: (
+  input: StopServerRequest,
+) => Effect.Effect<
+  StopServerResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopServerRequest,
   output: StopServerResponse,
   errors: [
@@ -3955,7 +4647,17 @@ export const stopServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * There is no response returned from this call.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3970,7 +4672,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * No response is returned from this call.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3983,7 +4695,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete the agreement that's specified in the provided `AgreementId`.
  */
-export const deleteAgreement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAgreement: (
+  input: DeleteAgreementRequest,
+) => Effect.Effect<
+  DeleteAgreementResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAgreementRequest,
   output: DeleteAgreementResponse,
   errors: [
@@ -3996,7 +4718,17 @@ export const deleteAgreement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the certificate that's specified in the `CertificateId` parameter.
  */
-export const deleteCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCertificate: (
+  input: DeleteCertificateRequest,
+) => Effect.Effect<
+  DeleteCertificateResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCertificateRequest,
   output: DeleteCertificateResponse,
   errors: [
@@ -4009,7 +4741,17 @@ export const deleteCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the connector that's specified in the provided `ConnectorId`.
  */
-export const deleteConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConnector: (
+  input: DeleteConnectorRequest,
+) => Effect.Effect<
+  DeleteConnectorResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectorRequest,
   output: DeleteConnectorResponse,
   errors: [
@@ -4022,7 +4764,17 @@ export const deleteConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the profile that's specified in the `ProfileId` parameter.
  */
-export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProfile: (
+  input: DeleteProfileRequest,
+) => Effect.Effect<
+  DeleteProfileResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProfileRequest,
   output: DeleteProfileResponse,
   errors: [
@@ -4039,7 +4791,17 @@ export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you delete a user from a server, the user's information is lost.
  */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUser: (
+  input: DeleteUserRequest,
+) => Effect.Effect<
+  DeleteUserResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
   output: DeleteUserResponse,
   errors: [
@@ -4054,7 +4816,18 @@ export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * No response returns from this operation.
  */
-export const deleteServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteServer: (
+  input: DeleteServerRequest,
+) => Effect.Effect<
+  DeleteServerResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServerRequest,
   output: DeleteServerResponse,
   errors: [
@@ -4068,7 +4841,18 @@ export const deleteServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified web app.
  */
-export const deleteWebApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWebApp: (
+  input: DeleteWebAppRequest,
+) => Effect.Effect<
+  DeleteWebAppResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWebAppRequest,
   output: DeleteWebAppResponse,
   errors: [
@@ -4082,7 +4866,18 @@ export const deleteWebApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified workflow.
  */
-export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkflow: (
+  input: DeleteWorkflowRequest,
+) => Effect.Effect<
+  DeleteWorkflowResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkflowRequest,
   output: DeleteWorkflowResponse,
   errors: [
@@ -4096,53 +4891,134 @@ export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the details for all the accesses you have on your server.
  */
-export const listAccesses = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAccesses: {
+  (
     input: ListAccessesRequest,
-    output: ListAccessesResponse,
-    errors: [
-      InternalServiceError,
-      InvalidNextTokenException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Accesses",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAccessesResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccessesRequest,
+  ) => Stream.Stream<
+    ListAccessesResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccessesRequest,
+  ) => Stream.Stream<
+    ListedAccess,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccessesRequest,
+  output: ListAccessesResponse,
+  errors: [
+    InternalServiceError,
+    InvalidNextTokenException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Accesses",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all in-progress executions for the specified workflow.
  *
  * If the specified workflow ID cannot be found, `ListExecutions` returns a `ResourceNotFound` exception.
  */
-export const listExecutions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listExecutions: {
+  (
     input: ListExecutionsRequest,
-    output: ListExecutionsResponse,
-    errors: [
-      InternalServiceError,
-      InvalidNextTokenException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Executions",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListExecutionsResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExecutionsRequest,
+  ) => Stream.Stream<
+    ListExecutionsResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExecutionsRequest,
+  ) => Stream.Stream<
+    ListedExecution,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExecutionsRequest,
+  output: ListExecutionsResponse,
+  errors: [
+    InternalServiceError,
+    InvalidNextTokenException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Executions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of host keys for the server that's specified by the `ServerId` parameter.
  */
-export const listHostKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listHostKeys: (
+  input: ListHostKeysRequest,
+) => Effect.Effect<
+  ListHostKeysResponse,
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListHostKeysRequest,
   output: ListHostKeysResponse,
   errors: [
@@ -4156,37 +5032,57 @@ export const listHostKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Assigns new customization properties to a web app. You can modify the icon file, logo file, and title.
  */
-export const updateWebAppCustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWebAppCustomizationRequest,
-    output: UpdateWebAppCustomizationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateWebAppCustomization: (
+  input: UpdateWebAppCustomizationRequest,
+) => Effect.Effect<
+  UpdateWebAppCustomizationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWebAppCustomizationRequest,
+  output: UpdateWebAppCustomizationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes the `WebAppCustomization` object that corresponds to the web app ID specified.
  */
-export const deleteWebAppCustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWebAppCustomizationRequest,
-    output: DeleteWebAppCustomizationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteWebAppCustomization: (
+  input: DeleteWebAppCustomizationRequest,
+) => Effect.Effect<
+  DeleteWebAppCustomizationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWebAppCustomizationRequest,
+  output: DeleteWebAppCustomizationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relationship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, certificate, and other attributes.
  *
@@ -4194,7 +5090,19 @@ export const deleteWebAppCustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Specify *either* `BaseDirectory` or `CustomDirectories`, but not both. Specifying both causes the command to fail.
  */
-export const createAgreement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAgreement: (
+  input: CreateAgreementRequest,
+) => Effect.Effect<
+  CreateAgreementResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAgreementRequest,
   output: CreateAgreementResponse,
   errors: [
@@ -4211,7 +5119,21 @@ export const createAgreement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The `UpdateServer` call returns the `ServerId` of the server you updated.
  */
-export const updateServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateServer: (
+  input: UpdateServerRequest,
+) => Effect.Effect<
+  UpdateServerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServerRequest,
   output: UpdateServerResponse,
   errors: [
@@ -4230,7 +5152,19 @@ export const updateServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The response returns the `UserName` value, the `ServerId` value, and the name of the `SshPublicKeyId`.
  */
-export const importSshPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importSshPublicKey: (
+  input: ImportSshPublicKeyRequest,
+) => Effect.Effect<
+  ImportSshPublicKeyResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportSshPublicKeyRequest,
   output: ImportSshPublicKeyResponse,
   errors: [
@@ -4245,7 +5179,19 @@ export const importSshPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Allows you to update parameters for the access specified in the `ServerID` and `ExternalID` parameters.
  */
-export const updateAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAccess: (
+  input: UpdateAccessRequest,
+) => Effect.Effect<
+  UpdateAccessResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccessRequest,
   output: UpdateAccessResponse,
   errors: [
@@ -4264,7 +5210,19 @@ export const updateAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you update an agreement from using base directory to custom directories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, the custom directories are no longer used.
  */
-export const updateAgreement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAgreement: (
+  input: UpdateAgreementRequest,
+) => Effect.Effect<
+  UpdateAgreementResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAgreementRequest,
   output: UpdateAgreementResponse,
   errors: [
@@ -4279,7 +5237,18 @@ export const updateAgreement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a user and associates them with an existing file transfer protocol-enabled server. You can only create and associate users with servers that have the `IdentityProviderType` set to `SERVICE_MANAGED`. Using parameters for `CreateUser`, you can specify the user name, set the home directory, store the user's public key, and assign the user's Identity and Access Management (IAM) role. You can also optionally add a session policy, and assign metadata with tags that can be used to group and search for users.
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUser: (
+  input: CreateUserRequest,
+) => Effect.Effect<
+  CreateUserResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
   output: CreateUserResponse,
   errors: [
@@ -4293,7 +5262,18 @@ export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Used by administrators to choose which groups in the directory should have access to upload and download files over the enabled protocols using Transfer Family. For example, a Microsoft Active Directory might contain 50,000 users, but only a small fraction might need the ability to transfer files to the server. An administrator can use `CreateAccess` to limit the access to the correct set of users who need this ability.
  */
-export const createAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAccess: (
+  input: CreateAccessRequest,
+) => Effect.Effect<
+  CreateAccessResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessRequest,
   output: CreateAccessResponse,
   errors: [
@@ -4307,69 +5287,176 @@ export const createAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the file transfer protocol-enabled servers that are associated with your Amazon Web Services account.
  */
-export const listServers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listServers: {
+  (
     input: ListServersRequest,
-    output: ListServersResponse,
-    errors: [
-      InternalServiceError,
-      InvalidNextTokenException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Servers",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListServersResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServersRequest,
+  ) => Stream.Stream<
+    ListServersResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServersRequest,
+  ) => Stream.Stream<
+    ListedServer,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServersRequest,
+  output: ListServersResponse,
+  errors: [
+    InternalServiceError,
+    InvalidNextTokenException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Servers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all workflows associated with your Amazon Web Services account for your current region.
  */
-export const listWorkflows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkflows: {
+  (
     input: ListWorkflowsRequest,
-    output: ListWorkflowsResponse,
-    errors: [
-      InternalServiceError,
-      InvalidNextTokenException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Workflows",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkflowsResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowsRequest,
+  ) => Stream.Stream<
+    ListWorkflowsResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowsRequest,
+  ) => Stream.Stream<
+    ListedWorkflow,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowsRequest,
+  output: ListWorkflowsResponse,
+  errors: [
+    InternalServiceError,
+    InvalidNextTokenException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Workflows",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceRequest,
-    output: ListTagsForResourceResponse,
-    errors: [
-      InternalServiceError,
-      InvalidNextTokenException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Tags",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    ListTagsForResourceResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    Tag,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServiceError,
+    InvalidNextTokenException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Tags",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Allows you to delete the access specified in the `ServerID` and `ExternalID` parameters.
  */
-export const deleteAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAccess: (
+  input: DeleteAccessRequest,
+) => Effect.Effect<
+  DeleteAccessResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessRequest,
   output: DeleteAccessResponse,
   errors: [
@@ -4382,7 +5469,19 @@ export const deleteAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds a host key to the server that's specified by the `ServerId` parameter.
  */
-export const importHostKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importHostKey: (
+  input: ImportHostKeyRequest,
+) => Effect.Effect<
+  ImportHostKeyResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportHostKeyRequest,
   output: ImportHostKeyResponse,
   errors: [
@@ -4399,7 +5498,19 @@ export const importHostKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must specify exactly one configuration object: either for AS2 (`As2Config`) or SFTP (`SftpConfig`).
  */
-export const createConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConnector: (
+  input: CreateConnectorRequest,
+) => Effect.Effect<
+  CreateConnectorResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectorRequest,
   output: CreateConnectorResponse,
   errors: [
@@ -4414,7 +5525,19 @@ export const createConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates some of the parameters for an existing connector. Provide the `ConnectorId` for the connector that you want to update, along with the new values for the parameters to update.
  */
-export const updateConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateConnector: (
+  input: UpdateConnectorRequest,
+) => Effect.Effect<
+  UpdateConnectorResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectorRequest,
   output: UpdateConnectorResponse,
   errors: [
@@ -4429,7 +5552,20 @@ export const updateConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Instantiates an auto-scaling virtual server based on the selected file transfer protocol in Amazon Web Services. When you make updates to your file transfer protocol-enabled server or when you work with users, use the service-generated `ServerId` property that is assigned to the newly created server.
  */
-export const createServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createServer: (
+  input: CreateServerRequest,
+) => Effect.Effect<
+  CreateServerResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServerRequest,
   output: CreateServerResponse,
   errors: [
@@ -4447,7 +5583,18 @@ export const createServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
-export const createWebApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWebApp: (
+  input: CreateWebAppRequest,
+) => Effect.Effect<
+  CreateWebAppResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWebAppRequest,
   output: CreateWebAppResponse,
   errors: [
@@ -4463,7 +5610,19 @@ export const createWebApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
-export const updateWebApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWebApp: (
+  input: UpdateWebAppRequest,
+) => Effect.Effect<
+  UpdateWebAppResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWebAppRequest,
   output: UpdateWebAppResponse,
   errors: [
@@ -4478,7 +5637,17 @@ export const updateWebApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the connector that's identified by the `ConnectorId.`
  */
-export const describeConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeConnector: (
+  input: DescribeConnectorRequest,
+) => Effect.Effect<
+  DescribeConnectorResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConnectorRequest,
   output: DescribeConnectorResponse,
   errors: [
@@ -4493,7 +5662,18 @@ export const describeConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
-export const describeWebApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeWebApp: (
+  input: DescribeWebAppRequest,
+) => Effect.Effect<
+  DescribeWebAppResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWebAppRequest,
   output: DescribeWebAppResponse,
   errors: [
@@ -4511,7 +5691,17 @@ export const describeWebApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you provide an ID for an execution that is not in progress, or if the execution doesn't match the specified workflow ID, you receive a `ResourceNotFound` exception.
  */
-export const describeExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeExecution: (
+  input: DescribeExecutionRequest,
+) => Effect.Effect<
+  DescribeExecutionResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExecutionRequest,
   output: DescribeExecutionResponse,
   errors: [
@@ -4524,7 +5714,19 @@ export const describeExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Allows you to create a workflow with specified steps and step details the workflow invokes after file transfer completes. After creating a workflow, you can associate the workflow created with any transfer servers by specifying the `workflow-details` field in `CreateServer` and `UpdateServer` operations.
  */
-export const createWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkflow: (
+  input: CreateWorkflowRequest,
+) => Effect.Effect<
+  CreateWorkflowResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkflowRequest,
   output: CreateWorkflowResponse,
   errors: [

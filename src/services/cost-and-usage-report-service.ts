@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Cost and Usage Report Service",
   serviceShapeName: "AWSOrigamiServiceGatewayService",
@@ -241,6 +249,19 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type ReportName = string;
+export type MaxResults = number;
+export type GenericString = string;
+export type TagKey = string;
+export type S3Bucket = string;
+export type S3Prefix = string;
+export type BillingViewArn = string;
+export type TagValue = string;
+export type DeleteResponseMessage = string;
+export type ErrorMessage = string;
+export type LastDelivery = string;
+
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
@@ -459,32 +480,66 @@ export class ReportLimitReachedException extends S.TaggedError<ReportLimitReache
 /**
  * Lists the Amazon Web Services Cost and Usage Report available to this account.
  */
-export const describeReportDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeReportDefinitions: {
+  (
     input: DescribeReportDefinitionsRequest,
-    output: DescribeReportDefinitionsResponse,
-    errors: [InternalErrorException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeReportDefinitionsResponse,
+    InternalErrorException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeReportDefinitionsRequest,
+  ) => Stream.Stream<
+    DescribeReportDefinitionsResponse,
+    InternalErrorException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeReportDefinitionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalErrorException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeReportDefinitionsRequest,
+  output: DescribeReportDefinitionsResponse,
+  errors: [InternalErrorException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes the specified report. Any tags associated with the report are also
  * deleted.
  */
-export const deleteReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteReportDefinitionRequest,
-    output: DeleteReportDefinitionResponse,
-    errors: [InternalErrorException, ValidationException],
-  }),
-);
+export const deleteReportDefinition: (
+  input: DeleteReportDefinitionRequest,
+) => Effect.Effect<
+  DeleteReportDefinitionResponse,
+  InternalErrorException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReportDefinitionRequest,
+  output: DeleteReportDefinitionResponse,
+  errors: [InternalErrorException, ValidationException],
+}));
 /**
  * Disassociates a set of tags from a report definition.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalErrorException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -496,7 +551,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags associated with the specified report definition.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalErrorException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -508,17 +572,30 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Allows you to programmatically update your report preferences.
  */
-export const modifyReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyReportDefinitionRequest,
-    output: ModifyReportDefinitionResponse,
-    errors: [InternalErrorException, ValidationException],
-  }),
-);
+export const modifyReportDefinition: (
+  input: ModifyReportDefinitionRequest,
+) => Effect.Effect<
+  ModifyReportDefinitionResponse,
+  InternalErrorException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyReportDefinitionRequest,
+  output: ModifyReportDefinitionResponse,
+  errors: [InternalErrorException, ValidationException],
+}));
 /**
  * Associates a set of tags with a report definition.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalErrorException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -530,7 +607,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new report using the description that you provide.
  */
-export const putReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putReportDefinition: (
+  input: PutReportDefinitionRequest,
+) => Effect.Effect<
+  PutReportDefinitionResponse,
+  | DuplicateReportNameException
+  | InternalErrorException
+  | ReportLimitReachedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutReportDefinitionRequest,
   output: PutReportDefinitionResponse,
   errors: [

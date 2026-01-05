@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://dynamodb.amazonaws.com/doc/2012-08-10/");
 const svc = T.AwsApiService({
   sdkId: "DynamoDB",
@@ -1046,6 +1054,92 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type TableArn = string;
+export type BackupName = string;
+export type TableName = string;
+export type ResourcePolicy = string;
+export type BackupArn = string;
+export type ConditionExpression = string;
+export type ResourceArnString = string;
+export type PolicyRevisionId = string;
+export type IndexName = string;
+export type ExportArn = string;
+export type ImportArn = string;
+export type PositiveLongObject = number;
+export type StreamArn = string;
+export type PartiQLStatement = string;
+export type PartiQLNextToken = string;
+export type PositiveIntegerObject = number;
+export type ClientRequestToken = string;
+export type ClientToken = string;
+export type S3Bucket = string;
+export type S3BucketOwner = string;
+export type S3Prefix = string;
+export type S3SseKmsKeyId = string;
+export type AttributeName = string;
+export type ProjectionExpression = string;
+export type BackupsInputLimit = number;
+export type NextTokenString = string;
+export type ListContributorInsightsLimit = number;
+export type ListExportsMaxLimit = number;
+export type ExportNextToken = string;
+export type RegionName = string;
+export type ListImportsMaxLimit = number;
+export type ImportNextToken = string;
+export type ListTablesInputLimit = number;
+export type KeyExpression = string;
+export type ScanTotalSegments = number;
+export type ScanSegment = number;
+export type TagKeyString = string;
+export type UpdateExpression = string;
+export type KeySchemaAttributeName = string;
+export type KMSMasterKeyId = string;
+export type TagValueString = string;
+export type LongObject = number;
+export type ExpressionAttributeNameVariable = string;
+export type ExpressionAttributeValueVariable = string;
+export type Long = number;
+export type StringAttributeValue = string;
+export type NumberAttributeValue = string;
+export type RecoveryPeriodInDays = number;
+export type AutoScalingRoleArn = string;
+export type TimeToLiveAttributeName = string;
+export type ContributorInsightsRule = string;
+export type ErrorMessage = string;
+export type Integer = number;
+export type NonKeyAttributeName = string;
+export type CsvDelimiter = string;
+export type CsvHeader = string;
+export type AutoScalingPolicyName = string;
+export type BackupSizeBytes = number;
+export type TableId = string;
+export type ExceptionName = string;
+export type ExceptionDescription = string;
+export type ExportManifest = string;
+export type FailureCode = string;
+export type FailureMessage = string;
+export type BilledSizeBytes = number;
+export type ItemCount = number;
+export type GlobalTableArnString = string;
+export type NonNegativeLongObject = number;
+export type ErrorCount = number;
+export type CloudWatchLogGroupArn = string;
+export type ProcessedItemCount = number;
+export type ImportedItemCount = number;
+export type ConsumedCapacityUnits = number;
+export type IntegerObject = number;
+export type DoubleObject = number;
+export type ReplicaStatusDescription = string;
+export type ReplicaStatusPercentProgress = string;
+export type KMSMasterKeyArn = string;
+export type ArchivalReason = string;
+export type ItemCollectionSizeEstimateBound = number;
+export type Reason = string;
+export type Resource = string;
+export type AvailabilityErrorMessage = string;
+export type Code = string;
 
 //# Schemas
 export interface DescribeEndpointsRequest {}
@@ -5395,7 +5489,13 @@ export class TransactionInProgressException extends S.TaggedError<TransactionInP
  * Returns the regional endpoint information. For more information on policy permissions,
  * please see Internetwork traffic privacy.
  */
-export const describeEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeEndpoints: (
+  input: DescribeEndpointsRequest,
+) => Effect.Effect<
+  DescribeEndpointsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEndpointsRequest,
   output: DescribeEndpointsResponse,
   errors: [],
@@ -5465,7 +5565,13 @@ export const describeEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The `DescribeLimits` Request element has no content.
  */
-export const describeLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeLimits: (
+  input: DescribeLimitsInput,
+) => Effect.Effect<
+  DescribeLimitsOutput,
+  InternalServerError | InvalidEndpointException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLimitsInput,
   output: DescribeLimitsOutput,
   errors: [InternalServerError, InvalidEndpointException],
@@ -5486,7 +5592,13 @@ export const describeLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Backup, use the Amazon Web Services Backup
  * list API.
  */
-export const listBackups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listBackups: (
+  input: ListBackupsInput,
+) => Effect.Effect<
+  ListBackupsOutput,
+  InternalServerError | InvalidEndpointException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListBackupsInput,
   output: ListBackupsOutput,
   errors: [InternalServerError, InvalidEndpointException],
@@ -5498,7 +5610,13 @@ export const listBackups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
-export const listGlobalTables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listGlobalTables: (
+  input: ListGlobalTablesInput,
+) => Effect.Effect<
+  ListGlobalTablesOutput,
+  InternalServerError | InvalidEndpointException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListGlobalTablesInput,
   output: ListGlobalTablesOutput,
   errors: [InternalServerError, InvalidEndpointException],
@@ -5512,13 +5630,17 @@ export const listGlobalTables = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * customer managed key, you should not enable CloudWatch Contributor Insights for DynamoDB
  * for this table.
  */
-export const updateContributorInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContributorInsightsInput,
-    output: UpdateContributorInsightsOutput,
-    errors: [InternalServerError, ResourceNotFoundException],
-  }),
-);
+export const updateContributorInsights: (
+  input: UpdateContributorInsightsInput,
+) => Effect.Effect<
+  UpdateContributorInsightsOutput,
+  InternalServerError | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContributorInsightsInput,
+  output: UpdateContributorInsightsOutput,
+  errors: [InternalServerError, ResourceNotFoundException],
+}));
 /**
  * Returns information about the table, including the current status of the table, when
  * it was created, the primary key schema, and any indexes on the table.
@@ -5530,7 +5652,16 @@ export const updateContributorInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * for your table might not be available at that moment. Wait for a few seconds, and
  * then try the `DescribeTable` request again.
  */
-export const describeTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTable: (
+  input: DescribeTableInput,
+) => Effect.Effect<
+  DescribeTableOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTableInput,
   output: DescribeTableOutput,
   errors: [
@@ -5544,7 +5675,29 @@ export const describeTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * output from `ListTables` is paginated, with each page returning a maximum of
  * 100 table names.
  */
-export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTables: {
+  (
+    input: ListTablesInput,
+  ): Effect.Effect<
+    ListTablesOutput,
+    InternalServerError | InvalidEndpointException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTablesInput,
+  ) => Stream.Stream<
+    ListTablesOutput,
+    InternalServerError | InvalidEndpointException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTablesInput,
+  ) => Stream.Stream<
+    TableName,
+    InternalServerError | InvalidEndpointException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTablesInput,
   output: ListTablesOutput,
   errors: [InternalServerError, InvalidEndpointException],
@@ -5562,7 +5715,16 @@ export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * For an overview on tagging DynamoDB resources, see Tagging for DynamoDB
  * in the *Amazon DynamoDB Developer Guide*.
  */
-export const listTagsOfResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsOfResource: (
+  input: ListTagsOfResourceInput,
+) => Effect.Effect<
+  ListTagsOfResourceOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsOfResourceInput,
   output: ListTagsOfResourceOutput,
   errors: [
@@ -5577,7 +5739,16 @@ export const listTagsOfResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can call `DescribeBackup` at a maximum rate of 10 times per
  * second.
  */
-export const describeBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeBackup: (
+  input: DescribeBackupInput,
+) => Effect.Effect<
+  DescribeBackupOutput,
+  | BackupNotFoundException
+  | InternalServerError
+  | InvalidEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBackupInput,
   output: DescribeBackupOutput,
   errors: [
@@ -5589,31 +5760,52 @@ export const describeBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the status of Kinesis streaming.
  */
-export const describeKinesisStreamingDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeKinesisStreamingDestinationInput,
-    output: DescribeKinesisStreamingDestinationOutput,
-    errors: [
-      InternalServerError,
-      InvalidEndpointException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const describeKinesisStreamingDestination: (
+  input: DescribeKinesisStreamingDestinationInput,
+) => Effect.Effect<
+  DescribeKinesisStreamingDestinationOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeKinesisStreamingDestinationInput,
+  output: DescribeKinesisStreamingDestinationOutput,
+  errors: [
+    InternalServerError,
+    InvalidEndpointException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns information about contributor insights for a given table or global secondary
  * index.
  */
-export const describeContributorInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeContributorInsightsInput,
-    output: DescribeContributorInsightsOutput,
-    errors: [InternalServerError, ResourceNotFoundException],
-  }),
-);
+export const describeContributorInsights: (
+  input: DescribeContributorInsightsInput,
+) => Effect.Effect<
+  DescribeContributorInsightsOutput,
+  InternalServerError | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeContributorInsightsInput,
+  output: DescribeContributorInsightsOutput,
+  errors: [InternalServerError, ResourceNotFoundException],
+}));
 /**
  * Gives a description of the Time to Live (TTL) status on the specified table.
  */
-export const describeTimeToLive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTimeToLive: (
+  input: DescribeTimeToLiveInput,
+) => Effect.Effect<
+  DescribeTimeToLiveOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTimeToLiveInput,
   output: DescribeTimeToLiveOutput,
   errors: [
@@ -5626,17 +5818,38 @@ export const describeTimeToLive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns a list of ContributorInsightsSummary for a table and all its global secondary
  * indexes.
  */
-export const listContributorInsights =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listContributorInsights: {
+  (
     input: ListContributorInsightsInput,
-    output: ListContributorInsightsOutput,
-    errors: [InternalServerError, ResourceNotFoundException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListContributorInsightsOutput,
+    InternalServerError | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContributorInsightsInput,
+  ) => Stream.Stream<
+    ListContributorInsightsOutput,
+    InternalServerError | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContributorInsightsInput,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerError | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContributorInsightsInput,
+  output: ListContributorInsightsOutput,
+  errors: [InternalServerError, ResourceNotFoundException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about the specified global table.
  *
@@ -5644,7 +5857,16 @@ export const listContributorInsights =
  *
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
-export const describeGlobalTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeGlobalTable: (
+  input: DescribeGlobalTableInput,
+) => Effect.Effect<
+  DescribeGlobalTableOutput,
+  | GlobalTableNotFoundException
+  | InternalServerError
+  | InvalidEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGlobalTableInput,
   output: DescribeGlobalTableOutput,
   errors: [
@@ -5656,7 +5878,13 @@ export const describeGlobalTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Represents the properties of the import.
  */
-export const describeImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeImport: (
+  input: DescribeImportInput,
+) => Effect.Effect<
+  DescribeImportOutput,
+  ImportNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeImportInput,
   output: DescribeImportOutput,
   errors: [ImportNotFoundException],
@@ -5664,18 +5892,38 @@ export const describeImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists completed exports within the past 90 days.
  */
-export const listExports = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listExports: {
+  (
     input: ListExportsInput,
-    output: ListExportsOutput,
-    errors: [InternalServerError, LimitExceededException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListExportsOutput,
+    InternalServerError | LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExportsInput,
+  ) => Stream.Stream<
+    ListExportsOutput,
+    InternalServerError | LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExportsInput,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerError | LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExportsInput,
+  output: ListExportsOutput,
+  errors: [InternalServerError, LimitExceededException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the resource-based policy document attached to the resource, which can be a
  * table or stream, in JSON format.
@@ -5711,7 +5959,17 @@ export const listExports = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * Policies that you attach while creating a table using the `CreateTable`
  * request will always be applied to all requests for that table.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyInput,
+) => Effect.Effect<
+  GetResourcePolicyOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | PolicyNotFoundException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyInput,
   output: GetResourcePolicyOutput,
   errors: [
@@ -5724,22 +5982,51 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists completed imports within the past 90 days.
  */
-export const listImports = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listImports: {
+  (
     input: ListImportsInput,
-    output: ListImportsOutput,
-    errors: [LimitExceededException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "PageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListImportsOutput,
+    LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImportsInput,
+  ) => Stream.Stream<
+    ListImportsOutput,
+    LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImportsInput,
+  ) => Stream.Stream<
+    unknown,
+    LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImportsInput,
+  output: ListImportsOutput,
+  errors: [LimitExceededException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Describes an existing table export.
  */
-export const describeExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeExport: (
+  input: DescribeExportInput,
+) => Effect.Effect<
+  DescribeExportOutput,
+  | ExportNotFoundException
+  | InternalServerError
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExportInput,
   output: DescribeExportOutput,
   errors: [
@@ -5754,7 +6041,18 @@ export const describeExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can call `DeleteBackup` at a maximum rate of 10 times per
  * second.
  */
-export const deleteBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBackup: (
+  input: DeleteBackupInput,
+) => Effect.Effect<
+  DeleteBackupOutput,
+  | BackupInUseException
+  | BackupNotFoundException
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBackupInput,
   output: DeleteBackupOutput,
   errors: [
@@ -5782,40 +6080,61 @@ export const deleteBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can call `DescribeContinuousBackups` at a maximum rate of 10 times per
  * second.
  */
-export const describeContinuousBackups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeContinuousBackupsInput,
-    output: DescribeContinuousBackupsOutput,
-    errors: [
-      InternalServerError,
-      InvalidEndpointException,
-      TableNotFoundException,
-    ],
-  }),
-);
+export const describeContinuousBackups: (
+  input: DescribeContinuousBackupsInput,
+) => Effect.Effect<
+  DescribeContinuousBackupsOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | TableNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeContinuousBackupsInput,
+  output: DescribeContinuousBackupsOutput,
+  errors: [
+    InternalServerError,
+    InvalidEndpointException,
+    TableNotFoundException,
+  ],
+}));
 /**
  * Describes auto scaling settings across replicas of the global table at once.
  */
-export const describeTableReplicaAutoScaling =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTableReplicaAutoScalingInput,
-    output: DescribeTableReplicaAutoScalingOutput,
-    errors: [InternalServerError, ResourceNotFoundException],
-  }));
+export const describeTableReplicaAutoScaling: (
+  input: DescribeTableReplicaAutoScalingInput,
+) => Effect.Effect<
+  DescribeTableReplicaAutoScalingOutput,
+  InternalServerError | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTableReplicaAutoScalingInput,
+  output: DescribeTableReplicaAutoScalingOutput,
+  errors: [InternalServerError, ResourceNotFoundException],
+}));
 /**
  * Updates auto scaling settings on your global tables at once.
  */
-export const updateTableReplicaAutoScaling =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateTableReplicaAutoScalingInput,
-    output: UpdateTableReplicaAutoScalingOutput,
-    errors: [
-      InternalServerError,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const updateTableReplicaAutoScaling: (
+  input: UpdateTableReplicaAutoScalingInput,
+) => Effect.Effect<
+  UpdateTableReplicaAutoScalingOutput,
+  | InternalServerError
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTableReplicaAutoScalingInput,
+  output: UpdateTableReplicaAutoScalingOutput,
+  errors: [
+    InternalServerError,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * `UpdateContinuousBackups` enables or disables point in time recovery for
  * the specified table. A successful `UpdateContinuousBackups` call returns the
@@ -5831,18 +6150,26 @@ export const updateTableReplicaAutoScaling =
  * You can restore your table to any point in time in the last 35 days. You can set the
  * `RecoveryPeriodInDays` to any value between 1 and 35 days.
  */
-export const updateContinuousBackups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContinuousBackupsInput,
-    output: UpdateContinuousBackupsOutput,
-    errors: [
-      ContinuousBackupsUnavailableException,
-      InternalServerError,
-      InvalidEndpointException,
-      TableNotFoundException,
-    ],
-  }),
-);
+export const updateContinuousBackups: (
+  input: UpdateContinuousBackupsInput,
+) => Effect.Effect<
+  UpdateContinuousBackupsOutput,
+  | ContinuousBackupsUnavailableException
+  | InternalServerError
+  | InvalidEndpointException
+  | TableNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContinuousBackupsInput,
+  output: UpdateContinuousBackupsOutput,
+  errors: [
+    ContinuousBackupsUnavailableException,
+    InternalServerError,
+    InvalidEndpointException,
+    TableNotFoundException,
+  ],
+}));
 /**
  * Creates a global table from an existing table. A global table creates a replication
  * relationship between two or more DynamoDB tables with the same table name in the
@@ -5889,7 +6216,18 @@ export const updateContinuousBackups = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * provision equal replicated write capacity units to matching secondary indexes across
  * your global table.
  */
-export const createGlobalTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGlobalTable: (
+  input: CreateGlobalTableInput,
+) => Effect.Effect<
+  CreateGlobalTableOutput,
+  | GlobalTableAlreadyExistsException
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | TableNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGlobalTableInput,
   output: CreateGlobalTableOutput,
   errors: [
@@ -5932,7 +6270,20 @@ export const createGlobalTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Provisioned read and write capacity
  */
-export const createBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBackup: (
+  input: CreateBackupInput,
+) => Effect.Effect<
+  CreateBackupOutput,
+  | BackupInUseException
+  | ContinuousBackupsUnavailableException
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | TableInUseException
+  | TableNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBackupInput,
   output: CreateBackupOutput,
   errors: [
@@ -5948,18 +6299,28 @@ export const createBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The command to update the Kinesis stream destination.
  */
-export const updateKinesisStreamingDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateKinesisStreamingDestinationInput,
-    output: UpdateKinesisStreamingDestinationOutput,
-    errors: [
-      InternalServerError,
-      InvalidEndpointException,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const updateKinesisStreamingDestination: (
+  input: UpdateKinesisStreamingDestinationInput,
+) => Effect.Effect<
+  UpdateKinesisStreamingDestinationOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateKinesisStreamingDestinationInput,
+  output: UpdateKinesisStreamingDestinationOutput,
+  errors: [
+    InternalServerError,
+    InvalidEndpointException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * The `UpdateTimeToLive` method enables or disables Time to Live (TTL) for
  * the specified table. A successful `UpdateTimeToLive` call returns the current
@@ -5989,7 +6350,18 @@ export const updateKinesisStreamingDestination =
  * For more information, see Time To Live in the
  * Amazon DynamoDB Developer Guide.
  */
-export const updateTimeToLive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTimeToLive: (
+  input: UpdateTimeToLiveInput,
+) => Effect.Effect<
+  UpdateTimeToLiveOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTimeToLiveInput,
   output: UpdateTimeToLiveOutput,
   errors: [
@@ -6004,18 +6376,28 @@ export const updateTimeToLive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Stops replication from the DynamoDB table to the Kinesis data stream. This
  * is done without deleting either of the resources.
  */
-export const disableKinesisStreamingDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: KinesisStreamingDestinationInput,
-    output: KinesisStreamingDestinationOutput,
-    errors: [
-      InternalServerError,
-      InvalidEndpointException,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const disableKinesisStreamingDestination: (
+  input: KinesisStreamingDestinationInput,
+) => Effect.Effect<
+  KinesisStreamingDestinationOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: KinesisStreamingDestinationInput,
+  output: KinesisStreamingDestinationOutput,
+  errors: [
+    InternalServerError,
+    InvalidEndpointException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Attaches a resource-based policy document to the resource, which can be a table or
  * stream. When you attach a resource-based policy using this API, the policy application
@@ -6038,7 +6420,19 @@ export const disableKinesisStreamingDestination =
  * metadata for your policy or table might not be available at that moment. Wait for a
  * few seconds, and then try the `GetResourcePolicy` request again.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyInput,
+) => Effect.Effect<
+  PutResourcePolicyOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | PolicyNotFoundException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyInput,
   output: PutResourcePolicyOutput,
   errors: [
@@ -6056,18 +6450,28 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * use DescribeKinesisStreamingDestination to check if streaming to the Kinesis data stream
  * is ACTIVE.
  */
-export const enableKinesisStreamingDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: KinesisStreamingDestinationInput,
-    output: KinesisStreamingDestinationOutput,
-    errors: [
-      InternalServerError,
-      InvalidEndpointException,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const enableKinesisStreamingDestination: (
+  input: KinesisStreamingDestinationInput,
+) => Effect.Effect<
+  KinesisStreamingDestinationOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: KinesisStreamingDestinationInput,
+  output: KinesisStreamingDestinationOutput,
+  errors: [
+    InternalServerError,
+    InvalidEndpointException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Associate a set of tags with an Amazon DynamoDB resource. You can then activate these
  * user-defined tags so that they appear on the Billing and Cost Management console for
@@ -6090,7 +6494,18 @@ export const enableKinesisStreamingDestination =
  * For an overview on tagging DynamoDB resources, see Tagging for DynamoDB
  * in the *Amazon DynamoDB Developer Guide*.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceResponse,
   errors: [
@@ -6121,7 +6536,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For an overview on tagging DynamoDB resources, see Tagging for DynamoDB
  * in the *Amazon DynamoDB Developer Guide*.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceResponse,
   errors: [
@@ -6153,20 +6579,30 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * deleted yet. Wait for a few seconds, and then try the `GetResourcePolicy`
  * request again.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyInput,
-    output: DeleteResourcePolicyOutput,
-    errors: [
-      InternalServerError,
-      InvalidEndpointException,
-      LimitExceededException,
-      PolicyNotFoundException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyInput,
+) => Effect.Effect<
+  DeleteResourcePolicyOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | PolicyNotFoundException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyInput,
+  output: DeleteResourcePolicyOutput,
+  errors: [
+    InternalServerError,
+    InvalidEndpointException,
+    LimitExceededException,
+    PolicyNotFoundException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * The `CreateTable` operation adds a new table to your account. In an Amazon Web Services account, table names must be unique within each Region. That is, you can
  * have two tables with same name if you create the tables in different Regions.
@@ -6184,7 +6620,17 @@ export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can use the `DescribeTable` action to check the table status.
  */
-export const createTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTable: (
+  input: CreateTableInput,
+) => Effect.Effect<
+  CreateTableOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTableInput,
   output: CreateTableOutput,
   errors: [
@@ -6217,7 +6663,18 @@ export const createTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Use the `DescribeTable` action to check the status of the table.
  */
-export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTable: (
+  input: DeleteTableInput,
+) => Effect.Effect<
+  DeleteTableOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableInput,
   output: DeleteTableOutput,
   errors: [
@@ -6231,7 +6688,16 @@ export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Imports table data from an S3 bucket.
  */
-export const importTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importTable: (
+  input: ImportTableInput,
+) => Effect.Effect<
+  ImportTableOutput,
+  | ImportConflictException
+  | LimitExceededException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportTableInput,
   output: ImportTableOutput,
   errors: [
@@ -6260,7 +6726,18 @@ export const importTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * When the table returns to the `ACTIVE` state, the `UpdateTable`
  * operation is complete.
  */
-export const updateTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTable: (
+  input: UpdateTableInput,
+) => Effect.Effect<
+  UpdateTableOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTableInput,
   output: UpdateTableOutput,
   errors: [
@@ -6276,20 +6753,30 @@ export const updateTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * enabled, and you can export data from any time within the point in time recovery
  * window.
  */
-export const exportTableToPointInTime = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExportTableToPointInTimeInput,
-    output: ExportTableToPointInTimeOutput,
-    errors: [
-      ExportConflictException,
-      InternalServerError,
-      InvalidExportTimeException,
-      LimitExceededException,
-      PointInTimeRecoveryUnavailableException,
-      TableNotFoundException,
-    ],
-  }),
-);
+export const exportTableToPointInTime: (
+  input: ExportTableToPointInTimeInput,
+) => Effect.Effect<
+  ExportTableToPointInTimeOutput,
+  | ExportConflictException
+  | InternalServerError
+  | InvalidExportTimeException
+  | LimitExceededException
+  | PointInTimeRecoveryUnavailableException
+  | TableNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportTableToPointInTimeInput,
+  output: ExportTableToPointInTimeOutput,
+  errors: [
+    ExportConflictException,
+    InternalServerError,
+    InvalidExportTimeException,
+    LimitExceededException,
+    PointInTimeRecoveryUnavailableException,
+    TableNotFoundException,
+  ],
+}));
 /**
  * Restores the specified table to the specified point in time within
  * `EarliestRestorableDateTime` and `LatestRestorableDateTime`.
@@ -6330,22 +6817,34 @@ export const exportTableToPointInTime = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Point in time recovery settings
  */
-export const restoreTableToPointInTime = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RestoreTableToPointInTimeInput,
-    output: RestoreTableToPointInTimeOutput,
-    errors: [
-      InternalServerError,
-      InvalidEndpointException,
-      InvalidRestoreTimeException,
-      LimitExceededException,
-      PointInTimeRecoveryUnavailableException,
-      TableAlreadyExistsException,
-      TableInUseException,
-      TableNotFoundException,
-    ],
-  }),
-);
+export const restoreTableToPointInTime: (
+  input: RestoreTableToPointInTimeInput,
+) => Effect.Effect<
+  RestoreTableToPointInTimeOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | InvalidRestoreTimeException
+  | LimitExceededException
+  | PointInTimeRecoveryUnavailableException
+  | TableAlreadyExistsException
+  | TableInUseException
+  | TableNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreTableToPointInTimeInput,
+  output: RestoreTableToPointInTimeOutput,
+  errors: [
+    InternalServerError,
+    InvalidEndpointException,
+    InvalidRestoreTimeException,
+    LimitExceededException,
+    PointInTimeRecoveryUnavailableException,
+    TableAlreadyExistsException,
+    TableInUseException,
+    TableNotFoundException,
+  ],
+}));
 /**
  * Creates a new table from an existing backup. Any number of users can execute up to 50
  * concurrent restores (any type of restore) in a given account.
@@ -6367,21 +6866,32 @@ export const restoreTableToPointInTime = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Time to Live (TTL) settings
  */
-export const restoreTableFromBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RestoreTableFromBackupInput,
-    output: RestoreTableFromBackupOutput,
-    errors: [
-      BackupInUseException,
-      BackupNotFoundException,
-      InternalServerError,
-      InvalidEndpointException,
-      LimitExceededException,
-      TableAlreadyExistsException,
-      TableInUseException,
-    ],
-  }),
-);
+export const restoreTableFromBackup: (
+  input: RestoreTableFromBackupInput,
+) => Effect.Effect<
+  RestoreTableFromBackupOutput,
+  | BackupInUseException
+  | BackupNotFoundException
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | TableAlreadyExistsException
+  | TableInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreTableFromBackupInput,
+  output: RestoreTableFromBackupOutput,
+  errors: [
+    BackupInUseException,
+    BackupNotFoundException,
+    InternalServerError,
+    InvalidEndpointException,
+    LimitExceededException,
+    TableAlreadyExistsException,
+    TableInUseException,
+  ],
+}));
 /**
  * Describes Region-specific settings for a global table.
  *
@@ -6389,17 +6899,24 @@ export const restoreTableFromBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
-export const describeGlobalTableSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeGlobalTableSettingsInput,
-    output: DescribeGlobalTableSettingsOutput,
-    errors: [
-      GlobalTableNotFoundException,
-      InternalServerError,
-      InvalidEndpointException,
-    ],
-  }),
-);
+export const describeGlobalTableSettings: (
+  input: DescribeGlobalTableSettingsInput,
+) => Effect.Effect<
+  DescribeGlobalTableSettingsOutput,
+  | GlobalTableNotFoundException
+  | InternalServerError
+  | InvalidEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeGlobalTableSettingsInput,
+  output: DescribeGlobalTableSettingsOutput,
+  errors: [
+    GlobalTableNotFoundException,
+    InternalServerError,
+    InvalidEndpointException,
+  ],
+}));
 /**
  * Adds or removes replicas in the specified global table. The global table must already
  * exist to be able to use this operation. Any replica to be added must be empty, have the
@@ -6428,7 +6945,19 @@ export const describeGlobalTableSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - The global secondary indexes must have the same provisioned and maximum write
  * capacity units.
  */
-export const updateGlobalTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGlobalTable: (
+  input: UpdateGlobalTableInput,
+) => Effect.Effect<
+  UpdateGlobalTableOutput,
+  | GlobalTableNotFoundException
+  | InternalServerError
+  | InvalidEndpointException
+  | ReplicaAlreadyExistsException
+  | ReplicaNotFoundException
+  | TableNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGlobalTableInput,
   output: UpdateGlobalTableOutput,
   errors: [
@@ -6447,21 +6976,32 @@ export const updateGlobalTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
-export const updateGlobalTableSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateGlobalTableSettingsInput,
-    output: UpdateGlobalTableSettingsOutput,
-    errors: [
-      GlobalTableNotFoundException,
-      IndexNotFoundException,
-      InternalServerError,
-      InvalidEndpointException,
-      LimitExceededException,
-      ReplicaNotFoundException,
-      ResourceInUseException,
-    ],
-  }),
-);
+export const updateGlobalTableSettings: (
+  input: UpdateGlobalTableSettingsInput,
+) => Effect.Effect<
+  UpdateGlobalTableSettingsOutput,
+  | GlobalTableNotFoundException
+  | IndexNotFoundException
+  | InternalServerError
+  | InvalidEndpointException
+  | LimitExceededException
+  | ReplicaNotFoundException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGlobalTableSettingsInput,
+  output: UpdateGlobalTableSettingsOutput,
+  errors: [
+    GlobalTableNotFoundException,
+    IndexNotFoundException,
+    InternalServerError,
+    InvalidEndpointException,
+    LimitExceededException,
+    ReplicaNotFoundException,
+    ResourceInUseException,
+  ],
+}));
 /**
  * This operation allows you to perform batch reads or writes on data stored in DynamoDB,
  * using PartiQL. Each read statement in a `BatchExecuteStatement` must specify
@@ -6475,13 +7015,20 @@ export const updateGlobalTableSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * succeeded. Error details for individual statements can be found under the Error field of the `BatchStatementResponse` for each
  * statement.
  */
-export const batchExecuteStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchExecuteStatementInput,
-    output: BatchExecuteStatementOutput,
-    errors: [InternalServerError, RequestLimitExceeded, ThrottlingException],
-  }),
-);
+export const batchExecuteStatement: (
+  input: BatchExecuteStatementInput,
+) => Effect.Effect<
+  BatchExecuteStatementOutput,
+  | InternalServerError
+  | RequestLimitExceeded
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchExecuteStatementInput,
+  output: BatchExecuteStatementOutput,
+  errors: [InternalServerError, RequestLimitExceeded, ThrottlingException],
+}));
 /**
  * The `BatchWriteItem` operation puts or deletes multiple items in one or
  * more tables. A single call to `BatchWriteItem` can transmit up to 16MB of
@@ -6568,7 +7115,21 @@ export const batchExecuteStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * partition key, the limit is 2048 bytes and for a sort key, the limit is 1024
  * bytes.
  */
-export const batchWriteItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchWriteItem: (
+  input: BatchWriteItemInput,
+) => Effect.Effect<
+  BatchWriteItemOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | ItemCollectionSizeLimitExceededException
+  | ProvisionedThroughputExceededException
+  | ReplicatedWriteConflictException
+  | RequestLimitExceeded
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchWriteItemInput,
   output: BatchWriteItemOutput,
   errors: [
@@ -6627,7 +7188,47 @@ export const batchWriteItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * operation does not guarantee that all reads in a scan see a consistent snapshot of
  * the table when the scan operation was requested.
  */
-export const scan = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const scan: {
+  (
+    input: ScanInput,
+  ): Effect.Effect<
+    ScanOutput,
+    | InternalServerError
+    | InvalidEndpointException
+    | ProvisionedThroughputExceededException
+    | RequestLimitExceeded
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ScanInput,
+  ) => Stream.Stream<
+    ScanOutput,
+    | InternalServerError
+    | InvalidEndpointException
+    | ProvisionedThroughputExceededException
+    | RequestLimitExceeded
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ScanInput,
+  ) => Stream.Stream<
+    S.Schema.Type<typeof AttributeMap>,
+    | InternalServerError
+    | InvalidEndpointException
+    | ProvisionedThroughputExceededException
+    | RequestLimitExceeded
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ScanInput,
   output: ScanOutput,
   errors: [
@@ -6655,7 +7256,19 @@ export const scan = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * `true`. Although a strongly consistent read might take more time than an
  * eventually consistent read, it always returns the last updated value.
  */
-export const getItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getItem: (
+  input: GetItemInput,
+) => Effect.Effect<
+  GetItemOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | ProvisionedThroughputExceededException
+  | RequestLimitExceeded
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetItemInput,
   output: GetItemOutput,
   errors: [
@@ -6721,7 +7334,47 @@ export const getItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * do not specify `ConsistentRead` when querying a global secondary
  * index.
  */
-export const query = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const query: {
+  (
+    input: QueryInput,
+  ): Effect.Effect<
+    QueryOutput,
+    | InternalServerError
+    | InvalidEndpointException
+    | ProvisionedThroughputExceededException
+    | RequestLimitExceeded
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: QueryInput,
+  ) => Stream.Stream<
+    QueryOutput,
+    | InternalServerError
+    | InvalidEndpointException
+    | ProvisionedThroughputExceededException
+    | RequestLimitExceeded
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: QueryInput,
+  ) => Stream.Stream<
+    S.Schema.Type<typeof AttributeMap>,
+    | InternalServerError
+    | InvalidEndpointException
+    | ProvisionedThroughputExceededException
+    | RequestLimitExceeded
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: QueryInput,
   output: QueryOutput,
   errors: [
@@ -6797,7 +7450,19 @@ export const query = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * `BatchGetItem` will result in a `ValidationException` if the
  * same key is specified multiple times.
  */
-export const batchGetItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetItem: (
+  input: BatchGetItemInput,
+) => Effect.Effect<
+  BatchGetItemOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | ProvisionedThroughputExceededException
+  | RequestLimitExceeded
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetItemInput,
   output: BatchGetItemOutput,
   errors: [
@@ -6826,7 +7491,22 @@ export const batchGetItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * result set. If `NextToken` is present, you need to paginate the result set
  * and include `NextToken`.
  */
-export const executeStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const executeStatement: (
+  input: ExecuteStatementInput,
+) => Effect.Effect<
+  ExecuteStatementOutput,
+  | ConditionalCheckFailedException
+  | DuplicateItemException
+  | InternalServerError
+  | ItemCollectionSizeLimitExceededException
+  | ProvisionedThroughputExceededException
+  | RequestLimitExceeded
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TransactionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteStatementInput,
   output: ExecuteStatementOutput,
   errors: [
@@ -6857,7 +7537,23 @@ export const executeStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If those conditions are met, DynamoDB performs the delete. Otherwise, the item is not
  * deleted.
  */
-export const deleteItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteItem: (
+  input: DeleteItemInput,
+) => Effect.Effect<
+  DeleteItemOutput,
+  | ConditionalCheckFailedException
+  | InternalServerError
+  | InvalidEndpointException
+  | ItemCollectionSizeLimitExceededException
+  | ProvisionedThroughputExceededException
+  | ReplicatedWriteConflictException
+  | RequestLimitExceeded
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TransactionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteItemInput,
   output: DeleteItemOutput,
   errors: [
@@ -6899,7 +7595,23 @@ export const deleteItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about `PutItem`, see Working with
  * Items in the *Amazon DynamoDB Developer Guide*.
  */
-export const putItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putItem: (
+  input: PutItemInput,
+) => Effect.Effect<
+  PutItemOutput,
+  | ConditionalCheckFailedException
+  | InternalServerError
+  | InvalidEndpointException
+  | ItemCollectionSizeLimitExceededException
+  | ProvisionedThroughputExceededException
+  | ReplicatedWriteConflictException
+  | RequestLimitExceeded
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TransactionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutItemInput,
   output: PutItemOutput,
   errors: [
@@ -6925,7 +7637,23 @@ export const putItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can also return the item's attribute values in the same `UpdateItem`
  * operation using the `ReturnValues` parameter.
  */
-export const updateItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateItem: (
+  input: UpdateItemInput,
+) => Effect.Effect<
+  UpdateItemOutput,
+  | ConditionalCheckFailedException
+  | InternalServerError
+  | InvalidEndpointException
+  | ItemCollectionSizeLimitExceededException
+  | ProvisionedThroughputExceededException
+  | ReplicatedWriteConflictException
+  | RequestLimitExceeded
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TransactionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateItemInput,
   output: UpdateItemOutput,
   errors: [
@@ -6964,7 +7692,20 @@ export const updateItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - The aggregate size of the items in the transaction exceeded 4 MB.
  */
-export const transactGetItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const transactGetItems: (
+  input: TransactGetItemsInput,
+) => Effect.Effect<
+  TransactGetItemsOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | ProvisionedThroughputExceededException
+  | RequestLimitExceeded
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TransactionCanceledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TransactGetItemsInput,
   output: TransactGetItemsOutput,
   errors: [
@@ -6986,7 +7727,21 @@ export const transactGetItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * be used to check the condition of specific attributes of the item in a similar
  * manner to `ConditionCheck` in the TransactWriteItems API.
  */
-export const executeTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const executeTransaction: (
+  input: ExecuteTransactionInput,
+) => Effect.Effect<
+  ExecuteTransactionOutput,
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | ProvisionedThroughputExceededException
+  | RequestLimitExceeded
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TransactionCanceledException
+  | TransactionInProgressException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteTransactionInput,
   output: ExecuteTransactionOutput,
   errors: [
@@ -7058,7 +7813,22 @@ export const executeTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - There is a user error, such as an invalid data format.
  */
-export const transactWriteItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const transactWriteItems: (
+  input: TransactWriteItemsInput,
+) => Effect.Effect<
+  TransactWriteItemsOutput,
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidEndpointException
+  | ProvisionedThroughputExceededException
+  | RequestLimitExceeded
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TransactionCanceledException
+  | TransactionInProgressException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TransactWriteItemsInput,
   output: TransactWriteItemsOutput,
   errors: [

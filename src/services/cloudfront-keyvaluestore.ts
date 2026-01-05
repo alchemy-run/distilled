@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "CloudFront KeyValueStore",
   serviceShapeName: "CloudFrontKeyValueStore",
@@ -405,6 +413,12 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type KvsARN = string;
+export type Key = string;
+export type Etag = string;
+export type Value = string;
+
 //# Schemas
 export interface DeleteKeyRequest {
   KvsARN: string;
@@ -684,7 +698,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -702,22 +718,40 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Returns metadata information about Key Value Store.
  */
-export const describeKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeKeyValueStoreRequest,
-    output: DescribeKeyValueStoreResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const describeKeyValueStore: (
+  input: DescribeKeyValueStoreRequest,
+) => Effect.Effect<
+  DescribeKeyValueStoreResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeKeyValueStoreRequest,
+  output: DescribeKeyValueStoreResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns a key value pair.
  */
-export const getKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKey: (
+  input: GetKeyRequest,
+) => Effect.Effect<
+  GetKeyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKeyRequest,
   output: GetKeyResponse,
   errors: [
@@ -730,7 +764,44 @@ export const getKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of key value pairs.
  */
-export const listKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listKeys: {
+  (
+    input: ListKeysRequest,
+  ): Effect.Effect<
+    ListKeysResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKeysRequest,
+  ) => Stream.Stream<
+    ListKeysResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKeysRequest,
+  ) => Stream.Stream<
+    ListKeysResponseListItem,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListKeysRequest,
   output: ListKeysResponse,
   errors: [
@@ -750,7 +821,19 @@ export const listKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Puts or Deletes multiple key value pairs in a single, all-or-nothing operation.
  */
-export const updateKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateKeys: (
+  input: UpdateKeysRequest,
+) => Effect.Effect<
+  UpdateKeysResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKeysRequest,
   output: UpdateKeysResponse,
   errors: [
@@ -765,7 +848,19 @@ export const updateKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new key value pair or replaces the value of an existing key.
  */
-export const putKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putKey: (
+  input: PutKeyRequest,
+) => Effect.Effect<
+  PutKeyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutKeyRequest,
   output: PutKeyResponse,
   errors: [
@@ -780,7 +875,19 @@ export const putKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the key value pair specified by the key.
  */
-export const deleteKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKey: (
+  input: DeleteKeyRequest,
+) => Effect.Effect<
+  DeleteKeyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeyRequest,
   output: DeleteKeyResponse,
   errors: [

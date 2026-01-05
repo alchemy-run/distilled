@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "deadline",
   serviceShapeName: "Deadline",
@@ -292,6 +300,111 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type FarmId = string;
+export type QueueId = string;
+export type FleetId = string;
+export type LimitId = string;
+export type AggregationId = string;
+export type MaxResults = number;
+export type Integer = number;
+export type JobId = string;
+export type Timezone = string;
+export type ClientToken = string;
+export type ResourceName = string;
+export type Description = string;
+export type KmsKeyArn = string;
+export type IdentityCenterPrincipalId = string;
+export type IdentityStoreId = string;
+export type AmountRequirementName = string;
+export type MaxCount = number;
+export type StorageProfileId = string;
+export type ConsumedUsageLimit = number;
+export type BudgetId = string;
+export type IamRoleArn = string;
+export type MinZeroMaxInteger = number;
+export type WorkerId = string;
+export type FileSystemLocationName = string;
+export type Priority = number;
+export type EnvironmentTemplate = string;
+export type QueueEnvironmentId = string;
+export type JobTemplate = string;
+export type JobPriority = number;
+export type MaxFailedTasksCount = number;
+export type MaxRetriesPerTask = number;
+export type MaxWorkerCount = number;
+export type SessionId = string;
+export type SessionActionId = string;
+export type StepId = string;
+export type TaskId = string;
+export type VpcId = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type LicenseEndpointId = string;
+export type MeteredProductId = string;
+export type IdentityCenterInstanceArn = string;
+export type Subdomain = string;
+export type MonitorId = string;
+export type PathString = string;
+export type ThresholdPercentage = number;
+export type HostConfigurationScript = string;
+export type HostConfigurationScriptTimeoutSeconds = number;
+export type HostName = string;
+export type S3BucketName = string;
+export type S3Prefix = string;
+export type S3Key = string;
+export type CreatedBy = string;
+export type UpdatedBy = string;
+export type NextItemOffset = number;
+export type TotalResults = number;
+export type EnvironmentName = string;
+export type JobName = string;
+export type TaskFailureRetryCount = number;
+export type JobDescription = string;
+export type SessionActionProgressPercent = number;
+export type ProcessExitCode = number;
+export type SessionActionProgressMessage = string;
+export type StepName = string;
+export type StepDescription = string;
+export type TaskRetryCount = number;
+export type StatusMessage = string;
+export type DnsName = string;
+export type IdentityCenterApplicationArn = string;
+export type Url = string;
+export type IpV4Address = string;
+export type IpV6Address = string;
+export type AmountCapabilityName = string;
+export type AttributeCapabilityName = string;
+export type AttributeCapabilityValue = string;
+export type EnvironmentId = string;
+export type IntString = string;
+export type FloatString = string;
+export type ParameterString = string;
+export type UserId = string;
+export type LicenseProduct = string;
+export type InstanceType = string;
+export type BoundedString = string;
+export type PortNumber = number;
+export type AccessKeyId = string;
+export type SecretAccessKey = string;
+export type SessionToken = string;
+export type LogDriver = string;
+export type LogError = string;
+export type MinOneMaxInteger = number;
+export type CombinationExpression = string;
+export type ParameterValue = string;
+export type SearchTerm = string;
+export type StringFilter = string;
+export type VpcResourceConfigurationArn = string;
+export type Double = number;
+export type StepParameterName = string;
+export type MinOneMaxTenThousand = number;
+export type MemoryAmountMiB = number;
+export type EbsIops = number;
+export type EbsThroughputMiB = number;
+export type AcceleratorRuntime = string;
+export type UpdateWorkerScheduleInterval = number;
 
 //# Schemas
 export type QueueIds = string[];
@@ -658,6 +771,10 @@ export const ParameterSortExpression = S.suspend(() =>
 ).annotations({
   identifier: "ParameterSortExpression",
 }) as any as S.Schema<ParameterSortExpression>;
+export type SearchSortExpression =
+  | { userJobsFirst: UserJobsFirst }
+  | { fieldSort: FieldSortExpression }
+  | { parameterSort: ParameterSortExpression };
 export const SearchSortExpression = S.Union(
   S.Struct({ userJobsFirst: UserJobsFirst }),
   S.Struct({ fieldSort: FieldSortExpression }),
@@ -1643,6 +1760,9 @@ export const ServiceManagedEc2FleetConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ServiceManagedEc2FleetConfiguration",
 }) as any as S.Schema<ServiceManagedEc2FleetConfiguration>;
+export type FleetConfiguration =
+  | { customerManaged: CustomerManagedFleetConfiguration }
+  | { serviceManagedEc2: ServiceManagedEc2FleetConfiguration };
 export const FleetConfiguration = S.Union(
   S.Struct({ customerManaged: CustomerManagedFleetConfiguration }),
   S.Struct({ serviceManagedEc2: ServiceManagedEc2FleetConfiguration }),
@@ -3527,10 +3647,14 @@ export const ListMonitorsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListMonitorsRequest",
 }) as any as S.Schema<ListMonitorsRequest>;
+export type SessionsStatisticsResources =
+  | { queueIds: QueueIds }
+  | { fleetIds: FleetIds };
 export const SessionsStatisticsResources = S.Union(
   S.Struct({ queueIds: QueueIds }),
   S.Struct({ fleetIds: FleetIds }),
 );
+export type UsageTrackingResource = { queueId: string };
 export const UsageTrackingResource = S.Union(S.Struct({ queueId: S.String }));
 export interface BudgetActionToAdd {
   type: string;
@@ -3823,6 +3947,7 @@ export const FixedBudgetSchedule = S.suspend(() =>
 ).annotations({
   identifier: "FixedBudgetSchedule",
 }) as any as S.Schema<FixedBudgetSchedule>;
+export type BudgetSchedule = { fixed: FixedBudgetSchedule };
 export const BudgetSchedule = S.Union(S.Struct({ fixed: FixedBudgetSchedule }));
 export interface UpdateBudgetRequest {
   clientToken?: string;
@@ -4309,6 +4434,11 @@ export const EnvironmentDetailsIdentifiers = S.suspend(() =>
 ).annotations({
   identifier: "EnvironmentDetailsIdentifiers",
 }) as any as S.Schema<EnvironmentDetailsIdentifiers>;
+export type JobParameter =
+  | { int: string }
+  | { float: string }
+  | { string: string }
+  | { path: string };
 export const JobParameter = S.Union(
   S.Struct({ int: S.String }),
   S.Struct({ float: S.String }),
@@ -4460,6 +4590,12 @@ export const StepSearchSummary = S.suspend(() =>
 }) as any as S.Schema<StepSearchSummary>;
 export type StepSearchSummaries = StepSearchSummary[];
 export const StepSearchSummaries = S.Array(StepSearchSummary);
+export type TaskParameterValue =
+  | { int: string }
+  | { float: string }
+  | { string: string }
+  | { path: string }
+  | { chunkInt: string };
 export const TaskParameterValue = S.Union(
   S.Struct({ int: S.String }),
   S.Struct({ float: S.String }),
@@ -4770,6 +4906,11 @@ export const WorkerSummary = S.suspend(() =>
 }) as any as S.Schema<WorkerSummary>;
 export type WorkerSummaries = WorkerSummary[];
 export const WorkerSummaries = S.Array(WorkerSummary);
+export type JobEntityIdentifiersUnion =
+  | { jobDetails: JobDetailsIdentifiers }
+  | { jobAttachmentDetails: JobAttachmentDetailsIdentifiers }
+  | { stepDetails: StepDetailsIdentifiers }
+  | { environmentDetails: EnvironmentDetailsIdentifiers };
 export const JobEntityIdentifiersUnion = S.Union(
   S.Struct({ jobDetails: JobDetailsIdentifiers }),
   S.Struct({ jobAttachmentDetails: JobAttachmentDetailsIdentifiers }),
@@ -6024,6 +6165,11 @@ export const UpdatedSessionActions = S.Record({
   key: S.String,
   value: UpdatedSessionActionInfo,
 });
+export type SessionActionDefinition =
+  | { envEnter: EnvironmentEnterSessionActionDefinition }
+  | { envExit: EnvironmentExitSessionActionDefinition }
+  | { taskRun: TaskRunSessionActionDefinition }
+  | { syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinition };
 export const SessionActionDefinition = S.Union(
   S.Struct({ envEnter: EnvironmentEnterSessionActionDefinition }),
   S.Struct({ envExit: EnvironmentExitSessionActionDefinition }),
@@ -6381,6 +6527,13 @@ export const GetTaskResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetTaskResponse",
 }) as any as S.Schema<GetTaskResponse>;
+export type SessionActionDefinitionSummary =
+  | { envEnter: EnvironmentEnterSessionActionDefinitionSummary }
+  | { envExit: EnvironmentExitSessionActionDefinitionSummary }
+  | { taskRun: TaskRunSessionActionDefinitionSummary }
+  | {
+      syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinitionSummary;
+    };
 export const SessionActionDefinitionSummary = S.Union(
   S.Struct({ envEnter: EnvironmentEnterSessionActionDefinitionSummary }),
   S.Struct({ envExit: EnvironmentExitSessionActionDefinitionSummary }),
@@ -6579,6 +6732,11 @@ export const JobSearchSummary = S.suspend(() =>
 }) as any as S.Schema<JobSearchSummary>;
 export type JobSearchSummaries = JobSearchSummary[];
 export const JobSearchSummaries = S.Array(JobSearchSummary);
+export type GetJobEntityError =
+  | { jobDetails: JobDetailsError }
+  | { jobAttachmentDetails: JobAttachmentDetailsError }
+  | { stepDetails: StepDetailsError }
+  | { environmentDetails: EnvironmentDetailsError };
 export const GetJobEntityError = S.Union(
   S.Struct({ jobDetails: JobDetailsError }),
   S.Struct({ jobAttachmentDetails: JobAttachmentDetailsError }),
@@ -6683,6 +6841,11 @@ export const JobDetailsEntity = S.suspend(() =>
 ).annotations({
   identifier: "JobDetailsEntity",
 }) as any as S.Schema<JobDetailsEntity>;
+export type JobEntity =
+  | { jobDetails: JobDetailsEntity }
+  | { jobAttachmentDetails: JobAttachmentDetailsEntity }
+  | { stepDetails: StepDetailsEntity }
+  | { environmentDetails: EnvironmentDetailsEntity };
 export const JobEntity = S.Union(
   S.Struct({ jobDetails: JobDetailsEntity }),
   S.Struct({ jobAttachmentDetails: JobAttachmentDetailsEntity }),
@@ -6760,6 +6923,13 @@ export const AssignedSyncInputJobAttachmentsSessionActionDefinition = S.suspend(
 ).annotations({
   identifier: "AssignedSyncInputJobAttachmentsSessionActionDefinition",
 }) as any as S.Schema<AssignedSyncInputJobAttachmentsSessionActionDefinition>;
+export type AssignedSessionActionDefinition =
+  | { envEnter: AssignedEnvironmentEnterSessionActionDefinition }
+  | { envExit: AssignedEnvironmentExitSessionActionDefinition }
+  | { taskRun: AssignedTaskRunSessionActionDefinition }
+  | {
+      syncInputJobAttachments: AssignedSyncInputJobAttachmentsSessionActionDefinition;
+    };
 export const AssignedSessionActionDefinition = S.Union(
   S.Struct({ envEnter: AssignedEnvironmentEnterSessionActionDefinition }),
   S.Struct({ envExit: AssignedEnvironmentExitSessionActionDefinition }),
@@ -6833,7 +7003,9 @@ export class InternalServerErrorException extends S.TaggedError<InternalServerEr
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -6863,7 +7035,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     context: S.optional(ExceptionContext),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -6890,64 +7064,162 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * A list of the available metered products.
  */
-export const listAvailableMeteredProducts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAvailableMeteredProducts: {
+  (
     input: ListAvailableMeteredProductsRequest,
-    output: ListAvailableMeteredProductsResponse,
-    errors: [InternalServerErrorException, ThrottlingException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "meteredProducts",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAvailableMeteredProductsResponse,
+    InternalServerErrorException | ThrottlingException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAvailableMeteredProductsRequest,
+  ) => Stream.Stream<
+    ListAvailableMeteredProductsResponse,
+    InternalServerErrorException | ThrottlingException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAvailableMeteredProductsRequest,
+  ) => Stream.Stream<
+    MeteredProductSummary,
+    InternalServerErrorException | ThrottlingException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAvailableMeteredProductsRequest,
+  output: ListAvailableMeteredProductsResponse,
+  errors: [InternalServerErrorException, ThrottlingException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "meteredProducts",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists queue-fleet associations.
  */
-export const listQueueFleetAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listQueueFleetAssociations: {
+  (
     input: ListQueueFleetAssociationsRequest,
-    output: ListQueueFleetAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "queueFleetAssociations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListQueueFleetAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListQueueFleetAssociationsRequest,
+  ) => Stream.Stream<
+    ListQueueFleetAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListQueueFleetAssociationsRequest,
+  ) => Stream.Stream<
+    QueueFleetAssociationSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListQueueFleetAssociationsRequest,
+  output: ListQueueFleetAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "queueFleetAssociations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of the associations between queues and limits defined in a farm.
  */
-export const listQueueLimitAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listQueueLimitAssociations: {
+  (
     input: ListQueueLimitAssociationsRequest,
-    output: ListQueueLimitAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "queueLimitAssociations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListQueueLimitAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListQueueLimitAssociationsRequest,
+  ) => Stream.Stream<
+    ListQueueLimitAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListQueueLimitAssociationsRequest,
+  ) => Stream.Stream<
+    QueueLimitAssociationSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListQueueLimitAssociationsRequest,
+  output: ListQueueLimitAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "queueLimitAssociations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates an Amazon Web Services Deadline Cloud monitor that you can use to view your farms, queues, and
  * fleets. After you submit a job, you can track the progress of the tasks and steps that make
  * up the job, and then download the job's results.
  */
-export const createMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMonitor: (
+  input: CreateMonitorRequest,
+) => Effect.Effect<
+  CreateMonitorResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMonitorRequest,
   output: CreateMonitorResponse,
   errors: [
@@ -6964,28 +7236,76 @@ export const createMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `StartSessionsStatisticsAggregation` operation. Statistics are available for
  * 1 hour after you call the `StartSessionsStatisticsAggregation` operation.
  */
-export const getSessionsStatisticsAggregation =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getSessionsStatisticsAggregation: {
+  (
     input: GetSessionsStatisticsAggregationRequest,
-    output: GetSessionsStatisticsAggregationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "statistics",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetSessionsStatisticsAggregationResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetSessionsStatisticsAggregationRequest,
+  ) => Stream.Stream<
+    GetSessionsStatisticsAggregationResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSessionsStatisticsAggregationRequest,
+  ) => Stream.Stream<
+    Statistics,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetSessionsStatisticsAggregationRequest,
+  output: GetSessionsStatisticsAggregationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "statistics",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a budget to set spending thresholds for your rendering activity.
  */
-export const createBudget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBudget: (
+  input: CreateBudgetRequest,
+) => Effect.Effect<
+  CreateBudgetResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBudgetRequest,
   output: CreateBudgetResponse,
   errors: [
@@ -7000,7 +7320,18 @@ export const createBudget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get a fleet.
  */
-export const getFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFleet: (
+  input: GetFleetRequest,
+) => Effect.Effect<
+  GetFleetResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFleetRequest,
   output: GetFleetResponse,
   errors: [
@@ -7014,7 +7345,18 @@ export const getFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a worker.
  */
-export const getWorker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorker: (
+  input: GetWorkerRequest,
+) => Effect.Effect<
+  GetWorkerResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkerRequest,
   output: GetWorkerResponse,
   errors: [
@@ -7029,7 +7371,19 @@ export const getWorker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a queue to coordinate the order in which jobs run on a farm. A queue can also
  * specify where to pull resources and indicate where to output completed jobs.
  */
-export const createQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createQueue: (
+  input: CreateQueueRequest,
+) => Effect.Effect<
+  CreateQueueResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQueueRequest,
   output: CreateQueueResponse,
   errors: [
@@ -7046,7 +7400,19 @@ export const createQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * and run work on available workers. For more information, see Deadline Cloud
  * jobs.
  */
-export const createJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createJob: (
+  input: CreateJobRequest,
+) => Effect.Effect<
+  CreateJobResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobRequest,
   output: CreateJobResponse,
   errors: [
@@ -7061,7 +7427,18 @@ export const createJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a session action for the job.
  */
-export const getSessionAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSessionAction: (
+  input: GetSessionActionRequest,
+) => Effect.Effect<
+  GetSessionActionResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionActionRequest,
   output: GetSessionActionResponse,
   errors: [
@@ -7075,7 +7452,18 @@ export const getSessionAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a step.
  */
-export const getStep = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStep: (
+  input: GetStepRequest,
+) => Effect.Effect<
+  GetStepResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStepRequest,
   output: GetStepResponse,
   errors: [
@@ -7089,7 +7477,18 @@ export const getStep = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a task.
  */
-export const getTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTask: (
+  input: GetTaskRequest,
+) => Effect.Effect<
+  GetTaskResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTaskRequest,
   output: GetTaskResponse,
   errors: [
@@ -7103,24 +7502,45 @@ export const getTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a queue-fleet association.
  */
-export const deleteQueueFleetAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteQueueFleetAssociationRequest,
-    output: DeleteQueueFleetAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteQueueFleetAssociation: (
+  input: DeleteQueueFleetAssociationRequest,
+) => Effect.Effect<
+  DeleteQueueFleetAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteQueueFleetAssociationRequest,
+  output: DeleteQueueFleetAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Searches for steps.
  */
-export const searchSteps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const searchSteps: (
+  input: SearchStepsRequest,
+) => Effect.Effect<
+  SearchStepsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchStepsRequest,
   output: SearchStepsResponse,
   errors: [
@@ -7134,7 +7554,18 @@ export const searchSteps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Searches for tasks.
  */
-export const searchTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const searchTasks: (
+  input: SearchTasksRequest,
+) => Effect.Effect<
+  SearchTasksResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchTasksRequest,
   output: SearchTasksResponse,
   errors: [
@@ -7148,7 +7579,18 @@ export const searchTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Searches for workers.
  */
-export const searchWorkers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const searchWorkers: (
+  input: SearchWorkersRequest,
+) => Effect.Effect<
+  SearchWorkersResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchWorkersRequest,
   output: SearchWorkersResponse,
   errors: [
@@ -7168,62 +7610,154 @@ export const searchWorkers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * for 1 hour after you call the `StartSessionsStatisticsAggregation`
  * operation.
  */
-export const startSessionsStatisticsAggregation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartSessionsStatisticsAggregationRequest,
-    output: StartSessionsStatisticsAggregationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startSessionsStatisticsAggregation: (
+  input: StartSessionsStatisticsAggregationRequest,
+) => Effect.Effect<
+  StartSessionsStatisticsAggregationResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSessionsStatisticsAggregationRequest,
+  output: StartSessionsStatisticsAggregationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a storage profile that specifies the operating system, file type, and file
  * location of resources used on a farm.
  */
-export const createStorageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateStorageProfileRequest,
-    output: CreateStorageProfileResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createStorageProfile: (
+  input: CreateStorageProfileRequest,
+) => Effect.Effect<
+  CreateStorageProfileResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStorageProfileRequest,
+  output: CreateStorageProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the members of a farm.
  */
-export const listFarmMembers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFarmMembers: {
+  (
     input: ListFarmMembersRequest,
-    output: ListFarmMembersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "members",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFarmMembersResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFarmMembersRequest,
+  ) => Stream.Stream<
+    ListFarmMembersResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFarmMembersRequest,
+  ) => Stream.Stream<
+    FarmMember,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFarmMembersRequest,
+  output: ListFarmMembersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "members",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of limits defined in the specified farm.
  */
-export const listLimits = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLimits: {
+  (
+    input: ListLimitsRequest,
+  ): Effect.Effect<
+    ListLimitsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLimitsRequest,
+  ) => Stream.Stream<
+    ListLimitsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLimitsRequest,
+  ) => Stream.Stream<
+    LimitSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLimitsRequest,
   output: ListLimitsResponse,
   errors: [
@@ -7243,28 +7777,75 @@ export const listLimits = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists storage profiles.
  */
-export const listStorageProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listStorageProfiles: {
+  (
     input: ListStorageProfilesRequest,
-    output: ListStorageProfilesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "storageProfiles",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListStorageProfilesResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStorageProfilesRequest,
+  ) => Stream.Stream<
+    ListStorageProfilesResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStorageProfilesRequest,
+  ) => Stream.Stream<
+    StorageProfileSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStorageProfilesRequest,
+  output: ListStorageProfilesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "storageProfiles",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Get a budget.
  */
-export const getBudget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBudget: (
+  input: GetBudgetRequest,
+) => Effect.Effect<
+  GetBudgetResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBudgetRequest,
   output: GetBudgetResponse,
   errors: [
@@ -7278,29 +7859,101 @@ export const getBudget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * A list of budgets in a farm.
  */
-export const listBudgets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBudgets: {
+  (
     input: ListBudgetsRequest,
-    output: ListBudgetsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "budgets",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBudgetsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBudgetsRequest,
+  ) => Stream.Stream<
+    ListBudgetsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBudgetsRequest,
+  ) => Stream.Stream<
+    BudgetSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBudgetsRequest,
+  output: ListBudgetsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "budgets",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists fleets.
  */
-export const listFleets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFleets: {
+  (
+    input: ListFleetsRequest,
+  ): Effect.Effect<
+    ListFleetsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFleetsRequest,
+  ) => Stream.Stream<
+    ListFleetsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFleetsRequest,
+  ) => Stream.Stream<
+    FleetSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFleetsRequest,
   output: ListFleetsResponse,
   errors: [
@@ -7321,88 +7974,240 @@ export const listFleets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Get Amazon Web Services credentials from the fleet role. The IAM permissions of the credentials are
  * scoped down to have read-only access.
  */
-export const assumeFleetRoleForRead = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssumeFleetRoleForReadRequest,
-    output: AssumeFleetRoleForReadResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const assumeFleetRoleForRead: (
+  input: AssumeFleetRoleForReadRequest,
+) => Effect.Effect<
+  AssumeFleetRoleForReadResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssumeFleetRoleForReadRequest,
+  output: AssumeFleetRoleForReadResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists fleet members.
  */
-export const listFleetMembers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFleetMembers: {
+  (
     input: ListFleetMembersRequest,
-    output: ListFleetMembersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "members",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFleetMembersResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFleetMembersRequest,
+  ) => Stream.Stream<
+    ListFleetMembersResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFleetMembersRequest,
+  ) => Stream.Stream<
+    FleetMember,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFleetMembersRequest,
+  output: ListFleetMembersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "members",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists workers.
  */
-export const listWorkers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkers: {
+  (
     input: ListWorkersRequest,
-    output: ListWorkersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "workers",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkersResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkersRequest,
+  ) => Stream.Stream<
+    ListWorkersResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkersRequest,
+  ) => Stream.Stream<
+    WorkerSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkersRequest,
+  output: ListWorkersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workers",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists sessions for a worker.
  */
-export const listSessionsForWorker =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSessionsForWorker: {
+  (
     input: ListSessionsForWorkerRequest,
-    output: ListSessionsForWorkerResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "sessions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSessionsForWorkerResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSessionsForWorkerRequest,
+  ) => Stream.Stream<
+    ListSessionsForWorkerResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSessionsForWorkerRequest,
+  ) => Stream.Stream<
+    WorkerSessionSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSessionsForWorkerRequest,
+  output: ListSessionsForWorkerResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sessions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists queues.
  */
-export const listQueues = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listQueues: {
+  (
+    input: ListQueuesRequest,
+  ): Effect.Effect<
+    ListQueuesResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListQueuesRequest,
+  ) => Stream.Stream<
+    ListQueuesResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListQueuesRequest,
+  ) => Stream.Stream<
+    QueueSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListQueuesRequest,
   output: ListQueuesResponse,
   errors: [
@@ -7422,50 +8227,132 @@ export const listQueues = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists queue environments.
  */
-export const listQueueEnvironments =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listQueueEnvironments: {
+  (
     input: ListQueueEnvironmentsRequest,
-    output: ListQueueEnvironmentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "environments",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListQueueEnvironmentsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListQueueEnvironmentsRequest,
+  ) => Stream.Stream<
+    ListQueueEnvironmentsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListQueueEnvironmentsRequest,
+  ) => Stream.Stream<
+    QueueEnvironmentSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListQueueEnvironmentsRequest,
+  output: ListQueueEnvironmentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "environments",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the members in a queue.
  */
-export const listQueueMembers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listQueueMembers: {
+  (
     input: ListQueueMembersRequest,
-    output: ListQueueMembersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "members",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListQueueMembersResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListQueueMembersRequest,
+  ) => Stream.Stream<
+    ListQueueMembersResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListQueueMembersRequest,
+  ) => Stream.Stream<
+    QueueMember,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListQueueMembersRequest,
+  output: ListQueueMembersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "members",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a Deadline Cloud job.
  */
-export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJob: (
+  input: GetJobRequest,
+) => Effect.Effect<
+  GetJobResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRequest,
   output: GetJobResponse,
   errors: [
@@ -7479,7 +8366,44 @@ export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists jobs.
  */
-export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listJobs: {
+  (
+    input: ListJobsRequest,
+  ): Effect.Effect<
+    ListJobsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobsRequest,
+  ) => Stream.Stream<
+    ListJobsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobsRequest,
+  ) => Stream.Stream<
+    JobSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListJobsRequest,
   output: ListJobsResponse,
   errors: [
@@ -7499,7 +8423,18 @@ export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Copies a job template to an Amazon S3 bucket.
  */
-export const copyJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copyJobTemplate: (
+  input: CopyJobTemplateRequest,
+) => Effect.Effect<
+  CopyJobTemplateResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyJobTemplateRequest,
   output: CopyJobTemplateResponse,
   errors: [
@@ -7513,94 +8448,272 @@ export const copyJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists members on a job.
  */
-export const listJobMembers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listJobMembers: {
+  (
     input: ListJobMembersRequest,
-    output: ListJobMembersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "members",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListJobMembersResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobMembersRequest,
+  ) => Stream.Stream<
+    ListJobMembersResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobMembersRequest,
+  ) => Stream.Stream<
+    JobMember,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListJobMembersRequest,
+  output: ListJobMembersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "members",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists sessions.
  */
-export const listSessions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSessions: {
+  (
     input: ListSessionsRequest,
-    output: ListSessionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "sessions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSessionsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSessionsRequest,
+  ) => Stream.Stream<
+    ListSessionsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSessionsRequest,
+  ) => Stream.Stream<
+    SessionSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSessionsRequest,
+  output: ListSessionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sessions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists step consumers.
  */
-export const listStepConsumers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listStepConsumers: {
+  (
     input: ListStepConsumersRequest,
-    output: ListStepConsumersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "consumers",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListStepConsumersResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStepConsumersRequest,
+  ) => Stream.Stream<
+    ListStepConsumersResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStepConsumersRequest,
+  ) => Stream.Stream<
+    StepConsumer,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStepConsumersRequest,
+  output: ListStepConsumersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "consumers",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the dependencies for a step.
  */
-export const listStepDependencies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listStepDependencies: {
+  (
     input: ListStepDependenciesRequest,
-    output: ListStepDependenciesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dependencies",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListStepDependenciesResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStepDependenciesRequest,
+  ) => Stream.Stream<
+    ListStepDependenciesResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStepDependenciesRequest,
+  ) => Stream.Stream<
+    StepDependency,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStepDependenciesRequest,
+  output: ListStepDependenciesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dependencies",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists steps for a job.
  */
-export const listSteps = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSteps: {
+  (
+    input: ListStepsRequest,
+  ): Effect.Effect<
+    ListStepsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStepsRequest,
+  ) => Stream.Stream<
+    ListStepsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStepsRequest,
+  ) => Stream.Stream<
+    StepSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListStepsRequest,
   output: ListStepsResponse,
   errors: [
@@ -7620,7 +8733,44 @@ export const listSteps = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists tasks for a job.
  */
-export const listTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTasks: {
+  (
+    input: ListTasksRequest,
+  ): Effect.Effect<
+    ListTasksResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTasksRequest,
+  ) => Stream.Stream<
+    ListTasksResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTasksRequest,
+  ) => Stream.Stream<
+    TaskSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTasksRequest,
   output: ListTasksResponse,
   errors: [
@@ -7640,81 +8790,155 @@ export const listTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists license endpoints.
  */
-export const listLicenseEndpoints =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLicenseEndpoints: {
+  (
     input: ListLicenseEndpointsRequest,
-    output: ListLicenseEndpointsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "licenseEndpoints",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListLicenseEndpointsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLicenseEndpointsRequest,
+  ) => Stream.Stream<
+    ListLicenseEndpointsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLicenseEndpointsRequest,
+  ) => Stream.Stream<
+    LicenseEndpointSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLicenseEndpointsRequest,
+  output: ListLicenseEndpointsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "licenseEndpoints",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Associates a limit with a particular queue. After the limit is associated, all workers
  * for jobs that specify the limit associated with the queue are subject to the limit. You
  * can't associate two limits with the same `amountRequirementName` to the same
  * queue.
  */
-export const createQueueLimitAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateQueueLimitAssociationRequest,
-    output: CreateQueueLimitAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createQueueLimitAssociation: (
+  input: CreateQueueLimitAssociationRequest,
+) => Effect.Effect<
+  CreateQueueLimitAssociationResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateQueueLimitAssociationRequest,
+  output: CreateQueueLimitAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a queue-fleet association.
  */
-export const updateQueueFleetAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateQueueFleetAssociationRequest,
-    output: UpdateQueueFleetAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateQueueFleetAssociation: (
+  input: UpdateQueueFleetAssociationRequest,
+) => Effect.Effect<
+  UpdateQueueFleetAssociationResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQueueFleetAssociationRequest,
+  output: UpdateQueueFleetAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the status of the queue. If you set the status to one of the
  * `STOP_LIMIT_USAGE*` values, there will be a delay before the status
  * transitions to the `STOPPED` state.
  */
-export const updateQueueLimitAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateQueueLimitAssociationRequest,
-    output: UpdateQueueLimitAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateQueueLimitAssociation: (
+  input: UpdateQueueLimitAssociationRequest,
+) => Effect.Effect<
+  UpdateQueueLimitAssociationResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQueueLimitAssociationRequest,
+  output: UpdateQueueLimitAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a farm.
  */
-export const updateFarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFarm: (
+  input: UpdateFarmRequest,
+) => Effect.Effect<
+  UpdateFarmResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFarmRequest,
   output: UpdateFarmResponse,
   errors: [
@@ -7728,7 +8952,18 @@ export const updateFarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a farm.
  */
-export const deleteFarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFarm: (
+  input: DeleteFarmRequest,
+) => Effect.Effect<
+  DeleteFarmResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFarmRequest,
   output: DeleteFarmResponse,
   errors: [
@@ -7742,40 +8977,70 @@ export const deleteFarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Assigns a farm membership level to a member.
  */
-export const associateMemberToFarm = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateMemberToFarmRequest,
-    output: AssociateMemberToFarmResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateMemberToFarm: (
+  input: AssociateMemberToFarmRequest,
+) => Effect.Effect<
+  AssociateMemberToFarmResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateMemberToFarmRequest,
+  output: AssociateMemberToFarmResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates a member from a farm.
  */
-export const disassociateMemberFromFarm = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateMemberFromFarmRequest,
-    output: DisassociateMemberFromFarmResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateMemberFromFarm: (
+  input: DisassociateMemberFromFarmRequest,
+) => Effect.Effect<
+  DisassociateMemberFromFarmResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateMemberFromFarmRequest,
+  output: DisassociateMemberFromFarmResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the properties of the specified limit.
  */
-export const updateLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLimit: (
+  input: UpdateLimitRequest,
+) => Effect.Effect<
+  UpdateLimitResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLimitRequest,
   output: UpdateLimitResponse,
   errors: [
@@ -7789,23 +9054,43 @@ export const updateLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a storage profile.
  */
-export const updateStorageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateStorageProfileRequest,
-    output: UpdateStorageProfileResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateStorageProfile: (
+  input: UpdateStorageProfileRequest,
+) => Effect.Effect<
+  UpdateStorageProfileResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStorageProfileRequest,
+  output: UpdateStorageProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a budget.
  */
-export const deleteBudget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBudget: (
+  input: DeleteBudgetRequest,
+) => Effect.Effect<
+  DeleteBudgetResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBudgetRequest,
   output: DeleteBudgetResponse,
   errors: [
@@ -7819,7 +9104,19 @@ export const deleteBudget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a fleet.
  */
-export const updateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFleet: (
+  input: UpdateFleetRequest,
+) => Effect.Effect<
+  UpdateFleetResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFleetRequest,
   output: UpdateFleetResponse,
   errors: [
@@ -7834,24 +9131,45 @@ export const updateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Assigns a fleet membership level to a member.
  */
-export const associateMemberToFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateMemberToFleetRequest,
-    output: AssociateMemberToFleetResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateMemberToFleet: (
+  input: AssociateMemberToFleetRequest,
+) => Effect.Effect<
+  AssociateMemberToFleetResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateMemberToFleetRequest,
+  output: AssociateMemberToFleetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a queue.
  */
-export const updateQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateQueue: (
+  input: UpdateQueueRequest,
+) => Effect.Effect<
+  UpdateQueueResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueRequest,
   output: UpdateQueueResponse,
   errors: [
@@ -7865,73 +9183,122 @@ export const updateQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Assigns a queue membership level to a member
  */
-export const associateMemberToQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateMemberToQueueRequest,
-    output: AssociateMemberToQueueResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateMemberToQueue: (
+  input: AssociateMemberToQueueRequest,
+) => Effect.Effect<
+  AssociateMemberToQueueResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateMemberToQueueRequest,
+  output: AssociateMemberToQueueResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the queue environment.
  */
-export const updateQueueEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateQueueEnvironmentRequest,
-    output: UpdateQueueEnvironmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateQueueEnvironment: (
+  input: UpdateQueueEnvironmentRequest,
+) => Effect.Effect<
+  UpdateQueueEnvironmentResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQueueEnvironmentRequest,
+  output: UpdateQueueEnvironmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Assigns a job membership level to a member
  */
-export const associateMemberToJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateMemberToJobRequest,
-    output: AssociateMemberToJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateMemberToJob: (
+  input: AssociateMemberToJobRequest,
+) => Effect.Effect<
+  AssociateMemberToJobResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateMemberToJobRequest,
+  output: AssociateMemberToJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates a member from a job.
  */
-export const disassociateMemberFromJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateMemberFromJobRequest,
-    output: DisassociateMemberFromJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateMemberFromJob: (
+  input: DisassociateMemberFromJobRequest,
+) => Effect.Effect<
+  DisassociateMemberFromJobResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateMemberFromJobRequest,
+  output: DisassociateMemberFromJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds a metered product.
  */
-export const putMeteredProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putMeteredProduct: (
+  input: PutMeteredProductRequest,
+) => Effect.Effect<
+  PutMeteredProductResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMeteredProductRequest,
   output: PutMeteredProductResponse,
   errors: [
@@ -7945,24 +9312,44 @@ export const putMeteredProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a metered product.
  */
-export const deleteMeteredProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMeteredProductRequest,
-    output: DeleteMeteredProductResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteMeteredProduct: (
+  input: DeleteMeteredProductRequest,
+) => Effect.Effect<
+  DeleteMeteredProductResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMeteredProductRequest,
+  output: DeleteMeteredProductResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Modifies the settings for a Deadline Cloud monitor. You can modify one or all of the settings
  * when you call `UpdateMonitor`.
  */
-export const updateMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMonitor: (
+  input: UpdateMonitorRequest,
+) => Effect.Effect<
+  UpdateMonitorResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMonitorRequest,
   output: UpdateMonitorResponse,
   errors: [
@@ -7977,7 +9364,18 @@ export const updateMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes a Deadline Cloud monitor. After you delete a monitor, you can create a new one and
  * attach farms to the monitor.
  */
-export const deleteMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMonitor: (
+  input: DeleteMonitorRequest,
+) => Effect.Effect<
+  DeleteMonitorResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMonitorRequest,
   output: DeleteMonitorResponse,
   errors: [
@@ -7991,39 +9389,68 @@ export const deleteMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a queue-fleet association.
  */
-export const getQueueFleetAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetQueueFleetAssociationRequest,
-    output: GetQueueFleetAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getQueueFleetAssociation: (
+  input: GetQueueFleetAssociationRequest,
+) => Effect.Effect<
+  GetQueueFleetAssociationResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQueueFleetAssociationRequest,
+  output: GetQueueFleetAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about a specific association between a queue and a limit.
  */
-export const getQueueLimitAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetQueueLimitAssociationRequest,
-    output: GetQueueLimitAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getQueueLimitAssociation: (
+  input: GetQueueLimitAssociationRequest,
+) => Effect.Effect<
+  GetQueueLimitAssociationResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQueueLimitAssociationRequest,
+  output: GetQueueLimitAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists tags for a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -8040,7 +9467,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for
  * large projects.
  */
-export const createFarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFarm: (
+  input: CreateFarmRequest,
+) => Effect.Effect<
+  CreateFarmResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFarmRequest,
   output: CreateFarmResponse,
   errors: [
@@ -8055,7 +9494,18 @@ export const createFarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get a farm.
  */
-export const getFarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFarm: (
+  input: GetFarmRequest,
+) => Effect.Effect<
+  GetFarmResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFarmRequest,
   output: GetFarmResponse,
   errors: [
@@ -8074,7 +9524,19 @@ export const getFarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You must add the `amountRequirementName` to a step in a job template to
  * declare the limit requirement.
  */
-export const createLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLimit: (
+  input: CreateLimitRequest,
+) => Effect.Effect<
+  CreateLimitResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLimitRequest,
   output: CreateLimitResponse,
   errors: [
@@ -8089,7 +9551,18 @@ export const createLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a specific limit.
  */
-export const getLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLimit: (
+  input: GetLimitRequest,
+) => Effect.Effect<
+  GetLimitResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLimitRequest,
   output: GetLimitResponse,
   errors: [
@@ -8103,7 +9576,18 @@ export const getLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a storage profile.
  */
-export const getStorageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStorageProfile: (
+  input: GetStorageProfileRequest,
+) => Effect.Effect<
+  GetStorageProfileResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStorageProfileRequest,
   output: GetStorageProfileResponse,
   errors: [
@@ -8117,7 +9601,18 @@ export const getStorageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a budget that sets spending thresholds for rendering activity.
  */
-export const updateBudget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBudget: (
+  input: UpdateBudgetRequest,
+) => Effect.Effect<
+  UpdateBudgetResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBudgetRequest,
   output: UpdateBudgetResponse,
   errors: [
@@ -8131,7 +9626,18 @@ export const updateBudget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a queue.
  */
-export const getQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getQueue: (
+  input: GetQueueRequest,
+) => Effect.Effect<
+  GetQueueResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueueRequest,
   output: GetQueueResponse,
   errors: [
@@ -8146,56 +9652,95 @@ export const getQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets Amazon Web Services credentials from the queue role. The IAM permissions of the credentials are
  * scoped down to have read-only access.
  */
-export const assumeQueueRoleForRead = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssumeQueueRoleForReadRequest,
-    output: AssumeQueueRoleForReadResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const assumeQueueRoleForRead: (
+  input: AssumeQueueRoleForReadRequest,
+) => Effect.Effect<
+  AssumeQueueRoleForReadResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssumeQueueRoleForReadRequest,
+  output: AssumeQueueRoleForReadResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Allows a user to assume a role for a queue.
  */
-export const assumeQueueRoleForUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssumeQueueRoleForUserRequest,
-    output: AssumeQueueRoleForUserResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const assumeQueueRoleForUser: (
+  input: AssumeQueueRoleForUserRequest,
+) => Effect.Effect<
+  AssumeQueueRoleForUserResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssumeQueueRoleForUserRequest,
+  output: AssumeQueueRoleForUserResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an environment for a queue that defines how jobs in the queue run.
  */
-export const createQueueEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateQueueEnvironmentRequest,
-    output: CreateQueueEnvironmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createQueueEnvironment: (
+  input: CreateQueueEnvironmentRequest,
+) => Effect.Effect<
+  CreateQueueEnvironmentResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateQueueEnvironmentRequest,
+  output: CreateQueueEnvironmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a queue environment.
  */
-export const getQueueEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getQueueEnvironment: (
+  input: GetQueueEnvironmentRequest,
+) => Effect.Effect<
+  GetQueueEnvironmentResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueueEnvironmentRequest,
   output: GetQueueEnvironmentResponse,
   errors: [
@@ -8209,44 +9754,100 @@ export const getQueueEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a storage profile for a queue.
  */
-export const getStorageProfileForQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetStorageProfileForQueueRequest,
-    output: GetStorageProfileForQueueResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getStorageProfileForQueue: (
+  input: GetStorageProfileForQueueRequest,
+) => Effect.Effect<
+  GetStorageProfileForQueueResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStorageProfileForQueueRequest,
+  output: GetStorageProfileForQueueResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists storage profiles for a queue.
  */
-export const listStorageProfilesForQueue =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listStorageProfilesForQueue: {
+  (
     input: ListStorageProfilesForQueueRequest,
-    output: ListStorageProfilesForQueueResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "storageProfiles",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListStorageProfilesForQueueResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStorageProfilesForQueueRequest,
+  ) => Stream.Stream<
+    ListStorageProfilesForQueueResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStorageProfilesForQueueRequest,
+  ) => Stream.Stream<
+    StorageProfileSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStorageProfilesForQueueRequest,
+  output: ListStorageProfilesForQueueResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "storageProfiles",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a session.
  */
-export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSession: (
+  input: GetSessionRequest,
+) => Effect.Effect<
+  GetSessionResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
   output: GetSessionResponse,
   errors: [
@@ -8260,28 +9861,75 @@ export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists parameter definitions of a job.
  */
-export const listJobParameterDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listJobParameterDefinitions: {
+  (
     input: ListJobParameterDefinitionsRequest,
-    output: ListJobParameterDefinitionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "jobParameterDefinitions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListJobParameterDefinitionsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobParameterDefinitionsRequest,
+  ) => Stream.Stream<
+    ListJobParameterDefinitionsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobParameterDefinitionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListJobParameterDefinitionsRequest,
+  output: ListJobParameterDefinitionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobParameterDefinitions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a licence endpoint.
  */
-export const getLicenseEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLicenseEndpoint: (
+  input: GetLicenseEndpointRequest,
+) => Effect.Effect<
+  GetLicenseEndpointResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLicenseEndpointRequest,
   output: GetLicenseEndpointResponse,
   errors: [
@@ -8295,28 +9943,75 @@ export const getLicenseEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists metered products.
  */
-export const listMeteredProducts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMeteredProducts: {
+  (
     input: ListMeteredProductsRequest,
-    output: ListMeteredProductsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "meteredProducts",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMeteredProductsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMeteredProductsRequest,
+  ) => Stream.Stream<
+    ListMeteredProductsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMeteredProductsRequest,
+  ) => Stream.Stream<
+    MeteredProductSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMeteredProductsRequest,
+  output: ListMeteredProductsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "meteredProducts",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets information about the specified monitor.
  */
-export const getMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMonitor: (
+  input: GetMonitorRequest,
+) => Effect.Effect<
+  GetMonitorResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMonitorRequest,
   output: GetMonitorResponse,
   errors: [
@@ -8335,24 +10030,46 @@ export const getMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Use the `GetQueueLimitAssociation` operation to see if the status changed to
  * `STOPPED` before deleting the association.
  */
-export const deleteQueueLimitAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteQueueLimitAssociationRequest,
-    output: DeleteQueueLimitAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteQueueLimitAssociation: (
+  input: DeleteQueueLimitAssociationRequest,
+) => Effect.Effect<
+  DeleteQueueLimitAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteQueueLimitAssociationRequest,
+  output: DeleteQueueLimitAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes a tag from a resource using the resource's ARN and tag to remove.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -8367,7 +10084,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a fleet.
  */
-export const deleteFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFleet: (
+  input: DeleteFleetRequest,
+) => Effect.Effect<
+  DeleteFleetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFleetRequest,
   output: DeleteFleetResponse,
   errors: [
@@ -8382,24 +10111,46 @@ export const deleteFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates a member from a fleet.
  */
-export const disassociateMemberFromFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateMemberFromFleetRequest,
-    output: DisassociateMemberFromFleetResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateMemberFromFleet: (
+  input: DisassociateMemberFromFleetRequest,
+) => Effect.Effect<
+  DisassociateMemberFromFleetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateMemberFromFleetRequest,
+  output: DisassociateMemberFromFleetResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a worker.
  */
-export const deleteWorker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorker: (
+  input: DeleteWorkerRequest,
+) => Effect.Effect<
+  DeleteWorkerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkerRequest,
   output: DeleteWorkerResponse,
   errors: [
@@ -8417,7 +10168,19 @@ export const deleteWorker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can't recover the jobs in a queue if you delete the queue. Deleting the queue
  * also deletes the jobs in that queue.
  */
-export const deleteQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteQueue: (
+  input: DeleteQueueRequest,
+) => Effect.Effect<
+  DeleteQueueResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueueRequest,
   output: DeleteQueueResponse,
   errors: [
@@ -8432,20 +10195,30 @@ export const deleteQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates a member from a queue.
  */
-export const disassociateMemberFromQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateMemberFromQueueRequest,
-    output: DisassociateMemberFromQueueResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateMemberFromQueue: (
+  input: DisassociateMemberFromQueueRequest,
+) => Effect.Effect<
+  DisassociateMemberFromQueueResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateMemberFromQueueRequest,
+  output: DisassociateMemberFromQueueResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a job.
  *
@@ -8455,7 +10228,19 @@ export const disassociateMemberFromQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * An archived jobs and its steps and tasks are deleted after 120 days. The job can't be
  * recovered.
  */
-export const updateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateJob: (
+  input: UpdateJobRequest,
+) => Effect.Effect<
+  UpdateJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobRequest,
   output: UpdateJobResponse,
   errors: [
@@ -8470,7 +10255,19 @@ export const updateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a session.
  */
-export const updateSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSession: (
+  input: UpdateSessionRequest,
+) => Effect.Effect<
+  UpdateSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSessionRequest,
   output: UpdateSessionResponse,
   errors: [
@@ -8485,7 +10282,19 @@ export const updateSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a step.
  */
-export const updateStep = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateStep: (
+  input: UpdateStepRequest,
+) => Effect.Effect<
+  UpdateStepResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStepRequest,
   output: UpdateStepResponse,
   errors: [
@@ -8500,7 +10309,19 @@ export const updateStep = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a task.
  */
-export const updateTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTask: (
+  input: UpdateTaskRequest,
+) => Effect.Effect<
+  UpdateTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTaskRequest,
   output: UpdateTaskResponse,
   errors: [
@@ -8515,24 +10336,46 @@ export const updateTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a license endpoint.
  */
-export const deleteLicenseEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLicenseEndpointRequest,
-    output: DeleteLicenseEndpointResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteLicenseEndpoint: (
+  input: DeleteLicenseEndpointRequest,
+) => Effect.Effect<
+  DeleteLicenseEndpointResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLicenseEndpointRequest,
+  output: DeleteLicenseEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Tags a resource using the resource's ARN and desired tags.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -8547,37 +10390,57 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get credentials from the fleet role for a worker.
  */
-export const assumeFleetRoleForWorker = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssumeFleetRoleForWorkerRequest,
-    output: AssumeFleetRoleForWorkerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const assumeFleetRoleForWorker: (
+  input: AssumeFleetRoleForWorkerRequest,
+) => Effect.Effect<
+  AssumeFleetRoleForWorkerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssumeFleetRoleForWorkerRequest,
+  output: AssumeFleetRoleForWorkerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Allows a worker to assume a queue role.
  */
-export const assumeQueueRoleForWorker = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssumeQueueRoleForWorkerRequest,
-    output: AssumeQueueRoleForWorkerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const assumeQueueRoleForWorker: (
+  input: AssumeQueueRoleForWorkerRequest,
+) => Effect.Effect<
+  AssumeQueueRoleForWorkerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssumeQueueRoleForWorkerRequest,
+  output: AssumeQueueRoleForWorkerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a worker. A worker tells your instance how much processing power (vCPU), and
  * memory (GiB) you’ll need to assemble the digital assets held within a particular instance.
@@ -8592,7 +10455,19 @@ export const assumeQueueRoleForWorker = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `CreateWorker` calls might successfully create 2 workers instead of 1,
  * resulting in 11 total workers.
  */
-export const createWorker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorker: (
+  input: CreateWorkerRequest,
+) => Effect.Effect<
+  CreateWorkerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkerRequest,
   output: CreateWorkerResponse,
   errors: [
@@ -8607,7 +10482,19 @@ export const createWorker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a worker.
  */
-export const updateWorker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWorker: (
+  input: UpdateWorkerRequest,
+) => Effect.Effect<
+  UpdateWorkerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkerRequest,
   output: UpdateWorkerResponse,
   errors: [
@@ -8622,7 +10509,41 @@ export const updateWorker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists farms.
  */
-export const listFarms = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFarms: {
+  (
+    input: ListFarmsRequest,
+  ): Effect.Effect<
+    ListFarmsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFarmsRequest,
+  ) => Stream.Stream<
+    ListFarmsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFarmsRequest,
+  ) => Stream.Stream<
+    FarmSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFarmsRequest,
   output: ListFarmsResponse,
   errors: [
@@ -8641,30 +10562,72 @@ export const listFarms = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Gets a list of your monitors in Deadline Cloud.
  */
-export const listMonitors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMonitors: {
+  (
     input: ListMonitorsRequest,
-    output: ListMonitorsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "monitors",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMonitorsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMonitorsRequest,
+  ) => Stream.Stream<
+    ListMonitorsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMonitorsRequest,
+  ) => Stream.Stream<
+    MonitorSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMonitorsRequest,
+  output: ListMonitorsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "monitors",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Removes a limit from the specified farm. Before you delete a limit you must use the
  * `DeleteQueueLimitAssociation` operation to remove the association with any
  * queues.
  */
-export const deleteLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLimit: (
+  input: DeleteLimitRequest,
+) => Effect.Effect<
+  DeleteLimitResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLimitRequest,
   output: DeleteLimitResponse,
   errors: [
@@ -8677,93 +10640,174 @@ export const deleteLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a storage profile.
  */
-export const deleteStorageProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStorageProfileRequest,
-    output: DeleteStorageProfileResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteStorageProfile: (
+  input: DeleteStorageProfileRequest,
+) => Effect.Effect<
+  DeleteStorageProfileResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStorageProfileRequest,
+  output: DeleteStorageProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a queue environment.
  */
-export const deleteQueueEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteQueueEnvironmentRequest,
-    output: DeleteQueueEnvironmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteQueueEnvironment: (
+  input: DeleteQueueEnvironmentRequest,
+) => Effect.Effect<
+  DeleteQueueEnvironmentResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteQueueEnvironmentRequest,
+  output: DeleteQueueEnvironmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an association between a queue and a fleet.
  */
-export const createQueueFleetAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateQueueFleetAssociationRequest,
-    output: CreateQueueFleetAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createQueueFleetAssociation: (
+  input: CreateQueueFleetAssociationRequest,
+) => Effect.Effect<
+  CreateQueueFleetAssociationResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateQueueFleetAssociationRequest,
+  output: CreateQueueFleetAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists session actions.
  */
-export const listSessionActions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSessionActions: {
+  (
     input: ListSessionActionsRequest,
-    output: ListSessionActionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "sessionActions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSessionActionsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSessionActionsRequest,
+  ) => Stream.Stream<
+    ListSessionActionsResponse,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSessionActionsRequest,
+  ) => Stream.Stream<
+    SessionActionSummary,
+    | AccessDeniedException
+    | InternalServerErrorException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSessionActionsRequest,
+  output: ListSessionActionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sessionActions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a license endpoint to integrate your various licensed software used for
  * rendering on Deadline Cloud.
  */
-export const createLicenseEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLicenseEndpointRequest,
-    output: CreateLicenseEndpointResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerErrorException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createLicenseEndpoint: (
+  input: CreateLicenseEndpointRequest,
+) => Effect.Effect<
+  CreateLicenseEndpointResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLicenseEndpointRequest,
+  output: CreateLicenseEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerErrorException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Searches for jobs.
  */
-export const searchJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const searchJobs: (
+  input: SearchJobsRequest,
+) => Effect.Effect<
+  SearchJobsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchJobsRequest,
   output: SearchJobsResponse,
   errors: [
@@ -8779,7 +10823,19 @@ export const searchJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * within your farms. You can choose to manage your own capacity or opt to have fleets fully
  * managed by Deadline Cloud.
  */
-export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFleet: (
+  input: CreateFleetRequest,
+) => Effect.Effect<
+  CreateFleetResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFleetRequest,
   output: CreateFleetResponse,
   errors: [
@@ -8794,7 +10850,18 @@ export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get batched job details for a worker.
  */
-export const batchGetJobEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetJobEntity: (
+  input: BatchGetJobEntityRequest,
+) => Effect.Effect<
+  BatchGetJobEntityResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetJobEntityRequest,
   output: BatchGetJobEntityResponse,
   errors: [
@@ -8808,17 +10875,27 @@ export const batchGetJobEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the schedule for a worker.
  */
-export const updateWorkerSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWorkerScheduleRequest,
-    output: UpdateWorkerScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerErrorException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateWorkerSchedule: (
+  input: UpdateWorkerScheduleRequest,
+) => Effect.Effect<
+  UpdateWorkerScheduleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkerScheduleRequest,
+  output: UpdateWorkerScheduleResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

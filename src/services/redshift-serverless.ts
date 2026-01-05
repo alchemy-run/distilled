@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Redshift Serverless",
   serviceShapeName: "RedshiftServerless",
@@ -240,6 +248,55 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type WorkgroupName = string;
+export type CustomDomainName = string;
+export type CustomDomainCertificateArnString = string;
+export type DbName = string;
+export type TrackName = string;
+export type PaginationToken = string;
+export type AmazonResourceName = string;
+export type TagKey = string;
+export type SubnetId = string;
+export type VpcSecurityGroupId = string;
+export type OwnerAccount = string;
+export type SourceArn = string;
+export type NamespaceName = string;
+export type DbUser = string;
+export type DbPassword = string;
+export type IamRoleArn = string;
+export type LogExport = string;
+export type KmsKeyId = string;
+export type RedshiftIdcApplicationArn = string;
+export type LakehouseRegistration = string;
+export type CatalogNameString = string;
+export type LakehouseIdcRegistration = string;
+export type Capacity = number;
+export type OfferingId = string;
+export type ReservationId = string;
+export type ScheduledActionName = string;
+export type UsageLimitUsageType = string;
+export type UsageLimitPeriod = string;
+export type UsageLimitBreachAction = string;
+export type SecurityGroupId = string;
+export type IpAddressType = string;
+export type TagValue = string;
+export type ParameterKey = string;
+export type ParameterValue = string;
+export type PerformanceTargetStatus = string;
+export type SnapshotNamePrefix = string;
+export type ManagedWorkgroupName = string;
+export type NamespaceStatus = string;
+export type SnapshotStatus = string;
+export type ReservationArn = string;
+export type Status = string;
+export type Duration = number;
+export type Charge = number;
+export type CurrencyCode = string;
+export type OfferingType = string;
+export type State = string;
+export type WorkgroupStatus = string;
 
 //# Schemas
 export type WorkgroupNameList = string[];
@@ -883,9 +940,13 @@ export const CreateSnapshotScheduleActionParameters = S.suspend(() =>
 ).annotations({
   identifier: "CreateSnapshotScheduleActionParameters",
 }) as any as S.Schema<CreateSnapshotScheduleActionParameters>;
+export type TargetAction = {
+  createSnapshot: CreateSnapshotScheduleActionParameters;
+};
 export const TargetAction = S.Union(
   S.Struct({ createSnapshot: CreateSnapshotScheduleActionParameters }),
 );
+export type Schedule = { at: Date } | { cron: string };
 export const Schedule = S.Union(
   S.Struct({ at: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
   S.Struct({ cron: S.String }),
@@ -2517,7 +2578,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String },
@@ -2538,7 +2601,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { code: S.optional(S.String), message: S.optional(S.String) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
   { message: S.optional(S.String), resourceName: S.optional(S.String) },
@@ -2565,38 +2630,89 @@ export class Ipv6CidrBlockNotFoundException extends S.TaggedError<Ipv6CidrBlockN
 /**
  * Returns information about a list of specified managed workgroups in your account.
  */
-export const listManagedWorkgroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listManagedWorkgroups: {
+  (
     input: ListManagedWorkgroupsRequest,
-    output: ListManagedWorkgroupsResponse,
-    errors: [AccessDeniedException, InternalServerException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "managedWorkgroups",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListManagedWorkgroupsResponse,
+    AccessDeniedException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListManagedWorkgroupsRequest,
+  ) => Stream.Stream<
+    ListManagedWorkgroupsResponse,
+    AccessDeniedException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListManagedWorkgroupsRequest,
+  ) => Stream.Stream<
+    ManagedWorkgroupListItem,
+    AccessDeniedException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListManagedWorkgroupsRequest,
+  output: ListManagedWorkgroupsResponse,
+  errors: [AccessDeniedException, InternalServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "managedWorkgroups",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about a list of specified namespaces.
  */
-export const listNamespaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listNamespaces: {
+  (
     input: ListNamespacesRequest,
-    output: ListNamespacesResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "namespaces",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListNamespacesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNamespacesRequest,
+  ) => Stream.Stream<
+    ListNamespacesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNamespacesRequest,
+  ) => Stream.Stream<
+    Namespace,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNamespacesRequest,
+  output: ListNamespacesResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "namespaces",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about a recovery point.
  */
-export const getRecoveryPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRecoveryPoint: (
+  input: GetRecoveryPointRequest,
+) => Effect.Effect<
+  GetRecoveryPointResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecoveryPointRequest,
   output: GetRecoveryPointResponse,
   errors: [
@@ -2609,118 +2725,236 @@ export const getRecoveryPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Restores a table from a recovery point to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys.
  */
-export const restoreTableFromRecoveryPoint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RestoreTableFromRecoveryPointRequest,
-    output: RestoreTableFromRecoveryPointResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const restoreTableFromRecoveryPoint: (
+  input: RestoreTableFromRecoveryPointRequest,
+) => Effect.Effect<
+  RestoreTableFromRecoveryPointResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreTableFromRecoveryPointRequest,
+  output: RestoreTableFromRecoveryPointResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the current reservation offerings in your account.
  */
-export const listReservationOfferings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listReservationOfferings: {
+  (
     input: ListReservationOfferingsRequest,
-    output: ListReservationOfferingsResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "reservationOfferingsList",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListReservationOfferingsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReservationOfferingsRequest,
+  ) => Stream.Stream<
+    ListReservationOfferingsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReservationOfferingsRequest,
+  ) => Stream.Stream<
+    ReservationOffering,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReservationOfferingsRequest,
+  output: ListReservationOfferingsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "reservationOfferingsList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes a scheduled action.
  */
-export const deleteScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteScheduledActionRequest,
-    output: DeleteScheduledActionResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteScheduledAction: (
+  input: DeleteScheduledActionRequest,
+) => Effect.Effect<
+  DeleteScheduledActionResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteScheduledActionRequest,
+  output: DeleteScheduledActionResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of scheduled actions. You can use the flags to filter the list of returned scheduled actions.
  */
-export const listScheduledActions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listScheduledActions: {
+  (
     input: ListScheduledActionsRequest,
-    output: ListScheduledActionsResponse,
-    errors: [
-      InternalServerException,
-      InvalidPaginationException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "scheduledActions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListScheduledActionsResponse,
+    | InternalServerException
+    | InvalidPaginationException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListScheduledActionsRequest,
+  ) => Stream.Stream<
+    ListScheduledActionsResponse,
+    | InternalServerException
+    | InvalidPaginationException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListScheduledActionsRequest,
+  ) => Stream.Stream<
+    ScheduledActionAssociation,
+    | InternalServerException
+    | InvalidPaginationException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListScheduledActionsRequest,
+  output: ListScheduledActionsResponse,
+  errors: [
+    InternalServerException,
+    InvalidPaginationException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "scheduledActions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets information about a specific custom domain association.
  */
-export const getCustomDomainAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCustomDomainAssociationRequest,
-    output: GetCustomDomainAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getCustomDomainAssociation: (
+  input: GetCustomDomainAssociationRequest,
+) => Effect.Effect<
+  GetCustomDomainAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCustomDomainAssociationRequest,
+  output: GetCustomDomainAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an Amazon Redshift Serverless certificate associated with a custom domain.
  */
-export const updateCustomDomainAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCustomDomainAssociationRequest,
-    output: UpdateCustomDomainAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateCustomDomainAssociation: (
+  input: UpdateCustomDomainAssociationRequest,
+) => Effect.Effect<
+  UpdateCustomDomainAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCustomDomainAssociationRequest,
+  output: UpdateCustomDomainAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an Amazon Redshift Serverless managed VPC endpoint.
  */
-export const deleteEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEndpointAccessRequest,
-    output: DeleteEndpointAccessResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteEndpointAccess: (
+  input: DeleteEndpointAccessRequest,
+) => Effect.Effect<
+  DeleteEndpointAccessResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEndpointAccessRequest,
+  output: DeleteEndpointAccessResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information, such as the name, about a VPC endpoint.
  */
-export const getEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEndpointAccess: (
+  input: GetEndpointAccessRequest,
+) => Effect.Effect<
+  GetEndpointAccessResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEndpointAccessRequest,
   output: GetEndpointAccessResponse,
   errors: [
@@ -2733,44 +2967,95 @@ export const getEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns an array of `EndpointAccess` objects and relevant information.
  */
-export const listEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEndpointAccess: {
+  (
     input: ListEndpointAccessRequest,
-    output: ListEndpointAccessResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "endpoints",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEndpointAccessResponse,
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEndpointAccessRequest,
+  ) => Stream.Stream<
+    ListEndpointAccessResponse,
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEndpointAccessRequest,
+  ) => Stream.Stream<
+    EndpointAccess,
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEndpointAccessRequest,
+  output: ListEndpointAccessResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "endpoints",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates an Amazon Redshift Serverless managed endpoint.
  */
-export const updateEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEndpointAccessRequest,
-    output: UpdateEndpointAccessResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateEndpointAccess: (
+  input: UpdateEndpointAccessRequest,
+) => Effect.Effect<
+  UpdateEndpointAccessResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEndpointAccessRequest,
+  output: UpdateEndpointAccessResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both `adminUsername` and `adminUserPassword` to update either field, but you can't update both `kmsKeyId` and `logExports` in a single request.
  */
-export const updateNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateNamespace: (
+  input: UpdateNamespaceRequest,
+) => Effect.Effect<
+  UpdateNamespaceResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNamespaceRequest,
   output: UpdateNamespaceResponse,
   errors: [
@@ -2783,7 +3068,17 @@ export const updateNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a namespace from Amazon Redshift Serverless. Before you delete the namespace, you can create a final snapshot that has all of the data within the namespace.
  */
-export const deleteNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteNamespace: (
+  input: DeleteNamespaceRequest,
+) => Effect.Effect<
+  DeleteNamespaceResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNamespaceRequest,
   output: DeleteNamespaceResponse,
   errors: [
@@ -2796,37 +3091,63 @@ export const deleteNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Restore the data from a recovery point.
  */
-export const restoreFromRecoveryPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RestoreFromRecoveryPointRequest,
-    output: RestoreFromRecoveryPointResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const restoreFromRecoveryPoint: (
+  input: RestoreFromRecoveryPointRequest,
+) => Effect.Effect<
+  RestoreFromRecoveryPointResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreFromRecoveryPointRequest,
+  output: RestoreFromRecoveryPointResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a scheduled action.
  */
-export const updateScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateScheduledActionRequest,
-    output: UpdateScheduledActionResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateScheduledAction: (
+  input: UpdateScheduledActionRequest,
+) => Effect.Effect<
+  UpdateScheduledActionResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateScheduledActionRequest,
+  output: UpdateScheduledActionResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a snapshot from Amazon Redshift Serverless.
  */
-export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSnapshot: (
+  input: DeleteSnapshotRequest,
+) => Effect.Effect<
+  DeleteSnapshotResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSnapshotRequest,
   output: DeleteSnapshotResponse,
   errors: [
@@ -2839,58 +3160,122 @@ export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a snapshot copy configuration
  */
-export const deleteSnapshotCopyConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteSnapshotCopyConfigurationRequest,
-    output: DeleteSnapshotCopyConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const deleteSnapshotCopyConfiguration: (
+  input: DeleteSnapshotCopyConfigurationRequest,
+) => Effect.Effect<
+  DeleteSnapshotCopyConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSnapshotCopyConfigurationRequest,
+  output: DeleteSnapshotCopyConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of snapshot copy configurations.
  */
-export const listSnapshotCopyConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSnapshotCopyConfigurations: {
+  (
     input: ListSnapshotCopyConfigurationsRequest,
-    output: ListSnapshotCopyConfigurationsResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      InvalidPaginationException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "snapshotCopyConfigurations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSnapshotCopyConfigurationsResponse,
+    | ConflictException
+    | InternalServerException
+    | InvalidPaginationException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSnapshotCopyConfigurationsRequest,
+  ) => Stream.Stream<
+    ListSnapshotCopyConfigurationsResponse,
+    | ConflictException
+    | InternalServerException
+    | InvalidPaginationException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSnapshotCopyConfigurationsRequest,
+  ) => Stream.Stream<
+    SnapshotCopyConfiguration,
+    | ConflictException
+    | InternalServerException
+    | InvalidPaginationException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSnapshotCopyConfigurationsRequest,
+  output: ListSnapshotCopyConfigurationsResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    InvalidPaginationException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "snapshotCopyConfigurations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Restores a table from a snapshot to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys.
  */
-export const restoreTableFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RestoreTableFromSnapshotRequest,
-    output: RestoreTableFromSnapshotResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const restoreTableFromSnapshot: (
+  input: RestoreTableFromSnapshotRequest,
+) => Effect.Effect<
+  RestoreTableFromSnapshotResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreTableFromSnapshotRequest,
+  output: RestoreTableFromSnapshotResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a snapshot.
  */
-export const updateSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSnapshot: (
+  input: UpdateSnapshotRequest,
+) => Effect.Effect<
+  UpdateSnapshotResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSnapshotRequest,
   output: UpdateSnapshotResponse,
   errors: [
@@ -2903,22 +3288,42 @@ export const updateSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a snapshot copy configuration.
  */
-export const updateSnapshotCopyConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSnapshotCopyConfigurationRequest,
-    output: UpdateSnapshotCopyConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const updateSnapshotCopyConfiguration: (
+  input: UpdateSnapshotCopyConfigurationRequest,
+) => Effect.Effect<
+  UpdateSnapshotCopyConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSnapshotCopyConfigurationRequest,
+  output: UpdateSnapshotCopyConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a usage limit from Amazon Redshift Serverless.
  */
-export const deleteUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUsageLimit: (
+  input: DeleteUsageLimitRequest,
+) => Effect.Effect<
+  DeleteUsageLimitResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUsageLimitRequest,
   output: DeleteUsageLimitResponse,
   errors: [
@@ -2931,7 +3336,17 @@ export const deleteUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a usage limit.
  */
-export const getUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUsageLimit: (
+  input: GetUsageLimitRequest,
+) => Effect.Effect<
+  GetUsageLimitResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsageLimitRequest,
   output: GetUsageLimitResponse,
   errors: [
@@ -2944,29 +3359,74 @@ export const getUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all usage limits within Amazon Redshift Serverless.
  */
-export const listUsageLimits = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listUsageLimits: {
+  (
     input: ListUsageLimitsRequest,
-    output: ListUsageLimitsResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      InvalidPaginationException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "usageLimits",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListUsageLimitsResponse,
+    | ConflictException
+    | InternalServerException
+    | InvalidPaginationException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUsageLimitsRequest,
+  ) => Stream.Stream<
+    ListUsageLimitsResponse,
+    | ConflictException
+    | InternalServerException
+    | InvalidPaginationException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUsageLimitsRequest,
+  ) => Stream.Stream<
+    UsageLimit,
+    | ConflictException
+    | InternalServerException
+    | InvalidPaginationException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUsageLimitsRequest,
+  output: ListUsageLimitsResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    InvalidPaginationException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "usageLimits",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Update a usage limit in Amazon Redshift Serverless. You can't update the usage type or period of a usage limit.
  */
-export const updateUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUsageLimit: (
+  input: UpdateUsageLimitRequest,
+) => Effect.Effect<
+  UpdateUsageLimitResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUsageLimitRequest,
   output: UpdateUsageLimitResponse,
   errors: [
@@ -2979,7 +3439,17 @@ export const updateUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a workgroup.
  */
-export const deleteWorkgroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkgroup: (
+  input: DeleteWorkgroupRequest,
+) => Effect.Effect<
+  DeleteWorkgroupResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkgroupRequest,
   output: DeleteWorkgroupResponse,
   errors: [
@@ -2992,19 +3462,30 @@ export const deleteWorkgroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a custom domain association for Amazon Redshift Serverless.
  */
-export const createCustomDomainAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCustomDomainAssociationRequest,
-    output: CreateCustomDomainAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createCustomDomainAssociation: (
+  input: CreateCustomDomainAssociationRequest,
+) => Effect.Effect<
+  CreateCustomDomainAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomDomainAssociationRequest,
+  output: CreateCustomDomainAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless.
  *
@@ -3014,7 +3495,16 @@ export const createCustomDomainAssociation =
  *
  * If the `DbName` parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name.
  */
-export const getCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCredentials: (
+  input: GetCredentialsRequest,
+) => Effect.Effect<
+  GetCredentialsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCredentialsRequest,
   output: GetCredentialsResponse,
   errors: [
@@ -3026,7 +3516,17 @@ export const getCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags assigned to a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3039,7 +3539,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a namespace in Amazon Redshift Serverless.
  */
-export const getNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getNamespace: (
+  input: GetNamespaceRequest,
+) => Effect.Effect<
+  GetNamespaceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNamespaceRequest,
   output: GetNamespaceResponse,
   errors: [
@@ -3051,7 +3560,17 @@ export const getNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets an Amazon Redshift Serverless reservation. A reservation gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
  */
-export const getReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getReservation: (
+  input: GetReservationRequest,
+) => Effect.Effect<
+  GetReservationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReservationRequest,
   output: GetReservationResponse,
   errors: [
@@ -3064,7 +3583,16 @@ export const getReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a scheduled action.
  */
-export const getScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getScheduledAction: (
+  input: GetScheduledActionRequest,
+) => Effect.Effect<
+  GetScheduledActionResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetScheduledActionRequest,
   output: GetScheduledActionResponse,
   errors: [
@@ -3076,7 +3604,16 @@ export const getScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a specific snapshot.
  */
-export const getSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSnapshot: (
+  input: GetSnapshotRequest,
+) => Effect.Effect<
+  GetSnapshotResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSnapshotRequest,
   output: GetSnapshotResponse,
   errors: [
@@ -3088,37 +3625,80 @@ export const getSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a `TableRestoreStatus` object.
  */
-export const getTableRestoreStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTableRestoreStatusRequest,
-    output: GetTableRestoreStatusResponse,
-    errors: [ResourceNotFoundException, ValidationException],
-  }),
-);
+export const getTableRestoreStatus: (
+  input: GetTableRestoreStatusRequest,
+) => Effect.Effect<
+  GetTableRestoreStatusResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableRestoreStatusRequest,
+  output: GetTableRestoreStatusResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
 /**
  * Returns a list of snapshots.
  */
-export const listSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSnapshots: {
+  (
     input: ListSnapshotsRequest,
-    output: ListSnapshotsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "snapshots",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSnapshotsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSnapshotsRequest,
+  ) => Stream.Stream<
+    ListSnapshotsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSnapshotsRequest,
+  ) => Stream.Stream<
+    Snapshot,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSnapshotsRequest,
+  output: ListSnapshotsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "snapshots",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Removes a tag or set of tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3131,109 +3711,242 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a custom domain association for Amazon Redshift Serverless.
  */
-export const deleteCustomDomainAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCustomDomainAssociationRequest,
-    output: DeleteCustomDomainAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteCustomDomainAssociation: (
+  input: DeleteCustomDomainAssociationRequest,
+) => Effect.Effect<
+  DeleteCustomDomainAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomDomainAssociationRequest,
+  output: DeleteCustomDomainAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about an array of `TableRestoreStatus` objects.
  */
-export const listTableRestoreStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTableRestoreStatus: {
+  (
     input: ListTableRestoreStatusRequest,
-    output: ListTableRestoreStatusResponse,
-    errors: [
-      InvalidPaginationException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "tableRestoreStatuses",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTableRestoreStatusResponse,
+    | InvalidPaginationException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTableRestoreStatusRequest,
+  ) => Stream.Stream<
+    ListTableRestoreStatusResponse,
+    | InvalidPaginationException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTableRestoreStatusRequest,
+  ) => Stream.Stream<
+    TableRestoreStatus,
+    | InvalidPaginationException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTableRestoreStatusRequest,
+  output: ListTableRestoreStatusResponse,
+  errors: [
+    InvalidPaginationException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tableRestoreStatuses",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists custom domain associations for Amazon Redshift Serverless.
  */
-export const listCustomDomainAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCustomDomainAssociations: {
+  (
     input: ListCustomDomainAssociationsRequest,
-    output: ListCustomDomainAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidPaginationException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "associations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCustomDomainAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidPaginationException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCustomDomainAssociationsRequest,
+  ) => Stream.Stream<
+    ListCustomDomainAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidPaginationException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCustomDomainAssociationsRequest,
+  ) => Stream.Stream<
+    Association,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidPaginationException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCustomDomainAssociationsRequest,
+  output: ListCustomDomainAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidPaginationException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "associations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns an array of recovery points.
  */
-export const listRecoveryPoints = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRecoveryPoints: {
+  (
     input: ListRecoveryPointsRequest,
-    output: ListRecoveryPointsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "recoveryPoints",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRecoveryPointsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecoveryPointsRequest,
+  ) => Stream.Stream<
+    ListRecoveryPointsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecoveryPointsRequest,
+  ) => Stream.Stream<
+    RecoveryPoint,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecoveryPointsRequest,
+  output: ListRecoveryPointsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "recoveryPoints",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about a list of specified workgroups.
  */
-export const listWorkgroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkgroups: {
+  (
     input: ListWorkgroupsRequest,
-    output: ListWorkgroupsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "workgroups",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkgroupsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkgroupsRequest,
+  ) => Stream.Stream<
+    ListWorkgroupsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkgroupsRequest,
+  ) => Stream.Stream<
+    Workgroup,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkgroupsRequest,
+  output: ListWorkgroupsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workgroups",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes the specified resource policy.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a resource policy.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => Effect.Effect<
+  GetResourcePolicyResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
   errors: [
@@ -3245,23 +3958,89 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of Reservation objects.
  */
-export const listReservations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listReservations: {
+  (
     input: ListReservationsRequest,
-    output: ListReservationsResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "reservationsList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListReservationsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReservationsRequest,
+  ) => Stream.Stream<
+    ListReservationsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReservationsRequest,
+  ) => Stream.Stream<
+    Reservation,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReservationsRequest,
+  output: ListReservationsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "reservationsList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List the Amazon Redshift Serverless versions.
  */
-export const listTracks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTracks: {
+  (
+    input: ListTracksRequest,
+  ): Effect.Effect<
+    ListTracksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidPaginationException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTracksRequest,
+  ) => Stream.Stream<
+    ListTracksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidPaginationException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTracksRequest,
+  ) => Stream.Stream<
+    ServerlessTrack,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidPaginationException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTracksRequest,
   output: ListTracksResponse,
   errors: [
@@ -3281,22 +4060,40 @@ export const listTracks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns the reservation offering. The offering determines the payment schedule for the reservation.
  */
-export const getReservationOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetReservationOfferingRequest,
-    output: GetReservationOfferingResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getReservationOffering: (
+  input: GetReservationOfferingRequest,
+) => Effect.Effect<
+  GetReservationOfferingResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReservationOfferingRequest,
+  output: GetReservationOfferingResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a namespace in Amazon Redshift Serverless.
  */
-export const createNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createNamespace: (
+  input: CreateNamespaceRequest,
+) => Effect.Effect<
+  CreateNamespaceResponse,
+  | ConflictException
+  | InternalServerException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNamespaceRequest,
   output: CreateNamespaceResponse,
   errors: [
@@ -3309,38 +4106,66 @@ export const createNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Converts a recovery point to a snapshot. For more information about recovery points and snapshots, see Working with snapshots and recovery points.
  */
-export const convertRecoveryPointToSnapshot =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ConvertRecoveryPointToSnapshotRequest,
-    output: ConvertRecoveryPointToSnapshotResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      TooManyTagsException,
-      ValidationException,
-    ],
-  }));
+export const convertRecoveryPointToSnapshot: (
+  input: ConvertRecoveryPointToSnapshotRequest,
+) => Effect.Effect<
+  ConvertRecoveryPointToSnapshotResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ConvertRecoveryPointToSnapshotRequest,
+  output: ConvertRecoveryPointToSnapshotResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the `CreateSnapshot` API operation.
  */
-export const createScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateScheduledActionRequest,
-    output: CreateScheduledActionResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const createScheduledAction: (
+  input: CreateScheduledActionRequest,
+) => Effect.Effect<
+  CreateScheduledActionResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateScheduledActionRequest,
+  output: CreateScheduledActionResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about a specific workgroup.
  */
-export const getWorkgroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkgroup: (
+  input: GetWorkgroupRequest,
+) => Effect.Effect<
+  GetWorkgroupResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkgroupRequest,
   output: GetWorkgroupResponse,
   errors: [
@@ -3356,25 +4181,47 @@ export const getWorkgroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The Identity and Access Management (IAM) user or role that runs GetIdentityCenterAuthToken must have appropriate permissions to access the specified workgroups and Identity Center integration must be configured for the workgroups.
  */
-export const getIdentityCenterAuthToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIdentityCenterAuthTokenRequest,
-    output: GetIdentityCenterAuthTokenResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DryRunException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getIdentityCenterAuthToken: (
+  input: GetIdentityCenterAuthTokenRequest,
+) => Effect.Effect<
+  GetIdentityCenterAuthTokenResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DryRunException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdentityCenterAuthTokenRequest,
+  output: GetIdentityCenterAuthTokenResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DryRunException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Assigns one or more tags to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3388,7 +4235,20 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
  */
-export const createReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createReservation: (
+  input: CreateReservationRequest,
+) => Effect.Effect<
+  CreateReservationResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReservationRequest,
   output: CreateReservationResponse,
   errors: [
@@ -3404,23 +4264,45 @@ export const createReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a snapshot copy configuration that lets you copy snapshots to another Amazon Web Services Region.
  */
-export const createSnapshotCopyConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateSnapshotCopyConfigurationRequest,
-    output: CreateSnapshotCopyConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }));
+export const createSnapshotCopyConfiguration: (
+  input: CreateSnapshotCopyConfigurationRequest,
+) => Effect.Effect<
+  CreateSnapshotCopyConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSnapshotCopyConfigurationRequest,
+  output: CreateSnapshotCopyConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a usage limit for a specified Amazon Redshift Serverless usage type. The usage limit is identified by the returned usage limit identifier.
  */
-export const createUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUsageLimit: (
+  input: CreateUsageLimitRequest,
+) => Effect.Effect<
+  CreateUsageLimitResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUsageLimitRequest,
   output: CreateUsageLimitResponse,
   errors: [
@@ -3434,7 +4316,18 @@ export const createUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates or updates a resource policy. Currently, you can use policies to share snapshots across Amazon Web Services accounts.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [
@@ -3448,7 +4341,19 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a snapshot of all databases in a namespace. For more information about snapshots, see Working with snapshots and recovery points.
  */
-export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSnapshot: (
+  input: CreateSnapshotRequest,
+) => Effect.Effect<
+  CreateSnapshotResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotRequest,
   output: CreateSnapshotResponse,
   errors: [
@@ -3463,7 +4368,18 @@ export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Restores a namespace from a snapshot.
  */
-export const restoreFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const restoreFromSnapshot: (
+  input: RestoreFromSnapshotRequest,
+) => Effect.Effect<
+  RestoreFromSnapshotResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreFromSnapshotRequest,
   output: RestoreFromSnapshotResponse,
   errors: [
@@ -3477,22 +4393,45 @@ export const restoreFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies the lakehouse configuration for a namespace. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
  */
-export const updateLakehouseConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateLakehouseConfigurationRequest,
-    output: UpdateLakehouseConfigurationResponse,
-    errors: [
-      ConflictException,
-      DryRunException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const updateLakehouseConfiguration: (
+  input: UpdateLakehouseConfigurationRequest,
+) => Effect.Effect<
+  UpdateLakehouseConfigurationResponse,
+  | ConflictException
+  | DryRunException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLakehouseConfigurationRequest,
+  output: UpdateLakehouseConfigurationResponse,
+  errors: [
+    ConflictException,
+    DryRunException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Get the Redshift Serverless version for a specified track.
  */
-export const getTrack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTrack: (
+  input: GetTrackRequest,
+) => Effect.Effect<
+  GetTrackResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DryRunException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrackRequest,
   output: GetTrackResponse,
   errors: [
@@ -3508,20 +4447,30 @@ export const getTrack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon Redshift Serverless managed VPC endpoint.
  */
-export const createEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEndpointAccessRequest,
-    output: CreateEndpointAccessResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createEndpointAccess: (
+  input: CreateEndpointAccessRequest,
+) => Effect.Effect<
+  CreateEndpointAccessResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEndpointAccessRequest,
+  output: CreateEndpointAccessResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an workgroup in Amazon Redshift Serverless.
  *
@@ -3535,7 +4484,20 @@ export const createEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
-export const createWorkgroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkgroup: (
+  input: CreateWorkgroupRequest,
+) => Effect.Effect<
+  CreateWorkgroupResponse,
+  | ConflictException
+  | InsufficientCapacityException
+  | InternalServerException
+  | Ipv6CidrBlockNotFoundException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkgroupRequest,
   output: CreateWorkgroupResponse,
   errors: [
@@ -3561,7 +4523,19 @@ export const createWorkgroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
-export const updateWorkgroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWorkgroup: (
+  input: UpdateWorkgroupRequest,
+) => Effect.Effect<
+  UpdateWorkgroupResponse,
+  | ConflictException
+  | InsufficientCapacityException
+  | InternalServerException
+  | Ipv6CidrBlockNotFoundException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkgroupRequest,
   output: UpdateWorkgroupResponse,
   errors: [

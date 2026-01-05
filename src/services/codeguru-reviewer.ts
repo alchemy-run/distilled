@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "CodeGuru Reviewer",
   serviceShapeName: "AWSGuruFrontendService",
@@ -240,6 +248,47 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ClientRequestToken = string;
+export type CodeReviewName = string;
+export type AssociationArn = string;
+export type Arn = string;
+export type RecommendationId = string;
+export type UserId = string;
+export type Name = string;
+export type ListCodeReviewsMaxResults = number;
+export type NextToken = string;
+export type MaxResults = number;
+export type ListRecommendationsMaxResults = number;
+export type Owner = string;
+export type TagKey = string;
+export type TagValue = string;
+export type KMSKeyId = string;
+export type ErrorMessage = string;
+export type ConnectionArn = string;
+export type S3BucketName = string;
+export type StateReason = string;
+export type PullRequestId = string;
+export type AssociationId = string;
+export type FilePath = string;
+export type LineNumber = number;
+export type Text = string;
+export type BranchName = string;
+export type LinesOfCodeCount = number;
+export type FindingsCount = number;
+export type RuleId = string;
+export type RuleName = string;
+export type ShortDescription = string;
+export type LongDescription = string;
+export type RuleTag = string;
+export type CommitId = string;
+export type RequestId = string;
+export type Requester = string;
+export type SourceCodeArtifactsObjectKey = string;
+export type BuildArtifactsObjectKey = string;
+export type EventName = string;
+export type EventState = string;
 
 //# Schemas
 export type ProviderTypes = string[];
@@ -1173,7 +1222,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -1185,7 +1236,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String) },
@@ -1199,7 +1252,16 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 /**
  * Adds one or more tags to an associated repository.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1212,55 +1274,110 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Stores customer feedback for a CodeGuru Reviewer recommendation. When this API is called again with
  * different reactions the previous feedback is overwritten.
  */
-export const putRecommendationFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRecommendationFeedbackRequest,
-    output: PutRecommendationFeedbackResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putRecommendationFeedback: (
+  input: PutRecommendationFeedbackRequest,
+) => Effect.Effect<
+  PutRecommendationFeedbackResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRecommendationFeedbackRequest,
+  output: PutRecommendationFeedbackResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes the customer feedback for a CodeGuru Reviewer recommendation.
  */
-export const describeRecommendationFeedback =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeRecommendationFeedbackRequest,
-    output: DescribeRecommendationFeedbackResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeRecommendationFeedback: (
+  input: DescribeRecommendationFeedbackRequest,
+) => Effect.Effect<
+  DescribeRecommendationFeedbackResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRecommendationFeedbackRequest,
+  output: DescribeRecommendationFeedbackResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of RecommendationFeedbackSummary objects that contain customer recommendation
  * feedback for all CodeGuru Reviewer users.
  */
-export const listRecommendationFeedback =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecommendationFeedback: {
+  (
     input: ListRecommendationFeedbackRequest,
-    output: ListRecommendationFeedbackResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecommendationFeedbackResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecommendationFeedbackRequest,
+  ) => Stream.Stream<
+    ListRecommendationFeedbackResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommendationFeedbackRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommendationFeedbackRequest,
+  output: ListRecommendationFeedbackResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Use to associate an Amazon Web Services CodeCommit repository or a repository managed by Amazon Web Services
  * CodeStar Connections with Amazon CodeGuru Reviewer. When you associate a repository, CodeGuru Reviewer reviews
@@ -1281,7 +1398,18 @@ export const listRecommendationFeedback =
  * Getting started with
  * CodeGuru Reviewer in the *CodeGuru Reviewer User Guide.*
  */
-export const associateRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateRepository: (
+  input: AssociateRepositoryRequest,
+) => Effect.Effect<
+  AssociateRepositoryResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateRepositoryRequest,
   output: AssociateRepositoryResponse,
   errors: [
@@ -1295,7 +1423,18 @@ export const associateRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the metadata associated with the code review along with its status.
  */
-export const describeCodeReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCodeReview: (
+  input: DescribeCodeReviewRequest,
+) => Effect.Effect<
+  DescribeCodeReviewResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCodeReviewRequest,
   output: DescribeCodeReviewResponse,
   errors: [
@@ -1309,64 +1448,151 @@ export const describeCodeReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all the code reviews that the customer has created in the past 90 days.
  */
-export const listCodeReviews = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCodeReviews: {
+  (
     input: ListCodeReviewsRequest,
-    output: ListCodeReviewsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCodeReviewsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCodeReviewsRequest,
+  ) => Stream.Stream<
+    ListCodeReviewsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCodeReviewsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCodeReviewsRequest,
+  output: ListCodeReviewsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the list of all recommendations for a completed code review.
  */
-export const listRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecommendations: {
+  (
     input: ListRecommendationsRequest,
-    output: ListRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecommendationsRequest,
+  ) => Stream.Stream<
+    ListRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommendationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommendationsRequest,
+  output: ListRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Removes the association between Amazon CodeGuru Reviewer and a repository.
  */
-export const disassociateRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateRepositoryRequest,
-    output: DisassociateRepositoryResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      NotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateRepository: (
+  input: DisassociateRepositoryRequest,
+) => Effect.Effect<
+  DisassociateRepositoryResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateRepositoryRequest,
+  output: DisassociateRepositoryResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    NotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes a tag from an associated repository.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1378,7 +1604,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the list of tags associated with an associated repository resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1391,41 +1626,93 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns a list of RepositoryAssociationSummary objects that contain summary information about a
  * repository association. You can filter the returned list by ProviderType, Name, State, and Owner.
  */
-export const listRepositoryAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRepositoryAssociations: {
+  (
     input: ListRepositoryAssociationsRequest,
-    output: ListRepositoryAssociationsResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RepositoryAssociationSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRepositoryAssociationsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRepositoryAssociationsRequest,
+  ) => Stream.Stream<
+    ListRepositoryAssociationsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRepositoryAssociationsRequest,
+  ) => Stream.Stream<
+    RepositoryAssociationSummary,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRepositoryAssociationsRequest,
+  output: ListRepositoryAssociationsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RepositoryAssociationSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a RepositoryAssociation object that contains information about the requested
  * repository association.
  */
-export const describeRepositoryAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeRepositoryAssociationRequest,
-    output: DescribeRepositoryAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      NotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeRepositoryAssociation: (
+  input: DescribeRepositoryAssociationRequest,
+) => Effect.Effect<
+  DescribeRepositoryAssociationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRepositoryAssociationRequest,
+  output: DescribeRepositoryAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    NotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Use to create a code review with a CodeReviewType of
  * `RepositoryAnalysis`. This type of code review analyzes all code under a
  * specified branch in an associated repository. `PullRequest` code reviews are
  * automatically triggered by a pull request.
  */
-export const createCodeReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCodeReview: (
+  input: CreateCodeReviewRequest,
+) => Effect.Effect<
+  CreateCodeReviewResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCodeReviewRequest,
   output: CreateCodeReviewResponse,
   errors: [

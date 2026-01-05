@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "ConnectCampaigns",
   serviceShapeName: "AmazonConnectCampaignService",
@@ -240,6 +248,37 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type CampaignName = string;
+export type InstanceId = string;
+export type CampaignId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type Arn = string;
+export type TagKey = string;
+export type ContactFlowId = string;
+export type SourcePhoneNumber = string;
+export type QueueId = string;
+export type TagValue = string;
+export type ClientToken = string;
+export type DestinationPhoneNumber = string;
+export type EncryptionType = string;
+export type EncryptionKey = string;
+export type XAmazonErrorType = string;
+export type CampaignState = string;
+export type BandwidthAllocation = number;
+export type DialingCapacity = number;
+export type InstanceIdFilterOperator = string;
+export type AttributeName = string;
+export type AttributeValue = string;
+export type CampaignArn = string;
+export type GetCampaignStateBatchFailureCode = string;
+export type ServiceLinkedRoleArn = string;
+export type InstanceOnboardingJobStatusCode = string;
+export type InstanceOnboardingJobFailureCode = string;
+export type DialRequestId = string;
+export type FailureCode = string;
 
 //# Schemas
 export type CampaignIdList = string[];
@@ -600,6 +639,10 @@ export const AgentlessDialerConfig = S.suspend(() =>
 ).annotations({
   identifier: "AgentlessDialerConfig",
 }) as any as S.Schema<AgentlessDialerConfig>;
+export type DialerConfig =
+  | { progressiveDialerConfig: ProgressiveDialerConfig }
+  | { predictiveDialerConfig: PredictiveDialerConfig }
+  | { agentlessDialerConfig: AgentlessDialerConfig };
 export const DialerConfig = S.Union(
   S.Struct({ progressiveDialerConfig: ProgressiveDialerConfig }),
   S.Struct({ predictiveDialerConfig: PredictiveDialerConfig }),
@@ -1100,7 +1143,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -1122,7 +1167,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
   "InvalidStateException",
   {
@@ -1157,7 +1204,17 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Deletes a campaign from the specified Amazon Connect account.
  */
-export const deleteCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCampaign: (
+  input: DeleteCampaignRequest,
+) => Effect.Effect<
+  DeleteCampaignResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCampaignRequest,
   output: DeleteCampaignResponse,
   errors: [
@@ -1170,27 +1227,65 @@ export const deleteCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides summary information about the campaigns under the specified Amazon Connect account.
  */
-export const listCampaigns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCampaigns: {
+  (
     input: ListCampaignsRequest,
-    output: ListCampaignsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "campaignSummaryList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCampaignsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCampaignsRequest,
+  ) => Stream.Stream<
+    ListCampaignsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCampaignsRequest,
+  ) => Stream.Stream<
+    CampaignSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCampaignsRequest,
+  output: ListCampaignsResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "campaignSummaryList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent.
  */
-export const putDialRequestBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putDialRequestBatch: (
+  input: PutDialRequestBatchRequest,
+) => Effect.Effect<
+  PutDialRequestBatchResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidCampaignStateException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDialRequestBatchRequest,
   output: PutDialRequestBatchResponse,
   errors: [
@@ -1206,7 +1301,20 @@ export const putDialRequestBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a campaign for the specified Amazon Connect account. This API is idempotent.
  */
-export const createCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCampaign: (
+  input: CreateCampaignRequest,
+) => Effect.Effect<
+  CreateCampaignResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCampaignRequest,
   output: CreateCampaignResponse,
   errors: [
@@ -1222,39 +1330,67 @@ export const createCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get state of campaigns for the specified Amazon Connect account.
  */
-export const getCampaignStateBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCampaignStateBatchRequest,
-    output: GetCampaignStateBatchResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getCampaignStateBatch: (
+  input: GetCampaignStateBatchRequest,
+) => Effect.Effect<
+  GetCampaignStateBatchResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCampaignStateBatchRequest,
+  output: GetCampaignStateBatchResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a connect instance config from the specified AWS account.
  */
-export const deleteConnectInstanceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConnectInstanceConfigRequest,
-    output: DeleteConnectInstanceConfigResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidStateException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteConnectInstanceConfig: (
+  input: DeleteConnectInstanceConfigRequest,
+) => Effect.Effect<
+  DeleteConnectInstanceConfigResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectInstanceConfigRequest,
+  output: DeleteConnectInstanceConfigResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidStateException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes the specific campaign.
  */
-export const describeCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCampaign: (
+  input: DescribeCampaignRequest,
+) => Effect.Effect<
+  DescribeCampaignResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCampaignRequest,
   output: DescribeCampaignResponse,
   errors: [
@@ -1267,52 +1403,91 @@ export const describeCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get the specific Connect instance config.
  */
-export const getConnectInstanceConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetConnectInstanceConfigRequest,
-    output: GetConnectInstanceConfigResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getConnectInstanceConfig: (
+  input: GetConnectInstanceConfigRequest,
+) => Effect.Effect<
+  GetConnectInstanceConfigResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConnectInstanceConfigRequest,
+  output: GetConnectInstanceConfigResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Get the specific instance onboarding job status.
  */
-export const getInstanceOnboardingJobStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetInstanceOnboardingJobStatusRequest,
-    output: GetInstanceOnboardingJobStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const getInstanceOnboardingJobStatus: (
+  input: GetInstanceOnboardingJobStatusRequest,
+) => Effect.Effect<
+  GetInstanceOnboardingJobStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInstanceOnboardingJobStatusRequest,
+  output: GetInstanceOnboardingJobStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the outbound call config of a campaign. This API is idempotent.
  */
-export const updateCampaignOutboundCallConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCampaignOutboundCallConfigRequest,
-    output: UpdateCampaignOutboundCallConfigResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateCampaignOutboundCallConfig: (
+  input: UpdateCampaignOutboundCallConfigRequest,
+) => Effect.Effect<
+  UpdateCampaignOutboundCallConfigResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCampaignOutboundCallConfigRequest,
+  output: UpdateCampaignOutboundCallConfigResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get state of a campaign for the specified Amazon Connect account.
  */
-export const getCampaignState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCampaignState: (
+  input: GetCampaignStateRequest,
+) => Effect.Effect<
+  GetCampaignStateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCampaignStateRequest,
   output: GetCampaignStateResponse,
   errors: [
@@ -1326,7 +1501,18 @@ export const getCampaignState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List tags for a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1340,7 +1526,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Tag a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1354,7 +1551,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Untag a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1368,23 +1576,43 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the dialer config of a campaign. This API is idempotent.
  */
-export const updateCampaignDialerConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCampaignDialerConfigRequest,
-    output: UpdateCampaignDialerConfigResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateCampaignDialerConfig: (
+  input: UpdateCampaignDialerConfigRequest,
+) => Effect.Effect<
+  UpdateCampaignDialerConfigResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCampaignDialerConfigRequest,
+  output: UpdateCampaignDialerConfigResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the name of a campaign. This API is idempotent.
  */
-export const updateCampaignName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCampaignName: (
+  input: UpdateCampaignNameRequest,
+) => Effect.Effect<
+  UpdateCampaignNameResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCampaignNameRequest,
   output: UpdateCampaignNameResponse,
   errors: [
@@ -1398,24 +1626,47 @@ export const updateCampaignName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Onboard the specific Amazon Connect instance to Connect Campaigns.
  */
-export const startInstanceOnboardingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartInstanceOnboardingJobRequest,
-    output: StartInstanceOnboardingJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startInstanceOnboardingJob: (
+  input: StartInstanceOnboardingJobRequest,
+) => Effect.Effect<
+  StartInstanceOnboardingJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartInstanceOnboardingJobRequest,
+  output: StartInstanceOnboardingJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Pauses a campaign for the specified Amazon Connect account.
  */
-export const pauseCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const pauseCampaign: (
+  input: PauseCampaignRequest,
+) => Effect.Effect<
+  PauseCampaignResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidCampaignStateException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PauseCampaignRequest,
   output: PauseCampaignResponse,
   errors: [
@@ -1431,23 +1682,45 @@ export const pauseCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
  */
-export const deleteInstanceOnboardingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInstanceOnboardingJobRequest,
-    output: DeleteInstanceOnboardingJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidStateException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteInstanceOnboardingJob: (
+  input: DeleteInstanceOnboardingJobRequest,
+) => Effect.Effect<
+  DeleteInstanceOnboardingJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInstanceOnboardingJobRequest,
+  output: DeleteInstanceOnboardingJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidStateException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Stops a campaign for the specified Amazon Connect account.
  */
-export const resumeCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resumeCampaign: (
+  input: ResumeCampaignRequest,
+) => Effect.Effect<
+  ResumeCampaignResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidCampaignStateException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeCampaignRequest,
   output: ResumeCampaignResponse,
   errors: [
@@ -1463,7 +1736,20 @@ export const resumeCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a campaign for the specified Amazon Connect account.
  */
-export const startCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startCampaign: (
+  input: StartCampaignRequest,
+) => Effect.Effect<
+  StartCampaignResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidCampaignStateException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCampaignRequest,
   output: StartCampaignResponse,
   errors: [
@@ -1479,7 +1765,20 @@ export const startCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a campaign for the specified Amazon Connect account.
  */
-export const stopCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopCampaign: (
+  input: StopCampaignRequest,
+) => Effect.Effect<
+  StopCampaignResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidCampaignStateException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopCampaignRequest,
   output: StopCampaignResponse,
   errors: [

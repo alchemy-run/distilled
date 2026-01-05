@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://osis.amazonaws.com/doc/2022-01-01");
 const svc = T.AwsApiService({
   sdkId: "OSIS",
@@ -293,6 +301,28 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type PipelineName = string;
+export type PipelineUnits = number;
+export type PipelineConfigurationBody = string;
+export type PipelineRoleArn = string;
+export type PipelineArn = string;
+export type PipelineEndpointId = string;
+export type BlueprintFormat = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type ResourcePolicy = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type KmsKeyArn = string;
+export type TagKey = string;
+export type TagValue = string;
+export type ErrorMessage = string;
+export type LogGroup = string;
+export type CidrBlock = string;
+export type Integer = number;
+export type AwsAccountId = string;
 
 //# Schemas
 export interface ListPipelineBlueprintsRequest {}
@@ -1369,7 +1399,9 @@ export class DisabledOperationException extends S.TaggedError<DisabledOperationE
 export class InternalException extends S.TaggedError<InternalException>()(
   "InternalException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { message: S.optional(S.String) },
@@ -1397,7 +1429,17 @@ export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlread
  * more information, see Creating Amazon OpenSearch
  * Ingestion pipelines.
  */
-export const validatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const validatePipeline: (
+  input: ValidatePipelineRequest,
+) => Effect.Effect<
+  ValidatePipelineResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidatePipelineRequest,
   output: ValidatePipelineResponse,
   errors: [
@@ -1410,7 +1452,19 @@ export const validatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts an OpenSearch Ingestion pipeline. For more information, see Starting an OpenSearch Ingestion pipeline.
  */
-export const startPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startPipeline: (
+  input: StartPipelineRequest,
+) => Effect.Effect<
+  StartPipelineResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartPipelineRequest,
   output: StartPipelineResponse,
   errors: [
@@ -1425,50 +1479,134 @@ export const startPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the pipeline endpoints connected to pipelines in your account.
  */
-export const listPipelineEndpointConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPipelineEndpointConnections: {
+  (
     input: ListPipelineEndpointConnectionsRequest,
-    output: ListPipelineEndpointConnectionsResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PipelineEndpointConnections",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPipelineEndpointConnectionsResponse,
+    | AccessDeniedException
+    | DisabledOperationException
+    | InternalException
+    | LimitExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPipelineEndpointConnectionsRequest,
+  ) => Stream.Stream<
+    ListPipelineEndpointConnectionsResponse,
+    | AccessDeniedException
+    | DisabledOperationException
+    | InternalException
+    | LimitExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPipelineEndpointConnectionsRequest,
+  ) => Stream.Stream<
+    PipelineEndpointConnection,
+    | AccessDeniedException
+    | DisabledOperationException
+    | InternalException
+    | LimitExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPipelineEndpointConnectionsRequest,
+  output: ListPipelineEndpointConnectionsResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PipelineEndpointConnections",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all pipeline endpoints in your account.
  */
-export const listPipelineEndpoints =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPipelineEndpoints: {
+  (
     input: ListPipelineEndpointsRequest,
-    output: ListPipelineEndpointsResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PipelineEndpoints",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPipelineEndpointsResponse,
+    | AccessDeniedException
+    | DisabledOperationException
+    | InternalException
+    | LimitExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPipelineEndpointsRequest,
+  ) => Stream.Stream<
+    ListPipelineEndpointsResponse,
+    | AccessDeniedException
+    | DisabledOperationException
+    | InternalException
+    | LimitExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPipelineEndpointsRequest,
+  ) => Stream.Stream<
+    PipelineEndpoint,
+    | AccessDeniedException
+    | DisabledOperationException
+    | InternalException
+    | LimitExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPipelineEndpointsRequest,
+  output: ListPipelineEndpointsResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PipelineEndpoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Attaches a resource-based policy to an OpenSearch Ingestion resource. Resource-based
  * policies grant permissions to principals to perform actions on the resource.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [
@@ -1483,40 +1621,72 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Revokes pipeline endpoints from specified endpoint IDs.
  */
-export const revokePipelineEndpointConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RevokePipelineEndpointConnectionsRequest,
-    output: RevokePipelineEndpointConnectionsResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ValidationException,
-    ],
-  }));
+export const revokePipelineEndpointConnections: (
+  input: RevokePipelineEndpointConnectionsRequest,
+) => Effect.Effect<
+  RevokePipelineEndpointConnectionsResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokePipelineEndpointConnectionsRequest,
+  output: RevokePipelineEndpointConnectionsResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a resource-based policy from an OpenSearch Ingestion resource.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Tags an OpenSearch Ingestion pipeline. For more information, see Tagging Amazon OpenSearch
  * Ingestion pipelines.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1532,81 +1702,155 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a VPC endpoint for an OpenSearch Ingestion pipeline. Pipeline endpoints allow you to
  * ingest data from your VPC into pipelines that you have access to.
  */
-export const createPipelineEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePipelineEndpointRequest,
-    output: CreatePipelineEndpointResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const createPipelineEndpoint: (
+  input: CreatePipelineEndpointRequest,
+) => Effect.Effect<
+  CreatePipelineEndpointResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePipelineEndpointRequest,
+  output: CreatePipelineEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a list of all available blueprints for Data Prepper. For more information, see
  * Using
  * blueprints to create a pipeline.
  */
-export const listPipelineBlueprints = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPipelineBlueprintsRequest,
-    output: ListPipelineBlueprintsResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      InvalidPaginationTokenException,
-      ValidationException,
-    ],
-  }),
-);
+export const listPipelineBlueprints: (
+  input: ListPipelineBlueprintsRequest,
+) => Effect.Effect<
+  ListPipelineBlueprintsResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | InvalidPaginationTokenException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPipelineBlueprintsRequest,
+  output: ListPipelineBlueprintsResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    InvalidPaginationTokenException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a VPC endpoint for an OpenSearch Ingestion pipeline.
  */
-export const deletePipelineEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePipelineEndpointRequest,
-    output: DeletePipelineEndpointResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const deletePipelineEndpoint: (
+  input: DeletePipelineEndpointRequest,
+) => Effect.Effect<
+  DeletePipelineEndpointResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePipelineEndpointRequest,
+  output: DeletePipelineEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all OpenSearch Ingestion pipelines in the current Amazon Web Services account and Region.
  * For more information, see Viewing Amazon OpenSearch
  * Ingestion pipelines.
  */
-export const listPipelines = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPipelines: {
+  (
     input: ListPipelinesRequest,
-    output: ListPipelinesResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      InvalidPaginationTokenException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPipelinesResponse,
+    | AccessDeniedException
+    | DisabledOperationException
+    | InternalException
+    | InvalidPaginationTokenException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPipelinesRequest,
+  ) => Stream.Stream<
+    ListPipelinesResponse,
+    | AccessDeniedException
+    | DisabledOperationException
+    | InternalException
+    | InvalidPaginationTokenException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPipelinesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | DisabledOperationException
+    | InternalException
+    | InvalidPaginationTokenException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPipelinesRequest,
+  output: ListPipelinesResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    InvalidPaginationTokenException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Stops an OpenSearch Ingestion pipeline. For more information, see Stopping
  * an OpenSearch Ingestion pipeline.
  */
-export const stopPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopPipeline: (
+  input: StopPipelineRequest,
+) => Effect.Effect<
+  StopPipelineResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopPipelineRequest,
   output: StopPipelineResponse,
   errors: [
@@ -1622,7 +1866,19 @@ export const stopPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates an OpenSearch Ingestion pipeline. For more information, see Updating Amazon OpenSearch
  * Ingestion pipelines.
  */
-export const updatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePipeline: (
+  input: UpdatePipelineRequest,
+) => Effect.Effect<
+  UpdatePipelineResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePipelineRequest,
   output: UpdatePipelineResponse,
   errors: [
@@ -1638,7 +1894,18 @@ export const updatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists all resource tags associated with an OpenSearch Ingestion pipeline. For more information,
  * see Tagging Amazon OpenSearch Ingestion pipelines.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1653,7 +1920,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes one or more tags from an OpenSearch Ingestion pipeline. For more information, see Tagging
  * Amazon OpenSearch Ingestion pipelines.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1668,7 +1946,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an OpenSearch Ingestion pipeline. For more information, see Deleting Amazon OpenSearch
  * Ingestion pipelines.
  */
-export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePipeline: (
+  input: DeletePipelineRequest,
+) => Effect.Effect<
+  DeletePipelineResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePipelineRequest,
   output: DeletePipelineResponse,
   errors: [
@@ -1686,23 +1976,43 @@ export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * information, see Using
  * blueprints to create a pipeline.
  */
-export const getPipelineBlueprint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPipelineBlueprintRequest,
-    output: GetPipelineBlueprintResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getPipelineBlueprint: (
+  input: GetPipelineBlueprintRequest,
+) => Effect.Effect<
+  GetPipelineBlueprintResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPipelineBlueprintRequest,
+  output: GetPipelineBlueprintResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about an OpenSearch Ingestion pipeline.
  */
-export const getPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPipeline: (
+  input: GetPipelineRequest,
+) => Effect.Effect<
+  GetPipelineResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPipelineRequest,
   output: GetPipelineResponse,
   errors: [
@@ -1720,23 +2030,44 @@ export const getPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Tracking the status of pipeline creation.
  */
-export const getPipelineChangeProgress = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPipelineChangeProgressRequest,
-    output: GetPipelineChangeProgressResponse,
-    errors: [
-      AccessDeniedException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getPipelineChangeProgress: (
+  input: GetPipelineChangeProgressRequest,
+) => Effect.Effect<
+  GetPipelineChangeProgressResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPipelineChangeProgressRequest,
+  output: GetPipelineChangeProgressResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => Effect.Effect<
+  GetResourcePolicyResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
   errors: [
@@ -1752,7 +2083,20 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates an OpenSearch Ingestion pipeline. For more information, see Creating Amazon OpenSearch
  * Ingestion pipelines.
  */
-export const createPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPipeline: (
+  input: CreatePipelineRequest,
+) => Effect.Effect<
+  CreatePipelineResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePipelineRequest,
   output: CreatePipelineResponse,
   errors: [

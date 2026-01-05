@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "PartnerCentral Account",
   serviceShapeName: "PartnerCentralAccount",
@@ -104,6 +112,43 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type TaggableResourceArn = string;
+export type Catalog = string;
+export type Email = string;
+export type ClientToken = string;
+export type TagKey = string;
+export type UnicodeString = string;
+export type SensitiveUnicodeString = string;
+export type ParticipantIdentifier = string;
+export type ConnectionInvitationId = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type Revision = number;
+export type ConnectionId = string;
+export type ConnectionTypeFilter = string;
+export type EmailVerificationCode = string;
+export type PartnerIdentifier = string;
+export type ProfileTaskId = string;
+export type DomainName = string;
+export type TagValue = string;
+export type Url = string;
+export type Locale = string;
+export type VerificationStatusReason = string;
+export type ConnectionInvitationArn = string;
+export type ConnectionPreferencesArn = string;
+export type ConnectionArn = string;
+export type AwsAccountId = string;
+export type PartnerArn = string;
+export type PartnerId = string;
+export type PartnerProfileId = string;
+export type LegalName = string;
+export type RegistrationId = string;
+export type CountryCode = string;
+export type JurisdictionCode = string;
+export type CompletionUrl = string;
+export type SellerProfileId = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -775,6 +820,10 @@ export const AccountSummary = S.suspend(() =>
 ).annotations({
   identifier: "AccountSummary",
 }) as any as S.Schema<AccountSummary>;
+export type Participant =
+  | { PartnerProfile: PartnerProfileSummary }
+  | { SellerProfile: SellerProfileSummary }
+  | { Account: AccountSummary };
 export const Participant = S.Union(
   S.Struct({ PartnerProfile: PartnerProfileSummary }),
   S.Struct({ SellerProfile: SellerProfileSummary }),
@@ -1013,6 +1062,9 @@ export const BusinessVerificationDetails = S.suspend(() =>
 ).annotations({
   identifier: "BusinessVerificationDetails",
 }) as any as S.Schema<BusinessVerificationDetails>;
+export type VerificationDetails =
+  | { BusinessVerificationDetails: BusinessVerificationDetails }
+  | { RegistrantVerificationDetails: RegistrantVerificationDetails };
 export const VerificationDetails = S.Union(
   S.Struct({ BusinessVerificationDetails: BusinessVerificationDetails }),
   S.Struct({ RegistrantVerificationDetails: RegistrantVerificationDetails }),
@@ -1285,6 +1337,9 @@ export const RegistrantVerificationResponse = S.suspend(() =>
 ).annotations({
   identifier: "RegistrantVerificationResponse",
 }) as any as S.Schema<RegistrantVerificationResponse>;
+export type VerificationResponseDetails =
+  | { BusinessVerificationResponse: BusinessVerificationResponse }
+  | { RegistrantVerificationResponse: RegistrantVerificationResponse };
 export const VerificationResponseDetails = S.Union(
   S.Struct({ BusinessVerificationResponse: BusinessVerificationResponse }),
   S.Struct({ RegistrantVerificationResponse: RegistrantVerificationResponse }),
@@ -1442,6 +1497,9 @@ export const BusinessValidationError = S.suspend(() =>
 ).annotations({
   identifier: "BusinessValidationError",
 }) as any as S.Schema<BusinessValidationError>;
+export type ValidationError =
+  | { FieldValidationError: FieldValidationError }
+  | { BusinessValidationError: BusinessValidationError };
 export const ValidationError = S.Union(
   S.Struct({ FieldValidationError: FieldValidationError }),
   S.Struct({ BusinessValidationError: BusinessValidationError }),
@@ -1458,7 +1516,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { Message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String, Reason: S.String },
@@ -1479,7 +1539,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     QuotaCode: S.optional(S.String),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -1493,61 +1555,125 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Lists connection invitations for the partner account, with optional filtering by status, type, and other criteria.
  */
-export const listConnectionInvitations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConnectionInvitations: {
+  (
     input: ListConnectionInvitationsRequest,
-    output: ListConnectionInvitationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConnectionInvitationSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConnectionInvitationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectionInvitationsRequest,
+  ) => Stream.Stream<
+    ListConnectionInvitationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectionInvitationsRequest,
+  ) => Stream.Stream<
+    ConnectionInvitationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectionInvitationsRequest,
+  output: ListConnectionInvitationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConnectionInvitationSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Initiates a profile update task to modify partner profile information asynchronously.
  */
-export const startProfileUpdateTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartProfileUpdateTaskRequest,
-    output: StartProfileUpdateTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startProfileUpdateTask: (
+  input: StartProfileUpdateTaskRequest,
+) => Effect.Effect<
+  StartProfileUpdateTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartProfileUpdateTaskRequest,
+  output: StartProfileUpdateTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Accepts a connection invitation from another partner, establishing a formal partnership connection between the two parties.
  */
-export const acceptConnectionInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptConnectionInvitationRequest,
-    output: AcceptConnectionInvitationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const acceptConnectionInvitation: (
+  input: AcceptConnectionInvitationRequest,
+) => Effect.Effect<
+  AcceptConnectionInvitationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptConnectionInvitationRequest,
+  output: AcceptConnectionInvitationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves detailed information about a specific partner account.
  */
-export const getPartner = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPartner: (
+  input: GetPartnerRequest,
+) => Effect.Effect<
+  GetPartnerResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPartnerRequest,
   output: GetPartnerResponse,
   errors: [
@@ -1561,120 +1687,195 @@ export const getPartner = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels an in-progress profile update task, stopping any pending changes to the partner profile.
  */
-export const cancelProfileUpdateTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelProfileUpdateTaskRequest,
-    output: CancelProfileUpdateTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelProfileUpdateTask: (
+  input: CancelProfileUpdateTaskRequest,
+) => Effect.Effect<
+  CancelProfileUpdateTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelProfileUpdateTaskRequest,
+  output: CancelProfileUpdateTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves detailed information about a specific connection invitation.
  */
-export const getConnectionInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetConnectionInvitationRequest,
-    output: GetConnectionInvitationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getConnectionInvitation: (
+  input: GetConnectionInvitationRequest,
+) => Effect.Effect<
+  GetConnectionInvitationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConnectionInvitationRequest,
+  output: GetConnectionInvitationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the alliance lead contact information for a partner account.
  */
-export const getAllianceLeadContact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAllianceLeadContactRequest,
-    output: GetAllianceLeadContactResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAllianceLeadContact: (
+  input: GetAllianceLeadContactRequest,
+) => Effect.Effect<
+  GetAllianceLeadContactResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAllianceLeadContactRequest,
+  output: GetAllianceLeadContactResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about a specific profile update task.
  */
-export const getProfileUpdateTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetProfileUpdateTaskRequest,
-    output: GetProfileUpdateTaskResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getProfileUpdateTask: (
+  input: GetProfileUpdateTaskRequest,
+) => Effect.Effect<
+  GetProfileUpdateTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProfileUpdateTaskRequest,
+  output: GetProfileUpdateTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the visibility settings for a partner profile, determining who can see the profile information.
  */
-export const getProfileVisibility = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetProfileVisibilityRequest,
-    output: GetProfileVisibilityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getProfileVisibility: (
+  input: GetProfileVisibilityRequest,
+) => Effect.Effect<
+  GetProfileVisibilityResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProfileVisibilityRequest,
+  output: GetProfileVisibilityResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates or updates the alliance lead contact information for a partner account.
  */
-export const putAllianceLeadContact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutAllianceLeadContactRequest,
-    output: PutAllianceLeadContactResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putAllianceLeadContact: (
+  input: PutAllianceLeadContactRequest,
+) => Effect.Effect<
+  PutAllianceLeadContactResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAllianceLeadContactRequest,
+  output: PutAllianceLeadContactResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Sets the visibility level for a partner profile, controlling who can view the profile information.
  */
-export const putProfileVisibility = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutProfileVisibilityRequest,
-    output: PutProfileVisibilityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putProfileVisibility: (
+  input: PutProfileVisibilityRequest,
+) => Effect.Effect<
+  PutProfileVisibilityResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutProfileVisibilityRequest,
+  output: PutProfileVisibilityResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all tags associated with a specific AWS Partner Central Account resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1688,58 +1889,100 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new connection invitation to establish a partnership with another organization.
  */
-export const createConnectionInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConnectionInvitationRequest,
-    output: CreateConnectionInvitationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createConnectionInvitation: (
+  input: CreateConnectionInvitationRequest,
+) => Effect.Effect<
+  CreateConnectionInvitationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConnectionInvitationRequest,
+  output: CreateConnectionInvitationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Cancels a pending connection invitation before it has been accepted or rejected.
  */
-export const cancelConnectionInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelConnectionInvitationRequest,
-    output: CancelConnectionInvitationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelConnectionInvitation: (
+  input: CancelConnectionInvitationRequest,
+) => Effect.Effect<
+  CancelConnectionInvitationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelConnectionInvitationRequest,
+  output: CancelConnectionInvitationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Rejects a connection invitation from another partner, declining the partnership request.
  */
-export const rejectConnectionInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectConnectionInvitationRequest,
-    output: RejectConnectionInvitationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const rejectConnectionInvitation: (
+  input: RejectConnectionInvitationRequest,
+) => Effect.Effect<
+  RejectConnectionInvitationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectConnectionInvitationRequest,
+  output: RejectConnectionInvitationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Cancels an existing connection between partners, terminating the partnership relationship.
  */
-export const cancelConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelConnection: (
+  input: CancelConnectionRequest,
+) => Effect.Effect<
+  CancelConnectionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelConnectionRequest,
   output: CancelConnectionResponse,
   errors: [
@@ -1754,7 +1997,19 @@ export const cancelConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes specified tags from an AWS Partner Central Account resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1769,38 +2024,70 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates an email domain with AWS training and certification for the partner account, enabling automatic verification of employee certifications.
  */
-export const associateAwsTrainingCertificationEmailDomain =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateAwsTrainingCertificationEmailDomainRequest,
-    output: AssociateAwsTrainingCertificationEmailDomainResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const associateAwsTrainingCertificationEmailDomain: (
+  input: AssociateAwsTrainingCertificationEmailDomainRequest,
+) => Effect.Effect<
+  AssociateAwsTrainingCertificationEmailDomainResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateAwsTrainingCertificationEmailDomainRequest,
+  output: AssociateAwsTrainingCertificationEmailDomainResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes the association between an email domain and AWS training and certification for the partner account.
  */
-export const disassociateAwsTrainingCertificationEmailDomain =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateAwsTrainingCertificationEmailDomainRequest,
-    output: DisassociateAwsTrainingCertificationEmailDomainResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateAwsTrainingCertificationEmailDomain: (
+  input: DisassociateAwsTrainingCertificationEmailDomainRequest,
+) => Effect.Effect<
+  DisassociateAwsTrainingCertificationEmailDomainResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateAwsTrainingCertificationEmailDomainRequest,
+  output: DisassociateAwsTrainingCertificationEmailDomainResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the current status and details of a verification process for a partner account. This operation allows partners to check the progress and results of business or registrant verification processes.
  */
-export const getVerification = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVerification: (
+  input: GetVerificationRequest,
+) => Effect.Effect<
+  GetVerificationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVerificationRequest,
   output: GetVerificationResponse,
   errors: [
@@ -1814,7 +2101,18 @@ export const getVerification = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new partner account in the AWS Partner Network with the specified details and configuration.
  */
-export const createPartner = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPartner: (
+  input: CreatePartnerRequest,
+) => Effect.Effect<
+  CreatePartnerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePartnerRequest,
   output: CreatePartnerResponse,
   errors: [
@@ -1828,74 +2126,144 @@ export const createPartner = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists partner accounts in the catalog, providing a summary view of all partners.
  */
-export const listPartners = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPartners: {
+  (
     input: ListPartnersRequest,
-    output: ListPartnersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PartnerSummaryList",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPartnersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPartnersRequest,
+  ) => Stream.Stream<
+    ListPartnersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPartnersRequest,
+  ) => Stream.Stream<
+    PartnerSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPartnersRequest,
+  output: ListPartnersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PartnerSummaryList",
+  } as const,
+}));
 /**
  * Retrieves the connection preferences for a partner account, including access settings and exclusions.
  */
-export const getConnectionPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetConnectionPreferencesRequest,
-    output: GetConnectionPreferencesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getConnectionPreferences: (
+  input: GetConnectionPreferencesRequest,
+) => Effect.Effect<
+  GetConnectionPreferencesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConnectionPreferencesRequest,
+  output: GetConnectionPreferencesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the connection preferences for a partner account, modifying access settings and exclusions.
  */
-export const updateConnectionPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConnectionPreferencesRequest,
-    output: UpdateConnectionPreferencesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateConnectionPreferences: (
+  input: UpdateConnectionPreferencesRequest,
+) => Effect.Effect<
+  UpdateConnectionPreferencesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConnectionPreferencesRequest,
+  output: UpdateConnectionPreferencesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Sends an email verification code to the specified email address for account verification purposes.
  */
-export const sendEmailVerificationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendEmailVerificationCodeRequest,
-    output: SendEmailVerificationCodeResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const sendEmailVerificationCode: (
+  input: SendEmailVerificationCodeRequest,
+) => Effect.Effect<
+  SendEmailVerificationCodeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendEmailVerificationCodeRequest,
+  output: SendEmailVerificationCodeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Initiates a new verification process for a partner account. This operation begins the verification workflow for either business registration or individual registrant identity verification as required by AWS Partner Central.
  */
-export const startVerification = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startVerification: (
+  input: StartVerificationRequest,
+) => Effect.Effect<
+  StartVerificationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartVerificationRequest,
   output: StartVerificationResponse,
   errors: [
@@ -1910,7 +2278,19 @@ export const startVerification = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds or updates tags for a specified AWS Partner Central Account resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1925,28 +2305,71 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists active connections for the partner account, with optional filtering by connection type and participant.
  */
-export const listConnections = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listConnections: {
+  (
     input: ListConnectionsRequest,
-    output: ListConnectionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConnectionSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListConnectionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectionsRequest,
+  ) => Stream.Stream<
+    ListConnectionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectionsRequest,
+  ) => Stream.Stream<
+    ConnectionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectionsRequest,
+  output: ListConnectionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConnectionSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves detailed information about a specific connection between partners.
  */
-export const getConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConnection: (
+  input: GetConnectionRequest,
+) => Effect.Effect<
+  GetConnectionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionRequest,
   output: GetConnectionResponse,
   errors: [

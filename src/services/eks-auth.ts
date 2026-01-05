@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials as Creds,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "EKS Auth",
   serviceShapeName: "EKSAuthFrontend",
@@ -197,6 +205,10 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type ClusterName = string;
+export type JwtToken = string;
+
 //# Schemas
 export interface AssumeRoleForPodIdentityRequest {
   clusterName: string;
@@ -292,7 +304,9 @@ export class ExpiredTokenException extends S.TaggedError<ExpiredTokenException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
   { message: S.optional(S.String) },
@@ -312,11 +326,15 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
@@ -327,20 +345,33 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
  * credentials from an EKS Pod Identity association are available in the pod, the latest versions of the
  * SDKs use them automatically.
  */
-export const assumeRoleForPodIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssumeRoleForPodIdentityRequest,
-    output: AssumeRoleForPodIdentityResponse,
-    errors: [
-      AccessDeniedException,
-      ExpiredTokenException,
-      InternalServerException,
-      InvalidParameterException,
-      InvalidRequestException,
-      InvalidTokenException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const assumeRoleForPodIdentity: (
+  input: AssumeRoleForPodIdentityRequest,
+) => Effect.Effect<
+  AssumeRoleForPodIdentityResponse,
+  | AccessDeniedException
+  | ExpiredTokenException
+  | InternalServerException
+  | InvalidParameterException
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssumeRoleForPodIdentityRequest,
+  output: AssumeRoleForPodIdentityResponse,
+  errors: [
+    AccessDeniedException,
+    ExpiredTokenException,
+    InternalServerException,
+    InvalidParameterException,
+    InvalidRequestException,
+    InvalidTokenException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://batch.amazonaws.com/doc/2016-08-10/");
 const svc = T.AwsApiService({
   sdkId: "Batch",
@@ -281,6 +289,19 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Integer = number;
+export type Long = number;
+export type ClientRequestToken = string;
+export type TagKey = string;
+export type TagValue = string;
+export type JobExecutionTimeoutMinutes = number;
+export type ImageType = string;
+export type ImageIdOverride = string;
+export type KubernetesVersion = string;
+export type Float = number;
+export type Quantity = string;
 
 //# Schemas
 export type StringList = string[];
@@ -3688,7 +3709,9 @@ export class ClientException extends S.TaggedError<ClientException>()(
 export class ServerException extends S.TaggedError<ServerException>()(
   "ServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 
 //# Operations
 /**
@@ -3707,7 +3730,13 @@ export class ServerException extends S.TaggedError<ServerException>()(
  * if no job is canceled. These jobs must be terminated with the TerminateJob
  * operation.
  */
-export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelJob: (
+  input: CancelJobRequest,
+) => Effect.Effect<
+  CancelJobResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobRequest,
   output: CancelJobResponse,
   errors: [ClientException, ServerException],
@@ -3722,7 +3751,13 @@ export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * environment is associated with more than one job queue, the job queue with a higher priority
  * is given preference for scheduling jobs to that compute environment.
  */
-export const createJobQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createJobQueue: (
+  input: CreateJobQueueRequest,
+) => Effect.Effect<
+  CreateJobQueueResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobQueueRequest,
   output: CreateJobQueueResponse,
   errors: [ClientException, ServerException],
@@ -3730,13 +3765,17 @@ export const createJobQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a service environment for running service jobs. Service environments define capacity limits for specific service types such as SageMaker Training jobs.
  */
-export const createServiceEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateServiceEnvironmentRequest,
-    output: CreateServiceEnvironmentResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const createServiceEnvironment: (
+  input: CreateServiceEnvironmentRequest,
+) => Effect.Effect<
+  CreateServiceEnvironmentResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateServiceEnvironmentRequest,
+  output: CreateServiceEnvironmentResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * Describes one or more of your compute environments.
  *
@@ -3744,156 +3783,323 @@ export const createServiceEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `DescribeComputeEnvironment` operation to determine the
  * `ecsClusterArn` that you launch your Amazon ECS container instances into.
  */
-export const describeComputeEnvironments =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeComputeEnvironments: {
+  (
     input: DescribeComputeEnvironmentsRequest,
-    output: DescribeComputeEnvironmentsResponse,
-    errors: [ClientException, ServerException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "computeEnvironments",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeComputeEnvironmentsResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeComputeEnvironmentsRequest,
+  ) => Stream.Stream<
+    DescribeComputeEnvironmentsResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeComputeEnvironmentsRequest,
+  ) => Stream.Stream<
+    ComputeEnvironmentDetail,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeComputeEnvironmentsRequest,
+  output: DescribeComputeEnvironmentsResponse,
+  errors: [ClientException, ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "computeEnvironments",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Describes a list of job definitions. You can specify a `status` (such as
  * `ACTIVE`) to only return job definitions that match that status.
  */
-export const describeJobDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeJobDefinitions: {
+  (
     input: DescribeJobDefinitionsRequest,
-    output: DescribeJobDefinitionsResponse,
-    errors: [ClientException, ServerException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "jobDefinitions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeJobDefinitionsResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeJobDefinitionsRequest,
+  ) => Stream.Stream<
+    DescribeJobDefinitionsResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeJobDefinitionsRequest,
+  ) => Stream.Stream<
+    JobDefinition,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeJobDefinitionsRequest,
+  output: DescribeJobDefinitionsResponse,
+  errors: [ClientException, ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobDefinitions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Describes one or more of your job queues.
  */
-export const describeJobQueues = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeJobQueues: {
+  (
     input: DescribeJobQueuesRequest,
-    output: DescribeJobQueuesResponse,
-    errors: [ClientException, ServerException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "jobQueues",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeJobQueuesResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeJobQueuesRequest,
+  ) => Stream.Stream<
+    DescribeJobQueuesResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeJobQueuesRequest,
+  ) => Stream.Stream<
+    JobQueueDetail,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeJobQueuesRequest,
+  output: DescribeJobQueuesResponse,
+  errors: [ClientException, ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobQueues",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Describes one or more of your scheduling policies.
  */
-export const describeSchedulingPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSchedulingPoliciesRequest,
-    output: DescribeSchedulingPoliciesResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const describeSchedulingPolicies: (
+  input: DescribeSchedulingPoliciesRequest,
+) => Effect.Effect<
+  DescribeSchedulingPoliciesResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSchedulingPoliciesRequest,
+  output: DescribeSchedulingPoliciesResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * Describes one or more of your service environments.
  */
-export const describeServiceEnvironments =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeServiceEnvironments: {
+  (
     input: DescribeServiceEnvironmentsRequest,
-    output: DescribeServiceEnvironmentsResponse,
-    errors: [ClientException, ServerException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "serviceEnvironments",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeServiceEnvironmentsResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeServiceEnvironmentsRequest,
+  ) => Stream.Stream<
+    DescribeServiceEnvironmentsResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeServiceEnvironmentsRequest,
+  ) => Stream.Stream<
+    ServiceEnvironmentDetail,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeServiceEnvironmentsRequest,
+  output: DescribeServiceEnvironmentsResponse,
+  errors: [ClientException, ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "serviceEnvironments",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of Batch jobs that require a specific consumable resource.
  */
-export const listJobsByConsumableResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listJobsByConsumableResource: {
+  (
     input: ListJobsByConsumableResourceRequest,
-    output: ListJobsByConsumableResourceResponse,
-    errors: [ClientException, ServerException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "jobs",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListJobsByConsumableResourceResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobsByConsumableResourceRequest,
+  ) => Stream.Stream<
+    ListJobsByConsumableResourceResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobsByConsumableResourceRequest,
+  ) => Stream.Stream<
+    ListJobsByConsumableResourceSummary,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListJobsByConsumableResourceRequest,
+  output: ListJobsByConsumableResourceResponse,
+  errors: [ClientException, ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of Batch scheduling policies.
  */
-export const listSchedulingPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSchedulingPolicies: {
+  (
     input: ListSchedulingPoliciesRequest,
-    output: ListSchedulingPoliciesResponse,
-    errors: [ClientException, ServerException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "schedulingPolicies",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSchedulingPoliciesResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSchedulingPoliciesRequest,
+  ) => Stream.Stream<
+    ListSchedulingPoliciesResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSchedulingPoliciesRequest,
+  ) => Stream.Stream<
+    SchedulingPolicyListingDetail,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSchedulingPoliciesRequest,
+  output: ListSchedulingPoliciesResponse,
+  errors: [ClientException, ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "schedulingPolicies",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of service jobs for a specified job queue.
  */
-export const listServiceJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listServiceJobs: {
+  (
     input: ListServiceJobsRequest,
-    output: ListServiceJobsResponse,
-    errors: [ClientException, ServerException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "jobSummaryList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListServiceJobsResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceJobsRequest,
+  ) => Stream.Stream<
+    ListServiceJobsResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceJobsRequest,
+  ) => Stream.Stream<
+    ServiceJobSummary,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceJobsRequest,
+  output: ListServiceJobsResponse,
+  errors: [ClientException, ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobSummaryList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates an Batch compute environment.
  */
-export const updateComputeEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateComputeEnvironmentRequest,
-    output: UpdateComputeEnvironmentResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const updateComputeEnvironment: (
+  input: UpdateComputeEnvironmentRequest,
+) => Effect.Effect<
+  UpdateComputeEnvironmentResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateComputeEnvironmentRequest,
+  output: UpdateComputeEnvironmentResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * Creates an Batch consumable resource.
  */
-export const createConsumableResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConsumableResourceRequest,
-    output: CreateConsumableResourceResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const createConsumableResource: (
+  input: CreateConsumableResourceRequest,
+) => Effect.Effect<
+  CreateConsumableResourceResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConsumableResourceRequest,
+  output: CreateConsumableResourceResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * Returns a description of the specified consumable resource.
  */
-export const describeConsumableResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConsumableResourceRequest,
-    output: DescribeConsumableResourceResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const describeConsumableResource: (
+  input: DescribeConsumableResourceRequest,
+) => Effect.Effect<
+  DescribeConsumableResourceResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConsumableResourceRequest,
+  output: DescribeConsumableResourceResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * Lists the tags for an Batch resource. Batch resources that support tags are compute environments, jobs, job definitions, job queues,
  * and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ClientException, ServerException],
@@ -3901,17 +4107,27 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a consumable resource.
  */
-export const updateConsumableResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConsumableResourceRequest,
-    output: UpdateConsumableResourceResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const updateConsumableResource: (
+  input: UpdateConsumableResourceRequest,
+) => Effect.Effect<
+  UpdateConsumableResourceResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConsumableResourceRequest,
+  output: UpdateConsumableResourceResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * Updates a job queue.
  */
-export const updateJobQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateJobQueue: (
+  input: UpdateJobQueueRequest,
+) => Effect.Effect<
+  UpdateJobQueueResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobQueueRequest,
   output: UpdateJobQueueResponse,
   errors: [ClientException, ServerException],
@@ -3919,13 +4135,17 @@ export const updateJobQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a service environment. You can update the state of a service environment from `ENABLED` to `DISABLED` to prevent new service jobs from being placed in the service environment.
  */
-export const updateServiceEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServiceEnvironmentRequest,
-    output: UpdateServiceEnvironmentResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const updateServiceEnvironment: (
+  input: UpdateServiceEnvironmentRequest,
+) => Effect.Effect<
+  UpdateServiceEnvironmentResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceEnvironmentRequest,
+  output: UpdateServiceEnvironmentResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * Deletes an Batch compute environment.
  *
@@ -3936,23 +4156,31 @@ export const updateServiceEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * compute environment before deleting the compute environment. If this isn't done, the compute
  * environment enters an invalid state.
  */
-export const deleteComputeEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteComputeEnvironmentRequest,
-    output: DeleteComputeEnvironmentResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const deleteComputeEnvironment: (
+  input: DeleteComputeEnvironmentRequest,
+) => Effect.Effect<
+  DeleteComputeEnvironmentResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteComputeEnvironmentRequest,
+  output: DeleteComputeEnvironmentResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * Deletes the specified consumable resource.
  */
-export const deleteConsumableResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConsumableResourceRequest,
-    output: DeleteConsumableResourceResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const deleteConsumableResource: (
+  input: DeleteConsumableResourceRequest,
+) => Effect.Effect<
+  DeleteConsumableResourceResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConsumableResourceRequest,
+  output: DeleteConsumableResourceResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * Deletes the specified job queue. You must first disable submissions for a queue with the
  * UpdateJobQueue operation. All jobs in the queue are eventually terminated
@@ -3962,7 +4190,13 @@ export const deleteConsumableResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * It's not necessary to disassociate compute environments from a queue before submitting a
  * `DeleteJobQueue` request.
  */
-export const deleteJobQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteJobQueue: (
+  input: DeleteJobQueueRequest,
+) => Effect.Effect<
+  DeleteJobQueueResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobQueueRequest,
   output: DeleteJobQueueResponse,
   errors: [ClientException, ServerException],
@@ -3972,34 +4206,46 @@ export const deleteJobQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can't delete a scheduling policy that's used in any job queues.
  */
-export const deleteSchedulingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSchedulingPolicyRequest,
-    output: DeleteSchedulingPolicyResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const deleteSchedulingPolicy: (
+  input: DeleteSchedulingPolicyRequest,
+) => Effect.Effect<
+  DeleteSchedulingPolicyResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSchedulingPolicyRequest,
+  output: DeleteSchedulingPolicyResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * Deletes a Service environment. Before you can delete a service environment, you must first set its state to `DISABLED` with the `UpdateServiceEnvironment` API operation and disassociate it from any job queues with the `UpdateJobQueue` API operation.
  */
-export const deleteServiceEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteServiceEnvironmentRequest,
-    output: DeleteServiceEnvironmentResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const deleteServiceEnvironment: (
+  input: DeleteServiceEnvironmentRequest,
+) => Effect.Effect<
+  DeleteServiceEnvironmentResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceEnvironmentRequest,
+  output: DeleteServiceEnvironmentResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * Deregisters an Batch job definition. Job definitions are permanently deleted after 180
  * days.
  */
-export const deregisterJobDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterJobDefinitionRequest,
-    output: DeregisterJobDefinitionResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const deregisterJobDefinition: (
+  input: DeregisterJobDefinitionRequest,
+) => Effect.Effect<
+  DeregisterJobDefinitionResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterJobDefinitionRequest,
+  output: DeregisterJobDefinitionResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * Associates the specified tags to a resource with the specified `resourceArn`.
  * If existing tags on a resource aren't specified in the request parameters, they aren't
@@ -4007,7 +4253,13 @@ export const deregisterJobDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * deleted as well. Batch resources that support tags are compute environments, jobs, job definitions, job queues,
  * and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ClientException, ServerException],
@@ -4018,7 +4270,13 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `FAILED`. Jobs that have not progressed to the `STARTING` state are
  * cancelled.
  */
-export const terminateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const terminateJob: (
+  input: TerminateJobRequest,
+) => Effect.Effect<
+  TerminateJobResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateJobRequest,
   output: TerminateJobResponse,
   errors: [ClientException, ServerException],
@@ -4026,7 +4284,13 @@ export const terminateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Terminates a service job in a job queue.
  */
-export const terminateServiceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const terminateServiceJob: (
+  input: TerminateServiceJobRequest,
+) => Effect.Effect<
+  TerminateServiceJobResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateServiceJobRequest,
   output: TerminateServiceJobResponse,
   errors: [ClientException, ServerException],
@@ -4034,7 +4298,13 @@ export const terminateServiceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes specified tags from an Batch resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ClientException, ServerException],
@@ -4042,27 +4312,41 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a scheduling policy.
  */
-export const updateSchedulingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSchedulingPolicyRequest,
-    output: UpdateSchedulingPolicyResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const updateSchedulingPolicy: (
+  input: UpdateSchedulingPolicyRequest,
+) => Effect.Effect<
+  UpdateSchedulingPolicyResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSchedulingPolicyRequest,
+  output: UpdateSchedulingPolicyResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * Creates an Batch scheduling policy.
  */
-export const createSchedulingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSchedulingPolicyRequest,
-    output: CreateSchedulingPolicyResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const createSchedulingPolicy: (
+  input: CreateSchedulingPolicyRequest,
+) => Effect.Effect<
+  CreateSchedulingPolicyResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSchedulingPolicyRequest,
+  output: CreateSchedulingPolicyResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * The details of a service job.
  */
-export const describeServiceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeServiceJob: (
+  input: DescribeServiceJobRequest,
+) => Effect.Effect<
+  DescribeServiceJobResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeServiceJobRequest,
   output: DescribeServiceJobResponse,
   errors: [ClientException, ServerException],
@@ -4070,7 +4354,13 @@ export const describeServiceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides a list of the first 100 `RUNNABLE` jobs associated to a single job queue.
  */
-export const getJobQueueSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJobQueueSnapshot: (
+  input: GetJobQueueSnapshotRequest,
+) => Effect.Effect<
+  GetJobQueueSnapshotResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobQueueSnapshotRequest,
   output: GetJobQueueSnapshotResponse,
   errors: [ClientException, ServerException],
@@ -4078,18 +4368,39 @@ export const getJobQueueSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of Batch consumable resources.
  */
-export const listConsumableResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConsumableResources: {
+  (
     input: ListConsumableResourcesRequest,
-    output: ListConsumableResourcesResponse,
-    errors: [ClientException, ServerException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "consumableResources",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConsumableResourcesResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConsumableResourcesRequest,
+  ) => Stream.Stream<
+    ListConsumableResourcesResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConsumableResourcesRequest,
+  ) => Stream.Stream<
+    ConsumableResourceSummary,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConsumableResourcesRequest,
+  output: ListConsumableResourcesResponse,
+  errors: [ClientException, ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "consumableResources",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of Batch jobs.
  *
@@ -4104,7 +4415,29 @@ export const listConsumableResources =
  * You can filter the results by job status with the `jobStatus` parameter. If you
  * don't specify a status, only `RUNNING` jobs are returned.
  */
-export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listJobs: {
+  (
+    input: ListJobsRequest,
+  ): Effect.Effect<
+    ListJobsResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobsRequest,
+  ) => Stream.Stream<
+    ListJobsResponse,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobsRequest,
+  ) => Stream.Stream<
+    JobSummary,
+    ClientException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListJobsRequest,
   output: ListJobsResponse,
   errors: [ClientException, ServerException],
@@ -4118,7 +4451,13 @@ export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Submits a service job to a specified job queue to run on SageMaker AI. A service job is a unit of work that you submit to Batch for execution on SageMaker AI.
  */
-export const submitServiceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const submitServiceJob: (
+  input: SubmitServiceJobRequest,
+) => Effect.Effect<
+  SubmitServiceJobResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitServiceJobRequest,
   output: SubmitServiceJobResponse,
   errors: [ClientException, ServerException],
@@ -4151,13 +4490,17 @@ export const submitServiceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Batch doesn't automatically upgrade the AMIs in a compute environment after it's
  * created. For more information on how to update a compute environment's AMI, see Updating compute environments in the *Batch User Guide*.
  */
-export const createComputeEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateComputeEnvironmentRequest,
-    output: CreateComputeEnvironmentResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const createComputeEnvironment: (
+  input: CreateComputeEnvironmentRequest,
+) => Effect.Effect<
+  CreateComputeEnvironmentResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateComputeEnvironmentRequest,
+  output: CreateComputeEnvironmentResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * Submits an Batch job from a job definition. Parameters that are specified during SubmitJob override parameters defined in the job definition. vCPU and memory
  * requirements that are specified in the `resourceRequirements` objects in the job
@@ -4173,7 +4516,13 @@ export const createComputeEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This is because, after 14 days, Fargate resources might become unavailable and job might be
  * terminated.
  */
-export const submitJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const submitJob: (
+  input: SubmitJobRequest,
+) => Effect.Effect<
+  SubmitJobResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitJobRequest,
   output: SubmitJobResponse,
   errors: [ClientException, ServerException],
@@ -4181,7 +4530,13 @@ export const submitJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes a list of Batch jobs.
  */
-export const describeJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeJobs: (
+  input: DescribeJobsRequest,
+) => Effect.Effect<
+  DescribeJobsResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobsRequest,
   output: DescribeJobsResponse,
   errors: [ClientException, ServerException],
@@ -4189,10 +4544,14 @@ export const describeJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Registers an Batch job definition.
  */
-export const registerJobDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterJobDefinitionRequest,
-    output: RegisterJobDefinitionResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const registerJobDefinition: (
+  input: RegisterJobDefinitionRequest,
+) => Effect.Effect<
+  RegisterJobDefinitionResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterJobDefinitionRequest,
+  output: RegisterJobDefinitionResponse,
+  errors: [ClientException, ServerException],
+}));

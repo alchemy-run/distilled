@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Pinpoint",
   serviceShapeName: "Pinpoint",
@@ -316,6 +324,11 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type __string = string;
+export type __integer = number;
+export type __double = number;
 
 //# Schemas
 export type ListOf__string = string[];
@@ -8574,7 +8587,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { Message: S.optional(S.String), RequestID: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class MethodNotAllowedException extends S.TaggedError<MethodNotAllowedException>()(
   "MethodNotAllowedException",
   { Message: S.optional(S.String), RequestID: S.optional(S.String) },
@@ -8586,7 +8601,9 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String), RequestID: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class PayloadTooLargeException extends S.TaggedError<PayloadTooLargeException>()(
   "PayloadTooLargeException",
   { Message: S.optional(S.String), RequestID: S.optional(S.String) },
@@ -8596,7 +8613,13 @@ export class PayloadTooLargeException extends S.TaggedError<PayloadTooLargeExcep
 /**
  * Removes one or more tags (keys and values) from an application, campaign, message template, or segment.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [],
@@ -8604,7 +8627,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [],
@@ -8612,7 +8641,13 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds one or more tags (keys and values) to an application, campaign, message template, or segment.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [],
@@ -8620,7 +8655,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
  */
-export const listTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTemplates: (
+  input: ListTemplatesRequest,
+) => Effect.Effect<
+  ListTemplatesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTemplatesRequest,
   output: ListTemplatesResponse,
   errors: [
@@ -8634,7 +8680,18 @@ export const listTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a message template for messages that are sent through the voice channel.
  */
-export const createVoiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVoiceTemplate: (
+  input: CreateVoiceTemplateRequest,
+) => Effect.Effect<
+  CreateVoiceTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVoiceTemplateRequest,
   output: CreateVoiceTemplateResponse,
   errors: [
@@ -8648,7 +8705,18 @@ export const createVoiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a message template for messages that are sent through the email channel.
  */
-export const createEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEmailTemplate: (
+  input: CreateEmailTemplateRequest,
+) => Effect.Effect<
+  CreateEmailTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEmailTemplateRequest,
   output: CreateEmailTemplateResponse,
   errors: [
@@ -8662,7 +8730,18 @@ export const createEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a message template for messages that are sent through a push notification channel.
  */
-export const createPushTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPushTemplate: (
+  input: CreatePushTemplateRequest,
+) => Effect.Effect<
+  CreatePushTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePushTemplateRequest,
   output: CreatePushTemplateResponse,
   errors: [
@@ -8676,7 +8755,18 @@ export const createPushTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a message template for messages that are sent through the SMS channel.
  */
-export const createSmsTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSmsTemplate: (
+  input: CreateSmsTemplateRequest,
+) => Effect.Effect<
+  CreateSmsTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSmsTemplateRequest,
   output: CreateSmsTemplateResponse,
   errors: [
@@ -8690,7 +8780,18 @@ export const createSmsTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new message template for messages using the in-app message channel.
  */
-export const createInAppTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createInAppTemplate: (
+  input: CreateInAppTemplateRequest,
+) => Effect.Effect<
+  CreateInAppTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInAppTemplateRequest,
   output: CreateInAppTemplateResponse,
   errors: [
@@ -8704,7 +8805,20 @@ export const createInAppTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a message template for messages sent using the in-app message channel.
  */
-export const deleteInAppTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteInAppTemplate: (
+  input: DeleteInAppTemplateRequest,
+) => Effect.Effect<
+  DeleteInAppTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInAppTemplateRequest,
   output: DeleteInAppTemplateResponse,
   errors: [
@@ -8720,7 +8834,20 @@ export const deleteInAppTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates and sends a direct message.
  */
-export const sendMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendMessages: (
+  input: SendMessagesRequest,
+) => Effect.Effect<
+  SendMessagesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendMessagesRequest,
   output: SendMessagesResponse,
   errors: [
@@ -8736,25 +8863,49 @@ export const sendMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
  */
-export const getApplicationDateRangeKpi = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetApplicationDateRangeKpiRequest,
-    output: GetApplicationDateRangeKpiResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getApplicationDateRangeKpi: (
+  input: GetApplicationDateRangeKpiRequest,
+) => Effect.Effect<
+  GetApplicationDateRangeKpiResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApplicationDateRangeKpiRequest,
+  output: GetApplicationDateRangeKpiResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Send an OTP message
  */
-export const sendOTPMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendOTPMessage: (
+  input: SendOTPMessageRequest,
+) => Effect.Effect<
+  SendOTPMessageResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendOTPMessageRequest,
   output: SendOTPMessageResponse,
   errors: [
@@ -8770,7 +8921,20 @@ export const sendOTPMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a segment from an application.
  */
-export const deleteSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSegment: (
+  input: DeleteSegmentRequest,
+) => Effect.Effect<
+  DeleteSegmentResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSegmentRequest,
   output: DeleteSegmentResponse,
   errors: [
@@ -8786,7 +8950,20 @@ export const deleteSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the history and status of each channel for an application.
  */
-export const getChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getChannels: (
+  input: GetChannelsRequest,
+) => Effect.Effect<
+  GetChannelsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChannelsRequest,
   output: GetChannelsResponse,
   errors: [
@@ -8802,7 +8979,20 @@ export const getChannels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the in-app messages targeted for the provided endpoint ID.
  */
-export const getInAppMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInAppMessages: (
+  input: GetInAppMessagesRequest,
+) => Effect.Effect<
+  GetInAppMessagesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInAppMessagesRequest,
   output: GetInAppMessagesResponse,
   errors: [
@@ -8818,7 +9008,20 @@ export const getInAppMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates and sends a message to a list of users.
  */
-export const sendUsersMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendUsersMessages: (
+  input: SendUsersMessagesRequest,
+) => Effect.Effect<
+  SendUsersMessagesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendUsersMessagesRequest,
   output: SendUsersMessagesResponse,
   errors: [
@@ -8834,25 +9037,49 @@ export const sendUsersMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about all the activities for a campaign.
  */
-export const getCampaignActivities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCampaignActivitiesRequest,
-    output: GetCampaignActivitiesResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getCampaignActivities: (
+  input: GetCampaignActivitiesRequest,
+) => Effect.Effect<
+  GetCampaignActivitiesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCampaignActivitiesRequest,
+  output: GetCampaignActivitiesResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves information about the status and settings of a specific export job for an application.
  */
-export const getExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getExportJob: (
+  input: GetExportJobRequest,
+) => Effect.Effect<
+  GetExportJobResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExportJobRequest,
   output: GetExportJobResponse,
   errors: [
@@ -8868,7 +9095,20 @@ export const getExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status and settings of a specific import job for an application.
  */
-export const getImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getImportJob: (
+  input: GetImportJobRequest,
+) => Effect.Effect<
+  GetImportJobResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImportJobRequest,
   output: GetImportJobResponse,
   errors: [
@@ -8884,7 +9124,20 @@ export const getImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides information about the runs of a journey.
  */
-export const getJourneyRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJourneyRuns: (
+  input: GetJourneyRunsRequest,
+) => Effect.Effect<
+  GetJourneyRunsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJourneyRunsRequest,
   output: GetJourneyRunsResponse,
   errors: [
@@ -8900,25 +9153,49 @@ export const getJourneyRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about all the versions of a specific message template.
  */
-export const listTemplateVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTemplateVersionsRequest,
-    output: ListTemplateVersionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const listTemplateVersions: (
+  input: ListTemplateVersionsRequest,
+) => Effect.Effect<
+  ListTemplateVersionsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTemplateVersionsRequest,
+  output: ListTemplateVersionsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves information about a phone number.
  */
-export const phoneNumberValidate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const phoneNumberValidate: (
+  input: PhoneNumberValidateRequest,
+) => Effect.Effect<
+  PhoneNumberValidateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PhoneNumberValidateRequest,
   output: PhoneNumberValidateResponse,
   errors: [
@@ -8934,7 +9211,20 @@ export const phoneNumberValidate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes.
  */
-export const removeAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removeAttributes: (
+  input: RemoveAttributesRequest,
+) => Effect.Effect<
+  RemoveAttributesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveAttributesRequest,
   output: RemoveAttributesResponse,
   errors: [
@@ -8950,25 +9240,49 @@ export const removeAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the settings for an application.
  */
-export const updateApplicationSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateApplicationSettingsRequest,
-    output: UpdateApplicationSettingsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateApplicationSettings: (
+  input: UpdateApplicationSettingsRequest,
+) => Effect.Effect<
+  UpdateApplicationSettingsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationSettingsRequest,
+  output: UpdateApplicationSettingsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
  */
-export const updateEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEndpoint: (
+  input: UpdateEndpointRequest,
+) => Effect.Effect<
+  UpdateEndpointResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEndpointRequest,
   output: UpdateEndpointResponse,
   errors: [
@@ -8984,25 +9298,49 @@ export const updateEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
  */
-export const updateEndpointsBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEndpointsBatchRequest,
-    output: UpdateEndpointsBatchResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateEndpointsBatch: (
+  input: UpdateEndpointsBatchRequest,
+) => Effect.Effect<
+  UpdateEndpointsBatchResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEndpointsBatchRequest,
+  output: UpdateEndpointsBatchResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Verify an OTP
  */
-export const verifyOTPMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const verifyOTPMessage: (
+  input: VerifyOTPMessageRequest,
+) => Effect.Effect<
+  VerifyOTPMessageResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyOTPMessageRequest,
   output: VerifyOTPMessageResponse,
   errors: [
@@ -9018,7 +9356,21 @@ export const verifyOTPMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the configuration and other settings for a journey.
  */
-export const updateJourney = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateJourney: (
+  input: UpdateJourneyRequest,
+) => Effect.Effect<
+  UpdateJourneyResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJourneyRequest,
   output: UpdateJourneyResponse,
   errors: [
@@ -9035,7 +9387,20 @@ export const updateJourney = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a journey from an application.
  */
-export const deleteJourney = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteJourney: (
+  input: DeleteJourneyRequest,
+) => Effect.Effect<
+  DeleteJourneyResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJourneyRequest,
   output: DeleteJourneyResponse,
   errors: [
@@ -9051,24 +9416,49 @@ export const deleteJourney = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Amazon Pinpoint configuration for a recommender model.
  */
-export const deleteRecommenderConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRecommenderConfigurationRequest,
-    output: DeleteRecommenderConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }));
+export const deleteRecommenderConfiguration: (
+  input: DeleteRecommenderConfigurationRequest,
+) => Effect.Effect<
+  DeleteRecommenderConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRecommenderConfigurationRequest,
+  output: DeleteRecommenderConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Disables the SMS channel for an application and deletes any existing settings for the channel.
  */
-export const deleteSmsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSmsChannel: (
+  input: DeleteSmsChannelRequest,
+) => Effect.Effect<
+  DeleteSmsChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSmsChannelRequest,
   output: DeleteSmsChannelResponse,
   errors: [
@@ -9084,7 +9474,20 @@ export const deleteSmsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes all the endpoints that are associated with a specific user ID.
  */
-export const deleteUserEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUserEndpoints: (
+  input: DeleteUserEndpointsRequest,
+) => Effect.Effect<
+  DeleteUserEndpointsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserEndpointsRequest,
   output: DeleteUserEndpointsResponse,
   errors: [
@@ -9100,7 +9503,20 @@ export const deleteUserEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disables the voice channel for an application and deletes any existing settings for the channel.
  */
-export const deleteVoiceChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVoiceChannel: (
+  input: DeleteVoiceChannelRequest,
+) => Effect.Effect<
+  DeleteVoiceChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVoiceChannelRequest,
   output: DeleteVoiceChannelResponse,
   errors: [
@@ -9116,25 +9532,49 @@ export const deleteVoiceChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the settings for an application.
  */
-export const getApplicationSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetApplicationSettingsRequest,
-    output: GetApplicationSettingsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getApplicationSettings: (
+  input: GetApplicationSettingsRequest,
+) => Effect.Effect<
+  GetApplicationSettingsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApplicationSettingsRequest,
+  output: GetApplicationSettingsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves information about all the applications that are associated with your Amazon Pinpoint account.
  */
-export const getApps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApps: (
+  input: GetAppsRequest,
+) => Effect.Effect<
+  GetAppsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppsRequest,
   output: GetAppsResponse,
   errors: [
@@ -9150,25 +9590,49 @@ export const getApps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
  */
-export const getCampaignDateRangeKpi = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCampaignDateRangeKpiRequest,
-    output: GetCampaignDateRangeKpiResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getCampaignDateRangeKpi: (
+  input: GetCampaignDateRangeKpiRequest,
+) => Effect.Effect<
+  GetCampaignDateRangeKpiResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCampaignDateRangeKpiRequest,
+  output: GetCampaignDateRangeKpiResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves information about the status, configuration, and other settings for all the campaigns that are associated with an application.
  */
-export const getCampaigns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCampaigns: (
+  input: GetCampaignsRequest,
+) => Effect.Effect<
+  GetCampaignsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCampaignsRequest,
   output: GetCampaignsResponse,
   errors: [
@@ -9184,7 +9648,20 @@ export const getCampaigns = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the content and settings of a message template for messages that are sent through the email channel.
  */
-export const getEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEmailTemplate: (
+  input: GetEmailTemplateRequest,
+) => Effect.Effect<
+  GetEmailTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEmailTemplateRequest,
   output: GetEmailTemplateResponse,
   errors: [
@@ -9200,7 +9677,20 @@ export const getEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status and settings of all the export jobs for an application.
  */
-export const getExportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getExportJobs: (
+  input: GetExportJobsRequest,
+) => Effect.Effect<
+  GetExportJobsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExportJobsRequest,
   output: GetExportJobsResponse,
   errors: [
@@ -9216,7 +9706,20 @@ export const getExportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status and settings of all the import jobs for an application.
  */
-export const getImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getImportJobs: (
+  input: GetImportJobsRequest,
+) => Effect.Effect<
+  GetImportJobsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImportJobsRequest,
   output: GetImportJobsResponse,
   errors: [
@@ -9232,7 +9735,20 @@ export const getImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the content and settings of a message template for messages sent through the in-app channel.
  */
-export const getInAppTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInAppTemplate: (
+  input: GetInAppTemplateRequest,
+) => Effect.Effect<
+  GetInAppTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInAppTemplateRequest,
   output: GetInAppTemplateResponse,
   errors: [
@@ -9248,94 +9764,165 @@ export const getInAppTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a journey.
  */
-export const getJourneyDateRangeKpi = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetJourneyDateRangeKpiRequest,
-    output: GetJourneyDateRangeKpiResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getJourneyDateRangeKpi: (
+  input: GetJourneyDateRangeKpiRequest,
+) => Effect.Effect<
+  GetJourneyDateRangeKpiResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetJourneyDateRangeKpiRequest,
+  output: GetJourneyDateRangeKpiResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey activity.
  */
-export const getJourneyExecutionActivityMetrics =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetJourneyExecutionActivityMetricsRequest,
-    output: GetJourneyExecutionActivityMetricsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getJourneyExecutionActivityMetrics: (
+  input: GetJourneyExecutionActivityMetricsRequest,
+) => Effect.Effect<
+  GetJourneyExecutionActivityMetricsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetJourneyExecutionActivityMetricsRequest,
+  output: GetJourneyExecutionActivityMetricsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey.
  */
-export const getJourneyExecutionMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetJourneyExecutionMetricsRequest,
-    output: GetJourneyExecutionMetricsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getJourneyExecutionMetrics: (
+  input: GetJourneyExecutionMetricsRequest,
+) => Effect.Effect<
+  GetJourneyExecutionMetricsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetJourneyExecutionMetricsRequest,
+  output: GetJourneyExecutionMetricsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey activity.
  */
-export const getJourneyRunExecutionActivityMetrics =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetJourneyRunExecutionActivityMetricsRequest,
-    output: GetJourneyRunExecutionActivityMetricsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getJourneyRunExecutionActivityMetrics: (
+  input: GetJourneyRunExecutionActivityMetricsRequest,
+) => Effect.Effect<
+  GetJourneyRunExecutionActivityMetricsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetJourneyRunExecutionActivityMetricsRequest,
+  output: GetJourneyRunExecutionActivityMetricsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey.
  */
-export const getJourneyRunExecutionMetrics =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetJourneyRunExecutionMetricsRequest,
-    output: GetJourneyRunExecutionMetricsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getJourneyRunExecutionMetrics: (
+  input: GetJourneyRunExecutionMetricsRequest,
+) => Effect.Effect<
+  GetJourneyRunExecutionMetricsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetJourneyRunExecutionMetricsRequest,
+  output: GetJourneyRunExecutionMetricsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
  */
-export const getPushTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPushTemplate: (
+  input: GetPushTemplateRequest,
+) => Effect.Effect<
+  GetPushTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPushTemplateRequest,
   output: GetPushTemplateResponse,
   errors: [
@@ -9351,24 +9938,49 @@ export const getPushTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
  */
-export const getRecommenderConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRecommenderConfigurationsRequest,
-    output: GetRecommenderConfigurationsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getRecommenderConfigurations: (
+  input: GetRecommenderConfigurationsRequest,
+) => Effect.Effect<
+  GetRecommenderConfigurationsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRecommenderConfigurationsRequest,
+  output: GetRecommenderConfigurationsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application.
  */
-export const getSegments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSegments: (
+  input: GetSegmentsRequest,
+) => Effect.Effect<
+  GetSegmentsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSegmentsRequest,
   output: GetSegmentsResponse,
   errors: [
@@ -9384,7 +9996,20 @@ export const getSegments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the content and settings of a message template for messages that are sent through the SMS channel.
  */
-export const getSmsTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSmsTemplate: (
+  input: GetSmsTemplateRequest,
+) => Effect.Effect<
+  GetSmsTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSmsTemplateRequest,
   output: GetSmsTemplateResponse,
   errors: [
@@ -9400,7 +10025,20 @@ export const getSmsTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the content and settings of a message template for messages that are sent through the voice channel.
  */
-export const getVoiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVoiceTemplate: (
+  input: GetVoiceTemplateRequest,
+) => Effect.Effect<
+  GetVoiceTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceTemplateRequest,
   output: GetVoiceTemplateResponse,
   errors: [
@@ -9416,7 +10054,20 @@ export const getVoiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application.
  */
-export const listJourneys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listJourneys: (
+  input: ListJourneysRequest,
+) => Effect.Effect<
+  ListJourneysResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListJourneysRequest,
   output: ListJourneysResponse,
   errors: [
@@ -9432,7 +10083,20 @@ export const listJourneys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new event stream for an application or updates the settings of an existing event stream for an application.
  */
-export const putEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putEventStream: (
+  input: PutEventStreamRequest,
+) => Effect.Effect<
+  PutEventStreamResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEventStreamRequest,
   output: PutEventStreamResponse,
   errors: [
@@ -9448,7 +10112,20 @@ export const putEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application.
  */
-export const updateAdmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAdmChannel: (
+  input: UpdateAdmChannelRequest,
+) => Effect.Effect<
+  UpdateAdmChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAdmChannelRequest,
   output: UpdateAdmChannelResponse,
   errors: [
@@ -9464,7 +10141,20 @@ export const updateAdmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables the APNs channel for an application or updates the status and settings of the APNs channel for an application.
  */
-export const updateApnsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApnsChannel: (
+  input: UpdateApnsChannelRequest,
+) => Effect.Effect<
+  UpdateApnsChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApnsChannelRequest,
   output: UpdateApnsChannelResponse,
   errors: [
@@ -9480,60 +10170,107 @@ export const updateApnsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables the APNs sandbox channel for an application or updates the status and settings of the APNs sandbox channel for an application.
  */
-export const updateApnsSandboxChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateApnsSandboxChannelRequest,
-    output: UpdateApnsSandboxChannelResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateApnsSandboxChannel: (
+  input: UpdateApnsSandboxChannelRequest,
+) => Effect.Effect<
+  UpdateApnsSandboxChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApnsSandboxChannelRequest,
+  output: UpdateApnsSandboxChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application.
  */
-export const updateApnsVoipChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateApnsVoipChannelRequest,
-    output: UpdateApnsVoipChannelResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateApnsVoipChannel: (
+  input: UpdateApnsVoipChannelRequest,
+) => Effect.Effect<
+  UpdateApnsVoipChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApnsVoipChannelRequest,
+  output: UpdateApnsVoipChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application.
  */
-export const updateApnsVoipSandboxChannel =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateApnsVoipSandboxChannelRequest,
-    output: UpdateApnsVoipSandboxChannelResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }));
+export const updateApnsVoipSandboxChannel: (
+  input: UpdateApnsVoipSandboxChannelRequest,
+) => Effect.Effect<
+  UpdateApnsVoipSandboxChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApnsVoipSandboxChannelRequest,
+  output: UpdateApnsVoipSandboxChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application.
  */
-export const updateBaiduChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBaiduChannel: (
+  input: UpdateBaiduChannelRequest,
+) => Effect.Effect<
+  UpdateBaiduChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBaiduChannelRequest,
   output: UpdateBaiduChannelResponse,
   errors: [
@@ -9549,7 +10286,20 @@ export const updateBaiduChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables the email channel for an application or updates the status and settings of the email channel for an application.
  */
-export const updateEmailChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEmailChannel: (
+  input: UpdateEmailChannelRequest,
+) => Effect.Effect<
+  UpdateEmailChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEmailChannelRequest,
   output: UpdateEmailChannelResponse,
   errors: [
@@ -9565,7 +10315,20 @@ export const updateEmailChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
  */
-export const updateGcmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGcmChannel: (
+  input: UpdateGcmChannelRequest,
+) => Effect.Effect<
+  UpdateGcmChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGcmChannelRequest,
   output: UpdateGcmChannelResponse,
   errors: [
@@ -9581,7 +10344,20 @@ export const updateGcmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels (stops) an active journey.
  */
-export const updateJourneyState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateJourneyState: (
+  input: UpdateJourneyStateRequest,
+) => Effect.Effect<
+  UpdateJourneyStateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJourneyStateRequest,
   output: UpdateJourneyStateResponse,
   errors: [
@@ -9597,24 +10373,49 @@ export const updateJourneyState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an Amazon Pinpoint configuration for a recommender model.
  */
-export const updateRecommenderConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRecommenderConfigurationRequest,
-    output: UpdateRecommenderConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }));
+export const updateRecommenderConfiguration: (
+  input: UpdateRecommenderConfigurationRequest,
+) => Effect.Effect<
+  UpdateRecommenderConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRecommenderConfigurationRequest,
+  output: UpdateRecommenderConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application.
  */
-export const updateSmsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSmsChannel: (
+  input: UpdateSmsChannelRequest,
+) => Effect.Effect<
+  UpdateSmsChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSmsChannelRequest,
   output: UpdateSmsChannelResponse,
   errors: [
@@ -9630,25 +10431,49 @@ export const updateSmsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Changes the status of a specific version of a message template to *active*.
  */
-export const updateTemplateActiveVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTemplateActiveVersionRequest,
-    output: UpdateTemplateActiveVersionResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateTemplateActiveVersion: (
+  input: UpdateTemplateActiveVersionRequest,
+) => Effect.Effect<
+  UpdateTemplateActiveVersionResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTemplateActiveVersionRequest,
+  output: UpdateTemplateActiveVersionResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Enables the voice channel for an application or updates the status and settings of the voice channel for an application.
  */
-export const updateVoiceChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVoiceChannel: (
+  input: UpdateVoiceChannelRequest,
+) => Effect.Effect<
+  UpdateVoiceChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVoiceChannelRequest,
   output: UpdateVoiceChannelResponse,
   errors: [
@@ -9664,7 +10489,20 @@ export const updateVoiceChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a message template for messages that were sent through a push notification channel.
  */
-export const deletePushTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePushTemplate: (
+  input: DeletePushTemplateRequest,
+) => Effect.Effect<
+  DeletePushTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePushTemplateRequest,
   output: DeletePushTemplateResponse,
   errors: [
@@ -9680,7 +10518,20 @@ export const deletePushTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a message template for messages that were sent through the SMS channel.
  */
-export const deleteSmsTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSmsTemplate: (
+  input: DeleteSmsTemplateRequest,
+) => Effect.Effect<
+  DeleteSmsTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSmsTemplateRequest,
   output: DeleteSmsTemplateResponse,
   errors: [
@@ -9696,7 +10547,20 @@ export const deleteSmsTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a message template for messages that were sent through the voice channel.
  */
-export const deleteVoiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVoiceTemplate: (
+  input: DeleteVoiceTemplateRequest,
+) => Effect.Effect<
+  DeleteVoiceTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVoiceTemplateRequest,
   output: DeleteVoiceTemplateResponse,
   errors: [
@@ -9712,7 +10576,20 @@ export const deleteVoiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status and settings of the ADM channel for an application.
  */
-export const getAdmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAdmChannel: (
+  input: GetAdmChannelRequest,
+) => Effect.Effect<
+  GetAdmChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdmChannelRequest,
   output: GetAdmChannelResponse,
   errors: [
@@ -9728,7 +10605,20 @@ export const getAdmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status and settings of the APNs channel for an application.
  */
-export const getApnsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApnsChannel: (
+  input: GetApnsChannelRequest,
+) => Effect.Effect<
+  GetApnsChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApnsChannelRequest,
   output: GetApnsChannelResponse,
   errors: [
@@ -9744,25 +10634,49 @@ export const getApnsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status and settings of the APNs sandbox channel for an application.
  */
-export const getApnsSandboxChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetApnsSandboxChannelRequest,
-    output: GetApnsSandboxChannelResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getApnsSandboxChannel: (
+  input: GetApnsSandboxChannelRequest,
+) => Effect.Effect<
+  GetApnsSandboxChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApnsSandboxChannelRequest,
+  output: GetApnsSandboxChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves information about the status and settings of the APNs VoIP channel for an application.
  */
-export const getApnsVoipChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApnsVoipChannel: (
+  input: GetApnsVoipChannelRequest,
+) => Effect.Effect<
+  GetApnsVoipChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApnsVoipChannelRequest,
   output: GetApnsVoipChannelResponse,
   errors: [
@@ -9778,25 +10692,49 @@ export const getApnsVoipChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application.
  */
-export const getApnsVoipSandboxChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetApnsVoipSandboxChannelRequest,
-    output: GetApnsVoipSandboxChannelResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getApnsVoipSandboxChannel: (
+  input: GetApnsVoipSandboxChannelRequest,
+) => Effect.Effect<
+  GetApnsVoipSandboxChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApnsVoipSandboxChannelRequest,
+  output: GetApnsVoipSandboxChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves information about an application.
  */
-export const getApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApp: (
+  input: GetAppRequest,
+) => Effect.Effect<
+  GetAppResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppRequest,
   output: GetAppResponse,
   errors: [
@@ -9812,7 +10750,20 @@ export const getApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status and settings of the Baidu channel for an application.
  */
-export const getBaiduChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBaiduChannel: (
+  input: GetBaiduChannelRequest,
+) => Effect.Effect<
+  GetBaiduChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBaiduChannelRequest,
   output: GetBaiduChannelResponse,
   errors: [
@@ -9828,7 +10779,20 @@ export const getBaiduChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status, configuration, and other settings for a campaign.
  */
-export const getCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCampaign: (
+  input: GetCampaignRequest,
+) => Effect.Effect<
+  GetCampaignResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCampaignRequest,
   output: GetCampaignResponse,
   errors: [
@@ -9844,7 +10808,20 @@ export const getCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status, configuration, and other settings for a specific version of a campaign.
  */
-export const getCampaignVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCampaignVersion: (
+  input: GetCampaignVersionRequest,
+) => Effect.Effect<
+  GetCampaignVersionResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCampaignVersionRequest,
   output: GetCampaignVersionResponse,
   errors: [
@@ -9860,7 +10837,20 @@ export const getCampaignVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status, configuration, and other settings for all versions of a campaign.
  */
-export const getCampaignVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCampaignVersions: (
+  input: GetCampaignVersionsRequest,
+) => Effect.Effect<
+  GetCampaignVersionsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCampaignVersionsRequest,
   output: GetCampaignVersionsResponse,
   errors: [
@@ -9876,7 +10866,20 @@ export const getCampaignVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status and settings of the email channel for an application.
  */
-export const getEmailChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEmailChannel: (
+  input: GetEmailChannelRequest,
+) => Effect.Effect<
+  GetEmailChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEmailChannelRequest,
   output: GetEmailChannelResponse,
   errors: [
@@ -9892,7 +10895,20 @@ export const getEmailChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the settings and attributes of a specific endpoint for an application.
  */
-export const getEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEndpoint: (
+  input: GetEndpointRequest,
+) => Effect.Effect<
+  GetEndpointResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEndpointRequest,
   output: GetEndpointResponse,
   errors: [
@@ -9908,7 +10924,20 @@ export const getEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the event stream settings for an application.
  */
-export const getEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEventStream: (
+  input: GetEventStreamRequest,
+) => Effect.Effect<
+  GetEventStreamResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventStreamRequest,
   output: GetEventStreamResponse,
   errors: [
@@ -9924,7 +10953,20 @@ export const getEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status and settings of the GCM channel for an application.
  */
-export const getGcmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGcmChannel: (
+  input: GetGcmChannelRequest,
+) => Effect.Effect<
+  GetGcmChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGcmChannelRequest,
   output: GetGcmChannelResponse,
   errors: [
@@ -9940,7 +10982,20 @@ export const getGcmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status, configuration, and other settings for a journey.
  */
-export const getJourney = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJourney: (
+  input: GetJourneyRequest,
+) => Effect.Effect<
+  GetJourneyResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJourneyRequest,
   output: GetJourneyResponse,
   errors: [
@@ -9956,25 +11011,49 @@ export const getJourney = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about an Amazon Pinpoint configuration for a recommender model.
  */
-export const getRecommenderConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRecommenderConfigurationRequest,
-    output: GetRecommenderConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getRecommenderConfiguration: (
+  input: GetRecommenderConfigurationRequest,
+) => Effect.Effect<
+  GetRecommenderConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRecommenderConfigurationRequest,
+  output: GetRecommenderConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
  */
-export const getSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSegment: (
+  input: GetSegmentRequest,
+) => Effect.Effect<
+  GetSegmentResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSegmentRequest,
   output: GetSegmentResponse,
   errors: [
@@ -9990,43 +11069,78 @@ export const getSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status and settings of the export jobs for a segment.
  */
-export const getSegmentExportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSegmentExportJobsRequest,
-    output: GetSegmentExportJobsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getSegmentExportJobs: (
+  input: GetSegmentExportJobsRequest,
+) => Effect.Effect<
+  GetSegmentExportJobsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSegmentExportJobsRequest,
+  output: GetSegmentExportJobsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves information about the status and settings of the import jobs for a segment.
  */
-export const getSegmentImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSegmentImportJobsRequest,
-    output: GetSegmentImportJobsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getSegmentImportJobs: (
+  input: GetSegmentImportJobsRequest,
+) => Effect.Effect<
+  GetSegmentImportJobsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSegmentImportJobsRequest,
+  output: GetSegmentImportJobsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application.
  */
-export const getSegmentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSegmentVersion: (
+  input: GetSegmentVersionRequest,
+) => Effect.Effect<
+  GetSegmentVersionResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSegmentVersionRequest,
   output: GetSegmentVersionResponse,
   errors: [
@@ -10042,7 +11156,20 @@ export const getSegmentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
  */
-export const getSegmentVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSegmentVersions: (
+  input: GetSegmentVersionsRequest,
+) => Effect.Effect<
+  GetSegmentVersionsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSegmentVersionsRequest,
   output: GetSegmentVersionsResponse,
   errors: [
@@ -10058,7 +11185,20 @@ export const getSegmentVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status and settings of the SMS channel for an application.
  */
-export const getSmsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSmsChannel: (
+  input: GetSmsChannelRequest,
+) => Effect.Effect<
+  GetSmsChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSmsChannelRequest,
   output: GetSmsChannelResponse,
   errors: [
@@ -10074,7 +11214,20 @@ export const getSmsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about all the endpoints that are associated with a specific user ID.
  */
-export const getUserEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUserEndpoints: (
+  input: GetUserEndpointsRequest,
+) => Effect.Effect<
+  GetUserEndpointsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserEndpointsRequest,
   output: GetUserEndpointsResponse,
   errors: [
@@ -10090,7 +11243,20 @@ export const getUserEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the status and settings of the voice channel for an application.
  */
-export const getVoiceChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVoiceChannel: (
+  input: GetVoiceChannelRequest,
+) => Effect.Effect<
+  GetVoiceChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVoiceChannelRequest,
   output: GetVoiceChannelResponse,
   errors: [
@@ -10106,7 +11272,20 @@ export const getVoiceChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the configuration and other settings for a campaign.
  */
-export const updateCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCampaign: (
+  input: UpdateCampaignRequest,
+) => Effect.Effect<
+  UpdateCampaignResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCampaignRequest,
   output: UpdateCampaignResponse,
   errors: [
@@ -10122,7 +11301,20 @@ export const updateCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing message template for messages that are sent through the email channel.
  */
-export const updateEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEmailTemplate: (
+  input: UpdateEmailTemplateRequest,
+) => Effect.Effect<
+  UpdateEmailTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEmailTemplateRequest,
   output: UpdateEmailTemplateResponse,
   errors: [
@@ -10138,7 +11330,20 @@ export const updateEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing message template for messages sent through the in-app message channel.
  */
-export const updateInAppTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateInAppTemplate: (
+  input: UpdateInAppTemplateRequest,
+) => Effect.Effect<
+  UpdateInAppTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInAppTemplateRequest,
   output: UpdateInAppTemplateResponse,
   errors: [
@@ -10154,7 +11359,20 @@ export const updateInAppTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing message template for messages that are sent through a push notification channel.
  */
-export const updatePushTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePushTemplate: (
+  input: UpdatePushTemplateRequest,
+) => Effect.Effect<
+  UpdatePushTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePushTemplateRequest,
   output: UpdatePushTemplateResponse,
   errors: [
@@ -10170,7 +11388,20 @@ export const updatePushTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
  */
-export const updateSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSegment: (
+  input: UpdateSegmentRequest,
+) => Effect.Effect<
+  UpdateSegmentResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSegmentRequest,
   output: UpdateSegmentResponse,
   errors: [
@@ -10186,7 +11417,20 @@ export const updateSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing message template for messages that are sent through the SMS channel.
  */
-export const updateSmsTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSmsTemplate: (
+  input: UpdateSmsTemplateRequest,
+) => Effect.Effect<
+  UpdateSmsTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSmsTemplateRequest,
   output: UpdateSmsTemplateResponse,
   errors: [
@@ -10202,7 +11446,20 @@ export const updateSmsTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing message template for messages that are sent through the voice channel.
  */
-export const updateVoiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVoiceTemplate: (
+  input: UpdateVoiceTemplateRequest,
+) => Effect.Effect<
+  UpdateVoiceTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVoiceTemplateRequest,
   output: UpdateVoiceTemplateResponse,
   errors: [
@@ -10218,7 +11475,20 @@ export const updateVoiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an export job for an application.
  */
-export const createExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createExportJob: (
+  input: CreateExportJobRequest,
+) => Effect.Effect<
+  CreateExportJobResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExportJobRequest,
   output: CreateExportJobResponse,
   errors: [
@@ -10234,7 +11504,20 @@ export const createExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an import job for an application.
  */
-export const createImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createImportJob: (
+  input: CreateImportJobRequest,
+) => Effect.Effect<
+  CreateImportJobResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateImportJobRequest,
   output: CreateImportJobResponse,
   errors: [
@@ -10250,24 +11533,49 @@ export const createImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon Pinpoint configuration for a recommender model.
  */
-export const createRecommenderConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRecommenderConfigurationRequest,
-    output: CreateRecommenderConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }));
+export const createRecommenderConfiguration: (
+  input: CreateRecommenderConfigurationRequest,
+) => Effect.Effect<
+  CreateRecommenderConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRecommenderConfigurationRequest,
+  output: CreateRecommenderConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Disables the ADM channel for an application and deletes any existing settings for the channel.
  */
-export const deleteAdmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAdmChannel: (
+  input: DeleteAdmChannelRequest,
+) => Effect.Effect<
+  DeleteAdmChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdmChannelRequest,
   output: DeleteAdmChannelResponse,
   errors: [
@@ -10283,7 +11591,20 @@ export const deleteAdmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disables the APNs channel for an application and deletes any existing settings for the channel.
  */
-export const deleteApnsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApnsChannel: (
+  input: DeleteApnsChannelRequest,
+) => Effect.Effect<
+  DeleteApnsChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApnsChannelRequest,
   output: DeleteApnsChannelResponse,
   errors: [
@@ -10299,60 +11620,107 @@ export const deleteApnsChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disables the APNs sandbox channel for an application and deletes any existing settings for the channel.
  */
-export const deleteApnsSandboxChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteApnsSandboxChannelRequest,
-    output: DeleteApnsSandboxChannelResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const deleteApnsSandboxChannel: (
+  input: DeleteApnsSandboxChannelRequest,
+) => Effect.Effect<
+  DeleteApnsSandboxChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApnsSandboxChannelRequest,
+  output: DeleteApnsSandboxChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Disables the APNs VoIP channel for an application and deletes any existing settings for the channel.
  */
-export const deleteApnsVoipChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteApnsVoipChannelRequest,
-    output: DeleteApnsVoipChannelResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const deleteApnsVoipChannel: (
+  input: DeleteApnsVoipChannelRequest,
+) => Effect.Effect<
+  DeleteApnsVoipChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApnsVoipChannelRequest,
+  output: DeleteApnsVoipChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel.
  */
-export const deleteApnsVoipSandboxChannel =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteApnsVoipSandboxChannelRequest,
-    output: DeleteApnsVoipSandboxChannelResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      PayloadTooLargeException,
-      TooManyRequestsException,
-    ],
-  }));
+export const deleteApnsVoipSandboxChannel: (
+  input: DeleteApnsVoipSandboxChannelRequest,
+) => Effect.Effect<
+  DeleteApnsVoipSandboxChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApnsVoipSandboxChannelRequest,
+  output: DeleteApnsVoipSandboxChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    PayloadTooLargeException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes an application.
  */
-export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApp: (
+  input: DeleteAppRequest,
+) => Effect.Effect<
+  DeleteAppResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppRequest,
   output: DeleteAppResponse,
   errors: [
@@ -10368,7 +11736,20 @@ export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disables the Baidu channel for an application and deletes any existing settings for the channel.
  */
-export const deleteBaiduChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBaiduChannel: (
+  input: DeleteBaiduChannelRequest,
+) => Effect.Effect<
+  DeleteBaiduChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBaiduChannelRequest,
   output: DeleteBaiduChannelResponse,
   errors: [
@@ -10384,7 +11765,20 @@ export const deleteBaiduChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disables the email channel for an application and deletes any existing settings for the channel.
  */
-export const deleteEmailChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEmailChannel: (
+  input: DeleteEmailChannelRequest,
+) => Effect.Effect<
+  DeleteEmailChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEmailChannelRequest,
   output: DeleteEmailChannelResponse,
   errors: [
@@ -10400,7 +11794,20 @@ export const deleteEmailChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a message template for messages that were sent through the email channel.
  */
-export const deleteEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEmailTemplate: (
+  input: DeleteEmailTemplateRequest,
+) => Effect.Effect<
+  DeleteEmailTemplateResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEmailTemplateRequest,
   output: DeleteEmailTemplateResponse,
   errors: [
@@ -10416,7 +11823,20 @@ export const deleteEmailTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an endpoint from an application.
  */
-export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEndpoint: (
+  input: DeleteEndpointRequest,
+) => Effect.Effect<
+  DeleteEndpointResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEndpointRequest,
   output: DeleteEndpointResponse,
   errors: [
@@ -10432,7 +11852,20 @@ export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the event stream for an application.
  */
-export const deleteEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEventStream: (
+  input: DeleteEventStreamRequest,
+) => Effect.Effect<
+  DeleteEventStreamResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventStreamRequest,
   output: DeleteEventStreamResponse,
   errors: [
@@ -10448,7 +11881,20 @@ export const deleteEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disables the GCM channel for an application and deletes any existing settings for the channel.
  */
-export const deleteGcmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGcmChannel: (
+  input: DeleteGcmChannelRequest,
+) => Effect.Effect<
+  DeleteGcmChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGcmChannelRequest,
   output: DeleteGcmChannelResponse,
   errors: [
@@ -10464,7 +11910,20 @@ export const deleteGcmChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an application.
  */
-export const createApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApp: (
+  input: CreateAppRequest,
+) => Effect.Effect<
+  CreateAppResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppRequest,
   output: CreateAppResponse,
   errors: [
@@ -10480,7 +11939,20 @@ export const createApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a campaign from an application.
  */
-export const deleteCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCampaign: (
+  input: DeleteCampaignRequest,
+) => Effect.Effect<
+  DeleteCampaignResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCampaignRequest,
   output: DeleteCampaignResponse,
   errors: [
@@ -10496,7 +11968,20 @@ export const deleteCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new campaign for an application or updates the settings of an existing campaign for an application.
  */
-export const createCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCampaign: (
+  input: CreateCampaignRequest,
+) => Effect.Effect<
+  CreateCampaignResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCampaignRequest,
   output: CreateCampaignResponse,
   errors: [
@@ -10512,7 +11997,20 @@ export const createCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
  */
-export const createSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSegment: (
+  input: CreateSegmentRequest,
+) => Effect.Effect<
+  CreateSegmentResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSegmentRequest,
   output: CreateSegmentResponse,
   errors: [
@@ -10528,7 +12026,20 @@ export const createSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a journey for an application.
  */
-export const createJourney = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createJourney: (
+  input: CreateJourneyRequest,
+) => Effect.Effect<
+  CreateJourneyResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJourneyRequest,
   output: CreateJourneyResponse,
   errors: [
@@ -10544,7 +12055,20 @@ export const createJourney = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new event to record for endpoints, or creates or updates endpoint data that existing events are associated with.
  */
-export const putEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putEvents: (
+  input: PutEventsRequest,
+) => Effect.Effect<
+  PutEventsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | PayloadTooLargeException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEventsRequest,
   output: PutEventsResponse,
   errors: [

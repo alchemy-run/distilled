@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "API Gateway",
   serviceShapeName: "BackplaneControlService",
@@ -240,6 +248,15 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ProviderARN = string;
+export type NullableInteger = number;
+export type StatusCode = string;
+export type Double = number;
+export type DocumentationPartLocationStatusCode = string;
+export type Integer = number;
+export type Long = number;
 
 //# Schemas
 export interface GetAccountRequest {}
@@ -4784,21 +4801,27 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
     retryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
     message: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   {
     retryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
     message: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   {
     retryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
     message: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
   { message: S.optional(S.String) },
@@ -4808,21 +4831,36 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
 /**
  * Gets a documentation version.
  */
-export const getDocumentationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDocumentationVersionRequest,
-    output: DocumentationVersion,
-    errors: [
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getDocumentationVersion: (
+  input: GetDocumentationVersionRequest,
+) => Effect.Effect<
+  DocumentationVersion,
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDocumentationVersionRequest,
+  output: DocumentationVersion,
+  errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
+}));
 /**
  * Gets information about a Stage resource.
  */
-export const getStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStage: (
+  input: GetStageRequest,
+) => Effect.Effect<
+  Stage,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStageRequest,
   output: Stage,
   errors: [
@@ -4837,7 +4875,17 @@ export const getStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
  */
-export const getDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDomainName: (
+  input: GetDomainNameRequest,
+) => Effect.Effect<
+  DomainName,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainNameRequest,
   output: DomainName,
   errors: [
@@ -4850,7 +4898,17 @@ export const getDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get the integration settings.
  */
-export const getIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIntegration: (
+  input: GetIntegrationRequest,
+) => Effect.Effect<
+  Integration,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIntegrationRequest,
   output: Integration,
   errors: [
@@ -4863,7 +4921,16 @@ export const getIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describe an existing Method resource.
  */
-export const getMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMethod: (
+  input: GetMethodRequest,
+) => Effect.Effect<
+  Method,
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMethodRequest,
   output: Method,
   errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
@@ -4871,7 +4938,17 @@ export const getMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets an SDK type.
  */
-export const getSdkType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSdkType: (
+  input: GetSdkTypeRequest,
+) => Effect.Effect<
+  SdkType,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSdkTypeRequest,
   output: SdkType,
   errors: [
@@ -4884,7 +4961,41 @@ export const getSdkType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the usage data of a usage plan in a specified time interval.
  */
-export const getUsage = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getUsage: {
+  (
+    input: GetUsageRequest,
+  ): Effect.Effect<
+    Usage,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetUsageRequest,
+  ) => Stream.Stream<
+    Usage,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetUsageRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetUsageRequest,
   output: Usage,
   errors: [
@@ -4903,22 +5014,42 @@ export const getUsage = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.
  */
-export const testInvokeAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TestInvokeAuthorizerRequest,
-    output: TestInvokeAuthorizerResponse,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const testInvokeAuthorizer: (
+  input: TestInvokeAuthorizerRequest,
+) => Effect.Effect<
+  TestInvokeAuthorizerResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestInvokeAuthorizerRequest,
+  output: TestInvokeAuthorizerResponse,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Exports a deployed version of a RestApi in a specified format.
  */
-export const getExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getExport: (
+  input: GetExportRequest,
+) => Effect.Effect<
+  ExportResponse,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExportRequest,
   output: ExportResponse,
   errors: [
@@ -4933,7 +5064,19 @@ export const getExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Generates a client SDK for a RestApi and Stage.
  */
-export const getSdk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSdk: (
+  input: GetSdkRequest,
+) => Effect.Effect<
+  SdkResponse,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSdkRequest,
   output: SdkResponse,
   errors: [
@@ -4948,7 +5091,19 @@ export const getSdk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about one or more Stage resources.
  */
-export const getStages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStages: (
+  input: GetStagesRequest,
+) => Effect.Effect<
+  Stages,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStagesRequest,
   output: Stages,
   errors: [
@@ -4963,7 +5118,19 @@ export const getStages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Import API keys from an external source, such as a CSV-formatted file.
  */
-export const importApiKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importApiKeys: (
+  input: ImportApiKeysRequest,
+) => Effect.Effect<
+  ApiKeyIds,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportApiKeysRequest,
   output: ApiKeyIds,
   errors: [
@@ -4978,24 +5145,46 @@ export const importApiKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Imports documentation parts
  */
-export const importDocumentationParts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ImportDocumentationPartsRequest,
-    output: DocumentationPartIds,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const importDocumentationParts: (
+  input: ImportDocumentationPartsRequest,
+) => Effect.Effect<
+  DocumentationPartIds,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportDocumentationPartsRequest,
+  output: DocumentationPartIds,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Sets up a method's integration.
  */
-export const putIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putIntegration: (
+  input: PutIntegrationRequest,
+) => Effect.Effect<
+  Integration,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutIntegrationRequest,
   output: Integration,
   errors: [
@@ -5010,7 +5199,19 @@ export const putIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Add a method to an existing Resource resource.
  */
-export const putMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putMethod: (
+  input: PutMethodRequest,
+) => Effect.Effect<
+  Method,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMethodRequest,
   output: Method,
   errors: [
@@ -5025,7 +5226,19 @@ export const putMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Changes information about the current Account resource.
  */
-export const updateAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAccount: (
+  input: UpdateAccountRequest,
+) => Effect.Effect<
+  Account,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountRequest,
   output: Account,
   errors: [
@@ -5040,7 +5253,19 @@ export const updateAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
  */
-export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDeployment: (
+  input: DeleteDeploymentRequest,
+) => Effect.Effect<
+  DeleteDeploymentResponse,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeploymentRequest,
   output: DeleteDeploymentResponse,
   errors: [
@@ -5055,7 +5280,19 @@ export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a Stage resource.
  */
-export const deleteStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteStage: (
+  input: DeleteStageRequest,
+) => Effect.Effect<
+  DeleteStageResponse,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStageRequest,
   output: DeleteStageResponse,
   errors: [
@@ -5070,24 +5307,46 @@ export const deleteStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Flushes all authorizer cache entries on a stage.
  */
-export const flushStageAuthorizersCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: FlushStageAuthorizersCacheRequest,
-    output: FlushStageAuthorizersCacheResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const flushStageAuthorizersCache: (
+  input: FlushStageAuthorizersCacheRequest,
+) => Effect.Effect<
+  FlushStageAuthorizersCacheResponse,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: FlushStageAuthorizersCacheRequest,
+  output: FlushStageAuthorizersCacheResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Flushes a stage's cache.
  */
-export const flushStageCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const flushStageCache: (
+  input: FlushStageCacheRequest,
+) => Effect.Effect<
+  FlushStageCacheResponse,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FlushStageCacheRequest,
   output: FlushStageCacheResponse,
   errors: [
@@ -5102,7 +5361,19 @@ export const flushStageCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * A feature of the API Gateway control service for creating a new API from an external API definition file.
  */
-export const importRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importRestApi: (
+  input: ImportRestApiRequest,
+) => Effect.Effect<
+  RestApi,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportRestApiRequest,
   output: RestApi,
   errors: [
@@ -5117,7 +5388,19 @@ export const importRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
  */
-export const putGatewayResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putGatewayResponse: (
+  input: PutGatewayResponseRequest,
+) => Effect.Effect<
+  GatewayResponse,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutGatewayResponseRequest,
   output: GatewayResponse,
   errors: [
@@ -5132,24 +5415,46 @@ export const putGatewayResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Represents a put integration.
  */
-export const putIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutIntegrationResponseRequest,
-    output: IntegrationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const putIntegrationResponse: (
+  input: PutIntegrationResponseRequest,
+) => Effect.Effect<
+  IntegrationResponse,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutIntegrationResponseRequest,
+  output: IntegrationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Adds a MethodResponse to an existing Method resource.
  */
-export const putMethodResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putMethodResponse: (
+  input: PutMethodResponseRequest,
+) => Effect.Effect<
+  MethodResponse,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMethodResponseRequest,
   output: MethodResponse,
   errors: [
@@ -5165,7 +5470,19 @@ export const putMethodResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * A feature of the API Gateway control service for updating an existing API with an input of external API definitions.
  * The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
  */
-export const putRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putRestApi: (
+  input: PutRestApiRequest,
+) => Effect.Effect<
+  RestApi,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRestApiRequest,
   output: RestApi,
   errors: [
@@ -5180,7 +5497,19 @@ export const putRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds or updates a tag on a given resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -5195,7 +5524,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag from a given resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -5210,7 +5551,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Changes information about an ApiKey resource.
  */
-export const updateApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApiKey: (
+  input: UpdateApiKeyRequest,
+) => Effect.Effect<
+  ApiKey,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApiKeyRequest,
   output: ApiKey,
   errors: [
@@ -5225,7 +5578,19 @@ export const updateApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing Authorizer resource.
  */
-export const updateAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAuthorizer: (
+  input: UpdateAuthorizerRequest,
+) => Effect.Effect<
+  Authorizer,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAuthorizerRequest,
   output: Authorizer,
   errors: [
@@ -5240,75 +5605,127 @@ export const updateAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Changes information about the BasePathMapping resource.
  */
-export const updateBasePathMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateBasePathMappingRequest,
-    output: BasePathMapping,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateBasePathMapping: (
+  input: UpdateBasePathMappingRequest,
+) => Effect.Effect<
+  BasePathMapping,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBasePathMappingRequest,
+  output: BasePathMapping,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Changes information about an ClientCertificate resource.
  */
-export const updateClientCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateClientCertificateRequest,
-    output: ClientCertificate,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateClientCertificate: (
+  input: UpdateClientCertificateRequest,
+) => Effect.Effect<
+  ClientCertificate,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateClientCertificateRequest,
+  output: ClientCertificate,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates a documentation part.
  */
-export const updateDocumentationPart = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDocumentationPartRequest,
-    output: DocumentationPart,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateDocumentationPart: (
+  input: UpdateDocumentationPartRequest,
+) => Effect.Effect<
+  DocumentationPart,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDocumentationPartRequest,
+  output: DocumentationPart,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates a documentation version.
  */
-export const updateDocumentationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDocumentationVersionRequest,
-    output: DocumentationVersion,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateDocumentationVersion: (
+  input: UpdateDocumentationVersionRequest,
+) => Effect.Effect<
+  DocumentationVersion,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDocumentationVersionRequest,
+  output: DocumentationVersion,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Changes information about the DomainName resource.
  */
-export const updateDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDomainName: (
+  input: UpdateDomainNameRequest,
+) => Effect.Effect<
+  DomainName,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainNameRequest,
   output: DomainName,
   errors: [
@@ -5323,24 +5740,46 @@ export const updateDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a GatewayResponse of a specified response type on the given RestApi.
  */
-export const updateGatewayResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateGatewayResponseRequest,
-    output: GatewayResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateGatewayResponse: (
+  input: UpdateGatewayResponseRequest,
+) => Effect.Effect<
+  GatewayResponse,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGatewayResponseRequest,
+  output: GatewayResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Represents an update integration.
  */
-export const updateIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateIntegration: (
+  input: UpdateIntegrationRequest,
+) => Effect.Effect<
+  Integration,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIntegrationRequest,
   output: Integration,
   errors: [
@@ -5355,41 +5794,73 @@ export const updateIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Represents an update integration response.
  */
-export const updateIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIntegrationResponseRequest,
-    output: IntegrationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateIntegrationResponse: (
+  input: UpdateIntegrationResponseRequest,
+) => Effect.Effect<
+  IntegrationResponse,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIntegrationResponseRequest,
+  output: IntegrationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates an existing MethodResponse resource.
  */
-export const updateMethodResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMethodResponseRequest,
-    output: MethodResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateMethodResponse: (
+  input: UpdateMethodResponseRequest,
+) => Effect.Effect<
+  MethodResponse,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMethodResponseRequest,
+  output: MethodResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Changes information about a model. The maximum size of the model is 400 KB.
  */
-export const updateModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateModel: (
+  input: UpdateModelRequest,
+) => Effect.Effect<
+  Model,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateModelRequest,
   output: Model,
   errors: [
@@ -5404,24 +5875,46 @@ export const updateModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a RequestValidator of a given RestApi.
  */
-export const updateRequestValidator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRequestValidatorRequest,
-    output: RequestValidator,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateRequestValidator: (
+  input: UpdateRequestValidatorRequest,
+) => Effect.Effect<
+  RequestValidator,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRequestValidatorRequest,
+  output: RequestValidator,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Changes information about the specified API.
  */
-export const updateRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRestApi: (
+  input: UpdateRestApiRequest,
+) => Effect.Effect<
+  RestApi,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRestApiRequest,
   output: RestApi,
   errors: [
@@ -5436,7 +5929,19 @@ export const updateRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Changes information about a Stage resource.
  */
-export const updateStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateStage: (
+  input: UpdateStageRequest,
+) => Effect.Effect<
+  Stage,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStageRequest,
   output: Stage,
   errors: [
@@ -5451,7 +5956,19 @@ export const updateStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
  */
-export const updateUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUsage: (
+  input: UpdateUsageRequest,
+) => Effect.Effect<
+  Usage,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUsageRequest,
   output: Usage,
   errors: [
@@ -5466,7 +5983,19 @@ export const updateUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a usage plan of a given plan Id.
  */
-export const updateUsagePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUsagePlan: (
+  input: UpdateUsagePlanRequest,
+) => Effect.Effect<
+  UsagePlan,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUsagePlanRequest,
   output: UsagePlan,
   errors: [
@@ -5481,7 +6010,19 @@ export const updateUsagePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing VpcLink of a specified identifier.
  */
-export const updateVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVpcLink: (
+  input: UpdateVpcLinkRequest,
+) => Effect.Effect<
+  VpcLink,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVpcLinkRequest,
   output: VpcLink,
   errors: [
@@ -5496,7 +6037,19 @@ export const updateVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create an ApiKey resource.
  */
-export const createApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApiKey: (
+  input: CreateApiKeyRequest,
+) => Effect.Effect<
+  ApiKey,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApiKeyRequest,
   output: ApiKey,
   errors: [
@@ -5511,7 +6064,19 @@ export const createApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds a new Authorizer resource to an existing RestApi resource.
  */
-export const createAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAuthorizer: (
+  input: CreateAuthorizerRequest,
+) => Effect.Effect<
+  Authorizer,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAuthorizerRequest,
   output: Authorizer,
   errors: [
@@ -5526,58 +6091,99 @@ export const createAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new BasePathMapping resource.
  */
-export const createBasePathMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBasePathMappingRequest,
-    output: BasePathMapping,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createBasePathMapping: (
+  input: CreateBasePathMappingRequest,
+) => Effect.Effect<
+  BasePathMapping,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBasePathMappingRequest,
+  output: BasePathMapping,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a documentation part.
  */
-export const createDocumentationPart = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDocumentationPartRequest,
-    output: DocumentationPart,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createDocumentationPart: (
+  input: CreateDocumentationPartRequest,
+) => Effect.Effect<
+  DocumentationPart,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDocumentationPartRequest,
+  output: DocumentationPart,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a documentation version
  */
-export const createDocumentationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDocumentationVersionRequest,
-    output: DocumentationVersion,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createDocumentationVersion: (
+  input: CreateDocumentationVersionRequest,
+) => Effect.Effect<
+  DocumentationVersion,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDocumentationVersionRequest,
+  output: DocumentationVersion,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a new domain name.
  */
-export const createDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDomainName: (
+  input: CreateDomainNameRequest,
+) => Effect.Effect<
+  DomainName,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainNameRequest,
   output: DomainName,
   errors: [
@@ -5592,22 +6198,44 @@ export const createDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a domain name access association resource between an access association source and a private custom
  * domain name.
  */
-export const createDomainNameAccessAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDomainNameAccessAssociationRequest,
-    output: DomainNameAccessAssociation,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }));
+export const createDomainNameAccessAssociation: (
+  input: CreateDomainNameAccessAssociationRequest,
+) => Effect.Effect<
+  DomainNameAccessAssociation,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDomainNameAccessAssociationRequest,
+  output: DomainNameAccessAssociation,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Adds a new Model resource to an existing RestApi resource.
  */
-export const createModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createModel: (
+  input: CreateModelRequest,
+) => Effect.Effect<
+  Model,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelRequest,
   output: Model,
   errors: [
@@ -5622,24 +6250,45 @@ export const createModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a RequestValidator of a given RestApi.
  */
-export const createRequestValidator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRequestValidatorRequest,
-    output: RequestValidator,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createRequestValidator: (
+  input: CreateRequestValidatorRequest,
+) => Effect.Effect<
+  RequestValidator,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRequestValidatorRequest,
+  output: RequestValidator,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a new RestApi resource.
  */
-export const createRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRestApi: (
+  input: CreateRestApiRequest,
+) => Effect.Effect<
+  RestApi,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRestApiRequest,
   output: RestApi,
   errors: [
@@ -5653,7 +6302,19 @@ export const createRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new Stage resource that references a pre-existing Deployment for the API.
  */
-export const createStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createStage: (
+  input: CreateStageRequest,
+) => Effect.Effect<
+  Stage,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStageRequest,
   output: Stage,
   errors: [
@@ -5668,7 +6329,19 @@ export const createStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a usage plan key for adding an existing API key to a usage plan.
  */
-export const createUsagePlanKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUsagePlanKey: (
+  input: CreateUsagePlanKeyRequest,
+) => Effect.Effect<
+  UsagePlanKey,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUsagePlanKeyRequest,
   output: UsagePlanKey,
   errors: [
@@ -5683,7 +6356,18 @@ export const createUsagePlanKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
  */
-export const createVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVpcLink: (
+  input: CreateVpcLinkRequest,
+) => Effect.Effect<
+  VpcLink,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcLinkRequest,
   output: VpcLink,
   errors: [
@@ -5697,7 +6381,19 @@ export const createVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a Resource resource.
  */
-export const createResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createResource: (
+  input: CreateResourceRequest,
+) => Effect.Effect<
+  Resource,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceRequest,
   output: Resource,
   errors: [
@@ -5712,7 +6408,19 @@ export const createResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
  */
-export const createUsagePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUsagePlan: (
+  input: CreateUsagePlanRequest,
+) => Effect.Effect<
+  UsagePlan,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUsagePlanRequest,
   output: UsagePlan,
   errors: [
@@ -5727,79 +6435,173 @@ export const createUsagePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a Deployments collection.
  */
-export const getDeployments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getDeployments: {
+  (
     input: GetDeploymentsRequest,
-    output: Deployments,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "position",
-      outputToken: "position",
-      items: "items",
-      pageSize: "limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    Deployments,
+    | BadRequestException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetDeploymentsRequest,
+  ) => Stream.Stream<
+    Deployments,
+    | BadRequestException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetDeploymentsRequest,
+  ) => Stream.Stream<
+    Deployment,
+    | BadRequestException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetDeploymentsRequest,
+  output: Deployments,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "position",
+    outputToken: "position",
+    items: "items",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Gets documentation versions.
  */
-export const getDocumentationVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDocumentationVersionsRequest,
-    output: DocumentationVersions,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getDocumentationVersions: (
+  input: GetDocumentationVersionsRequest,
+) => Effect.Effect<
+  DocumentationVersions,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDocumentationVersionsRequest,
+  output: DocumentationVersions,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Represents a collection on DomainNameAccessAssociations resources.
  */
-export const getDomainNameAccessAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDomainNameAccessAssociationsRequest,
-    output: DomainNameAccessAssociations,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }));
+export const getDomainNameAccessAssociations: (
+  input: GetDomainNameAccessAssociationsRequest,
+) => Effect.Effect<
+  DomainNameAccessAssociations,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDomainNameAccessAssociationsRequest,
+  output: DomainNameAccessAssociations,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Represents a collection of DomainName resources.
  */
-export const getDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getDomainNames: {
+  (
     input: GetDomainNamesRequest,
-    output: DomainNames,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "position",
-      outputToken: "position",
-      items: "items",
-      pageSize: "limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DomainNames,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetDomainNamesRequest,
+  ) => Stream.Stream<
+    DomainNames,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetDomainNamesRequest,
+  ) => Stream.Stream<
+    DomainName,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetDomainNamesRequest,
+  output: DomainNames,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "position",
+    outputToken: "position",
+    items: "items",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Gets a GatewayResponse of a specified response type on the given RestApi.
  */
-export const getGatewayResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGatewayResponse: (
+  input: GetGatewayResponseRequest,
+) => Effect.Effect<
+  GatewayResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGatewayResponseRequest,
   output: GatewayResponse,
   errors: [
@@ -5812,7 +6614,17 @@ export const getGatewayResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
  */
-export const getGatewayResponses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGatewayResponses: (
+  input: GetGatewayResponsesRequest,
+) => Effect.Effect<
+  GatewayResponses,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGatewayResponsesRequest,
   output: GatewayResponses,
   errors: [
@@ -5825,22 +6637,39 @@ export const getGatewayResponses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Represents a get integration response.
  */
-export const getIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIntegrationResponseRequest,
-    output: IntegrationResponse,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getIntegrationResponse: (
+  input: GetIntegrationResponseRequest,
+) => Effect.Effect<
+  IntegrationResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIntegrationResponseRequest,
+  output: IntegrationResponse,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Describes a MethodResponse resource.
  */
-export const getMethodResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMethodResponse: (
+  input: GetMethodResponseRequest,
+) => Effect.Effect<
+  MethodResponse,
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMethodResponseRequest,
   output: MethodResponse,
   errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
@@ -5848,7 +6677,41 @@ export const getMethodResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes existing Models defined for a RestApi resource.
  */
-export const getModels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getModels: {
+  (
+    input: GetModelsRequest,
+  ): Effect.Effect<
+    Models,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetModelsRequest,
+  ) => Stream.Stream<
+    Models,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetModelsRequest,
+  ) => Stream.Stream<
+    Model,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetModelsRequest,
   output: Models,
   errors: [
@@ -5867,7 +6730,17 @@ export const getModels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Generates a sample mapping template that can be used to transform a payload into the structure of a model.
  */
-export const getModelTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getModelTemplate: (
+  input: GetModelTemplateRequest,
+) => Effect.Effect<
+  Template,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelTemplateRequest,
   output: Template,
   errors: [
@@ -5880,64 +6753,146 @@ export const getModelTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the RequestValidators collection of a given RestApi.
  */
-export const getRequestValidators = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRequestValidatorsRequest,
-    output: RequestValidators,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getRequestValidators: (
+  input: GetRequestValidatorsRequest,
+) => Effect.Effect<
+  RequestValidators,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRequestValidatorsRequest,
+  output: RequestValidators,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Lists information about a collection of Resource resources.
  */
-export const getResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getResources: {
+  (
     input: GetResourcesRequest,
-    output: Resources,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "position",
-      outputToken: "position",
-      items: "items",
-      pageSize: "limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    Resources,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetResourcesRequest,
+  ) => Stream.Stream<
+    Resources,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetResourcesRequest,
+  ) => Stream.Stream<
+    Resource,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetResourcesRequest,
+  output: Resources,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "position",
+    outputToken: "position",
+    items: "items",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Lists the RestApis resources for your collection.
  */
-export const getRestApis = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getRestApis: {
+  (
     input: GetRestApisRequest,
-    output: RestApis,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "position",
-      outputToken: "position",
-      items: "items",
-      pageSize: "limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    RestApis,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetRestApisRequest,
+  ) => Stream.Stream<
+    RestApis,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetRestApisRequest,
+  ) => Stream.Stream<
+    RestApi,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetRestApisRequest,
+  output: RestApis,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "position",
+    outputToken: "position",
+    items: "items",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Gets SDK types
  */
-export const getSdkTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSdkTypes: (
+  input: GetSdkTypesRequest,
+) => Effect.Effect<
+  SdkTypes,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSdkTypesRequest,
   output: SdkTypes,
   errors: [
@@ -5950,7 +6905,17 @@ export const getSdkTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the Tags collection for a given resource.
  */
-export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTags: (
+  input: GetTagsRequest,
+) => Effect.Effect<
+  Tags,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTagsRequest,
   output: Tags,
   errors: [
@@ -5963,7 +6928,17 @@ export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a usage plan of a given plan identifier.
  */
-export const getUsagePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUsagePlan: (
+  input: GetUsagePlanRequest,
+) => Effect.Effect<
+  UsagePlan,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsagePlanRequest,
   output: UsagePlan,
   errors: [
@@ -5976,70 +6951,176 @@ export const getUsagePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets all the usage plan keys representing the API keys added to a specified usage plan.
  */
-export const getUsagePlanKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getUsagePlanKeys: {
+  (
     input: GetUsagePlanKeysRequest,
-    output: UsagePlanKeys,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "position",
-      outputToken: "position",
-      items: "items",
-      pageSize: "limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    UsagePlanKeys,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetUsagePlanKeysRequest,
+  ) => Stream.Stream<
+    UsagePlanKeys,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetUsagePlanKeysRequest,
+  ) => Stream.Stream<
+    UsagePlanKey,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetUsagePlanKeysRequest,
+  output: UsagePlanKeys,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "position",
+    outputToken: "position",
+    items: "items",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Gets all the usage plans of the caller's account.
  */
-export const getUsagePlans = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getUsagePlans: {
+  (
     input: GetUsagePlansRequest,
-    output: UsagePlans,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "position",
-      outputToken: "position",
-      items: "items",
-      pageSize: "limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    UsagePlans,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetUsagePlansRequest,
+  ) => Stream.Stream<
+    UsagePlans,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetUsagePlansRequest,
+  ) => Stream.Stream<
+    UsagePlan,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetUsagePlansRequest,
+  output: UsagePlans,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "position",
+    outputToken: "position",
+    items: "items",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Gets the VpcLinks collection under the caller's account in a selected region.
  */
-export const getVpcLinks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getVpcLinks: {
+  (
     input: GetVpcLinksRequest,
-    output: VpcLinks,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "position",
-      outputToken: "position",
-      items: "items",
-      pageSize: "limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    VpcLinks,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetVpcLinksRequest,
+  ) => Stream.Stream<
+    VpcLinks,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetVpcLinksRequest,
+  ) => Stream.Stream<
+    VpcLink,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetVpcLinksRequest,
+  output: VpcLinks,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "position",
+    outputToken: "position",
+    items: "items",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body.
  */
-export const testInvokeMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testInvokeMethod: (
+  input: TestInvokeMethodRequest,
+) => Effect.Effect<
+  TestInvokeMethodResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestInvokeMethodRequest,
   output: TestInvokeMethodResponse,
   errors: [
@@ -6052,7 +7133,18 @@ export const testInvokeMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing Authorizer resource.
  */
-export const deleteAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAuthorizer: (
+  input: DeleteAuthorizerRequest,
+) => Effect.Effect<
+  DeleteAuthorizerResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAuthorizerRequest,
   output: DeleteAuthorizerResponse,
   errors: [
@@ -6066,71 +7158,118 @@ export const deleteAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the BasePathMapping resource.
  */
-export const deleteBasePathMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBasePathMappingRequest,
-    output: DeleteBasePathMappingResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteBasePathMapping: (
+  input: DeleteBasePathMappingRequest,
+) => Effect.Effect<
+  DeleteBasePathMappingResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBasePathMappingRequest,
+  output: DeleteBasePathMappingResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes the ClientCertificate resource.
  */
-export const deleteClientCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteClientCertificateRequest,
-    output: DeleteClientCertificateResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteClientCertificate: (
+  input: DeleteClientCertificateRequest,
+) => Effect.Effect<
+  DeleteClientCertificateResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClientCertificateRequest,
+  output: DeleteClientCertificateResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes a documentation part
  */
-export const deleteDocumentationPart = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDocumentationPartRequest,
-    output: DeleteDocumentationPartResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteDocumentationPart: (
+  input: DeleteDocumentationPartRequest,
+) => Effect.Effect<
+  DeleteDocumentationPartResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDocumentationPartRequest,
+  output: DeleteDocumentationPartResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes a documentation version.
  */
-export const deleteDocumentationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDocumentationVersionRequest,
-    output: DeleteDocumentationVersionResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteDocumentationVersion: (
+  input: DeleteDocumentationVersionRequest,
+) => Effect.Effect<
+  DeleteDocumentationVersionResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDocumentationVersionRequest,
+  output: DeleteDocumentationVersionResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes the DomainName resource.
  */
-export const deleteDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDomainName: (
+  input: DeleteDomainNameRequest,
+) => Effect.Effect<
+  DeleteDomainNameResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainNameRequest,
   output: DeleteDomainNameResponse,
   errors: [
@@ -6146,38 +7285,68 @@ export const deleteDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation.
  */
-export const deleteDomainNameAccessAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDomainNameAccessAssociationRequest,
-    output: DeleteDomainNameAccessAssociationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }));
+export const deleteDomainNameAccessAssociation: (
+  input: DeleteDomainNameAccessAssociationRequest,
+) => Effect.Effect<
+  DeleteDomainNameAccessAssociationResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDomainNameAccessAssociationRequest,
+  output: DeleteDomainNameAccessAssociationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
  */
-export const deleteGatewayResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteGatewayResponseRequest,
-    output: DeleteGatewayResponseResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteGatewayResponse: (
+  input: DeleteGatewayResponseRequest,
+) => Effect.Effect<
+  DeleteGatewayResponseResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGatewayResponseRequest,
+  output: DeleteGatewayResponseResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Represents a delete integration.
  */
-export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIntegration: (
+  input: DeleteIntegrationRequest,
+) => Effect.Effect<
+  DeleteIntegrationResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntegrationRequest,
   output: DeleteIntegrationResponse,
   errors: [
@@ -6191,39 +7360,68 @@ export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Represents a delete integration response.
  */
-export const deleteIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIntegrationResponseRequest,
-    output: DeleteIntegrationResponseResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteIntegrationResponse: (
+  input: DeleteIntegrationResponseRequest,
+) => Effect.Effect<
+  DeleteIntegrationResponseResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIntegrationResponseRequest,
+  output: DeleteIntegrationResponseResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes an existing MethodResponse resource.
  */
-export const deleteMethodResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMethodResponseRequest,
-    output: DeleteMethodResponseResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteMethodResponse: (
+  input: DeleteMethodResponseRequest,
+) => Effect.Effect<
+  DeleteMethodResponseResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMethodResponseRequest,
+  output: DeleteMethodResponseResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes a model.
  */
-export const deleteModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteModel: (
+  input: DeleteModelRequest,
+) => Effect.Effect<
+  DeleteModelResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelRequest,
   output: DeleteModelResponse,
   errors: [
@@ -6237,23 +7435,43 @@ export const deleteModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a RequestValidator of a given RestApi.
  */
-export const deleteRequestValidator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRequestValidatorRequest,
-    output: DeleteRequestValidatorResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteRequestValidator: (
+  input: DeleteRequestValidatorRequest,
+) => Effect.Effect<
+  DeleteRequestValidatorResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRequestValidatorRequest,
+  output: DeleteRequestValidatorResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes a Resource resource.
  */
-export const deleteResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteResource: (
+  input: DeleteResourceRequest,
+) => Effect.Effect<
+  DeleteResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourceRequest,
   output: DeleteResourceResponse,
   errors: [
@@ -6267,7 +7485,18 @@ export const deleteResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified API.
  */
-export const deleteRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRestApi: (
+  input: DeleteRestApiRequest,
+) => Effect.Effect<
+  DeleteRestApiResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRestApiRequest,
   output: DeleteRestApiResponse,
   errors: [
@@ -6281,7 +7510,18 @@ export const deleteRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a usage plan of a given plan Id.
  */
-export const deleteUsagePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUsagePlan: (
+  input: DeleteUsagePlanRequest,
+) => Effect.Effect<
+  DeleteUsagePlanResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUsagePlanRequest,
   output: DeleteUsagePlanResponse,
   errors: [
@@ -6295,7 +7535,18 @@ export const deleteUsagePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a usage plan key and remove the underlying API key from the associated usage plan.
  */
-export const deleteUsagePlanKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUsagePlanKey: (
+  input: DeleteUsagePlanKeyRequest,
+) => Effect.Effect<
+  DeleteUsagePlanKeyResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUsagePlanKeyRequest,
   output: DeleteUsagePlanKeyResponse,
   errors: [
@@ -6309,7 +7560,18 @@ export const deleteUsagePlanKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing VpcLink of a specified identifier.
  */
-export const deleteVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVpcLink: (
+  input: DeleteVpcLinkRequest,
+) => Effect.Effect<
+  DeleteVpcLinkResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpcLinkRequest,
   output: DeleteVpcLinkResponse,
   errors: [
@@ -6323,7 +7585,17 @@ export const deleteVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about the current Account resource.
  */
-export const getAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccount: (
+  input: GetAccountRequest,
+) => Effect.Effect<
+  Account,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountRequest,
   output: Account,
   errors: [
@@ -6336,7 +7608,17 @@ export const getAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describe an existing Authorizer resource.
  */
-export const getAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAuthorizer: (
+  input: GetAuthorizerRequest,
+) => Effect.Effect<
+  Authorizer,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAuthorizerRequest,
   output: Authorizer,
   errors: [
@@ -6349,7 +7631,17 @@ export const getAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describe a BasePathMapping resource.
  */
-export const getBasePathMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBasePathMapping: (
+  input: GetBasePathMappingRequest,
+) => Effect.Effect<
+  BasePathMapping,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBasePathMappingRequest,
   output: BasePathMapping,
   errors: [
@@ -6362,22 +7654,40 @@ export const getBasePathMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about the current ClientCertificate resource.
  */
-export const getClientCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetClientCertificateRequest,
-    output: ClientCertificate,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getClientCertificate: (
+  input: GetClientCertificateRequest,
+) => Effect.Effect<
+  ClientCertificate,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetClientCertificateRequest,
+  output: ClientCertificate,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Describes an existing model defined for a RestApi resource.
  */
-export const getModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getModel: (
+  input: GetModelRequest,
+) => Effect.Effect<
+  Model,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelRequest,
   output: Model,
   errors: [
@@ -6390,7 +7700,17 @@ export const getModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a RequestValidator of a given RestApi.
  */
-export const getRequestValidator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRequestValidator: (
+  input: GetRequestValidatorRequest,
+) => Effect.Effect<
+  RequestValidator,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRequestValidatorRequest,
   output: RequestValidator,
   errors: [
@@ -6403,7 +7723,17 @@ export const getRequestValidator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the RestApi resource in the collection.
  */
-export const getRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRestApi: (
+  input: GetRestApiRequest,
+) => Effect.Effect<
+  RestApi,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRestApiRequest,
   output: RestApi,
   errors: [
@@ -6416,7 +7746,17 @@ export const getRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a usage plan key of a given key identifier.
  */
-export const getUsagePlanKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUsagePlanKey: (
+  input: GetUsagePlanKeyRequest,
+) => Effect.Effect<
+  UsagePlanKey,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsagePlanKeyRequest,
   output: UsagePlanKey,
   errors: [
@@ -6429,7 +7769,17 @@ export const getUsagePlanKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a specified VPC link under the caller's account in a region.
  */
-export const getVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVpcLink: (
+  input: GetVpcLinkRequest,
+) => Effect.Effect<
+  VpcLink,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVpcLinkRequest,
   output: VpcLink,
   errors: [
@@ -6444,22 +7794,43 @@ export const getVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To reject a domain name access association with an access association source in another AWS account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation.
  */
-export const rejectDomainNameAccessAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RejectDomainNameAccessAssociationRequest,
-    output: RejectDomainNameAccessAssociationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }));
+export const rejectDomainNameAccessAssociation: (
+  input: RejectDomainNameAccessAssociationRequest,
+) => Effect.Effect<
+  RejectDomainNameAccessAssociationResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectDomainNameAccessAssociationRequest,
+  output: RejectDomainNameAccessAssociationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates an existing Method resource.
  */
-export const updateMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMethod: (
+  input: UpdateMethodRequest,
+) => Effect.Effect<
+  Method,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMethodRequest,
   output: Method,
   errors: [
@@ -6473,7 +7844,18 @@ export const updateMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Changes information about a Resource resource.
  */
-export const updateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateResource: (
+  input: UpdateResourceRequest,
+) => Effect.Effect<
+  Resource,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResourceRequest,
   output: Resource,
   errors: [
@@ -6487,7 +7869,18 @@ export const updateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the ApiKey resource.
  */
-export const deleteApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApiKey: (
+  input: DeleteApiKeyRequest,
+) => Effect.Effect<
+  DeleteApiKeyResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApiKeyRequest,
   output: DeleteApiKeyResponse,
   errors: [
@@ -6501,7 +7894,16 @@ export const deleteApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists information about a resource.
  */
-export const getResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResource: (
+  input: GetResourceRequest,
+) => Effect.Effect<
+  Resource,
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceRequest,
   output: Resource,
   errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
@@ -6509,7 +7911,17 @@ export const getResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing Method resource.
  */
-export const deleteMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMethod: (
+  input: DeleteMethodRequest,
+) => Effect.Effect<
+  DeleteMethodResponse,
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMethodRequest,
   output: DeleteMethodResponse,
   errors: [
@@ -6522,7 +7934,17 @@ export const deleteMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about the current ApiKey resource.
  */
-export const getApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApiKey: (
+  input: GetApiKeyRequest,
+) => Effect.Effect<
+  ApiKey,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApiKeyRequest,
   output: ApiKey,
   errors: [
@@ -6535,7 +7957,41 @@ export const getApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about the current ApiKeys resource.
  */
-export const getApiKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getApiKeys: {
+  (
+    input: GetApiKeysRequest,
+  ): Effect.Effect<
+    ApiKeys,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetApiKeysRequest,
+  ) => Stream.Stream<
+    ApiKeys,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetApiKeysRequest,
+  ) => Stream.Stream<
+    ApiKey,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetApiKeysRequest,
   output: ApiKeys,
   errors: [
@@ -6554,7 +8010,17 @@ export const getApiKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Describe an existing Authorizers resource.
  */
-export const getAuthorizers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAuthorizers: (
+  input: GetAuthorizersRequest,
+) => Effect.Effect<
+  Authorizers,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAuthorizersRequest,
   output: Authorizers,
   errors: [
@@ -6567,93 +8033,197 @@ export const getAuthorizers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Represents a collection of BasePathMapping resources.
  */
-export const getBasePathMappings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getBasePathMappings: {
+  (
     input: GetBasePathMappingsRequest,
-    output: BasePathMappings,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "position",
-      outputToken: "position",
-      items: "items",
-      pageSize: "limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    BasePathMappings,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetBasePathMappingsRequest,
+  ) => Stream.Stream<
+    BasePathMappings,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetBasePathMappingsRequest,
+  ) => Stream.Stream<
+    BasePathMapping,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetBasePathMappingsRequest,
+  output: BasePathMappings,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "position",
+    outputToken: "position",
+    items: "items",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Gets a collection of ClientCertificate resources.
  */
-export const getClientCertificates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getClientCertificates: {
+  (
     input: GetClientCertificatesRequest,
-    output: ClientCertificates,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "position",
-      outputToken: "position",
-      items: "items",
-      pageSize: "limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ClientCertificates,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetClientCertificatesRequest,
+  ) => Stream.Stream<
+    ClientCertificates,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetClientCertificatesRequest,
+  ) => Stream.Stream<
+    ClientCertificate,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetClientCertificatesRequest,
+  output: ClientCertificates,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "position",
+    outputToken: "position",
+    items: "items",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Gets a documentation part.
  */
-export const getDocumentationPart = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDocumentationPartRequest,
-    output: DocumentationPart,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getDocumentationPart: (
+  input: GetDocumentationPartRequest,
+) => Effect.Effect<
+  DocumentationPart,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDocumentationPartRequest,
+  output: DocumentationPart,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Gets documentation parts.
  */
-export const getDocumentationParts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDocumentationPartsRequest,
-    output: DocumentationParts,
-    errors: [
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getDocumentationParts: (
+  input: GetDocumentationPartsRequest,
+) => Effect.Effect<
+  DocumentationParts,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDocumentationPartsRequest,
+  output: DocumentationParts,
+  errors: [
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Generates a ClientCertificate resource.
  */
-export const generateClientCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GenerateClientCertificateRequest,
-    output: ClientCertificate,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      LimitExceededException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const generateClientCertificate: (
+  input: GenerateClientCertificateRequest,
+) => Effect.Effect<
+  ClientCertificate,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateClientCertificateRequest,
+  output: ClientCertificate,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    LimitExceededException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Changes information about a Deployment resource.
  */
-export const updateDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDeployment: (
+  input: UpdateDeploymentRequest,
+) => Effect.Effect<
+  Deployment,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeploymentRequest,
   output: Deployment,
   errors: [
@@ -6669,7 +8239,20 @@ export const updateDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a Deployment resource, which makes a specified RestApi callable over the internet.
  */
-export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDeployment: (
+  input: CreateDeploymentRequest,
+) => Effect.Effect<
+  Deployment,
+  | BadRequestException
+  | ConflictException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentRequest,
   output: Deployment,
   errors: [
@@ -6685,7 +8268,18 @@ export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a Deployment resource.
  */
-export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeployment: (
+  input: GetDeploymentRequest,
+) => Effect.Effect<
+  Deployment,
+  | BadRequestException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentRequest,
   output: Deployment,
   errors: [

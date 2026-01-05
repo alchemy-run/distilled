@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Kinesis Video Signaling",
   serviceShapeName: "AWSAcuitySignalingService",
@@ -241,6 +249,17 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type ResourceARN = string;
+export type ClientId = string;
+export type Username = string;
+export type MessagePayload = string;
+export type Answer = string;
+export type Uri = string;
+export type Password = string;
+export type Ttl = number;
+export type ErrorMessage = string;
+
 //# Schemas
 export interface GetIceServerConfigRequest {
   ChannelARN: string;
@@ -360,18 +379,26 @@ export class SessionExpiredException extends S.TaggedError<SessionExpiredExcepti
  * connected to the signaling channel, redelivery requests are made until the message
  * expires.
  */
-export const sendAlexaOfferToMaster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendAlexaOfferToMasterRequest,
-    output: SendAlexaOfferToMasterResponse,
-    errors: [
-      ClientLimitExceededException,
-      InvalidArgumentException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const sendAlexaOfferToMaster: (
+  input: SendAlexaOfferToMasterRequest,
+) => Effect.Effect<
+  SendAlexaOfferToMasterResponse,
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendAlexaOfferToMasterRequest,
+  output: SendAlexaOfferToMasterResponse,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Gets the Interactive Connectivity Establishment (ICE) server configuration
  * information, including URIs, username, and password which can be used to configure the
@@ -390,7 +417,19 @@ export const sendAlexaOfferToMaster = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * must specify either a signaling channel ARN or the client ID in order to invoke this
  * API.
  */
-export const getIceServerConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIceServerConfig: (
+  input: GetIceServerConfigRequest,
+) => Effect.Effect<
+  GetIceServerConfigResponse,
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | InvalidClientException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | SessionExpiredException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIceServerConfigRequest,
   output: GetIceServerConfigResponse,
   errors: [

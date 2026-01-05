@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Textract",
   serviceShapeName: "Textract",
@@ -240,6 +248,43 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AdapterName = string;
+export type ClientRequestToken = string;
+export type AdapterDescription = string;
+export type AdapterId = string;
+export type KMSKeyId = string;
+export type AdapterVersion = string;
+export type JobId = string;
+export type MaxResults = number;
+export type PaginationToken = string;
+export type AmazonResourceName = string;
+export type JobTag = string;
+export type TagKey = string;
+export type HumanLoopName = string;
+export type FlowDefinitionArn = string;
+export type TagValue = string;
+export type S3Bucket = string;
+export type S3ObjectName = string;
+export type SNSTopicArn = string;
+export type RoleArn = string;
+export type AdapterVersionStatusMessage = string;
+export type StatusMessage = string;
+export type S3ObjectVersion = string;
+export type QueryInput = string;
+export type QueryPage = string;
+export type AdapterPage = string;
+export type UInteger = number;
+export type Percent = number;
+export type NonEmptyString = string;
+export type ErrorCode = string;
+export type Angle = number;
+export type Float = number;
+export type HumanLoopArn = string;
+export type HumanLoopActivationReason = string;
+export type SynthesizedJsonHumanLoopActivationConditionsEvaluationResults =
+  string;
 
 //# Schemas
 export type FeatureTypes = string[];
@@ -1774,7 +1819,21 @@ export class UnsupportedDocumentException extends S.TaggedError<UnsupportedDocum
  * For more information, see Document Text
  * Analysis.
  */
-export const getDocumentAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDocumentAnalysis: (
+  input: GetDocumentAnalysisRequest,
+) => Effect.Effect<
+  GetDocumentAnalysisResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidJobIdException
+  | InvalidKMSKeyException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDocumentAnalysisRequest,
   output: GetDocumentAnalysisResponse,
   errors: [
@@ -1804,22 +1863,34 @@ export const getDocumentAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `GetLendingAnalysisSummary`, and pass the job identifier (`JobId`) from
  * the initial call to `StartLendingAnalysis`.
  */
-export const getLendingAnalysisSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLendingAnalysisSummaryRequest,
-    output: GetLendingAnalysisSummaryResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidJobIdException,
-      InvalidKMSKeyException,
-      InvalidParameterException,
-      InvalidS3ObjectException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getLendingAnalysisSummary: (
+  input: GetLendingAnalysisSummaryRequest,
+) => Effect.Effect<
+  GetLendingAnalysisSummaryResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidJobIdException
+  | InvalidKMSKeyException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLendingAnalysisSummaryRequest,
+  output: GetLendingAnalysisSummaryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidJobIdException,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets the results for an Amazon Textract asynchronous operation that detects text in a document.
  * Amazon Textract can detect lines of text and the words that make up a line of text.
@@ -1850,22 +1921,34 @@ export const getLendingAnalysisSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information, see Document Text Detection.
  */
-export const getDocumentTextDetection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDocumentTextDetectionRequest,
-    output: GetDocumentTextDetectionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidJobIdException,
-      InvalidKMSKeyException,
-      InvalidParameterException,
-      InvalidS3ObjectException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getDocumentTextDetection: (
+  input: GetDocumentTextDetectionRequest,
+) => Effect.Effect<
+  GetDocumentTextDetectionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidJobIdException
+  | InvalidKMSKeyException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDocumentTextDetectionRequest,
+  output: GetDocumentTextDetectionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidJobIdException,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets the results for an Amazon Textract asynchronous operation that analyzes invoices and
  * receipts. Amazon Textract finds contact information, items purchased, and vendor name, from input
@@ -1888,7 +1971,21 @@ export const getDocumentTextDetection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information, see Analyzing Invoices and Receipts.
  */
-export const getExpenseAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getExpenseAnalysis: (
+  input: GetExpenseAnalysisRequest,
+) => Effect.Effect<
+  GetExpenseAnalysisResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidJobIdException
+  | InvalidKMSKeyException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExpenseAnalysisRequest,
   output: GetExpenseAnalysisResponse,
   errors: [
@@ -1917,7 +2014,21 @@ export const getExpenseAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the job identifier (`JobId`) from the initial call to
  * `StartLendingAnalysis`.
  */
-export const getLendingAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLendingAnalysis: (
+  input: GetLendingAnalysisRequest,
+) => Effect.Effect<
+  GetLendingAnalysisResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidJobIdException
+  | InvalidKMSKeyException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLendingAnalysisRequest,
   output: GetLendingAnalysisResponse,
   errors: [
@@ -1934,26 +2045,64 @@ export const getLendingAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all adapters that match the specified filtration criteria.
  */
-export const listAdapters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAdapters: {
+  (
     input: ListAdaptersRequest,
-    output: ListAdaptersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Adapters",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAdaptersResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAdaptersRequest,
+  ) => Stream.Stream<
+    ListAdaptersResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAdaptersRequest,
+  ) => Stream.Stream<
+    AdapterOverview,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAdaptersRequest,
+  output: ListAdaptersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Adapters",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * `AnalyzeExpense` synchronously analyzes an input document for financially
  * related relationships between text.
@@ -1968,7 +2117,22 @@ export const listAdapters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * - `SummaryFields`- Contains all other information a receipt, such as
  * header information or the vendors name.
  */
-export const analyzeExpense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const analyzeExpense: (
+  input: AnalyzeExpenseRequest,
+) => Effect.Effect<
+  AnalyzeExpenseResponse,
+  | AccessDeniedException
+  | BadDocumentException
+  | DocumentTooLargeException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | UnsupportedDocumentException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnalyzeExpenseRequest,
   output: AnalyzeExpenseResponse,
   errors: [
@@ -1988,7 +2152,20 @@ export const analyzeExpense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * AdapterId, AdapterVersion, FeatureTypes, Status, StatusMessage, DatasetConfig,
  * KMSKeyId, OutputConfig, Tags and EvaluationMetrics.
  */
-export const getAdapterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAdapterVersion: (
+  input: GetAdapterVersionRequest,
+) => Effect.Effect<
+  GetAdapterVersionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdapterVersionRequest,
   output: GetAdapterVersionResponse,
   errors: [
@@ -2004,31 +2181,87 @@ export const getAdapterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List all version of an adapter that meet the specified filtration criteria.
  */
-export const listAdapterVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAdapterVersions: {
+  (
     input: ListAdapterVersionsRequest,
-    output: ListAdapterVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AdapterVersions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAdapterVersionsResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAdapterVersionsRequest,
+  ) => Stream.Stream<
+    ListAdapterVersionsResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAdapterVersionsRequest,
+  ) => Stream.Stream<
+    AdapterVersionOverview,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAdapterVersionsRequest,
+  output: ListAdapterVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AdapterVersions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Update the configuration for an adapter. FeatureTypes configurations cannot be updated.
  * At least one new parameter must be specified as an argument.
  */
-export const updateAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAdapter: (
+  input: UpdateAdapterRequest,
+) => Effect.Effect<
+  UpdateAdapterResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAdapterRequest,
   output: UpdateAdapterResponse,
   errors: [
@@ -2046,26 +2279,51 @@ export const updateAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an Amazon Textract adapter version. Requires that you specify both an AdapterId and a
  * AdapterVersion. Deletes the adapter version specified by the AdapterId and the AdapterVersion.
  */
-export const deleteAdapterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAdapterVersionRequest,
-    output: DeleteAdapterVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerError,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAdapterVersion: (
+  input: DeleteAdapterVersionRequest,
+) => Effect.Effect<
+  DeleteAdapterVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAdapterVersionRequest,
+  output: DeleteAdapterVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all tags for an Amazon Textract resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2081,7 +2339,21 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds one or more tags to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2098,7 +2370,20 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes any tags with the specified keys from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2114,7 +2399,21 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the adapter specified by the ID.
  */
-export const deleteAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAdapter: (
+  input: DeleteAdapterRequest,
+) => Effect.Effect<
+  DeleteAdapterResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdapterRequest,
   output: DeleteAdapterResponse,
   errors: [
@@ -2134,32 +2433,62 @@ export const deleteAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * specify an Amazon S3 bucket with the OutputConfig argument. You can provide an optional KMSKeyId,
  * an optional ClientRequestToken, and optional tags.
  */
-export const createAdapterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAdapterVersionRequest,
-    output: CreateAdapterVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      IdempotentParameterMismatchException,
-      InternalServerError,
-      InvalidKMSKeyException,
-      InvalidParameterException,
-      InvalidS3ObjectException,
-      LimitExceededException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAdapterVersion: (
+  input: CreateAdapterVersionRequest,
+) => Effect.Effect<
+  CreateAdapterVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidKMSKeyException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAdapterVersionRequest,
+  output: CreateAdapterVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets configuration information for an adapter specified by an AdapterId, returning information on AdapterName, Description,
  * CreationTime, AutoUpdate status, and FeatureTypes.
  */
-export const getAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAdapter: (
+  input: GetAdapterRequest,
+) => Effect.Effect<
+  GetAdapterResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdapterRequest,
   output: GetAdapterResponse,
   errors: [
@@ -2179,7 +2508,23 @@ export const getAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * ClientRequestToken. You can choose whether or not the adapter should be AutoUpdated with
  * the AutoUpdate argument. By default, AutoUpdate is set to DISABLED.
  */
-export const createAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAdapter: (
+  input: CreateAdapterRequest,
+) => Effect.Effect<
+  CreateAdapterResponse,
+  | AccessDeniedException
+  | ConflictException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdapterRequest,
   output: CreateAdapterResponse,
   errors: [
@@ -2201,7 +2546,22 @@ export const createAdapter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * and value of the extracted text. Unlike other Amazon Textract operations,
  * `AnalyzeID` doesn't return any Geometry data.
  */
-export const analyzeID = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const analyzeID: (
+  input: AnalyzeIDRequest,
+) => Effect.Effect<
+  AnalyzeIDResponse,
+  | AccessDeniedException
+  | BadDocumentException
+  | DocumentTooLargeException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | UnsupportedDocumentException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnalyzeIDRequest,
   output: AnalyzeIDResponse,
   errors: [
@@ -2231,7 +2591,22 @@ export const analyzeID = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Document Text Detection.
  */
-export const detectDocumentText = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detectDocumentText: (
+  input: DetectDocumentTextRequest,
+) => Effect.Effect<
+  DetectDocumentTextResponse,
+  | AccessDeniedException
+  | BadDocumentException
+  | DocumentTooLargeException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | UnsupportedDocumentException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectDocumentTextRequest,
   output: DetectDocumentTextResponse,
   errors: [
@@ -2264,26 +2639,42 @@ export const detectDocumentText = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Analyzing Invoices and Receipts.
  */
-export const startExpenseAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartExpenseAnalysisRequest,
-    output: StartExpenseAnalysisResponse,
-    errors: [
-      AccessDeniedException,
-      BadDocumentException,
-      DocumentTooLargeException,
-      IdempotentParameterMismatchException,
-      InternalServerError,
-      InvalidKMSKeyException,
-      InvalidParameterException,
-      InvalidS3ObjectException,
-      LimitExceededException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-      UnsupportedDocumentException,
-    ],
-  }),
-);
+export const startExpenseAnalysis: (
+  input: StartExpenseAnalysisRequest,
+) => Effect.Effect<
+  StartExpenseAnalysisResponse,
+  | AccessDeniedException
+  | BadDocumentException
+  | DocumentTooLargeException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidKMSKeyException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | UnsupportedDocumentException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartExpenseAnalysisRequest,
+  output: StartExpenseAnalysisResponse,
+  errors: [
+    AccessDeniedException,
+    BadDocumentException,
+    DocumentTooLargeException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    UnsupportedDocumentException,
+  ],
+}));
 /**
  * Starts the classification and analysis of an input document.
  * `StartLendingAnalysis` initiates the classification and analysis of a packet of
@@ -2313,26 +2704,42 @@ export const startExpenseAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - splitDocuments (documents split across logical boundaries)
  */
-export const startLendingAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartLendingAnalysisRequest,
-    output: StartLendingAnalysisResponse,
-    errors: [
-      AccessDeniedException,
-      BadDocumentException,
-      DocumentTooLargeException,
-      IdempotentParameterMismatchException,
-      InternalServerError,
-      InvalidKMSKeyException,
-      InvalidParameterException,
-      InvalidS3ObjectException,
-      LimitExceededException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-      UnsupportedDocumentException,
-    ],
-  }),
-);
+export const startLendingAnalysis: (
+  input: StartLendingAnalysisRequest,
+) => Effect.Effect<
+  StartLendingAnalysisResponse,
+  | AccessDeniedException
+  | BadDocumentException
+  | DocumentTooLargeException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidKMSKeyException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | UnsupportedDocumentException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartLendingAnalysisRequest,
+  output: StartLendingAnalysisResponse,
+  errors: [
+    AccessDeniedException,
+    BadDocumentException,
+    DocumentTooLargeException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    UnsupportedDocumentException,
+  ],
+}));
 /**
  * Starts the asynchronous analysis of an input document for relationships between detected
  * items such as key-value pairs, tables, and selection elements.
@@ -2352,26 +2759,42 @@ export const startLendingAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information, see Document Text Analysis.
  */
-export const startDocumentAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDocumentAnalysisRequest,
-    output: StartDocumentAnalysisResponse,
-    errors: [
-      AccessDeniedException,
-      BadDocumentException,
-      DocumentTooLargeException,
-      IdempotentParameterMismatchException,
-      InternalServerError,
-      InvalidKMSKeyException,
-      InvalidParameterException,
-      InvalidS3ObjectException,
-      LimitExceededException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-      UnsupportedDocumentException,
-    ],
-  }),
-);
+export const startDocumentAnalysis: (
+  input: StartDocumentAnalysisRequest,
+) => Effect.Effect<
+  StartDocumentAnalysisResponse,
+  | AccessDeniedException
+  | BadDocumentException
+  | DocumentTooLargeException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidKMSKeyException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | UnsupportedDocumentException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDocumentAnalysisRequest,
+  output: StartDocumentAnalysisResponse,
+  errors: [
+    AccessDeniedException,
+    BadDocumentException,
+    DocumentTooLargeException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    UnsupportedDocumentException,
+  ],
+}));
 /**
  * Starts the asynchronous detection of text in a document. Amazon Textract can detect lines of
  * text and the words that make up a line of text.
@@ -2391,26 +2814,42 @@ export const startDocumentAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information, see Document Text Detection.
  */
-export const startDocumentTextDetection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDocumentTextDetectionRequest,
-    output: StartDocumentTextDetectionResponse,
-    errors: [
-      AccessDeniedException,
-      BadDocumentException,
-      DocumentTooLargeException,
-      IdempotentParameterMismatchException,
-      InternalServerError,
-      InvalidKMSKeyException,
-      InvalidParameterException,
-      InvalidS3ObjectException,
-      LimitExceededException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-      UnsupportedDocumentException,
-    ],
-  }),
-);
+export const startDocumentTextDetection: (
+  input: StartDocumentTextDetectionRequest,
+) => Effect.Effect<
+  StartDocumentTextDetectionResponse,
+  | AccessDeniedException
+  | BadDocumentException
+  | DocumentTooLargeException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidKMSKeyException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | UnsupportedDocumentException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDocumentTextDetectionRequest,
+  output: StartDocumentTextDetectionResponse,
+  errors: [
+    AccessDeniedException,
+    BadDocumentException,
+    DocumentTooLargeException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidKMSKeyException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    UnsupportedDocumentException,
+  ],
+}));
 /**
  * Analyzes an input document for relationships between detected items.
  *
@@ -2457,7 +2896,23 @@ export const startDocumentTextDetection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Document Text
  * Analysis.
  */
-export const analyzeDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const analyzeDocument: (
+  input: AnalyzeDocumentRequest,
+) => Effect.Effect<
+  AnalyzeDocumentResponse,
+  | AccessDeniedException
+  | BadDocumentException
+  | DocumentTooLargeException
+  | HumanLoopQuotaExceededException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | UnsupportedDocumentException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnalyzeDocumentRequest,
   output: AnalyzeDocumentResponse,
   errors: [

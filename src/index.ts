@@ -1,27 +1,4 @@
 /**
- * AWS API client for making requests to AWS services.
- *
- * @example
- * ```ts
- * import { Api } from "distilled-aws"
- *
- * const api = Api.make(() => ({
- *   input: S.Struct({
- *     bucket: S.String,
- *     key: S.String,
- *   }),
- *   output: S.Struct({
- *     body: S.String,
- *   }),
- *   errors: [S.TaggedError("NoSuchKey")],
- * }))
- * ```
- *
- * @since 0.0.0
- */
-export * as Api from "./api.ts";
-
-/**
  * AWS Credentials providers for obtaining temporary or long-lived credentials.
  *
  * @example

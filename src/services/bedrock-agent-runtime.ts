@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock Agent Runtime",
   serviceShapeName: "AmazonBedrockAgentRunTimeService",
@@ -293,6 +301,92 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type FlowIdentifier = string;
+export type FlowAliasIdentifier = string;
+export type FlowExecutionIdentifier = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type FlowExecutionName = string;
+export type FlowExecutionId = string;
+export type AgentId = string;
+export type AgentAliasId = string;
+export type SessionId = string;
+export type InputText = string;
+export type MemoryId = string;
+export type AWSResourceARN = string;
+export type KmsKeyArn = string;
+export type ModelIdentifier = string;
+export type Instruction = string;
+export type SessionTTL = number;
+export type Name = string;
+export type KnowledgeBaseId = string;
+export type SessionIdentifier = string;
+export type Uuid = string;
+export type InvocationDescription = string;
+export type InvocationIdentifier = string;
+export type TaggableResourcesArn = string;
+export type TagKey = string;
+export type NodeName = string;
+export type NodeOutputName = string;
+export type NodeInputName = string;
+export type ResourceName = string;
+export type ResourceDescription = string;
+export type GuardrailIdentifierWithArn = string;
+export type GuardrailVersion = string;
+export type LambdaResourceArn = string;
+export type CollaborationInstruction = string;
+export type AgentAliasArn = string;
+export type SessionMetadataKey = string;
+export type SessionMetadataValue = string;
+export type TagValue = string;
+export type Version = string;
+export type FlowExecutionRoleArn = string;
+export type NonBlankString = string;
+export type SessionArn = string;
+export type Payload = string;
+export type BasePromptTemplate = string;
+export type LambdaArn = string;
+export type BedrockModelArn = string;
+export type KnowledgeBaseArn = string;
+export type ApiPath = string;
+export type S3BucketName = string;
+export type S3ObjectKey = string;
+export type FunctionDescription = string;
+export type Temperature = number;
+export type TopP = number;
+export type TopK = number;
+export type MaximumLength = number;
+export type SummaryText = string;
+export type S3Uri = string;
+export type MimeType = string;
+export type ParameterName = string;
+export type AdditionalModelRequestFieldsKey = string;
+export type TextPromptTemplate = string;
+export type Identifier = string;
+export type ContentType = string;
+export type FilterKey = string;
+export type ParameterDescription = string;
+export type MaxTokens = number;
+export type BedrockRerankingModelArn = string;
+export type FlowNodeOutputName = string;
+export type FlowNodeInputExpression = string;
+export type FlowNodeInputName = string;
+export type AgentVersion = string;
+export type RetrievalResultMetadataKey = string;
+export type TraceId = string;
+export type FailureReasonString = string;
+export type PromptText = string;
+export type RationaleString = string;
+export type ActionGroupName = string;
+export type Verb = string;
+export type KnowledgeBaseLookupInputString = string;
+export type TraceKnowledgeBaseId = string;
+export type ActionGroupOutputString = string;
+export type FinalResponseString = string;
+export type OutputString = string;
+export type AgentCollaboratorPayloadString = string;
+
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
@@ -433,6 +527,7 @@ export const StopFlowExecutionRequest = S.suspend(() =>
 ).annotations({
   identifier: "StopFlowExecutionRequest",
 }) as any as S.Schema<StopFlowExecutionRequest>;
+export type FlowInputContent = { document: any };
 export const FlowInputContent = S.Union(S.Struct({ document: S.Any }));
 export interface FlowInput {
   nodeName: string;
@@ -645,6 +740,9 @@ export const FieldForReranking = S.suspend(() =>
 }) as any as S.Schema<FieldForReranking>;
 export type FieldsForReranking = FieldForReranking[];
 export const FieldsForReranking = S.Array(FieldForReranking);
+export type RerankingMetadataSelectiveModeConfiguration =
+  | { fieldsToInclude: FieldsForReranking }
+  | { fieldsToExclude: FieldsForReranking };
 export const RerankingMetadataSelectiveModeConfiguration = S.Union(
   S.Struct({ fieldsToInclude: FieldsForReranking }),
   S.Struct({ fieldsToExclude: FieldsForReranking }),
@@ -1341,6 +1439,7 @@ export const PromptSessionAttributesMap = S.Record({
   key: S.String,
   value: S.String,
 });
+export type ImageInputSource = { bytes: Uint8Array };
 export const ImageInputSource = S.Union(S.Struct({ bytes: T.Blob }));
 export interface ImageInput {
   format: string;
@@ -1402,6 +1501,9 @@ export const FunctionResult = S.suspend(() =>
 ).annotations({
   identifier: "FunctionResult",
 }) as any as S.Schema<FunctionResult>;
+export type InvocationResultMember =
+  | { apiResult: ApiResult }
+  | { functionResult: FunctionResult };
 export const InvocationResultMember = S.Union(
   S.Struct({ apiResult: ApiResult }),
   S.Struct({ functionResult: FunctionResult }),
@@ -1446,6 +1548,7 @@ export const InputFile = S.suspend(() =>
 ).annotations({ identifier: "InputFile" }) as any as S.Schema<InputFile>;
 export type InputFiles = InputFile[];
 export const InputFiles = S.Array(InputFile);
+export type ContentBlock = { text: string };
 export const ContentBlock = S.Union(S.Struct({ text: S.String }));
 export type ContentBlocks = (typeof ContentBlock)["Type"][];
 export const ContentBlocks = S.Array(ContentBlock);
@@ -1486,6 +1589,9 @@ export const InlineSessionState = S.suspend(() =>
 ).annotations({
   identifier: "InlineSessionState",
 }) as any as S.Schema<InlineSessionState>;
+export type ActionGroupExecutor =
+  | { lambda: string }
+  | { customControl: string };
 export const ActionGroupExecutor = S.Union(
   S.Struct({ lambda: S.String }),
   S.Struct({ customControl: S.String }),
@@ -1500,6 +1606,7 @@ export const S3Identifier = S.suspend(() =>
     s3ObjectKey: S.optional(S.String),
   }),
 ).annotations({ identifier: "S3Identifier" }) as any as S.Schema<S3Identifier>;
+export type APISchema = { s3: S3Identifier } | { payload: string };
 export const APISchema = S.Union(
   S.Struct({ s3: S3Identifier }),
   S.Struct({ payload: S.String }),
@@ -1538,6 +1645,7 @@ export const FunctionDefinition = S.suspend(() =>
 }) as any as S.Schema<FunctionDefinition>;
 export type Functions = FunctionDefinition[];
 export const Functions = S.Array(FunctionDefinition);
+export type FunctionSchema = { functions: Functions };
 export const FunctionSchema = S.Union(S.Struct({ functions: Functions }));
 export type ActionGroupSignatureParams = { [key: string]: string };
 export const ActionGroupSignatureParams = S.Record({
@@ -1806,6 +1914,7 @@ export const KnowledgeBaseConfiguration = S.suspend(() =>
 }) as any as S.Schema<KnowledgeBaseConfiguration>;
 export type KnowledgeBaseConfigurations = KnowledgeBaseConfiguration[];
 export const KnowledgeBaseConfigurations = S.Array(KnowledgeBaseConfiguration);
+export type OrchestrationExecutor = { lambda: string };
 export const OrchestrationExecutor = S.Union(S.Struct({ lambda: S.String }));
 export interface TextPrompt {
   text: string;
@@ -1896,6 +2005,7 @@ export const CustomOrchestration = S.suspend(() =>
 ).annotations({
   identifier: "CustomOrchestration",
 }) as any as S.Schema<CustomOrchestration>;
+export type InputPrompt = { textPrompt: TextPrompt };
 export const InputPrompt = S.Union(S.Struct({ textPrompt: TextPrompt }));
 export interface RerankQuery {
   type: string;
@@ -1971,6 +2081,7 @@ export interface S3Location {
 export const S3Location = S.suspend(() =>
   S.Struct({ uri: S.String }),
 ).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export type ImageSource = { bytes: Uint8Array } | { s3Location: S3Location };
 export const ImageSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
@@ -1982,6 +2093,9 @@ export interface ImageBlock {
 export const ImageBlock = S.suspend(() =>
   S.Struct({ format: S.String, source: ImageSource }),
 ).annotations({ identifier: "ImageBlock" }) as any as S.Schema<ImageBlock>;
+export type BedrockSessionContentBlock =
+  | { text: string }
+  | { image: ImageBlock };
 export const BedrockSessionContentBlock = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ image: ImageBlock }),
@@ -1989,6 +2103,9 @@ export const BedrockSessionContentBlock = S.Union(
 export type BedrockSessionContentBlocks =
   (typeof BedrockSessionContentBlock)["Type"][];
 export const BedrockSessionContentBlocks = S.Array(BedrockSessionContentBlock);
+export type InvocationStepPayload = {
+  contentBlocks: BedrockSessionContentBlocks;
+};
 export const InvocationStepPayload = S.Union(
   S.Struct({ contentBlocks: BedrockSessionContentBlocks }),
 );
@@ -2298,11 +2415,13 @@ export const TransformationConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "TransformationConfiguration",
 }) as any as S.Schema<TransformationConfiguration>;
+export type Memory = { sessionSummary: MemorySessionSummary };
 export const Memory = S.Union(
   S.Struct({ sessionSummary: MemorySessionSummary }),
 );
 export type Memories = (typeof Memory)["Type"][];
 export const Memories = S.Array(Memory);
+export type FlowExecutionContent = { document: any };
 export const FlowExecutionContent = S.Union(S.Struct({ document: S.Any }));
 export interface FlowOutputField {
   name: string;
@@ -2325,7 +2444,9 @@ export const SatisfiedCondition = S.suspend(() =>
 }) as any as S.Schema<SatisfiedCondition>;
 export type SatisfiedConditions = SatisfiedCondition[];
 export const SatisfiedConditions = S.Array(SatisfiedCondition);
+export type FlowOutputContent = { document: any };
 export const FlowOutputContent = S.Union(S.Struct({ document: S.Any }));
+export type FlowMultiTurnInputContent = { document: any };
 export const FlowMultiTurnInputContent = S.Union(S.Struct({ document: S.Any }));
 export interface BedrockRerankingModelConfiguration {
   modelArn: string;
@@ -2643,6 +2764,7 @@ export const BedrockRerankingConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "BedrockRerankingConfiguration",
 }) as any as S.Schema<BedrockRerankingConfiguration>;
+export type NodeExecutionContent = { document: any };
 export const NodeExecutionContent = S.Union(S.Struct({ document: S.Any }));
 export interface NodeInputSource {
   nodeName: string;
@@ -2766,6 +2888,7 @@ export const NodeOutputField = S.suspend(() =>
 }) as any as S.Schema<NodeOutputField>;
 export type NodeOutputFields = NodeOutputField[];
 export const NodeOutputFields = S.Array(NodeOutputField);
+export type Caller = { agentAliasArn: string };
 export const Caller = S.Union(S.Struct({ agentAliasArn: S.String }));
 export type CallerChain = (typeof Caller)["Type"][];
 export const CallerChain = S.Array(Caller);
@@ -3026,6 +3149,9 @@ export const ReasoningTextBlock = S.suspend(() =>
 ).annotations({
   identifier: "ReasoningTextBlock",
 }) as any as S.Schema<ReasoningTextBlock>;
+export type ReasoningContentBlock =
+  | { reasoningText: ReasoningTextBlock }
+  | { redactedContent: Uint8Array };
 export const ReasoningContentBlock = S.Union(
   S.Struct({ reasoningText: ReasoningTextBlock }),
   S.Struct({ redactedContent: T.Blob }),
@@ -3048,6 +3174,9 @@ export const PreProcessingModelInvocationOutput = S.suspend(() =>
 ).annotations({
   identifier: "PreProcessingModelInvocationOutput",
 }) as any as S.Schema<PreProcessingModelInvocationOutput>;
+export type PreProcessingTrace =
+  | { modelInvocationInput: ModelInvocationInput }
+  | { modelInvocationOutput: PreProcessingModelInvocationOutput };
 export const PreProcessingTrace = S.Union(
   S.Struct({ modelInvocationInput: ModelInvocationInput }),
   S.Struct({ modelInvocationOutput: PreProcessingModelInvocationOutput }),
@@ -3296,6 +3425,9 @@ export const FunctionInvocationInput = S.suspend(() =>
 ).annotations({
   identifier: "FunctionInvocationInput",
 }) as any as S.Schema<FunctionInvocationInput>;
+export type InvocationInputMember =
+  | { apiInvocationInput: ApiInvocationInput }
+  | { functionInvocationInput: FunctionInvocationInput };
 export const InvocationInputMember = S.Union(
   S.Struct({ apiInvocationInput: ApiInvocationInput }),
   S.Struct({ functionInvocationInput: FunctionInvocationInput }),
@@ -3434,6 +3566,12 @@ export const OrchestrationModelInvocationOutput = S.suspend(() =>
 ).annotations({
   identifier: "OrchestrationModelInvocationOutput",
 }) as any as S.Schema<OrchestrationModelInvocationOutput>;
+export type OrchestrationTrace =
+  | { rationale: Rationale }
+  | { invocationInput: InvocationInput }
+  | { observation: Observation }
+  | { modelInvocationInput: ModelInvocationInput }
+  | { modelInvocationOutput: OrchestrationModelInvocationOutput };
 export const OrchestrationTrace = S.Union(
   S.Struct({ rationale: Rationale }),
   S.Struct({ invocationInput: InvocationInput }),
@@ -3467,6 +3605,9 @@ export const PostProcessingModelInvocationOutput = S.suspend(() =>
 ).annotations({
   identifier: "PostProcessingModelInvocationOutput",
 }) as any as S.Schema<PostProcessingModelInvocationOutput>;
+export type PostProcessingTrace =
+  | { modelInvocationInput: ModelInvocationInput }
+  | { modelInvocationOutput: PostProcessingModelInvocationOutput };
 export const PostProcessingTrace = S.Union(
   S.Struct({ modelInvocationInput: ModelInvocationInput }),
   S.Struct({ modelInvocationOutput: PostProcessingModelInvocationOutput }),
@@ -3485,6 +3626,11 @@ export const RoutingClassifierModelInvocationOutput = S.suspend(() =>
 ).annotations({
   identifier: "RoutingClassifierModelInvocationOutput",
 }) as any as S.Schema<RoutingClassifierModelInvocationOutput>;
+export type RoutingClassifierTrace =
+  | { invocationInput: InvocationInput }
+  | { observation: Observation }
+  | { modelInvocationInput: ModelInvocationInput }
+  | { modelInvocationOutput: RoutingClassifierModelInvocationOutput };
 export const RoutingClassifierTrace = S.Union(
   S.Struct({ invocationInput: InvocationInput }),
   S.Struct({ observation: Observation }),
@@ -3525,6 +3671,14 @@ export const CustomOrchestrationTrace = S.suspend(() =>
 ).annotations({
   identifier: "CustomOrchestrationTrace",
 }) as any as S.Schema<CustomOrchestrationTrace>;
+export type Trace =
+  | { guardrailTrace: GuardrailTrace }
+  | { preProcessingTrace: (typeof PreProcessingTrace)["Type"] }
+  | { orchestrationTrace: (typeof OrchestrationTrace)["Type"] }
+  | { postProcessingTrace: (typeof PostProcessingTrace)["Type"] }
+  | { routingClassifierTrace: (typeof RoutingClassifierTrace)["Type"] }
+  | { failureTrace: FailureTrace }
+  | { customOrchestrationTrace: CustomOrchestrationTrace };
 export const Trace = S.Union(
   S.Struct({ guardrailTrace: GuardrailTrace }),
   S.Struct({ preProcessingTrace: PreProcessingTrace }),
@@ -3558,6 +3712,7 @@ export const TracePart = S.suspend(() =>
 ).annotations({ identifier: "TracePart" }) as any as S.Schema<TracePart>;
 export type AgentTraces = TracePart[];
 export const AgentTraces = S.Array(TracePart);
+export type TraceElements = { agentTraces: AgentTraces };
 export const TraceElements = S.Union(S.Struct({ agentTraces: AgentTraces }));
 export interface RerankRequest {
   queries: RerankQueriesList;
@@ -3662,6 +3817,7 @@ export const FlowTraceDependencyEvent = S.suspend(() =>
 ).annotations({
   identifier: "FlowTraceDependencyEvent",
 }) as any as S.Schema<FlowTraceDependencyEvent>;
+export type FlowTraceNodeInputContent = { document: any };
 export const FlowTraceNodeInputContent = S.Union(S.Struct({ document: S.Any }));
 export interface FlowTraceNodeInputSource {
   nodeName: string;
@@ -3692,6 +3848,7 @@ export type FlowTraceNodeInputExecutionChain =
 export const FlowTraceNodeInputExecutionChain = S.Array(
   FlowTraceNodeInputExecutionChainItem,
 );
+export type FlowTraceNodeOutputContent = { document: any };
 export const FlowTraceNodeOutputContent = S.Union(
   S.Struct({ document: S.Any }),
 );
@@ -3717,6 +3874,7 @@ export const GeneratedQuery = S.suspend(() =>
 }) as any as S.Schema<GeneratedQuery>;
 export type GeneratedQueries = GeneratedQuery[];
 export const GeneratedQueries = S.Array(GeneratedQuery);
+export type OptimizedPrompt = { textPrompt: TextPrompt };
 export const OptimizedPrompt = S.Union(S.Struct({ textPrompt: TextPrompt }));
 export interface FlowTraceNodeInputField {
   nodeInputName: string;
@@ -4038,6 +4196,12 @@ export const RetrieveAndGenerateStreamResponseOutput = T.EventStream(
     }),
   ),
 );
+export type FlowTrace =
+  | { nodeInputTrace: FlowTraceNodeInputEvent }
+  | { nodeOutputTrace: FlowTraceNodeOutputEvent }
+  | { conditionNodeResultTrace: FlowTraceConditionNodeResultEvent }
+  | { nodeActionTrace: FlowTraceNodeActionEvent }
+  | { nodeDependencyTrace: FlowTraceDependencyEvent };
 export const FlowTrace = S.Union(
   S.Struct({ nodeInputTrace: FlowTraceNodeInputEvent }),
   S.Struct({ nodeOutputTrace: FlowTraceNodeOutputEvent }),
@@ -4540,6 +4704,7 @@ export const InvokeAgentResponse = S.suspend(() =>
 ).annotations({
   identifier: "InvokeAgentResponse",
 }) as any as S.Schema<InvokeAgentResponse>;
+export type NodeTraceElements = { agentTraces: AgentTraces };
 export const NodeTraceElements = S.Union(
   S.Struct({ agentTraces: AgentTraces }),
 );
@@ -4557,6 +4722,16 @@ export const NodeDependencyEvent = S.suspend(() =>
 ).annotations({
   identifier: "NodeDependencyEvent",
 }) as any as S.Schema<NodeDependencyEvent>;
+export type FlowExecutionEvent =
+  | { flowInputEvent: FlowExecutionInputEvent }
+  | { flowOutputEvent: FlowExecutionOutputEvent }
+  | { nodeInputEvent: NodeInputEvent }
+  | { nodeOutputEvent: NodeOutputEvent }
+  | { conditionResultEvent: ConditionResultEvent }
+  | { nodeFailureEvent: NodeFailureEvent }
+  | { flowFailureEvent: FlowFailureEvent }
+  | { nodeActionEvent: NodeActionEvent }
+  | { nodeDependencyEvent: NodeDependencyEvent };
 export const FlowExecutionEvent = S.Union(
   S.Struct({ flowInputEvent: FlowExecutionInputEvent }),
   S.Struct({ flowOutputEvent: FlowExecutionOutputEvent }),
@@ -4591,11 +4766,15 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class BadGatewayException extends S.TaggedError<BadGatewayException>()(
   "BadGatewayException",
   { message: S.optional(S.String), resourceName: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String), reason: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String) },
@@ -4611,7 +4790,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },
@@ -4629,7 +4810,21 @@ export class ModelNotReadyException extends S.TaggedError<ModelNotReadyException
 /**
  * Stops an Amazon Bedrock flow's execution. This operation prevents further processing of the flow and changes the execution status to `Aborted`.
  */
-export const stopFlowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopFlowExecution: (
+  input: StopFlowExecutionRequest,
+) => Effect.Effect<
+  StopFlowExecutionResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopFlowExecutionRequest,
   output: StopFlowExecutionResponse,
   errors: [
@@ -4646,7 +4841,18 @@ export const stopFlowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List all the tags for the resource you specify.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -4660,7 +4866,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -4675,7 +4893,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Remove tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -4691,23 +4920,43 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
-export const getExecutionFlowSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetExecutionFlowSnapshotRequest,
-    output: GetExecutionFlowSnapshotResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getExecutionFlowSnapshot: (
+  input: GetExecutionFlowSnapshotRequest,
+) => Effect.Effect<
+  GetExecutionFlowSnapshotResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetExecutionFlowSnapshotRequest,
+  output: GetExecutionFlowSnapshotResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves details about a specific flow execution, including its status, start and end times, and any errors that occurred during execution.
  */
-export const getFlowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFlowExecution: (
+  input: GetFlowExecutionRequest,
+) => Effect.Effect<
+  GetFlowExecutionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFlowExecutionRequest,
   output: GetFlowExecutionResponse,
   errors: [
@@ -4723,29 +4972,76 @@ export const getFlowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
-export const listFlowExecutions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFlowExecutions: {
+  (
     input: ListFlowExecutionsRequest,
-    output: ListFlowExecutionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "flowExecutionSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFlowExecutionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFlowExecutionsRequest,
+  ) => Stream.Stream<
+    ListFlowExecutionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFlowExecutionsRequest,
+  ) => Stream.Stream<
+    FlowExecutionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFlowExecutionsRequest,
+  output: ListFlowExecutionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "flowExecutionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Ends the session. After you end a session, you can still access its content but you can’t add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const endSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const endSession: (
+  input: EndSessionRequest,
+) => Effect.Effect<
+  EndSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EndSessionRequest,
   output: EndSessionResponse,
   errors: [
@@ -4768,7 +5064,20 @@ export const endSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - GetSession
  */
-export const createInvocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createInvocation: (
+  input: CreateInvocationRequest,
+) => Effect.Effect<
+  CreateInvocationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInvocationRequest,
   output: CreateInvocationResponse,
   errors: [
@@ -4784,7 +5093,19 @@ export const createInvocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a session that you ended. You can't delete a session with an `ACTIVE` status. To delete an active session, you must first end it with the EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const deleteSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSession: (
+  input: DeleteSessionRequest,
+) => Effect.Effect<
+  DeleteSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSessionRequest,
   output: DeleteSessionResponse,
   errors: [
@@ -4799,7 +5120,22 @@ export const deleteSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes memory from the specified memory identifier.
  */
-export const deleteAgentMemory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAgentMemory: (
+  input: DeleteAgentMemoryRequest,
+) => Effect.Effect<
+  DeleteAgentMemoryResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAgentMemoryRequest,
   output: DeleteAgentMemoryResponse,
   errors: [
@@ -4831,7 +5167,19 @@ export const deleteAgentMemory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - DeleteSession
  */
-export const createSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSession: (
+  input: CreateSessionRequest,
+) => Effect.Effect<
+  CreateSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSessionRequest,
   output: CreateSessionResponse,
   errors: [
@@ -4846,7 +5194,18 @@ export const createSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details about a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSession: (
+  input: GetSessionRequest,
+) => Effect.Effect<
+  GetSessionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
   output: GetSessionResponse,
   errors: [
@@ -4860,7 +5219,19 @@ export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the metadata or encryption settings of a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const updateSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSession: (
+  input: UpdateSessionRequest,
+) => Effect.Effect<
+  UpdateSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSessionRequest,
   output: UpdateSessionResponse,
   errors: [
@@ -4875,29 +5246,75 @@ export const updateSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all invocations associated with a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const listInvocations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listInvocations: {
+  (
     input: ListInvocationsRequest,
-    output: ListInvocationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "invocationSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListInvocationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInvocationsRequest,
+  ) => Stream.Stream<
+    ListInvocationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInvocationsRequest,
+  ) => Stream.Stream<
+    InvocationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInvocationsRequest,
+  output: ListInvocationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "invocationSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the details of a specific invocation step within an invocation in a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const getInvocationStep = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInvocationStep: (
+  input: GetInvocationStepRequest,
+) => Effect.Effect<
+  GetInvocationStepResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInvocationStepRequest,
   output: GetInvocationStepResponse,
   errors: [
@@ -4911,45 +5328,113 @@ export const getInvocationStep = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all invocation steps associated with a session and optionally, an invocation within the session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const listInvocationSteps =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInvocationSteps: {
+  (
     input: ListInvocationStepsRequest,
-    output: ListInvocationStepsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "invocationStepSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInvocationStepsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInvocationStepsRequest,
+  ) => Stream.Stream<
+    ListInvocationStepsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInvocationStepsRequest,
+  ) => Stream.Stream<
+    InvocationStepSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInvocationStepsRequest,
+  output: ListInvocationStepsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "invocationStepSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all sessions in your Amazon Web Services account. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const listSessions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSessions: {
+  (
     input: ListSessionsRequest,
-    output: ListSessionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "sessionSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSessionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSessionsRequest,
+  ) => Stream.Stream<
+    ListSessionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSessionsRequest,
+  ) => Stream.Stream<
+    SessionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSessionsRequest,
+  output: ListSessionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sessionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Starts an execution of an Amazon Bedrock flow. Unlike flows that run until completion or time out after five minutes, flow executions let you run flows asynchronously for longer durations. Flow executions also yield control so that your application can perform other tasks.
  *
@@ -4957,7 +5442,22 @@ export const listSessions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
-export const startFlowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startFlowExecution: (
+  input: StartFlowExecutionRequest,
+) => Effect.Effect<
+  StartFlowExecutionResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFlowExecutionRequest,
   output: StartFlowExecutionResponse,
   errors: [
@@ -4975,33 +5475,95 @@ export const startFlowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the sessions stored in the memory of the agent.
  */
-export const getAgentMemory = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getAgentMemory: {
+  (
     input: GetAgentMemoryRequest,
-    output: GetAgentMemoryResponse,
-    errors: [
-      AccessDeniedException,
-      BadGatewayException,
-      ConflictException,
-      DependencyFailedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "memoryContents",
-      pageSize: "maxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetAgentMemoryResponse,
+    | AccessDeniedException
+    | BadGatewayException
+    | ConflictException
+    | DependencyFailedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetAgentMemoryRequest,
+  ) => Stream.Stream<
+    GetAgentMemoryResponse,
+    | AccessDeniedException
+    | BadGatewayException
+    | ConflictException
+    | DependencyFailedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetAgentMemoryRequest,
+  ) => Stream.Stream<
+    Memory,
+    | AccessDeniedException
+    | BadGatewayException
+    | ConflictException
+    | DependencyFailedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetAgentMemoryRequest,
+  output: GetAgentMemoryResponse,
+  errors: [
+    AccessDeniedException,
+    BadGatewayException,
+    ConflictException,
+    DependencyFailedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "memoryContents",
+    pageSize: "maxItems",
+  } as const,
+}));
 /**
  * Generates an SQL query from a natural language query. For more information, see Generate a query for structured data in the Amazon Bedrock User Guide.
  */
-export const generateQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const generateQuery: (
+  input: GenerateQueryRequest,
+) => Effect.Effect<
+  GenerateQueryResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateQueryRequest,
   output: GenerateQueryResponse,
   errors: [
@@ -5019,7 +5581,19 @@ export const generateQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Optimizes a prompt for the task that you specify. For more information, see Optimize a prompt in the Amazon Bedrock User Guide.
  */
-export const optimizePrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const optimizePrompt: (
+  input: OptimizePromptRequest,
+) => Effect.Effect<
+  OptimizePromptResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | DependencyFailedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: OptimizePromptRequest,
   output: OptimizePromptResponse,
   errors: [
@@ -5034,7 +5608,56 @@ export const optimizePrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Reranks the relevance of sources based on queries. For more information, see Improve the relevance of query responses with a reranker model.
  */
-export const rerank = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const rerank: {
+  (
+    input: RerankRequest,
+  ): Effect.Effect<
+    RerankResponse,
+    | AccessDeniedException
+    | BadGatewayException
+    | ConflictException
+    | DependencyFailedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: RerankRequest,
+  ) => Stream.Stream<
+    RerankResponse,
+    | AccessDeniedException
+    | BadGatewayException
+    | ConflictException
+    | DependencyFailedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: RerankRequest,
+  ) => Stream.Stream<
+    RerankResult,
+    | AccessDeniedException
+    | BadGatewayException
+    | ConflictException
+    | DependencyFailedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: RerankRequest,
   output: RerankResponse,
   errors: [
@@ -5061,23 +5684,36 @@ export const rerank = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * This operation requires permission for the ` bedrock:RetrieveAndGenerate` action.
  */
-export const retrieveAndGenerateStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RetrieveAndGenerateStreamRequest,
-    output: RetrieveAndGenerateStreamResponse,
-    errors: [
-      AccessDeniedException,
-      BadGatewayException,
-      ConflictException,
-      DependencyFailedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const retrieveAndGenerateStream: (
+  input: RetrieveAndGenerateStreamRequest,
+) => Effect.Effect<
+  RetrieveAndGenerateStreamResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RetrieveAndGenerateStreamRequest,
+  output: RetrieveAndGenerateStreamResponse,
+  errors: [
+    AccessDeniedException,
+    BadGatewayException,
+    ConflictException,
+    DependencyFailedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Add an invocation step to an invocation in a session. An invocation step stores fine-grained state checkpoints, including text and images, for each interaction. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  *
@@ -5091,7 +5727,20 @@ export const retrieveAndGenerateStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - ListSessions
  */
-export const putInvocationStep = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putInvocationStep: (
+  input: PutInvocationStepRequest,
+) => Effect.Effect<
+  PutInvocationStepResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutInvocationStepRequest,
   output: PutInvocationStepResponse,
   errors: [
@@ -5109,7 +5758,22 @@ export const putInvocationStep = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The CLI doesn't support streaming operations in Amazon Bedrock, including `InvokeFlow`.
  */
-export const invokeFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const invokeFlow: (
+  input: InvokeFlowRequest,
+) => Effect.Effect<
+  InvokeFlowResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeFlowRequest,
   output: InvokeFlowResponse,
   errors: [
@@ -5127,7 +5791,22 @@ export const invokeFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Queries a knowledge base and generates responses based on the retrieved results and using the specified foundation model or inference profile. The response only cites sources that are relevant to the query.
  */
-export const retrieveAndGenerate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const retrieveAndGenerate: (
+  input: RetrieveAndGenerateRequest,
+) => Effect.Effect<
+  RetrieveAndGenerateResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetrieveAndGenerateRequest,
   output: RetrieveAndGenerateResponse,
   errors: [
@@ -5155,7 +5834,22 @@ export const retrieveAndGenerate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
  */
-export const invokeInlineAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const invokeInlineAgent: (
+  input: InvokeInlineAgentRequest,
+) => Effect.Effect<
+  InvokeInlineAgentResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeInlineAgentRequest,
   output: InvokeInlineAgentResponse,
   errors: [
@@ -5173,7 +5867,56 @@ export const invokeInlineAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Queries a knowledge base and retrieves information from it.
  */
-export const retrieve = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const retrieve: {
+  (
+    input: RetrieveRequest,
+  ): Effect.Effect<
+    RetrieveResponse,
+    | AccessDeniedException
+    | BadGatewayException
+    | ConflictException
+    | DependencyFailedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: RetrieveRequest,
+  ) => Stream.Stream<
+    RetrieveResponse,
+    | AccessDeniedException
+    | BadGatewayException
+    | ConflictException
+    | DependencyFailedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: RetrieveRequest,
+  ) => Stream.Stream<
+    KnowledgeBaseRetrievalResult,
+    | AccessDeniedException
+    | BadGatewayException
+    | ConflictException
+    | DependencyFailedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: RetrieveRequest,
   output: RetrieveResponse,
   errors: [
@@ -5216,7 +5959,23 @@ export const retrieve = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * - Errors are also surfaced in the response.
  */
-export const invokeAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const invokeAgent: (
+  input: InvokeAgentRequest,
+) => Effect.Effect<
+  InvokeAgentResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ModelNotReadyException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeAgentRequest,
   output: InvokeAgentResponse,
   errors: [
@@ -5237,21 +5996,57 @@ export const invokeAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
-export const listFlowExecutionEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFlowExecutionEvents: {
+  (
     input: ListFlowExecutionEventsRequest,
-    output: ListFlowExecutionEventsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "flowExecutionEvents",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFlowExecutionEventsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFlowExecutionEventsRequest,
+  ) => Stream.Stream<
+    ListFlowExecutionEventsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFlowExecutionEventsRequest,
+  ) => Stream.Stream<
+    FlowExecutionEvent,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFlowExecutionEventsRequest,
+  output: ListFlowExecutionEventsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "flowExecutionEvents",
+    pageSize: "maxResults",
+  } as const,
+}));

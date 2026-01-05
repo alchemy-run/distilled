@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "signer",
   serviceShapeName: "WallabyService",
@@ -240,6 +248,35 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ProfileName = string;
+export type ProfileVersion = string;
+export type JobId = string;
+export type PlatformId = string;
+export type Arn = string;
+export type AccountId = string;
+export type RequestedBy = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type RevocationReasonString = string;
+export type ClientRequestToken = string;
+export type TagKey = string;
+export type CertificateArn = string;
+export type Integer = number;
+export type SigningParameterKey = string;
+export type SigningParameterValue = string;
+export type TagValue = string;
+export type ErrorMessage = string;
+export type ErrorCode = string;
+export type DisplayName = string;
+export type StatusReason = string;
+export type MaxSizeInMB = number;
+export type PolicySizeBytes = number;
+export type BucketName = string;
+export type Key = string;
+export type Version = string;
+export type Prefix = string;
 
 //# Schemas
 export type CertificateHashes = string[];
@@ -1265,7 +1302,9 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
   "InternalServiceErrorException",
   { message: S.optional(S.String), code: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String), code: S.optional(S.String) },
@@ -1277,7 +1316,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { message: S.optional(S.String), code: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { message: S.optional(S.String), code: S.optional(S.String) },
@@ -1289,7 +1330,9 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String), code: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExceededException>()(
   "ServiceLimitExceededException",
   { message: S.optional(S.String), code: S.optional(S.String) },
@@ -1302,7 +1345,17 @@ export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExc
  * value. To specify the signing profile, use its Amazon Resource Name (ARN). To specify
  * the tag, use a key-value pair.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | InternalServiceErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1315,7 +1368,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information on a specific signing profile.
  */
-export const getSigningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSigningProfile: (
+  input: GetSigningProfileRequest,
+) => Effect.Effect<
+  GetSigningProfileResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSigningProfileRequest,
   output: GetSigningProfileResponse,
   errors: [
@@ -1335,44 +1398,92 @@ export const getSigningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * new values that Signer returns in the `nextToken` parameter until all of
  * your signing jobs have been returned.
  */
-export const listSigningProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSigningProfiles: {
+  (
     input: ListSigningProfilesRequest,
-    output: ListSigningProfilesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSigningProfilesResponse,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSigningProfilesRequest,
+  ) => Stream.Stream<
+    ListSigningProfilesResponse,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSigningProfilesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSigningProfilesRequest,
+  output: ListSigningProfilesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Changes the state of an `ACTIVE` signing profile to `CANCELED`.
  * A canceled profile is still viewable with the `ListSigningProfiles`
  * operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a canceled signing profile.
  */
-export const cancelSigningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelSigningProfileRequest,
-    output: CancelSigningProfileResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const cancelSigningProfile: (
+  input: CancelSigningProfileRequest,
+) => Effect.Effect<
+  CancelSigningProfileResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelSigningProfileRequest,
+  output: CancelSigningProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Returns information about a specific code signing job. You specify the job by using the
  * `jobId` value that is returned by the StartSigningJob
  * operation.
  */
-export const describeSigningJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeSigningJob: (
+  input: DescribeSigningJobRequest,
+) => Effect.Effect<
+  DescribeSigningJobResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSigningJobRequest,
   output: DescribeSigningJobResponse,
   errors: [
@@ -1385,7 +1496,17 @@ export const describeSigningJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information on a specific signing platform.
  */
-export const getSigningPlatform = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSigningPlatform: (
+  input: GetSigningPlatformRequest,
+) => Effect.Effect<
+  GetSigningPlatformResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSigningPlatformRequest,
   output: GetSigningPlatformResponse,
   errors: [
@@ -1399,7 +1520,17 @@ export const getSigningPlatform = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes one or more tags from a signing profile. To remove the tags, specify a list of
  * tag keys.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | InternalServiceErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1412,7 +1543,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the tags associated with a signing profile resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | BadRequestException
+  | InternalServiceErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1431,23 +1572,55 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * parameter and with new values that Signer returns in the `nextToken`
  * parameter until all of your signing jobs have been returned.
  */
-export const listSigningJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSigningJobs: {
+  (
     input: ListSigningJobsRequest,
-    output: ListSigningJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSigningJobsResponse,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | TooManyRequestsException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSigningJobsRequest,
+  ) => Stream.Stream<
+    ListSigningJobsResponse,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | TooManyRequestsException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSigningJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | TooManyRequestsException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSigningJobsRequest,
+  output: ListSigningJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Initiates a signing job to be performed on the code provided. Signing jobs are
  * viewable by the `ListSigningJobs` operation. Note the following requirements:
@@ -1472,7 +1645,19 @@ export const listSigningJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * For a Java example that shows how to use this action, see StartSigningJob.
  */
-export const startSigningJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startSigningJob: (
+  input: StartSigningJobRequest,
+) => Effect.Effect<
+  StartSigningJobResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSigningJobRequest,
   output: StartSigningJobResponse,
   errors: [
@@ -1487,26 +1672,48 @@ export const startSigningJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds cross-account permissions to a signing profile.
  */
-export const addProfilePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddProfilePermissionRequest,
-    output: AddProfilePermissionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceErrorException,
-      ResourceNotFoundException,
-      ServiceLimitExceededException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
+export const addProfilePermission: (
+  input: AddProfilePermissionRequest,
+) => Effect.Effect<
+  AddProfilePermissionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ServiceLimitExceededException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddProfilePermissionRequest,
+  output: AddProfilePermissionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceErrorException,
+    ResourceNotFoundException,
+    ServiceLimitExceededException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a signing profile. A signing profile is a code-signing template that can be used to
  * carry out a pre-defined signing job.
  */
-export const putSigningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putSigningProfile: (
+  input: PutSigningProfileRequest,
+) => Effect.Effect<
+  PutSigningProfileResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSigningProfileRequest,
   output: PutSigningProfileResponse,
   errors: [
@@ -1520,40 +1727,70 @@ export const putSigningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the cross-account permissions associated with a signing profile.
  */
-export const listProfilePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListProfilePermissionsRequest,
-    output: ListProfilePermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
+export const listProfilePermissions: (
+  input: ListProfilePermissionsRequest,
+) => Effect.Effect<
+  ListProfilePermissionsResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProfilePermissionsRequest,
+  output: ListProfilePermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes cross-account permissions from a signing profile.
  */
-export const removeProfilePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveProfilePermissionRequest,
-    output: RemoveProfilePermissionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceErrorException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
+export const removeProfilePermission: (
+  input: RemoveProfilePermissionRequest,
+) => Effect.Effect<
+  RemoveProfilePermissionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveProfilePermissionRequest,
+  output: RemoveProfilePermissionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceErrorException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
 /**
  * Signs a binary payload and returns a signature envelope.
  */
-export const signPayload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const signPayload: (
+  input: SignPayloadRequest,
+) => Effect.Effect<
+  SignPayloadResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignPayloadRequest,
   output: SignPayloadResponse,
   errors: [
@@ -1568,7 +1805,18 @@ export const signPayload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Changes the state of a signing job to `REVOKED`. This indicates that the signature is no
  * longer valid.
  */
-export const revokeSignature = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const revokeSignature: (
+  input: RevokeSignatureRequest,
+) => Effect.Effect<
+  RevokeSignatureResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeSignatureRequest,
   output: RevokeSignatureResponse,
   errors: [
@@ -1586,19 +1834,28 @@ export const revokeSignature = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * operation, but it cannot perform new signing jobs. See Data Retention
  * for more information on scheduled deletion of a revoked signing profile.
  */
-export const revokeSigningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RevokeSigningProfileRequest,
-    output: RevokeSigningProfileResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
+export const revokeSigningProfile: (
+  input: RevokeSigningProfileRequest,
+) => Effect.Effect<
+  RevokeSigningProfileResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeSigningProfileRequest,
+  output: RevokeSigningProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all signing platforms available in AWS Signer that match the request parameters. If
  * additional jobs remain to be listed, Signer returns a `nextToken` value.
@@ -1608,27 +1865,70 @@ export const revokeSigningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `nextToken` parameter until all of your signing jobs have been
  * returned.
  */
-export const listSigningPlatforms =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSigningPlatforms: {
+  (
     input: ListSigningPlatformsRequest,
-    output: ListSigningPlatformsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSigningPlatformsResponse,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | TooManyRequestsException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSigningPlatformsRequest,
+  ) => Stream.Stream<
+    ListSigningPlatformsResponse,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | TooManyRequestsException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSigningPlatformsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | TooManyRequestsException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSigningPlatformsRequest,
+  output: ListSigningPlatformsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the revocation status of one or more of the signing profile, signing job,
  * and signing certificate.
  */
-export const getRevocationStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRevocationStatus: (
+  input: GetRevocationStatusRequest,
+) => Effect.Effect<
+  GetRevocationStatusResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRevocationStatusRequest,
   output: GetRevocationStatusResponse,
   errors: [

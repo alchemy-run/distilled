@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors as Err,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "IoTTwinMaker",
   serviceShapeName: "AWSIoTTwinMaker",
@@ -240,6 +248,73 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Id = string;
+export type ComponentTypeId = string;
+export type Description = string;
+export type ComponentTypeName = string;
+export type EntityId = string;
+export type EntityName = string;
+export type ParentEntityId = string;
+export type S3Url = string;
+export type SceneCapability = string;
+export type SyncSource = string;
+export type RoleArn = string;
+export type S3Location = string;
+export type QueryStatement = string;
+export type QueryServiceMaxResults = number;
+export type NextToken = string;
+export type Name = string;
+export type ComponentPath = string;
+export type MaxResults = number;
+export type OrderByTime = string;
+export type Time = string;
+export type IdOrArn = string;
+export type SourceType = string;
+export type DestinationType = string;
+export type TwinMakerArn = string;
+export type TagKey = string;
+export type PricingMode = string;
+export type BundleName = string;
+export type TagValue = string;
+export type SceneMetadataValue = string;
+export type Long = number;
+export type UpdateReason = string;
+export type InterpolationType = string;
+export type IntervalInSeconds = number;
+export type MetadataTransferJobState = string;
+export type SyncResourceState = string;
+export type SyncResourceType = string;
+export type ParentEntityUpdateType = string;
+export type SyncJobState = string;
+export type State = string;
+export type ErrorMessage = string;
+export type WorkspaceDeleteMessage = string;
+export type LinkedService = string;
+export type PropertyDisplayName = string;
+export type Scope = string;
+export type GroupType = string;
+export type S3SourceLocation = string;
+export type S3DestinationLocation = string;
+export type PricingTier = string;
+export type Order = string;
+export type Double = number;
+export type Integer = number;
+export type Expression = string;
+export type ComponentUpdateType = string;
+export type ColumnName = string;
+export type ColumnType = string;
+export type SceneErrorCode = string;
+export type Type = string;
+export type Value = string;
+export type ErrorCode = string;
+export type LambdaArn = string;
+export type PropertyUpdateType = string;
+export type PropertyGroupUpdateType = string;
+export type Uuid = string;
+export type SiteWiseExternalId = string;
+export type ExceptionMessage = string;
 
 //# Schemas
 export interface GetPricingPlanRequest {}
@@ -1142,6 +1217,10 @@ export const InterpolationParameters = S.suspend(() =>
 }) as any as S.Schema<InterpolationParameters>;
 export type LinkedServices = string[];
 export const LinkedServices = S.Array(S.String);
+export type ListComponentTypesFilter =
+  | { extendsFrom: string }
+  | { namespace: string }
+  | { isAbstract: boolean };
 export const ListComponentTypesFilter = S.Union(
   S.Struct({ extendsFrom: S.String }),
   S.Struct({ namespace: S.String }),
@@ -1150,6 +1229,10 @@ export const ListComponentTypesFilter = S.Union(
 export type ListComponentTypesFilters =
   (typeof ListComponentTypesFilter)["Type"][];
 export const ListComponentTypesFilters = S.Array(ListComponentTypesFilter);
+export type ListEntitiesFilter =
+  | { parentEntityId: string }
+  | { componentTypeId: string }
+  | { externalId: string };
 export const ListEntitiesFilter = S.Union(
   S.Struct({ parentEntityId: S.String }),
   S.Struct({ componentTypeId: S.String }),
@@ -1157,6 +1240,9 @@ export const ListEntitiesFilter = S.Union(
 );
 export type ListEntitiesFilters = (typeof ListEntitiesFilter)["Type"][];
 export const ListEntitiesFilters = S.Array(ListEntitiesFilter);
+export type ListMetadataTransferJobsFilter =
+  | { workspaceId: string }
+  | { state: string };
 export const ListMetadataTransferJobsFilter = S.Union(
   S.Struct({ workspaceId: S.String }),
   S.Struct({ state: S.String }),
@@ -1166,6 +1252,11 @@ export type ListMetadataTransferJobsFilters =
 export const ListMetadataTransferJobsFilters = S.Array(
   ListMetadataTransferJobsFilter,
 );
+export type SyncResourceFilter =
+  | { state: string }
+  | { resourceType: string }
+  | { resourceId: string }
+  | { externalId: string };
 export const SyncResourceFilter = S.Union(
   S.Struct({ state: S.String }),
   S.Struct({ resourceType: S.String }),
@@ -1318,6 +1409,9 @@ export const FilterByAsset = S.suspend(() =>
 ).annotations({
   identifier: "FilterByAsset",
 }) as any as S.Schema<FilterByAsset>;
+export type IotSiteWiseSourceConfigurationFilter =
+  | { filterByAssetModel: FilterByAssetModel }
+  | { filterByAsset: FilterByAsset };
 export const IotSiteWiseSourceConfigurationFilter = S.Union(
   S.Struct({ filterByAssetModel: FilterByAssetModel }),
   S.Struct({ filterByAsset: FilterByAsset }),
@@ -1351,6 +1445,9 @@ export const FilterByEntity = S.suspend(() =>
 ).annotations({
   identifier: "FilterByEntity",
 }) as any as S.Schema<FilterByEntity>;
+export type IotTwinMakerSourceConfigurationFilter =
+  | { filterByComponentType: FilterByComponentType }
+  | { filterByEntity: FilterByEntity };
 export const IotTwinMakerSourceConfigurationFilter = S.Union(
   S.Struct({ filterByComponentType: FilterByComponentType }),
   S.Struct({ filterByEntity: FilterByEntity }),
@@ -3081,7 +3178,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -3098,7 +3197,9 @@ export class QueryTimeoutException extends S.TaggedError<QueryTimeoutException>(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
@@ -3124,7 +3225,13 @@ export class ConnectorTimeoutException extends S.TaggedError<ConnectorTimeoutExc
 /**
  * Lists all tags associated with a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  AccessDeniedException | ResourceNotFoundException | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
@@ -3132,7 +3239,13 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  AccessDeniedException | ResourceNotFoundException | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
@@ -3140,7 +3253,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds tags to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3152,7 +3274,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the pricing plan.
  */
-export const getPricingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPricingPlan: (
+  input: GetPricingPlanRequest,
+) => Effect.Effect<
+  GetPricingPlanResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPricingPlanRequest,
   output: GetPricingPlanResponse,
   errors: [
@@ -3165,109 +3297,292 @@ export const getPricingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This API lists the components of an entity.
  */
-export const listComponents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listComponents: {
+  (
     input: ListComponentsRequest,
-    output: ListComponentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListComponentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComponentsRequest,
+  ) => Stream.Stream<
+    ListComponentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComponentsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComponentsRequest,
+  output: ListComponentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the sync resources.
  */
-export const listSyncResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSyncResources: {
+  (
     input: ListSyncResourcesRequest,
-    output: ListSyncResourcesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSyncResourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSyncResourcesRequest,
+  ) => Stream.Stream<
+    ListSyncResourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSyncResourcesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSyncResourcesRequest,
+  output: ListSyncResourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all component types in a workspace.
  */
-export const listComponentTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listComponentTypes: {
+  (
     input: ListComponentTypesRequest,
-    output: ListComponentTypesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListComponentTypesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComponentTypesRequest,
+  ) => Stream.Stream<
+    ListComponentTypesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComponentTypesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComponentTypesRequest,
+  output: ListComponentTypesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the metadata transfer jobs.
  */
-export const listMetadataTransferJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMetadataTransferJobs: {
+  (
     input: ListMetadataTransferJobsRequest,
-    output: ListMetadataTransferJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMetadataTransferJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMetadataTransferJobsRequest,
+  ) => Stream.Stream<
+    ListMetadataTransferJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMetadataTransferJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMetadataTransferJobsRequest,
+  output: ListMetadataTransferJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List all SyncJobs.
  */
-export const listSyncJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSyncJobs: {
+  (
     input: ListSyncJobsRequest,
-    output: ListSyncJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSyncJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSyncJobsRequest,
+  ) => Stream.Stream<
+    ListSyncJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSyncJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSyncJobsRequest,
+  output: ListSyncJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates an entity.
  */
-export const updateEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEntity: (
+  input: UpdateEntityRequest,
+) => Effect.Effect<
+  UpdateEntityResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEntityRequest,
   output: UpdateEntityResponse,
   errors: [
@@ -3283,7 +3598,41 @@ export const updateEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all scenes in a workspace.
  */
-export const listScenes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listScenes: {
+  (
+    input: ListScenesRequest,
+  ): Effect.Effect<
+    ListScenesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListScenesRequest,
+  ) => Stream.Stream<
+    ListScenesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListScenesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListScenesRequest,
   output: ListScenesResponse,
   errors: [
@@ -3301,7 +3650,18 @@ export const listScenes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Deletes a scene.
  */
-export const deleteScene = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteScene: (
+  input: DeleteSceneRequest,
+) => Effect.Effect<
+  DeleteSceneResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSceneRequest,
   output: DeleteSceneResponse,
   errors: [
@@ -3315,7 +3675,18 @@ export const deleteScene = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a workspace.
  */
-export const deleteWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkspace: (
+  input: DeleteWorkspaceRequest,
+) => Effect.Effect<
+  DeleteWorkspaceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkspaceRequest,
   output: DeleteWorkspaceResponse,
   errors: [
@@ -3329,23 +3700,42 @@ export const deleteWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a nmetadata transfer job.
  */
-export const getMetadataTransferJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMetadataTransferJobRequest,
-    output: GetMetadataTransferJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getMetadataTransferJob: (
+  input: GetMetadataTransferJobRequest,
+) => Effect.Effect<
+  GetMetadataTransferJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMetadataTransferJobRequest,
+  output: GetMetadataTransferJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update the pricing plan.
  */
-export const updatePricingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePricingPlan: (
+  input: UpdatePricingPlanRequest,
+) => Effect.Effect<
+  UpdatePricingPlanResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePricingPlanRequest,
   output: UpdatePricingPlanResponse,
   errors: [
@@ -3358,7 +3748,18 @@ export const updatePricingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a scene.
  */
-export const updateScene = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateScene: (
+  input: UpdateSceneRequest,
+) => Effect.Effect<
+  UpdateSceneResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSceneRequest,
   output: UpdateSceneResponse,
   errors: [
@@ -3372,7 +3773,18 @@ export const updateScene = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a component type.
  */
-export const deleteComponentType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteComponentType: (
+  input: DeleteComponentTypeRequest,
+) => Effect.Effect<
+  DeleteComponentTypeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteComponentTypeRequest,
   output: DeleteComponentTypeResponse,
   errors: [
@@ -3386,7 +3798,18 @@ export const deleteComponentType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a scene.
  */
-export const getScene = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getScene: (
+  input: GetSceneRequest,
+) => Effect.Effect<
+  GetSceneResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSceneRequest,
   output: GetSceneResponse,
   errors: [
@@ -3400,45 +3823,101 @@ export const getScene = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This API lists the properties of a component.
  */
-export const listProperties = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProperties: {
+  (
     input: ListPropertiesRequest,
-    output: ListPropertiesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPropertiesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPropertiesRequest,
+  ) => Stream.Stream<
+    ListPropertiesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPropertiesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPropertiesRequest,
+  output: ListPropertiesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Cancels the metadata transfer job.
  */
-export const cancelMetadataTransferJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelMetadataTransferJobRequest,
-    output: CancelMetadataTransferJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelMetadataTransferJob: (
+  input: CancelMetadataTransferJobRequest,
+) => Effect.Effect<
+  CancelMetadataTransferJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelMetadataTransferJobRequest,
+  output: CancelMetadataTransferJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about a component type.
  */
-export const getComponentType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getComponentType: (
+  input: GetComponentTypeRequest,
+) => Effect.Effect<
+  GetComponentTypeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComponentTypeRequest,
   output: GetComponentTypeResponse,
   errors: [
@@ -3452,27 +3931,71 @@ export const getComponentType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about workspaces in the current account.
  */
-export const listWorkspaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkspaces: {
+  (
     input: ListWorkspacesRequest,
-    output: ListWorkspacesResponse,
-    errors: [
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkspacesResponse,
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkspacesRequest,
+  ) => Stream.Stream<
+    ListWorkspacesResponse,
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkspacesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkspacesRequest,
+  output: ListWorkspacesResponse,
+  errors: [
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Delete the SyncJob.
  */
-export const deleteSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSyncJob: (
+  input: DeleteSyncJobRequest,
+) => Effect.Effect<
+  DeleteSyncJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSyncJobRequest,
   output: DeleteSyncJobResponse,
   errors: [
@@ -3487,7 +4010,18 @@ export const deleteSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a workspace.
  */
-export const getWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkspace: (
+  input: GetWorkspaceRequest,
+) => Effect.Effect<
+  GetWorkspaceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkspaceRequest,
   output: GetWorkspaceResponse,
   errors: [
@@ -3501,7 +4035,19 @@ export const getWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates information in a component type.
  */
-export const updateComponentType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateComponentType: (
+  input: UpdateComponentTypeRequest,
+) => Effect.Effect<
+  UpdateComponentTypeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateComponentTypeRequest,
   output: UpdateComponentTypeResponse,
   errors: [
@@ -3516,7 +4062,19 @@ export const updateComponentType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a workspace.
  */
-export const updateWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWorkspace: (
+  input: UpdateWorkspaceRequest,
+) => Effect.Effect<
+  UpdateWorkspaceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkspaceRequest,
   output: UpdateWorkspaceResponse,
   errors: [
@@ -3531,7 +4089,19 @@ export const updateWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This action creates a SyncJob.
  */
-export const createSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSyncJob: (
+  input: CreateSyncJobRequest,
+) => Effect.Effect<
+  CreateSyncJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSyncJobRequest,
   output: CreateSyncJobResponse,
   errors: [
@@ -3546,7 +4116,18 @@ export const createSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an entity.
  */
-export const deleteEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEntity: (
+  input: DeleteEntityRequest,
+) => Effect.Effect<
+  DeleteEntityResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEntityRequest,
   output: DeleteEntityResponse,
   errors: [
@@ -3560,7 +4141,19 @@ export const deleteEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the SyncJob.
  */
-export const getSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSyncJob: (
+  input: GetSyncJobRequest,
+) => Effect.Effect<
+  GetSyncJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSyncJobRequest,
   output: GetSyncJobResponse,
   errors: [
@@ -3575,7 +4168,19 @@ export const getSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a workplace.
  */
-export const createWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkspace: (
+  input: CreateWorkspaceRequest,
+) => Effect.Effect<
+  CreateWorkspaceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkspaceRequest,
   output: CreateWorkspaceResponse,
   errors: [
@@ -3590,7 +4195,19 @@ export const createWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a scene.
  */
-export const createScene = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createScene: (
+  input: CreateSceneRequest,
+) => Effect.Effect<
+  CreateSceneResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSceneRequest,
   output: CreateSceneResponse,
   errors: [
@@ -3609,49 +4226,131 @@ export const createScene = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The ExecuteQuery action only works with Amazon Web Services Java SDK2.
  * ExecuteQuery will not work with any Amazon Web Services Java SDK version < 2.x.
  */
-export const executeQuery = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const executeQuery: {
+  (
     input: ExecuteQueryRequest,
-    output: ExecuteQueryResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      QueryTimeoutException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ExecuteQueryResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | QueryTimeoutException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ExecuteQueryRequest,
+  ) => Stream.Stream<
+    ExecuteQueryResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | QueryTimeoutException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ExecuteQueryRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | QueryTimeoutException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ExecuteQueryRequest,
+  output: ExecuteQueryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    QueryTimeoutException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all entities in a workspace.
  */
-export const listEntities = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEntities: {
+  (
     input: ListEntitiesRequest,
-    output: ListEntitiesResponse,
-    errors: [
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEntitiesResponse,
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEntitiesRequest,
+  ) => Stream.Stream<
+    ListEntitiesResponse,
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEntitiesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEntitiesRequest,
+  output: ListEntitiesResponse,
+  errors: [
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a component type.
  */
-export const createComponentType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createComponentType: (
+  input: CreateComponentTypeRequest,
+) => Effect.Effect<
+  CreateComponentTypeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComponentTypeRequest,
   output: CreateComponentTypeResponse,
   errors: [
@@ -3666,7 +4365,19 @@ export const createComponentType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an entity.
  */
-export const createEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEntity: (
+  input: CreateEntityRequest,
+) => Effect.Effect<
+  CreateEntityResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEntityRequest,
   output: CreateEntityResponse,
   errors: [
@@ -3681,25 +4392,47 @@ export const createEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new metadata transfer job.
  */
-export const createMetadataTransferJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMetadataTransferJobRequest,
-    output: CreateMetadataTransferJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createMetadataTransferJob: (
+  input: CreateMetadataTransferJobRequest,
+) => Effect.Effect<
+  CreateMetadataTransferJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMetadataTransferJobRequest,
+  output: CreateMetadataTransferJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about an entity.
  */
-export const getEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEntity: (
+  input: GetEntityRequest,
+) => Effect.Effect<
+  GetEntityResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEntityRequest,
   output: GetEntityResponse,
   errors: [
@@ -3713,44 +4446,93 @@ export const getEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Sets values for multiple time series properties.
  */
-export const batchPutPropertyValues = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchPutPropertyValuesRequest,
-    output: BatchPutPropertyValuesResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchPutPropertyValues: (
+  input: BatchPutPropertyValuesRequest,
+) => Effect.Effect<
+  BatchPutPropertyValuesResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchPutPropertyValuesRequest,
+  output: BatchPutPropertyValuesResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the property values for a component, component type, entity, or workspace.
  *
  * You must specify a value for either `componentName`,
  * `componentTypeId`, `entityId`, or `workspaceId`.
  */
-export const getPropertyValue = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getPropertyValue: {
+  (
     input: GetPropertyValueRequest,
-    output: GetPropertyValueResponse,
-    errors: [
-      AccessDeniedException,
-      ConnectorFailureException,
-      ConnectorTimeoutException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetPropertyValueResponse,
+    | AccessDeniedException
+    | ConnectorFailureException
+    | ConnectorTimeoutException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetPropertyValueRequest,
+  ) => Stream.Stream<
+    GetPropertyValueResponse,
+    | AccessDeniedException
+    | ConnectorFailureException
+    | ConnectorTimeoutException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetPropertyValueRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConnectorFailureException
+    | ConnectorTimeoutException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetPropertyValueRequest,
+  output: GetPropertyValueResponse,
+  errors: [
+    AccessDeniedException,
+    ConnectorFailureException,
+    ConnectorTimeoutException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information about the history of a time series property value for a component,
  * component type, entity, or workspace.
@@ -3759,22 +4541,64 @@ export const getPropertyValue = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * specify values for `componentName` and `entityId`. For cross-entity
  * quries, specify a value for `componentTypeId`.
  */
-export const getPropertyValueHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getPropertyValueHistory: {
+  (
     input: GetPropertyValueHistoryRequest,
-    output: GetPropertyValueHistoryResponse,
-    errors: [
-      AccessDeniedException,
-      ConnectorFailureException,
-      ConnectorTimeoutException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetPropertyValueHistoryResponse,
+    | AccessDeniedException
+    | ConnectorFailureException
+    | ConnectorTimeoutException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetPropertyValueHistoryRequest,
+  ) => Stream.Stream<
+    GetPropertyValueHistoryResponse,
+    | AccessDeniedException
+    | ConnectorFailureException
+    | ConnectorTimeoutException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetPropertyValueHistoryRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConnectorFailureException
+    | ConnectorTimeoutException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetPropertyValueHistoryRequest,
+  output: GetPropertyValueHistoryResponse,
+  errors: [
+    AccessDeniedException,
+    ConnectorFailureException,
+    ConnectorTimeoutException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));

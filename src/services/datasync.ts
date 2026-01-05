@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "DataSync",
   serviceShapeName: "FmrsService",
@@ -240,6 +248,75 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type TaskExecutionArn = string;
+export type ActivationKey = string;
+export type TagValue = string;
+export type VpcEndpointId = string;
+export type Ec2SubnetArn = string;
+export type Ec2SecurityGroupArn = string;
+export type AzureBlobContainerUrl = string;
+export type AzureBlobSubdirectory = string;
+export type AgentArn = string;
+export type EfsSubdirectory = string;
+export type EfsFilesystemArn = string;
+export type EfsAccessPointArn = string;
+export type IamRoleArn = string;
+export type FsxFilesystemArn = string;
+export type FsxLustreSubdirectory = string;
+export type StorageVirtualMachineArn = string;
+export type FsxOntapSubdirectory = string;
+export type FsxOpenZfsSubdirectory = string;
+export type FsxWindowsSubdirectory = string;
+export type SmbUser = string;
+export type SmbDomain = string;
+export type SmbPassword = string;
+export type HdfsSubdirectory = string;
+export type HdfsBlockSize = number;
+export type HdfsReplicationFactor = number;
+export type KmsKeyProviderUri = string;
+export type HdfsUser = string;
+export type KerberosPrincipal = string;
+export type NfsSubdirectory = string;
+export type ServerHostname = string;
+export type ObjectStorageServerPort = number;
+export type S3Subdirectory = string;
+export type ObjectStorageBucketName = string;
+export type ObjectStorageAccessKey = string;
+export type ObjectStorageSecretKey = string;
+export type S3BucketArn = string;
+export type SmbSubdirectory = string;
+export type ServerIpAddress = string;
+export type LocationArn = string;
+export type LogGroupArn = string;
+export type TaskArn = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type TaggableResourceArn = string;
+export type TagKey = string;
+export type UpdatedEfsAccessPointArn = string;
+export type UpdatedEfsIamRoleArn = string;
+export type UpdateSmbDomain = string;
+export type AzureBlobSasToken = string;
+export type SecretArn = string;
+export type KmsKeyArn = string;
+export type IamRoleArnOrEmptyString = string;
+export type HdfsServerHostname = string;
+export type HdfsServerPort = number;
+export type BytesPerSecond = number;
+export type FilterValue = string;
+export type ScheduleExpressionCron = string;
+export type FilterAttributeValue = string;
+export type LocationUri = string;
+export type NetworkInterfaceArn = string;
+export type long = number;
+export type ItemCount = number;
+export type Endpoint = string;
+export type AgentVersion = string;
+export type ScheduleDisabledReason = string;
+export type Duration = number;
+export type S3ObjectVersionId = string;
 
 //# Schemas
 export type PLSubnetArnList = string[];
@@ -2472,7 +2549,13 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
  * unexpected failures that interrupt a task execution. In all of these cases, DataSync
  * successfully completes the transfer when you start the next task execution.
  */
-export const cancelTaskExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelTaskExecution: (
+  input: CancelTaskExecutionRequest,
+) => Effect.Effect<
+  CancelTaskExecutionResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelTaskExecutionRequest,
   output: CancelTaskExecutionResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2484,7 +2567,13 @@ export const cancelTaskExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you haven't deployed an agent yet, see Do I need a DataSync
  * agent?
  */
-export const createAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAgent: (
+  input: CreateAgentRequest,
+) => Effect.Effect<
+  CreateAgentResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAgentRequest,
   output: CreateAgentResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2497,13 +2586,17 @@ export const createAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Before you begin, make sure you know how DataSync accesses Azure Blob Storage and works with access tiers and blob types.
  */
-export const createLocationAzureBlob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLocationAzureBlobRequest,
-    output: CreateLocationAzureBlobResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const createLocationAzureBlob: (
+  input: CreateLocationAzureBlobRequest,
+) => Effect.Effect<
+  CreateLocationAzureBlobResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLocationAzureBlobRequest,
+  output: CreateLocationAzureBlobResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Creates a transfer *location* for an Amazon EFS file system.
  * DataSync can use this location as a source or destination for transferring
@@ -2513,7 +2606,13 @@ export const createLocationAzureBlob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * accesses
  * Amazon EFS file systems.
  */
-export const createLocationEfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLocationEfs: (
+  input: CreateLocationEfsRequest,
+) => Effect.Effect<
+  CreateLocationEfsResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLocationEfsRequest,
   output: CreateLocationEfsResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2527,7 +2626,13 @@ export const createLocationEfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * accesses HDFS
  * clusters.
  */
-export const createLocationHdfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLocationHdfs: (
+  input: CreateLocationHdfsRequest,
+) => Effect.Effect<
+  CreateLocationHdfsResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLocationHdfsRequest,
   output: CreateLocationHdfsResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2541,7 +2646,13 @@ export const createLocationHdfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * accesses NFS file
  * servers.
  */
-export const createLocationNfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLocationNfs: (
+  input: CreateLocationNfsRequest,
+) => Effect.Effect<
+  CreateLocationNfsResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLocationNfsRequest,
   output: CreateLocationNfsResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2561,7 +2672,13 @@ export const createLocationNfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Configuring
  * transfers with Amazon S3.
  */
-export const createLocationS3 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLocationS3: (
+  input: CreateLocationS3Request,
+) => Effect.Effect<
+  CreateLocationS3Response,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLocationS3Request,
   output: CreateLocationS3Response,
   errors: [InternalException, InvalidRequestException],
@@ -2574,7 +2691,13 @@ export const createLocationS3 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Before you begin, make sure that you understand how DataSync accesses SMB
  * file servers. For more information, see Providing DataSync access to SMB file servers.
  */
-export const createLocationSmb = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLocationSmb: (
+  input: CreateLocationSmbRequest,
+) => Effect.Effect<
+  CreateLocationSmbResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLocationSmbRequest,
   output: CreateLocationSmbResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2583,7 +2706,13 @@ export const createLocationSmb = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns information about an DataSync agent, such as its name, service
  * endpoint type, and status.
  */
-export const describeAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAgent: (
+  input: DescribeAgentRequest,
+) => Effect.Effect<
+  DescribeAgentResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAgentRequest,
   output: DescribeAgentResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2592,18 +2721,28 @@ export const describeAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Provides details about how an DataSync transfer location for Microsoft Azure
  * Blob Storage is configured.
  */
-export const describeLocationAzureBlob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLocationAzureBlobRequest,
-    output: DescribeLocationAzureBlobResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const describeLocationAzureBlob: (
+  input: DescribeLocationAzureBlobRequest,
+) => Effect.Effect<
+  DescribeLocationAzureBlobResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLocationAzureBlobRequest,
+  output: DescribeLocationAzureBlobResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Provides information about a *task*, which defines where and how
  * DataSync transfers your data.
  */
-export const describeTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTask: (
+  input: DescribeTaskRequest,
+) => Effect.Effect<
+  DescribeTaskResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTaskRequest,
   output: DescribeTaskResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2617,13 +2756,17 @@ export const describeTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * specific task mode. For information, see Understanding task mode differences and Understanding data
  * transfer performance counters.
  */
-export const describeTaskExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTaskExecutionRequest,
-    output: DescribeTaskExecutionResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const describeTaskExecution: (
+  input: DescribeTaskExecutionRequest,
+) => Effect.Effect<
+  DescribeTaskExecutionResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTaskExecutionRequest,
+  output: DescribeTaskExecutionResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Returns a list of DataSync agents that belong to an Amazon Web Services account in the Amazon Web Services Region specified in the request.
  *
@@ -2638,7 +2781,29 @@ export const describeTaskExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * In situations like this, you can always confirm whether an agent has been created (or deleted)
  * by using DescribeAgent.
  */
-export const listAgents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAgents: {
+  (
+    input: ListAgentsRequest,
+  ): Effect.Effect<
+    ListAgentsResponse,
+    InternalException | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAgentsRequest,
+  ) => Stream.Stream<
+    ListAgentsResponse,
+    InternalException | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAgentsRequest,
+  ) => Stream.Stream<
+    AgentListEntry,
+    InternalException | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAgentsRequest,
   output: ListAgentsResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2652,19 +2817,39 @@ export const listAgents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns a list of executions for an DataSync transfer task.
  */
-export const listTaskExecutions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTaskExecutions: {
+  (
     input: ListTaskExecutionsRequest,
-    output: ListTaskExecutionsResponse,
-    errors: [InternalException, InvalidRequestException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TaskExecutions",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTaskExecutionsResponse,
+    InternalException | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTaskExecutionsRequest,
+  ) => Stream.Stream<
+    ListTaskExecutionsResponse,
+    InternalException | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTaskExecutionsRequest,
+  ) => Stream.Stream<
+    TaskExecutionListEntry,
+    InternalException | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTaskExecutionsRequest,
+  output: ListTaskExecutionsResponse,
+  errors: [InternalException, InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TaskExecutions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Modifies the following configuration parameters of the Amazon FSx for NetApp ONTAP
  * transfer location that you're using with DataSync.
@@ -2672,13 +2857,17 @@ export const listTaskExecutions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * For more information, see Configuring DataSync
  * transfers with FSx for ONTAP.
  */
-export const updateLocationFsxOntap = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLocationFsxOntapRequest,
-    output: UpdateLocationFsxOntapResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const updateLocationFsxOntap: (
+  input: UpdateLocationFsxOntapRequest,
+) => Effect.Effect<
+  UpdateLocationFsxOntapResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLocationFsxOntapRequest,
+  output: UpdateLocationFsxOntapResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Creates a transfer *location* for an Amazon FSx for Lustre file
  * system. DataSync can use this location as a source or destination for
@@ -2687,13 +2876,17 @@ export const updateLocationFsxOntap = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Before you begin, make sure that you understand how DataSync
  * accesses FSx for Lustre file systems.
  */
-export const createLocationFsxLustre = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLocationFsxLustreRequest,
-    output: CreateLocationFsxLustreResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const createLocationFsxLustre: (
+  input: CreateLocationFsxLustreRequest,
+) => Effect.Effect<
+  CreateLocationFsxLustreResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLocationFsxLustreRequest,
+  output: CreateLocationFsxLustreResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Creates a transfer *location* for an Amazon FSx for OpenZFS file
  * system. DataSync can use this location as a source or destination for
@@ -2706,13 +2899,17 @@ export const createLocationFsxLustre = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Request parameters related to `SMB` aren't supported with the
  * `CreateLocationFsxOpenZfs` operation.
  */
-export const createLocationFsxOpenZfs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLocationFsxOpenZfsRequest,
-    output: CreateLocationFsxOpenZfsResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const createLocationFsxOpenZfs: (
+  input: CreateLocationFsxOpenZfsRequest,
+) => Effect.Effect<
+  CreateLocationFsxOpenZfsResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLocationFsxOpenZfsRequest,
+  output: CreateLocationFsxOpenZfsResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Creates a transfer *location* for an Amazon FSx for Windows File Server file
  * system. DataSync can use this location as a source or destination for
@@ -2722,13 +2919,17 @@ export const createLocationFsxOpenZfs = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * accesses
  * FSx for Windows File Server file systems.
  */
-export const createLocationFsxWindows = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLocationFsxWindowsRequest,
-    output: CreateLocationFsxWindowsResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const createLocationFsxWindows: (
+  input: CreateLocationFsxWindowsRequest,
+) => Effect.Effect<
+  CreateLocationFsxWindowsResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLocationFsxWindowsRequest,
+  output: CreateLocationFsxWindowsResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Creates a transfer *location* for an object storage system. DataSync can use this location as a source or destination for transferring data. You
  * can make transfers with or without a DataSync
@@ -2736,17 +2937,27 @@ export const createLocationFsxWindows = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Before you begin, make sure that you understand the prerequisites for DataSync to work with object storage systems.
  */
-export const createLocationObjectStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLocationObjectStorageRequest,
-    output: CreateLocationObjectStorageResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const createLocationObjectStorage: (
+  input: CreateLocationObjectStorageRequest,
+) => Effect.Effect<
+  CreateLocationObjectStorageResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLocationObjectStorageRequest,
+  output: CreateLocationObjectStorageResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Provides details about how an DataSync transfer location for an Amazon EFS file system is configured.
  */
-export const describeLocationEfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeLocationEfs: (
+  input: DescribeLocationEfsRequest,
+) => Effect.Effect<
+  DescribeLocationEfsResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLocationEfsRequest,
   output: DescribeLocationEfsResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2754,65 +2965,91 @@ export const describeLocationEfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides details about how an DataSync transfer location for an Amazon FSx for Lustre file system is configured.
  */
-export const describeLocationFsxLustre = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLocationFsxLustreRequest,
-    output: DescribeLocationFsxLustreResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const describeLocationFsxLustre: (
+  input: DescribeLocationFsxLustreRequest,
+) => Effect.Effect<
+  DescribeLocationFsxLustreResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLocationFsxLustreRequest,
+  output: DescribeLocationFsxLustreResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Provides details about how an DataSync transfer location for an Amazon FSx for NetApp ONTAP file system is configured.
  *
  * If your location uses SMB, the `DescribeLocationFsxOntap` operation doesn't
  * actually return a `Password`.
  */
-export const describeLocationFsxOntap = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLocationFsxOntapRequest,
-    output: DescribeLocationFsxOntapResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const describeLocationFsxOntap: (
+  input: DescribeLocationFsxOntapRequest,
+) => Effect.Effect<
+  DescribeLocationFsxOntapResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLocationFsxOntapRequest,
+  output: DescribeLocationFsxOntapResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Provides details about how an DataSync transfer location for an Amazon FSx for OpenZFS file system is configured.
  *
  * Response elements related to `SMB` aren't supported with the
  * `DescribeLocationFsxOpenZfs` operation.
  */
-export const describeLocationFsxOpenZfs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLocationFsxOpenZfsRequest,
-    output: DescribeLocationFsxOpenZfsResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const describeLocationFsxOpenZfs: (
+  input: DescribeLocationFsxOpenZfsRequest,
+) => Effect.Effect<
+  DescribeLocationFsxOpenZfsResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLocationFsxOpenZfsRequest,
+  output: DescribeLocationFsxOpenZfsResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Provides details about how an DataSync transfer location for an Amazon FSx for Windows File Server file system is configured.
  */
-export const describeLocationFsxWindows = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLocationFsxWindowsRequest,
-    output: DescribeLocationFsxWindowsResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const describeLocationFsxWindows: (
+  input: DescribeLocationFsxWindowsRequest,
+) => Effect.Effect<
+  DescribeLocationFsxWindowsResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLocationFsxWindowsRequest,
+  output: DescribeLocationFsxWindowsResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Provides details about how an DataSync transfer location for a Hadoop
  * Distributed File System (HDFS) is configured.
  */
-export const describeLocationHdfs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLocationHdfsRequest,
-    output: DescribeLocationHdfsResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const describeLocationHdfs: (
+  input: DescribeLocationHdfsRequest,
+) => Effect.Effect<
+  DescribeLocationHdfsResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLocationHdfsRequest,
+  output: DescribeLocationHdfsResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Provides details about how an DataSync transfer location for a Network
  * File System (NFS) file server is configured.
  */
-export const describeLocationNfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeLocationNfs: (
+  input: DescribeLocationNfsRequest,
+) => Effect.Effect<
+  DescribeLocationNfsResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLocationNfsRequest,
   output: DescribeLocationNfsResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2821,17 +3058,28 @@ export const describeLocationNfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Provides details about how an DataSync transfer location for an object
  * storage system is configured.
  */
-export const describeLocationObjectStorage =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeLocationObjectStorageRequest,
-    output: DescribeLocationObjectStorageResponse,
-    errors: [InternalException, InvalidRequestException],
-  }));
+export const describeLocationObjectStorage: (
+  input: DescribeLocationObjectStorageRequest,
+) => Effect.Effect<
+  DescribeLocationObjectStorageResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLocationObjectStorageRequest,
+  output: DescribeLocationObjectStorageResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Provides details about how an DataSync transfer location for an S3 bucket
  * is configured.
  */
-export const describeLocationS3 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeLocationS3: (
+  input: DescribeLocationS3Request,
+) => Effect.Effect<
+  DescribeLocationS3Response,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLocationS3Request,
   output: DescribeLocationS3Response,
   errors: [InternalException, InvalidRequestException],
@@ -2840,7 +3088,13 @@ export const describeLocationS3 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Provides details about how an DataSync transfer location for a Server
  * Message Block (SMB) file server is configured.
  */
-export const describeLocationSmb = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeLocationSmb: (
+  input: DescribeLocationSmbRequest,
+) => Effect.Effect<
+  DescribeLocationSmbResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLocationSmbRequest,
   output: DescribeLocationSmbResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2848,18 +3102,39 @@ export const describeLocationSmb = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns all the tags associated with an Amazon Web Services resource.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceRequest,
-    output: ListTagsForResourceResponse,
-    errors: [InternalException, InvalidRequestException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Tags",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceResponse,
+    InternalException | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    ListTagsForResourceResponse,
+    InternalException | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    TagListEntry,
+    InternalException | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [InternalException, InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Tags",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Starts an DataSync transfer task. For each task, you can only run one task
  * execution at a time.
@@ -2871,7 +3146,13 @@ export const listTagsForResource =
  * DataSync can affect your S3 request charges and the DataSync pricing page before
  * you begin.
  */
-export const startTaskExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startTaskExecution: (
+  input: StartTaskExecutionRequest,
+) => Effect.Effect<
+  StartTaskExecutionResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTaskExecutionRequest,
   output: StartTaskExecutionResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2884,7 +3165,13 @@ export const startTaskExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * steps, you can delete the VM or instance from your storage environment or reuse it to activate a new
  * agent.
  */
-export const deleteAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAgent: (
+  input: DeleteAgentRequest,
+) => Effect.Effect<
+  DeleteAgentResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAgentRequest,
   output: DeleteAgentResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2892,7 +3179,13 @@ export const deleteAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a transfer location resource from DataSync.
  */
-export const deleteLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLocation: (
+  input: DeleteLocationRequest,
+) => Effect.Effect<
+  DeleteLocationResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLocationRequest,
   output: DeleteLocationResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2900,7 +3193,13 @@ export const deleteLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a transfer task resource from DataSync.
  */
-export const deleteTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTask: (
+  input: DeleteTaskRequest,
+) => Effect.Effect<
+  DeleteTaskResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTaskRequest,
   output: DeleteTaskResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2912,7 +3211,13 @@ export const deleteTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * These include DataSync resources, such as locations, tasks, and task
  * executions.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2920,7 +3225,13 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from an Amazon Web Services resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2928,7 +3239,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the name of an DataSync agent.
  */
-export const updateAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAgent: (
+  input: UpdateAgentRequest,
+) => Effect.Effect<
+  UpdateAgentResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAgentRequest,
   output: UpdateAgentResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2939,13 +3256,17 @@ export const updateAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Configuring DataSync transfers with Azure Blob Storage.
  */
-export const updateLocationAzureBlob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLocationAzureBlobRequest,
-    output: UpdateLocationAzureBlobResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const updateLocationAzureBlob: (
+  input: UpdateLocationAzureBlobRequest,
+) => Effect.Effect<
+  UpdateLocationAzureBlobResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLocationAzureBlobRequest,
+  output: UpdateLocationAzureBlobResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Modifies the following configuration parameters of the Amazon EFS transfer
  * location that you're using with DataSync.
@@ -2953,7 +3274,13 @@ export const updateLocationAzureBlob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Configuring DataSync
  * transfers with Amazon EFS.
  */
-export const updateLocationEfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLocationEfs: (
+  input: UpdateLocationEfsRequest,
+) => Effect.Effect<
+  UpdateLocationEfsResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLocationEfsRequest,
   output: UpdateLocationEfsResponse,
   errors: [InternalException, InvalidRequestException],
@@ -2965,13 +3292,17 @@ export const updateLocationEfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Configuring DataSync
  * transfers with FSx for Lustre.
  */
-export const updateLocationFsxLustre = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLocationFsxLustreRequest,
-    output: UpdateLocationFsxLustreResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const updateLocationFsxLustre: (
+  input: UpdateLocationFsxLustreRequest,
+) => Effect.Effect<
+  UpdateLocationFsxLustreResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLocationFsxLustreRequest,
+  output: UpdateLocationFsxLustreResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Modifies the following configuration parameters of the Amazon FSx for OpenZFS
  * transfer location that you're using with DataSync.
@@ -2982,13 +3313,17 @@ export const updateLocationFsxLustre = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Request parameters related to `SMB` aren't supported with the
  * `UpdateLocationFsxOpenZfs` operation.
  */
-export const updateLocationFsxOpenZfs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLocationFsxOpenZfsRequest,
-    output: UpdateLocationFsxOpenZfsResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const updateLocationFsxOpenZfs: (
+  input: UpdateLocationFsxOpenZfsRequest,
+) => Effect.Effect<
+  UpdateLocationFsxOpenZfsResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLocationFsxOpenZfsRequest,
+  output: UpdateLocationFsxOpenZfsResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Modifies the following configuration parameters of the Amazon FSx for Windows File Server
  * transfer location that you're using with DataSync.
@@ -2996,13 +3331,17 @@ export const updateLocationFsxOpenZfs = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Configuring DataSync
  * transfers with FSx for Windows File Server.
  */
-export const updateLocationFsxWindows = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLocationFsxWindowsRequest,
-    output: UpdateLocationFsxWindowsResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const updateLocationFsxWindows: (
+  input: UpdateLocationFsxWindowsRequest,
+) => Effect.Effect<
+  UpdateLocationFsxWindowsResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLocationFsxWindowsRequest,
+  output: UpdateLocationFsxWindowsResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Modifies the following configuration parameters of the Hadoop Distributed File System
  * (HDFS) transfer location that you're using with DataSync.
@@ -3010,7 +3349,13 @@ export const updateLocationFsxWindows = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Configuring DataSync
  * transfers with an HDFS cluster.
  */
-export const updateLocationHdfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLocationHdfs: (
+  input: UpdateLocationHdfsRequest,
+) => Effect.Effect<
+  UpdateLocationHdfsResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLocationHdfsRequest,
   output: UpdateLocationHdfsResponse,
   errors: [InternalException, InvalidRequestException],
@@ -3022,7 +3367,13 @@ export const updateLocationHdfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Configuring transfers with an NFS
  * file server.
  */
-export const updateLocationNfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLocationNfs: (
+  input: UpdateLocationNfsRequest,
+) => Effect.Effect<
+  UpdateLocationNfsResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLocationNfsRequest,
   output: UpdateLocationNfsResponse,
   errors: [InternalException, InvalidRequestException],
@@ -3034,13 +3385,17 @@ export const updateLocationNfs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Configuring DataSync
  * transfers with an object storage system.
  */
-export const updateLocationObjectStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLocationObjectStorageRequest,
-    output: UpdateLocationObjectStorageResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const updateLocationObjectStorage: (
+  input: UpdateLocationObjectStorageRequest,
+) => Effect.Effect<
+  UpdateLocationObjectStorageResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLocationObjectStorageRequest,
+  output: UpdateLocationObjectStorageResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Modifies the following configuration parameters of the Amazon S3 transfer location
  * that you're using with DataSync.
@@ -3052,7 +3407,13 @@ export const updateLocationObjectStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Evaluating S3 request costs when using DataSync
  */
-export const updateLocationS3 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLocationS3: (
+  input: UpdateLocationS3Request,
+) => Effect.Effect<
+  UpdateLocationS3Response,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLocationS3Request,
   output: UpdateLocationS3Response,
   errors: [InternalException, InvalidRequestException],
@@ -3064,7 +3425,13 @@ export const updateLocationS3 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Configuring DataSync
  * transfers with an SMB file server.
  */
-export const updateLocationSmb = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLocationSmb: (
+  input: UpdateLocationSmbRequest,
+) => Effect.Effect<
+  UpdateLocationSmbResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLocationSmbRequest,
   output: UpdateLocationSmbResponse,
   errors: [InternalException, InvalidRequestException],
@@ -3073,7 +3440,13 @@ export const updateLocationSmb = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the configuration of a *task*, which defines where and how
  * DataSync transfers your data.
  */
-export const updateTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTask: (
+  input: UpdateTaskRequest,
+) => Effect.Effect<
+  UpdateTaskResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTaskRequest,
   output: UpdateTaskResponse,
   errors: [InternalException, InvalidRequestException],
@@ -3087,7 +3460,13 @@ export const updateTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * , which throttles bandwidth for a running or queued task
  * execution.
  */
-export const updateTaskExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTaskExecution: (
+  input: UpdateTaskExecutionRequest,
+) => Effect.Effect<
+  UpdateTaskExecutionResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTaskExecutionRequest,
   output: UpdateTaskExecutionResponse,
   errors: [InternalException, InvalidRequestException],
@@ -3100,13 +3479,17 @@ export const updateTaskExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Before you begin, make sure that you understand how DataSync
  * accesses FSx for ONTAP file systems.
  */
-export const createLocationFsxOntap = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLocationFsxOntapRequest,
-    output: CreateLocationFsxOntapResponse,
-    errors: [InternalException, InvalidRequestException],
-  }),
-);
+export const createLocationFsxOntap: (
+  input: CreateLocationFsxOntapRequest,
+) => Effect.Effect<
+  CreateLocationFsxOntapResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLocationFsxOntapRequest,
+  output: CreateLocationFsxOntapResponse,
+  errors: [InternalException, InvalidRequestException],
+}));
 /**
  * Returns a list of source and destination locations.
  *
@@ -3114,23 +3497,65 @@ export const createLocationFsxOntap = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * returns only a truncated list of your agents), the response contains a token that you can
  * specify in your next request to fetch the next page of locations.
  */
-export const listLocations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLocations: {
+  (
     input: ListLocationsRequest,
-    output: ListLocationsResponse,
-    errors: [InternalException, InvalidRequestException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Locations",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLocationsResponse,
+    InternalException | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLocationsRequest,
+  ) => Stream.Stream<
+    ListLocationsResponse,
+    InternalException | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLocationsRequest,
+  ) => Stream.Stream<
+    LocationListEntry,
+    InternalException | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLocationsRequest,
+  output: ListLocationsResponse,
+  errors: [InternalException, InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Locations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of the DataSync tasks you created.
  */
-export const listTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTasks: {
+  (
+    input: ListTasksRequest,
+  ): Effect.Effect<
+    ListTasksResponse,
+    InternalException | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTasksRequest,
+  ) => Stream.Stream<
+    ListTasksResponse,
+    InternalException | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTasksRequest,
+  ) => Stream.Stream<
+    TaskListEntry,
+    InternalException | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTasksRequest,
   output: ListTasksResponse,
   errors: [InternalException, InvalidRequestException],
@@ -3153,7 +3578,13 @@ export const listTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * DataSync can affect your S3 request charges and the DataSync pricing page before
  * you begin.
  */
-export const createTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTask: (
+  input: CreateTaskRequest,
+) => Effect.Effect<
+  CreateTaskResponse,
+  InternalException | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTaskRequest,
   output: CreateTaskResponse,
   errors: [InternalException, InvalidRequestException],

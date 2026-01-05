@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Proton",
   serviceShapeName: "AwsProton20200720",
@@ -240,6 +248,78 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ResourceName = string;
+export type RepositoryName = string;
+export type RepositoryProvider = string;
+export type GitBranchName = string;
+export type SyncType = string;
+export type TemplateType = string;
+export type TemplateVersionPart = string;
+export type EmptyNextToken = string;
+export type Arn = string;
+export type MaxPageResults = number;
+export type ResourceDeploymentStatus = string;
+export type DeploymentId = string;
+export type StatusMessage = string;
+export type TagKey = string;
+export type RoleArnOrEmptyString = string;
+export type Description = string;
+export type TemplateFileContents = string;
+export type TemplateManifestContents = string;
+export type SpecContents = string;
+export type ClientToken = string;
+export type ComponentDeploymentUpdateType = string;
+export type ResourceNameOrEmpty = string;
+export type NextToken = string;
+export type AwsAccountId = string;
+export type RoleArn = string;
+export type EnvironmentAccountConnectionId = string;
+export type EnvironmentAccountConnectionRequesterAccountType = string;
+export type EnvironmentAccountConnectionStatus = string;
+export type DeploymentUpdateType = string;
+export type DisplayName = string;
+export type Provisioning = string;
+export type TemplateVersionStatus = string;
+export type ListServiceInstancesSortBy = string;
+export type SortOrder = string;
+export type RepositoryId = string;
+export type OpsFilePath = string;
+export type ServiceTemplateSupportedComponentSourceType = string;
+export type Subdirectory = string;
+export type OutputKey = string;
+export type OutputValueString = string;
+export type TagValue = string;
+export type ListServiceInstancesFilterBy = string;
+export type ListServiceInstancesFilterValue = string;
+export type ErrorMessage = string;
+export type RepositoryArn = string;
+export type S3Bucket = string;
+export type S3Key = string;
+export type ComponentArn = string;
+export type DeploymentStatus = string;
+export type EnvironmentArn = string;
+export type ServiceInstanceArn = string;
+export type RepositorySyncStatus = string;
+export type ResourceSyncStatus = string;
+export type SHA = string;
+export type ProvisionedResourceName = string;
+export type ProvisionedResourceIdentifier = string;
+export type ProvisionedResourceEngine = string;
+export type DeploymentArn = string;
+export type DeploymentTargetResourceType = string;
+export type EnvironmentAccountConnectionArn = string;
+export type EnvironmentTemplateArn = string;
+export type FullTemplateVersionNumber = string;
+export type EnvironmentTemplateVersionArn = string;
+export type TemplateSchema = string;
+export type ServiceArn = string;
+export type ServiceStatus = string;
+export type BlockerType = string;
+export type BlockerStatus = string;
+export type ServiceTemplateArn = string;
+export type ServiceTemplateVersionArn = string;
 
 //# Schemas
 export interface GetResourcesSummaryInput {}
@@ -1873,6 +1953,11 @@ export const ComponentState = S.suspend(() =>
 ).annotations({
   identifier: "ComponentState",
 }) as any as S.Schema<ComponentState>;
+export type DeploymentState =
+  | { serviceInstance: ServiceInstanceState }
+  | { environment: EnvironmentState }
+  | { servicePipeline: ServicePipelineState }
+  | { component: ComponentState };
 export const DeploymentState = S.Union(
   S.Struct({ serviceInstance: ServiceInstanceState }),
   S.Struct({ environment: EnvironmentState }),
@@ -2605,6 +2690,7 @@ export const S3ObjectSource = S.suspend(() =>
 ).annotations({
   identifier: "S3ObjectSource",
 }) as any as S.Schema<S3ObjectSource>;
+export type TemplateVersionSourceInput = { s3: S3ObjectSource };
 export const TemplateVersionSourceInput = S.Union(
   S.Struct({ s3: S3ObjectSource }),
 );
@@ -3645,7 +3731,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -3654,7 +3742,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },
@@ -3672,28 +3762,71 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * Proton components in the
  * *Proton User Guide*.
  */
-export const listComponents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listComponents: {
+  (
     input: ListComponentsInput,
-    output: ListComponentsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "components",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListComponentsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComponentsInput,
+  ) => Stream.Stream<
+    ListComponentsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComponentsInput,
+  ) => Stream.Stream<
+    ComponentSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComponentsInput,
+  output: ListComponentsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "components",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Get detailed data for a deployment.
  */
-export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeployment: (
+  input: GetDeploymentInput,
+) => Effect.Effect<
+  GetDeploymentOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentInput,
   output: GetDeploymentOutput,
   errors: [
@@ -3712,115 +3845,228 @@ export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * account that maintains authorization and permissions. For more information, see Environment account connections in the Proton User
  * guide.
  */
-export const createEnvironmentAccountConnection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateEnvironmentAccountConnectionInput,
-    output: CreateEnvironmentAccountConnectionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createEnvironmentAccountConnection: (
+  input: CreateEnvironmentAccountConnectionInput,
+) => Effect.Effect<
+  CreateEnvironmentAccountConnectionOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEnvironmentAccountConnectionInput,
+  output: CreateEnvironmentAccountConnectionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List environments with detail data summaries.
  */
-export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEnvironments: {
+  (
     input: ListEnvironmentsInput,
-    output: ListEnvironmentsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "environments",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEnvironmentsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnvironmentsInput,
+  ) => Stream.Stream<
+    ListEnvironmentsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnvironmentsInput,
+  ) => Stream.Stream<
+    EnvironmentSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnvironmentsInput,
+  output: ListEnvironmentsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "environments",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Create a new major or minor version of an environment template. A major version of an environment template is a version that
  * *isn't* backwards compatible. A minor version of an environment template is a version that's backwards compatible within its major
  * version.
  */
-export const createEnvironmentTemplateVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateEnvironmentTemplateVersionInput,
-    output: CreateEnvironmentTemplateVersionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createEnvironmentTemplateVersion: (
+  input: CreateEnvironmentTemplateVersionInput,
+) => Effect.Effect<
+  CreateEnvironmentTemplateVersionOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEnvironmentTemplateVersionInput,
+  output: CreateEnvironmentTemplateVersionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List service instances with summary data. This action lists service instances of all
  * services in the Amazon Web Services account.
  */
-export const listServiceInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceInstances: {
+  (
     input: ListServiceInstancesInput,
-    output: ListServiceInstancesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "serviceInstances",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceInstancesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceInstancesInput,
+  ) => Stream.Stream<
+    ListServiceInstancesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceInstancesInput,
+  ) => Stream.Stream<
+    ServiceInstanceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceInstancesInput,
+  output: ListServiceInstancesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "serviceInstances",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Update the service sync blocker by resolving it.
  */
-export const updateServiceSyncBlocker = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServiceSyncBlockerInput,
-    output: UpdateServiceSyncBlockerOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateServiceSyncBlocker: (
+  input: UpdateServiceSyncBlockerInput,
+) => Effect.Effect<
+  UpdateServiceSyncBlockerOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceSyncBlockerInput,
+  output: UpdateServiceSyncBlockerOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get detailed data for a major or minor version of a service template.
  */
-export const getServiceTemplateVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetServiceTemplateVersionInput,
-    output: GetServiceTemplateVersionOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getServiceTemplateVersion: (
+  input: GetServiceTemplateVersionInput,
+) => Effect.Effect<
+  GetServiceTemplateVersionOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceTemplateVersionInput,
+  output: GetServiceTemplateVersionOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List provisioned resources for a component with details.
  *
@@ -3828,110 +4074,275 @@ export const getServiceTemplateVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Proton components in the
  * *Proton User Guide*.
  */
-export const listComponentProvisionedResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listComponentProvisionedResources: {
+  (
     input: ListComponentProvisionedResourcesInput,
-    output: ListComponentProvisionedResourcesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "provisionedResources",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListComponentProvisionedResourcesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComponentProvisionedResourcesInput,
+  ) => Stream.Stream<
+    ListComponentProvisionedResourcesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComponentProvisionedResourcesInput,
+  ) => Stream.Stream<
+    ProvisionedResource,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComponentProvisionedResourcesInput,
+  output: ListComponentProvisionedResourcesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "provisionedResources",
+  } as const,
+}));
 /**
  * List deployments. You can filter the result list by environment, service, or a single service instance.
  */
-export const listDeployments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDeployments: {
+  (
     input: ListDeploymentsInput,
-    output: ListDeploymentsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "deployments",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDeploymentsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeploymentsInput,
+  ) => Stream.Stream<
+    ListDeploymentsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeploymentsInput,
+  ) => Stream.Stream<
+    DeploymentSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeploymentsInput,
+  output: ListDeploymentsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "deployments",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Get detailed data for a major or minor version of an environment template.
  */
-export const getEnvironmentTemplateVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetEnvironmentTemplateVersionInput,
-    output: GetEnvironmentTemplateVersionOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getEnvironmentTemplateVersion: (
+  input: GetEnvironmentTemplateVersionInput,
+) => Effect.Effect<
+  GetEnvironmentTemplateVersionOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEnvironmentTemplateVersionInput,
+  output: GetEnvironmentTemplateVersionOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List major or minor versions of an environment template with detail data.
  */
-export const listEnvironmentTemplateVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEnvironmentTemplateVersions: {
+  (
     input: ListEnvironmentTemplateVersionsInput,
-    output: ListEnvironmentTemplateVersionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "templateVersions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEnvironmentTemplateVersionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnvironmentTemplateVersionsInput,
+  ) => Stream.Stream<
+    ListEnvironmentTemplateVersionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnvironmentTemplateVersionsInput,
+  ) => Stream.Stream<
+    EnvironmentTemplateVersionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnvironmentTemplateVersionsInput,
+  output: ListEnvironmentTemplateVersionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "templateVersions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List linked repositories with detail data.
  */
-export const listRepositories = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRepositories: {
+  (
     input: ListRepositoriesInput,
-    output: ListRepositoriesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "repositories",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRepositoriesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRepositoriesInput,
+  ) => Stream.Stream<
+    ListRepositoriesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRepositoriesInput,
+  ) => Stream.Stream<
+    RepositorySummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRepositoriesInput,
+  output: ListRepositoriesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "repositories",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Create an Proton service. An Proton service is an instantiation of a service
  * template and often includes several service instances and pipeline. For more information, see
  * Services
  * in the *Proton User Guide*.
  */
-export const createService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createService: (
+  input: CreateServiceInput,
+) => Effect.Effect<
+  CreateServiceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceInput,
   output: CreateServiceOutput,
   errors: [
@@ -3947,58 +4358,116 @@ export const createService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get detailed data for the service sync blocker summary.
  */
-export const getServiceSyncBlockerSummary =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetServiceSyncBlockerSummaryInput,
-    output: GetServiceSyncBlockerSummaryOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getServiceSyncBlockerSummary: (
+  input: GetServiceSyncBlockerSummaryInput,
+) => Effect.Effect<
+  GetServiceSyncBlockerSummaryOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceSyncBlockerSummaryInput,
+  output: GetServiceSyncBlockerSummaryOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Create a new major or minor version of a service template. A major version of a service
  * template is a version that *isn't* backward compatible. A minor version of
  * a service template is a version that's backward compatible within its major version.
  */
-export const createServiceTemplateVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateServiceTemplateVersionInput,
-    output: CreateServiceTemplateVersionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createServiceTemplateVersion: (
+  input: CreateServiceTemplateVersionInput,
+) => Effect.Effect<
+  CreateServiceTemplateVersionOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateServiceTemplateVersionInput,
+  output: CreateServiceTemplateVersionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List major or minor versions of a service template with detail data.
  */
-export const listServiceTemplateVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceTemplateVersions: {
+  (
     input: ListServiceTemplateVersionsInput,
-    output: ListServiceTemplateVersionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "templateVersions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceTemplateVersionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceTemplateVersionsInput,
+  ) => Stream.Stream<
+    ListServiceTemplateVersionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceTemplateVersionsInput,
+  ) => Stream.Stream<
+    ServiceTemplateVersionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceTemplateVersionsInput,
+  output: ListServiceTemplateVersionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "templateVersions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Create an Proton component. A component is an infrastructure extension for a service instance.
  *
@@ -4006,7 +4475,20 @@ export const listServiceTemplateVersions =
  * Proton components in the
  * *Proton User Guide*.
  */
-export const createComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createComponent: (
+  input: CreateComponentInput,
+) => Effect.Effect<
+  CreateComponentOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComponentInput,
   output: CreateComponentOutput,
   errors: [
@@ -4031,7 +4513,20 @@ export const createComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Proton components in the
  * *Proton User Guide*.
  */
-export const updateComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateComponent: (
+  input: UpdateComponentInput,
+) => Effect.Effect<
+  UpdateComponentOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateComponentInput,
   output: UpdateComponentOutput,
   errors: [
@@ -4051,7 +4546,19 @@ export const updateComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Proton components in the
  * *Proton User Guide*.
  */
-export const deleteComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteComponent: (
+  input: DeleteComponentInput,
+) => Effect.Effect<
+  DeleteComponentOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteComponentInput,
   output: DeleteComponentOutput,
   errors: [
@@ -4069,19 +4576,30 @@ export const deleteComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Environment account
  * connections in the *Proton User guide*.
  */
-export const updateEnvironmentAccountConnection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateEnvironmentAccountConnectionInput,
-    output: UpdateEnvironmentAccountConnectionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateEnvironmentAccountConnection: (
+  input: UpdateEnvironmentAccountConnectionInput,
+) => Effect.Effect<
+  UpdateEnvironmentAccountConnectionOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEnvironmentAccountConnectionInput,
+  output: UpdateEnvironmentAccountConnectionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * In an environment account, delete an environment account connection.
  *
@@ -4092,19 +4610,30 @@ export const updateEnvironmentAccountConnection =
  * For more information, see Environment account
  * connections in the *Proton User guide*.
  */
-export const deleteEnvironmentAccountConnection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteEnvironmentAccountConnectionInput,
-    output: DeleteEnvironmentAccountConnectionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteEnvironmentAccountConnection: (
+  input: DeleteEnvironmentAccountConnectionInput,
+) => Effect.Effect<
+  DeleteEnvironmentAccountConnectionOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEnvironmentAccountConnectionInput,
+  output: DeleteEnvironmentAccountConnectionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * In a management account, an environment account connection request is accepted. When the environment account connection request is accepted, Proton
  * can use the associated IAM role to provision environment infrastructure resources in the associated environment account.
@@ -4112,19 +4641,30 @@ export const deleteEnvironmentAccountConnection =
  * For more information, see Environment account
  * connections in the *Proton User guide*.
  */
-export const acceptEnvironmentAccountConnection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AcceptEnvironmentAccountConnectionInput,
-    output: AcceptEnvironmentAccountConnectionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const acceptEnvironmentAccountConnection: (
+  input: AcceptEnvironmentAccountConnectionInput,
+) => Effect.Effect<
+  AcceptEnvironmentAccountConnectionOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptEnvironmentAccountConnectionInput,
+  output: AcceptEnvironmentAccountConnectionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * In a management account, reject an environment account connection from another environment account.
  *
@@ -4136,19 +4676,30 @@ export const acceptEnvironmentAccountConnection =
  * For more information, see Environment account
  * connections in the *Proton User guide*.
  */
-export const rejectEnvironmentAccountConnection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RejectEnvironmentAccountConnectionInput,
-    output: RejectEnvironmentAccountConnectionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const rejectEnvironmentAccountConnection: (
+  input: RejectEnvironmentAccountConnectionInput,
+) => Effect.Effect<
+  RejectEnvironmentAccountConnectionOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectEnvironmentAccountConnectionInput,
+  output: RejectEnvironmentAccountConnectionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deploy a new environment. An Proton environment is created from an environment template that defines infrastructure and resources that can be
  * shared across services.
@@ -4163,7 +4714,20 @@ export const rejectEnvironmentAccountConnection =
  * For more information, see Environments and Provisioning methods in the Proton User
  * Guide.
  */
-export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEnvironment: (
+  input: CreateEnvironmentInput,
+) => Effect.Effect<
+  CreateEnvironmentOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentInput,
   output: CreateEnvironmentOutput,
   errors: [
@@ -4221,7 +4785,19 @@ export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template,
  * by default. You can also specify a different major version that's higher than the major version in use and a minor version.
  */
-export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEnvironment: (
+  input: UpdateEnvironmentInput,
+) => Effect.Effect<
+  UpdateEnvironmentOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentInput,
   output: UpdateEnvironmentOutput,
   errors: [
@@ -4236,7 +4812,19 @@ export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete an environment.
  */
-export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEnvironment: (
+  input: DeleteEnvironmentInput,
+) => Effect.Effect<
+  DeleteEnvironmentOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentInput,
   output: DeleteEnvironmentOutput,
   errors: [
@@ -4251,53 +4839,84 @@ export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update an environment template.
  */
-export const updateEnvironmentTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEnvironmentTemplateInput,
-    output: UpdateEnvironmentTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateEnvironmentTemplate: (
+  input: UpdateEnvironmentTemplateInput,
+) => Effect.Effect<
+  UpdateEnvironmentTemplateOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEnvironmentTemplateInput,
+  output: UpdateEnvironmentTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * If no other major or minor versions of an environment template exist, delete the environment template.
  */
-export const deleteEnvironmentTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEnvironmentTemplateInput,
-    output: DeleteEnvironmentTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteEnvironmentTemplate: (
+  input: DeleteEnvironmentTemplateInput,
+) => Effect.Effect<
+  DeleteEnvironmentTemplateOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEnvironmentTemplateInput,
+  output: DeleteEnvironmentTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update a major or minor version of an environment template.
  */
-export const updateEnvironmentTemplateVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateEnvironmentTemplateVersionInput,
-    output: UpdateEnvironmentTemplateVersionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateEnvironmentTemplateVersion: (
+  input: UpdateEnvironmentTemplateVersionInput,
+) => Effect.Effect<
+  UpdateEnvironmentTemplateVersionOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEnvironmentTemplateVersionInput,
+  output: UpdateEnvironmentTemplateVersionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * If no other minor versions of an environment template exist, delete a major version of the environment template if it's not the
  * `Recommended` version. Delete the `Recommended` version of the environment template if no other major versions or minor versions
@@ -4307,23 +4926,46 @@ export const updateEnvironmentTemplateVersion =
  * `Recommended` minor version of the environment template if no other minor versions of the environment template exist. A minor version of an
  * environment template is a version that's backward compatible.
  */
-export const deleteEnvironmentTemplateVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteEnvironmentTemplateVersionInput,
-    output: DeleteEnvironmentTemplateVersionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteEnvironmentTemplateVersion: (
+  input: DeleteEnvironmentTemplateVersionInput,
+) => Effect.Effect<
+  DeleteEnvironmentTemplateVersionOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEnvironmentTemplateVersionInput,
+  output: DeleteEnvironmentTemplateVersionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * De-register and unlink your repository.
  */
-export const deleteRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRepository: (
+  input: DeleteRepositoryInput,
+) => Effect.Effect<
+  DeleteRepositoryOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRepositoryInput,
   output: DeleteRepositoryOutput,
   errors: [
@@ -4338,20 +4980,30 @@ export const deleteRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a service instance.
  */
-export const createServiceInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateServiceInstanceInput,
-    output: CreateServiceInstanceOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createServiceInstance: (
+  input: CreateServiceInstanceInput,
+) => Effect.Effect<
+  CreateServiceInstanceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateServiceInstanceInput,
+  output: CreateServiceInstanceOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update a service instance.
  *
@@ -4365,20 +5017,30 @@ export const createServiceInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Proton components in the
  * *Proton User Guide*.
  */
-export const updateServiceInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServiceInstanceInput,
-    output: UpdateServiceInstanceOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateServiceInstance: (
+  input: UpdateServiceInstanceInput,
+) => Effect.Effect<
+  UpdateServiceInstanceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceInstanceInput,
+  output: UpdateServiceInstanceOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update the service pipeline.
  *
@@ -4409,20 +5071,30 @@ export const updateServiceInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * specify a different major version that's higher than the major version in use and a
  * minor version.
  */
-export const updateServicePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServicePipelineInput,
-    output: UpdateServicePipelineOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateServicePipeline: (
+  input: UpdateServicePipelineInput,
+) => Effect.Effect<
+  UpdateServicePipelineOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServicePipelineInput,
+  output: UpdateServicePipelineOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Edit a service description or use a spec to add and delete service instances.
  *
@@ -4440,7 +5112,20 @@ export const updateServicePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Proton components in the
  * *Proton User Guide*.
  */
-export const updateService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateService: (
+  input: UpdateServiceInput,
+) => Effect.Effect<
+  UpdateServiceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceInput,
   output: UpdateServiceOutput,
   errors: [
@@ -4463,7 +5148,19 @@ export const updateService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Proton components in the
  * *Proton User Guide*.
  */
-export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteService: (
+  input: DeleteServiceInput,
+) => Effect.Effect<
+  DeleteServiceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceInput,
   output: DeleteServiceOutput,
   errors: [
@@ -4478,88 +5175,139 @@ export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update the Proton Ops config file.
  */
-export const updateServiceSyncConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServiceSyncConfigInput,
-    output: UpdateServiceSyncConfigOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateServiceSyncConfig: (
+  input: UpdateServiceSyncConfigInput,
+) => Effect.Effect<
+  UpdateServiceSyncConfigOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceSyncConfigInput,
+  output: UpdateServiceSyncConfigOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Delete the Proton Ops file.
  */
-export const deleteServiceSyncConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteServiceSyncConfigInput,
-    output: DeleteServiceSyncConfigOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteServiceSyncConfig: (
+  input: DeleteServiceSyncConfigInput,
+) => Effect.Effect<
+  DeleteServiceSyncConfigOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceSyncConfigInput,
+  output: DeleteServiceSyncConfigOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update a service template.
  */
-export const updateServiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServiceTemplateInput,
-    output: UpdateServiceTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateServiceTemplate: (
+  input: UpdateServiceTemplateInput,
+) => Effect.Effect<
+  UpdateServiceTemplateOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceTemplateInput,
+  output: UpdateServiceTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * If no other major or minor versions of the service template exist, delete the service
  * template.
  */
-export const deleteServiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteServiceTemplateInput,
-    output: DeleteServiceTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteServiceTemplate: (
+  input: DeleteServiceTemplateInput,
+) => Effect.Effect<
+  DeleteServiceTemplateOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceTemplateInput,
+  output: DeleteServiceTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update a major or minor version of a service template.
  */
-export const updateServiceTemplateVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateServiceTemplateVersionInput,
-    output: UpdateServiceTemplateVersionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateServiceTemplateVersion: (
+  input: UpdateServiceTemplateVersionInput,
+) => Effect.Effect<
+  UpdateServiceTemplateVersionOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceTemplateVersionInput,
+  output: UpdateServiceTemplateVersionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * If no other minor versions of a service template exist, delete a major version of the
  * service template if it's not the `Recommended` version. Delete the
@@ -4572,81 +5320,136 @@ export const updateServiceTemplateVersion =
  * minor versions of the service template exist. A minor version of a service template is a
  * version that's backwards compatible.
  */
-export const deleteServiceTemplateVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteServiceTemplateVersionInput,
-    output: DeleteServiceTemplateVersionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteServiceTemplateVersion: (
+  input: DeleteServiceTemplateVersionInput,
+) => Effect.Effect<
+  DeleteServiceTemplateVersionOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceTemplateVersionInput,
+  output: DeleteServiceTemplateVersionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update template sync configuration parameters, except for the `templateName` and `templateType`. Repository details
  * (branch, name, and provider) should be of a linked repository. A linked repository is a repository that has been registered with Proton. For
  * more information, see CreateRepository.
  */
-export const updateTemplateSyncConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTemplateSyncConfigInput,
-    output: UpdateTemplateSyncConfigOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateTemplateSyncConfig: (
+  input: UpdateTemplateSyncConfigInput,
+) => Effect.Effect<
+  UpdateTemplateSyncConfigOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTemplateSyncConfigInput,
+  output: UpdateTemplateSyncConfigOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Delete a template sync configuration.
  */
-export const deleteTemplateSyncConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTemplateSyncConfigInput,
-    output: DeleteTemplateSyncConfigOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteTemplateSyncConfig: (
+  input: DeleteTemplateSyncConfigInput,
+) => Effect.Effect<
+  DeleteTemplateSyncConfigOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTemplateSyncConfigInput,
+  output: DeleteTemplateSyncConfigOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Notify Proton of status changes to a provisioned resource when you use self-managed provisioning.
  *
  * For more information, see Self-managed provisioning in the *Proton User Guide*.
  */
-export const notifyResourceDeploymentStatusChange =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: NotifyResourceDeploymentStatusChangeInput,
-    output: NotifyResourceDeploymentStatusChangeOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const notifyResourceDeploymentStatusChange: (
+  input: NotifyResourceDeploymentStatusChangeInput,
+) => Effect.Effect<
+  NotifyResourceDeploymentStatusChangeOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: NotifyResourceDeploymentStatusChangeInput,
+  output: NotifyResourceDeploymentStatusChangeOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Tag a resource. A tag is a key-value pair of metadata that you associate with an Proton resource.
  *
  * For more information, see Proton resources and tagging in
  * the *Proton User Guide*.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -4665,20 +5468,30 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Proton components in the
  * *Proton User Guide*.
  */
-export const cancelComponentDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelComponentDeploymentInput,
-    output: CancelComponentDeploymentOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelComponentDeployment: (
+  input: CancelComponentDeploymentInput,
+) => Effect.Effect<
+  CancelComponentDeploymentOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelComponentDeploymentInput,
+  output: CancelComponentDeploymentOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Attempts to cancel an environment deployment on an UpdateEnvironment action, if the deployment is `IN_PROGRESS`. For more
  * information, see Update an environment in the Proton
@@ -4693,20 +5506,30 @@ export const cancelComponentDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - If the current UpdateEnvironment action succeeds before the cancellation attempt starts, the resulting deployment state is
  * `SUCCEEDED` and the cancellation attempt has no effect.
  */
-export const cancelEnvironmentDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelEnvironmentDeploymentInput,
-    output: CancelEnvironmentDeploymentOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelEnvironmentDeployment: (
+  input: CancelEnvironmentDeploymentInput,
+) => Effect.Effect<
+  CancelEnvironmentDeploymentOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelEnvironmentDeploymentInput,
+  output: CancelEnvironmentDeploymentOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Attempts to cancel a service instance deployment on an UpdateServiceInstance action, if the deployment is `IN_PROGRESS`. For
  * more information, see Update a service instance
@@ -4724,19 +5547,30 @@ export const cancelEnvironmentDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * cancellation attempt starts, the resulting deployment state is `SUCCEEDED` and
  * the cancellation attempt has no effect.
  */
-export const cancelServiceInstanceDeployment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CancelServiceInstanceDeploymentInput,
-    output: CancelServiceInstanceDeploymentOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const cancelServiceInstanceDeployment: (
+  input: CancelServiceInstanceDeploymentInput,
+) => Effect.Effect<
+  CancelServiceInstanceDeploymentOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelServiceInstanceDeploymentInput,
+  output: CancelServiceInstanceDeploymentOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Attempts to cancel a service pipeline deployment on an UpdateServicePipeline action, if the deployment is `IN_PROGRESS`. For
  * more information, see Update a service pipeline
@@ -4754,19 +5588,30 @@ export const cancelServiceInstanceDeployment =
  * cancellation attempt starts, the resulting deployment state is `SUCCEEDED` and
  * the cancellation attempt has no effect.
  */
-export const cancelServicePipelineDeployment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CancelServicePipelineDeploymentInput,
-    output: CancelServicePipelineDeploymentOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const cancelServicePipelineDeployment: (
+  input: CancelServicePipelineDeploymentInput,
+) => Effect.Effect<
+  CancelServicePipelineDeploymentOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelServicePipelineDeploymentInput,
+  output: CancelServicePipelineDeploymentOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get detailed data for a component.
  *
@@ -4774,7 +5619,18 @@ export const cancelServicePipelineDeployment =
  * Proton components in the
  * *Proton User Guide*.
  */
-export const getComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getComponent: (
+  input: GetComponentInput,
+) => Effect.Effect<
+  GetComponentOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComponentInput,
   output: GetComponentOutput,
   errors: [
@@ -4788,7 +5644,18 @@ export const getComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete the deployment.
  */
-export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDeployment: (
+  input: DeleteDeploymentInput,
+) => Effect.Effect<
+  DeleteDeploymentOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeploymentInput,
   output: DeleteDeploymentOutput,
   errors: [
@@ -4805,62 +5672,155 @@ export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Environment account
  * connections in the *Proton User guide*.
  */
-export const getEnvironmentAccountConnection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetEnvironmentAccountConnectionInput,
-    output: GetEnvironmentAccountConnectionOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getEnvironmentAccountConnection: (
+  input: GetEnvironmentAccountConnectionInput,
+) => Effect.Effect<
+  GetEnvironmentAccountConnectionOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEnvironmentAccountConnectionInput,
+  output: GetEnvironmentAccountConnectionOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List the infrastructure as code outputs for your environment.
  */
-export const listEnvironmentOutputs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEnvironmentOutputs: {
+  (
     input: ListEnvironmentOutputsInput,
-    output: ListEnvironmentOutputsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "outputs",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEnvironmentOutputsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnvironmentOutputsInput,
+  ) => Stream.Stream<
+    ListEnvironmentOutputsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnvironmentOutputsInput,
+  ) => Stream.Stream<
+    Output,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnvironmentOutputsInput,
+  output: ListEnvironmentOutputsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "outputs",
+  } as const,
+}));
 /**
  * List the provisioned resources for your environment.
  */
-export const listEnvironmentProvisionedResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEnvironmentProvisionedResources: {
+  (
     input: ListEnvironmentProvisionedResourcesInput,
-    output: ListEnvironmentProvisionedResourcesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "provisionedResources",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEnvironmentProvisionedResourcesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnvironmentProvisionedResourcesInput,
+  ) => Stream.Stream<
+    ListEnvironmentProvisionedResourcesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnvironmentProvisionedResourcesInput,
+  ) => Stream.Stream<
+    ProvisionedResource,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnvironmentProvisionedResourcesInput,
+  output: ListEnvironmentProvisionedResourcesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "provisionedResources",
+  } as const,
+}));
 /**
  * Get detailed data for an environment.
  */
-export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEnvironment: (
+  input: GetEnvironmentInput,
+) => Effect.Effect<
+  GetEnvironmentOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentInput,
   output: GetEnvironmentOutput,
   errors: [
@@ -4874,23 +5834,43 @@ export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get detailed data for an environment template.
  */
-export const getEnvironmentTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEnvironmentTemplateInput,
-    output: GetEnvironmentTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getEnvironmentTemplate: (
+  input: GetEnvironmentTemplateInput,
+) => Effect.Effect<
+  GetEnvironmentTemplateOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEnvironmentTemplateInput,
+  output: GetEnvironmentTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get detail data for a linked repository.
  */
-export const getRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRepository: (
+  input: GetRepositoryInput,
+) => Effect.Effect<
+  GetRepositoryOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRepositoryInput,
   output: GetRepositoryOutput,
   errors: [
@@ -4904,48 +5884,131 @@ export const getRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get a list service of instance Infrastructure as Code (IaC) outputs.
  */
-export const listServiceInstanceOutputs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceInstanceOutputs: {
+  (
     input: ListServiceInstanceOutputsInput,
-    output: ListServiceInstanceOutputsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "outputs",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceInstanceOutputsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceInstanceOutputsInput,
+  ) => Stream.Stream<
+    ListServiceInstanceOutputsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceInstanceOutputsInput,
+  ) => Stream.Stream<
+    Output,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceInstanceOutputsInput,
+  output: ListServiceInstanceOutputsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "outputs",
+  } as const,
+}));
 /**
  * List provisioned resources for a service instance with details.
  */
-export const listServiceInstanceProvisionedResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceInstanceProvisionedResources: {
+  (
     input: ListServiceInstanceProvisionedResourcesInput,
-    output: ListServiceInstanceProvisionedResourcesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "provisionedResources",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceInstanceProvisionedResourcesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceInstanceProvisionedResourcesInput,
+  ) => Stream.Stream<
+    ListServiceInstanceProvisionedResourcesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceInstanceProvisionedResourcesInput,
+  ) => Stream.Stream<
+    ProvisionedResource,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceInstanceProvisionedResourcesInput,
+  output: ListServiceInstanceProvisionedResourcesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "provisionedResources",
+  } as const,
+}));
 /**
  * Get detailed data for a service instance. A service instance is an instantiation of
  * service template and it runs in a specific environment.
  */
-export const getServiceInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getServiceInstance: (
+  input: GetServiceInstanceInput,
+) => Effect.Effect<
+  GetServiceInstanceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceInstanceInput,
   output: GetServiceInstanceOutput,
   errors: [
@@ -4959,47 +6022,130 @@ export const getServiceInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get a list of service pipeline Infrastructure as Code (IaC) outputs.
  */
-export const listServicePipelineOutputs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServicePipelineOutputs: {
+  (
     input: ListServicePipelineOutputsInput,
-    output: ListServicePipelineOutputsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "outputs",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServicePipelineOutputsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServicePipelineOutputsInput,
+  ) => Stream.Stream<
+    ListServicePipelineOutputsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServicePipelineOutputsInput,
+  ) => Stream.Stream<
+    Output,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServicePipelineOutputsInput,
+  output: ListServicePipelineOutputsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "outputs",
+  } as const,
+}));
 /**
  * List provisioned resources for a service and pipeline with details.
  */
-export const listServicePipelineProvisionedResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServicePipelineProvisionedResources: {
+  (
     input: ListServicePipelineProvisionedResourcesInput,
-    output: ListServicePipelineProvisionedResourcesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "provisionedResources",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServicePipelineProvisionedResourcesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServicePipelineProvisionedResourcesInput,
+  ) => Stream.Stream<
+    ListServicePipelineProvisionedResourcesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServicePipelineProvisionedResourcesInput,
+  ) => Stream.Stream<
+    ProvisionedResource,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServicePipelineProvisionedResourcesInput,
+  output: ListServicePipelineProvisionedResourcesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "provisionedResources",
+  } as const,
+}));
 /**
  * Get detailed data for a service.
  */
-export const getService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getService: (
+  input: GetServiceInput,
+) => Effect.Effect<
+  GetServiceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceInput,
   output: GetServiceOutput,
   errors: [
@@ -5013,23 +6159,43 @@ export const getService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get detailed information for the service sync configuration.
  */
-export const getServiceSyncConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetServiceSyncConfigInput,
-    output: GetServiceSyncConfigOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getServiceSyncConfig: (
+  input: GetServiceSyncConfigInput,
+) => Effect.Effect<
+  GetServiceSyncConfigOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceSyncConfigInput,
+  output: GetServiceSyncConfigOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get detailed data for a service template.
  */
-export const getServiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getServiceTemplate: (
+  input: GetServiceTemplateInput,
+) => Effect.Effect<
+  GetServiceTemplateOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceTemplateInput,
   output: GetServiceTemplateOutput,
   errors: [
@@ -5043,64 +6209,130 @@ export const getServiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get detail data for a template sync configuration.
  */
-export const getTemplateSyncConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTemplateSyncConfigInput,
-    output: GetTemplateSyncConfigOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getTemplateSyncConfig: (
+  input: GetTemplateSyncConfigInput,
+) => Effect.Effect<
+  GetTemplateSyncConfigOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTemplateSyncConfigInput,
+  output: GetTemplateSyncConfigOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get the status of a template sync.
  */
-export const getTemplateSyncStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTemplateSyncStatusInput,
-    output: GetTemplateSyncStatusOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getTemplateSyncStatus: (
+  input: GetTemplateSyncStatusInput,
+) => Effect.Effect<
+  GetTemplateSyncStatusOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTemplateSyncStatusInput,
+  output: GetTemplateSyncStatusOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List tags for a resource. For more information, see Proton
  * resources and tagging in the *Proton User Guide*.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceInput,
-    output: ListTagsForResourceOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "tags",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceInput,
+  ) => Stream.Stream<
+    ListTagsForResourceOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceInput,
+  ) => Stream.Stream<
+    Tag,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tags",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Remove a customer tag from a resource. A tag is a key-value pair of metadata associated with an Proton resource.
  *
  * For more information, see Proton resources and tagging in
  * the *Proton User Guide*.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -5115,7 +6347,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get detail data for Proton account-wide settings.
  */
-export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccountSettings: (
+  input: GetAccountSettingsInput,
+) => Effect.Effect<
+  GetAccountSettingsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountSettingsInput,
   output: GetAccountSettingsOutput,
   errors: [
@@ -5136,118 +6379,268 @@ export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about ABAC, see ABAC in the Proton User
  * Guide.
  */
-export const getRepositorySyncStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRepositorySyncStatusInput,
-    output: GetRepositorySyncStatusOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getRepositorySyncStatus: (
+  input: GetRepositorySyncStatusInput,
+) => Effect.Effect<
+  GetRepositorySyncStatusOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRepositorySyncStatusInput,
+  output: GetRepositorySyncStatusOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get the status of the synced service instance.
  */
-export const getServiceInstanceSyncStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetServiceInstanceSyncStatusInput,
-    output: GetServiceInstanceSyncStatusOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getServiceInstanceSyncStatus: (
+  input: GetServiceInstanceSyncStatusInput,
+) => Effect.Effect<
+  GetServiceInstanceSyncStatusOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceInstanceSyncStatusInput,
+  output: GetServiceInstanceSyncStatusOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * View a list of environment account connections.
  *
  * For more information, see Environment account
  * connections in the *Proton User guide*.
  */
-export const listEnvironmentAccountConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEnvironmentAccountConnections: {
+  (
     input: ListEnvironmentAccountConnectionsInput,
-    output: ListEnvironmentAccountConnectionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "environmentAccountConnections",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEnvironmentAccountConnectionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnvironmentAccountConnectionsInput,
+  ) => Stream.Stream<
+    ListEnvironmentAccountConnectionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnvironmentAccountConnectionsInput,
+  ) => Stream.Stream<
+    EnvironmentAccountConnectionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnvironmentAccountConnectionsInput,
+  output: ListEnvironmentAccountConnectionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "environmentAccountConnections",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List environment templates.
  */
-export const listEnvironmentTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEnvironmentTemplates: {
+  (
     input: ListEnvironmentTemplatesInput,
-    output: ListEnvironmentTemplatesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "templates",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEnvironmentTemplatesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnvironmentTemplatesInput,
+  ) => Stream.Stream<
+    ListEnvironmentTemplatesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnvironmentTemplatesInput,
+  ) => Stream.Stream<
+    EnvironmentTemplateSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnvironmentTemplatesInput,
+  output: ListEnvironmentTemplatesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "templates",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List services with summaries of detail data.
  */
-export const listServices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listServices: {
+  (
     input: ListServicesInput,
-    output: ListServicesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "services",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListServicesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServicesInput,
+  ) => Stream.Stream<
+    ListServicesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServicesInput,
+  ) => Stream.Stream<
+    ServiceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServicesInput,
+  output: ListServicesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "services",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List service templates with detail data.
  */
-export const listServiceTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceTemplates: {
+  (
     input: ListServiceTemplatesInput,
-    output: ListServiceTemplatesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "templates",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceTemplatesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceTemplatesInput,
+  ) => Stream.Stream<
+    ListServiceTemplatesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceTemplatesInput,
+  ) => Stream.Stream<
+    ServiceTemplateSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceTemplatesInput,
+  output: ListServiceTemplatesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "templates",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Get counts of Proton resources.
  *
@@ -5264,7 +6657,17 @@ export const listServiceTemplates =
  * For more information, see Proton dashboard in the
  * *Proton User Guide*.
  */
-export const getResourcesSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcesSummary: (
+  input: GetResourcesSummaryInput,
+) => Effect.Effect<
+  GetResourcesSummaryOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcesSummaryInput,
   output: GetResourcesSummaryOutput,
   errors: [
@@ -5277,38 +6680,80 @@ export const getResourcesSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List repository sync definitions with detail data.
  */
-export const listRepositorySyncDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRepositorySyncDefinitions: {
+  (
     input: ListRepositorySyncDefinitionsInput,
-    output: ListRepositorySyncDefinitionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "syncDefinitions",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRepositorySyncDefinitionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRepositorySyncDefinitionsInput,
+  ) => Stream.Stream<
+    ListRepositorySyncDefinitionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRepositorySyncDefinitionsInput,
+  ) => Stream.Stream<
+    RepositorySyncDefinition,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRepositorySyncDefinitionsInput,
+  output: ListRepositorySyncDefinitionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "syncDefinitions",
+  } as const,
+}));
 /**
  * Update Proton settings that are used for multiple services in the Amazon Web Services account.
  */
-export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountSettingsInput,
-    output: UpdateAccountSettingsOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAccountSettings: (
+  input: UpdateAccountSettingsInput,
+) => Effect.Effect<
+  UpdateAccountSettingsOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountSettingsInput,
+  output: UpdateAccountSettingsOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get a list of component Infrastructure as Code (IaC) outputs.
  *
@@ -5316,23 +6761,59 @@ export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Proton components in the
  * *Proton User Guide*.
  */
-export const listComponentOutputs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listComponentOutputs: {
+  (
     input: ListComponentOutputsInput,
-    output: ListComponentOutputsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "outputs",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListComponentOutputsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComponentOutputsInput,
+  ) => Stream.Stream<
+    ListComponentOutputsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComponentOutputsInput,
+  ) => Stream.Stream<
+    Output,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComponentOutputsInput,
+  output: ListComponentOutputsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "outputs",
+  } as const,
+}));
 /**
  * Create an environment template for Proton. For more information, see Environment Templates in the *Proton User Guide*.
  *
@@ -5347,20 +6828,30 @@ export const listComponentOutputs =
  * `CUSTOMER_MANAGED`. For more information, see Register
  * and publish an environment template in the *Proton User Guide*.
  */
-export const createEnvironmentTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEnvironmentTemplateInput,
-    output: CreateEnvironmentTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createEnvironmentTemplate: (
+  input: CreateEnvironmentTemplateInput,
+) => Effect.Effect<
+  CreateEnvironmentTemplateOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEnvironmentTemplateInput,
+  output: CreateEnvironmentTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Create and register a link to a repository. Proton uses the link to repeatedly access the repository, to either push to it (self-managed
  * provisioning) or pull from it (template sync). You can share a linked repository across multiple resources (like environments using self-managed
@@ -5370,7 +6861,19 @@ export const createEnvironmentTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Template sync configurations in the Proton
  * User Guide.
  */
-export const createRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRepository: (
+  input: CreateRepositoryInput,
+) => Effect.Effect<
+  CreateRepositoryOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRepositoryInput,
   output: CreateRepositoryOutput,
   errors: [
@@ -5385,20 +6888,30 @@ export const createRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create the Proton Ops configuration file.
  */
-export const createServiceSyncConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateServiceSyncConfigInput,
-    output: CreateServiceSyncConfigOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createServiceSyncConfig: (
+  input: CreateServiceSyncConfigInput,
+) => Effect.Effect<
+  CreateServiceSyncConfigOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateServiceSyncConfigInput,
+  output: CreateServiceSyncConfigOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Create a service template. The administrator creates a service template to define
  * standardized infrastructure and an optional CI/CD service pipeline. Developers, in turn,
@@ -5407,20 +6920,30 @@ export const createServiceSyncConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * then deploys and manages the infrastructure defined by the selected service template. For more
  * information, see Proton templates in the *Proton User Guide*.
  */
-export const createServiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateServiceTemplateInput,
-    output: CreateServiceTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createServiceTemplate: (
+  input: CreateServiceTemplateInput,
+) => Effect.Effect<
+  CreateServiceTemplateOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateServiceTemplateInput,
+  output: CreateServiceTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Set up a template to create new template versions automatically by tracking a linked repository. A linked repository is a repository that has
  * been registered with Proton. For more information, see CreateRepository.
@@ -5429,17 +6952,27 @@ export const createServiceTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * bundle change, a new major or minor version of its template is created, if the version doesn’t already exist. For more information, see Template sync configurations in the Proton
  * User Guide.
  */
-export const createTemplateSyncConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTemplateSyncConfigInput,
-    output: CreateTemplateSyncConfigOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createTemplateSyncConfig: (
+  input: CreateTemplateSyncConfigInput,
+) => Effect.Effect<
+  CreateTemplateSyncConfigOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTemplateSyncConfigInput,
+  output: CreateTemplateSyncConfigOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

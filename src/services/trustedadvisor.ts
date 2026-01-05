@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "TrustedAdvisor",
   serviceShapeName: "TrustedAdvisor",
@@ -292,6 +300,19 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type OrganizationRecommendationIdentifier = string;
+export type AccountRecommendationIdentifier = string;
+export type RecommendationAwsService = string;
+export type AccountId = string;
+export type CheckIdentifier = string;
+export type RecommendationUpdateReason = string;
+export type RecommendationResourceArn = string;
+export type OrganizationRecommendationArn = string;
+export type AccountRecommendationArn = string;
+export type CheckArn = string;
+export type RecommendationRegionCode = string;
 
 //# Schemas
 export interface GetOrganizationRecommendationRequest {
@@ -1143,7 +1164,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -1152,7 +1175,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String },
@@ -1162,7 +1187,41 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * List a filterable set of Checks
  */
-export const listChecks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listChecks: {
+  (
+    input: ListChecksRequest,
+  ): Effect.Effect<
+    ListChecksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChecksRequest,
+  ) => Stream.Stream<
+    ListChecksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChecksRequest,
+  ) => Stream.Stream<
+    CheckSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListChecksRequest,
   output: ListChecksResponse,
   errors: [
@@ -1182,176 +1241,403 @@ export const listChecks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Lists the accounts that own the resources for an organization aggregate recommendation. This API only
  * supports prioritized recommendations.
  */
-export const listOrganizationRecommendationAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOrganizationRecommendationAccounts: {
+  (
     input: ListOrganizationRecommendationAccountsRequest,
-    output: ListOrganizationRecommendationAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "accountRecommendationLifecycleSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOrganizationRecommendationAccountsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOrganizationRecommendationAccountsRequest,
+  ) => Stream.Stream<
+    ListOrganizationRecommendationAccountsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOrganizationRecommendationAccountsRequest,
+  ) => Stream.Stream<
+    AccountRecommendationLifecycleSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOrganizationRecommendationAccountsRequest,
+  output: ListOrganizationRecommendationAccountsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "accountRecommendationLifecycleSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List Resources of a Recommendation within an Organization. This API only supports prioritized
  * recommendations.
  */
-export const listOrganizationRecommendationResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOrganizationRecommendationResources: {
+  (
     input: ListOrganizationRecommendationResourcesRequest,
-    output: ListOrganizationRecommendationResourcesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "organizationRecommendationResourceSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOrganizationRecommendationResourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOrganizationRecommendationResourcesRequest,
+  ) => Stream.Stream<
+    ListOrganizationRecommendationResourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOrganizationRecommendationResourcesRequest,
+  ) => Stream.Stream<
+    OrganizationRecommendationResourceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOrganizationRecommendationResourcesRequest,
+  output: ListOrganizationRecommendationResourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "organizationRecommendationResourceSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List Resources of a Recommendation
  */
-export const listRecommendationResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecommendationResources: {
+  (
     input: ListRecommendationResourcesRequest,
-    output: ListRecommendationResourcesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "recommendationResourceSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecommendationResourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecommendationResourcesRequest,
+  ) => Stream.Stream<
+    ListRecommendationResourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommendationResourcesRequest,
+  ) => Stream.Stream<
+    RecommendationResourceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommendationResourcesRequest,
+  output: ListRecommendationResourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "recommendationResourceSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized
  * recommendations.
  */
-export const updateOrganizationRecommendationLifecycle =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateOrganizationRecommendationLifecycleRequest,
-    output: UpdateOrganizationRecommendationLifecycleResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateOrganizationRecommendationLifecycle: (
+  input: UpdateOrganizationRecommendationLifecycleRequest,
+) => Effect.Effect<
+  UpdateOrganizationRecommendationLifecycleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOrganizationRecommendationLifecycleRequest,
+  output: UpdateOrganizationRecommendationLifecycleResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update the lifecyle of a Recommendation. This API only supports prioritized recommendations.
  */
-export const updateRecommendationLifecycle =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRecommendationLifecycleRequest,
-    output: UpdateRecommendationLifecycleResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateRecommendationLifecycle: (
+  input: UpdateRecommendationLifecycleRequest,
+) => Effect.Effect<
+  UpdateRecommendationLifecycleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRecommendationLifecycleRequest,
+  output: UpdateRecommendationLifecycleResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized
  * recommendations.
  */
-export const getOrganizationRecommendation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetOrganizationRecommendationRequest,
-    output: GetOrganizationRecommendationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getOrganizationRecommendation: (
+  input: GetOrganizationRecommendationRequest,
+) => Effect.Effect<
+  GetOrganizationRecommendationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOrganizationRecommendationRequest,
+  output: GetOrganizationRecommendationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List a filterable set of Recommendations within an Organization. This API only supports prioritized
  * recommendations.
  */
-export const listOrganizationRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOrganizationRecommendations: {
+  (
     input: ListOrganizationRecommendationsRequest,
-    output: ListOrganizationRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "organizationRecommendationSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOrganizationRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOrganizationRecommendationsRequest,
+  ) => Stream.Stream<
+    ListOrganizationRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOrganizationRecommendationsRequest,
+  ) => Stream.Stream<
+    OrganizationRecommendationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOrganizationRecommendationsRequest,
+  output: ListOrganizationRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "organizationRecommendationSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List a filterable set of Recommendations
  */
-export const listRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecommendations: {
+  (
     input: ListRecommendationsRequest,
-    output: ListRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "recommendationSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecommendationsRequest,
+  ) => Stream.Stream<
+    ListRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommendationsRequest,
+  ) => Stream.Stream<
+    RecommendationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommendationsRequest,
+  output: ListRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "recommendationSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Update one or more exclusion status for a list of recommendation resources
  */
-export const batchUpdateRecommendationResourceExclusion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchUpdateRecommendationResourceExclusionRequest,
-    output: BatchUpdateRecommendationResourceExclusionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchUpdateRecommendationResourceExclusion: (
+  input: BatchUpdateRecommendationResourceExclusionRequest,
+) => Effect.Effect<
+  BatchUpdateRecommendationResourceExclusionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateRecommendationResourceExclusionRequest,
+  output: BatchUpdateRecommendationResourceExclusionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get a specific Recommendation
  */
-export const getRecommendation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRecommendation: (
+  input: GetRecommendationRequest,
+) => Effect.Effect<
+  GetRecommendationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecommendationRequest,
   output: GetRecommendationResponse,
   errors: [

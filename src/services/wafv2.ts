@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://waf.amazonaws.com/doc/2019-07-29/");
 const svc = T.AwsApiService({
   sdkId: "WAFV2",
@@ -241,6 +249,85 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ResourceArn = string;
+export type TokenDomain = string;
+export type EntityName = string;
+export type EntityDescription = string;
+export type IPAddress = string;
+export type CapacityUnit = number;
+export type APIKey = string;
+export type LockToken = string;
+export type EntityId = string;
+export type VendorName = string;
+export type VersionKeyString = string;
+export type MetricName = string;
+export type ListMaxItems = number;
+export type NextMarker = string;
+export type PaginationLimit = number;
+export type PolicyString = string;
+export type TagKey = string;
+export type RulePriority = number;
+export type TagValue = string;
+export type RegexPatternString = string;
+export type ErrorMessage = string;
+export type LabelName = string;
+export type DownloadUrl = string;
+export type OutputUrl = string;
+export type ResponseContent = string;
+export type TimeWindowSecond = number;
+export type AttributeName = string;
+export type AttributeValue = string;
+export type TimeWindowDay = number;
+export type PricingPlanFeatureName = string;
+export type RequiredPricingPlanName = string;
+export type ProductId = string;
+export type ProductLink = string;
+export type ProductTitle = string;
+export type ProductDescription = string;
+export type ReleaseNotes = string;
+export type ConsumedCapacity = number;
+export type APIKeyVersion = number;
+export type Size = number;
+export type RateLimit = number;
+export type EvaluationWindowSec = number;
+export type LabelMatchKey = string;
+export type ASN = number;
+export type ResponseStatusCode = number;
+export type FieldToProtectKeyName = string;
+export type FieldToMatchData = string;
+export type ParameterExceptionParameter = string;
+export type ErrorReason = string;
+export type PopulationSize = number;
+export type TextTransformationPriority = number;
+export type ForwardedIPHeaderName = string;
+export type LoginPathString = string;
+export type CustomHTTPHeaderName = string;
+export type CustomHTTPHeaderValue = string;
+export type JsonPointerPath = string;
+export type SingleCookieName = string;
+export type SampleWeight = number;
+export type Action = string;
+export type LabelNamespace = string;
+export type FieldIdentifier = string;
+export type CreationPathString = string;
+export type RegistrationPagePathString = string;
+export type SourceType = string;
+export type IPString = string;
+export type Country = string;
+export type URIString = string;
+export type HTTPMethod = string;
+export type HTTPVersion = string;
+export type HeaderName = string;
+export type HeaderValue = string;
+export type ResponseCode = number;
+export type SolveTimestamp = number;
+export type SuccessCode = number;
+export type FailureCode = number;
+export type ResponseInspectionHeaderName = string;
+export type SuccessValue = string;
+export type FailureValue = string;
 
 //# Schemas
 export type APIKeyTokenDomains = string[];
@@ -4051,21 +4138,38 @@ export class WAFServiceLinkedRoleErrorException extends S.TaggedError<WAFService
  * includes all Amazon Web Services Managed Rules rule groups and all of the Amazon Web Services Marketplace managed rule groups that you're
  * subscribed to.
  */
-export const listAvailableManagedRuleGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAvailableManagedRuleGroupsRequest,
-    output: ListAvailableManagedRuleGroupsResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-    ],
-  }));
+export const listAvailableManagedRuleGroups: (
+  input: ListAvailableManagedRuleGroupsRequest,
+) => Effect.Effect<
+  ListAvailableManagedRuleGroupsResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAvailableManagedRuleGroupsRequest,
+  output: ListAvailableManagedRuleGroupsResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+  ],
+}));
 /**
  * Retrieves an array of IPSetSummary objects for the IP sets that you
  * manage.
  */
-export const listIPSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listIPSets: (
+  input: ListIPSetsRequest,
+) => Effect.Effect<
+  ListIPSetsResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListIPSetsRequest,
   output: ListIPSetsResponse,
   errors: [
@@ -4081,7 +4185,16 @@ export const listIPSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and `UpdateManagedRuleSetVersionExpiryDate`.
  */
-export const listManagedRuleSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listManagedRuleSets: (
+  input: ListManagedRuleSetsRequest,
+) => Effect.Effect<
+  ListManagedRuleSetsResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListManagedRuleSetsRequest,
   output: ListManagedRuleSetsResponse,
   errors: [
@@ -4097,37 +4210,60 @@ export const listManagedRuleSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see
  * WAF client application integration in the *WAF Developer Guide*.
  */
-export const listMobileSdkReleases = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMobileSdkReleasesRequest,
-    output: ListMobileSdkReleasesResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-    ],
-  }),
-);
+export const listMobileSdkReleases: (
+  input: ListMobileSdkReleasesRequest,
+) => Effect.Effect<
+  ListMobileSdkReleasesResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMobileSdkReleasesRequest,
+  output: ListMobileSdkReleasesResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+  ],
+}));
 /**
  * Retrieves an array of RegexPatternSetSummary objects for the regex
  * pattern sets that you manage.
  */
-export const listRegexPatternSets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListRegexPatternSetsRequest,
-    output: ListRegexPatternSetsResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-    ],
-  }),
-);
+export const listRegexPatternSets: (
+  input: ListRegexPatternSetsRequest,
+) => Effect.Effect<
+  ListRegexPatternSetsResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRegexPatternSetsRequest,
+  output: ListRegexPatternSetsResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+  ],
+}));
 /**
  * Retrieves an array of RuleGroupSummary objects for the rule groups
  * that you manage.
  */
-export const listRuleGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listRuleGroups: (
+  input: ListRuleGroupsRequest,
+) => Effect.Effect<
+  ListRuleGroupsResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRuleGroupsRequest,
   output: ListRuleGroupsResponse,
   errors: [
@@ -4140,7 +4276,16 @@ export const listRuleGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves an array of WebACLSummary objects for the web ACLs that you
  * manage.
  */
-export const listWebACLs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listWebACLs: (
+  input: ListWebACLsRequest,
+) => Effect.Effect<
+  ListWebACLsResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListWebACLsRequest,
   output: ListWebACLsResponse,
   errors: [
@@ -4152,50 +4297,81 @@ export const listWebACLs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides high-level information for the managed rule groups owned by a specific vendor.
  */
-export const describeManagedProductsByVendor =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeManagedProductsByVendorRequest,
-    output: DescribeManagedProductsByVendorResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-    ],
-  }));
+export const describeManagedProductsByVendor: (
+  input: DescribeManagedProductsByVendorRequest,
+) => Effect.Effect<
+  DescribeManagedProductsByVendorResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeManagedProductsByVendorRequest,
+  output: DescribeManagedProductsByVendorResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+  ],
+}));
 /**
  * Retrieves an array of your LoggingConfiguration objects.
  */
-export const listLoggingConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListLoggingConfigurationsRequest,
-    output: ListLoggingConfigurationsResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-    ],
-  }),
-);
+export const listLoggingConfigurations: (
+  input: ListLoggingConfigurationsRequest,
+) => Effect.Effect<
+  ListLoggingConfigurationsResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLoggingConfigurationsRequest,
+  output: ListLoggingConfigurationsResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+  ],
+}));
 /**
  * Provides high-level information for the Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups.
  */
-export const describeAllManagedProducts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAllManagedProductsRequest,
-    output: DescribeAllManagedProductsResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-    ],
-  }),
-);
+export const describeAllManagedProducts: (
+  input: DescribeAllManagedProductsRequest,
+) => Effect.Effect<
+  DescribeAllManagedProductsResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAllManagedProductsRequest,
+  output: DescribeAllManagedProductsResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+  ],
+}));
 /**
  * Returns the IAM policy that is attached to the specified rule group.
  *
  * You must be the owner of the rule group to perform this operation.
  */
-export const getPermissionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPermissionPolicy: (
+  input: GetPermissionPolicyRequest,
+) => Effect.Effect<
+  GetPermissionPolicyResponse,
+  | WAFInternalErrorException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPermissionPolicyRequest,
   output: GetPermissionPolicyResponse,
   errors: [
@@ -4211,7 +4387,17 @@ export const getPermissionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users.
  * For more information about the CAPTCHA JavaScript integration, see WAF client application integration in the *WAF Developer Guide*.
  */
-export const listAPIKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listAPIKeys: (
+  input: ListAPIKeysRequest,
+) => Effect.Effect<
+  ListAPIKeysResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFInvalidResourceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAPIKeysRequest,
   output: ListAPIKeysResponse,
   errors: [
@@ -4240,7 +4426,17 @@ export const listAPIKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * and you can reference it in `CreateWebACL` and `UpdateWebACL`.
  * Rule groups that are shared with you don't appear in your WAF console rule groups listing.
  */
-export const putPermissionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putPermissionPolicy: (
+  input: PutPermissionPolicyRequest,
+) => Effect.Effect<
+  PutPermissionPolicyResponse,
+  | WAFInternalErrorException
+  | WAFInvalidParameterException
+  | WAFInvalidPermissionPolicyException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPermissionPolicyRequest,
   output: PutPermissionPolicyResponse,
   errors: [
@@ -4253,7 +4449,17 @@ export const putPermissionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the specified RegexPatternSet.
  */
-export const getRegexPatternSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRegexPatternSet: (
+  input: GetRegexPatternSetRequest,
+) => Effect.Effect<
+  GetRegexPatternSetResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegexPatternSetRequest,
   output: GetRegexPatternSetResponse,
   errors: [
@@ -4266,7 +4472,17 @@ export const getRegexPatternSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the specified RuleGroup.
  */
-export const getRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRuleGroup: (
+  input: GetRuleGroupRequest,
+) => Effect.Effect<
+  GetRuleGroupResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRuleGroupRequest,
   output: GetRuleGroupResponse,
   errors: [
@@ -4279,50 +4495,75 @@ export const getRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the available versions for the specified managed rule group.
  */
-export const listAvailableManagedRuleGroupVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAvailableManagedRuleGroupVersionsRequest,
-    output: ListAvailableManagedRuleGroupVersionsResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-      WAFNonexistentItemException,
-    ],
-  }));
+export const listAvailableManagedRuleGroupVersions: (
+  input: ListAvailableManagedRuleGroupVersionsRequest,
+) => Effect.Effect<
+  ListAvailableManagedRuleGroupVersionsResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAvailableManagedRuleGroupVersionsRequest,
+  output: ListAvailableManagedRuleGroupVersionsResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+    WAFNonexistentItemException,
+  ],
+}));
 /**
  * Generates a presigned download URL for the specified release of the mobile SDK.
  *
  * The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see
  * WAF client application integration in the *WAF Developer Guide*.
  */
-export const generateMobileSdkReleaseUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GenerateMobileSdkReleaseUrlRequest,
-    output: GenerateMobileSdkReleaseUrlResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-      WAFNonexistentItemException,
-    ],
-  }),
-);
+export const generateMobileSdkReleaseUrl: (
+  input: GenerateMobileSdkReleaseUrlRequest,
+) => Effect.Effect<
+  GenerateMobileSdkReleaseUrlResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateMobileSdkReleaseUrlRequest,
+  output: GenerateMobileSdkReleaseUrlResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+    WAFNonexistentItemException,
+  ],
+}));
 /**
  * Returns the LoggingConfiguration for the specified web ACL.
  */
-export const getLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLoggingConfigurationRequest,
-    output: GetLoggingConfigurationResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-      WAFNonexistentItemException,
-    ],
-  }),
-);
+export const getLoggingConfiguration: (
+  input: GetLoggingConfigurationRequest,
+) => Effect.Effect<
+  GetLoggingConfigurationResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLoggingConfigurationRequest,
+  output: GetLoggingConfigurationResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+    WAFNonexistentItemException,
+  ],
+}));
 /**
  * Retrieves an array of the Amazon Resource Names (ARNs) for the resources that
  * are associated with the specified web ACL.
@@ -4336,18 +4577,26 @@ export const getLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This call requires permissions that are specific to the protected resource type.
  * For details, see Permissions for ListResourcesForWebACL in the *WAF Developer Guide*.
  */
-export const listResourcesForWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListResourcesForWebACLRequest,
-    output: ListResourcesForWebACLResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-      WAFNonexistentItemException,
-    ],
-  }),
-);
+export const listResourcesForWebACL: (
+  input: ListResourcesForWebACLRequest,
+) => Effect.Effect<
+  ListResourcesForWebACLResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListResourcesForWebACLRequest,
+  output: ListResourcesForWebACLResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+    WAFNonexistentItemException,
+  ],
+}));
 /**
  * Disassociates the specified resource from its web ACL
  * association, if it has one.
@@ -4359,7 +4608,17 @@ export const listResourcesForWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This call requires permissions that are specific to the protected resource type.
  * For details, see Permissions for DisassociateWebACL in the *WAF Developer Guide*.
  */
-export const disassociateWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateWebACL: (
+  input: DisassociateWebACLRequest,
+) => Effect.Effect<
+  DisassociateWebACLResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateWebACLRequest,
   output: DisassociateWebACLResponse,
   errors: [
@@ -4374,21 +4633,38 @@ export const disassociateWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must be the owner of the rule group to perform this operation.
  */
-export const deletePermissionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePermissionPolicyRequest,
-    output: DeletePermissionPolicyResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidParameterException,
-      WAFNonexistentItemException,
-    ],
-  }),
-);
+export const deletePermissionPolicy: (
+  input: DeletePermissionPolicyRequest,
+) => Effect.Effect<
+  DeletePermissionPolicyResponse,
+  | WAFInternalErrorException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePermissionPolicyRequest,
+  output: DeletePermissionPolicyResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidParameterException,
+    WAFNonexistentItemException,
+  ],
+}));
 /**
  * Retrieves the specified IPSet.
  */
-export const getIPSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIPSet: (
+  input: GetIPSetRequest,
+) => Effect.Effect<
+  GetIPSetResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIPSetRequest,
   output: GetIPSetResponse,
   errors: [
@@ -4405,7 +4681,17 @@ export const getIPSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see
  * WAF client application integration in the *WAF Developer Guide*.
  */
-export const getMobileSdkRelease = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMobileSdkRelease: (
+  input: GetMobileSdkReleaseRequest,
+) => Effect.Effect<
+  GetMobileSdkReleaseResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMobileSdkReleaseRequest,
   output: GetMobileSdkReleaseResponse,
   errors: [
@@ -4422,7 +4708,18 @@ export const getMobileSdkRelease = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users.
  * For more information about the CAPTCHA JavaScript integration, see WAF client application integration in the *WAF Developer Guide*.
  */
-export const getDecryptedAPIKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDecryptedAPIKey: (
+  input: GetDecryptedAPIKeyRequest,
+) => Effect.Effect<
+  GetDecryptedAPIKeyResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFInvalidResourceException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDecryptedAPIKeyRequest,
   output: GetDecryptedAPIKeyResponse,
   errors: [
@@ -4436,20 +4733,30 @@ export const getDecryptedAPIKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides high-level information for a managed rule group, including descriptions of the rules.
  */
-export const describeManagedRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeManagedRuleGroupRequest,
-    output: DescribeManagedRuleGroupResponse,
-    errors: [
-      WAFExpiredManagedRuleGroupVersionException,
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-      WAFInvalidResourceException,
-      WAFNonexistentItemException,
-    ],
-  }),
-);
+export const describeManagedRuleGroup: (
+  input: DescribeManagedRuleGroupRequest,
+) => Effect.Effect<
+  DescribeManagedRuleGroupResponse,
+  | WAFExpiredManagedRuleGroupVersionException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFInvalidResourceException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeManagedRuleGroupRequest,
+  output: DescribeManagedRuleGroupResponse,
+  errors: [
+    WAFExpiredManagedRuleGroupVersionException,
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+    WAFInvalidResourceException,
+    WAFNonexistentItemException,
+  ],
+}));
 /**
  * Creates an API key that contains a set of token domains.
  *
@@ -4460,7 +4767,17 @@ export const describeManagedRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can use a single key for up to 5 domains. After you generate a key, you can copy it for use in your JavaScript
  * integration.
  */
-export const createAPIKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAPIKey: (
+  input: CreateAPIKeyRequest,
+) => Effect.Effect<
+  CreateAPIKeyResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAPIKeyRequest,
   output: CreateAPIKeyResponse,
   errors: [
@@ -4477,7 +4794,17 @@ export const createAPIKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and `UpdateManagedRuleSetVersionExpiryDate`.
  */
-export const getManagedRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getManagedRuleSet: (
+  input: GetManagedRuleSetRequest,
+) => Effect.Effect<
+  GetManagedRuleSetResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetManagedRuleSetRequest,
   output: GetManagedRuleSetResponse,
   errors: [
@@ -4499,7 +4826,16 @@ export const getManagedRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * an updated time range. This new time range indicates the actual period during which WAF
  * selected the requests in the sample.
  */
-export const getSampledRequests = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSampledRequests: (
+  input: GetSampledRequestsRequest,
+) => Effect.Effect<
+  GetSampledRequestsResponse,
+  | WAFInternalErrorException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSampledRequestsRequest,
   output: GetSampledRequestsResponse,
   errors: [
@@ -4511,7 +4847,17 @@ export const getSampledRequests = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the specified WebACL.
  */
-export const getWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWebACL: (
+  input: GetWebACLRequest,
+) => Effect.Effect<
+  GetWebACLResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWebACLRequest,
   output: GetWebACLResponse,
   errors: [
@@ -4537,19 +4883,28 @@ export const getWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To initiate the expiration of a managed rule group version, use UpdateManagedRuleSetVersionExpiryDate.
  */
-export const putManagedRuleSetVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutManagedRuleSetVersionsRequest,
-    output: PutManagedRuleSetVersionsResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-      WAFNonexistentItemException,
-      WAFOptimisticLockException,
-    ],
-  }),
-);
+export const putManagedRuleSetVersions: (
+  input: PutManagedRuleSetVersionsRequest,
+) => Effect.Effect<
+  PutManagedRuleSetVersionsResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutManagedRuleSetVersionsRequest,
+  output: PutManagedRuleSetVersionsResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+    WAFNonexistentItemException,
+    WAFOptimisticLockException,
+  ],
+}));
 /**
  * Retrieves the IP addresses that are currently blocked by a rate-based rule instance. This
  * is only available for rate-based rules that aggregate solely on the IP address or on the forwarded IP
@@ -4572,18 +4927,28 @@ export const putManagedRuleSetVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * monitors web requests and manages keys for this second usage completely independent of your
  * first.
  */
-export const getRateBasedStatementManagedKeys =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRateBasedStatementManagedKeysRequest,
-    output: GetRateBasedStatementManagedKeysResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-      WAFNonexistentItemException,
-      WAFUnsupportedAggregateKeyTypeException,
-    ],
-  }));
+export const getRateBasedStatementManagedKeys: (
+  input: GetRateBasedStatementManagedKeysRequest,
+) => Effect.Effect<
+  GetRateBasedStatementManagedKeysResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | WAFUnsupportedAggregateKeyTypeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRateBasedStatementManagedKeysRequest,
+  output: GetRateBasedStatementManagedKeysResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+    WAFNonexistentItemException,
+    WAFUnsupportedAggregateKeyTypeException,
+  ],
+}));
 /**
  * Retrieves the WebACL for the specified resource.
  *
@@ -4599,19 +4964,28 @@ export const getRateBasedStatementManagedKeys =
  * This call requires permissions that are specific to the protected resource type.
  * For details, see Permissions for GetWebACLForResource in the *WAF Developer Guide*.
  */
-export const getWebACLForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetWebACLForResourceRequest,
-    output: GetWebACLForResourceResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-      WAFNonexistentItemException,
-      WAFUnavailableEntityException,
-    ],
-  }),
-);
+export const getWebACLForResource: (
+  input: GetWebACLForResourceRequest,
+) => Effect.Effect<
+  GetWebACLForResourceResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | WAFUnavailableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWebACLForResourceRequest,
+  output: GetWebACLForResourceResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+    WAFNonexistentItemException,
+    WAFUnavailableEntityException,
+  ],
+}));
 /**
  * Updates the specified IPSet.
  *
@@ -4639,7 +5013,20 @@ export const getWebACLForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
-export const updateIPSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateIPSet: (
+  input: UpdateIPSetRequest,
+) => Effect.Effect<
+  UpdateIPSetResponse,
+  | WAFDuplicateItemException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIPSetRequest,
   output: UpdateIPSetResponse,
   errors: [
@@ -4657,18 +5044,28 @@ export const updateIPSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only use this if `ManagedByFirewallManager` and `RetrofittedByFirewallManager` are both false in the web ACL.
  */
-export const deleteFirewallManagerRuleGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteFirewallManagerRuleGroupsRequest,
-    output: DeleteFirewallManagerRuleGroupsResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-      WAFNonexistentItemException,
-      WAFOptimisticLockException,
-    ],
-  }));
+export const deleteFirewallManagerRuleGroups: (
+  input: DeleteFirewallManagerRuleGroupsRequest,
+) => Effect.Effect<
+  DeleteFirewallManagerRuleGroupsResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFirewallManagerRuleGroupsRequest,
+  output: DeleteFirewallManagerRuleGroupsResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+    WAFNonexistentItemException,
+    WAFOptimisticLockException,
+  ],
+}));
 /**
  * Updates the expiration information for your managed rule set. Use this to initiate the
  * expiration of a managed rule group version. After you initiate expiration for a version,
@@ -4678,40 +5075,70 @@ export const deleteFirewallManagerRuleGroups =
  *
  * Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and `UpdateManagedRuleSetVersionExpiryDate`.
  */
-export const updateManagedRuleSetVersionExpiryDate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateManagedRuleSetVersionExpiryDateRequest,
-    output: UpdateManagedRuleSetVersionExpiryDateResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-      WAFNonexistentItemException,
-      WAFOptimisticLockException,
-    ],
-  }));
+export const updateManagedRuleSetVersionExpiryDate: (
+  input: UpdateManagedRuleSetVersionExpiryDateRequest,
+) => Effect.Effect<
+  UpdateManagedRuleSetVersionExpiryDateResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateManagedRuleSetVersionExpiryDateRequest,
+  output: UpdateManagedRuleSetVersionExpiryDateResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+    WAFNonexistentItemException,
+    WAFOptimisticLockException,
+  ],
+}));
 /**
  * Deletes the LoggingConfiguration from the specified web ACL.
  */
-export const deleteLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLoggingConfigurationRequest,
-    output: DeleteLoggingConfigurationResponse,
-    errors: [
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-      WAFNonexistentItemException,
-      WAFOptimisticLockException,
-    ],
-  }),
-);
+export const deleteLoggingConfiguration: (
+  input: DeleteLoggingConfigurationRequest,
+) => Effect.Effect<
+  DeleteLoggingConfigurationResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLoggingConfigurationRequest,
+  output: DeleteLoggingConfigurationResponse,
+  errors: [
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+    WAFNonexistentItemException,
+    WAFOptimisticLockException,
+  ],
+}));
 /**
  * Deletes the specified API key.
  *
  * After you delete a key, it can take up to 24 hours for WAF to disallow use of the key in all regions.
  */
-export const deleteAPIKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAPIKey: (
+  input: DeleteAPIKeyRequest,
+) => Effect.Effect<
+  DeleteAPIKeyResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAPIKeyRequest,
   output: DeleteAPIKeyResponse,
   errors: [
@@ -4749,21 +5176,32 @@ export const deleteAPIKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
-export const updateRegexPatternSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRegexPatternSetRequest,
-    output: UpdateRegexPatternSetResponse,
-    errors: [
-      WAFDuplicateItemException,
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-      WAFLimitsExceededException,
-      WAFNonexistentItemException,
-      WAFOptimisticLockException,
-    ],
-  }),
-);
+export const updateRegexPatternSet: (
+  input: UpdateRegexPatternSetRequest,
+) => Effect.Effect<
+  UpdateRegexPatternSetResponse,
+  | WAFDuplicateItemException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRegexPatternSetRequest,
+  output: UpdateRegexPatternSetResponse,
+  errors: [
+    WAFDuplicateItemException,
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+    WAFLimitsExceededException,
+    WAFNonexistentItemException,
+    WAFOptimisticLockException,
+  ],
+}));
 /**
  * Associates a web ACL with a resource, to protect the resource.
  *
@@ -4788,7 +5226,20 @@ export const updateRegexPatternSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
-export const associateWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateWebACL: (
+  input: AssociateWebACLRequest,
+) => Effect.Effect<
+  AssociateWebACLResponse,
+  | WAFFeatureNotIncludedInPricingPlanException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentItemException
+  | WAFUnavailableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateWebACLRequest,
   output: AssociateWebACLResponse,
   errors: [
@@ -4812,7 +5263,19 @@ export const associateWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF
  * console.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -4854,7 +5317,26 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
-export const updateWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWebACL: (
+  input: UpdateWebACLRequest,
+) => Effect.Effect<
+  UpdateWebACLResponse,
+  | WAFConfigurationWarningException
+  | WAFDuplicateItemException
+  | WAFExpiredManagedRuleGroupVersionException
+  | WAFFeatureNotIncludedInPricingPlanException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFInvalidResourceException
+  | WAFLimitsExceededException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | WAFSubscriptionNotFoundException
+  | WAFUnavailableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWebACLRequest,
   output: UpdateWebACLResponse,
   errors: [
@@ -4876,7 +5358,21 @@ export const updateWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified IPSet.
  */
-export const deleteIPSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIPSet: (
+  input: DeleteIPSetRequest,
+) => Effect.Effect<
+  DeleteIPSetResponse,
+  | WAFAssociatedItemException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIPSetRequest,
   output: DeleteIPSetResponse,
   errors: [
@@ -4893,26 +5389,52 @@ export const deleteIPSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified RegexPatternSet.
  */
-export const deleteRegexPatternSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRegexPatternSetRequest,
-    output: DeleteRegexPatternSetResponse,
-    errors: [
-      WAFAssociatedItemException,
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-      WAFNonexistentItemException,
-      WAFOptimisticLockException,
-      WAFTagOperationException,
-      WAFTagOperationInternalErrorException,
-    ],
-  }),
-);
+export const deleteRegexPatternSet: (
+  input: DeleteRegexPatternSetRequest,
+) => Effect.Effect<
+  DeleteRegexPatternSetResponse,
+  | WAFAssociatedItemException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRegexPatternSetRequest,
+  output: DeleteRegexPatternSetResponse,
+  errors: [
+    WAFAssociatedItemException,
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+    WAFNonexistentItemException,
+    WAFOptimisticLockException,
+    WAFTagOperationException,
+    WAFTagOperationInternalErrorException,
+  ],
+}));
 /**
  * Deletes the specified RuleGroup.
  */
-export const deleteRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRuleGroup: (
+  input: DeleteRuleGroupRequest,
+) => Effect.Effect<
+  DeleteRuleGroupResponse,
+  | WAFAssociatedItemException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleGroupRequest,
   output: DeleteRuleGroupResponse,
   errors: [
@@ -4950,7 +5472,21 @@ export const deleteRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - For all other resources, call DisassociateWebACL.
  */
-export const deleteWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWebACL: (
+  input: DeleteWebACLRequest,
+) => Effect.Effect<
+  DeleteWebACLResponse,
+  | WAFAssociatedItemException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWebACLRequest,
   output: DeleteWebACLResponse,
   errors: [
@@ -4970,7 +5506,21 @@ export const deleteWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * receiving a lot of requests from a ranges of IP addresses, you can configure WAF to
  * block them using an IPSet that lists those IP addresses.
  */
-export const createIPSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIPSet: (
+  input: CreateIPSetRequest,
+) => Effect.Effect<
+  CreateIPSetResponse,
+  | WAFDuplicateItemException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFOptimisticLockException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIPSetRequest,
   output: CreateIPSetResponse,
   errors: [
@@ -4988,29 +5538,53 @@ export const createIPSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a RegexPatternSet, which you reference in a RegexPatternSetReferenceStatement, to have WAF inspect a web request
  * component for the specified patterns.
  */
-export const createRegexPatternSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRegexPatternSetRequest,
-    output: CreateRegexPatternSetResponse,
-    errors: [
-      WAFDuplicateItemException,
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-      WAFLimitsExceededException,
-      WAFOptimisticLockException,
-      WAFTagOperationException,
-      WAFTagOperationInternalErrorException,
-    ],
-  }),
-);
+export const createRegexPatternSet: (
+  input: CreateRegexPatternSetRequest,
+) => Effect.Effect<
+  CreateRegexPatternSetResponse,
+  | WAFDuplicateItemException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFOptimisticLockException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRegexPatternSetRequest,
+  output: CreateRegexPatternSetResponse,
+  errors: [
+    WAFDuplicateItemException,
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+    WAFLimitsExceededException,
+    WAFOptimisticLockException,
+    WAFTagOperationException,
+    WAFTagOperationInternalErrorException,
+  ],
+}));
 /**
  * Disassociates tags from an Amazon Web Services resource. Tags are key:value pairs that you can
  * associate with Amazon Web Services resources. For example, the tag key might be "customer" and the tag
  * value might be "companyA." You can specify one or more tags to add to each container. You
  * can add up to 50 tags to each Amazon Web Services resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -5033,7 +5607,20 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF
  * console.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentItemException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -5075,7 +5662,23 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
-export const updateRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRuleGroup: (
+  input: UpdateRuleGroupRequest,
+) => Effect.Effect<
+  UpdateRuleGroupResponse,
+  | WAFConfigurationWarningException
+  | WAFDuplicateItemException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | WAFSubscriptionNotFoundException
+  | WAFUnavailableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleGroupRequest,
   output: UpdateRuleGroupResponse,
   errors: [
@@ -5096,7 +5699,24 @@ export const updateRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A rule group defines a collection of rules to inspect and control web requests that you can use in a WebACL. When you create a rule group, you define an immutable capacity limit. If you update a rule group, you must stay within the capacity. This allows others to reuse the rule group with confidence in its capacity requirements.
  */
-export const createRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRuleGroup: (
+  input: CreateRuleGroupRequest,
+) => Effect.Effect<
+  CreateRuleGroupResponse,
+  | WAFDuplicateItemException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | WAFSubscriptionNotFoundException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | WAFUnavailableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleGroupRequest,
   output: CreateRuleGroupResponse,
   errors: [
@@ -5118,7 +5738,27 @@ export const createRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types Rule, RuleGroup, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.
  */
-export const createWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWebACL: (
+  input: CreateWebACLRequest,
+) => Effect.Effect<
+  CreateWebACLResponse,
+  | WAFConfigurationWarningException
+  | WAFDuplicateItemException
+  | WAFExpiredManagedRuleGroupVersionException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFInvalidResourceException
+  | WAFLimitsExceededException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | WAFSubscriptionNotFoundException
+  | WAFTagOperationException
+  | WAFTagOperationInternalErrorException
+  | WAFUnavailableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWebACLRequest,
   output: CreateWebACLResponse,
   errors: [
@@ -5152,7 +5792,22 @@ export const createWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * web ACL WCU usage when they use a rule group. For more information, see WAF web ACL capacity units (WCU)
  * in the *WAF Developer Guide*.
  */
-export const checkCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const checkCapacity: (
+  input: CheckCapacityRequest,
+) => Effect.Effect<
+  CheckCapacityResponse,
+  | WAFExpiredManagedRuleGroupVersionException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFInvalidResourceException
+  | WAFLimitsExceededException
+  | WAFNonexistentItemException
+  | WAFSubscriptionNotFoundException
+  | WAFUnavailableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckCapacityRequest,
   output: CheckCapacityResponse,
   errors: [
@@ -5208,20 +5863,33 @@ export const checkCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Logging web ACL traffic information
  * in the *WAF Developer Guide*.
  */
-export const putLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutLoggingConfigurationRequest,
-    output: PutLoggingConfigurationResponse,
-    errors: [
-      WAFFeatureNotIncludedInPricingPlanException,
-      WAFInternalErrorException,
-      WAFInvalidOperationException,
-      WAFInvalidParameterException,
-      WAFLimitsExceededException,
-      WAFLogDestinationPermissionIssueException,
-      WAFNonexistentItemException,
-      WAFOptimisticLockException,
-      WAFServiceLinkedRoleErrorException,
-    ],
-  }),
-);
+export const putLoggingConfiguration: (
+  input: PutLoggingConfigurationRequest,
+) => Effect.Effect<
+  PutLoggingConfigurationResponse,
+  | WAFFeatureNotIncludedInPricingPlanException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFLimitsExceededException
+  | WAFLogDestinationPermissionIssueException
+  | WAFNonexistentItemException
+  | WAFOptimisticLockException
+  | WAFServiceLinkedRoleErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutLoggingConfigurationRequest,
+  output: PutLoggingConfigurationResponse,
+  errors: [
+    WAFFeatureNotIncludedInPricingPlanException,
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
+    WAFInvalidParameterException,
+    WAFLimitsExceededException,
+    WAFLogDestinationPermissionIssueException,
+    WAFNonexistentItemException,
+    WAFOptimisticLockException,
+    WAFServiceLinkedRoleErrorException,
+  ],
+}));

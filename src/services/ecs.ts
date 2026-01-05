@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://ecs.amazonaws.com/doc/2014-11-13/");
 const svc = T.AwsApiService({
   sdkId: "ECS",
@@ -241,6 +249,31 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type BoxedInteger = number;
+export type Integer = number;
+export type TagKey = string;
+export type TagValue = string;
+export type CapacityProviderStrategyItemWeight = number;
+export type CapacityProviderStrategyItemBase = number;
+export type ECSVolumeName = string;
+export type IAMRoleArn = string;
+export type Double = number;
+export type Long = number;
+export type ManagedScalingTargetCapacity = number;
+export type ManagedScalingStepSize = number;
+export type ManagedScalingInstanceWarmupPeriod = number;
+export type PortNumber = number;
+export type EBSKMSKeyId = string;
+export type EBSVolumeType = string;
+export type EBSSnapshotId = string;
+export type SensitiveString = string;
+export type TaskVolumeStorageGiB = number;
+export type ExcludedInstanceType = string;
+export type AllowedInstanceType = string;
+export type Duration = number;
+export type BoxedDouble = number;
 
 //# Schemas
 export type StringList = string[];
@@ -5768,20 +5801,33 @@ export class ClusterContainsTasksException extends S.TaggedError<ClusterContains
  *
  * Returns an endpoint for the Amazon ECS agent to poll for updates.
  */
-export const discoverPollEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DiscoverPollEndpointRequest,
-    output: DiscoverPollEndpointResponse,
-    errors: [ClientException, ServerException],
-  }),
-);
+export const discoverPollEndpoint: (
+  input: DiscoverPollEndpointRequest,
+) => Effect.Effect<
+  DiscoverPollEndpointResponse,
+  ClientException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DiscoverPollEndpointRequest,
+  output: DiscoverPollEndpointResponse,
+  errors: [ClientException, ServerException],
+}));
 /**
  * Describes one or more of your clusters.
  *
  * For CLI
  * examples, see describe-clusters.rst on GitHub.
  */
-export const describeClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeClusters: (
+  input: DescribeClustersRequest,
+) => Effect.Effect<
+  DescribeClustersResponse,
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClustersRequest,
   output: DescribeClustersResponse,
   errors: [ClientException, InvalidParameterException, ServerException],
@@ -5795,44 +5841,110 @@ export const describeClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can only describe `INACTIVE` task definitions while an active task
  * or service references them.
  */
-export const describeTaskDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTaskDefinitionRequest,
-    output: DescribeTaskDefinitionResponse,
-    errors: [ClientException, InvalidParameterException, ServerException],
-  }),
-);
+export const describeTaskDefinition: (
+  input: DescribeTaskDefinitionRequest,
+) => Effect.Effect<
+  DescribeTaskDefinitionResponse,
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTaskDefinitionRequest,
+  output: DescribeTaskDefinitionResponse,
+  errors: [ClientException, InvalidParameterException, ServerException],
+}));
 /**
  * Lists the account settings for a specified principal.
  */
-export const listAccountSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAccountSettings: {
+  (
     input: ListAccountSettingsRequest,
-    output: ListAccountSettingsResponse,
-    errors: [ClientException, InvalidParameterException, ServerException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "settings",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAccountSettingsResponse,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccountSettingsRequest,
+  ) => Stream.Stream<
+    ListAccountSettingsResponse,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccountSettingsRequest,
+  ) => Stream.Stream<
+    Setting,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountSettingsRequest,
+  output: ListAccountSettingsResponse,
+  errors: [ClientException, InvalidParameterException, ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "settings",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of existing clusters.
  */
-export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listClusters: {
+  (
     input: ListClustersRequest,
-    output: ListClustersResponse,
-    errors: [ClientException, InvalidParameterException, ServerException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "clusterArns",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListClustersResponse,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClustersRequest,
+  ) => Stream.Stream<
+    ListClustersResponse,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClustersRequest,
+  ) => Stream.Stream<
+    String,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClustersRequest,
+  output: ListClustersResponse,
+  errors: [ClientException, InvalidParameterException, ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "clusterArns",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of task definition families that are registered to your account. This
  * list includes task definition families that no longer have any `ACTIVE` task
@@ -5843,35 +5955,95 @@ export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * `ACTIVE`. You can also filter the results with the
  * `familyPrefix` parameter.
  */
-export const listTaskDefinitionFamilies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTaskDefinitionFamilies: {
+  (
     input: ListTaskDefinitionFamiliesRequest,
-    output: ListTaskDefinitionFamiliesResponse,
-    errors: [ClientException, InvalidParameterException, ServerException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "families",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTaskDefinitionFamiliesResponse,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTaskDefinitionFamiliesRequest,
+  ) => Stream.Stream<
+    ListTaskDefinitionFamiliesResponse,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTaskDefinitionFamiliesRequest,
+  ) => Stream.Stream<
+    String,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTaskDefinitionFamiliesRequest,
+  output: ListTaskDefinitionFamiliesResponse,
+  errors: [ClientException, InvalidParameterException, ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "families",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of task definitions that are registered to your account. You can filter
  * the results by family name with the `familyPrefix` parameter or by status
  * with the `status` parameter.
  */
-export const listTaskDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTaskDefinitions: {
+  (
     input: ListTaskDefinitionsRequest,
-    output: ListTaskDefinitionsResponse,
-    errors: [ClientException, InvalidParameterException, ServerException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "taskDefinitionArns",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTaskDefinitionsResponse,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTaskDefinitionsRequest,
+  ) => Stream.Stream<
+    ListTaskDefinitionsResponse,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTaskDefinitionsRequest,
+  ) => Stream.Stream<
+    String,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTaskDefinitionsRequest,
+  output: ListTaskDefinitionsResponse,
+  errors: [ClientException, InvalidParameterException, ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "taskDefinitionArns",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Modifies an account setting. Account settings are set on a per-Region basis.
  *
@@ -5881,7 +6053,16 @@ export const listTaskDefinitions =
  * Settings in the Amazon Elastic Container Service Developer
  * Guide.
  */
-export const putAccountSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putAccountSetting: (
+  input: PutAccountSettingRequest,
+) => Effect.Effect<
+  PutAccountSettingResponse,
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountSettingRequest,
   output: PutAccountSettingResponse,
   errors: [ClientException, InvalidParameterException, ServerException],
@@ -5890,24 +6071,38 @@ export const putAccountSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Modifies an account setting for all users on an account for whom no individual account
  * setting has been specified. Account settings are set on a per-Region basis.
  */
-export const putAccountSettingDefault = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutAccountSettingDefaultRequest,
-    output: PutAccountSettingDefaultResponse,
-    errors: [ClientException, InvalidParameterException, ServerException],
-  }),
-);
+export const putAccountSettingDefault: (
+  input: PutAccountSettingDefaultRequest,
+) => Effect.Effect<
+  PutAccountSettingDefaultResponse,
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAccountSettingDefaultRequest,
+  output: PutAccountSettingDefaultResponse,
+  errors: [ClientException, InvalidParameterException, ServerException],
+}));
 /**
  * Disables an account setting for a specified user, role, or the root user for an
  * account.
  */
-export const deleteAccountSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAccountSettingRequest,
-    output: DeleteAccountSettingResponse,
-    errors: [ClientException, InvalidParameterException, ServerException],
-  }),
-);
+export const deleteAccountSetting: (
+  input: DeleteAccountSettingRequest,
+) => Effect.Effect<
+  DeleteAccountSettingResponse,
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountSettingRequest,
+  output: DeleteAccountSettingResponse,
+  errors: [ClientException, InvalidParameterException, ServerException],
+}));
 /**
  * Lists the attributes for Amazon ECS resources within a specified target type and
  * cluster. When you specify a target type and cluster, `ListAttributes` returns
@@ -5917,19 +6112,39 @@ export const deleteAccountSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * example, to see which container instances in a cluster are running a Linux AMI
  * (`ecs.os-type=linux`).
  */
-export const listAttributes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAttributes: {
+  (
     input: ListAttributesRequest,
-    output: ListAttributesResponse,
-    errors: [ClusterNotFoundException, InvalidParameterException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "attributes",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAttributesResponse,
+    ClusterNotFoundException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttributesRequest,
+  ) => Stream.Stream<
+    ListAttributesResponse,
+    ClusterNotFoundException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttributesRequest,
+  ) => Stream.Stream<
+    Attribute,
+    ClusterNotFoundException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttributesRequest,
+  output: ListAttributesResponse,
+  errors: [ClusterNotFoundException, InvalidParameterException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "attributes",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * This action is only used by the Amazon ECS agent, and it is not intended for use
  * outside of the agent.
@@ -5937,48 +6152,72 @@ export const listAttributes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * Registers an EC2 instance into the specified cluster. This instance becomes available
  * to place containers on.
  */
-export const registerContainerInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterContainerInstanceRequest,
-    output: RegisterContainerInstanceResponse,
-    errors: [ClientException, InvalidParameterException, ServerException],
-  }),
-);
+export const registerContainerInstance: (
+  input: RegisterContainerInstanceRequest,
+) => Effect.Effect<
+  RegisterContainerInstanceResponse,
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterContainerInstanceRequest,
+  output: RegisterContainerInstanceResponse,
+  errors: [ClientException, InvalidParameterException, ServerException],
+}));
 /**
  * This action is only used by the Amazon ECS agent, and it is not intended for use
  * outside of the agent.
  *
  * Sent to acknowledge that an attachment changed states.
  */
-export const submitAttachmentStateChanges =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SubmitAttachmentStateChangesRequest,
-    output: SubmitAttachmentStateChangesResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      InvalidParameterException,
-      ServerException,
-    ],
-  }));
+export const submitAttachmentStateChanges: (
+  input: SubmitAttachmentStateChangesRequest,
+) => Effect.Effect<
+  SubmitAttachmentStateChangesResponse,
+  | AccessDeniedException
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SubmitAttachmentStateChangesRequest,
+  output: SubmitAttachmentStateChangesResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    InvalidParameterException,
+    ServerException,
+  ],
+}));
 /**
  * This action is only used by the Amazon ECS agent, and it is not intended for use
  * outside of the agent.
  *
  * Sent to acknowledge that a task changed states.
  */
-export const submitTaskStateChange = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SubmitTaskStateChangeRequest,
-    output: SubmitTaskStateChangeResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      InvalidParameterException,
-      ServerException,
-    ],
-  }),
-);
+export const submitTaskStateChange: (
+  input: SubmitTaskStateChangeRequest,
+) => Effect.Effect<
+  SubmitTaskStateChangeResponse,
+  | AccessDeniedException
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SubmitTaskStateChangeRequest,
+  output: SubmitTaskStateChangeResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    InvalidParameterException,
+    ServerException,
+  ],
+}));
 /**
  * Deletes one or more task definitions.
  *
@@ -6006,33 +6245,49 @@ export const submitTaskStateChange = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * name is retained by Amazon ECS and the revision is incremented the next time you create
  * a task definition with that name.
  */
-export const deleteTaskDefinitions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTaskDefinitionsRequest,
-    output: DeleteTaskDefinitionsResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      InvalidParameterException,
-      ServerException,
-    ],
-  }),
-);
+export const deleteTaskDefinitions: (
+  input: DeleteTaskDefinitionsRequest,
+) => Effect.Effect<
+  DeleteTaskDefinitionsResponse,
+  | AccessDeniedException
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTaskDefinitionsRequest,
+  output: DeleteTaskDefinitionsResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    InvalidParameterException,
+    ServerException,
+  ],
+}));
 /**
  * Modifies the settings to use for a cluster.
  */
-export const updateClusterSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateClusterSettingsRequest,
-    output: UpdateClusterSettingsResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-    ],
-  }),
-);
+export const updateClusterSettings: (
+  input: UpdateClusterSettingsRequest,
+) => Effect.Effect<
+  UpdateClusterSettingsResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateClusterSettingsRequest,
+  output: UpdateClusterSettingsResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+  ],
+}));
 /**
  * Modifies the status of an Amazon ECS container instance.
  *
@@ -6085,37 +6340,64 @@ export const updateClusterSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `ACTIVE` status and once it has reached that status the Amazon ECS
  * scheduler can begin scheduling tasks on the instance again.
  */
-export const updateContainerInstancesState =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateContainerInstancesStateRequest,
-    output: UpdateContainerInstancesStateResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-    ],
-  }));
+export const updateContainerInstancesState: (
+  input: UpdateContainerInstancesStateRequest,
+) => Effect.Effect<
+  UpdateContainerInstancesStateResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContainerInstancesStateRequest,
+  output: UpdateContainerInstancesStateResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+  ],
+}));
 /**
  * Describes one or more container instances. Returns metadata about each container
  * instance requested.
  */
-export const describeContainerInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeContainerInstancesRequest,
-    output: DescribeContainerInstancesResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-    ],
-  }),
-);
+export const describeContainerInstances: (
+  input: DescribeContainerInstancesRequest,
+) => Effect.Effect<
+  DescribeContainerInstancesResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeContainerInstancesRequest,
+  output: DescribeContainerInstancesResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+  ],
+}));
 /**
  * Describes the specified services running in your cluster.
  */
-export const describeServices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeServices: (
+  input: DescribeServicesRequest,
+) => Effect.Effect<
+  DescribeServicesResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeServicesRequest,
   output: DescribeServicesResponse,
   errors: [
@@ -6131,49 +6413,124 @@ export const describeServices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * statements inside the `filter` parameter. For more information, see Cluster Query Language in the Amazon Elastic
  * Container Service Developer Guide.
  */
-export const listContainerInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listContainerInstances: {
+  (
     input: ListContainerInstancesRequest,
-    output: ListContainerInstancesResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "containerInstanceArns",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListContainerInstancesResponse,
+    | ClientException
+    | ClusterNotFoundException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContainerInstancesRequest,
+  ) => Stream.Stream<
+    ListContainerInstancesResponse,
+    | ClientException
+    | ClusterNotFoundException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContainerInstancesRequest,
+  ) => Stream.Stream<
+    String,
+    | ClientException
+    | ClusterNotFoundException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContainerInstancesRequest,
+  output: ListContainerInstancesResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "containerInstanceArns",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of services. You can filter the results by cluster, launch type, and
  * scheduling strategy.
  */
-export const listServices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listServices: {
+  (
     input: ListServicesRequest,
-    output: ListServicesResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "serviceArns",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListServicesResponse,
+    | ClientException
+    | ClusterNotFoundException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServicesRequest,
+  ) => Stream.Stream<
+    ListServicesResponse,
+    | ClientException
+    | ClusterNotFoundException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServicesRequest,
+  ) => Stream.Stream<
+    String,
+    | ClientException
+    | ClusterNotFoundException
+    | InvalidParameterException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServicesRequest,
+  output: ListServicesResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "serviceArns",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List the tags for an Amazon ECS resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -6204,7 +6561,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon ECS Container Agent Configuration in the
  * *Amazon Elastic Container Service Developer Guide*.
  */
-export const stopTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopTask: (
+  input: StopTaskRequest,
+) => Effect.Effect<
+  StopTaskResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopTaskRequest,
   output: StopTaskResponse,
   errors: [
@@ -6220,13 +6587,20 @@ export const stopTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Sent to acknowledge that a container changed states.
  */
-export const submitContainerStateChange = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SubmitContainerStateChangeRequest,
-    output: SubmitContainerStateChangeResponse,
-    errors: [AccessDeniedException, ClientException, ServerException],
-  }),
-);
+export const submitContainerStateChange: (
+  input: SubmitContainerStateChangeRequest,
+) => Effect.Effect<
+  SubmitContainerStateChangeResponse,
+  | AccessDeniedException
+  | ClientException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SubmitContainerStateChangeRequest,
+  output: SubmitContainerStateChangeResponse,
+  errors: [AccessDeniedException, ClientException, ServerException],
+}));
 /**
  * Deregisters the specified task definition by family and revision. Upon deregistration,
  * the task definition is marked as `INACTIVE`. Existing tasks and services that
@@ -6248,13 +6622,20 @@ export const submitContainerStateChange = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You must deregister a task definition revision before you delete it. For more
  * information, see DeleteTaskDefinitions.
  */
-export const deregisterTaskDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterTaskDefinitionRequest,
-    output: DeregisterTaskDefinitionResponse,
-    errors: [ClientException, InvalidParameterException, ServerException],
-  }),
-);
+export const deregisterTaskDefinition: (
+  input: DeregisterTaskDefinitionRequest,
+) => Effect.Effect<
+  DeregisterTaskDefinitionResponse,
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterTaskDefinitionRequest,
+  output: DeregisterTaskDefinitionResponse,
+  errors: [ClientException, InvalidParameterException, ServerException],
+}));
 /**
  * This operation lists all of the services that are associated with a Cloud Map namespace.
  * This list might include services in different clusters. In contrast,
@@ -6263,30 +6644,73 @@ export const deregisterTaskDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `ListServices`. For more information, see Service Connect
  * in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const listServicesByNamespace =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServicesByNamespace: {
+  (
     input: ListServicesByNamespaceRequest,
-    output: ListServicesByNamespaceResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      NamespaceNotFoundException,
-      ServerException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "serviceArns",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServicesByNamespaceResponse,
+    | ClientException
+    | InvalidParameterException
+    | NamespaceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServicesByNamespaceRequest,
+  ) => Stream.Stream<
+    ListServicesByNamespaceResponse,
+    | ClientException
+    | InvalidParameterException
+    | NamespaceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServicesByNamespaceRequest,
+  ) => Stream.Stream<
+    String,
+    | ClientException
+    | InvalidParameterException
+    | NamespaceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServicesByNamespaceRequest,
+  output: ListServicesByNamespaceResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    NamespaceNotFoundException,
+    ServerException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "serviceArns",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Create or update an attribute on an Amazon ECS resource. If the attribute doesn't
  * exist, it's created. If the attribute exists, its value is replaced with the specified
  * value. To delete an attribute, use DeleteAttributes. For more information, see Attributes in the Amazon Elastic Container
  * Service Developer Guide.
  */
-export const putAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putAttributes: (
+  input: PutAttributesRequest,
+) => Effect.Effect<
+  PutAttributesResponse,
+  | AttributeLimitExceededException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | TargetNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAttributesRequest,
   output: PutAttributesResponse,
   errors: [
@@ -6299,19 +6723,28 @@ export const putAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes one or more of your capacity providers.
  */
-export const describeCapacityProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCapacityProvidersRequest,
-    output: DescribeCapacityProvidersResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
+export const describeCapacityProviders: (
+  input: DescribeCapacityProvidersRequest,
+) => Effect.Effect<
+  DescribeCapacityProvidersResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCapacityProvidersRequest,
+  output: DescribeCapacityProvidersResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+    UnsupportedFeatureException,
+  ],
+}));
 /**
  * Returns a list of tasks. You can filter the results by cluster, task definition
  * family, container instance, launch type, what IAM principal started the task, or by the
@@ -6319,7 +6752,44 @@ export const describeCapacityProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Recently stopped tasks might appear in the returned results.
  */
-export const listTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTasks: {
+  (
+    input: ListTasksRequest,
+  ): Effect.Effect<
+    ListTasksResponse,
+    | ClientException
+    | ClusterNotFoundException
+    | InvalidParameterException
+    | ServerException
+    | ServiceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTasksRequest,
+  ) => Stream.Stream<
+    ListTasksResponse,
+    | ClientException
+    | ClusterNotFoundException
+    | InvalidParameterException
+    | ServerException
+    | ServiceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTasksRequest,
+  ) => Stream.Stream<
+    String,
+    | ClientException
+    | ClusterNotFoundException
+    | InvalidParameterException
+    | ServerException
+    | ServiceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTasksRequest,
   output: ListTasksResponse,
   errors: [
@@ -6348,7 +6818,19 @@ export const listTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Amazon ECS Exec for debugging in the Amazon ECS Developer
  * Guide.
  */
-export const executeCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const executeCommand: (
+  input: ExecuteCommandRequest,
+) => Effect.Effect<
+  ExecuteCommandResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | TargetNotConnectedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteCommandRequest,
   output: ExecuteCommandResponse,
   errors: [
@@ -6363,7 +6845,18 @@ export const executeCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the cluster.
  */
-export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCluster: (
+  input: UpdateClusterRequest,
+) => Effect.Effect<
+  UpdateClusterResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | NamespaceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterRequest,
   output: UpdateClusterResponse,
   errors: [
@@ -6377,7 +6870,16 @@ export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes one or more custom attributes from an Amazon ECS resource.
  */
-export const deleteAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAttributes: (
+  input: DeleteAttributesRequest,
+) => Effect.Effect<
+  DeleteAttributesResponse,
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | TargetNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAttributesRequest,
   output: DeleteAttributesResponse,
   errors: [
@@ -6393,7 +6895,21 @@ export const deleteAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Types in the Amazon Elastic Container Service Developer
  * Guide.
  */
-export const describeTaskSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTaskSets: (
+  input: DescribeTaskSetsRequest,
+) => Effect.Effect<
+  DescribeTaskSetsResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotActiveException
+  | ServiceNotFoundException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTaskSetsRequest,
   output: DescribeTaskSetsResponse,
   errors: [
@@ -6413,7 +6929,18 @@ export const describeTaskSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * request parameters, they aren't changed. When a resource is deleted, the tags that are
  * associated with that resource are deleted as well.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -6427,7 +6954,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes specified tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -6449,24 +6987,49 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Use the `include` parameter to retrieve additional information such as
  * resource tags.
  */
-export const describeExpressGatewayService =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeExpressGatewayServiceRequest,
-    output: DescribeExpressGatewayServiceResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-      UnsupportedFeatureException,
-    ],
-  }));
+export const describeExpressGatewayService: (
+  input: DescribeExpressGatewayServiceRequest,
+) => Effect.Effect<
+  DescribeExpressGatewayServiceResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeExpressGatewayServiceRequest,
+  output: DescribeExpressGatewayServiceResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+    UnsupportedFeatureException,
+  ],
+}));
 /**
  * Retrieves the protection status of tasks in an Amazon ECS service.
  */
-export const getTaskProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTaskProtection: (
+  input: GetTaskProtectionRequest,
+) => Effect.Effect<
+  GetTaskProtectionResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTaskProtectionRequest,
   output: GetTaskProtectionResponse,
   errors: [
@@ -6497,7 +7060,18 @@ export const getTaskProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * creating or updating a service. For more information, see Amazon EBS volumes in the Amazon Elastic
  * Container Service Developer Guide.
  */
-export const startTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startTask: (
+  input: StartTaskRequest,
+) => Effect.Effect<
+  StartTaskResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTaskRequest,
   output: StartTaskResponse,
   errors: [
@@ -6524,38 +7098,56 @@ export const startTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Only capacity providers that aren't associated with a cluster can be deleted. To remove
  * a capacity provider from a cluster, you can either use PutClusterCapacityProviders or delete the cluster.
  */
-export const deleteCapacityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCapacityProviderRequest,
-    output: DeleteCapacityProviderResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
+export const deleteCapacityProvider: (
+  input: DeleteCapacityProviderRequest,
+) => Effect.Effect<
+  DeleteCapacityProviderResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCapacityProviderRequest,
+  output: DeleteCapacityProviderResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+    UnsupportedFeatureException,
+  ],
+}));
 /**
  * Modifies the parameters for a capacity provider.
  *
  * These changes only apply to new Amazon ECS Managed Instances, or EC2 instances, not
  * existing ones.
  */
-export const updateCapacityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCapacityProviderRequest,
-    output: UpdateCapacityProviderResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
+export const updateCapacityProvider: (
+  input: UpdateCapacityProviderRequest,
+) => Effect.Effect<
+  UpdateCapacityProviderResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCapacityProviderRequest,
+  output: UpdateCapacityProviderResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+    UnsupportedFeatureException,
+  ],
+}));
 /**
  * Updates the protection status of a task. You can set `protectionEnabled` to
  * `true` to protect your task from termination during scale-in events from
@@ -6587,21 +7179,32 @@ export const updateCapacityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * If you prefer to set task protection from within the container, we recommend using
  * the Task scale-in protection endpoint.
  */
-export const updateTaskProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTaskProtectionRequest,
-    output: UpdateTaskProtectionResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
+export const updateTaskProtection: (
+  input: UpdateTaskProtectionRequest,
+) => Effect.Effect<
+  UpdateTaskProtectionResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTaskProtectionRequest,
+  output: UpdateTaskProtectionResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+    UnsupportedFeatureException,
+  ],
+}));
 /**
  * Describes one or more of your service deployments.
  *
@@ -6609,21 +7212,32 @@ export const updateTaskProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * more information, see View service history
  * using Amazon ECS service deployments.
  */
-export const describeServiceDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeServiceDeploymentsRequest,
-    output: DescribeServiceDeploymentsResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-      ServiceNotFoundException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
+export const describeServiceDeployments: (
+  input: DescribeServiceDeploymentsRequest,
+) => Effect.Effect<
+  DescribeServiceDeploymentsResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotFoundException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeServiceDeploymentsRequest,
+  output: DescribeServiceDeploymentsResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+    ServiceNotFoundException,
+    UnsupportedFeatureException,
+  ],
+}));
 /**
  * This operation lists all the service deployments that meet the specified filter
  * criteria.
@@ -6634,20 +7248,30 @@ export const describeServiceDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This API returns the values that you use for the request parameters in DescribeServiceRevisions.
  */
-export const listServiceDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListServiceDeploymentsRequest,
-    output: ListServiceDeploymentsResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      InvalidParameterException,
-      ServerException,
-      ServiceNotFoundException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
+export const listServiceDeployments: (
+  input: ListServiceDeploymentsRequest,
+) => Effect.Effect<
+  ListServiceDeploymentsResponse,
+  | AccessDeniedException
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotFoundException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListServiceDeploymentsRequest,
+  output: ListServiceDeploymentsResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    InvalidParameterException,
+    ServerException,
+    ServiceNotFoundException,
+    UnsupportedFeatureException,
+  ],
+}));
 /**
  * Updates an existing Express service configuration. Modifies container settings, resource
  * allocation, auto-scaling configuration, and other service parameters without recreating the
@@ -6660,22 +7284,34 @@ export const listServiceDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Some parameters like the infrastructure role cannot be modified after service creation
  * and require creating a new service.
  */
-export const updateExpressGatewayService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateExpressGatewayServiceRequest,
-    output: UpdateExpressGatewayServiceResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-      ServiceNotActiveException,
-      ServiceNotFoundException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
+export const updateExpressGatewayService: (
+  input: UpdateExpressGatewayServiceRequest,
+) => Effect.Effect<
+  UpdateExpressGatewayServiceResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotActiveException
+  | ServiceNotFoundException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateExpressGatewayServiceRequest,
+  output: UpdateExpressGatewayServiceResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+    ServiceNotActiveException,
+    ServiceNotFoundException,
+    UnsupportedFeatureException,
+  ],
+}));
 /**
  * Creates a new Amazon ECS cluster. By default, your account receives a
  * `default` cluster when you launch your first container instance. However,
@@ -6690,7 +7326,17 @@ export const updateExpressGatewayService = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * service-linked roles for Amazon ECS in the Amazon Elastic
  * Container Service Developer Guide.
  */
-export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCluster: (
+  input: CreateClusterRequest,
+) => Effect.Effect<
+  CreateClusterResponse,
+  | ClientException
+  | InvalidParameterException
+  | NamespaceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterRequest,
   output: CreateClusterResponse,
   errors: [
@@ -6712,22 +7358,34 @@ export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation cannot be reversed. Back up important data and verify the service is no
  * longer needed before deletion.
  */
-export const deleteExpressGatewayService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteExpressGatewayServiceRequest,
-    output: DeleteExpressGatewayServiceResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-      ServiceNotActiveException,
-      ServiceNotFoundException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
+export const deleteExpressGatewayService: (
+  input: DeleteExpressGatewayServiceRequest,
+) => Effect.Effect<
+  DeleteExpressGatewayServiceResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotActiveException
+  | ServiceNotFoundException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteExpressGatewayServiceRequest,
+  output: DeleteExpressGatewayServiceResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+    ServiceNotActiveException,
+    ServiceNotFoundException,
+    UnsupportedFeatureException,
+  ],
+}));
 /**
  * Deletes a specified service within a cluster. You can delete a service if you have no
  * running tasks in it and the desired task count is zero. If the service is actively
@@ -6749,7 +7407,18 @@ export const deleteExpressGatewayService = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * in either `ACTIVE` or `DRAINING` status, you receive an
  * error.
  */
-export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteService: (
+  input: DeleteServiceRequest,
+) => Effect.Effect<
+  DeleteServiceResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceRequest,
   output: DeleteServiceResponse,
   errors: [
@@ -6777,18 +7446,26 @@ export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * deregisters the instance from your cluster (stopped container instances or instances
  * with disconnected agents aren't automatically deregistered when terminated).
  */
-export const deregisterContainerInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterContainerInstanceRequest,
-    output: DeregisterContainerInstanceResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-    ],
-  }),
-);
+export const deregisterContainerInstance: (
+  input: DeregisterContainerInstanceRequest,
+) => Effect.Effect<
+  DeregisterContainerInstanceResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterContainerInstanceRequest,
+  output: DeregisterContainerInstanceResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+  ],
+}));
 /**
  * Describes a specified task or tasks.
  *
@@ -6798,7 +7475,17 @@ export const deregisterContainerInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * returned in the response. If you create a new cluster with the same name as the deleted
  * cluster, the tagged tasks are not included in the response.
  */
-export const describeTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTasks: (
+  input: DescribeTasksRequest,
+) => Effect.Effect<
+  DescribeTasksResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTasksRequest,
   output: DescribeTasksResponse,
   errors: [
@@ -6831,13 +7518,20 @@ export const describeTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * definition. For more information, see Task Networking
  * in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const registerTaskDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterTaskDefinitionRequest,
-    output: RegisterTaskDefinitionResponse,
-    errors: [ClientException, InvalidParameterException, ServerException],
-  }),
-);
+export const registerTaskDefinition: (
+  input: RegisterTaskDefinitionRequest,
+) => Effect.Effect<
+  RegisterTaskDefinitionResponse,
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterTaskDefinitionRequest,
+  output: RegisterTaskDefinitionResponse,
+  errors: [ClientException, InvalidParameterException, ServerException],
+}));
 /**
  * Stops an ongoing service deployment.
  *
@@ -6853,21 +7547,32 @@ export const registerTaskDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * ECS service deployments in the Amazon Elastic Container Service
  * Developer Guide.
  */
-export const stopServiceDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopServiceDeploymentRequest,
-    output: StopServiceDeploymentResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      ConflictException,
-      InvalidParameterException,
-      ServerException,
-      ServiceDeploymentNotFoundException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
+export const stopServiceDeployment: (
+  input: StopServiceDeploymentRequest,
+) => Effect.Effect<
+  StopServiceDeploymentResponse,
+  | AccessDeniedException
+  | ClientException
+  | ConflictException
+  | InvalidParameterException
+  | ServerException
+  | ServiceDeploymentNotFoundException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopServiceDeploymentRequest,
+  output: StopServiceDeploymentResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ConflictException,
+    InvalidParameterException,
+    ServerException,
+    ServiceDeploymentNotFoundException,
+    UnsupportedFeatureException,
+  ],
+}));
 /**
  * Modifies the available capacity providers and the default capacity provider strategy
  * for a cluster.
@@ -6890,20 +7595,30 @@ export const stopServiceDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * provider with Amazon ECS Managed Instances, it becomes available only within the
  * specified cluster.
  */
-export const putClusterCapacityProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutClusterCapacityProvidersRequest,
-    output: PutClusterCapacityProvidersResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ResourceInUseException,
-      ServerException,
-      UpdateInProgressException,
-    ],
-  }),
-);
+export const putClusterCapacityProviders: (
+  input: PutClusterCapacityProvidersRequest,
+) => Effect.Effect<
+  PutClusterCapacityProvidersResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ServerException
+  | UpdateInProgressException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutClusterCapacityProvidersRequest,
+  output: PutClusterCapacityProvidersResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ResourceInUseException,
+    ServerException,
+    UpdateInProgressException,
+  ],
+}));
 /**
  * Modifies which task set in a service is the primary task set. Any parameters that are
  * updated on the primary task set in a service will transition to the service. This is
@@ -6912,23 +7627,36 @@ export const putClusterCapacityProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Types in the Amazon Elastic Container Service Developer
  * Guide.
  */
-export const updateServicePrimaryTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServicePrimaryTaskSetRequest,
-    output: UpdateServicePrimaryTaskSetResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-      ServiceNotActiveException,
-      ServiceNotFoundException,
-      TaskSetNotFoundException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
+export const updateServicePrimaryTaskSet: (
+  input: UpdateServicePrimaryTaskSetRequest,
+) => Effect.Effect<
+  UpdateServicePrimaryTaskSetResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotActiveException
+  | ServiceNotFoundException
+  | TaskSetNotFoundException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServicePrimaryTaskSetRequest,
+  output: UpdateServicePrimaryTaskSetResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+    ServiceNotActiveException,
+    ServiceNotFoundException,
+    TaskSetNotFoundException,
+    UnsupportedFeatureException,
+  ],
+}));
 /**
  * Updates the Amazon ECS container agent on a specified container instance. Updating the
  * Amazon ECS container agent doesn't interrupt running tasks or services on the container
@@ -6952,28 +7680,54 @@ export const updateServicePrimaryTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * updating the Amazon ECS container agent on other operating systems, see Manually updating the Amazon ECS container agent in the Amazon
  * Elastic Container Service Developer Guide.
  */
-export const updateContainerAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContainerAgentRequest,
-    output: UpdateContainerAgentResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      MissingVersionException,
-      NoUpdateAvailableException,
-      ServerException,
-      UpdateInProgressException,
-    ],
-  }),
-);
+export const updateContainerAgent: (
+  input: UpdateContainerAgentRequest,
+) => Effect.Effect<
+  UpdateContainerAgentResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | MissingVersionException
+  | NoUpdateAvailableException
+  | ServerException
+  | UpdateInProgressException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContainerAgentRequest,
+  output: UpdateContainerAgentResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    MissingVersionException,
+    NoUpdateAvailableException,
+    ServerException,
+    UpdateInProgressException,
+  ],
+}));
 /**
  * Modifies a task set. This is used when a service uses the `EXTERNAL`
  * deployment controller type. For more information, see Amazon ECS Deployment
  * Types in the Amazon Elastic Container Service Developer
  * Guide.
  */
-export const updateTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTaskSet: (
+  input: UpdateTaskSetRequest,
+) => Effect.Effect<
+  UpdateTaskSetResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotActiveException
+  | ServiceNotFoundException
+  | TaskSetNotFoundException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTaskSetRequest,
   output: UpdateTaskSetResponse,
   errors: [
@@ -6993,7 +7747,22 @@ export const updateTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `EXTERNAL` deployment controller type. For more information, see Amazon ECS deployment types in the Amazon Elastic Container
  * Service Developer Guide.
  */
-export const deleteTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTaskSet: (
+  input: DeleteTaskSetRequest,
+) => Effect.Effect<
+  DeleteTaskSetResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotActiveException
+  | ServiceNotFoundException
+  | TaskSetNotFoundException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTaskSetRequest,
   output: DeleteTaskSetResponse,
   errors: [
@@ -7021,22 +7790,34 @@ export const deleteTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Provide an execution role for task operations and an infrastructure role for managing
  * Amazon Web Services resources on your behalf.
  */
-export const createExpressGatewayService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateExpressGatewayServiceRequest,
-    output: CreateExpressGatewayServiceResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      PlatformTaskDefinitionIncompatibilityException,
-      PlatformUnknownException,
-      ServerException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
+export const createExpressGatewayService: (
+  input: CreateExpressGatewayServiceRequest,
+) => Effect.Effect<
+  CreateExpressGatewayServiceResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | PlatformTaskDefinitionIncompatibilityException
+  | PlatformUnknownException
+  | ServerException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateExpressGatewayServiceRequest,
+  output: CreateExpressGatewayServiceResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    PlatformTaskDefinitionIncompatibilityException,
+    PlatformUnknownException,
+    ServerException,
+    UnsupportedFeatureException,
+  ],
+}));
 /**
  * Describes one or more service revisions.
  *
@@ -7046,21 +7827,32 @@ export const createExpressGatewayService = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can't describe a service revision that was created before October 25, 2024.
  */
-export const describeServiceRevisions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeServiceRevisionsRequest,
-    output: DescribeServiceRevisionsResponse,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      ServerException,
-      ServiceNotFoundException,
-      UnsupportedFeatureException,
-    ],
-  }),
-);
+export const describeServiceRevisions: (
+  input: DescribeServiceRevisionsRequest,
+) => Effect.Effect<
+  DescribeServiceRevisionsResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotFoundException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeServiceRevisionsRequest,
+  output: DescribeServiceRevisionsResponse,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    ServerException,
+    ServiceNotFoundException,
+    UnsupportedFeatureException,
+  ],
+}));
 /**
  * Starts a new task using the specified task definition.
  *
@@ -7121,7 +7913,23 @@ export const describeServiceRevisions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * information about the service quotas, see Amazon ECS service
  * quotas.
  */
-export const runTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const runTask: (
+  input: RunTaskRequest,
+) => Effect.Effect<
+  RunTaskResponse,
+  | AccessDeniedException
+  | BlockedException
+  | ClientException
+  | ClusterNotFoundException
+  | ConflictException
+  | InvalidParameterException
+  | PlatformTaskDefinitionIncompatibilityException
+  | PlatformUnknownException
+  | ServerException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunTaskRequest,
   output: RunTaskResponse,
   errors: [
@@ -7257,7 +8065,24 @@ export const runTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * on the previous steps), favoring container instances with the largest number of
  * running tasks for this service.
  */
-export const updateService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateService: (
+  input: UpdateServiceRequest,
+) => Effect.Effect<
+  UpdateServiceResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | NamespaceNotFoundException
+  | PlatformTaskDefinitionIncompatibilityException
+  | PlatformUnknownException
+  | ServerException
+  | ServiceNotActiveException
+  | ServiceNotFoundException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceRequest,
   output: UpdateServiceResponse,
   errors: [
@@ -7288,7 +8113,24 @@ export const updateService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For information about the maximum number of task sets and other quotas, see Amazon ECS service quotas in the Amazon Elastic Container Service
  * Developer Guide.
  */
-export const createTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTaskSet: (
+  input: CreateTaskSetRequest,
+) => Effect.Effect<
+  CreateTaskSetResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | NamespaceNotFoundException
+  | PlatformTaskDefinitionIncompatibilityException
+  | PlatformUnknownException
+  | ServerException
+  | ServiceNotActiveException
+  | ServiceNotFoundException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTaskSetRequest,
   output: CreateTaskSetResponse,
   errors: [
@@ -7311,21 +8153,32 @@ export const createTaskSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * capacity providers for Amazon ECS Managed Instances and EC2 instances. Fargate has the
  * predefined `FARGATE` and `FARGATE_SPOT` capacity providers.
  */
-export const createCapacityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCapacityProviderRequest,
-    output: CreateCapacityProviderResponse,
-    errors: [
-      ClientException,
-      ClusterNotFoundException,
-      InvalidParameterException,
-      LimitExceededException,
-      ServerException,
-      UnsupportedFeatureException,
-      UpdateInProgressException,
-    ],
-  }),
-);
+export const createCapacityProvider: (
+  input: CreateCapacityProviderRequest,
+) => Effect.Effect<
+  CreateCapacityProviderResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | LimitExceededException
+  | ServerException
+  | UnsupportedFeatureException
+  | UpdateInProgressException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCapacityProviderRequest,
+  output: CreateCapacityProviderResponse,
+  errors: [
+    ClientException,
+    ClusterNotFoundException,
+    InvalidParameterException,
+    LimitExceededException,
+    ServerException,
+    UnsupportedFeatureException,
+    UpdateInProgressException,
+  ],
+}));
 /**
  * Runs and maintains your desired number of tasks from a specified task definition. If
  * the number of tasks running in a service drops below the `desiredCount`,
@@ -7518,7 +8371,22 @@ export const createCapacityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * information about task placement and task placement strategies, see Amazon ECS task placement in the Amazon Elastic Container Service
  * Developer Guide
  */
-export const createService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createService: (
+  input: CreateServiceRequest,
+) => Effect.Effect<
+  CreateServiceResponse,
+  | AccessDeniedException
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | NamespaceNotFoundException
+  | PlatformTaskDefinitionIncompatibilityException
+  | PlatformUnknownException
+  | ServerException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceRequest,
   output: CreateServiceResponse,
   errors: [
@@ -7542,7 +8410,22 @@ export const createService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You must deregister all container instances from this cluster before you may delete
  * it. You can list the container instances in a cluster with ListContainerInstances and deregister them with DeregisterContainerInstance.
  */
-export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCluster: (
+  input: DeleteClusterRequest,
+) => Effect.Effect<
+  DeleteClusterResponse,
+  | ClientException
+  | ClusterContainsCapacityProviderException
+  | ClusterContainsContainerInstancesException
+  | ClusterContainsServicesException
+  | ClusterContainsTasksException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | UpdateInProgressException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterRequest,
   output: DeleteClusterResponse,
   errors: [

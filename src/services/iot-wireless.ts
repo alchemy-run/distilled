@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Wireless",
   serviceShapeName: "iotwireless",
@@ -240,6 +248,216 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ClientRequestToken = string;
+export type FuotaTaskId = string;
+export type MulticastGroupId = string;
+export type WirelessDeviceId = string;
+export type ThingArn = string;
+export type WirelessGatewayId = string;
+export type IotCertificateId = string;
+export type DestinationName = string;
+export type Expression = string;
+export type Description = string;
+export type RoleArn = string;
+export type DeviceProfileName = string;
+export type FuotaTaskName = string;
+export type FirmwareUpdateImage = string;
+export type FirmwareUpdateRole = string;
+export type RedundancyPercent = number;
+export type FragmentSizeBytes = number;
+export type FragmentIntervalMS = number;
+export type FileDescriptor = string;
+export type MulticastGroupName = string;
+export type NetworkAnalyzerConfigurationName = string;
+export type ServiceProfileName = string;
+export type WirelessDeviceName = string;
+export type WirelessGatewayName = string;
+export type WirelessGatewayTaskDefinitionId = string;
+export type WirelessGatewayTaskName = string;
+export type DeviceProfileId = string;
+export type MessageId = string;
+export type ServiceProfileId = string;
+export type ImportTaskId = string;
+export type Identifier = string;
+export type PartnerAccountId = string;
+export type PositionResourceIdentifier = string;
+export type ResourceIdentifier = string;
+export type ResourceType = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type AmazonResourceName = string;
+export type Message = string;
+export type PayloadData = string;
+export type TransmitMode = number;
+export type QueryString = string;
+export type DeviceName = string;
+export type TagKey = string;
+export type PositionCoordinateValue = number;
+export type JoinEui = string;
+export type NetId = string;
+export type GatewayMaxEirp = number;
+export type AmazonId = string;
+export type AppServerPrivateKey = string;
+export type TagValue = string;
+export type ClassBTimeout = number;
+export type PingSlotPeriod = number;
+export type PingSlotDr = number;
+export type PingSlotFreq = number;
+export type ClassCTimeout = number;
+export type MacVersion = string;
+export type RegParamsRevision = string;
+export type RxDelay1 = number;
+export type RxDrOffset1 = number;
+export type RxDataRate2 = number;
+export type RxFreq2 = number;
+export type PresetFreq = number;
+export type MaxEirp = number;
+export type MaxDutyCycle = number;
+export type RfRegion = string;
+export type DrMinBox = number;
+export type DrMaxBox = number;
+export type TxPowerIndexMin = number;
+export type TxPowerIndexMax = number;
+export type NbTransMin = number;
+export type NbTransMax = number;
+export type DevEui = string;
+export type SidewalkManufacturingSn = string;
+export type GatewayEui = string;
+export type SubBand = number;
+export type UpdateDataSource = string;
+export type MetricQueryId = string;
+export type MacAddress = string;
+export type RSS = number;
+export type IPAddress = string;
+export type GnssNav = string;
+export type GPST = number;
+export type CaptureTimeAccuracy = number;
+export type Coordinate = number;
+export type DlDr = number;
+export type DlFreq = number;
+export type SessionTimeout = number;
+export type DeviceCreationFile = string;
+export type Role = string;
+export type DestinationArn = string;
+export type DeviceProfileArn = string;
+export type FuotaTaskArn = string;
+export type MulticastGroupArn = string;
+export type MulticastGroupStatus = string;
+export type NetworkAnalyzerConfigurationArn = string;
+export type PositionSolverVersion = string;
+export type ISODateTimeString = string;
+export type EndPoint = string;
+export type CertificatePEM = string;
+export type ServiceProfileArn = string;
+export type WirelessDeviceArn = string;
+export type ThingName = string;
+export type ImportTaskArn = string;
+export type StatusReason = string;
+export type ImportedWirelessDeviceCount = number;
+export type WirelessGatewayArn = string;
+export type WirelessGatewayTaskDefinitionArn = string;
+export type ResourceId = string;
+export type Result = string;
+export type TransmissionIntervalMulticast = number;
+export type AppKey = string;
+export type NwkKey = string;
+export type AppEui = string;
+export type GenAppKey = string;
+export type DevAddr = string;
+export type FCntStart = number;
+export type FPort = number;
+export type BeaconingDataRate = number;
+export type BeaconingFrequency = number;
+export type UpdateSignature = string;
+export type Crc = number;
+export type DimensionValue = string;
+export type MCC = number;
+export type MNC = number;
+export type LAC = number;
+export type GeranCid = number;
+export type GsmTimingAdvance = number;
+export type RxLevel = number;
+export type UtranCid = number;
+export type RSCP = number;
+export type PathLoss = number;
+export type TdscdmaTimingAdvance = number;
+export type EutranCid = number;
+export type TAC = number;
+export type LteTimingAdvance = number;
+export type RSRP = number;
+export type RSRQ = number;
+export type SystemId = number;
+export type NetworkId = number;
+export type BaseStationId = number;
+export type RegistrationZone = number;
+export type PilotPower = number;
+export type BaseLat = number;
+export type BaseLng = number;
+export type Seq = number;
+export type AckModeRetryDurationSecs = number;
+export type ApplicationServerPublicKey = string;
+export type NumberOfDevicesRequested = number;
+export type NumberOfDevicesInGroup = number;
+export type Fingerprint = string;
+export type PartnerAccountArn = string;
+export type HorizontalAccuracy = number;
+export type VerticalAccuracy = number;
+export type UlRate = number;
+export type UlBucketSize = number;
+export type UlRatePolicy = string;
+export type DlRate = number;
+export type DlBucketSize = number;
+export type DlRatePolicy = string;
+export type DevStatusReqFreq = number;
+export type DrMin = number;
+export type DrMax = number;
+export type ChannelMask = string;
+export type TargetPer = number;
+export type MinGwDiversity = number;
+export type SidewalkId = string;
+export type DakCertificateId = string;
+export type Integer = number;
+export type MulticastDeviceStatus = string;
+export type McGroupId = number;
+export type FNwkSIntKey = string;
+export type SNwkSIntKey = string;
+export type NwkSEncKey = string;
+export type AppSKey = string;
+export type NwkSKey = string;
+export type PackageVersion = string;
+export type Model = string;
+export type Station = string;
+export type BSIC = number;
+export type BCCH = number;
+export type UARFCNDL = number;
+export type PSC = number;
+export type UARFCN = number;
+export type CellParams = number;
+export type PCI = number;
+export type EARFCN = number;
+export type PnOffset = number;
+export type CdmaChannel = number;
+export type TransmissionInterval = number;
+export type MaxAllowedSignature = number;
+export type ApId = string;
+export type DeviceTypeId = string;
+export type CertificateValue = string;
+export type Double = number;
+export type ProviderNetId = string;
+export type Id = string;
+export type OnboardStatusReason = string;
+export type DownlinkFrequency = number;
+export type MulticastGroupMessageId = string;
+export type MetricQueryError = string;
+export type MetricUnit = string;
+export type Min = number;
+export type Max = number;
+export type Sum = number;
+export type Avg = number;
+export type Std = number;
+export type P90 = number;
 
 //# Schemas
 export interface GetEventConfigurationByResourceTypesRequest {}
@@ -5834,7 +6052,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -5854,7 +6074,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String) },
@@ -5868,21 +6090,35 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 /**
  * Get the event configuration based on resource types.
  */
-export const getEventConfigurationByResourceTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetEventConfigurationByResourceTypesRequest,
-    output: GetEventConfigurationByResourceTypesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-    ],
-  }));
+export const getEventConfigurationByResourceTypes: (
+  input: GetEventConfigurationByResourceTypesRequest,
+) => Effect.Effect<
+  GetEventConfigurationByResourceTypesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEventConfigurationByResourceTypesRequest,
+  output: GetEventConfigurationByResourceTypesResponse,
+  errors: [AccessDeniedException, InternalServerException, ThrottlingException],
+}));
 /**
  * Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol
  * or LoRaWAN Network Server (LNS) connections.
  */
-export const getServiceEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getServiceEndpoint: (
+  input: GetServiceEndpointRequest,
+) => Effect.Effect<
+  GetServiceEndpointResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceEndpointRequest,
   output: GetServiceEndpointResponse,
   errors: [
@@ -5895,7 +6131,18 @@ export const getServiceEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a wireless device.
  */
-export const getWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWirelessDevice: (
+  input: GetWirelessDeviceRequest,
+) => Effect.Effect<
+  GetWirelessDeviceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWirelessDeviceRequest,
   output: GetWirelessDeviceResponse,
   errors: [
@@ -5909,104 +6156,196 @@ export const getWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets operating information about a wireless device.
  */
-export const getWirelessDeviceStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetWirelessDeviceStatisticsRequest,
-    output: GetWirelessDeviceStatisticsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getWirelessDeviceStatistics: (
+  input: GetWirelessDeviceStatisticsRequest,
+) => Effect.Effect<
+  GetWirelessDeviceStatisticsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWirelessDeviceStatisticsRequest,
+  output: GetWirelessDeviceStatisticsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List the Sidewalk devices in an import task and their onboarding status.
  */
-export const listDevicesForWirelessDeviceImportTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDevicesForWirelessDeviceImportTaskRequest,
-    output: ListDevicesForWirelessDeviceImportTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const listDevicesForWirelessDeviceImportTask: (
+  input: ListDevicesForWirelessDeviceImportTaskRequest,
+) => Effect.Effect<
+  ListDevicesForWirelessDeviceImportTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDevicesForWirelessDeviceImportTaskRequest,
+  output: ListDevicesForWirelessDeviceImportTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List event configurations where at least one event topic has been enabled.
  */
-export const listEventConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListEventConfigurationsRequest,
-    output: ListEventConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const listEventConfigurations: (
+  input: ListEventConfigurationsRequest,
+) => Effect.Effect<
+  ListEventConfigurationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEventConfigurationsRequest,
+  output: ListEventConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the wireless devices registered to your AWS account.
  */
-export const listWirelessDevices =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWirelessDevices: {
+  (
     input: ListWirelessDevicesRequest,
-    output: ListWirelessDevicesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWirelessDevicesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWirelessDevicesRequest,
+  ) => Stream.Stream<
+    ListWirelessDevicesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWirelessDevicesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWirelessDevicesRequest,
+  output: ListWirelessDevicesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the wireless gateway tasks definitions registered to your AWS account.
  */
-export const listWirelessGatewayTaskDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListWirelessGatewayTaskDefinitionsRequest,
-    output: ListWirelessGatewayTaskDefinitionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const listWirelessGatewayTaskDefinitions: (
+  input: ListWirelessGatewayTaskDefinitionsRequest,
+) => Effect.Effect<
+  ListWirelessGatewayTaskDefinitionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListWirelessGatewayTaskDefinitionsRequest,
+  output: ListWirelessGatewayTaskDefinitionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Sends the specified data to a multicast group.
  */
-export const sendDataToMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendDataToMulticastGroupRequest,
-    output: SendDataToMulticastGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const sendDataToMulticastGroup: (
+  input: SendDataToMulticastGroupRequest,
+) => Effect.Effect<
+  SendDataToMulticastGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendDataToMulticastGroupRequest,
+  output: SendDataToMulticastGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds a tag to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -6021,7 +6360,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a service profile.
  */
-export const getServiceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getServiceProfile: (
+  input: GetServiceProfileRequest,
+) => Effect.Effect<
+  GetServiceProfileResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceProfileRequest,
   output: GetServiceProfileResponse,
   errors: [
@@ -6036,339 +6386,764 @@ export const getServiceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Get information about an import task and count of device onboarding summary
  * information for the import task.
  */
-export const getWirelessDeviceImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetWirelessDeviceImportTaskRequest,
-    output: GetWirelessDeviceImportTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getWirelessDeviceImportTask: (
+  input: GetWirelessDeviceImportTaskRequest,
+) => Effect.Effect<
+  GetWirelessDeviceImportTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWirelessDeviceImportTaskRequest,
+  output: GetWirelessDeviceImportTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the firmware version and other information about a wireless gateway.
  */
-export const getWirelessGatewayFirmwareInformation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetWirelessGatewayFirmwareInformationRequest,
-    output: GetWirelessGatewayFirmwareInformationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getWirelessGatewayFirmwareInformation: (
+  input: GetWirelessGatewayFirmwareInformationRequest,
+) => Effect.Effect<
+  GetWirelessGatewayFirmwareInformationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWirelessGatewayFirmwareInformationRequest,
+  output: GetWirelessGatewayFirmwareInformationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the destinations registered to your AWS account.
  */
-export const listDestinations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDestinations: {
+  (
     input: ListDestinationsRequest,
-    output: ListDestinationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDestinationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDestinationsRequest,
+  ) => Stream.Stream<
+    ListDestinationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDestinationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDestinationsRequest,
+  output: ListDestinationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the device profiles registered to your AWS account.
  */
-export const listDeviceProfiles = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDeviceProfiles: {
+  (
     input: ListDeviceProfilesRequest,
-    output: ListDeviceProfilesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDeviceProfilesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeviceProfilesRequest,
+  ) => Stream.Stream<
+    ListDeviceProfilesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeviceProfilesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeviceProfilesRequest,
+  output: ListDeviceProfilesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the FUOTA tasks registered to your AWS account.
  */
-export const listFuotaTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFuotaTasks: {
+  (
     input: ListFuotaTasksRequest,
-    output: ListFuotaTasksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFuotaTasksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFuotaTasksRequest,
+  ) => Stream.Stream<
+    ListFuotaTasksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFuotaTasksRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFuotaTasksRequest,
+  output: ListFuotaTasksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the multicast groups registered to your AWS account.
  */
-export const listMulticastGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMulticastGroups: {
+  (
     input: ListMulticastGroupsRequest,
-    output: ListMulticastGroupsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMulticastGroupsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMulticastGroupsRequest,
+  ) => Stream.Stream<
+    ListMulticastGroupsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMulticastGroupsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMulticastGroupsRequest,
+  output: ListMulticastGroupsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List all multicast groups associated with a FUOTA task.
  */
-export const listMulticastGroupsByFuotaTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMulticastGroupsByFuotaTask: {
+  (
     input: ListMulticastGroupsByFuotaTaskRequest,
-    output: ListMulticastGroupsByFuotaTaskResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMulticastGroupsByFuotaTaskResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMulticastGroupsByFuotaTaskRequest,
+  ) => Stream.Stream<
+    ListMulticastGroupsByFuotaTaskResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMulticastGroupsByFuotaTaskRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMulticastGroupsByFuotaTaskRequest,
+  output: ListMulticastGroupsByFuotaTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the network analyzer configurations.
  */
-export const listNetworkAnalyzerConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listNetworkAnalyzerConfigurations: {
+  (
     input: ListNetworkAnalyzerConfigurationsRequest,
-    output: ListNetworkAnalyzerConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListNetworkAnalyzerConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNetworkAnalyzerConfigurationsRequest,
+  ) => Stream.Stream<
+    ListNetworkAnalyzerConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNetworkAnalyzerConfigurationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNetworkAnalyzerConfigurationsRequest,
+  output: ListNetworkAnalyzerConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List position configurations for a given resource, such as positioning solvers.
  *
  * This action is no longer supported. Calls to retrieve position information should
  * use the GetResourcePosition API operation instead.
  */
-export const listPositionConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPositionConfigurations: {
+  (
     input: ListPositionConfigurationsRequest,
-    output: ListPositionConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPositionConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPositionConfigurationsRequest,
+  ) => Stream.Stream<
+    ListPositionConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPositionConfigurationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPositionConfigurationsRequest,
+  output: ListPositionConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List queued messages in the downlink queue.
  */
-export const listQueuedMessages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listQueuedMessages: {
+  (
     input: ListQueuedMessagesRequest,
-    output: ListQueuedMessagesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListQueuedMessagesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListQueuedMessagesRequest,
+  ) => Stream.Stream<
+    ListQueuedMessagesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListQueuedMessagesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListQueuedMessagesRequest,
+  output: ListQueuedMessagesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the service profiles registered to your AWS account.
  */
-export const listServiceProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceProfiles: {
+  (
     input: ListServiceProfilesRequest,
-    output: ListServiceProfilesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceProfilesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceProfilesRequest,
+  ) => Stream.Stream<
+    ListServiceProfilesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceProfilesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceProfilesRequest,
+  output: ListServiceProfilesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List of import tasks and summary information of onboarding status of devices in each
  * import task.
  */
-export const listWirelessDeviceImportTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListWirelessDeviceImportTasksRequest,
-    output: ListWirelessDeviceImportTasksResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const listWirelessDeviceImportTasks: (
+  input: ListWirelessDeviceImportTasksRequest,
+) => Effect.Effect<
+  ListWirelessDeviceImportTasksResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListWirelessDeviceImportTasksRequest,
+  output: ListWirelessDeviceImportTasksResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the wireless gateways registered to your AWS account.
  */
-export const listWirelessGateways =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWirelessGateways: {
+  (
     input: ListWirelessGatewaysRequest,
-    output: ListWirelessGatewaysResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWirelessGatewaysResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWirelessGatewaysRequest,
+  ) => Stream.Stream<
+    ListWirelessGatewaysResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWirelessGatewaysRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWirelessGatewaysRequest,
+  output: ListWirelessGatewaysResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Put position configuration for a given resource.
  *
  * This action is no longer supported. Calls to update the position configuration
  * should use the UpdateResourcePosition API operation instead.
  */
-export const putPositionConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutPositionConfigurationRequest,
-    output: PutPositionConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putPositionConfiguration: (
+  input: PutPositionConfigurationRequest,
+) => Effect.Effect<
+  PutPositionConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutPositionConfigurationRequest,
+  output: PutPositionConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Start import task for a single wireless device.
  */
-export const startSingleWirelessDeviceImportTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartSingleWirelessDeviceImportTaskRequest,
-    output: StartSingleWirelessDeviceImportTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startSingleWirelessDeviceImportTask: (
+  input: StartSingleWirelessDeviceImportTaskRequest,
+) => Effect.Effect<
+  StartSingleWirelessDeviceImportTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSingleWirelessDeviceImportTaskRequest,
+  output: StartSingleWirelessDeviceImportTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Start import task for provisioning Sidewalk devices in bulk using an S3 CSV
  * file.
  */
-export const startWirelessDeviceImportTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartWirelessDeviceImportTaskRequest,
-    output: StartWirelessDeviceImportTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startWirelessDeviceImportTask: (
+  input: StartWirelessDeviceImportTaskRequest,
+) => Effect.Effect<
+  StartWirelessDeviceImportTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartWirelessDeviceImportTaskRequest,
+  output: StartWirelessDeviceImportTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update the event configuration for a particular resource identifier.
  */
-export const updateResourceEventConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateResourceEventConfigurationRequest,
-    output: UpdateResourceEventConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateResourceEventConfiguration: (
+  input: UpdateResourceEventConfigurationRequest,
+) => Effect.Effect<
+  UpdateResourceEventConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResourceEventConfigurationRequest,
+  output: UpdateResourceEventConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates properties of a wireless device.
  */
-export const updateWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWirelessDeviceRequest,
-    output: UpdateWirelessDeviceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateWirelessDevice: (
+  input: UpdateWirelessDeviceRequest,
+) => Effect.Effect<
+  UpdateWirelessDeviceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWirelessDeviceRequest,
+  output: UpdateWirelessDeviceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about a destination.
  */
-export const getDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDestination: (
+  input: GetDestinationRequest,
+) => Effect.Effect<
+  GetDestinationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDestinationRequest,
   output: GetDestinationResponse,
   errors: [
@@ -6382,54 +7157,94 @@ export const getDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a multicast group session.
  */
-export const getMulticastGroupSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMulticastGroupSessionRequest,
-    output: GetMulticastGroupSessionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getMulticastGroupSession: (
+  input: GetMulticastGroupSessionRequest,
+) => Effect.Effect<
+  GetMulticastGroupSessionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMulticastGroupSessionRequest,
+  output: GetMulticastGroupSessionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get network analyzer configuration.
  */
-export const getNetworkAnalyzerConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetNetworkAnalyzerConfigurationRequest,
-    output: GetNetworkAnalyzerConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getNetworkAnalyzerConfiguration: (
+  input: GetNetworkAnalyzerConfigurationRequest,
+) => Effect.Effect<
+  GetNetworkAnalyzerConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetNetworkAnalyzerConfigurationRequest,
+  output: GetNetworkAnalyzerConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get the event configuration for a particular resource identifier.
  */
-export const getResourceEventConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetResourceEventConfigurationRequest,
-    output: GetResourceEventConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getResourceEventConfiguration: (
+  input: GetResourceEventConfigurationRequest,
+) => Effect.Effect<
+  GetResourceEventConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceEventConfigurationRequest,
+  output: GetResourceEventConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Fetches the log-level override, if any, for a given resource ID and resource
  * type..
  */
-export const getResourceLogLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourceLogLevel: (
+  input: GetResourceLogLevelRequest,
+) => Effect.Effect<
+  GetResourceLogLevelResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceLogLevelRequest,
   output: GetResourceLogLevelResponse,
   errors: [
@@ -6445,7 +7260,18 @@ export const getResourceLogLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resource. The position information uses the World Geodetic System
  * (WGS84).
  */
-export const getResourcePosition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePosition: (
+  input: GetResourcePositionRequest,
+) => Effect.Effect<
+  GetResourcePositionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePositionRequest,
   output: GetResourcePositionResponse,
   errors: [
@@ -6459,7 +7285,18 @@ export const getResourcePosition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a wireless gateway.
  */
-export const getWirelessGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWirelessGateway: (
+  input: GetWirelessGatewayRequest,
+) => Effect.Effect<
+  GetWirelessGatewayResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWirelessGatewayRequest,
   output: GetWirelessGatewayResponse,
   errors: [
@@ -6474,68 +7311,117 @@ export const getWirelessGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets the ID of the certificate that is currently associated with a wireless
  * gateway.
  */
-export const getWirelessGatewayCertificate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetWirelessGatewayCertificateRequest,
-    output: GetWirelessGatewayCertificateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getWirelessGatewayCertificate: (
+  input: GetWirelessGatewayCertificateRequest,
+) => Effect.Effect<
+  GetWirelessGatewayCertificateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWirelessGatewayCertificateRequest,
+  output: GetWirelessGatewayCertificateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets operating information about a wireless gateway.
  */
-export const getWirelessGatewayStatistics =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetWirelessGatewayStatisticsRequest,
-    output: GetWirelessGatewayStatisticsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getWirelessGatewayStatistics: (
+  input: GetWirelessGatewayStatisticsRequest,
+) => Effect.Effect<
+  GetWirelessGatewayStatisticsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWirelessGatewayStatisticsRequest,
+  output: GetWirelessGatewayStatisticsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about a wireless gateway task.
  */
-export const getWirelessGatewayTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetWirelessGatewayTaskRequest,
-    output: GetWirelessGatewayTaskResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getWirelessGatewayTask: (
+  input: GetWirelessGatewayTaskRequest,
+) => Effect.Effect<
+  GetWirelessGatewayTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWirelessGatewayTaskRequest,
+  output: GetWirelessGatewayTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about a wireless gateway task definition.
  */
-export const getWirelessGatewayTaskDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetWirelessGatewayTaskDefinitionRequest,
-    output: GetWirelessGatewayTaskDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getWirelessGatewayTaskDefinition: (
+  input: GetWirelessGatewayTaskDefinitionRequest,
+) => Effect.Effect<
+  GetWirelessGatewayTaskDefinitionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWirelessGatewayTaskDefinitionRequest,
+  output: GetWirelessGatewayTaskDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the partner accounts associated with your AWS account.
  */
-export const listPartnerAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listPartnerAccounts: (
+  input: ListPartnerAccountsRequest,
+) => Effect.Effect<
+  ListPartnerAccountsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPartnerAccountsRequest,
   output: ListPartnerAccountsResponse,
   errors: [
@@ -6549,7 +7435,17 @@ export const listPartnerAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Simulates a provisioned device by sending an uplink data payload of
  * `Hello`.
  */
-export const testWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testWirelessDevice: (
+  input: TestWirelessDeviceRequest,
+) => Effect.Effect<
+  TestWirelessDeviceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestWirelessDeviceRequest,
   output: TestWirelessDeviceResponse,
   errors: [
@@ -6562,120 +7458,197 @@ export const testWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates properties of a partner account.
  */
-export const updatePartnerAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePartnerAccountRequest,
-    output: UpdatePartnerAccountResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updatePartnerAccount: (
+  input: UpdatePartnerAccountRequest,
+) => Effect.Effect<
+  UpdatePartnerAccountResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePartnerAccountRequest,
+  output: UpdatePartnerAccountResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update an import task to add more devices to the task.
  */
-export const updateWirelessDeviceImportTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateWirelessDeviceImportTaskRequest,
-    output: UpdateWirelessDeviceImportTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateWirelessDeviceImportTask: (
+  input: UpdateWirelessDeviceImportTaskRequest,
+) => Effect.Effect<
+  UpdateWirelessDeviceImportTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWirelessDeviceImportTaskRequest,
+  output: UpdateWirelessDeviceImportTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates your AWS account from a partner account. If
  * `PartnerAccountId` and `PartnerType` are `null`,
  * disassociates your AWS account from all partner accounts.
  */
-export const disassociateAwsAccountFromPartnerAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateAwsAccountFromPartnerAccountRequest,
-    output: DisassociateAwsAccountFromPartnerAccountResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateAwsAccountFromPartnerAccount: (
+  input: DisassociateAwsAccountFromPartnerAccountRequest,
+) => Effect.Effect<
+  DisassociateAwsAccountFromPartnerAccountResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateAwsAccountFromPartnerAccountRequest,
+  output: DisassociateAwsAccountFromPartnerAccountResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes the log-level overrides for all resources; wireless devices, wireless
  * gateways, and FUOTA tasks.
  */
-export const resetAllResourceLogLevels = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetAllResourceLogLevelsRequest,
-    output: ResetAllResourceLogLevelsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const resetAllResourceLogLevels: (
+  input: ResetAllResourceLogLevelsRequest,
+) => Effect.Effect<
+  ResetAllResourceLogLevelsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetAllResourceLogLevelsRequest,
+  output: ResetAllResourceLogLevelsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes the log-level override, if any, for a specific resource ID and resource type.
  * It can be used for a wireless device, a wireless gateway, or a FUOTA task.
  */
-export const resetResourceLogLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetResourceLogLevelRequest,
-    output: ResetResourceLogLevelResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const resetResourceLogLevel: (
+  input: ResetResourceLogLevelRequest,
+) => Effect.Effect<
+  ResetResourceLogLevelResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetResourceLogLevelRequest,
+  output: ResetResourceLogLevelResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Starts a bulk association of all qualifying wireless devices with a multicast
  * group.
  */
-export const startBulkAssociateWirelessDeviceWithMulticastGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartBulkAssociateWirelessDeviceWithMulticastGroupRequest,
-    output: StartBulkAssociateWirelessDeviceWithMulticastGroupResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startBulkAssociateWirelessDeviceWithMulticastGroup: (
+  input: StartBulkAssociateWirelessDeviceWithMulticastGroupRequest,
+) => Effect.Effect<
+  StartBulkAssociateWirelessDeviceWithMulticastGroupResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartBulkAssociateWirelessDeviceWithMulticastGroupRequest,
+  output: StartBulkAssociateWirelessDeviceWithMulticastGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Starts a bulk disassociatin of all qualifying wireless devices from a multicast
  * group.
  */
-export const startBulkDisassociateWirelessDeviceFromMulticastGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest,
-    output: StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startBulkDisassociateWirelessDeviceFromMulticastGroup: (
+  input: StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest,
+) => Effect.Effect<
+  StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest,
+  output: StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates properties of a destination.
  */
-export const updateDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDestination: (
+  input: UpdateDestinationRequest,
+) => Effect.Effect<
+  UpdateDestinationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDestinationRequest,
   output: UpdateDestinationResponse,
   errors: [
@@ -6689,25 +7662,46 @@ export const updateDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update network analyzer configuration.
  */
-export const updateNetworkAnalyzerConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateNetworkAnalyzerConfigurationRequest,
-    output: UpdateNetworkAnalyzerConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateNetworkAnalyzerConfiguration: (
+  input: UpdateNetworkAnalyzerConfigurationRequest,
+) => Effect.Effect<
+  UpdateNetworkAnalyzerConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNetworkAnalyzerConfigurationRequest,
+  output: UpdateNetworkAnalyzerConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update the position information of a resource.
  *
  * This action is no longer supported. Calls to update the position information
  * should use the UpdateResourcePosition API operation instead.
  */
-export const updatePosition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePosition: (
+  input: UpdatePositionRequest,
+) => Effect.Effect<
+  UpdatePositionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePositionRequest,
   output: UpdatePositionResponse,
   errors: [
@@ -6723,39 +7717,68 @@ export const updatePosition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resource. The position coordinates are based on the World Geodetic System
  * (WGS84).
  */
-export const updateResourcePosition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateResourcePositionRequest,
-    output: UpdateResourcePositionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateResourcePosition: (
+  input: UpdateResourcePositionRequest,
+) => Effect.Effect<
+  UpdateResourcePositionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResourcePositionRequest,
+  output: UpdateResourcePositionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates properties of a wireless gateway.
  */
-export const updateWirelessGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWirelessGatewayRequest,
-    output: UpdateWirelessGatewayResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateWirelessGateway: (
+  input: UpdateWirelessGatewayRequest,
+) => Effect.Effect<
+  UpdateWirelessGatewayResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWirelessGatewayRequest,
+  output: UpdateWirelessGatewayResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a FUOTA task.
  */
-export const deleteFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFuotaTask: (
+  input: DeleteFuotaTaskRequest,
+) => Effect.Effect<
+  DeleteFuotaTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFuotaTaskRequest,
   output: DeleteFuotaTaskResponse,
   errors: [
@@ -6769,35 +7792,53 @@ export const deleteFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Remove queued messages from the downlink queue.
  */
-export const deleteQueuedMessages = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteQueuedMessagesRequest,
-    output: DeleteQueuedMessagesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteQueuedMessages: (
+  input: DeleteQueuedMessagesRequest,
+) => Effect.Effect<
+  DeleteQueuedMessagesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteQueuedMessagesRequest,
+  output: DeleteQueuedMessagesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a wireless device.
  */
-export const deleteWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWirelessDeviceRequest,
-    output: DeleteWirelessDeviceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteWirelessDevice: (
+  input: DeleteWirelessDeviceRequest,
+) => Effect.Effect<
+  DeleteWirelessDeviceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWirelessDeviceRequest,
+  output: DeleteWirelessDeviceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a wireless gateway.
  *
@@ -6812,86 +7853,145 @@ export const deleteWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To avoid this error, make sure that you use unique identifiers and parameters for
  * each request within the specified time period.
  */
-export const deleteWirelessGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWirelessGatewayRequest,
-    output: DeleteWirelessGatewayResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteWirelessGateway: (
+  input: DeleteWirelessGatewayRequest,
+) => Effect.Effect<
+  DeleteWirelessGatewayResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWirelessGatewayRequest,
+  output: DeleteWirelessGatewayResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a wireless gateway task.
  */
-export const deleteWirelessGatewayTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWirelessGatewayTaskRequest,
-    output: DeleteWirelessGatewayTaskResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteWirelessGatewayTask: (
+  input: DeleteWirelessGatewayTaskRequest,
+) => Effect.Effect<
+  DeleteWirelessGatewayTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWirelessGatewayTaskRequest,
+  output: DeleteWirelessGatewayTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a wireless gateway task definition. Deleting this task definition does not
  * affect tasks that are currently in progress.
  */
-export const deleteWirelessGatewayTaskDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteWirelessGatewayTaskDefinitionRequest,
-    output: DeleteWirelessGatewayTaskDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteWirelessGatewayTaskDefinition: (
+  input: DeleteWirelessGatewayTaskDefinitionRequest,
+) => Effect.Effect<
+  DeleteWirelessGatewayTaskDefinitionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWirelessGatewayTaskDefinitionRequest,
+  output: DeleteWirelessGatewayTaskDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates a wireless device from a multicast group.
  */
-export const disassociateWirelessDeviceFromMulticastGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateWirelessDeviceFromMulticastGroupRequest,
-    output: DisassociateWirelessDeviceFromMulticastGroupResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateWirelessDeviceFromMulticastGroup: (
+  input: DisassociateWirelessDeviceFromMulticastGroupRequest,
+) => Effect.Effect<
+  DisassociateWirelessDeviceFromMulticastGroupResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateWirelessDeviceFromMulticastGroupRequest,
+  output: DisassociateWirelessDeviceFromMulticastGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates a wireless gateway from its currently associated certificate.
  */
-export const disassociateWirelessGatewayFromCertificate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateWirelessGatewayFromCertificateRequest,
-    output: DisassociateWirelessGatewayFromCertificateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateWirelessGatewayFromCertificate: (
+  input: DisassociateWirelessGatewayFromCertificateRequest,
+) => Effect.Effect<
+  DisassociateWirelessGatewayFromCertificateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateWirelessGatewayFromCertificateRequest,
+  output: DisassociateWirelessGatewayFromCertificateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Sets the log-level override for a resource ID and resource type. A limit of 200 log
  * level override can be set per account.
  */
-export const putResourceLogLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourceLogLevel: (
+  input: PutResourceLogLevelRequest,
+) => Effect.Effect<
+  PutResourceLogLevelResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourceLogLevelRequest,
   output: PutResourceLogLevelResponse,
   errors: [
@@ -6905,7 +8005,18 @@ export const putResourceLogLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes one or more tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -6919,7 +8030,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates properties of a FUOTA task.
  */
-export const updateFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFuotaTask: (
+  input: UpdateFuotaTaskRequest,
+) => Effect.Effect<
+  UpdateFuotaTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFuotaTaskRequest,
   output: UpdateFuotaTaskResponse,
   errors: [
@@ -6936,154 +8059,262 @@ export const updateFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * device, wireless gateway, or FUOTA task log options, and is used to control the log
  * messages that'll be displayed in CloudWatch.
  */
-export const updateLogLevelsByResourceTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateLogLevelsByResourceTypesRequest,
-    output: UpdateLogLevelsByResourceTypesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateLogLevelsByResourceTypes: (
+  input: UpdateLogLevelsByResourceTypesRequest,
+) => Effect.Effect<
+  UpdateLogLevelsByResourceTypesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLogLevelsByResourceTypesRequest,
+  output: UpdateLogLevelsByResourceTypesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update the summary metric configuration.
  */
-export const updateMetricConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMetricConfigurationRequest,
-    output: UpdateMetricConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateMetricConfiguration: (
+  input: UpdateMetricConfigurationRequest,
+) => Effect.Effect<
+  UpdateMetricConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMetricConfigurationRequest,
+  output: UpdateMetricConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates properties of a multicast group session.
  */
-export const updateMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMulticastGroupRequest,
-    output: UpdateMulticastGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateMulticastGroup: (
+  input: UpdateMulticastGroupRequest,
+) => Effect.Effect<
+  UpdateMulticastGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMulticastGroupRequest,
+  output: UpdateMulticastGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associate a multicast group with a FUOTA task.
  */
-export const associateMulticastGroupWithFuotaTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateMulticastGroupWithFuotaTaskRequest,
-    output: AssociateMulticastGroupWithFuotaTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const associateMulticastGroupWithFuotaTask: (
+  input: AssociateMulticastGroupWithFuotaTaskRequest,
+) => Effect.Effect<
+  AssociateMulticastGroupWithFuotaTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateMulticastGroupWithFuotaTaskRequest,
+  output: AssociateMulticastGroupWithFuotaTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associate a wireless device with a FUOTA task.
  */
-export const associateWirelessDeviceWithFuotaTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateWirelessDeviceWithFuotaTaskRequest,
-    output: AssociateWirelessDeviceWithFuotaTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const associateWirelessDeviceWithFuotaTask: (
+  input: AssociateWirelessDeviceWithFuotaTaskRequest,
+) => Effect.Effect<
+  AssociateWirelessDeviceWithFuotaTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateWirelessDeviceWithFuotaTaskRequest,
+  output: AssociateWirelessDeviceWithFuotaTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a wireless device with a multicast group.
  */
-export const associateWirelessDeviceWithMulticastGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateWirelessDeviceWithMulticastGroupRequest,
-    output: AssociateWirelessDeviceWithMulticastGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const associateWirelessDeviceWithMulticastGroup: (
+  input: AssociateWirelessDeviceWithMulticastGroupRequest,
+) => Effect.Effect<
+  AssociateWirelessDeviceWithMulticastGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateWirelessDeviceWithMulticastGroupRequest,
+  output: AssociateWirelessDeviceWithMulticastGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a wireless device with a thing.
  */
-export const associateWirelessDeviceWithThing =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateWirelessDeviceWithThingRequest,
-    output: AssociateWirelessDeviceWithThingResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const associateWirelessDeviceWithThing: (
+  input: AssociateWirelessDeviceWithThingRequest,
+) => Effect.Effect<
+  AssociateWirelessDeviceWithThingResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateWirelessDeviceWithThingRequest,
+  output: AssociateWirelessDeviceWithThingResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a wireless gateway with a thing.
  */
-export const associateWirelessGatewayWithThing =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateWirelessGatewayWithThingRequest,
-    output: AssociateWirelessGatewayWithThingResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const associateWirelessGatewayWithThing: (
+  input: AssociateWirelessGatewayWithThingRequest,
+) => Effect.Effect<
+  AssociateWirelessGatewayWithThingResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateWirelessGatewayWithThingRequest,
+  output: AssociateWirelessGatewayWithThingResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Cancels an existing multicast group session.
  */
-export const cancelMulticastGroupSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelMulticastGroupSessionRequest,
-    output: CancelMulticastGroupSessionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelMulticastGroupSession: (
+  input: CancelMulticastGroupSessionRequest,
+) => Effect.Effect<
+  CancelMulticastGroupSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelMulticastGroupSessionRequest,
+  output: CancelMulticastGroupSessionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a destination.
  */
-export const deleteDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDestination: (
+  input: DeleteDestinationRequest,
+) => Effect.Effect<
+  DeleteDestinationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDestinationRequest,
   output: DeleteDestinationResponse,
   errors: [
@@ -7098,7 +8329,19 @@ export const deleteDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a device profile.
  */
-export const deleteDeviceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDeviceProfile: (
+  input: DeleteDeviceProfileRequest,
+) => Effect.Effect<
+  DeleteDeviceProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeviceProfileRequest,
   output: DeleteDeviceProfileResponse,
   errors: [
@@ -7113,152 +8356,260 @@ export const deleteDeviceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a multicast group if it is not in use by a FUOTA task.
  */
-export const deleteMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMulticastGroupRequest,
-    output: DeleteMulticastGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteMulticastGroup: (
+  input: DeleteMulticastGroupRequest,
+) => Effect.Effect<
+  DeleteMulticastGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMulticastGroupRequest,
+  output: DeleteMulticastGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a network analyzer configuration.
  */
-export const deleteNetworkAnalyzerConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteNetworkAnalyzerConfigurationRequest,
-    output: DeleteNetworkAnalyzerConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteNetworkAnalyzerConfiguration: (
+  input: DeleteNetworkAnalyzerConfigurationRequest,
+) => Effect.Effect<
+  DeleteNetworkAnalyzerConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNetworkAnalyzerConfigurationRequest,
+  output: DeleteNetworkAnalyzerConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a service profile.
  */
-export const deleteServiceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteServiceProfileRequest,
-    output: DeleteServiceProfileResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteServiceProfile: (
+  input: DeleteServiceProfileRequest,
+) => Effect.Effect<
+  DeleteServiceProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceProfileRequest,
+  output: DeleteServiceProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Delete an import task.
  */
-export const deleteWirelessDeviceImportTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteWirelessDeviceImportTaskRequest,
-    output: DeleteWirelessDeviceImportTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteWirelessDeviceImportTask: (
+  input: DeleteWirelessDeviceImportTaskRequest,
+) => Effect.Effect<
+  DeleteWirelessDeviceImportTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWirelessDeviceImportTaskRequest,
+  output: DeleteWirelessDeviceImportTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates a multicast group from a FUOTA task.
  */
-export const disassociateMulticastGroupFromFuotaTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateMulticastGroupFromFuotaTaskRequest,
-    output: DisassociateMulticastGroupFromFuotaTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const disassociateMulticastGroupFromFuotaTask: (
+  input: DisassociateMulticastGroupFromFuotaTaskRequest,
+) => Effect.Effect<
+  DisassociateMulticastGroupFromFuotaTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateMulticastGroupFromFuotaTaskRequest,
+  output: DisassociateMulticastGroupFromFuotaTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates a wireless device from a FUOTA task.
  */
-export const disassociateWirelessDeviceFromFuotaTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateWirelessDeviceFromFuotaTaskRequest,
-    output: DisassociateWirelessDeviceFromFuotaTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateWirelessDeviceFromFuotaTask: (
+  input: DisassociateWirelessDeviceFromFuotaTaskRequest,
+) => Effect.Effect<
+  DisassociateWirelessDeviceFromFuotaTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateWirelessDeviceFromFuotaTaskRequest,
+  output: DisassociateWirelessDeviceFromFuotaTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates a wireless device from its currently associated thing.
  */
-export const disassociateWirelessDeviceFromThing =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateWirelessDeviceFromThingRequest,
-    output: DisassociateWirelessDeviceFromThingResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateWirelessDeviceFromThing: (
+  input: DisassociateWirelessDeviceFromThingRequest,
+) => Effect.Effect<
+  DisassociateWirelessDeviceFromThingResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateWirelessDeviceFromThingRequest,
+  output: DisassociateWirelessDeviceFromThingResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates a wireless gateway from its currently associated thing.
  */
-export const disassociateWirelessGatewayFromThing =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateWirelessGatewayFromThingRequest,
-    output: DisassociateWirelessGatewayFromThingResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateWirelessGatewayFromThing: (
+  input: DisassociateWirelessGatewayFromThingRequest,
+) => Effect.Effect<
+  DisassociateWirelessGatewayFromThingResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateWirelessGatewayFromThingRequest,
+  output: DisassociateWirelessGatewayFromThingResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a wireless gateway with a certificate.
  */
-export const associateWirelessGatewayWithCertificate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateWirelessGatewayWithCertificateRequest,
-    output: AssociateWirelessGatewayWithCertificateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const associateWirelessGatewayWithCertificate: (
+  input: AssociateWirelessGatewayWithCertificateRequest,
+) => Effect.Effect<
+  AssociateWirelessGatewayWithCertificateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateWirelessGatewayWithCertificateRequest,
+  output: AssociateWirelessGatewayWithCertificateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new destination that maps a device message to an AWS IoT rule.
  */
-export const createDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDestination: (
+  input: CreateDestinationRequest,
+) => Effect.Effect<
+  CreateDestinationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDestinationRequest,
   output: CreateDestinationResponse,
   errors: [
@@ -7273,41 +8624,72 @@ export const createDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a task for a wireless gateway.
  */
-export const createWirelessGatewayTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWirelessGatewayTaskRequest,
-    output: CreateWirelessGatewayTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createWirelessGatewayTask: (
+  input: CreateWirelessGatewayTaskRequest,
+) => Effect.Effect<
+  CreateWirelessGatewayTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWirelessGatewayTaskRequest,
+  output: CreateWirelessGatewayTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get the metric configuration status for this AWS account.
  */
-export const getMetricConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMetricConfigurationRequest,
-    output: GetMetricConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getMetricConfiguration: (
+  input: GetMetricConfigurationRequest,
+) => Effect.Effect<
+  GetMetricConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMetricConfigurationRequest,
+  output: GetMetricConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the tags (metadata) you have assigned to the resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -7321,7 +8703,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a FUOTA task.
  */
-export const startFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startFuotaTask: (
+  input: StartFuotaTaskRequest,
+) => Effect.Effect<
+  StartFuotaTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFuotaTaskRequest,
   output: StartFuotaTaskResponse,
   errors: [
@@ -7336,40 +8730,73 @@ export const startFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a multicast group session.
  */
-export const startMulticastGroupSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMulticastGroupSessionRequest,
-    output: StartMulticastGroupSessionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startMulticastGroupSession: (
+  input: StartMulticastGroupSessionRequest,
+) => Effect.Effect<
+  StartMulticastGroupSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMulticastGroupSessionRequest,
+  output: StartMulticastGroupSessionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a partner account with your AWS account.
  */
-export const associateAwsAccountWithPartnerAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateAwsAccountWithPartnerAccountRequest,
-    output: AssociateAwsAccountWithPartnerAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const associateAwsAccountWithPartnerAccount: (
+  input: AssociateAwsAccountWithPartnerAccountRequest,
+) => Effect.Effect<
+  AssociateAwsAccountWithPartnerAccountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateAwsAccountWithPartnerAccountRequest,
+  output: AssociateAwsAccountWithPartnerAccountResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a FUOTA task.
  */
-export const createFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFuotaTask: (
+  input: CreateFuotaTaskRequest,
+) => Effect.Effect<
+  CreateFuotaTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFuotaTaskRequest,
   output: CreateFuotaTaskResponse,
   errors: [
@@ -7384,37 +8811,68 @@ export const createFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new network analyzer configuration.
  */
-export const createNetworkAnalyzerConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateNetworkAnalyzerConfigurationRequest,
-    output: CreateNetworkAnalyzerConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createNetworkAnalyzerConfiguration: (
+  input: CreateNetworkAnalyzerConfigurationRequest,
+) => Effect.Effect<
+  CreateNetworkAnalyzerConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNetworkAnalyzerConfigurationRequest,
+  output: CreateNetworkAnalyzerConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update the event configuration based on resource types.
  */
-export const updateEventConfigurationByResourceTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateEventConfigurationByResourceTypesRequest,
-    output: UpdateEventConfigurationByResourceTypesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateEventConfigurationByResourceTypes: (
+  input: UpdateEventConfigurationByResourceTypesRequest,
+) => Effect.Effect<
+  UpdateEventConfigurationByResourceTypesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEventConfigurationByResourceTypesRequest,
+  output: UpdateEventConfigurationByResourceTypesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new device profile.
  */
-export const createDeviceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDeviceProfile: (
+  input: CreateDeviceProfileRequest,
+) => Effect.Effect<
+  CreateDeviceProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeviceProfileRequest,
   output: CreateDeviceProfileResponse,
   errors: [
@@ -7428,38 +8886,66 @@ export const createDeviceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new service profile.
  */
-export const createServiceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateServiceProfileRequest,
-    output: CreateServiceProfileResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createServiceProfile: (
+  input: CreateServiceProfileRequest,
+) => Effect.Effect<
+  CreateServiceProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateServiceProfileRequest,
+  output: CreateServiceProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deregister a wireless device from AWS IoT Wireless.
  */
-export const deregisterWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterWirelessDeviceRequest,
-    output: DeregisterWirelessDeviceResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deregisterWirelessDevice: (
+  input: DeregisterWirelessDeviceRequest,
+) => Effect.Effect<
+  DeregisterWirelessDeviceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterWirelessDeviceRequest,
+  output: DeregisterWirelessDeviceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about a FUOTA task.
  */
-export const getFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFuotaTask: (
+  input: GetFuotaTaskRequest,
+) => Effect.Effect<
+  GetFuotaTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFuotaTaskRequest,
   output: GetFuotaTaskResponse,
   errors: [
@@ -7475,23 +8961,43 @@ export const getFuotaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resource type, log levels can be returned for wireless device, wireless gateway, or
  * FUOTA task log options.
  */
-export const getLogLevelsByResourceTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLogLevelsByResourceTypesRequest,
-    output: GetLogLevelsByResourceTypesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getLogLevelsByResourceTypes: (
+  input: GetLogLevelsByResourceTypesRequest,
+) => Effect.Effect<
+  GetLogLevelsByResourceTypesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLogLevelsByResourceTypesRequest,
+  output: GetLogLevelsByResourceTypesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about a multicast group.
  */
-export const getMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMulticastGroup: (
+  input: GetMulticastGroupRequest,
+) => Effect.Effect<
+  GetMulticastGroupResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMulticastGroupRequest,
   output: GetMulticastGroupResponse,
   errors: [
@@ -7506,7 +9012,17 @@ export const getMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets information about a partner account. If `PartnerAccountId` and
  * `PartnerType` are `null`, returns all partner accounts.
  */
-export const getPartnerAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPartnerAccount: (
+  input: GetPartnerAccountRequest,
+) => Effect.Effect<
+  GetPartnerAccountResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPartnerAccountRequest,
   output: GetPartnerAccountResponse,
   errors: [
@@ -7522,7 +9038,18 @@ export const getPartnerAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This action is no longer supported. Calls to retrieve the position information
  * should use the GetResourcePosition API operation instead.
  */
-export const getPosition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPosition: (
+  input: GetPositionRequest,
+) => Effect.Effect<
+  GetPositionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPositionRequest,
   output: GetPositionResponse,
   errors: [
@@ -7536,20 +9063,30 @@ export const getPosition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a multicast group.
  */
-export const createMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMulticastGroupRequest,
-    output: CreateMulticastGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createMulticastGroup: (
+  input: CreateMulticastGroupRequest,
+) => Effect.Effect<
+  CreateMulticastGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMulticastGroupRequest,
+  output: CreateMulticastGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Provisions a wireless gateway.
  *
@@ -7564,23 +9101,43 @@ export const createMulticastGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To avoid this error, make sure that you use unique identifiers and parameters for
  * each request within the specified time period.
  */
-export const createWirelessGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWirelessGatewayRequest,
-    output: CreateWirelessGatewayResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createWirelessGateway: (
+  input: CreateWirelessGatewayRequest,
+) => Effect.Effect<
+  CreateWirelessGatewayResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWirelessGatewayRequest,
+  output: CreateWirelessGatewayResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about a device profile.
  */
-export const getDeviceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeviceProfile: (
+  input: GetDeviceProfileRequest,
+) => Effect.Effect<
+  GetDeviceProfileResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeviceProfileRequest,
   output: GetDeviceProfileResponse,
   errors: [
@@ -7597,56 +9154,98 @@ export const getDeviceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This action is no longer supported. Calls to retrieve the position configuration
  * should use the GetResourcePosition API operation instead.
  */
-export const getPositionConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPositionConfigurationRequest,
-    output: GetPositionConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getPositionConfiguration: (
+  input: GetPositionConfigurationRequest,
+) => Effect.Effect<
+  GetPositionConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPositionConfigurationRequest,
+  output: GetPositionConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Provisions a wireless device.
  */
-export const createWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWirelessDeviceRequest,
-    output: CreateWirelessDeviceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createWirelessDevice: (
+  input: CreateWirelessDeviceRequest,
+) => Effect.Effect<
+  CreateWirelessDeviceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWirelessDeviceRequest,
+  output: CreateWirelessDeviceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a gateway task definition.
  */
-export const createWirelessGatewayTaskDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateWirelessGatewayTaskDefinitionRequest,
-    output: CreateWirelessGatewayTaskDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createWirelessGatewayTaskDefinition: (
+  input: CreateWirelessGatewayTaskDefinitionRequest,
+) => Effect.Effect<
+  CreateWirelessGatewayTaskDefinitionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWirelessGatewayTaskDefinitionRequest,
+  output: CreateWirelessGatewayTaskDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get the summary metrics for this AWS account.
  */
-export const getMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMetrics: (
+  input: GetMetricsRequest,
+) => Effect.Effect<
+  GetMetricsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetricsRequest,
   output: GetMetricsResponse,
   errors: [
@@ -7663,7 +9262,18 @@ export const getMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * measurement data is resolved using solvers that are provided by third-party
  * vendors.
  */
-export const getPositionEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPositionEstimate: (
+  input: GetPositionEstimateRequest,
+) => Effect.Effect<
+  GetPositionEstimateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPositionEstimateRequest,
   output: GetPositionEstimateResponse,
   errors: [
@@ -7677,15 +9287,23 @@ export const getPositionEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Sends a decrypted application data frame to a device.
  */
-export const sendDataToWirelessDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendDataToWirelessDeviceRequest,
-    output: SendDataToWirelessDeviceResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const sendDataToWirelessDevice: (
+  input: SendDataToWirelessDeviceRequest,
+) => Effect.Effect<
+  SendDataToWirelessDeviceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendDataToWirelessDeviceRequest,
+  output: SendDataToWirelessDeviceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

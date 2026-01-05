@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "Omics", serviceShapeName: "Omics" });
 const auth = T.AwsAuthSigv4({ name: "omics" });
 const ver = T.ServiceVersion("2022-11-28");
@@ -289,6 +297,180 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type S3AccessPointArn = string;
+export type S3AccessPolicy = string;
+export type StoreName = string;
+export type Arn = string;
+export type VersionName = string;
+export type ResourceId = string;
+export type ResourceIdentifier = string;
+export type Description = string;
+export type StoreFormat = string;
+export type ReferenceStoreName = string;
+export type ReferenceStoreDescription = string;
+export type ClientToken = string;
+export type ReferenceStoreId = string;
+export type NextToken = string;
+export type ImportJobId = string;
+export type RoleArn = string;
+export type ReferenceId = string;
+export type Range = string;
+export type ReferenceFile = string;
+export type CacheBehavior = string;
+export type S3UriForBucketOrObject = string;
+export type UserCustomDescription = string;
+export type UserCustomName = string;
+export type RunCacheRequestId = string;
+export type AwsAccountId = string;
+export type RunCacheId = string;
+export type ListToken = string;
+export type RunGroupName = string;
+export type RunGroupRequestId = string;
+export type RunGroupId = string;
+export type RunGroupListToken = string;
+export type WorkflowId = string;
+export type WorkflowType = string;
+export type RunId = string;
+export type RunRoleArn = string;
+export type RunName = string;
+export type NumericIdInArn = string;
+export type RunOutputUri = string;
+export type RunLogLevel = string;
+export type RunRequestId = string;
+export type RunRetentionMode = string;
+export type StorageType = string;
+export type WorkflowOwnerId = string;
+export type WorkflowVersionName = string;
+export type RunExport = string;
+export type RunListToken = string;
+export type RunStatus = string;
+export type TaskId = string;
+export type TaskStatus = string;
+export type TaskListToken = string;
+export type SequenceStoreName = string;
+export type SequenceStoreDescription = string;
+export type FallbackLocation = string;
+export type ETagAlgorithmFamily = string;
+export type TagKey = string;
+export type SequenceStoreId = string;
+export type UploadId = string;
+export type FileType = string;
+export type SubjectId = string;
+export type SampleId = string;
+export type GeneratedFrom = string;
+export type ReferenceArn = string;
+export type ReadSetName = string;
+export type ReadSetDescription = string;
+export type ActivationJobId = string;
+export type ExportJobId = string;
+export type ReadSetPartSource = string;
+export type S3Destination = string;
+export type ReadSetId = string;
+export type ReadSetFile = string;
+export type ShareName = string;
+export type ResourceOwner = string;
+export type TagArn = string;
+export type WorkflowName = string;
+export type WorkflowDescription = string;
+export type WorkflowEngine = string;
+export type WorkflowDefinition = string;
+export type WorkflowMain = string;
+export type WorkflowRequestId = string;
+export type Accelerators = string;
+export type Uri = string;
+export type ReadmeMarkdown = string;
+export type ParameterTemplatePath = string;
+export type ReadmePath = string;
+export type WorkflowBucketOwnerId = string;
+export type S3UriForObject = string;
+export type WorkflowExport = string;
+export type WorkflowListToken = string;
+export type WorkflowVersionDescription = string;
+export type WorkflowVersionListToken = string;
+export type S3Uri = string;
+export type JobStatus = string;
+export type TagValue = string;
+export type EncryptionType = string;
+export type StoreStatus = string;
+export type VersionStatus = string;
+export type ReferenceImportJobStatus = string;
+export type ReferenceName = string;
+export type ReferenceDescription = string;
+export type Md5 = string;
+export type AccessLogLocation = string;
+export type SequenceStoreStatus = string;
+export type ReadSetActivationJobStatus = string;
+export type ReadSetExportJobStatus = string;
+export type ReadSetImportJobStatus = string;
+export type ReadSetStatus = string;
+export type ReferenceArnFilter = string;
+export type CreationType = string;
+export type ShareStatus = string;
+export type ShareResourceType = string;
+export type WorkflowParameterName = string;
+export type ConnectionArn = string;
+export type FullRepositoryId = string;
+export type StoreId = string;
+export type JobStatusMsg = string;
+export type StatusMessage = string;
+export type ReferenceStoreArn = string;
+export type JobStatusMessage = string;
+export type ReferenceStatus = string;
+export type ReferenceCreationType = string;
+export type CreationJobId = string;
+export type RunCacheArn = string;
+export type RunCacheStatus = string;
+export type RunGroupArn = string;
+export type RunArn = string;
+export type RunUuid = string;
+export type EngineVersion = string;
+export type WorkflowDigest = string;
+export type RunStartedBy = string;
+export type RunStatusMessage = string;
+export type RunFailureReason = string;
+export type WorkflowUuid = string;
+export type TaskName = string;
+export type TaskStatusMessage = string;
+export type TaskLogStream = string;
+export type TaskInstanceType = string;
+export type TaskFailureReason = string;
+export type SequenceStoreArn = string;
+export type SequenceStoreStatusMessage = string;
+export type ReadSetArn = string;
+export type ReadSetStatusMessage = string;
+export type WorkflowArn = string;
+export type WorkflowStatus = string;
+export type WorkflowStatusMessage = string;
+export type ReadmeS3PresignedUrl = string;
+export type WorkflowVersionArn = string;
+export type AnnotationType = string;
+export type WorkflowParameterDescription = string;
+export type EcrRepositoryPrefix = string;
+export type UpstreamRepositoryPrefix = string;
+export type SourceReferenceType = string;
+export type SourceReferenceValue = string;
+export type ReferenceImportJobItemStatus = string;
+export type RunResourceDigestKey = string;
+export type RunResourceDigest = string;
+export type EngineLogStream = string;
+export type RunLogStream = string;
+export type TaskImageDigest = string;
+export type ReadSetActivationJobItemStatus = string;
+export type ReadSetExportJobItemStatus = string;
+export type ReadSetImportJobItemStatus = string;
+export type ETagAlgorithm = string;
+export type WorkflowMetadataKey = string;
+export type WorkflowMetadataValue = string;
+export type Separator = string;
+export type Encoding = string;
+export type Quote = string;
+export type EscapeChar = string;
+export type CommentChar = string;
+export type LineSep = string;
+export type FormatToHeaderKey = string;
+export type SchemaValueType = string;
 
 //# Schemas
 export type IdList = string[];
@@ -1691,6 +1873,7 @@ export const CancelVariantImportResponse = S.suspend(() =>
 ).annotations({
   identifier: "CancelVariantImportResponse",
 }) as any as S.Schema<CancelVariantImportResponse>;
+export type ReferenceItem = { referenceArn: string };
 export const ReferenceItem = S.Union(S.Struct({ referenceArn: S.String }));
 export interface CreateVariantStoreRequest {
   reference: (typeof ReferenceItem)["Type"];
@@ -2513,6 +2696,7 @@ export const TsvStoreOptions = S.suspend(() =>
 ).annotations({
   identifier: "TsvStoreOptions",
 }) as any as S.Schema<TsvStoreOptions>;
+export type StoreOptions = { tsvStoreOptions: TsvStoreOptions };
 export const StoreOptions = S.Union(
   S.Struct({ tsvStoreOptions: TsvStoreOptions }),
 );
@@ -2627,6 +2811,7 @@ export const TsvVersionOptions = S.suspend(() =>
 ).annotations({
   identifier: "TsvVersionOptions",
 }) as any as S.Schema<TsvVersionOptions>;
+export type VersionOptions = { tsvVersionOptions: TsvVersionOptions };
 export const VersionOptions = S.Union(
   S.Struct({ tsvVersionOptions: TsvVersionOptions }),
 );
@@ -4203,6 +4388,9 @@ export interface TsvOptions {
 export const TsvOptions = S.suspend(() =>
   S.Struct({ readOptions: S.optional(ReadOptions) }),
 ).annotations({ identifier: "TsvOptions" }) as any as S.Schema<TsvOptions>;
+export type FormatOptions =
+  | { tsvOptions: TsvOptions }
+  | { vcfOptions: VcfOptions };
 export const FormatOptions = S.Union(
   S.Struct({ tsvOptions: TsvOptions }),
   S.Struct({ vcfOptions: VcfOptions }),
@@ -5694,7 +5882,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String },
@@ -5720,7 +5910,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },
@@ -5736,350 +5928,850 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  *
  * Gets information about an annotation import job.
  */
-export const getAnnotationImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAnnotationImportRequest,
-    output: GetAnnotationImportResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAnnotationImportJob: (
+  input: GetAnnotationImportRequest,
+) => Effect.Effect<
+  GetAnnotationImportResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAnnotationImportRequest,
+  output: GetAnnotationImportResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new version of an annotation store.
  */
-export const createAnnotationStoreVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateAnnotationStoreVersionRequest,
-    output: CreateAnnotationStoreVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createAnnotationStoreVersion: (
+  input: CreateAnnotationStoreVersionRequest,
+) => Effect.Effect<
+  CreateAnnotationStoreVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAnnotationStoreVersionRequest,
+  output: CreateAnnotationStoreVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves metadata for a reference genome. This operation returns the number of parts, part size, and MD5 of an entire file. This operation does not return tags. To retrieve the list of tags for a read set, use the `ListTagsForResource` API operation.
  */
-export const getReferenceMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetReferenceMetadataRequest,
-    output: GetReferenceMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getReferenceMetadata: (
+  input: GetReferenceMetadataRequest,
+) => Effect.Effect<
+  GetReferenceMetadataResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReferenceMetadataRequest,
+  output: GetReferenceMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change.
  *
  * Retrieves a list of annotation import jobs.
  */
-export const listAnnotationImportJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAnnotationImportJobs: {
+  (
     input: ListAnnotationImportJobsRequest,
-    output: ListAnnotationImportJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "annotationImportJobs",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAnnotationImportJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAnnotationImportJobsRequest,
+  ) => Stream.Stream<
+    ListAnnotationImportJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAnnotationImportJobsRequest,
+  ) => Stream.Stream<
+    AnnotationImportJobItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAnnotationImportJobsRequest,
+  output: ListAnnotationImportJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "annotationImportJobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change.
  *
  * Retrieves a list of annotation stores.
  */
-export const listAnnotationStores =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAnnotationStores: {
+  (
     input: ListAnnotationStoresRequest,
-    output: ListAnnotationStoresResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "annotationStores",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAnnotationStoresResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAnnotationStoresRequest,
+  ) => Stream.Stream<
+    ListAnnotationStoresResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAnnotationStoresRequest,
+  ) => Stream.Stream<
+    AnnotationStoreItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAnnotationStoresRequest,
+  output: ListAnnotationStoresResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "annotationStores",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the versions of an annotation store.
  */
-export const listAnnotationStoreVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAnnotationStoreVersions: {
+  (
     input: ListAnnotationStoreVersionsRequest,
-    output: ListAnnotationStoreVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "annotationStoreVersions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAnnotationStoreVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAnnotationStoreVersionsRequest,
+  ) => Stream.Stream<
+    ListAnnotationStoreVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAnnotationStoreVersionsRequest,
+  ) => Stream.Stream<
+    AnnotationStoreVersionItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAnnotationStoreVersionsRequest,
+  output: ListAnnotationStoreVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "annotationStoreVersions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Monitors the status of a reference import job. This operation can be called after calling the `StartReferenceImportJob` operation.
  */
-export const getReferenceImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetReferenceImportJobRequest,
-    output: GetReferenceImportJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getReferenceImportJob: (
+  input: GetReferenceImportJobRequest,
+) => Effect.Effect<
+  GetReferenceImportJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReferenceImportJobRequest,
+  output: GetReferenceImportJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the metadata of one or more reference import jobs for a reference store.
  */
-export const listReferenceImportJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listReferenceImportJobs: {
+  (
     input: ListReferenceImportJobsRequest,
-    output: ListReferenceImportJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "importJobs",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListReferenceImportJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReferenceImportJobsRequest,
+  ) => Stream.Stream<
+    ListReferenceImportJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReferenceImportJobsRequest,
+  ) => Stream.Stream<
+    ImportReferenceJobItem,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReferenceImportJobsRequest,
+  output: ListReferenceImportJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "importJobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the metadata of one or more reference genomes in a reference store.
  *
  * For more information, see Creating a reference store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const listReferences = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listReferences: {
+  (
     input: ListReferencesRequest,
-    output: ListReferencesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "references",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListReferencesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReferencesRequest,
+  ) => Stream.Stream<
+    ListReferencesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReferencesRequest,
+  ) => Stream.Stream<
+    ReferenceListItem,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReferencesRequest,
+  output: ListReferencesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "references",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of sequence stores and returns each sequence store's metadata.
  *
  * For more information, see Creating a HealthOmics sequence store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const listSequenceStores = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSequenceStores: {
+  (
     input: ListSequenceStoresRequest,
-    output: ListSequenceStoresResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "sequenceStores",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSequenceStoresResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSequenceStoresRequest,
+  ) => Stream.Stream<
+    ListSequenceStoresResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSequenceStoresRequest,
+  ) => Stream.Stream<
+    SequenceStoreDetail,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSequenceStoresRequest,
+  output: ListSequenceStoresResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sequenceStores",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of read set activation jobs and returns the metadata in a JSON formatted output. To extract metadata from a read set activation job, use the `GetReadSetActivationJob` API operation.
  */
-export const listReadSetActivationJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listReadSetActivationJobs: {
+  (
     input: ListReadSetActivationJobsRequest,
-    output: ListReadSetActivationJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "activationJobs",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListReadSetActivationJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReadSetActivationJobsRequest,
+  ) => Stream.Stream<
+    ListReadSetActivationJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReadSetActivationJobsRequest,
+  ) => Stream.Stream<
+    ActivateReadSetJobItem,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReadSetActivationJobsRequest,
+  output: ListReadSetActivationJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "activationJobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of read set export jobs in a JSON formatted response. This API operation is used to check the status of a read set export job initiated by the `StartReadSetExportJob` API operation.
  */
-export const listReadSetExportJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listReadSetExportJobs: {
+  (
     input: ListReadSetExportJobsRequest,
-    output: ListReadSetExportJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "exportJobs",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListReadSetExportJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReadSetExportJobsRequest,
+  ) => Stream.Stream<
+    ListReadSetExportJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReadSetExportJobsRequest,
+  ) => Stream.Stream<
+    ExportReadSetJobDetail,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReadSetExportJobsRequest,
+  output: ListReadSetExportJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "exportJobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of read set import jobs and returns the data in JSON format.
  */
-export const listReadSetImportJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listReadSetImportJobs: {
+  (
     input: ListReadSetImportJobsRequest,
-    output: ListReadSetImportJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "importJobs",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListReadSetImportJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReadSetImportJobsRequest,
+  ) => Stream.Stream<
+    ListReadSetImportJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReadSetImportJobsRequest,
+  ) => Stream.Stream<
+    ImportReadSetJobItem,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReadSetImportJobsRequest,
+  output: ListReadSetImportJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "importJobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of read sets from a sequence store ID and returns the metadata in JSON format.
  */
-export const listReadSets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listReadSets: {
+  (
     input: ListReadSetsRequest,
-    output: ListReadSetsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "readSets",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListReadSetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReadSetsRequest,
+  ) => Stream.Stream<
+    ListReadSetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReadSetsRequest,
+  ) => Stream.Stream<
+    ReadSetListItem,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReadSetsRequest,
+  output: ListReadSetsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "readSets",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change.
  *
  * Retrieves a list of variant import jobs.
  */
-export const listVariantImportJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listVariantImportJobs: {
+  (
     input: ListVariantImportJobsRequest,
-    output: ListVariantImportJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "variantImportJobs",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListVariantImportJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVariantImportJobsRequest,
+  ) => Stream.Stream<
+    ListVariantImportJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVariantImportJobsRequest,
+  ) => Stream.Stream<
+    VariantImportJobItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVariantImportJobsRequest,
+  output: ListVariantImportJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "variantImportJobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change.
  *
  * Retrieves a list of variant stores.
  */
-export const listVariantStores = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listVariantStores: {
+  (
     input: ListVariantStoresRequest,
-    output: ListVariantStoresResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "variantStores",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListVariantStoresResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVariantStoresRequest,
+  ) => Stream.Stream<
+    ListVariantStoresResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVariantStoresRequest,
+  ) => Stream.Stream<
+    VariantStoreItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVariantStoresRequest,
+  output: ListVariantStoresResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "variantStores",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Downloads parts of data from a reference genome and returns the reference file in the same format that it was uploaded.
  *
  * For more information, see Creating a HealthOmics reference store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const getReference = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getReference: (
+  input: GetReferenceRequest,
+) => Effect.Effect<
+  GetReferenceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RangeNotSatisfiableException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReferenceRequest,
   output: GetReferenceResponse,
   errors: [
@@ -6095,7 +6787,20 @@ export const getReference = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds an access policy to the specified store.
  */
-export const putS3AccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putS3AccessPolicy: (
+  input: PutS3AccessPolicyRequest,
+) => Effect.Effect<
+  PutS3AccessPolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | NotSupportedOperationException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutS3AccessPolicyRequest,
   output: PutS3AccessPolicyResponse,
   errors: [
@@ -6113,42 +6818,74 @@ export const putS3AccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Deletes an annotation store.
  */
-export const deleteAnnotationStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAnnotationStoreRequest,
-    output: DeleteAnnotationStoreResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAnnotationStore: (
+  input: DeleteAnnotationStoreRequest,
+) => Effect.Effect<
+  DeleteAnnotationStoreResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAnnotationStoreRequest,
+  output: DeleteAnnotationStoreResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes one or multiple versions of an annotation store.
  */
-export const deleteAnnotationStoreVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAnnotationStoreVersionsRequest,
-    output: DeleteAnnotationStoreVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteAnnotationStoreVersions: (
+  input: DeleteAnnotationStoreVersionsRequest,
+) => Effect.Effect<
+  DeleteAnnotationStoreVersionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAnnotationStoreVersionsRequest,
+  output: DeleteAnnotationStoreVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change.
  *
  * Gets information about a variant import job.
  */
-export const getVariantImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVariantImportJob: (
+  input: GetVariantImportRequest,
+) => Effect.Effect<
+  GetVariantImportResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVariantImportRequest,
   output: GetVariantImportResponse,
   errors: [
@@ -6164,7 +6901,18 @@ export const getVariantImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Gets information about an annotation store.
  */
-export const getAnnotationStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAnnotationStore: (
+  input: GetAnnotationStoreRequest,
+) => Effect.Effect<
+  GetAnnotationStoreResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAnnotationStoreRequest,
   output: GetAnnotationStoreResponse,
   errors: [
@@ -6180,56 +6928,95 @@ export const getAnnotationStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Updates an annotation store.
  */
-export const updateAnnotationStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAnnotationStoreRequest,
-    output: UpdateAnnotationStoreResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAnnotationStore: (
+  input: UpdateAnnotationStoreRequest,
+) => Effect.Effect<
+  UpdateAnnotationStoreResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAnnotationStoreRequest,
+  output: UpdateAnnotationStoreResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the metadata for an annotation store version.
  */
-export const getAnnotationStoreVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAnnotationStoreVersionRequest,
-    output: GetAnnotationStoreVersionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAnnotationStoreVersion: (
+  input: GetAnnotationStoreVersionRequest,
+) => Effect.Effect<
+  GetAnnotationStoreVersionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAnnotationStoreVersionRequest,
+  output: GetAnnotationStoreVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the description of an annotation store version.
  */
-export const updateAnnotationStoreVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAnnotationStoreVersionRequest,
-    output: UpdateAnnotationStoreVersionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateAnnotationStoreVersion: (
+  input: UpdateAnnotationStoreVersionRequest,
+) => Effect.Effect<
+  UpdateAnnotationStoreVersionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAnnotationStoreVersionRequest,
+  output: UpdateAnnotationStoreVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change.
  *
  * Gets information about a variant store.
  */
-export const getVariantStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVariantStore: (
+  input: GetVariantStoreRequest,
+) => Effect.Effect<
+  GetVariantStoreResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVariantStoreRequest,
   output: GetVariantStoreResponse,
   errors: [
@@ -6245,7 +7032,18 @@ export const getVariantStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Updates a variant store.
  */
-export const updateVariantStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVariantStore: (
+  input: UpdateVariantStoreRequest,
+) => Effect.Effect<
+  UpdateVariantStoreResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVariantStoreRequest,
   output: UpdateVariantStoreResponse,
   errors: [
@@ -6261,43 +7059,73 @@ export const updateVariantStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Cancels an annotation import job.
  */
-export const cancelAnnotationImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelAnnotationImportRequest,
-    output: CancelAnnotationImportResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelAnnotationImportJob: (
+  input: CancelAnnotationImportRequest,
+) => Effect.Effect<
+  CancelAnnotationImportResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelAnnotationImportRequest,
+  output: CancelAnnotationImportResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change.
  *
  * Cancels a variant import job.
  */
-export const cancelVariantImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelVariantImportRequest,
-    output: CancelVariantImportResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelVariantImportJob: (
+  input: CancelVariantImportRequest,
+) => Effect.Effect<
+  CancelVariantImportResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelVariantImportRequest,
+  output: CancelVariantImportResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change.
  *
  * Deletes a variant store.
  */
-export const deleteVariantStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVariantStore: (
+  input: DeleteVariantStoreRequest,
+) => Effect.Effect<
+  DeleteVariantStoreResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVariantStoreRequest,
   output: DeleteVariantStoreResponse,
   errors: [
@@ -6312,7 +7140,19 @@ export const deleteVariantStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves metadata for a sequence store using its ID and returns it in JSON format.
  */
-export const getSequenceStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSequenceStore: (
+  input: GetSequenceStoreRequest,
+) => Effect.Effect<
+  GetSequenceStoreResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSequenceStoreRequest,
   output: GetSequenceStoreResponse,
   errors: [
@@ -6327,24 +7167,46 @@ export const getSequenceStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns detailed information about the status of a read set activation job in JSON format.
  */
-export const getReadSetActivationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetReadSetActivationJobRequest,
-    output: GetReadSetActivationJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getReadSetActivationJob: (
+  input: GetReadSetActivationJobRequest,
+) => Effect.Effect<
+  GetReadSetActivationJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReadSetActivationJobRequest,
+  output: GetReadSetActivationJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves status information about a read set export job and returns the data in JSON format. Use this operation to actively monitor the progress of an export job.
  */
-export const getReadSetExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getReadSetExportJob: (
+  input: GetReadSetExportJobRequest,
+) => Effect.Effect<
+  GetReadSetExportJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReadSetExportJobRequest,
   output: GetReadSetExportJobResponse,
   errors: [
@@ -6359,7 +7221,19 @@ export const getReadSetExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets detailed and status information about a read set import job and returns the data in JSON format.
  */
-export const getReadSetImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getReadSetImportJob: (
+  input: GetReadSetImportJobRequest,
+) => Effect.Effect<
+  GetReadSetImportJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReadSetImportJobRequest,
   output: GetReadSetImportJobResponse,
   errors: [
@@ -6374,7 +7248,19 @@ export const getReadSetImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the metadata for a read set from a sequence store in JSON format. This operation does not return tags. To retrieve the list of tags for a read set, use the `ListTagsForResource` API operation.
  */
-export const getReadSetMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getReadSetMetadata: (
+  input: GetReadSetMetadataRequest,
+) => Effect.Effect<
+  GetReadSetMetadataResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReadSetMetadataRequest,
   output: GetReadSetMetadataResponse,
   errors: [
@@ -6389,7 +7275,19 @@ export const getReadSetMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes one or more read sets. If the operation is successful, it returns a response with no body. If there is an error with deleting one of the read sets, the operation returns an error list. If the operation successfully deletes only a subset of files, it will return an error list for the remaining files that fail to be deleted. There is a limit of 100 read sets that can be deleted in each `BatchDeleteReadSet` API call.
  */
-export const batchDeleteReadSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchDeleteReadSet: (
+  input: BatchDeleteReadSetRequest,
+) => Effect.Effect<
+  BatchDeleteReadSetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteReadSetRequest,
   output: BatchDeleteReadSetResponse,
   errors: [
@@ -6404,7 +7302,19 @@ export const batchDeleteReadSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a reference store.
  */
-export const getReferenceStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getReferenceStore: (
+  input: GetReferenceStoreRequest,
+) => Effect.Effect<
+  GetReferenceStoreResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReferenceStoreRequest,
   output: GetReferenceStoreResponse,
   errors: [
@@ -6419,7 +7329,20 @@ export const getReferenceStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update one or more parameters for the sequence store.
  */
-export const updateSequenceStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSequenceStore: (
+  input: UpdateSequenceStoreRequest,
+) => Effect.Effect<
+  UpdateSequenceStoreResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSequenceStoreRequest,
   output: UpdateSequenceStoreResponse,
   errors: [
@@ -6437,27 +7360,51 @@ export const updateSequenceStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about your workflow status, see Deleting HealthOmics reference and sequence stores in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const deleteReferenceStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteReferenceStoreRequest,
-    output: DeleteReferenceStoreResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteReferenceStore: (
+  input: DeleteReferenceStoreRequest,
+) => Effect.Effect<
+  DeleteReferenceStoreResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReferenceStoreRequest,
+  output: DeleteReferenceStoreResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a reference genome and returns a response with no body if the operation is successful. The read set associated with the reference genome must first be deleted before deleting the reference genome. After the reference genome is deleted, you can delete the reference store using the `DeleteReferenceStore` API operation.
  *
  * For more information, see Deleting HealthOmics reference and sequence stores in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const deleteReference = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteReference: (
+  input: DeleteReferenceRequest,
+) => Effect.Effect<
+  DeleteReferenceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReferenceRequest,
   output: DeleteReferenceResponse,
   errors: [
@@ -6477,7 +7424,20 @@ export const deleteReference = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Deleting HealthOmics reference and sequence stores in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const deleteSequenceStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSequenceStore: (
+  input: DeleteSequenceStoreRequest,
+) => Effect.Effect<
+  DeleteSequenceStoreResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSequenceStoreRequest,
   output: DeleteSequenceStoreResponse,
   errors: [
@@ -6493,48 +7453,109 @@ export const deleteSequenceStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an access policy for the specified store.
  */
-export const deleteS3AccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteS3AccessPolicyRequest,
-    output: DeleteS3AccessPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      NotSupportedOperationException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteS3AccessPolicy: (
+  input: DeleteS3AccessPolicyRequest,
+) => Effect.Effect<
+  DeleteS3AccessPolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | NotSupportedOperationException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteS3AccessPolicyRequest,
+  output: DeleteS3AccessPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    NotSupportedOperationException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a list of reference stores linked to your account and returns their metadata in JSON format.
  *
  * For more information, see Creating a reference store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const listReferenceStores =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listReferenceStores: {
+  (
     input: ListReferenceStoresRequest,
-    output: ListReferenceStoresResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "referenceStores",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListReferenceStoresResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReferenceStoresRequest,
+  ) => Stream.Stream<
+    ListReferenceStoresResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReferenceStoresRequest,
+  ) => Stream.Stream<
+    ReferenceStoreDetail,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReferenceStoresRequest,
+  output: ListReferenceStoresResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "referenceStores",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves detailed information from parts of a read set and returns the read set in the same format that it was uploaded. You must have read sets uploaded to your sequence store in order to run this operation.
  */
-export const getReadSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getReadSet: (
+  input: GetReadSetRequest,
+) => Effect.Effect<
+  GetReadSetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RangeNotSatisfiableException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReadSetRequest,
   output: GetReadSetResponse,
   errors: [
@@ -6551,45 +7572,101 @@ export const getReadSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all parts in a multipart read set upload for a sequence store and returns the metadata in a JSON formatted output.
  */
-export const listReadSetUploadParts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listReadSetUploadParts: {
+  (
     input: ListReadSetUploadPartsRequest,
-    output: ListReadSetUploadPartsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      NotSupportedOperationException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "parts",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListReadSetUploadPartsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | NotSupportedOperationException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReadSetUploadPartsRequest,
+  ) => Stream.Stream<
+    ListReadSetUploadPartsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | NotSupportedOperationException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReadSetUploadPartsRequest,
+  ) => Stream.Stream<
+    ReadSetUploadPartListItem,
+    | AccessDeniedException
+    | InternalServerException
+    | NotSupportedOperationException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReadSetUploadPartsRequest,
+  output: ListReadSetUploadPartsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    NotSupportedOperationException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "parts",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Imports a read set from the sequence store. Read set import jobs support a maximum of 100 read sets of different types. Monitor the progress of your read set import job by calling the `GetReadSetImportJob` API operation.
  */
-export const startReadSetImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartReadSetImportJobRequest,
-    output: StartReadSetImportJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startReadSetImportJob: (
+  input: StartReadSetImportJobRequest,
+) => Effect.Effect<
+  StartReadSetImportJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartReadSetImportJobRequest,
+  output: StartReadSetImportJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a private workflow. Before you create a private workflow, you must create and configure these required resources:
  *
@@ -6605,7 +7682,21 @@ export const startReadSetImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information, see Creating or updating a private workflow in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const createWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkflow: (
+  input: CreateWorkflowRequest,
+) => Effect.Effect<
+  CreateWorkflowResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkflowRequest,
   output: CreateWorkflowResponse,
   errors: [
@@ -6624,49 +7715,121 @@ export const createWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Direct upload to a sequence store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const completeMultipartReadSetUpload =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CompleteMultipartReadSetUploadRequest,
-    output: CompleteMultipartReadSetUploadResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      NotSupportedOperationException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const completeMultipartReadSetUpload: (
+  input: CompleteMultipartReadSetUploadRequest,
+) => Effect.Effect<
+  CompleteMultipartReadSetUploadResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | NotSupportedOperationException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CompleteMultipartReadSetUploadRequest,
+  output: CompleteMultipartReadSetUploadResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    NotSupportedOperationException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists in-progress multipart read set uploads for a sequence store and returns it in a JSON formatted output. Multipart read set uploads are initiated by the `CreateMultipartReadSetUploads` API operation. This operation returns a response with no body when the upload is complete.
  */
-export const listMultipartReadSetUploads =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMultipartReadSetUploads: {
+  (
     input: ListMultipartReadSetUploadsRequest,
-    output: ListMultipartReadSetUploadsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      NotSupportedOperationException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "uploads",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMultipartReadSetUploadsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | NotSupportedOperationException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMultipartReadSetUploadsRequest,
+  ) => Stream.Stream<
+    ListMultipartReadSetUploadsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | NotSupportedOperationException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMultipartReadSetUploadsRequest,
+  ) => Stream.Stream<
+    MultipartReadSetUploadListItem,
+    | AccessDeniedException
+    | InternalServerException
+    | NotSupportedOperationException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMultipartReadSetUploadsRequest,
+  output: ListMultipartReadSetUploadsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    NotSupportedOperationException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "uploads",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves details about an access policy on a given store.
  */
-export const getS3AccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getS3AccessPolicy: (
+  input: GetS3AccessPolicyRequest,
+) => Effect.Effect<
+  GetS3AccessPolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | NotSupportedOperationException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetS3AccessPolicyRequest,
   output: GetS3AccessPolicyResponse,
   errors: [
@@ -6693,27 +7856,54 @@ export const getS3AccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To learn more about creating parts and the `split` operation, see Direct upload to a sequence store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const createMultipartReadSetUpload =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateMultipartReadSetUploadRequest,
-    output: CreateMultipartReadSetUploadResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      NotSupportedOperationException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createMultipartReadSetUpload: (
+  input: CreateMultipartReadSetUploadRequest,
+) => Effect.Effect<
+  CreateMultipartReadSetUploadResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | NotSupportedOperationException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMultipartReadSetUploadRequest,
+  output: CreateMultipartReadSetUploadResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    NotSupportedOperationException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Uploads a specific part of a read set into a sequence store. When you a upload a read set part with a part number that already exists, the new part replaces the existing one. This operation returns a JSON formatted response containing a string identifier that is used to confirm that parts are being added to the intended upload.
  *
  * For more information, see Direct upload to a sequence store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const uploadReadSetPart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const uploadReadSetPart: (
+  input: UploadReadSetPartRequest,
+) => Effect.Effect<
+  UploadReadSetPartResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | NotSupportedOperationException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadReadSetPartRequest,
   output: UploadReadSetPartResponse,
   errors: [
@@ -6730,26 +7920,51 @@ export const uploadReadSetPart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a multipart read set upload into a sequence store and returns a response with no body if the operation is successful. To confirm that a multipart read set upload has been stopped, use the `ListMultipartReadSetUploads` API operation to view all active multipart read set uploads.
  */
-export const abortMultipartReadSetUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AbortMultipartReadSetUploadRequest,
-    output: AbortMultipartReadSetUploadResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      NotSupportedOperationException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const abortMultipartReadSetUpload: (
+  input: AbortMultipartReadSetUploadRequest,
+) => Effect.Effect<
+  AbortMultipartReadSetUploadResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | NotSupportedOperationException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AbortMultipartReadSetUploadRequest,
+  output: AbortMultipartReadSetUploadResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    NotSupportedOperationException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the metadata for the specified resource share.
  */
-export const getShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getShare: (
+  input: GetShareRequest,
+) => Effect.Effect<
+  GetShareResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetShareRequest,
   output: GetShareResponse,
   errors: [
@@ -6765,7 +7980,50 @@ export const getShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the resource shares associated with an account. Use the filter parameter to retrieve a specific subset of the shares.
  */
-export const listShares = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listShares: {
+  (
+    input: ListSharesRequest,
+  ): Effect.Effect<
+    ListSharesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSharesRequest,
+  ) => Stream.Stream<
+    ListSharesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSharesRequest,
+  ) => Stream.Stream<
+    ShareDetails,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSharesRequest,
   output: ListSharesResponse,
   errors: [
@@ -6789,20 +8047,30 @@ export const listShares = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * Starts a variant import job.
  */
-export const startVariantImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartVariantImportRequest,
-    output: StartVariantImportResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startVariantImportJob: (
+  input: StartVariantImportRequest,
+) => Effect.Effect<
+  StartVariantImportResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartVariantImportRequest,
+  output: StartVariantImportResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an AWS user with a different account than the resource owner).
  *
@@ -6814,7 +8082,20 @@ export const startVariantImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Private workflows
  */
-export const createShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createShare: (
+  input: CreateShareRequest,
+) => Effect.Effect<
+  CreateShareResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateShareRequest,
   output: CreateShareResponse,
   errors: [
@@ -6830,7 +8111,20 @@ export const createShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Accept a resource share request.
  */
-export const acceptShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const acceptShare: (
+  input: AcceptShareRequest,
+) => Effect.Effect<
+  AcceptShareResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptShareRequest,
   output: AcceptShareResponse,
   errors: [
@@ -6846,7 +8140,20 @@ export const acceptShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a resource share. If you are the resource owner, the subscriber will no longer have access to the shared resource. If you are the subscriber, this operation deletes your access to the share.
  */
-export const deleteShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteShare: (
+  input: DeleteShareRequest,
+) => Effect.Effect<
+  DeleteShareResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteShareRequest,
   output: DeleteShareResponse,
   errors: [
@@ -6864,7 +8171,20 @@ export const deleteShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Creates a variant store.
  */
-export const createVariantStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVariantStore: (
+  input: CreateVariantStoreRequest,
+) => Effect.Effect<
+  CreateVariantStoreResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVariantStoreRequest,
   output: CreateVariantStoreResponse,
   errors: [
@@ -6880,77 +8200,190 @@ export const createVariantStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Imports a reference genome from Amazon S3 into a specified reference store. You can have multiple reference genomes in a reference store. You can only import reference genomes one at a time into each reference store. Monitor the status of your reference import job by using the `GetReferenceImportJob` API operation.
  */
-export const startReferenceImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartReferenceImportJobRequest,
-    output: StartReferenceImportJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startReferenceImportJob: (
+  input: StartReferenceImportJobRequest,
+) => Effect.Effect<
+  StartReferenceImportJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartReferenceImportJobRequest,
+  output: StartReferenceImportJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a list of your run caches and the metadata for each cache.
  */
-export const listRunCaches = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRunCaches: {
+  (
     input: ListRunCachesRequest,
-    output: ListRunCachesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "startingToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRunCachesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRunCachesRequest,
+  ) => Stream.Stream<
+    ListRunCachesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRunCachesRequest,
+  ) => Stream.Stream<
+    RunCacheListItem,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRunCachesRequest,
+  output: ListRunCachesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "startingToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of all run groups and returns the metadata for each run group.
  */
-export const listRunGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRunGroups: {
+  (
     input: ListRunGroupsRequest,
-    output: ListRunGroupsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "startingToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRunGroupsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRunGroupsRequest,
+  ) => Stream.Stream<
+    ListRunGroupsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRunGroupsRequest,
+  ) => Stream.Stream<
+    RunGroupListItem,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRunGroupsRequest,
+  output: ListRunGroupsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "startingToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets detailed information about a specific run using its ID.
  *
  * Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If `GetRun` does not return the requested run, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const getRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRun: (
+  input: GetRunRequest,
+) => Effect.Effect<
+  GetRunResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRunRequest,
   output: GetRunResponse,
   errors: [
@@ -6969,7 +8402,53 @@ export const getRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If the `ListRuns` response doesn't include specific runs that you expected, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const listRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRuns: {
+  (
+    input: ListRunsRequest,
+  ): Effect.Effect<
+    ListRunsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRunsRequest,
+  ) => Stream.Stream<
+    ListRunsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRunsRequest,
+  ) => Stream.Stream<
+    RunListItem,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRunsRequest,
   output: ListRunsResponse,
   errors: [
@@ -6992,7 +8471,21 @@ export const listRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Gets detailed information about a run task using its ID.
  */
-export const getRunTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRunTask: (
+  input: GetRunTaskRequest,
+) => Effect.Effect<
+  GetRunTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRunTaskRequest,
   output: GetRunTaskResponse,
   errors: [
@@ -7009,28 +8502,72 @@ export const getRunTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of tasks and status information within their specified run. Use this operation to monitor runs and to identify which specific tasks have failed.
  */
-export const listRunTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRunTasks: {
+  (
     input: ListRunTasksRequest,
-    output: ListRunTasksResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "startingToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRunTasksResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRunTasksRequest,
+  ) => Stream.Stream<
+    ListRunTasksResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRunTasksRequest,
+  ) => Stream.Stream<
+    TaskListItem,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRunTasksRequest,
+  output: ListRunTasksResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "startingToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a sequence store and returns its metadata. Sequence stores are used to store sequence data files called read sets that are saved in FASTQ, BAM, uBAM, or CRAM formats. For aligned formats (BAM and CRAM), a sequence store can only use one reference genome. For unaligned formats (FASTQ and uBAM), a reference genome is not required. You can create multiple sequence stores per region per account.
  *
@@ -7048,7 +8585,19 @@ export const listRunTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * For more information, see Creating a HealthOmics sequence store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const createSequenceStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSequenceStore: (
+  input: CreateSequenceStoreRequest,
+) => Effect.Effect<
+  CreateSequenceStoreResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSequenceStoreRequest,
   output: CreateSequenceStoreResponse,
   errors: [
@@ -7065,41 +8614,63 @@ export const createSequenceStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To learn more, see Activating read sets in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const startReadSetActivationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartReadSetActivationJobRequest,
-    output: StartReadSetActivationJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startReadSetActivationJob: (
+  input: StartReadSetActivationJobRequest,
+) => Effect.Effect<
+  StartReadSetActivationJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartReadSetActivationJobRequest,
+  output: StartReadSetActivationJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Starts a read set export job. When the export job is finished, the read set is exported to an Amazon S3 bucket which can be retrieved using the `GetReadSetExportJob` API operation.
  *
  * To monitor the status of the export job, use the `ListReadSetExportJobs` API operation.
  */
-export const startReadSetExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartReadSetExportJobRequest,
-    output: StartReadSetExportJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startReadSetExportJob: (
+  input: StartReadSetExportJobRequest,
+) => Effect.Effect<
+  StartReadSetExportJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartReadSetExportJobRequest,
+  output: StartReadSetExportJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets all information about a workflow using its ID.
  *
@@ -7107,7 +8678,21 @@ export const startReadSetExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information about your workflow status, see Verify the workflow status in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const getWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkflow: (
+  input: GetWorkflowRequest,
+) => Effect.Effect<
+  GetWorkflowResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowRequest,
   output: GetWorkflowResponse,
   errors: [
@@ -7124,77 +8709,190 @@ export const getWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of existing workflows. You can filter for specific workflows by their name and type. Using the type parameter, specify `PRIVATE` to retrieve a list of private workflows or specify `READY2RUN` for a list of all Ready2Run workflows. If you do not specify the type of workflow, this operation returns a list of existing workflows.
  */
-export const listWorkflows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkflows: {
+  (
     input: ListWorkflowsRequest,
-    output: ListWorkflowsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "startingToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkflowsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowsRequest,
+  ) => Stream.Stream<
+    ListWorkflowsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowsRequest,
+  ) => Stream.Stream<
+    WorkflowListItem,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowsRequest,
+  output: ListWorkflowsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "startingToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the workflow versions for the specified workflow. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const listWorkflowVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWorkflowVersions: {
+  (
     input: ListWorkflowVersionsRequest,
-    output: ListWorkflowVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "startingToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWorkflowVersionsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowVersionsRequest,
+  ) => Stream.Stream<
+    ListWorkflowVersionsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowVersionsRequest,
+  ) => Stream.Stream<
+    WorkflowVersionListItem,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowVersionsRequest,
+  output: ListWorkflowVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "startingToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a reference store and returns metadata in JSON format. Reference stores are used to store reference genomes in FASTA format. A reference store is created when the first reference genome is imported. To import additional reference genomes from an Amazon S3 bucket, use the `StartReferenceImportJob` API operation.
  *
  * For more information, see Creating a HealthOmics reference store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const createReferenceStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateReferenceStoreRequest,
-    output: CreateReferenceStoreResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestTimeoutException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createReferenceStore: (
+  input: CreateReferenceStoreRequest,
+) => Effect.Effect<
+  CreateReferenceStoreResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateReferenceStoreRequest,
+  output: CreateReferenceStoreResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestTimeoutException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a run cache to store and reference task outputs from completed private runs. Specify an Amazon S3 location where Amazon Web Services HealthOmics saves the cached data. This data must be immediately accessible and not in an archived state. You can save intermediate task files to a run cache if they are declared as task outputs in the workflow definition file.
  *
  * For more information, see Call caching and Creating a run cache in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const createRunCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRunCache: (
+  input: CreateRunCacheRequest,
+) => Effect.Effect<
+  CreateRunCacheResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRunCacheRequest,
   output: CreateRunCacheResponse,
   errors: [
@@ -7213,7 +8911,21 @@ export const createRunCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Call caching for Amazon Web Services HealthOmics runs in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const getRunCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRunCache: (
+  input: GetRunCacheRequest,
+) => Effect.Effect<
+  GetRunCacheResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRunCacheRequest,
   output: GetRunCacheResponse,
   errors: [
@@ -7230,7 +8942,21 @@ export const getRunCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a run group to limit the compute resources for the runs that are added to the group. Returns an ARN, ID, and tags for the run group.
  */
-export const createRunGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRunGroup: (
+  input: CreateRunGroupRequest,
+) => Effect.Effect<
+  CreateRunGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRunGroupRequest,
   output: CreateRunGroupResponse,
   errors: [
@@ -7247,7 +8973,21 @@ export const createRunGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a run group and returns its metadata.
  */
-export const getRunGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRunGroup: (
+  input: GetRunGroupRequest,
+) => Effect.Effect<
+  GetRunGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRunGroupRequest,
   output: GetRunGroupResponse,
   errors: [
@@ -7296,7 +9036,21 @@ export const getRunGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can use Amazon Q CLI to analyze run logs and make performance optimization recommendations. To get started, see the Amazon Web Services HealthOmics MCP server on GitHub.
  */
-export const startRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startRun: (
+  input: StartRunRequest,
+) => Effect.Effect<
+  StartRunResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRunRequest,
   output: StartRunResponse,
   errors: [
@@ -7313,7 +9067,21 @@ export const startRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of tags for a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -7338,26 +9106,52 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Workflow versioning in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const createWorkflowVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWorkflowVersionRequest,
-    output: CreateWorkflowVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createWorkflowVersion: (
+  input: CreateWorkflowVersionRequest,
+) => Effect.Effect<
+  CreateWorkflowVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWorkflowVersionRequest,
+  output: CreateWorkflowVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about a workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const getWorkflowVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkflowVersion: (
+  input: GetWorkflowVersionRequest,
+) => Effect.Effect<
+  GetWorkflowVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowVersionRequest,
   output: GetWorkflowVersionResponse,
   errors: [
@@ -7376,7 +9170,21 @@ export const getWorkflowVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see How call caching works in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const updateRunCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRunCache: (
+  input: UpdateRunCacheRequest,
+) => Effect.Effect<
+  UpdateRunCacheResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRunCacheRequest,
   output: UpdateRunCacheResponse,
   errors: [
@@ -7395,7 +9203,21 @@ export const updateRunCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Deleting a run cache in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const deleteRunCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRunCache: (
+  input: DeleteRunCacheRequest,
+) => Effect.Effect<
+  DeleteRunCacheResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRunCacheRequest,
   output: DeleteRunCacheResponse,
   errors: [
@@ -7426,7 +9248,21 @@ export const deleteRunCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To confirm that the settings have been successfully updated, use the `ListRunGroups` or `GetRunGroup` API operations to verify that the desired changes have been made.
  */
-export const updateRunGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRunGroup: (
+  input: UpdateRunGroupRequest,
+) => Effect.Effect<
+  UpdateRunGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRunGroupRequest,
   output: UpdateRunGroupResponse,
   errors: [
@@ -7449,7 +9285,21 @@ export const updateRunGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Use `GetRunGroup` to verify the workflow cannot be found.
  */
-export const deleteRunGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRunGroup: (
+  input: DeleteRunGroupRequest,
+) => Effect.Effect<
+  DeleteRunGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRunGroupRequest,
   output: DeleteRunGroupResponse,
   errors: [
@@ -7472,7 +9322,21 @@ export const deleteRunGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Use `GetRun` to verify the workflow cannot be found.
  */
-export const deleteRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRun: (
+  input: DeleteRunRequest,
+) => Effect.Effect<
+  DeleteRunResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRunRequest,
   output: DeleteRunResponse,
   errors: [
@@ -7489,7 +9353,21 @@ export const deleteRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels a run using its ID and returns a response with no body if the operation is successful. To confirm that the run has been cancelled, use the `ListRuns` API operation to check that it is no longer listed.
  */
-export const cancelRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelRun: (
+  input: CancelRunRequest,
+) => Effect.Effect<
+  CancelRunResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelRunRequest,
   output: CancelRunResponse,
   errors: [
@@ -7506,7 +9384,21 @@ export const cancelRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Tags a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -7523,7 +9415,21 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -7554,7 +9460,21 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Update a private workflow in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const updateWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWorkflow: (
+  input: UpdateWorkflowRequest,
+) => Effect.Effect<
+  UpdateWorkflowResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkflowRequest,
   output: UpdateWorkflowResponse,
   errors: [
@@ -7577,7 +9497,21 @@ export const updateWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Use `GetWorkflow` to verify the workflow cannot be found.
  */
-export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkflow: (
+  input: DeleteWorkflowRequest,
+) => Effect.Effect<
+  DeleteWorkflowResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkflowRequest,
   output: DeleteWorkflowResponse,
   errors: [
@@ -7594,79 +9528,124 @@ export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates information about the workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const updateWorkflowVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWorkflowVersionRequest,
-    output: UpdateWorkflowVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateWorkflowVersion: (
+  input: UpdateWorkflowVersionRequest,
+) => Effect.Effect<
+  UpdateWorkflowVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkflowVersionRequest,
+  output: UpdateWorkflowVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a workflow version. Deleting a workflow version doesn't affect any ongoing runs that are using the workflow version.
  *
  * For more information, see Workflow versioning in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const deleteWorkflowVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWorkflowVersionRequest,
-    output: DeleteWorkflowVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteWorkflowVersion: (
+  input: DeleteWorkflowVersionRequest,
+) => Effect.Effect<
+  DeleteWorkflowVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkflowVersionRequest,
+  output: DeleteWorkflowVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change.
  *
  * Starts an annotation import job.
  */
-export const startAnnotationImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartAnnotationImportRequest,
-    output: StartAnnotationImportResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startAnnotationImportJob: (
+  input: StartAnnotationImportRequest,
+) => Effect.Effect<
+  StartAnnotationImportResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAnnotationImportRequest,
+  output: StartAnnotationImportResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change.
  *
  * Creates an annotation store.
  */
-export const createAnnotationStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAnnotationStoreRequest,
-    output: CreateAnnotationStoreResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAnnotationStore: (
+  input: CreateAnnotationStoreRequest,
+) => Effect.Effect<
+  CreateAnnotationStoreResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAnnotationStoreRequest,
+  output: CreateAnnotationStoreResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

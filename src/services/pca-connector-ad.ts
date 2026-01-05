@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Pca Connector Ad",
   serviceShapeName: "PcaConnectorAd",
@@ -292,6 +300,21 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type DirectoryId = string;
+export type CertificateAuthorityArn = string;
+export type ClientToken = string;
+export type ConnectorArn = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type DirectoryRegistrationArn = string;
+export type TemplateArn = string;
+export type GroupSecurityIdentifier = string;
+export type DisplayName = string;
+export type TemplateName = string;
+export type SecurityGroupId = string;
+export type CustomObjectIdentifier = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -896,6 +919,9 @@ export interface KeyUsage {
 export const KeyUsage = S.suspend(() =>
   S.Struct({ Critical: S.optional(S.Boolean), UsageFlags: KeyUsageFlags }),
 ).annotations({ identifier: "KeyUsage" }) as any as S.Schema<KeyUsage>;
+export type ApplicationPolicy =
+  | { PolicyType: string }
+  | { PolicyObjectIdentifier: string };
 export const ApplicationPolicy = S.Union(
   S.Struct({ PolicyType: S.String }),
   S.Struct({ PolicyObjectIdentifier: S.String }),
@@ -960,6 +986,9 @@ export const KeyUsagePropertyFlags = S.suspend(() =>
 ).annotations({
   identifier: "KeyUsagePropertyFlags",
 }) as any as S.Schema<KeyUsagePropertyFlags>;
+export type KeyUsageProperty =
+  | { PropertyType: string }
+  | { PropertyFlags: KeyUsagePropertyFlags };
 export const KeyUsageProperty = S.Union(
   S.Struct({ PropertyType: S.String }),
   S.Struct({ PropertyFlags: KeyUsagePropertyFlags }),
@@ -1220,6 +1249,10 @@ export const TemplateV4 = S.suspend(() =>
     Extensions: ExtensionsV4,
   }),
 ).annotations({ identifier: "TemplateV4" }) as any as S.Schema<TemplateV4>;
+export type TemplateDefinition =
+  | { TemplateV2: TemplateV2 }
+  | { TemplateV3: TemplateV3 }
+  | { TemplateV4: TemplateV4 };
 export const TemplateDefinition = S.Union(
   S.Struct({ TemplateV2: TemplateV2 }),
   S.Struct({ TemplateV3: TemplateV3 }),
@@ -1810,7 +1843,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { Message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -1827,7 +1862,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     QuotaCode: S.optional(S.String),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.String, Reason: S.optional(S.String) },
@@ -1847,47 +1884,102 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Lists the connectors that you created by using the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector action.
  */
-export const listConnectors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listConnectors: {
+  (
     input: ListConnectorsRequest,
-    output: ListConnectorsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Connectors",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListConnectorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectorsRequest,
+  ) => Stream.Stream<
+    ListConnectorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectorsRequest,
+  ) => Stream.Stream<
+    ConnectorSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectorsRequest,
+  output: ListConnectorsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Connectors",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Create a group access control entry. Allow or deny Active Directory groups from enrolling and/or
  * autoenrolling with the template based on the group security identifiers (SIDs).
  */
-export const createTemplateGroupAccessControlEntry =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTemplateGroupAccessControlEntryRequest,
-    output: CreateTemplateGroupAccessControlEntryResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createTemplateGroupAccessControlEntry: (
+  input: CreateTemplateGroupAccessControlEntryRequest,
+) => Effect.Effect<
+  CreateTemplateGroupAccessControlEntryResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTemplateGroupAccessControlEntryRequest,
+  output: CreateTemplateGroupAccessControlEntryResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a certificate template that the connector uses to issue certificates from a
  * private CA.
  */
-export const getTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTemplate: (
+  input: GetTemplateRequest,
+) => Effect.Effect<
+  GetTemplateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemplateRequest,
   output: GetTemplateResponse,
   errors: [
@@ -1902,7 +1994,18 @@ export const getTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists information about your connector. You specify the connector on input by its ARN
  * (Amazon Resource Name).
  */
-export const getConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConnector: (
+  input: GetConnectorRequest,
+) => Effect.Effect<
+  GetConnectorResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectorRequest,
   output: GetConnectorResponse,
   errors: [
@@ -1917,137 +2020,293 @@ export const getConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a directory registration that authorizes communication between Amazon Web Services Private CA and an
  * Active Directory
  */
-export const createDirectoryRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDirectoryRegistrationRequest,
-    output: CreateDirectoryRegistrationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createDirectoryRegistration: (
+  input: CreateDirectoryRegistrationRequest,
+) => Effect.Effect<
+  CreateDirectoryRegistrationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDirectoryRegistrationRequest,
+  output: CreateDirectoryRegistrationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * A structure that contains information about your directory registration.
  */
-export const getDirectoryRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDirectoryRegistrationRequest,
-    output: GetDirectoryRegistrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getDirectoryRegistration: (
+  input: GetDirectoryRegistrationRequest,
+) => Effect.Effect<
+  GetDirectoryRegistrationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDirectoryRegistrationRequest,
+  output: GetDirectoryRegistrationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the service principal name that the connector uses to authenticate with
  * Active Directory.
  */
-export const getServicePrincipalName = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetServicePrincipalNameRequest,
-    output: GetServicePrincipalNameResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getServicePrincipalName: (
+  input: GetServicePrincipalNameRequest,
+) => Effect.Effect<
+  GetServicePrincipalNameResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServicePrincipalNameRequest,
+  output: GetServicePrincipalNameResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the service principal names that the connector uses to authenticate with
  * Active Directory.
  */
-export const listServicePrincipalNames =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServicePrincipalNames: {
+  (
     input: ListServicePrincipalNamesRequest,
-    output: ListServicePrincipalNamesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ServicePrincipalNames",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServicePrincipalNamesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServicePrincipalNamesRequest,
+  ) => Stream.Stream<
+    ListServicePrincipalNamesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServicePrincipalNamesRequest,
+  ) => Stream.Stream<
+    ServicePrincipalNameSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServicePrincipalNamesRequest,
+  output: ListServicePrincipalNamesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ServicePrincipalNames",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the group access control entries for a template.
  */
-export const getTemplateGroupAccessControlEntry =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTemplateGroupAccessControlEntryRequest,
-    output: GetTemplateGroupAccessControlEntryResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getTemplateGroupAccessControlEntry: (
+  input: GetTemplateGroupAccessControlEntryRequest,
+) => Effect.Effect<
+  GetTemplateGroupAccessControlEntryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTemplateGroupAccessControlEntryRequest,
+  output: GetTemplateGroupAccessControlEntryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists group access control entries you created.
  */
-export const listTemplateGroupAccessControlEntries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTemplateGroupAccessControlEntries: {
+  (
     input: ListTemplateGroupAccessControlEntriesRequest,
-    output: ListTemplateGroupAccessControlEntriesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AccessControlEntries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTemplateGroupAccessControlEntriesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTemplateGroupAccessControlEntriesRequest,
+  ) => Stream.Stream<
+    ListTemplateGroupAccessControlEntriesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTemplateGroupAccessControlEntriesRequest,
+  ) => Stream.Stream<
+    AccessControlEntrySummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTemplateGroupAccessControlEntriesRequest,
+  output: ListTemplateGroupAccessControlEntriesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AccessControlEntries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the templates, if any, that are associated with a connector.
  */
-export const listTemplates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTemplates: {
+  (
     input: ListTemplatesRequest,
-    output: ListTemplatesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Templates",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTemplatesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTemplatesRequest,
+  ) => Stream.Stream<
+    ListTemplatesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTemplatesRequest,
+  ) => Stream.Stream<
+    TemplateSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTemplatesRequest,
+  output: ListTemplatesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Templates",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the tags, if any, that are associated with your resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2061,7 +2320,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds one or more tags to your resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2079,7 +2349,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * deregister your directory by calling the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_DeleteDirectoryRegistration
  * action.
  */
-export const deleteConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConnector: (
+  input: DeleteConnectorRequest,
+) => Effect.Effect<
+  DeleteConnectorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectorRequest,
   output: DeleteConnectorResponse,
   errors: [
@@ -2096,56 +2378,100 @@ export const deleteConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * authentication uses SPNs to associate a service instance with a service sign-in
  * account.
  */
-export const createServicePrincipalName = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateServicePrincipalNameRequest,
-    output: CreateServicePrincipalNameResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createServicePrincipalName: (
+  input: CreateServicePrincipalNameRequest,
+) => Effect.Effect<
+  CreateServicePrincipalNameResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateServicePrincipalNameRequest,
+  output: CreateServicePrincipalNameResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update a group access control entry you created using CreateTemplateGroupAccessControlEntry.
  */
-export const updateTemplateGroupAccessControlEntry =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateTemplateGroupAccessControlEntryRequest,
-    output: UpdateTemplateGroupAccessControlEntryResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateTemplateGroupAccessControlEntry: (
+  input: UpdateTemplateGroupAccessControlEntryRequest,
+) => Effect.Effect<
+  UpdateTemplateGroupAccessControlEntryResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTemplateGroupAccessControlEntryRequest,
+  output: UpdateTemplateGroupAccessControlEntryResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a group access control entry.
  */
-export const deleteTemplateGroupAccessControlEntry =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTemplateGroupAccessControlEntryRequest,
-    output: DeleteTemplateGroupAccessControlEntryResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteTemplateGroupAccessControlEntry: (
+  input: DeleteTemplateGroupAccessControlEntryRequest,
+) => Effect.Effect<
+  DeleteTemplateGroupAccessControlEntryResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTemplateGroupAccessControlEntryRequest,
+  output: DeleteTemplateGroupAccessControlEntryResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update template configuration to define the information included in certificates.
  */
-export const updateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTemplate: (
+  input: UpdateTemplateRequest,
+) => Effect.Effect<
+  UpdateTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTemplateRequest,
   output: UpdateTemplateResponse,
   errors: [
@@ -2161,7 +2487,19 @@ export const updateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes a template. Certificates issued using the template are still valid until they
  * are revoked or expired.
  */
-export const deleteTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTemplate: (
+  input: DeleteTemplateRequest,
+) => Effect.Effect<
+  DeleteTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTemplateRequest,
   output: DeleteTemplateResponse,
   errors: [
@@ -2177,61 +2515,123 @@ export const deleteTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists the directory registrations that you created by using the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration
  * action.
  */
-export const listDirectoryRegistrations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDirectoryRegistrations: {
+  (
     input: ListDirectoryRegistrationsRequest,
-    output: ListDirectoryRegistrationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DirectoryRegistrations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDirectoryRegistrationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDirectoryRegistrationsRequest,
+  ) => Stream.Stream<
+    ListDirectoryRegistrationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDirectoryRegistrationsRequest,
+  ) => Stream.Stream<
+    DirectoryRegistrationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDirectoryRegistrationsRequest,
+  output: ListDirectoryRegistrationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DirectoryRegistrations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes a directory registration. Deleting a directory registration deauthorizes
  * Amazon Web Services Private CA with the directory.
  */
-export const deleteDirectoryRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDirectoryRegistrationRequest,
-    output: DeleteDirectoryRegistrationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteDirectoryRegistration: (
+  input: DeleteDirectoryRegistrationRequest,
+) => Effect.Effect<
+  DeleteDirectoryRegistrationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDirectoryRegistrationRequest,
+  output: DeleteDirectoryRegistrationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the service principal name (SPN) used by a connector to authenticate with your
  * Active Directory.
  */
-export const deleteServicePrincipalName = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteServicePrincipalNameRequest,
-    output: DeleteServicePrincipalNameResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteServicePrincipalName: (
+  input: DeleteServicePrincipalNameRequest,
+) => Effect.Effect<
+  DeleteServicePrincipalNameResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServicePrincipalNameRequest,
+  output: DeleteServicePrincipalNameResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes one or more tags from your resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2246,7 +2646,20 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a connector between Amazon Web Services Private CA and an Active Directory. You must specify the private CA,
  * directory ID, and security groups.
  */
-export const createConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConnector: (
+  input: CreateConnectorRequest,
+) => Effect.Effect<
+  CreateConnectorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectorRequest,
   output: CreateConnectorResponse,
   errors: [
@@ -2263,7 +2676,20 @@ export const createConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates an Active Directory compatible certificate template. The connectors issues certificates
  * using these templates based on the requester’s Active Directory group membership.
  */
-export const createTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTemplate: (
+  input: CreateTemplateRequest,
+) => Effect.Effect<
+  CreateTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTemplateRequest,
   output: CreateTemplateResponse,
   errors: [

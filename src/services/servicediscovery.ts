@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "ServiceDiscovery",
   serviceShapeName: "Route53AutoNaming_v20170314",
@@ -300,6 +308,38 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type NamespaceNameHttp = string;
+export type ResourceId = string;
+export type ResourceDescription = string;
+export type NamespaceNamePrivate = string;
+export type NamespaceNamePublic = string;
+export type ServiceName = string;
+export type Arn = string;
+export type ServiceAttributeKey = string;
+export type NamespaceName = string;
+export type DiscoverMaxResults = number;
+export type AWSAccountId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type OperationId = string;
+export type AmazonResourceName = string;
+export type InstanceId = string;
+export type TagKey = string;
+export type TagValue = string;
+export type ResourcePath = string;
+export type FailureThreshold = number;
+export type AttrKey = string;
+export type AttrValue = string;
+export type FilterValue = string;
+export type ServiceAttributeValue = string;
+export type ErrorMessage = string;
+export type Revision = number;
+export type RecordTTL = number;
+export type ResourceCount = number;
+export type Message = string;
+export type Code = string;
 
 //# Schemas
 export type ServiceAttributeKeyList = string[];
@@ -1557,7 +1597,9 @@ export class ServiceNotFound extends S.TaggedError<ServiceNotFound>()(
 export class RequestLimitExceeded extends S.TaggedError<RequestLimitExceeded>()(
   "RequestLimitExceeded",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceLimitExceeded extends S.TaggedError<ResourceLimitExceeded>()(
   "ResourceLimitExceeded",
   { Message: S.optional(S.String) },
@@ -1592,7 +1634,13 @@ export class ServiceAlreadyExists extends S.TaggedError<ServiceAlreadyExists>()(
 /**
  * Lists tags for the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  InvalidInput | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [InvalidInput, ResourceNotFoundException],
@@ -1601,7 +1649,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates an HTTP
  * namespace.
  */
-export const updateHttpNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateHttpNamespace: (
+  input: UpdateHttpNamespaceRequest,
+) => Effect.Effect<
+  UpdateHttpNamespaceResponse,
+  | DuplicateRequest
+  | InvalidInput
+  | NamespaceNotFound
+  | ResourceInUse
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHttpNamespaceRequest,
   output: UpdateHttpNamespaceResponse,
   errors: [DuplicateRequest, InvalidInput, NamespaceNotFound, ResourceInUse],
@@ -1609,18 +1667,32 @@ export const updateHttpNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes specific attributes associated with a service.
  */
-export const deleteServiceAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteServiceAttributesRequest,
-    output: DeleteServiceAttributesResponse,
-    errors: [InvalidInput, ServiceNotFound],
-  }),
-);
+export const deleteServiceAttributes: (
+  input: DeleteServiceAttributesRequest,
+) => Effect.Effect<
+  DeleteServiceAttributesResponse,
+  InvalidInput | ServiceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceAttributesRequest,
+  output: DeleteServiceAttributesResponse,
+  errors: [InvalidInput, ServiceNotFound],
+}));
 /**
  * Deletes a namespace from the current account. If the namespace still contains one or more
  * services, the request fails.
  */
-export const deleteNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteNamespace: (
+  input: DeleteNamespaceRequest,
+) => Effect.Effect<
+  DeleteNamespaceResponse,
+  | DuplicateRequest
+  | InvalidInput
+  | NamespaceNotFound
+  | ResourceInUse
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNamespaceRequest,
   output: DeleteNamespaceResponse,
   errors: [DuplicateRequest, InvalidInput, NamespaceNotFound, ResourceInUse],
@@ -1628,7 +1700,13 @@ export const deleteNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  InvalidInput | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [InvalidInput, ResourceNotFoundException],
@@ -1636,7 +1714,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a specified instance.
  */
-export const getInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInstance: (
+  input: GetInstanceRequest,
+) => Effect.Effect<
+  GetInstanceResponse,
+  InstanceNotFound | InvalidInput | ServiceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceRequest,
   output: GetInstanceResponse,
   errors: [InstanceNotFound, InvalidInput, ServiceNotFound],
@@ -1649,22 +1733,49 @@ export const getInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * There's a brief delay between when you register an instance and when the health status for
  * the instance is available.
  */
-export const getInstancesHealthStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getInstancesHealthStatus: {
+  (
     input: GetInstancesHealthStatusRequest,
-    output: GetInstancesHealthStatusResponse,
-    errors: [InstanceNotFound, InvalidInput, ServiceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetInstancesHealthStatusResponse,
+    InstanceNotFound | InvalidInput | ServiceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetInstancesHealthStatusRequest,
+  ) => Stream.Stream<
+    GetInstancesHealthStatusResponse,
+    InstanceNotFound | InvalidInput | ServiceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetInstancesHealthStatusRequest,
+  ) => Stream.Stream<
+    unknown,
+    InstanceNotFound | InvalidInput | ServiceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetInstancesHealthStatusRequest,
+  output: GetInstancesHealthStatusResponse,
+  errors: [InstanceNotFound, InvalidInput, ServiceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes a specified service and all associated service attributes. If the service still
  * contains one or more registered instances, the request fails.
  */
-export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteService: (
+  input: DeleteServiceRequest,
+) => Effect.Effect<
+  DeleteServiceResponse,
+  InvalidInput | ResourceInUse | ServiceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceRequest,
   output: DeleteServiceResponse,
   errors: [InvalidInput, ResourceInUse, ServiceNotFound],
@@ -1672,7 +1783,13 @@ export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the settings for a specified service.
  */
-export const getService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getService: (
+  input: GetServiceRequest,
+) => Effect.Effect<
+  GetServiceResponse,
+  InvalidInput | ServiceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceRequest,
   output: GetServiceResponse,
   errors: [InvalidInput, ServiceNotFound],
@@ -1680,29 +1797,53 @@ export const getService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the attributes associated with a specified service.
  */
-export const getServiceAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetServiceAttributesRequest,
-    output: GetServiceAttributesResponse,
-    errors: [InvalidInput, ServiceNotFound],
-  }),
-);
+export const getServiceAttributes: (
+  input: GetServiceAttributesRequest,
+) => Effect.Effect<
+  GetServiceAttributesResponse,
+  InvalidInput | ServiceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceAttributesRequest,
+  output: GetServiceAttributesResponse,
+  errors: [InvalidInput, ServiceNotFound],
+}));
 /**
  * Lists summary information about the instances that you registered by using a specified
  * service.
  */
-export const listInstances = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listInstances: {
+  (
     input: ListInstancesRequest,
-    output: ListInstancesResponse,
-    errors: [InvalidInput, ServiceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListInstancesResponse,
+    InvalidInput | ServiceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInstancesRequest,
+  ) => Stream.Stream<
+    ListInstancesResponse,
+    InvalidInput | ServiceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInstancesRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidInput | ServiceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInstancesRequest,
+  output: ListInstancesResponse,
+  errors: [InvalidInput, ServiceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Submits a request to change the health status of a custom health check to healthy or
  * unhealthy.
@@ -1714,36 +1855,63 @@ export const listInstances = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * For more information, see HealthCheckCustomConfig.
  */
-export const updateInstanceCustomHealthStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateInstanceCustomHealthStatusRequest,
-    output: UpdateInstanceCustomHealthStatusResponse,
-    errors: [
-      CustomHealthNotFound,
-      InstanceNotFound,
-      InvalidInput,
-      ServiceNotFound,
-    ],
-  }));
+export const updateInstanceCustomHealthStatus: (
+  input: UpdateInstanceCustomHealthStatusRequest,
+) => Effect.Effect<
+  UpdateInstanceCustomHealthStatusResponse,
+  | CustomHealthNotFound
+  | InstanceNotFound
+  | InvalidInput
+  | ServiceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInstanceCustomHealthStatusRequest,
+  output: UpdateInstanceCustomHealthStatusResponse,
+  errors: [
+    CustomHealthNotFound,
+    InstanceNotFound,
+    InvalidInput,
+    ServiceNotFound,
+  ],
+}));
 /**
  * Submits a request to update a specified service to add service-level attributes.
  */
-export const updateServiceAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServiceAttributesRequest,
-    output: UpdateServiceAttributesResponse,
-    errors: [
-      InvalidInput,
-      ServiceAttributesLimitExceededException,
-      ServiceNotFound,
-    ],
-  }),
-);
+export const updateServiceAttributes: (
+  input: UpdateServiceAttributesRequest,
+) => Effect.Effect<
+  UpdateServiceAttributesResponse,
+  | InvalidInput
+  | ServiceAttributesLimitExceededException
+  | ServiceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceAttributesRequest,
+  output: UpdateServiceAttributesResponse,
+  errors: [
+    InvalidInput,
+    ServiceAttributesLimitExceededException,
+    ServiceNotFound,
+  ],
+}));
 /**
  * Deletes the Amazon Route 53 DNS records and health check, if any, that Cloud Map created for the
  * specified instance.
  */
-export const deregisterInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deregisterInstance: (
+  input: DeregisterInstanceRequest,
+) => Effect.Effect<
+  DeregisterInstanceResponse,
+  | DuplicateRequest
+  | InstanceNotFound
+  | InvalidInput
+  | ResourceInUse
+  | ServiceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterInstanceRequest,
   output: DeregisterInstanceResponse,
   errors: [
@@ -1757,64 +1925,132 @@ export const deregisterInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Discovers the increasing revision associated with an instance.
  */
-export const discoverInstancesRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DiscoverInstancesRevisionRequest,
-    output: DiscoverInstancesRevisionResponse,
-    errors: [
-      InvalidInput,
-      NamespaceNotFound,
-      RequestLimitExceeded,
-      ServiceNotFound,
-    ],
-  }),
-);
+export const discoverInstancesRevision: (
+  input: DiscoverInstancesRevisionRequest,
+) => Effect.Effect<
+  DiscoverInstancesRevisionResponse,
+  | InvalidInput
+  | NamespaceNotFound
+  | RequestLimitExceeded
+  | ServiceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DiscoverInstancesRevisionRequest,
+  output: DiscoverInstancesRevisionResponse,
+  errors: [
+    InvalidInput,
+    NamespaceNotFound,
+    RequestLimitExceeded,
+    ServiceNotFound,
+  ],
+}));
 /**
  * Lists summary information about the namespaces that were created by the current Amazon Web Services account and shared with the current Amazon Web Services account.
  */
-export const listNamespaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listNamespaces: {
+  (
     input: ListNamespacesRequest,
-    output: ListNamespacesResponse,
-    errors: [InvalidInput],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListNamespacesResponse,
+    InvalidInput | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNamespacesRequest,
+  ) => Stream.Stream<
+    ListNamespacesResponse,
+    InvalidInput | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNamespacesRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidInput | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNamespacesRequest,
+  output: ListNamespacesResponse,
+  errors: [InvalidInput],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists operations that match the criteria that you specify.
  */
-export const listOperations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listOperations: {
+  (
     input: ListOperationsRequest,
-    output: ListOperationsResponse,
-    errors: [InvalidInput],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListOperationsResponse,
+    InvalidInput | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOperationsRequest,
+  ) => Stream.Stream<
+    ListOperationsResponse,
+    InvalidInput | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOperationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidInput | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOperationsRequest,
+  output: ListOperationsResponse,
+  errors: [InvalidInput],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists summary information for all the services that are associated with one or more
  * namespaces.
  */
-export const listServices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listServices: {
+  (
     input: ListServicesRequest,
-    output: ListServicesResponse,
-    errors: [InvalidInput],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListServicesResponse,
+    InvalidInput | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServicesRequest,
+  ) => Stream.Stream<
+    ListServicesResponse,
+    InvalidInput | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServicesRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidInput | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServicesRequest,
+  output: ListServicesResponse,
+  errors: [InvalidInput],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Submits a request to perform the following operations:
  *
@@ -1846,7 +2082,13 @@ export const listServices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * When you update settings for a service, Cloud Map also updates the corresponding settings
  * in all the records and health checks that were created by using the specified service.
  */
-export const updateService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateService: (
+  input: UpdateServiceRequest,
+) => Effect.Effect<
+  UpdateServiceResponse,
+  DuplicateRequest | InvalidInput | ServiceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceRequest,
   output: UpdateServiceResponse,
   errors: [DuplicateRequest, InvalidInput, ServiceNotFound],
@@ -1886,7 +2128,18 @@ export const updateService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * namespace and using the same service, see Cloud Map quotas in the
  * *Cloud Map Developer Guide*.
  */
-export const registerInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerInstance: (
+  input: RegisterInstanceRequest,
+) => Effect.Effect<
+  RegisterInstanceResponse,
+  | DuplicateRequest
+  | InvalidInput
+  | ResourceInUse
+  | ResourceLimitExceeded
+  | ServiceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterInstanceRequest,
   output: RegisterInstanceResponse,
   errors: [
@@ -1904,7 +2157,17 @@ export const registerInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * distribute traffic evenly across instances. For public and private DNS namespaces, you can also
  * use DNS queries to discover instances.
  */
-export const discoverInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const discoverInstances: (
+  input: DiscoverInstancesRequest,
+) => Effect.Effect<
+  DiscoverInstancesResponse,
+  | InvalidInput
+  | NamespaceNotFound
+  | RequestLimitExceeded
+  | ServiceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DiscoverInstancesRequest,
   output: DiscoverInstancesResponse,
   errors: [
@@ -1917,7 +2180,16 @@ export const discoverInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds one or more tags to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InvalidInput
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [InvalidInput, ResourceNotFoundException, TooManyTagsException],
@@ -1933,19 +2205,28 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The `CreatePublicDnsNamespace` API operation is not supported in the Amazon Web Services GovCloud (US) Regions.
  */
-export const createPublicDnsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePublicDnsNamespaceRequest,
-    output: CreatePublicDnsNamespaceResponse,
-    errors: [
-      DuplicateRequest,
-      InvalidInput,
-      NamespaceAlreadyExists,
-      ResourceLimitExceeded,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const createPublicDnsNamespace: (
+  input: CreatePublicDnsNamespaceRequest,
+) => Effect.Effect<
+  CreatePublicDnsNamespaceResponse,
+  | DuplicateRequest
+  | InvalidInput
+  | NamespaceAlreadyExists
+  | ResourceLimitExceeded
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePublicDnsNamespaceRequest,
+  output: CreatePublicDnsNamespaceResponse,
+  errors: [
+    DuplicateRequest,
+    InvalidInput,
+    NamespaceAlreadyExists,
+    ResourceLimitExceeded,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Creates an HTTP namespace. Service instances registered using an HTTP namespace can be
  * discovered using a `DiscoverInstances` request but can't be discovered using
@@ -1954,7 +2235,18 @@ export const createPublicDnsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see Cloud Map quotas in the
  * *Cloud Map Developer Guide*.
  */
-export const createHttpNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createHttpNamespace: (
+  input: CreateHttpNamespaceRequest,
+) => Effect.Effect<
+  CreateHttpNamespaceResponse,
+  | DuplicateRequest
+  | InvalidInput
+  | NamespaceAlreadyExists
+  | ResourceLimitExceeded
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHttpNamespaceRequest,
   output: CreateHttpNamespaceResponse,
   errors: [
@@ -1975,23 +2267,38 @@ export const createHttpNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon Web Services account, see Cloud Map quotas in the
  * *Cloud Map Developer Guide*.
  */
-export const createPrivateDnsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePrivateDnsNamespaceRequest,
-    output: CreatePrivateDnsNamespaceResponse,
-    errors: [
-      DuplicateRequest,
-      InvalidInput,
-      NamespaceAlreadyExists,
-      ResourceLimitExceeded,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const createPrivateDnsNamespace: (
+  input: CreatePrivateDnsNamespaceRequest,
+) => Effect.Effect<
+  CreatePrivateDnsNamespaceResponse,
+  | DuplicateRequest
+  | InvalidInput
+  | NamespaceAlreadyExists
+  | ResourceLimitExceeded
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePrivateDnsNamespaceRequest,
+  output: CreatePrivateDnsNamespaceResponse,
+  errors: [
+    DuplicateRequest,
+    InvalidInput,
+    NamespaceAlreadyExists,
+    ResourceLimitExceeded,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Gets information about a namespace.
  */
-export const getNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getNamespace: (
+  input: GetNamespaceRequest,
+) => Effect.Effect<
+  GetNamespaceResponse,
+  InvalidInput | NamespaceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNamespaceRequest,
   output: GetNamespaceResponse,
   errors: [InvalidInput, NamespaceNotFound],
@@ -2002,7 +2309,13 @@ export const getNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To get a list of operations that match specified criteria, see ListOperations.
  */
-export const getOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getOperation: (
+  input: GetOperationRequest,
+) => Effect.Effect<
+  GetOperationResponse,
+  InvalidInput | OperationNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationRequest,
   output: GetOperationResponse,
   errors: [InvalidInput, OperationNotFound],
@@ -2010,13 +2323,21 @@ export const getOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a public DNS namespace.
  */
-export const updatePublicDnsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePublicDnsNamespaceRequest,
-    output: UpdatePublicDnsNamespaceResponse,
-    errors: [DuplicateRequest, InvalidInput, NamespaceNotFound, ResourceInUse],
-  }),
-);
+export const updatePublicDnsNamespace: (
+  input: UpdatePublicDnsNamespaceRequest,
+) => Effect.Effect<
+  UpdatePublicDnsNamespaceResponse,
+  | DuplicateRequest
+  | InvalidInput
+  | NamespaceNotFound
+  | ResourceInUse
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePublicDnsNamespaceRequest,
+  output: UpdatePublicDnsNamespaceResponse,
+  errors: [DuplicateRequest, InvalidInput, NamespaceNotFound, ResourceInUse],
+}));
 /**
  * Creates a service. This action defines the configuration for the following entities:
  *
@@ -2042,7 +2363,18 @@ export const updatePublicDnsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * namespace and using the same service, see Cloud Map quotas in the
  * *Cloud Map Developer Guide*.
  */
-export const createService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createService: (
+  input: CreateServiceRequest,
+) => Effect.Effect<
+  CreateServiceResponse,
+  | InvalidInput
+  | NamespaceNotFound
+  | ResourceLimitExceeded
+  | ServiceAlreadyExists
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceRequest,
   output: CreateServiceResponse,
   errors: [
@@ -2057,10 +2389,18 @@ export const createService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates a private DNS
  * namespace.
  */
-export const updatePrivateDnsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePrivateDnsNamespaceRequest,
-    output: UpdatePrivateDnsNamespaceResponse,
-    errors: [DuplicateRequest, InvalidInput, NamespaceNotFound, ResourceInUse],
-  }),
-);
+export const updatePrivateDnsNamespace: (
+  input: UpdatePrivateDnsNamespaceRequest,
+) => Effect.Effect<
+  UpdatePrivateDnsNamespaceResponse,
+  | DuplicateRequest
+  | InvalidInput
+  | NamespaceNotFound
+  | ResourceInUse
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePrivateDnsNamespaceRequest,
+  output: UpdatePrivateDnsNamespaceResponse,
+  errors: [DuplicateRequest, InvalidInput, NamespaceNotFound, ResourceInUse],
+}));

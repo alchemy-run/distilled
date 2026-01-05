@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Events Data",
   serviceShapeName: "IotColumboDataService",
@@ -240,6 +248,30 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AlarmModelName = string;
+export type KeyValue = string;
+export type DetectorModelName = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type StateName = string;
+export type RequestId = string;
+export type Note = string;
+export type MessageId = string;
+export type EphemeralInputName = string;
+export type SnoozeDuration = number;
+export type EpochMilliTimestamp = number;
+export type AlarmModelVersion = string;
+export type Severity = number;
+export type DetectorModelVersion = string;
+export type VariableName = string;
+export type VariableValue = string;
+export type TimerName = string;
+export type Seconds = number;
+export type ErrorMessage = string;
+export type InputPropertyValue = string;
+export type ThresholdValue = string;
 
 //# Schemas
 export interface DescribeAlarmRequest {
@@ -1083,7 +1115,9 @@ export const DescribeAlarmResponse = S.suspend(() =>
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { message: S.optional(S.String) },
@@ -1091,7 +1125,9 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -1099,14 +1135,26 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
  * Disables one or more alarms. The alarms change to the `DISABLED` state after
  * you disable them.
  */
-export const batchDisableAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchDisableAlarm: (
+  input: BatchDisableAlarmRequest,
+) => Effect.Effect<
+  BatchDisableAlarmResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDisableAlarmRequest,
   output: BatchDisableAlarmResponse,
   errors: [
@@ -1120,7 +1168,17 @@ export const batchDisableAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the state, variable values, and timer settings of one or more detectors
  * (instances) of a specified detector model.
  */
-export const batchUpdateDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchUpdateDetector: (
+  input: BatchUpdateDetectorRequest,
+) => Effect.Effect<
+  BatchUpdateDetectorResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateDetectorRequest,
   output: BatchUpdateDetectorResponse,
   errors: [
@@ -1133,7 +1191,18 @@ export const batchUpdateDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the specified detector (instance).
  */
-export const describeDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDetector: (
+  input: DescribeDetectorRequest,
+) => Effect.Effect<
+  DescribeDetectorResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDetectorRequest,
   output: DescribeDetectorResponse,
   errors: [
@@ -1151,7 +1220,17 @@ export const describeDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * guaranteed. To guarantee ordering, you must send messages one at a time and wait for a
  * successful response.
  */
-export const batchPutMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchPutMessage: (
+  input: BatchPutMessageRequest,
+) => Effect.Effect<
+  BatchPutMessageResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutMessageRequest,
   output: BatchPutMessageResponse,
   errors: [
@@ -1165,7 +1244,17 @@ export const batchPutMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Enables one or more alarms. The alarms change to the `NORMAL` state after you
  * enable them.
  */
-export const batchEnableAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchEnableAlarm: (
+  input: BatchEnableAlarmRequest,
+) => Effect.Effect<
+  BatchEnableAlarmResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchEnableAlarmRequest,
   output: BatchEnableAlarmResponse,
   errors: [
@@ -1179,7 +1268,17 @@ export const batchEnableAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Resets one or more alarms. The alarms return to the `NORMAL` state after you
  * reset them.
  */
-export const batchResetAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchResetAlarm: (
+  input: BatchResetAlarmRequest,
+) => Effect.Effect<
+  BatchResetAlarmResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchResetAlarmRequest,
   output: BatchResetAlarmResponse,
   errors: [
@@ -1193,7 +1292,17 @@ export const batchResetAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Changes one or more alarms to the snooze mode. The alarms change to the
  * `SNOOZE_DISABLED` state after you set them to the snooze mode.
  */
-export const batchSnoozeAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchSnoozeAlarm: (
+  input: BatchSnoozeAlarmRequest,
+) => Effect.Effect<
+  BatchSnoozeAlarmResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchSnoozeAlarmRequest,
   output: BatchSnoozeAlarmResponse,
   errors: [
@@ -1207,22 +1316,40 @@ export const batchSnoozeAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Acknowledges one or more alarms. The alarms change to the `ACKNOWLEDGED` state
  * after you acknowledge them.
  */
-export const batchAcknowledgeAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchAcknowledgeAlarmRequest,
-    output: BatchAcknowledgeAlarmResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const batchAcknowledgeAlarm: (
+  input: BatchAcknowledgeAlarmRequest,
+) => Effect.Effect<
+  BatchAcknowledgeAlarmResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchAcknowledgeAlarmRequest,
+  output: BatchAcknowledgeAlarmResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes one or more detectors that were created. When a detector is deleted, its state will be cleared and the detector will be removed from the list of detectors. The deleted detector will no longer appear if referenced in the ListDetectors API call.
  */
-export const batchDeleteDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchDeleteDetector: (
+  input: BatchDeleteDetectorRequest,
+) => Effect.Effect<
+  BatchDeleteDetectorResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteDetectorRequest,
   output: BatchDeleteDetectorResponse,
   errors: [
@@ -1235,7 +1362,18 @@ export const batchDeleteDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists detectors (the instances of a detector model).
  */
-export const listDetectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listDetectors: (
+  input: ListDetectorsRequest,
+) => Effect.Effect<
+  ListDetectorsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDetectorsRequest,
   output: ListDetectorsResponse,
   errors: [
@@ -1250,7 +1388,18 @@ export const listDetectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists one or more alarms. The operation returns only the metadata associated with each
  * alarm.
  */
-export const listAlarms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listAlarms: (
+  input: ListAlarmsRequest,
+) => Effect.Effect<
+  ListAlarmsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAlarmsRequest,
   output: ListAlarmsResponse,
   errors: [
@@ -1264,7 +1413,18 @@ export const listAlarms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about an alarm.
  */
-export const describeAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAlarm: (
+  input: DescribeAlarmRequest,
+) => Effect.Effect<
+  DescribeAlarmResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAlarmRequest,
   output: DescribeAlarmResponse,
   errors: [

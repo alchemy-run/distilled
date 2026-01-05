@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "neptunedata",
   serviceShapeName: "AmazonNeptuneDataplane",
@@ -292,6 +300,9 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type PositiveInteger = number;
 
 //# Schemas
 export interface DeletePropertygraphStatisticsRequest {}
@@ -2196,7 +2207,9 @@ export class ClientTimeoutException extends S.TaggedError<ClientTimeoutException
 export class CancelledByUserException extends S.TaggedError<CancelledByUserException>()(
   "CancelledByUserException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConstraintViolationException extends S.TaggedError<ConstraintViolationException>()(
   "ConstraintViolationException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
@@ -2206,7 +2219,9 @@ export class ConcurrentModificationException extends S.TaggedError<ConcurrentMod
   "ConcurrentModificationException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class BulkLoadIdNotFoundException extends S.TaggedError<BulkLoadIdNotFoundException>()(
   "BulkLoadIdNotFoundException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
@@ -2220,7 +2235,9 @@ export class FailureByQueryException extends S.TaggedError<FailureByQueryExcepti
   "FailureByQueryException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ExpiredStreamException extends S.TaggedError<ExpiredStreamException>()(
   "ExpiredStreamException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
@@ -2228,7 +2245,9 @@ export class ExpiredStreamException extends S.TaggedError<ExpiredStreamException
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
   "InvalidArgumentException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
@@ -2257,7 +2276,9 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
   "TooManyRequestsException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class LoadUrlAccessDeniedException extends S.TaggedError<LoadUrlAccessDeniedException>()(
   "LoadUrlAccessDeniedException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
@@ -2266,7 +2287,9 @@ export class MemoryLimitExceededException extends S.TaggedError<MemoryLimitExcee
   "MemoryLimitExceededException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class MethodNotAllowedException extends S.TaggedError<MethodNotAllowedException>()(
   "MethodNotAllowedException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
@@ -2300,21 +2323,29 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ServerShutdownException extends S.TaggedError<ServerShutdownException>()(
   "ServerShutdownException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class TimeLimitExceededException extends S.TaggedError<TimeLimitExceededException>()(
   "TimeLimitExceededException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class QueryLimitExceededException extends S.TaggedError<QueryLimitExceededException>()(
   "QueryLimitExceededException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class StatisticsNotAvailableException extends S.TaggedError<StatisticsNotAvailableException>()(
   "StatisticsNotAvailableException",
   { detailedMessage: S.String, requestId: S.String, code: S.String },
@@ -2334,7 +2365,21 @@ export class QueryTooLargeException extends S.TaggedError<QueryTooLargeException
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetEngineStatus IAM action in that cluster.
  */
-export const getEngineStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEngineStatus: (
+  input: GetEngineStatusRequest,
+) => Effect.Effect<
+  GetEngineStatusOutput,
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InternalFailureException
+  | InvalidArgumentException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEngineStatusRequest,
   output: GetEngineStatusOutput,
   errors: [
@@ -2353,31 +2398,64 @@ export const getEngineStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:GetMLDataProcessingJobStatus IAM action in that cluster.
  */
-export const getMLDataProcessingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMLDataProcessingJobInput,
-    output: GetMLDataProcessingJobOutput,
-    errors: [
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      MLResourceNotFoundException,
-      PreconditionsFailedException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const getMLDataProcessingJob: (
+  input: GetMLDataProcessingJobInput,
+) => Effect.Effect<
+  GetMLDataProcessingJobOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMLDataProcessingJobInput,
+  output: GetMLDataProcessingJobOutput,
+  errors: [
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    MLResourceNotFoundException,
+    PreconditionsFailedException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Retrieves a list of the `loadIds` for all active loader jobs.
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListLoaderJobs IAM action in that cluster..
  */
-export const listLoaderJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listLoaderJobs: (
+  input: ListLoaderJobsInput,
+) => Effect.Effect<
+  ListLoaderJobsOutput,
+  | BadRequestException
+  | BulkLoadIdNotFoundException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InternalFailureException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | LoadUrlAccessDeniedException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLoaderJobsInput,
   output: ListLoaderJobsOutput,
   errors: [
@@ -2400,7 +2478,26 @@ export const listLoaderJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelLoaderJob IAM action in that cluster..
  */
-export const cancelLoaderJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelLoaderJob: (
+  input: CancelLoaderJobInput,
+) => Effect.Effect<
+  CancelLoaderJobOutput,
+  | BadRequestException
+  | BulkLoadIdNotFoundException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InternalFailureException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | LoadUrlAccessDeniedException
+  | MissingParameterException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelLoaderJobInput,
   output: CancelLoaderJobOutput,
   errors: [
@@ -2426,7 +2523,26 @@ export const cancelLoaderJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetLoaderJobStatus IAM action in that cluster..
  */
-export const getLoaderJobStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLoaderJobStatus: (
+  input: GetLoaderJobStatusInput,
+) => Effect.Effect<
+  GetLoaderJobStatusOutput,
+  | BadRequestException
+  | BulkLoadIdNotFoundException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InternalFailureException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | LoadUrlAccessDeniedException
+  | MissingParameterException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoaderJobStatusInput,
   output: GetLoaderJobStatusOutput,
   errors: [
@@ -2450,7 +2566,27 @@ export const getLoaderJobStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartLoaderJob IAM action in that cluster.
  */
-export const startLoaderJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startLoaderJob: (
+  input: StartLoaderJobInput,
+) => Effect.Effect<
+  StartLoaderJobOutput,
+  | BadRequestException
+  | BulkLoadIdNotFoundException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InternalFailureException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | LoadUrlAccessDeniedException
+  | MissingParameterException
+  | PreconditionsFailedException
+  | S3Exception
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartLoaderJobInput,
   output: StartLoaderJobOutput,
   errors: [
@@ -2475,7 +2611,24 @@ export const startLoaderJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLEndpointStatus IAM action in that cluster.
  */
-export const getMLEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMLEndpoint: (
+  input: GetMLEndpointInput,
+) => Effect.Effect<
+  GetMLEndpointOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMLEndpointInput,
   output: GetMLEndpointOutput,
   errors: [
@@ -2497,127 +2650,219 @@ export const getMLEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTrainingJob IAM action in that cluster.
  */
-export const startMLModelTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMLModelTrainingJobInput,
-    output: StartMLModelTrainingJobOutput,
-    errors: [
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      MLResourceNotFoundException,
-      PreconditionsFailedException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const startMLModelTrainingJob: (
+  input: StartMLModelTrainingJobInput,
+) => Effect.Effect<
+  StartMLModelTrainingJobOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMLModelTrainingJobInput,
+  output: StartMLModelTrainingJobOutput,
+  errors: [
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    MLResourceNotFoundException,
+    PreconditionsFailedException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Creates a new model transform job. See Use a trained model to generate new model artifacts.
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTransformJob IAM action in that cluster.
  */
-export const startMLModelTransformJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMLModelTransformJobInput,
-    output: StartMLModelTransformJobOutput,
-    errors: [
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      MLResourceNotFoundException,
-      PreconditionsFailedException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const startMLModelTransformJob: (
+  input: StartMLModelTransformJobInput,
+) => Effect.Effect<
+  StartMLModelTransformJobOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMLModelTransformJobInput,
+  output: StartMLModelTransformJobOutput,
+  errors: [
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    MLResourceNotFoundException,
+    PreconditionsFailedException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Cancels a Neptune ML data processing job. See The `dataprocessing` command.
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLDataProcessingJob IAM action in that cluster.
  */
-export const cancelMLDataProcessingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelMLDataProcessingJobInput,
-    output: CancelMLDataProcessingJobOutput,
-    errors: [
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      MLResourceNotFoundException,
-      PreconditionsFailedException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const cancelMLDataProcessingJob: (
+  input: CancelMLDataProcessingJobInput,
+) => Effect.Effect<
+  CancelMLDataProcessingJobOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelMLDataProcessingJobInput,
+  output: CancelMLDataProcessingJobOutput,
+  errors: [
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    MLResourceNotFoundException,
+    PreconditionsFailedException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Cancels a Neptune ML model training job. See Model training using the `modeltraining` command.
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTrainingJob IAM action in that cluster.
  */
-export const cancelMLModelTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelMLModelTrainingJobInput,
-    output: CancelMLModelTrainingJobOutput,
-    errors: [
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      MLResourceNotFoundException,
-      PreconditionsFailedException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const cancelMLModelTrainingJob: (
+  input: CancelMLModelTrainingJobInput,
+) => Effect.Effect<
+  CancelMLModelTrainingJobOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelMLModelTrainingJobInput,
+  output: CancelMLModelTrainingJobOutput,
+  errors: [
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    MLResourceNotFoundException,
+    PreconditionsFailedException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Cancels a specified model transform job. See Use a trained model to generate new model artifacts.
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTransformJob IAM action in that cluster.
  */
-export const cancelMLModelTransformJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelMLModelTransformJobInput,
-    output: CancelMLModelTransformJobOutput,
-    errors: [
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      MLResourceNotFoundException,
-      PreconditionsFailedException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const cancelMLModelTransformJob: (
+  input: CancelMLModelTransformJobInput,
+) => Effect.Effect<
+  CancelMLModelTransformJobOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelMLModelTransformJobInput,
+  output: CancelMLModelTransformJobOutput,
+  errors: [
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    MLResourceNotFoundException,
+    PreconditionsFailedException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Creates a new Neptune ML inference endpoint that lets you query one specific model that the model-training process constructed. See Managing inference endpoints using the endpoints command.
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CreateMLEndpoint IAM action in that cluster.
  */
-export const createMLEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMLEndpoint: (
+  input: CreateMLEndpointInput,
+) => Effect.Effect<
+  CreateMLEndpointOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMLEndpointInput,
   output: CreateMLEndpointOutput,
   errors: [
@@ -2639,7 +2884,24 @@ export const createMLEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteMLEndpoint IAM action in that cluster.
  */
-export const deleteMLEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMLEndpoint: (
+  input: DeleteMLEndpointInput,
+) => Effect.Effect<
+  DeleteMLEndpointOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMLEndpointInput,
   output: DeleteMLEndpointOutput,
   errors: [
@@ -2661,79 +2923,141 @@ export const deleteMLEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLModelTrainingJobStatus IAM action in that cluster.
  */
-export const getMLModelTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMLModelTrainingJobInput,
-    output: GetMLModelTrainingJobOutput,
-    errors: [
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      MLResourceNotFoundException,
-      PreconditionsFailedException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const getMLModelTrainingJob: (
+  input: GetMLModelTrainingJobInput,
+) => Effect.Effect<
+  GetMLModelTrainingJobOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMLModelTrainingJobInput,
+  output: GetMLModelTrainingJobOutput,
+  errors: [
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    MLResourceNotFoundException,
+    PreconditionsFailedException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Gets information about a specified model transform job. See Use a trained model to generate new model artifacts.
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLModelTransformJobStatus IAM action in that cluster.
  */
-export const getMLModelTransformJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMLModelTransformJobInput,
-    output: GetMLModelTransformJobOutput,
-    errors: [
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      MLResourceNotFoundException,
-      PreconditionsFailedException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const getMLModelTransformJob: (
+  input: GetMLModelTransformJobInput,
+) => Effect.Effect<
+  GetMLModelTransformJobOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMLModelTransformJobInput,
+  output: GetMLModelTransformJobOutput,
+  errors: [
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    MLResourceNotFoundException,
+    PreconditionsFailedException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Returns a list of Neptune ML data processing jobs. See Listing active data-processing jobs using the Neptune ML dataprocessing command.
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLDataProcessingJobs IAM action in that cluster.
  */
-export const listMLDataProcessingJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMLDataProcessingJobsInput,
-    output: ListMLDataProcessingJobsOutput,
-    errors: [
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      MLResourceNotFoundException,
-      PreconditionsFailedException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const listMLDataProcessingJobs: (
+  input: ListMLDataProcessingJobsInput,
+) => Effect.Effect<
+  ListMLDataProcessingJobsOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMLDataProcessingJobsInput,
+  output: ListMLDataProcessingJobsOutput,
+  errors: [
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    MLResourceNotFoundException,
+    PreconditionsFailedException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Lists existing inference endpoints. See Managing inference endpoints using the endpoints command.
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLEndpoints IAM action in that cluster.
  */
-export const listMLEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listMLEndpoints: (
+  input: ListMLEndpointsInput,
+) => Effect.Effect<
+  ListMLEndpointsOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListMLEndpointsInput,
   output: ListMLEndpointsOutput,
   errors: [
@@ -2755,73 +3079,118 @@ export const listMLEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:ListMLModelTrainingJobs IAM action in that cluster.
  */
-export const listMLModelTrainingJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMLModelTrainingJobsInput,
-    output: ListMLModelTrainingJobsOutput,
-    errors: [
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      MLResourceNotFoundException,
-      PreconditionsFailedException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const listMLModelTrainingJobs: (
+  input: ListMLModelTrainingJobsInput,
+) => Effect.Effect<
+  ListMLModelTrainingJobsOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMLModelTrainingJobsInput,
+  output: ListMLModelTrainingJobsOutput,
+  errors: [
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    MLResourceNotFoundException,
+    PreconditionsFailedException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Returns a list of model transform job IDs. See Use a trained model to generate new model artifacts.
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLModelTransformJobs IAM action in that cluster.
  */
-export const listMLModelTransformJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMLModelTransformJobsInput,
-    output: ListMLModelTransformJobsOutput,
-    errors: [
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      MLResourceNotFoundException,
-      PreconditionsFailedException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const listMLModelTransformJobs: (
+  input: ListMLModelTransformJobsInput,
+) => Effect.Effect<
+  ListMLModelTransformJobsOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMLModelTransformJobsInput,
+  output: ListMLModelTransformJobsOutput,
+  errors: [
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    MLResourceNotFoundException,
+    PreconditionsFailedException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Creates a new Neptune ML data processing job for processing the graph data exported from Neptune for training. See The `dataprocessing` command.
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelDataProcessingJob IAM action in that cluster.
  */
-export const startMLDataProcessingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMLDataProcessingJobInput,
-    output: StartMLDataProcessingJobOutput,
-    errors: [
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      MLResourceNotFoundException,
-      PreconditionsFailedException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const startMLDataProcessingJob: (
+  input: StartMLDataProcessingJobInput,
+) => Effect.Effect<
+  StartMLDataProcessingJobOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | MLResourceNotFoundException
+  | PreconditionsFailedException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMLDataProcessingJobInput,
+  output: StartMLDataProcessingJobOutput,
+  errors: [
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    MLResourceNotFoundException,
+    PreconditionsFailedException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Gets a stream for a property graph.
  *
@@ -2843,26 +3212,42 @@ export const startMLDataProcessingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * See Condition keys available in Neptune IAM data-access policy statements).
  */
-export const getPropertygraphStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPropertygraphStreamInput,
-    output: GetPropertygraphStreamOutput,
-    errors: [
-      ClientTimeoutException,
-      ConstraintViolationException,
-      ExpiredStreamException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MemoryLimitExceededException,
-      PreconditionsFailedException,
-      StreamRecordsNotFoundException,
-      ThrottlingException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const getPropertygraphStream: (
+  input: GetPropertygraphStreamInput,
+) => Effect.Effect<
+  GetPropertygraphStreamOutput,
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | ExpiredStreamException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MemoryLimitExceededException
+  | PreconditionsFailedException
+  | StreamRecordsNotFoundException
+  | ThrottlingException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPropertygraphStreamInput,
+  output: GetPropertygraphStreamOutput,
+  errors: [
+    ClientTimeoutException,
+    ConstraintViolationException,
+    ExpiredStreamException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MemoryLimitExceededException,
+    PreconditionsFailedException,
+    StreamRecordsNotFoundException,
+    ThrottlingException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * The fast reset REST API lets you reset a Neptune graph quicky and easily, removing all of its data.
  *
@@ -2870,7 +3255,26 @@ export const getPropertygraphStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ResetDatabase IAM action in that cluster.
  */
-export const executeFastReset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const executeFastReset: (
+  input: ExecuteFastResetInput,
+) => Effect.Effect<
+  ExecuteFastResetOutput,
+  | AccessDeniedException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MethodNotAllowedException
+  | MissingParameterException
+  | PreconditionsFailedException
+  | ReadOnlyViolationException
+  | ServerShutdownException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteFastResetInput,
   output: ExecuteFastResetOutput,
   errors: [
@@ -2896,7 +3300,29 @@ export const executeFastReset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const listGremlinQueries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listGremlinQueries: (
+  input: ListGremlinQueriesInput,
+) => Effect.Effect<
+  ListGremlinQueriesOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | ClientTimeoutException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | FailureByQueryException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | ParsingException
+  | PreconditionsFailedException
+  | ReadOnlyViolationException
+  | TimeLimitExceededException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListGremlinQueriesInput,
   output: ListGremlinQueriesOutput,
   errors: [
@@ -2931,7 +3357,25 @@ export const listGremlinQueries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Note that the neptune-db:QueryLanguage:Sparql IAM condition key can be used in the policy document to restrict the use of SPARQL queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const getSparqlStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSparqlStream: (
+  input: GetSparqlStreamInput,
+) => Effect.Effect<
+  GetSparqlStreamOutput,
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | ExpiredStreamException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MemoryLimitExceededException
+  | PreconditionsFailedException
+  | StreamRecordsNotFoundException
+  | ThrottlingException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSparqlStreamInput,
   output: GetSparqlStreamOutput,
   errors: [
@@ -2954,33 +3398,70 @@ export const getSparqlStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetGraphSummary IAM action in that cluster.
  */
-export const getPropertygraphSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPropertygraphSummaryInput,
-    output: GetPropertygraphSummaryOutput,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      PreconditionsFailedException,
-      ReadOnlyViolationException,
-      StatisticsNotAvailableException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const getPropertygraphSummary: (
+  input: GetPropertygraphSummaryInput,
+) => Effect.Effect<
+  GetPropertygraphSummaryOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | PreconditionsFailedException
+  | ReadOnlyViolationException
+  | StatisticsNotAvailableException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPropertygraphSummaryInput,
+  output: GetPropertygraphSummaryOutput,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    PreconditionsFailedException,
+    ReadOnlyViolationException,
+    StatisticsNotAvailableException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Cancels a Gremlin query. See Gremlin query cancellation for more information.
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster.
  */
-export const cancelGremlinQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelGremlinQuery: (
+  input: CancelGremlinQueryInput,
+) => Effect.Effect<
+  CancelGremlinQueryOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | FailureByQueryException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | ParsingException
+  | PreconditionsFailedException
+  | TimeLimitExceededException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelGremlinQueryInput,
   output: CancelGremlinQueryOutput,
   errors: [
@@ -3005,29 +3486,48 @@ export const cancelGremlinQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster.
  */
-export const cancelOpenCypherQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelOpenCypherQueryInput,
-    output: CancelOpenCypherQueryOutput,
-    errors: [
-      BadRequestException,
-      ClientTimeoutException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      FailureByQueryException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidNumericDataException,
-      InvalidParameterException,
-      MissingParameterException,
-      ParsingException,
-      PreconditionsFailedException,
-      TimeLimitExceededException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const cancelOpenCypherQuery: (
+  input: CancelOpenCypherQueryInput,
+) => Effect.Effect<
+  CancelOpenCypherQueryOutput,
+  | BadRequestException
+  | ClientTimeoutException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | FailureByQueryException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidNumericDataException
+  | InvalidParameterException
+  | MissingParameterException
+  | ParsingException
+  | PreconditionsFailedException
+  | TimeLimitExceededException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelOpenCypherQueryInput,
+  output: CancelOpenCypherQueryOutput,
+  errors: [
+    BadRequestException,
+    ClientTimeoutException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    FailureByQueryException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidNumericDataException,
+    InvalidParameterException,
+    MissingParameterException,
+    ParsingException,
+    PreconditionsFailedException,
+    TimeLimitExceededException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Retrieves the status of a specified openCypher query.
  *
@@ -3035,31 +3535,52 @@ export const cancelOpenCypherQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const getOpenCypherQueryStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetOpenCypherQueryStatusInput,
-    output: GetOpenCypherQueryStatusOutput,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ClientTimeoutException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      FailureByQueryException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidNumericDataException,
-      InvalidParameterException,
-      MissingParameterException,
-      ParsingException,
-      PreconditionsFailedException,
-      ReadOnlyViolationException,
-      TimeLimitExceededException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const getOpenCypherQueryStatus: (
+  input: GetOpenCypherQueryStatusInput,
+) => Effect.Effect<
+  GetOpenCypherQueryStatusOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | ClientTimeoutException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | FailureByQueryException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidNumericDataException
+  | InvalidParameterException
+  | MissingParameterException
+  | ParsingException
+  | PreconditionsFailedException
+  | ReadOnlyViolationException
+  | TimeLimitExceededException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOpenCypherQueryStatusInput,
+  output: GetOpenCypherQueryStatusOutput,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ClientTimeoutException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    FailureByQueryException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidNumericDataException,
+    InvalidParameterException,
+    MissingParameterException,
+    ParsingException,
+    PreconditionsFailedException,
+    ReadOnlyViolationException,
+    TimeLimitExceededException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Lists active openCypher queries. See Neptune openCypher status endpoint for more information.
  *
@@ -3067,31 +3588,52 @@ export const getOpenCypherQueryStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const listOpenCypherQueries = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListOpenCypherQueriesInput,
-    output: ListOpenCypherQueriesOutput,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ClientTimeoutException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      FailureByQueryException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidNumericDataException,
-      InvalidParameterException,
-      MissingParameterException,
-      ParsingException,
-      PreconditionsFailedException,
-      ReadOnlyViolationException,
-      TimeLimitExceededException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const listOpenCypherQueries: (
+  input: ListOpenCypherQueriesInput,
+) => Effect.Effect<
+  ListOpenCypherQueriesOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | ClientTimeoutException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | FailureByQueryException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidNumericDataException
+  | InvalidParameterException
+  | MissingParameterException
+  | ParsingException
+  | PreconditionsFailedException
+  | ReadOnlyViolationException
+  | TimeLimitExceededException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListOpenCypherQueriesInput,
+  output: ListOpenCypherQueriesOutput,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ClientTimeoutException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    FailureByQueryException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidNumericDataException,
+    InvalidParameterException,
+    MissingParameterException,
+    ParsingException,
+    PreconditionsFailedException,
+    ReadOnlyViolationException,
+    TimeLimitExceededException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Gets the status of a specified Gremlin query.
  *
@@ -3099,36 +3641,75 @@ export const listOpenCypherQueries = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const getGremlinQueryStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetGremlinQueryStatusInput,
-    output: GetGremlinQueryStatusOutput,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ClientTimeoutException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      FailureByQueryException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      ParsingException,
-      PreconditionsFailedException,
-      ReadOnlyViolationException,
-      TimeLimitExceededException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const getGremlinQueryStatus: (
+  input: GetGremlinQueryStatusInput,
+) => Effect.Effect<
+  GetGremlinQueryStatusOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | ClientTimeoutException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | FailureByQueryException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | ParsingException
+  | PreconditionsFailedException
+  | ReadOnlyViolationException
+  | TimeLimitExceededException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGremlinQueryStatusInput,
+  output: GetGremlinQueryStatusOutput,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ClientTimeoutException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    FailureByQueryException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    ParsingException,
+    PreconditionsFailedException,
+    ReadOnlyViolationException,
+    TimeLimitExceededException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Gets a graph summary for an RDF graph.
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetGraphSummary IAM action in that cluster.
  */
-export const getRDFGraphSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRDFGraphSummary: (
+  input: GetRDFGraphSummaryInput,
+) => Effect.Effect<
+  GetRDFGraphSummaryOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | PreconditionsFailedException
+  | ReadOnlyViolationException
+  | StatisticsNotAvailableException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRDFGraphSummaryInput,
   output: GetRDFGraphSummaryOutput,
   errors: [
@@ -3152,108 +3733,196 @@ export const getRDFGraphSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetStatisticsStatus IAM action in that cluster.
  */
-export const getPropertygraphStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPropertygraphStatisticsRequest,
-    output: GetPropertygraphStatisticsOutput,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      PreconditionsFailedException,
-      ReadOnlyViolationException,
-      StatisticsNotAvailableException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const getPropertygraphStatistics: (
+  input: GetPropertygraphStatisticsRequest,
+) => Effect.Effect<
+  GetPropertygraphStatisticsOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | PreconditionsFailedException
+  | ReadOnlyViolationException
+  | StatisticsNotAvailableException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPropertygraphStatisticsRequest,
+  output: GetPropertygraphStatisticsOutput,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    PreconditionsFailedException,
+    ReadOnlyViolationException,
+    StatisticsNotAvailableException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Manages the generation and use of property graph statistics.
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster.
  */
-export const managePropertygraphStatistics =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ManagePropertygraphStatisticsInput,
-    output: ManagePropertygraphStatisticsOutput,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      PreconditionsFailedException,
-      ReadOnlyViolationException,
-      StatisticsNotAvailableException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }));
+export const managePropertygraphStatistics: (
+  input: ManagePropertygraphStatisticsInput,
+) => Effect.Effect<
+  ManagePropertygraphStatisticsOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | PreconditionsFailedException
+  | ReadOnlyViolationException
+  | StatisticsNotAvailableException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ManagePropertygraphStatisticsInput,
+  output: ManagePropertygraphStatisticsOutput,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    PreconditionsFailedException,
+    ReadOnlyViolationException,
+    StatisticsNotAvailableException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Deletes SPARQL statistics
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteStatistics IAM action in that cluster.
  */
-export const deleteSparqlStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSparqlStatisticsRequest,
-    output: DeleteSparqlStatisticsOutput,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      PreconditionsFailedException,
-      ReadOnlyViolationException,
-      StatisticsNotAvailableException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const deleteSparqlStatistics: (
+  input: DeleteSparqlStatisticsRequest,
+) => Effect.Effect<
+  DeleteSparqlStatisticsOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | PreconditionsFailedException
+  | ReadOnlyViolationException
+  | StatisticsNotAvailableException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSparqlStatisticsRequest,
+  output: DeleteSparqlStatisticsOutput,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    PreconditionsFailedException,
+    ReadOnlyViolationException,
+    StatisticsNotAvailableException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Manages the generation and use of RDF graph statistics.
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster.
  */
-export const manageSparqlStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ManageSparqlStatisticsInput,
-    output: ManageSparqlStatisticsOutput,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      PreconditionsFailedException,
-      ReadOnlyViolationException,
-      StatisticsNotAvailableException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const manageSparqlStatistics: (
+  input: ManageSparqlStatisticsInput,
+) => Effect.Effect<
+  ManageSparqlStatisticsOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | PreconditionsFailedException
+  | ReadOnlyViolationException
+  | StatisticsNotAvailableException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ManageSparqlStatisticsInput,
+  output: ManageSparqlStatisticsOutput,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    PreconditionsFailedException,
+    ReadOnlyViolationException,
+    StatisticsNotAvailableException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Gets RDF statistics (SPARQL).
  */
-export const getSparqlStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSparqlStatistics: (
+  input: GetSparqlStatisticsRequest,
+) => Effect.Effect<
+  GetSparqlStatisticsOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | PreconditionsFailedException
+  | ReadOnlyViolationException
+  | StatisticsNotAvailableException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSparqlStatisticsRequest,
   output: GetSparqlStatisticsOutput,
   errors: [
@@ -3277,26 +3946,44 @@ export const getSparqlStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteStatistics IAM action in that cluster.
  */
-export const deletePropertygraphStatistics =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeletePropertygraphStatisticsRequest,
-    output: DeletePropertygraphStatisticsOutput,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ClientTimeoutException,
-      ConstraintViolationException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MissingParameterException,
-      PreconditionsFailedException,
-      ReadOnlyViolationException,
-      StatisticsNotAvailableException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }));
+export const deletePropertygraphStatistics: (
+  input: DeletePropertygraphStatisticsRequest,
+) => Effect.Effect<
+  DeletePropertygraphStatisticsOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | ClientTimeoutException
+  | ConstraintViolationException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MissingParameterException
+  | PreconditionsFailedException
+  | ReadOnlyViolationException
+  | StatisticsNotAvailableException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePropertygraphStatisticsRequest,
+  output: DeletePropertygraphStatisticsOutput,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ClientTimeoutException,
+    ConstraintViolationException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MissingParameterException,
+    PreconditionsFailedException,
+    ReadOnlyViolationException,
+    StatisticsNotAvailableException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Executes a Gremlin Explain query.
  *
@@ -3314,34 +4001,58 @@ export const deletePropertygraphStatistics =
  *
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const executeGremlinExplainQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExecuteGremlinExplainQueryInput,
-    output: ExecuteGremlinExplainQueryOutput,
-    errors: [
-      BadRequestException,
-      CancelledByUserException,
-      ClientTimeoutException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      FailureByQueryException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MalformedQueryException,
-      MemoryLimitExceededException,
-      MissingParameterException,
-      ParsingException,
-      PreconditionsFailedException,
-      QueryLimitExceededException,
-      QueryLimitException,
-      QueryTooLargeException,
-      TimeLimitExceededException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const executeGremlinExplainQuery: (
+  input: ExecuteGremlinExplainQueryInput,
+) => Effect.Effect<
+  ExecuteGremlinExplainQueryOutput,
+  | BadRequestException
+  | CancelledByUserException
+  | ClientTimeoutException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | FailureByQueryException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MalformedQueryException
+  | MemoryLimitExceededException
+  | MissingParameterException
+  | ParsingException
+  | PreconditionsFailedException
+  | QueryLimitExceededException
+  | QueryLimitException
+  | QueryTooLargeException
+  | TimeLimitExceededException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecuteGremlinExplainQueryInput,
+  output: ExecuteGremlinExplainQueryOutput,
+  errors: [
+    BadRequestException,
+    CancelledByUserException,
+    ClientTimeoutException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    FailureByQueryException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MalformedQueryException,
+    MemoryLimitExceededException,
+    MissingParameterException,
+    ParsingException,
+    PreconditionsFailedException,
+    QueryLimitExceededException,
+    QueryLimitException,
+    QueryTooLargeException,
+    TimeLimitExceededException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Executes a Gremlin Profile query, which runs a specified traversal, collects various metrics about the run, and produces a profile report as output. See Gremlin profile API in Neptune for details.
  *
@@ -3349,34 +4060,58 @@ export const executeGremlinExplainQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const executeGremlinProfileQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExecuteGremlinProfileQueryInput,
-    output: ExecuteGremlinProfileQueryOutput,
-    errors: [
-      BadRequestException,
-      CancelledByUserException,
-      ClientTimeoutException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      FailureByQueryException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidParameterException,
-      MalformedQueryException,
-      MemoryLimitExceededException,
-      MissingParameterException,
-      ParsingException,
-      PreconditionsFailedException,
-      QueryLimitExceededException,
-      QueryLimitException,
-      QueryTooLargeException,
-      TimeLimitExceededException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const executeGremlinProfileQuery: (
+  input: ExecuteGremlinProfileQueryInput,
+) => Effect.Effect<
+  ExecuteGremlinProfileQueryOutput,
+  | BadRequestException
+  | CancelledByUserException
+  | ClientTimeoutException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | FailureByQueryException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MalformedQueryException
+  | MemoryLimitExceededException
+  | MissingParameterException
+  | ParsingException
+  | PreconditionsFailedException
+  | QueryLimitExceededException
+  | QueryLimitException
+  | QueryTooLargeException
+  | TimeLimitExceededException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecuteGremlinProfileQueryInput,
+  output: ExecuteGremlinProfileQueryOutput,
+  errors: [
+    BadRequestException,
+    CancelledByUserException,
+    ClientTimeoutException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    FailureByQueryException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidParameterException,
+    MalformedQueryException,
+    MemoryLimitExceededException,
+    MissingParameterException,
+    ParsingException,
+    PreconditionsFailedException,
+    QueryLimitExceededException,
+    QueryLimitException,
+    QueryTooLargeException,
+    TimeLimitExceededException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * This commands executes a Gremlin query. Amazon Neptune is compatible with Apache TinkerPop3 and Gremlin, so you can use the Gremlin traversal language to query the graph, as described under The Graph in the Apache TinkerPop3 documentation. More details can also be found in Accessing a Neptune graph with Gremlin.
  *
@@ -3390,7 +4125,33 @@ export const executeGremlinProfileQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const executeGremlinQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const executeGremlinQuery: (
+  input: ExecuteGremlinQueryInput,
+) => Effect.Effect<
+  ExecuteGremlinQueryOutput,
+  | BadRequestException
+  | CancelledByUserException
+  | ClientTimeoutException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | FailureByQueryException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidParameterException
+  | MalformedQueryException
+  | MemoryLimitExceededException
+  | MissingParameterException
+  | ParsingException
+  | PreconditionsFailedException
+  | QueryLimitExceededException
+  | QueryLimitException
+  | QueryTooLargeException
+  | TimeLimitExceededException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteGremlinQueryInput,
   output: ExecuteGremlinQueryOutput,
   errors: [
@@ -3433,35 +4194,60 @@ export const executeGremlinQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Note also that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const executeOpenCypherQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExecuteOpenCypherQueryInput,
-    output: ExecuteOpenCypherQueryOutput,
-    errors: [
-      BadRequestException,
-      CancelledByUserException,
-      ClientTimeoutException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      FailureByQueryException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidNumericDataException,
-      InvalidParameterException,
-      MalformedQueryException,
-      MemoryLimitExceededException,
-      MissingParameterException,
-      ParsingException,
-      PreconditionsFailedException,
-      QueryLimitExceededException,
-      QueryLimitException,
-      QueryTooLargeException,
-      TimeLimitExceededException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const executeOpenCypherQuery: (
+  input: ExecuteOpenCypherQueryInput,
+) => Effect.Effect<
+  ExecuteOpenCypherQueryOutput,
+  | BadRequestException
+  | CancelledByUserException
+  | ClientTimeoutException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | FailureByQueryException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidNumericDataException
+  | InvalidParameterException
+  | MalformedQueryException
+  | MemoryLimitExceededException
+  | MissingParameterException
+  | ParsingException
+  | PreconditionsFailedException
+  | QueryLimitExceededException
+  | QueryLimitException
+  | QueryTooLargeException
+  | TimeLimitExceededException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecuteOpenCypherQueryInput,
+  output: ExecuteOpenCypherQueryOutput,
+  errors: [
+    BadRequestException,
+    CancelledByUserException,
+    ClientTimeoutException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    FailureByQueryException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidNumericDataException,
+    InvalidParameterException,
+    MalformedQueryException,
+    MemoryLimitExceededException,
+    MissingParameterException,
+    ParsingException,
+    PreconditionsFailedException,
+    QueryLimitExceededException,
+    QueryLimitException,
+    QueryTooLargeException,
+    TimeLimitExceededException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Executes an openCypher `explain` request. See The openCypher explain feature for more information.
  *
@@ -3469,31 +4255,57 @@ export const executeOpenCypherQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const executeOpenCypherExplainQuery =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExecuteOpenCypherExplainQueryInput,
-    output: ExecuteOpenCypherExplainQueryOutput,
-    errors: [
-      BadRequestException,
-      CancelledByUserException,
-      ClientTimeoutException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      FailureByQueryException,
-      IllegalArgumentException,
-      InvalidArgumentException,
-      InvalidNumericDataException,
-      InvalidParameterException,
-      MalformedQueryException,
-      MemoryLimitExceededException,
-      MissingParameterException,
-      ParsingException,
-      PreconditionsFailedException,
-      QueryLimitExceededException,
-      QueryLimitException,
-      QueryTooLargeException,
-      TimeLimitExceededException,
-      TooManyRequestsException,
-      UnsupportedOperationException,
-    ],
-  }));
+export const executeOpenCypherExplainQuery: (
+  input: ExecuteOpenCypherExplainQueryInput,
+) => Effect.Effect<
+  ExecuteOpenCypherExplainQueryOutput,
+  | BadRequestException
+  | CancelledByUserException
+  | ClientTimeoutException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | FailureByQueryException
+  | IllegalArgumentException
+  | InvalidArgumentException
+  | InvalidNumericDataException
+  | InvalidParameterException
+  | MalformedQueryException
+  | MemoryLimitExceededException
+  | MissingParameterException
+  | ParsingException
+  | PreconditionsFailedException
+  | QueryLimitExceededException
+  | QueryLimitException
+  | QueryTooLargeException
+  | TimeLimitExceededException
+  | TooManyRequestsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecuteOpenCypherExplainQueryInput,
+  output: ExecuteOpenCypherExplainQueryOutput,
+  errors: [
+    BadRequestException,
+    CancelledByUserException,
+    ClientTimeoutException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    FailureByQueryException,
+    IllegalArgumentException,
+    InvalidArgumentException,
+    InvalidNumericDataException,
+    InvalidParameterException,
+    MalformedQueryException,
+    MemoryLimitExceededException,
+    MissingParameterException,
+    ParsingException,
+    PreconditionsFailedException,
+    QueryLimitExceededException,
+    QueryLimitException,
+    QueryTooLargeException,
+    TimeLimitExceededException,
+    TooManyRequestsException,
+    UnsupportedOperationException,
+  ],
+}));

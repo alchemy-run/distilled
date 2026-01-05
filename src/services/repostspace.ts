@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "repostspace",
   serviceShapeName: "RepostSpace",
@@ -292,6 +300,36 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type SpaceId = string;
+export type ChannelId = string;
+export type AccessorId = string;
+export type ChannelName = string;
+export type ChannelDescription = string;
+export type SpaceName = string;
+export type SpaceSubdomain = string;
+export type SpaceDescription = string;
+export type KMSKey = string;
+export type Arn = string;
+export type AdminId = string;
+export type ListChannelsLimit = number;
+export type ListSpacesLimit = number;
+export type InviteTitle = string;
+export type InviteBody = string;
+export type TagKey = string;
+export type TagValue = string;
+export type EmailDomain = string;
+export type ProvisioningStatus = string;
+export type ClientId = string;
+export type IdentityStoreId = string;
+export type Url = string;
+export type StorageLimit = number;
+export type UserCount = number;
+export type ContentSize = number;
+export type ErrorCode = number;
+export type ErrorMessage = string;
+export type GroupCount = number;
 
 //# Schemas
 export type AccessorIdList = string[];
@@ -1067,7 +1105,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -1085,7 +1125,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -1109,28 +1151,71 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Returns the list of channel within a private re:Post with some information about each channel.
  */
-export const listChannels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listChannels: {
+  (
     input: ListChannelsInput,
-    output: ListChannelsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "channels",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListChannelsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelsInput,
+  ) => Stream.Stream<
+    ListChannelsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelsInput,
+  ) => Stream.Stream<
+    ChannelData,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelsInput,
+  output: ListChannelsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "channels",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Displays information about a channel in a private re:Post.
  */
-export const getChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getChannel: (
+  input: GetChannelInput,
+) => Effect.Effect<
+  GetChannelOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChannelInput,
   output: GetChannelOutput,
   errors: [
@@ -1144,7 +1229,18 @@ export const getChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Displays information about the AWS re:Post Private private re:Post.
  */
-export const getSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSpace: (
+  input: GetSpaceInput,
+) => Effect.Effect<
+  GetSpaceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpaceInput,
   output: GetSpaceOutput,
   errors: [
@@ -1158,7 +1254,19 @@ export const getSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies an existing channel.
  */
-export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateChannel: (
+  input: UpdateChannelInput,
+) => Effect.Effect<
+  UpdateChannelOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelInput,
   output: UpdateChannelOutput,
   errors: [
@@ -1173,7 +1281,18 @@ export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the tags that are associated with the AWS re:Post Private resource specified by the resourceArn. The only resource that can be tagged is a private re:Post.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1187,7 +1306,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the user or group from the list of administrators of the private re:Post.
  */
-export const deregisterAdmin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deregisterAdmin: (
+  input: DeregisterAdminInput,
+) => Effect.Effect<
+  DeregisterAdminResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterAdminInput,
   output: DeregisterAdminResponse,
   errors: [
@@ -1201,7 +1331,18 @@ export const deregisterAdmin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds a user or group to the list of administrators of the private re:Post.
  */
-export const registerAdmin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerAdmin: (
+  input: RegisterAdminInput,
+) => Effect.Effect<
+  RegisterAdminResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterAdminInput,
   output: RegisterAdminResponse,
   errors: [
@@ -1215,7 +1356,18 @@ export const registerAdmin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Sends an invitation email to selected users and groups.
  */
-export const sendInvites = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendInvites: (
+  input: SendInvitesInput,
+) => Effect.Effect<
+  SendInvitesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendInvitesInput,
   output: SendInvitesResponse,
   errors: [
@@ -1229,7 +1381,18 @@ export const sendInvites = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key that’s already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1243,7 +1406,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the association of the tag with the AWS re:Post Private resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1257,7 +1431,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Add a role to multiple users or groups in a private re:Post.
  */
-export const batchAddRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchAddRole: (
+  input: BatchAddRoleInput,
+) => Effect.Effect<
+  BatchAddRoleOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchAddRoleInput,
   output: BatchAddRoleOutput,
   errors: [
@@ -1271,22 +1456,43 @@ export const batchAddRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Remove a role from multiple users or groups in a private re:Post channel.
  */
-export const batchRemoveChannelRoleFromAccessors =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchRemoveChannelRoleFromAccessorsInput,
-    output: BatchRemoveChannelRoleFromAccessorsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchRemoveChannelRoleFromAccessors: (
+  input: BatchRemoveChannelRoleFromAccessorsInput,
+) => Effect.Effect<
+  BatchRemoveChannelRoleFromAccessorsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchRemoveChannelRoleFromAccessorsInput,
+  output: BatchRemoveChannelRoleFromAccessorsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Remove a role from multiple users or groups in a private re:Post.
  */
-export const batchRemoveRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchRemoveRole: (
+  input: BatchRemoveRoleInput,
+) => Effect.Effect<
+  BatchRemoveRoleOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchRemoveRoleInput,
   output: BatchRemoveRoleOutput,
   errors: [
@@ -1300,22 +1506,44 @@ export const batchRemoveRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Add role to multiple users or groups in a private re:Post channel.
  */
-export const batchAddChannelRoleToAccessors =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchAddChannelRoleToAccessorsInput,
-    output: BatchAddChannelRoleToAccessorsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchAddChannelRoleToAccessors: (
+  input: BatchAddChannelRoleToAccessorsInput,
+) => Effect.Effect<
+  BatchAddChannelRoleToAccessorsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchAddChannelRoleToAccessorsInput,
+  output: BatchAddChannelRoleToAccessorsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Modifies an existing AWS re:Post Private private re:Post.
  */
-export const updateSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSpace: (
+  input: UpdateSpaceInput,
+) => Effect.Effect<
+  UpdateSpaceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSpaceInput,
   output: UpdateSpaceResponse,
   errors: [
@@ -1330,7 +1558,41 @@ export const updateSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of AWS re:Post Private private re:Posts in the account with some information about each private re:Post.
  */
-export const listSpaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSpaces: {
+  (
+    input: ListSpacesInput,
+  ): Effect.Effect<
+    ListSpacesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSpacesInput,
+  ) => Stream.Stream<
+    ListSpacesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSpacesInput,
+  ) => Stream.Stream<
+    SpaceData,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSpacesInput,
   output: ListSpacesOutput,
   errors: [
@@ -1349,7 +1611,18 @@ export const listSpaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Deletes an AWS re:Post Private private re:Post.
  */
-export const deleteSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSpace: (
+  input: DeleteSpaceInput,
+) => Effect.Effect<
+  DeleteSpaceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSpaceInput,
   output: DeleteSpaceResponse,
   errors: [
@@ -1363,7 +1636,20 @@ export const deleteSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a channel in an AWS re:Post Private private re:Post.
  */
-export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createChannel: (
+  input: CreateChannelInput,
+) => Effect.Effect<
+  CreateChannelOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelInput,
   output: CreateChannelOutput,
   errors: [
@@ -1379,7 +1665,20 @@ export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an AWS re:Post Private private re:Post.
  */
-export const createSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSpace: (
+  input: CreateSpaceInput,
+) => Effect.Effect<
+  CreateSpaceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSpaceInput,
   output: CreateSpaceOutput,
   errors: [

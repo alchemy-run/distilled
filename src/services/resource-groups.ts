@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Resource Groups",
   serviceShapeName: "Ardi",
@@ -260,6 +268,40 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type TagSyncTaskArn = string;
+export type CreateGroupName = string;
+export type Description = string;
+export type Criticality = number;
+export type Owner = string;
+export type DisplayName = string;
+export type GroupName = string;
+export type GroupStringV2 = string;
+export type GroupString = string;
+export type GroupArnV2 = string;
+export type ResourceArn = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type TagKey = string;
+export type TagValue = string;
+export type RoleArn = string;
+export type Query = string;
+export type GroupConfigurationType = string;
+export type GroupLifecycleEventsStatusMessage = string;
+export type ListGroupingStatusesFilterValue = string;
+export type ResourceFilterValue = string;
+export type GroupFilterValue = string;
+export type ErrorMessage = string;
+export type GroupConfigurationParameterName = string;
+export type GroupConfigurationParameterValue = string;
+export type GroupConfigurationFailureReason = string;
+export type ErrorCode = string;
+export type ResourceType = string;
+export type QueryErrorMessage = string;
+export type ApplicationTagKey = string;
+export type ApplicationArn = string;
+export type GroupArn = string;
 
 //# Schemas
 export interface GetAccountSettingsRequest {}
@@ -1312,7 +1354,9 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class MethodNotAllowedException extends S.TaggedError<MethodNotAllowedException>()(
   "MethodNotAllowedException",
   { Message: S.optional(S.String) },
@@ -1320,7 +1364,9 @@ export class MethodNotAllowedException extends S.TaggedError<MethodNotAllowedExc
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { Message: S.optional(S.String) },
@@ -1344,7 +1390,18 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
  *
  * - `resource-groups:CreateGroup`
  */
-export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGroup: (
+  input: CreateGroupInput,
+) => Effect.Effect<
+  CreateGroupOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupInput,
   output: CreateGroupOutput,
   errors: [
@@ -1359,24 +1416,60 @@ export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns the status of the last grouping or ungrouping action for
  * each resource in the specified application group.
  */
-export const listGroupingStatuses =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGroupingStatuses: {
+  (
     input: ListGroupingStatusesInput,
-    output: ListGroupingStatusesOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "GroupingStatuses",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListGroupingStatusesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | MethodNotAllowedException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupingStatusesInput,
+  ) => Stream.Stream<
+    ListGroupingStatusesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | MethodNotAllowedException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupingStatusesInput,
+  ) => Stream.Stream<
+    GroupingStatusesItem,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | MethodNotAllowedException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGroupingStatusesInput,
+  output: ListGroupingStatusesOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "GroupingStatuses",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of existing Resource Groups in your account.
  *
@@ -1386,7 +1479,44 @@ export const listGroupingStatuses =
  *
  * - `resource-groups:ListGroups`
  */
-export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGroups: {
+  (
+    input: ListGroupsInput,
+  ): Effect.Effect<
+    ListGroupsOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | MethodNotAllowedException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupsInput,
+  ) => Stream.Stream<
+    ListGroupsOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | MethodNotAllowedException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupsInput,
+  ) => Stream.Stream<
+    GroupIdentifier,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | MethodNotAllowedException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGroupsInput,
   output: ListGroupsOutput,
   errors: [
@@ -1406,7 +1536,18 @@ export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Retrieves the current status of optional features in Resource Groups.
  */
-export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccountSettings: (
+  input: GetAccountSettingsRequest,
+) => Effect.Effect<
+  GetAccountSettingsOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountSettingsRequest,
   output: GetAccountSettingsOutput,
   errors: [
@@ -1425,19 +1566,28 @@ export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * operation to check for completion by looking for `GroupLifecycleEventsStatus`
  * to change to `ACTIVE`.
  */
-export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountSettingsInput,
-    output: UpdateAccountSettingsOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateAccountSettings: (
+  input: UpdateAccountSettingsInput,
+) => Effect.Effect<
+  UpdateAccountSettingsOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountSettingsInput,
+  output: UpdateAccountSettingsOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes the specified resource group. Deleting a resource group does not delete any
  * resources that are members of the group; it only deletes the group structure.
@@ -1448,7 +1598,19 @@ export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - `resource-groups:DeleteGroup`
  */
-export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGroup: (
+  input: DeleteGroupInput,
+) => Effect.Effect<
+  DeleteGroupOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupInput,
   output: DeleteGroupOutput,
   errors: [
@@ -1470,20 +1632,30 @@ export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `resource-groups:GetGroupConfiguration`
  */
-export const getGroupConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetGroupConfigurationInput,
-    output: GetGroupConfigurationOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getGroupConfiguration: (
+  input: GetGroupConfigurationInput,
+) => Effect.Effect<
+  GetGroupConfigurationOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGroupConfigurationInput,
+  output: GetGroupConfigurationOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves the resource query associated with the specified resource group. For more
  * information about resource queries, see Create
@@ -1495,7 +1667,19 @@ export const getGroupConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - `resource-groups:GetGroupQuery`
  */
-export const getGroupQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGroupQuery: (
+  input: GetGroupQueryInput,
+) => Effect.Effect<
+  GetGroupQueryOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupQueryInput,
   output: GetGroupQueryOutput,
   errors: [
@@ -1527,7 +1711,19 @@ export const getGroupQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `resource-groups:GroupResources`
  */
-export const groupResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const groupResources: (
+  input: GroupResourcesInput,
+) => Effect.Effect<
+  GroupResourcesOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GroupResourcesInput,
   output: GroupResourcesOutput,
   errors: [
@@ -1548,7 +1744,19 @@ export const groupResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `resource-groups:GetGroup`
  */
-export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGroup: (
+  input: GetGroupInput,
+) => Effect.Effect<
+  GetGroupOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupInput,
   output: GetGroupOutput,
   errors: [
@@ -1570,7 +1778,19 @@ export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `resource-groups:GetTags`
  */
-export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTags: (
+  input: GetTagsInput,
+) => Effect.Effect<
+  GetTagsOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTagsInput,
   output: GetTagsOutput,
   errors: [
@@ -1597,7 +1817,19 @@ export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `resource-groups:Tag`
  */
-export const tag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tag: (
+  input: TagInput,
+) => Effect.Effect<
+  TagOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagInput,
   output: TagOutput,
   errors: [
@@ -1621,7 +1853,19 @@ export const tag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `resource-groups:UngroupResources`
  */
-export const ungroupResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const ungroupResources: (
+  input: UngroupResourcesInput,
+) => Effect.Effect<
+  UngroupResourcesOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UngroupResourcesInput,
   output: UngroupResourcesOutput,
   errors: [
@@ -1642,7 +1886,19 @@ export const ungroupResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `resource-groups:Untag`
  */
-export const untag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untag: (
+  input: UntagInput,
+) => Effect.Effect<
+  UntagOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagInput,
   output: UntagOutput,
   errors: [
@@ -1664,7 +1920,19 @@ export const untag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `resource-groups:UpdateGroup`
  */
-export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGroup: (
+  input: UpdateGroupInput,
+) => Effect.Effect<
+  UpdateGroupOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupInput,
   output: UpdateGroupOutput,
   errors: [
@@ -1686,7 +1954,19 @@ export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `resource-groups:UpdateGroupQuery`
  */
-export const updateGroupQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGroupQuery: (
+  input: UpdateGroupQueryInput,
+) => Effect.Effect<
+  UpdateGroupQueryOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupQueryInput,
   output: UpdateGroupQueryOutput,
   errors: [
@@ -1709,20 +1989,30 @@ export const updateGroupQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `resource-groups:PutGroupConfiguration`
  */
-export const putGroupConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutGroupConfigurationInput,
-    output: PutGroupConfigurationOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const putGroupConfiguration: (
+  input: PutGroupConfigurationInput,
+) => Effect.Effect<
+  PutGroupConfigurationOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutGroupConfigurationInput,
+  output: PutGroupConfigurationOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Cancels the specified tag-sync task.
  *
@@ -1734,7 +2024,19 @@ export const putGroupConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - `resource-groups:DeleteGroup`
  */
-export const cancelTagSyncTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelTagSyncTask: (
+  input: CancelTagSyncTaskInput,
+) => Effect.Effect<
+  CancelTagSyncTaskResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelTagSyncTaskInput,
   output: CancelTagSyncTaskResponse,
   errors: [
@@ -1762,27 +2064,68 @@ export const cancelTagSyncTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `tag:GetResources`
  */
-export const listGroupResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listGroupResources: {
+  (
     input: ListGroupResourcesInput,
-    output: ListGroupResourcesOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ResourceIdentifiers",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListGroupResourcesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | MethodNotAllowedException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupResourcesInput,
+  ) => Stream.Stream<
+    ListGroupResourcesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | MethodNotAllowedException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupResourcesInput,
+  ) => Stream.Stream<
+    ResourceIdentifier,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | MethodNotAllowedException
+    | NotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGroupResourcesInput,
+  output: ListGroupResourcesOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourceIdentifiers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of tag-sync tasks.
  *
@@ -1793,26 +2136,64 @@ export const listGroupResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * - `resource-groups:ListTagSyncTasks` with the group passed in the filters as the resource
  * or * if using no filters
  */
-export const listTagSyncTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTagSyncTasks: {
+  (
     input: ListTagSyncTasksInput,
-    output: ListTagSyncTasksOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TagSyncTasks",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTagSyncTasksOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | MethodNotAllowedException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagSyncTasksInput,
+  ) => Stream.Stream<
+    ListTagSyncTasksOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | MethodNotAllowedException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagSyncTasksInput,
+  ) => Stream.Stream<
+    TagSyncTaskItem,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | MethodNotAllowedException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagSyncTasksInput,
+  output: ListTagSyncTasksOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TagSyncTasks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of Amazon Web Services resource identifiers that matches the specified query. The
  * query uses the same format as a resource query in a CreateGroup or
@@ -1830,26 +2211,64 @@ export const listTagSyncTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - `tag:GetResources`
  */
-export const searchResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchResources: {
+  (
     input: SearchResourcesInput,
-    output: SearchResourcesOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      MethodNotAllowedException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ResourceIdentifiers",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchResourcesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | MethodNotAllowedException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchResourcesInput,
+  ) => Stream.Stream<
+    SearchResourcesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | MethodNotAllowedException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchResourcesInput,
+  ) => Stream.Stream<
+    ResourceIdentifier,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | MethodNotAllowedException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchResourcesInput,
+  output: SearchResourcesOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MethodNotAllowedException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourceIdentifiers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about a specified tag-sync task.
  *
@@ -1859,7 +2278,20 @@ export const searchResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - `resource-groups:GetTagSyncTask` on the application group
  */
-export const getTagSyncTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTagSyncTask: (
+  input: GetTagSyncTaskInput,
+) => Effect.Effect<
+  GetTagSyncTaskOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTagSyncTaskInput,
   output: GetTagSyncTaskOutput,
   errors: [
@@ -1891,7 +2323,20 @@ export const getTagSyncTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `iam:PassRole` on the role provided in the request
  */
-export const startTagSyncTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startTagSyncTask: (
+  input: StartTagSyncTaskInput,
+) => Effect.Effect<
+  StartTagSyncTaskOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTagSyncTaskInput,
   output: StartTagSyncTaskOutput,
   errors: [

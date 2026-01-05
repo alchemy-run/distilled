@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "MPA",
   serviceShapeName: "AWSFluffyCoreService",
@@ -104,6 +112,32 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type QualifiedPolicyArn = string;
+export type MaxResults = number;
+export type Token = string;
+export type UnqualifiedPolicyArn = string;
+export type TagKey = string;
+export type Description = string;
+export type ApprovalTeamName = string;
+export type ApprovalTeamArn = string;
+export type SessionArn = string;
+export type TagValue = string;
+export type IdentityId = string;
+export type PolicyName = string;
+export type PolicyDocument = string;
+export type Message = string;
+export type ActionName = string;
+export type ServicePrincipal = string;
+export type AccountId = string;
+export type Region = string;
+export type RequesterComment = string;
+export type IdcInstanceArn = string;
+export type PolicyVersionId = number;
+export type ParticipantId = string;
+export type SessionKey = string;
+export type SessionValue = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -284,6 +318,7 @@ export const MofNApprovalStrategy = S.suspend(() =>
 ).annotations({
   identifier: "MofNApprovalStrategy",
 }) as any as S.Schema<MofNApprovalStrategy>;
+export type ApprovalStrategy = { MofN: MofNApprovalStrategy };
 export const ApprovalStrategy = S.Union(
   S.Struct({ MofN: MofNApprovalStrategy }),
 );
@@ -727,6 +762,7 @@ export type ListResourcePoliciesResponseResourcePolicies =
 export const ListResourcePoliciesResponseResourcePolicies = S.Array(
   ListResourcePoliciesResponseResourcePolicy,
 );
+export type ApprovalStrategyResponse = { MofN: MofNApprovalStrategy };
 export const ApprovalStrategyResponse = S.Union(
   S.Struct({ MofN: MofNApprovalStrategy }),
 );
@@ -1058,6 +1094,9 @@ export const IamIdentityCenterForGet = S.suspend(() =>
 ).annotations({
   identifier: "IamIdentityCenterForGet",
 }) as any as S.Schema<IamIdentityCenterForGet>;
+export type IdentitySourceParametersForGet = {
+  IamIdentityCenter: IamIdentityCenterForGet;
+};
 export const IdentitySourceParametersForGet = S.Union(
   S.Struct({ IamIdentityCenter: IamIdentityCenterForGet }),
 );
@@ -1185,6 +1224,9 @@ export const ListSessionsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListSessionsResponse",
 }) as any as S.Schema<ListSessionsResponse>;
+export type IdentitySourceParametersForList = {
+  IamIdentityCenter: IamIdentityCenterForList;
+};
 export const IdentitySourceParametersForList = S.Union(
   S.Struct({ IamIdentityCenter: IamIdentityCenterForList }),
 );
@@ -1234,7 +1276,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { Message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String },
@@ -1250,7 +1294,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.String },
@@ -1268,48 +1314,125 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 /**
  * Returns a list of approval teams.
  */
-export const listApprovalTeams = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listApprovalTeams: {
+  (
     input: ListApprovalTeamsRequest,
-    output: ListApprovalTeamsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ApprovalTeams",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListApprovalTeamsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApprovalTeamsRequest,
+  ) => Stream.Stream<
+    ListApprovalTeamsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApprovalTeamsRequest,
+  ) => Stream.Stream<
+    ListApprovalTeamsResponseApprovalTeam,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApprovalTeamsRequest,
+  output: ListApprovalTeamsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ApprovalTeams",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of identity sources. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
-export const listIdentitySources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIdentitySources: {
+  (
     input: ListIdentitySourcesRequest,
-    output: ListIdentitySourcesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IdentitySources",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIdentitySourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdentitySourcesRequest,
+  ) => Stream.Stream<
+    ListIdentitySourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdentitySourcesRequest,
+  ) => Stream.Stream<
+    IdentitySourceForList,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdentitySourcesRequest,
+  output: ListIdentitySourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IdentitySources",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates or updates a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1324,19 +1447,28 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new identity source. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
-export const createIdentitySource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIdentitySourceRequest,
-    output: CreateIdentitySourceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createIdentitySource: (
+  input: CreateIdentitySourceRequest,
+) => Effect.Effect<
+  CreateIdentitySourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIdentitySourceRequest,
+  output: CreateIdentitySourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an approval team. You can request to update the team description, approval threshold, and approvers in the team.
  *
@@ -1344,7 +1476,20 @@ export const createIdentitySource = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Updates to an active team must be approved by the team.
  */
-export const updateApprovalTeam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApprovalTeam: (
+  input: UpdateApprovalTeamRequest,
+) => Effect.Effect<
+  UpdateApprovalTeamResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApprovalTeamRequest,
   output: UpdateApprovalTeamResponse,
   errors: [
@@ -1360,7 +1505,18 @@ export const updateApprovalTeam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns details for an identity source. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
-export const getIdentitySource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIdentitySource: (
+  input: GetIdentitySourceRequest,
+) => Effect.Effect<
+  GetIdentitySourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdentitySourceRequest,
   output: GetIdentitySourceResponse,
   errors: [
@@ -1374,29 +1530,75 @@ export const getIdentitySource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of approval sessions. For more information, see Session in the *Multi-party approval User Guide*.
  */
-export const listSessions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSessions: {
+  (
     input: ListSessionsRequest,
-    output: ListSessionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Sessions",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSessionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSessionsRequest,
+  ) => Stream.Stream<
+    ListSessionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSessionsRequest,
+  ) => Stream.Stream<
+    ListSessionsResponseSession,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSessionsRequest,
+  output: ListSessionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Sessions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns details for an approval team.
  */
-export const getApprovalTeam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApprovalTeam: (
+  input: GetApprovalTeamRequest,
+) => Effect.Effect<
+  GetApprovalTeamResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApprovalTeamRequest,
   output: GetApprovalTeamResponse,
   errors: [
@@ -1410,7 +1612,18 @@ export const getApprovalTeam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns details for an approval session. For more information, see Session in the *Multi-party approval User Guide*.
  */
-export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSession: (
+  input: GetSessionRequest,
+) => Effect.Effect<
+  GetSessionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
   output: GetSessionResponse,
   errors: [
@@ -1424,7 +1637,18 @@ export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns details about a policy for a resource.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => Effect.Effect<
+  GetResourcePolicyResponse,
+  | AccessDeniedException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
   errors: [
@@ -1438,7 +1662,18 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the tags for a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1454,7 +1689,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the *Multi-party approval User Guide*.
  */
-export const getPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicyVersion: (
+  input: GetPolicyVersionRequest,
+) => Effect.Effect<
+  GetPolicyVersionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyVersionRequest,
   output: GetPolicyVersionResponse,
   errors: [
@@ -1470,46 +1716,117 @@ export const getPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the *Multi-party approval User Guide*.
  */
-export const listPolicyVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPolicyVersions: {
+  (
     input: ListPolicyVersionsRequest,
-    output: ListPolicyVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PolicyVersions",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPolicyVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPolicyVersionsRequest,
+  ) => Stream.Stream<
+    ListPolicyVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPolicyVersionsRequest,
+  ) => Stream.Stream<
+    PolicyVersionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPolicyVersionsRequest,
+  output: ListPolicyVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PolicyVersions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of policies for a resource.
  */
-export const listResourcePolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourcePolicies: {
+  (
     input: ListResourcePoliciesRequest,
-    output: ListResourcePoliciesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ResourcePolicies",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourcePoliciesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourcePoliciesRequest,
+  ) => Stream.Stream<
+    ListResourcePoliciesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourcePoliciesRequest,
+  ) => Stream.Stream<
+    ListResourcePoliciesResponseResourcePolicy,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourcePoliciesRequest,
+  output: ListResourcePoliciesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourcePolicies",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Starts the deletion process for an active approval team.
  *
@@ -1517,41 +1834,75 @@ export const listResourcePolicies =
  *
  * Requests to delete an active team must be approved by the team.
  */
-export const startActiveApprovalTeamDeletion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartActiveApprovalTeamDeletionRequest,
-    output: StartActiveApprovalTeamDeletionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startActiveApprovalTeamDeletion: (
+  input: StartActiveApprovalTeamDeletionRequest,
+) => Effect.Effect<
+  StartActiveApprovalTeamDeletionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartActiveApprovalTeamDeletionRequest,
+  output: StartActiveApprovalTeamDeletionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an inactive approval team. For more information, see Team health in the *Multi-party approval User Guide*.
  *
  * You can also use this operation to delete a team draft. For more information, see Interacting with drafts in the *Multi-party approval User Guide*.
  */
-export const deleteInactiveApprovalTeamVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteInactiveApprovalTeamVersionRequest,
-    output: DeleteInactiveApprovalTeamVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteInactiveApprovalTeamVersion: (
+  input: DeleteInactiveApprovalTeamVersionRequest,
+) => Effect.Effect<
+  DeleteInactiveApprovalTeamVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInactiveApprovalTeamVersionRequest,
+  output: DeleteInactiveApprovalTeamVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Cancels an approval session. For more information, see Session in the *Multi-party approval User Guide*.
  */
-export const cancelSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelSession: (
+  input: CancelSessionRequest,
+) => Effect.Effect<
+  CancelSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelSessionRequest,
   output: CancelSessionResponse,
   errors: [
@@ -1568,44 +1919,96 @@ export const cancelSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the *Multi-party approval User Guide*.
  */
-export const listPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPolicies: {
+  (
     input: ListPoliciesRequest,
-    output: ListPoliciesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Policies",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPoliciesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPoliciesRequest,
+  ) => Stream.Stream<
+    ListPoliciesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPoliciesRequest,
+  ) => Stream.Stream<
+    Policy,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPoliciesRequest,
+  output: ListPoliciesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Policies",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes an identity source. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
-export const deleteIdentitySource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIdentitySourceRequest,
-    output: DeleteIdentitySourceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteIdentitySource: (
+  input: DeleteIdentitySourceRequest,
+) => Effect.Effect<
+  DeleteIdentitySourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIdentitySourceRequest,
+  output: DeleteIdentitySourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1619,7 +2022,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new approval team. For more information, see Approval team in the *Multi-party approval User Guide*.
  */
-export const createApprovalTeam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApprovalTeam: (
+  input: CreateApprovalTeamRequest,
+) => Effect.Effect<
+  CreateApprovalTeamResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApprovalTeamRequest,
   output: CreateApprovalTeamResponse,
   errors: [

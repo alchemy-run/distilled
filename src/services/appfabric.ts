@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "AppFabric",
   serviceShapeName: "FabricFrontEndService",
@@ -292,6 +300,24 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Identifier = string;
+export type UUID = string;
+export type String255 = string;
+export type TenantIdentifier = string;
+export type MaxResults = number;
+export type String2048 = string;
+export type Arn = string;
+export type Email = string;
+export type TagKey = string;
+export type RedirectUri = string;
+export type SensitiveString2048 = string;
+export type TagValue = string;
+export type Integer = number;
+export type String63 = string;
+export type String120 = string;
+export type String64 = string;
 
 //# Schemas
 export type TaskIdList = string[];
@@ -857,6 +883,9 @@ export const ApiKeyCredential = S.suspend(() =>
 ).annotations({
   identifier: "ApiKeyCredential",
 }) as any as S.Schema<ApiKeyCredential>;
+export type Credential =
+  | { oauth2Credential: Oauth2Credential }
+  | { apiKeyCredential: ApiKeyCredential };
 export const Credential = S.Union(
   S.Struct({ oauth2Credential: Oauth2Credential }),
   S.Struct({ apiKeyCredential: ApiKeyCredential }),
@@ -913,6 +942,9 @@ export const FirehoseStream = S.suspend(() =>
 ).annotations({
   identifier: "FirehoseStream",
 }) as any as S.Schema<FirehoseStream>;
+export type Destination =
+  | { s3Bucket: S3Bucket }
+  | { firehoseStream: FirehoseStream };
 export const Destination = S.Union(
   S.Struct({ s3Bucket: S3Bucket }),
   S.Struct({ firehoseStream: FirehoseStream }),
@@ -925,6 +957,9 @@ export const AuditLogDestinationConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "AuditLogDestinationConfiguration",
 }) as any as S.Schema<AuditLogDestinationConfiguration>;
+export type DestinationConfiguration = {
+  auditLog: AuditLogDestinationConfiguration;
+};
 export const DestinationConfiguration = S.Union(
   S.Struct({ auditLog: AuditLogDestinationConfiguration }),
 );
@@ -1091,6 +1126,9 @@ export const AuditLogProcessingConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "AuditLogProcessingConfiguration",
 }) as any as S.Schema<AuditLogProcessingConfiguration>;
+export type ProcessingConfiguration = {
+  auditLog: AuditLogProcessingConfiguration;
+};
 export const ProcessingConfiguration = S.Union(
   S.Struct({ auditLog: AuditLogProcessingConfiguration }),
 );
@@ -1455,7 +1493,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -1473,7 +1513,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -1497,28 +1539,71 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Returns a list of app bundles.
  */
-export const listAppBundles = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAppBundles: {
+  (
     input: ListAppBundlesRequest,
-    output: ListAppBundlesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "appBundleSummaryList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAppBundlesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppBundlesRequest,
+  ) => Stream.Stream<
+    ListAppBundlesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppBundlesRequest,
+  ) => Stream.Stream<
+    AppBundleSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppBundlesRequest,
+  output: ListAppBundlesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "appBundleSummaryList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about an app authorization.
  */
-export const getAppAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAppAuthorization: (
+  input: GetAppAuthorizationRequest,
+) => Effect.Effect<
+  GetAppAuthorizationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppAuthorizationRequest,
   output: GetAppAuthorizationResponse,
   errors: [
@@ -1532,106 +1617,242 @@ export const getAppAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about an ingestion destination.
  */
-export const getIngestionDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIngestionDestinationRequest,
-    output: GetIngestionDestinationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getIngestionDestination: (
+  input: GetIngestionDestinationRequest,
+) => Effect.Effect<
+  GetIngestionDestinationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIngestionDestinationRequest,
+  output: GetIngestionDestinationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of all app authorizations configured for an app bundle.
  */
-export const listAppAuthorizations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAppAuthorizations: {
+  (
     input: ListAppAuthorizationsRequest,
-    output: ListAppAuthorizationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "appAuthorizationSummaryList",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAppAuthorizationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppAuthorizationsRequest,
+  ) => Stream.Stream<
+    ListAppAuthorizationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppAuthorizationsRequest,
+  ) => Stream.Stream<
+    AppAuthorizationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppAuthorizationsRequest,
+  output: ListAppAuthorizationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "appAuthorizationSummaryList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of all ingestion destinations configured for an ingestion.
  */
-export const listIngestionDestinations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIngestionDestinations: {
+  (
     input: ListIngestionDestinationsRequest,
-    output: ListIngestionDestinationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "ingestionDestinations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIngestionDestinationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIngestionDestinationsRequest,
+  ) => Stream.Stream<
+    ListIngestionDestinationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIngestionDestinationsRequest,
+  ) => Stream.Stream<
+    IngestionDestinationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIngestionDestinationsRequest,
+  output: ListIngestionDestinationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ingestionDestinations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of all ingestions configured for an app bundle.
  */
-export const listIngestions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listIngestions: {
+  (
     input: ListIngestionsRequest,
-    output: ListIngestionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "ingestions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListIngestionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIngestionsRequest,
+  ) => Stream.Stream<
+    ListIngestionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIngestionsRequest,
+  ) => Stream.Stream<
+    IngestionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIngestionsRequest,
+  output: ListIngestionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ingestions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Starts the tasks to search user access status for a specific email address.
  *
  * The tasks are stopped when the user access status data is found. The tasks are
  * terminated when the API calls to the application time out.
  */
-export const startUserAccessTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartUserAccessTasksRequest,
-    output: StartUserAccessTasksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startUserAccessTasks: (
+  input: StartUserAccessTasksRequest,
+) => Effect.Effect<
+  StartUserAccessTasksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartUserAccessTasksRequest,
+  output: StartUserAccessTasksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about an app bundle.
  */
-export const getAppBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAppBundle: (
+  input: GetAppBundleRequest,
+) => Effect.Effect<
+  GetAppBundleResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppBundleRequest,
   output: GetAppBundleResponse,
   errors: [
@@ -1645,7 +1866,18 @@ export const getAppBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about an ingestion.
  */
-export const getIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIngestion: (
+  input: GetIngestionRequest,
+) => Effect.Effect<
+  GetIngestionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIngestionRequest,
   output: GetIngestionResponse,
   errors: [
@@ -1659,7 +1891,18 @@ export const getIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of tags for a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1677,24 +1920,44 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If the app authorization was in a `connected` state, updating the app
  * authorization will set it back to a `PendingConnect` state.
  */
-export const updateAppAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAppAuthorizationRequest,
-    output: UpdateAppAuthorizationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAppAuthorization: (
+  input: UpdateAppAuthorizationRequest,
+) => Effect.Effect<
+  UpdateAppAuthorizationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAppAuthorizationRequest,
+  output: UpdateAppAuthorizationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an ingestion. You must stop (disable) the ingestion and you must delete all
  * associated ingestion destinations before you can delete an app ingestion.
  */
-export const deleteIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIngestion: (
+  input: DeleteIngestionRequest,
+) => Effect.Effect<
+  DeleteIngestionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIngestionRequest,
   output: DeleteIngestionResponse,
   errors: [
@@ -1713,23 +1976,43 @@ export const deleteIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * bucket where the data is delivered. If the ingestion destination is deleted while the
  * associated ingestion is enabled, the ingestion will fail and is eventually disabled.
  */
-export const deleteIngestionDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIngestionDestinationRequest,
-    output: DeleteIngestionDestinationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteIngestionDestination: (
+  input: DeleteIngestionDestinationRequest,
+) => Effect.Effect<
+  DeleteIngestionDestinationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIngestionDestinationRequest,
+  output: DeleteIngestionDestinationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Assigns one or more tags (key-value pairs) to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1743,7 +2026,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag or tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1758,23 +2052,44 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to
  * call the APIs of the application.
  */
-export const connectAppAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ConnectAppAuthorizationRequest,
-    output: ConnectAppAuthorizationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const connectAppAuthorization: (
+  input: ConnectAppAuthorizationRequest,
+) => Effect.Effect<
+  ConnectAppAuthorizationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ConnectAppAuthorizationRequest,
+  output: ConnectAppAuthorizationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Starts (enables) an ingestion, which collects data from an application.
  */
-export const startIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startIngestion: (
+  input: StartIngestionRequest,
+) => Effect.Effect<
+  StartIngestionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartIngestionRequest,
   output: StartIngestionResponse,
   errors: [
@@ -1789,7 +2104,19 @@ export const startIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops (disables) an ingestion.
  */
-export const stopIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopIngestion: (
+  input: StopIngestionRequest,
+) => Effect.Effect<
+  StopIngestionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopIngestionRequest,
   output: StopIngestionResponse,
   errors: [
@@ -1807,24 +2134,44 @@ export const stopIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This action polls data from the tasks that are kicked off by the
  * `StartUserAccessTasks` action.
  */
-export const batchGetUserAccessTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetUserAccessTasksRequest,
-    output: BatchGetUserAccessTasksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchGetUserAccessTasks: (
+  input: BatchGetUserAccessTasksRequest,
+) => Effect.Effect<
+  BatchGetUserAccessTasksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetUserAccessTasksRequest,
+  output: BatchGetUserAccessTasksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an app bundle. You must delete all associated app authorizations before you can
  * delete an app bundle.
  */
-export const deleteAppBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAppBundle: (
+  input: DeleteAppBundleRequest,
+) => Effect.Effect<
+  DeleteAppBundleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppBundleRequest,
   output: DeleteAppBundleResponse,
   errors: [
@@ -1839,23 +2186,44 @@ export const deleteAppBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an app authorization. You must delete the associated ingestion before you can
  * delete an app authorization.
  */
-export const deleteAppAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAppAuthorizationRequest,
-    output: DeleteAppAuthorizationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAppAuthorization: (
+  input: DeleteAppAuthorizationRequest,
+) => Effect.Effect<
+  DeleteAppAuthorizationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAppAuthorizationRequest,
+  output: DeleteAppAuthorizationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an app bundle to collect data from an application using AppFabric.
  */
-export const createAppBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAppBundle: (
+  input: CreateAppBundleRequest,
+) => Effect.Effect<
+  CreateAppBundleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppBundleRequest,
   output: CreateAppBundleResponse,
   errors: [
@@ -1870,7 +2238,19 @@ export const createAppBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a data ingestion for an application.
  */
-export const createIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIngestion: (
+  input: CreateIngestionRequest,
+) => Effect.Effect<
+  CreateIngestionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIngestionRequest,
   output: CreateIngestionResponse,
   errors: [
@@ -1886,55 +2266,87 @@ export const createIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates an ingestion destination, which specifies how an application's ingested data is
  * processed by Amazon Web Services AppFabric and where it's delivered.
  */
-export const updateIngestionDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIngestionDestinationRequest,
-    output: UpdateIngestionDestinationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateIngestionDestination: (
+  input: UpdateIngestionDestinationRequest,
+) => Effect.Effect<
+  UpdateIngestionDestinationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIngestionDestinationRequest,
+  output: UpdateIngestionDestinationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an app authorization within an app bundle, which allows AppFabric to connect to an
  * application.
  */
-export const createAppAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAppAuthorizationRequest,
-    output: CreateAppAuthorizationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAppAuthorization: (
+  input: CreateAppAuthorizationRequest,
+) => Effect.Effect<
+  CreateAppAuthorizationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAppAuthorizationRequest,
+  output: CreateAppAuthorizationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an ingestion destination, which specifies how an application's ingested data is
  * processed by Amazon Web Services AppFabric and where it's delivered.
  */
-export const createIngestionDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIngestionDestinationRequest,
-    output: CreateIngestionDestinationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createIngestionDestination: (
+  input: CreateIngestionDestinationRequest,
+) => Effect.Effect<
+  CreateIngestionDestinationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIngestionDestinationRequest,
+  output: CreateIngestionDestinationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

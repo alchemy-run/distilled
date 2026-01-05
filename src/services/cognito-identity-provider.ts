@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://cognito-idp.amazonaws.com/doc/2016-04-18/");
 const svc = T.AwsApiService({
   sdkId: "Cognito Identity Provider",
@@ -317,6 +325,107 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type UserPoolIdType = string;
+export type UsernameType = string;
+export type GroupNameType = string;
+export type PasswordType = string;
+export type AttributeNameType = string;
+export type StringType = string;
+export type DeviceKeyType = string;
+export type ClientIdType = string;
+export type SessionType = string;
+export type QueryLimitType = number;
+export type SearchPaginationTokenType = string;
+export type PaginationKey = string;
+export type EventIdType = string;
+export type TokenModelType = string;
+export type DeviceNameType = string;
+export type SecretHashType = string;
+export type ConfirmationCodeType = string;
+export type DescriptionType = string;
+export type ArnType = string;
+export type PrecedenceType = number;
+export type ProviderNameTypeV2 = string;
+export type IdpIdentifierType = string;
+export type ResourceServerIdentifierType = string;
+export type ResourceServerNameType = string;
+export type TermsNameType = string;
+export type UserImportJobNameType = string;
+export type UserPoolNameType = string;
+export type SmsVerificationMessageType = string;
+export type EmailVerificationMessageType = string;
+export type EmailVerificationSubjectType = string;
+export type ClientNameType = string;
+export type RefreshTokenValidityType = number;
+export type AccessTokenValidityType = number;
+export type IdTokenValidityType = number;
+export type ClientPermissionType = string;
+export type ProviderNameType = string;
+export type RedirectUrlType = string;
+export type ScopeType = string;
+export type AuthSessionValidityType = number;
+export type DomainType = string;
+export type WrappedIntegerType = number;
+export type ManagedLoginBrandingIdType = string;
+export type TermsIdType = string;
+export type UserImportJobIdType = string;
+export type ClientSecretType = string;
+export type ListProvidersLimitType = number;
+export type PaginationKeyType = string;
+export type ListResourceServersLimitType = number;
+export type ListTermsRequestMaxResultsInteger = number;
+export type PoolQueryLimitType = number;
+export type QueryLimit = number;
+export type UserFilterType = string;
+export type WebAuthnCredentialsQueryLimitType = number;
+export type CSSType = string;
+export type TagKeysType = string;
+export type SoftwareTokenMFAUserCodeType = string;
+export type CustomAttributeNameType = string;
+export type AttributeValueType = string;
+export type AttributeMappingKeyType = string;
+export type ResourceIdType = string;
+export type ResourceServerScopeNameType = string;
+export type ResourceServerScopeDescriptionType = string;
+export type LanguageIdType = string;
+export type LinkUrlType = string;
+export type EmailVerificationMessageByLinkType = string;
+export type EmailVerificationSubjectByLinkType = string;
+export type EmailAddressType = string;
+export type SESConfigurationSet = string;
+export type RegionCodeType = string;
+export type TagValueType = string;
+export type AdminCreateUserUnusedAccountValidityDaysType = number;
+export type HexStringType = string;
+export type RetryGracePeriodSecondsType = number;
+export type EmailMfaMessageType = string;
+export type EmailMfaSubjectType = string;
+export type RelyingPartyIdType = string;
+export type MessageType = string;
+export type SecretCodeType = string;
+export type PasswordPolicyMinLengthType = number;
+export type PasswordHistorySizeType = number;
+export type TemporaryPasswordValidityDaysType = number;
+export type SmsInviteMessageType = string;
+export type EmailInviteMessageType = string;
+export type PriorityType = number;
+export type S3ArnType = string;
+export type PreSignedUrlType = string;
+export type LongType = number;
+export type CompletionMessageType = string;
+export type IntegerType = number;
+export type AWSAccountIdType = string;
+export type S3BucketType = string;
+export type DomainVersionType = string;
+export type ImageUrlType = string;
+export type CSSVersionType = string;
+export type WebAuthnAuthenticatorAttachmentType = string;
+export type WebAuthnAuthenticatorTransportType = string;
+export type EmailNotificationSubjectType = string;
+export type EmailNotificationBodyType = string;
+export type InvalidParameterExceptionReasonCodeType = string;
 
 //# Schemas
 export type DeliveryMediumListType = string[];
@@ -5885,7 +5994,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class EnableSoftwareTokenMFAException extends S.TaggedError<EnableSoftwareTokenMFAException>()(
   "EnableSoftwareTokenMFAException",
   { message: S.optional(S.String) },
@@ -6040,66 +6151,101 @@ export class WebAuthnRelyingPartyMismatchException extends S.TaggedError<WebAuth
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const getSigningCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSigningCertificateRequest,
-    output: GetSigningCertificateResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getSigningCertificate: (
+  input: GetSigningCertificateRequest,
+) => Effect.Effect<
+  GetSigningCertificateResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSigningCertificateRequest,
+  output: GetSigningCertificateResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Given a user pool ID and identity provider (IdP) name, returns details about the
  * IdP.
  */
-export const describeIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeIdentityProviderRequest,
-    output: DescribeIdentityProviderResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeIdentityProvider: (
+  input: DescribeIdentityProviderRequest,
+) => Effect.Effect<
+  DescribeIdentityProviderResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIdentityProviderRequest,
+  output: DescribeIdentityProviderResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Given the ID of a managed login branding style, returns detailed information about the
  * style.
  */
-export const describeManagedLoginBranding =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeManagedLoginBrandingRequest,
-    output: DescribeManagedLoginBrandingResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const describeManagedLoginBranding: (
+  input: DescribeManagedLoginBrandingRequest,
+) => Effect.Effect<
+  DescribeManagedLoginBrandingResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeManagedLoginBrandingRequest,
+  output: DescribeManagedLoginBrandingResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Describes a resource server. For more information about resource servers, see Access control with resource servers.
  */
-export const describeResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeResourceServerRequest,
-    output: DescribeResourceServerResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeResourceServer: (
+  input: DescribeResourceServerRequest,
+) => Effect.Effect<
+  DescribeResourceServerResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeResourceServerRequest,
+  output: DescribeResourceServerResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Returns details for the requested terms documents ID. For more information, see Terms documents.
  *
@@ -6113,7 +6259,18 @@ export const describeResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const describeTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTerms: (
+  input: DescribeTermsRequest,
+) => Effect.Effect<
+  DescribeTermsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTermsRequest,
   output: DescribeTermsResponse,
   errors: [
@@ -6139,19 +6296,28 @@ export const describeTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const describeUserPoolClient = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeUserPoolClientRequest,
-    output: DescribeUserPoolClientResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeUserPoolClient: (
+  input: DescribeUserPoolClientRequest,
+) => Effect.Effect<
+  DescribeUserPoolClientResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUserPoolClientRequest,
+  output: DescribeUserPoolClientResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Given a user pool domain name, returns information about the domain
  * configuration.
@@ -6166,18 +6332,26 @@ export const describeUserPoolClient = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const describeUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeUserPoolDomainRequest,
-    output: DescribeUserPoolDomainResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const describeUserPoolDomain: (
+  input: DescribeUserPoolDomainRequest,
+) => Effect.Effect<
+  DescribeUserPoolDomainResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUserPoolDomainRequest,
+  output: DescribeUserPoolDomainResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Given a user pool ID, returns the logging configuration. User pools can export
  * message-delivery error and threat-protection activity logs to external Amazon Web Services services. For more information, see Exporting user pool logs.
@@ -6192,19 +6366,28 @@ export const describeUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const getLogDeliveryConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLogDeliveryConfigurationRequest,
-    output: GetLogDeliveryConfigurationResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getLogDeliveryConfiguration: (
+  input: GetLogDeliveryConfigurationRequest,
+) => Effect.Effect<
+  GetLogDeliveryConfigurationResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLogDeliveryConfigurationRequest,
+  output: GetLogDeliveryConfigurationResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Given a user pool ID or app client, returns information about classic hosted UI
  * branding that you applied, if any. Returns user-pool level branding information if no
@@ -6212,7 +6395,18 @@ export const getLogDeliveryConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * an empty object if you haven't applied hosted UI branding to either the client or
  * the user pool. For more information, see Hosted UI (classic) branding.
  */
-export const getUICustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUICustomization: (
+  input: GetUICustomizationRequest,
+) => Effect.Effect<
+  GetUICustomizationResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUICustomizationRequest,
   output: GetUICustomizationResponse,
   errors: [
@@ -6237,24 +6431,60 @@ export const getUICustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listIdentityProviders =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIdentityProviders: {
+  (
     input: ListIdentityProvidersRequest,
-    output: ListIdentityProvidersResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Providers",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIdentityProvidersResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdentityProvidersRequest,
+  ) => Stream.Stream<
+    ListIdentityProvidersResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdentityProvidersRequest,
+  ) => Stream.Stream<
+    ProviderDescription,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdentityProvidersRequest,
+  output: ListIdentityProvidersResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Providers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns details about all terms documents for the requested user pool.
  *
@@ -6268,7 +6498,18 @@ export const listIdentityProviders =
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTerms: (
+  input: ListTermsRequest,
+) => Effect.Effect<
+  ListTermsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTermsRequest,
   output: ListTermsResponse,
   errors: [
@@ -6293,24 +6534,60 @@ export const listTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listUserPoolClients =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUserPoolClients: {
+  (
     input: ListUserPoolClientsRequest,
-    output: ListUserPoolClientsResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "UserPoolClients",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListUserPoolClientsResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUserPoolClientsRequest,
+  ) => Stream.Stream<
+    ListUserPoolClientsResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUserPoolClientsRequest,
+  ) => Stream.Stream<
+    UserPoolClientDescription,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUserPoolClientsRequest,
+  output: ListUserPoolClientsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "UserPoolClients",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists user pools and their details in the current Amazon Web Services account.
  *
@@ -6324,24 +6601,56 @@ export const listUserPoolClients =
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listUserPools = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listUserPools: {
+  (
     input: ListUserPoolsRequest,
-    output: ListUserPoolsResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "UserPools",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListUserPoolsResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUserPoolsRequest,
+  ) => Stream.Stream<
+    ListUserPoolsResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUserPoolsRequest,
+  ) => Stream.Stream<
+    UserPoolDescriptionType,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUserPoolsRequest,
+  output: ListUserPoolsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "UserPools",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Given a user pool ID, returns a list of users and their basic details in a user
  * pool.
@@ -6356,7 +6665,44 @@ export const listUserPools = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUsers: {
+  (
+    input: ListUsersRequest,
+  ): Effect.Effect<
+    ListUsersResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    ListUsersResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    UserType,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse,
   errors: [
@@ -6377,34 +6723,53 @@ export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Given the ID of a user pool app client, returns detailed information about the style
  * assigned to the app client.
  */
-export const describeManagedLoginBrandingByClient =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeManagedLoginBrandingByClientRequest,
-    output: DescribeManagedLoginBrandingByClientResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const describeManagedLoginBrandingByClient: (
+  input: DescribeManagedLoginBrandingByClientRequest,
+) => Effect.Effect<
+  DescribeManagedLoginBrandingByClientResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeManagedLoginBrandingByClientRequest,
+  output: DescribeManagedLoginBrandingByClientResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Describes a user import job. For more information about user CSV import, see Importing users from a CSV file.
  */
-export const describeUserImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeUserImportJobRequest,
-    output: DescribeUserImportJobResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeUserImportJob: (
+  input: DescribeUserImportJobRequest,
+) => Effect.Effect<
+  DescribeUserImportJobResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUserImportJobRequest,
+  output: DescribeUserImportJobResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Given a user pool ID, generates a comma-separated value (CSV) list populated with
  * available user attributes in the user pool. This list is the header for the CSV file
@@ -6423,7 +6788,18 @@ export const describeUserImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const getCSVHeader = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCSVHeader: (
+  input: GetCSVHeaderRequest,
+) => Effect.Effect<
+  GetCSVHeaderResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCSVHeaderRequest,
   output: GetCSVHeaderResponse,
   errors: [
@@ -6450,7 +6826,18 @@ export const getCSVHeader = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGroup: (
+  input: GetGroupRequest,
+) => Effect.Effect<
+  GetGroupResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupRequest,
   output: GetGroupResponse,
   errors: [
@@ -6466,18 +6853,28 @@ export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `examplecorp`, returns information about the user pool configuration for
  * that IdP. For more information about IdPs, see Third-party IdP sign-in.
  */
-export const getIdentityProviderByIdentifier =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetIdentityProviderByIdentifierRequest,
-    output: GetIdentityProviderByIdentifierResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getIdentityProviderByIdentifier: (
+  input: GetIdentityProviderByIdentifierRequest,
+) => Effect.Effect<
+  GetIdentityProviderByIdentifierResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdentityProviderByIdentifierRequest,
+  output: GetIdentityProviderByIdentifierResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Given a user pool ID, returns configuration for sign-in with WebAuthn authenticators
  * and for multi-factor authentication (MFA). This operation describes the
@@ -6503,19 +6900,28 @@ export const getIdentityProviderByIdentifier =
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const getUserPoolMfaConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetUserPoolMfaConfigRequest,
-    output: GetUserPoolMfaConfigResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getUserPoolMfaConfig: (
+  input: GetUserPoolMfaConfigRequest,
+) => Effect.Effect<
+  GetUserPoolMfaConfigResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUserPoolMfaConfigRequest,
+  output: GetUserPoolMfaConfigResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Given a user pool ID, returns user pool groups and their details.
  *
@@ -6529,7 +6935,44 @@ export const getUserPoolMfaConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGroups: {
+  (
+    input: ListGroupsRequest,
+  ): Effect.Effect<
+    ListGroupsResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupsRequest,
+  ) => Stream.Stream<
+    ListGroupsResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupsRequest,
+  ) => Stream.Stream<
+    GroupType,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGroupsRequest,
   output: ListGroupsResponse,
   errors: [
@@ -6560,30 +7003,77 @@ export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listResourceServers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourceServers: {
+  (
     input: ListResourceServersRequest,
-    output: ListResourceServersResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ResourceServers",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourceServersResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceServersRequest,
+  ) => Stream.Stream<
+    ListResourceServersResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceServersRequest,
+  ) => Stream.Stream<
+    ResourceServerType,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceServersRequest,
+  output: ListResourceServersResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourceServers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the tags that are assigned to an Amazon Cognito user pool. For more information, see
  * Tagging
  * resources.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -6609,7 +7099,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listUserImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listUserImportJobs: (
+  input: ListUserImportJobsRequest,
+) => Effect.Effect<
+  ListUserImportJobsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListUserImportJobsRequest,
   output: ListUserImportJobsResponse,
   errors: [
@@ -6634,25 +7135,60 @@ export const listUserImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listUsersInGroup = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listUsersInGroup: {
+  (
     input: ListUsersInGroupRequest,
-    output: ListUsersInGroupResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Users",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListUsersInGroupResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUsersInGroupRequest,
+  ) => Stream.Stream<
+    ListUsersInGroupResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUsersInGroupRequest,
+  ) => Stream.Stream<
+    UserType,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUsersInGroupRequest,
+  output: ListUsersInGroupResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Users",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Configures UI branding settings for domains with the hosted UI (classic) branding
  * version. Your user pool must have a domain. Configure a domain with .
@@ -6672,7 +7208,18 @@ export const listUsersInGroup = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const setUICustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setUICustomization: (
+  input: SetUICustomizationRequest,
+) => Effect.Effect<
+  SetUICustomizationResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetUICustomizationRequest,
   output: SetUICustomizationResponse,
   errors: [
@@ -6697,7 +7244,18 @@ export const setUICustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGroup: (
+  input: UpdateGroupRequest,
+) => Effect.Effect<
+  UpdateGroupResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupRequest,
   output: UpdateGroupResponse,
   errors: [
@@ -6731,20 +7289,30 @@ export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateManagedLoginBranding = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateManagedLoginBrandingRequest,
-    output: UpdateManagedLoginBrandingResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateManagedLoginBranding: (
+  input: UpdateManagedLoginBrandingRequest,
+) => Effect.Effect<
+  UpdateManagedLoginBrandingResponse,
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateManagedLoginBrandingRequest,
+  output: UpdateManagedLoginBrandingResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Updates the name and scopes of a resource server. All other fields are read-only. For
  * more information about resource servers, see Access control with resource servers.
@@ -6762,19 +7330,28 @@ export const updateManagedLoginBranding = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateResourceServerRequest,
-    output: UpdateResourceServerResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateResourceServer: (
+  input: UpdateResourceServerRequest,
+) => Effect.Effect<
+  UpdateResourceServerResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResourceServerRequest,
+  output: UpdateResourceServerResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes a group from the specified user pool. When you delete a group, that group no
  * longer contributes to users' `cognito:preferred_group` or
@@ -6792,7 +7369,18 @@ export const updateResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGroup: (
+  input: DeleteGroupRequest,
+) => Effect.Effect<
+  DeleteGroupResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupRequest,
   output: DeleteGroupResponse,
   errors: [
@@ -6820,19 +7408,28 @@ export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const deleteResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourceServerRequest,
-    output: DeleteResourceServerResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const deleteResourceServer: (
+  input: DeleteResourceServerRequest,
+) => Effect.Effect<
+  DeleteResourceServerResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourceServerRequest,
+  output: DeleteResourceServerResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Assigns a set of tags to an Amazon Cognito user pool. A tag is a label that you can use to
  * categorize and manage user pools in different ways, such as by purpose, owner,
@@ -6852,7 +7449,18 @@ export const deleteResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can use this action up to 5 times per second, per account. A user pool can have as
  * many as 50 tags.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -6866,7 +7474,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Given tag IDs that you previously assigned to a user pool, removes them.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -6893,20 +7512,30 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const deleteManagedLoginBranding = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteManagedLoginBrandingRequest,
-    output: DeleteManagedLoginBrandingResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const deleteManagedLoginBranding: (
+  input: DeleteManagedLoginBrandingRequest,
+) => Effect.Effect<
+  DeleteManagedLoginBrandingResponse,
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteManagedLoginBrandingRequest,
+  output: DeleteManagedLoginBrandingResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes the terms documents with the requested ID from your app client.
  *
@@ -6920,7 +7549,19 @@ export const deleteManagedLoginBranding = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const deleteTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTerms: (
+  input: DeleteTermsRequest,
+) => Effect.Effect<
+  DeleteTermsResponse,
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTermsRequest,
   output: DeleteTermsResponse,
   errors: [
@@ -6936,38 +7577,57 @@ export const deleteTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes a user pool app client. After you delete an app client, users can no longer
  * sign in to the associated application.
  */
-export const deleteUserPoolClient = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteUserPoolClientRequest,
-    output: DeleteUserPoolClientResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const deleteUserPoolClient: (
+  input: DeleteUserPoolClientRequest,
+) => Effect.Effect<
+  DeleteUserPoolClientResponse,
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserPoolClientRequest,
+  output: DeleteUserPoolClientResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Given a user pool ID and domain identifier, deletes a user pool domain. After you
  * delete a user pool domain, your managed login pages and authorization server are no
  * longer available.
  */
-export const deleteUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteUserPoolDomainRequest,
-    output: DeleteUserPoolDomainResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteUserPoolDomain: (
+  input: DeleteUserPoolDomainRequest,
+) => Effect.Effect<
+  DeleteUserPoolDomainResponse,
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserPoolDomainRequest,
+  output: DeleteUserPoolDomainResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * A user pool domain hosts managed login, an authorization server and web server for
  * authentication in your application. This operation updates the branding version for user
@@ -7002,21 +7662,32 @@ export const deleteUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserPoolDomainRequest,
-    output: UpdateUserPoolDomainResponse,
-    errors: [
-      ConcurrentModificationException,
-      FeatureUnavailableInTierException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateUserPoolDomain: (
+  input: UpdateUserPoolDomainRequest,
+) => Effect.Effect<
+  UpdateUserPoolDomainResponse,
+  | ConcurrentModificationException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserPoolDomainRequest,
+  output: UpdateUserPoolDomainResponse,
+  errors: [
+    ConcurrentModificationException,
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates a new group in the specified user pool. For more information about user pool
  * groups, see Adding groups to a user pool.
@@ -7031,7 +7702,20 @@ export const updateUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGroup: (
+  input: CreateGroupRequest,
+) => Effect.Effect<
+  CreateGroupResponse,
+  | GroupExistsException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupRequest,
   output: CreateGroupResponse,
   errors: [
@@ -7059,20 +7743,30 @@ export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateResourceServerRequest,
-    output: CreateResourceServerResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const createResourceServer: (
+  input: CreateResourceServerRequest,
+) => Effect.Effect<
+  CreateResourceServerResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateResourceServerRequest,
+  output: CreateResourceServerResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Generates a list of the currently signed-in user's registered passkey, or
  * WebAuthn, credentials.
@@ -7084,20 +7778,30 @@ export const createResourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const listWebAuthnCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListWebAuthnCredentialsRequest,
-    output: ListWebAuthnCredentialsResponse,
-    errors: [
-      ForbiddenException,
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const listWebAuthnCredentials: (
+  input: ListWebAuthnCredentialsRequest,
+) => Effect.Effect<
+  ListWebAuthnCredentialsResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListWebAuthnCredentialsRequest,
+  output: ListWebAuthnCredentialsResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes a registered passkey, or WebAuthn, authenticator for the currently signed-in
  * user.
@@ -7109,21 +7813,32 @@ export const listWebAuthnCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const deleteWebAuthnCredential = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWebAuthnCredentialRequest,
-    output: DeleteWebAuthnCredentialResponse,
-    errors: [
-      ForbiddenException,
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const deleteWebAuthnCredential: (
+  input: DeleteWebAuthnCredentialRequest,
+) => Effect.Effect<
+  DeleteWebAuthnCredentialResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWebAuthnCredentialRequest,
+  output: DeleteWebAuthnCredentialResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * A user pool domain hosts managed login, an authorization server and web server for
  * authentication in your application. This operation creates a new user pool prefix domain
@@ -7148,21 +7863,32 @@ export const deleteWebAuthnCredential = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateUserPoolDomainRequest,
-    output: CreateUserPoolDomainResponse,
-    errors: [
-      ConcurrentModificationException,
-      FeatureUnavailableInTierException,
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const createUserPoolDomain: (
+  input: CreateUserPoolDomainRequest,
+) => Effect.Effect<
+  CreateUserPoolDomainResponse,
+  | ConcurrentModificationException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserPoolDomainRequest,
+  output: CreateUserPoolDomainResponse,
+  errors: [
+    ConcurrentModificationException,
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Lists a user's registered devices. Remembered devices are used in authentication
  * services where you offer a "Remember me" option for users who you want to permit to sign
@@ -7179,7 +7905,19 @@ export const createUserPoolDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminListDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const adminListDevices: (
+  input: AdminListDevicesRequest,
+) => Effect.Effect<
+  AdminListDevicesResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminListDevicesRequest,
   output: AdminListDevicesResponse,
   errors: [
@@ -7205,7 +7943,19 @@ export const adminListDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminGetDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const adminGetDevice: (
+  input: AdminGetDeviceRequest,
+) => Effect.Effect<
+  AdminGetDeviceResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminGetDeviceRequest,
   output: AdminGetDeviceResponse,
   errors: [
@@ -7232,41 +7982,62 @@ export const adminGetDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIdentityProviderRequest,
-    output: CreateIdentityProviderResponse,
-    errors: [
-      DuplicateProviderException,
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const createIdentityProvider: (
+  input: CreateIdentityProviderRequest,
+) => Effect.Effect<
+  CreateIdentityProviderResponse,
+  | DuplicateProviderException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIdentityProviderRequest,
+  output: CreateIdentityProviderResponse,
+  errors: [
+    DuplicateProviderException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Sets up or modifies the logging configuration of a user pool. User pools can export
  * user notification logs and, when threat protection is active, user-activity logs. For
  * more information, see Exporting user
  * pool logs.
  */
-export const setLogDeliveryConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetLogDeliveryConfigurationRequest,
-    output: SetLogDeliveryConfigurationResponse,
-    errors: [
-      FeatureUnavailableInTierException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const setLogDeliveryConfiguration: (
+  input: SetLogDeliveryConfigurationRequest,
+) => Effect.Effect<
+  SetLogDeliveryConfigurationResponse,
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetLogDeliveryConfigurationRequest,
+  output: SetLogDeliveryConfigurationResponse,
+  errors: [
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Lists the groups that a user belongs to. User pool groups are identifiers that you can
  * reference from the contents of ID and access tokens, and set preferred IAM roles for
@@ -7282,45 +8053,94 @@ export const setLogDeliveryConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminListGroupsForUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const adminListGroupsForUser: {
+  (
     input: AdminListGroupsForUserRequest,
-    output: AdminListGroupsForUserResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Groups",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    AdminListGroupsForUserResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | UserNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: AdminListGroupsForUserRequest,
+  ) => Stream.Stream<
+    AdminListGroupsForUserResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | UserNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: AdminListGroupsForUserRequest,
+  ) => Stream.Stream<
+    GroupType,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | UserNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: AdminListGroupsForUserRequest,
+  output: AdminListGroupsForUserResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Groups",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Given an app client or user pool ID where threat protection is configured, describes
  * the risk configuration. This operation returns details about adaptive authentication,
  * compromised credentials, and IP-address allow- and denylists. For more information about
  * threat protection, see Threat protection.
  */
-export const describeRiskConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRiskConfigurationRequest,
-    output: DescribeRiskConfigurationResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserPoolAddOnNotEnabledException,
-    ],
-  }),
-);
+export const describeRiskConfiguration: (
+  input: DescribeRiskConfigurationRequest,
+) => Effect.Effect<
+  DescribeRiskConfigurationResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserPoolAddOnNotEnabledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRiskConfigurationRequest,
+  output: DescribeRiskConfigurationResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserPoolAddOnNotEnabledException,
+  ],
+}));
 /**
  * Given a user pool ID, returns configuration information. This operation is useful when
  * you want to inspect an existing user pool and programmatically replicate the
@@ -7336,7 +8156,19 @@ export const describeRiskConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const describeUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeUserPool: (
+  input: DescribeUserPoolRequest,
+) => Effect.Effect<
+  DescribeUserPoolResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserPoolTaggingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserPoolRequest,
   output: DescribeUserPoolResponse,
   errors: [
@@ -7363,27 +8195,50 @@ export const describeUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const deleteIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIdentityProviderRequest,
-    output: DeleteIdentityProviderResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UnsupportedIdentityProviderException,
-    ],
-  }),
-);
+export const deleteIdentityProvider: (
+  input: DeleteIdentityProviderRequest,
+) => Effect.Effect<
+  DeleteIdentityProviderResponse,
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnsupportedIdentityProviderException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIdentityProviderRequest,
+  output: DeleteIdentityProviderResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UnsupportedIdentityProviderException,
+  ],
+}));
 /**
  * Instructs your user pool to start importing users from a CSV file that contains their
  * usernames and attributes. For more information about importing users from a CSV file,
  * see Importing users from a CSV file.
  */
-export const startUserImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startUserImportJob: (
+  input: StartUserImportJobRequest,
+) => Effect.Effect<
+  StartUserImportJobResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartUserImportJobRequest,
   output: StartUserImportJobResponse,
   errors: [
@@ -7421,7 +8276,20 @@ export const startUserImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTerms: (
+  input: UpdateTermsRequest,
+) => Effect.Effect<
+  UpdateTermsResponse,
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TermsExistsException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTermsRequest,
   output: UpdateTermsResponse,
   errors: [
@@ -7447,7 +8315,19 @@ export const updateTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the case of large user pools, the cleanup process might take significant additional time
  * before all user data is permanently deleted.
  */
-export const deleteUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUserPool: (
+  input: DeleteUserPoolRequest,
+) => Effect.Effect<
+  DeleteUserPoolResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserImportInProgressException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserPoolRequest,
   output: DeleteUserPoolResponse,
   errors: [
@@ -7473,21 +8353,32 @@ export const deleteUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
  */
-export const associateSoftwareToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateSoftwareTokenRequest,
-    output: AssociateSoftwareTokenResponse,
-    errors: [
-      ConcurrentModificationException,
-      ForbiddenException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      SoftwareTokenMFANotFoundException,
-    ],
-  }),
-);
+export const associateSoftwareToken: (
+  input: AssociateSoftwareTokenRequest,
+) => Effect.Effect<
+  AssociateSoftwareTokenResponse,
+  | ConcurrentModificationException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | SoftwareTokenMFANotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateSoftwareTokenRequest,
+  output: AssociateSoftwareTokenResponse,
+  errors: [
+    ConcurrentModificationException,
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    SoftwareTokenMFANotFoundException,
+  ],
+}));
 /**
  * Creates a new set of branding settings for a user pool style and associates it with an
  * app client. This operation is the programmatic option for the creation of a new style in
@@ -7516,22 +8407,34 @@ export const associateSoftwareToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createManagedLoginBranding = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateManagedLoginBrandingRequest,
-    output: CreateManagedLoginBrandingResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      ManagedLoginBrandingExistsException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const createManagedLoginBranding: (
+  input: CreateManagedLoginBrandingRequest,
+) => Effect.Effect<
+  CreateManagedLoginBrandingResponse,
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | ManagedLoginBrandingExistsException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateManagedLoginBrandingRequest,
+  output: CreateManagedLoginBrandingResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    ManagedLoginBrandingExistsException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates an app client in a user pool. This operation sets basic and advanced
  * configuration options.
@@ -7552,23 +8455,36 @@ export const createManagedLoginBranding = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createUserPoolClient = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateUserPoolClientRequest,
-    output: CreateUserPoolClientResponse,
-    errors: [
-      FeatureUnavailableInTierException,
-      InternalErrorException,
-      InvalidOAuthFlowException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      ScopeDoesNotExistException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const createUserPoolClient: (
+  input: CreateUserPoolClientRequest,
+) => Effect.Effect<
+  CreateUserPoolClientResponse,
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidOAuthFlowException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | ScopeDoesNotExistException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserPoolClientRequest,
+  output: CreateUserPoolClientResponse,
+  errors: [
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidOAuthFlowException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    ScopeDoesNotExistException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Sets user pool multi-factor authentication (MFA) and passkey configuration. For more
  * information about user pool MFA, see Adding MFA. For more information about WebAuthn passkeys see Authentication flows.
@@ -7590,23 +8506,36 @@ export const createUserPoolClient = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const setUserPoolMfaConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetUserPoolMfaConfigRequest,
-    output: SetUserPoolMfaConfigResponse,
-    errors: [
-      ConcurrentModificationException,
-      FeatureUnavailableInTierException,
-      InternalErrorException,
-      InvalidParameterException,
-      InvalidSmsRoleAccessPolicyException,
-      InvalidSmsRoleTrustRelationshipException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const setUserPoolMfaConfig: (
+  input: SetUserPoolMfaConfigRequest,
+) => Effect.Effect<
+  SetUserPoolMfaConfigResponse,
+  | ConcurrentModificationException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetUserPoolMfaConfigRequest,
+  output: SetUserPoolMfaConfigResponse,
+  errors: [
+    ConcurrentModificationException,
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidSmsRoleAccessPolicyException,
+    InvalidSmsRoleTrustRelationshipException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Sets the specified user's password in a user pool. This operation administratively
  * sets a temporary or permanent password for a user. With this operation, you can bypass
@@ -7648,22 +8577,34 @@ export const setUserPoolMfaConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminSetUserPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminSetUserPasswordRequest,
-    output: AdminSetUserPasswordResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      InvalidPasswordException,
-      NotAuthorizedException,
-      PasswordHistoryPolicyViolationException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const adminSetUserPassword: (
+  input: AdminSetUserPasswordRequest,
+) => Effect.Effect<
+  AdminSetUserPasswordResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidPasswordException
+  | NotAuthorizedException
+  | PasswordHistoryPolicyViolationException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminSetUserPasswordRequest,
+  output: AdminSetUserPasswordResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidPasswordException,
+    NotAuthorizedException,
+    PasswordHistoryPolicyViolationException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Given a username, returns details about a user profile in a user pool. You can specify
  * alias attributes in the `Username` request parameter.
@@ -7681,7 +8622,19 @@ export const adminSetUserPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminGetUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const adminGetUser: (
+  input: AdminGetUserRequest,
+) => Effect.Effect<
+  AdminGetUserResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminGetUserRequest,
   output: AdminGetUserResponse,
   errors: [
@@ -7708,19 +8661,28 @@ export const adminGetUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminSetUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminSetUserSettingsRequest,
-    output: AdminSetUserSettingsResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const adminSetUserSettings: (
+  input: AdminSetUserSettingsRequest,
+) => Effect.Effect<
+  AdminSetUserSettingsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminSetUserSettingsRequest,
+  output: AdminSetUserSettingsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Deletes a user profile in your user pool.
  *
@@ -7734,7 +8696,19 @@ export const adminSetUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminDeleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const adminDeleteUser: (
+  input: AdminDeleteUserRequest,
+) => Effect.Effect<
+  AdminDeleteUserResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminDeleteUserRequest,
   output: AdminDeleteUserResponse,
   errors: [
@@ -7761,20 +8735,30 @@ export const adminDeleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminDeleteUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminDeleteUserAttributesRequest,
-    output: AdminDeleteUserAttributesResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const adminDeleteUserAttributes: (
+  input: AdminDeleteUserAttributesRequest,
+) => Effect.Effect<
+  AdminDeleteUserAttributesResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminDeleteUserAttributesRequest,
+  output: AdminDeleteUserAttributesResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Deactivates a user profile and revokes all access tokens for the user. A deactivated
  * user can't sign in, but still appears in the responses to `ListUsers`
@@ -7790,7 +8774,19 @@ export const adminDeleteUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminDisableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const adminDisableUser: (
+  input: AdminDisableUserRequest,
+) => Effect.Effect<
+  AdminDisableUserResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminDisableUserRequest,
   output: AdminDisableUserResponse,
   errors: [
@@ -7816,7 +8812,19 @@ export const adminDisableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminEnableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const adminEnableUser: (
+  input: AdminEnableUserRequest,
+) => Effect.Effect<
+  AdminEnableUserResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminEnableUserRequest,
   output: AdminEnableUserResponse,
   errors: [
@@ -7843,20 +8851,30 @@ export const adminEnableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminRemoveUserFromGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminRemoveUserFromGroupRequest,
-    output: AdminRemoveUserFromGroupResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const adminRemoveUserFromGroup: (
+  input: AdminRemoveUserFromGroupRequest,
+) => Effect.Effect<
+  AdminRemoveUserFromGroupResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminRemoveUserFromGroupRequest,
+  output: AdminRemoveUserFromGroupResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Provides the feedback for an authentication event generated by threat protection
  * features. Your response indicates that you think that the event either was from a valid
@@ -7880,20 +8898,32 @@ export const adminRemoveUserFromGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminUpdateAuthEventFeedback =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AdminUpdateAuthEventFeedbackRequest,
-    output: AdminUpdateAuthEventFeedbackResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-      UserPoolAddOnNotEnabledException,
-    ],
-  }));
+export const adminUpdateAuthEventFeedback: (
+  input: AdminUpdateAuthEventFeedbackRequest,
+) => Effect.Effect<
+  AdminUpdateAuthEventFeedbackResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | UserPoolAddOnNotEnabledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminUpdateAuthEventFeedbackRequest,
+  output: AdminUpdateAuthEventFeedbackResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+    UserPoolAddOnNotEnabledException,
+  ],
+}));
 /**
  * Invalidates the identity, access, and refresh tokens that Amazon Cognito issued to a user. Call
  * this operation with your administrative credentials when your user signs out of your
@@ -7930,20 +8960,30 @@ export const adminUpdateAuthEventFeedback =
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminUserGlobalSignOut = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminUserGlobalSignOutRequest,
-    output: AdminUserGlobalSignOutResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const adminUserGlobalSignOut: (
+  input: AdminUserGlobalSignOutRequest,
+) => Effect.Effect<
+  AdminUserGlobalSignOutResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminUserGlobalSignOutRequest,
+  output: AdminUserGlobalSignOutResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Provides the feedback for an authentication event generated by threat protection
  * features. The user's response indicates that you think that the event either was from a
@@ -7965,21 +9005,32 @@ export const adminUserGlobalSignOut = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const updateAuthEventFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAuthEventFeedbackRequest,
-    output: UpdateAuthEventFeedbackResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-      UserPoolAddOnNotEnabledException,
-    ],
-  }),
-);
+export const updateAuthEventFeedback: (
+  input: UpdateAuthEventFeedbackRequest,
+) => Effect.Effect<
+  UpdateAuthEventFeedbackResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | UserPoolAddOnNotEnabledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAuthEventFeedbackRequest,
+  output: UpdateAuthEventFeedbackResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+    UserPoolAddOnNotEnabledException,
+  ],
+}));
 /**
  * Prevents the user from signing in with the specified external (SAML or social)
  * identity provider (IdP). If the user that you want to deactivate is a Amazon Cognito user pools
@@ -8019,21 +9070,32 @@ export const updateAuthEventFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminDisableProviderForUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminDisableProviderForUserRequest,
-    output: AdminDisableProviderForUserResponse,
-    errors: [
-      AliasExistsException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const adminDisableProviderForUser: (
+  input: AdminDisableProviderForUserRequest,
+) => Effect.Effect<
+  AdminDisableProviderForUserResponse,
+  | AliasExistsException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminDisableProviderForUserRequest,
+  output: AdminDisableProviderForUserResponse,
+  errors: [
+    AliasExistsException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Links an existing user account in a user pool, or `DestinationUser`, to an
  * identity from an external IdP, or `SourceUser`, based on a specified
@@ -8061,22 +9123,34 @@ export const adminDisableProviderForUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminLinkProviderForUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminLinkProviderForUserRequest,
-    output: AdminLinkProviderForUserResponse,
-    errors: [
-      AliasExistsException,
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const adminLinkProviderForUser: (
+  input: AdminLinkProviderForUserRequest,
+) => Effect.Effect<
+  AdminLinkProviderForUserResponse,
+  | AliasExistsException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminLinkProviderForUserRequest,
+  output: AdminLinkProviderForUserResponse,
+  errors: [
+    AliasExistsException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Forgets, or deletes, a remembered device from a user's profile. After you forget
  * the device, the user can no longer complete device authentication with that device and
@@ -8092,7 +9166,20 @@ export const adminLinkProviderForUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminForgetDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const adminForgetDevice: (
+  input: AdminForgetDeviceRequest,
+) => Effect.Effect<
+  AdminForgetDeviceResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminForgetDeviceRequest,
   output: AdminForgetDeviceResponse,
   errors: [
@@ -8123,21 +9210,32 @@ export const adminForgetDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminUpdateDeviceStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminUpdateDeviceStatusRequest,
-    output: AdminUpdateDeviceStatusResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      InvalidUserPoolConfigurationException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const adminUpdateDeviceStatus: (
+  input: AdminUpdateDeviceStatusRequest,
+) => Effect.Effect<
+  AdminUpdateDeviceStatusResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminUpdateDeviceStatusRequest,
+  output: AdminUpdateDeviceStatusResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidUserPoolConfigurationException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Adds a user to a group. A user who is in a group can present a preferred-role claim to
  * an identity pool, and populates a `cognito:groups` claim to their access and
@@ -8153,7 +9251,19 @@ export const adminUpdateDeviceStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminAddUserToGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const adminAddUserToGroup: (
+  input: AdminAddUserToGroupRequest,
+) => Effect.Effect<
+  AdminAddUserToGroupResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminAddUserToGroupRequest,
   output: AdminAddUserToGroupResponse,
   errors: [
@@ -8179,26 +9289,68 @@ export const adminAddUserToGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminListUserAuthEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const adminListUserAuthEvents: {
+  (
     input: AdminListUserAuthEventsRequest,
-    output: AdminListUserAuthEventsResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotFoundException,
-      UserPoolAddOnNotEnabledException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AuthEvents",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    AdminListUserAuthEventsResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | UserNotFoundException
+    | UserPoolAddOnNotEnabledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: AdminListUserAuthEventsRequest,
+  ) => Stream.Stream<
+    AdminListUserAuthEventsResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | UserNotFoundException
+    | UserPoolAddOnNotEnabledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: AdminListUserAuthEventsRequest,
+  ) => Stream.Stream<
+    AuthEventType,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | UserNotFoundException
+    | UserPoolAddOnNotEnabledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: AdminListUserAuthEventsRequest,
+  output: AdminListUserAuthEventsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotFoundException,
+    UserPoolAddOnNotEnabledException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AuthEvents",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Configures threat protection for a user pool or app client. Sets configuration for the
  * following.
@@ -8220,22 +9372,34 @@ export const adminListUserAuthEvents =
  * request. To activate this setting, your user pool must be on the
  * Plus tier.
  */
-export const setRiskConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetRiskConfigurationRequest,
-    output: SetRiskConfigurationResponse,
-    errors: [
-      CodeDeliveryFailureException,
-      InternalErrorException,
-      InvalidEmailRoleAccessPolicyException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserPoolAddOnNotEnabledException,
-    ],
-  }),
-);
+export const setRiskConfiguration: (
+  input: SetRiskConfigurationRequest,
+) => Effect.Effect<
+  SetRiskConfigurationResponse,
+  | CodeDeliveryFailureException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserPoolAddOnNotEnabledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetRiskConfigurationRequest,
+  output: SetRiskConfigurationResponse,
+  errors: [
+    CodeDeliveryFailureException,
+    InternalErrorException,
+    InvalidEmailRoleAccessPolicyException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserPoolAddOnNotEnabledException,
+  ],
+}));
 /**
  * Modifies the configuration and trust relationship between a third-party identity
  * provider (IdP) and a user pool. Amazon Cognito accepts sign-in with third-party identity
@@ -8252,27 +9416,50 @@ export const setRiskConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIdentityProviderRequest,
-    output: UpdateIdentityProviderResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UnsupportedIdentityProviderException,
-    ],
-  }),
-);
+export const updateIdentityProvider: (
+  input: UpdateIdentityProviderRequest,
+) => Effect.Effect<
+  UpdateIdentityProviderResponse,
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnsupportedIdentityProviderException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIdentityProviderRequest,
+  output: UpdateIdentityProviderResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UnsupportedIdentityProviderException,
+  ],
+}));
 /**
  * Instructs your user pool to stop a running job that's importing users from a CSV
  * file that contains their usernames and attributes. For more information about importing
  * users from a CSV file, see Importing users from a CSV file.
  */
-export const stopUserImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopUserImportJob: (
+  input: StopUserImportJobRequest,
+) => Effect.Effect<
+  StopUserImportJobResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopUserImportJobRequest,
   output: StopUserImportJobResponse,
   errors: [
@@ -8298,7 +9485,20 @@ export const stopUserImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createUserImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUserImportJob: (
+  input: CreateUserImportJobRequest,
+) => Effect.Effect<
+  CreateUserImportJobResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserImportJobRequest,
   output: CreateUserImportJobResponse,
   errors: [
@@ -8337,7 +9537,21 @@ export const createUserImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTerms: (
+  input: CreateTermsRequest,
+) => Effect.Effect<
+  CreateTermsResponse,
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TermsExistsException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTermsRequest,
   output: CreateTermsResponse,
   errors: [
@@ -8366,7 +9580,19 @@ export const createTerms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const addCustomAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addCustomAttributes: (
+  input: AddCustomAttributesRequest,
+) => Effect.Effect<
+  AddCustomAttributesResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserImportInProgressException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddCustomAttributesRequest,
   output: AddCustomAttributesResponse,
   errors: [
@@ -8400,23 +9626,36 @@ export const addCustomAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateUserPoolClient = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserPoolClientRequest,
-    output: UpdateUserPoolClientResponse,
-    errors: [
-      ConcurrentModificationException,
-      FeatureUnavailableInTierException,
-      InternalErrorException,
-      InvalidOAuthFlowException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      ScopeDoesNotExistException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateUserPoolClient: (
+  input: UpdateUserPoolClientRequest,
+) => Effect.Effect<
+  UpdateUserPoolClientResponse,
+  | ConcurrentModificationException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidOAuthFlowException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | ScopeDoesNotExistException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserPoolClientRequest,
+  output: UpdateUserPoolClientResponse,
+  errors: [
+    ConcurrentModificationException,
+    FeatureUnavailableInTierException,
+    InternalErrorException,
+    InvalidOAuthFlowException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    ScopeDoesNotExistException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Sets the user's multi-factor authentication (MFA) preference, including which MFA
  * options are activated, and if any are preferred. Only one factor can be set as
@@ -8434,21 +9673,32 @@ export const updateUserPoolClient = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminSetUserMFAPreference = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminSetUserMFAPreferenceRequest,
-    output: AdminSetUserMFAPreferenceResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      PasswordResetRequiredException,
-      ResourceNotFoundException,
-      UserNotConfirmedException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const adminSetUserMFAPreference: (
+  input: AdminSetUserMFAPreferenceRequest,
+) => Effect.Effect<
+  AdminSetUserMFAPreferenceResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminSetUserMFAPreferenceRequest,
+  output: AdminSetUserMFAPreferenceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Requests credential creation options from your user pool for the currently signed-in
  * user. Returns information about the user pool, the user profile, and authentication
@@ -8457,22 +9707,34 @@ export const adminSetUserMFAPreference = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
  */
-export const startWebAuthnRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartWebAuthnRegistrationRequest,
-    output: StartWebAuthnRegistrationResponse,
-    errors: [
-      ForbiddenException,
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      TooManyRequestsException,
-      WebAuthnConfigurationMissingException,
-      WebAuthnNotEnabledException,
-    ],
-  }),
-);
+export const startWebAuthnRegistration: (
+  input: StartWebAuthnRegistrationRequest,
+) => Effect.Effect<
+  StartWebAuthnRegistrationResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | TooManyRequestsException
+  | WebAuthnConfigurationMissingException
+  | WebAuthnNotEnabledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartWebAuthnRegistrationRequest,
+  output: StartWebAuthnRegistrationResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    TooManyRequestsException,
+    WebAuthnConfigurationMissingException,
+    WebAuthnNotEnabledException,
+  ],
+}));
 /**
  * Updates the configuration of a user pool. To avoid setting parameters to Amazon Cognito
  * defaults, construct this API request to pass the existing configuration of your user
@@ -8507,7 +9769,26 @@ export const startWebAuthnRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUserPool: (
+  input: UpdateUserPoolRequest,
+) => Effect.Effect<
+  UpdateUserPoolResponse,
+  | ConcurrentModificationException
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TierChangeNotAllowedException
+  | TooManyRequestsException
+  | UserImportInProgressException
+  | UserPoolTaggingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserPoolRequest,
   output: UpdateUserPoolResponse,
   errors: [
@@ -8539,7 +9820,27 @@ export const updateUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const confirmDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const confirmDevice: (
+  input: ConfirmDeviceRequest,
+) => Effect.Effect<
+  ConfirmDeviceResponse,
+  | DeviceKeyExistsException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidPasswordException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UsernameExistsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfirmDeviceRequest,
   output: ConfirmDeviceResponse,
   errors: [
@@ -8569,7 +9870,22 @@ export const confirmDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUser: (
+  input: GetUserRequest,
+) => Effect.Effect<
+  GetUserResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserRequest,
   output: GetUserResponse,
   errors: [
@@ -8600,7 +9916,22 @@ export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const getUserAuthFactors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUserAuthFactors: (
+  input: GetUserAuthFactorsRequest,
+) => Effect.Effect<
+  GetUserAuthFactorsResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserAuthFactorsRequest,
   output: GetUserAuthFactorsResponse,
   errors: [
@@ -8626,7 +9957,22 @@ export const getUserAuthFactors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUser: (
+  input: DeleteUserRequest,
+) => Effect.Effect<
+  DeleteUserResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
   output: DeleteUserResponse,
   errors: [
@@ -8653,23 +9999,36 @@ export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const deleteUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteUserAttributesRequest,
-    output: DeleteUserAttributesResponse,
-    errors: [
-      ForbiddenException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      PasswordResetRequiredException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UserNotConfirmedException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const deleteUserAttributes: (
+  input: DeleteUserAttributesRequest,
+) => Effect.Effect<
+  DeleteUserAttributesResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserAttributesRequest,
+  output: DeleteUserAttributesResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Invalidates the identity, access, and refresh tokens that Amazon Cognito issued to a user. Call
  * this operation when your user signs out of your app. This results in the following
@@ -8703,7 +10062,21 @@ export const deleteUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const globalSignOut = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const globalSignOut: (
+  input: GlobalSignOutRequest,
+) => Effect.Effect<
+  GlobalSignOutResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GlobalSignOutRequest,
   output: GlobalSignOutResponse,
   errors: [
@@ -8735,22 +10108,34 @@ export const globalSignOut = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const setUserMFAPreference = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetUserMFAPreferenceRequest,
-    output: SetUserMFAPreferenceResponse,
-    errors: [
-      ForbiddenException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      PasswordResetRequiredException,
-      ResourceNotFoundException,
-      UserNotConfirmedException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const setUserMFAPreference: (
+  input: SetUserMFAPreferenceRequest,
+) => Effect.Effect<
+  SetUserMFAPreferenceResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetUserMFAPreferenceRequest,
+  output: SetUserMFAPreferenceResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * *This action is no longer supported.* You can use it to configure
  * only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software
@@ -8763,7 +10148,21 @@ export const setUserMFAPreference = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const setUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setUserSettings: (
+  input: SetUserSettingsRequest,
+) => Effect.Effect<
+  SetUserSettingsResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetUserSettingsRequest,
   output: SetUserSettingsResponse,
   errors: [
@@ -8788,7 +10187,23 @@ export const setUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const getDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDevice: (
+  input: GetDeviceRequest,
+) => Effect.Effect<
+  GetDeviceResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeviceRequest,
   output: GetDeviceResponse,
   errors: [
@@ -8815,7 +10230,23 @@ export const getDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const listDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listDevices: (
+  input: ListDevicesRequest,
+) => Effect.Effect<
+  ListDevicesResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDevicesRequest,
   output: ListDevicesResponse,
   errors: [
@@ -8842,7 +10273,23 @@ export const listDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const forgetDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const forgetDevice: (
+  input: ForgetDeviceRequest,
+) => Effect.Effect<
+  ForgetDeviceResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ForgetDeviceRequest,
   output: ForgetDeviceResponse,
   errors: [
@@ -8873,7 +10320,23 @@ export const forgetDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const updateDeviceStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDeviceStatus: (
+  input: UpdateDeviceStatusRequest,
+) => Effect.Effect<
+  UpdateDeviceStatusResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeviceStatusRequest,
   output: UpdateDeviceStatusResponse,
   errors: [
@@ -8900,7 +10363,26 @@ export const updateDeviceStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const verifySoftwareToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const verifySoftwareToken: (
+  input: VerifySoftwareTokenRequest,
+) => Effect.Effect<
+  VerifySoftwareTokenResponse,
+  | CodeMismatchException
+  | EnableSoftwareTokenMFAException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | SoftwareTokenMFANotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifySoftwareTokenRequest,
   output: VerifySoftwareTokenResponse,
   errors: [
@@ -8935,7 +10417,26 @@ export const verifySoftwareToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const verifyUserAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const verifyUserAttribute: (
+  input: VerifyUserAttributeRequest,
+) => Effect.Effect<
+  VerifyUserAttributeResponse,
+  | AliasExistsException
+  | CodeMismatchException
+  | ExpiredCodeException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyUserAttributeRequest,
   output: VerifyUserAttributeResponse,
   errors: [
@@ -8964,7 +10465,25 @@ export const verifyUserAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const changePassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const changePassword: (
+  input: ChangePasswordRequest,
+) => Effect.Effect<
+  ChangePasswordResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidPasswordException
+  | LimitExceededException
+  | NotAuthorizedException
+  | PasswordHistoryPolicyViolationException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChangePasswordRequest,
   output: ChangePasswordResponse,
   errors: [
@@ -9015,7 +10534,24 @@ export const changePassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUserPool: (
+  input: CreateUserPoolRequest,
+) => Effect.Effect<
+  CreateUserPoolResponse,
+  | FeatureUnavailableInTierException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | LimitExceededException
+  | NotAuthorizedException
+  | TierChangeNotAllowedException
+  | TooManyRequestsException
+  | UserPoolTaggingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserPoolRequest,
   output: CreateUserPoolResponse,
   errors: [
@@ -9039,25 +10575,40 @@ export const createUserPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * rotation is enabled. If refresh token rotation is disabled, issues new ID and access
  * tokens only.
  */
-export const getTokensFromRefreshToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTokensFromRefreshTokenRequest,
-    output: GetTokensFromRefreshTokenResponse,
-    errors: [
-      ForbiddenException,
-      InternalErrorException,
-      InvalidLambdaResponseException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      RefreshTokenReuseException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UnexpectedLambdaException,
-      UserLambdaValidationException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const getTokensFromRefreshToken: (
+  input: GetTokensFromRefreshTokenRequest,
+) => Effect.Effect<
+  GetTokensFromRefreshTokenResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | RefreshTokenReuseException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTokensFromRefreshTokenRequest,
+  output: GetTokensFromRefreshTokenResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidLambdaResponseException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    RefreshTokenReuseException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UnexpectedLambdaException,
+    UserLambdaValidationException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Revokes all of the access tokens generated by, and at the same time as, the specified
  * refresh token. After a token is revoked, you can't use the revoked token to access Amazon Cognito
@@ -9068,7 +10619,20 @@ export const getTokensFromRefreshToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const revokeToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const revokeToken: (
+  input: RevokeTokenRequest,
+) => Effect.Effect<
+  RevokeTokenResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | UnsupportedOperationException
+  | UnsupportedTokenTypeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeTokenRequest,
   output: RevokeTokenResponse,
   errors: [
@@ -9129,7 +10693,29 @@ export const revokeToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminCreateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const adminCreateUser: (
+  input: AdminCreateUserRequest,
+) => Effect.Effect<
+  AdminCreateUserResponse,
+  | CodeDeliveryFailureException
+  | InternalErrorException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidPasswordException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | NotAuthorizedException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UnsupportedUserStateException
+  | UserLambdaValidationException
+  | UsernameExistsException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminCreateUserRequest,
   output: AdminCreateUserResponse,
   errors: [
@@ -9189,27 +10775,44 @@ export const adminCreateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminResetUserPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminResetUserPasswordRequest,
-    output: AdminResetUserPasswordResponse,
-    errors: [
-      InternalErrorException,
-      InvalidEmailRoleAccessPolicyException,
-      InvalidLambdaResponseException,
-      InvalidParameterException,
-      InvalidSmsRoleAccessPolicyException,
-      InvalidSmsRoleTrustRelationshipException,
-      LimitExceededException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UnexpectedLambdaException,
-      UserLambdaValidationException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const adminResetUserPassword: (
+  input: AdminResetUserPasswordRequest,
+) => Effect.Effect<
+  AdminResetUserPasswordResponse,
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminResetUserPasswordRequest,
+  output: AdminResetUserPasswordResponse,
+  errors: [
+    InternalErrorException,
+    InvalidEmailRoleAccessPolicyException,
+    InvalidLambdaResponseException,
+    InvalidParameterException,
+    InvalidSmsRoleAccessPolicyException,
+    InvalidSmsRoleTrustRelationshipException,
+    LimitExceededException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UnexpectedLambdaException,
+    UserLambdaValidationException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Confirms the account of a new user. This public API operation submits a code that
  * Amazon Cognito sent to your user when they signed up in your user pool. After your user enters
@@ -9227,7 +10830,28 @@ export const adminResetUserPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const confirmSignUp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const confirmSignUp: (
+  input: ConfirmSignUpRequest,
+) => Effect.Effect<
+  ConfirmSignUpResponse,
+  | AliasExistsException
+  | CodeMismatchException
+  | ExpiredCodeException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyFailedAttemptsException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfirmSignUpRequest,
   output: ConfirmSignUpResponse,
   errors: [
@@ -9279,33 +10903,56 @@ export const confirmSignUp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const updateUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserAttributesRequest,
-    output: UpdateUserAttributesResponse,
-    errors: [
-      AliasExistsException,
-      CodeDeliveryFailureException,
-      CodeMismatchException,
-      ExpiredCodeException,
-      ForbiddenException,
-      InternalErrorException,
-      InvalidEmailRoleAccessPolicyException,
-      InvalidLambdaResponseException,
-      InvalidParameterException,
-      InvalidSmsRoleAccessPolicyException,
-      InvalidSmsRoleTrustRelationshipException,
-      NotAuthorizedException,
-      PasswordResetRequiredException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UnexpectedLambdaException,
-      UserLambdaValidationException,
-      UserNotConfirmedException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const updateUserAttributes: (
+  input: UpdateUserAttributesRequest,
+) => Effect.Effect<
+  UpdateUserAttributesResponse,
+  | AliasExistsException
+  | CodeDeliveryFailureException
+  | CodeMismatchException
+  | ExpiredCodeException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserAttributesRequest,
+  output: UpdateUserAttributesResponse,
+  errors: [
+    AliasExistsException,
+    CodeDeliveryFailureException,
+    CodeMismatchException,
+    ExpiredCodeException,
+    ForbiddenException,
+    InternalErrorException,
+    InvalidEmailRoleAccessPolicyException,
+    InvalidLambdaResponseException,
+    InvalidParameterException,
+    InvalidSmsRoleAccessPolicyException,
+    InvalidSmsRoleTrustRelationshipException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UnexpectedLambdaException,
+    UserLambdaValidationException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Resends the code that confirms a new account for a user who has signed up in your user
  * pool. Amazon Cognito sends confirmation codes to the user attribute in the
@@ -9335,29 +10982,48 @@ export const updateUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const resendConfirmationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResendConfirmationCodeRequest,
-    output: ResendConfirmationCodeResponse,
-    errors: [
-      CodeDeliveryFailureException,
-      ForbiddenException,
-      InternalErrorException,
-      InvalidEmailRoleAccessPolicyException,
-      InvalidLambdaResponseException,
-      InvalidParameterException,
-      InvalidSmsRoleAccessPolicyException,
-      InvalidSmsRoleTrustRelationshipException,
-      LimitExceededException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UnexpectedLambdaException,
-      UserLambdaValidationException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const resendConfirmationCode: (
+  input: ResendConfirmationCodeRequest,
+) => Effect.Effect<
+  ResendConfirmationCodeResponse,
+  | CodeDeliveryFailureException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResendConfirmationCodeRequest,
+  output: ResendConfirmationCodeResponse,
+  errors: [
+    CodeDeliveryFailureException,
+    ForbiddenException,
+    InternalErrorException,
+    InvalidEmailRoleAccessPolicyException,
+    InvalidLambdaResponseException,
+    InvalidParameterException,
+    InvalidSmsRoleAccessPolicyException,
+    InvalidSmsRoleTrustRelationshipException,
+    LimitExceededException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UnexpectedLambdaException,
+    UserLambdaValidationException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Sends a password-reset confirmation code to the email address or phone number of the
  * requested username. The message delivery method is determined by the user's
@@ -9394,7 +11060,28 @@ export const resendConfirmationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const forgotPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const forgotPassword: (
+  input: ForgotPasswordRequest,
+) => Effect.Effect<
+  ForgotPasswordResponse,
+  | CodeDeliveryFailureException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ForgotPasswordRequest,
   output: ForgotPasswordResponse,
   errors: [
@@ -9454,27 +11141,44 @@ export const forgotPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const adminUpdateUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminUpdateUserAttributesRequest,
-    output: AdminUpdateUserAttributesResponse,
-    errors: [
-      AliasExistsException,
-      InternalErrorException,
-      InvalidEmailRoleAccessPolicyException,
-      InvalidLambdaResponseException,
-      InvalidParameterException,
-      InvalidSmsRoleAccessPolicyException,
-      InvalidSmsRoleTrustRelationshipException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UnexpectedLambdaException,
-      UserLambdaValidationException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const adminUpdateUserAttributes: (
+  input: AdminUpdateUserAttributesRequest,
+) => Effect.Effect<
+  AdminUpdateUserAttributesResponse,
+  | AliasExistsException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminUpdateUserAttributesRequest,
+  output: AdminUpdateUserAttributesResponse,
+  errors: [
+    AliasExistsException,
+    InternalErrorException,
+    InvalidEmailRoleAccessPolicyException,
+    InvalidLambdaResponseException,
+    InvalidParameterException,
+    InvalidSmsRoleAccessPolicyException,
+    InvalidSmsRoleTrustRelationshipException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UnexpectedLambdaException,
+    UserLambdaValidationException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Given an attribute name, sends a user attribute verification code for the specified
  * attribute name to the currently signed-in user.
@@ -9503,30 +11207,52 @@ export const adminUpdateUserAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const getUserAttributeVerificationCode =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetUserAttributeVerificationCodeRequest,
-    output: GetUserAttributeVerificationCodeResponse,
-    errors: [
-      CodeDeliveryFailureException,
-      ForbiddenException,
-      InternalErrorException,
-      InvalidEmailRoleAccessPolicyException,
-      InvalidLambdaResponseException,
-      InvalidParameterException,
-      InvalidSmsRoleAccessPolicyException,
-      InvalidSmsRoleTrustRelationshipException,
-      LimitExceededException,
-      NotAuthorizedException,
-      PasswordResetRequiredException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UnexpectedLambdaException,
-      UserLambdaValidationException,
-      UserNotConfirmedException,
-      UserNotFoundException,
-    ],
-  }));
+export const getUserAttributeVerificationCode: (
+  input: GetUserAttributeVerificationCodeRequest,
+) => Effect.Effect<
+  GetUserAttributeVerificationCodeResponse,
+  | CodeDeliveryFailureException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | LimitExceededException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUserAttributeVerificationCodeRequest,
+  output: GetUserAttributeVerificationCodeResponse,
+  errors: [
+    CodeDeliveryFailureException,
+    ForbiddenException,
+    InternalErrorException,
+    InvalidEmailRoleAccessPolicyException,
+    InvalidLambdaResponseException,
+    InvalidParameterException,
+    InvalidSmsRoleAccessPolicyException,
+    InvalidSmsRoleTrustRelationshipException,
+    LimitExceededException,
+    NotAuthorizedException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UnexpectedLambdaException,
+    UserLambdaValidationException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Declares an authentication flow and initiates sign-in for a user in the Amazon Cognito user
  * directory. Amazon Cognito might respond with an additional challenge or an
@@ -9556,7 +11282,30 @@ export const getUserAttributeVerificationCode =
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const initiateAuth = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const initiateAuth: (
+  input: InitiateAuthRequest,
+) => Effect.Effect<
+  InitiateAuthResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | InvalidUserPoolConfigurationException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UnsupportedOperationException
+  | UserLambdaValidationException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitiateAuthRequest,
   output: InitiateAuthResponse,
   errors: [
@@ -9611,7 +11360,29 @@ export const initiateAuth = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the response, the user is successfully created and is in an `UNCONFIRMED`
  * state.
  */
-export const signUp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const signUp: (
+  input: SignUpRequest,
+) => Effect.Effect<
+  SignUpResponse,
+  | CodeDeliveryFailureException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidPasswordException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UsernameExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignUpRequest,
   output: SignUpResponse,
   errors: [
@@ -9642,31 +11413,52 @@ export const signUp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const confirmForgotPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ConfirmForgotPasswordRequest,
-    output: ConfirmForgotPasswordResponse,
-    errors: [
-      CodeMismatchException,
-      ExpiredCodeException,
-      ForbiddenException,
-      InternalErrorException,
-      InvalidLambdaResponseException,
-      InvalidParameterException,
-      InvalidPasswordException,
-      LimitExceededException,
-      NotAuthorizedException,
-      PasswordHistoryPolicyViolationException,
-      ResourceNotFoundException,
-      TooManyFailedAttemptsException,
-      TooManyRequestsException,
-      UnexpectedLambdaException,
-      UserLambdaValidationException,
-      UserNotConfirmedException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const confirmForgotPassword: (
+  input: ConfirmForgotPasswordRequest,
+) => Effect.Effect<
+  ConfirmForgotPasswordResponse,
+  | CodeMismatchException
+  | ExpiredCodeException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidPasswordException
+  | LimitExceededException
+  | NotAuthorizedException
+  | PasswordHistoryPolicyViolationException
+  | ResourceNotFoundException
+  | TooManyFailedAttemptsException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ConfirmForgotPasswordRequest,
+  output: ConfirmForgotPasswordResponse,
+  errors: [
+    CodeMismatchException,
+    ExpiredCodeException,
+    ForbiddenException,
+    InternalErrorException,
+    InvalidLambdaResponseException,
+    InvalidParameterException,
+    InvalidPasswordException,
+    LimitExceededException,
+    NotAuthorizedException,
+    PasswordHistoryPolicyViolationException,
+    ResourceNotFoundException,
+    TooManyFailedAttemptsException,
+    TooManyRequestsException,
+    UnexpectedLambdaException,
+    UserLambdaValidationException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Confirms user sign-up as an administrator.
  *
@@ -9688,7 +11480,24 @@ export const confirmForgotPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `AllowAdminCreateUserOnly` to `true` in a
  * `CreateUserPool` or `UpdateUserPool` request.
  */
-export const adminConfirmSignUp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const adminConfirmSignUp: (
+  input: AdminConfirmSignUpRequest,
+) => Effect.Effect<
+  AdminConfirmSignUpResponse,
+  | InternalErrorException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyFailedAttemptsException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminConfirmSignUpRequest,
   output: AdminConfirmSignUpResponse,
   errors: [
@@ -9737,37 +11546,64 @@ export const adminConfirmSignUp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const respondToAuthChallenge = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RespondToAuthChallengeRequest,
-    output: RespondToAuthChallengeResponse,
-    errors: [
-      AliasExistsException,
-      CodeMismatchException,
-      ExpiredCodeException,
-      ForbiddenException,
-      InternalErrorException,
-      InvalidEmailRoleAccessPolicyException,
-      InvalidLambdaResponseException,
-      InvalidParameterException,
-      InvalidPasswordException,
-      InvalidSmsRoleAccessPolicyException,
-      InvalidSmsRoleTrustRelationshipException,
-      InvalidUserPoolConfigurationException,
-      MFAMethodNotFoundException,
-      NotAuthorizedException,
-      PasswordHistoryPolicyViolationException,
-      PasswordResetRequiredException,
-      ResourceNotFoundException,
-      SoftwareTokenMFANotFoundException,
-      TooManyRequestsException,
-      UnexpectedLambdaException,
-      UserLambdaValidationException,
-      UserNotConfirmedException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const respondToAuthChallenge: (
+  input: RespondToAuthChallengeRequest,
+) => Effect.Effect<
+  RespondToAuthChallengeResponse,
+  | AliasExistsException
+  | CodeMismatchException
+  | ExpiredCodeException
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidPasswordException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | InvalidUserPoolConfigurationException
+  | MFAMethodNotFoundException
+  | NotAuthorizedException
+  | PasswordHistoryPolicyViolationException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | SoftwareTokenMFANotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RespondToAuthChallengeRequest,
+  output: RespondToAuthChallengeResponse,
+  errors: [
+    AliasExistsException,
+    CodeMismatchException,
+    ExpiredCodeException,
+    ForbiddenException,
+    InternalErrorException,
+    InvalidEmailRoleAccessPolicyException,
+    InvalidLambdaResponseException,
+    InvalidParameterException,
+    InvalidPasswordException,
+    InvalidSmsRoleAccessPolicyException,
+    InvalidSmsRoleTrustRelationshipException,
+    InvalidUserPoolConfigurationException,
+    MFAMethodNotFoundException,
+    NotAuthorizedException,
+    PasswordHistoryPolicyViolationException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    SoftwareTokenMFANotFoundException,
+    TooManyRequestsException,
+    UnexpectedLambdaException,
+    UserLambdaValidationException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Some API operations in a user pool generate a challenge, like a prompt for an MFA
  * code, for device authentication that bypasses MFA, or for a custom authentication
@@ -9805,36 +11641,62 @@ export const respondToAuthChallenge = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminRespondToAuthChallenge = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AdminRespondToAuthChallengeRequest,
-    output: AdminRespondToAuthChallengeResponse,
-    errors: [
-      AliasExistsException,
-      CodeMismatchException,
-      ExpiredCodeException,
-      InternalErrorException,
-      InvalidEmailRoleAccessPolicyException,
-      InvalidLambdaResponseException,
-      InvalidParameterException,
-      InvalidPasswordException,
-      InvalidSmsRoleAccessPolicyException,
-      InvalidSmsRoleTrustRelationshipException,
-      InvalidUserPoolConfigurationException,
-      MFAMethodNotFoundException,
-      NotAuthorizedException,
-      PasswordHistoryPolicyViolationException,
-      PasswordResetRequiredException,
-      ResourceNotFoundException,
-      SoftwareTokenMFANotFoundException,
-      TooManyRequestsException,
-      UnexpectedLambdaException,
-      UserLambdaValidationException,
-      UserNotConfirmedException,
-      UserNotFoundException,
-    ],
-  }),
-);
+export const adminRespondToAuthChallenge: (
+  input: AdminRespondToAuthChallengeRequest,
+) => Effect.Effect<
+  AdminRespondToAuthChallengeResponse,
+  | AliasExistsException
+  | CodeMismatchException
+  | ExpiredCodeException
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidPasswordException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | InvalidUserPoolConfigurationException
+  | MFAMethodNotFoundException
+  | NotAuthorizedException
+  | PasswordHistoryPolicyViolationException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | SoftwareTokenMFANotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UserLambdaValidationException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AdminRespondToAuthChallengeRequest,
+  output: AdminRespondToAuthChallengeResponse,
+  errors: [
+    AliasExistsException,
+    CodeMismatchException,
+    ExpiredCodeException,
+    InternalErrorException,
+    InvalidEmailRoleAccessPolicyException,
+    InvalidLambdaResponseException,
+    InvalidParameterException,
+    InvalidPasswordException,
+    InvalidSmsRoleAccessPolicyException,
+    InvalidSmsRoleTrustRelationshipException,
+    InvalidUserPoolConfigurationException,
+    MFAMethodNotFoundException,
+    NotAuthorizedException,
+    PasswordHistoryPolicyViolationException,
+    PasswordResetRequiredException,
+    ResourceNotFoundException,
+    SoftwareTokenMFANotFoundException,
+    TooManyRequestsException,
+    UnexpectedLambdaException,
+    UserLambdaValidationException,
+    UserNotConfirmedException,
+    UserNotFoundException,
+  ],
+}));
 /**
  * Starts sign-in for applications with a server-side component, for example a
  * traditional web application. This operation specifies the authentication flow that
@@ -9869,7 +11731,30 @@ export const adminRespondToAuthChallenge = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminInitiateAuth = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const adminInitiateAuth: (
+  input: AdminInitiateAuthRequest,
+) => Effect.Effect<
+  AdminInitiateAuthResponse,
+  | InternalErrorException
+  | InvalidEmailRoleAccessPolicyException
+  | InvalidLambdaResponseException
+  | InvalidParameterException
+  | InvalidSmsRoleAccessPolicyException
+  | InvalidSmsRoleTrustRelationshipException
+  | InvalidUserPoolConfigurationException
+  | MFAMethodNotFoundException
+  | NotAuthorizedException
+  | PasswordResetRequiredException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnexpectedLambdaException
+  | UnsupportedOperationException
+  | UserLambdaValidationException
+  | UserNotConfirmedException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdminInitiateAuthRequest,
   output: AdminInitiateAuthResponse,
   errors: [
@@ -9898,22 +11783,39 @@ export const adminInitiateAuth = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
  */
-export const completeWebAuthnRegistration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CompleteWebAuthnRegistrationRequest,
-    output: CompleteWebAuthnRegistrationResponse,
-    errors: [
-      ForbiddenException,
-      InternalErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      NotAuthorizedException,
-      TooManyRequestsException,
-      WebAuthnChallengeNotFoundException,
-      WebAuthnClientMismatchException,
-      WebAuthnCredentialNotSupportedException,
-      WebAuthnNotEnabledException,
-      WebAuthnOriginNotAllowedException,
-      WebAuthnRelyingPartyMismatchException,
-    ],
-  }));
+export const completeWebAuthnRegistration: (
+  input: CompleteWebAuthnRegistrationRequest,
+) => Effect.Effect<
+  CompleteWebAuthnRegistrationResponse,
+  | ForbiddenException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | TooManyRequestsException
+  | WebAuthnChallengeNotFoundException
+  | WebAuthnClientMismatchException
+  | WebAuthnCredentialNotSupportedException
+  | WebAuthnNotEnabledException
+  | WebAuthnOriginNotAllowedException
+  | WebAuthnRelyingPartyMismatchException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CompleteWebAuthnRegistrationRequest,
+  output: CompleteWebAuthnRegistrationResponse,
+  errors: [
+    ForbiddenException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    TooManyRequestsException,
+    WebAuthnChallengeNotFoundException,
+    WebAuthnClientMismatchException,
+    WebAuthnCredentialNotSupportedException,
+    WebAuthnNotEnabledException,
+    WebAuthnOriginNotAllowedException,
+    WebAuthnRelyingPartyMismatchException,
+  ],
+}));

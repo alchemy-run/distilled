@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "MWAA", serviceShapeName: "AmazonMWAA" });
 const auth = T.AwsAuthSigv4({ name: "airflow" });
 const ver = T.ServiceVersion("2020-07-01");
@@ -237,6 +245,50 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type EnvironmentName = string;
+export type IamRoleArn = string;
+export type S3BucketArn = string;
+export type RelativePath = string;
+export type S3ObjectVersion = string;
+export type EnvironmentClass = string;
+export type MaxWorkers = number;
+export type KmsKey = string;
+export type AirflowVersion = string;
+export type WeeklyMaintenanceWindowStart = string;
+export type WebserverAccessMode = string;
+export type MinWorkers = number;
+export type Schedulers = number;
+export type EndpointManagement = string;
+export type MinWebservers = number;
+export type MaxWebservers = number;
+export type RestApiPath = string;
+export type RestApiMethod = string;
+export type NextToken = string;
+export type EnvironmentArn = string;
+export type TagKey = string;
+export type WorkerReplacementStrategy = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type ConfigKey = string;
+export type ConfigValue = string;
+export type TagValue = string;
+export type Unit = string;
+export type Token = string;
+export type Hostname = string;
+export type IamIdentity = string;
+export type AirflowIdentity = string;
+export type LoggingLevel = string;
+export type EnvironmentStatus = string;
+export type WebserverUrl = string;
+export type VpcEndpointServiceName = string;
+export type CeleryExecutorQueue = string;
+export type UpdateStatus = string;
+export type UpdateSource = string;
+export type CloudWatchLogGroupArn = string;
+export type ErrorCode = string;
+export type ErrorMessage = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -909,7 +961,9 @@ export const GetEnvironmentOutput = S.suspend(() =>
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -941,7 +995,13 @@ export class RestApiServerException extends S.TaggedError<RestApiServerException
 /**
  * Creates a CLI token for the Airflow CLI. To learn more, see Creating an Apache Airflow CLI token.
  */
-export const createCliToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCliToken: (
+  input: CreateCliTokenRequest,
+) => Effect.Effect<
+  CreateCliTokenResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCliTokenRequest,
   output: CreateCliTokenResponse,
   errors: [ResourceNotFoundException],
@@ -949,23 +1009,49 @@ export const createCliToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
  */
-export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEnvironments: {
+  (
     input: ListEnvironmentsInput,
-    output: ListEnvironmentsOutput,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Environments",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEnvironmentsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnvironmentsInput,
+  ) => Stream.Stream<
+    ListEnvironmentsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnvironmentsInput,
+  ) => Stream.Stream<
+    EnvironmentName,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnvironmentsInput,
+  output: ListEnvironmentsOutput,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Environments",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * **Internal only**. Publishes environment health metrics to Amazon CloudWatch.
  */
-export const publishMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const publishMetrics: (
+  input: PublishMetricsInput,
+) => Effect.Effect<
+  PublishMetricsOutput,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishMetricsInput,
   output: PublishMetricsOutput,
   errors: [InternalServerException, ValidationException],
@@ -973,7 +1059,16 @@ export const publishMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
  */
-export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEnvironment: (
+  input: UpdateEnvironmentInput,
+) => Effect.Effect<
+  UpdateEnvironmentOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentInput,
   output: UpdateEnvironmentOutput,
   errors: [
@@ -985,7 +1080,16 @@ export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
  */
-export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEnvironment: (
+  input: DeleteEnvironmentInput,
+) => Effect.Effect<
+  DeleteEnvironmentOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentInput,
   output: DeleteEnvironmentOutput,
   errors: [
@@ -997,7 +1101,16 @@ export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, `"Environment": "Staging"`.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -1009,7 +1122,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates key-value tag pairs to your Amazon Managed Workflows for Apache Airflow (MWAA) environment.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -1021,7 +1143,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes key-value tag pairs associated to your Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, `"Environment": "Staging"`.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -1033,7 +1164,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a web login token for the Airflow Web UI. To learn more, see Creating an Apache Airflow web login token.
  */
-export const createWebLoginToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWebLoginToken: (
+  input: CreateWebLoginTokenRequest,
+) => Effect.Effect<
+  CreateWebLoginTokenResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWebLoginTokenRequest,
   output: CreateWebLoginTokenResponse,
   errors: [
@@ -1046,7 +1187,13 @@ export const createWebLoginToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
  */
-export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEnvironment: (
+  input: CreateEnvironmentInput,
+) => Effect.Effect<
+  CreateEnvironmentOutput,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentInput,
   output: CreateEnvironmentOutput,
   errors: [InternalServerException, ValidationException],
@@ -1054,7 +1201,16 @@ export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
  */
-export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEnvironment: (
+  input: GetEnvironmentInput,
+) => Effect.Effect<
+  GetEnvironmentOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentInput,
   output: GetEnvironmentOutput,
   errors: [
@@ -1067,7 +1223,19 @@ export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Invokes the Apache Airflow REST API on the webserver with the specified inputs. To
  * learn more, see Using the Apache Airflow REST API
  */
-export const invokeRestApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const invokeRestApi: (
+  input: InvokeRestApiRequest,
+) => Effect.Effect<
+  InvokeRestApiResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | RestApiClientException
+  | RestApiServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeRestApiRequest,
   output: InvokeRestApiResponse,
   errors: [

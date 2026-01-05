@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "FSx",
   serviceShapeName: "AWSSimbaAPIService_v20180301",
@@ -240,6 +248,113 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ClientRequestToken = string;
+export type FileSystemId = string;
+export type AlternateDNSName = string;
+export type TaskId = string;
+export type SourceBackupId = string;
+export type Region = string;
+export type KmsKeyId = string;
+export type VolumeId = string;
+export type ResourceARN = string;
+export type S3AccessPointAttachmentName = string;
+export type Namespace = string;
+export type ArchivePath = string;
+export type Megabytes = number;
+export type DataRepositoryTaskPath = string;
+export type CapacityToRelease = number;
+export type FileSystemTypeVersion = string;
+export type StorageCapacity = number;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type BackupId = string;
+export type SnapshotName = string;
+export type StorageVirtualMachineName = string;
+export type AdminPassword = string;
+export type VolumeName = string;
+export type DataRepositoryAssociationId = string;
+export type FileCacheId = string;
+export type SnapshotId = string;
+export type StorageVirtualMachineId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type LimitedMaxResults = number;
+export type VerboseFlag = string;
+export type TagKey = string;
+export type TagValue = string;
+export type AccessPointPolicy = string;
+export type PerUnitStorageThroughput = number;
+export type WeeklyTime = string;
+export type DirectoryId = string;
+export type MegabytesPerSecond = number;
+export type DailyTime = string;
+export type AutomaticBackupRetentionDays = number;
+export type ThroughputCapacityMbps = number;
+export type IpAddressRange = string;
+export type RouteTableId = string;
+export type HAPairs = number;
+export type ThroughputCapacityPerHAPair = number;
+export type Ipv6AddressRange = string;
+export type NetBiosAlias = string;
+export type JunctionPath = string;
+export type VolumeCapacity = number;
+export type SnapshotPolicy = string;
+export type VolumeCapacityBytes = number;
+export type IntegerNoMaxFromNegativeOne = number;
+export type IntegerRecordSizeKiB = number;
+export type FilterValue = string;
+export type DataRepositoryTaskFilterValue = string;
+export type S3AccessPointAttachmentsFilterValue = string;
+export type SnapshotFilterValue = string;
+export type StorageVirtualMachineFilterValue = string;
+export type VolumeFilterValue = string;
+export type ErrorMessage = string;
+export type VpcId = string;
+export type Value = number;
+export type MetadataStorageCapacity = number;
+export type IpAddress = string;
+export type ActiveDirectoryFullyQualifiedName = string;
+export type OrganizationalUnitDistinguishedName = string;
+export type FileSystemAdministratorsGroupName = string;
+export type DirectoryUserName = string;
+export type DirectoryPassword = string;
+export type CustomerSecretsManagerARN = string;
+export type GeneralARN = string;
+export type Iops = number;
+export type LustreRootSquash = string;
+export type LustreNoSquashNid = string;
+export type MetadataIops = number;
+export type CoolingPeriod = number;
+export type Aggregate = string;
+export type AggregateListMultiplier = number;
+export type IntegerNoMax = number;
+export type ProgressPercent = number;
+export type TotalTransferBytes = number;
+export type RemainingTransferBytes = number;
+export type AWSAccountId = string;
+export type SizeInBytes = number;
+export type NetworkInterfaceId = string;
+export type DNSName = string;
+export type FileSystemUID = number;
+export type FileSystemGID = number;
+export type OntapFileSystemUserName = string;
+export type AutocommitPeriodValue = number;
+export type OpenZFSClients = string;
+export type OpenZFSNfsExportOption = string;
+export type Parameter = string;
+export type LustreFileSystemMountName = string;
+export type UUID = string;
+export type VolumePath = string;
+export type RetentionPeriodValue = number;
+export type TotalConstituents = number;
+export type TotalCount = number;
+export type SucceededCount = number;
+export type FailedCount = number;
+export type ReleasedCapacity = number;
+export type S3AccessPointAlias = string;
+export type ErrorCode = string;
 
 //# Schemas
 export interface DescribeSharedVpcConfigurationRequest {}
@@ -4018,12 +4133,17 @@ export class TooManyAccessPoints extends S.TaggedError<TooManyAccessPoints>()(
  * Indicates whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual
  * private cloud (VPC) owner. For more information, see Creating FSx for ONTAP file systems in shared subnets.
  */
-export const describeSharedVpcConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeSharedVpcConfigurationRequest,
-    output: DescribeSharedVpcConfigurationResponse,
-    errors: [BadRequest, InternalServerError],
-  }));
+export const describeSharedVpcConfiguration: (
+  input: DescribeSharedVpcConfigurationRequest,
+) => Effect.Effect<
+  DescribeSharedVpcConfigurationResponse,
+  BadRequest | InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSharedVpcConfigurationRequest,
+  output: DescribeSharedVpcConfigurationResponse,
+  errors: [BadRequest, InternalServerError],
+}));
 /**
  * Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases
  * from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not
@@ -4036,12 +4156,17 @@ export const describeSharedVpcConfiguration =
  * operation to monitor the status of the aliases Amazon FSx is
  * disassociating with the file system.
  */
-export const disassociateFileSystemAliases =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateFileSystemAliasesRequest,
-    output: DisassociateFileSystemAliasesResponse,
-    errors: [BadRequest, FileSystemNotFound, InternalServerError],
-  }));
+export const disassociateFileSystemAliases: (
+  input: DisassociateFileSystemAliasesRequest,
+) => Effect.Effect<
+  DisassociateFileSystemAliasesResponse,
+  BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateFileSystemAliasesRequest,
+  output: DisassociateFileSystemAliasesResponse,
+  errors: [BadRequest, FileSystemNotFound, InternalServerError],
+}));
 /**
  * Configures whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual
  * private cloud (VPC) owner. For more information, see the Amazon FSx for NetApp ONTAP User
@@ -4053,38 +4178,72 @@ export const disassociateFileSystemAliases =
  * file systems. For more information, see Important considerations before disabling shared VPC support for Multi-AZ file
  * systems.
  */
-export const updateSharedVpcConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSharedVpcConfigurationRequest,
-    output: UpdateSharedVpcConfigurationResponse,
-    errors: [BadRequest, IncompatibleParameterError, InternalServerError],
-  }));
+export const updateSharedVpcConfiguration: (
+  input: UpdateSharedVpcConfigurationRequest,
+) => Effect.Effect<
+  UpdateSharedVpcConfigurationResponse,
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSharedVpcConfigurationRequest,
+  output: UpdateSharedVpcConfigurationResponse,
+  errors: [BadRequest, IncompatibleParameterError, InternalServerError],
+}));
 /**
  * After performing steps to repair the Active Directory configuration of an FSx for Windows File Server file system, use this action to
  * initiate the process of Amazon FSx attempting to reconnect to the file system.
  */
-export const startMisconfiguredStateRecovery =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartMisconfiguredStateRecoveryRequest,
-    output: StartMisconfiguredStateRecoveryResponse,
-    errors: [BadRequest, FileSystemNotFound, InternalServerError],
-  }));
+export const startMisconfiguredStateRecovery: (
+  input: StartMisconfiguredStateRecoveryRequest,
+) => Effect.Effect<
+  StartMisconfiguredStateRecoveryResponse,
+  BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMisconfiguredStateRecoveryRequest,
+  output: StartMisconfiguredStateRecoveryResponse,
+  errors: [BadRequest, FileSystemNotFound, InternalServerError],
+}));
 /**
  * Returns the DNS aliases that are associated with the specified Amazon FSx for Windows File Server file system. A history of
  * all DNS aliases that have been associated with and disassociated from the file system is available in the list of AdministrativeAction
  * provided in the DescribeFileSystems operation response.
  */
-export const describeFileSystemAliases =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeFileSystemAliases: {
+  (
     input: DescribeFileSystemAliasesRequest,
-    output: DescribeFileSystemAliasesResponse,
-    errors: [BadRequest, FileSystemNotFound, InternalServerError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeFileSystemAliasesResponse,
+    BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFileSystemAliasesRequest,
+  ) => Stream.Stream<
+    DescribeFileSystemAliasesResponse,
+    BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFileSystemAliasesRequest,
+  ) => Stream.Stream<
+    unknown,
+    BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFileSystemAliasesRequest,
+  output: DescribeFileSystemAliasesResponse,
+  errors: [BadRequest, FileSystemNotFound, InternalServerError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the description of specific Amazon FSx file systems, if a
  * `FileSystemIds` value is provided for that file system. Otherwise, it
@@ -4114,17 +4273,38 @@ export const describeFileSystemAliases =
  * `DescribeFileSystems` call and the order of file systems returned
  * across the responses of a multicall iteration is unspecified.
  */
-export const describeFileSystems =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeFileSystems: {
+  (
     input: DescribeFileSystemsRequest,
-    output: DescribeFileSystemsResponse,
-    errors: [BadRequest, FileSystemNotFound, InternalServerError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeFileSystemsResponse,
+    BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFileSystemsRequest,
+  ) => Stream.Stream<
+    DescribeFileSystemsResponse,
+    BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFileSystemsRequest,
+  ) => Stream.Stream<
+    unknown,
+    BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFileSystemsRequest,
+  output: DescribeFileSystemsResponse,
+  errors: [BadRequest, FileSystemNotFound, InternalServerError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Use this action to associate one or more Domain Name Server (DNS) aliases with an existing Amazon FSx for Windows File Server file system.
  * A file system can have a maximum of 50 DNS aliases associated with it at any one time. If you try to
@@ -4139,13 +4319,17 @@ export const describeFileSystems =
  * operation to monitor the status of the aliases Amazon FSx is
  * associating with the file system.
  */
-export const associateFileSystemAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateFileSystemAliasesRequest,
-    output: AssociateFileSystemAliasesResponse,
-    errors: [BadRequest, FileSystemNotFound, InternalServerError],
-  }),
-);
+export const associateFileSystemAliases: (
+  input: AssociateFileSystemAliasesRequest,
+) => Effect.Effect<
+  AssociateFileSystemAliasesResponse,
+  BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateFileSystemAliasesRequest,
+  output: AssociateFileSystemAliasesResponse,
+  errors: [BadRequest, FileSystemNotFound, InternalServerError],
+}));
 /**
  * Returns the description of a specific Amazon File Cache resource, if a
  * `FileCacheIds` value is provided for that cache. Otherwise, it
@@ -4175,18 +4359,38 @@ export const associateFileSystemAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `DescribeFileCaches` call and the order of caches returned
  * across the responses of a multicall iteration is unspecified.
  */
-export const describeFileCaches = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeFileCaches: {
+  (
     input: DescribeFileCachesRequest,
-    output: DescribeFileCachesResponse,
-    errors: [BadRequest, FileCacheNotFound, InternalServerError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeFileCachesResponse,
+    BadRequest | FileCacheNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFileCachesRequest,
+  ) => Stream.Stream<
+    DescribeFileCachesResponse,
+    BadRequest | FileCacheNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFileCachesRequest,
+  ) => Stream.Stream<
+    unknown,
+    BadRequest | FileCacheNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFileCachesRequest,
+  output: DescribeFileCachesResponse,
+  errors: [BadRequest, FileCacheNotFound, InternalServerError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the description of specific Amazon FSx for OpenZFS snapshots, if a
  * `SnapshotIds` value is provided. Otherwise, this operation returns all
@@ -4215,69 +4419,149 @@ export const describeFileCaches = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * `DescribeSnapshots` call and the order of backups returned across
  * the responses of a multi-call iteration is unspecified.
  */
-export const describeSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeSnapshots: {
+  (
     input: DescribeSnapshotsRequest,
-    output: DescribeSnapshotsResponse,
-    errors: [BadRequest, InternalServerError, SnapshotNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Snapshots",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeSnapshotsResponse,
+    BadRequest | InternalServerError | SnapshotNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSnapshotsRequest,
+  ) => Stream.Stream<
+    DescribeSnapshotsResponse,
+    BadRequest | InternalServerError | SnapshotNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSnapshotsRequest,
+  ) => Stream.Stream<
+    Snapshot,
+    BadRequest | InternalServerError | SnapshotNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSnapshotsRequest,
+  output: DescribeSnapshotsResponse,
+  errors: [BadRequest, InternalServerError, SnapshotNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Snapshots",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more Amazon FSx for NetApp ONTAP storage virtual machines (SVMs).
  */
-export const describeStorageVirtualMachines =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeStorageVirtualMachines: {
+  (
     input: DescribeStorageVirtualMachinesRequest,
-    output: DescribeStorageVirtualMachinesResponse,
-    errors: [BadRequest, InternalServerError, StorageVirtualMachineNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "StorageVirtualMachines",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeStorageVirtualMachinesResponse,
+    | BadRequest
+    | InternalServerError
+    | StorageVirtualMachineNotFound
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeStorageVirtualMachinesRequest,
+  ) => Stream.Stream<
+    DescribeStorageVirtualMachinesResponse,
+    | BadRequest
+    | InternalServerError
+    | StorageVirtualMachineNotFound
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeStorageVirtualMachinesRequest,
+  ) => Stream.Stream<
+    StorageVirtualMachine,
+    | BadRequest
+    | InternalServerError
+    | StorageVirtualMachineNotFound
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeStorageVirtualMachinesRequest,
+  output: DescribeStorageVirtualMachinesResponse,
+  errors: [BadRequest, InternalServerError, StorageVirtualMachineNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "StorageVirtualMachines",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more Amazon FSx for NetApp ONTAP or Amazon FSx for
  * OpenZFS volumes.
  */
-export const describeVolumes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeVolumes: {
+  (
     input: DescribeVolumesRequest,
-    output: DescribeVolumesResponse,
-    errors: [BadRequest, InternalServerError, VolumeNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Volumes",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeVolumesResponse,
+    BadRequest | InternalServerError | VolumeNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVolumesRequest,
+  ) => Stream.Stream<
+    DescribeVolumesResponse,
+    BadRequest | InternalServerError | VolumeNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVolumesRequest,
+  ) => Stream.Stream<
+    Volume,
+    BadRequest | InternalServerError | VolumeNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVolumesRequest,
+  output: DescribeVolumesResponse,
+  errors: [BadRequest, InternalServerError, VolumeNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Volumes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the configuration of an existing data repository association
  * on an Amazon FSx for Lustre file system. Data repository associations
  * are supported on all FSx for Lustre 2.12 and 2.15 file systems,
  * excluding `scratch_1` deployment type.
  */
-export const updateDataRepositoryAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDataRepositoryAssociationRequest,
-    output: UpdateDataRepositoryAssociationResponse,
-    errors: [
-      BadRequest,
-      DataRepositoryAssociationNotFound,
-      IncompatibleParameterError,
-      InternalServerError,
-      ServiceLimitExceeded,
-    ],
-  }));
+export const updateDataRepositoryAssociation: (
+  input: UpdateDataRepositoryAssociationRequest,
+) => Effect.Effect<
+  UpdateDataRepositoryAssociationResponse,
+  | BadRequest
+  | DataRepositoryAssociationNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataRepositoryAssociationRequest,
+  output: UpdateDataRepositoryAssociationResponse,
+  errors: [
+    BadRequest,
+    DataRepositoryAssociationNotFound,
+    IncompatibleParameterError,
+    InternalServerError,
+    ServiceLimitExceeded,
+  ],
+}));
 /**
  * Returns the description of a specific Amazon FSx backup, if a
  * `BackupIds` value is provided for that backup. Otherwise, it returns all
@@ -4305,28 +4589,69 @@ export const updateDataRepositoryAssociation =
  * `DescribeBackups` call and the order of the backups returned
  * across the responses of a multi-call iteration is unspecified.
  */
-export const describeBackups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeBackups: {
+  (
     input: DescribeBackupsRequest,
-    output: DescribeBackupsResponse,
-    errors: [
-      BackupNotFound,
-      BadRequest,
-      FileSystemNotFound,
-      InternalServerError,
-      VolumeNotFound,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeBackupsResponse,
+    | BackupNotFound
+    | BadRequest
+    | FileSystemNotFound
+    | InternalServerError
+    | VolumeNotFound
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeBackupsRequest,
+  ) => Stream.Stream<
+    DescribeBackupsResponse,
+    | BackupNotFound
+    | BadRequest
+    | FileSystemNotFound
+    | InternalServerError
+    | VolumeNotFound
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeBackupsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BackupNotFound
+    | BadRequest
+    | FileSystemNotFound
+    | InternalServerError
+    | VolumeNotFound
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeBackupsRequest,
+  output: DescribeBackupsResponse,
+  errors: [
+    BackupNotFound,
+    BadRequest,
+    FileSystemNotFound,
+    InternalServerError,
+    VolumeNotFound,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the name of an Amazon FSx for OpenZFS snapshot.
  */
-export const updateSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSnapshot: (
+  input: UpdateSnapshotRequest,
+) => Effect.Effect<
+  UpdateSnapshotResponse,
+  BadRequest | InternalServerError | SnapshotNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSnapshotRequest,
   output: UpdateSnapshotResponse,
   errors: [BadRequest, InternalServerError, SnapshotNotFound],
@@ -4339,7 +4664,13 @@ export const updateSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The `DeleteSnapshot` operation returns instantly. The snapshot appears with
  * the lifecycle status of `DELETING` until the deletion is complete.
  */
-export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSnapshot: (
+  input: DeleteSnapshotRequest,
+) => Effect.Effect<
+  DeleteSnapshotResponse,
+  BadRequest | InternalServerError | SnapshotNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSnapshotRequest,
   output: DeleteSnapshotResponse,
   errors: [BadRequest, InternalServerError, SnapshotNotFound],
@@ -4348,29 +4679,41 @@ export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an existing Amazon FSx for ONTAP storage virtual machine (SVM). Prior
  * to deleting an SVM, you must delete all non-root volumes in the SVM, otherwise the operation will fail.
  */
-export const deleteStorageVirtualMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStorageVirtualMachineRequest,
-    output: DeleteStorageVirtualMachineResponse,
-    errors: [
-      BadRequest,
-      IncompatibleParameterError,
-      InternalServerError,
-      StorageVirtualMachineNotFound,
-    ],
-  }),
-);
+export const deleteStorageVirtualMachine: (
+  input: DeleteStorageVirtualMachineRequest,
+) => Effect.Effect<
+  DeleteStorageVirtualMachineResponse,
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | StorageVirtualMachineNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStorageVirtualMachineRequest,
+  output: DeleteStorageVirtualMachineResponse,
+  errors: [
+    BadRequest,
+    IncompatibleParameterError,
+    InternalServerError,
+    StorageVirtualMachineNotFound,
+  ],
+}));
 /**
  * Returns an Amazon FSx for OpenZFS volume to the state saved by the specified
  * snapshot.
  */
-export const restoreVolumeFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RestoreVolumeFromSnapshotRequest,
-    output: RestoreVolumeFromSnapshotResponse,
-    errors: [BadRequest, InternalServerError, VolumeNotFound],
-  }),
-);
+export const restoreVolumeFromSnapshot: (
+  input: RestoreVolumeFromSnapshotRequest,
+) => Effect.Effect<
+  RestoreVolumeFromSnapshotResponse,
+  BadRequest | InternalServerError | VolumeNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreVolumeFromSnapshotRequest,
+  output: RestoreVolumeFromSnapshotResponse,
+  errors: [BadRequest, InternalServerError, VolumeNotFound],
+}));
 /**
  * Deletes an Amazon File Cache resource. After deletion, the cache no longer exists, and its data
  * is gone.
@@ -4385,7 +4728,18 @@ export const restoreVolumeFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * The data in a deleted cache is also deleted and can't be recovered by
  * any means.
  */
-export const deleteFileCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFileCache: (
+  input: DeleteFileCacheRequest,
+) => Effect.Effect<
+  DeleteFileCacheResponse,
+  | BadRequest
+  | FileCacheNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFileCacheRequest,
   output: DeleteFileCacheResponse,
   errors: [
@@ -4400,19 +4754,28 @@ export const deleteFileCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Releases the file system lock from an Amazon FSx for OpenZFS file
  * system.
  */
-export const releaseFileSystemNfsV3Locks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ReleaseFileSystemNfsV3LocksRequest,
-    output: ReleaseFileSystemNfsV3LocksResponse,
-    errors: [
-      BadRequest,
-      FileSystemNotFound,
-      IncompatibleParameterError,
-      InternalServerError,
-      ServiceLimitExceeded,
-    ],
-  }),
-);
+export const releaseFileSystemNfsV3Locks: (
+  input: ReleaseFileSystemNfsV3LocksRequest,
+) => Effect.Effect<
+  ReleaseFileSystemNfsV3LocksResponse,
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReleaseFileSystemNfsV3LocksRequest,
+  output: ReleaseFileSystemNfsV3LocksResponse,
+  errors: [
+    BadRequest,
+    FileSystemNotFound,
+    IncompatibleParameterError,
+    InternalServerError,
+    ServiceLimitExceeded,
+  ],
+}));
 /**
  * Deletes a data repository association on an Amazon FSx for Lustre
  * file system. Deleting the data repository association unlinks the
@@ -4422,34 +4785,52 @@ export const releaseFileSystemNfsV3Locks = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * associations are supported on all FSx for Lustre 2.12 and 2.15 file
  * systems, excluding `scratch_1` deployment type.
  */
-export const deleteDataRepositoryAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDataRepositoryAssociationRequest,
-    output: DeleteDataRepositoryAssociationResponse,
-    errors: [
-      BadRequest,
-      DataRepositoryAssociationNotFound,
-      IncompatibleParameterError,
-      InternalServerError,
-      ServiceLimitExceeded,
-    ],
-  }));
+export const deleteDataRepositoryAssociation: (
+  input: DeleteDataRepositoryAssociationRequest,
+) => Effect.Effect<
+  DeleteDataRepositoryAssociationResponse,
+  | BadRequest
+  | DataRepositoryAssociationNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataRepositoryAssociationRequest,
+  output: DeleteDataRepositoryAssociationResponse,
+  errors: [
+    BadRequest,
+    DataRepositoryAssociationNotFound,
+    IncompatibleParameterError,
+    InternalServerError,
+    ServiceLimitExceeded,
+  ],
+}));
 /**
  * Updates an existing volume by using a snapshot from another Amazon FSx for OpenZFS file system. For more information, see on-demand data replication in the Amazon FSx for OpenZFS User
  * Guide.
  */
-export const copySnapshotAndUpdateVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CopySnapshotAndUpdateVolumeRequest,
-    output: CopySnapshotAndUpdateVolumeResponse,
-    errors: [
-      BadRequest,
-      IncompatibleParameterError,
-      InternalServerError,
-      ServiceLimitExceeded,
-    ],
-  }),
-);
+export const copySnapshotAndUpdateVolume: (
+  input: CopySnapshotAndUpdateVolumeRequest,
+) => Effect.Effect<
+  CopySnapshotAndUpdateVolumeResponse,
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CopySnapshotAndUpdateVolumeRequest,
+  output: CopySnapshotAndUpdateVolumeResponse,
+  errors: [
+    BadRequest,
+    IncompatibleParameterError,
+    InternalServerError,
+    ServiceLimitExceeded,
+  ],
+}));
 /**
  * Creates a snapshot of an existing Amazon FSx for OpenZFS volume. With
  * snapshots, you can easily undo file changes and compare file versions by restoring the
@@ -4479,7 +4860,17 @@ export const copySnapshotAndUpdateVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * the DescribeSnapshots operation, which returns the snapshot state along with
  * other information.
  */
-export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSnapshot: (
+  input: CreateSnapshotRequest,
+) => Effect.Effect<
+  CreateSnapshotResponse,
+  | BadRequest
+  | InternalServerError
+  | ServiceLimitExceeded
+  | VolumeNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotRequest,
   output: CreateSnapshotResponse,
   errors: [
@@ -4537,7 +4928,18 @@ export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The data in a deleted file system is also deleted and can't be recovered by
  * any means.
  */
-export const deleteFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFileSystem: (
+  input: DeleteFileSystemRequest,
+) => Effect.Effect<
+  DeleteFileSystemResponse,
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFileSystemRequest,
   output: DeleteFileSystemResponse,
   errors: [
@@ -4552,7 +4954,18 @@ export const deleteFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS
  * volume.
  */
-export const deleteVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVolume: (
+  input: DeleteVolumeRequest,
+) => Effect.Effect<
+  DeleteVolumeResponse,
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | VolumeNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVolumeRequest,
   output: DeleteVolumeResponse,
   errors: [
@@ -4573,7 +4986,20 @@ export const deleteVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The data in a deleted backup is also deleted and can't be recovered by any
  * means.
  */
-export const deleteBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBackup: (
+  input: DeleteBackupRequest,
+) => Effect.Effect<
+  DeleteBackupResponse,
+  | BackupBeingCopied
+  | BackupInProgress
+  | BackupNotFound
+  | BackupRestoring
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBackupRequest,
   output: DeleteBackupResponse,
   errors: [
@@ -4609,23 +5035,59 @@ export const deleteBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * request with the `NextToken` request parameter set to the value of
  * `NextToken` from the last response.
  */
-export const describeDataRepositoryAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDataRepositoryAssociations: {
+  (
     input: DescribeDataRepositoryAssociationsRequest,
-    output: DescribeDataRepositoryAssociationsResponse,
-    errors: [
-      BadRequest,
-      DataRepositoryAssociationNotFound,
-      FileSystemNotFound,
-      InternalServerError,
-      InvalidDataRepositoryType,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeDataRepositoryAssociationsResponse,
+    | BadRequest
+    | DataRepositoryAssociationNotFound
+    | FileSystemNotFound
+    | InternalServerError
+    | InvalidDataRepositoryType
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDataRepositoryAssociationsRequest,
+  ) => Stream.Stream<
+    DescribeDataRepositoryAssociationsResponse,
+    | BadRequest
+    | DataRepositoryAssociationNotFound
+    | FileSystemNotFound
+    | InternalServerError
+    | InvalidDataRepositoryType
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDataRepositoryAssociationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequest
+    | DataRepositoryAssociationNotFound
+    | FileSystemNotFound
+    | InternalServerError
+    | InvalidDataRepositoryType
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDataRepositoryAssociationsRequest,
+  output: DescribeDataRepositoryAssociationsResponse,
+  errors: [
+    BadRequest,
+    DataRepositoryAssociationNotFound,
+    FileSystemNotFound,
+    InternalServerError,
+    InvalidDataRepositoryType,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository tasks, if
  * one or more `TaskIds` values are provided in the request, or if filters are used in the request.
@@ -4639,22 +5101,55 @@ export const describeDataRepositoryAssociations =
  * request with the `NextToken` request parameter set to the value of
  * `NextToken` from the last response.
  */
-export const describeDataRepositoryTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDataRepositoryTasks: {
+  (
     input: DescribeDataRepositoryTasksRequest,
-    output: DescribeDataRepositoryTasksResponse,
-    errors: [
-      BadRequest,
-      DataRepositoryTaskNotFound,
-      FileSystemNotFound,
-      InternalServerError,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeDataRepositoryTasksResponse,
+    | BadRequest
+    | DataRepositoryTaskNotFound
+    | FileSystemNotFound
+    | InternalServerError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDataRepositoryTasksRequest,
+  ) => Stream.Stream<
+    DescribeDataRepositoryTasksResponse,
+    | BadRequest
+    | DataRepositoryTaskNotFound
+    | FileSystemNotFound
+    | InternalServerError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDataRepositoryTasksRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequest
+    | DataRepositoryTaskNotFound
+    | FileSystemNotFound
+    | InternalServerError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDataRepositoryTasksRequest,
+  output: DescribeDataRepositoryTasksResponse,
+  errors: [
+    BadRequest,
+    DataRepositoryTaskNotFound,
+    FileSystemNotFound,
+    InternalServerError,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Detaches an S3 access point from an Amazon FSx volume and deletes the S3 access point.
  *
@@ -4664,22 +5159,43 @@ export const describeDataRepositoryTasks =
  *
  * - `s3:DeleteAccessPoint`
  */
-export const detachAndDeleteS3AccessPoint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DetachAndDeleteS3AccessPointRequest,
-    output: DetachAndDeleteS3AccessPointResponse,
-    errors: [
-      BadRequest,
-      IncompatibleParameterError,
-      InternalServerError,
-      S3AccessPointAttachmentNotFound,
-      UnsupportedOperation,
-    ],
-  }));
+export const detachAndDeleteS3AccessPoint: (
+  input: DetachAndDeleteS3AccessPointRequest,
+) => Effect.Effect<
+  DetachAndDeleteS3AccessPointResponse,
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | S3AccessPointAttachmentNotFound
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachAndDeleteS3AccessPointRequest,
+  output: DetachAndDeleteS3AccessPointResponse,
+  errors: [
+    BadRequest,
+    IncompatibleParameterError,
+    InternalServerError,
+    S3AccessPointAttachmentNotFound,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Updates the configuration of an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume.
  */
-export const updateVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVolume: (
+  input: UpdateVolumeRequest,
+) => Effect.Effect<
+  UpdateVolumeResponse,
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | MissingVolumeConfiguration
+  | VolumeNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVolumeRequest,
   output: UpdateVolumeResponse,
   errors: [
@@ -4739,7 +5255,21 @@ export const updateVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * DescribeBackups operation, which returns the backup state along with other
  * information.
  */
-export const createBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBackup: (
+  input: CreateBackupRequest,
+) => Effect.Effect<
+  CreateBackupResponse,
+  | BackupInProgress
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | UnsupportedOperation
+  | VolumeNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBackupRequest,
   output: CreateBackupResponse,
   errors: [
@@ -4767,35 +5297,53 @@ export const createBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For a release task, Amazon FSx will stop releasing files upon cancellation. Any files that
  * have already been released will remain in the released state.
  */
-export const cancelDataRepositoryTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelDataRepositoryTaskRequest,
-    output: CancelDataRepositoryTaskResponse,
-    errors: [
-      BadRequest,
-      DataRepositoryTaskEnded,
-      DataRepositoryTaskNotFound,
-      InternalServerError,
-      UnsupportedOperation,
-    ],
-  }),
-);
+export const cancelDataRepositoryTask: (
+  input: CancelDataRepositoryTaskRequest,
+) => Effect.Effect<
+  CancelDataRepositoryTaskResponse,
+  | BadRequest
+  | DataRepositoryTaskEnded
+  | DataRepositoryTaskNotFound
+  | InternalServerError
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelDataRepositoryTaskRequest,
+  output: CancelDataRepositoryTaskResponse,
+  errors: [
+    BadRequest,
+    DataRepositoryTaskEnded,
+    DataRepositoryTaskNotFound,
+    InternalServerError,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Updates an FSx for ONTAP storage virtual machine (SVM).
  */
-export const updateStorageVirtualMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateStorageVirtualMachineRequest,
-    output: UpdateStorageVirtualMachineResponse,
-    errors: [
-      BadRequest,
-      IncompatibleParameterError,
-      InternalServerError,
-      StorageVirtualMachineNotFound,
-      UnsupportedOperation,
-    ],
-  }),
-);
+export const updateStorageVirtualMachine: (
+  input: UpdateStorageVirtualMachineRequest,
+) => Effect.Effect<
+  UpdateStorageVirtualMachineResponse,
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | StorageVirtualMachineNotFound
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStorageVirtualMachineRequest,
+  output: UpdateStorageVirtualMachineResponse,
+  errors: [
+    BadRequest,
+    IncompatibleParameterError,
+    InternalServerError,
+    StorageVirtualMachineNotFound,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Creates an Amazon FSx for Lustre data repository association (DRA). A data
  * repository association is a link between a directory on the file system and
@@ -4815,24 +5363,48 @@ export const updateStorageVirtualMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * on Amazon File Cache resources. To create a DRA on Amazon File Cache,
  * use the `CreateFileCache` operation.
  */
-export const createDataRepositoryAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDataRepositoryAssociationRequest,
-    output: CreateDataRepositoryAssociationResponse,
-    errors: [
-      BadRequest,
-      FileSystemNotFound,
-      IncompatibleParameterError,
-      InternalServerError,
-      ServiceLimitExceeded,
-      UnsupportedOperation,
-    ],
-  }));
+export const createDataRepositoryAssociation: (
+  input: CreateDataRepositoryAssociationRequest,
+) => Effect.Effect<
+  CreateDataRepositoryAssociationResponse,
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataRepositoryAssociationRequest,
+  output: CreateDataRepositoryAssociationResponse,
+  errors: [
+    BadRequest,
+    FileSystemNotFound,
+    IncompatibleParameterError,
+    InternalServerError,
+    ServiceLimitExceeded,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Updates the configuration of an existing Amazon File Cache resource.
  * You can update multiple properties in a single request.
  */
-export const updateFileCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFileCache: (
+  input: UpdateFileCacheRequest,
+) => Effect.Effect<
+  UpdateFileCacheResponse,
+  | BadRequest
+  | FileCacheNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | MissingFileCacheConfiguration
+  | ServiceLimitExceeded
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFileCacheRequest,
   output: UpdateFileCacheResponse,
   errors: [
@@ -4865,21 +5437,32 @@ export const updateFileCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To learn more about linking a data repository to your file system, see
  * Linking your file system to an S3 bucket.
  */
-export const createDataRepositoryTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataRepositoryTaskRequest,
-    output: CreateDataRepositoryTaskResponse,
-    errors: [
-      BadRequest,
-      DataRepositoryTaskExecuting,
-      FileSystemNotFound,
-      IncompatibleParameterError,
-      InternalServerError,
-      ServiceLimitExceeded,
-      UnsupportedOperation,
-    ],
-  }),
-);
+export const createDataRepositoryTask: (
+  input: CreateDataRepositoryTaskRequest,
+) => Effect.Effect<
+  CreateDataRepositoryTaskResponse,
+  | BadRequest
+  | DataRepositoryTaskExecuting
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataRepositoryTaskRequest,
+  output: CreateDataRepositoryTaskResponse,
+  errors: [
+    BadRequest,
+    DataRepositoryTaskExecuting,
+    FileSystemNotFound,
+    IncompatibleParameterError,
+    InternalServerError,
+    ServiceLimitExceeded,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Describes one or more S3 access points attached to Amazon FSx volumes.
  *
@@ -4887,65 +5470,135 @@ export const createDataRepositoryTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - `fsx:DescribeS3AccessPointAttachments`
  */
-export const describeS3AccessPointAttachments =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeS3AccessPointAttachments: {
+  (
     input: DescribeS3AccessPointAttachmentsRequest,
-    output: DescribeS3AccessPointAttachmentsResponse,
-    errors: [
-      BadRequest,
-      InternalServerError,
-      S3AccessPointAttachmentNotFound,
-      UnsupportedOperation,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "S3AccessPointAttachments",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeS3AccessPointAttachmentsResponse,
+    | BadRequest
+    | InternalServerError
+    | S3AccessPointAttachmentNotFound
+    | UnsupportedOperation
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeS3AccessPointAttachmentsRequest,
+  ) => Stream.Stream<
+    DescribeS3AccessPointAttachmentsResponse,
+    | BadRequest
+    | InternalServerError
+    | S3AccessPointAttachmentNotFound
+    | UnsupportedOperation
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeS3AccessPointAttachmentsRequest,
+  ) => Stream.Stream<
+    S3AccessPointAttachment,
+    | BadRequest
+    | InternalServerError
+    | S3AccessPointAttachmentNotFound
+    | UnsupportedOperation
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeS3AccessPointAttachmentsRequest,
+  output: DescribeS3AccessPointAttachmentsResponse,
+  errors: [
+    BadRequest,
+    InternalServerError,
+    S3AccessPointAttachmentNotFound,
+    UnsupportedOperation,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "S3AccessPointAttachments",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a new Amazon FSx for NetApp ONTAP volume from an
  * existing Amazon FSx volume backup.
  */
-export const createVolumeFromBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVolumeFromBackupRequest,
-    output: CreateVolumeFromBackupResponse,
-    errors: [
-      BackupNotFound,
-      BadRequest,
-      FileSystemNotFound,
-      IncompatibleParameterError,
-      InternalServerError,
-      MissingVolumeConfiguration,
-      ServiceLimitExceeded,
-      StorageVirtualMachineNotFound,
-    ],
-  }),
-);
+export const createVolumeFromBackup: (
+  input: CreateVolumeFromBackupRequest,
+) => Effect.Effect<
+  CreateVolumeFromBackupResponse,
+  | BackupNotFound
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | MissingVolumeConfiguration
+  | ServiceLimitExceeded
+  | StorageVirtualMachineNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVolumeFromBackupRequest,
+  output: CreateVolumeFromBackupResponse,
+  errors: [
+    BackupNotFound,
+    BadRequest,
+    FileSystemNotFound,
+    IncompatibleParameterError,
+    InternalServerError,
+    MissingVolumeConfiguration,
+    ServiceLimitExceeded,
+    StorageVirtualMachineNotFound,
+  ],
+}));
 /**
  * Creates a storage virtual machine (SVM) for an Amazon FSx for ONTAP file system.
  */
-export const createStorageVirtualMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateStorageVirtualMachineRequest,
-    output: CreateStorageVirtualMachineResponse,
-    errors: [
-      ActiveDirectoryError,
-      BadRequest,
-      FileSystemNotFound,
-      IncompatibleParameterError,
-      InternalServerError,
-      ServiceLimitExceeded,
-      UnsupportedOperation,
-    ],
-  }),
-);
+export const createStorageVirtualMachine: (
+  input: CreateStorageVirtualMachineRequest,
+) => Effect.Effect<
+  CreateStorageVirtualMachineResponse,
+  | ActiveDirectoryError
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStorageVirtualMachineRequest,
+  output: CreateStorageVirtualMachineResponse,
+  errors: [
+    ActiveDirectoryError,
+    BadRequest,
+    FileSystemNotFound,
+    IncompatibleParameterError,
+    InternalServerError,
+    ServiceLimitExceeded,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Creates an FSx for ONTAP or Amazon FSx for OpenZFS storage volume.
  */
-export const createVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVolume: (
+  input: CreateVolumeRequest,
+) => Effect.Effect<
+  CreateVolumeResponse,
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | MissingVolumeConfiguration
+  | ServiceLimitExceeded
+  | StorageVirtualMachineNotFound
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVolumeRequest,
   output: CreateVolumeResponse,
   errors: [
@@ -5067,7 +5720,21 @@ export const createVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `WeeklyMaintenanceStartTime`
  */
-export const updateFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFileSystem: (
+  input: UpdateFileSystemRequest,
+) => Effect.Effect<
+  UpdateFileSystemResponse,
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | InvalidNetworkSettings
+  | MissingFileSystemConfiguration
+  | ServiceLimitExceeded
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFileSystemRequest,
   output: UpdateFileSystemResponse,
   errors: [
@@ -5106,23 +5773,59 @@ export const updateFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `ListTagsForResource` call and the order of tags returned across
  * the responses of a multi-call iteration is unspecified.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceRequest,
-    output: ListTagsForResourceResponse,
-    errors: [
-      BadRequest,
-      InternalServerError,
-      NotServiceResourceError,
-      ResourceDoesNotSupportTagging,
-      ResourceNotFound,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceResponse,
+    | BadRequest
+    | InternalServerError
+    | NotServiceResourceError
+    | ResourceDoesNotSupportTagging
+    | ResourceNotFound
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    ListTagsForResourceResponse,
+    | BadRequest
+    | InternalServerError
+    | NotServiceResourceError
+    | ResourceDoesNotSupportTagging
+    | ResourceNotFound
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequest
+    | InternalServerError
+    | NotServiceResourceError
+    | ResourceDoesNotSupportTagging
+    | ResourceNotFound
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    BadRequest,
+    InternalServerError,
+    NotServiceResourceError,
+    ResourceDoesNotSupportTagging,
+    ResourceNotFound,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a new Amazon File Cache resource.
  *
@@ -5145,7 +5848,20 @@ export const listTagsForResource =
  * by calling the DescribeFileCaches operation, which returns the cache state
  * along with other information.
  */
-export const createFileCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFileCache: (
+  input: CreateFileCacheRequest,
+) => Effect.Effect<
+  CreateFileCacheResponse,
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | InvalidNetworkSettings
+  | InvalidPerUnitStorageThroughput
+  | MissingFileCacheConfiguration
+  | ServiceLimitExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFileCacheRequest,
   output: CreateFileCacheResponse,
   errors: [
@@ -5161,7 +5877,18 @@ export const createFileCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Tags an Amazon FSx resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequest
+  | InternalServerError
+  | NotServiceResourceError
+  | ResourceDoesNotSupportTagging
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -5175,7 +5902,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This action removes a tag from an Amazon FSx resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequest
+  | InternalServerError
+  | NotServiceResourceError
+  | ResourceDoesNotSupportTagging
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -5219,23 +5957,36 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * DescribeFileSystems operation, which returns the file system state along
  * with other information.
  */
-export const createFileSystemFromBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateFileSystemFromBackupRequest,
-    output: CreateFileSystemFromBackupResponse,
-    errors: [
-      ActiveDirectoryError,
-      BackupNotFound,
-      BadRequest,
-      IncompatibleParameterError,
-      InternalServerError,
-      InvalidNetworkSettings,
-      InvalidPerUnitStorageThroughput,
-      MissingFileSystemConfiguration,
-      ServiceLimitExceeded,
-    ],
-  }),
-);
+export const createFileSystemFromBackup: (
+  input: CreateFileSystemFromBackupRequest,
+) => Effect.Effect<
+  CreateFileSystemFromBackupResponse,
+  | ActiveDirectoryError
+  | BackupNotFound
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | InvalidNetworkSettings
+  | InvalidPerUnitStorageThroughput
+  | MissingFileSystemConfiguration
+  | ServiceLimitExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFileSystemFromBackupRequest,
+  output: CreateFileSystemFromBackupResponse,
+  errors: [
+    ActiveDirectoryError,
+    BackupNotFound,
+    BadRequest,
+    IncompatibleParameterError,
+    InternalServerError,
+    InvalidNetworkSettings,
+    InvalidPerUnitStorageThroughput,
+    MissingFileSystemConfiguration,
+    ServiceLimitExceeded,
+  ],
+}));
 /**
  * Creates a new, empty Amazon FSx file system. You can create the following supported
  * Amazon FSx file systems using the `CreateFileSystem` API operation:
@@ -5275,7 +6026,23 @@ export const createFileSystemFromBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * by calling the DescribeFileSystems operation, which returns the file system state
  * along with other information.
  */
-export const createFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFileSystem: (
+  input: CreateFileSystemRequest,
+) => Effect.Effect<
+  CreateFileSystemResponse,
+  | ActiveDirectoryError
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | InvalidExportPath
+  | InvalidImportPath
+  | InvalidNetworkSettings
+  | InvalidPerUnitStorageThroughput
+  | MissingFileSystemConfiguration
+  | ServiceLimitExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFileSystemRequest,
   output: CreateFileSystemResponse,
   errors: [
@@ -5318,7 +6085,24 @@ export const createFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Guide, and Copying backups in the Amazon FSx for OpenZFS User
  * Guide.
  */
-export const copyBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copyBackup: (
+  input: CopyBackupRequest,
+) => Effect.Effect<
+  CopyBackupResponse,
+  | BackupNotFound
+  | BadRequest
+  | IncompatibleParameterError
+  | IncompatibleRegionForMultiAZ
+  | InternalServerError
+  | InvalidDestinationKmsKey
+  | InvalidRegion
+  | InvalidSourceKmsKey
+  | ServiceLimitExceeded
+  | SourceBackupUnavailable
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyBackupRequest,
   output: CopyBackupResponse,
   errors: [
@@ -5359,19 +6143,33 @@ export const copyBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - DetachAndDeleteS3AccessPoint
  */
-export const createAndAttachS3AccessPoint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateAndAttachS3AccessPointRequest,
-    output: CreateAndAttachS3AccessPointResponse,
-    errors: [
-      AccessPointAlreadyOwnedByYou,
-      BadRequest,
-      IncompatibleParameterError,
-      InternalServerError,
-      InvalidAccessPoint,
-      InvalidRequest,
-      TooManyAccessPoints,
-      UnsupportedOperation,
-      VolumeNotFound,
-    ],
-  }));
+export const createAndAttachS3AccessPoint: (
+  input: CreateAndAttachS3AccessPointRequest,
+) => Effect.Effect<
+  CreateAndAttachS3AccessPointResponse,
+  | AccessPointAlreadyOwnedByYou
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | InvalidAccessPoint
+  | InvalidRequest
+  | TooManyAccessPoints
+  | UnsupportedOperation
+  | VolumeNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAndAttachS3AccessPointRequest,
+  output: CreateAndAttachS3AccessPointResponse,
+  errors: [
+    AccessPointAlreadyOwnedByYou,
+    BadRequest,
+    IncompatibleParameterError,
+    InternalServerError,
+    InvalidAccessPoint,
+    InvalidRequest,
+    TooManyAccessPoints,
+    UnsupportedOperation,
+    VolumeNotFound,
+  ],
+}));

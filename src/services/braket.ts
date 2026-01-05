@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "Braket", serviceShapeName: "Braket" });
 const auth = T.AwsAuthSigv4({ name: "braket" });
 const ver = T.ServiceVersion("2019-09-01");
@@ -237,6 +245,41 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type DeviceArn = string;
+export type String64 = string;
+export type RoleArn = string;
+export type JobArn = string;
+export type HybridJobAdditionalAttributeName = string;
+export type JsonValue = string;
+export type JobToken = string;
+export type QuantumTaskArn = string;
+export type QuantumTaskAdditionalAttributeName = string;
+export type SpendingLimitArn = string;
+export type String256 = string;
+export type String2048 = string;
+export type S3Path = string;
+export type String4096 = string;
+export type InstanceType = string;
+export type BraketResourceArn = string;
+export type AssociationType = string;
+export type SearchJobsFilterOperator = string;
+export type ExperimentalCapabilitiesEnablementType = string;
+export type SearchQuantumTasksFilterOperator = string;
+export type SearchSpendingLimitsFilterOperator = string;
+export type DeviceType = string;
+export type DeviceStatus = string;
+export type JobPrimaryStatus = string;
+export type String1024 = string;
+export type CancellationStatus = string;
+export type QuantumTaskStatus = string;
+export type CompressionType = string;
+export type Uri = string;
+export type QueueName = string;
+export type QueuePriority = string;
+export type JobEventType = string;
+export type ValidationExceptionReason = string;
 
 //# Schemas
 export type TagKeys = string[];
@@ -544,6 +587,7 @@ export const SearchJobsFilter = S.suspend(() =>
 }) as any as S.Schema<SearchJobsFilter>;
 export type SearchJobsFilterList = SearchJobsFilter[];
 export const SearchJobsFilterList = S.Array(SearchJobsFilter);
+export type ExperimentalCapabilities = { enabled: string };
 export const ExperimentalCapabilities = S.Union(
   S.Struct({ enabled: S.String }),
 );
@@ -1268,7 +1312,9 @@ export const CreateJobResponse = S.suspend(() =>
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
@@ -1284,7 +1330,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class DeviceOfflineException extends S.TaggedError<DeviceOfflineException>()(
   "DeviceOfflineException",
   { message: S.optional(S.String) },
@@ -1310,7 +1358,16 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Remove tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1322,7 +1379,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Shows the tags associated with this resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1334,7 +1400,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Add a tag to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1348,7 +1423,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For backwards compatibility with older versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get this information the user-agent needs to present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK automatically reports this for you. If you do not see OpenQASM results in the GetDevice response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment variable to configure user-agent. See the code examples provided below for how to do this for the AWS CLI, Boto3, and the Go, Java, and JavaScript/TypeScript SDKs.
  */
-export const getDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDevice: (
+  input: GetDeviceRequest,
+) => Effect.Effect<
+  GetDeviceResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeviceRequest,
   output: GetDeviceResponse,
   errors: [
@@ -1362,28 +1448,94 @@ export const getDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Searches for devices using the specified filters.
  */
-export const searchDevices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchDevices: {
+  (
     input: SearchDevicesRequest,
-    output: SearchDevicesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "devices",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchDevicesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchDevicesRequest,
+  ) => Stream.Stream<
+    SearchDevicesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchDevicesRequest,
+  ) => Stream.Stream<
+    DeviceSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchDevicesRequest,
+  output: SearchDevicesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "devices",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Searches for Amazon Braket hybrid jobs that match the specified filter values.
  */
-export const searchJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchJobs: {
+  (
+    input: SearchJobsRequest,
+  ): Effect.Effect<
+    SearchJobsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchJobsRequest,
+  ) => Stream.Stream<
+    SearchJobsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchJobsRequest,
+  ) => Stream.Stream<
+    JobSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchJobsRequest,
   output: SearchJobsResponse,
   errors: [
@@ -1402,28 +1554,71 @@ export const searchJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Searches for tasks that match the specified filter values.
  */
-export const searchQuantumTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchQuantumTasks: {
+  (
     input: SearchQuantumTasksRequest,
-    output: SearchQuantumTasksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "quantumTasks",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchQuantumTasksResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchQuantumTasksRequest,
+  ) => Stream.Stream<
+    SearchQuantumTasksResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchQuantumTasksRequest,
+  ) => Stream.Stream<
+    QuantumTaskSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchQuantumTasksRequest,
+  output: SearchQuantumTasksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "quantumTasks",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a spending limit for a specified quantum device. Spending limits help you control costs by setting maximum amounts that can be spent on quantum computing tasks within a specified time period. Simulators do not support spending limits.
  */
-export const createSpendingLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSpendingLimit: (
+  input: CreateSpendingLimitRequest,
+) => Effect.Effect<
+  CreateSpendingLimitResponse,
+  | AccessDeniedException
+  | DeviceRetiredException
+  | InternalServiceException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSpendingLimitRequest,
   output: CreateSpendingLimitResponse,
   errors: [
@@ -1437,27 +1632,71 @@ export const createSpendingLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Searches and lists spending limits based on specified filters. This operation supports pagination and allows filtering by various criteria to find specific spending limits. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
-export const searchSpendingLimits =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchSpendingLimits: {
+  (
     input: SearchSpendingLimitsRequest,
-    output: SearchSpendingLimitsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "spendingLimits",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchSpendingLimitsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchSpendingLimitsRequest,
+  ) => Stream.Stream<
+    SearchSpendingLimitsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchSpendingLimitsRequest,
+  ) => Stream.Stream<
+    SpendingLimitSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchSpendingLimitsRequest,
+  output: SearchSpendingLimitsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "spendingLimits",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the specified Amazon Braket hybrid job.
  */
-export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJob: (
+  input: GetJobRequest,
+) => Effect.Effect<
+  GetJobResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRequest,
   output: GetJobResponse,
   errors: [
@@ -1471,7 +1710,18 @@ export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the specified quantum task.
  */
-export const getQuantumTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getQuantumTask: (
+  input: GetQuantumTaskRequest,
+) => Effect.Effect<
+  GetQuantumTaskResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQuantumTaskRequest,
   output: GetQuantumTaskResponse,
   errors: [
@@ -1485,7 +1735,18 @@ export const getQuantumTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing spending limit. You can modify the spending amount or time period. Changes take effect immediately.
  */
-export const updateSpendingLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSpendingLimit: (
+  input: UpdateSpendingLimitRequest,
+) => Effect.Effect<
+  UpdateSpendingLimitResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSpendingLimitRequest,
   output: UpdateSpendingLimitResponse,
   errors: [
@@ -1499,7 +1760,18 @@ export const updateSpendingLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing spending limit. This operation permanently removes the spending limit and cannot be undone. After deletion, the associated device becomes unrestricted for spending.
  */
-export const deleteSpendingLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSpendingLimit: (
+  input: DeleteSpendingLimitRequest,
+) => Effect.Effect<
+  DeleteSpendingLimitResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSpendingLimitRequest,
   output: DeleteSpendingLimitResponse,
   errors: [
@@ -1513,7 +1785,19 @@ export const deleteSpendingLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels an Amazon Braket hybrid job.
  */
-export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelJob: (
+  input: CancelJobRequest,
+) => Effect.Effect<
+  CancelJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobRequest,
   output: CancelJobResponse,
   errors: [
@@ -1528,7 +1812,19 @@ export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels the specified task.
  */
-export const cancelQuantumTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelQuantumTask: (
+  input: CancelQuantumTaskRequest,
+) => Effect.Effect<
+  CancelQuantumTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelQuantumTaskRequest,
   output: CancelQuantumTaskResponse,
   errors: [
@@ -1543,7 +1839,20 @@ export const cancelQuantumTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a quantum task.
  */
-export const createQuantumTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createQuantumTask: (
+  input: CreateQuantumTaskRequest,
+) => Effect.Effect<
+  CreateQuantumTaskResponse,
+  | AccessDeniedException
+  | DeviceOfflineException
+  | DeviceRetiredException
+  | InternalServiceException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQuantumTaskRequest,
   output: CreateQuantumTaskResponse,
   errors: [
@@ -1559,7 +1868,21 @@ export const createQuantumTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon Braket hybrid job.
  */
-export const createJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createJob: (
+  input: CreateJobRequest,
+) => Effect.Effect<
+  CreateJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DeviceOfflineException
+  | DeviceRetiredException
+  | InternalServiceException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobRequest,
   output: CreateJobResponse,
   errors: [

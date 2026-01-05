@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://codedeploy.amazonaws.com/doc/2014-10-06/");
 const svc = T.AwsApiService({
   sdkId: "CodeDeploy",
@@ -241,6 +249,72 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type InstanceName = string;
+export type ApplicationName = string;
+export type DeploymentGroupName = string;
+export type DeploymentId = string;
+export type InstanceId = string;
+export type TargetId = string;
+export type DeploymentConfigName = string;
+export type Description = string;
+export type AutoScalingGroupName = string;
+export type Role = string;
+export type GitHubAccountTokenName = string;
+export type ExternalId = string;
+export type S3Bucket = string;
+export type S3Key = string;
+export type NextToken = string;
+export type Arn = string;
+export type LifecycleEventHookExecutionId = string;
+export type IamSessionArn = string;
+export type IamUserArn = string;
+export type Key = string;
+export type Value = string;
+export type MinimumHealthyHostsValue = number;
+export type WaitTimeInSeconds = number;
+export type TriggerName = string;
+export type TriggerTargetArn = string;
+export type ECSServiceName = string;
+export type ECSClusterName = string;
+export type FilterValue = string;
+export type ErrorMessage = string;
+export type Message = string;
+export type ApplicationId = string;
+export type VersionId = string;
+export type ETag = string;
+export type Repository = string;
+export type CommitId = string;
+export type RawStringContent = string;
+export type RawStringSha256 = string;
+export type AlarmName = string;
+export type Percentage = number;
+export type WaitTimeInMins = number;
+export type MinimumHealthyHostsPerZoneValue = number;
+export type Duration = number;
+export type ELBName = string;
+export type TargetGroupName = string;
+export type DeploymentGroupId = string;
+export type AdditionalDeploymentStatusInfo = string;
+export type InstanceArn = string;
+export type AutoScalingGroupHook = string;
+export type DeploymentConfigId = string;
+export type ListenerArn = string;
+export type LifecycleEventName = string;
+export type InstanceCount = number;
+export type TargetArn = string;
+export type CloudFormationResourceType = string;
+export type TrafficWeight = number;
+export type ScriptName = string;
+export type LifecycleMessage = string;
+export type LogTail = string;
+export type LambdaFunctionName = string;
+export type LambdaFunctionAlias = string;
+export type Version = string;
+export type ECSTaskSetIdentifier = string;
+export type ECSTaskSetCount = number;
+export type ECSTaskSetStatus = string;
 
 //# Schemas
 export type InstanceNameList = string[];
@@ -3110,55 +3184,103 @@ export class TriggerTargetsLimitExceededException extends S.TaggedError<TriggerT
  * publicly in case you need to delete resources to comply with General Data Protection
  * Regulation (GDPR) requirements.
  */
-export const deleteResourcesByExternalId = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcesByExternalIdInput,
-    output: DeleteResourcesByExternalIdOutput,
-    errors: [],
-  }),
-);
+export const deleteResourcesByExternalId: (
+  input: DeleteResourcesByExternalIdInput,
+) => Effect.Effect<
+  DeleteResourcesByExternalIdOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcesByExternalIdInput,
+  output: DeleteResourcesByExternalIdOutput,
+  errors: [],
+}));
 /**
  * Deregisters an on-premises instance.
  */
-export const deregisterOnPremisesInstance =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterOnPremisesInstanceInput,
-    output: DeregisterOnPremisesInstanceResponse,
-    errors: [InstanceNameRequiredException, InvalidInstanceNameException],
-  }));
+export const deregisterOnPremisesInstance: (
+  input: DeregisterOnPremisesInstanceInput,
+) => Effect.Effect<
+  DeregisterOnPremisesInstanceResponse,
+  | InstanceNameRequiredException
+  | InvalidInstanceNameException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterOnPremisesInstanceInput,
+  output: DeregisterOnPremisesInstanceResponse,
+  errors: [InstanceNameRequiredException, InvalidInstanceNameException],
+}));
 /**
  * Gets information about an on-premises instance.
  */
-export const getOnPremisesInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetOnPremisesInstanceInput,
-    output: GetOnPremisesInstanceOutput,
-    errors: [
-      InstanceNameRequiredException,
-      InstanceNotRegisteredException,
-      InvalidInstanceNameException,
-    ],
-  }),
-);
+export const getOnPremisesInstance: (
+  input: GetOnPremisesInstanceInput,
+) => Effect.Effect<
+  GetOnPremisesInstanceOutput,
+  | InstanceNameRequiredException
+  | InstanceNotRegisteredException
+  | InvalidInstanceNameException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOnPremisesInstanceInput,
+  output: GetOnPremisesInstanceOutput,
+  errors: [
+    InstanceNameRequiredException,
+    InstanceNotRegisteredException,
+    InvalidInstanceNameException,
+  ],
+}));
 /**
  * Lists the applications registered with the user or Amazon Web Services account.
  */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listApplications: {
+  (
     input: ListApplicationsInput,
-    output: ListApplicationsOutput,
-    errors: [InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "applications",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListApplicationsOutput,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationsInput,
+  ) => Stream.Stream<
+    ListApplicationsOutput,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationsInput,
+  ) => Stream.Stream<
+    ApplicationName,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsInput,
+  output: ListApplicationsOutput,
+  errors: [InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "applications",
+  } as const,
+}));
 /**
  * Changes the name of an application.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApplication: (
+  input: UpdateApplicationInput,
+) => Effect.Effect<
+  UpdateApplicationResponse,
+  | ApplicationAlreadyExistsException
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | InvalidApplicationNameException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationInput,
   output: UpdateApplicationResponse,
   errors: [
@@ -3171,7 +3293,16 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about an application.
  */
-export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApplication: (
+  input: GetApplicationInput,
+) => Effect.Effect<
+  GetApplicationOutput,
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | InvalidApplicationNameException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationInput,
   output: GetApplicationOutput,
   errors: [
@@ -3184,56 +3315,127 @@ export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists the deployment groups for an application registered with the Amazon Web Services
  * user or Amazon Web Services account.
  */
-export const listDeploymentGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDeploymentGroups: {
+  (
     input: ListDeploymentGroupsInput,
-    output: ListDeploymentGroupsOutput,
-    errors: [
-      ApplicationDoesNotExistException,
-      ApplicationNameRequiredException,
-      InvalidApplicationNameException,
-      InvalidNextTokenException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "deploymentGroups",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDeploymentGroupsOutput,
+    | ApplicationDoesNotExistException
+    | ApplicationNameRequiredException
+    | InvalidApplicationNameException
+    | InvalidNextTokenException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeploymentGroupsInput,
+  ) => Stream.Stream<
+    ListDeploymentGroupsOutput,
+    | ApplicationDoesNotExistException
+    | ApplicationNameRequiredException
+    | InvalidApplicationNameException
+    | InvalidNextTokenException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeploymentGroupsInput,
+  ) => Stream.Stream<
+    DeploymentGroupName,
+    | ApplicationDoesNotExistException
+    | ApplicationNameRequiredException
+    | InvalidApplicationNameException
+    | InvalidNextTokenException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeploymentGroupsInput,
+  output: ListDeploymentGroupsOutput,
+  errors: [
+    ApplicationDoesNotExistException,
+    ApplicationNameRequiredException,
+    InvalidApplicationNameException,
+    InvalidNextTokenException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "deploymentGroups",
+  } as const,
+}));
 /**
  * Lists the deployment configurations with the user or Amazon Web Services account.
  */
-export const listDeploymentConfigs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDeploymentConfigs: {
+  (
     input: ListDeploymentConfigsInput,
-    output: ListDeploymentConfigsOutput,
-    errors: [InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "deploymentConfigsList",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDeploymentConfigsOutput,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeploymentConfigsInput,
+  ) => Stream.Stream<
+    ListDeploymentConfigsOutput,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeploymentConfigsInput,
+  ) => Stream.Stream<
+    DeploymentConfigName,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeploymentConfigsInput,
+  output: ListDeploymentConfigsOutput,
+  errors: [InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "deploymentConfigsList",
+  } as const,
+}));
 /**
  * Gets information about one or more applications. The maximum number of applications
  * that can be returned is 100.
  */
-export const batchGetApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetApplicationsInput,
-    output: BatchGetApplicationsOutput,
-    errors: [
-      ApplicationDoesNotExistException,
-      ApplicationNameRequiredException,
-      BatchLimitExceededException,
-      InvalidApplicationNameException,
-    ],
-  }),
-);
+export const batchGetApplications: (
+  input: BatchGetApplicationsInput,
+) => Effect.Effect<
+  BatchGetApplicationsOutput,
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | BatchLimitExceededException
+  | InvalidApplicationNameException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetApplicationsInput,
+  output: BatchGetApplicationsOutput,
+  errors: [
+    ApplicationDoesNotExistException,
+    ApplicationNameRequiredException,
+    BatchLimitExceededException,
+    InvalidApplicationNameException,
+  ],
+}));
 /**
  * Deletes an application.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplication: (
+  input: DeleteApplicationInput,
+) => Effect.Effect<
+  DeleteApplicationResponse,
+  | ApplicationNameRequiredException
+  | InvalidApplicationNameException
+  | InvalidRoleException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationInput,
   output: DeleteApplicationResponse,
   errors: [
@@ -3246,21 +3448,38 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets information about one or more on-premises instances. The maximum number of
  * on-premises instances that can be returned is 25.
  */
-export const batchGetOnPremisesInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetOnPremisesInstancesInput,
-    output: BatchGetOnPremisesInstancesOutput,
-    errors: [
-      BatchLimitExceededException,
-      InstanceNameRequiredException,
-      InvalidInstanceNameException,
-    ],
-  }),
-);
+export const batchGetOnPremisesInstances: (
+  input: BatchGetOnPremisesInstancesInput,
+) => Effect.Effect<
+  BatchGetOnPremisesInstancesOutput,
+  | BatchLimitExceededException
+  | InstanceNameRequiredException
+  | InvalidInstanceNameException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetOnPremisesInstancesInput,
+  output: BatchGetOnPremisesInstancesOutput,
+  errors: [
+    BatchLimitExceededException,
+    InstanceNameRequiredException,
+    InvalidInstanceNameException,
+  ],
+}));
 /**
  * Gets information about a deployment configuration.
  */
-export const getDeploymentConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeploymentConfig: (
+  input: GetDeploymentConfigInput,
+) => Effect.Effect<
+  GetDeploymentConfigOutput,
+  | DeploymentConfigDoesNotExistException
+  | DeploymentConfigNameRequiredException
+  | InvalidComputePlatformException
+  | InvalidDeploymentConfigNameException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentConfigInput,
   output: GetDeploymentConfigOutput,
   errors: [
@@ -3276,39 +3495,65 @@ export const getDeploymentConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * A deployment configuration cannot be deleted if it is currently in use. Predefined
  * configurations cannot be deleted.
  */
-export const deleteDeploymentConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDeploymentConfigInput,
-    output: DeleteDeploymentConfigResponse,
-    errors: [
-      DeploymentConfigInUseException,
-      DeploymentConfigNameRequiredException,
-      InvalidDeploymentConfigNameException,
-      InvalidOperationException,
-    ],
-  }),
-);
+export const deleteDeploymentConfig: (
+  input: DeleteDeploymentConfigInput,
+) => Effect.Effect<
+  DeleteDeploymentConfigResponse,
+  | DeploymentConfigInUseException
+  | DeploymentConfigNameRequiredException
+  | InvalidDeploymentConfigNameException
+  | InvalidOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDeploymentConfigInput,
+  output: DeleteDeploymentConfigResponse,
+  errors: [
+    DeploymentConfigInUseException,
+    DeploymentConfigNameRequiredException,
+    InvalidDeploymentConfigNameException,
+    InvalidOperationException,
+  ],
+}));
 /**
  * Deletes a deployment group.
  */
-export const deleteDeploymentGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDeploymentGroupInput,
-    output: DeleteDeploymentGroupOutput,
-    errors: [
-      ApplicationNameRequiredException,
-      DeploymentGroupNameRequiredException,
-      InvalidApplicationNameException,
-      InvalidDeploymentGroupNameException,
-      InvalidRoleException,
-    ],
-  }),
-);
+export const deleteDeploymentGroup: (
+  input: DeleteDeploymentGroupInput,
+) => Effect.Effect<
+  DeleteDeploymentGroupOutput,
+  | ApplicationNameRequiredException
+  | DeploymentGroupNameRequiredException
+  | InvalidApplicationNameException
+  | InvalidDeploymentGroupNameException
+  | InvalidRoleException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDeploymentGroupInput,
+  output: DeleteDeploymentGroupOutput,
+  errors: [
+    ApplicationNameRequiredException,
+    DeploymentGroupNameRequiredException,
+    InvalidApplicationNameException,
+    InvalidDeploymentGroupNameException,
+    InvalidRoleException,
+  ],
+}));
 /**
  * Returns a list of tags for the resource identified by a specified Amazon Resource
  * Name (ARN). Tags are used to organize and categorize your CodeDeploy resources.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | ArnNotSupportedException
+  | InvalidArnException
+  | ResourceArnRequiredException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -3325,7 +3570,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the `sha256` property of the returned `appSpecContent` object
  * to get the content of the deployment’s AppSpec file.
  */
-export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeployment: (
+  input: GetDeploymentInput,
+) => Effect.Effect<
+  GetDeploymentOutput,
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | InvalidDeploymentIdException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentInput,
   output: GetDeploymentOutput,
   errors: [
@@ -3337,25 +3591,49 @@ export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about one or more deployment groups.
  */
-export const batchGetDeploymentGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetDeploymentGroupsInput,
-    output: BatchGetDeploymentGroupsOutput,
-    errors: [
-      ApplicationDoesNotExistException,
-      ApplicationNameRequiredException,
-      BatchLimitExceededException,
-      DeploymentConfigDoesNotExistException,
-      DeploymentGroupNameRequiredException,
-      InvalidApplicationNameException,
-      InvalidDeploymentGroupNameException,
-    ],
-  }),
-);
+export const batchGetDeploymentGroups: (
+  input: BatchGetDeploymentGroupsInput,
+) => Effect.Effect<
+  BatchGetDeploymentGroupsOutput,
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | BatchLimitExceededException
+  | DeploymentConfigDoesNotExistException
+  | DeploymentGroupNameRequiredException
+  | InvalidApplicationNameException
+  | InvalidDeploymentGroupNameException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetDeploymentGroupsInput,
+  output: BatchGetDeploymentGroupsOutput,
+  errors: [
+    ApplicationDoesNotExistException,
+    ApplicationNameRequiredException,
+    BatchLimitExceededException,
+    DeploymentConfigDoesNotExistException,
+    DeploymentGroupNameRequiredException,
+    InvalidApplicationNameException,
+    InvalidDeploymentGroupNameException,
+  ],
+}));
 /**
  * Gets information about a deployment group.
  */
-export const getDeploymentGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeploymentGroup: (
+  input: GetDeploymentGroupInput,
+) => Effect.Effect<
+  GetDeploymentGroupOutput,
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | DeploymentConfigDoesNotExistException
+  | DeploymentGroupDoesNotExistException
+  | DeploymentGroupNameRequiredException
+  | InvalidApplicationNameException
+  | InvalidDeploymentGroupNameException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentGroupInput,
   output: GetDeploymentGroupOutput,
   errors: [
@@ -3371,34 +3649,51 @@ export const getDeploymentGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Registers with CodeDeploy a revision for the specified application.
  */
-export const registerApplicationRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterApplicationRevisionInput,
-    output: RegisterApplicationRevisionResponse,
-    errors: [
-      ApplicationDoesNotExistException,
-      ApplicationNameRequiredException,
-      DescriptionTooLongException,
-      InvalidApplicationNameException,
-      InvalidRevisionException,
-      RevisionRequiredException,
-    ],
-  }),
-);
+export const registerApplicationRevision: (
+  input: RegisterApplicationRevisionInput,
+) => Effect.Effect<
+  RegisterApplicationRevisionResponse,
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | DescriptionTooLongException
+  | InvalidApplicationNameException
+  | InvalidRevisionException
+  | RevisionRequiredException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterApplicationRevisionInput,
+  output: RegisterApplicationRevisionResponse,
+  errors: [
+    ApplicationDoesNotExistException,
+    ApplicationNameRequiredException,
+    DescriptionTooLongException,
+    InvalidApplicationNameException,
+    InvalidRevisionException,
+    RevisionRequiredException,
+  ],
+}));
 /**
  * Lists the names of stored connections to GitHub accounts.
  */
-export const listGitHubAccountTokenNames = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListGitHubAccountTokenNamesInput,
-    output: ListGitHubAccountTokenNamesOutput,
-    errors: [
-      InvalidNextTokenException,
-      OperationNotSupportedException,
-      ResourceValidationException,
-    ],
-  }),
-);
+export const listGitHubAccountTokenNames: (
+  input: ListGitHubAccountTokenNamesInput,
+) => Effect.Effect<
+  ListGitHubAccountTokenNamesOutput,
+  | InvalidNextTokenException
+  | OperationNotSupportedException
+  | ResourceValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGitHubAccountTokenNamesInput,
+  output: ListGitHubAccountTokenNamesOutput,
+  errors: [
+    InvalidNextTokenException,
+    OperationNotSupportedException,
+    ResourceValidationException,
+  ],
+}));
 /**
  * Gets a list of names for one or more on-premises instances.
  *
@@ -3406,22 +3701,38 @@ export const listGitHubAccountTokenNames = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * names are listed. To list only registered or deregistered on-premises instance names,
  * use the registration status parameter.
  */
-export const listOnPremisesInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListOnPremisesInstancesInput,
-    output: ListOnPremisesInstancesOutput,
-    errors: [
-      InvalidNextTokenException,
-      InvalidRegistrationStatusException,
-      InvalidTagFilterException,
-    ],
-  }),
-);
+export const listOnPremisesInstances: (
+  input: ListOnPremisesInstancesInput,
+) => Effect.Effect<
+  ListOnPremisesInstancesOutput,
+  | InvalidNextTokenException
+  | InvalidRegistrationStatusException
+  | InvalidTagFilterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListOnPremisesInstancesInput,
+  output: ListOnPremisesInstancesOutput,
+  errors: [
+    InvalidNextTokenException,
+    InvalidRegistrationStatusException,
+    InvalidTagFilterException,
+  ],
+}));
 /**
  * Gets information about one or more deployments. The maximum number of deployments that
  * can be returned is 25.
  */
-export const batchGetDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetDeployments: (
+  input: BatchGetDeploymentsInput,
+) => Effect.Effect<
+  BatchGetDeploymentsOutput,
+  | BatchLimitExceededException
+  | DeploymentIdRequiredException
+  | InvalidDeploymentIdException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetDeploymentsInput,
   output: BatchGetDeploymentsOutput,
   errors: [
@@ -3434,56 +3745,98 @@ export const batchGetDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets information about one or more application revisions. The maximum number of
  * application revisions that can be returned is 25.
  */
-export const batchGetApplicationRevisions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetApplicationRevisionsInput,
-    output: BatchGetApplicationRevisionsOutput,
-    errors: [
-      ApplicationDoesNotExistException,
-      ApplicationNameRequiredException,
-      BatchLimitExceededException,
-      InvalidApplicationNameException,
-      InvalidRevisionException,
-      RevisionRequiredException,
-    ],
-  }));
+export const batchGetApplicationRevisions: (
+  input: BatchGetApplicationRevisionsInput,
+) => Effect.Effect<
+  BatchGetApplicationRevisionsOutput,
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | BatchLimitExceededException
+  | InvalidApplicationNameException
+  | InvalidRevisionException
+  | RevisionRequiredException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetApplicationRevisionsInput,
+  output: BatchGetApplicationRevisionsOutput,
+  errors: [
+    ApplicationDoesNotExistException,
+    ApplicationNameRequiredException,
+    BatchLimitExceededException,
+    InvalidApplicationNameException,
+    InvalidRevisionException,
+    RevisionRequiredException,
+  ],
+}));
 /**
  * Gets information about an application revision.
  */
-export const getApplicationRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetApplicationRevisionInput,
-    output: GetApplicationRevisionOutput,
-    errors: [
-      ApplicationDoesNotExistException,
-      ApplicationNameRequiredException,
-      InvalidApplicationNameException,
-      InvalidRevisionException,
-      RevisionDoesNotExistException,
-      RevisionRequiredException,
-    ],
-  }),
-);
+export const getApplicationRevision: (
+  input: GetApplicationRevisionInput,
+) => Effect.Effect<
+  GetApplicationRevisionOutput,
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | InvalidApplicationNameException
+  | InvalidRevisionException
+  | RevisionDoesNotExistException
+  | RevisionRequiredException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApplicationRevisionInput,
+  output: GetApplicationRevisionOutput,
+  errors: [
+    ApplicationDoesNotExistException,
+    ApplicationNameRequiredException,
+    InvalidApplicationNameException,
+    InvalidRevisionException,
+    RevisionDoesNotExistException,
+    RevisionRequiredException,
+  ],
+}));
 /**
  * Deletes a GitHub account connection.
  */
-export const deleteGitHubAccountToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteGitHubAccountTokenInput,
-    output: DeleteGitHubAccountTokenOutput,
-    errors: [
-      GitHubAccountTokenDoesNotExistException,
-      GitHubAccountTokenNameRequiredException,
-      InvalidGitHubAccountTokenNameException,
-      OperationNotSupportedException,
-      ResourceValidationException,
-    ],
-  }),
-);
+export const deleteGitHubAccountToken: (
+  input: DeleteGitHubAccountTokenInput,
+) => Effect.Effect<
+  DeleteGitHubAccountTokenOutput,
+  | GitHubAccountTokenDoesNotExistException
+  | GitHubAccountTokenNameRequiredException
+  | InvalidGitHubAccountTokenNameException
+  | OperationNotSupportedException
+  | ResourceValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGitHubAccountTokenInput,
+  output: DeleteGitHubAccountTokenOutput,
+  errors: [
+    GitHubAccountTokenDoesNotExistException,
+    GitHubAccountTokenNameRequiredException,
+    InvalidGitHubAccountTokenNameException,
+    OperationNotSupportedException,
+    ResourceValidationException,
+  ],
+}));
 /**
  * Creates an application.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationInput,
+) => Effect.Effect<
+  CreateApplicationOutput,
+  | ApplicationAlreadyExistsException
+  | ApplicationLimitExceededException
+  | ApplicationNameRequiredException
+  | InvalidApplicationNameException
+  | InvalidComputePlatformException
+  | InvalidTagsToAddException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationInput,
   output: CreateApplicationOutput,
   errors: [
@@ -3504,78 +3857,137 @@ export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `BatchGetDeploymentTargets` works with all compute platforms. The maximum
  * number of instances that can be returned is 25.
  */
-export const batchGetDeploymentInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetDeploymentInstancesInput,
-    output: BatchGetDeploymentInstancesOutput,
-    errors: [
-      BatchLimitExceededException,
-      DeploymentDoesNotExistException,
-      DeploymentIdRequiredException,
-      InstanceIdRequiredException,
-      InvalidComputePlatformException,
-      InvalidDeploymentIdException,
-      InvalidInstanceNameException,
-    ],
-  }),
-);
+export const batchGetDeploymentInstances: (
+  input: BatchGetDeploymentInstancesInput,
+) => Effect.Effect<
+  BatchGetDeploymentInstancesOutput,
+  | BatchLimitExceededException
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | InstanceIdRequiredException
+  | InvalidComputePlatformException
+  | InvalidDeploymentIdException
+  | InvalidInstanceNameException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetDeploymentInstancesInput,
+  output: BatchGetDeploymentInstancesOutput,
+  errors: [
+    BatchLimitExceededException,
+    DeploymentDoesNotExistException,
+    DeploymentIdRequiredException,
+    InstanceIdRequiredException,
+    InvalidComputePlatformException,
+    InvalidDeploymentIdException,
+    InvalidInstanceNameException,
+  ],
+}));
 /**
  * Gets information about an instance as part of a deployment.
  */
-export const getDeploymentInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDeploymentInstanceInput,
-    output: GetDeploymentInstanceOutput,
-    errors: [
-      DeploymentDoesNotExistException,
-      DeploymentIdRequiredException,
-      InstanceDoesNotExistException,
-      InstanceIdRequiredException,
-      InvalidComputePlatformException,
-      InvalidDeploymentIdException,
-      InvalidInstanceNameException,
-    ],
-  }),
-);
+export const getDeploymentInstance: (
+  input: GetDeploymentInstanceInput,
+) => Effect.Effect<
+  GetDeploymentInstanceOutput,
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | InstanceDoesNotExistException
+  | InstanceIdRequiredException
+  | InvalidComputePlatformException
+  | InvalidDeploymentIdException
+  | InvalidInstanceNameException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDeploymentInstanceInput,
+  output: GetDeploymentInstanceOutput,
+  errors: [
+    DeploymentDoesNotExistException,
+    DeploymentIdRequiredException,
+    InstanceDoesNotExistException,
+    InstanceIdRequiredException,
+    InvalidComputePlatformException,
+    InvalidDeploymentIdException,
+    InvalidInstanceNameException,
+  ],
+}));
 /**
  * Removes one or more tags from one or more on-premises instances.
  */
-export const removeTagsFromOnPremisesInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveTagsFromOnPremisesInstancesInput,
-    output: RemoveTagsFromOnPremisesInstancesResponse,
-    errors: [
-      InstanceLimitExceededException,
-      InstanceNameRequiredException,
-      InstanceNotRegisteredException,
-      InvalidInstanceNameException,
-      InvalidTagException,
-      TagLimitExceededException,
-      TagRequiredException,
-    ],
-  }));
+export const removeTagsFromOnPremisesInstances: (
+  input: RemoveTagsFromOnPremisesInstancesInput,
+) => Effect.Effect<
+  RemoveTagsFromOnPremisesInstancesResponse,
+  | InstanceLimitExceededException
+  | InstanceNameRequiredException
+  | InstanceNotRegisteredException
+  | InvalidInstanceNameException
+  | InvalidTagException
+  | TagLimitExceededException
+  | TagRequiredException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTagsFromOnPremisesInstancesInput,
+  output: RemoveTagsFromOnPremisesInstancesResponse,
+  errors: [
+    InstanceLimitExceededException,
+    InstanceNameRequiredException,
+    InstanceNotRegisteredException,
+    InvalidInstanceNameException,
+    InvalidTagException,
+    TagLimitExceededException,
+    TagRequiredException,
+  ],
+}));
 /**
  * In a blue/green deployment, overrides any specified wait time and starts terminating
  * instances immediately after the traffic routing is complete.
  */
-export const skipWaitTimeForInstanceTermination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SkipWaitTimeForInstanceTerminationInput,
-    output: SkipWaitTimeForInstanceTerminationResponse,
-    errors: [
-      DeploymentAlreadyCompletedException,
-      DeploymentDoesNotExistException,
-      DeploymentIdRequiredException,
-      DeploymentNotStartedException,
-      InvalidDeploymentIdException,
-      UnsupportedActionForDeploymentTypeException,
-    ],
-  }));
+export const skipWaitTimeForInstanceTermination: (
+  input: SkipWaitTimeForInstanceTerminationInput,
+) => Effect.Effect<
+  SkipWaitTimeForInstanceTerminationResponse,
+  | DeploymentAlreadyCompletedException
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | DeploymentNotStartedException
+  | InvalidDeploymentIdException
+  | UnsupportedActionForDeploymentTypeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SkipWaitTimeForInstanceTerminationInput,
+  output: SkipWaitTimeForInstanceTerminationResponse,
+  errors: [
+    DeploymentAlreadyCompletedException,
+    DeploymentDoesNotExistException,
+    DeploymentIdRequiredException,
+    DeploymentNotStartedException,
+    InvalidDeploymentIdException,
+    UnsupportedActionForDeploymentTypeException,
+  ],
+}));
 /**
  * Associates the list of tags in the input `Tags` parameter with the
  * resource identified by the `ResourceArn` input parameter.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | ApplicationDoesNotExistException
+  | ArnNotSupportedException
+  | DeploymentConfigDoesNotExistException
+  | DeploymentGroupDoesNotExistException
+  | InvalidArnException
+  | InvalidTagsToAddException
+  | ResourceArnRequiredException
+  | TagRequiredException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -3592,26 +4004,52 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds tags to on-premises instances.
  */
-export const addTagsToOnPremisesInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AddTagsToOnPremisesInstancesInput,
-    output: AddTagsToOnPremisesInstancesResponse,
-    errors: [
-      InstanceLimitExceededException,
-      InstanceNameRequiredException,
-      InstanceNotRegisteredException,
-      InvalidInstanceNameException,
-      InvalidTagException,
-      TagLimitExceededException,
-      TagRequiredException,
-    ],
-  }));
+export const addTagsToOnPremisesInstances: (
+  input: AddTagsToOnPremisesInstancesInput,
+) => Effect.Effect<
+  AddTagsToOnPremisesInstancesResponse,
+  | InstanceLimitExceededException
+  | InstanceNameRequiredException
+  | InstanceNotRegisteredException
+  | InvalidInstanceNameException
+  | InvalidTagException
+  | TagLimitExceededException
+  | TagRequiredException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddTagsToOnPremisesInstancesInput,
+  output: AddTagsToOnPremisesInstancesResponse,
+  errors: [
+    InstanceLimitExceededException,
+    InstanceNameRequiredException,
+    InstanceNotRegisteredException,
+    InvalidInstanceNameException,
+    InvalidTagException,
+    TagLimitExceededException,
+    TagRequiredException,
+  ],
+}));
 /**
  * Disassociates a resource from a list of tags. The resource is identified by the
  * `ResourceArn` input parameter. The tags are identified by the list of
  * keys in the `TagKeys` input parameter.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | ApplicationDoesNotExistException
+  | ArnNotSupportedException
+  | DeploymentConfigDoesNotExistException
+  | DeploymentGroupDoesNotExistException
+  | InvalidArnException
+  | InvalidTagsToAddException
+  | ResourceArnRequiredException
+  | TagRequiredException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -3628,7 +4066,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Attempts to stop an ongoing deployment.
  */
-export const stopDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopDeployment: (
+  input: StopDeploymentInput,
+) => Effect.Effect<
+  StopDeploymentOutput,
+  | DeploymentAlreadyCompletedException
+  | DeploymentDoesNotExistException
+  | DeploymentGroupDoesNotExistException
+  | DeploymentIdRequiredException
+  | InvalidDeploymentIdException
+  | UnsupportedActionForDeploymentTypeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDeploymentInput,
   output: StopDeploymentOutput,
   errors: [
@@ -3647,7 +4097,21 @@ export const stopDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * instances in the replacement environment with the load balancer, can start as soon as
  * all instances have a status of Ready.)
  */
-export const continueDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const continueDeployment: (
+  input: ContinueDeploymentInput,
+) => Effect.Effect<
+  ContinueDeploymentResponse,
+  | DeploymentAlreadyCompletedException
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | DeploymentIsNotInReadyStateException
+  | InvalidDeploymentIdException
+  | InvalidDeploymentStatusException
+  | InvalidDeploymentWaitTypeException
+  | UnsupportedActionForDeploymentTypeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ContinueDeploymentInput,
   output: ContinueDeploymentResponse,
   errors: [
@@ -3664,32 +4128,97 @@ export const continueDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists information about revisions for an application.
  */
-export const listApplicationRevisions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApplicationRevisions: {
+  (
     input: ListApplicationRevisionsInput,
-    output: ListApplicationRevisionsOutput,
-    errors: [
-      ApplicationDoesNotExistException,
-      ApplicationNameRequiredException,
-      BucketNameFilterRequiredException,
-      InvalidApplicationNameException,
-      InvalidBucketNameFilterException,
-      InvalidDeployedStateFilterException,
-      InvalidKeyPrefixFilterException,
-      InvalidNextTokenException,
-      InvalidSortByException,
-      InvalidSortOrderException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "revisions",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListApplicationRevisionsOutput,
+    | ApplicationDoesNotExistException
+    | ApplicationNameRequiredException
+    | BucketNameFilterRequiredException
+    | InvalidApplicationNameException
+    | InvalidBucketNameFilterException
+    | InvalidDeployedStateFilterException
+    | InvalidKeyPrefixFilterException
+    | InvalidNextTokenException
+    | InvalidSortByException
+    | InvalidSortOrderException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationRevisionsInput,
+  ) => Stream.Stream<
+    ListApplicationRevisionsOutput,
+    | ApplicationDoesNotExistException
+    | ApplicationNameRequiredException
+    | BucketNameFilterRequiredException
+    | InvalidApplicationNameException
+    | InvalidBucketNameFilterException
+    | InvalidDeployedStateFilterException
+    | InvalidKeyPrefixFilterException
+    | InvalidNextTokenException
+    | InvalidSortByException
+    | InvalidSortOrderException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationRevisionsInput,
+  ) => Stream.Stream<
+    RevisionLocation,
+    | ApplicationDoesNotExistException
+    | ApplicationNameRequiredException
+    | BucketNameFilterRequiredException
+    | InvalidApplicationNameException
+    | InvalidBucketNameFilterException
+    | InvalidDeployedStateFilterException
+    | InvalidKeyPrefixFilterException
+    | InvalidNextTokenException
+    | InvalidSortByException
+    | InvalidSortOrderException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationRevisionsInput,
+  output: ListApplicationRevisionsOutput,
+  errors: [
+    ApplicationDoesNotExistException,
+    ApplicationNameRequiredException,
+    BucketNameFilterRequiredException,
+    InvalidApplicationNameException,
+    InvalidBucketNameFilterException,
+    InvalidDeployedStateFilterException,
+    InvalidKeyPrefixFilterException,
+    InvalidNextTokenException,
+    InvalidSortByException,
+    InvalidSortOrderException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "revisions",
+  } as const,
+}));
 /**
  * Returns information about a deployment target.
  */
-export const getDeploymentTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeploymentTarget: (
+  input: GetDeploymentTargetInput,
+) => Effect.Effect<
+  GetDeploymentTargetOutput,
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | DeploymentNotStartedException
+  | DeploymentTargetDoesNotExistException
+  | DeploymentTargetIdRequiredException
+  | InvalidDeploymentIdException
+  | InvalidDeploymentTargetIdException
+  | InvalidInstanceNameException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentTargetInput,
   output: GetDeploymentTargetOutput,
   errors: [
@@ -3714,20 +4243,32 @@ export const getDeploymentTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `Succeeded` or `Failed`. For more information, see AppSpec 'hooks' Section for an Lambda Deployment and
  * AppSpec 'hooks' Section for an Amazon ECS Deployment.
  */
-export const putLifecycleEventHookExecutionStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutLifecycleEventHookExecutionStatusInput,
-    output: PutLifecycleEventHookExecutionStatusOutput,
-    errors: [
-      DeploymentDoesNotExistException,
-      DeploymentIdRequiredException,
-      InvalidDeploymentIdException,
-      InvalidLifecycleEventHookExecutionIdException,
-      InvalidLifecycleEventHookExecutionStatusException,
-      LifecycleEventAlreadyCompletedException,
-      UnsupportedActionForDeploymentTypeException,
-    ],
-  }));
+export const putLifecycleEventHookExecutionStatus: (
+  input: PutLifecycleEventHookExecutionStatusInput,
+) => Effect.Effect<
+  PutLifecycleEventHookExecutionStatusOutput,
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | InvalidDeploymentIdException
+  | InvalidLifecycleEventHookExecutionIdException
+  | InvalidLifecycleEventHookExecutionStatusException
+  | LifecycleEventAlreadyCompletedException
+  | UnsupportedActionForDeploymentTypeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutLifecycleEventHookExecutionStatusInput,
+  output: PutLifecycleEventHookExecutionStatusOutput,
+  errors: [
+    DeploymentDoesNotExistException,
+    DeploymentIdRequiredException,
+    InvalidDeploymentIdException,
+    InvalidLifecycleEventHookExecutionIdException,
+    InvalidLifecycleEventHookExecutionStatusException,
+    LifecycleEventAlreadyCompletedException,
+    UnsupportedActionForDeploymentTypeException,
+  ],
+}));
 /**
  * Returns an array of one or more targets associated with a deployment. This method
  * works with all compute types and should be used instead of the deprecated
@@ -3748,93 +4289,185 @@ export const putLifecycleEventHookExecutionStatus =
  * targets of blue/green deployments initiated by a CloudFormation stack
  * update.
  */
-export const batchGetDeploymentTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetDeploymentTargetsInput,
-    output: BatchGetDeploymentTargetsOutput,
-    errors: [
-      DeploymentDoesNotExistException,
-      DeploymentIdRequiredException,
-      DeploymentNotStartedException,
-      DeploymentTargetDoesNotExistException,
-      DeploymentTargetIdRequiredException,
-      DeploymentTargetListSizeExceededException,
-      InstanceDoesNotExistException,
-      InvalidDeploymentIdException,
-      InvalidDeploymentTargetIdException,
-    ],
-  }),
-);
+export const batchGetDeploymentTargets: (
+  input: BatchGetDeploymentTargetsInput,
+) => Effect.Effect<
+  BatchGetDeploymentTargetsOutput,
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | DeploymentNotStartedException
+  | DeploymentTargetDoesNotExistException
+  | DeploymentTargetIdRequiredException
+  | DeploymentTargetListSizeExceededException
+  | InstanceDoesNotExistException
+  | InvalidDeploymentIdException
+  | InvalidDeploymentTargetIdException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetDeploymentTargetsInput,
+  output: BatchGetDeploymentTargetsOutput,
+  errors: [
+    DeploymentDoesNotExistException,
+    DeploymentIdRequiredException,
+    DeploymentNotStartedException,
+    DeploymentTargetDoesNotExistException,
+    DeploymentTargetIdRequiredException,
+    DeploymentTargetListSizeExceededException,
+    InstanceDoesNotExistException,
+    InvalidDeploymentIdException,
+    InvalidDeploymentTargetIdException,
+  ],
+}));
 /**
  * Creates a deployment configuration.
  */
-export const createDeploymentConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDeploymentConfigInput,
-    output: CreateDeploymentConfigOutput,
-    errors: [
-      DeploymentConfigAlreadyExistsException,
-      DeploymentConfigLimitExceededException,
-      DeploymentConfigNameRequiredException,
-      InvalidComputePlatformException,
-      InvalidDeploymentConfigNameException,
-      InvalidMinimumHealthyHostValueException,
-      InvalidTrafficRoutingConfigurationException,
-      InvalidZonalDeploymentConfigurationException,
-    ],
-  }),
-);
+export const createDeploymentConfig: (
+  input: CreateDeploymentConfigInput,
+) => Effect.Effect<
+  CreateDeploymentConfigOutput,
+  | DeploymentConfigAlreadyExistsException
+  | DeploymentConfigLimitExceededException
+  | DeploymentConfigNameRequiredException
+  | InvalidComputePlatformException
+  | InvalidDeploymentConfigNameException
+  | InvalidMinimumHealthyHostValueException
+  | InvalidTrafficRoutingConfigurationException
+  | InvalidZonalDeploymentConfigurationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDeploymentConfigInput,
+  output: CreateDeploymentConfigOutput,
+  errors: [
+    DeploymentConfigAlreadyExistsException,
+    DeploymentConfigLimitExceededException,
+    DeploymentConfigNameRequiredException,
+    InvalidComputePlatformException,
+    InvalidDeploymentConfigNameException,
+    InvalidMinimumHealthyHostValueException,
+    InvalidTrafficRoutingConfigurationException,
+    InvalidZonalDeploymentConfigurationException,
+  ],
+}));
 /**
  * Registers an on-premises instance.
  *
  * Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both.
  */
-export const registerOnPremisesInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterOnPremisesInstanceInput,
-    output: RegisterOnPremisesInstanceResponse,
-    errors: [
-      IamArnRequiredException,
-      IamSessionArnAlreadyRegisteredException,
-      IamUserArnAlreadyRegisteredException,
-      IamUserArnRequiredException,
-      InstanceNameAlreadyRegisteredException,
-      InstanceNameRequiredException,
-      InvalidIamSessionArnException,
-      InvalidIamUserArnException,
-      InvalidInstanceNameException,
-      MultipleIamArnsProvidedException,
-    ],
-  }),
-);
+export const registerOnPremisesInstance: (
+  input: RegisterOnPremisesInstanceInput,
+) => Effect.Effect<
+  RegisterOnPremisesInstanceResponse,
+  | IamArnRequiredException
+  | IamSessionArnAlreadyRegisteredException
+  | IamUserArnAlreadyRegisteredException
+  | IamUserArnRequiredException
+  | InstanceNameAlreadyRegisteredException
+  | InstanceNameRequiredException
+  | InvalidIamSessionArnException
+  | InvalidIamUserArnException
+  | InvalidInstanceNameException
+  | MultipleIamArnsProvidedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterOnPremisesInstanceInput,
+  output: RegisterOnPremisesInstanceResponse,
+  errors: [
+    IamArnRequiredException,
+    IamSessionArnAlreadyRegisteredException,
+    IamUserArnAlreadyRegisteredException,
+    IamUserArnRequiredException,
+    InstanceNameAlreadyRegisteredException,
+    InstanceNameRequiredException,
+    InvalidIamSessionArnException,
+    InvalidIamUserArnException,
+    InvalidInstanceNameException,
+    MultipleIamArnsProvidedException,
+  ],
+}));
 /**
  * Lists the deployments in a deployment group for an application registered with the
  * user or Amazon Web Services account.
  */
-export const listDeployments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDeployments: {
+  (
     input: ListDeploymentsInput,
-    output: ListDeploymentsOutput,
-    errors: [
-      ApplicationDoesNotExistException,
-      ApplicationNameRequiredException,
-      DeploymentGroupDoesNotExistException,
-      DeploymentGroupNameRequiredException,
-      InvalidApplicationNameException,
-      InvalidDeploymentGroupNameException,
-      InvalidDeploymentStatusException,
-      InvalidExternalIdException,
-      InvalidInputException,
-      InvalidNextTokenException,
-      InvalidTimeRangeException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "deployments",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDeploymentsOutput,
+    | ApplicationDoesNotExistException
+    | ApplicationNameRequiredException
+    | DeploymentGroupDoesNotExistException
+    | DeploymentGroupNameRequiredException
+    | InvalidApplicationNameException
+    | InvalidDeploymentGroupNameException
+    | InvalidDeploymentStatusException
+    | InvalidExternalIdException
+    | InvalidInputException
+    | InvalidNextTokenException
+    | InvalidTimeRangeException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeploymentsInput,
+  ) => Stream.Stream<
+    ListDeploymentsOutput,
+    | ApplicationDoesNotExistException
+    | ApplicationNameRequiredException
+    | DeploymentGroupDoesNotExistException
+    | DeploymentGroupNameRequiredException
+    | InvalidApplicationNameException
+    | InvalidDeploymentGroupNameException
+    | InvalidDeploymentStatusException
+    | InvalidExternalIdException
+    | InvalidInputException
+    | InvalidNextTokenException
+    | InvalidTimeRangeException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeploymentsInput,
+  ) => Stream.Stream<
+    DeploymentId,
+    | ApplicationDoesNotExistException
+    | ApplicationNameRequiredException
+    | DeploymentGroupDoesNotExistException
+    | DeploymentGroupNameRequiredException
+    | InvalidApplicationNameException
+    | InvalidDeploymentGroupNameException
+    | InvalidDeploymentStatusException
+    | InvalidExternalIdException
+    | InvalidInputException
+    | InvalidNextTokenException
+    | InvalidTimeRangeException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeploymentsInput,
+  output: ListDeploymentsOutput,
+  errors: [
+    ApplicationDoesNotExistException,
+    ApplicationNameRequiredException,
+    DeploymentGroupDoesNotExistException,
+    DeploymentGroupNameRequiredException,
+    InvalidApplicationNameException,
+    InvalidDeploymentGroupNameException,
+    InvalidDeploymentStatusException,
+    InvalidExternalIdException,
+    InvalidInputException,
+    InvalidNextTokenException,
+    InvalidTimeRangeException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "deployments",
+  } as const,
+}));
 /**
  * The newer `BatchGetDeploymentTargets` should be used instead because
  * it works with all compute types. `ListDeploymentInstances` throws an
@@ -3843,52 +4476,148 @@ export const listDeployments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * Lists the instance for a deployment associated with the user or Amazon Web Services account.
  */
-export const listDeploymentInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDeploymentInstances: {
+  (
     input: ListDeploymentInstancesInput,
-    output: ListDeploymentInstancesOutput,
-    errors: [
-      DeploymentDoesNotExistException,
-      DeploymentIdRequiredException,
-      DeploymentNotStartedException,
-      InvalidComputePlatformException,
-      InvalidDeploymentIdException,
-      InvalidDeploymentInstanceTypeException,
-      InvalidInstanceStatusException,
-      InvalidInstanceTypeException,
-      InvalidNextTokenException,
-      InvalidTargetFilterNameException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "instancesList",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDeploymentInstancesOutput,
+    | DeploymentDoesNotExistException
+    | DeploymentIdRequiredException
+    | DeploymentNotStartedException
+    | InvalidComputePlatformException
+    | InvalidDeploymentIdException
+    | InvalidDeploymentInstanceTypeException
+    | InvalidInstanceStatusException
+    | InvalidInstanceTypeException
+    | InvalidNextTokenException
+    | InvalidTargetFilterNameException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeploymentInstancesInput,
+  ) => Stream.Stream<
+    ListDeploymentInstancesOutput,
+    | DeploymentDoesNotExistException
+    | DeploymentIdRequiredException
+    | DeploymentNotStartedException
+    | InvalidComputePlatformException
+    | InvalidDeploymentIdException
+    | InvalidDeploymentInstanceTypeException
+    | InvalidInstanceStatusException
+    | InvalidInstanceTypeException
+    | InvalidNextTokenException
+    | InvalidTargetFilterNameException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeploymentInstancesInput,
+  ) => Stream.Stream<
+    InstanceId,
+    | DeploymentDoesNotExistException
+    | DeploymentIdRequiredException
+    | DeploymentNotStartedException
+    | InvalidComputePlatformException
+    | InvalidDeploymentIdException
+    | InvalidDeploymentInstanceTypeException
+    | InvalidInstanceStatusException
+    | InvalidInstanceTypeException
+    | InvalidNextTokenException
+    | InvalidTargetFilterNameException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeploymentInstancesInput,
+  output: ListDeploymentInstancesOutput,
+  errors: [
+    DeploymentDoesNotExistException,
+    DeploymentIdRequiredException,
+    DeploymentNotStartedException,
+    InvalidComputePlatformException,
+    InvalidDeploymentIdException,
+    InvalidDeploymentInstanceTypeException,
+    InvalidInstanceStatusException,
+    InvalidInstanceTypeException,
+    InvalidNextTokenException,
+    InvalidTargetFilterNameException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "instancesList",
+  } as const,
+}));
 /**
  * Returns an array of target IDs that are associated a deployment.
  */
-export const listDeploymentTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDeploymentTargetsInput,
-    output: ListDeploymentTargetsOutput,
-    errors: [
-      DeploymentDoesNotExistException,
-      DeploymentIdRequiredException,
-      DeploymentNotStartedException,
-      InvalidDeploymentIdException,
-      InvalidDeploymentInstanceTypeException,
-      InvalidInstanceStatusException,
-      InvalidInstanceTypeException,
-      InvalidNextTokenException,
-      InvalidTargetFilterNameException,
-    ],
-  }),
-);
+export const listDeploymentTargets: (
+  input: ListDeploymentTargetsInput,
+) => Effect.Effect<
+  ListDeploymentTargetsOutput,
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | DeploymentNotStartedException
+  | InvalidDeploymentIdException
+  | InvalidDeploymentInstanceTypeException
+  | InvalidInstanceStatusException
+  | InvalidInstanceTypeException
+  | InvalidNextTokenException
+  | InvalidTargetFilterNameException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDeploymentTargetsInput,
+  output: ListDeploymentTargetsOutput,
+  errors: [
+    DeploymentDoesNotExistException,
+    DeploymentIdRequiredException,
+    DeploymentNotStartedException,
+    InvalidDeploymentIdException,
+    InvalidDeploymentInstanceTypeException,
+    InvalidInstanceStatusException,
+    InvalidInstanceTypeException,
+    InvalidNextTokenException,
+    InvalidTargetFilterNameException,
+  ],
+}));
 /**
  * Deploys an application revision through the specified deployment group.
  */
-export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDeployment: (
+  input: CreateDeploymentInput,
+) => Effect.Effect<
+  CreateDeploymentOutput,
+  | AlarmsLimitExceededException
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | DeploymentConfigDoesNotExistException
+  | DeploymentGroupDoesNotExistException
+  | DeploymentGroupNameRequiredException
+  | DeploymentLimitExceededException
+  | DescriptionTooLongException
+  | InvalidAlarmConfigException
+  | InvalidApplicationNameException
+  | InvalidAutoRollbackConfigException
+  | InvalidAutoScalingGroupException
+  | InvalidDeploymentConfigNameException
+  | InvalidDeploymentGroupNameException
+  | InvalidFileExistsBehaviorException
+  | InvalidGitHubAccountTokenException
+  | InvalidIgnoreApplicationStopFailuresValueException
+  | InvalidLoadBalancerInfoException
+  | InvalidRevisionException
+  | InvalidRoleException
+  | InvalidTargetInstancesException
+  | InvalidTrafficRoutingConfigurationException
+  | InvalidUpdateOutdatedInstancesOnlyValueException
+  | RevisionDoesNotExistException
+  | RevisionRequiredException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentInput,
   output: CreateDeploymentOutput,
   errors: [
@@ -3923,86 +4652,158 @@ export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Changes information about a deployment group.
  */
-export const updateDeploymentGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDeploymentGroupInput,
-    output: UpdateDeploymentGroupOutput,
-    errors: [
-      AlarmsLimitExceededException,
-      ApplicationDoesNotExistException,
-      ApplicationNameRequiredException,
-      DeploymentConfigDoesNotExistException,
-      DeploymentGroupAlreadyExistsException,
-      DeploymentGroupDoesNotExistException,
-      DeploymentGroupNameRequiredException,
-      ECSServiceMappingLimitExceededException,
-      InvalidAlarmConfigException,
-      InvalidApplicationNameException,
-      InvalidAutoRollbackConfigException,
-      InvalidAutoScalingGroupException,
-      InvalidBlueGreenDeploymentConfigurationException,
-      InvalidDeploymentConfigNameException,
-      InvalidDeploymentGroupNameException,
-      InvalidDeploymentStyleException,
-      InvalidEC2TagCombinationException,
-      InvalidEC2TagException,
-      InvalidECSServiceException,
-      InvalidInputException,
-      InvalidLoadBalancerInfoException,
-      InvalidOnPremisesTagCombinationException,
-      InvalidRoleException,
-      InvalidTagException,
-      InvalidTargetGroupPairException,
-      InvalidTrafficRoutingConfigurationException,
-      InvalidTriggerConfigException,
-      LifecycleHookLimitExceededException,
-      TagSetListLimitExceededException,
-      ThrottlingException,
-      TriggerTargetsLimitExceededException,
-    ],
-  }),
-);
+export const updateDeploymentGroup: (
+  input: UpdateDeploymentGroupInput,
+) => Effect.Effect<
+  UpdateDeploymentGroupOutput,
+  | AlarmsLimitExceededException
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | DeploymentConfigDoesNotExistException
+  | DeploymentGroupAlreadyExistsException
+  | DeploymentGroupDoesNotExistException
+  | DeploymentGroupNameRequiredException
+  | ECSServiceMappingLimitExceededException
+  | InvalidAlarmConfigException
+  | InvalidApplicationNameException
+  | InvalidAutoRollbackConfigException
+  | InvalidAutoScalingGroupException
+  | InvalidBlueGreenDeploymentConfigurationException
+  | InvalidDeploymentConfigNameException
+  | InvalidDeploymentGroupNameException
+  | InvalidDeploymentStyleException
+  | InvalidEC2TagCombinationException
+  | InvalidEC2TagException
+  | InvalidECSServiceException
+  | InvalidInputException
+  | InvalidLoadBalancerInfoException
+  | InvalidOnPremisesTagCombinationException
+  | InvalidRoleException
+  | InvalidTagException
+  | InvalidTargetGroupPairException
+  | InvalidTrafficRoutingConfigurationException
+  | InvalidTriggerConfigException
+  | LifecycleHookLimitExceededException
+  | TagSetListLimitExceededException
+  | ThrottlingException
+  | TriggerTargetsLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDeploymentGroupInput,
+  output: UpdateDeploymentGroupOutput,
+  errors: [
+    AlarmsLimitExceededException,
+    ApplicationDoesNotExistException,
+    ApplicationNameRequiredException,
+    DeploymentConfigDoesNotExistException,
+    DeploymentGroupAlreadyExistsException,
+    DeploymentGroupDoesNotExistException,
+    DeploymentGroupNameRequiredException,
+    ECSServiceMappingLimitExceededException,
+    InvalidAlarmConfigException,
+    InvalidApplicationNameException,
+    InvalidAutoRollbackConfigException,
+    InvalidAutoScalingGroupException,
+    InvalidBlueGreenDeploymentConfigurationException,
+    InvalidDeploymentConfigNameException,
+    InvalidDeploymentGroupNameException,
+    InvalidDeploymentStyleException,
+    InvalidEC2TagCombinationException,
+    InvalidEC2TagException,
+    InvalidECSServiceException,
+    InvalidInputException,
+    InvalidLoadBalancerInfoException,
+    InvalidOnPremisesTagCombinationException,
+    InvalidRoleException,
+    InvalidTagException,
+    InvalidTargetGroupPairException,
+    InvalidTrafficRoutingConfigurationException,
+    InvalidTriggerConfigException,
+    LifecycleHookLimitExceededException,
+    TagSetListLimitExceededException,
+    ThrottlingException,
+    TriggerTargetsLimitExceededException,
+  ],
+}));
 /**
  * Creates a deployment group to which application revisions are deployed.
  */
-export const createDeploymentGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDeploymentGroupInput,
-    output: CreateDeploymentGroupOutput,
-    errors: [
-      AlarmsLimitExceededException,
-      ApplicationDoesNotExistException,
-      ApplicationNameRequiredException,
-      DeploymentConfigDoesNotExistException,
-      DeploymentGroupAlreadyExistsException,
-      DeploymentGroupLimitExceededException,
-      DeploymentGroupNameRequiredException,
-      ECSServiceMappingLimitExceededException,
-      InvalidAlarmConfigException,
-      InvalidApplicationNameException,
-      InvalidAutoRollbackConfigException,
-      InvalidAutoScalingGroupException,
-      InvalidBlueGreenDeploymentConfigurationException,
-      InvalidDeploymentConfigNameException,
-      InvalidDeploymentGroupNameException,
-      InvalidDeploymentStyleException,
-      InvalidEC2TagCombinationException,
-      InvalidEC2TagException,
-      InvalidECSServiceException,
-      InvalidInputException,
-      InvalidLoadBalancerInfoException,
-      InvalidOnPremisesTagCombinationException,
-      InvalidRoleException,
-      InvalidTagException,
-      InvalidTagsToAddException,
-      InvalidTargetGroupPairException,
-      InvalidTrafficRoutingConfigurationException,
-      InvalidTriggerConfigException,
-      LifecycleHookLimitExceededException,
-      RoleRequiredException,
-      TagSetListLimitExceededException,
-      ThrottlingException,
-      TriggerTargetsLimitExceededException,
-    ],
-  }),
-);
+export const createDeploymentGroup: (
+  input: CreateDeploymentGroupInput,
+) => Effect.Effect<
+  CreateDeploymentGroupOutput,
+  | AlarmsLimitExceededException
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | DeploymentConfigDoesNotExistException
+  | DeploymentGroupAlreadyExistsException
+  | DeploymentGroupLimitExceededException
+  | DeploymentGroupNameRequiredException
+  | ECSServiceMappingLimitExceededException
+  | InvalidAlarmConfigException
+  | InvalidApplicationNameException
+  | InvalidAutoRollbackConfigException
+  | InvalidAutoScalingGroupException
+  | InvalidBlueGreenDeploymentConfigurationException
+  | InvalidDeploymentConfigNameException
+  | InvalidDeploymentGroupNameException
+  | InvalidDeploymentStyleException
+  | InvalidEC2TagCombinationException
+  | InvalidEC2TagException
+  | InvalidECSServiceException
+  | InvalidInputException
+  | InvalidLoadBalancerInfoException
+  | InvalidOnPremisesTagCombinationException
+  | InvalidRoleException
+  | InvalidTagException
+  | InvalidTagsToAddException
+  | InvalidTargetGroupPairException
+  | InvalidTrafficRoutingConfigurationException
+  | InvalidTriggerConfigException
+  | LifecycleHookLimitExceededException
+  | RoleRequiredException
+  | TagSetListLimitExceededException
+  | ThrottlingException
+  | TriggerTargetsLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDeploymentGroupInput,
+  output: CreateDeploymentGroupOutput,
+  errors: [
+    AlarmsLimitExceededException,
+    ApplicationDoesNotExistException,
+    ApplicationNameRequiredException,
+    DeploymentConfigDoesNotExistException,
+    DeploymentGroupAlreadyExistsException,
+    DeploymentGroupLimitExceededException,
+    DeploymentGroupNameRequiredException,
+    ECSServiceMappingLimitExceededException,
+    InvalidAlarmConfigException,
+    InvalidApplicationNameException,
+    InvalidAutoRollbackConfigException,
+    InvalidAutoScalingGroupException,
+    InvalidBlueGreenDeploymentConfigurationException,
+    InvalidDeploymentConfigNameException,
+    InvalidDeploymentGroupNameException,
+    InvalidDeploymentStyleException,
+    InvalidEC2TagCombinationException,
+    InvalidEC2TagException,
+    InvalidECSServiceException,
+    InvalidInputException,
+    InvalidLoadBalancerInfoException,
+    InvalidOnPremisesTagCombinationException,
+    InvalidRoleException,
+    InvalidTagException,
+    InvalidTagsToAddException,
+    InvalidTargetGroupPairException,
+    InvalidTrafficRoutingConfigurationException,
+    InvalidTriggerConfigException,
+    LifecycleHookLimitExceededException,
+    RoleRequiredException,
+    TagSetListLimitExceededException,
+    ThrottlingException,
+    TriggerTargetsLimitExceededException,
+  ],
+}));

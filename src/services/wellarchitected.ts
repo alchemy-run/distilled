@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "WellArchitected",
   serviceShapeName: "WellArchitectedApiServiceLambda",
@@ -240,6 +248,96 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type WorkloadId = string;
+export type LensAlias = string;
+export type ProfileArn = string;
+export type SharedWith = string;
+export type ClientRequestToken = string;
+export type LensVersion = string;
+export type MilestoneName = string;
+export type ProfileName = string;
+export type ProfileDescription = string;
+export type TemplateName = string;
+export type TemplateDescription = string;
+export type Notes = string;
+export type TemplateArn = string;
+export type WorkloadName = string;
+export type WorkloadDescription = string;
+export type AwsAccountId = string;
+export type AwsRegion = string;
+export type WorkloadNonAwsRegion = string;
+export type PillarId = string;
+export type WorkloadArchitecturalDesign = string;
+export type WorkloadReviewOwner = string;
+export type WorkloadIndustryType = string;
+export type WorkloadIndustry = string;
+export type ApplicationArn = string;
+export type ShareId = string;
+export type QuestionId = string;
+export type MilestoneNumber = number;
+export type NextToken = string;
+export type GetConsolidatedReportMaxResults = number;
+export type ProfileVersion = string;
+export type LensJSON = string;
+export type ListAnswersMaxResults = number;
+export type MaxResults = number;
+export type LensArn = string;
+export type ChoiceId = string;
+export type LensName = string;
+export type ListLensReviewImprovementsMaxResults = number;
+export type SharedWithPrefix = string;
+export type ListWorkloadSharesMaxResults = number;
+export type ListNotificationsMaxResults = number;
+export type ResourceArn = string;
+export type ProfileNamePrefix = string;
+export type ListProfileSharesMaxResults = number;
+export type ListReviewTemplateAnswersMaxResults = number;
+export type WorkloadNamePrefix = string;
+export type LensNamePrefix = string;
+export type ListShareInvitationsMaxResults = number;
+export type TemplateNamePrefix = string;
+export type WorkloadArn = string;
+export type ListTemplateSharesMaxResults = number;
+export type ListWorkloadsMaxResults = number;
+export type TagKey = string;
+export type ShareInvitationId = string;
+export type TagValue = string;
+export type JiraProjectKey = string;
+export type Subdomain = string;
+export type StatusMessage = string;
+export type ExceptionMessage = string;
+export type Base64String = string;
+export type QuestionTitle = string;
+export type QuestionDescription = string;
+export type MinSelectedProfileChoices = number;
+export type MaxSelectedProfileChoices = number;
+export type ChoiceNotes = string;
+export type SelectedQuestionId = string;
+export type ImprovementPlanUrl = string;
+export type HelpfulResourceUrl = string;
+export type DisplayText = string;
+export type LensesAppliedCount = number;
+export type LensDescription = string;
+export type LensOwner = string;
+export type CheckId = string;
+export type CheckName = string;
+export type CheckDescription = string;
+export type FlaggedResources = number;
+export type ChoiceTitle = string;
+export type ChoiceDescription = string;
+export type ExceptionResourceId = string;
+export type ExceptionResourceType = string;
+export type JiraIssueUrl = string;
+export type Count = number;
+export type PillarName = string;
+export type CheckStatusCount = number;
+export type QuotaCode = string;
+export type ServiceCode = string;
+export type ChoiceContentDisplayText = string;
+export type ChoiceContentUrl = string;
+export type ValidationExceptionFieldName = string;
 
 //# Schemas
 export interface GetGlobalSettingsRequest {}
@@ -4247,7 +4345,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -4263,7 +4363,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     QuotaCode: S.optional(S.String),
     ServiceCode: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -4289,7 +4391,13 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  *
  * The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  InternalServerException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [InternalServerException, ResourceNotFoundException],
@@ -4303,7 +4411,13 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * `DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2`
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  InternalServerException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [InternalServerException, ResourceNotFoundException],
@@ -4313,7 +4427,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  InternalServerException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [InternalServerException, ResourceNotFoundException],
@@ -4321,7 +4441,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Global settings for all workloads.
  */
-export const getGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGlobalSettings: (
+  input: GetGlobalSettingsRequest,
+) => Effect.Effect<
+  GetGlobalSettingsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGlobalSettingsRequest,
   output: GetGlobalSettingsOutput,
   errors: [
@@ -4349,7 +4479,18 @@ export const getGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * with applicable law, providing adequate privacy notices, and obtaining necessary
  * consents for processing such data.
  */
-export const exportLens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const exportLens: (
+  input: ExportLensInput,
+) => Effect.Effect<
+  ExportLensOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportLensInput,
   output: ExportLensOutput,
   errors: [
@@ -4372,7 +4513,19 @@ export const exportLens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * you acknowledge that custom lenses created by other users and shared with you are
  * Third Party Content as defined in the Amazon Web Services Customer Agreement.
  */
-export const associateLenses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateLenses: (
+  input: AssociateLensesInput,
+) => Effect.Effect<
+  AssociateLensesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateLensesInput,
   output: AssociateLensesResponse,
   errors: [
@@ -4387,7 +4540,18 @@ export const associateLenses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get an existing lens.
  */
-export const getLens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLens: (
+  input: GetLensInput,
+) => Effect.Effect<
+  GetLensOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLensInput,
   output: GetLensOutput,
   errors: [
@@ -4401,7 +4565,18 @@ export const getLens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get lens review report.
  */
-export const getLensReviewReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLensReviewReport: (
+  input: GetLensReviewReportInput,
+) => Effect.Effect<
+  GetLensReviewReportOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLensReviewReportInput,
   output: GetLensReviewReportOutput,
   errors: [
@@ -4415,7 +4590,18 @@ export const getLensReviewReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get a milestone for an existing workload.
  */
-export const getMilestone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMilestone: (
+  input: GetMilestoneInput,
+) => Effect.Effect<
+  GetMilestoneOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMilestoneInput,
   output: GetMilestoneOutput,
   errors: [
@@ -4429,190 +4615,514 @@ export const getMilestone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get review template answer.
  */
-export const getReviewTemplateAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetReviewTemplateAnswerInput,
-    output: GetReviewTemplateAnswerOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getReviewTemplateAnswer: (
+  input: GetReviewTemplateAnswerInput,
+) => Effect.Effect<
+  GetReviewTemplateAnswerOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReviewTemplateAnswerInput,
+  output: GetReviewTemplateAnswerOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List of Trusted Advisor check details by account related to the workload.
  */
-export const listCheckDetails = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCheckDetails: {
+  (
     input: ListCheckDetailsInput,
-    output: ListCheckDetailsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCheckDetailsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCheckDetailsInput,
+  ) => Stream.Stream<
+    ListCheckDetailsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCheckDetailsInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCheckDetailsInput,
+  output: ListCheckDetailsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List lens reviews for a particular workload.
  */
-export const listLensReviews = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLensReviews: {
+  (
     input: ListLensReviewsInput,
-    output: ListLensReviewsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLensReviewsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLensReviewsInput,
+  ) => Stream.Stream<
+    ListLensReviewsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLensReviewsInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLensReviewsInput,
+  output: ListLensReviewsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the lens shares associated with the lens.
  */
-export const listLensShares = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLensShares: {
+  (
     input: ListLensSharesInput,
-    output: ListLensSharesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLensSharesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLensSharesInput,
+  ) => Stream.Stream<
+    ListLensSharesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLensSharesInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLensSharesInput,
+  output: ListLensSharesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List all milestones for an existing workload.
  */
-export const listMilestones = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMilestones: {
+  (
     input: ListMilestonesInput,
-    output: ListMilestonesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMilestonesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMilestonesInput,
+  ) => Stream.Stream<
+    ListMilestonesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMilestonesInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMilestonesInput,
+  output: ListMilestonesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List profile shares.
  */
-export const listProfileShares = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProfileShares: {
+  (
     input: ListProfileSharesInput,
-    output: ListProfileSharesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProfileSharesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProfileSharesInput,
+  ) => Stream.Stream<
+    ListProfileSharesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProfileSharesInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProfileSharesInput,
+  output: ListProfileSharesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the answers of a review template.
  */
-export const listReviewTemplateAnswers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listReviewTemplateAnswers: {
+  (
     input: ListReviewTemplateAnswersInput,
-    output: ListReviewTemplateAnswersOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListReviewTemplateAnswersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReviewTemplateAnswersInput,
+  ) => Stream.Stream<
+    ListReviewTemplateAnswersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReviewTemplateAnswersInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReviewTemplateAnswersInput,
+  output: ListReviewTemplateAnswersOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List review template shares.
  */
-export const listTemplateShares = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTemplateShares: {
+  (
     input: ListTemplateSharesInput,
-    output: ListTemplateSharesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTemplateSharesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTemplateSharesInput,
+  ) => Stream.Stream<
+    ListTemplateSharesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTemplateSharesInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTemplateSharesInput,
+  output: ListTemplateSharesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the workload shares associated with the workload.
  */
-export const listWorkloadShares = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkloadShares: {
+  (
     input: ListWorkloadSharesInput,
-    output: ListWorkloadSharesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkloadSharesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkloadSharesInput,
+  ) => Stream.Stream<
+    ListWorkloadSharesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkloadSharesInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkloadSharesInput,
+  output: ListWorkloadSharesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the available lenses.
  */
-export const listLenses = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLenses: {
+  (
+    input: ListLensesInput,
+  ): Effect.Effect<
+    ListLensesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLensesInput,
+  ) => Stream.Stream<
+    ListLensesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLensesInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLensesInput,
   output: ListLensesOutput,
   errors: [
@@ -4630,61 +5140,159 @@ export const listLenses = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * List profile notifications.
  */
-export const listProfileNotifications =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProfileNotifications: {
+  (
     input: ListProfileNotificationsInput,
-    output: ListProfileNotificationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProfileNotificationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProfileNotificationsInput,
+  ) => Stream.Stream<
+    ListProfileNotificationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProfileNotificationsInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProfileNotificationsInput,
+  output: ListProfileNotificationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List profiles.
  */
-export const listProfiles = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProfiles: {
+  (
     input: ListProfilesInput,
-    output: ListProfilesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProfilesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProfilesInput,
+  ) => Stream.Stream<
+    ListProfilesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProfilesInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProfilesInput,
+  output: ListProfilesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List review templates.
  */
-export const listReviewTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listReviewTemplates: {
+  (
     input: ListReviewTemplatesInput,
-    output: ListReviewTemplatesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListReviewTemplatesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReviewTemplatesInput,
+  ) => Stream.Stream<
+    ListReviewTemplatesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReviewTemplatesInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReviewTemplatesInput,
+  output: ListReviewTemplatesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the share invitations.
  *
@@ -4692,65 +5300,152 @@ export const listReviewTemplates =
  * `ProfileNamePrefix`, and `TemplateNamePrefix` are mutually
  * exclusive. Use the parameter that matches your `ShareResourceType`.
  */
-export const listShareInvitations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listShareInvitations: {
+  (
     input: ListShareInvitationsInput,
-    output: ListShareInvitationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListShareInvitationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListShareInvitationsInput,
+  ) => Stream.Stream<
+    ListShareInvitationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListShareInvitationsInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListShareInvitationsInput,
+  output: ListShareInvitationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Paginated list of workloads.
  */
-export const listWorkloads = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkloads: {
+  (
     input: ListWorkloadsInput,
-    output: ListWorkloadsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkloadsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkloadsInput,
+  ) => Stream.Stream<
+    ListWorkloadsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkloadsInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkloadsInput,
+  output: ListWorkloadsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Update a workload or custom lens share invitation.
  *
  * This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified.
  */
-export const updateShareInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateShareInvitationInput,
-    output: UpdateShareInvitationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateShareInvitation: (
+  input: UpdateShareInvitationInput,
+) => Effect.Effect<
+  UpdateShareInvitationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateShareInvitationInput,
+  output: UpdateShareInvitationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update a workload share.
  */
-export const updateWorkloadShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWorkloadShare: (
+  input: UpdateWorkloadShareInput,
+) => Effect.Effect<
+  UpdateWorkloadShareOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkloadShareInput,
   output: UpdateWorkloadShareOutput,
   errors: [
@@ -4765,23 +5460,44 @@ export const updateWorkloadShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
  */
-export const updateGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateGlobalSettingsInput,
-    output: UpdateGlobalSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateGlobalSettings: (
+  input: UpdateGlobalSettingsInput,
+) => Effect.Effect<
+  UpdateGlobalSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGlobalSettingsInput,
+  output: UpdateGlobalSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update a profile.
  */
-export const updateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProfile: (
+  input: UpdateProfileInput,
+) => Effect.Effect<
+  UpdateProfileOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProfileInput,
   output: UpdateProfileOutput,
   errors: [
@@ -4796,57 +5512,100 @@ export const updateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update a review template.
  */
-export const updateReviewTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateReviewTemplateInput,
-    output: UpdateReviewTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateReviewTemplate: (
+  input: UpdateReviewTemplateInput,
+) => Effect.Effect<
+  UpdateReviewTemplateOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateReviewTemplateInput,
+  output: UpdateReviewTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update a review template answer.
  */
-export const updateReviewTemplateAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateReviewTemplateAnswerInput,
-    output: UpdateReviewTemplateAnswerOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateReviewTemplateAnswer: (
+  input: UpdateReviewTemplateAnswerInput,
+) => Effect.Effect<
+  UpdateReviewTemplateAnswerOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateReviewTemplateAnswerInput,
+  output: UpdateReviewTemplateAnswerOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update a lens review associated with a review template.
  */
-export const updateReviewTemplateLensReview =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateReviewTemplateLensReviewInput,
-    output: UpdateReviewTemplateLensReviewOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateReviewTemplateLensReview: (
+  input: UpdateReviewTemplateLensReviewInput,
+) => Effect.Effect<
+  UpdateReviewTemplateLensReviewOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateReviewTemplateLensReviewInput,
+  output: UpdateReviewTemplateLensReviewOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update an existing workload.
  */
-export const updateWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWorkload: (
+  input: UpdateWorkloadInput,
+) => Effect.Effect<
+  UpdateWorkloadOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkloadInput,
   output: UpdateWorkloadOutput,
   errors: [
@@ -4861,7 +5620,19 @@ export const updateWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associate a profile with a workload.
  */
-export const associateProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateProfiles: (
+  input: AssociateProfilesInput,
+) => Effect.Effect<
+  AssociateProfilesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateProfilesInput,
   output: AssociateProfilesResponse,
   errors: [
@@ -4888,7 +5659,19 @@ export const associateProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * from your own Amazon Web Services account or terminate
  * your Amazon Web Services account.
  */
-export const deleteLens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLens: (
+  input: DeleteLensInput,
+) => Effect.Effect<
+  DeleteLensResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLensInput,
   output: DeleteLensResponse,
   errors: [
@@ -4916,7 +5699,19 @@ export const deleteLens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * from your own Amazon Web Services account or terminate
  * your Amazon Web Services account.
  */
-export const deleteLensShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLensShare: (
+  input: DeleteLensShareInput,
+) => Effect.Effect<
+  DeleteLensShareResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLensShareInput,
   output: DeleteLensShareResponse,
   errors: [
@@ -4940,7 +5735,19 @@ export const deleteLensShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * from your own Amazon Web Services account or terminate
  * your Amazon Web Services account.
  */
-export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProfile: (
+  input: DeleteProfileInput,
+) => Effect.Effect<
+  DeleteProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProfileInput,
   output: DeleteProfileResponse,
   errors: [
@@ -4955,7 +5762,19 @@ export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete a profile share.
  */
-export const deleteProfileShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProfileShare: (
+  input: DeleteProfileShareInput,
+) => Effect.Effect<
+  DeleteProfileShareResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProfileShareInput,
   output: DeleteProfileShareResponse,
   errors: [
@@ -4976,20 +5795,30 @@ export const deleteProfileShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * organizations, and organizational units (OUs) that you shared the review template with
  * will no longer be able to apply it to new workloads.
  */
-export const deleteReviewTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteReviewTemplateInput,
-    output: DeleteReviewTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteReviewTemplate: (
+  input: DeleteReviewTemplateInput,
+) => Effect.Effect<
+  DeleteReviewTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReviewTemplateInput,
+  output: DeleteReviewTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Delete a review template share.
  *
@@ -4997,7 +5826,19 @@ export const deleteReviewTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * organizations, and organizational units (OUs) that you shared the review template with
  * will no longer be able to apply it to new workloads.
  */
-export const deleteTemplateShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTemplateShare: (
+  input: DeleteTemplateShareInput,
+) => Effect.Effect<
+  DeleteTemplateShareResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTemplateShareInput,
   output: DeleteTemplateShareResponse,
   errors: [
@@ -5012,7 +5853,19 @@ export const deleteTemplateShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete an existing workload.
  */
-export const deleteWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkload: (
+  input: DeleteWorkloadInput,
+) => Effect.Effect<
+  DeleteWorkloadResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkloadInput,
   output: DeleteWorkloadResponse,
   errors: [
@@ -5027,7 +5880,19 @@ export const deleteWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete a workload share.
  */
-export const deleteWorkloadShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkloadShare: (
+  input: DeleteWorkloadShareInput,
+) => Effect.Effect<
+  DeleteWorkloadShareResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkloadShareInput,
   output: DeleteWorkloadShareResponse,
   errors: [
@@ -5047,7 +5912,19 @@ export const deleteWorkloadShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The Amazon Web Services Well-Architected Framework lens (`wellarchitected`) cannot be
  * removed from a workload.
  */
-export const disassociateLenses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateLenses: (
+  input: DisassociateLensesInput,
+) => Effect.Effect<
+  DisassociateLensesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateLensesInput,
   output: DisassociateLensesResponse,
   errors: [
@@ -5062,24 +5939,46 @@ export const disassociateLenses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociate a profile from a workload.
  */
-export const disassociateProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateProfilesInput,
-    output: DisassociateProfilesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateProfiles: (
+  input: DisassociateProfilesInput,
+) => Effect.Effect<
+  DisassociateProfilesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateProfilesInput,
+  output: DisassociateProfilesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update integration features.
  */
-export const updateIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateIntegration: (
+  input: UpdateIntegrationInput,
+) => Effect.Effect<
+  UpdateIntegrationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIntegrationInput,
   output: UpdateIntegrationResponse,
   errors: [
@@ -5094,23 +5993,46 @@ export const updateIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Upgrade the lens review of a review template.
  */
-export const upgradeReviewTemplateLensReview =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpgradeReviewTemplateLensReviewInput,
-    output: UpgradeReviewTemplateLensReviewResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const upgradeReviewTemplateLensReview: (
+  input: UpgradeReviewTemplateLensReviewInput,
+) => Effect.Effect<
+  UpgradeReviewTemplateLensReviewResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpgradeReviewTemplateLensReviewInput,
+  output: UpgradeReviewTemplateLensReviewResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Create a profile.
  */
-export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProfile: (
+  input: CreateProfileInput,
+) => Effect.Effect<
+  CreateProfileOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProfileInput,
   output: CreateProfileOutput,
   errors: [
@@ -5125,7 +6047,18 @@ export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get lens review.
  */
-export const getLensReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLensReview: (
+  input: GetLensReviewInput,
+) => Effect.Effect<
+  GetLensReviewOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLensReviewInput,
   output: GetLensReviewOutput,
   errors: [
@@ -5139,7 +6072,18 @@ export const getLensReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get profile template.
  */
-export const getProfileTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getProfileTemplate: (
+  input: GetProfileTemplateInput,
+) => Effect.Effect<
+  GetProfileTemplateOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProfileTemplateInput,
   output: GetProfileTemplateOutput,
   errors: [
@@ -5153,7 +6097,18 @@ export const getProfileTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get review template.
  */
-export const getReviewTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getReviewTemplate: (
+  input: GetReviewTemplateInput,
+) => Effect.Effect<
+  GetReviewTemplateOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReviewTemplateInput,
   output: GetReviewTemplateOutput,
   errors: [
@@ -5167,23 +6122,43 @@ export const getReviewTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get a lens review associated with a review template.
  */
-export const getReviewTemplateLensReview = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetReviewTemplateLensReviewInput,
-    output: GetReviewTemplateLensReviewOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getReviewTemplateLensReview: (
+  input: GetReviewTemplateLensReviewInput,
+) => Effect.Effect<
+  GetReviewTemplateLensReviewOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReviewTemplateLensReviewInput,
+  output: GetReviewTemplateLensReviewOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get an existing workload.
  */
-export const getWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkload: (
+  input: GetWorkloadInput,
+) => Effect.Effect<
+  GetWorkloadOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkloadInput,
   output: GetWorkloadOutput,
   errors: [
@@ -5197,89 +6172,239 @@ export const getWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List of answers for a particular workload and lens.
  */
-export const listAnswers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAnswers: {
+  (
     input: ListAnswersInput,
-    output: ListAnswersOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAnswersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAnswersInput,
+  ) => Stream.Stream<
+    ListAnswersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAnswersInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAnswersInput,
+  output: ListAnswersOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List of Trusted Advisor checks summarized for all accounts related to the workload.
  */
-export const listCheckSummaries = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCheckSummaries: {
+  (
     input: ListCheckSummariesInput,
-    output: ListCheckSummariesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCheckSummariesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCheckSummariesInput,
+  ) => Stream.Stream<
+    ListCheckSummariesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCheckSummariesInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCheckSummariesInput,
+  output: ListCheckSummariesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the improvements of a particular lens review.
  */
-export const listLensReviewImprovements =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLensReviewImprovements: {
+  (
     input: ListLensReviewImprovementsInput,
-    output: ListLensReviewImprovementsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListLensReviewImprovementsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLensReviewImprovementsInput,
+  ) => Stream.Stream<
+    ListLensReviewImprovementsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLensReviewImprovementsInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLensReviewImprovementsInput,
+  output: ListLensReviewImprovementsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List lens notifications.
  */
-export const listNotifications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listNotifications: {
+  (
     input: ListNotificationsInput,
-    output: ListNotificationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListNotificationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNotificationsInput,
+  ) => Stream.Stream<
+    ListNotificationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNotificationsInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNotificationsInput,
+  output: ListNotificationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Update the answer to a specific question in a workload review.
  */
-export const updateAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAnswer: (
+  input: UpdateAnswerInput,
+) => Effect.Effect<
+  UpdateAnswerOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAnswerInput,
   output: UpdateAnswerOutput,
   errors: [
@@ -5294,7 +6419,19 @@ export const updateAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update lens review for a particular workload.
  */
-export const updateLensReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLensReview: (
+  input: UpdateLensReviewInput,
+) => Effect.Effect<
+  UpdateLensReviewOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLensReviewInput,
   output: UpdateLensReviewOutput,
   errors: [
@@ -5330,7 +6467,20 @@ export const updateLensReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * from your own Amazon Web Services account or terminate
  * your Amazon Web Services account.
  */
-export const createLensShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLensShare: (
+  input: CreateLensShareInput,
+) => Effect.Effect<
+  CreateLensShareOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLensShareInput,
   output: CreateLensShareOutput,
   errors: [
@@ -5353,7 +6503,20 @@ export const createLensShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The owner of a lens can share the lens with other
  * Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
  */
-export const createLensVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLensVersion: (
+  input: CreateLensVersionInput,
+) => Effect.Effect<
+  CreateLensVersionOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLensVersionInput,
   output: CreateLensVersionOutput,
   errors: [
@@ -5369,7 +6532,20 @@ export const createLensVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a milestone for an existing workload.
  */
-export const createMilestone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMilestone: (
+  input: CreateMilestoneInput,
+) => Effect.Effect<
+  CreateMilestoneOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMilestoneInput,
   output: CreateMilestoneOutput,
   errors: [
@@ -5385,7 +6561,20 @@ export const createMilestone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a profile share.
  */
-export const createProfileShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProfileShare: (
+  input: CreateProfileShareInput,
+) => Effect.Effect<
+  CreateProfileShareOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProfileShareInput,
   output: CreateProfileShareOutput,
   errors: [
@@ -5410,21 +6599,32 @@ export const createProfileShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * with applicable law, providing adequate privacy notices, and obtaining necessary
  * consents for processing such data.
  */
-export const createReviewTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateReviewTemplateInput,
-    output: CreateReviewTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createReviewTemplate: (
+  input: CreateReviewTemplateInput,
+) => Effect.Effect<
+  CreateReviewTemplateOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateReviewTemplateInput,
+  output: CreateReviewTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Create a review template share.
  *
@@ -5443,7 +6643,20 @@ export const createReviewTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * acknowledge that Amazon Web Services will make your review template available to
  * those other accounts.
  */
-export const createTemplateShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTemplateShare: (
+  input: CreateTemplateShareInput,
+) => Effect.Effect<
+  CreateTemplateShareOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTemplateShareInput,
   output: CreateTemplateShareOutput,
   errors: [
@@ -5469,7 +6682,20 @@ export const createTemplateShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Sharing a workload in the
  * *Well-Architected Tool User Guide*.
  */
-export const createWorkloadShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkloadShare: (
+  input: CreateWorkloadShareInput,
+) => Effect.Effect<
+  CreateWorkloadShareOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkloadShareInput,
   output: CreateWorkloadShareOutput,
   errors: [
@@ -5506,7 +6732,20 @@ export const createWorkloadShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * with applicable law, providing adequate privacy notices, and obtaining necessary
  * consents for processing such data.
  */
-export const importLens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importLens: (
+  input: ImportLensInput,
+) => Effect.Effect<
+  ImportLensOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportLensInput,
   output: ImportLensOutput,
   errors: [
@@ -5522,7 +6761,20 @@ export const importLens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Upgrade lens review for a particular workload.
  */
-export const upgradeLensReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const upgradeLensReview: (
+  input: UpgradeLensReviewInput,
+) => Effect.Effect<
+  UpgradeLensReviewResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpgradeLensReviewInput,
   output: UpgradeLensReviewResponse,
   errors: [
@@ -5538,21 +6790,32 @@ export const upgradeLensReview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Upgrade a profile.
  */
-export const upgradeProfileVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpgradeProfileVersionInput,
-    output: UpgradeProfileVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const upgradeProfileVersion: (
+  input: UpgradeProfileVersionInput,
+) => Effect.Effect<
+  UpgradeProfileVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpgradeProfileVersionInput,
+  output: UpgradeProfileVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Create a new workload.
  *
@@ -5579,7 +6842,20 @@ export const upgradeProfileVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - `wellarchitected:GetReviewTemplateLensReview`
  */
-export const createWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkload: (
+  input: CreateWorkloadInput,
+) => Effect.Effect<
+  CreateWorkloadOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkloadInput,
   output: CreateWorkloadOutput,
   errors: [
@@ -5595,7 +6871,18 @@ export const createWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get the answer to a specific question in a workload review.
  */
-export const getAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAnswer: (
+  input: GetAnswerInput,
+) => Effect.Effect<
+  GetAnswerOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAnswerInput,
   output: GetAnswerOutput,
   errors: [
@@ -5609,23 +6896,43 @@ export const getAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get lens version differences.
  */
-export const getLensVersionDifference = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLensVersionDifferenceInput,
-    output: GetLensVersionDifferenceOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getLensVersionDifference: (
+  input: GetLensVersionDifferenceInput,
+) => Effect.Effect<
+  GetLensVersionDifferenceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLensVersionDifferenceInput,
+  output: GetLensVersionDifferenceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get profile information.
  */
-export const getProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getProfile: (
+  input: GetProfileInput,
+) => Effect.Effect<
+  GetProfileOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProfileInput,
   output: GetProfileOutput,
   errors: [
@@ -5641,20 +6948,56 @@ export const getProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can optionally choose to include workloads that have been shared with you.
  */
-export const getConsolidatedReport =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getConsolidatedReport: {
+  (
     input: GetConsolidatedReportInput,
-    output: GetConsolidatedReportOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetConsolidatedReportOutput,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetConsolidatedReportInput,
+  ) => Stream.Stream<
+    GetConsolidatedReportOutput,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetConsolidatedReportInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetConsolidatedReportInput,
+  output: GetConsolidatedReportOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));

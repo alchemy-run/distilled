@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "AuditManager",
   serviceShapeName: "BedrockAssessmentManagerLambda",
@@ -240,6 +248,73 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type UUID = string;
+export type ControlSetId = string;
+export type AssessmentName = string;
+export type AssessmentDescription = string;
+export type FrameworkName = string;
+export type FrameworkDescription = string;
+export type ComplianceType = string;
+export type AssessmentReportName = string;
+export type AssessmentReportDescription = string;
+export type QueryStatement = string;
+export type ControlName = string;
+export type ControlDescription = string;
+export type TestingInformation = string;
+export type ActionPlanTitle = string;
+export type ActionPlanInstructions = string;
+export type AccountId = string;
+export type Token = string;
+export type MaxResults = number;
+export type ManualEvidenceLocalFileName = string;
+export type organizationId = string;
+export type ControlDomainId = string;
+export type ControlCatalogId = string;
+export type AuditManagerArn = string;
+export type KmsKey = string;
+export type Region = string;
+export type ShareRequestComment = string;
+export type TagKey = string;
+export type ControlCommentBody = string;
+export type DelegationComment = string;
+export type SnsArn = string;
+export type S3Url = string;
+export type IamArn = string;
+export type ManualEvidenceTextResponse = string;
+export type TagValue = string;
+export type ControlSetName = string;
+export type SourceName = string;
+export type SourceDescription = string;
+export type TroubleshootingText = string;
+export type NullableInteger = number;
+export type AWSServiceName = string;
+export type NonEmptyString = string;
+export type KeywordValue = string;
+export type EmailAddress = string;
+export type AccountName = string;
+export type ErrorCode = string;
+export type ErrorMessage = string;
+export type Username = string;
+export type Filename = string;
+export type ControlSources = string;
+export type CreatedBy = string;
+export type LastUpdatedBy = string;
+export type HyperlinkName = string;
+export type UrlLink = string;
+export type EventName = string;
+export type AssessmentEvidenceFolderName = string;
+export type Integer = number;
+export type SNSTopic = string;
+export type ControlsCount = number;
+export type ControlSetsCount = number;
+export type TimestampUUID = string;
+export type GenericArn = string;
+export type EvidenceAttributeKey = string;
+export type EvidenceAttributeValue = string;
+export type CloudTrailArn = string;
+export type AssessmentFrameworkDescription = string;
 
 //# Schemas
 export interface DeregisterAccountRequest {}
@@ -3358,7 +3433,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -3366,7 +3443,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -3384,7 +3463,13 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Gets the registration status of an account in Audit Manager.
  */
-export const getAccountStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccountStatus: (
+  input: GetAccountStatusRequest,
+) => Effect.Effect<
+  GetAccountStatusResponse,
+  InternalServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountStatusRequest,
   output: GetAccountStatusResponse,
   errors: [InternalServerException],
@@ -3392,7 +3477,13 @@ export const getAccountStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the latest analytics data for all your current active assessments.
  */
-export const getInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInsights: (
+  input: GetInsightsRequest,
+) => Effect.Effect<
+  GetInsightsResponse,
+  AccessDeniedException | InternalServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInsightsRequest,
   output: GetInsightsResponse,
   errors: [AccessDeniedException, InternalServerException],
@@ -3411,7 +3502,16 @@ export const getInsights = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the *Troubleshooting* section of the Audit Manager user
  * guide.
  */
-export const getServicesInScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getServicesInScope: (
+  input: GetServicesInScopeRequest,
+) => Effect.Effect<
+  GetServicesInScopeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServicesInScopeRequest,
   output: GetServicesInScopeResponse,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
@@ -3419,7 +3519,13 @@ export const getServicesInScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the settings for a specified Amazon Web Services account.
  */
-export const getSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSettings: (
+  input: GetSettingsRequest,
+) => Effect.Effect<
+  GetSettingsResponse,
+  AccessDeniedException | InternalServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSettingsRequest,
   output: GetSettingsResponse,
   errors: [AccessDeniedException, InternalServerException],
@@ -3433,129 +3539,288 @@ export const getSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `lastUpdated` date of `controlInsightsByAssessment`. If neither
  * of these conditions are met, no data is listed for that control.
  */
-export const listAssessmentControlInsightsByControlDomain =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssessmentControlInsightsByControlDomain: {
+  (
     input: ListAssessmentControlInsightsByControlDomainRequest,
-    output: ListAssessmentControlInsightsByControlDomainResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAssessmentControlInsightsByControlDomainResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssessmentControlInsightsByControlDomainRequest,
+  ) => Stream.Stream<
+    ListAssessmentControlInsightsByControlDomainResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssessmentControlInsightsByControlDomainRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssessmentControlInsightsByControlDomainRequest,
+  output: ListAssessmentControlInsightsByControlDomainResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of current and past assessments from Audit Manager.
  */
-export const listAssessments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAssessments: {
+  (
     input: ListAssessmentsRequest,
-    output: ListAssessmentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAssessmentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssessmentsRequest,
+  ) => Stream.Stream<
+    ListAssessmentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssessmentsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssessmentsRequest,
+  output: ListAssessmentsResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates a control within an assessment in Audit Manager.
  */
-export const updateAssessmentControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAssessmentControlRequest,
-    output: UpdateAssessmentControlResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAssessmentControl: (
+  input: UpdateAssessmentControlRequest,
+) => Effect.Effect<
+  UpdateAssessmentControlResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAssessmentControlRequest,
+  output: UpdateAssessmentControlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a custom framework in Audit Manager.
  */
-export const updateAssessmentFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAssessmentFrameworkRequest,
-    output: UpdateAssessmentFrameworkResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAssessmentFramework: (
+  input: UpdateAssessmentFrameworkRequest,
+) => Effect.Effect<
+  UpdateAssessmentFrameworkResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAssessmentFrameworkRequest,
+  output: UpdateAssessmentFrameworkResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of keywords that are pre-mapped to the specified control data
  * source.
  */
-export const listKeywordsForDataSource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listKeywordsForDataSource: {
+  (
     input: ListKeywordsForDataSourceRequest,
-    output: ListKeywordsForDataSourceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListKeywordsForDataSourceResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKeywordsForDataSourceRequest,
+  ) => Stream.Stream<
+    ListKeywordsForDataSourceResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKeywordsForDataSourceRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKeywordsForDataSourceRequest,
+  output: ListKeywordsForDataSourceResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of delegations from an audit owner to a delegate.
  */
-export const getDelegations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getDelegations: {
+  (
     input: GetDelegationsRequest,
-    output: GetDelegationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetDelegationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetDelegationsRequest,
+  ) => Stream.Stream<
+    GetDelegationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetDelegationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetDelegationsRequest,
+  output: GetDelegationsResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets all evidence from a specified evidence folder in Audit Manager.
  */
-export const getEvidenceByEvidenceFolder =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getEvidenceByEvidenceFolder: {
+  (
     input: GetEvidenceByEvidenceFolderRequest,
-    output: GetEvidenceByEvidenceFolderResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetEvidenceByEvidenceFolderResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetEvidenceByEvidenceFolderRequest,
+  ) => Stream.Stream<
+    GetEvidenceByEvidenceFolderResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetEvidenceByEvidenceFolderRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetEvidenceByEvidenceFolderRequest,
+  output: GetEvidenceByEvidenceFolderResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a presigned Amazon S3 URL that can be used to upload a file as manual
  * evidence. For instructions on how to use this operation, see Upload a file from your browser in the Audit Manager User
@@ -3572,22 +3837,40 @@ export const getEvidenceByEvidenceFolder =
  * For more information about Audit Manager service restrictions, see Quotas and
  * restrictions for Audit Manager.
  */
-export const getEvidenceFileUploadUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEvidenceFileUploadUrlRequest,
-    output: GetEvidenceFileUploadUrlResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getEvidenceFileUploadUrl: (
+  input: GetEvidenceFileUploadUrlRequest,
+) => Effect.Effect<
+  GetEvidenceFileUploadUrlResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEvidenceFileUploadUrlRequest,
+  output: GetEvidenceFileUploadUrlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets an evidence folder from a specified assessment in Audit Manager.
  */
-export const getEvidenceFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEvidenceFolder: (
+  input: GetEvidenceFolderRequest,
+) => Effect.Effect<
+  GetEvidenceFolderResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEvidenceFolderRequest,
   output: GetEvidenceFolderResponse,
   errors: [
@@ -3600,73 +3883,159 @@ export const getEvidenceFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the latest analytics data for a specific active assessment.
  */
-export const getInsightsByAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetInsightsByAssessmentRequest,
-    output: GetInsightsByAssessmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getInsightsByAssessment: (
+  input: GetInsightsByAssessmentRequest,
+) => Effect.Effect<
+  GetInsightsByAssessmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInsightsByAssessmentRequest,
+  output: GetInsightsByAssessmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of the frameworks that are available in the Audit Manager framework
  * library.
  */
-export const listAssessmentFrameworks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssessmentFrameworks: {
+  (
     input: ListAssessmentFrameworksRequest,
-    output: ListAssessmentFrameworksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAssessmentFrameworksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssessmentFrameworksRequest,
+  ) => Stream.Stream<
+    ListAssessmentFrameworksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssessmentFrameworksRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssessmentFrameworksRequest,
+  output: ListAssessmentFrameworksResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of sent or received share requests for custom frameworks in Audit Manager.
  */
-export const listAssessmentFrameworkShareRequests =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssessmentFrameworkShareRequests: {
+  (
     input: ListAssessmentFrameworkShareRequestsRequest,
-    output: ListAssessmentFrameworkShareRequestsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAssessmentFrameworkShareRequestsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssessmentFrameworkShareRequestsRequest,
+  ) => Stream.Stream<
+    ListAssessmentFrameworkShareRequestsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssessmentFrameworkShareRequestsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssessmentFrameworkShareRequestsRequest,
+  output: ListAssessmentFrameworkShareRequestsResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of assessment reports created in Audit Manager.
  */
-export const listAssessmentReports =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssessmentReports: {
+  (
     input: ListAssessmentReportsRequest,
-    output: ListAssessmentReportsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAssessmentReportsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssessmentReportsRequest,
+  ) => Stream.Stream<
+    ListAssessmentReportsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssessmentReportsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssessmentReportsRequest,
+  output: ListAssessmentReportsResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the latest analytics data for control domains across all of your active
  * assessments.
@@ -3683,22 +4052,55 @@ export const listAssessmentReports =
  * `controlDomainInsights`. If this condition isn’t met, no data is listed
  * for that control domain.
  */
-export const listControlDomainInsights =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listControlDomainInsights: {
+  (
     input: ListControlDomainInsightsRequest,
-    output: ListControlDomainInsightsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListControlDomainInsightsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListControlDomainInsightsRequest,
+  ) => Stream.Stream<
+    ListControlDomainInsightsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListControlDomainInsightsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListControlDomainInsightsRequest,
+  output: ListControlDomainInsightsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the latest analytics data for controls within a specific control domain across all
  * active assessments.
@@ -3708,78 +4110,180 @@ export const listControlDomainInsights =
  * `controlInsightsMetadata`. If neither of these conditions are met, no data
  * is listed for that control.
  */
-export const listControlInsightsByControlDomain =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listControlInsightsByControlDomain: {
+  (
     input: ListControlInsightsByControlDomainRequest,
-    output: ListControlInsightsByControlDomainResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListControlInsightsByControlDomainResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListControlInsightsByControlDomainRequest,
+  ) => Stream.Stream<
+    ListControlInsightsByControlDomainResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListControlInsightsByControlDomainRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListControlInsightsByControlDomainRequest,
+  output: ListControlInsightsByControlDomainResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of controls from Audit Manager.
  */
-export const listControls = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listControls: {
+  (
     input: ListControlsRequest,
-    output: ListControlsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListControlsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListControlsRequest,
+  ) => Stream.Stream<
+    ListControlsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListControlsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListControlsRequest,
+  output: ListControlsResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of all Audit Manager notifications.
  */
-export const listNotifications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listNotifications: {
+  (
     input: ListNotificationsRequest,
-    output: ListNotificationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListNotificationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNotificationsRequest,
+  ) => Stream.Stream<
+    ListNotificationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNotificationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNotificationsRequest,
+  output: ListNotificationsResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates the status of a control set in an Audit Manager assessment.
  */
-export const updateAssessmentControlSetStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAssessmentControlSetStatusRequest,
-    output: UpdateAssessmentControlSetStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const updateAssessmentControlSetStatus: (
+  input: UpdateAssessmentControlSetStatusRequest,
+) => Effect.Effect<
+  UpdateAssessmentControlSetStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAssessmentControlSetStatusRequest,
+  output: UpdateAssessmentControlSetStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a custom control in Audit Manager.
  */
-export const updateControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateControl: (
+  input: UpdateControlRequest,
+) => Effect.Effect<
+  UpdateControlResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateControlRequest,
   output: UpdateControlResponse,
   errors: [
@@ -3792,7 +4296,16 @@ export const updateControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates Audit Manager settings for the current account.
  */
-export const updateSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSettings: (
+  input: UpdateSettingsRequest,
+) => Effect.Effect<
+  UpdateSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSettingsRequest,
   output: UpdateSettingsResponse,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
@@ -3800,42 +4313,108 @@ export const updateSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the evidence folders from a specified assessment in Audit Manager.
  */
-export const getEvidenceFoldersByAssessment =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getEvidenceFoldersByAssessment: {
+  (
     input: GetEvidenceFoldersByAssessmentRequest,
-    output: GetEvidenceFoldersByAssessmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetEvidenceFoldersByAssessmentResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetEvidenceFoldersByAssessmentRequest,
+  ) => Stream.Stream<
+    GetEvidenceFoldersByAssessmentResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetEvidenceFoldersByAssessmentRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetEvidenceFoldersByAssessmentRequest,
+  output: GetEvidenceFoldersByAssessmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of evidence folders that are associated with a specified control in an
  * Audit Manager assessment.
  */
-export const getEvidenceFoldersByAssessmentControl =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getEvidenceFoldersByAssessmentControl: {
+  (
     input: GetEvidenceFoldersByAssessmentControlRequest,
-    output: GetEvidenceFoldersByAssessmentControlResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetEvidenceFoldersByAssessmentControlResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetEvidenceFoldersByAssessmentControlRequest,
+  ) => Stream.Stream<
+    GetEvidenceFoldersByAssessmentControlResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetEvidenceFoldersByAssessmentControlRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetEvidenceFoldersByAssessmentControlRequest,
+  output: GetEvidenceFoldersByAssessmentControlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists analytics data for control domains within a specified active assessment.
  *
@@ -3851,26 +4430,68 @@ export const getEvidenceFoldersByAssessmentControl =
  * `controlDomainInsights`. If this condition isn’t met, no data is listed
  * for that domain.
  */
-export const listControlDomainInsightsByAssessment =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listControlDomainInsightsByAssessment: {
+  (
     input: ListControlDomainInsightsByAssessmentRequest,
-    output: ListControlDomainInsightsByAssessmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListControlDomainInsightsByAssessmentResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListControlDomainInsightsByAssessmentRequest,
+  ) => Stream.Stream<
+    ListControlDomainInsightsByAssessmentResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListControlDomainInsightsByAssessmentRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListControlDomainInsightsByAssessmentRequest,
+  output: ListControlDomainInsightsByAssessmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of tags for the specified resource in Audit Manager.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3882,7 +4503,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables Audit Manager for the specified Amazon Web Services account.
  */
-export const registerAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerAccount: (
+  input: RegisterAccountRequest,
+) => Effect.Effect<
+  RegisterAccountResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterAccountRequest,
   output: RegisterAccountResponse,
   errors: [
@@ -3897,18 +4529,28 @@ export const registerAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Enables an Amazon Web Services account within the organization as the delegated
  * administrator for Audit Manager.
  */
-export const registerOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterOrganizationAdminAccountRequest,
-    output: RegisterOrganizationAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const registerOrganizationAdminAccount: (
+  input: RegisterOrganizationAdminAccountRequest,
+) => Effect.Effect<
+  RegisterOrganizationAdminAccountResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterOrganizationAdminAccountRequest,
+  output: RegisterOrganizationAdminAccountResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a share request for a custom framework in Audit Manager.
  *
@@ -3946,35 +4588,63 @@ export const registerOrganizationAdminAccount =
  * standard frameworks are eligible for sharing, see Framework sharing eligibility in the Audit Manager User
  * Guide.
  */
-export const startAssessmentFrameworkShare =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartAssessmentFrameworkShareRequest,
-    output: StartAssessmentFrameworkShareResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const startAssessmentFrameworkShare: (
+  input: StartAssessmentFrameworkShareRequest,
+) => Effect.Effect<
+  StartAssessmentFrameworkShareResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAssessmentFrameworkShareRequest,
+  output: StartAssessmentFrameworkShareResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Validates the integrity of an assessment report in Audit Manager.
  */
-export const validateAssessmentReportIntegrity =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ValidateAssessmentReportIntegrityRequest,
-    output: ValidateAssessmentReportIntegrityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const validateAssessmentReportIntegrity: (
+  input: ValidateAssessmentReportIntegrityRequest,
+) => Effect.Effect<
+  ValidateAssessmentReportIntegrityResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ValidateAssessmentReportIntegrityRequest,
+  output: ValidateAssessmentReportIntegrityResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an assessment in Audit Manager.
  */
-export const deleteAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAssessment: (
+  input: DeleteAssessmentRequest,
+) => Effect.Effect<
+  DeleteAssessmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssessmentRequest,
   output: DeleteAssessmentResponse,
   errors: [
@@ -3987,32 +4657,49 @@ export const deleteAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a custom framework in Audit Manager.
  */
-export const deleteAssessmentFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAssessmentFrameworkRequest,
-    output: DeleteAssessmentFrameworkResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAssessmentFramework: (
+  input: DeleteAssessmentFrameworkRequest,
+) => Effect.Effect<
+  DeleteAssessmentFrameworkResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAssessmentFrameworkRequest,
+  output: DeleteAssessmentFrameworkResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a share request for a custom framework in Audit Manager.
  */
-export const deleteAssessmentFrameworkShare =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAssessmentFrameworkShareRequest,
-    output: DeleteAssessmentFrameworkShareResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const deleteAssessmentFrameworkShare: (
+  input: DeleteAssessmentFrameworkShareRequest,
+) => Effect.Effect<
+  DeleteAssessmentFrameworkShareResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAssessmentFrameworkShareRequest,
+  output: DeleteAssessmentFrameworkShareResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an assessment report in Audit Manager.
  *
@@ -4036,18 +4723,26 @@ export const deleteAssessmentFrameworkShare =
  * List of Error Codes in the Amazon Simple Storage Service API
  * Reference.
  */
-export const deleteAssessmentReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAssessmentReportRequest,
-    output: DeleteAssessmentReportResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAssessmentReport: (
+  input: DeleteAssessmentReportRequest,
+) => Effect.Effect<
+  DeleteAssessmentReportResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAssessmentReportRequest,
+  output: DeleteAssessmentReportResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a custom control in Audit Manager.
  *
@@ -4056,7 +4751,17 @@ export const deleteAssessmentReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * collecting evidence for that custom control in all of your assessments. This includes
  * assessments that you previously created before you deleted the custom control.
  */
-export const deleteControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteControl: (
+  input: DeleteControlRequest,
+) => Effect.Effect<
+  DeleteControlResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteControlRequest,
   output: DeleteControlResponse,
   errors: [
@@ -4077,7 +4782,17 @@ export const deleteControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about data retention, see Data
  * Protection in the *Audit Manager User Guide*.
  */
-export const deregisterAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deregisterAccount: (
+  input: DeregisterAccountRequest,
+) => Effect.Effect<
+  DeregisterAccountResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterAccountRequest,
   output: DeregisterAccountResponse,
   errors: [
@@ -4142,51 +4857,86 @@ export const deregisterAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * specific delegated administrator. Instead, when your management account deregisters Audit Manager, we perform a cleanup for the current delegated administrator account at the
  * time of deregistration.
  */
-export const deregisterOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterOrganizationAdminAccountRequest,
-    output: DeregisterOrganizationAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const deregisterOrganizationAdminAccount: (
+  input: DeregisterOrganizationAdminAccountRequest,
+) => Effect.Effect<
+  DeregisterOrganizationAdminAccountResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterOrganizationAdminAccountRequest,
+  output: DeregisterOrganizationAdminAccountResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates an evidence folder from the specified assessment report in Audit Manager.
  */
-export const disassociateAssessmentReportEvidenceFolder =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateAssessmentReportEvidenceFolderRequest,
-    output: DisassociateAssessmentReportEvidenceFolderResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const disassociateAssessmentReportEvidenceFolder: (
+  input: DisassociateAssessmentReportEvidenceFolderRequest,
+) => Effect.Effect<
+  DisassociateAssessmentReportEvidenceFolderResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateAssessmentReportEvidenceFolderRequest,
+  output: DisassociateAssessmentReportEvidenceFolderResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the name of the delegated Amazon Web Services administrator account for a specified
  * organization.
  */
-export const getOrganizationAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetOrganizationAdminAccountRequest,
-    output: GetOrganizationAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getOrganizationAdminAccount: (
+  input: GetOrganizationAdminAccountRequest,
+) => Effect.Effect<
+  GetOrganizationAdminAccountResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOrganizationAdminAccountRequest,
+  output: GetOrganizationAdminAccountResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Tags the specified resource in Audit Manager.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -4198,7 +4948,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag from a resource in Audit Manager.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -4211,114 +4970,208 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Associates an evidence folder to an assessment report in an Audit Manager
  * assessment.
  */
-export const associateAssessmentReportEvidenceFolder =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateAssessmentReportEvidenceFolderRequest,
-    output: AssociateAssessmentReportEvidenceFolderResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const associateAssessmentReportEvidenceFolder: (
+  input: AssociateAssessmentReportEvidenceFolderRequest,
+) => Effect.Effect<
+  AssociateAssessmentReportEvidenceFolderResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateAssessmentReportEvidenceFolderRequest,
+  output: AssociateAssessmentReportEvidenceFolderResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates a list of evidence from an assessment report in Audit Manager.
  */
-export const batchDisassociateAssessmentReportEvidence =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDisassociateAssessmentReportEvidenceRequest,
-    output: BatchDisassociateAssessmentReportEvidenceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const batchDisassociateAssessmentReportEvidence: (
+  input: BatchDisassociateAssessmentReportEvidenceRequest,
+) => Effect.Effect<
+  BatchDisassociateAssessmentReportEvidenceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDisassociateAssessmentReportEvidenceRequest,
+  output: BatchDisassociateAssessmentReportEvidenceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a list of evidence to an assessment report in an Audit Manager
  * assessment.
  */
-export const batchAssociateAssessmentReportEvidence =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchAssociateAssessmentReportEvidenceRequest,
-    output: BatchAssociateAssessmentReportEvidenceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const batchAssociateAssessmentReportEvidence: (
+  input: BatchAssociateAssessmentReportEvidenceRequest,
+) => Effect.Effect<
+  BatchAssociateAssessmentReportEvidenceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchAssociateAssessmentReportEvidenceRequest,
+  output: BatchAssociateAssessmentReportEvidenceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a batch of delegations for an assessment in Audit Manager.
  */
-export const batchDeleteDelegationByAssessment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDeleteDelegationByAssessmentRequest,
-    output: BatchDeleteDelegationByAssessmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const batchDeleteDelegationByAssessment: (
+  input: BatchDeleteDelegationByAssessmentRequest,
+) => Effect.Effect<
+  BatchDeleteDelegationByAssessmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteDelegationByAssessmentRequest,
+  output: BatchDeleteDelegationByAssessmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an assessment report for the specified assessment.
  */
-export const createAssessmentReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAssessmentReportRequest,
-    output: CreateAssessmentReportResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAssessmentReport: (
+  input: CreateAssessmentReportRequest,
+) => Effect.Effect<
+  CreateAssessmentReportResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAssessmentReportRequest,
+  output: CreateAssessmentReportResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the URL of an assessment report in Audit Manager.
  */
-export const getAssessmentReportUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAssessmentReportUrlRequest,
-    output: GetAssessmentReportUrlResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAssessmentReportUrl: (
+  input: GetAssessmentReportUrlRequest,
+) => Effect.Effect<
+  GetAssessmentReportUrlResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAssessmentReportUrlRequest,
+  output: GetAssessmentReportUrlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a list of changelogs from Audit Manager.
  */
-export const getChangeLogs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getChangeLogs: {
+  (
     input: GetChangeLogsRequest,
-    output: GetChangeLogsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetChangeLogsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetChangeLogsRequest,
+  ) => Stream.Stream<
+    GetChangeLogsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetChangeLogsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetChangeLogsRequest,
+  output: GetChangeLogsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets information about a specified control.
  */
-export const getControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getControl: (
+  input: GetControlRequest,
+) => Effect.Effect<
+  GetControlResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetControlRequest,
   output: GetControlResponse,
   errors: [
@@ -4331,17 +5184,26 @@ export const getControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a batch of delegations for an assessment in Audit Manager.
  */
-export const batchCreateDelegationByAssessment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchCreateDelegationByAssessmentRequest,
-    output: BatchCreateDelegationByAssessmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const batchCreateDelegationByAssessment: (
+  input: BatchCreateDelegationByAssessmentRequest,
+) => Effect.Effect<
+  BatchCreateDelegationByAssessmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCreateDelegationByAssessmentRequest,
+  output: BatchCreateDelegationByAssessmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds one or more pieces of evidence to a control in an Audit Manager assessment.
  *
@@ -4364,37 +5226,65 @@ export const batchCreateDelegationByAssessment =
  * For more information about Audit Manager service restrictions, see Quotas and
  * restrictions for Audit Manager.
  */
-export const batchImportEvidenceToAssessmentControl =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchImportEvidenceToAssessmentControlRequest,
-    output: BatchImportEvidenceToAssessmentControlResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchImportEvidenceToAssessmentControl: (
+  input: BatchImportEvidenceToAssessmentControlRequest,
+) => Effect.Effect<
+  BatchImportEvidenceToAssessmentControlResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchImportEvidenceToAssessmentControlRequest,
+  output: BatchImportEvidenceToAssessmentControlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about a specified framework.
  */
-export const getAssessmentFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAssessmentFrameworkRequest,
-    output: GetAssessmentFrameworkResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAssessmentFramework: (
+  input: GetAssessmentFrameworkRequest,
+) => Effect.Effect<
+  GetAssessmentFrameworkResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAssessmentFrameworkRequest,
+  output: GetAssessmentFrameworkResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about a specified evidence item.
  */
-export const getEvidence = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEvidence: (
+  input: GetEvidenceRequest,
+) => Effect.Effect<
+  GetEvidenceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEvidenceRequest,
   output: GetEvidenceResponse,
   errors: [
@@ -4407,7 +5297,19 @@ export const getEvidence = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Edits an Audit Manager assessment.
  */
-export const updateAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAssessment: (
+  input: UpdateAssessmentRequest,
+) => Effect.Effect<
+  UpdateAssessmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAssessmentRequest,
   output: UpdateAssessmentResponse,
   errors: [
@@ -4422,38 +5324,69 @@ export const updateAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a share request for a custom framework in Audit Manager.
  */
-export const updateAssessmentFrameworkShare =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAssessmentFrameworkShareRequest,
-    output: UpdateAssessmentFrameworkShareResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }));
+export const updateAssessmentFrameworkShare: (
+  input: UpdateAssessmentFrameworkShareRequest,
+) => Effect.Effect<
+  UpdateAssessmentFrameworkShareResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAssessmentFrameworkShareRequest,
+  output: UpdateAssessmentFrameworkShareResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the status of an assessment in Audit Manager.
  */
-export const updateAssessmentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAssessmentStatusRequest,
-    output: UpdateAssessmentStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAssessmentStatus: (
+  input: UpdateAssessmentStatusRequest,
+) => Effect.Effect<
+  UpdateAssessmentStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAssessmentStatusRequest,
+  output: UpdateAssessmentStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an assessment in Audit Manager.
  */
-export const createAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAssessment: (
+  input: CreateAssessmentRequest,
+) => Effect.Effect<
+  CreateAssessmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssessmentRequest,
   output: CreateAssessmentResponse,
   errors: [
@@ -4468,23 +5401,43 @@ export const createAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a custom framework in Audit Manager.
  */
-export const createAssessmentFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAssessmentFrameworkRequest,
-    output: CreateAssessmentFrameworkResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAssessmentFramework: (
+  input: CreateAssessmentFrameworkRequest,
+) => Effect.Effect<
+  CreateAssessmentFrameworkResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAssessmentFrameworkRequest,
+  output: CreateAssessmentFrameworkResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new custom control in Audit Manager.
  */
-export const createControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createControl: (
+  input: CreateControlRequest,
+) => Effect.Effect<
+  CreateControlResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateControlRequest,
   output: CreateControlResponse,
   errors: [
@@ -4498,7 +5451,17 @@ export const createControl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a specified assessment.
  */
-export const getAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAssessment: (
+  input: GetAssessmentRequest,
+) => Effect.Effect<
+  GetAssessmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssessmentRequest,
   output: GetAssessmentResponse,
   errors: [

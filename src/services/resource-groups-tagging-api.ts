@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Resource Groups Tagging API",
   serviceShapeName: "ResourceGroupsTaggingAPI_20170126",
@@ -240,6 +248,30 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Status = string;
+export type S3Location = string;
+export type StartDate = string;
+export type ErrorMessage = string;
+export type TargetId = string;
+export type Region = string;
+export type AmazonResourceType = string;
+export type TagKey = string;
+export type MaxResultsGetComplianceSummary = number;
+export type PaginationToken = string;
+export type ResourcesPerPage = number;
+export type TagsPerPage = number;
+export type ResourceARN = string;
+export type MaxResultsForListRequiredTags = number;
+export type S3Bucket = string;
+export type TagValue = string;
+export type ExceptionMessage = string;
+export type LastUpdated = string;
+export type NonCompliantResources = number;
+export type ResourceType = string;
+export type CloudFormationResourceType = string;
+export type StatusCode = number;
 
 //# Schemas
 export interface DescribeReportCreationInput {}
@@ -692,39 +724,79 @@ export class PaginationTokenExpiredException extends S.TaggedError<PaginationTok
  * You can call this operation only from the organization's
  * management account and from the us-east-1 Region.
  */
-export const describeReportCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeReportCreationInput,
-    output: DescribeReportCreationOutput,
-    errors: [
-      ConstraintViolationException,
-      InternalServiceException,
-      InvalidParameterException,
-      ThrottledException,
-    ],
-  }),
-);
+export const describeReportCreation: (
+  input: DescribeReportCreationInput,
+) => Effect.Effect<
+  DescribeReportCreationOutput,
+  | ConstraintViolationException
+  | InternalServiceException
+  | InvalidParameterException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeReportCreationInput,
+  output: DescribeReportCreationOutput,
+  errors: [
+    ConstraintViolationException,
+    InternalServiceException,
+    InvalidParameterException,
+    ThrottledException,
+  ],
+}));
 /**
  * Lists the required tags for supported resource types in an Amazon Web Services account.
  */
-export const listRequiredTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRequiredTags: {
+  (
     input: ListRequiredTagsInput,
-    output: ListRequiredTagsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      PaginationTokenExpiredException,
-      ThrottledException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RequiredTags",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRequiredTagsOutput,
+    | InternalServiceException
+    | InvalidParameterException
+    | PaginationTokenExpiredException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRequiredTagsInput,
+  ) => Stream.Stream<
+    ListRequiredTagsOutput,
+    | InternalServiceException
+    | InvalidParameterException
+    | PaginationTokenExpiredException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRequiredTagsInput,
+  ) => Stream.Stream<
+    RequiredTag,
+    | InternalServiceException
+    | InvalidParameterException
+    | PaginationTokenExpiredException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRequiredTagsInput,
+  output: ListRequiredTagsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    PaginationTokenExpiredException,
+    ThrottledException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RequiredTags",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Removes the specified tags from the specified resources. When you specify a tag key,
  * the action removes both that key and its associated value. The operation succeeds even
@@ -757,7 +829,16 @@ export const listRequiredTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * don't work, check the documentation for that service's tagging APIs for more
  * information.
  */
-export const untagResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResources: (
+  input: UntagResourcesInput,
+) => Effect.Effect<
+  UntagResourcesOutput,
+  | InternalServiceException
+  | InvalidParameterException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourcesInput,
   output: UntagResourcesOutput,
   errors: [
@@ -783,23 +864,56 @@ export const untagResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * recieve a `null` value. A null value for `PaginationToken` indicates that
  * there are no more results waiting to be returned.
  */
-export const getComplianceSummary =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getComplianceSummary: {
+  (
     input: GetComplianceSummaryInput,
-    output: GetComplianceSummaryOutput,
-    errors: [
-      ConstraintViolationException,
-      InternalServiceException,
-      InvalidParameterException,
-      ThrottledException,
-    ],
-    pagination: {
-      inputToken: "PaginationToken",
-      outputToken: "PaginationToken",
-      items: "SummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetComplianceSummaryOutput,
+    | ConstraintViolationException
+    | InternalServiceException
+    | InvalidParameterException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetComplianceSummaryInput,
+  ) => Stream.Stream<
+    GetComplianceSummaryOutput,
+    | ConstraintViolationException
+    | InternalServiceException
+    | InvalidParameterException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetComplianceSummaryInput,
+  ) => Stream.Stream<
+    Summary,
+    | ConstraintViolationException
+    | InternalServiceException
+    | InvalidParameterException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetComplianceSummaryInput,
+  output: GetComplianceSummaryOutput,
+  errors: [
+    ConstraintViolationException,
+    InternalServiceException,
+    InvalidParameterException,
+    ThrottledException,
+  ],
+  pagination: {
+    inputToken: "PaginationToken",
+    outputToken: "PaginationToken",
+    items: "SummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Applies one or more tags to the specified resources. Note the following:
  *
@@ -852,7 +966,16 @@ export const getComplianceSummary =
  * don't work, check the documentation for that service's tagging APIs for more
  * information.
  */
-export const tagResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResources: (
+  input: TagResourcesInput,
+) => Effect.Effect<
+  TagResourcesOutput,
+  | InternalServiceException
+  | InvalidParameterException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourcesInput,
   output: TagResourcesOutput,
   errors: [
@@ -884,7 +1007,18 @@ export const tagResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * policy for report storage in the Tagging Amazon Web Services Resources and Tag
  * Editor user guide.
  */
-export const startReportCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startReportCreation: (
+  input: StartReportCreationInput,
+) => Effect.Effect<
+  StartReportCreationOutput,
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InternalServiceException
+  | InvalidParameterException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartReportCreationInput,
   output: StartReportCreationOutput,
   errors: [
@@ -906,7 +1040,41 @@ export const startReportCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * recieve a `null` value. A null value for `PaginationToken` indicates that
  * there are no more results waiting to be returned.
  */
-export const getTagKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getTagKeys: {
+  (
+    input: GetTagKeysInput,
+  ): Effect.Effect<
+    GetTagKeysOutput,
+    | InternalServiceException
+    | InvalidParameterException
+    | PaginationTokenExpiredException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTagKeysInput,
+  ) => Stream.Stream<
+    GetTagKeysOutput,
+    | InternalServiceException
+    | InvalidParameterException
+    | PaginationTokenExpiredException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTagKeysInput,
+  ) => Stream.Stream<
+    TagKey,
+    | InternalServiceException
+    | InvalidParameterException
+    | PaginationTokenExpiredException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetTagKeysInput,
   output: GetTagKeysOutput,
   errors: [
@@ -932,23 +1100,55 @@ export const getTagKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * recieve a `null` value. A null value for `PaginationToken` indicates that
  * there are no more results waiting to be returned.
  */
-export const getTagValues = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getTagValues: {
+  (
     input: GetTagValuesInput,
-    output: GetTagValuesOutput,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      PaginationTokenExpiredException,
-      ThrottledException,
-    ],
-    pagination: {
-      inputToken: "PaginationToken",
-      outputToken: "PaginationToken",
-      items: "TagValues",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetTagValuesOutput,
+    | InternalServiceException
+    | InvalidParameterException
+    | PaginationTokenExpiredException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTagValuesInput,
+  ) => Stream.Stream<
+    GetTagValuesOutput,
+    | InternalServiceException
+    | InvalidParameterException
+    | PaginationTokenExpiredException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTagValuesInput,
+  ) => Stream.Stream<
+    TagValue,
+    | InternalServiceException
+    | InvalidParameterException
+    | PaginationTokenExpiredException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTagValuesInput,
+  output: GetTagValuesOutput,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    PaginationTokenExpiredException,
+    ThrottledException,
+  ],
+  pagination: {
+    inputToken: "PaginationToken",
+    outputToken: "PaginationToken",
+    items: "TagValues",
+  } as const,
+}));
 /**
  * Returns all the tagged or previously tagged resources that are located in the
  * specified Amazon Web Services Region for the account.
@@ -976,21 +1176,53 @@ export const getTagValues = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * To find untagged resources in your account, use Amazon Web Services Resource Explorer with a
  * query that uses `tag:none`. For more information, see Search query syntax reference for Resource Explorer.
  */
-export const getResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getResources: {
+  (
     input: GetResourcesInput,
-    output: GetResourcesOutput,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      PaginationTokenExpiredException,
-      ThrottledException,
-    ],
-    pagination: {
-      inputToken: "PaginationToken",
-      outputToken: "PaginationToken",
-      items: "ResourceTagMappingList",
-      pageSize: "ResourcesPerPage",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetResourcesOutput,
+    | InternalServiceException
+    | InvalidParameterException
+    | PaginationTokenExpiredException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetResourcesInput,
+  ) => Stream.Stream<
+    GetResourcesOutput,
+    | InternalServiceException
+    | InvalidParameterException
+    | PaginationTokenExpiredException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetResourcesInput,
+  ) => Stream.Stream<
+    ResourceTagMapping,
+    | InternalServiceException
+    | InvalidParameterException
+    | PaginationTokenExpiredException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetResourcesInput,
+  output: GetResourcesOutput,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    PaginationTokenExpiredException,
+    ThrottledException,
+  ],
+  pagination: {
+    inputToken: "PaginationToken",
+    outputToken: "PaginationToken",
+    items: "ResourceTagMappingList",
+    pageSize: "ResourcesPerPage",
+  } as const,
+}));

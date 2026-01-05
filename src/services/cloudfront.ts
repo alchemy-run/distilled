@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://cloudfront.amazonaws.com/doc/2020-05-31/");
 const svc = T.AwsApiService({
   sdkId: "CloudFront",
@@ -422,6 +430,32 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AnycastIpListName = string;
+export type integer = number;
+export type FunctionName = string;
+export type KeyValueStoreName = string;
+export type KeyValueStoreComment = string;
+export type long = number;
+export type ResourceId = string;
+export type distributionIdString = string;
+export type aliasString = string;
+export type listConflictingAliasesMaxItemsInteger = number;
+export type ResourceARN = string;
+export type CommentType = string;
+export type ParameterName = string;
+export type ParameterValue = string;
+export type TagKey = string;
+export type TagValue = string;
+export type ServerCertificateId = string;
+export type SamplingRate = number;
+export type sensitiveStringType = string;
+export type KeyValueStoreARN = string;
+export type float = number;
+export type OriginShieldRegion = string;
+export type LambdaFunctionARN = string;
+export type FunctionARN = string;
 
 //# Schemas
 export type FieldList = string[];
@@ -5435,6 +5469,9 @@ export const CaCertificatesBundleS3Location = S.suspend(() =>
 ).annotations({
   identifier: "CaCertificatesBundleS3Location",
 }) as any as S.Schema<CaCertificatesBundleS3Location>;
+export type CaCertificatesBundleSource = {
+  CaCertificatesBundleS3Location: CaCertificatesBundleS3Location;
+};
 export const CaCertificatesBundleSource = S.Union(
   S.Struct({ CaCertificatesBundleS3Location: CaCertificatesBundleS3Location }),
 );
@@ -9913,7 +9950,9 @@ export class NoSuchRealtimeLogConfig extends S.TaggedError<NoSuchRealtimeLogConf
 export class TestFunctionFailed extends S.TaggedError<TestFunctionFailed>()(
   "TestFunctionFailed",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class EntityLimitExceeded extends S.TaggedError<EntityLimitExceeded>()(
   "EntityLimitExceeded",
   { Message: S.optional(S.String) },
@@ -10364,35 +10403,55 @@ export class TrustedKeyGroupDoesNotExist extends S.TaggedError<TrustedKeyGroupDo
  *
  * To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the cache policy is not attached to a cache behavior, you can get the identifier using `ListCachePolicies`.
  */
-export const getCachePolicyConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCachePolicyConfigRequest,
-    output: GetCachePolicyConfigResult,
-    errors: [AccessDenied, NoSuchCachePolicy],
-  }),
-);
+export const getCachePolicyConfig: (
+  input: GetCachePolicyConfigRequest,
+) => Effect.Effect<
+  GetCachePolicyConfigResult,
+  AccessDenied | NoSuchCachePolicy | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCachePolicyConfigRequest,
+  output: GetCachePolicyConfigResult,
+  errors: [AccessDenied, NoSuchCachePolicy],
+}));
 /**
  * Get the configuration information about an origin access identity.
  */
-export const getCloudFrontOriginAccessIdentityConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCloudFrontOriginAccessIdentityConfigRequest,
-    output: GetCloudFrontOriginAccessIdentityConfigResult,
-    errors: [AccessDenied, NoSuchCloudFrontOriginAccessIdentity],
-  }));
+export const getCloudFrontOriginAccessIdentityConfig: (
+  input: GetCloudFrontOriginAccessIdentityConfigRequest,
+) => Effect.Effect<
+  GetCloudFrontOriginAccessIdentityConfigResult,
+  AccessDenied | NoSuchCloudFrontOriginAccessIdentity | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCloudFrontOriginAccessIdentityConfigRequest,
+  output: GetCloudFrontOriginAccessIdentityConfigResult,
+  errors: [AccessDenied, NoSuchCloudFrontOriginAccessIdentity],
+}));
 /**
  * Gets configuration information about a continuous deployment policy.
  */
-export const getContinuousDeploymentPolicyConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetContinuousDeploymentPolicyConfigRequest,
-    output: GetContinuousDeploymentPolicyConfigResult,
-    errors: [AccessDenied, NoSuchContinuousDeploymentPolicy],
-  }));
+export const getContinuousDeploymentPolicyConfig: (
+  input: GetContinuousDeploymentPolicyConfigRequest,
+) => Effect.Effect<
+  GetContinuousDeploymentPolicyConfigResult,
+  AccessDenied | NoSuchContinuousDeploymentPolicy | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContinuousDeploymentPolicyConfigRequest,
+  output: GetContinuousDeploymentPolicyConfigResult,
+  errors: [AccessDenied, NoSuchContinuousDeploymentPolicy],
+}));
 /**
  * Get the information about a distribution.
  */
-export const getDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDistribution: (
+  input: GetDistributionRequest,
+) => Effect.Effect<
+  GetDistributionResult,
+  AccessDenied | NoSuchDistribution | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDistributionRequest,
   output: GetDistributionResult,
   errors: [AccessDenied, NoSuchDistribution],
@@ -10400,27 +10459,43 @@ export const getDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get the field-level encryption configuration information.
  */
-export const getFieldLevelEncryptionConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetFieldLevelEncryptionConfigRequest,
-    output: GetFieldLevelEncryptionConfigResult,
-    errors: [AccessDenied, NoSuchFieldLevelEncryptionConfig],
-  }));
+export const getFieldLevelEncryptionConfig: (
+  input: GetFieldLevelEncryptionConfigRequest,
+) => Effect.Effect<
+  GetFieldLevelEncryptionConfigResult,
+  AccessDenied | NoSuchFieldLevelEncryptionConfig | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFieldLevelEncryptionConfigRequest,
+  output: GetFieldLevelEncryptionConfigResult,
+  errors: [AccessDenied, NoSuchFieldLevelEncryptionConfig],
+}));
 /**
  * Get the field-level encryption profile configuration information.
  */
-export const getFieldLevelEncryptionProfileConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetFieldLevelEncryptionProfileConfigRequest,
-    output: GetFieldLevelEncryptionProfileConfigResult,
-    errors: [AccessDenied, NoSuchFieldLevelEncryptionProfile],
-  }));
+export const getFieldLevelEncryptionProfileConfig: (
+  input: GetFieldLevelEncryptionProfileConfigRequest,
+) => Effect.Effect<
+  GetFieldLevelEncryptionProfileConfigResult,
+  AccessDenied | NoSuchFieldLevelEncryptionProfile | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFieldLevelEncryptionProfileConfigRequest,
+  output: GetFieldLevelEncryptionProfileConfigResult,
+  errors: [AccessDenied, NoSuchFieldLevelEncryptionProfile],
+}));
 /**
  * Gets a key group, including the date and time when the key group was last modified.
  *
  * To get a key group, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using `ListDistributions` or `GetDistribution`. If the key group is not referenced in a cache behavior, you can get the identifier using `ListKeyGroups`.
  */
-export const getKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKeyGroup: (
+  input: GetKeyGroupRequest,
+) => Effect.Effect<
+  GetKeyGroupResult,
+  NoSuchResource | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKeyGroupRequest,
   output: GetKeyGroupResult,
   errors: [NoSuchResource],
@@ -10428,27 +10503,43 @@ export const getKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a CloudFront origin access control configuration.
  */
-export const getOriginAccessControlConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetOriginAccessControlConfigRequest,
-    output: GetOriginAccessControlConfigResult,
-    errors: [AccessDenied, NoSuchOriginAccessControl],
-  }));
+export const getOriginAccessControlConfig: (
+  input: GetOriginAccessControlConfigRequest,
+) => Effect.Effect<
+  GetOriginAccessControlConfigResult,
+  AccessDenied | NoSuchOriginAccessControl | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOriginAccessControlConfigRequest,
+  output: GetOriginAccessControlConfigResult,
+  errors: [AccessDenied, NoSuchOriginAccessControl],
+}));
 /**
  * Gets an origin request policy configuration.
  *
  * To get an origin request policy configuration, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the origin request policy is not attached to a cache behavior, you can get the identifier using `ListOriginRequestPolicies`.
  */
-export const getOriginRequestPolicyConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetOriginRequestPolicyConfigRequest,
-    output: GetOriginRequestPolicyConfigResult,
-    errors: [AccessDenied, NoSuchOriginRequestPolicy],
-  }));
+export const getOriginRequestPolicyConfig: (
+  input: GetOriginRequestPolicyConfigRequest,
+) => Effect.Effect<
+  GetOriginRequestPolicyConfigResult,
+  AccessDenied | NoSuchOriginRequestPolicy | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOriginRequestPolicyConfigRequest,
+  output: GetOriginRequestPolicyConfigResult,
+  errors: [AccessDenied, NoSuchOriginRequestPolicy],
+}));
 /**
  * Gets a public key configuration.
  */
-export const getPublicKeyConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPublicKeyConfig: (
+  input: GetPublicKeyConfigRequest,
+) => Effect.Effect<
+  GetPublicKeyConfigResult,
+  AccessDenied | NoSuchPublicKey | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPublicKeyConfigRequest,
   output: GetPublicKeyConfigResult,
   errors: [AccessDenied, NoSuchPublicKey],
@@ -10458,94 +10549,181 @@ export const getPublicKeyConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the response headers policy is not attached to a cache behavior, you can get the identifier using `ListResponseHeadersPolicies`.
  */
-export const getResponseHeadersPolicyConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetResponseHeadersPolicyConfigRequest,
-    output: GetResponseHeadersPolicyConfigResult,
-    errors: [AccessDenied, NoSuchResponseHeadersPolicy],
-  }));
+export const getResponseHeadersPolicyConfig: (
+  input: GetResponseHeadersPolicyConfigRequest,
+) => Effect.Effect<
+  GetResponseHeadersPolicyConfigResult,
+  AccessDenied | NoSuchResponseHeadersPolicy | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResponseHeadersPolicyConfigRequest,
+  output: GetResponseHeadersPolicyConfigResult,
+  errors: [AccessDenied, NoSuchResponseHeadersPolicy],
+}));
 /**
  * Get the configuration information about a streaming distribution.
  */
-export const getStreamingDistributionConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetStreamingDistributionConfigRequest,
-    output: GetStreamingDistributionConfigResult,
-    errors: [AccessDenied, NoSuchStreamingDistribution],
-  }));
+export const getStreamingDistributionConfig: (
+  input: GetStreamingDistributionConfigRequest,
+) => Effect.Effect<
+  GetStreamingDistributionConfigResult,
+  AccessDenied | NoSuchStreamingDistribution | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStreamingDistributionConfigRequest,
+  output: GetStreamingDistributionConfigResult,
+  errors: [AccessDenied, NoSuchStreamingDistribution],
+}));
 /**
  * Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified cache policy.
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listDistributionsByCachePolicyId =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDistributionsByCachePolicyIdRequest,
-    output: ListDistributionsByCachePolicyIdResult,
-    errors: [AccessDenied, InvalidArgument, NoSuchCachePolicy],
-  }));
+export const listDistributionsByCachePolicyId: (
+  input: ListDistributionsByCachePolicyIdRequest,
+) => Effect.Effect<
+  ListDistributionsByCachePolicyIdResult,
+  AccessDenied | InvalidArgument | NoSuchCachePolicy | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDistributionsByCachePolicyIdRequest,
+  output: ListDistributionsByCachePolicyIdResult,
+  errors: [AccessDenied, InvalidArgument, NoSuchCachePolicy],
+}));
 /**
  * Lists the distribution tenants in your Amazon Web Services account.
  */
-export const listDistributionTenants =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDistributionTenants: {
+  (
     input: ListDistributionTenantsRequest,
-    output: ListDistributionTenantsResult,
-    errors: [AccessDenied, EntityNotFound, InvalidArgument],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "DistributionTenantList",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDistributionTenantsResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDistributionTenantsRequest,
+  ) => Stream.Stream<
+    ListDistributionTenantsResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDistributionTenantsRequest,
+  ) => Stream.Stream<
+    DistributionTenantSummary,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDistributionTenantsRequest,
+  output: ListDistributionTenantsResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "DistributionTenantList",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists distribution tenants by the customization that you specify.
  *
  * You must specify either the `CertificateArn` parameter or `WebACLArn` parameter, but not both in the same request.
  */
-export const listDistributionTenantsByCustomization =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDistributionTenantsByCustomization: {
+  (
     input: ListDistributionTenantsByCustomizationRequest,
-    output: ListDistributionTenantsByCustomizationResult,
-    errors: [AccessDenied, EntityNotFound, InvalidArgument],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "DistributionTenantList",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDistributionTenantsByCustomizationResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDistributionTenantsByCustomizationRequest,
+  ) => Stream.Stream<
+    ListDistributionTenantsByCustomizationResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDistributionTenantsByCustomizationRequest,
+  ) => Stream.Stream<
+    DistributionTenantSummary,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDistributionTenantsByCustomizationRequest,
+  output: ListDistributionTenantsByCustomizationResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "DistributionTenantList",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists trust stores.
  */
-export const listTrustStores = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTrustStores: {
+  (
     input: ListTrustStoresRequest,
-    output: ListTrustStoresResult,
-    errors: [AccessDenied, EntityNotFound, InvalidArgument],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "TrustStoreList",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTrustStoresResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTrustStoresRequest,
+  ) => Stream.Stream<
+    ListTrustStoresResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTrustStoresRequest,
+  ) => Stream.Stream<
+    TrustStoreSummary,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTrustStoresRequest,
+  output: ListTrustStoresResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "TrustStoreList",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Verify the DNS configuration for your domain names. This API operation checks whether your domain name points to the correct routing endpoint of the connection group, such as d111111abcdef8.cloudfront.net. You can use this API operation to troubleshoot and resolve DNS configuration issues.
  */
-export const verifyDnsConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: VerifyDnsConfigurationRequest,
-    output: VerifyDnsConfigurationResult,
-    errors: [AccessDenied, EntityNotFound, InvalidArgument],
-  }),
-);
+export const verifyDnsConfiguration: (
+  input: VerifyDnsConfigurationRequest,
+) => Effect.Effect<
+  VerifyDnsConfigurationResult,
+  AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: VerifyDnsConfigurationRequest,
+  output: VerifyDnsConfigurationResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument],
+}));
 /**
  * Gets information about a connection group.
  */
-export const getConnectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConnectionGroup: (
+  input: GetConnectionGroupRequest,
+) => Effect.Effect<
+  GetConnectionGroupResult,
+  AccessDenied | EntityNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionGroupRequest,
   output: GetConnectionGroupResult,
   errors: [AccessDenied, EntityNotFound],
@@ -10553,72 +10731,151 @@ export const getConnectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a connection group by using the endpoint that you specify.
  */
-export const getConnectionGroupByRoutingEndpoint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetConnectionGroupByRoutingEndpointRequest,
-    output: GetConnectionGroupByRoutingEndpointResult,
-    errors: [AccessDenied, EntityNotFound],
-  }));
+export const getConnectionGroupByRoutingEndpoint: (
+  input: GetConnectionGroupByRoutingEndpointRequest,
+) => Effect.Effect<
+  GetConnectionGroupByRoutingEndpointResult,
+  AccessDenied | EntityNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConnectionGroupByRoutingEndpointRequest,
+  output: GetConnectionGroupByRoutingEndpointResult,
+  errors: [AccessDenied, EntityNotFound],
+}));
 /**
  * Gets information about a distribution tenant by the associated domain.
  */
-export const getDistributionTenantByDomain =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDistributionTenantByDomainRequest,
-    output: GetDistributionTenantByDomainResult,
-    errors: [AccessDenied, EntityNotFound],
-  }));
+export const getDistributionTenantByDomain: (
+  input: GetDistributionTenantByDomainRequest,
+) => Effect.Effect<
+  GetDistributionTenantByDomainResult,
+  AccessDenied | EntityNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDistributionTenantByDomainRequest,
+  output: GetDistributionTenantByDomainResult,
+  errors: [AccessDenied, EntityNotFound],
+}));
 /**
  * Lists distributions by connection function.
  */
-export const listDistributionsByConnectionFunction =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDistributionsByConnectionFunction: {
+  (
     input: ListDistributionsByConnectionFunctionRequest,
-    output: ListDistributionsByConnectionFunctionResult,
-    errors: [AccessDenied, EntityNotFound, InvalidArgument],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "DistributionList.NextMarker",
-      items: "DistributionList.Items",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDistributionsByConnectionFunctionResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDistributionsByConnectionFunctionRequest,
+  ) => Stream.Stream<
+    ListDistributionsByConnectionFunctionResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDistributionsByConnectionFunctionRequest,
+  ) => Stream.Stream<
+    unknown,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDistributionsByConnectionFunctionRequest,
+  output: ListDistributionsByConnectionFunctionResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "DistributionList.NextMarker",
+    items: "DistributionList.Items",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists distributions by trust store.
  */
-export const listDistributionsByTrustStore =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDistributionsByTrustStore: {
+  (
     input: ListDistributionsByTrustStoreRequest,
-    output: ListDistributionsByTrustStoreResult,
-    errors: [AccessDenied, EntityNotFound, InvalidArgument],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "DistributionList.NextMarker",
-      items: "DistributionList.Items",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDistributionsByTrustStoreResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDistributionsByTrustStoreRequest,
+  ) => Stream.Stream<
+    ListDistributionsByTrustStoreResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDistributionsByTrustStoreRequest,
+  ) => Stream.Stream<
+    unknown,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDistributionsByTrustStoreRequest,
+  output: ListDistributionsByTrustStoreResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "DistributionList.NextMarker",
+    items: "DistributionList.Items",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the invalidations for a distribution tenant.
  */
-export const listInvalidationsForDistributionTenant =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInvalidationsForDistributionTenant: {
+  (
     input: ListInvalidationsForDistributionTenantRequest,
-    output: ListInvalidationsForDistributionTenantResult,
-    errors: [AccessDenied, EntityNotFound, InvalidArgument],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "InvalidationList.NextMarker",
-      items: "InvalidationList.Items",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInvalidationsForDistributionTenantResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInvalidationsForDistributionTenantRequest,
+  ) => Stream.Stream<
+    ListInvalidationsForDistributionTenantResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInvalidationsForDistributionTenantRequest,
+  ) => Stream.Stream<
+    unknown,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInvalidationsForDistributionTenantRequest,
+  output: ListInvalidationsForDistributionTenantResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "InvalidationList.NextMarker",
+    items: "InvalidationList.Items",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Gets a key group configuration.
  *
  * To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using `ListDistributions` or `GetDistribution`. If the key group is not referenced in a cache behavior, you can get the identifier using `ListKeyGroups`.
  */
-export const getKeyGroupConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKeyGroupConfig: (
+  input: GetKeyGroupConfigRequest,
+) => Effect.Effect<
+  GetKeyGroupConfigResult,
+  NoSuchResource | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKeyGroupConfigRequest,
   output: GetKeyGroupConfigResult,
   errors: [NoSuchResource],
@@ -10632,7 +10889,13 @@ export const getKeyGroupConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To get a cache policy, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the cache policy is not attached to a cache behavior, you can get the identifier using `ListCachePolicies`.
  */
-export const getCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCachePolicy: (
+  input: GetCachePolicyRequest,
+) => Effect.Effect<
+  GetCachePolicyResult,
+  AccessDenied | NoSuchCachePolicy | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCachePolicyRequest,
   output: GetCachePolicyResult,
   errors: [AccessDenied, NoSuchCachePolicy],
@@ -10640,60 +10903,87 @@ export const getCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get the information about an origin access identity.
  */
-export const getCloudFrontOriginAccessIdentity =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCloudFrontOriginAccessIdentityRequest,
-    output: GetCloudFrontOriginAccessIdentityResult,
-    errors: [AccessDenied, NoSuchCloudFrontOriginAccessIdentity],
-  }));
+export const getCloudFrontOriginAccessIdentity: (
+  input: GetCloudFrontOriginAccessIdentityRequest,
+) => Effect.Effect<
+  GetCloudFrontOriginAccessIdentityResult,
+  AccessDenied | NoSuchCloudFrontOriginAccessIdentity | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCloudFrontOriginAccessIdentityRequest,
+  output: GetCloudFrontOriginAccessIdentityResult,
+  errors: [AccessDenied, NoSuchCloudFrontOriginAccessIdentity],
+}));
 /**
  * Gets a continuous deployment policy, including metadata (the policy's identifier and the date and time when the policy was last modified).
  */
-export const getContinuousDeploymentPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetContinuousDeploymentPolicyRequest,
-    output: GetContinuousDeploymentPolicyResult,
-    errors: [AccessDenied, NoSuchContinuousDeploymentPolicy],
-  }));
+export const getContinuousDeploymentPolicy: (
+  input: GetContinuousDeploymentPolicyRequest,
+) => Effect.Effect<
+  GetContinuousDeploymentPolicyResult,
+  AccessDenied | NoSuchContinuousDeploymentPolicy | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContinuousDeploymentPolicyRequest,
+  output: GetContinuousDeploymentPolicyResult,
+  errors: [AccessDenied, NoSuchContinuousDeploymentPolicy],
+}));
 /**
  * Get the configuration information about a distribution.
  */
-export const getDistributionConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDistributionConfigRequest,
-    output: GetDistributionConfigResult,
-    errors: [AccessDenied, NoSuchDistribution],
-  }),
-);
+export const getDistributionConfig: (
+  input: GetDistributionConfigRequest,
+) => Effect.Effect<
+  GetDistributionConfigResult,
+  AccessDenied | NoSuchDistribution | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDistributionConfigRequest,
+  output: GetDistributionConfigResult,
+  errors: [AccessDenied, NoSuchDistribution],
+}));
 /**
  * Get the field-level encryption configuration information.
  */
-export const getFieldLevelEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetFieldLevelEncryptionRequest,
-    output: GetFieldLevelEncryptionResult,
-    errors: [AccessDenied, NoSuchFieldLevelEncryptionConfig],
-  }),
-);
+export const getFieldLevelEncryption: (
+  input: GetFieldLevelEncryptionRequest,
+) => Effect.Effect<
+  GetFieldLevelEncryptionResult,
+  AccessDenied | NoSuchFieldLevelEncryptionConfig | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFieldLevelEncryptionRequest,
+  output: GetFieldLevelEncryptionResult,
+  errors: [AccessDenied, NoSuchFieldLevelEncryptionConfig],
+}));
 /**
  * Get the field-level encryption profile information.
  */
-export const getFieldLevelEncryptionProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetFieldLevelEncryptionProfileRequest,
-    output: GetFieldLevelEncryptionProfileResult,
-    errors: [AccessDenied, NoSuchFieldLevelEncryptionProfile],
-  }));
+export const getFieldLevelEncryptionProfile: (
+  input: GetFieldLevelEncryptionProfileRequest,
+) => Effect.Effect<
+  GetFieldLevelEncryptionProfileResult,
+  AccessDenied | NoSuchFieldLevelEncryptionProfile | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFieldLevelEncryptionProfileRequest,
+  output: GetFieldLevelEncryptionProfileResult,
+  errors: [AccessDenied, NoSuchFieldLevelEncryptionProfile],
+}));
 /**
  * Gets a CloudFront origin access control, including its unique identifier.
  */
-export const getOriginAccessControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetOriginAccessControlRequest,
-    output: GetOriginAccessControlResult,
-    errors: [AccessDenied, NoSuchOriginAccessControl],
-  }),
-);
+export const getOriginAccessControl: (
+  input: GetOriginAccessControlRequest,
+) => Effect.Effect<
+  GetOriginAccessControlResult,
+  AccessDenied | NoSuchOriginAccessControl | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOriginAccessControlRequest,
+  output: GetOriginAccessControlResult,
+  errors: [AccessDenied, NoSuchOriginAccessControl],
+}));
 /**
  * Gets an origin request policy, including the following metadata:
  *
@@ -10703,17 +10993,27 @@ export const getOriginAccessControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To get an origin request policy, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the origin request policy is not attached to a cache behavior, you can get the identifier using `ListOriginRequestPolicies`.
  */
-export const getOriginRequestPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetOriginRequestPolicyRequest,
-    output: GetOriginRequestPolicyResult,
-    errors: [AccessDenied, NoSuchOriginRequestPolicy],
-  }),
-);
+export const getOriginRequestPolicy: (
+  input: GetOriginRequestPolicyRequest,
+) => Effect.Effect<
+  GetOriginRequestPolicyResult,
+  AccessDenied | NoSuchOriginRequestPolicy | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOriginRequestPolicyRequest,
+  output: GetOriginRequestPolicyResult,
+  errors: [AccessDenied, NoSuchOriginRequestPolicy],
+}));
 /**
  * Gets a public key.
  */
-export const getPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPublicKey: (
+  input: GetPublicKeyRequest,
+) => Effect.Effect<
+  GetPublicKeyResult,
+  AccessDenied | NoSuchPublicKey | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPublicKeyRequest,
   output: GetPublicKeyResult,
   errors: [AccessDenied, NoSuchPublicKey],
@@ -10723,61 +11023,102 @@ export const getPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To get a response headers policy, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the response headers policy is not attached to a cache behavior, you can get the identifier using `ListResponseHeadersPolicies`.
  */
-export const getResponseHeadersPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResponseHeadersPolicyRequest,
-    output: GetResponseHeadersPolicyResult,
-    errors: [AccessDenied, NoSuchResponseHeadersPolicy],
-  }),
-);
+export const getResponseHeadersPolicy: (
+  input: GetResponseHeadersPolicyRequest,
+) => Effect.Effect<
+  GetResponseHeadersPolicyResult,
+  AccessDenied | NoSuchResponseHeadersPolicy | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResponseHeadersPolicyRequest,
+  output: GetResponseHeadersPolicyResult,
+  errors: [AccessDenied, NoSuchResponseHeadersPolicy],
+}));
 /**
  * Gets information about a specified RTMP distribution, including the distribution configuration.
  */
-export const getStreamingDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetStreamingDistributionRequest,
-    output: GetStreamingDistributionResult,
-    errors: [AccessDenied, NoSuchStreamingDistribution],
-  }),
-);
+export const getStreamingDistribution: (
+  input: GetStreamingDistributionRequest,
+) => Effect.Effect<
+  GetStreamingDistributionResult,
+  AccessDenied | NoSuchStreamingDistribution | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStreamingDistributionRequest,
+  output: GetStreamingDistributionResult,
+  errors: [AccessDenied, NoSuchStreamingDistribution],
+}));
 /**
  * Lists the distributions by the connection mode that you specify.
  */
-export const listDistributionsByConnectionMode =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDistributionsByConnectionMode: {
+  (
     input: ListDistributionsByConnectionModeRequest,
-    output: ListDistributionsByConnectionModeResult,
-    errors: [AccessDenied, InvalidArgument],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "DistributionList.NextMarker",
-      items: "DistributionList.Items",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDistributionsByConnectionModeResult,
+    AccessDenied | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDistributionsByConnectionModeRequest,
+  ) => Stream.Stream<
+    ListDistributionsByConnectionModeResult,
+    AccessDenied | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDistributionsByConnectionModeRequest,
+  ) => Stream.Stream<
+    unknown,
+    AccessDenied | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDistributionsByConnectionModeRequest,
+  output: ListDistributionsByConnectionModeResult,
+  errors: [AccessDenied, InvalidArgument],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "DistributionList.NextMarker",
+    items: "DistributionList.Items",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Gets a list of distribution IDs for distributions that have a cache behavior that references the specified key group.
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listDistributionsByKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDistributionsByKeyGroupRequest,
-    output: ListDistributionsByKeyGroupResult,
-    errors: [InvalidArgument, NoSuchResource],
-  }),
-);
+export const listDistributionsByKeyGroup: (
+  input: ListDistributionsByKeyGroupRequest,
+) => Effect.Effect<
+  ListDistributionsByKeyGroupResult,
+  InvalidArgument | NoSuchResource | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDistributionsByKeyGroupRequest,
+  output: ListDistributionsByKeyGroupResult,
+  errors: [InvalidArgument, NoSuchResource],
+}));
 /**
  * Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified origin request policy.
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listDistributionsByOriginRequestPolicyId =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDistributionsByOriginRequestPolicyIdRequest,
-    output: ListDistributionsByOriginRequestPolicyIdResult,
-    errors: [AccessDenied, InvalidArgument, NoSuchOriginRequestPolicy],
-  }));
+export const listDistributionsByOriginRequestPolicyId: (
+  input: ListDistributionsByOriginRequestPolicyIdRequest,
+) => Effect.Effect<
+  ListDistributionsByOriginRequestPolicyIdResult,
+  | AccessDenied
+  | InvalidArgument
+  | NoSuchOriginRequestPolicy
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDistributionsByOriginRequestPolicyIdRequest,
+  output: ListDistributionsByOriginRequestPolicyIdResult,
+  errors: [AccessDenied, InvalidArgument, NoSuchOriginRequestPolicy],
+}));
 /**
  * Gets a list of distributions that have a cache behavior that's associated with the specified real-time log configuration.
  *
@@ -10785,27 +11126,46 @@ export const listDistributionsByOriginRequestPolicyId =
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listDistributionsByRealtimeLogConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDistributionsByRealtimeLogConfigRequest,
-    output: ListDistributionsByRealtimeLogConfigResult,
-    errors: [InvalidArgument],
-  }));
+export const listDistributionsByRealtimeLogConfig: (
+  input: ListDistributionsByRealtimeLogConfigRequest,
+) => Effect.Effect<
+  ListDistributionsByRealtimeLogConfigResult,
+  InvalidArgument | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDistributionsByRealtimeLogConfigRequest,
+  output: ListDistributionsByRealtimeLogConfigResult,
+  errors: [InvalidArgument],
+}));
 /**
  * Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified response headers policy.
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listDistributionsByResponseHeadersPolicyId =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDistributionsByResponseHeadersPolicyIdRequest,
-    output: ListDistributionsByResponseHeadersPolicyIdResult,
-    errors: [AccessDenied, InvalidArgument, NoSuchResponseHeadersPolicy],
-  }));
+export const listDistributionsByResponseHeadersPolicyId: (
+  input: ListDistributionsByResponseHeadersPolicyIdRequest,
+) => Effect.Effect<
+  ListDistributionsByResponseHeadersPolicyIdResult,
+  | AccessDenied
+  | InvalidArgument
+  | NoSuchResponseHeadersPolicy
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDistributionsByResponseHeadersPolicyIdRequest,
+  output: ListDistributionsByResponseHeadersPolicyIdResult,
+  errors: [AccessDenied, InvalidArgument, NoSuchResponseHeadersPolicy],
+}));
 /**
  * Gets a trust store.
  */
-export const getTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTrustStore: (
+  input: GetTrustStoreRequest,
+) => Effect.Effect<
+  GetTrustStoreResult,
+  AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrustStoreRequest,
   output: GetTrustStoreResult,
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
@@ -10815,7 +11175,13 @@ export const getTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use `ListFunctions`.
  */
-export const describeFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeFunction: (
+  input: DescribeFunctionRequest,
+) => Effect.Effect<
+  DescribeFunctionResult,
+  NoSuchFunctionExists | UnsupportedOperation | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFunctionRequest,
   output: DescribeFunctionResult,
   errors: [NoSuchFunctionExists, UnsupportedOperation],
@@ -10823,7 +11189,17 @@ export const describeFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets an Anycast static IP list.
  */
-export const getAnycastIpList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAnycastIpList: (
+  input: GetAnycastIpListRequest,
+) => Effect.Effect<
+  GetAnycastIpListResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAnycastIpListRequest,
   output: GetAnycastIpListResult,
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
@@ -10831,26 +11207,45 @@ export const getAnycastIpList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a distribution tenant.
  */
-export const getDistributionTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDistributionTenantRequest,
-    output: GetDistributionTenantResult,
-    errors: [AccessDenied, EntityNotFound],
-  }),
-);
+export const getDistributionTenant: (
+  input: GetDistributionTenantRequest,
+) => Effect.Effect<
+  GetDistributionTenantResult,
+  AccessDenied | EntityNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDistributionTenantRequest,
+  output: GetDistributionTenantResult,
+  errors: [AccessDenied, EntityNotFound],
+}));
 /**
  * Gets details about the CloudFront managed ACM certificate.
  */
-export const getManagedCertificateDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetManagedCertificateDetailsRequest,
-    output: GetManagedCertificateDetailsResult,
-    errors: [AccessDenied, EntityNotFound],
-  }));
+export const getManagedCertificateDetails: (
+  input: GetManagedCertificateDetailsRequest,
+) => Effect.Effect<
+  GetManagedCertificateDetailsResult,
+  AccessDenied | EntityNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetManagedCertificateDetailsRequest,
+  output: GetManagedCertificateDetailsResult,
+  errors: [AccessDenied, EntityNotFound],
+}));
 /**
  * Lists your Anycast static IP lists.
  */
-export const listAnycastIpLists = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listAnycastIpLists: (
+  input: ListAnycastIpListsRequest,
+) => Effect.Effect<
+  ListAnycastIpListsResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAnycastIpListsRequest,
   output: ListAnycastIpListsResult,
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
@@ -10862,7 +11257,13 @@ export const listAnycastIpLists = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listCachePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listCachePolicies: (
+  input: ListCachePoliciesRequest,
+) => Effect.Effect<
+  ListCachePoliciesResult,
+  AccessDenied | InvalidArgument | NoSuchCachePolicy | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCachePoliciesRequest,
   output: ListCachePoliciesResult,
   errors: [AccessDenied, InvalidArgument, NoSuchCachePolicy],
@@ -10870,18 +11271,39 @@ export const listCachePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists origin access identities.
  */
-export const listCloudFrontOriginAccessIdentities =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCloudFrontOriginAccessIdentities: {
+  (
     input: ListCloudFrontOriginAccessIdentitiesRequest,
-    output: ListCloudFrontOriginAccessIdentitiesResult,
-    errors: [InvalidArgument],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "CloudFrontOriginAccessIdentityList.NextMarker",
-      items: "CloudFrontOriginAccessIdentityList.Items",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCloudFrontOriginAccessIdentitiesResult,
+    InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCloudFrontOriginAccessIdentitiesRequest,
+  ) => Stream.Stream<
+    ListCloudFrontOriginAccessIdentitiesResult,
+    InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCloudFrontOriginAccessIdentitiesRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCloudFrontOriginAccessIdentitiesRequest,
+  output: ListCloudFrontOriginAccessIdentitiesResult,
+  errors: [InvalidArgument],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "CloudFrontOriginAccessIdentityList.NextMarker",
+    items: "CloudFrontOriginAccessIdentityList.Items",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * The `ListConflictingAliases` API operation only supports standard distributions. To list domain conflicts for both standard distributions and distribution tenants, we recommend that you use the ListDomainConflicts API operation instead.
  *
@@ -10895,69 +11317,126 @@ export const listCloudFrontOriginAccessIdentities =
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listConflictingAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListConflictingAliasesRequest,
-    output: ListConflictingAliasesResult,
-    errors: [InvalidArgument, NoSuchDistribution],
-  }),
-);
+export const listConflictingAliases: (
+  input: ListConflictingAliasesRequest,
+) => Effect.Effect<
+  ListConflictingAliasesResult,
+  InvalidArgument | NoSuchDistribution | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListConflictingAliasesRequest,
+  output: ListConflictingAliasesResult,
+  errors: [InvalidArgument, NoSuchDistribution],
+}));
 /**
  * Lists the connection groups in your Amazon Web Services account.
  */
-export const listConnectionGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConnectionGroups: {
+  (
     input: ListConnectionGroupsRequest,
-    output: ListConnectionGroupsResult,
-    errors: [AccessDenied, EntityNotFound, InvalidArgument],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "ConnectionGroups",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConnectionGroupsResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectionGroupsRequest,
+  ) => Stream.Stream<
+    ListConnectionGroupsResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectionGroupsRequest,
+  ) => Stream.Stream<
+    ConnectionGroupSummary,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectionGroupsRequest,
+  output: ListConnectionGroupsResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "ConnectionGroups",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Gets a list of the continuous deployment policies in your Amazon Web Services account.
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listContinuousDeploymentPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListContinuousDeploymentPoliciesRequest,
-    output: ListContinuousDeploymentPoliciesResult,
-    errors: [AccessDenied, InvalidArgument, NoSuchContinuousDeploymentPolicy],
-  }));
+export const listContinuousDeploymentPolicies: (
+  input: ListContinuousDeploymentPoliciesRequest,
+) => Effect.Effect<
+  ListContinuousDeploymentPoliciesResult,
+  | AccessDenied
+  | InvalidArgument
+  | NoSuchContinuousDeploymentPolicy
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListContinuousDeploymentPoliciesRequest,
+  output: ListContinuousDeploymentPoliciesResult,
+  errors: [AccessDenied, InvalidArgument, NoSuchContinuousDeploymentPolicy],
+}));
 /**
  * List CloudFront distributions.
  */
-export const listDistributions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDistributions: {
+  (
     input: ListDistributionsRequest,
-    output: ListDistributionsResult,
-    errors: [InvalidArgument],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "DistributionList.NextMarker",
-      items: "DistributionList.Items",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDistributionsResult,
+    InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDistributionsRequest,
+  ) => Stream.Stream<
+    ListDistributionsResult,
+    InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDistributionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDistributionsRequest,
+  output: ListDistributionsResult,
+  errors: [InvalidArgument],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "DistributionList.NextMarker",
+    items: "DistributionList.Items",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the CloudFront distributions that are associated with the specified resource that you own.
  */
-export const listDistributionsByOwnedResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDistributionsByOwnedResourceRequest,
-    output: ListDistributionsByOwnedResourceResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      UnsupportedOperation,
-    ],
-  }));
+export const listDistributionsByOwnedResource: (
+  input: ListDistributionsByOwnedResourceRequest,
+) => Effect.Effect<
+  ListDistributionsByOwnedResourceResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDistributionsByOwnedResourceRequest,
+  output: ListDistributionsByOwnedResourceResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+}));
 /**
  * We recommend that you use the `ListDomainConflicts` API operation to check for domain conflicts, as it supports both standard distributions and distribution tenants. ListConflictingAliases performs similar checks but only supports standard distributions.
  *
@@ -10977,58 +11456,115 @@ export const listDistributionsByOwnedResource =
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listDomainConflicts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDomainConflicts: {
+  (
     input: ListDomainConflictsRequest,
-    output: ListDomainConflictsResult,
-    errors: [AccessDenied, EntityNotFound, InvalidArgument],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "DomainConflicts",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDomainConflictsResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDomainConflictsRequest,
+  ) => Stream.Stream<
+    ListDomainConflictsResult,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDomainConflictsRequest,
+  ) => Stream.Stream<
+    DomainConflict,
+    AccessDenied | EntityNotFound | InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDomainConflictsRequest,
+  output: ListDomainConflictsResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "DomainConflicts",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * List all field-level encryption configurations that have been created in CloudFront for this account.
  */
-export const listFieldLevelEncryptionConfigs =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListFieldLevelEncryptionConfigsRequest,
-    output: ListFieldLevelEncryptionConfigsResult,
-    errors: [InvalidArgument],
-  }));
+export const listFieldLevelEncryptionConfigs: (
+  input: ListFieldLevelEncryptionConfigsRequest,
+) => Effect.Effect<
+  ListFieldLevelEncryptionConfigsResult,
+  InvalidArgument | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFieldLevelEncryptionConfigsRequest,
+  output: ListFieldLevelEncryptionConfigsResult,
+  errors: [InvalidArgument],
+}));
 /**
  * Request a list of field-level encryption profiles that have been created in CloudFront for this account.
  */
-export const listFieldLevelEncryptionProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListFieldLevelEncryptionProfilesRequest,
-    output: ListFieldLevelEncryptionProfilesResult,
-    errors: [InvalidArgument],
-  }));
+export const listFieldLevelEncryptionProfiles: (
+  input: ListFieldLevelEncryptionProfilesRequest,
+) => Effect.Effect<
+  ListFieldLevelEncryptionProfilesResult,
+  InvalidArgument | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFieldLevelEncryptionProfilesRequest,
+  output: ListFieldLevelEncryptionProfilesResult,
+  errors: [InvalidArgument],
+}));
 /**
  * Lists invalidation batches.
  */
-export const listInvalidations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listInvalidations: {
+  (
     input: ListInvalidationsRequest,
-    output: ListInvalidationsResult,
-    errors: [AccessDenied, InvalidArgument, NoSuchDistribution],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "InvalidationList.NextMarker",
-      items: "InvalidationList.Items",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListInvalidationsResult,
+    AccessDenied | InvalidArgument | NoSuchDistribution | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInvalidationsRequest,
+  ) => Stream.Stream<
+    ListInvalidationsResult,
+    AccessDenied | InvalidArgument | NoSuchDistribution | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInvalidationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    AccessDenied | InvalidArgument | NoSuchDistribution | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInvalidationsRequest,
+  output: ListInvalidationsResult,
+  errors: [AccessDenied, InvalidArgument, NoSuchDistribution],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "InvalidationList.NextMarker",
+    items: "InvalidationList.Items",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Gets a list of key groups.
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listKeyGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listKeyGroups: (
+  input: ListKeyGroupsRequest,
+) => Effect.Effect<
+  ListKeyGroupsResult,
+  InvalidArgument | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListKeyGroupsRequest,
   output: ListKeyGroupsResult,
   errors: [InvalidArgument],
@@ -11040,18 +11576,39 @@ export const listKeyGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you're not using origin access controls for your Amazon Web Services account, the `ListOriginAccessControls` operation doesn't return the `Items` element in the response.
  */
-export const listOriginAccessControls =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOriginAccessControls: {
+  (
     input: ListOriginAccessControlsRequest,
-    output: ListOriginAccessControlsResult,
-    errors: [InvalidArgument],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "OriginAccessControlList.NextMarker",
-      items: "OriginAccessControlList.Items",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOriginAccessControlsResult,
+    InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOriginAccessControlsRequest,
+  ) => Stream.Stream<
+    ListOriginAccessControlsResult,
+    InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOriginAccessControlsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOriginAccessControlsRequest,
+  output: ListOriginAccessControlsResult,
+  errors: [InvalidArgument],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "OriginAccessControlList.NextMarker",
+    items: "OriginAccessControlList.Items",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Gets a list of origin request policies.
  *
@@ -11059,41 +11616,75 @@ export const listOriginAccessControls =
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listOriginRequestPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListOriginRequestPoliciesRequest,
-    output: ListOriginRequestPoliciesResult,
-    errors: [AccessDenied, InvalidArgument, NoSuchOriginRequestPolicy],
-  }),
-);
+export const listOriginRequestPolicies: (
+  input: ListOriginRequestPoliciesRequest,
+) => Effect.Effect<
+  ListOriginRequestPoliciesResult,
+  | AccessDenied
+  | InvalidArgument
+  | NoSuchOriginRequestPolicy
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListOriginRequestPoliciesRequest,
+  output: ListOriginRequestPoliciesResult,
+  errors: [AccessDenied, InvalidArgument, NoSuchOriginRequestPolicy],
+}));
 /**
  * List all public keys that have been added to CloudFront for this account.
  */
-export const listPublicKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPublicKeys: {
+  (
     input: ListPublicKeysRequest,
-    output: ListPublicKeysResult,
-    errors: [InvalidArgument],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "PublicKeyList.NextMarker",
-      items: "PublicKeyList.Items",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPublicKeysResult,
+    InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPublicKeysRequest,
+  ) => Stream.Stream<
+    ListPublicKeysResult,
+    InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPublicKeysRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPublicKeysRequest,
+  output: ListPublicKeysResult,
+  errors: [InvalidArgument],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "PublicKeyList.NextMarker",
+    items: "PublicKeyList.Items",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Gets a list of real-time log configurations.
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listRealtimeLogConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListRealtimeLogConfigsRequest,
-    output: ListRealtimeLogConfigsResult,
-    errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
-  }),
-);
+export const listRealtimeLogConfigs: (
+  input: ListRealtimeLogConfigsRequest,
+) => Effect.Effect<
+  ListRealtimeLogConfigsResult,
+  | AccessDenied
+  | InvalidArgument
+  | NoSuchRealtimeLogConfig
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRealtimeLogConfigsRequest,
+  output: ListRealtimeLogConfigsResult,
+  errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
+}));
 /**
  * Gets a list of response headers policies.
  *
@@ -11101,32 +11692,70 @@ export const listRealtimeLogConfigs = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listResponseHeadersPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListResponseHeadersPoliciesRequest,
-    output: ListResponseHeadersPoliciesResult,
-    errors: [AccessDenied, InvalidArgument, NoSuchResponseHeadersPolicy],
-  }),
-);
+export const listResponseHeadersPolicies: (
+  input: ListResponseHeadersPoliciesRequest,
+) => Effect.Effect<
+  ListResponseHeadersPoliciesResult,
+  | AccessDenied
+  | InvalidArgument
+  | NoSuchResponseHeadersPolicy
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListResponseHeadersPoliciesRequest,
+  output: ListResponseHeadersPoliciesResult,
+  errors: [AccessDenied, InvalidArgument, NoSuchResponseHeadersPolicy],
+}));
 /**
  * List streaming distributions.
  */
-export const listStreamingDistributions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listStreamingDistributions: {
+  (
     input: ListStreamingDistributionsRequest,
-    output: ListStreamingDistributionsResult,
-    errors: [InvalidArgument],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "StreamingDistributionList.NextMarker",
-      items: "StreamingDistributionList.Items",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListStreamingDistributionsResult,
+    InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStreamingDistributionsRequest,
+  ) => Stream.Stream<
+    ListStreamingDistributionsResult,
+    InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStreamingDistributionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidArgument | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStreamingDistributionsRequest,
+  output: ListStreamingDistributionsResult,
+  errors: [InvalidArgument],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "StreamingDistributionList.NextMarker",
+    items: "StreamingDistributionList.Items",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * List the CloudFront VPC origins in your account.
  */
-export const listVpcOrigins = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listVpcOrigins: (
+  input: ListVpcOriginsRequest,
+) => Effect.Effect<
+  ListVpcOriginsResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVpcOriginsRequest,
   output: ListVpcOriginsResult,
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
@@ -11138,7 +11767,18 @@ export const listVpcOrigins = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To test a function, you provide the function's name and version (`ETag` value) along with the event object. To get the function's name and version, you can use `ListFunctions` and `DescribeFunction`.
  */
-export const testFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testFunction: (
+  input: TestFunctionRequest,
+) => Effect.Effect<
+  TestFunctionResult,
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | NoSuchFunctionExists
+  | TestFunctionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestFunctionRequest,
   output: TestFunctionResult,
   errors: [
@@ -11156,100 +11796,160 @@ export const testFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use `ListOriginRequestPolicies` or `GetOriginRequestPolicy`.
  */
-export const deleteOriginRequestPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOriginRequestPolicyRequest,
-    output: DeleteOriginRequestPolicyResponse,
-    errors: [
-      AccessDenied,
-      IllegalDelete,
-      InvalidIfMatchVersion,
-      NoSuchOriginRequestPolicy,
-      OriginRequestPolicyInUse,
-      PreconditionFailed,
-    ],
-  }),
-);
+export const deleteOriginRequestPolicy: (
+  input: DeleteOriginRequestPolicyRequest,
+) => Effect.Effect<
+  DeleteOriginRequestPolicyResponse,
+  | AccessDenied
+  | IllegalDelete
+  | InvalidIfMatchVersion
+  | NoSuchOriginRequestPolicy
+  | OriginRequestPolicyInUse
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOriginRequestPolicyRequest,
+  output: DeleteOriginRequestPolicyResponse,
+  errors: [
+    AccessDenied,
+    IllegalDelete,
+    InvalidIfMatchVersion,
+    NoSuchOriginRequestPolicy,
+    OriginRequestPolicyInUse,
+    PreconditionFailed,
+  ],
+}));
 /**
  * Update an origin access identity.
  */
-export const updateCloudFrontOriginAccessIdentity =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCloudFrontOriginAccessIdentityRequest,
-    output: UpdateCloudFrontOriginAccessIdentityResult,
-    errors: [
-      AccessDenied,
-      IllegalUpdate,
-      InconsistentQuantities,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      MissingBody,
-      NoSuchCloudFrontOriginAccessIdentity,
-      PreconditionFailed,
-    ],
-  }));
+export const updateCloudFrontOriginAccessIdentity: (
+  input: UpdateCloudFrontOriginAccessIdentityRequest,
+) => Effect.Effect<
+  UpdateCloudFrontOriginAccessIdentityResult,
+  | AccessDenied
+  | IllegalUpdate
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | MissingBody
+  | NoSuchCloudFrontOriginAccessIdentity
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCloudFrontOriginAccessIdentityRequest,
+  output: UpdateCloudFrontOriginAccessIdentityResult,
+  errors: [
+    AccessDenied,
+    IllegalUpdate,
+    InconsistentQuantities,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    MissingBody,
+    NoSuchCloudFrontOriginAccessIdentity,
+    PreconditionFailed,
+  ],
+}));
 /**
  * Updates a CloudFront origin access control.
  */
-export const updateOriginAccessControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateOriginAccessControlRequest,
-    output: UpdateOriginAccessControlResult,
-    errors: [
-      AccessDenied,
-      IllegalUpdate,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      NoSuchOriginAccessControl,
-      OriginAccessControlAlreadyExists,
-      PreconditionFailed,
-    ],
-  }),
-);
+export const updateOriginAccessControl: (
+  input: UpdateOriginAccessControlRequest,
+) => Effect.Effect<
+  UpdateOriginAccessControlResult,
+  | AccessDenied
+  | IllegalUpdate
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | NoSuchOriginAccessControl
+  | OriginAccessControlAlreadyExists
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOriginAccessControlRequest,
+  output: UpdateOriginAccessControlResult,
+  errors: [
+    AccessDenied,
+    IllegalUpdate,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    NoSuchOriginAccessControl,
+    OriginAccessControlAlreadyExists,
+    PreconditionFailed,
+  ],
+}));
 /**
  * Gets information about a specific invalidation for a distribution tenant.
  */
-export const getInvalidationForDistributionTenant =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetInvalidationForDistributionTenantRequest,
-    output: GetInvalidationForDistributionTenantResult,
-    errors: [AccessDenied, EntityNotFound, NoSuchInvalidation],
-  }));
+export const getInvalidationForDistributionTenant: (
+  input: GetInvalidationForDistributionTenantRequest,
+) => Effect.Effect<
+  GetInvalidationForDistributionTenantResult,
+  AccessDenied | EntityNotFound | NoSuchInvalidation | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInvalidationForDistributionTenantRequest,
+  output: GetInvalidationForDistributionTenantResult,
+  errors: [AccessDenied, EntityNotFound, NoSuchInvalidation],
+}));
 /**
  * Updates a connection function.
  */
-export const updateConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConnectionFunctionRequest,
-    output: UpdateConnectionFunctionResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      EntitySizeLimitExceeded,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-      UnsupportedOperation,
-    ],
-  }),
-);
+export const updateConnectionFunction: (
+  input: UpdateConnectionFunctionRequest,
+) => Effect.Effect<
+  UpdateConnectionFunctionResult,
+  | AccessDenied
+  | EntityNotFound
+  | EntitySizeLimitExceeded
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConnectionFunctionRequest,
+  output: UpdateConnectionFunctionResult,
+  errors: [
+    AccessDenied,
+    EntityNotFound,
+    EntitySizeLimitExceeded,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Tests a connection function.
  */
-export const testConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TestConnectionFunctionRequest,
-    output: TestConnectionFunctionResult,
-    errors: [
-      EntityNotFound,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-      TestFunctionFailed,
-      UnsupportedOperation,
-    ],
-  }),
-);
+export const testConnectionFunction: (
+  input: TestConnectionFunctionRequest,
+) => Effect.Effect<
+  TestConnectionFunctionResult,
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | TestFunctionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestConnectionFunctionRequest,
+  output: TestConnectionFunctionResult,
+  errors: [
+    EntityNotFound,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+    TestFunctionFailed,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Updates a CloudFront function.
  *
@@ -11257,7 +11957,19 @@ export const testConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To update a function, you provide the function's name and version (`ETag` value) along with the updated function code. To get the name and version, you can use `ListFunctions` and `DescribeFunction`.
  */
-export const updateFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFunction: (
+  input: UpdateFunctionRequest,
+) => Effect.Effect<
+  UpdateFunctionResult,
+  | FunctionSizeLimitExceeded
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | NoSuchFunctionExists
+  | PreconditionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFunctionRequest,
   output: UpdateFunctionResult,
   errors: [
@@ -11272,7 +11984,20 @@ export const updateFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update public key information. Note that the only value you can change is the comment.
  */
-export const updatePublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePublicKey: (
+  input: UpdatePublicKeyRequest,
+) => Effect.Effect<
+  UpdatePublicKeyResult,
+  | AccessDenied
+  | CannotChangeImmutablePublicKeyFields
+  | IllegalUpdate
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | NoSuchPublicKey
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePublicKeyRequest,
   output: UpdatePublicKeyResult,
   errors: [
@@ -11288,133 +12013,225 @@ export const updatePublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete an origin access identity.
  */
-export const deleteCloudFrontOriginAccessIdentity =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCloudFrontOriginAccessIdentityRequest,
-    output: DeleteCloudFrontOriginAccessIdentityResponse,
-    errors: [
-      AccessDenied,
-      CloudFrontOriginAccessIdentityInUse,
-      InvalidIfMatchVersion,
-      NoSuchCloudFrontOriginAccessIdentity,
-      PreconditionFailed,
-    ],
-  }));
+export const deleteCloudFrontOriginAccessIdentity: (
+  input: DeleteCloudFrontOriginAccessIdentityRequest,
+) => Effect.Effect<
+  DeleteCloudFrontOriginAccessIdentityResponse,
+  | AccessDenied
+  | CloudFrontOriginAccessIdentityInUse
+  | InvalidIfMatchVersion
+  | NoSuchCloudFrontOriginAccessIdentity
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCloudFrontOriginAccessIdentityRequest,
+  output: DeleteCloudFrontOriginAccessIdentityResponse,
+  errors: [
+    AccessDenied,
+    CloudFrontOriginAccessIdentityInUse,
+    InvalidIfMatchVersion,
+    NoSuchCloudFrontOriginAccessIdentity,
+    PreconditionFailed,
+  ],
+}));
 /**
  * Deletes a continuous deployment policy.
  *
  * You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy.
  */
-export const deleteContinuousDeploymentPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteContinuousDeploymentPolicyRequest,
-    output: DeleteContinuousDeploymentPolicyResponse,
-    errors: [
-      AccessDenied,
-      ContinuousDeploymentPolicyInUse,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      NoSuchContinuousDeploymentPolicy,
-      PreconditionFailed,
-    ],
-  }));
+export const deleteContinuousDeploymentPolicy: (
+  input: DeleteContinuousDeploymentPolicyRequest,
+) => Effect.Effect<
+  DeleteContinuousDeploymentPolicyResponse,
+  | AccessDenied
+  | ContinuousDeploymentPolicyInUse
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | NoSuchContinuousDeploymentPolicy
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContinuousDeploymentPolicyRequest,
+  output: DeleteContinuousDeploymentPolicyResponse,
+  errors: [
+    AccessDenied,
+    ContinuousDeploymentPolicyInUse,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    NoSuchContinuousDeploymentPolicy,
+    PreconditionFailed,
+  ],
+}));
 /**
  * Remove a field-level encryption configuration.
  */
-export const deleteFieldLevelEncryptionConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteFieldLevelEncryptionConfigRequest,
-    output: DeleteFieldLevelEncryptionConfigResponse,
-    errors: [
-      AccessDenied,
-      FieldLevelEncryptionConfigInUse,
-      InvalidIfMatchVersion,
-      NoSuchFieldLevelEncryptionConfig,
-      PreconditionFailed,
-    ],
-  }));
+export const deleteFieldLevelEncryptionConfig: (
+  input: DeleteFieldLevelEncryptionConfigRequest,
+) => Effect.Effect<
+  DeleteFieldLevelEncryptionConfigResponse,
+  | AccessDenied
+  | FieldLevelEncryptionConfigInUse
+  | InvalidIfMatchVersion
+  | NoSuchFieldLevelEncryptionConfig
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFieldLevelEncryptionConfigRequest,
+  output: DeleteFieldLevelEncryptionConfigResponse,
+  errors: [
+    AccessDenied,
+    FieldLevelEncryptionConfigInUse,
+    InvalidIfMatchVersion,
+    NoSuchFieldLevelEncryptionConfig,
+    PreconditionFailed,
+  ],
+}));
 /**
  * Remove a field-level encryption profile.
  */
-export const deleteFieldLevelEncryptionProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteFieldLevelEncryptionProfileRequest,
-    output: DeleteFieldLevelEncryptionProfileResponse,
-    errors: [
-      AccessDenied,
-      FieldLevelEncryptionProfileInUse,
-      InvalidIfMatchVersion,
-      NoSuchFieldLevelEncryptionProfile,
-      PreconditionFailed,
-    ],
-  }));
+export const deleteFieldLevelEncryptionProfile: (
+  input: DeleteFieldLevelEncryptionProfileRequest,
+) => Effect.Effect<
+  DeleteFieldLevelEncryptionProfileResponse,
+  | AccessDenied
+  | FieldLevelEncryptionProfileInUse
+  | InvalidIfMatchVersion
+  | NoSuchFieldLevelEncryptionProfile
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFieldLevelEncryptionProfileRequest,
+  output: DeleteFieldLevelEncryptionProfileResponse,
+  errors: [
+    AccessDenied,
+    FieldLevelEncryptionProfileInUse,
+    InvalidIfMatchVersion,
+    NoSuchFieldLevelEncryptionProfile,
+    PreconditionFailed,
+  ],
+}));
 /**
  * Associates the WAF web ACL with a distribution.
  */
-export const associateDistributionWebACL = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateDistributionWebACLRequest,
-    output: AssociateDistributionWebACLResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-    ],
-  }),
-);
+export const associateDistributionWebACL: (
+  input: AssociateDistributionWebACLRequest,
+) => Effect.Effect<
+  AssociateDistributionWebACLResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateDistributionWebACLRequest,
+  output: AssociateDistributionWebACLResult,
+  errors: [
+    AccessDenied,
+    EntityNotFound,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+  ],
+}));
 /**
  * Disassociates a distribution tenant from the WAF web ACL.
  */
-export const disassociateDistributionTenantWebACL =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateDistributionTenantWebACLRequest,
-    output: DisassociateDistributionTenantWebACLResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-    ],
-  }));
+export const disassociateDistributionTenantWebACL: (
+  input: DisassociateDistributionTenantWebACLRequest,
+) => Effect.Effect<
+  DisassociateDistributionTenantWebACLResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateDistributionTenantWebACLRequest,
+  output: DisassociateDistributionTenantWebACLResult,
+  errors: [
+    AccessDenied,
+    EntityNotFound,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+  ],
+}));
 /**
  * Disassociates a distribution from the WAF web ACL.
  */
-export const disassociateDistributionWebACL =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateDistributionWebACLRequest,
-    output: DisassociateDistributionWebACLResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-    ],
-  }));
+export const disassociateDistributionWebACL: (
+  input: DisassociateDistributionWebACLRequest,
+) => Effect.Effect<
+  DisassociateDistributionWebACLResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateDistributionWebACLRequest,
+  output: DisassociateDistributionWebACLResult,
+  errors: [
+    AccessDenied,
+    EntityNotFound,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+  ],
+}));
 /**
  * Publishes a connection function.
  */
-export const publishConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PublishConnectionFunctionRequest,
-    output: PublishConnectionFunctionResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-      UnsupportedOperation,
-    ],
-  }),
-);
+export const publishConnectionFunction: (
+  input: PublishConnectionFunctionRequest,
+) => Effect.Effect<
+  PublishConnectionFunctionResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PublishConnectionFunctionRequest,
+  output: PublishConnectionFunctionResult,
+  errors: [
+    AccessDenied,
+    EntityNotFound,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Creates a resource control policy for a given CloudFront resource.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResult,
+  | AccessDenied
+  | EntityNotFound
+  | IllegalUpdate
+  | InvalidArgument
+  | PreconditionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResult,
   errors: [
@@ -11429,7 +12246,19 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an Anycast static IP list.
  */
-export const updateAnycastIpList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAnycastIpList: (
+  input: UpdateAnycastIpListRequest,
+) => Effect.Effect<
+  UpdateAnycastIpListResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAnycastIpListRequest,
   output: UpdateAnycastIpListResult,
   errors: [
@@ -11450,24 +12279,46 @@ export const updateAnycastIpList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To use this operation, specify the domain and the ID of the target resource (standard distribution or distribution tenant). For more information, including how to set up the target resource, prerequisites that you must complete, and other restrictions, see Moving an alternate domain name to a different standard distribution or distribution tenant in the *Amazon CloudFront Developer Guide*.
  */
-export const updateDomainAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDomainAssociationRequest,
-    output: UpdateDomainAssociationResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      IllegalUpdate,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-    ],
-  }),
-);
+export const updateDomainAssociation: (
+  input: UpdateDomainAssociationRequest,
+) => Effect.Effect<
+  UpdateDomainAssociationResult,
+  | AccessDenied
+  | EntityNotFound
+  | IllegalUpdate
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDomainAssociationRequest,
+  output: UpdateDomainAssociationResult,
+  errors: [
+    AccessDenied,
+    EntityNotFound,
+    IllegalUpdate,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+  ],
+}));
 /**
  * Specifies the key value store to update.
  */
-export const updateKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateKeyValueStore: (
+  input: UpdateKeyValueStoreRequest,
+) => Effect.Effect<
+  UpdateKeyValueStoreResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKeyValueStoreRequest,
   output: UpdateKeyValueStoreResult,
   errors: [
@@ -11482,7 +12333,18 @@ export const updateKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a trust store.
  */
-export const updateTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTrustStore: (
+  input: UpdateTrustStoreRequest,
+) => Effect.Effect<
+  UpdateTrustStoreResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrustStoreRequest,
   output: UpdateTrustStoreResult,
   errors: [
@@ -11496,20 +12358,30 @@ export const updateTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the resource policy attached to the CloudFront resource.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      IllegalDelete,
-      InvalidArgument,
-      PreconditionFailed,
-      UnsupportedOperation,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | AccessDenied
+  | EntityNotFound
+  | IllegalDelete
+  | InvalidArgument
+  | PreconditionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    AccessDenied,
+    EntityNotFound,
+    IllegalDelete,
+    InvalidArgument,
+    PreconditionFailed,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Deletes a CloudFront function.
  *
@@ -11517,7 +12389,18 @@ export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To delete a function, you must provide the function's name and version (`ETag` value). To get these values, you can use `ListFunctions` and `DescribeFunction`.
  */
-export const deleteFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFunction: (
+  input: DeleteFunctionRequest,
+) => Effect.Effect<
+  DeleteFunctionResponse,
+  | FunctionInUse
+  | InvalidIfMatchVersion
+  | NoSuchFunctionExists
+  | PreconditionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFunctionRequest,
   output: DeleteFunctionResponse,
   errors: [
@@ -11535,7 +12418,18 @@ export const deleteFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To publish a function, you must provide the function's name and version (`ETag` value). To get these values, you can use `ListFunctions` and `DescribeFunction`.
  */
-export const publishFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const publishFunction: (
+  input: PublishFunctionRequest,
+) => Effect.Effect<
+  PublishFunctionResult,
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | NoSuchFunctionExists
+  | PreconditionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishFunctionRequest,
   output: PublishFunctionResult,
   errors: [
@@ -11549,40 +12443,73 @@ export const publishFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates the WAF web ACL with a distribution tenant.
  */
-export const associateDistributionTenantWebACL =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateDistributionTenantWebACLRequest,
-    output: AssociateDistributionTenantWebACLResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-    ],
-  }));
+export const associateDistributionTenantWebACL: (
+  input: AssociateDistributionTenantWebACLRequest,
+) => Effect.Effect<
+  AssociateDistributionTenantWebACLResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateDistributionTenantWebACLRequest,
+  output: AssociateDistributionTenantWebACLResult,
+  errors: [
+    AccessDenied,
+    EntityNotFound,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+  ],
+}));
 /**
  * Deletes a connection function.
  */
-export const deleteConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConnectionFunctionRequest,
-    output: DeleteConnectionFunctionResponse,
-    errors: [
-      AccessDenied,
-      CannotDeleteEntityWhileInUse,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-      UnsupportedOperation,
-    ],
-  }),
-);
+export const deleteConnectionFunction: (
+  input: DeleteConnectionFunctionRequest,
+) => Effect.Effect<
+  DeleteConnectionFunctionResponse,
+  | AccessDenied
+  | CannotDeleteEntityWhileInUse
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectionFunctionRequest,
+  output: DeleteConnectionFunctionResponse,
+  errors: [
+    AccessDenied,
+    CannotDeleteEntityWhileInUse,
+    EntityNotFound,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Specifies the key value store to delete.
  */
-export const deleteKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKeyValueStore: (
+  input: DeleteKeyValueStoreRequest,
+) => Effect.Effect<
+  DeleteKeyValueStoreResponse,
+  | AccessDenied
+  | CannotDeleteEntityWhileInUse
+  | EntityNotFound
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeyValueStoreRequest,
   output: DeleteKeyValueStoreResponse,
   errors: [
@@ -11597,7 +12524,19 @@ export const deleteKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a trust store.
  */
-export const deleteTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTrustStore: (
+  input: DeleteTrustStoreRequest,
+) => Effect.Effect<
+  DeleteTrustStoreResponse,
+  | AccessDenied
+  | CannotDeleteEntityWhileInUse
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrustStoreRequest,
   output: DeleteTrustStoreResponse,
   errors: [
@@ -11612,7 +12551,21 @@ export const deleteTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete an Amazon CloudFront VPC origin.
  */
-export const deleteVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVpcOrigin: (
+  input: DeleteVpcOriginRequest,
+) => Effect.Effect<
+  DeleteVpcOriginResult,
+  | AccessDenied
+  | CannotDeleteEntityWhileInUse
+  | EntityNotFound
+  | IllegalDelete
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpcOriginRequest,
   output: DeleteVpcOriginResult,
   errors: [
@@ -11629,7 +12582,21 @@ export const deleteVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Anycast static IP list.
  */
-export const deleteAnycastIpList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAnycastIpList: (
+  input: DeleteAnycastIpListRequest,
+) => Effect.Effect<
+  DeleteAnycastIpListResponse,
+  | AccessDenied
+  | CannotDeleteEntityWhileInUse
+  | EntityNotFound
+  | IllegalDelete
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAnycastIpListRequest,
   output: DeleteAnycastIpListResponse,
   errors: [
@@ -11650,7 +12617,19 @@ export const deleteAnycastIpList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use `ListCachePolicies` or `GetCachePolicy`.
  */
-export const deleteCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCachePolicy: (
+  input: DeleteCachePolicyRequest,
+) => Effect.Effect<
+  DeleteCachePolicyResponse,
+  | AccessDenied
+  | CachePolicyInUse
+  | IllegalDelete
+  | InvalidIfMatchVersion
+  | NoSuchCachePolicy
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCachePolicyRequest,
   output: DeleteCachePolicyResponse,
   errors: [
@@ -11665,18 +12644,39 @@ export const deleteCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists connection functions.
  */
-export const listConnectionFunctions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConnectionFunctions: {
+  (
     input: ListConnectionFunctionsRequest,
-    output: ListConnectionFunctionsResult,
-    errors: [AccessDenied, InvalidArgument, UnsupportedOperation],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "ConnectionFunctions",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConnectionFunctionsResult,
+    AccessDenied | InvalidArgument | UnsupportedOperation | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectionFunctionsRequest,
+  ) => Stream.Stream<
+    ListConnectionFunctionsResult,
+    AccessDenied | InvalidArgument | UnsupportedOperation | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectionFunctionsRequest,
+  ) => Stream.Stream<
+    ConnectionFunctionSummary,
+    AccessDenied | InvalidArgument | UnsupportedOperation | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectionFunctionsRequest,
+  output: ListConnectionFunctionsResult,
+  errors: [AccessDenied, InvalidArgument, UnsupportedOperation],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "ConnectionFunctions",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Gets a list of all CloudFront functions in your Amazon Web Services account.
  *
@@ -11684,7 +12684,13 @@ export const listConnectionFunctions =
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listFunctions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listFunctions: (
+  input: ListFunctionsRequest,
+) => Effect.Effect<
+  ListFunctionsResult,
+  InvalidArgument | UnsupportedOperation | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListFunctionsRequest,
   output: ListFunctionsResult,
   errors: [InvalidArgument, UnsupportedOperation],
@@ -11692,33 +12698,67 @@ export const listFunctions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Specifies the key value stores to list.
  */
-export const listKeyValueStores = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listKeyValueStores: {
+  (
     input: ListKeyValueStoresRequest,
-    output: ListKeyValueStoresResult,
-    errors: [AccessDenied, InvalidArgument, UnsupportedOperation],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "KeyValueStoreList.NextMarker",
-      items: "KeyValueStoreList.Items",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListKeyValueStoresResult,
+    AccessDenied | InvalidArgument | UnsupportedOperation | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKeyValueStoresRequest,
+  ) => Stream.Stream<
+    ListKeyValueStoresResult,
+    AccessDenied | InvalidArgument | UnsupportedOperation | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKeyValueStoresRequest,
+  ) => Stream.Stream<
+    unknown,
+    AccessDenied | InvalidArgument | UnsupportedOperation | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKeyValueStoresRequest,
+  output: ListKeyValueStoresResult,
+  errors: [AccessDenied, InvalidArgument, UnsupportedOperation],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "KeyValueStoreList.NextMarker",
+    items: "KeyValueStoreList.Items",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Gets a connection function.
  */
-export const getConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetConnectionFunctionRequest,
-    output: GetConnectionFunctionResult,
-    errors: [AccessDenied, EntityNotFound, UnsupportedOperation],
-  }),
-);
+export const getConnectionFunction: (
+  input: GetConnectionFunctionRequest,
+) => Effect.Effect<
+  GetConnectionFunctionResult,
+  AccessDenied | EntityNotFound | UnsupportedOperation | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConnectionFunctionRequest,
+  output: GetConnectionFunctionResult,
+  errors: [AccessDenied, EntityNotFound, UnsupportedOperation],
+}));
 /**
  * Retrieves the resource policy for the specified CloudFront resource that you own and have shared.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => Effect.Effect<
+  GetResourcePolicyResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResult,
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
@@ -11726,7 +12766,17 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get the details of an Amazon CloudFront VPC origin.
  */
-export const getVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVpcOrigin: (
+  input: GetVpcOriginRequest,
+) => Effect.Effect<
+  GetVpcOriginResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVpcOriginRequest,
   output: GetVpcOriginResult,
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
@@ -11734,37 +12784,51 @@ export const getVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the distributions in your account that are associated with the specified `AnycastIpListId`.
  */
-export const listDistributionsByAnycastIpListId =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDistributionsByAnycastIpListIdRequest,
-    output: ListDistributionsByAnycastIpListIdResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      UnsupportedOperation,
-    ],
-  }));
+export const listDistributionsByAnycastIpListId: (
+  input: ListDistributionsByAnycastIpListIdRequest,
+) => Effect.Effect<
+  ListDistributionsByAnycastIpListIdResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDistributionsByAnycastIpListIdRequest,
+  output: ListDistributionsByAnycastIpListIdResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+}));
 /**
  * List CloudFront distributions by their VPC origin ID.
  */
-export const listDistributionsByVpcOriginId =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListDistributionsByVpcOriginIdRequest,
-    output: ListDistributionsByVpcOriginIdResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      UnsupportedOperation,
-    ],
-  }));
+export const listDistributionsByVpcOriginId: (
+  input: ListDistributionsByVpcOriginIdRequest,
+) => Effect.Effect<
+  ListDistributionsByVpcOriginIdResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDistributionsByVpcOriginIdRequest,
+  output: ListDistributionsByVpcOriginIdResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+}));
 /**
  * Gets the code of a CloudFront function. To get configuration information and metadata about a function, use `DescribeFunction`.
  *
  * To get a function's code, you must provide the function's name and stage. To get these values, you can use `ListFunctions`.
  */
-export const getFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFunction: (
+  input: GetFunctionRequest,
+) => Effect.Effect<
+  GetFunctionResult,
+  NoSuchFunctionExists | UnsupportedOperation | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFunctionRequest,
   output: GetFunctionResult,
   errors: [NoSuchFunctionExists, UnsupportedOperation],
@@ -11772,80 +12836,117 @@ export const getFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes a connection function.
  */
-export const describeConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConnectionFunctionRequest,
-    output: DescribeConnectionFunctionResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      UnsupportedOperation,
-    ],
-  }),
-);
+export const describeConnectionFunction: (
+  input: DescribeConnectionFunctionRequest,
+) => Effect.Effect<
+  DescribeConnectionFunctionResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConnectionFunctionRequest,
+  output: DescribeConnectionFunctionResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+}));
 /**
  * Specifies the key value store and its configuration.
  */
-export const describeKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeKeyValueStoreRequest,
-    output: DescribeKeyValueStoreResult,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidArgument,
-      UnsupportedOperation,
-    ],
-  }),
-);
+export const describeKeyValueStore: (
+  input: DescribeKeyValueStoreRequest,
+) => Effect.Effect<
+  DescribeKeyValueStoreResult,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidArgument
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeKeyValueStoreRequest,
+  output: DescribeKeyValueStoreResult,
+  errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+}));
 /**
  * Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution.
  */
-export const getMonitoringSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMonitoringSubscriptionRequest,
-    output: GetMonitoringSubscriptionResult,
-    errors: [
-      AccessDenied,
-      NoSuchDistribution,
-      NoSuchMonitoringSubscription,
-      UnsupportedOperation,
-    ],
-  }),
-);
+export const getMonitoringSubscription: (
+  input: GetMonitoringSubscriptionRequest,
+) => Effect.Effect<
+  GetMonitoringSubscriptionResult,
+  | AccessDenied
+  | NoSuchDistribution
+  | NoSuchMonitoringSubscription
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMonitoringSubscriptionRequest,
+  output: GetMonitoringSubscriptionResult,
+  errors: [
+    AccessDenied,
+    NoSuchDistribution,
+    NoSuchMonitoringSubscription,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Deletes a CloudFront origin access control.
  *
  * You cannot delete an origin access control if it's in use. First, update all distributions to remove the origin access control from all origins, then delete the origin access control.
  */
-export const deleteOriginAccessControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOriginAccessControlRequest,
-    output: DeleteOriginAccessControlResponse,
-    errors: [
-      AccessDenied,
-      InvalidIfMatchVersion,
-      NoSuchOriginAccessControl,
-      OriginAccessControlInUse,
-      PreconditionFailed,
-    ],
-  }),
-);
+export const deleteOriginAccessControl: (
+  input: DeleteOriginAccessControlRequest,
+) => Effect.Effect<
+  DeleteOriginAccessControlResponse,
+  | AccessDenied
+  | InvalidIfMatchVersion
+  | NoSuchOriginAccessControl
+  | OriginAccessControlInUse
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOriginAccessControlRequest,
+  output: DeleteOriginAccessControlResponse,
+  errors: [
+    AccessDenied,
+    InvalidIfMatchVersion,
+    NoSuchOriginAccessControl,
+    OriginAccessControlInUse,
+    PreconditionFailed,
+  ],
+}));
 /**
  * List the distributions that are associated with a specified WAF web ACL.
  */
-export const listDistributionsByWebACLId = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDistributionsByWebACLIdRequest,
-    output: ListDistributionsByWebACLIdResult,
-    errors: [InvalidArgument, InvalidWebACLId],
-  }),
-);
+export const listDistributionsByWebACLId: (
+  input: ListDistributionsByWebACLIdRequest,
+) => Effect.Effect<
+  ListDistributionsByWebACLIdResult,
+  InvalidArgument | InvalidWebACLId | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDistributionsByWebACLIdRequest,
+  output: ListDistributionsByWebACLIdResult,
+  errors: [InvalidArgument, InvalidWebACLId],
+}));
 /**
  * List tags for a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResult,
+  | AccessDenied
+  | InvalidArgument
+  | InvalidTagging
+  | NoSuchResource
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResult,
   errors: [AccessDenied, InvalidArgument, InvalidTagging, NoSuchResource],
@@ -11861,7 +12962,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, including how to set up the target standard distribution, prerequisites that you must complete, and other restrictions, see Moving an alternate domain name to a different standard distribution or distribution tenant in the *Amazon CloudFront Developer Guide*.
  */
-export const associateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateAlias: (
+  input: AssociateAliasRequest,
+) => Effect.Effect<
+  AssociateAliasResponse,
+  | AccessDenied
+  | IllegalUpdate
+  | InvalidArgument
+  | NoSuchDistribution
+  | TooManyDistributionCNAMEs
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAliasRequest,
   output: AssociateAliasResponse,
   errors: [
@@ -11885,29 +12997,60 @@ export const associateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You cannot update a real-time log configuration's `Name` or `ARN`.
  */
-export const updateRealtimeLogConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRealtimeLogConfigRequest,
-    output: UpdateRealtimeLogConfigResult,
-    errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
-  }),
-);
+export const updateRealtimeLogConfig: (
+  input: UpdateRealtimeLogConfigRequest,
+) => Effect.Effect<
+  UpdateRealtimeLogConfigResult,
+  | AccessDenied
+  | InvalidArgument
+  | NoSuchRealtimeLogConfig
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRealtimeLogConfigRequest,
+  output: UpdateRealtimeLogConfigResult,
+  errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
+}));
 /**
  * Gets a real-time log configuration.
  *
  * To get a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get.
  */
-export const getRealtimeLogConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRealtimeLogConfigRequest,
-    output: GetRealtimeLogConfigResult,
-    errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
-  }),
-);
+export const getRealtimeLogConfig: (
+  input: GetRealtimeLogConfigRequest,
+) => Effect.Effect<
+  GetRealtimeLogConfigResult,
+  | AccessDenied
+  | InvalidArgument
+  | NoSuchRealtimeLogConfig
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRealtimeLogConfigRequest,
+  output: GetRealtimeLogConfigResult,
+  errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
+}));
 /**
  * Update an Amazon CloudFront VPC origin in your account.
  */
-export const updateVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVpcOrigin: (
+  input: UpdateVpcOriginRequest,
+) => Effect.Effect<
+  UpdateVpcOriginResult,
+  | AccessDenied
+  | CannotUpdateEntityWhileInUse
+  | EntityAlreadyExists
+  | EntityLimitExceeded
+  | EntityNotFound
+  | IllegalUpdate
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVpcOriginRequest,
   output: UpdateVpcOriginResult,
   errors: [
@@ -11927,24 +13070,46 @@ export const updateVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a connection group.
  */
-export const createConnectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConnectionGroupRequest,
-    output: CreateConnectionGroupResult,
-    errors: [
-      AccessDenied,
-      EntityAlreadyExists,
-      EntityLimitExceeded,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidTagging,
-    ],
-  }),
-);
+export const createConnectionGroup: (
+  input: CreateConnectionGroupRequest,
+) => Effect.Effect<
+  CreateConnectionGroupResult,
+  | AccessDenied
+  | EntityAlreadyExists
+  | EntityLimitExceeded
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidTagging
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConnectionGroupRequest,
+  output: CreateConnectionGroupResult,
+  errors: [
+    AccessDenied,
+    EntityAlreadyExists,
+    EntityLimitExceeded,
+    EntityNotFound,
+    InvalidArgument,
+    InvalidTagging,
+  ],
+}));
 /**
  * Specifies the key value store resource to add to your account. In your account, the key value store names must be unique. You can also import key value store data in JSON format from an S3 bucket by providing a valid `ImportSource` that you own.
  */
-export const createKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKeyValueStore: (
+  input: CreateKeyValueStoreRequest,
+) => Effect.Effect<
+  CreateKeyValueStoreResult,
+  | AccessDenied
+  | EntityAlreadyExists
+  | EntityLimitExceeded
+  | EntitySizeLimitExceeded
+  | InvalidArgument
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKeyValueStoreRequest,
   output: CreateKeyValueStoreResult,
   errors: [
@@ -11959,7 +13124,19 @@ export const createKeyValueStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Anycast static IP list.
  */
-export const createAnycastIpList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAnycastIpList: (
+  input: CreateAnycastIpListRequest,
+) => Effect.Effect<
+  CreateAnycastIpListResult,
+  | AccessDenied
+  | EntityAlreadyExists
+  | EntityLimitExceeded
+  | InvalidArgument
+  | InvalidTagging
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAnycastIpListRequest,
   output: CreateAnycastIpListResult,
   errors: [
@@ -11974,7 +13151,19 @@ export const createAnycastIpList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a trust store.
  */
-export const createTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTrustStore: (
+  input: CreateTrustStoreRequest,
+) => Effect.Effect<
+  CreateTrustStoreResult,
+  | AccessDenied
+  | EntityAlreadyExists
+  | EntityLimitExceeded
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidTagging
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrustStoreRequest,
   output: CreateTrustStoreResult,
   errors: [
@@ -11989,7 +13178,20 @@ export const createTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create an Amazon CloudFront VPC origin.
  */
-export const createVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVpcOrigin: (
+  input: CreateVpcOriginRequest,
+) => Effect.Effect<
+  CreateVpcOriginResult,
+  | AccessDenied
+  | EntityAlreadyExists
+  | EntityLimitExceeded
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidTagging
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcOriginRequest,
   output: CreateVpcOriginResult,
   errors: [
@@ -12005,7 +13207,13 @@ export const createVpcOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get the information about an invalidation.
  */
-export const getInvalidation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInvalidation: (
+  input: GetInvalidationRequest,
+) => Effect.Effect<
+  GetInvalidationResult,
+  AccessDenied | NoSuchDistribution | NoSuchInvalidation | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInvalidationRequest,
   output: GetInvalidationResult,
   errors: [AccessDenied, NoSuchDistribution, NoSuchInvalidation],
@@ -12013,21 +13221,40 @@ export const getInvalidation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disables additional CloudWatch metrics for the specified CloudFront distribution.
  */
-export const deleteMonitoringSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteMonitoringSubscriptionRequest,
-    output: DeleteMonitoringSubscriptionResult,
-    errors: [
-      AccessDenied,
-      NoSuchDistribution,
-      NoSuchMonitoringSubscription,
-      UnsupportedOperation,
-    ],
-  }));
+export const deleteMonitoringSubscription: (
+  input: DeleteMonitoringSubscriptionRequest,
+) => Effect.Effect<
+  DeleteMonitoringSubscriptionResult,
+  | AccessDenied
+  | NoSuchDistribution
+  | NoSuchMonitoringSubscription
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMonitoringSubscriptionRequest,
+  output: DeleteMonitoringSubscriptionResult,
+  errors: [
+    AccessDenied,
+    NoSuchDistribution,
+    NoSuchMonitoringSubscription,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Remove tags from a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDenied
+  | InvalidArgument
+  | InvalidTagging
+  | NoSuchResource
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [AccessDenied, InvalidArgument, InvalidTagging, NoSuchResource],
@@ -12035,7 +13262,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Add tags to a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDenied
+  | InvalidArgument
+  | InvalidTagging
+  | NoSuchResource
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [AccessDenied, InvalidArgument, InvalidTagging, NoSuchResource],
@@ -12043,37 +13280,57 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a connection function.
  */
-export const createConnectionFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConnectionFunctionRequest,
-    output: CreateConnectionFunctionResult,
-    errors: [
-      AccessDenied,
-      EntityAlreadyExists,
-      EntityLimitExceeded,
-      EntitySizeLimitExceeded,
-      InvalidArgument,
-      InvalidTagging,
-      UnsupportedOperation,
-    ],
-  }),
-);
+export const createConnectionFunction: (
+  input: CreateConnectionFunctionRequest,
+) => Effect.Effect<
+  CreateConnectionFunctionResult,
+  | AccessDenied
+  | EntityAlreadyExists
+  | EntityLimitExceeded
+  | EntitySizeLimitExceeded
+  | InvalidArgument
+  | InvalidTagging
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConnectionFunctionRequest,
+  output: CreateConnectionFunctionResult,
+  errors: [
+    AccessDenied,
+    EntityAlreadyExists,
+    EntityLimitExceeded,
+    EntitySizeLimitExceeded,
+    InvalidArgument,
+    InvalidTagging,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost.
  *
  * For more information, see Viewing additional CloudFront distribution metrics in the *Amazon CloudFront Developer Guide*.
  */
-export const createMonitoringSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateMonitoringSubscriptionRequest,
-    output: CreateMonitoringSubscriptionResult,
-    errors: [
-      AccessDenied,
-      MonitoringSubscriptionAlreadyExists,
-      NoSuchDistribution,
-      UnsupportedOperation,
-    ],
-  }));
+export const createMonitoringSubscription: (
+  input: CreateMonitoringSubscriptionRequest,
+) => Effect.Effect<
+  CreateMonitoringSubscriptionResult,
+  | AccessDenied
+  | MonitoringSubscriptionAlreadyExists
+  | NoSuchDistribution
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMonitoringSubscriptionRequest,
+  output: CreateMonitoringSubscriptionResult,
+  errors: [
+    AccessDenied,
+    MonitoringSubscriptionAlreadyExists,
+    NoSuchDistribution,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Deletes a key group.
  *
@@ -12081,7 +13338,17 @@ export const createMonitoringSubscription =
  *
  * To delete a key group, you must provide the key group's identifier and version. To get these values, use `ListKeyGroups` followed by `GetKeyGroup` or `GetKeyGroupConfig`.
  */
-export const deleteKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKeyGroup: (
+  input: DeleteKeyGroupRequest,
+) => Effect.Effect<
+  DeleteKeyGroupResponse,
+  | InvalidIfMatchVersion
+  | NoSuchResource
+  | PreconditionFailed
+  | ResourceInUse
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeyGroupRequest,
   output: DeleteKeyGroupResponse,
   errors: [
@@ -12094,7 +13361,20 @@ export const deleteKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a new invalidation. For more information, see Invalidating files in the *Amazon CloudFront Developer Guide*.
  */
-export const createInvalidation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createInvalidation: (
+  input: CreateInvalidationRequest,
+) => Effect.Effect<
+  CreateInvalidationResult,
+  | AccessDenied
+  | BatchTooLarge
+  | InconsistentQuantities
+  | InvalidArgument
+  | MissingBody
+  | NoSuchDistribution
+  | TooManyInvalidationsInProgress
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInvalidationRequest,
   output: CreateInvalidationResult,
   errors: [
@@ -12118,42 +13398,74 @@ export const createInvalidation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Use `UpdateContinuousDeploymentPolicy`, providing the entire continuous deployment policy configuration, including the fields that you modified and those that you didn't.
  */
-export const updateContinuousDeploymentPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateContinuousDeploymentPolicyRequest,
-    output: UpdateContinuousDeploymentPolicyResult,
-    errors: [
-      AccessDenied,
-      InconsistentQuantities,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      NoSuchContinuousDeploymentPolicy,
-      PreconditionFailed,
-      StagingDistributionInUse,
-    ],
-  }));
+export const updateContinuousDeploymentPolicy: (
+  input: UpdateContinuousDeploymentPolicyRequest,
+) => Effect.Effect<
+  UpdateContinuousDeploymentPolicyResult,
+  | AccessDenied
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | NoSuchContinuousDeploymentPolicy
+  | PreconditionFailed
+  | StagingDistributionInUse
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContinuousDeploymentPolicyRequest,
+  output: UpdateContinuousDeploymentPolicyResult,
+  errors: [
+    AccessDenied,
+    InconsistentQuantities,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    NoSuchContinuousDeploymentPolicy,
+    PreconditionFailed,
+    StagingDistributionInUse,
+  ],
+}));
 /**
  * Deletes a distribution tenant. If you use this API operation to delete a distribution tenant that is currently enabled, the request will fail.
  *
  * To delete a distribution tenant, you must first disable the distribution tenant by using the `UpdateDistributionTenant` API operation.
  */
-export const deleteDistributionTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDistributionTenantRequest,
-    output: DeleteDistributionTenantResponse,
-    errors: [
-      AccessDenied,
-      EntityNotFound,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-      ResourceNotDisabled,
-    ],
-  }),
-);
+export const deleteDistributionTenant: (
+  input: DeleteDistributionTenantRequest,
+) => Effect.Effect<
+  DeleteDistributionTenantResponse,
+  | AccessDenied
+  | EntityNotFound
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | ResourceNotDisabled
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDistributionTenantRequest,
+  output: DeleteDistributionTenantResponse,
+  errors: [
+    AccessDenied,
+    EntityNotFound,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+    ResourceNotDisabled,
+  ],
+}));
 /**
  * Remove a public key you previously added to CloudFront.
  */
-export const deletePublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePublicKey: (
+  input: DeletePublicKeyRequest,
+) => Effect.Effect<
+  DeletePublicKeyResponse,
+  | AccessDenied
+  | InvalidIfMatchVersion
+  | NoSuchPublicKey
+  | PreconditionFailed
+  | PublicKeyInUse
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePublicKeyRequest,
   output: DeletePublicKeyResponse,
   errors: [
@@ -12187,19 +13499,28 @@ export const deletePublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For information about deleting a distribution using the CloudFront console, see Deleting a Distribution in the *Amazon CloudFront Developer Guide*.
  */
-export const deleteStreamingDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStreamingDistributionRequest,
-    output: DeleteStreamingDistributionResponse,
-    errors: [
-      AccessDenied,
-      InvalidIfMatchVersion,
-      NoSuchStreamingDistribution,
-      PreconditionFailed,
-      StreamingDistributionNotDisabled,
-    ],
-  }),
-);
+export const deleteStreamingDistribution: (
+  input: DeleteStreamingDistributionRequest,
+) => Effect.Effect<
+  DeleteStreamingDistributionResponse,
+  | AccessDenied
+  | InvalidIfMatchVersion
+  | NoSuchStreamingDistribution
+  | PreconditionFailed
+  | StreamingDistributionNotDisabled
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStreamingDistributionRequest,
+  output: DeleteStreamingDistributionResponse,
+  errors: [
+    AccessDenied,
+    InvalidIfMatchVersion,
+    NoSuchStreamingDistribution,
+    PreconditionFailed,
+    StreamingDistributionNotDisabled,
+  ],
+}));
 /**
  * Deletes a response headers policy.
  *
@@ -12207,45 +13528,79 @@ export const deleteStreamingDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use `ListResponseHeadersPolicies` or `GetResponseHeadersPolicy`.
  */
-export const deleteResponseHeadersPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResponseHeadersPolicyRequest,
-    output: DeleteResponseHeadersPolicyResponse,
-    errors: [
-      AccessDenied,
-      IllegalDelete,
-      InvalidIfMatchVersion,
-      NoSuchResponseHeadersPolicy,
-      PreconditionFailed,
-      ResponseHeadersPolicyInUse,
-    ],
-  }),
-);
+export const deleteResponseHeadersPolicy: (
+  input: DeleteResponseHeadersPolicyRequest,
+) => Effect.Effect<
+  DeleteResponseHeadersPolicyResponse,
+  | AccessDenied
+  | IllegalDelete
+  | InvalidIfMatchVersion
+  | NoSuchResponseHeadersPolicy
+  | PreconditionFailed
+  | ResponseHeadersPolicyInUse
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResponseHeadersPolicyRequest,
+  output: DeleteResponseHeadersPolicyResponse,
+  errors: [
+    AccessDenied,
+    IllegalDelete,
+    InvalidIfMatchVersion,
+    NoSuchResponseHeadersPolicy,
+    PreconditionFailed,
+    ResponseHeadersPolicyInUse,
+  ],
+}));
 /**
  * Updates a connection group.
  */
-export const updateConnectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConnectionGroupRequest,
-    output: UpdateConnectionGroupResult,
-    errors: [
-      AccessDenied,
-      EntityAlreadyExists,
-      EntityLimitExceeded,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-      ResourceInUse,
-    ],
-  }),
-);
+export const updateConnectionGroup: (
+  input: UpdateConnectionGroupRequest,
+) => Effect.Effect<
+  UpdateConnectionGroupResult,
+  | AccessDenied
+  | EntityAlreadyExists
+  | EntityLimitExceeded
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | ResourceInUse
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConnectionGroupRequest,
+  output: UpdateConnectionGroupResult,
+  errors: [
+    AccessDenied,
+    EntityAlreadyExists,
+    EntityLimitExceeded,
+    EntityNotFound,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+    ResourceInUse,
+  ],
+}));
 /**
  * Delete a distribution.
  *
  * Before you can delete a distribution, you must disable it, which requires permission to update the distribution. Once deleted, a distribution cannot be recovered.
  */
-export const deleteDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDistribution: (
+  input: DeleteDistributionRequest,
+) => Effect.Effect<
+  DeleteDistributionResponse,
+  | AccessDenied
+  | DistributionNotDisabled
+  | InvalidIfMatchVersion
+  | NoSuchDistribution
+  | PreconditionFailed
+  | ResourceInUse
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDistributionRequest,
   output: DeleteDistributionResponse,
   errors: [
@@ -12268,7 +13623,19 @@ export const deleteDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Call `UpdateKeyGroup` with the entire key group object, including the fields that you modified and those that you didn't.
  */
-export const updateKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateKeyGroup: (
+  input: UpdateKeyGroupRequest,
+) => Effect.Effect<
+  UpdateKeyGroupResult,
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | KeyGroupAlreadyExists
+  | NoSuchResource
+  | PreconditionFailed
+  | TooManyPublicKeysInKeyGroup
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKeyGroupRequest,
   output: UpdateKeyGroupResult,
   errors: [
@@ -12283,7 +13650,16 @@ export const updateKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Uploads a public key to CloudFront that you can use with signed URLs and signed cookies, or with field-level encryption.
  */
-export const createPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPublicKey: (
+  input: CreatePublicKeyRequest,
+) => Effect.Effect<
+  CreatePublicKeyResult,
+  | InvalidArgument
+  | PublicKeyAlreadyExists
+  | TooManyPublicKeys
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePublicKeyRequest,
   output: CreatePublicKeyResult,
   errors: [InvalidArgument, PublicKeyAlreadyExists, TooManyPublicKeys],
@@ -12295,53 +13671,84 @@ export const createPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To delete a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
  */
-export const deleteRealtimeLogConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRealtimeLogConfigRequest,
-    output: DeleteRealtimeLogConfigResponse,
-    errors: [
-      AccessDenied,
-      InvalidArgument,
-      NoSuchRealtimeLogConfig,
-      RealtimeLogConfigInUse,
-    ],
-  }),
-);
+export const deleteRealtimeLogConfig: (
+  input: DeleteRealtimeLogConfigRequest,
+) => Effect.Effect<
+  DeleteRealtimeLogConfigResponse,
+  | AccessDenied
+  | InvalidArgument
+  | NoSuchRealtimeLogConfig
+  | RealtimeLogConfigInUse
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRealtimeLogConfigRequest,
+  output: DeleteRealtimeLogConfigResponse,
+  errors: [
+    AccessDenied,
+    InvalidArgument,
+    NoSuchRealtimeLogConfig,
+    RealtimeLogConfigInUse,
+  ],
+}));
 /**
  * Updates a distribution tenant.
  */
-export const updateDistributionTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDistributionTenantRequest,
-    output: UpdateDistributionTenantResult,
-    errors: [
-      AccessDenied,
-      CNAMEAlreadyExists,
-      EntityAlreadyExists,
-      EntityLimitExceeded,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidAssociation,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-    ],
-  }),
-);
+export const updateDistributionTenant: (
+  input: UpdateDistributionTenantRequest,
+) => Effect.Effect<
+  UpdateDistributionTenantResult,
+  | AccessDenied
+  | CNAMEAlreadyExists
+  | EntityAlreadyExists
+  | EntityLimitExceeded
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidAssociation
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDistributionTenantRequest,
+  output: UpdateDistributionTenantResult,
+  errors: [
+    AccessDenied,
+    CNAMEAlreadyExists,
+    EntityAlreadyExists,
+    EntityLimitExceeded,
+    EntityNotFound,
+    InvalidArgument,
+    InvalidAssociation,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+  ],
+}));
 /**
  * Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see Serving Private Content through CloudFront in the *Amazon CloudFront Developer Guide*.
  */
-export const createCloudFrontOriginAccessIdentity =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCloudFrontOriginAccessIdentityRequest,
-    output: CreateCloudFrontOriginAccessIdentityResult,
-    errors: [
-      CloudFrontOriginAccessIdentityAlreadyExists,
-      InconsistentQuantities,
-      InvalidArgument,
-      MissingBody,
-      TooManyCloudFrontOriginAccessIdentities,
-    ],
-  }));
+export const createCloudFrontOriginAccessIdentity: (
+  input: CreateCloudFrontOriginAccessIdentityRequest,
+) => Effect.Effect<
+  CreateCloudFrontOriginAccessIdentityResult,
+  | CloudFrontOriginAccessIdentityAlreadyExists
+  | InconsistentQuantities
+  | InvalidArgument
+  | MissingBody
+  | TooManyCloudFrontOriginAccessIdentities
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCloudFrontOriginAccessIdentityRequest,
+  output: CreateCloudFrontOriginAccessIdentityResult,
+  errors: [
+    CloudFrontOriginAccessIdentityAlreadyExists,
+    InconsistentQuantities,
+    InvalidArgument,
+    MissingBody,
+    TooManyCloudFrontOriginAccessIdentities,
+  ],
+}));
 /**
  * Creates a new origin access control in CloudFront. After you create an origin access control, you can add it to an origin in a CloudFront distribution so that CloudFront sends authenticated (signed) requests to the origin.
  *
@@ -12349,57 +13756,96 @@ export const createCloudFrontOriginAccessIdentity =
  *
  * For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the *Amazon CloudFront Developer Guide*.
  */
-export const createOriginAccessControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateOriginAccessControlRequest,
-    output: CreateOriginAccessControlResult,
-    errors: [
-      InvalidArgument,
-      OriginAccessControlAlreadyExists,
-      TooManyOriginAccessControls,
-    ],
-  }),
-);
+export const createOriginAccessControl: (
+  input: CreateOriginAccessControlRequest,
+) => Effect.Effect<
+  CreateOriginAccessControlResult,
+  | InvalidArgument
+  | OriginAccessControlAlreadyExists
+  | TooManyOriginAccessControls
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOriginAccessControlRequest,
+  output: CreateOriginAccessControlResult,
+  errors: [
+    InvalidArgument,
+    OriginAccessControlAlreadyExists,
+    TooManyOriginAccessControls,
+  ],
+}));
 /**
  * Creates an invalidation for a distribution tenant. For more information, see Invalidating files in the *Amazon CloudFront Developer Guide*.
  */
-export const createInvalidationForDistributionTenant =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateInvalidationForDistributionTenantRequest,
-    output: CreateInvalidationForDistributionTenantResult,
-    errors: [
-      AccessDenied,
-      BatchTooLarge,
-      EntityNotFound,
-      InconsistentQuantities,
-      InvalidArgument,
-      MissingBody,
-      TooManyInvalidationsInProgress,
-    ],
-  }));
+export const createInvalidationForDistributionTenant: (
+  input: CreateInvalidationForDistributionTenantRequest,
+) => Effect.Effect<
+  CreateInvalidationForDistributionTenantResult,
+  | AccessDenied
+  | BatchTooLarge
+  | EntityNotFound
+  | InconsistentQuantities
+  | InvalidArgument
+  | MissingBody
+  | TooManyInvalidationsInProgress
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInvalidationForDistributionTenantRequest,
+  output: CreateInvalidationForDistributionTenantResult,
+  errors: [
+    AccessDenied,
+    BatchTooLarge,
+    EntityNotFound,
+    InconsistentQuantities,
+    InvalidArgument,
+    MissingBody,
+    TooManyInvalidationsInProgress,
+  ],
+}));
 /**
  * Deletes a connection group.
  */
-export const deleteConnectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConnectionGroupRequest,
-    output: DeleteConnectionGroupResponse,
-    errors: [
-      AccessDenied,
-      CannotDeleteEntityWhileInUse,
-      EntityNotFound,
-      InvalidIfMatchVersion,
-      PreconditionFailed,
-      ResourceNotDisabled,
-    ],
-  }),
-);
+export const deleteConnectionGroup: (
+  input: DeleteConnectionGroupRequest,
+) => Effect.Effect<
+  DeleteConnectionGroupResponse,
+  | AccessDenied
+  | CannotDeleteEntityWhileInUse
+  | EntityNotFound
+  | InvalidIfMatchVersion
+  | PreconditionFailed
+  | ResourceNotDisabled
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectionGroupRequest,
+  output: DeleteConnectionGroupResponse,
+  errors: [
+    AccessDenied,
+    CannotDeleteEntityWhileInUse,
+    EntityNotFound,
+    InvalidIfMatchVersion,
+    PreconditionFailed,
+    ResourceNotDisabled,
+  ],
+}));
 /**
  * Creates a key group that you can use with CloudFront signed URLs and signed cookies.
  *
  * To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the *Amazon CloudFront Developer Guide*.
  */
-export const createKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKeyGroup: (
+  input: CreateKeyGroupRequest,
+) => Effect.Effect<
+  CreateKeyGroupResult,
+  | InvalidArgument
+  | KeyGroupAlreadyExists
+  | TooManyKeyGroups
+  | TooManyPublicKeysInKeyGroup
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKeyGroupRequest,
   output: CreateKeyGroupResult,
   errors: [
@@ -12412,22 +13858,34 @@ export const createKeyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a distribution tenant.
  */
-export const createDistributionTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDistributionTenantRequest,
-    output: CreateDistributionTenantResult,
-    errors: [
-      AccessDenied,
-      CNAMEAlreadyExists,
-      EntityAlreadyExists,
-      EntityLimitExceeded,
-      EntityNotFound,
-      InvalidArgument,
-      InvalidAssociation,
-      InvalidTagging,
-    ],
-  }),
-);
+export const createDistributionTenant: (
+  input: CreateDistributionTenantRequest,
+) => Effect.Effect<
+  CreateDistributionTenantResult,
+  | AccessDenied
+  | CNAMEAlreadyExists
+  | EntityAlreadyExists
+  | EntityLimitExceeded
+  | EntityNotFound
+  | InvalidArgument
+  | InvalidAssociation
+  | InvalidTagging
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDistributionTenantRequest,
+  output: CreateDistributionTenantResult,
+  errors: [
+    AccessDenied,
+    CNAMEAlreadyExists,
+    EntityAlreadyExists,
+    EntityLimitExceeded,
+    EntityNotFound,
+    InvalidArgument,
+    InvalidAssociation,
+    InvalidTagging,
+  ],
+}));
 /**
  * Creates a CloudFront function.
  *
@@ -12437,7 +13895,18 @@ export const createDistributionTenant = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * When you're ready to use your function with a CloudFront distribution, use `PublishFunction` to copy the function from the `DEVELOPMENT` stage to `LIVE`. When it's live, you can attach the function to a distribution's cache behavior, using the function's ARN.
  */
-export const createFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFunction: (
+  input: CreateFunctionRequest,
+) => Effect.Effect<
+  CreateFunctionResult,
+  | FunctionAlreadyExists
+  | FunctionSizeLimitExceeded
+  | InvalidArgument
+  | TooManyFunctions
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFunctionRequest,
   output: CreateFunctionResult,
   errors: [
@@ -12455,40 +13924,65 @@ export const createFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about real-time log configurations, see Real-time logs in the *Amazon CloudFront Developer Guide*.
  */
-export const createRealtimeLogConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRealtimeLogConfigRequest,
-    output: CreateRealtimeLogConfigResult,
-    errors: [
-      AccessDenied,
-      InvalidArgument,
-      RealtimeLogConfigAlreadyExists,
-      TooManyRealtimeLogConfigs,
-    ],
-  }),
-);
+export const createRealtimeLogConfig: (
+  input: CreateRealtimeLogConfigRequest,
+) => Effect.Effect<
+  CreateRealtimeLogConfigResult,
+  | AccessDenied
+  | InvalidArgument
+  | RealtimeLogConfigAlreadyExists
+  | TooManyRealtimeLogConfigs
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRealtimeLogConfigRequest,
+  output: CreateRealtimeLogConfigResult,
+  errors: [
+    AccessDenied,
+    InvalidArgument,
+    RealtimeLogConfigAlreadyExists,
+    TooManyRealtimeLogConfigs,
+  ],
+}));
 /**
  * Update a field-level encryption profile.
  */
-export const updateFieldLevelEncryptionProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateFieldLevelEncryptionProfileRequest,
-    output: UpdateFieldLevelEncryptionProfileResult,
-    errors: [
-      AccessDenied,
-      FieldLevelEncryptionProfileAlreadyExists,
-      FieldLevelEncryptionProfileSizeExceeded,
-      IllegalUpdate,
-      InconsistentQuantities,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      NoSuchFieldLevelEncryptionProfile,
-      NoSuchPublicKey,
-      PreconditionFailed,
-      TooManyFieldLevelEncryptionEncryptionEntities,
-      TooManyFieldLevelEncryptionFieldPatterns,
-    ],
-  }));
+export const updateFieldLevelEncryptionProfile: (
+  input: UpdateFieldLevelEncryptionProfileRequest,
+) => Effect.Effect<
+  UpdateFieldLevelEncryptionProfileResult,
+  | AccessDenied
+  | FieldLevelEncryptionProfileAlreadyExists
+  | FieldLevelEncryptionProfileSizeExceeded
+  | IllegalUpdate
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | NoSuchFieldLevelEncryptionProfile
+  | NoSuchPublicKey
+  | PreconditionFailed
+  | TooManyFieldLevelEncryptionEncryptionEntities
+  | TooManyFieldLevelEncryptionFieldPatterns
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFieldLevelEncryptionProfileRequest,
+  output: UpdateFieldLevelEncryptionProfileResult,
+  errors: [
+    AccessDenied,
+    FieldLevelEncryptionProfileAlreadyExists,
+    FieldLevelEncryptionProfileSizeExceeded,
+    IllegalUpdate,
+    InconsistentQuantities,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    NoSuchFieldLevelEncryptionProfile,
+    NoSuchPublicKey,
+    PreconditionFailed,
+    TooManyFieldLevelEncryptionEncryptionEntities,
+    TooManyFieldLevelEncryptionFieldPatterns,
+  ],
+}));
 /**
  * Updates an origin request policy configuration.
  *
@@ -12500,46 +13994,77 @@ export const updateFieldLevelEncryptionProfile =
  *
  * - Call `UpdateOriginRequestPolicy` by providing the entire origin request policy configuration, including the fields that you modified and those that you didn't.
  */
-export const updateOriginRequestPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateOriginRequestPolicyRequest,
-    output: UpdateOriginRequestPolicyResult,
-    errors: [
-      AccessDenied,
-      IllegalUpdate,
-      InconsistentQuantities,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      NoSuchOriginRequestPolicy,
-      OriginRequestPolicyAlreadyExists,
-      PreconditionFailed,
-      TooManyCookiesInOriginRequestPolicy,
-      TooManyHeadersInOriginRequestPolicy,
-      TooManyQueryStringsInOriginRequestPolicy,
-    ],
-  }),
-);
+export const updateOriginRequestPolicy: (
+  input: UpdateOriginRequestPolicyRequest,
+) => Effect.Effect<
+  UpdateOriginRequestPolicyResult,
+  | AccessDenied
+  | IllegalUpdate
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | NoSuchOriginRequestPolicy
+  | OriginRequestPolicyAlreadyExists
+  | PreconditionFailed
+  | TooManyCookiesInOriginRequestPolicy
+  | TooManyHeadersInOriginRequestPolicy
+  | TooManyQueryStringsInOriginRequestPolicy
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOriginRequestPolicyRequest,
+  output: UpdateOriginRequestPolicyResult,
+  errors: [
+    AccessDenied,
+    IllegalUpdate,
+    InconsistentQuantities,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    NoSuchOriginRequestPolicy,
+    OriginRequestPolicyAlreadyExists,
+    PreconditionFailed,
+    TooManyCookiesInOriginRequestPolicy,
+    TooManyHeadersInOriginRequestPolicy,
+    TooManyQueryStringsInOriginRequestPolicy,
+  ],
+}));
 /**
  * Update a field-level encryption configuration.
  */
-export const updateFieldLevelEncryptionConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateFieldLevelEncryptionConfigRequest,
-    output: UpdateFieldLevelEncryptionConfigResult,
-    errors: [
-      AccessDenied,
-      IllegalUpdate,
-      InconsistentQuantities,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      NoSuchFieldLevelEncryptionConfig,
-      NoSuchFieldLevelEncryptionProfile,
-      PreconditionFailed,
-      QueryArgProfileEmpty,
-      TooManyFieldLevelEncryptionContentTypeProfiles,
-      TooManyFieldLevelEncryptionQueryArgProfiles,
-    ],
-  }));
+export const updateFieldLevelEncryptionConfig: (
+  input: UpdateFieldLevelEncryptionConfigRequest,
+) => Effect.Effect<
+  UpdateFieldLevelEncryptionConfigResult,
+  | AccessDenied
+  | IllegalUpdate
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | NoSuchFieldLevelEncryptionConfig
+  | NoSuchFieldLevelEncryptionProfile
+  | PreconditionFailed
+  | QueryArgProfileEmpty
+  | TooManyFieldLevelEncryptionContentTypeProfiles
+  | TooManyFieldLevelEncryptionQueryArgProfiles
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFieldLevelEncryptionConfigRequest,
+  output: UpdateFieldLevelEncryptionConfigResult,
+  errors: [
+    AccessDenied,
+    IllegalUpdate,
+    InconsistentQuantities,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    NoSuchFieldLevelEncryptionConfig,
+    NoSuchFieldLevelEncryptionProfile,
+    PreconditionFailed,
+    QueryArgProfileEmpty,
+    TooManyFieldLevelEncryptionContentTypeProfiles,
+    TooManyFieldLevelEncryptionQueryArgProfiles,
+  ],
+}));
 /**
  * Updates a cache policy configuration.
  *
@@ -12553,7 +14078,24 @@ export const updateFieldLevelEncryptionConfig =
  *
  * If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the `Cache-Control: no-cache`, `no-store`, or `private` directives are present in the origin headers.
  */
-export const updateCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCachePolicy: (
+  input: UpdateCachePolicyRequest,
+) => Effect.Effect<
+  UpdateCachePolicyResult,
+  | AccessDenied
+  | CachePolicyAlreadyExists
+  | IllegalUpdate
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | NoSuchCachePolicy
+  | PreconditionFailed
+  | TooManyCookiesInCachePolicy
+  | TooManyHeadersInCachePolicy
+  | TooManyQueryStringsInCachePolicy
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCachePolicyRequest,
   output: UpdateCachePolicyResult,
   errors: [
@@ -12573,21 +14115,34 @@ export const updateCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a field-level encryption profile.
  */
-export const createFieldLevelEncryptionProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateFieldLevelEncryptionProfileRequest,
-    output: CreateFieldLevelEncryptionProfileResult,
-    errors: [
-      FieldLevelEncryptionProfileAlreadyExists,
-      FieldLevelEncryptionProfileSizeExceeded,
-      InconsistentQuantities,
-      InvalidArgument,
-      NoSuchPublicKey,
-      TooManyFieldLevelEncryptionEncryptionEntities,
-      TooManyFieldLevelEncryptionFieldPatterns,
-      TooManyFieldLevelEncryptionProfiles,
-    ],
-  }));
+export const createFieldLevelEncryptionProfile: (
+  input: CreateFieldLevelEncryptionProfileRequest,
+) => Effect.Effect<
+  CreateFieldLevelEncryptionProfileResult,
+  | FieldLevelEncryptionProfileAlreadyExists
+  | FieldLevelEncryptionProfileSizeExceeded
+  | InconsistentQuantities
+  | InvalidArgument
+  | NoSuchPublicKey
+  | TooManyFieldLevelEncryptionEncryptionEntities
+  | TooManyFieldLevelEncryptionFieldPatterns
+  | TooManyFieldLevelEncryptionProfiles
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFieldLevelEncryptionProfileRequest,
+  output: CreateFieldLevelEncryptionProfileResult,
+  errors: [
+    FieldLevelEncryptionProfileAlreadyExists,
+    FieldLevelEncryptionProfileSizeExceeded,
+    InconsistentQuantities,
+    InvalidArgument,
+    NoSuchPublicKey,
+    TooManyFieldLevelEncryptionEncryptionEntities,
+    TooManyFieldLevelEncryptionFieldPatterns,
+    TooManyFieldLevelEncryptionProfiles,
+  ],
+}));
 /**
  * Creates an origin request policy.
  *
@@ -12603,22 +14158,34 @@ export const createFieldLevelEncryptionProfile =
  *
  * For more information about origin request policies, see Controlling origin requests in the *Amazon CloudFront Developer Guide*.
  */
-export const createOriginRequestPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateOriginRequestPolicyRequest,
-    output: CreateOriginRequestPolicyResult,
-    errors: [
-      AccessDenied,
-      InconsistentQuantities,
-      InvalidArgument,
-      OriginRequestPolicyAlreadyExists,
-      TooManyCookiesInOriginRequestPolicy,
-      TooManyHeadersInOriginRequestPolicy,
-      TooManyOriginRequestPolicies,
-      TooManyQueryStringsInOriginRequestPolicy,
-    ],
-  }),
-);
+export const createOriginRequestPolicy: (
+  input: CreateOriginRequestPolicyRequest,
+) => Effect.Effect<
+  CreateOriginRequestPolicyResult,
+  | AccessDenied
+  | InconsistentQuantities
+  | InvalidArgument
+  | OriginRequestPolicyAlreadyExists
+  | TooManyCookiesInOriginRequestPolicy
+  | TooManyHeadersInOriginRequestPolicy
+  | TooManyOriginRequestPolicies
+  | TooManyQueryStringsInOriginRequestPolicy
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOriginRequestPolicyRequest,
+  output: CreateOriginRequestPolicyResult,
+  errors: [
+    AccessDenied,
+    InconsistentQuantities,
+    InvalidArgument,
+    OriginRequestPolicyAlreadyExists,
+    TooManyCookiesInOriginRequestPolicy,
+    TooManyHeadersInOriginRequestPolicy,
+    TooManyOriginRequestPolicies,
+    TooManyQueryStringsInOriginRequestPolicy,
+  ],
+}));
 /**
  * Creates a cache policy.
  *
@@ -12634,7 +14201,21 @@ export const createOriginRequestPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information about cache policies, see Controlling the cache key in the *Amazon CloudFront Developer Guide*.
  */
-export const createCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCachePolicy: (
+  input: CreateCachePolicyRequest,
+) => Effect.Effect<
+  CreateCachePolicyResult,
+  | AccessDenied
+  | CachePolicyAlreadyExists
+  | InconsistentQuantities
+  | InvalidArgument
+  | TooManyCachePolicies
+  | TooManyCookiesInCachePolicy
+  | TooManyHeadersInCachePolicy
+  | TooManyQueryStringsInCachePolicy
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCachePolicyRequest,
   output: CreateCachePolicyResult,
   errors: [
@@ -12655,37 +14236,61 @@ export const createCachePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test changes to a distribution's configuration before moving all of your domain's production traffic to the new configuration.
  */
-export const createContinuousDeploymentPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateContinuousDeploymentPolicyRequest,
-    output: CreateContinuousDeploymentPolicyResult,
-    errors: [
-      AccessDenied,
-      ContinuousDeploymentPolicyAlreadyExists,
-      InconsistentQuantities,
-      InvalidArgument,
-      StagingDistributionInUse,
-      TooManyContinuousDeploymentPolicies,
-    ],
-  }));
+export const createContinuousDeploymentPolicy: (
+  input: CreateContinuousDeploymentPolicyRequest,
+) => Effect.Effect<
+  CreateContinuousDeploymentPolicyResult,
+  | AccessDenied
+  | ContinuousDeploymentPolicyAlreadyExists
+  | InconsistentQuantities
+  | InvalidArgument
+  | StagingDistributionInUse
+  | TooManyContinuousDeploymentPolicies
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContinuousDeploymentPolicyRequest,
+  output: CreateContinuousDeploymentPolicyResult,
+  errors: [
+    AccessDenied,
+    ContinuousDeploymentPolicyAlreadyExists,
+    InconsistentQuantities,
+    InvalidArgument,
+    StagingDistributionInUse,
+    TooManyContinuousDeploymentPolicies,
+  ],
+}));
 /**
  * Create a new field-level encryption configuration.
  */
-export const createFieldLevelEncryptionConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateFieldLevelEncryptionConfigRequest,
-    output: CreateFieldLevelEncryptionConfigResult,
-    errors: [
-      FieldLevelEncryptionConfigAlreadyExists,
-      InconsistentQuantities,
-      InvalidArgument,
-      NoSuchFieldLevelEncryptionProfile,
-      QueryArgProfileEmpty,
-      TooManyFieldLevelEncryptionConfigs,
-      TooManyFieldLevelEncryptionContentTypeProfiles,
-      TooManyFieldLevelEncryptionQueryArgProfiles,
-    ],
-  }));
+export const createFieldLevelEncryptionConfig: (
+  input: CreateFieldLevelEncryptionConfigRequest,
+) => Effect.Effect<
+  CreateFieldLevelEncryptionConfigResult,
+  | FieldLevelEncryptionConfigAlreadyExists
+  | InconsistentQuantities
+  | InvalidArgument
+  | NoSuchFieldLevelEncryptionProfile
+  | QueryArgProfileEmpty
+  | TooManyFieldLevelEncryptionConfigs
+  | TooManyFieldLevelEncryptionContentTypeProfiles
+  | TooManyFieldLevelEncryptionQueryArgProfiles
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFieldLevelEncryptionConfigRequest,
+  output: CreateFieldLevelEncryptionConfigResult,
+  errors: [
+    FieldLevelEncryptionConfigAlreadyExists,
+    InconsistentQuantities,
+    InvalidArgument,
+    NoSuchFieldLevelEncryptionProfile,
+    QueryArgProfileEmpty,
+    TooManyFieldLevelEncryptionConfigs,
+    TooManyFieldLevelEncryptionContentTypeProfiles,
+    TooManyFieldLevelEncryptionQueryArgProfiles,
+  ],
+}));
 /**
  * Updates a response headers policy.
  *
@@ -12697,98 +14302,167 @@ export const createFieldLevelEncryptionConfig =
  *
  * - Call `UpdateResponseHeadersPolicy`, providing the entire response headers policy configuration, including the fields that you modified and those that you didn't.
  */
-export const updateResponseHeadersPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateResponseHeadersPolicyRequest,
-    output: UpdateResponseHeadersPolicyResult,
-    errors: [
-      AccessDenied,
-      IllegalUpdate,
-      InconsistentQuantities,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      NoSuchResponseHeadersPolicy,
-      PreconditionFailed,
-      ResponseHeadersPolicyAlreadyExists,
-      TooLongCSPInResponseHeadersPolicy,
-      TooManyCustomHeadersInResponseHeadersPolicy,
-      TooManyRemoveHeadersInResponseHeadersPolicy,
-    ],
-  }),
-);
+export const updateResponseHeadersPolicy: (
+  input: UpdateResponseHeadersPolicyRequest,
+) => Effect.Effect<
+  UpdateResponseHeadersPolicyResult,
+  | AccessDenied
+  | IllegalUpdate
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | NoSuchResponseHeadersPolicy
+  | PreconditionFailed
+  | ResponseHeadersPolicyAlreadyExists
+  | TooLongCSPInResponseHeadersPolicy
+  | TooManyCustomHeadersInResponseHeadersPolicy
+  | TooManyRemoveHeadersInResponseHeadersPolicy
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResponseHeadersPolicyRequest,
+  output: UpdateResponseHeadersPolicyResult,
+  errors: [
+    AccessDenied,
+    IllegalUpdate,
+    InconsistentQuantities,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    NoSuchResponseHeadersPolicy,
+    PreconditionFailed,
+    ResponseHeadersPolicyAlreadyExists,
+    TooLongCSPInResponseHeadersPolicy,
+    TooManyCustomHeadersInResponseHeadersPolicy,
+    TooManyRemoveHeadersInResponseHeadersPolicy,
+  ],
+}));
 /**
  * Update a streaming distribution.
  */
-export const updateStreamingDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateStreamingDistributionRequest,
-    output: UpdateStreamingDistributionResult,
-    errors: [
-      AccessDenied,
-      CNAMEAlreadyExists,
-      IllegalUpdate,
-      InconsistentQuantities,
-      InvalidArgument,
-      InvalidIfMatchVersion,
-      InvalidOriginAccessControl,
-      InvalidOriginAccessIdentity,
-      MissingBody,
-      NoSuchStreamingDistribution,
-      PreconditionFailed,
-      TooManyStreamingDistributionCNAMEs,
-      TooManyTrustedSigners,
-      TrustedSignerDoesNotExist,
-    ],
-  }),
-);
+export const updateStreamingDistribution: (
+  input: UpdateStreamingDistributionRequest,
+) => Effect.Effect<
+  UpdateStreamingDistributionResult,
+  | AccessDenied
+  | CNAMEAlreadyExists
+  | IllegalUpdate
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidIfMatchVersion
+  | InvalidOriginAccessControl
+  | InvalidOriginAccessIdentity
+  | MissingBody
+  | NoSuchStreamingDistribution
+  | PreconditionFailed
+  | TooManyStreamingDistributionCNAMEs
+  | TooManyTrustedSigners
+  | TrustedSignerDoesNotExist
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStreamingDistributionRequest,
+  output: UpdateStreamingDistributionResult,
+  errors: [
+    AccessDenied,
+    CNAMEAlreadyExists,
+    IllegalUpdate,
+    InconsistentQuantities,
+    InvalidArgument,
+    InvalidIfMatchVersion,
+    InvalidOriginAccessControl,
+    InvalidOriginAccessIdentity,
+    MissingBody,
+    NoSuchStreamingDistribution,
+    PreconditionFailed,
+    TooManyStreamingDistributionCNAMEs,
+    TooManyTrustedSigners,
+    TrustedSignerDoesNotExist,
+  ],
+}));
 /**
  * This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
  */
-export const createStreamingDistributionWithTags =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateStreamingDistributionWithTagsRequest,
-    output: CreateStreamingDistributionWithTagsResult,
-    errors: [
-      AccessDenied,
-      CNAMEAlreadyExists,
-      InconsistentQuantities,
-      InvalidArgument,
-      InvalidOrigin,
-      InvalidOriginAccessControl,
-      InvalidOriginAccessIdentity,
-      InvalidTagging,
-      MissingBody,
-      StreamingDistributionAlreadyExists,
-      TooManyStreamingDistributionCNAMEs,
-      TooManyStreamingDistributions,
-      TooManyTrustedSigners,
-      TrustedSignerDoesNotExist,
-    ],
-  }));
+export const createStreamingDistributionWithTags: (
+  input: CreateStreamingDistributionWithTagsRequest,
+) => Effect.Effect<
+  CreateStreamingDistributionWithTagsResult,
+  | AccessDenied
+  | CNAMEAlreadyExists
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidOrigin
+  | InvalidOriginAccessControl
+  | InvalidOriginAccessIdentity
+  | InvalidTagging
+  | MissingBody
+  | StreamingDistributionAlreadyExists
+  | TooManyStreamingDistributionCNAMEs
+  | TooManyStreamingDistributions
+  | TooManyTrustedSigners
+  | TrustedSignerDoesNotExist
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStreamingDistributionWithTagsRequest,
+  output: CreateStreamingDistributionWithTagsResult,
+  errors: [
+    AccessDenied,
+    CNAMEAlreadyExists,
+    InconsistentQuantities,
+    InvalidArgument,
+    InvalidOrigin,
+    InvalidOriginAccessControl,
+    InvalidOriginAccessIdentity,
+    InvalidTagging,
+    MissingBody,
+    StreamingDistributionAlreadyExists,
+    TooManyStreamingDistributionCNAMEs,
+    TooManyStreamingDistributions,
+    TooManyTrustedSigners,
+    TrustedSignerDoesNotExist,
+  ],
+}));
 /**
  * This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
  */
-export const createStreamingDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateStreamingDistributionRequest,
-    output: CreateStreamingDistributionResult,
-    errors: [
-      AccessDenied,
-      CNAMEAlreadyExists,
-      InconsistentQuantities,
-      InvalidArgument,
-      InvalidOrigin,
-      InvalidOriginAccessControl,
-      InvalidOriginAccessIdentity,
-      MissingBody,
-      StreamingDistributionAlreadyExists,
-      TooManyStreamingDistributionCNAMEs,
-      TooManyStreamingDistributions,
-      TooManyTrustedSigners,
-      TrustedSignerDoesNotExist,
-    ],
-  }),
-);
+export const createStreamingDistribution: (
+  input: CreateStreamingDistributionRequest,
+) => Effect.Effect<
+  CreateStreamingDistributionResult,
+  | AccessDenied
+  | CNAMEAlreadyExists
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidOrigin
+  | InvalidOriginAccessControl
+  | InvalidOriginAccessIdentity
+  | MissingBody
+  | StreamingDistributionAlreadyExists
+  | TooManyStreamingDistributionCNAMEs
+  | TooManyStreamingDistributions
+  | TooManyTrustedSigners
+  | TrustedSignerDoesNotExist
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStreamingDistributionRequest,
+  output: CreateStreamingDistributionResult,
+  errors: [
+    AccessDenied,
+    CNAMEAlreadyExists,
+    InconsistentQuantities,
+    InvalidArgument,
+    InvalidOrigin,
+    InvalidOriginAccessControl,
+    InvalidOriginAccessIdentity,
+    MissingBody,
+    StreamingDistributionAlreadyExists,
+    TooManyStreamingDistributionCNAMEs,
+    TooManyStreamingDistributions,
+    TooManyTrustedSigners,
+    TrustedSignerDoesNotExist,
+  ],
+}));
 /**
  * Creates a response headers policy.
  *
@@ -12798,22 +14472,34 @@ export const createStreamingDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information, see Adding or removing HTTP headers in CloudFront responses in the *Amazon CloudFront Developer Guide*.
  */
-export const createResponseHeadersPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateResponseHeadersPolicyRequest,
-    output: CreateResponseHeadersPolicyResult,
-    errors: [
-      AccessDenied,
-      InconsistentQuantities,
-      InvalidArgument,
-      ResponseHeadersPolicyAlreadyExists,
-      TooLongCSPInResponseHeadersPolicy,
-      TooManyCustomHeadersInResponseHeadersPolicy,
-      TooManyRemoveHeadersInResponseHeadersPolicy,
-      TooManyResponseHeadersPolicies,
-    ],
-  }),
-);
+export const createResponseHeadersPolicy: (
+  input: CreateResponseHeadersPolicyRequest,
+) => Effect.Effect<
+  CreateResponseHeadersPolicyResult,
+  | AccessDenied
+  | InconsistentQuantities
+  | InvalidArgument
+  | ResponseHeadersPolicyAlreadyExists
+  | TooLongCSPInResponseHeadersPolicy
+  | TooManyCustomHeadersInResponseHeadersPolicy
+  | TooManyRemoveHeadersInResponseHeadersPolicy
+  | TooManyResponseHeadersPolicies
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateResponseHeadersPolicyRequest,
+  output: CreateResponseHeadersPolicyResult,
+  errors: [
+    AccessDenied,
+    InconsistentQuantities,
+    InvalidArgument,
+    ResponseHeadersPolicyAlreadyExists,
+    TooLongCSPInResponseHeadersPolicy,
+    TooManyCustomHeadersInResponseHeadersPolicy,
+    TooManyRemoveHeadersInResponseHeadersPolicy,
+    TooManyResponseHeadersPolicies,
+  ],
+}));
 /**
  * Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its `Aliases` (also known as alternate domain names or CNAMEs) and `ContinuousDeploymentPolicyId` value, but otherwise its configuration is overwritten to match the staging distribution.
  *
@@ -12825,75 +14511,142 @@ export const createResponseHeadersPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - UpdateDistribution
  */
-export const updateDistributionWithStagingConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDistributionWithStagingConfigRequest,
-    output: UpdateDistributionWithStagingConfigResult,
-    errors: [
-      AccessDenied,
-      CNAMEAlreadyExists,
-      EntityNotFound,
-      IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior,
-      IllegalUpdate,
-      InconsistentQuantities,
-      InvalidArgument,
-      InvalidDefaultRootObject,
-      InvalidErrorCode,
-      InvalidForwardCookies,
-      InvalidFunctionAssociation,
-      InvalidGeoRestrictionParameter,
-      InvalidHeadersForS3Origin,
-      InvalidIfMatchVersion,
-      InvalidLambdaFunctionAssociation,
-      InvalidLocationCode,
-      InvalidMinimumProtocolVersion,
-      InvalidOriginAccessControl,
-      InvalidOriginAccessIdentity,
-      InvalidOriginKeepaliveTimeout,
-      InvalidOriginReadTimeout,
-      InvalidQueryStringParameters,
-      InvalidRelativePath,
-      InvalidRequiredProtocol,
-      InvalidResponseCode,
-      InvalidTTLOrder,
-      InvalidViewerCertificate,
-      InvalidWebACLId,
-      MissingBody,
-      NoSuchCachePolicy,
-      NoSuchDistribution,
-      NoSuchFieldLevelEncryptionConfig,
-      NoSuchOrigin,
-      NoSuchOriginRequestPolicy,
-      NoSuchRealtimeLogConfig,
-      NoSuchResponseHeadersPolicy,
-      PreconditionFailed,
-      RealtimeLogConfigOwnerMismatch,
-      TooManyCacheBehaviors,
-      TooManyCertificates,
-      TooManyCookieNamesInWhiteList,
-      TooManyDistributionCNAMEs,
-      TooManyDistributionsAssociatedToCachePolicy,
-      TooManyDistributionsAssociatedToFieldLevelEncryptionConfig,
-      TooManyDistributionsAssociatedToKeyGroup,
-      TooManyDistributionsAssociatedToOriginAccessControl,
-      TooManyDistributionsAssociatedToOriginRequestPolicy,
-      TooManyDistributionsAssociatedToResponseHeadersPolicy,
-      TooManyDistributionsWithFunctionAssociations,
-      TooManyDistributionsWithLambdaAssociations,
-      TooManyDistributionsWithSingleFunctionARN,
-      TooManyFunctionAssociations,
-      TooManyHeadersInForwardedValues,
-      TooManyKeyGroupsAssociatedToDistribution,
-      TooManyLambdaFunctionAssociations,
-      TooManyOriginCustomHeaders,
-      TooManyOriginGroupsPerDistribution,
-      TooManyOrigins,
-      TooManyQueryStringParameters,
-      TooManyTrustedSigners,
-      TrustedKeyGroupDoesNotExist,
-      TrustedSignerDoesNotExist,
-    ],
-  }));
+export const updateDistributionWithStagingConfig: (
+  input: UpdateDistributionWithStagingConfigRequest,
+) => Effect.Effect<
+  UpdateDistributionWithStagingConfigResult,
+  | AccessDenied
+  | CNAMEAlreadyExists
+  | EntityNotFound
+  | IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior
+  | IllegalUpdate
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidDefaultRootObject
+  | InvalidErrorCode
+  | InvalidForwardCookies
+  | InvalidFunctionAssociation
+  | InvalidGeoRestrictionParameter
+  | InvalidHeadersForS3Origin
+  | InvalidIfMatchVersion
+  | InvalidLambdaFunctionAssociation
+  | InvalidLocationCode
+  | InvalidMinimumProtocolVersion
+  | InvalidOriginAccessControl
+  | InvalidOriginAccessIdentity
+  | InvalidOriginKeepaliveTimeout
+  | InvalidOriginReadTimeout
+  | InvalidQueryStringParameters
+  | InvalidRelativePath
+  | InvalidRequiredProtocol
+  | InvalidResponseCode
+  | InvalidTTLOrder
+  | InvalidViewerCertificate
+  | InvalidWebACLId
+  | MissingBody
+  | NoSuchCachePolicy
+  | NoSuchDistribution
+  | NoSuchFieldLevelEncryptionConfig
+  | NoSuchOrigin
+  | NoSuchOriginRequestPolicy
+  | NoSuchRealtimeLogConfig
+  | NoSuchResponseHeadersPolicy
+  | PreconditionFailed
+  | RealtimeLogConfigOwnerMismatch
+  | TooManyCacheBehaviors
+  | TooManyCertificates
+  | TooManyCookieNamesInWhiteList
+  | TooManyDistributionCNAMEs
+  | TooManyDistributionsAssociatedToCachePolicy
+  | TooManyDistributionsAssociatedToFieldLevelEncryptionConfig
+  | TooManyDistributionsAssociatedToKeyGroup
+  | TooManyDistributionsAssociatedToOriginAccessControl
+  | TooManyDistributionsAssociatedToOriginRequestPolicy
+  | TooManyDistributionsAssociatedToResponseHeadersPolicy
+  | TooManyDistributionsWithFunctionAssociations
+  | TooManyDistributionsWithLambdaAssociations
+  | TooManyDistributionsWithSingleFunctionARN
+  | TooManyFunctionAssociations
+  | TooManyHeadersInForwardedValues
+  | TooManyKeyGroupsAssociatedToDistribution
+  | TooManyLambdaFunctionAssociations
+  | TooManyOriginCustomHeaders
+  | TooManyOriginGroupsPerDistribution
+  | TooManyOrigins
+  | TooManyQueryStringParameters
+  | TooManyTrustedSigners
+  | TrustedKeyGroupDoesNotExist
+  | TrustedSignerDoesNotExist
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDistributionWithStagingConfigRequest,
+  output: UpdateDistributionWithStagingConfigResult,
+  errors: [
+    AccessDenied,
+    CNAMEAlreadyExists,
+    EntityNotFound,
+    IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior,
+    IllegalUpdate,
+    InconsistentQuantities,
+    InvalidArgument,
+    InvalidDefaultRootObject,
+    InvalidErrorCode,
+    InvalidForwardCookies,
+    InvalidFunctionAssociation,
+    InvalidGeoRestrictionParameter,
+    InvalidHeadersForS3Origin,
+    InvalidIfMatchVersion,
+    InvalidLambdaFunctionAssociation,
+    InvalidLocationCode,
+    InvalidMinimumProtocolVersion,
+    InvalidOriginAccessControl,
+    InvalidOriginAccessIdentity,
+    InvalidOriginKeepaliveTimeout,
+    InvalidOriginReadTimeout,
+    InvalidQueryStringParameters,
+    InvalidRelativePath,
+    InvalidRequiredProtocol,
+    InvalidResponseCode,
+    InvalidTTLOrder,
+    InvalidViewerCertificate,
+    InvalidWebACLId,
+    MissingBody,
+    NoSuchCachePolicy,
+    NoSuchDistribution,
+    NoSuchFieldLevelEncryptionConfig,
+    NoSuchOrigin,
+    NoSuchOriginRequestPolicy,
+    NoSuchRealtimeLogConfig,
+    NoSuchResponseHeadersPolicy,
+    PreconditionFailed,
+    RealtimeLogConfigOwnerMismatch,
+    TooManyCacheBehaviors,
+    TooManyCertificates,
+    TooManyCookieNamesInWhiteList,
+    TooManyDistributionCNAMEs,
+    TooManyDistributionsAssociatedToCachePolicy,
+    TooManyDistributionsAssociatedToFieldLevelEncryptionConfig,
+    TooManyDistributionsAssociatedToKeyGroup,
+    TooManyDistributionsAssociatedToOriginAccessControl,
+    TooManyDistributionsAssociatedToOriginRequestPolicy,
+    TooManyDistributionsAssociatedToResponseHeadersPolicy,
+    TooManyDistributionsWithFunctionAssociations,
+    TooManyDistributionsWithLambdaAssociations,
+    TooManyDistributionsWithSingleFunctionARN,
+    TooManyFunctionAssociations,
+    TooManyHeadersInForwardedValues,
+    TooManyKeyGroupsAssociatedToDistribution,
+    TooManyLambdaFunctionAssociations,
+    TooManyOriginCustomHeaders,
+    TooManyOriginGroupsPerDistribution,
+    TooManyOrigins,
+    TooManyQueryStringParameters,
+    TooManyTrustedSigners,
+    TrustedKeyGroupDoesNotExist,
+    TrustedSignerDoesNotExist,
+  ],
+}));
 /**
  * Create a new distribution with tags. This API operation requires the following IAM permissions:
  *
@@ -12901,81 +14654,152 @@ export const updateDistributionWithStagingConfig =
  *
  * - TagResource
  */
-export const createDistributionWithTags = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDistributionWithTagsRequest,
-    output: CreateDistributionWithTagsResult,
-    errors: [
-      AccessDenied,
-      CNAMEAlreadyExists,
-      ContinuousDeploymentPolicyInUse,
-      DistributionAlreadyExists,
-      EntityNotFound,
-      IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior,
-      IllegalOriginAccessConfiguration,
-      InconsistentQuantities,
-      InvalidArgument,
-      InvalidDefaultRootObject,
-      InvalidDomainNameForOriginAccessControl,
-      InvalidErrorCode,
-      InvalidForwardCookies,
-      InvalidFunctionAssociation,
-      InvalidGeoRestrictionParameter,
-      InvalidHeadersForS3Origin,
-      InvalidLambdaFunctionAssociation,
-      InvalidLocationCode,
-      InvalidMinimumProtocolVersion,
-      InvalidOrigin,
-      InvalidOriginAccessControl,
-      InvalidOriginAccessIdentity,
-      InvalidOriginKeepaliveTimeout,
-      InvalidOriginReadTimeout,
-      InvalidProtocolSettings,
-      InvalidQueryStringParameters,
-      InvalidRelativePath,
-      InvalidRequiredProtocol,
-      InvalidResponseCode,
-      InvalidTagging,
-      InvalidTTLOrder,
-      InvalidViewerCertificate,
-      InvalidWebACLId,
-      MissingBody,
-      NoSuchCachePolicy,
-      NoSuchContinuousDeploymentPolicy,
-      NoSuchFieldLevelEncryptionConfig,
-      NoSuchOrigin,
-      NoSuchOriginRequestPolicy,
-      NoSuchRealtimeLogConfig,
-      NoSuchResponseHeadersPolicy,
-      RealtimeLogConfigOwnerMismatch,
-      TooManyCacheBehaviors,
-      TooManyCertificates,
-      TooManyCookieNamesInWhiteList,
-      TooManyDistributionCNAMEs,
-      TooManyDistributions,
-      TooManyDistributionsAssociatedToCachePolicy,
-      TooManyDistributionsAssociatedToFieldLevelEncryptionConfig,
-      TooManyDistributionsAssociatedToKeyGroup,
-      TooManyDistributionsAssociatedToOriginAccessControl,
-      TooManyDistributionsAssociatedToOriginRequestPolicy,
-      TooManyDistributionsAssociatedToResponseHeadersPolicy,
-      TooManyDistributionsWithFunctionAssociations,
-      TooManyDistributionsWithLambdaAssociations,
-      TooManyDistributionsWithSingleFunctionARN,
-      TooManyFunctionAssociations,
-      TooManyHeadersInForwardedValues,
-      TooManyKeyGroupsAssociatedToDistribution,
-      TooManyLambdaFunctionAssociations,
-      TooManyOriginCustomHeaders,
-      TooManyOriginGroupsPerDistribution,
-      TooManyOrigins,
-      TooManyQueryStringParameters,
-      TooManyTrustedSigners,
-      TrustedKeyGroupDoesNotExist,
-      TrustedSignerDoesNotExist,
-    ],
-  }),
-);
+export const createDistributionWithTags: (
+  input: CreateDistributionWithTagsRequest,
+) => Effect.Effect<
+  CreateDistributionWithTagsResult,
+  | AccessDenied
+  | CNAMEAlreadyExists
+  | ContinuousDeploymentPolicyInUse
+  | DistributionAlreadyExists
+  | EntityNotFound
+  | IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior
+  | IllegalOriginAccessConfiguration
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidDefaultRootObject
+  | InvalidDomainNameForOriginAccessControl
+  | InvalidErrorCode
+  | InvalidForwardCookies
+  | InvalidFunctionAssociation
+  | InvalidGeoRestrictionParameter
+  | InvalidHeadersForS3Origin
+  | InvalidLambdaFunctionAssociation
+  | InvalidLocationCode
+  | InvalidMinimumProtocolVersion
+  | InvalidOrigin
+  | InvalidOriginAccessControl
+  | InvalidOriginAccessIdentity
+  | InvalidOriginKeepaliveTimeout
+  | InvalidOriginReadTimeout
+  | InvalidProtocolSettings
+  | InvalidQueryStringParameters
+  | InvalidRelativePath
+  | InvalidRequiredProtocol
+  | InvalidResponseCode
+  | InvalidTagging
+  | InvalidTTLOrder
+  | InvalidViewerCertificate
+  | InvalidWebACLId
+  | MissingBody
+  | NoSuchCachePolicy
+  | NoSuchContinuousDeploymentPolicy
+  | NoSuchFieldLevelEncryptionConfig
+  | NoSuchOrigin
+  | NoSuchOriginRequestPolicy
+  | NoSuchRealtimeLogConfig
+  | NoSuchResponseHeadersPolicy
+  | RealtimeLogConfigOwnerMismatch
+  | TooManyCacheBehaviors
+  | TooManyCertificates
+  | TooManyCookieNamesInWhiteList
+  | TooManyDistributionCNAMEs
+  | TooManyDistributions
+  | TooManyDistributionsAssociatedToCachePolicy
+  | TooManyDistributionsAssociatedToFieldLevelEncryptionConfig
+  | TooManyDistributionsAssociatedToKeyGroup
+  | TooManyDistributionsAssociatedToOriginAccessControl
+  | TooManyDistributionsAssociatedToOriginRequestPolicy
+  | TooManyDistributionsAssociatedToResponseHeadersPolicy
+  | TooManyDistributionsWithFunctionAssociations
+  | TooManyDistributionsWithLambdaAssociations
+  | TooManyDistributionsWithSingleFunctionARN
+  | TooManyFunctionAssociations
+  | TooManyHeadersInForwardedValues
+  | TooManyKeyGroupsAssociatedToDistribution
+  | TooManyLambdaFunctionAssociations
+  | TooManyOriginCustomHeaders
+  | TooManyOriginGroupsPerDistribution
+  | TooManyOrigins
+  | TooManyQueryStringParameters
+  | TooManyTrustedSigners
+  | TrustedKeyGroupDoesNotExist
+  | TrustedSignerDoesNotExist
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDistributionWithTagsRequest,
+  output: CreateDistributionWithTagsResult,
+  errors: [
+    AccessDenied,
+    CNAMEAlreadyExists,
+    ContinuousDeploymentPolicyInUse,
+    DistributionAlreadyExists,
+    EntityNotFound,
+    IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior,
+    IllegalOriginAccessConfiguration,
+    InconsistentQuantities,
+    InvalidArgument,
+    InvalidDefaultRootObject,
+    InvalidDomainNameForOriginAccessControl,
+    InvalidErrorCode,
+    InvalidForwardCookies,
+    InvalidFunctionAssociation,
+    InvalidGeoRestrictionParameter,
+    InvalidHeadersForS3Origin,
+    InvalidLambdaFunctionAssociation,
+    InvalidLocationCode,
+    InvalidMinimumProtocolVersion,
+    InvalidOrigin,
+    InvalidOriginAccessControl,
+    InvalidOriginAccessIdentity,
+    InvalidOriginKeepaliveTimeout,
+    InvalidOriginReadTimeout,
+    InvalidProtocolSettings,
+    InvalidQueryStringParameters,
+    InvalidRelativePath,
+    InvalidRequiredProtocol,
+    InvalidResponseCode,
+    InvalidTagging,
+    InvalidTTLOrder,
+    InvalidViewerCertificate,
+    InvalidWebACLId,
+    MissingBody,
+    NoSuchCachePolicy,
+    NoSuchContinuousDeploymentPolicy,
+    NoSuchFieldLevelEncryptionConfig,
+    NoSuchOrigin,
+    NoSuchOriginRequestPolicy,
+    NoSuchRealtimeLogConfig,
+    NoSuchResponseHeadersPolicy,
+    RealtimeLogConfigOwnerMismatch,
+    TooManyCacheBehaviors,
+    TooManyCertificates,
+    TooManyCookieNamesInWhiteList,
+    TooManyDistributionCNAMEs,
+    TooManyDistributions,
+    TooManyDistributionsAssociatedToCachePolicy,
+    TooManyDistributionsAssociatedToFieldLevelEncryptionConfig,
+    TooManyDistributionsAssociatedToKeyGroup,
+    TooManyDistributionsAssociatedToOriginAccessControl,
+    TooManyDistributionsAssociatedToOriginRequestPolicy,
+    TooManyDistributionsAssociatedToResponseHeadersPolicy,
+    TooManyDistributionsWithFunctionAssociations,
+    TooManyDistributionsWithLambdaAssociations,
+    TooManyDistributionsWithSingleFunctionARN,
+    TooManyFunctionAssociations,
+    TooManyHeadersInForwardedValues,
+    TooManyKeyGroupsAssociatedToDistribution,
+    TooManyLambdaFunctionAssociations,
+    TooManyOriginCustomHeaders,
+    TooManyOriginGroupsPerDistribution,
+    TooManyOrigins,
+    TooManyQueryStringParameters,
+    TooManyTrustedSigners,
+    TrustedKeyGroupDoesNotExist,
+    TrustedSignerDoesNotExist,
+  ],
+}));
 /**
  * Updates the configuration for a CloudFront distribution.
  *
@@ -12993,7 +14817,80 @@ export const createDistributionWithTags = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Submit an `UpdateDistribution` request, providing the updated distribution configuration. The new configuration replaces the existing configuration. The values that you specify in an `UpdateDistribution` request are not merged into your existing configuration. Make sure to include all fields: the ones that you modified and also the ones that you didn't.
  */
-export const updateDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDistribution: (
+  input: UpdateDistributionRequest,
+) => Effect.Effect<
+  UpdateDistributionResult,
+  | AccessDenied
+  | CNAMEAlreadyExists
+  | ContinuousDeploymentPolicyInUse
+  | EntityNotFound
+  | IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior
+  | IllegalOriginAccessConfiguration
+  | IllegalUpdate
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidDefaultRootObject
+  | InvalidDomainNameForOriginAccessControl
+  | InvalidErrorCode
+  | InvalidForwardCookies
+  | InvalidFunctionAssociation
+  | InvalidGeoRestrictionParameter
+  | InvalidHeadersForS3Origin
+  | InvalidIfMatchVersion
+  | InvalidLambdaFunctionAssociation
+  | InvalidLocationCode
+  | InvalidMinimumProtocolVersion
+  | InvalidOriginAccessControl
+  | InvalidOriginAccessIdentity
+  | InvalidOriginKeepaliveTimeout
+  | InvalidOriginReadTimeout
+  | InvalidQueryStringParameters
+  | InvalidRelativePath
+  | InvalidRequiredProtocol
+  | InvalidResponseCode
+  | InvalidTTLOrder
+  | InvalidViewerCertificate
+  | InvalidWebACLId
+  | MissingBody
+  | NoSuchCachePolicy
+  | NoSuchContinuousDeploymentPolicy
+  | NoSuchDistribution
+  | NoSuchFieldLevelEncryptionConfig
+  | NoSuchOrigin
+  | NoSuchOriginRequestPolicy
+  | NoSuchRealtimeLogConfig
+  | NoSuchResponseHeadersPolicy
+  | PreconditionFailed
+  | RealtimeLogConfigOwnerMismatch
+  | StagingDistributionInUse
+  | TooManyCacheBehaviors
+  | TooManyCertificates
+  | TooManyCookieNamesInWhiteList
+  | TooManyDistributionCNAMEs
+  | TooManyDistributionsAssociatedToCachePolicy
+  | TooManyDistributionsAssociatedToFieldLevelEncryptionConfig
+  | TooManyDistributionsAssociatedToKeyGroup
+  | TooManyDistributionsAssociatedToOriginAccessControl
+  | TooManyDistributionsAssociatedToOriginRequestPolicy
+  | TooManyDistributionsAssociatedToResponseHeadersPolicy
+  | TooManyDistributionsWithFunctionAssociations
+  | TooManyDistributionsWithLambdaAssociations
+  | TooManyDistributionsWithSingleFunctionARN
+  | TooManyFunctionAssociations
+  | TooManyHeadersInForwardedValues
+  | TooManyKeyGroupsAssociatedToDistribution
+  | TooManyLambdaFunctionAssociations
+  | TooManyOriginCustomHeaders
+  | TooManyOriginGroupsPerDistribution
+  | TooManyOrigins
+  | TooManyQueryStringParameters
+  | TooManyTrustedSigners
+  | TrustedKeyGroupDoesNotExist
+  | TrustedSignerDoesNotExist
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDistributionRequest,
   output: UpdateDistributionResult,
   errors: [
@@ -13079,7 +14976,77 @@ export const updateDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - CopyDistribution
  */
-export const copyDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copyDistribution: (
+  input: CopyDistributionRequest,
+) => Effect.Effect<
+  CopyDistributionResult,
+  | AccessDenied
+  | CNAMEAlreadyExists
+  | DistributionAlreadyExists
+  | IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidDefaultRootObject
+  | InvalidErrorCode
+  | InvalidForwardCookies
+  | InvalidFunctionAssociation
+  | InvalidGeoRestrictionParameter
+  | InvalidHeadersForS3Origin
+  | InvalidIfMatchVersion
+  | InvalidLambdaFunctionAssociation
+  | InvalidLocationCode
+  | InvalidMinimumProtocolVersion
+  | InvalidOrigin
+  | InvalidOriginAccessControl
+  | InvalidOriginAccessIdentity
+  | InvalidOriginKeepaliveTimeout
+  | InvalidOriginReadTimeout
+  | InvalidProtocolSettings
+  | InvalidQueryStringParameters
+  | InvalidRelativePath
+  | InvalidRequiredProtocol
+  | InvalidResponseCode
+  | InvalidTTLOrder
+  | InvalidViewerCertificate
+  | InvalidWebACLId
+  | MissingBody
+  | NoSuchCachePolicy
+  | NoSuchDistribution
+  | NoSuchFieldLevelEncryptionConfig
+  | NoSuchOrigin
+  | NoSuchOriginRequestPolicy
+  | NoSuchRealtimeLogConfig
+  | NoSuchResponseHeadersPolicy
+  | PreconditionFailed
+  | RealtimeLogConfigOwnerMismatch
+  | TooManyCacheBehaviors
+  | TooManyCertificates
+  | TooManyCookieNamesInWhiteList
+  | TooManyDistributionCNAMEs
+  | TooManyDistributions
+  | TooManyDistributionsAssociatedToCachePolicy
+  | TooManyDistributionsAssociatedToFieldLevelEncryptionConfig
+  | TooManyDistributionsAssociatedToKeyGroup
+  | TooManyDistributionsAssociatedToOriginAccessControl
+  | TooManyDistributionsAssociatedToOriginRequestPolicy
+  | TooManyDistributionsAssociatedToResponseHeadersPolicy
+  | TooManyDistributionsWithFunctionAssociations
+  | TooManyDistributionsWithLambdaAssociations
+  | TooManyDistributionsWithSingleFunctionARN
+  | TooManyFunctionAssociations
+  | TooManyHeadersInForwardedValues
+  | TooManyKeyGroupsAssociatedToDistribution
+  | TooManyLambdaFunctionAssociations
+  | TooManyOriginCustomHeaders
+  | TooManyOriginGroupsPerDistribution
+  | TooManyOrigins
+  | TooManyQueryStringParameters
+  | TooManyTrustedSigners
+  | TrustedKeyGroupDoesNotExist
+  | TrustedSignerDoesNotExist
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyDistributionRequest,
   output: CopyDistributionResult,
   errors: [
@@ -13152,7 +15119,80 @@ export const copyDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a CloudFront distribution.
  */
-export const createDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDistribution: (
+  input: CreateDistributionRequest,
+) => Effect.Effect<
+  CreateDistributionResult,
+  | AccessDenied
+  | CNAMEAlreadyExists
+  | ContinuousDeploymentPolicyInUse
+  | DistributionAlreadyExists
+  | EntityLimitExceeded
+  | EntityNotFound
+  | IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior
+  | IllegalOriginAccessConfiguration
+  | InconsistentQuantities
+  | InvalidArgument
+  | InvalidDefaultRootObject
+  | InvalidDomainNameForOriginAccessControl
+  | InvalidErrorCode
+  | InvalidForwardCookies
+  | InvalidFunctionAssociation
+  | InvalidGeoRestrictionParameter
+  | InvalidHeadersForS3Origin
+  | InvalidLambdaFunctionAssociation
+  | InvalidLocationCode
+  | InvalidMinimumProtocolVersion
+  | InvalidOrigin
+  | InvalidOriginAccessControl
+  | InvalidOriginAccessIdentity
+  | InvalidOriginKeepaliveTimeout
+  | InvalidOriginReadTimeout
+  | InvalidProtocolSettings
+  | InvalidQueryStringParameters
+  | InvalidRelativePath
+  | InvalidRequiredProtocol
+  | InvalidResponseCode
+  | InvalidTTLOrder
+  | InvalidViewerCertificate
+  | InvalidWebACLId
+  | MissingBody
+  | NoSuchCachePolicy
+  | NoSuchContinuousDeploymentPolicy
+  | NoSuchFieldLevelEncryptionConfig
+  | NoSuchOrigin
+  | NoSuchOriginRequestPolicy
+  | NoSuchRealtimeLogConfig
+  | NoSuchResponseHeadersPolicy
+  | RealtimeLogConfigOwnerMismatch
+  | TooManyCacheBehaviors
+  | TooManyCertificates
+  | TooManyCookieNamesInWhiteList
+  | TooManyDistributionCNAMEs
+  | TooManyDistributions
+  | TooManyDistributionsAssociatedToCachePolicy
+  | TooManyDistributionsAssociatedToFieldLevelEncryptionConfig
+  | TooManyDistributionsAssociatedToKeyGroup
+  | TooManyDistributionsAssociatedToOriginAccessControl
+  | TooManyDistributionsAssociatedToOriginRequestPolicy
+  | TooManyDistributionsAssociatedToResponseHeadersPolicy
+  | TooManyDistributionsWithFunctionAssociations
+  | TooManyDistributionsWithLambdaAssociations
+  | TooManyDistributionsWithSingleFunctionARN
+  | TooManyFunctionAssociations
+  | TooManyHeadersInForwardedValues
+  | TooManyKeyGroupsAssociatedToDistribution
+  | TooManyLambdaFunctionAssociations
+  | TooManyOriginCustomHeaders
+  | TooManyOriginGroupsPerDistribution
+  | TooManyOrigins
+  | TooManyQueryStringParameters
+  | TooManyTrustedSigners
+  | TrustedKeyGroupDoesNotExist
+  | TrustedSignerDoesNotExist
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDistributionRequest,
   output: CreateDistributionResult,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "SecurityHub",
   serviceShapeName: "SecurityHubAPIService",
@@ -240,6 +248,30 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type NonEmptyString = string;
+export type RatioScale = number;
+export type Integer = number;
+export type ClientToken = string;
+export type RuleOrderValue = number;
+export type RuleOrderValueV2 = number;
+export type NextToken = string;
+export type MaxResults = number;
+export type MaxStatisticResults = number;
+export type CrossAccountMaxResults = number;
+export type AdminsMaxResults = number;
+export type ResourceArn = string;
+export type TagKey = string;
+export type AlphaNumericNonEmptyString = string;
+export type Double = number;
+export type TagValue = string;
+export type AccountId = string;
+export type Long = number;
+export type SizeBytes = number;
+export type AwsIamRoleAssumeRolePolicyDocument = string;
+export type AwsLambdaLayerVersionNumber = number;
+export type TrendsValueCount = number;
 
 //# Schemas
 export interface DescribeOrganizationConfigurationRequest {}
@@ -1688,6 +1720,10 @@ export const RegisterConnectorV2Request = S.suspend(() =>
 ).annotations({
   identifier: "RegisterConnectorV2Request",
 }) as any as S.Schema<RegisterConnectorV2Request>;
+export type Target =
+  | { AccountId: string }
+  | { OrganizationalUnitId: string }
+  | { RootId: string };
 export const Target = S.Union(
   S.Struct({ AccountId: S.String }),
   S.Struct({ OrganizationalUnitId: S.String }),
@@ -1867,6 +1903,7 @@ export const OcsfFindingFilters = S.suspend(() =>
 ).annotations({
   identifier: "OcsfFindingFilters",
 }) as any as S.Schema<OcsfFindingFilters>;
+export type Criteria = { OcsfFindingCriteria: OcsfFindingFilters };
 export const Criteria = S.Union(
   S.Struct({ OcsfFindingCriteria: OcsfFindingFilters }),
 );
@@ -1955,6 +1992,15 @@ export type DisabledSecurityControlIdentifierList = string[];
 export const DisabledSecurityControlIdentifierList = S.Array(S.String);
 export type IntegerList = number[];
 export const IntegerList = S.Array(S.Number);
+export type ParameterValue =
+  | { Integer: number }
+  | { IntegerList: IntegerList }
+  | { Double: number }
+  | { String: string }
+  | { StringList: StringList }
+  | { Boolean: boolean }
+  | { Enum: string }
+  | { EnumList: StringList };
 export const ParameterValue = S.Union(
   S.Struct({ Integer: S.Number }),
   S.Struct({ IntegerList: IntegerList }),
@@ -2030,6 +2076,7 @@ export const SecurityHubPolicy = S.suspend(() =>
 ).annotations({
   identifier: "SecurityHubPolicy",
 }) as any as S.Schema<SecurityHubPolicy>;
+export type Policy = { SecurityHub: SecurityHubPolicy };
 export const Policy = S.Union(S.Struct({ SecurityHub: SecurityHubPolicy }));
 export interface UpdateConfigurationPolicyRequest {
   Identifier: string;
@@ -2996,6 +3043,15 @@ export const EnumListConfigurationOptions = S.suspend(() =>
 ).annotations({
   identifier: "EnumListConfigurationOptions",
 }) as any as S.Schema<EnumListConfigurationOptions>;
+export type ConfigurationOptions =
+  | { Integer: IntegerConfigurationOptions }
+  | { IntegerList: IntegerListConfigurationOptions }
+  | { Double: DoubleConfigurationOptions }
+  | { String: StringConfigurationOptions }
+  | { StringList: StringListConfigurationOptions }
+  | { Boolean: BooleanConfigurationOptions }
+  | { Enum: EnumConfigurationOptions }
+  | { EnumList: EnumListConfigurationOptions };
 export const ConfigurationOptions = S.Union(
   S.Struct({ Integer: IntegerConfigurationOptions }),
   S.Struct({ IntegerList: IntegerListConfigurationOptions }),
@@ -4072,6 +4128,9 @@ export const UnprocessedSecurityControl = S.suspend(() =>
 }) as any as S.Schema<UnprocessedSecurityControl>;
 export type UnprocessedSecurityControls = UnprocessedSecurityControl[];
 export const UnprocessedSecurityControls = S.Array(UnprocessedSecurityControl);
+export type ProviderConfiguration =
+  | { JiraCloud: JiraCloudProviderConfiguration }
+  | { ServiceNow: ServiceNowProviderConfiguration };
 export const ProviderConfiguration = S.Union(
   S.Struct({ JiraCloud: JiraCloudProviderConfiguration }),
   S.Struct({ ServiceNow: ServiceNowProviderConfiguration }),
@@ -15522,6 +15581,9 @@ export type StandardsControlAssociationSummaries =
 export const StandardsControlAssociationSummaries = S.Array(
   StandardsControlAssociationSummary,
 );
+export type ProviderUpdateConfiguration =
+  | { JiraCloud: JiraCloudUpdateConfiguration }
+  | { ServiceNow: ServiceNowUpdateConfiguration };
 export const ProviderUpdateConfiguration = S.Union(
   S.Struct({ JiraCloud: JiraCloudUpdateConfiguration }),
   S.Struct({ ServiceNow: ServiceNowUpdateConfiguration }),
@@ -16489,6 +16551,9 @@ export const Standard = S.suspend(() =>
 ).annotations({ identifier: "Standard" }) as any as S.Schema<Standard>;
 export type Standards = Standard[];
 export const Standards = S.Array(Standard);
+export type ProviderDetail =
+  | { JiraCloud: JiraCloudDetail }
+  | { ServiceNow: ServiceNowDetail };
 export const ProviderDetail = S.Union(
   S.Struct({ JiraCloud: JiraCloudDetail }),
   S.Struct({ ServiceNow: ServiceNowDetail }),
@@ -17302,11 +17367,15 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalException extends S.TaggedError<InternalException>()(
   "InternalException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidAccessException extends S.TaggedError<InvalidAccessException>()(
   "InvalidAccessException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
@@ -17326,11 +17395,15 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
@@ -17357,108 +17430,282 @@ export class ResourceInUseException extends S.TaggedError<ResourceInUseException
  *
  * This operation returns an empty list for standard subscriptions where `StandardsControlsUpdatable` has value `NOT_READY_FOR_UPDATES`.
  */
-export const describeStandardsControls =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeStandardsControls: {
+  (
     input: DescribeStandardsControlsRequest,
-    output: DescribeStandardsControlsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Controls",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeStandardsControlsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeStandardsControlsRequest,
+  ) => Stream.Stream<
+    DescribeStandardsControlsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeStandardsControlsRequest,
+  ) => Stream.Stream<
+    StandardsControl,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeStandardsControlsRequest,
+  output: DescribeStandardsControlsResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Controls",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all findings-generating solutions (products) that you are subscribed to receive
  * findings from in Security Hub.
  */
-export const listEnabledProductsForImport =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEnabledProductsForImport: {
+  (
     input: ListEnabledProductsForImportRequest,
-    output: ListEnabledProductsForImportResponse,
-    errors: [InternalException, InvalidAccessException, LimitExceededException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProductSubscriptions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEnabledProductsForImportResponse,
+    | InternalException
+    | InvalidAccessException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnabledProductsForImportRequest,
+  ) => Stream.Stream<
+    ListEnabledProductsForImportResponse,
+    | InternalException
+    | InvalidAccessException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnabledProductsForImportRequest,
+  ) => Stream.Stream<
+    NonEmptyString,
+    | InternalException
+    | InvalidAccessException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnabledProductsForImportRequest,
+  output: ListEnabledProductsForImportResponse,
+  errors: [InternalException, InvalidAccessException, LimitExceededException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProductSubscriptions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * If cross-Region aggregation is enabled, then `ListFindingAggregators` returns the Amazon Resource Name (ARN)
  * of the finding aggregator. You can run this operation from any Amazon Web Services Region.
  */
-export const listFindingAggregators =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFindingAggregators: {
+  (
     input: ListFindingAggregatorsRequest,
-    output: ListFindingAggregatorsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FindingAggregators",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFindingAggregatorsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFindingAggregatorsRequest,
+  ) => Stream.Stream<
+    ListFindingAggregatorsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFindingAggregatorsRequest,
+  ) => Stream.Stream<
+    FindingAggregator,
+    | AccessDeniedException
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFindingAggregatorsRequest,
+  output: ListFindingAggregatorsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FindingAggregators",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the Security Hub administrator accounts. Can only be called by the organization
  * management account.
  */
-export const listOrganizationAdminAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOrganizationAdminAccounts: {
+  (
     input: ListOrganizationAdminAccountsRequest,
-    output: ListOrganizationAdminAccountsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AdminAccounts",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOrganizationAdminAccountsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOrganizationAdminAccountsRequest,
+  ) => Stream.Stream<
+    ListOrganizationAdminAccountsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOrganizationAdminAccountsRequest,
+  ) => Stream.Stream<
+    AdminAccount,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOrganizationAdminAccountsRequest,
+  output: ListOrganizationAdminAccountsResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AdminAccounts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account.
  *
  * This operation omits standards control associations for standard subscriptions where `StandardsControlsUpdatable` has value `NOT_READY_FOR_UPDATES`.
  */
-export const listStandardsControlAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listStandardsControlAssociations: {
+  (
     input: ListStandardsControlAssociationsRequest,
-    output: ListStandardsControlAssociationsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "StandardsControlAssociationSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListStandardsControlAssociationsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStandardsControlAssociationsRequest,
+  ) => Stream.Stream<
+    ListStandardsControlAssociationsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStandardsControlAssociationsRequest,
+  ) => Stream.Stream<
+    StandardsControlAssociationSummary,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStandardsControlAssociationsRequest,
+  output: ListStandardsControlAssociationsResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "StandardsControlAssociationSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Adds one or more tags to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [InternalException, InvalidInputException, ResourceNotFoundException],
@@ -17466,7 +17713,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the name and description of a custom action target in Security Hub.
  */
-export const updateActionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateActionTarget: (
+  input: UpdateActionTargetRequest,
+) => Effect.Effect<
+  UpdateActionTargetResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateActionTargetRequest,
   output: UpdateActionTargetResponse,
   errors: [
@@ -17482,26 +17739,45 @@ export const updateActionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Calls to this operation return a `RESOURCE_NOT_FOUND_EXCEPTION` error when the standard subscription for the control has `StandardsControlsUpdatable` value `NOT_READY_FOR_UPDATES`.
  */
-export const updateStandardsControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateStandardsControlRequest,
-    output: UpdateStandardsControlResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateStandardsControl: (
+  input: UpdateStandardsControlRequest,
+) => Effect.Effect<
+  UpdateStandardsControlResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStandardsControlRequest,
+  output: UpdateStandardsControlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes a custom action target from Security Hub.
  *
  * Deleting a custom action target does not affect any findings or insights that were
  * already sent to Amazon CloudWatch Events using the custom action.
  */
-export const deleteActionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteActionTarget: (
+  input: DeleteActionTargetRequest,
+) => Effect.Effect<
+  DeleteActionTargetResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteActionTargetRequest,
   output: DeleteActionTargetResponse,
   errors: [
@@ -17514,7 +17790,16 @@ export const deleteActionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes one or more tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [InternalException, InvalidInputException, ResourceNotFoundException],
@@ -17522,7 +17807,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of tags associated with a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [InternalException, InvalidInputException, ResourceNotFoundException],
@@ -17539,7 +17833,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Only member accounts that aren't part of an Amazon Web Services organization should use this operation.
  * Organization accounts don't receive invitations.
  */
-export const declineInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const declineInvitations: (
+  input: DeclineInvitationsRequest,
+) => Effect.Effect<
+  DeclineInvitationsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeclineInvitationsRequest,
   output: DeclineInvitationsResponse,
   errors: [
@@ -17552,23 +17856,56 @@ export const declineInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the custom action targets in Security Hub in your account.
  */
-export const describeActionTargets =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeActionTargets: {
+  (
     input: DescribeActionTargetsRequest,
-    output: DescribeActionTargetsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ActionTargets",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeActionTargetsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeActionTargetsRequest,
+  ) => Stream.Stream<
+    DescribeActionTargetsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeActionTargetsRequest,
+  ) => Stream.Stream<
+    ActionTarget,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeActionTargetsRequest,
+  output: DescribeActionTargetsResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ActionTargets",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * The *aggregation Region* is now called the *home Region*.
  *
@@ -17577,27 +17914,49 @@ export const describeActionTargets =
  *
  * You can invoke this operation from the current home Region only.
  */
-export const updateFindingAggregator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFindingAggregatorRequest,
-    output: UpdateFindingAggregatorResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateFindingAggregator: (
+  input: UpdateFindingAggregatorRequest,
+) => Effect.Effect<
+  UpdateFindingAggregatorResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFindingAggregatorRequest,
+  output: UpdateFindingAggregatorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Disassociates the specified member accounts from the associated administrator account.
  *
  * Can be used to disassociate both accounts that are managed using Organizations and accounts that
  * were invited manually.
  */
-export const disassociateMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateMembers: (
+  input: DisassociateMembersRequest,
+) => Effect.Effect<
+  DisassociateMembersResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateMembersRequest,
   output: DisassociateMembersResponse,
   errors: [
@@ -17617,7 +17976,17 @@ export const disassociateMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns the count of all Security Hub membership invitations that were sent to the
  * calling member account, not including the currently accepted invitation.
  */
-export const getInvitationsCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInvitationsCount: (
+  input: GetInvitationsCountRequest,
+) => Effect.Effect<
+  GetInvitationsCountResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInvitationsCountRequest,
   output: GetInvitationsCountResponse,
   errors: [
@@ -17637,7 +18006,18 @@ export const getInvitationsCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Can be used by both member accounts that are managed using Organizations and accounts that were
  * invited manually.
  */
-export const getMasterAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMasterAccount: (
+  input: GetMasterAccountRequest,
+) => Effect.Effect<
+  GetMasterAccountResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMasterAccountRequest,
   output: GetMasterAccountResponse,
   errors: [
@@ -17655,19 +18035,30 @@ export const getMasterAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this
  * operation from the home Region.
  */
-export const startConfigurationPolicyDisassociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartConfigurationPolicyDisassociationRequest,
-    output: StartConfigurationPolicyDisassociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const startConfigurationPolicyDisassociation: (
+  input: StartConfigurationPolicyDisassociationRequest,
+) => Effect.Effect<
+  StartConfigurationPolicyDisassociationResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartConfigurationPolicyDisassociationRequest,
+  output: StartConfigurationPolicyDisassociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * `UpdateFindings` is a deprecated operation. Instead of `UpdateFindings`, use
  * the `BatchUpdateFindings` operation.
@@ -17680,7 +18071,18 @@ export const startConfigurationPolicyDisassociation =
  * finding provider through the `BatchImportFindings` operation. In addition, Security Hub doesn't
  * record updates made with `UpdateFindings` in the finding history.
  */
-export const updateFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFindings: (
+  input: UpdateFindingsRequest,
+) => Effect.Effect<
+  UpdateFindingsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFindingsRequest,
   output: UpdateFindingsResponse,
   errors: [
@@ -17694,7 +18096,18 @@ export const updateFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the Security Hub insight identified by the specified insight ARN.
  */
-export const updateInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateInsight: (
+  input: UpdateInsightRequest,
+) => Effect.Effect<
+  UpdateInsightResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInsightRequest,
   output: UpdateInsightResponse,
   errors: [
@@ -17708,19 +18121,30 @@ export const updateInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates configuration options for Security Hub.
  */
-export const updateSecurityHubConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSecurityHubConfigurationRequest,
-    output: UpdateSecurityHubConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const updateSecurityHubConfiguration: (
+  input: UpdateSecurityHubConfigurationRequest,
+) => Effect.Effect<
+  UpdateSecurityHubConfigurationResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSecurityHubConfigurationRequest,
+  output: UpdateSecurityHubConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * The *aggregation Region* is now called the *home Region*.
  *
@@ -17730,36 +18154,56 @@ export const updateSecurityHubConfiguration =
  * When you stop cross-Region aggregation, findings that were already replicated and sent to the home Region are still visible from
  * the home Region. However, new findings and finding updates are no longer replicated and sent to the home Region.
  */
-export const deleteFindingAggregator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFindingAggregatorRequest,
-    output: DeleteFindingAggregatorResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteFindingAggregator: (
+  input: DeleteFindingAggregatorRequest,
+) => Effect.Effect<
+  DeleteFindingAggregatorResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFindingAggregatorRequest,
+  output: DeleteFindingAggregatorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Disables a Security Hub administrator account. Can only be called by the organization
  * management account.
  */
-export const disableOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableOrganizationAdminAccountRequest,
-    output: DisableOrganizationAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-  }));
+export const disableOrganizationAdminAccount: (
+  input: DisableOrganizationAdminAccountRequest,
+) => Effect.Effect<
+  DisableOrganizationAdminAccountResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableOrganizationAdminAccountRequest,
+  output: DisableOrganizationAdminAccountResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+}));
 /**
  * This method is deprecated. Instead, use `DisassociateFromAdministratorAccount`.
  *
@@ -17772,18 +18216,28 @@ export const disableOrganizationAdminAccount =
  * organization accounts, only the administrator account can
  * disassociate a member account.
  */
-export const disassociateFromMasterAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateFromMasterAccountRequest,
-    output: DisassociateFromMasterAccountResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const disassociateFromMasterAccount: (
+  input: DisassociateFromMasterAccountRequest,
+) => Effect.Effect<
+  DisassociateFromMasterAccountResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateFromMasterAccountRequest,
+  output: DisassociateFromMasterAccountResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * We recommend using Organizations instead of Security Hub invitations to manage your member accounts.
  * For information, see Managing Security Hub administrator and member accounts with Organizations
@@ -17798,18 +18252,28 @@ export const disassociateFromMasterAccount =
  * When the member account accepts the invitation, permission is granted to the administrator
  * account to view findings generated in the member account.
  */
-export const acceptAdministratorInvitation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AcceptAdministratorInvitationRequest,
-    output: AcceptAdministratorInvitationResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const acceptAdministratorInvitation: (
+  input: AcceptAdministratorInvitationRequest,
+) => Effect.Effect<
+  AcceptAdministratorInvitationResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptAdministratorInvitationRequest,
+  output: AcceptAdministratorInvitationResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * This method is deprecated. Instead, use `AcceptAdministratorInvitation`.
  *
@@ -17824,7 +18288,18 @@ export const acceptAdministratorInvitation =
  * When the member account accepts the invitation, permission is granted to the administrator
  * account to view findings generated in the member account.
  */
-export const acceptInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const acceptInvitation: (
+  input: AcceptInvitationRequest,
+) => Effect.Effect<
+  AcceptInvitationResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptInvitationRequest,
   output: AcceptInvitationResponse,
   errors: [
@@ -17839,18 +18314,28 @@ export const acceptInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Disables the integration of the specified product with Security Hub. After the integration is
  * disabled, findings from that product are no longer sent to Security Hub.
  */
-export const disableImportFindingsForProduct =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableImportFindingsForProductRequest,
-    output: DisableImportFindingsForProductResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const disableImportFindingsForProduct: (
+  input: DisableImportFindingsForProductRequest,
+) => Effect.Effect<
+  DisableImportFindingsForProductResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableImportFindingsForProductRequest,
+  output: DisableImportFindingsForProductResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Disables Security Hub in your account only in the current Amazon Web Services Region. To disable Security Hub in all
  * Regions, you must submit one request per Region where you have enabled Security Hub.
@@ -17864,7 +18349,18 @@ export const disableImportFindingsForProduct =
  * If you want to save your existing findings, you must export them before you disable
  * Security Hub.
  */
-export const disableSecurityHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableSecurityHub: (
+  input: DisableSecurityHubRequest,
+) => Effect.Effect<
+  DisableSecurityHubResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableSecurityHubRequest,
   output: DisableSecurityHubResponse,
   errors: [
@@ -17882,23 +18378,43 @@ export const disableSecurityHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For information about how cross-Region aggregation works, see Understanding cross-Region aggregation in Security Hub in the *Security Hub User Guide*.
  */
-export const createFindingAggregator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateFindingAggregatorRequest,
-    output: CreateFindingAggregatorResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const createFindingAggregator: (
+  input: CreateFindingAggregatorRequest,
+) => Effect.Effect<
+  CreateFindingAggregatorResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFindingAggregatorRequest,
+  output: CreateFindingAggregatorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Deletes the insight specified by the `InsightArn`.
  */
-export const deleteInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteInsight: (
+  input: DeleteInsightRequest,
+) => Effect.Effect<
+  DeleteInsightResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInsightRequest,
   output: DeleteInsightResponse,
   errors: [
@@ -17921,7 +18437,18 @@ export const deleteInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation is only used to delete invitations that are sent to prospective member accounts that aren't part of an Amazon Web Services organization.
  * Organization accounts don't receive invitations.
  */
-export const deleteInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteInvitations: (
+  input: DeleteInvitationsRequest,
+) => Effect.Effect<
+  DeleteInvitationsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInvitationsRequest,
   output: DeleteInvitationsResponse,
   errors: [
@@ -17938,7 +18465,18 @@ export const deleteInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can invoke this API only to delete accounts that became members through invitation. You can't invoke this
  * API to delete accounts that belong to an Organizations organization.
  */
-export const deleteMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMembers: (
+  input: DeleteMembersRequest,
+) => Effect.Effect<
+  DeleteMembersResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMembersRequest,
   output: DeleteMembersResponse,
   errors: [
@@ -17953,7 +18491,18 @@ export const deleteMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns details about the Hub resource in your account, including the
  * `HubArn` and the time when you enabled Security Hub.
  */
-export const describeHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeHub: (
+  input: DescribeHubRequest,
+) => Effect.Effect<
+  DescribeHubResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHubRequest,
   output: DescribeHubResponse,
   errors: [
@@ -17968,17 +18517,26 @@ export const describeHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns information about the way your organization is configured in Security Hub. Only the
  * Security Hub administrator account can invoke this operation.
  */
-export const describeOrganizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeOrganizationConfigurationRequest,
-    output: DescribeOrganizationConfigurationResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-  }));
+export const describeOrganizationConfiguration: (
+  input: DescribeOrganizationConfigurationRequest,
+) => Effect.Effect<
+  DescribeOrganizationConfigurationResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeOrganizationConfigurationRequest,
+  output: DescribeOrganizationConfigurationResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Disassociates the current Security Hub member account from the associated administrator
  * account.
@@ -17987,111 +18545,193 @@ export const describeOrganizationConfiguration =
  * organization accounts, only the administrator account can
  * disassociate a member account.
  */
-export const disassociateFromAdministratorAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateFromAdministratorAccountRequest,
-    output: DisassociateFromAdministratorAccountResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const disassociateFromAdministratorAccount: (
+  input: DisassociateFromAdministratorAccountRequest,
+) => Effect.Effect<
+  DisassociateFromAdministratorAccountResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateFromAdministratorAccountRequest,
+  output: DisassociateFromAdministratorAccountResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Designates the Security Hub administrator account for an organization. Can only be called by
  * the organization management account.
  */
-export const enableOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableOrganizationAdminAccountRequest,
-    output: EnableOrganizationAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-  }));
+export const enableOrganizationAdminAccount: (
+  input: EnableOrganizationAdminAccountRequest,
+) => Effect.Effect<
+  EnableOrganizationAdminAccountResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableOrganizationAdminAccountRequest,
+  output: EnableOrganizationAdminAccountResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Provides the details for the Security Hub administrator account for the current member account.
  *
  * Can be used by both member accounts that are managed using Organizations and accounts that were
  * invited manually.
  */
-export const getAdministratorAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAdministratorAccountRequest,
-    output: GetAdministratorAccountResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getAdministratorAccount: (
+  input: GetAdministratorAccountRequest,
+) => Effect.Effect<
+  GetAdministratorAccountResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAdministratorAccountRequest,
+  output: GetAdministratorAccountResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Provides information about a configuration policy. Only the Security Hub delegated administrator can invoke
  * this operation from the home Region.
  */
-export const getConfigurationPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetConfigurationPolicyRequest,
-    output: GetConfigurationPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getConfigurationPolicy: (
+  input: GetConfigurationPolicyRequest,
+) => Effect.Effect<
+  GetConfigurationPolicyResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfigurationPolicyRequest,
+  output: GetConfigurationPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns a list of the standards that are currently enabled.
  */
-export const getEnabledStandards =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getEnabledStandards: {
+  (
     input: GetEnabledStandardsRequest,
-    output: GetEnabledStandardsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "StandardsSubscriptions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetEnabledStandardsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetEnabledStandardsRequest,
+  ) => Stream.Stream<
+    GetEnabledStandardsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetEnabledStandardsRequest,
+  ) => Stream.Stream<
+    StandardsSubscription,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetEnabledStandardsRequest,
+  output: GetEnabledStandardsResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "StandardsSubscriptions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * The *aggregation Region* is now called the *home Region*.
  *
  * Returns the current configuration in the calling account for cross-Region aggregation. A finding aggregator is a resource that establishes
  * the home Region and any linked Regions.
  */
-export const getFindingAggregator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetFindingAggregatorRequest,
-    output: GetFindingAggregatorResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getFindingAggregator: (
+  input: GetFindingAggregatorRequest,
+) => Effect.Effect<
+  GetFindingAggregatorResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFindingAggregatorRequest,
+  output: GetFindingAggregatorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * We recommend using Organizations instead of Security Hub invitations to manage your member accounts.
  * For information, see Managing Security Hub administrator and member accounts with Organizations
@@ -18108,7 +18748,18 @@ export const getFindingAggregator = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * When the account owner enables Security Hub and accepts the invitation to become a member
  * account, the administrator account can view the findings generated in the member account.
  */
-export const inviteMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const inviteMembers: (
+  input: InviteMembersRequest,
+) => Effect.Effect<
+  InviteMembersResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InviteMembersRequest,
   output: InviteMembersResponse,
   errors: [
@@ -18129,24 +18780,56 @@ export const inviteMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Only accounts that are managed by invitation can use this operation.
  * Accounts that are managed using the integration with Organizations don't receive invitations.
  */
-export const listInvitations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listInvitations: {
+  (
     input: ListInvitationsRequest,
-    output: ListInvitationsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Invitations",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListInvitationsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInvitationsRequest,
+  ) => Stream.Stream<
+    ListInvitationsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInvitationsRequest,
+  ) => Stream.Stream<
+    Invitation,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInvitationsRequest,
+  output: ListInvitationsResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Invitations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists details about all member accounts for the current Security Hub administrator
  * account.
@@ -18154,128 +18837,240 @@ export const listInvitations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * The results include both member accounts that belong to an organization and member
  * accounts that were invited manually.
  */
-export const listMembers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMembers: {
+  (
     input: ListMembersRequest,
-    output: ListMembersResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Members",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMembersResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMembersRequest,
+  ) => Stream.Stream<
+    ListMembersResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMembersRequest,
+  ) => Stream.Stream<
+    Member,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMembersRequest,
+  output: ListMembersResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Members",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all of the security controls that apply to a specified standard.
  */
-export const listSecurityControlDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSecurityControlDefinitions: {
+  (
     input: ListSecurityControlDefinitionsRequest,
-    output: ListSecurityControlDefinitionsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SecurityControlDefinitions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSecurityControlDefinitionsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecurityControlDefinitionsRequest,
+  ) => Stream.Stream<
+    ListSecurityControlDefinitionsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecurityControlDefinitionsRequest,
+  ) => Stream.Stream<
+    SecurityControlDefinition,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecurityControlDefinitionsRequest,
+  output: ListSecurityControlDefinitionsResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SecurityControlDefinitions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Associates a target account, organizational unit, or the root with a specified configuration. The target can be
  * associated with a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can
  * invoke this operation from the home Region.
  */
-export const startConfigurationPolicyAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartConfigurationPolicyAssociationRequest,
-    output: StartConfigurationPolicyAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const startConfigurationPolicyAssociation: (
+  input: StartConfigurationPolicyAssociationRequest,
+) => Effect.Effect<
+  StartConfigurationPolicyAssociationResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartConfigurationPolicyAssociationRequest,
+  output: StartConfigurationPolicyAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes one or more automation rules.
  */
-export const batchDeleteAutomationRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDeleteAutomationRulesRequest,
-    output: BatchDeleteAutomationRulesResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const batchDeleteAutomationRules: (
+  input: BatchDeleteAutomationRulesRequest,
+) => Effect.Effect<
+  BatchDeleteAutomationRulesResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteAutomationRulesRequest,
+  output: BatchDeleteAutomationRulesResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Retrieves a list of details for automation rules based on rule Amazon Resource Names
  * (ARNs).
  */
-export const batchGetAutomationRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetAutomationRulesRequest,
-    output: BatchGetAutomationRulesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const batchGetAutomationRules: (
+  input: BatchGetAutomationRulesRequest,
+) => Effect.Effect<
+  BatchGetAutomationRulesResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetAutomationRulesRequest,
+  output: BatchGetAutomationRulesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Provides details about a batch of security controls for the current Amazon Web Services account and Amazon Web Services Region.
  */
-export const batchGetSecurityControls = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetSecurityControlsRequest,
-    output: BatchGetSecurityControlsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const batchGetSecurityControls: (
+  input: BatchGetSecurityControlsRequest,
+) => Effect.Effect<
+  BatchGetSecurityControlsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetSecurityControlsRequest,
+  output: BatchGetSecurityControlsResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Updates one or more automation rules based on rule Amazon Resource Names (ARNs)
  * and input parameters.
  */
-export const batchUpdateAutomationRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchUpdateAutomationRulesRequest,
-    output: BatchUpdateAutomationRulesResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const batchUpdateAutomationRules: (
+  input: BatchUpdateAutomationRulesRequest,
+) => Effect.Effect<
+  BatchUpdateAutomationRulesResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateAutomationRulesRequest,
+  output: BatchUpdateAutomationRulesResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns information about product integrations in Security Hub.
  *
@@ -18285,87 +19080,197 @@ export const batchUpdateAutomationRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * If you don't provide an integration ARN, then the results include all of the available
  * product integrations.
  */
-export const describeProducts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeProducts: {
+  (
     input: DescribeProductsRequest,
-    output: DescribeProductsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Products",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeProductsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeProductsRequest,
+  ) => Stream.Stream<
+    DescribeProductsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeProductsRequest,
+  ) => Stream.Stream<
+    Product,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeProductsRequest,
+  output: DescribeProductsResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Products",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the association between a configuration and a target account, organizational unit, or the root. The
  * configuration can be a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can
  * invoke this operation from the home Region.
  */
-export const getConfigurationPolicyAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetConfigurationPolicyAssociationRequest,
-    output: GetConfigurationPolicyAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const getConfigurationPolicyAssociation: (
+  input: GetConfigurationPolicyAssociationRequest,
+) => Effect.Effect<
+  GetConfigurationPolicyAssociationResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfigurationPolicyAssociationRequest,
+  output: GetConfigurationPolicyAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns a list of findings that match the specified criteria.
  *
  * If cross-Region aggregation is enabled, then when you call `GetFindings` from the home Region, the results include all of the matching findings from both the home Region and linked Regions.
  */
-export const getFindings = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getFindings: {
+  (
     input: GetFindingsRequest,
-    output: GetFindingsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Findings",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetFindingsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetFindingsRequest,
+  ) => Stream.Stream<
+    GetFindingsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetFindingsRequest,
+  ) => Stream.Stream<
+    AwsSecurityFinding,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetFindingsRequest,
+  output: GetFindingsResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Findings",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists and describes insights for the specified insight ARNs.
  */
-export const getInsights = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getInsights: {
+  (
     input: GetInsightsRequest,
-    output: GetInsightsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Insights",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetInsightsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetInsightsRequest,
+  ) => Stream.Stream<
+    GetInsightsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetInsightsRequest,
+  ) => Stream.Stream<
+    Insight,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetInsightsRequest,
+  output: GetInsightsResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Insights",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the details for the Security Hub member accounts for the specified account IDs.
  *
@@ -18375,7 +19280,18 @@ export const getInsights = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * The results include both member accounts that are managed using Organizations and accounts that
  * were invited manually.
  */
-export const getMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMembers: (
+  input: GetMembersRequest,
+) => Effect.Effect<
+  GetMembersResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMembersRequest,
   output: GetMembersResponse,
   errors: [
@@ -18389,7 +19305,18 @@ export const getMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * A list of automation rules and their metadata for the calling account.
  */
-export const listAutomationRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listAutomationRules: (
+  input: ListAutomationRulesRequest,
+) => Effect.Effect<
+  ListAutomationRulesResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAutomationRulesRequest,
   output: ListAutomationRulesResponse,
   errors: [
@@ -18404,46 +19331,118 @@ export const listAutomationRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists the configuration policies that the Security Hub delegated administrator has created for your
  * organization. Only the delegated administrator can invoke this operation from the home Region.
  */
-export const listConfigurationPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConfigurationPolicies: {
+  (
     input: ListConfigurationPoliciesRequest,
-    output: ListConfigurationPoliciesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConfigurationPolicySummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConfigurationPoliciesResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfigurationPoliciesRequest,
+  ) => Stream.Stream<
+    ListConfigurationPoliciesResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfigurationPoliciesRequest,
+  ) => Stream.Stream<
+    ConfigurationPolicySummary,
+    | AccessDeniedException
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfigurationPoliciesRequest,
+  output: ListConfigurationPoliciesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConfigurationPolicySummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides information about the associations for your configuration policies and self-managed behavior. Only the
  * Security Hub delegated administrator can invoke this operation from the home Region.
  */
-export const listConfigurationPolicyAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConfigurationPolicyAssociations: {
+  (
     input: ListConfigurationPolicyAssociationsRequest,
-    output: ListConfigurationPolicyAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConfigurationPolicyAssociationSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConfigurationPolicyAssociationsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfigurationPolicyAssociationsRequest,
+  ) => Stream.Stream<
+    ListConfigurationPolicyAssociationsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfigurationPolicyAssociationsRequest,
+  ) => Stream.Stream<
+    ConfigurationPolicyAssociationSummary,
+    | AccessDeniedException
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfigurationPolicyAssociationsRequest,
+  output: ListConfigurationPolicyAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConfigurationPolicyAssociationSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Disables the standards specified by the provided
  * `StandardsSubscriptionArns`.
@@ -18451,19 +19450,28 @@ export const listConfigurationPolicyAssociations =
  * For more information, see Security Standards section of the Security Hub User
  * Guide.
  */
-export const batchDisableStandards = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDisableStandardsRequest,
-    output: BatchDisableStandardsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const batchDisableStandards: (
+  input: BatchDisableStandardsRequest,
+) => Effect.Effect<
+  BatchDisableStandardsResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDisableStandardsRequest,
+  output: BatchDisableStandardsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Enables the standards specified by the provided `StandardsArn`. To obtain the
  * ARN for a standard, use the `DescribeStandards`
@@ -18472,53 +19480,82 @@ export const batchDisableStandards = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see the Security Standards
  * section of the *Security Hub User Guide*.
  */
-export const batchEnableStandards = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchEnableStandardsRequest,
-    output: BatchEnableStandardsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const batchEnableStandards: (
+  input: BatchEnableStandardsRequest,
+) => Effect.Effect<
+  BatchEnableStandardsResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchEnableStandardsRequest,
+  output: BatchEnableStandardsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Returns associations between an Security Hub configuration and a batch of target accounts, organizational units, or the root.
  * Only the Security Hub delegated administrator can invoke this operation from the home Region. A configuration
  * can refer to a configuration policy or to a self-managed configuration.
  */
-export const batchGetConfigurationPolicyAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetConfigurationPolicyAssociationsRequest,
-    output: BatchGetConfigurationPolicyAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const batchGetConfigurationPolicyAssociations: (
+  input: BatchGetConfigurationPolicyAssociationsRequest,
+) => Effect.Effect<
+  BatchGetConfigurationPolicyAssociationsResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetConfigurationPolicyAssociationsRequest,
+  output: BatchGetConfigurationPolicyAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * For a batch of security controls and standards, identifies whether each control is currently enabled or disabled in a standard.
  *
  * Calls to this operation return a `RESOURCE_NOT_FOUND_EXCEPTION` error when the standard subscription for the association has a `NOT_READY_FOR_UPDATES` value for `StandardsControlsUpdatable`.
  */
-export const batchGetStandardsControlAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetStandardsControlAssociationsRequest,
-    output: BatchGetStandardsControlAssociationsResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-  }));
+export const batchGetStandardsControlAssociations: (
+  input: BatchGetStandardsControlAssociationsRequest,
+) => Effect.Effect<
+  BatchGetStandardsControlAssociationsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetStandardsControlAssociationsRequest,
+  output: BatchGetStandardsControlAssociationsResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Used by Security Hub customers to update information about their investigation into one or more findings.
  * Requested by administrator accounts or member accounts.
@@ -18551,7 +19588,17 @@ export const batchGetStandardsControlAssociations =
  * For example, you might not want member accounts to be able to suppress findings or change the finding severity.
  * For more information see Configuring access to BatchUpdateFindings in the *Security Hub User Guide*.
  */
-export const batchUpdateFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchUpdateFindings: (
+  input: BatchUpdateFindingsRequest,
+) => Effect.Effect<
+  BatchUpdateFindingsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateFindingsRequest,
   output: BatchUpdateFindingsResponse,
   errors: [
@@ -18564,40 +19611,89 @@ export const batchUpdateFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * For a batch of security controls and standards, this operation updates the enablement status of a control in a standard.
  */
-export const batchUpdateStandardsControlAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchUpdateStandardsControlAssociationsRequest,
-    output: BatchUpdateStandardsControlAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-  }));
+export const batchUpdateStandardsControlAssociations: (
+  input: BatchUpdateStandardsControlAssociationsRequest,
+) => Effect.Effect<
+  BatchUpdateStandardsControlAssociationsResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateStandardsControlAssociationsRequest,
+  output: BatchUpdateStandardsControlAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Returns a list of the available standards in Security Hub.
  *
  * For each standard, the results include the standard ARN, the name, and a description.
  */
-export const describeStandards = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeStandards: {
+  (
     input: DescribeStandardsRequest,
-    output: DescribeStandardsResponse,
-    errors: [InternalException, InvalidAccessException, InvalidInputException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Standards",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeStandardsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeStandardsRequest,
+  ) => Stream.Stream<
+    DescribeStandardsResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeStandardsRequest,
+  ) => Stream.Stream<
+    Standard,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeStandardsRequest,
+  output: DescribeStandardsResponse,
+  errors: [InternalException, InvalidAccessException, InvalidInputException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Standards",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Enables the service in account for the current Amazon Web Services Region or specified Amazon Web Services Region.
  */
-export const enableSecurityHubV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableSecurityHubV2: (
+  input: EnableSecurityHubV2Request,
+) => Effect.Effect<
+  EnableSecurityHubV2Response,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableSecurityHubV2Request,
   output: EnableSecurityHubV2Response,
   errors: [
@@ -18610,7 +19706,19 @@ export const enableSecurityHubV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Grants permission to retrieve details for a connectorV2 based on connector id.
  */
-export const getConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConnectorV2: (
+  input: GetConnectorV2Request,
+) => Effect.Effect<
+  GetConnectorV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectorV2Request,
   output: GetConnectorV2Response,
   errors: [
@@ -18633,28 +19741,71 @@ export const getConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * that the results are incomplete. However, you should continue to specify a `NextToken` value until you receive a
  * response that doesn't include this value.
  */
-export const getFindingHistory = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getFindingHistory: {
+  (
     input: GetFindingHistoryRequest,
-    output: GetFindingHistoryResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Records",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetFindingHistoryResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetFindingHistoryRequest,
+  ) => Stream.Stream<
+    GetFindingHistoryResponse,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetFindingHistoryRequest,
+  ) => Stream.Stream<
+    FindingHistoryRecord,
+    | InternalException
+    | InvalidAccessException
+    | InvalidInputException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetFindingHistoryRequest,
+  output: GetFindingHistoryResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Records",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the results of the Security Hub insight specified by the insight ARN.
  */
-export const getInsightResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInsightResults: (
+  input: GetInsightResultsRequest,
+) => Effect.Effect<
+  GetInsightResultsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInsightResultsRequest,
   output: GetInsightResultsResponse,
   errors: [
@@ -18668,23 +19819,44 @@ export const getInsightResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of automation rules and metadata for the calling account.
  */
-export const listAutomationRulesV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAutomationRulesV2Request,
-    output: ListAutomationRulesV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const listAutomationRulesV2: (
+  input: ListAutomationRulesV2Request,
+) => Effect.Effect<
+  ListAutomationRulesV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAutomationRulesV2Request,
+  output: ListAutomationRulesV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Grants permission to retrieve a list of connectorsV2 and their metadata for the calling account.
  */
-export const listConnectorsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listConnectorsV2: (
+  input: ListConnectorsV2Request,
+) => Effect.Effect<
+  ListConnectorsV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListConnectorsV2Request,
   output: ListConnectorsV2Response,
   errors: [
@@ -18699,7 +19871,20 @@ export const listConnectorsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables aggregation across Amazon Web Services Regions.
  */
-export const createAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAggregatorV2: (
+  input: CreateAggregatorV2Request,
+) => Effect.Effect<
+  CreateAggregatorV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAggregatorV2Request,
   output: CreateAggregatorV2Response,
   errors: [
@@ -18715,47 +19900,107 @@ export const createAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves statistical information about Amazon Web Services resources and their associated security findings.
  */
-export const getResourcesStatisticsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResourcesStatisticsV2Request,
-    output: GetResourcesStatisticsV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getResourcesStatisticsV2: (
+  input: GetResourcesStatisticsV2Request,
+) => Effect.Effect<
+  GetResourcesStatisticsV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcesStatisticsV2Request,
+  output: GetResourcesStatisticsV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a list of V2 aggregators.
  */
-export const listAggregatorsV2 = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAggregatorsV2: {
+  (
     input: ListAggregatorsV2Request,
-    output: ListAggregatorsV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AggregatorsV2",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAggregatorsV2Response,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAggregatorsV2Request,
+  ) => Stream.Stream<
+    ListAggregatorsV2Response,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAggregatorsV2Request,
+  ) => Stream.Stream<
+    AggregatorV2,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAggregatorsV2Request,
+  output: ListAggregatorsV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AggregatorsV2",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Grants permission to update a connectorV2 based on its id and input parameters.
  */
-export const updateConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateConnectorV2: (
+  input: UpdateConnectorV2Request,
+) => Effect.Effect<
+  UpdateConnectorV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectorV2Request,
   output: UpdateConnectorV2Response,
   errors: [
@@ -18770,24 +20015,46 @@ export const updateConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a V2 automation rule.
  */
-export const updateAutomationRuleV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAutomationRuleV2Request,
-    output: UpdateAutomationRuleV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAutomationRuleV2: (
+  input: UpdateAutomationRuleV2Request,
+) => Effect.Effect<
+  UpdateAutomationRuleV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAutomationRuleV2Request,
+  output: UpdateAutomationRuleV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the Aggregator V2.
  */
-export const deleteAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAggregatorV2: (
+  input: DeleteAggregatorV2Request,
+) => Effect.Effect<
+  DeleteAggregatorV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAggregatorV2Request,
   output: DeleteAggregatorV2Response,
   errors: [
@@ -18802,24 +20069,46 @@ export const deleteAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a V2 automation rule.
  */
-export const deleteAutomationRuleV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAutomationRuleV2Request,
-    output: DeleteAutomationRuleV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAutomationRuleV2: (
+  input: DeleteAutomationRuleV2Request,
+) => Effect.Effect<
+  DeleteAutomationRuleV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAutomationRuleV2Request,
+  output: DeleteAutomationRuleV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Grants permission to delete a connectorV2.
  */
-export const deleteConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConnectorV2: (
+  input: DeleteConnectorV2Request,
+) => Effect.Effect<
+  DeleteConnectorV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectorV2Request,
   output: DeleteConnectorV2Response,
   errors: [
@@ -18834,7 +20123,19 @@ export const deleteConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Grants permission to create a ticket in the chosen ITSM based on finding information for the provided finding metadata UID.
  */
-export const createTicketV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTicketV2: (
+  input: CreateTicketV2Request,
+) => Effect.Effect<
+  CreateTicketV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTicketV2Request,
   output: CreateTicketV2Response,
   errors: [
@@ -18849,7 +20150,19 @@ export const createTicketV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the configuration of the specified Aggregator V2.
  */
-export const getAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAggregatorV2: (
+  input: GetAggregatorV2Request,
+) => Effect.Effect<
+  GetAggregatorV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAggregatorV2Request,
   output: GetAggregatorV2Response,
   errors: [
@@ -18864,7 +20177,19 @@ export const getAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns an automation rule for the V2 service.
  */
-export const getAutomationRuleV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAutomationRuleV2: (
+  input: GetAutomationRuleV2Request,
+) => Effect.Effect<
+  GetAutomationRuleV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutomationRuleV2Request,
   output: GetAutomationRuleV2Response,
   errors: [
@@ -18879,7 +20204,19 @@ export const getAutomationRuleV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Grants permission to complete the authorization based on input parameters.
  */
-export const registerConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerConnectorV2: (
+  input: RegisterConnectorV2Request,
+) => Effect.Effect<
+  RegisterConnectorV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterConnectorV2Request,
   output: RegisterConnectorV2Response,
   errors: [
@@ -18894,7 +20231,19 @@ export const registerConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Udpates the configuration for the Aggregator V2.
  */
-export const updateAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAggregatorV2: (
+  input: UpdateAggregatorV2Request,
+) => Effect.Effect<
+  UpdateAggregatorV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAggregatorV2Request,
   output: UpdateAggregatorV2Response,
   errors: [
@@ -18909,55 +20258,106 @@ export const updateAggregatorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region.
  */
-export const disableSecurityHubV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableSecurityHubV2Request,
-    output: DisableSecurityHubV2Response,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disableSecurityHubV2: (
+  input: DisableSecurityHubV2Request,
+) => Effect.Effect<
+  DisableSecurityHubV2Response,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableSecurityHubV2Request,
+  output: DisableSecurityHubV2Response,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about the product integration.
  */
-export const describeProductsV2 = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeProductsV2: {
+  (
     input: DescribeProductsV2Request,
-    output: DescribeProductsV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProductsV2",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeProductsV2Response,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeProductsV2Request,
+  ) => Stream.Stream<
+    DescribeProductsV2Response,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeProductsV2Request,
+  ) => Stream.Stream<
+    ProductV2,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeProductsV2Request,
+  output: DescribeProductsV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProductsV2",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns details about the service resource in your account.
  */
-export const describeSecurityHubV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSecurityHubV2Request,
-    output: DescribeSecurityHubV2Response,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeSecurityHubV2: (
+  input: DescribeSecurityHubV2Request,
+) => Effect.Effect<
+  DescribeSecurityHubV2Response,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSecurityHubV2Request,
+  output: DescribeSecurityHubV2Response,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Used by customers to update information about their investigation into a finding.
  * Requested by delegated administrator accounts or member accounts.
@@ -18966,59 +20366,102 @@ export const describeSecurityHubV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You must have permission to perform the `securityhub:BatchUpdateFindings` action.
  * Updates from `BatchUpdateFindingsV2` don't affect the value of f`inding_info.modified_time`, `finding_info.modified_time_dt`, `time`, `time_dt for a finding`.
  */
-export const batchUpdateFindingsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchUpdateFindingsV2Request,
-    output: BatchUpdateFindingsV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchUpdateFindingsV2: (
+  input: BatchUpdateFindingsV2Request,
+) => Effect.Effect<
+  BatchUpdateFindingsV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateFindingsV2Request,
+  output: BatchUpdateFindingsV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a configuration policy. Only the Security Hub delegated
  * administrator can invoke this operation from the home Region.
  */
-export const updateConfigurationPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConfigurationPolicyRequest,
-    output: UpdateConfigurationPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateConfigurationPolicy: (
+  input: UpdateConfigurationPolicyRequest,
+) => Effect.Effect<
+  UpdateConfigurationPolicyResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfigurationPolicyRequest,
+  output: UpdateConfigurationPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a V2 automation rule.
  */
-export const createAutomationRuleV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAutomationRuleV2Request,
-    output: CreateAutomationRuleV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAutomationRuleV2: (
+  input: CreateAutomationRuleV2Request,
+) => Effect.Effect<
+  CreateAutomationRuleV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAutomationRuleV2Request,
+  output: CreateAutomationRuleV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Grants permission to create a connectorV2 based on input parameters.
  */
-export const createConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConnectorV2: (
+  input: CreateConnectorV2Request,
+) => Effect.Effect<
+  CreateConnectorV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectorV2Request,
   output: CreateConnectorV2Response,
   errors: [
@@ -19055,7 +20498,18 @@ export const createConnectorV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To learn more, see the setup information in the *Security Hub User Guide*.
  */
-export const enableSecurityHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableSecurityHub: (
+  input: EnableSecurityHubRequest,
+) => Effect.Effect<
+  EnableSecurityHubResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | LimitExceededException
+  | ResourceConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableSecurityHubRequest,
   output: EnableSecurityHubResponse,
   errors: [
@@ -19070,47 +20524,81 @@ export const enableSecurityHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the configuration of your organization in Security Hub. Only the
  * Security Hub administrator account can invoke this operation.
  */
-export const updateOrganizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateOrganizationConfigurationRequest,
-    output: UpdateOrganizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const updateOrganizationConfiguration: (
+  input: UpdateOrganizationConfigurationRequest,
+) => Effect.Effect<
+  UpdateOrganizationConfigurationResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOrganizationConfigurationRequest,
+  output: UpdateOrganizationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes a configuration policy. Only the Security Hub delegated administrator can invoke this operation
  * from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts,
  * organizational units, or the root by invoking the `StartConfigurationPolicyDisassociation` operation.
  */
-export const deleteConfigurationPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConfigurationPolicyRequest,
-    output: DeleteConfigurationPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteConfigurationPolicy: (
+  input: DeleteConfigurationPolicyRequest,
+) => Effect.Effect<
+  DeleteConfigurationPolicyResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConfigurationPolicyRequest,
+  output: DeleteConfigurationPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a custom action target in Security Hub.
  *
  * You can use custom actions on findings and insights in Security Hub to trigger target actions
  * in Amazon CloudWatch Events.
  */
-export const createActionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createActionTarget: (
+  input: CreateActionTargetRequest,
+) => Effect.Effect<
+  CreateActionTargetResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateActionTargetRequest,
   output: CreateActionTargetResponse,
   errors: [
@@ -19128,18 +20616,28 @@ export const createActionTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * When you enable a product integration, a permissions policy that grants permission for
  * the product to send findings to Security Hub is applied.
  */
-export const enableImportFindingsForProduct =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableImportFindingsForProductRequest,
-    output: EnableImportFindingsForProductResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceConflictException,
-    ],
-  }));
+export const enableImportFindingsForProduct: (
+  input: EnableImportFindingsForProductRequest,
+) => Effect.Effect<
+  EnableImportFindingsForProductResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableImportFindingsForProductRequest,
+  output: EnableImportFindingsForProductResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceConflictException,
+  ],
+}));
 /**
  * Creates a member association in Security Hub between the specified accounts and the account
  * used to make the request, which is the administrator account. If you are integrated with
@@ -19175,7 +20673,19 @@ export const enableImportFindingsForProduct =
  *
  * To remove the association between the administrator and member accounts, use the `DisassociateFromMasterAccount` or `DisassociateMembers` operation.
  */
-export const createMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMembers: (
+  input: CreateMembersRequest,
+) => Effect.Effect<
+  CreateMembersResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMembersRequest,
   output: CreateMembersResponse,
   errors: [
@@ -19194,7 +20704,18 @@ export const createMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To group the related findings in the insight, use the
  * `GroupByAttribute`.
  */
-export const createInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createInsight: (
+  input: CreateInsightRequest,
+) => Effect.Effect<
+  CreateInsightResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInsightRequest,
   output: CreateInsightResponse,
   errors: [
@@ -19208,175 +20729,363 @@ export const createInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an automation rule based on input parameters.
  */
-export const createAutomationRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAutomationRuleRequest,
-    output: CreateAutomationRuleResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const createAutomationRule: (
+  input: CreateAutomationRuleRequest,
+) => Effect.Effect<
+  CreateAutomationRuleResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAutomationRuleRequest,
+  output: CreateAutomationRuleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Returns aggregated statistical data about findings.
  * `GetFindingStatisticsV2` use `securityhub:GetAdhocInsightResults` in the `Action` element of an IAM policy statement.
  * You must have permission to perform the `s` action.
  */
-export const getFindingStatisticsV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetFindingStatisticsV2Request,
-    output: GetFindingStatisticsV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getFindingStatisticsV2: (
+  input: GetFindingStatisticsV2Request,
+) => Effect.Effect<
+  GetFindingStatisticsV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFindingStatisticsV2Request,
+  output: GetFindingStatisticsV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Return a list of findings that match the specified criteria.
  * `GetFindings` and `GetFindingsV2` both use `securityhub:GetFindings` in the `Action` element of an IAM policy statement.
  * You must have permission to perform the `securityhub:GetFindings` action.
  */
-export const getFindingsV2 = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getFindingsV2: {
+  (
     input: GetFindingsV2Request,
-    output: GetFindingsV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Findings",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetFindingsV2Response,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetFindingsV2Request,
+  ) => Stream.Stream<
+    GetFindingsV2Response,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetFindingsV2Request,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetFindingsV2Request,
+  output: GetFindingsV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Findings",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the properties of a security control.
  */
-export const updateSecurityControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSecurityControlRequest,
-    output: UpdateSecurityControlResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateSecurityControl: (
+  input: UpdateSecurityControlRequest,
+) => Effect.Effect<
+  UpdateSecurityControlResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSecurityControlRequest,
+  output: UpdateSecurityControlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a configuration policy with the defined configuration. Only the Security Hub delegated administrator
  * can invoke this operation from the home Region.
  */
-export const createConfigurationPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConfigurationPolicyRequest,
-    output: CreateConfigurationPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceConflictException,
-    ],
-  }),
-);
+export const createConfigurationPolicy: (
+  input: CreateConfigurationPolicyRequest,
+) => Effect.Effect<
+  CreateConfigurationPolicyResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConfigurationPolicyRequest,
+  output: CreateConfigurationPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceConflictException,
+  ],
+}));
 /**
  * Retrieves the definition of a security control. The definition includes the control title, description, Region availability, parameter definitions, and other details.
  */
-export const getSecurityControlDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSecurityControlDefinitionRequest,
-    output: GetSecurityControlDefinitionResponse,
-    errors: [
-      InternalException,
-      InvalidAccessException,
-      InvalidInputException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const getSecurityControlDefinition: (
+  input: GetSecurityControlDefinitionRequest,
+) => Effect.Effect<
+  GetSecurityControlDefinitionResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSecurityControlDefinitionRequest,
+  output: GetSecurityControlDefinitionResponse,
+  errors: [
+    InternalException,
+    InvalidAccessException,
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns findings trend data based on the specified criteria. This operation helps you analyze patterns and changes in findings over time.
  */
-export const getFindingsTrendsV2 =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getFindingsTrendsV2: {
+  (
     input: GetFindingsTrendsV2Request,
-    output: GetFindingsTrendsV2Response,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TrendsMetrics",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetFindingsTrendsV2Response,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetFindingsTrendsV2Request,
+  ) => Stream.Stream<
+    GetFindingsTrendsV2Response,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetFindingsTrendsV2Request,
+  ) => Stream.Stream<
+    TrendsMetricsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetFindingsTrendsV2Request,
+  output: GetFindingsTrendsV2Response,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TrendsMetrics",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns resource trend data based on the specified criteria. This operation helps you analyze patterns and changes in resource compliance over time.
  */
-export const getResourcesTrendsV2 =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getResourcesTrendsV2: {
+  (
     input: GetResourcesTrendsV2Request,
-    output: GetResourcesTrendsV2Response,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TrendsMetrics",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetResourcesTrendsV2Response,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetResourcesTrendsV2Request,
+  ) => Stream.Stream<
+    GetResourcesTrendsV2Response,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetResourcesTrendsV2Request,
+  ) => Stream.Stream<
+    ResourcesTrendsMetricsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetResourcesTrendsV2Request,
+  output: GetResourcesTrendsV2Response,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TrendsMetrics",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of resources.
  */
-export const getResourcesV2 = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getResourcesV2: {
+  (
     input: GetResourcesV2Request,
-    output: GetResourcesV2Response,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Resources",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetResourcesV2Response,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetResourcesV2Request,
+  ) => Stream.Stream<
+    GetResourcesV2Response,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetResourcesV2Request,
+  ) => Stream.Stream<
+    ResourceResult,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetResourcesV2Request,
+  output: GetResourcesV2Response,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Resources",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Imports security findings generated by a finding provider into Security Hub.
  * This action is requested by the finding provider to import its findings into
@@ -19423,7 +21132,17 @@ export const getResourcesV2 = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * Instead, finding providers use `FindingProviderFields` to provide values for these attributes.
  */
-export const batchImportFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchImportFindings: (
+  input: BatchImportFindingsRequest,
+) => Effect.Effect<
+  BatchImportFindingsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchImportFindingsRequest,
   output: BatchImportFindingsResponse,
   errors: [

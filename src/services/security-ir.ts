@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Security IR",
   serviceShapeName: "SecurityIncidentResponse",
@@ -104,6 +112,41 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type TagKey = string;
+export type CaseTitle = string;
+export type CaseDescription = string;
+export type AWSAccountId = string;
+export type AwsService = string;
+export type CaseId = string;
+export type CommentBody = string;
+export type AttachmentId = string;
+export type FileName = string;
+export type ContentLength = number;
+export type ResultId = string;
+export type FeedbackComment = string;
+export type CommentId = string;
+export type MembershipName = string;
+export type MembershipId = string;
+export type TagValue = string;
+export type EmailAddress = string;
+export type PersonName = string;
+export type JobTitle = string;
+export type IPAddress = string;
+export type UserAgent = string;
+export type IncidentResponderName = string;
+export type OrganizationalUnitId = string;
+export type CaseArn = string;
+export type Url = string;
+export type MembershipArn = string;
+export type PrincipalId = string;
+export type CaseEditAction = string;
+export type CaseEditMessage = string;
+export type InvestigationId = string;
+export type InvestigationTitle = string;
+export type InvestigationContent = string;
 
 //# Schemas
 export type TagKeys = string[];
@@ -1321,7 +1364,13 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Send feedback based on response investigation action
  */
-export const sendFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendFeedback: (
+  input: SendFeedbackRequest,
+) => Effect.Effect<
+  SendFeedbackResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendFeedbackRequest,
   output: SendFeedbackResponse,
   errors: [],
@@ -1329,7 +1378,13 @@ export const sendFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing case.
  */
-export const updateCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCase: (
+  input: UpdateCaseRequest,
+) => Effect.Effect<
+  UpdateCaseResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCaseRequest,
   output: UpdateCaseResponse,
   errors: [],
@@ -1337,7 +1392,13 @@ export const updateCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Closes an existing case.
  */
-export const closeCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const closeCase: (
+  input: CloseCaseRequest,
+) => Effect.Effect<
+  CloseCaseResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CloseCaseRequest,
   output: CloseCaseResponse,
   errors: [],
@@ -1345,7 +1406,13 @@ export const closeCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds a comment to an existing case.
  */
-export const createCaseComment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCaseComment: (
+  input: CreateCaseCommentRequest,
+) => Effect.Effect<
+  CreateCaseCommentResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCaseCommentRequest,
   output: CreateCaseCommentResponse,
   errors: [],
@@ -1353,26 +1420,41 @@ export const createCaseComment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a Pre-Signed URL for uploading attachments into a case.
  */
-export const getCaseAttachmentDownloadUrl =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCaseAttachmentDownloadUrlRequest,
-    output: GetCaseAttachmentDownloadUrlResponse,
-    errors: [],
-  }));
+export const getCaseAttachmentDownloadUrl: (
+  input: GetCaseAttachmentDownloadUrlRequest,
+) => Effect.Effect<
+  GetCaseAttachmentDownloadUrlResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCaseAttachmentDownloadUrlRequest,
+  output: GetCaseAttachmentDownloadUrlResponse,
+  errors: [],
+}));
 /**
  * Uploads an attachment to a case.
  */
-export const getCaseAttachmentUploadUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCaseAttachmentUploadUrlRequest,
-    output: GetCaseAttachmentUploadUrlResponse,
-    errors: [],
-  }),
-);
+export const getCaseAttachmentUploadUrl: (
+  input: GetCaseAttachmentUploadUrlRequest,
+) => Effect.Effect<
+  GetCaseAttachmentUploadUrlResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCaseAttachmentUploadUrlRequest,
+  output: GetCaseAttachmentUploadUrlResponse,
+  errors: [],
+}));
 /**
  * Updates an existing case comment.
  */
-export const updateCaseComment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCaseComment: (
+  input: UpdateCaseCommentRequest,
+) => Effect.Effect<
+  UpdateCaseCommentResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCaseCommentRequest,
   output: UpdateCaseCommentResponse,
   errors: [],
@@ -1400,7 +1482,13 @@ export const updateCaseComment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **AWS supported**: You must use the `CloseCase` API to close.
  */
-export const updateCaseStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCaseStatus: (
+  input: UpdateCaseStatusRequest,
+) => Effect.Effect<
+  UpdateCaseStatusResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCaseStatusRequest,
   output: UpdateCaseStatusResponse,
   errors: [],
@@ -1410,7 +1498,13 @@ export const updateCaseStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This is a one-way action and cannot be reversed.
  */
-export const updateResolverType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateResolverType: (
+  input: UpdateResolverTypeRequest,
+) => Effect.Effect<
+  UpdateResolverTypeResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResolverTypeRequest,
   output: UpdateResolverTypeResponse,
   errors: [],
@@ -1418,7 +1512,13 @@ export const updateResolverType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates membership configuration.
  */
-export const updateMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMembership: (
+  input: UpdateMembershipRequest,
+) => Effect.Effect<
+  UpdateMembershipResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMembershipRequest,
   output: UpdateMembershipResponse,
   errors: [],
@@ -1426,7 +1526,13 @@ export const updateMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels an existing membership.
  */
-export const cancelMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelMembership: (
+  input: CancelMembershipRequest,
+) => Effect.Effect<
+  CancelMembershipResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelMembershipRequest,
   output: CancelMembershipResponse,
   errors: [],
@@ -1434,7 +1540,13 @@ export const cancelMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new case.
  */
-export const createCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCase: (
+  input: CreateCaseRequest,
+) => Effect.Effect<
+  CreateCaseResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCaseRequest,
   output: CreateCaseResponse,
   errors: [],
@@ -1442,7 +1554,13 @@ export const createCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the attributes of a case.
  */
-export const getCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCase: (
+  input: GetCaseRequest,
+) => Effect.Effect<
+  GetCaseResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCaseRequest,
   output: GetCaseResponse,
   errors: [],
@@ -1450,7 +1568,29 @@ export const getCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all cases the requester has access to.
  */
-export const listCases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCases: {
+  (
+    input: ListCasesRequest,
+  ): Effect.Effect<
+    ListCasesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCasesRequest,
+  ) => Stream.Stream<
+    ListCasesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCasesRequest,
+  ) => Stream.Stream<
+    ListCasesItem,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCasesRequest,
   output: ListCasesResponse,
   errors: [],
@@ -1464,39 +1604,85 @@ export const listCases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Views the case history for edits made to a designated case.
  */
-export const listCaseEdits = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCaseEdits: {
+  (
     input: ListCaseEditsRequest,
-    output: ListCaseEditsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCaseEditsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCaseEditsRequest,
+  ) => Stream.Stream<
+    ListCaseEditsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCaseEditsRequest,
+  ) => Stream.Stream<
+    CaseEditItem,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCaseEditsRequest,
+  output: ListCaseEditsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns comments for a designated case.
  */
-export const listComments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listComments: {
+  (
     input: ListCommentsRequest,
-    output: ListCommentsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCommentsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCommentsRequest,
+  ) => Stream.Stream<
+    ListCommentsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCommentsRequest,
+  ) => Stream.Stream<
+    ListCommentsItem,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCommentsRequest,
+  output: ListCommentsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a new membership.
  */
-export const createMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMembership: (
+  input: CreateMembershipRequest,
+) => Effect.Effect<
+  CreateMembershipResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMembershipRequest,
   output: CreateMembershipResponse,
   errors: [],
@@ -1504,7 +1690,13 @@ export const createMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the attributes of a membership.
  */
-export const getMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMembership: (
+  input: GetMembershipRequest,
+) => Effect.Effect<
+  GetMembershipResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMembershipRequest,
   output: GetMembershipResponse,
   errors: [],
@@ -1512,50 +1704,104 @@ export const getMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the memberships that the calling principal can access.
  */
-export const listMemberships = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMemberships: {
+  (
     input: ListMembershipsRequest,
-    output: ListMembershipsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMembershipsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMembershipsRequest,
+  ) => Stream.Stream<
+    ListMembershipsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMembershipsRequest,
+  ) => Stream.Stream<
+    ListMembershipItem,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMembershipsRequest,
+  output: ListMembershipsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Provides information on whether the supplied account IDs are associated with a membership.
  *
  * AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be `123123123` which is nine digits, and with zero-prepend would be `000123123123`. Not zero-prepending to 12 digits could result in errors.
  */
-export const batchGetMemberAccountDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetMemberAccountDetailsRequest,
-    output: BatchGetMemberAccountDetailsResponse,
-    errors: [],
-  }));
+export const batchGetMemberAccountDetails: (
+  input: BatchGetMemberAccountDetailsRequest,
+) => Effect.Effect<
+  BatchGetMemberAccountDetailsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetMemberAccountDetailsRequest,
+  output: BatchGetMemberAccountDetailsResponse,
+  errors: [],
+}));
 /**
  * Investigation performed by an agent for a security incident...
  */
-export const listInvestigations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listInvestigations: {
+  (
     input: ListInvestigationsRequest,
-    output: ListInvestigationsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "investigationActions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListInvestigationsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInvestigationsRequest,
+  ) => Stream.Stream<
+    ListInvestigationsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInvestigationsRequest,
+  ) => Stream.Stream<
+    InvestigationAction,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInvestigationsRequest,
+  output: ListInvestigationsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "investigationActions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Removes a tag(s) from a designate resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -1567,7 +1813,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns currently configured tags on a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -1579,7 +1834,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds a tag(s) to a designated resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [

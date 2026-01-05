@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "SQS", serviceShapeName: "AmazonSQS" });
 const auth = T.AwsAuthSigv4({ name: "sqs" });
 const ver = T.ServiceVersion("2012-11-05");
@@ -257,6 +265,17 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type NullableInteger = number;
+export type Token = string;
+export type BoxedInteger = number;
+export type MessageAttributeName = string;
+export type TagKey = string;
+export type TagValue = string;
+export type ExceptionMessage = string;
+export type Long = number;
+export type NullableLong = number;
 
 //# Schemas
 export type AWSAccountIdList = string[];
@@ -1341,7 +1360,19 @@ export class MissingRequiredParameterException extends S.TaggedError<MissingRequ
  * Messages sent to the queue *after* you call `PurgeQueue`
  * might be deleted while the queue is being purged.
  */
-export const purgeQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const purgeQueue: (
+  input: PurgeQueueRequest,
+) => Effect.Effect<
+  PurgeQueueResponse,
+  | InvalidAddress
+  | InvalidSecurity
+  | PurgeQueueInProgress
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurgeQueueRequest,
   output: PurgeQueueResponse,
   errors: [
@@ -1398,21 +1429,32 @@ export const purgeQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `ChangeMessageVisibility` action) the next time the message is
  * received.
  */
-export const changeMessageVisibility = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ChangeMessageVisibilityRequest,
-    output: ChangeMessageVisibilityResponse,
-    errors: [
-      InvalidAddress,
-      InvalidSecurity,
-      MessageNotInflight,
-      QueueDoesNotExist,
-      ReceiptHandleIsInvalid,
-      RequestThrottled,
-      UnsupportedOperation,
-    ],
-  }),
-);
+export const changeMessageVisibility: (
+  input: ChangeMessageVisibilityRequest,
+) => Effect.Effect<
+  ChangeMessageVisibilityResponse,
+  | InvalidAddress
+  | InvalidSecurity
+  | MessageNotInflight
+  | QueueDoesNotExist
+  | ReceiptHandleIsInvalid
+  | RequestThrottled
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ChangeMessageVisibilityRequest,
+  output: ChangeMessageVisibilityResponse,
+  errors: [
+    InvalidAddress,
+    InvalidSecurity,
+    MessageNotInflight,
+    QueueDoesNotExist,
+    ReceiptHandleIsInvalid,
+    RequestThrottled,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Cancels a specified message movement task. A message movement can only be cancelled
  * when the current status is RUNNING. Cancelling a message movement task does not revert
@@ -1427,20 +1469,30 @@ export const changeMessageVisibility = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - Only one active message movement task is supported per queue at any given
  * time.
  */
-export const cancelMessageMoveTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelMessageMoveTaskRequest,
-    output: CancelMessageMoveTaskResult,
-    errors: [
-      InvalidAddress,
-      InvalidSecurity,
-      RequestThrottled,
-      ResourceNotFoundException,
-      UnsupportedOperation,
-      InvalidParameterValueException,
-    ],
-  }),
-);
+export const cancelMessageMoveTask: (
+  input: CancelMessageMoveTaskRequest,
+) => Effect.Effect<
+  CancelMessageMoveTaskResult,
+  | InvalidAddress
+  | InvalidSecurity
+  | RequestThrottled
+  | ResourceNotFoundException
+  | UnsupportedOperation
+  | InvalidParameterValueException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelMessageMoveTaskRequest,
+  output: CancelMessageMoveTaskResult,
+  errors: [
+    InvalidAddress,
+    InvalidSecurity,
+    RequestThrottled,
+    ResourceNotFoundException,
+    UnsupportedOperation,
+    InvalidParameterValueException,
+  ],
+}));
 /**
  * Starts an asynchronous task to move messages from a specified source queue to a
  * specified destination queue.
@@ -1458,20 +1510,30 @@ export const cancelMessageMoveTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - Only one active message movement task is supported per queue at any given
  * time.
  */
-export const startMessageMoveTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMessageMoveTaskRequest,
-    output: StartMessageMoveTaskResult,
-    errors: [
-      InvalidAddress,
-      InvalidSecurity,
-      RequestThrottled,
-      ResourceNotFoundException,
-      UnsupportedOperation,
-      CommonServiceException,
-    ],
-  }),
-);
+export const startMessageMoveTask: (
+  input: StartMessageMoveTaskRequest,
+) => Effect.Effect<
+  StartMessageMoveTaskResult,
+  | InvalidAddress
+  | InvalidSecurity
+  | RequestThrottled
+  | ResourceNotFoundException
+  | UnsupportedOperation
+  | CommonServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMessageMoveTaskRequest,
+  output: StartMessageMoveTaskResult,
+  errors: [
+    InvalidAddress,
+    InvalidSecurity,
+    RequestThrottled,
+    ResourceNotFoundException,
+    UnsupportedOperation,
+    CommonServiceException,
+  ],
+}));
 /**
  * Sets the value of one or more queue attributes, like a policy. When you change a
  * queue's attributes, the change can take up to 60 seconds for most of the attributes to
@@ -1489,7 +1551,22 @@ export const startMessageMoveTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - To remove the ability to change queue permissions, you must deny permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes` actions in your IAM policy.
  */
-export const setQueueAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setQueueAttributes: (
+  input: SetQueueAttributesRequest,
+) => Effect.Effect<
+  SetQueueAttributesResponse,
+  | InvalidAddress
+  | InvalidAttributeName
+  | InvalidAttributeValue
+  | InvalidSecurity
+  | OverLimit
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetQueueAttributesRequest,
   output: SetQueueAttributesResponse,
   errors: [
@@ -1518,7 +1595,18 @@ export const setQueueAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * API or Allow developers to write messages to a shared queue in the Amazon SQS
  * Developer Guide.
  */
-export const getQueueUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getQueueUrl: (
+  input: GetQueueUrlRequest,
+) => Effect.Effect<
+  GetQueueUrlResult,
+  | InvalidAddress
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueueUrlRequest,
   output: GetQueueUrlResult,
   errors: [
@@ -1544,24 +1632,60 @@ export const getQueueUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about using dead-letter queues, see Using Amazon SQS Dead-Letter Queues in the Amazon SQS Developer
  * Guide.
  */
-export const listDeadLetterSourceQueues =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDeadLetterSourceQueues: {
+  (
     input: ListDeadLetterSourceQueuesRequest,
-    output: ListDeadLetterSourceQueuesResult,
-    errors: [
-      InvalidAddress,
-      InvalidSecurity,
-      QueueDoesNotExist,
-      RequestThrottled,
-      UnsupportedOperation,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "queueUrls",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDeadLetterSourceQueuesResult,
+    | InvalidAddress
+    | InvalidSecurity
+    | QueueDoesNotExist
+    | RequestThrottled
+    | UnsupportedOperation
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeadLetterSourceQueuesRequest,
+  ) => Stream.Stream<
+    ListDeadLetterSourceQueuesResult,
+    | InvalidAddress
+    | InvalidSecurity
+    | QueueDoesNotExist
+    | RequestThrottled
+    | UnsupportedOperation
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeadLetterSourceQueuesRequest,
+  ) => Stream.Stream<
+    String,
+    | InvalidAddress
+    | InvalidSecurity
+    | QueueDoesNotExist
+    | RequestThrottled
+    | UnsupportedOperation
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeadLetterSourceQueuesRequest,
+  output: ListDeadLetterSourceQueuesResult,
+  errors: [
+    InvalidAddress,
+    InvalidSecurity,
+    QueueDoesNotExist,
+    RequestThrottled,
+    UnsupportedOperation,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "queueUrls",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List all cost allocation tags added to the specified Amazon SQS queue.
  * For an overview, see Tagging
@@ -1571,7 +1695,18 @@ export const listDeadLetterSourceQueues =
  * see Grant
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
-export const listQueueTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listQueueTags: (
+  input: ListQueueTagsRequest,
+) => Effect.Effect<
+  ListQueueTagsResult,
+  | InvalidAddress
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListQueueTagsRequest,
   output: ListQueueTagsResult,
   errors: [
@@ -1605,7 +1740,18 @@ export const listQueueTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The delete operation uses the HTTP `GET` verb.
  */
-export const deleteQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteQueue: (
+  input: DeleteQueueRequest,
+) => Effect.Effect<
+  DeleteQueueResponse,
+  | InvalidAddress
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueueRequest,
   output: DeleteQueueResponse,
   errors: [
@@ -1628,7 +1774,18 @@ export const deleteQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - To remove the ability to change queue permissions, you must deny permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes` actions in your IAM policy.
  */
-export const removePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removePermission: (
+  input: RemovePermissionRequest,
+) => Effect.Effect<
+  RemovePermissionResponse,
+  | InvalidAddress
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemovePermissionRequest,
   output: RemovePermissionResponse,
   errors: [
@@ -1661,7 +1818,18 @@ export const removePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see Grant
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
-export const tagQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagQueue: (
+  input: TagQueueRequest,
+) => Effect.Effect<
+  TagQueueResponse,
+  | InvalidAddress
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagQueueRequest,
   output: TagQueueResponse,
   errors: [
@@ -1680,7 +1848,18 @@ export const tagQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see Grant
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
-export const untagQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagQueue: (
+  input: UntagQueueRequest,
+) => Effect.Effect<
+  UntagQueueResponse,
+  | InvalidAddress
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagQueueRequest,
   output: UntagQueueResponse,
   errors: [
@@ -1718,7 +1897,19 @@ export const untagQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see Grant
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
-export const addPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addPermission: (
+  input: AddPermissionRequest,
+) => Effect.Effect<
+  AddPermissionResponse,
+  | InvalidAddress
+  | InvalidSecurity
+  | OverLimit
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddPermissionRequest,
   output: AddPermissionResponse,
   errors: [
@@ -1748,7 +1939,41 @@ export const addPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see Grant
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
-export const listQueues = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listQueues: {
+  (
+    input: ListQueuesRequest,
+  ): Effect.Effect<
+    ListQueuesResult,
+    | InvalidAddress
+    | InvalidSecurity
+    | RequestThrottled
+    | UnsupportedOperation
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListQueuesRequest,
+  ) => Stream.Stream<
+    ListQueuesResult,
+    | InvalidAddress
+    | InvalidSecurity
+    | RequestThrottled
+    | UnsupportedOperation
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListQueuesRequest,
+  ) => Stream.Stream<
+    String,
+    | InvalidAddress
+    | InvalidSecurity
+    | RequestThrottled
+    | UnsupportedOperation
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListQueuesRequest,
   output: ListQueuesResult,
   errors: [
@@ -1769,7 +1994,19 @@ export const listQueues = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * To determine whether a queue is FIFO, you can check whether `QueueName` ends with the `.fifo` suffix.
  */
-export const getQueueAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getQueueAttributes: (
+  input: GetQueueAttributesRequest,
+) => Effect.Effect<
+  GetQueueAttributesResult,
+  | InvalidAddress
+  | InvalidAttributeName
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueueAttributesRequest,
   output: GetQueueAttributesResult,
   errors: [
@@ -1793,20 +2030,30 @@ export const getQueueAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - Only one active message movement task is supported per queue at any given
  * time.
  */
-export const listMessageMoveTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMessageMoveTasksRequest,
-    output: ListMessageMoveTasksResult,
-    errors: [
-      InvalidAddress,
-      InvalidSecurity,
-      RequestThrottled,
-      ResourceNotFoundException,
-      UnsupportedOperation,
-      InvalidParameterValueException,
-    ],
-  }),
-);
+export const listMessageMoveTasks: (
+  input: ListMessageMoveTasksRequest,
+) => Effect.Effect<
+  ListMessageMoveTasksResult,
+  | InvalidAddress
+  | InvalidSecurity
+  | RequestThrottled
+  | ResourceNotFoundException
+  | UnsupportedOperation
+  | InvalidParameterValueException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMessageMoveTasksRequest,
+  output: ListMessageMoveTasksResult,
+  errors: [
+    InvalidAddress,
+    InvalidSecurity,
+    RequestThrottled,
+    ResourceNotFoundException,
+    UnsupportedOperation,
+    InvalidParameterValueException,
+  ],
+}));
 /**
  * Deletes the specified message from the specified queue. To select the message to
  * delete, use the `ReceiptHandle` of the message (*not* the
@@ -1830,7 +2077,20 @@ export const listMessageMoveTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * receive request. You should ensure that your application is idempotent, so that
  * receiving a message more than once does not cause issues.
  */
-export const deleteMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMessage: (
+  input: DeleteMessageRequest,
+) => Effect.Effect<
+  DeleteMessageResponse,
+  | InvalidAddress
+  | InvalidIdFormat
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | ReceiptHandleIsInvalid
+  | RequestThrottled
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMessageRequest,
   output: DeleteMessageResponse,
   errors: [
@@ -1891,7 +2151,22 @@ export const deleteMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see Grant
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
-export const createQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createQueue: (
+  input: CreateQueueRequest,
+) => Effect.Effect<
+  CreateQueueResult,
+  | InvalidAddress
+  | InvalidAttributeName
+  | InvalidAttributeValue
+  | InvalidSecurity
+  | QueueDeletedRecently
+  | QueueNameExists
+  | RequestThrottled
+  | UnsupportedOperation
+  | InvalidParameterValueException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQueueRequest,
   output: CreateQueueResult,
   errors: [
@@ -1918,22 +2193,36 @@ export const createQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of `200`.
  */
-export const changeMessageVisibilityBatch =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ChangeMessageVisibilityBatchRequest,
-    output: ChangeMessageVisibilityBatchResult,
-    errors: [
-      BatchEntryIdsNotDistinct,
-      EmptyBatchRequest,
-      InvalidAddress,
-      InvalidBatchEntryId,
-      InvalidSecurity,
-      QueueDoesNotExist,
-      RequestThrottled,
-      TooManyEntriesInBatchRequest,
-      UnsupportedOperation,
-    ],
-  }));
+export const changeMessageVisibilityBatch: (
+  input: ChangeMessageVisibilityBatchRequest,
+) => Effect.Effect<
+  ChangeMessageVisibilityBatchResult,
+  | BatchEntryIdsNotDistinct
+  | EmptyBatchRequest
+  | InvalidAddress
+  | InvalidBatchEntryId
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | TooManyEntriesInBatchRequest
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ChangeMessageVisibilityBatchRequest,
+  output: ChangeMessageVisibilityBatchResult,
+  errors: [
+    BatchEntryIdsNotDistinct,
+    EmptyBatchRequest,
+    InvalidAddress,
+    InvalidBatchEntryId,
+    InvalidSecurity,
+    QueueDoesNotExist,
+    RequestThrottled,
+    TooManyEntriesInBatchRequest,
+    UnsupportedOperation,
+  ],
+}));
 /**
  * Deletes up to ten messages from the specified queue. This is a batch version of
  *
@@ -1942,7 +2231,22 @@ export const changeMessageVisibilityBatch =
  *
  * Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of `200`.
  */
-export const deleteMessageBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMessageBatch: (
+  input: DeleteMessageBatchRequest,
+) => Effect.Effect<
+  DeleteMessageBatchResult,
+  | BatchEntryIdsNotDistinct
+  | EmptyBatchRequest
+  | InvalidAddress
+  | InvalidBatchEntryId
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | TooManyEntriesInBatchRequest
+  | UnsupportedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMessageBatchRequest,
   output: DeleteMessageBatchResult,
   errors: [
@@ -1997,7 +2301,27 @@ export const deleteMessageBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully.
  */
-export const receiveMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const receiveMessage: (
+  input: ReceiveMessageRequest,
+) => Effect.Effect<
+  ReceiveMessageResult,
+  | InvalidAddress
+  | InvalidSecurity
+  | KmsAccessDenied
+  | KmsDisabled
+  | KmsInvalidKeyUsage
+  | KmsInvalidState
+  | KmsNotFound
+  | KmsOptInRequired
+  | KmsThrottled
+  | OverLimit
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | InvalidParameterValueException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReceiveMessageRequest,
   output: ReceiveMessageResult,
   errors: [
@@ -2040,7 +2364,32 @@ export const receiveMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you don't specify the `DelaySeconds` parameter for an entry, Amazon SQS uses
  * the default value for the queue.
  */
-export const sendMessageBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendMessageBatch: (
+  input: SendMessageBatchRequest,
+) => Effect.Effect<
+  SendMessageBatchResult,
+  | BatchEntryIdsNotDistinct
+  | BatchRequestTooLong
+  | EmptyBatchRequest
+  | InvalidAddress
+  | InvalidBatchEntryId
+  | InvalidSecurity
+  | KmsAccessDenied
+  | KmsDisabled
+  | KmsInvalidKeyUsage
+  | KmsInvalidState
+  | KmsNotFound
+  | KmsOptInRequired
+  | KmsThrottled
+  | QueueDoesNotExist
+  | RequestThrottled
+  | TooManyEntriesInBatchRequest
+  | UnsupportedOperation
+  | InvalidParameterValueException
+  | ParseError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendMessageBatchRequest,
   output: SendMessageBatchResult,
   errors: [
@@ -2074,7 +2423,28 @@ export const sendMessageBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If a message contains characters outside the allowed set, Amazon SQS rejects the message and returns an InvalidMessageContents error. Ensure that your message body includes only valid characters to avoid this exception.
  */
-export const sendMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendMessage: (
+  input: SendMessageRequest,
+) => Effect.Effect<
+  SendMessageResult,
+  | InvalidAddress
+  | InvalidMessageContents
+  | InvalidSecurity
+  | KmsAccessDenied
+  | KmsDisabled
+  | KmsInvalidKeyUsage
+  | KmsInvalidState
+  | KmsNotFound
+  | KmsOptInRequired
+  | KmsThrottled
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendMessageRequest,
   output: SendMessageResult,
   errors: [

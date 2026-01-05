@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock Runtime",
   serviceShapeName: "AmazonBedrockFrontendService",
@@ -293,6 +301,55 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type InvocationArn = string;
+export type MaxResults = number;
+export type PaginationToken = string;
+export type AsyncInvokeIdempotencyToken = string;
+export type AsyncInvokeIdentifier = string;
+export type GuardrailIdentifier = string;
+export type GuardrailVersion = string;
+export type ConversationalModelId = string;
+export type MimeType = string;
+export type InvokeModelIdentifier = string;
+export type FoundationModelVersionIdentifier = string;
+export type TagKey = string;
+export type TagValue = string;
+export type NonEmptyString = string;
+export type AsyncInvokeArn = string;
+export type AsyncInvokeMessage = string;
+export type S3Uri = string;
+export type KmsKeyId = string;
+export type AccountId = string;
+export type ToolUseId = string;
+export type ToolName = string;
+export type NonBlankString = string;
+export type StatusCode = number;
+export type NonNegativeInteger = number;
+export type GuardrailOutputText = string;
+export type InvokedModelId = string;
+export type GuardrailTopicPolicyUnitsProcessed = number;
+export type GuardrailContentPolicyUnitsProcessed = number;
+export type GuardrailWordPolicyUnitsProcessed = number;
+export type GuardrailSensitiveInformationPolicyUnitsProcessed = number;
+export type GuardrailSensitiveInformationPolicyFreeUnitsProcessed = number;
+export type GuardrailContextualGroundingPolicyUnitsProcessed = number;
+export type GuardrailContentPolicyImageUnitsProcessed = number;
+export type GuardrailAutomatedReasoningPolicyUnitsProcessed = number;
+export type GuardrailAutomatedReasoningPoliciesProcessed = number;
+export type GuardrailProcessingLatency = number;
+export type GuardrailId = string;
+export type GuardrailArn = string;
+export type TextCharactersGuarded = number;
+export type TextCharactersTotal = number;
+export type ImagesGuarded = number;
+export type ImagesTotal = number;
+export type GuardrailAutomatedReasoningTranslationConfidence = number;
+export type AutomatedReasoningRuleIdentifier = string;
+export type GuardrailAutomatedReasoningPolicyVersionArn = string;
+export type GuardrailAutomatedReasoningStatementLogicContent = string;
+export type GuardrailAutomatedReasoningStatementNaturalLanguageContent = string;
+
 //# Schemas
 export type AdditionalModelResponseFieldPaths = string[];
 export const AdditionalModelResponseFieldPaths = S.Array(S.String);
@@ -534,6 +591,9 @@ export const AsyncInvokeS3OutputDataConfig = S.suspend(() =>
 ).annotations({
   identifier: "AsyncInvokeS3OutputDataConfig",
 }) as any as S.Schema<AsyncInvokeS3OutputDataConfig>;
+export type AsyncInvokeOutputDataConfig = {
+  s3OutputDataConfig: AsyncInvokeS3OutputDataConfig;
+};
 export const AsyncInvokeOutputDataConfig = S.Union(
   S.Struct({ s3OutputDataConfig: AsyncInvokeS3OutputDataConfig }),
 );
@@ -570,6 +630,7 @@ export interface S3Location {
 export const S3Location = S.suspend(() =>
   S.Struct({ uri: S.String, bucketOwner: S.optional(S.String) }),
 ).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export type ImageSource = { bytes: Uint8Array } | { s3Location: S3Location };
 export const ImageSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
@@ -592,9 +653,15 @@ export const ImageBlock = S.suspend(() =>
     error: S.optional(ErrorBlock),
   }),
 ).annotations({ identifier: "ImageBlock" }) as any as S.Schema<ImageBlock>;
+export type DocumentContentBlock = { text: string };
 export const DocumentContentBlock = S.Union(S.Struct({ text: S.String }));
 export type DocumentContentBlocks = (typeof DocumentContentBlock)["Type"][];
 export const DocumentContentBlocks = S.Array(DocumentContentBlock);
+export type DocumentSource =
+  | { bytes: Uint8Array }
+  | { s3Location: S3Location }
+  | { text: string }
+  | { content: DocumentContentBlocks };
 export const DocumentSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
@@ -627,6 +694,7 @@ export const DocumentBlock = S.suspend(() =>
 ).annotations({
   identifier: "DocumentBlock",
 }) as any as S.Schema<DocumentBlock>;
+export type VideoSource = { bytes: Uint8Array } | { s3Location: S3Location };
 export const VideoSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
@@ -638,6 +706,7 @@ export interface VideoBlock {
 export const VideoBlock = S.suspend(() =>
   S.Struct({ format: S.String, source: VideoSource }),
 ).annotations({ identifier: "VideoBlock" }) as any as S.Schema<VideoBlock>;
+export type AudioSource = { bytes: Uint8Array } | { s3Location: S3Location };
 export const AudioSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
@@ -694,6 +763,13 @@ export const SearchResultBlock = S.suspend(() =>
 ).annotations({
   identifier: "SearchResultBlock",
 }) as any as S.Schema<SearchResultBlock>;
+export type ToolResultContentBlock =
+  | { json: any }
+  | { text: string }
+  | { image: ImageBlock }
+  | { document: DocumentBlock }
+  | { video: VideoBlock }
+  | { searchResult: SearchResultBlock };
 export const ToolResultContentBlock = S.Union(
   S.Struct({ json: S.Any }),
   S.Struct({ text: S.String }),
@@ -734,6 +810,7 @@ export const GuardrailConverseTextBlock = S.suspend(() =>
 ).annotations({
   identifier: "GuardrailConverseTextBlock",
 }) as any as S.Schema<GuardrailConverseTextBlock>;
+export type GuardrailConverseImageSource = { bytes: Uint8Array };
 export const GuardrailConverseImageSource = S.Union(
   S.Struct({ bytes: T.Blob }),
 );
@@ -746,6 +823,9 @@ export const GuardrailConverseImageBlock = S.suspend(() =>
 ).annotations({
   identifier: "GuardrailConverseImageBlock",
 }) as any as S.Schema<GuardrailConverseImageBlock>;
+export type GuardrailConverseContentBlock =
+  | { text: GuardrailConverseTextBlock }
+  | { image: GuardrailConverseImageBlock };
 export const GuardrailConverseContentBlock = S.Union(
   S.Struct({ text: GuardrailConverseTextBlock }),
   S.Struct({ image: GuardrailConverseImageBlock }),
@@ -767,14 +847,19 @@ export const ReasoningTextBlock = S.suspend(() =>
 ).annotations({
   identifier: "ReasoningTextBlock",
 }) as any as S.Schema<ReasoningTextBlock>;
+export type ReasoningContentBlock =
+  | { reasoningText: ReasoningTextBlock }
+  | { redactedContent: Uint8Array };
 export const ReasoningContentBlock = S.Union(
   S.Struct({ reasoningText: ReasoningTextBlock }),
   S.Struct({ redactedContent: T.Blob }),
 );
+export type CitationGeneratedContent = { text: string };
 export const CitationGeneratedContent = S.Union(S.Struct({ text: S.String }));
 export type CitationGeneratedContentList =
   (typeof CitationGeneratedContent)["Type"][];
 export const CitationGeneratedContentList = S.Array(CitationGeneratedContent);
+export type CitationSourceContent = { text: string };
 export const CitationSourceContent = S.Union(S.Struct({ text: S.String }));
 export type CitationSourceContentList =
   (typeof CitationSourceContent)["Type"][];
@@ -842,6 +927,12 @@ export const SearchResultLocation = S.suspend(() =>
 ).annotations({
   identifier: "SearchResultLocation",
 }) as any as S.Schema<SearchResultLocation>;
+export type CitationLocation =
+  | { web: WebLocation }
+  | { documentChar: DocumentCharLocation }
+  | { documentPage: DocumentPageLocation }
+  | { documentChunk: DocumentChunkLocation }
+  | { searchResultLocation: SearchResultLocation };
 export const CitationLocation = S.Union(
   S.Struct({ web: WebLocation }),
   S.Struct({ documentChar: DocumentCharLocation }),
@@ -877,6 +968,19 @@ export const CitationsContentBlock = S.suspend(() =>
 ).annotations({
   identifier: "CitationsContentBlock",
 }) as any as S.Schema<CitationsContentBlock>;
+export type ContentBlock =
+  | { text: string }
+  | { image: ImageBlock }
+  | { document: DocumentBlock }
+  | { video: VideoBlock }
+  | { audio: AudioBlock }
+  | { toolUse: ToolUseBlock }
+  | { toolResult: ToolResultBlock }
+  | { guardContent: (typeof GuardrailConverseContentBlock)["Type"] }
+  | { cachePoint: CachePointBlock }
+  | { reasoningContent: (typeof ReasoningContentBlock)["Type"] }
+  | { citationsContent: CitationsContentBlock }
+  | { searchResult: SearchResultBlock };
 export const ContentBlock = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ image: ImageBlock }),
@@ -902,6 +1006,10 @@ export const Message = S.suspend(() =>
 ).annotations({ identifier: "Message" }) as any as S.Schema<Message>;
 export type Messages = Message[];
 export const Messages = S.Array(Message);
+export type SystemContentBlock =
+  | { text: string }
+  | { guardContent: (typeof GuardrailConverseContentBlock)["Type"] }
+  | { cachePoint: CachePointBlock };
 export const SystemContentBlock = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ guardContent: GuardrailConverseContentBlock }),
@@ -909,6 +1017,7 @@ export const SystemContentBlock = S.Union(
 );
 export type SystemContentBlocks = (typeof SystemContentBlock)["Type"][];
 export const SystemContentBlocks = S.Array(SystemContentBlock);
+export type ToolInputSchema = { json: any };
 export const ToolInputSchema = S.Union(S.Struct({ json: S.Any }));
 export interface ToolSpecification {
   name: string;
@@ -930,6 +1039,10 @@ export interface SystemTool {
 export const SystemTool = S.suspend(() =>
   S.Struct({ name: S.String }),
 ).annotations({ identifier: "SystemTool" }) as any as S.Schema<SystemTool>;
+export type Tool =
+  | { toolSpec: ToolSpecification }
+  | { systemTool: SystemTool }
+  | { cachePoint: CachePointBlock };
 export const Tool = S.Union(
   S.Struct({ toolSpec: ToolSpecification }),
   S.Struct({ systemTool: SystemTool }),
@@ -945,6 +1058,10 @@ export const SpecificToolChoice = S.suspend(() =>
 ).annotations({
   identifier: "SpecificToolChoice",
 }) as any as S.Schema<SpecificToolChoice>;
+export type ToolChoice =
+  | { auto: AutoToolChoice }
+  | { any: AnyToolChoice }
+  | { tool: SpecificToolChoice };
 export const ToolChoice = S.Union(
   S.Struct({ auto: AutoToolChoice }),
   S.Struct({ any: AnyToolChoice }),
@@ -959,6 +1076,7 @@ export const ToolConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ToolConfiguration",
 }) as any as S.Schema<ToolConfiguration>;
+export type PromptVariableValues = { text: string };
 export const PromptVariableValues = S.Union(S.Struct({ text: S.String }));
 export type PromptVariableMap = {
   [key: string]: (typeof PromptVariableValues)["Type"];
@@ -1105,10 +1223,14 @@ export const AsyncInvokeSummaries = S.Array(AsyncInvokeSummary);
 export const InvokeModelWithBidirectionalStreamInput = T.InputEventStream(
   S.Union(S.Struct({ chunk: BidirectionalInputPayloadPart })),
 );
+export type CountTokensInput =
+  | { invokeModel: InvokeModelTokensRequest }
+  | { converse: ConverseTokensRequest };
 export const CountTokensInput = S.Union(
   S.Struct({ invokeModel: InvokeModelTokensRequest }),
   S.Struct({ converse: ConverseTokensRequest }),
 );
+export type GuardrailImageSource = { bytes: Uint8Array };
 export const GuardrailImageSource = S.Union(S.Struct({ bytes: T.Blob }));
 export interface ListAsyncInvokesResponse {
   nextToken?: string;
@@ -1209,6 +1331,9 @@ export interface PayloadPart {
 export const PayloadPart = S.suspend(() =>
   S.Struct({ bytes: S.optional(T.Blob) }),
 ).annotations({ identifier: "PayloadPart" }) as any as S.Schema<PayloadPart>;
+export type GuardrailContentBlock =
+  | { text: GuardrailTextBlock }
+  | { image: GuardrailImageBlock };
 export const GuardrailContentBlock = S.Union(
   S.Struct({ text: GuardrailTextBlock }),
   S.Struct({ image: GuardrailImageBlock }),
@@ -1419,12 +1544,17 @@ export const ToolUseBlockDelta = S.suspend(() =>
 ).annotations({
   identifier: "ToolUseBlockDelta",
 }) as any as S.Schema<ToolUseBlockDelta>;
+export type ToolResultBlockDelta = { text: string } | { json: any };
 export const ToolResultBlockDelta = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ json: S.Any }),
 );
 export type ToolResultBlocksDelta = (typeof ToolResultBlockDelta)["Type"][];
 export const ToolResultBlocksDelta = S.Array(ToolResultBlockDelta);
+export type ReasoningContentBlockDelta =
+  | { text: string }
+  | { redactedContent: Uint8Array }
+  | { signature: string };
 export const ReasoningContentBlockDelta = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ redactedContent: T.Blob }),
@@ -1520,6 +1650,10 @@ export const InvokeModelWithBidirectionalStreamOutput = T.EventStream(
 );
 export type GuardrailOriginList = string[];
 export const GuardrailOriginList = S.Array(S.String);
+export type ContentBlockStart =
+  | { toolUse: ToolUseBlockStart }
+  | { toolResult: ToolResultBlockStart }
+  | { image: ImageBlockStart };
 export const ContentBlockStart = S.Union(
   S.Struct({ toolUse: ToolUseBlockStart }),
   S.Struct({ toolResult: ToolResultBlockStart }),
@@ -1923,6 +2057,16 @@ export const GuardrailAutomatedReasoningNoTranslationsFinding = S.suspend(() =>
 ).annotations({
   identifier: "GuardrailAutomatedReasoningNoTranslationsFinding",
 }) as any as S.Schema<GuardrailAutomatedReasoningNoTranslationsFinding>;
+export type GuardrailAutomatedReasoningFinding =
+  | { valid: GuardrailAutomatedReasoningValidFinding }
+  | { invalid: GuardrailAutomatedReasoningInvalidFinding }
+  | { satisfiable: GuardrailAutomatedReasoningSatisfiableFinding }
+  | { impossible: GuardrailAutomatedReasoningImpossibleFinding }
+  | {
+      translationAmbiguous: GuardrailAutomatedReasoningTranslationAmbiguousFinding;
+    }
+  | { tooComplex: GuardrailAutomatedReasoningTooComplexFinding }
+  | { noTranslations: GuardrailAutomatedReasoningNoTranslationsFinding };
 export const GuardrailAutomatedReasoningFinding = S.Union(
   S.Struct({ valid: GuardrailAutomatedReasoningValidFinding }),
   S.Struct({ invalid: GuardrailAutomatedReasoningInvalidFinding }),
@@ -2107,6 +2251,13 @@ export const GuardrailTraceAssessment = S.suspend(() =>
 ).annotations({
   identifier: "GuardrailTraceAssessment",
 }) as any as S.Schema<GuardrailTraceAssessment>;
+export type ContentBlockDelta =
+  | { text: string }
+  | { toolUse: ToolUseBlockDelta }
+  | { toolResult: ToolResultBlocksDelta }
+  | { reasoningContent: (typeof ReasoningContentBlockDelta)["Type"] }
+  | { citation: CitationsDelta }
+  | { image: ImageBlockDelta };
 export const ContentBlockDelta = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ toolUse: ToolUseBlockDelta }),
@@ -2240,6 +2391,7 @@ export const ConverseStreamResponse = S.suspend(() =>
 ).annotations({
   identifier: "ConverseStreamResponse",
 }) as any as S.Schema<ConverseStreamResponse>;
+export type ConverseOutput = { message: Message };
 export const ConverseOutput = S.Union(S.Struct({ message: Message }));
 export interface ConverseMetrics {
   latencyMs: number;
@@ -2314,11 +2466,15 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },
@@ -2342,12 +2498,16 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ModelNotReadyException extends S.TaggedError<ModelNotReadyException>()(
   "ModelNotReadyException",
   { message: S.optional(S.String) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ModelTimeoutException extends S.TaggedError<ModelTimeoutException>()(
   "ModelTimeoutException",
   { message: S.optional(S.String) },
@@ -2369,7 +2529,17 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Retrieve information about an asynchronous invocation.
  */
-export const getAsyncInvoke = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAsyncInvoke: (
+  input: GetAsyncInvokeRequest,
+) => Effect.Effect<
+  GetAsyncInvokeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAsyncInvokeRequest,
   output: GetAsyncInvokeResponse,
   errors: [
@@ -2382,24 +2552,56 @@ export const getAsyncInvoke = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists asynchronous invocations.
  */
-export const listAsyncInvokes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAsyncInvokes: {
+  (
     input: ListAsyncInvokesRequest,
-    output: ListAsyncInvokesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "asyncInvokeSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAsyncInvokesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAsyncInvokesRequest,
+  ) => Stream.Stream<
+    ListAsyncInvokesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAsyncInvokesRequest,
+  ) => Stream.Stream<
+    AsyncInvokeSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAsyncInvokesRequest,
+  output: ListAsyncInvokesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "asyncInvokeSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns the token count for a given inference request. This operation helps you estimate token usage before sending requests to foundation models by returning the token count that would be used if the same input were sent to the model in an inference request.
  *
@@ -2421,7 +2623,19 @@ export const listAsyncInvokes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - Converse - Sends conversation-based inference requests to foundation models
  */
-export const countTokens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const countTokens: (
+  input: CountTokensRequest,
+) => Effect.Effect<
+  CountTokensResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CountTokensRequest,
   output: CountTokensResponse,
   errors: [
@@ -2440,7 +2654,21 @@ export const countTokens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To deny all inference access to resources that you specify in the modelId field, you need to deny access to the `bedrock:InvokeModel` and `bedrock:InvokeModelWithResponseStream` actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream). For more information see Deny access for inference on specific models.
  */
-export const startAsyncInvoke = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startAsyncInvoke: (
+  input: StartAsyncInvokeRequest,
+) => Effect.Effect<
+  StartAsyncInvokeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAsyncInvokeRequest,
   output: StartAsyncInvokeResponse,
   errors: [
@@ -2465,7 +2693,23 @@ export const startAsyncInvoke = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For troubleshooting some of the common errors you might encounter when using the `InvokeModel` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
-export const invokeModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const invokeModel: (
+  input: InvokeModelRequest,
+) => Effect.Effect<
+  InvokeModelResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ModelErrorException
+  | ModelNotReadyException
+  | ModelTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeModelRequest,
   output: InvokeModelResponse,
   errors: [
@@ -2496,47 +2740,79 @@ export const invokeModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For troubleshooting some of the common errors you might encounter when using the `InvokeModelWithResponseStream` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
-export const invokeModelWithResponseStream =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: InvokeModelWithResponseStreamRequest,
-    output: InvokeModelWithResponseStreamResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ModelErrorException,
-      ModelNotReadyException,
-      ModelStreamErrorException,
-      ModelTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const invokeModelWithResponseStream: (
+  input: InvokeModelWithResponseStreamRequest,
+) => Effect.Effect<
+  InvokeModelWithResponseStreamResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ModelErrorException
+  | ModelNotReadyException
+  | ModelStreamErrorException
+  | ModelTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InvokeModelWithResponseStreamRequest,
+  output: InvokeModelWithResponseStreamResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ModelErrorException,
+    ModelNotReadyException,
+    ModelStreamErrorException,
+    ModelTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Invoke the specified Amazon Bedrock model to run inference using the bidirectional stream. The response is returned in a stream that remains open for 8 minutes. A single session can contain multiple prompts and responses from the model. The prompts to the model are provided as audio files and the model's responses are spoken back to the user and transcribed.
  *
  * It is possible for users to interrupt the model's response with a new prompt, which will halt the response speech. The model will retain contextual awareness of the conversation while pivoting to respond to the new prompt.
  */
-export const invokeModelWithBidirectionalStream =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: InvokeModelWithBidirectionalStreamRequest,
-    output: InvokeModelWithBidirectionalStreamResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ModelErrorException,
-      ModelNotReadyException,
-      ModelStreamErrorException,
-      ModelTimeoutException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const invokeModelWithBidirectionalStream: (
+  input: InvokeModelWithBidirectionalStreamRequest,
+) => Effect.Effect<
+  InvokeModelWithBidirectionalStreamResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ModelErrorException
+  | ModelNotReadyException
+  | ModelStreamErrorException
+  | ModelTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InvokeModelWithBidirectionalStreamRequest,
+  output: InvokeModelWithBidirectionalStreamResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ModelErrorException,
+    ModelNotReadyException,
+    ModelStreamErrorException,
+    ModelTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Sends messages to the specified Amazon Bedrock model and returns the response in a stream. `ConverseStream` provides a consistent API that works with all Amazon Bedrock models that support messages. This allows you to write code once and use it with different models. Should a model have unique inference parameters, you can also pass those unique parameters to the model.
  *
@@ -2560,7 +2836,22 @@ export const invokeModelWithBidirectionalStream =
  *
  * For troubleshooting some of the common errors you might encounter when using the `ConverseStream` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
-export const converseStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const converseStream: (
+  input: ConverseStreamRequest,
+) => Effect.Effect<
+  ConverseStreamResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ModelErrorException
+  | ModelNotReadyException
+  | ModelTimeoutException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConverseStreamRequest,
   output: ConverseStreamResponse,
   errors: [
@@ -2594,7 +2885,22 @@ export const converseStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For troubleshooting some of the common errors you might encounter when using the `Converse` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
-export const converse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const converse: (
+  input: ConverseRequest,
+) => Effect.Effect<
+  ConverseResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ModelErrorException
+  | ModelNotReadyException
+  | ModelTimeoutException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConverseRequest,
   output: ConverseResponse,
   errors: [
@@ -2614,7 +2920,20 @@ export const converse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For troubleshooting some of the common errors you might encounter when using the `ApplyGuardrail` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
-export const applyGuardrail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const applyGuardrail: (
+  input: ApplyGuardrailRequest,
+) => Effect.Effect<
+  ApplyGuardrailResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApplyGuardrailRequest,
   output: ApplyGuardrailResponse,
   errors: [

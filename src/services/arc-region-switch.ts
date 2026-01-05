@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "ARC Region switch",
   serviceShapeName: "ArcRegionSwitch",
@@ -254,6 +262,41 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type PlanArn = string;
+export type ExecutionId = string;
+export type StepName = string;
+export type ExecutionComment = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type GetPlanExecutionStepStatesMaxResults = number;
+export type ListExecutionEventsMaxResults = number;
+export type ListExecutionsMaxResults = number;
+export type Route53HostedZoneId = string;
+export type Route53RecordName = string;
+export type IamRoleArn = string;
+export type PlanName = string;
+export type Region = string;
+export type TagKey = string;
+export type TagValue = string;
+export type Duration = string;
+export type ResourceArn = string;
+export type AccountId = string;
+export type Route53HealthCheckId = string;
+export type RoleArn = string;
+export type GlobalClusterIdentifier = string;
+export type AuroraClusterArn = string;
+export type DocumentDbGlobalClusterIdentifier = string;
+export type DocumentDbClusterArn = string;
+export type LambdaArn = string;
+export type AsgArn = string;
+export type EcsClusterArn = string;
+export type EcsServiceArn = string;
+export type EksClusterArn = string;
+export type Route53ResourceRecordSetIdentifier = string;
+export type RoutingControlArn = string;
+export type KubernetesNamespace = string;
 
 //# Schemas
 export type RegionList = string[];
@@ -626,6 +669,9 @@ export const S3ReportOutputConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "S3ReportOutputConfiguration",
 }) as any as S.Schema<S3ReportOutputConfiguration>;
+export type ReportOutputConfiguration = {
+  s3Configuration: S3ReportOutputConfiguration;
+};
 export const ReportOutputConfiguration = S.Union(
   S.Struct({ s3Configuration: S3ReportOutputConfiguration }),
 );
@@ -1314,6 +1360,9 @@ export const DocumentDbUngraceful = S.suspend(() =>
 ).annotations({
   identifier: "DocumentDbUngraceful",
 }) as any as S.Schema<DocumentDbUngraceful>;
+export type ReportOutput =
+  | { s3ReportOutput: S3ReportOutput }
+  | { failedReportOutput: FailedReportOutput };
 export const ReportOutput = S.Union(
   S.Struct({ s3ReportOutput: S3ReportOutput }),
   S.Struct({ failedReportOutput: FailedReportOutput }),
@@ -1689,7 +1738,9 @@ export class IllegalStateException extends S.TaggedError<IllegalStateException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -1703,7 +1754,29 @@ export class IllegalArgumentException extends S.TaggedError<IllegalArgumentExcep
 /**
  * Lists all Region switch plans in your Amazon Web Services account.
  */
-export const listPlans = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPlans: {
+  (
+    input: ListPlansRequest,
+  ): Effect.Effect<
+    ListPlansResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPlansRequest,
+  ) => Stream.Stream<
+    ListPlansResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPlansRequest,
+  ) => Stream.Stream<
+    AbbreviatedPlan,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPlansRequest,
   output: ListPlansResponse,
   errors: [],
@@ -1719,103 +1792,237 @@ export const listPlans = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * You must specify the plan ARN, execution ID, step name, and approval status. You can also provide an optional comment explaining the approval decision.
  */
-export const approvePlanExecutionStep = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ApprovePlanExecutionStepRequest,
-    output: ApprovePlanExecutionStepResponse,
-    errors: [AccessDeniedException, ResourceNotFoundException],
-  }),
-);
+export const approvePlanExecutionStep: (
+  input: ApprovePlanExecutionStepRequest,
+) => Effect.Effect<
+  ApprovePlanExecutionStepResponse,
+  AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ApprovePlanExecutionStepRequest,
+  output: ApprovePlanExecutionStepResponse,
+  errors: [AccessDeniedException, ResourceNotFoundException],
+}));
 /**
  * Lists the events that occurred during a plan execution. These events provide a detailed timeline of the execution process.
  */
-export const listPlanExecutionEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPlanExecutionEvents: {
+  (
     input: ListPlanExecutionEventsRequest,
-    output: ListPlanExecutionEventsResponse,
-    errors: [AccessDeniedException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPlanExecutionEventsResponse,
+    AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPlanExecutionEventsRequest,
+  ) => Stream.Stream<
+    ListPlanExecutionEventsResponse,
+    AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPlanExecutionEventsRequest,
+  ) => Stream.Stream<
+    ExecutionEvent,
+    AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPlanExecutionEventsRequest,
+  output: ListPlanExecutionEventsResponse,
+  errors: [AccessDeniedException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the executions of a Region switch plan. This operation returns information about both current and historical executions.
  */
-export const listPlanExecutions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPlanExecutions: {
+  (
     input: ListPlanExecutionsRequest,
-    output: ListPlanExecutionsResponse,
-    errors: [AccessDeniedException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPlanExecutionsResponse,
+    AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPlanExecutionsRequest,
+  ) => Stream.Stream<
+    ListPlanExecutionsResponse,
+    AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPlanExecutionsRequest,
+  ) => Stream.Stream<
+    AbbreviatedExecution,
+    AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPlanExecutionsRequest,
+  output: ListPlanExecutionsResponse,
+  errors: [AccessDeniedException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all Region switch plans in your Amazon Web Services account that are available in the current Amazon Web Services Region.
  */
-export const listPlansInRegion = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPlansInRegion: {
+  (
     input: ListPlansInRegionRequest,
-    output: ListPlansInRegionResponse,
-    errors: [AccessDeniedException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "plans",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPlansInRegionResponse,
+    AccessDeniedException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPlansInRegionRequest,
+  ) => Stream.Stream<
+    ListPlansInRegionResponse,
+    AccessDeniedException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPlansInRegionRequest,
+  ) => Stream.Stream<
+    AbbreviatedPlan,
+    AccessDeniedException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPlansInRegionRequest,
+  output: ListPlansInRegionResponse,
+  errors: [AccessDeniedException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "plans",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List the Amazon Route 53 health checks.
  */
-export const listRoute53HealthChecks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRoute53HealthChecks: {
+  (
     input: ListRoute53HealthChecksRequest,
-    output: ListRoute53HealthChecksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "healthChecks",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRoute53HealthChecksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRoute53HealthChecksRequest,
+  ) => Stream.Stream<
+    ListRoute53HealthChecksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoute53HealthChecksRequest,
+  ) => Stream.Stream<
+    Route53HealthCheck,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRoute53HealthChecksRequest,
+  output: ListRoute53HealthChecksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "healthChecks",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List the Amazon Route 53 health checks in a specific Amazon Web Services Region.
  */
-export const listRoute53HealthChecksInRegion =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRoute53HealthChecksInRegion: {
+  (
     input: ListRoute53HealthChecksInRegionRequest,
-    output: ListRoute53HealthChecksInRegionResponse,
-    errors: [
-      AccessDeniedException,
-      IllegalArgumentException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "healthChecks",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRoute53HealthChecksInRegionResponse,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRoute53HealthChecksInRegionRequest,
+  ) => Stream.Stream<
+    ListRoute53HealthChecksInRegionResponse,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoute53HealthChecksInRegionRequest,
+  ) => Stream.Stream<
+    Route53HealthCheck,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRoute53HealthChecksInRegionRequest,
+  output: ListRoute53HealthChecksInRegionResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalArgumentException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "healthChecks",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information about a Region switch plan in a specific Amazon Web Services Region. This operation is useful for getting Region-specific information about a plan.
  */
-export const getPlanInRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPlanInRegion: (
+  input: GetPlanInRegionRequest,
+) => Effect.Effect<
+  GetPlanInRegionResponse,
+  AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPlanInRegionRequest,
   output: GetPlanInRegionResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
@@ -1823,7 +2030,13 @@ export const getPlanInRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a Region switch plan. You must specify the ARN of the plan.
  */
-export const getPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPlan: (
+  input: GetPlanRequest,
+) => Effect.Effect<
+  GetPlanResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPlanRequest,
   output: GetPlanResponse,
   errors: [ResourceNotFoundException],
@@ -1831,7 +2044,13 @@ export const getPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing Region switch plan. You can modify the plan's description, workflows, execution role, recovery time objective, associated alarms, and triggers.
  */
-export const updatePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePlan: (
+  input: UpdatePlanRequest,
+) => Effect.Effect<
+  UpdatePlanResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePlanRequest,
   output: UpdatePlanResponse,
   errors: [ResourceNotFoundException],
@@ -1841,7 +2060,13 @@ export const updatePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You cannot delete a plan that has an active execution in progress.
  */
-export const deletePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePlan: (
+  input: DeletePlanRequest,
+) => Effect.Effect<
+  DeletePlanResponse,
+  IllegalStateException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePlanRequest,
   output: DeletePlanResponse,
   errors: [IllegalStateException, ResourceNotFoundException],
@@ -1849,7 +2074,13 @@ export const deletePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds or updates tags for a Region switch resource. You can assign metadata to your resources in the form of tags, which are key-value pairs.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  InternalServerException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [InternalServerException, ResourceNotFoundException],
@@ -1859,7 +2090,13 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must specify the plan ARN and execution ID. You can also provide an optional comment explaining why the execution was canceled.
  */
-export const cancelPlanExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelPlanExecution: (
+  input: CancelPlanExecutionRequest,
+) => Effect.Effect<
+  CancelPlanExecutionResponse,
+  AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelPlanExecutionRequest,
   output: CancelPlanExecutionResponse,
   errors: [AccessDeniedException, ResourceNotFoundException],
@@ -1867,7 +2104,16 @@ export const cancelPlanExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an in-progress plan execution. This operation allows you to modify certain aspects of the execution, such as adding a comment or changing the action.
  */
-export const updatePlanExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePlanExecution: (
+  input: UpdatePlanExecutionRequest,
+) => Effect.Effect<
+  UpdatePlanExecutionResponse,
+  | AccessDeniedException
+  | IllegalStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePlanExecutionRequest,
   output: UpdatePlanExecutionResponse,
   errors: [
@@ -1879,17 +2125,27 @@ export const updatePlanExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a specific step in an in-progress plan execution. This operation allows you to modify the step's comment or action.
  */
-export const updatePlanExecutionStep = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePlanExecutionStepRequest,
-    output: UpdatePlanExecutionStepResponse,
-    errors: [AccessDeniedException, ResourceNotFoundException],
-  }),
-);
+export const updatePlanExecutionStep: (
+  input: UpdatePlanExecutionStepRequest,
+) => Effect.Effect<
+  UpdatePlanExecutionStepResponse,
+  AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePlanExecutionStepRequest,
+  output: UpdatePlanExecutionStepResponse,
+  errors: [AccessDeniedException, ResourceNotFoundException],
+}));
 /**
  * Removes tags from a Region switch resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  InternalServerException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [InternalServerException, ResourceNotFoundException],
@@ -1897,7 +2153,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags attached to a Region switch resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  InternalServerException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [InternalServerException, ResourceNotFoundException],
@@ -1907,7 +2169,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * In PRACTICE mode, the execution simulates the steps without making actual changes to your application's traffic routing. In RECOVERY mode, the execution performs actual changes to shift traffic between Regions.
  */
-export const startPlanExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startPlanExecution: (
+  input: StartPlanExecutionRequest,
+) => Effect.Effect<
+  StartPlanExecutionResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | IllegalStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartPlanExecutionRequest,
   output: StartPlanExecutionResponse,
   errors: [
@@ -1920,40 +2192,87 @@ export const startPlanExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the evaluation status of a Region switch plan. The evaluation status provides information about the last time the plan was evaluated and any warnings or issues detected.
  */
-export const getPlanEvaluationStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getPlanEvaluationStatus: {
+  (
     input: GetPlanEvaluationStatusRequest,
-    output: GetPlanEvaluationStatusResponse,
-    errors: [AccessDeniedException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "warnings",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetPlanEvaluationStatusResponse,
+    AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetPlanEvaluationStatusRequest,
+  ) => Stream.Stream<
+    GetPlanEvaluationStatusResponse,
+    AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetPlanEvaluationStatusRequest,
+  ) => Stream.Stream<
+    ResourceWarning,
+    AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetPlanEvaluationStatusRequest,
+  output: GetPlanEvaluationStatusResponse,
+  errors: [AccessDeniedException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "warnings",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves detailed information about a specific plan execution. You must specify the plan ARN and execution ID.
  */
-export const getPlanExecution = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getPlanExecution: {
+  (
     input: GetPlanExecutionRequest,
-    output: GetPlanExecutionResponse,
-    errors: [AccessDeniedException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "stepStates",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetPlanExecutionResponse,
+    AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetPlanExecutionRequest,
+  ) => Stream.Stream<
+    GetPlanExecutionResponse,
+    AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetPlanExecutionRequest,
+  ) => Stream.Stream<
+    StepState,
+    AccessDeniedException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetPlanExecutionRequest,
+  output: GetPlanExecutionResponse,
+  errors: [AccessDeniedException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "stepStates",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a new Region switch plan. A plan defines the steps required to shift traffic from one Amazon Web Services Region to another.
  *
  * You must specify a name for the plan, the primary Region, and at least one additional Region. You can also provide a description, execution role, recovery time objective, associated alarms, triggers, and workflows that define the steps to execute during a Region switch.
  */
-export const createPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPlan: (
+  input: CreatePlanRequest,
+) => Effect.Effect<
+  CreatePlanResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePlanRequest,
   output: CreatePlanResponse,
   errors: [],

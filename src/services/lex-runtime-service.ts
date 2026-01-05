@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Lex Runtime Service",
   serviceShapeName: "AWSDeepSenseRunTimeService",
@@ -320,6 +328,34 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type BotName = string;
+export type BotAlias = string;
+export type UserId = string;
+export type IntentSummaryCheckpointLabel = string;
+export type SynthesizedJsonAttributesString = string;
+export type HttpContentType = string;
+export type Accept = string;
+export type SynthesizedJsonActiveContextsString = string;
+export type Text = string;
+export type ActiveContextName = string;
+export type IntentName = string;
+export type SynthesizedJsonString = string;
+export type SensitiveString = string;
+export type SensitiveStringUnbounded = string;
+export type BotVersion = string;
+export type ActiveContextTimeToLiveInSeconds = number;
+export type ActiveContextTurnsToLive = number;
+export type ParameterName = string;
+export type ErrorMessage = string;
+export type Double = number;
+export type SentimentLabel = string;
+export type SentimentScore = string;
+export type StringWithLength = string;
+export type StringUrlWithLength = string;
+export type ButtonTextStringWithLength = string;
+export type ButtonValueStringWithLength = string;
 
 //# Schemas
 export interface DeleteSessionRequest {
@@ -843,7 +879,9 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class BadGatewayException extends S.TaggedError<BadGatewayException>()(
   "BadGatewayException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String) },
@@ -851,14 +889,18 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   {
     retryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
     message: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class DependencyFailedException extends S.TaggedError<DependencyFailedException>()(
   "DependencyFailedException",
   { Message: S.optional(S.String) },
@@ -870,7 +912,9 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class LoopDetectedException extends S.TaggedError<LoopDetectedException>()(
   "LoopDetectedException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class NotAcceptableException extends S.TaggedError<NotAcceptableException>()(
   "NotAcceptableException",
   { message: S.optional(S.String) },
@@ -889,7 +933,17 @@ export class UnsupportedMediaTypeException extends S.TaggedError<UnsupportedMedi
  * Returns session information for a specified bot, alias, and user
  * ID.
  */
-export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSession: (
+  input: GetSessionRequest,
+) => Effect.Effect<
+  GetSessionResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
   output: GetSessionResponse,
   errors: [
@@ -902,7 +956,18 @@ export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes session information for a specified bot, alias, and user ID.
  */
-export const deleteSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSession: (
+  input: DeleteSessionRequest,
+) => Effect.Effect<
+  DeleteSessionResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSessionRequest,
   output: DeleteSessionResponse,
   errors: [
@@ -921,7 +986,21 @@ export const deleteSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Managing
  * Sessions.
  */
-export const putSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putSession: (
+  input: PutSessionRequest,
+) => Effect.Effect<
+  PutSessionResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ConflictException
+  | DependencyFailedException
+  | InternalFailureException
+  | LimitExceededException
+  | NotAcceptableException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSessionRequest,
   output: PutSessionResponse,
   errors: [
@@ -993,7 +1072,21 @@ export const putSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `sessionAttributes`. For more information, see Managing
  * Conversation Context.
  */
-export const postText = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const postText: (
+  input: PostTextRequest,
+) => Effect.Effect<
+  PostTextResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ConflictException
+  | DependencyFailedException
+  | InternalFailureException
+  | LimitExceededException
+  | LoopDetectedException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PostTextRequest,
   output: PostTextResponse,
   errors: [
@@ -1068,7 +1161,24 @@ export const postText = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `sessionAttributes`. For more information, see Managing
  * Conversation Context.
  */
-export const postContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const postContent: (
+  input: PostContentRequest,
+) => Effect.Effect<
+  PostContentResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ConflictException
+  | DependencyFailedException
+  | InternalFailureException
+  | LimitExceededException
+  | LoopDetectedException
+  | NotAcceptableException
+  | NotFoundException
+  | RequestTimeoutException
+  | UnsupportedMediaTypeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PostContentRequest,
   output: PostContentResponse,
   errors: [

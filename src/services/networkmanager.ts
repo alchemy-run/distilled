@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "NetworkManager",
   serviceShapeName: "NetworkManager",
@@ -479,6 +487,64 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AttachmentId = string;
+export type GlobalNetworkId = string;
+export type ConnectPeerId = string;
+export type DeviceId = string;
+export type LinkId = string;
+export type CustomerGatewayArn = string;
+export type TransitGatewayConnectPeerArn = string;
+export type CoreNetworkId = string;
+export type ExternalRegionCode = string;
+export type ConstrainedString = string;
+export type ClientToken = string;
+export type IPAddress = string;
+export type SubnetArn = string;
+export type CoreNetworkPolicyDocument = string;
+export type PrefixListArn = string;
+export type SiteId = string;
+export type DirectConnectGatewayArn = string;
+export type VpnConnectionArn = string;
+export type TransitGatewayArn = string;
+export type PeeringId = string;
+export type TransitGatewayRouteTableArn = string;
+export type VpcArn = string;
+export type ConnectionId = string;
+export type Integer = number;
+export type ResourceArn = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type AWSAccountId = string;
+export type SynthesizedJsonCoreNetworkPolicyDocument = string;
+export type SynthesizedJsonResourcePolicyDocument = string;
+export type Action = string;
+export type TagKey = string;
+export type TagValue = string;
+export type Long = number;
+export type FilterName = string;
+export type FilterValue = string;
+export type TransitGatewayAttachmentArn = string;
+export type ServerSideString = string;
+export type CoreNetworkArn = string;
+export type NetworkFunctionGroupName = string;
+export type ConnectionArn = string;
+export type GlobalNetworkArn = string;
+export type SiteArn = string;
+export type TransitGatewayPeeringAttachmentId = string;
+export type DeviceArn = string;
+export type LinkArn = string;
+export type OrganizationId = string;
+export type OrganizationAwsServiceAccessStatus = string;
+export type SLRDeploymentStatus = string;
+export type RetryAfterSeconds = number;
+export type AccountId = string;
+export type ReasonContextKey = string;
+export type ReasonContextValue = string;
+export type ExceptionContextKey = string;
+export type ExceptionContextValue = string;
+export type TransitGatewayAttachmentId = string;
 
 //# Schemas
 export type ConstrainedStringList = string[];
@@ -5360,14 +5426,18 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     Message: S.String,
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   {
     Message: S.String,
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class CoreNetworkPolicyException extends S.TaggedError<CoreNetworkPolicyException>()(
   "CoreNetworkPolicyException",
   { Message: S.String, Errors: S.optional(CoreNetworkPolicyErrorList) },
@@ -5404,36 +5474,85 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Gets the status of the Service Linked Role (SLR) deployment for the accounts in a given Amazon Web Services Organization.
  */
-export const listOrganizationServiceAccessStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListOrganizationServiceAccessStatusRequest,
-    output: ListOrganizationServiceAccessStatusResponse,
-    errors: [],
-  }));
+export const listOrganizationServiceAccessStatus: (
+  input: ListOrganizationServiceAccessStatusRequest,
+) => Effect.Effect<
+  ListOrganizationServiceAccessStatusResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListOrganizationServiceAccessStatusRequest,
+  output: ListOrganizationServiceAccessStatusResponse,
+  errors: [],
+}));
 /**
  * Gets the count of network resources, by resource type, for the specified global network.
  */
-export const getNetworkResourceCounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getNetworkResourceCounts: {
+  (
     input: GetNetworkResourceCountsRequest,
-    output: GetNetworkResourceCountsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "NetworkResourceCounts",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetNetworkResourceCountsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetNetworkResourceCountsRequest,
+  ) => Stream.Stream<
+    GetNetworkResourceCountsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetNetworkResourceCountsRequest,
+  ) => Stream.Stream<
+    NetworkResourceCount,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetNetworkResourceCountsRequest,
+  output: GetNetworkResourceCountsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "NetworkResourceCounts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the network routes of the specified global network.
  */
-export const getNetworkRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getNetworkRoutes: (
+  input: GetNetworkRoutesRequest,
+) => Effect.Effect<
+  GetNetworkRoutesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNetworkRoutesRequest,
   output: GetNetworkRoutesResponse,
   errors: [
@@ -5447,7 +5566,18 @@ export const getNetworkRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about the specified route analysis.
  */
-export const getRouteAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRouteAnalysis: (
+  input: GetRouteAnalysisRequest,
+) => Effect.Effect<
+  GetRouteAnalysisResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouteAnalysisRequest,
   output: GetRouteAnalysisResponse,
   errors: [
@@ -5461,65 +5591,150 @@ export const getRouteAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization.
  */
-export const startOrganizationServiceAccessUpdate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartOrganizationServiceAccessUpdateRequest,
-    output: StartOrganizationServiceAccessUpdateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startOrganizationServiceAccessUpdate: (
+  input: StartOrganizationServiceAccessUpdateRequest,
+) => Effect.Effect<
+  StartOrganizationServiceAccessUpdateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartOrganizationServiceAccessUpdateRequest,
+  output: StartOrganizationServiceAccessUpdateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of core network Connect peers.
  */
-export const listConnectPeers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listConnectPeers: {
+  (
     input: ListConnectPeersRequest,
-    output: ListConnectPeersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConnectPeers",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListConnectPeersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectPeersRequest,
+  ) => Stream.Stream<
+    ListConnectPeersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectPeersRequest,
+  ) => Stream.Stream<
+    ConnectPeerSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectPeersRequest,
+  output: ListConnectPeersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConnectPeers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of owned and shared core networks.
  */
-export const listCoreNetworks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCoreNetworks: {
+  (
     input: ListCoreNetworksRequest,
-    output: ListCoreNetworksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CoreNetworks",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCoreNetworksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCoreNetworksRequest,
+  ) => Stream.Stream<
+    ListCoreNetworksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCoreNetworksRequest,
+  ) => Stream.Stream<
+    CoreNetworkSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCoreNetworksRequest,
+  output: ListCoreNetworksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CoreNetworks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about a resource policy.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => Effect.Effect<
+  GetResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
   errors: [
@@ -5532,65 +5747,150 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of core network attachments.
  */
-export const listAttachments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAttachments: {
+  (
     input: ListAttachmentsRequest,
-    output: ListAttachmentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Attachments",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAttachmentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttachmentsRequest,
+  ) => Stream.Stream<
+    ListAttachmentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttachmentsRequest,
+  ) => Stream.Stream<
+    Attachment,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttachmentsRequest,
+  output: ListAttachmentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Attachments",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the peerings for a core network.
  */
-export const listPeerings = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPeerings: {
+  (
     input: ListPeeringsRequest,
-    output: ListPeeringsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Peerings",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPeeringsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPeeringsRequest,
+  ) => Stream.Stream<
+    ListPeeringsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPeeringsRequest,
+  ) => Stream.Stream<
+    Peering,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPeeringsRequest,
+  output: ListPeeringsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Peerings",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes a resource policy for the specified resource. This revokes the access of the principals specified in the resource policy.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates or updates a resource policy.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [
@@ -5605,7 +5905,19 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a connection between two devices. The devices can be a physical or virtual appliance that connects to a third-party appliance in a VPC, or a physical appliance that connects to another physical appliance in an on-premises network.
  */
-export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConnection: (
+  input: CreateConnectionRequest,
+) => Effect.Effect<
+  CreateConnectionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectionRequest,
   output: CreateConnectionResponse,
   errors: [
@@ -5620,7 +5932,19 @@ export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new, empty global network.
  */
-export const createGlobalNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGlobalNetwork: (
+  input: CreateGlobalNetworkRequest,
+) => Effect.Effect<
+  CreateGlobalNetworkResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGlobalNetworkRequest,
   output: CreateGlobalNetworkResponse,
   errors: [
@@ -5635,7 +5959,20 @@ export const createGlobalNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a core network as part of your global network, and optionally, with a core network policy.
  */
-export const createCoreNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCoreNetwork: (
+  input: CreateCoreNetworkRequest,
+) => Effect.Effect<
+  CreateCoreNetworkResponse,
+  | AccessDeniedException
+  | ConflictException
+  | CoreNetworkPolicyException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoreNetworkRequest,
   output: CreateCoreNetworkResponse,
   errors: [
@@ -5654,109 +5991,273 @@ export const createCoreNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `Get*` action. For example, to list the transit gateways in your global
  * network, use GetTransitGatewayRegistrations.
  */
-export const describeGlobalNetworks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeGlobalNetworks: {
+  (
     input: DescribeGlobalNetworksRequest,
-    output: DescribeGlobalNetworksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "GlobalNetworks",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeGlobalNetworksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeGlobalNetworksRequest,
+  ) => Stream.Stream<
+    DescribeGlobalNetworksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeGlobalNetworksRequest,
+  ) => Stream.Stream<
+    GlobalNetwork,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeGlobalNetworksRequest,
+  output: DescribeGlobalNetworksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "GlobalNetworks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about a core network change event.
  */
-export const getCoreNetworkChangeEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getCoreNetworkChangeEvents: {
+  (
     input: GetCoreNetworkChangeEventsRequest,
-    output: GetCoreNetworkChangeEventsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CoreNetworkChangeEvents",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetCoreNetworkChangeEventsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCoreNetworkChangeEventsRequest,
+  ) => Stream.Stream<
+    GetCoreNetworkChangeEventsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCoreNetworkChangeEventsRequest,
+  ) => Stream.Stream<
+    CoreNetworkChangeEvent,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCoreNetworkChangeEventsRequest,
+  output: GetCoreNetworkChangeEventsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CoreNetworkChangeEvents",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about a core network Connect attachment.
  */
-export const getConnectAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetConnectAttachmentRequest,
-    output: GetConnectAttachmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getConnectAttachment: (
+  input: GetConnectAttachmentRequest,
+) => Effect.Effect<
+  GetConnectAttachmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConnectAttachmentRequest,
+  output: GetConnectAttachmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the network resource relationships for the specified global network.
  */
-export const getNetworkResourceRelationships =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getNetworkResourceRelationships: {
+  (
     input: GetNetworkResourceRelationshipsRequest,
-    output: GetNetworkResourceRelationshipsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Relationships",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetNetworkResourceRelationshipsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetNetworkResourceRelationshipsRequest,
+  ) => Stream.Stream<
+    GetNetworkResourceRelationshipsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetNetworkResourceRelationshipsRequest,
+  ) => Stream.Stream<
+    Relationship,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetNetworkResourceRelationshipsRequest,
+  output: GetNetworkResourceRelationshipsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Relationships",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the network resources for the specified global network.
  *
  * The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
  */
-export const getNetworkResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getNetworkResources: {
+  (
     input: GetNetworkResourcesRequest,
-    output: GetNetworkResourcesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "NetworkResources",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetNetworkResourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetNetworkResourcesRequest,
+  ) => Stream.Stream<
+    GetNetworkResourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetNetworkResourcesRequest,
+  ) => Stream.Stream<
+    NetworkResource,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetNetworkResourcesRequest,
+  output: GetNetworkResourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "NetworkResources",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about a VPC attachment.
  */
-export const getVpcAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVpcAttachment: (
+  input: GetVpcAttachmentRequest,
+) => Effect.Effect<
+  GetVpcAttachmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVpcAttachmentRequest,
   output: GetVpcAttachmentResponse,
   errors: [
@@ -5770,71 +6271,191 @@ export const getVpcAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the routing policy associations for attachments in a core network.
  */
-export const listAttachmentRoutingPolicyAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAttachmentRoutingPolicyAssociations: {
+  (
     input: ListAttachmentRoutingPolicyAssociationsRequest,
-    output: ListAttachmentRoutingPolicyAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AttachmentRoutingPolicyAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAttachmentRoutingPolicyAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttachmentRoutingPolicyAssociationsRequest,
+  ) => Stream.Stream<
+    ListAttachmentRoutingPolicyAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttachmentRoutingPolicyAssociationsRequest,
+  ) => Stream.Stream<
+    AttachmentRoutingPolicyAssociationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttachmentRoutingPolicyAssociationsRequest,
+  output: ListAttachmentRoutingPolicyAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AttachmentRoutingPolicyAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of core network policy versions.
  */
-export const listCoreNetworkPolicyVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCoreNetworkPolicyVersions: {
+  (
     input: ListCoreNetworkPolicyVersionsRequest,
-    output: ListCoreNetworkPolicyVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CoreNetworkPolicyVersions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCoreNetworkPolicyVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCoreNetworkPolicyVersionsRequest,
+  ) => Stream.Stream<
+    ListCoreNetworkPolicyVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCoreNetworkPolicyVersionsRequest,
+  ) => Stream.Stream<
+    CoreNetworkPolicyVersion,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCoreNetworkPolicyVersionsRequest,
+  output: ListCoreNetworkPolicyVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CoreNetworkPolicyVersions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the prefix list associations for a core network.
  */
-export const listCoreNetworkPrefixListAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCoreNetworkPrefixListAssociations: {
+  (
     input: ListCoreNetworkPrefixListAssociationsRequest,
-    output: ListCoreNetworkPrefixListAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PrefixListAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCoreNetworkPrefixListAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCoreNetworkPrefixListAssociationsRequest,
+  ) => Stream.Stream<
+    ListCoreNetworkPrefixListAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCoreNetworkPrefixListAssociationsRequest,
+  ) => Stream.Stream<
+    PrefixListAssociation,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCoreNetworkPrefixListAssociationsRequest,
+  output: ListCoreNetworkPrefixListAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PrefixListAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Starts analyzing the routing path between the specified source and destination. For more information,
  * see Route Analyzer.
  */
-export const startRouteAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startRouteAnalysis: (
+  input: StartRouteAnalysisRequest,
+) => Effect.Effect<
+  StartRouteAnalysisResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRouteAnalysisRequest,
   output: StartRouteAnalysisResponse,
   errors: [
@@ -5849,23 +6470,46 @@ export const startRouteAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the resource metadata for the specified global network.
  */
-export const updateNetworkResourceMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateNetworkResourceMetadataRequest,
-    output: UpdateNetworkResourceMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateNetworkResourceMetadata: (
+  input: UpdateNetworkResourceMetadataRequest,
+) => Effect.Effect<
+  UpdateNetworkResourceMetadataResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNetworkResourceMetadataRequest,
+  output: UpdateNetworkResourceMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an existing site. The site cannot be associated with any device or link.
  */
-export const deleteSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSite: (
+  input: DeleteSiteRequest,
+) => Effect.Effect<
+  DeleteSiteResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSiteRequest,
   output: DeleteSiteResponse,
   errors: [
@@ -5880,42 +6524,74 @@ export const deleteSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates a core network Connect peer from a device and a link.
  */
-export const disassociateConnectPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateConnectPeerRequest,
-    output: DisassociateConnectPeerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateConnectPeer: (
+  input: DisassociateConnectPeerRequest,
+) => Effect.Effect<
+  DisassociateConnectPeerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateConnectPeerRequest,
+  output: DisassociateConnectPeerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates a customer gateway from a device and a link.
  */
-export const disassociateCustomerGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateCustomerGatewayRequest,
-    output: DisassociateCustomerGatewayResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateCustomerGateway: (
+  input: DisassociateCustomerGatewayRequest,
+) => Effect.Effect<
+  DisassociateCustomerGatewayResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateCustomerGatewayRequest,
+  output: DisassociateCustomerGatewayResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates an existing device from a link. You must first disassociate any customer
  * gateways that are associated with the link.
  */
-export const disassociateLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateLink: (
+  input: DisassociateLinkRequest,
+) => Effect.Effect<
+  DisassociateLinkResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateLinkRequest,
   output: DisassociateLinkResponse,
   errors: [
@@ -5930,103 +6606,243 @@ export const disassociateLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates a transit gateway Connect peer from a device and link.
  */
-export const disassociateTransitGatewayConnectPeer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateTransitGatewayConnectPeerRequest,
-    output: DisassociateTransitGatewayConnectPeerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateTransitGatewayConnectPeer: (
+  input: DisassociateTransitGatewayConnectPeerRequest,
+) => Effect.Effect<
+  DisassociateTransitGatewayConnectPeerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateTransitGatewayConnectPeerRequest,
+  output: DisassociateTransitGatewayConnectPeerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about a core network Connect peer associations.
  */
-export const getConnectPeerAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getConnectPeerAssociations: {
+  (
     input: GetConnectPeerAssociationsRequest,
-    output: GetConnectPeerAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConnectPeerAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetConnectPeerAssociationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetConnectPeerAssociationsRequest,
+  ) => Stream.Stream<
+    GetConnectPeerAssociationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetConnectPeerAssociationsRequest,
+  ) => Stream.Stream<
+    ConnectPeerAssociation,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetConnectPeerAssociationsRequest,
+  output: GetConnectPeerAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConnectPeerAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the association information for customer gateways that are associated with
  * devices and links in your global network.
  */
-export const getCustomerGatewayAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getCustomerGatewayAssociations: {
+  (
     input: GetCustomerGatewayAssociationsRequest,
-    output: GetCustomerGatewayAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CustomerGatewayAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetCustomerGatewayAssociationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCustomerGatewayAssociationsRequest,
+  ) => Stream.Stream<
+    GetCustomerGatewayAssociationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCustomerGatewayAssociationsRequest,
+  ) => Stream.Stream<
+    CustomerGatewayAssociation,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCustomerGatewayAssociationsRequest,
+  output: GetCustomerGatewayAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CustomerGatewayAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets information about one or more of your transit gateway Connect peer associations in a global network.
  */
-export const getTransitGatewayConnectPeerAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getTransitGatewayConnectPeerAssociations: {
+  (
     input: GetTransitGatewayConnectPeerAssociationsRequest,
-    output: GetTransitGatewayConnectPeerAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransitGatewayConnectPeerAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetTransitGatewayConnectPeerAssociationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTransitGatewayConnectPeerAssociationsRequest,
+  ) => Stream.Stream<
+    GetTransitGatewayConnectPeerAssociationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTransitGatewayConnectPeerAssociationsRequest,
+  ) => Stream.Stream<
+    TransitGatewayConnectPeerAssociation,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTransitGatewayConnectPeerAssociationsRequest,
+  output: GetTransitGatewayConnectPeerAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransitGatewayConnectPeerAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Applies a routing policy label to an attachment for traffic routing decisions.
  */
-export const putAttachmentRoutingPolicyLabel =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutAttachmentRoutingPolicyLabelRequest,
-    output: PutAttachmentRoutingPolicyLabelResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const putAttachmentRoutingPolicyLabel: (
+  input: PutAttachmentRoutingPolicyLabelRequest,
+) => Effect.Effect<
+  PutAttachmentRoutingPolicyLabelResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAttachmentRoutingPolicyLabelRequest,
+  output: PutAttachmentRoutingPolicyLabelResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Registers a transit gateway in your global network. Not all Regions support transit
  * gateways for global networks. For a list of the supported Regions, see Region Availability in the Amazon Web Services Transit Gateways for Global
@@ -6034,24 +6850,46 @@ export const putAttachmentRoutingPolicyLabel =
  * Amazon Web Services Regions, but it must be owned by the same Amazon Web Services account that owns the global
  * network. You cannot register a transit gateway in more than one global network.
  */
-export const registerTransitGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterTransitGatewayRequest,
-    output: RegisterTransitGatewayResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const registerTransitGateway: (
+  input: RegisterTransitGatewayRequest,
+) => Effect.Effect<
+  RegisterTransitGatewayResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterTransitGatewayRequest,
+  output: RegisterTransitGatewayResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Rejects a core network attachment request.
  */
-export const rejectAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rejectAttachment: (
+  input: RejectAttachmentRequest,
+) => Effect.Effect<
+  RejectAttachmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectAttachmentRequest,
   output: RejectAttachmentResponse,
   errors: [
@@ -6066,41 +6904,76 @@ export const rejectAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a routing policy label from an attachment.
  */
-export const removeAttachmentRoutingPolicyLabel =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveAttachmentRoutingPolicyLabelRequest,
-    output: RemoveAttachmentRoutingPolicyLabelResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const removeAttachmentRoutingPolicyLabel: (
+  input: RemoveAttachmentRoutingPolicyLabelRequest,
+) => Effect.Effect<
+  RemoveAttachmentRoutingPolicyLabelResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveAttachmentRoutingPolicyLabelRequest,
+  output: RemoveAttachmentRoutingPolicyLabelResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Restores a previous policy version as a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and restored policy.
  */
-export const restoreCoreNetworkPolicyVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RestoreCoreNetworkPolicyVersionRequest,
-    output: RestoreCoreNetworkPolicyVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const restoreCoreNetworkPolicyVersion: (
+  input: RestoreCoreNetworkPolicyVersionRequest,
+) => Effect.Effect<
+  RestoreCoreNetworkPolicyVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreCoreNetworkPolicyVersionRequest,
+  output: RestoreCoreNetworkPolicyVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the information for an existing connection. To remove information for any of the parameters,
  * specify an empty string.
  */
-export const updateConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateConnection: (
+  input: UpdateConnectionRequest,
+) => Effect.Effect<
+  UpdateConnectionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectionRequest,
   output: UpdateConnectionResponse,
   errors: [
@@ -6115,7 +6988,19 @@ export const updateConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the description of a core network.
  */
-export const updateCoreNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCoreNetwork: (
+  input: UpdateCoreNetworkRequest,
+) => Effect.Effect<
+  UpdateCoreNetworkResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCoreNetworkRequest,
   output: UpdateCoreNetworkResponse,
   errors: [
@@ -6131,7 +7016,19 @@ export const updateCoreNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the details for an existing device. To remove information for any of the
  * parameters, specify an empty string.
  */
-export const updateDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDevice: (
+  input: UpdateDeviceRequest,
+) => Effect.Effect<
+  UpdateDeviceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeviceRequest,
   output: UpdateDeviceResponse,
   errors: [
@@ -6146,24 +7043,47 @@ export const updateDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the edge locations associated with an Amazon Web Services Direct Connect gateway attachment.
  */
-export const updateDirectConnectGatewayAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDirectConnectGatewayAttachmentRequest,
-    output: UpdateDirectConnectGatewayAttachmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateDirectConnectGatewayAttachment: (
+  input: UpdateDirectConnectGatewayAttachmentRequest,
+) => Effect.Effect<
+  UpdateDirectConnectGatewayAttachmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDirectConnectGatewayAttachmentRequest,
+  output: UpdateDirectConnectGatewayAttachmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an existing global network. To remove information for any of the parameters,
  * specify an empty string.
  */
-export const updateGlobalNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGlobalNetwork: (
+  input: UpdateGlobalNetworkRequest,
+) => Effect.Effect<
+  UpdateGlobalNetworkResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGlobalNetworkRequest,
   output: UpdateGlobalNetworkResponse,
   errors: [
@@ -6179,7 +7099,20 @@ export const updateGlobalNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the details for an existing link. To remove information for any of the
  * parameters, specify an empty string.
  */
-export const updateLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLink: (
+  input: UpdateLinkRequest,
+) => Effect.Effect<
+  UpdateLinkResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLinkRequest,
   output: UpdateLinkResponse,
   errors: [
@@ -6196,7 +7129,19 @@ export const updateLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the information for an existing site. To remove information for any of the
  * parameters, specify an empty string.
  */
-export const updateSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSite: (
+  input: UpdateSiteRequest,
+) => Effect.Effect<
+  UpdateSiteResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSiteRequest,
   output: UpdateSiteResponse,
   errors: [
@@ -6211,7 +7156,19 @@ export const updateSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a VPC attachment.
  */
-export const updateVpcAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVpcAttachment: (
+  input: UpdateVpcAttachmentRequest,
+) => Effect.Effect<
+  UpdateVpcAttachmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVpcAttachmentRequest,
   output: UpdateVpcAttachmentResponse,
   errors: [
@@ -6226,24 +7183,47 @@ export const updateVpcAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Executes a change set on your core network. Deploys changes globally based on the policy submitted..
  */
-export const executeCoreNetworkChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExecuteCoreNetworkChangeSetRequest,
-    output: ExecuteCoreNetworkChangeSetResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const executeCoreNetworkChangeSet: (
+  input: ExecuteCoreNetworkChangeSetRequest,
+) => Effect.Effect<
+  ExecuteCoreNetworkChangeSetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecuteCoreNetworkChangeSetRequest,
+  output: ExecuteCoreNetworkChangeSetResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Tags a specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -6259,7 +7239,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from a specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -6274,24 +7266,48 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an association between a core network and a prefix list for routing control.
  */
-export const createCoreNetworkPrefixListAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCoreNetworkPrefixListAssociationRequest,
-    output: CreateCoreNetworkPrefixListAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createCoreNetworkPrefixListAssociation: (
+  input: CreateCoreNetworkPrefixListAssociationRequest,
+) => Effect.Effect<
+  CreateCoreNetworkPrefixListAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCoreNetworkPrefixListAssociationRequest,
+  output: CreateCoreNetworkPrefixListAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an attachment. Supports all attachment types.
  */
-export const deleteAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAttachment: (
+  input: DeleteAttachmentRequest,
+) => Effect.Effect<
+  DeleteAttachmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAttachmentRequest,
   output: DeleteAttachmentResponse,
   errors: [
@@ -6306,7 +7322,19 @@ export const deleteAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified connection in your global network.
  */
-export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConnection: (
+  input: DeleteConnectionRequest,
+) => Effect.Effect<
+  DeleteConnectionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionRequest,
   output: DeleteConnectionResponse,
   errors: [
@@ -6321,7 +7349,19 @@ export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a core network along with all core network policies. This can only be done if there are no attachments on a core network.
  */
-export const deleteCoreNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCoreNetwork: (
+  input: DeleteCoreNetworkRequest,
+) => Effect.Effect<
+  DeleteCoreNetworkResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoreNetworkRequest,
   output: DeleteCoreNetworkResponse,
   errors: [
@@ -6336,25 +7376,49 @@ export const deleteCoreNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an association between a core network and a prefix list.
  */
-export const deleteCoreNetworkPrefixListAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCoreNetworkPrefixListAssociationRequest,
-    output: DeleteCoreNetworkPrefixListAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteCoreNetworkPrefixListAssociation: (
+  input: DeleteCoreNetworkPrefixListAssociationRequest,
+) => Effect.Effect<
+  DeleteCoreNetworkPrefixListAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCoreNetworkPrefixListAssociationRequest,
+  output: DeleteCoreNetworkPrefixListAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an existing global network. You must first delete all global network objects
  * (devices, links, and sites), deregister all transit gateways, and delete any core networks.
  */
-export const deleteGlobalNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGlobalNetwork: (
+  input: DeleteGlobalNetworkRequest,
+) => Effect.Effect<
+  DeleteGlobalNetworkResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGlobalNetworkRequest,
   output: DeleteGlobalNetworkResponse,
   errors: [
@@ -6373,21 +7437,32 @@ export const deleteGlobalNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * associate core network Connect peers that have been created on a core network Connect
  * attachment on a core network.
  */
-export const associateConnectPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateConnectPeerRequest,
-    output: AssociateConnectPeerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateConnectPeer: (
+  input: AssociateConnectPeerRequest,
+) => Effect.Effect<
+  AssociateConnectPeerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateConnectPeerRequest,
+  output: AssociateConnectPeerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a customer gateway with a device and optionally, with a link. If you
  * specify a link, it must be associated with the specified device.
@@ -6401,25 +7476,49 @@ export const associateConnectPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You cannot associate a customer gateway with more than one device and link.
  */
-export const associateCustomerGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateCustomerGatewayRequest,
-    output: AssociateCustomerGatewayResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateCustomerGateway: (
+  input: AssociateCustomerGatewayRequest,
+) => Effect.Effect<
+  AssociateCustomerGatewayResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateCustomerGatewayRequest,
+  output: AssociateCustomerGatewayResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a link to a device. A device can be associated to multiple links and a link can be associated to multiple devices. The device and link must be in the same global network and the same site.
  */
-export const associateLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateLink: (
+  input: AssociateLinkRequest,
+) => Effect.Effect<
+  AssociateLinkResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateLinkRequest,
   output: AssociateLinkResponse,
   errors: [
@@ -6441,20 +7540,32 @@ export const associateLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You cannot associate a transit gateway Connect peer with more than one device and link.
  */
-export const associateTransitGatewayConnectPeer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateTransitGatewayConnectPeerRequest,
-    output: AssociateTransitGatewayConnectPeerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const associateTransitGatewayConnectPeer: (
+  input: AssociateTransitGatewayConnectPeerRequest,
+) => Effect.Effect<
+  AssociateTransitGatewayConnectPeerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateTransitGatewayConnectPeerRequest,
+  output: AssociateTransitGatewayConnectPeerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a core network Connect attachment from a specified core network attachment.
  *
@@ -6462,25 +7573,47 @@ export const associateTransitGatewayConnectPeer =
  * establish a connection between a core network and an appliance. A core network Connect
  * attachment uses an existing VPC attachment as the underlying transport mechanism.
  */
-export const createConnectAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConnectAttachmentRequest,
-    output: CreateConnectAttachmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createConnectAttachment: (
+  input: CreateConnectAttachmentRequest,
+) => Effect.Effect<
+  CreateConnectAttachmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConnectAttachmentRequest,
+  output: CreateConnectAttachmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a core network Connect peer for a specified core network connect attachment between a core network and an appliance.
  * The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6).
  */
-export const createConnectPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConnectPeer: (
+  input: CreateConnectPeerRequest,
+) => Effect.Effect<
+  CreateConnectPeerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectPeerRequest,
   output: CreateConnectPeerResponse,
   errors: [
@@ -6496,7 +7629,20 @@ export const createConnectPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a new device in a global network. If you specify both a site ID and a
  * location, the location of the site is used for visualization in the Network Manager console.
  */
-export const createDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDevice: (
+  input: CreateDeviceRequest,
+) => Effect.Effect<
+  CreateDeviceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeviceRequest,
   output: CreateDeviceResponse,
   errors: [
@@ -6512,23 +7658,47 @@ export const createDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon Web Services Direct Connect gateway attachment
  */
-export const createDirectConnectGatewayAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDirectConnectGatewayAttachmentRequest,
-    output: CreateDirectConnectGatewayAttachmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createDirectConnectGatewayAttachment: (
+  input: CreateDirectConnectGatewayAttachmentRequest,
+) => Effect.Effect<
+  CreateDirectConnectGatewayAttachmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDirectConnectGatewayAttachmentRequest,
+  output: CreateDirectConnectGatewayAttachmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new link for a specified site.
  */
-export const createLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLink: (
+  input: CreateLinkRequest,
+) => Effect.Effect<
+  CreateLinkResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLinkRequest,
   output: CreateLinkResponse,
   errors: [
@@ -6544,7 +7714,20 @@ export const createLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new site in a global network.
  */
-export const createSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSite: (
+  input: CreateSiteRequest,
+) => Effect.Effect<
+  CreateSiteResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSiteRequest,
   output: CreateSiteResponse,
   errors: [
@@ -6560,56 +7743,100 @@ export const createSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon Web Services site-to-site VPN attachment on an edge location of a core network.
  */
-export const createSiteToSiteVpnAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateSiteToSiteVpnAttachmentRequest,
-    output: CreateSiteToSiteVpnAttachmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createSiteToSiteVpnAttachment: (
+  input: CreateSiteToSiteVpnAttachmentRequest,
+) => Effect.Effect<
+  CreateSiteToSiteVpnAttachmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSiteToSiteVpnAttachmentRequest,
+  output: CreateSiteToSiteVpnAttachmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a transit gateway peering connection.
  */
-export const createTransitGatewayPeering = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTransitGatewayPeeringRequest,
-    output: CreateTransitGatewayPeeringResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createTransitGatewayPeering: (
+  input: CreateTransitGatewayPeeringRequest,
+) => Effect.Effect<
+  CreateTransitGatewayPeeringResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitGatewayPeeringRequest,
+  output: CreateTransitGatewayPeeringResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a transit gateway route table attachment.
  */
-export const createTransitGatewayRouteTableAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTransitGatewayRouteTableAttachmentRequest,
-    output: CreateTransitGatewayRouteTableAttachmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createTransitGatewayRouteTableAttachment: (
+  input: CreateTransitGatewayRouteTableAttachmentRequest,
+) => Effect.Effect<
+  CreateTransitGatewayRouteTableAttachmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitGatewayRouteTableAttachmentRequest,
+  output: CreateTransitGatewayRouteTableAttachmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a VPC attachment on an edge location of a core network.
  */
-export const createVpcAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVpcAttachment: (
+  input: CreateVpcAttachmentRequest,
+) => Effect.Effect<
+  CreateVpcAttachmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcAttachmentRequest,
   output: CreateVpcAttachmentResponse,
   errors: [
@@ -6625,7 +7852,19 @@ export const createVpcAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an existing device. You must first disassociate the device from any links and
  * customer gateways.
  */
-export const deleteDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDevice: (
+  input: DeleteDeviceRequest,
+) => Effect.Effect<
+  DeleteDeviceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeviceRequest,
   output: DeleteDeviceResponse,
   errors: [
@@ -6641,7 +7880,19 @@ export const deleteDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an existing link. You must first disassociate the link from any devices and
  * customer gateways.
  */
-export const deleteLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLink: (
+  input: DeleteLinkRequest,
+) => Effect.Effect<
+  DeleteLinkResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLinkRequest,
   output: DeleteLinkResponse,
   errors: [
@@ -6656,29 +7907,75 @@ export const deleteLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about one or more of your connections in a global network.
  */
-export const getConnections = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getConnections: {
+  (
     input: GetConnectionsRequest,
-    output: GetConnectionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Connections",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetConnectionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetConnectionsRequest,
+  ) => Stream.Stream<
+    GetConnectionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetConnectionsRequest,
+  ) => Stream.Stream<
+    Connection,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetConnectionsRequest,
+  output: GetConnectionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Connections",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about a core network Connect peer.
  */
-export const getConnectPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConnectPeer: (
+  input: GetConnectPeerRequest,
+) => Effect.Effect<
+  GetConnectPeerResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectPeerRequest,
   output: GetConnectPeerResponse,
   errors: [
@@ -6692,7 +7989,18 @@ export const getConnectPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the LIVE policy for a core network.
  */
-export const getCoreNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCoreNetwork: (
+  input: GetCoreNetworkRequest,
+) => Effect.Effect<
+  GetCoreNetworkResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoreNetworkRequest,
   output: GetCoreNetworkResponse,
   errors: [
@@ -6706,23 +8014,69 @@ export const getCoreNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns details about a core network policy. You can get details about your current live policy or any previous policy version.
  */
-export const getCoreNetworkPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCoreNetworkPolicyRequest,
-    output: GetCoreNetworkPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getCoreNetworkPolicy: (
+  input: GetCoreNetworkPolicyRequest,
+) => Effect.Effect<
+  GetCoreNetworkPolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCoreNetworkPolicyRequest,
+  output: GetCoreNetworkPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about one or more of your devices in a global network.
  */
-export const getDevices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getDevices: {
+  (
+    input: GetDevicesRequest,
+  ): Effect.Effect<
+    GetDevicesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetDevicesRequest,
+  ) => Stream.Stream<
+    GetDevicesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetDevicesRequest,
+  ) => Stream.Stream<
+    Device,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetDevicesRequest,
   output: GetDevicesResponse,
   errors: [
@@ -6742,46 +8096,129 @@ export const getDevices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns information about a specific Amazon Web Services Direct Connect gateway attachment.
  */
-export const getDirectConnectGatewayAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDirectConnectGatewayAttachmentRequest,
-    output: GetDirectConnectGatewayAttachmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getDirectConnectGatewayAttachment: (
+  input: GetDirectConnectGatewayAttachmentRequest,
+) => Effect.Effect<
+  GetDirectConnectGatewayAttachmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDirectConnectGatewayAttachmentRequest,
+  output: GetDirectConnectGatewayAttachmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the link associations for a device or a link. Either the device ID or the link ID
  * must be specified.
  */
-export const getLinkAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getLinkAssociations: {
+  (
     input: GetLinkAssociationsRequest,
-    output: GetLinkAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LinkAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetLinkAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetLinkAssociationsRequest,
+  ) => Stream.Stream<
+    GetLinkAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetLinkAssociationsRequest,
+  ) => Stream.Stream<
+    LinkAssociation,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetLinkAssociationsRequest,
+  output: GetLinkAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LinkAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets information about one or more links in a specified global network.
  *
  * If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
  */
-export const getLinks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getLinks: {
+  (
+    input: GetLinksRequest,
+  ): Effect.Effect<
+    GetLinksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetLinksRequest,
+  ) => Stream.Stream<
+    GetLinksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetLinksRequest,
+  ) => Stream.Stream<
+    Link,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetLinksRequest,
   output: GetLinksResponse,
   errors: [
@@ -6801,7 +8238,44 @@ export const getLinks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Gets information about one or more of your sites in a global network.
  */
-export const getSites = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getSites: {
+  (
+    input: GetSitesRequest,
+  ): Effect.Effect<
+    GetSitesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetSitesRequest,
+  ) => Stream.Stream<
+    GetSitesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSitesRequest,
+  ) => Stream.Stream<
+    Site,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetSitesRequest,
   output: GetSitesResponse,
   errors: [
@@ -6821,76 +8295,151 @@ export const getSites = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns information about a site-to-site VPN attachment.
  */
-export const getSiteToSiteVpnAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSiteToSiteVpnAttachmentRequest,
-    output: GetSiteToSiteVpnAttachmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getSiteToSiteVpnAttachment: (
+  input: GetSiteToSiteVpnAttachmentRequest,
+) => Effect.Effect<
+  GetSiteToSiteVpnAttachmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSiteToSiteVpnAttachmentRequest,
+  output: GetSiteToSiteVpnAttachmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about a transit gateway peer.
  */
-export const getTransitGatewayPeering = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTransitGatewayPeeringRequest,
-    output: GetTransitGatewayPeeringResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getTransitGatewayPeering: (
+  input: GetTransitGatewayPeeringRequest,
+) => Effect.Effect<
+  GetTransitGatewayPeeringResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTransitGatewayPeeringRequest,
+  output: GetTransitGatewayPeeringResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about the transit gateway registrations in a specified
  * global network.
  */
-export const getTransitGatewayRegistrations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getTransitGatewayRegistrations: {
+  (
     input: GetTransitGatewayRegistrationsRequest,
-    output: GetTransitGatewayRegistrationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransitGatewayRegistrations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetTransitGatewayRegistrationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTransitGatewayRegistrationsRequest,
+  ) => Stream.Stream<
+    GetTransitGatewayRegistrationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTransitGatewayRegistrationsRequest,
+  ) => Stream.Stream<
+    TransitGatewayRegistration,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTransitGatewayRegistrationsRequest,
+  output: GetTransitGatewayRegistrationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransitGatewayRegistrations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about a transit gateway route table attachment.
  */
-export const getTransitGatewayRouteTableAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTransitGatewayRouteTableAttachmentRequest,
-    output: GetTransitGatewayRouteTableAttachmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getTransitGatewayRouteTableAttachment: (
+  input: GetTransitGatewayRouteTableAttachmentRequest,
+) => Effect.Effect<
+  GetTransitGatewayRouteTableAttachmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTransitGatewayRouteTableAttachmentRequest,
+  output: GetTransitGatewayRouteTableAttachmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the tags for a specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -6907,7 +8456,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Once the attachment request is accepted by a core network owner, the attachment is
  * created and connected to a core network.
  */
-export const acceptAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const acceptAttachment: (
+  input: AcceptAttachmentRequest,
+) => Effect.Effect<
+  AcceptAttachmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptAttachmentRequest,
   output: AcceptAttachmentResponse,
   errors: [
@@ -6922,101 +8483,217 @@ export const acceptAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a policy version from a core network. You can't delete the current LIVE policy.
  */
-export const deleteCoreNetworkPolicyVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCoreNetworkPolicyVersionRequest,
-    output: DeleteCoreNetworkPolicyVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteCoreNetworkPolicyVersion: (
+  input: DeleteCoreNetworkPolicyVersionRequest,
+) => Effect.Effect<
+  DeleteCoreNetworkPolicyVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCoreNetworkPolicyVersionRequest,
+  output: DeleteCoreNetworkPolicyVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deregisters a transit gateway from your global network. This action does not delete
  * your transit gateway, or modify any of its attachments. This action removes any customer gateway associations.
  */
-export const deregisterTransitGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterTransitGatewayRequest,
-    output: DeregisterTransitGatewayResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deregisterTransitGateway: (
+  input: DeregisterTransitGatewayRequest,
+) => Effect.Effect<
+  DeregisterTransitGatewayResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterTransitGatewayRequest,
+  output: DeregisterTransitGatewayResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the network telemetry of the specified global network.
  */
-export const getNetworkTelemetry =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getNetworkTelemetry: {
+  (
     input: GetNetworkTelemetryRequest,
-    output: GetNetworkTelemetryResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "NetworkTelemetry",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetNetworkTelemetryResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetNetworkTelemetryRequest,
+  ) => Stream.Stream<
+    GetNetworkTelemetryResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetNetworkTelemetryRequest,
+  ) => Stream.Stream<
+    NetworkTelemetry,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetNetworkTelemetryRequest,
+  output: GetNetworkTelemetryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "NetworkTelemetry",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists routing information for a core network, including routes and their attributes.
  */
-export const listCoreNetworkRoutingInformation =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCoreNetworkRoutingInformation: {
+  (
     input: ListCoreNetworkRoutingInformationRequest,
-    output: ListCoreNetworkRoutingInformationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CoreNetworkRoutingInformation",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCoreNetworkRoutingInformationResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCoreNetworkRoutingInformationRequest,
+  ) => Stream.Stream<
+    ListCoreNetworkRoutingInformationResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCoreNetworkRoutingInformationRequest,
+  ) => Stream.Stream<
+    CoreNetworkRoutingInformation,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCoreNetworkRoutingInformationRequest,
+  output: ListCoreNetworkRoutingInformationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CoreNetworkRoutingInformation",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and the submitted policy.
  */
-export const putCoreNetworkPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutCoreNetworkPolicyRequest,
-    output: PutCoreNetworkPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      CoreNetworkPolicyException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putCoreNetworkPolicy: (
+  input: PutCoreNetworkPolicyRequest,
+) => Effect.Effect<
+  PutCoreNetworkPolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | CoreNetworkPolicyException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutCoreNetworkPolicyRequest,
+  output: PutCoreNetworkPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    CoreNetworkPolicyException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a Connect peer.
  */
-export const deleteConnectPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConnectPeer: (
+  input: DeleteConnectPeerRequest,
+) => Effect.Effect<
+  DeleteConnectPeerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectPeerRequest,
   output: DeleteConnectPeerResponse,
   errors: [
@@ -7031,7 +8708,19 @@ export const deleteConnectPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing peering connection.
  */
-export const deletePeering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePeering: (
+  input: DeletePeeringRequest,
+) => Effect.Effect<
+  DeletePeeringResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePeeringRequest,
   output: DeletePeeringResponse,
   errors: [
@@ -7046,21 +8735,57 @@ export const deletePeering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a change set between the LIVE core network policy and a submitted policy.
  */
-export const getCoreNetworkChangeSet =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getCoreNetworkChangeSet: {
+  (
     input: GetCoreNetworkChangeSetRequest,
-    output: GetCoreNetworkChangeSetResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CoreNetworkChanges",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetCoreNetworkChangeSetResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCoreNetworkChangeSetRequest,
+  ) => Stream.Stream<
+    GetCoreNetworkChangeSetResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCoreNetworkChangeSetRequest,
+  ) => Stream.Stream<
+    CoreNetworkChange,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCoreNetworkChangeSetRequest,
+  output: GetCoreNetworkChangeSetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CoreNetworkChanges",
+    pageSize: "MaxResults",
+  } as const,
+}));

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "SSM GuiConnect",
   serviceShapeName: "SSMGuiConnect",
@@ -293,6 +301,12 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type ClientToken = string;
+export type AccountId = string;
+export type BucketName = string;
+export type ErrorMessage = string;
+
 //# Schemas
 export interface GetConnectionRecordingPreferencesRequest {}
 export const GetConnectionRecordingPreferencesRequest = S.suspend(() =>
@@ -414,7 +428,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -426,7 +442,9 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String },
@@ -436,51 +454,87 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Deletes the preferences for recording RDP connections.
  */
-export const deleteConnectionRecordingPreferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteConnectionRecordingPreferencesRequest,
-    output: DeleteConnectionRecordingPreferencesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteConnectionRecordingPreferences: (
+  input: DeleteConnectionRecordingPreferencesRequest,
+) => Effect.Effect<
+  DeleteConnectionRecordingPreferencesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectionRecordingPreferencesRequest,
+  output: DeleteConnectionRecordingPreferencesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the preferences for recording RDP connections.
  */
-export const updateConnectionRecordingPreferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConnectionRecordingPreferencesRequest,
-    output: UpdateConnectionRecordingPreferencesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateConnectionRecordingPreferences: (
+  input: UpdateConnectionRecordingPreferencesRequest,
+) => Effect.Effect<
+  UpdateConnectionRecordingPreferencesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConnectionRecordingPreferencesRequest,
+  output: UpdateConnectionRecordingPreferencesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the preferences specified for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region.
  */
-export const getConnectionRecordingPreferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetConnectionRecordingPreferencesRequest,
-    output: GetConnectionRecordingPreferencesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getConnectionRecordingPreferences: (
+  input: GetConnectionRecordingPreferencesRequest,
+) => Effect.Effect<
+  GetConnectionRecordingPreferencesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConnectionRecordingPreferencesRequest,
+  output: GetConnectionRecordingPreferencesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

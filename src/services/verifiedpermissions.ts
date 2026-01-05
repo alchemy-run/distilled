@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "VerifiedPermissions",
   serviceShapeName: "VerifiedPermissions",
@@ -293,6 +301,47 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type AmazonResourceName = string;
+export type TagKey = string;
+export type IdempotencyToken = string;
+export type PolicyStoreDescription = string;
+export type PolicyStoreId = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type Token = string;
+export type PrincipalEntityType = string;
+export type IdentitySourceId = string;
+export type ListIdentitySourcesMaxResults = number;
+export type PolicyId = string;
+export type PolicyTemplateDescription = string;
+export type PolicyStatement = string;
+export type PolicyTemplateId = string;
+export type TagValue = string;
+export type CedarJson = string;
+export type EntityType = string;
+export type EntityId = string;
+export type ActionType = string;
+export type ActionId = string;
+export type SchemaJson = string;
+export type ResourceArn = string;
+export type Namespace = string;
+export type UserPoolArn = string;
+export type ClientId = string;
+export type Issuer = string;
+export type EntityIdPrefix = string;
+export type StaticPolicyDescription = string;
+export type DiscoveryUrl = string;
+export type LongAttribute = number;
+export type StringAttribute = string;
+export type IpAddr = string;
+export type Decimal = string;
+export type DatetimeAttribute = string;
+export type Duration = string;
+export type GroupEntityType = string;
+export type Claim = string;
+export type Audience = string;
+
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
@@ -454,6 +503,9 @@ export const ContextMap = S.Record({
     identifier: "AttributeValue",
   }),
 });
+export type ContextDefinition =
+  | { contextMap: ContextMap }
+  | { cedarJson: string };
 export const ContextDefinition = S.Union(
   S.Struct({ contextMap: ContextMap }),
   S.Struct({ cedarJson: S.String }),
@@ -521,6 +573,9 @@ export const EntityItem = S.suspend(() =>
 ).annotations({ identifier: "EntityItem" }) as any as S.Schema<EntityItem>;
 export type EntityList = EntityItem[];
 export const EntityList = S.Array(EntityItem);
+export type EntitiesDefinition =
+  | { entityList: EntityList }
+  | { cedarJson: string };
 export const EntitiesDefinition = S.Union(
   S.Struct({ entityList: EntityList }),
   S.Struct({ cedarJson: S.String }),
@@ -724,6 +779,7 @@ export const BatchIsAuthorizedWithTokenInputList = S.Array(
 );
 export type NamespaceList = string[];
 export const NamespaceList = S.Array(S.String);
+export type SchemaDefinition = { cedarJson: string };
 export const SchemaDefinition = S.Union(S.Struct({ cedarJson: S.String }));
 export interface BatchGetPolicyInputItem {
   policyStoreId: string;
@@ -996,6 +1052,9 @@ export const UpdateStaticPolicyDefinition = S.suspend(() =>
 ).annotations({
   identifier: "UpdateStaticPolicyDefinition",
 }) as any as S.Schema<UpdateStaticPolicyDefinition>;
+export type EntityReference =
+  | { unspecified: boolean }
+  | { identifier: EntityIdentifier };
 export const EntityReference = S.Union(
   S.Struct({ unspecified: S.Boolean }),
   S.Struct({ identifier: EntityIdentifier }),
@@ -1071,10 +1130,14 @@ export const ResourceConflict = S.suspend(() =>
 }) as any as S.Schema<ResourceConflict>;
 export type ResourceConflictList = ResourceConflict[];
 export const ResourceConflictList = S.Array(ResourceConflict);
+export type PolicyDefinition =
+  | { static: StaticPolicyDefinition }
+  | { templateLinked: TemplateLinkedPolicyDefinition };
 export const PolicyDefinition = S.Union(
   S.Struct({ static: StaticPolicyDefinition }),
   S.Struct({ templateLinked: TemplateLinkedPolicyDefinition }),
 );
+export type UpdatePolicyDefinition = { static: UpdateStaticPolicyDefinition };
 export const UpdatePolicyDefinition = S.Union(
   S.Struct({ static: UpdateStaticPolicyDefinition }),
 );
@@ -1398,6 +1461,9 @@ export type BatchIsAuthorizedWithTokenOutputList =
 export const BatchIsAuthorizedWithTokenOutputList = S.Array(
   BatchIsAuthorizedWithTokenOutputItem,
 );
+export type PolicyDefinitionDetail =
+  | { static: StaticPolicyDefinitionDetail }
+  | { templateLinked: TemplateLinkedPolicyDefinitionDetail };
 export const PolicyDefinitionDetail = S.Union(
   S.Struct({ static: StaticPolicyDefinitionDetail }),
   S.Struct({ templateLinked: TemplateLinkedPolicyDefinitionDetail }),
@@ -1442,6 +1508,9 @@ export const BatchGetPolicyErrorItem = S.suspend(() =>
 }) as any as S.Schema<BatchGetPolicyErrorItem>;
 export type BatchGetPolicyErrorList = BatchGetPolicyErrorItem[];
 export const BatchGetPolicyErrorList = S.Array(BatchGetPolicyErrorItem);
+export type OpenIdConnectTokenSelection =
+  | { accessTokenOnly: OpenIdConnectAccessTokenConfiguration }
+  | { identityTokenOnly: OpenIdConnectIdentityTokenConfiguration };
 export const OpenIdConnectTokenSelection = S.Union(
   S.Struct({ accessTokenOnly: OpenIdConnectAccessTokenConfiguration }),
   S.Struct({ identityTokenOnly: OpenIdConnectIdentityTokenConfiguration }),
@@ -1463,6 +1532,9 @@ export const OpenIdConnectGroupConfigurationDetail = S.suspend(() =>
 ).annotations({
   identifier: "OpenIdConnectGroupConfigurationDetail",
 }) as any as S.Schema<OpenIdConnectGroupConfigurationDetail>;
+export type UpdateOpenIdConnectTokenSelection =
+  | { accessTokenOnly: UpdateOpenIdConnectAccessTokenConfiguration }
+  | { identityTokenOnly: UpdateOpenIdConnectIdentityTokenConfiguration };
 export const UpdateOpenIdConnectTokenSelection = S.Union(
   S.Struct({ accessTokenOnly: UpdateOpenIdConnectAccessTokenConfiguration }),
   S.Struct({
@@ -1668,16 +1740,25 @@ export const OpenIdConnectIdentityTokenConfigurationDetail = S.suspend(() =>
 ).annotations({
   identifier: "OpenIdConnectIdentityTokenConfigurationDetail",
 }) as any as S.Schema<OpenIdConnectIdentityTokenConfigurationDetail>;
+export type Configuration =
+  | { cognitoUserPoolConfiguration: CognitoUserPoolConfiguration }
+  | { openIdConnectConfiguration: OpenIdConnectConfiguration };
 export const Configuration = S.Union(
   S.Struct({ cognitoUserPoolConfiguration: CognitoUserPoolConfiguration }),
   S.Struct({ openIdConnectConfiguration: OpenIdConnectConfiguration }),
 );
+export type UpdateConfiguration =
+  | { cognitoUserPoolConfiguration: UpdateCognitoUserPoolConfiguration }
+  | { openIdConnectConfiguration: UpdateOpenIdConnectConfiguration };
 export const UpdateConfiguration = S.Union(
   S.Struct({
     cognitoUserPoolConfiguration: UpdateCognitoUserPoolConfiguration,
   }),
   S.Struct({ openIdConnectConfiguration: UpdateOpenIdConnectConfiguration }),
 );
+export type OpenIdConnectTokenSelectionDetail =
+  | { accessTokenOnly: OpenIdConnectAccessTokenConfigurationDetail }
+  | { identityTokenOnly: OpenIdConnectIdentityTokenConfigurationDetail };
 export const OpenIdConnectTokenSelectionDetail = S.Union(
   S.Struct({ accessTokenOnly: OpenIdConnectAccessTokenConfigurationDetail }),
   S.Struct({
@@ -1775,6 +1856,9 @@ export const OpenIdConnectGroupConfigurationItem = S.suspend(() =>
 ).annotations({
   identifier: "OpenIdConnectGroupConfigurationItem",
 }) as any as S.Schema<OpenIdConnectGroupConfigurationItem>;
+export type ConfigurationDetail =
+  | { cognitoUserPoolConfiguration: CognitoUserPoolConfigurationDetail }
+  | { openIdConnectConfiguration: OpenIdConnectConfigurationDetail };
 export const ConfigurationDetail = S.Union(
   S.Struct({
     cognitoUserPoolConfiguration: CognitoUserPoolConfigurationDetail,
@@ -1927,10 +2011,16 @@ export const OpenIdConnectIdentityTokenConfigurationItem = S.suspend(() =>
 ).annotations({
   identifier: "OpenIdConnectIdentityTokenConfigurationItem",
 }) as any as S.Schema<OpenIdConnectIdentityTokenConfigurationItem>;
+export type PolicyDefinitionItem =
+  | { static: StaticPolicyDefinitionItem }
+  | { templateLinked: TemplateLinkedPolicyDefinitionItem };
 export const PolicyDefinitionItem = S.Union(
   S.Struct({ static: StaticPolicyDefinitionItem }),
   S.Struct({ templateLinked: TemplateLinkedPolicyDefinitionItem }),
 );
+export type OpenIdConnectTokenSelectionItem =
+  | { accessTokenOnly: OpenIdConnectAccessTokenConfigurationItem }
+  | { identityTokenOnly: OpenIdConnectIdentityTokenConfigurationItem };
 export const OpenIdConnectTokenSelectionItem = S.Union(
   S.Struct({ accessTokenOnly: OpenIdConnectAccessTokenConfigurationItem }),
   S.Struct({ identityTokenOnly: OpenIdConnectIdentityTokenConfigurationItem }),
@@ -1988,6 +2078,9 @@ export const ListPoliciesOutput = S.suspend(() =>
 ).annotations({
   identifier: "ListPoliciesOutput",
 }) as any as S.Schema<ListPoliciesOutput>;
+export type ConfigurationItem =
+  | { cognitoUserPoolConfiguration: CognitoUserPoolConfigurationItem }
+  | { openIdConnectConfiguration: OpenIdConnectConfigurationItem };
 export const ConfigurationItem = S.Union(
   S.Struct({ cognitoUserPoolConfiguration: CognitoUserPoolConfigurationItem }),
   S.Struct({ openIdConnectConfiguration: OpenIdConnectConfigurationItem }),
@@ -2068,7 +2161,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -2085,7 +2180,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -2107,7 +2204,13 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
  *
  * This operation is idempotent. If you specify a policy store that does not exist, the request response will still return a successful HTTP 200 status code.
  */
-export const deletePolicyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePolicyStore: (
+  input: DeletePolicyStoreInput,
+) => Effect.Effect<
+  DeletePolicyStoreOutput,
+  InvalidStateException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyStoreInput,
   output: DeletePolicyStoreOutput,
   errors: [InvalidStateException],
@@ -2115,7 +2218,13 @@ export const deletePolicyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details about a policy store.
  */
-export const getPolicyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicyStore: (
+  input: GetPolicyStoreInput,
+) => Effect.Effect<
+  GetPolicyStoreOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyStoreInput,
   output: GetPolicyStoreOutput,
   errors: [ResourceNotFoundException],
@@ -2123,19 +2232,39 @@ export const getPolicyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a paginated list of all policy stores in the calling Amazon Web Services account.
  */
-export const listPolicyStores = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPolicyStores: {
+  (
     input: ListPolicyStoresInput,
-    output: ListPolicyStoresOutput,
-    errors: [],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "policyStores",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPolicyStoresOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPolicyStoresInput,
+  ) => Stream.Stream<
+    ListPolicyStoresOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPolicyStoresInput,
+  ) => Stream.Stream<
+    PolicyStoreItem,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPolicyStoresInput,
+  output: ListPolicyStoresOutput,
+  errors: [],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "policyStores",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Makes an authorization decision about a service request described in the parameters. The principal in this request comes from an external identity source in the form of an identity token formatted as a JSON web token (JWT). The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either `Allow` or `Deny`, along with a list of the policies that resulted in the decision.
  *
@@ -2143,42 +2272,77 @@ export const listPolicyStores = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * Tokens from an identity source user continue to be usable until they expire. Token revocation and resource deletion have no effect on the validity of a token in your policy store
  */
-export const isAuthorizedWithToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: IsAuthorizedWithTokenInput,
-    output: IsAuthorizedWithTokenOutput,
-    errors: [ResourceNotFoundException],
-  }),
-);
+export const isAuthorizedWithToken: (
+  input: IsAuthorizedWithTokenInput,
+) => Effect.Effect<
+  IsAuthorizedWithTokenOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: IsAuthorizedWithTokenInput,
+  output: IsAuthorizedWithTokenOutput,
+  errors: [ResourceNotFoundException],
+}));
 /**
  * Deletes an identity source that references an identity provider (IdP) such as Amazon Cognito. After you delete the identity source, you can no longer use tokens for identities from that identity source to represent principals in authorization queries made using IsAuthorizedWithToken. operations.
  */
-export const deleteIdentitySource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIdentitySourceInput,
-    output: DeleteIdentitySourceOutput,
-    errors: [ConflictException, ResourceNotFoundException],
-  }),
-);
+export const deleteIdentitySource: (
+  input: DeleteIdentitySourceInput,
+) => Effect.Effect<
+  DeleteIdentitySourceOutput,
+  ConflictException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIdentitySourceInput,
+  output: DeleteIdentitySourceOutput,
+  errors: [ConflictException, ResourceNotFoundException],
+}));
 /**
  * Returns a paginated list of all policy templates in the specified policy store.
  */
-export const listPolicyTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPolicyTemplates: {
+  (
     input: ListPolicyTemplatesInput,
-    output: ListPolicyTemplatesOutput,
-    errors: [ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "policyTemplates",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPolicyTemplatesOutput,
+    ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPolicyTemplatesInput,
+  ) => Stream.Stream<
+    ListPolicyTemplatesOutput,
+    ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPolicyTemplatesInput,
+  ) => Stream.Stream<
+    PolicyTemplateItem,
+    ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPolicyTemplatesInput,
+  output: ListPolicyTemplatesOutput,
+  errors: [ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "policyTemplates",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieve the details for the specified schema in the specified policy store.
  */
-export const getSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSchema: (
+  input: GetSchemaInput,
+) => Effect.Effect<
+  GetSchemaOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSchemaInput,
   output: GetSchemaOutput,
   errors: [ResourceNotFoundException],
@@ -2186,7 +2350,13 @@ export const getSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve the details for the specified policy template in the specified policy store.
  */
-export const getPolicyTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicyTemplate: (
+  input: GetPolicyTemplateInput,
+) => Effect.Effect<
+  GetPolicyTemplateOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyTemplateInput,
   output: GetPolicyTemplateOutput,
   errors: [ResourceNotFoundException],
@@ -2196,7 +2366,13 @@ export const getPolicyTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation is idempotent; if you specify a policy that doesn't exist, the request response returns a successful `HTTP 200` status code.
  */
-export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePolicy: (
+  input: DeletePolicyInput,
+) => Effect.Effect<
+  DeletePolicyOutput,
+  ConflictException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyInput,
   output: DeletePolicyOutput,
   errors: [ConflictException, ResourceNotFoundException],
@@ -2206,19 +2382,29 @@ export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation also deletes any policies that were created from the specified policy template. Those policies are immediately removed from all future API responses, and are asynchronously deleted from the policy store.
  */
-export const deletePolicyTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePolicyTemplateInput,
-    output: DeletePolicyTemplateOutput,
-    errors: [ConflictException, ResourceNotFoundException],
-  }),
-);
+export const deletePolicyTemplate: (
+  input: DeletePolicyTemplateInput,
+) => Effect.Effect<
+  DeletePolicyTemplateOutput,
+  ConflictException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePolicyTemplateInput,
+  output: DeletePolicyTemplateOutput,
+  errors: [ConflictException, ResourceNotFoundException],
+}));
 /**
  * Modifies the validation setting for a policy store.
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const updatePolicyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePolicyStore: (
+  input: UpdatePolicyStoreInput,
+) => Effect.Effect<
+  UpdatePolicyStoreOutput,
+  ConflictException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePolicyStoreInput,
   output: UpdatePolicyStoreOutput,
   errors: [ConflictException, ResourceNotFoundException],
@@ -2230,13 +2416,17 @@ export const updatePolicyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const updatePolicyTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePolicyTemplateInput,
-    output: UpdatePolicyTemplateOutput,
-    errors: [ConflictException, ResourceNotFoundException],
-  }),
-);
+export const updatePolicyTemplate: (
+  input: UpdatePolicyTemplateInput,
+) => Effect.Effect<
+  UpdatePolicyTemplateOutput,
+  ConflictException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePolicyTemplateInput,
+  output: UpdatePolicyTemplateOutput,
+  errors: [ConflictException, ResourceNotFoundException],
+}));
 /**
  * Makes a series of decisions about multiple authorization requests for one token. The principal in this request comes from an external identity source in the form of an identity or access token, formatted as a JSON web token (JWT). The information in the parameters can also define additional context that Verified Permissions can include in the evaluations.
  *
@@ -2246,19 +2436,29 @@ export const updatePolicyTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * The `BatchIsAuthorizedWithToken` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `verifiedpermissions:IsAuthorizedWithToken` in their IAM policies.
  */
-export const batchIsAuthorizedWithToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchIsAuthorizedWithTokenInput,
-    output: BatchIsAuthorizedWithTokenOutput,
-    errors: [ResourceNotFoundException],
-  }),
-);
+export const batchIsAuthorizedWithToken: (
+  input: BatchIsAuthorizedWithTokenInput,
+) => Effect.Effect<
+  BatchIsAuthorizedWithTokenOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchIsAuthorizedWithTokenInput,
+  output: BatchIsAuthorizedWithTokenOutput,
+  errors: [ResourceNotFoundException],
+}));
 /**
  * Retrieves information about a group (batch) of policies.
  *
  * The `BatchGetPolicy` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `verifiedpermissions:GetPolicy` in their IAM policies.
  */
-export const batchGetPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetPolicy: (
+  input: BatchGetPolicyInput,
+) => Effect.Effect<
+  BatchGetPolicyOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetPolicyInput,
   output: BatchGetPolicyOutput,
   errors: [],
@@ -2266,7 +2466,13 @@ export const batchGetPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the specified policy.
  */
-export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicy: (
+  input: GetPolicyInput,
+) => Effect.Effect<
+  GetPolicyOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyInput,
   output: GetPolicyOutput,
   errors: [ResourceNotFoundException],
@@ -2274,7 +2480,17 @@ export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the tags associated with the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -2289,21 +2505,38 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const createPolicyTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePolicyTemplateInput,
-    output: CreatePolicyTemplateOutput,
-    errors: [
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }),
-);
+export const createPolicyTemplate: (
+  input: CreatePolicyTemplateInput,
+) => Effect.Effect<
+  CreatePolicyTemplateOutput,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePolicyTemplateInput,
+  output: CreatePolicyTemplateOutput,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Removes one or more tags from the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -2320,7 +2553,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const createPolicyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPolicyStore: (
+  input: CreatePolicyStoreInput,
+) => Effect.Effect<
+  CreatePolicyStoreOutput,
+  ConflictException | ServiceQuotaExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePolicyStoreInput,
   output: CreatePolicyStoreOutput,
   errors: [ConflictException, ServiceQuotaExceededException],
@@ -2330,7 +2569,16 @@ export const createPolicyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const putSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putSchema: (
+  input: PutSchemaInput,
+) => Effect.Effect<
+  PutSchemaOutput,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSchemaInput,
   output: PutSchemaOutput,
   errors: [
@@ -2350,7 +2598,16 @@ export const putSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const createPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPolicy: (
+  input: CreatePolicyInput,
+) => Effect.Effect<
+  CreatePolicyOutput,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePolicyInput,
   output: CreatePolicyOutput,
   errors: [
@@ -2384,7 +2641,16 @@ export const createPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const updatePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePolicy: (
+  input: UpdatePolicyInput,
+) => Effect.Effect<
+  UpdatePolicyOutput,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePolicyInput,
   output: UpdatePolicyOutput,
   errors: [
@@ -2402,7 +2668,18 @@ export const updatePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can associate as many as 50 tags with a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -2416,7 +2693,13 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Makes an authorization decision about a service request described in the parameters. The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either `Allow` or `Deny`, along with a list of the policies that resulted in the decision.
  */
-export const isAuthorized = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const isAuthorized: (
+  input: IsAuthorizedInput,
+) => Effect.Effect<
+  IsAuthorizedOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IsAuthorizedInput,
   output: IsAuthorizedOutput,
   errors: [ResourceNotFoundException],
@@ -2436,21 +2719,34 @@ export const isAuthorized = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const createIdentitySource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIdentitySourceInput,
-    output: CreateIdentitySourceOutput,
-    errors: [
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }),
-);
+export const createIdentitySource: (
+  input: CreateIdentitySourceInput,
+) => Effect.Effect<
+  CreateIdentitySourceOutput,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIdentitySourceInput,
+  output: CreateIdentitySourceOutput,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Retrieves the details about the specified identity source.
  */
-export const getIdentitySource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIdentitySource: (
+  input: GetIdentitySourceInput,
+) => Effect.Effect<
+  GetIdentitySourceOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdentitySourceInput,
   output: GetIdentitySourceOutput,
   errors: [ResourceNotFoundException],
@@ -2460,29 +2756,53 @@ export const getIdentitySource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const updateIdentitySource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIdentitySourceInput,
-    output: UpdateIdentitySourceOutput,
-    errors: [ConflictException, ResourceNotFoundException],
-  }),
-);
+export const updateIdentitySource: (
+  input: UpdateIdentitySourceInput,
+) => Effect.Effect<
+  UpdateIdentitySourceOutput,
+  ConflictException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIdentitySourceInput,
+  output: UpdateIdentitySourceOutput,
+  errors: [ConflictException, ResourceNotFoundException],
+}));
 /**
  * Returns a paginated list of all policies stored in the specified policy store.
  */
-export const listPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPolicies: {
+  (
     input: ListPoliciesInput,
-    output: ListPoliciesOutput,
-    errors: [ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "policies",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPoliciesOutput,
+    ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPoliciesInput,
+  ) => Stream.Stream<
+    ListPoliciesOutput,
+    ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPoliciesInput,
+  ) => Stream.Stream<
+    PolicyItem,
+    ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPoliciesInput,
+  output: ListPoliciesOutput,
+  errors: [ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "policies",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Makes a series of decisions about multiple authorization requests for one principal or resource. Each request contains the equivalent content of an `IsAuthorized` request: principal, action, resource, and context. Either the `principal` or the `resource` parameter must be identical across all requests. For example, Verified Permissions won't evaluate a pair of requests where `bob` views `photo1` and `alice` views `photo2`. Authorization of `bob` to view `photo1` and `photo2`, or `bob` and `alice` to view `photo1`, are valid batches.
  *
@@ -2492,7 +2812,13 @@ export const listPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * The `BatchIsAuthorized` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `verifiedpermissions:IsAuthorized` in their IAM policies.
  */
-export const batchIsAuthorized = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchIsAuthorized: (
+  input: BatchIsAuthorizedInput,
+) => Effect.Effect<
+  BatchIsAuthorizedOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchIsAuthorizedInput,
   output: BatchIsAuthorizedOutput,
   errors: [ResourceNotFoundException],
@@ -2500,15 +2826,36 @@ export const batchIsAuthorized = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a paginated list of all of the identity sources defined in the specified policy store.
  */
-export const listIdentitySources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIdentitySources: {
+  (
     input: ListIdentitySourcesInput,
-    output: ListIdentitySourcesOutput,
-    errors: [ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "identitySources",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIdentitySourcesOutput,
+    ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdentitySourcesInput,
+  ) => Stream.Stream<
+    ListIdentitySourcesOutput,
+    ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdentitySourcesInput,
+  ) => Stream.Stream<
+    IdentitySourceItem,
+    ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdentitySourcesInput,
+  output: ListIdentitySourcesOutput,
+  errors: [ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "identitySources",
+    pageSize: "maxResults",
+  } as const,
+}));

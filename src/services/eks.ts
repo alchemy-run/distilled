@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "EKS",
   serviceShapeName: "AWSWesleyFrontend",
@@ -280,6 +288,41 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ClusterName = string;
+export type RoleArn = string;
+export type EksAnywhereSubscriptionName = string;
+export type Integer = number;
+export type BoxedInteger = number;
+export type DescribeAddonVersionsRequestMaxResults = number;
+export type DescribeClusterVersionMaxResults = number;
+export type ListAccessEntriesRequestMaxResults = number;
+export type ListAccessPoliciesRequestMaxResults = number;
+export type ListAddonsRequestMaxResults = number;
+export type ListAssociatedAccessPoliciesRequestMaxResults = number;
+export type ListCapabilitiesRequestMaxResults = number;
+export type ListClustersRequestMaxResults = number;
+export type ListEksAnywhereSubscriptionsRequestMaxResults = number;
+export type FargateProfilesRequestMaxResults = number;
+export type ListIdentityProviderConfigsRequestMaxResults = number;
+export type ListInsightsMaxResults = number;
+export type ListNodegroupsRequestMaxResults = number;
+export type ListPodIdentityAssociationsMaxResults = number;
+export type ListUpdatesRequestMaxResults = number;
+export type TagKey = string;
+export type TagValue = string;
+export type namespace = string;
+export type ZeroCapacity = number;
+export type Capacity = number;
+export type labelKey = string;
+export type labelValue = string;
+export type taintKey = string;
+export type taintValue = string;
+export type NonZeroInteger = number;
+export type PercentCapacity = number;
+export type requiredClaimsKey = string;
+export type requiredClaimsValue = string;
 
 //# Schemas
 export type StringList = string[];
@@ -4307,7 +4350,9 @@ export class ServerException extends S.TaggedError<ServerException>()(
     subscriptionId: S.optional(S.String),
     message: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
   {
@@ -4333,11 +4378,15 @@ export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitE
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { clusterName: S.optional(S.String), message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class UnsupportedAvailabilityZoneException extends S.TaggedError<UnsupportedAvailabilityZoneException>()(
   "UnsupportedAvailabilityZoneException",
   {
@@ -4362,7 +4411,13 @@ export class ResourcePropagationDelayException extends S.TaggedError<ResourcePro
  * cluster with this operation, that tag doesn't automatically propagate to the subnets and
  * nodes associated with the cluster.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  BadRequestException | NotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [BadRequestException, NotFoundException],
@@ -4370,7 +4425,13 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes specified tags from an Amazon EKS resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  BadRequestException | NotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [BadRequestException, NotFoundException],
@@ -4378,7 +4439,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List the tags for an Amazon EKS resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  BadRequestException | NotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [BadRequestException, NotFoundException],
@@ -4390,7 +4457,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * cluster to function improperly. If you delete an access entry in error, you can recreate
  * it.
  */
-export const deleteAccessEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAccessEntry: (
+  input: DeleteAccessEntryRequest,
+) => Effect.Effect<
+  DeleteAccessEntryResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessEntryRequest,
   output: DeleteAccessEntryResponse,
   errors: [InvalidRequestException, ResourceNotFoundException, ServerException],
@@ -4401,17 +4477,26 @@ export const deleteAccessEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * only be cancelled within 7 days of creation and are cancelled by creating a ticket in
  * the Amazon Web Services Support Center.
  */
-export const deleteEksAnywhereSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteEksAnywhereSubscriptionRequest,
-    output: DeleteEksAnywhereSubscriptionResponse,
-    errors: [
-      ClientException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }));
+export const deleteEksAnywhereSubscription: (
+  input: DeleteEksAnywhereSubscriptionRequest,
+) => Effect.Effect<
+  DeleteEksAnywhereSubscriptionResponse,
+  | ClientException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEksAnywhereSubscriptionRequest,
+  output: DeleteEksAnywhereSubscriptionResponse,
+  errors: [
+    ClientException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Describes an update to an Amazon EKS resource.
  *
@@ -4419,7 +4504,17 @@ export const deleteEksAnywhereSubscription =
  * an update fails, the status is `Failed`, and an error detail explains the
  * reason for the failure.
  */
-export const describeUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeUpdate: (
+  input: DescribeUpdateRequest,
+) => Effect.Effect<
+  DescribeUpdateResponse,
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUpdateRequest,
   output: DescribeUpdateResponse,
   errors: [
@@ -4443,44 +4538,96 @@ export const describeUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Hybrid Nodes setup that could impair functionality of your cluster or
  * workloads. These are called configuration insights.
  */
-export const listInsights = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listInsights: {
+  (
     input: ListInsightsRequest,
-    output: ListInsightsResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "insights",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListInsightsResponse,
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInsightsRequest,
+  ) => Stream.Stream<
+    ListInsightsResponse,
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInsightsRequest,
+  ) => Stream.Stream<
+    InsightSummary,
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInsightsRequest,
+  output: ListInsightsResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "insights",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes a EKS Pod Identity association.
  *
  * The temporary Amazon Web Services credentials from the previous IAM role session might still be valid until the session expiry. If you need to immediately revoke the temporary session credentials, then go to the role in the IAM console.
  */
-export const deletePodIdentityAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeletePodIdentityAssociationRequest,
-    output: DeletePodIdentityAssociationResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }));
+export const deletePodIdentityAssociation: (
+  input: DeletePodIdentityAssociationRequest,
+) => Effect.Effect<
+  DeletePodIdentityAssociationResponse,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePodIdentityAssociationRequest,
+  output: DeletePodIdentityAssociationResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Describes an Amazon EKS add-on.
  */
-export const describeAddon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAddon: (
+  input: DescribeAddonRequest,
+) => Effect.Effect<
+  DescribeAddonResponse,
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAddonRequest,
   output: DescribeAddonResponse,
   errors: [
@@ -4494,112 +4641,253 @@ export const describeAddon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns configuration options.
  */
-export const describeAddonConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAddonConfigurationRequest,
-    output: DescribeAddonConfigurationResponse,
-    errors: [
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
+export const describeAddonConfiguration: (
+  input: DescribeAddonConfigurationRequest,
+) => Effect.Effect<
+  DescribeAddonConfigurationResponse,
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAddonConfigurationRequest,
+  output: DescribeAddonConfigurationResponse,
+  errors: [
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Lists available Kubernetes versions for Amazon EKS clusters.
  */
-export const describeClusterVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClusterVersions: {
+  (
     input: DescribeClusterVersionsRequest,
-    output: DescribeClusterVersionsResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ServerException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "clusterVersions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeClusterVersionsResponse,
+    | InvalidParameterException
+    | InvalidRequestException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClusterVersionsRequest,
+  ) => Stream.Stream<
+    DescribeClusterVersionsResponse,
+    | InvalidParameterException
+    | InvalidRequestException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClusterVersionsRequest,
+  ) => Stream.Stream<
+    ClusterVersionInformation,
+    | InvalidParameterException
+    | InvalidRequestException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClusterVersionsRequest,
+  output: DescribeClusterVersionsResponse,
+  errors: [InvalidParameterException, InvalidRequestException, ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "clusterVersions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the available access policies.
  */
-export const listAccessPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAccessPolicies: {
+  (
     input: ListAccessPoliciesRequest,
-    output: ListAccessPoliciesResponse,
-    errors: [ServerException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "accessPolicies",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAccessPoliciesResponse,
+    ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccessPoliciesRequest,
+  ) => Stream.Stream<
+    ListAccessPoliciesResponse,
+    ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccessPoliciesRequest,
+  ) => Stream.Stream<
+    AccessPolicy,
+    ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccessPoliciesRequest,
+  output: ListAccessPoliciesResponse,
+  errors: [ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "accessPolicies",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the access policies associated with an access entry.
  */
-export const listAssociatedAccessPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssociatedAccessPolicies: {
+  (
     input: ListAssociatedAccessPoliciesRequest,
-    output: ListAssociatedAccessPoliciesResponse,
-    errors: [
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "associatedAccessPolicies",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAssociatedAccessPoliciesResponse,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssociatedAccessPoliciesRequest,
+  ) => Stream.Stream<
+    ListAssociatedAccessPoliciesResponse,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssociatedAccessPoliciesRequest,
+  ) => Stream.Stream<
+    AssociatedAccessPolicy,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssociatedAccessPoliciesRequest,
+  output: ListAssociatedAccessPoliciesResponse,
+  errors: [InvalidRequestException, ResourceNotFoundException, ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "associatedAccessPolicies",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all managed capabilities in your Amazon EKS cluster. You can use this operation to get an overview of all capabilities and their current status.
  */
-export const listCapabilities = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCapabilities: {
+  (
     input: ListCapabilitiesRequest,
-    output: ListCapabilitiesResponse,
-    errors: [InvalidParameterException, ServerException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "capabilities",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCapabilitiesResponse,
+    InvalidParameterException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCapabilitiesRequest,
+  ) => Stream.Stream<
+    ListCapabilitiesResponse,
+    InvalidParameterException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCapabilitiesRequest,
+  ) => Stream.Stream<
+    CapabilitySummary,
+    InvalidParameterException | ServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCapabilitiesRequest,
+  output: ListCapabilitiesResponse,
+  errors: [InvalidParameterException, ServerException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "capabilities",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List the EKS Pod Identity associations in a cluster. You can filter the list by the namespace that the
  * association is in or the service account that the association uses.
  */
-export const listPodIdentityAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPodIdentityAssociations: {
+  (
     input: ListPodIdentityAssociationsRequest,
-    output: ListPodIdentityAssociationsResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "associations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPodIdentityAssociationsResponse,
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPodIdentityAssociationsRequest,
+  ) => Stream.Stream<
+    ListPodIdentityAssociationsResponse,
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPodIdentityAssociationsRequest,
+  ) => Stream.Stream<
+    PodIdentityAssociationSummary,
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPodIdentityAssociationsRequest,
+  output: ListPodIdentityAssociationsResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "associations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Describes an access entry.
  */
-export const describeAccessEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAccessEntry: (
+  input: DescribeAccessEntryRequest,
+) => Effect.Effect<
+  DescribeAccessEntryResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccessEntryRequest,
   output: DescribeAccessEntryResponse,
   errors: [InvalidRequestException, ResourceNotFoundException, ServerException],
@@ -4607,32 +4895,43 @@ export const describeAccessEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates an access policy from an access entry.
  */
-export const disassociateAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateAccessPolicyRequest,
-    output: DisassociateAccessPolicyResponse,
-    errors: [
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
+export const disassociateAccessPolicy: (
+  input: DisassociateAccessPolicyRequest,
+) => Effect.Effect<
+  DisassociateAccessPolicyResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateAccessPolicyRequest,
+  output: DisassociateAccessPolicyResponse,
+  errors: [InvalidRequestException, ResourceNotFoundException, ServerException],
+}));
 /**
  * Returns the status of the latest on-demand cluster insights refresh operation.
  */
-export const describeInsightsRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInsightsRefreshRequest,
-    output: DescribeInsightsRefreshResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
+export const describeInsightsRefresh: (
+  input: DescribeInsightsRefreshRequest,
+) => Effect.Effect<
+  DescribeInsightsRefreshResponse,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInsightsRefreshRequest,
+  output: DescribeInsightsRefreshResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Returns descriptive information about an EKS Pod Identity association.
  *
@@ -4641,57 +4940,116 @@ export const describeInsightsRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * list the IDs for associations with `ListPodIdentityAssociations` and filter the
  * list by namespace or service account.
  */
-export const describePodIdentityAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribePodIdentityAssociationRequest,
-    output: DescribePodIdentityAssociationResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }));
+export const describePodIdentityAssociation: (
+  input: DescribePodIdentityAssociationRequest,
+) => Effect.Effect<
+  DescribePodIdentityAssociationResponse,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePodIdentityAssociationRequest,
+  output: DescribePodIdentityAssociationResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Lists the access entries for your cluster.
  */
-export const listAccessEntries = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAccessEntries: {
+  (
     input: ListAccessEntriesRequest,
-    output: ListAccessEntriesResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "accessEntries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAccessEntriesResponse,
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccessEntriesRequest,
+  ) => Stream.Stream<
+    ListAccessEntriesResponse,
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccessEntriesRequest,
+  ) => Stream.Stream<
+    String,
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccessEntriesRequest,
+  output: ListAccessEntriesResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "accessEntries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Initiates an on-demand refresh operation for cluster insights, getting the latest analysis outside of the standard refresh schedule.
  */
-export const startInsightsRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartInsightsRefreshRequest,
-    output: StartInsightsRefreshResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
+export const startInsightsRefresh: (
+  input: StartInsightsRefreshRequest,
+) => Effect.Effect<
+  StartInsightsRefreshResponse,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartInsightsRefreshRequest,
+  output: StartInsightsRefreshResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Updates an access entry.
  */
-export const updateAccessEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAccessEntry: (
+  input: UpdateAccessEntryRequest,
+) => Effect.Effect<
+  UpdateAccessEntryResponse,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccessEntryRequest,
   output: UpdateAccessEntryResponse,
   errors: [
@@ -4722,38 +5080,65 @@ export const updateAccessEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * provides your Pod with temporary credentials that have the permissions defined in the
  * target role, allowing secure access to resources in another Amazon Web Services account.
  */
-export const updatePodIdentityAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdatePodIdentityAssociationRequest,
-    output: UpdatePodIdentityAssociationResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }));
+export const updatePodIdentityAssociation: (
+  input: UpdatePodIdentityAssociationRequest,
+) => Effect.Effect<
+  UpdatePodIdentityAssociationResponse,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePodIdentityAssociationRequest,
+  output: UpdatePodIdentityAssociationResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Associates an access policy and its scope to an access entry. For more information
  * about associating access policies, see Associating and disassociating
  * access policies to and from access entries in the *Amazon EKS User Guide*.
  */
-export const associateAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateAccessPolicyRequest,
-    output: AssociateAccessPolicyResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
+export const associateAccessPolicy: (
+  input: AssociateAccessPolicyRequest,
+) => Effect.Effect<
+  AssociateAccessPolicyResponse,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateAccessPolicyRequest,
+  output: AssociateAccessPolicyResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Returns detailed information about a specific managed capability in your Amazon EKS cluster, including its current status, configuration, health information, and any issues that may be affecting its operation.
  */
-export const describeCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCapability: (
+  input: DescribeCapabilityRequest,
+) => Effect.Effect<
+  DescribeCapabilityResponse,
+  | AccessDeniedException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCapabilityRequest,
   output: DescribeCapabilityResponse,
   errors: [
@@ -4766,22 +5151,67 @@ export const describeCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes an Fargate profile.
  */
-export const describeFargateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFargateProfileRequest,
-    output: DescribeFargateProfileResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
+export const describeFargateProfile: (
+  input: DescribeFargateProfileRequest,
+) => Effect.Effect<
+  DescribeFargateProfileResponse,
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFargateProfileRequest,
+  output: DescribeFargateProfileResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Lists the installed add-ons.
  */
-export const listAddons = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAddons: {
+  (
+    input: ListAddonsRequest,
+  ): Effect.Effect<
+    ListAddonsResponse,
+    | ClientException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAddonsRequest,
+  ) => Stream.Stream<
+    ListAddonsResponse,
+    | ClientException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAddonsRequest,
+  ) => Stream.Stream<
+    String,
+    | ClientException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAddonsRequest,
   output: ListAddonsResponse,
   errors: [
@@ -4802,61 +5232,136 @@ export const listAddons = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services
  * account in the specified Amazon Web Services Region.
  */
-export const listFargateProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFargateProfiles: {
+  (
     input: ListFargateProfilesRequest,
-    output: ListFargateProfilesResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "fargateProfileNames",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFargateProfilesResponse,
+    | ClientException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFargateProfilesRequest,
+  ) => Stream.Stream<
+    ListFargateProfilesResponse,
+    | ClientException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFargateProfilesRequest,
+  ) => Stream.Stream<
+    String,
+    | ClientException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFargateProfilesRequest,
+  output: ListFargateProfilesResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "fargateProfileNames",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the updates associated with an Amazon EKS resource in your Amazon Web Services account, in the
  * specified Amazon Web Services Region.
  */
-export const listUpdates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listUpdates: {
+  (
     input: ListUpdatesRequest,
-    output: ListUpdatesResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "updateIds",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListUpdatesResponse,
+    | ClientException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUpdatesRequest,
+  ) => Stream.Stream<
+    ListUpdatesResponse,
+    | ClientException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUpdatesRequest,
+  ) => Stream.Stream<
+    String,
+    | ClientException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUpdatesRequest,
+  output: ListUpdatesResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "updateIds",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Update an EKS Anywhere Subscription. Only auto renewal and tags can be updated after
  * subscription creation.
  */
-export const updateEksAnywhereSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateEksAnywhereSubscriptionRequest,
-    output: UpdateEksAnywhereSubscriptionResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }));
+export const updateEksAnywhereSubscription: (
+  input: UpdateEksAnywhereSubscriptionRequest,
+) => Effect.Effect<
+  UpdateEksAnywhereSubscriptionResponse,
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEksAnywhereSubscriptionRequest,
+  output: UpdateEksAnywhereSubscriptionResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Updates an Amazon EKS managed node group configuration. Your node group continues to
  * function during the update. The response output includes an update ID that you can use
@@ -4865,20 +5370,30 @@ export const updateEksAnywhereSubscription =
  * API operation. You can update the Kubernetes labels
  * and taints for a node group and the scaling and version update configuration.
  */
-export const updateNodegroupConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateNodegroupConfigRequest,
-    output: UpdateNodegroupConfigResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
+export const updateNodegroupConfig: (
+  input: UpdateNodegroupConfigRequest,
+) => Effect.Effect<
+  UpdateNodegroupConfigResponse,
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNodegroupConfigRequest,
+  output: UpdateNodegroupConfigResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Creates an access entry.
  *
@@ -4896,7 +5411,19 @@ export const updateNodegroupConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about access entries, see Access entries in the
  * *Amazon EKS User Guide*.
  */
-export const createAccessEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAccessEntry: (
+  input: CreateAccessEntryRequest,
+) => Effect.Effect<
+  CreateAccessEntryResponse,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessEntryRequest,
   output: CreateAccessEntryResponse,
   errors: [
@@ -4938,23 +5465,46 @@ export const createAccessEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * provides your Pod with temporary credentials that have the permissions defined in the
  * target role, allowing secure access to resources in another Amazon Web Services account.
  */
-export const createPodIdentityAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePodIdentityAssociationRequest,
-    output: CreatePodIdentityAssociationResponse,
-    errors: [
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }));
+export const createPodIdentityAssociation: (
+  input: CreatePodIdentityAssociationRequest,
+) => Effect.Effect<
+  CreatePodIdentityAssociationResponse,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePodIdentityAssociationRequest,
+  output: CreatePodIdentityAssociationResponse,
+  errors: [
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Updates an Amazon EKS add-on.
  */
-export const updateAddon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAddon: (
+  input: UpdateAddonRequest,
+) => Effect.Effect<
+  UpdateAddonResponse,
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAddonRequest,
   output: UpdateAddonResponse,
   errors: [
@@ -4995,20 +5545,30 @@ export const updateAddon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * if Amazon EKS is unable to drain the nodes as a result of a `Pod` disruption
  * budget issue.
  */
-export const updateNodegroupVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateNodegroupVersionRequest,
-    output: UpdateNodegroupVersionResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
+export const updateNodegroupVersion: (
+  input: UpdateNodegroupVersionRequest,
+) => Effect.Effect<
+  UpdateNodegroupVersionResponse,
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNodegroupVersionRequest,
+  output: UpdateNodegroupVersionResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Creates an Amazon EKS add-on.
  *
@@ -5016,7 +5576,19 @@ export const updateNodegroupVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * operational software for Amazon EKS clusters. For more information, see Amazon EKS
  * add-ons in the *Amazon EKS User Guide*.
  */
-export const createAddon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAddon: (
+  input: CreateAddonRequest,
+) => Effect.Effect<
+  CreateAddonResponse,
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAddonRequest,
   output: CreateAddonResponse,
   errors: [
@@ -5034,7 +5606,18 @@ export const createAddon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * When you remove an add-on, it's deleted from the cluster. You can always manually
  * start an add-on on the cluster using the Kubernetes API.
  */
-export const deleteAddon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAddon: (
+  input: DeleteAddonRequest,
+) => Effect.Effect<
+  DeleteAddonResponse,
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAddonRequest,
   output: DeleteAddonResponse,
   errors: [
@@ -5058,18 +5641,26 @@ export const deleteAddon = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * a time. You must wait for a Fargate profile to finish deleting before you can delete
  * any other profiles in that cluster.
  */
-export const deleteFargateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFargateProfileRequest,
-    output: DeleteFargateProfileResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-  }),
-);
+export const deleteFargateProfile: (
+  input: DeleteFargateProfileRequest,
+) => Effect.Effect<
+  DeleteFargateProfileResponse,
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFargateProfileRequest,
+  output: DeleteFargateProfileResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Describes the versions for an add-on.
  *
@@ -5077,28 +5668,69 @@ export const deleteFargateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `owner`, `publisher`, and the `type` of the add-on
  * are returned.
  */
-export const describeAddonVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAddonVersions: {
+  (
     input: DescribeAddonVersionsRequest,
-    output: DescribeAddonVersionsResponse,
-    errors: [
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "addons",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAddonVersionsResponse,
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAddonVersionsRequest,
+  ) => Stream.Stream<
+    DescribeAddonVersionsResponse,
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAddonVersionsRequest,
+  ) => Stream.Stream<
+    AddonInfo,
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAddonVersionsRequest,
+  output: DescribeAddonVersionsResponse,
+  errors: [
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "addons",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates the configuration of a managed capability in your Amazon EKS cluster. You can update the IAM role, configuration settings, and delete propagation policy for a capability.
  *
  * When you update a capability, Amazon EKS applies the changes and may restart capability components as needed. The capability remains available during the update process, but some operations may be temporarily unavailable.
  */
-export const updateCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCapability: (
+  input: UpdateCapabilityRequest,
+) => Effect.Effect<
+  UpdateCapabilityResponse,
+  | AccessDeniedException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCapabilityRequest,
   output: UpdateCapabilityResponse,
   errors: [
@@ -5120,7 +5752,17 @@ export const updateCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The API server endpoint and certificate authority data aren't available until the
  * cluster reaches the `ACTIVE` state.
  */
-export const describeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCluster: (
+  input: DescribeClusterRequest,
+) => Effect.Effect<
+  DescribeClusterResponse,
+  | ClientException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClusterRequest,
   output: DescribeClusterResponse,
   errors: [
@@ -5146,40 +5788,72 @@ export const describeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * versions must match the cluster's Kubernetes version in order to update the cluster to a new
  * Kubernetes version.
  */
-export const updateClusterVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateClusterVersionRequest,
-    output: UpdateClusterVersionResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      InvalidRequestException,
-      InvalidStateException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServerException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateClusterVersion: (
+  input: UpdateClusterVersionRequest,
+) => Effect.Effect<
+  UpdateClusterVersionResponse,
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateClusterVersionRequest,
+  output: UpdateClusterVersionResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    InvalidRequestException,
+    InvalidStateException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServerException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns descriptive information about a subscription.
  */
-export const describeEksAnywhereSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeEksAnywhereSubscriptionRequest,
-    output: DescribeEksAnywhereSubscriptionResponse,
-    errors: [
-      ClientException,
-      ResourceNotFoundException,
-      ServerException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const describeEksAnywhereSubscription: (
+  input: DescribeEksAnywhereSubscriptionRequest,
+) => Effect.Effect<
+  DescribeEksAnywhereSubscriptionResponse,
+  | ClientException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEksAnywhereSubscriptionRequest,
+  output: DescribeEksAnywhereSubscriptionResponse,
+  errors: [
+    ClientException,
+    ResourceNotFoundException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Describes a managed node group.
  */
-export const describeNodegroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeNodegroup: (
+  input: DescribeNodegroupRequest,
+) => Effect.Effect<
+  DescribeNodegroupResponse,
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNodegroupRequest,
   output: DescribeNodegroupResponse,
   errors: [
@@ -5193,113 +5867,271 @@ export const describeNodegroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Amazon Web Services Region.
  */
-export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listClusters: {
+  (
     input: ListClustersRequest,
-    output: ListClustersResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ServerException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "clusters",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListClustersResponse,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClustersRequest,
+  ) => Stream.Stream<
+    ListClustersResponse,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClustersRequest,
+  ) => Stream.Stream<
+    String,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClustersRequest,
+  output: ListClustersResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "clusters",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Displays the full description of the subscription.
  */
-export const listEksAnywhereSubscriptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEksAnywhereSubscriptions: {
+  (
     input: ListEksAnywhereSubscriptionsRequest,
-    output: ListEksAnywhereSubscriptionsResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ServerException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "subscriptions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEksAnywhereSubscriptionsResponse,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEksAnywhereSubscriptionsRequest,
+  ) => Stream.Stream<
+    ListEksAnywhereSubscriptionsResponse,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEksAnywhereSubscriptionsRequest,
+  ) => Stream.Stream<
+    EksAnywhereSubscription,
+    | ClientException
+    | InvalidParameterException
+    | ServerException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEksAnywhereSubscriptionsRequest,
+  output: ListEksAnywhereSubscriptionsResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "subscriptions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the identity provider configurations for your cluster.
  */
-export const listIdentityProviderConfigs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIdentityProviderConfigs: {
+  (
     input: ListIdentityProviderConfigsRequest,
-    output: ListIdentityProviderConfigsResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "identityProviderConfigs",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIdentityProviderConfigsResponse,
+    | ClientException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ServerException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdentityProviderConfigsRequest,
+  ) => Stream.Stream<
+    ListIdentityProviderConfigsResponse,
+    | ClientException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ServerException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdentityProviderConfigsRequest,
+  ) => Stream.Stream<
+    IdentityProviderConfig,
+    | ClientException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ServerException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdentityProviderConfigsRequest,
+  output: ListIdentityProviderConfigsResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "identityProviderConfigs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the managed node groups associated with the specified cluster in your Amazon Web Services
  * account in the specified Amazon Web Services Region. Self-managed node groups aren't listed.
  */
-export const listNodegroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listNodegroups: {
+  (
     input: ListNodegroupsRequest,
-    output: ListNodegroupsResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "nodegroups",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListNodegroupsResponse,
+    | ClientException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ServerException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNodegroupsRequest,
+  ) => Stream.Stream<
+    ListNodegroupsResponse,
+    | ClientException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ServerException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNodegroupsRequest,
+  ) => Stream.Stream<
+    String,
+    | ClientException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ServerException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNodegroupsRequest,
+  output: ListNodegroupsResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "nodegroups",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates an EKS Anywhere subscription. When a subscription is created, it is a contract
  * agreement for the length of the term specified in the request. Licenses that are used to
  * validate support are provisioned in Amazon Web Services License Manager and the caller account is
  * granted access to EKS Anywhere Curated Packages.
  */
-export const createEksAnywhereSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateEksAnywhereSubscriptionRequest,
-    output: CreateEksAnywhereSubscriptionResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ResourceLimitExceededException,
-      ServerException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const createEksAnywhereSubscription: (
+  input: CreateEksAnywhereSubscriptionRequest,
+) => Effect.Effect<
+  CreateEksAnywhereSubscriptionResponse,
+  | ClientException
+  | InvalidParameterException
+  | ResourceLimitExceededException
+  | ServerException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEksAnywhereSubscriptionRequest,
+  output: CreateEksAnywhereSubscriptionResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ResourceLimitExceededException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Deregisters a connected cluster to remove it from the Amazon EKS control plane.
  *
  * A connected cluster is a Kubernetes cluster that you've connected to your control plane
  * using the Amazon EKS Connector.
  */
-export const deregisterCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deregisterCluster: (
+  input: DeregisterClusterRequest,
+) => Effect.Effect<
+  DeregisterClusterResponse,
+  | AccessDeniedException
+  | ClientException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterClusterRequest,
   output: DeregisterClusterResponse,
   errors: [
@@ -5333,7 +6165,20 @@ export const deregisterCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Windows AMI types are only supported for commercial Amazon Web Services Regions that support
  * Windows on Amazon EKS.
  */
-export const createNodegroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createNodegroup: (
+  input: CreateNodegroupRequest,
+) => Effect.Effect<
+  CreateNodegroupResponse,
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ServerException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNodegroupRequest,
   output: CreateNodegroupResponse,
   errors: [
@@ -5359,7 +6204,19 @@ export const createNodegroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * must delete them first. For more information, see `DeleteNodgroup` and
  * `DeleteFargateProfile`.
  */
-export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCluster: (
+  input: DeleteClusterRequest,
+) => Effect.Effect<
+  DeleteClusterResponse,
+  | ClientException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterRequest,
   output: DeleteClusterResponse,
   errors: [
@@ -5374,7 +6231,19 @@ export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a managed node group.
  */
-export const deleteNodegroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteNodegroup: (
+  input: DeleteNodegroupRequest,
+) => Effect.Effect<
+  DeleteNodegroupResponse,
+  | ClientException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNodegroupRequest,
   output: DeleteNodegroupResponse,
   errors: [
@@ -5389,18 +6258,28 @@ export const deleteNodegroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes an identity provider configuration.
  */
-export const describeIdentityProviderConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeIdentityProviderConfigRequest,
-    output: DescribeIdentityProviderConfigResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServerException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const describeIdentityProviderConfig: (
+  input: DescribeIdentityProviderConfigRequest,
+) => Effect.Effect<
+  DescribeIdentityProviderConfigResponse,
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIdentityProviderConfigRequest,
+  output: DescribeIdentityProviderConfigResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Updates an Amazon EKS cluster configuration. Your cluster continues to function during the
  * update. The response output includes an update ID that you can use to track the status
@@ -5450,7 +6329,20 @@ export const describeIdentityProviderConfig =
  * eventually consistent). When the update is complete (either `Failed` or
  * `Successful`), the cluster status moves to `Active`.
  */
-export const updateClusterConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateClusterConfig: (
+  input: UpdateClusterConfigRequest,
+) => Effect.Effect<
+  UpdateClusterConfigResponse,
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterConfigRequest,
   output: UpdateClusterConfigResponse,
   errors: [
@@ -5470,20 +6362,32 @@ export const updateClusterConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * provider can no longer access the cluster. However, you can still access the cluster
  * with IAM principals.
  */
-export const disassociateIdentityProviderConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateIdentityProviderConfigRequest,
-    output: DisassociateIdentityProviderConfigResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServerException,
-      ThrottlingException,
-    ],
-  }));
+export const disassociateIdentityProviderConfig: (
+  input: DisassociateIdentityProviderConfigRequest,
+) => Effect.Effect<
+  DisassociateIdentityProviderConfigResponse,
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateIdentityProviderConfigRequest,
+  output: DisassociateIdentityProviderConfigResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServerException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Associates an encryption configuration to an existing cluster.
  *
@@ -5491,21 +6395,32 @@ export const disassociateIdentityProviderConfig =
  * encryption enabled. This allows you to implement a defense-in-depth security strategy
  * without migrating applications to new Amazon EKS clusters.
  */
-export const associateEncryptionConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateEncryptionConfigRequest,
-    output: AssociateEncryptionConfigResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServerException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const associateEncryptionConfig: (
+  input: AssociateEncryptionConfigRequest,
+) => Effect.Effect<
+  AssociateEncryptionConfigResponse,
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateEncryptionConfigRequest,
+  output: AssociateEncryptionConfigResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServerException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Associates an identity provider configuration to a cluster.
  *
@@ -5517,20 +6432,32 @@ export const associateEncryptionConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * objects. For more information see Using RBAC
  * Authorization in the Kubernetes documentation.
  */
-export const associateIdentityProviderConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateIdentityProviderConfigRequest,
-    output: AssociateIdentityProviderConfigResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServerException,
-      ThrottlingException,
-    ],
-  }));
+export const associateIdentityProviderConfig: (
+  input: AssociateIdentityProviderConfigRequest,
+) => Effect.Effect<
+  AssociateIdentityProviderConfigResponse,
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateIdentityProviderConfigRequest,
+  output: AssociateIdentityProviderConfigResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServerException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates an Fargate profile for your Amazon EKS cluster. You must have at least one
  * Fargate profile in a cluster to be able to run pods on Fargate.
@@ -5563,20 +6490,30 @@ export const associateIdentityProviderConfig =
  *
  * For more information, see Fargate profile in the *Amazon EKS User Guide*.
  */
-export const createFargateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateFargateProfileRequest,
-    output: CreateFargateProfileResponse,
-    errors: [
-      ClientException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceLimitExceededException,
-      ServerException,
-      UnsupportedAvailabilityZoneException,
-    ],
-  }),
-);
+export const createFargateProfile: (
+  input: CreateFargateProfileRequest,
+) => Effect.Effect<
+  CreateFargateProfileResponse,
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceLimitExceededException
+  | ServerException
+  | UnsupportedAvailabilityZoneException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFargateProfileRequest,
+  output: CreateFargateProfileResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceLimitExceededException,
+    ServerException,
+    UnsupportedAvailabilityZoneException,
+  ],
+}));
 /**
  * Connects a Kubernetes cluster to the Amazon EKS control plane.
  *
@@ -5597,7 +6534,21 @@ export const createFargateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * cluster will no longer be visible and must be deregistered using
  * `DeregisterCluster`.
  */
-export const registerCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerCluster: (
+  input: RegisterClusterRequest,
+) => Effect.Effect<
+  RegisterClusterResponse,
+  | AccessDeniedException
+  | ClientException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ResourcePropagationDelayException
+  | ServerException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterClusterRequest,
   output: RegisterClusterResponse,
   errors: [
@@ -5657,7 +6608,20 @@ export const registerCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * access your cluster and Launching Amazon EKS
  * nodes in the *Amazon EKS User Guide*.
  */
-export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCluster: (
+  input: CreateClusterRequest,
+) => Effect.Effect<
+  CreateClusterResponse,
+  | ClientException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ServerException
+  | ServiceUnavailableException
+  | UnsupportedAvailabilityZoneException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterRequest,
   output: CreateClusterResponse,
   errors: [
@@ -5679,7 +6643,20 @@ export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see EKS Capabilities in the *Amazon EKS User Guide*.
  */
-export const createCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCapability: (
+  input: CreateCapabilityRequest,
+) => Effect.Effect<
+  CreateCapabilityResponse,
+  | AccessDeniedException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ServerException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCapabilityRequest,
   output: CreateCapabilityResponse,
   errors: [
@@ -5697,7 +6674,18 @@ export const createCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Before deleting a capability, you should delete all Kubernetes resources that were created by the capability. After the capability is deleted, these resources become difficult to manage because the controller that managed them is no longer available. To delete resources before removing the capability, use `kubectl delete` or remove them through your GitOps workflow.
  */
-export const deleteCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCapability: (
+  input: DeleteCapabilityRequest,
+) => Effect.Effect<
+  DeleteCapabilityResponse,
+  | AccessDeniedException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCapabilityRequest,
   output: DeleteCapabilityResponse,
   errors: [
@@ -5711,7 +6699,17 @@ export const deleteCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns details about an insight that you specify using its ID.
  */
-export const describeInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeInsight: (
+  input: DescribeInsightRequest,
+) => Effect.Effect<
+  DescribeInsightResponse,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInsightRequest,
   output: DescribeInsightResponse,
   errors: [

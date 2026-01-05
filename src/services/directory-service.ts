@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace(
   "http://directoryservice.amazonaws.com/doc/2015-04-16/",
 );
@@ -243,6 +251,98 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type DirectoryId = string;
+export type RegionName = string;
+export type ResourceId = string;
+export type SchemaExtensionId = string;
+export type DirectoryName = string;
+export type DirectoryShortName = string;
+export type ConnectPassword = string;
+export type Description = string;
+export type AliasName = string;
+export type ComputerName = string;
+export type ComputerPassword = string;
+export type OrganizationalUnitDN = string;
+export type RemoteDomainName = string;
+export type IpAddr = string;
+export type Ipv6Addr = string;
+export type Password = string;
+export type SecretArn = string;
+export type AssessmentId = string;
+export type LogGroupName = string;
+export type SnapshotName = string;
+export type TrustPassword = string;
+export type SnapshotId = string;
+export type TrustId = string;
+export type CertificateId = string;
+export type TopicName = string;
+export type NextToken = string;
+export type PageLimit = number;
+export type Limit = number;
+export type DomainControllerId = string;
+export type UserName = string;
+export type PcaConnectorArn = string;
+export type AssessmentLimit = number;
+export type CertificateData = string;
+export type CidrIp = string;
+export type CidrIpv6 = string;
+export type TagKey = string;
+export type CustomerUserName = string;
+export type UserPassword = string;
+export type Notes = string;
+export type LdifContent = string;
+export type DesiredNumberOfDomainControllers = number;
+export type VpcId = string;
+export type SubnetId = string;
+export type TagValue = string;
+export type AttributeName = string;
+export type AttributeValue = string;
+export type Server = string;
+export type PortNumber = number;
+export type RadiusTimeout = number;
+export type RadiusRetries = number;
+export type RadiusSharedSecret = string;
+export type RadiusDisplayLabel = string;
+export type OCSPUrl = string;
+export type TargetId = string;
+export type AssessmentInstanceId = string;
+export type SecurityGroupId = string;
+export type DirectoryConfigurationSettingName = string;
+export type DirectoryConfigurationSettingValue = string;
+export type ExceptionMessage = string;
+export type RequestId = string;
+export type CaEnrollmentPolicyStatusReason = string;
+export type CustomerId = string;
+export type AssessmentStatus = string;
+export type AssessmentStatusCode = string;
+export type AssessmentStatusReason = string;
+export type AssessmentReportType = string;
+export type AssessmentVersion = string;
+export type CertificateStateReason = string;
+export type CertificateCN = string;
+export type AccessUrl = string;
+export type StageReason = string;
+export type AvailabilityZone = string;
+export type DomainControllerStatusReason = string;
+export type TopicArn = string;
+export type LDAPSStatusReason = string;
+export type DirectoryConfigurationSettingType = string;
+export type DirectoryConfigurationSettingAllowedValues = string;
+export type DirectoryConfigurationSettingRequestStatusMessage = string;
+export type DirectoryConfigurationSettingDataType = string;
+export type TrustStateReason = string;
+export type UpdateStatusReason = string;
+export type InitiatedBy = string;
+export type IpRouteStatusReason = string;
+export type SchemaExtensionStatusReason = string;
+export type AssessmentValidationCategory = string;
+export type AssessmentValidationName = string;
+export type AssessmentValidationStatus = string;
+export type AssessmentValidationStatusCode = string;
+export type AssessmentValidationStatusReason = string;
+export type SID = string;
 
 //# Schemas
 export interface GetDirectoryLimitsRequest {}
@@ -3865,13 +3965,20 @@ export class ShareLimitExceededException extends S.TaggedError<ShareLimitExceede
  * `Initializing`, `CreatingSnapshot`, and
  * `UpdatingSchema`.
  */
-export const cancelSchemaExtension = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelSchemaExtensionRequest,
-    output: CancelSchemaExtensionResult,
-    errors: [ClientException, EntityDoesNotExistException, ServiceException],
-  }),
-);
+export const cancelSchemaExtension: (
+  input: CancelSchemaExtensionRequest,
+) => Effect.Effect<
+  CancelSchemaExtensionResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelSchemaExtensionRequest,
+  output: CancelSchemaExtensionResult,
+  errors: [ClientException, EntityDoesNotExistException, ServiceException],
+}));
 /**
  * Creates an alias for a directory and assigns the alias to the directory. The alias is used
  * to construct the access URL for the directory, such as
@@ -3879,7 +3986,18 @@ export const cancelSchemaExtension = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary.
  */
-export const createAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAlias: (
+  input: CreateAliasRequest,
+) => Effect.Effect<
+  CreateAliasResult,
+  | ClientException
+  | EntityAlreadyExistsException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAliasRequest,
   output: CreateAliasResult,
   errors: [
@@ -3893,28 +4011,78 @@ export const createAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the updates of a directory for a particular update type.
  */
-export const describeUpdateDirectory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeUpdateDirectory: {
+  (
     input: DescribeUpdateDirectoryRequest,
-    output: DescribeUpdateDirectoryResult,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      DirectoryDoesNotExistException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ServiceException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "UpdateActivities",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeUpdateDirectoryResult,
+    | AccessDeniedException
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeUpdateDirectoryRequest,
+  ) => Stream.Stream<
+    DescribeUpdateDirectoryResult,
+    | AccessDeniedException
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeUpdateDirectoryRequest,
+  ) => Stream.Stream<
+    UpdateInfoEntry,
+    | AccessDeniedException
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeUpdateDirectoryRequest,
+  output: DescribeUpdateDirectoryResult,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    DirectoryDoesNotExistException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ServiceException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "UpdateActivities",
+  } as const,
+}));
 /**
  * Disables single-sign on for a directory.
  */
-export const disableSso = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableSso: (
+  input: DisableSsoRequest,
+) => Effect.Effect<
+  DisableSsoResult,
+  | AuthenticationFailedException
+  | ClientException
+  | EntityDoesNotExistException
+  | InsufficientPermissionsException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableSsoRequest,
   output: DisableSsoResult,
   errors: [
@@ -3928,7 +4096,16 @@ export const disableSso = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Obtains the manual snapshot limits for a directory.
  */
-export const getSnapshotLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSnapshotLimits: (
+  input: GetSnapshotLimitsRequest,
+) => Effect.Effect<
+  GetSnapshotLimitsResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSnapshotLimitsRequest,
   output: GetSnapshotLimitsResult,
   errors: [ClientException, EntityDoesNotExistException, ServiceException],
@@ -3940,7 +4117,16 @@ export const getSnapshotLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * have been explicitly granted through a policy. For details about what permissions are required
  * to run the `DeleteDirectory` operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
-export const deleteDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDirectory: (
+  input: DeleteDirectoryRequest,
+) => Effect.Effect<
+  DeleteDirectoryResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDirectoryRequest,
   output: DeleteDirectoryResult,
   errors: [ClientException, EntityDoesNotExistException, ServiceException],
@@ -3948,7 +4134,16 @@ export const deleteDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Obtains directory limit information for the current Region.
  */
-export const getDirectoryLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDirectoryLimits: (
+  input: GetDirectoryLimitsRequest,
+) => Effect.Effect<
+  GetDirectoryLimitsResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDirectoryLimitsRequest,
   output: GetDirectoryLimitsResult,
   errors: [ClientException, EntityDoesNotExistException, ServiceException],
@@ -3957,7 +4152,16 @@ export const getDirectoryLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Disables multi-factor authentication (MFA) with the Remote Authentication Dial In User
  * Service (RADIUS) server for an AD Connector or Microsoft AD directory.
  */
-export const disableRadius = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableRadius: (
+  input: DisableRadiusRequest,
+) => Effect.Effect<
+  DisableRadiusResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableRadiusRequest,
   output: DisableRadiusResult,
   errors: [ClientException, EntityDoesNotExistException, ServiceException],
@@ -3969,7 +4173,17 @@ export const disableRadius = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * have been explicitly granted through a policy. For details about what permissions are required
  * to run the `CreateDirectory` operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
-export const createDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDirectory: (
+  input: CreateDirectoryRequest,
+) => Effect.Effect<
+  CreateDirectoryResult,
+  | ClientException
+  | DirectoryLimitExceededException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDirectoryRequest,
   output: CreateDirectoryResult,
   errors: [
@@ -3986,7 +4200,17 @@ export const createDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If no input parameters are provided, such as DirectoryId or TopicName, this request
  * describes all of the associations in the account.
  */
-export const describeEventTopics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeEventTopics: (
+  input: DescribeEventTopicsRequest,
+) => Effect.Effect<
+  DescribeEventTopicsResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventTopicsRequest,
   output: DescribeEventTopicsResult,
   errors: [
@@ -3999,23 +4223,42 @@ export const describeEventTopics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Rejects a directory sharing request that was sent from the directory owner account.
  */
-export const rejectSharedDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectSharedDirectoryRequest,
-    output: RejectSharedDirectoryResult,
-    errors: [
-      ClientException,
-      DirectoryAlreadySharedException,
-      EntityDoesNotExistException,
-      InvalidParameterException,
-      ServiceException,
-    ],
-  }),
-);
+export const rejectSharedDirectory: (
+  input: RejectSharedDirectoryRequest,
+) => Effect.Effect<
+  RejectSharedDirectoryResult,
+  | ClientException
+  | DirectoryAlreadySharedException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectSharedDirectoryRequest,
+  output: RejectSharedDirectoryResult,
+  errors: [
+    ClientException,
+    DirectoryAlreadySharedException,
+    EntityDoesNotExistException,
+    InvalidParameterException,
+    ServiceException,
+  ],
+}));
 /**
  * Deletes a directory snapshot.
  */
-export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSnapshot: (
+  input: DeleteSnapshotRequest,
+) => Effect.Effect<
+  DeleteSnapshotResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSnapshotRequest,
   output: DeleteSnapshotResult,
   errors: [
@@ -4029,7 +4272,17 @@ export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the trust that has been set up between your Managed Microsoft AD directory and an
  * self-managed Active Directory.
  */
-export const updateTrust = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTrust: (
+  input: UpdateTrustRequest,
+) => Effect.Effect<
+  UpdateTrustResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrustRequest,
   output: UpdateTrustResult,
   errors: [
@@ -4042,18 +4295,26 @@ export const updateTrust = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the specified directory as a publisher to the specified Amazon SNS topic.
  */
-export const deregisterEventTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterEventTopicRequest,
-    output: DeregisterEventTopicResult,
-    errors: [
-      ClientException,
-      EntityDoesNotExistException,
-      InvalidParameterException,
-      ServiceException,
-    ],
-  }),
-);
+export const deregisterEventTopic: (
+  input: DeregisterEventTopicRequest,
+) => Effect.Effect<
+  DeregisterEventTopicResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterEventTopicRequest,
+  output: DeregisterEventTopicResult,
+  errors: [
+    ClientException,
+    EntityDoesNotExistException,
+    InvalidParameterException,
+    ServiceException,
+  ],
+}));
 /**
  * Associates a directory with an Amazon SNS topic. This establishes the directory as a
  * publisher to the specified Amazon SNS topic. You can then receive email or text (SMS) messages when
@@ -4061,7 +4322,17 @@ export const deregisterEventTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * status to an Impaired or Inoperable status. You also receive a notification when the directory
  * returns to an Active status.
  */
-export const registerEventTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerEventTopic: (
+  input: RegisterEventTopicRequest,
+) => Effect.Effect<
+  RegisterEventTopicResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterEventTopicRequest,
   output: RegisterEventTopicResult,
   errors: [
@@ -4074,18 +4345,26 @@ export const registerEventTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from a directory.
  */
-export const removeTagsFromResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveTagsFromResourceRequest,
-    output: RemoveTagsFromResourceResult,
-    errors: [
-      ClientException,
-      EntityDoesNotExistException,
-      InvalidParameterException,
-      ServiceException,
-    ],
-  }),
-);
+export const removeTagsFromResource: (
+  input: RemoveTagsFromResourceRequest,
+) => Effect.Effect<
+  RemoveTagsFromResourceResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTagsFromResourceRequest,
+  output: RemoveTagsFromResourceResult,
+  errors: [
+    ClientException,
+    EntityDoesNotExistException,
+    InvalidParameterException,
+    ServiceException,
+  ],
+}));
 /**
  * Restores a directory using an existing directory snapshot.
  *
@@ -4096,7 +4375,17 @@ export const removeTagsFromResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * the directory identifier. When the **DirectoryDescription.Stage** value changes to
  * `Active`, the restore operation is complete.
  */
-export const restoreFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const restoreFromSnapshot: (
+  input: RestoreFromSnapshotRequest,
+) => Effect.Effect<
+  RestoreFromSnapshotResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreFromSnapshotRequest,
   output: RestoreFromSnapshotResult,
   errors: [
@@ -4110,7 +4399,17 @@ export const restoreFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the Remote Authentication Dial In User Service (RADIUS) server information for
  * an AD Connector or Microsoft AD directory.
  */
-export const updateRadius = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRadius: (
+  input: UpdateRadiusRequest,
+) => Effect.Effect<
+  UpdateRadiusResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRadiusRequest,
   output: UpdateRadiusResult,
   errors: [
@@ -4124,7 +4423,18 @@ export const updateRadius = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User
  * Service (RADIUS) server for an AD Connector or Microsoft AD directory.
  */
-export const enableRadius = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableRadius: (
+  input: EnableRadiusRequest,
+) => Effect.Effect<
+  EnableRadiusResult,
+  | ClientException
+  | EntityAlreadyExistsException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableRadiusRequest,
   output: EnableRadiusResult,
   errors: [
@@ -4142,7 +4452,17 @@ export const enableRadius = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * have been explicitly granted through a policy. For details about what permissions are required
  * to run the `ConnectDirectory` operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
-export const connectDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const connectDirectory: (
+  input: ConnectDirectoryRequest,
+) => Effect.Effect<
+  ConnectDirectoryResult,
+  | ClientException
+  | DirectoryLimitExceededException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConnectDirectoryRequest,
   output: ConnectDirectoryResult,
   errors: [
@@ -4155,23 +4475,43 @@ export const connectDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Accepts a directory sharing request that was sent from the directory owner account.
  */
-export const acceptSharedDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptSharedDirectoryRequest,
-    output: AcceptSharedDirectoryResult,
-    errors: [
-      ClientException,
-      DirectoryAlreadySharedException,
-      EntityDoesNotExistException,
-      InvalidParameterException,
-      ServiceException,
-    ],
-  }),
-);
+export const acceptSharedDirectory: (
+  input: AcceptSharedDirectoryRequest,
+) => Effect.Effect<
+  AcceptSharedDirectoryResult,
+  | ClientException
+  | DirectoryAlreadySharedException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptSharedDirectoryRequest,
+  output: AcceptSharedDirectoryResult,
+  errors: [
+    ClientException,
+    DirectoryAlreadySharedException,
+    EntityDoesNotExistException,
+    InvalidParameterException,
+    ServiceException,
+  ],
+}));
 /**
  * Removes IP address blocks from a directory.
  */
-export const removeIpRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removeIpRoutes: (
+  input: RemoveIpRoutesRequest,
+) => Effect.Effect<
+  RemoveIpRoutesResult,
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveIpRoutesRequest,
   output: RemoveIpRoutesResult,
   errors: [
@@ -4190,22 +4530,34 @@ export const removeIpRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Disabling the CA enrollment policy prevents new certificates from being automatically
  * enrolled, but existing certificates remain valid and functional until they expire.
  */
-export const disableCAEnrollmentPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableCAEnrollmentPolicyRequest,
-    output: DisableCAEnrollmentPolicyResult,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      DirectoryDoesNotExistException,
-      DirectoryUnavailableException,
-      DisableAlreadyInProgressException,
-      EntityDoesNotExistException,
-      InvalidParameterException,
-      ServiceException,
-    ],
-  }),
-);
+export const disableCAEnrollmentPolicy: (
+  input: DisableCAEnrollmentPolicyRequest,
+) => Effect.Effect<
+  DisableCAEnrollmentPolicyResult,
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | DirectoryUnavailableException
+  | DisableAlreadyInProgressException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableCAEnrollmentPolicyRequest,
+  output: DisableCAEnrollmentPolicyResult,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    DirectoryDoesNotExistException,
+    DirectoryUnavailableException,
+    DisableAlreadyInProgressException,
+    EntityDoesNotExistException,
+    InvalidParameterException,
+    ServiceException,
+  ],
+}));
 /**
  * Enables certificate authority (CA) enrollment policy for the specified directory. This allows
  * domain-joined clients to automatically request and receive certificates from the specified
@@ -4215,23 +4567,36 @@ export const disableCAEnrollmentPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * accessible from the directory. The connector must be in an active state and have the
  * necessary permissions.
  */
-export const enableCAEnrollmentPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableCAEnrollmentPolicyRequest,
-    output: EnableCAEnrollmentPolicyResult,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      DirectoryDoesNotExistException,
-      DirectoryUnavailableException,
-      EnableAlreadyInProgressException,
-      EntityAlreadyExistsException,
-      EntityDoesNotExistException,
-      InvalidParameterException,
-      ServiceException,
-    ],
-  }),
-);
+export const enableCAEnrollmentPolicy: (
+  input: EnableCAEnrollmentPolicyRequest,
+) => Effect.Effect<
+  EnableCAEnrollmentPolicyResult,
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | DirectoryUnavailableException
+  | EnableAlreadyInProgressException
+  | EntityAlreadyExistsException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableCAEnrollmentPolicyRequest,
+  output: EnableCAEnrollmentPolicyResult,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    DirectoryDoesNotExistException,
+    DirectoryUnavailableException,
+    EnableAlreadyInProgressException,
+    EntityAlreadyExistsException,
+    EntityDoesNotExistException,
+    InvalidParameterException,
+    ServiceException,
+  ],
+}));
 /**
  * Obtains information about the directory snapshots that belong to this account.
  *
@@ -4243,108 +4608,280 @@ export const enableCAEnrollmentPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can also specify a maximum number of return results with the *Limit*
  * parameter.
  */
-export const describeSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeSnapshots: {
+  (
     input: DescribeSnapshotsRequest,
-    output: DescribeSnapshotsResult,
-    errors: [
-      ClientException,
-      EntityDoesNotExistException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ServiceException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Snapshots",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeSnapshotsResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSnapshotsRequest,
+  ) => Stream.Stream<
+    DescribeSnapshotsResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSnapshotsRequest,
+  ) => Stream.Stream<
+    Snapshot,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSnapshotsRequest,
+  output: DescribeSnapshotsResult,
+  errors: [
+    ClientException,
+    EntityDoesNotExistException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ServiceException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Snapshots",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Lists the address blocks that you have added to a directory.
  */
-export const listIpRoutes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listIpRoutes: {
+  (
     input: ListIpRoutesRequest,
-    output: ListIpRoutesResult,
-    errors: [
-      ClientException,
-      EntityDoesNotExistException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ServiceException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IpRoutesInfo",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListIpRoutesResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIpRoutesRequest,
+  ) => Stream.Stream<
+    ListIpRoutesResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIpRoutesRequest,
+  ) => Stream.Stream<
+    IpRouteInfo,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIpRoutesRequest,
+  output: ListIpRoutesResult,
+  errors: [
+    ClientException,
+    EntityDoesNotExistException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ServiceException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IpRoutesInfo",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Lists the active log subscriptions for the Amazon Web Services account.
  */
-export const listLogSubscriptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLogSubscriptions: {
+  (
     input: ListLogSubscriptionsRequest,
-    output: ListLogSubscriptionsResult,
-    errors: [
-      ClientException,
-      EntityDoesNotExistException,
-      InvalidNextTokenException,
-      ServiceException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LogSubscriptions",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListLogSubscriptionsResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLogSubscriptionsRequest,
+  ) => Stream.Stream<
+    ListLogSubscriptionsResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLogSubscriptionsRequest,
+  ) => Stream.Stream<
+    LogSubscription,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLogSubscriptionsRequest,
+  output: ListLogSubscriptionsResult,
+  errors: [
+    ClientException,
+    EntityDoesNotExistException,
+    InvalidNextTokenException,
+    ServiceException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LogSubscriptions",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Lists all schema extensions applied to a Microsoft AD Directory.
  */
-export const listSchemaExtensions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSchemaExtensions: {
+  (
     input: ListSchemaExtensionsRequest,
-    output: ListSchemaExtensionsResult,
-    errors: [
-      ClientException,
-      EntityDoesNotExistException,
-      InvalidNextTokenException,
-      ServiceException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SchemaExtensionsInfo",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSchemaExtensionsResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSchemaExtensionsRequest,
+  ) => Stream.Stream<
+    ListSchemaExtensionsResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSchemaExtensionsRequest,
+  ) => Stream.Stream<
+    SchemaExtensionInfo,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSchemaExtensionsRequest,
+  output: ListSchemaExtensionsResult,
+  errors: [
+    ClientException,
+    EntityDoesNotExistException,
+    InvalidNextTokenException,
+    ServiceException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SchemaExtensionsInfo",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Lists all tags on a directory.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceRequest,
-    output: ListTagsForResourceResult,
-    errors: [
-      ClientException,
-      EntityDoesNotExistException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ServiceException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Tags",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    ListTagsForResourceResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    Tag,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResult,
+  errors: [
+    ClientException,
+    EntityDoesNotExistException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ServiceException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Tags",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Obtains information about the directories that belong to this account.
  *
@@ -4361,30 +4898,77 @@ export const listTagsForResource =
  * You can also specify a maximum number of return results with the `Limit`
  * parameter.
  */
-export const describeDirectories =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDirectories: {
+  (
     input: DescribeDirectoriesRequest,
-    output: DescribeDirectoriesResult,
-    errors: [
-      ClientException,
-      EntityDoesNotExistException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ServiceException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DirectoryDescriptions",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeDirectoriesResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDirectoriesRequest,
+  ) => Stream.Stream<
+    DescribeDirectoriesResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDirectoriesRequest,
+  ) => Stream.Stream<
+    DirectoryDescription,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDirectoriesRequest,
+  output: DescribeDirectoriesResult,
+  errors: [
+    ClientException,
+    EntityDoesNotExistException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ServiceException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DirectoryDescriptions",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Enables single sign-on for a directory. Single sign-on allows users in your directory to
  * access certain Amazon Web Services services from a computer joined to the directory without having to enter
  * their credentials separately.
  */
-export const enableSso = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableSso: (
+  input: EnableSsoRequest,
+) => Effect.Effect<
+  EnableSsoResult,
+  | AuthenticationFailedException
+  | ClientException
+  | EntityDoesNotExistException
+  | InsufficientPermissionsException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableSsoRequest,
   output: EnableSsoResult,
   errors: [
@@ -4398,7 +4982,21 @@ export const enableSso = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Active Directory computer object in the specified directory.
  */
-export const createComputer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createComputer: (
+  input: CreateComputerRequest,
+) => Effect.Effect<
+  CreateComputerResult,
+  | AuthenticationFailedException
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityAlreadyExistsException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComputerRequest,
   output: CreateComputerResult,
   errors: [
@@ -4417,24 +5015,45 @@ export const createComputer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * provides details about configuration changes, administrator account updates, and
  * self-managed instance settings (IDs and DNS IPs).
  */
-export const describeHybridADUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeHybridADUpdateRequest,
-    output: DescribeHybridADUpdateResult,
-    errors: [
-      ClientException,
-      DirectoryDoesNotExistException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const describeHybridADUpdate: (
+  input: DescribeHybridADUpdateRequest,
+) => Effect.Effect<
+  DescribeHybridADUpdateResult,
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeHybridADUpdateRequest,
+  output: DescribeHybridADUpdateResult,
+  errors: [
+    ClientException,
+    DirectoryDoesNotExistException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Stops the directory sharing between the directory owner and consumer accounts.
  */
-export const unshareDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const unshareDirectory: (
+  input: UnshareDirectoryRequest,
+) => Effect.Effect<
+  UnshareDirectoryResult,
+  | ClientException
+  | DirectoryNotSharedException
+  | EntityDoesNotExistException
+  | InvalidTargetException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnshareDirectoryRequest,
   output: UnshareDirectoryResult,
   errors: [
@@ -4448,26 +5067,47 @@ export const unshareDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Applies a schema extension to a Microsoft AD directory.
  */
-export const startSchemaExtension = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartSchemaExtensionRequest,
-    output: StartSchemaExtensionResult,
-    errors: [
-      ClientException,
-      DirectoryUnavailableException,
-      EntityDoesNotExistException,
-      InvalidParameterException,
-      ServiceException,
-      SnapshotLimitExceededException,
-    ],
-  }),
-);
+export const startSchemaExtension: (
+  input: StartSchemaExtensionRequest,
+) => Effect.Effect<
+  StartSchemaExtensionResult,
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | SnapshotLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSchemaExtensionRequest,
+  output: StartSchemaExtensionResult,
+  errors: [
+    ClientException,
+    DirectoryUnavailableException,
+    EntityDoesNotExistException,
+    InvalidParameterException,
+    ServiceException,
+    SnapshotLimitExceededException,
+  ],
+}));
 /**
  * Adds or overwrites one or more tags for the specified directory. Each directory can
  * have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be
  * unique to each resource.
  */
-export const addTagsToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addTagsToResource: (
+  input: AddTagsToResourceRequest,
+) => Effect.Effect<
+  AddTagsToResourceResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | TagLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsToResourceRequest,
   output: AddTagsToResourceResult,
   errors: [
@@ -4481,7 +5121,23 @@ export const addTagsToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds two domain controllers in the specified Region for the specified directory.
  */
-export const addRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addRegion: (
+  input: AddRegionRequest,
+) => Effect.Effect<
+  AddRegionResult,
+  | AccessDeniedException
+  | ClientException
+  | DirectoryAlreadyInRegionException
+  | DirectoryDoesNotExistException
+  | DirectoryUnavailableException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | RegionLimitExceededException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddRegionRequest,
   output: AddRegionResult,
   errors: [
@@ -4508,7 +5164,20 @@ export const addRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * permissions have been explicitly granted through a policy. For details about what
  * permissions are required to run the *AddIpRoutes* operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
-export const addIpRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addIpRoutes: (
+  input: AddIpRoutesRequest,
+) => Effect.Effect<
+  AddIpRoutesResult,
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityAlreadyExistsException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | IpRouteLimitExceededException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddIpRoutesRequest,
   output: AddIpRoutesResult,
   errors: [
@@ -4526,44 +5195,104 @@ export const addIpRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * status, validation results, and configuration details. Use this operation to monitor
  * assessment progress and review results.
  */
-export const describeADAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeADAssessmentRequest,
-    output: DescribeADAssessmentResult,
-    errors: [
-      ClientException,
-      EntityDoesNotExistException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const describeADAssessment: (
+  input: DescribeADAssessmentRequest,
+) => Effect.Effect<
+  DescribeADAssessmentResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeADAssessmentRequest,
+  output: DescribeADAssessmentResult,
+  errors: [
+    ClientException,
+    EntityDoesNotExistException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Provides information about any domain controllers in your directory.
  */
-export const describeDomainControllers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDomainControllers: {
+  (
     input: DescribeDomainControllersRequest,
-    output: DescribeDomainControllersResult,
-    errors: [
-      ClientException,
-      EntityDoesNotExistException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeDomainControllersResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDomainControllersRequest,
+  ) => Stream.Stream<
+    DescribeDomainControllersResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDomainControllersRequest,
+  ) => Stream.Stream<
+    unknown,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDomainControllersRequest,
+  output: DescribeDomainControllersResult,
+  errors: [
+    ClientException,
+    EntityDoesNotExistException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Retrieves information about the configurable settings for the specified directory.
  */
-export const describeSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeSettings: (
+  input: DescribeSettingsRequest,
+) => Effect.Effect<
+  DescribeSettingsResult,
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSettingsRequest,
   output: DescribeSettingsResult,
   errors: [
@@ -4580,39 +5309,67 @@ export const describeSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the specified directory. This policy determines how client certificates are automatically enrolled and
  * managed through Amazon Web Services Private Certificate Authority.
  */
-export const describeCAEnrollmentPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCAEnrollmentPolicyRequest,
-    output: DescribeCAEnrollmentPolicyResult,
-    errors: [
-      ClientException,
-      DirectoryDoesNotExistException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const describeCAEnrollmentPolicy: (
+  input: DescribeCAEnrollmentPolicyRequest,
+) => Effect.Effect<
+  DescribeCAEnrollmentPolicyResult,
+  | ClientException
+  | DirectoryDoesNotExistException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCAEnrollmentPolicyRequest,
+  output: DescribeCAEnrollmentPolicyResult,
+  errors: [
+    ClientException,
+    DirectoryDoesNotExistException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Deletes the specified log subscription.
  */
-export const deleteLogSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLogSubscriptionRequest,
-    output: DeleteLogSubscriptionResult,
-    errors: [
-      ClientException,
-      EntityDoesNotExistException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const deleteLogSubscription: (
+  input: DeleteLogSubscriptionRequest,
+) => Effect.Effect<
+  DeleteLogSubscriptionResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLogSubscriptionRequest,
+  output: DeleteLogSubscriptionResult,
+  errors: [
+    ClientException,
+    EntityDoesNotExistException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Stops all replication and removes the domain controllers from the specified Region. You
  * cannot remove the primary Region with this operation. Instead, use the
  * `DeleteDirectory` API.
  */
-export const removeRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removeRegion: (
+  input: RemoveRegionRequest,
+) => Effect.Effect<
+  RemoveRegionResult,
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | DirectoryUnavailableException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveRegionRequest,
   output: RemoveRegionResult,
   errors: [
@@ -4628,19 +5385,28 @@ export const removeRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Obtains status of directory data access enablement through the Directory Service Data API for the
  * specified directory.
  */
-export const describeDirectoryDataAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDirectoryDataAccessRequest,
-    output: DescribeDirectoryDataAccessResult,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      DirectoryDoesNotExistException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const describeDirectoryDataAccess: (
+  input: DescribeDirectoryDataAccessRequest,
+) => Effect.Effect<
+  DescribeDirectoryDataAccessResult,
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDirectoryDataAccessRequest,
+  output: DescribeDirectoryDataAccessResult,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    DirectoryDoesNotExistException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Creates a hybrid directory that connects your self-managed Active Directory (AD)
  * infrastructure and Amazon Web Services.
@@ -4651,7 +5417,20 @@ export const describeDirectoryDataAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Updates are applied asynchronously. Use DescribeDirectories to
  * monitor the progress of directory creation.
  */
-export const createHybridAD = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createHybridAD: (
+  input: CreateHybridADRequest,
+) => Effect.Effect<
+  CreateHybridADResult,
+  | ADAssessmentLimitExceededException
+  | ClientException
+  | DirectoryLimitExceededException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHybridADRequest,
   output: CreateHybridADResult,
   errors: [
@@ -4668,7 +5447,19 @@ export const createHybridAD = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Displays information about the certificate registered for secure LDAP or client
  * certificate authentication.
  */
-export const describeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCertificate: (
+  input: DescribeCertificateRequest,
+) => Effect.Effect<
+  DescribeCertificateResult,
+  | CertificateDoesNotExistException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCertificateRequest,
   output: DescribeCertificateResult,
   errors: [
@@ -4686,49 +5477,123 @@ export const describeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * types that are supported for the specified directory is retrieved. Currently, only
  * `SmartCard` is supported.
  */
-export const describeClientAuthenticationSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClientAuthenticationSettings: {
+  (
     input: DescribeClientAuthenticationSettingsRequest,
-    output: DescribeClientAuthenticationSettingsResult,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      DirectoryDoesNotExistException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ClientAuthenticationSettingsInfo",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeClientAuthenticationSettingsResult,
+    | AccessDeniedException
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClientAuthenticationSettingsRequest,
+  ) => Stream.Stream<
+    DescribeClientAuthenticationSettingsResult,
+    | AccessDeniedException
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClientAuthenticationSettingsRequest,
+  ) => Stream.Stream<
+    ClientAuthenticationSettingInfo,
+    | AccessDeniedException
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClientAuthenticationSettingsRequest,
+  output: DescribeClientAuthenticationSettingsResult,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    DirectoryDoesNotExistException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ClientAuthenticationSettingsInfo",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Retrieves a list of directory assessments for the specified directory or all
  * assessments in your account. Use this operation to monitor assessment status and manage
  * multiple assessments.
  */
-export const listADAssessments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listADAssessments: {
+  (
     input: ListADAssessmentsRequest,
-    output: ListADAssessmentsResult,
-    errors: [
-      ClientException,
-      DirectoryDoesNotExistException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Assessments",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListADAssessmentsResult,
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListADAssessmentsRequest,
+  ) => Stream.Stream<
+    ListADAssessmentsResult,
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListADAssessmentsRequest,
+  ) => Stream.Stream<
+    AssessmentSummary,
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListADAssessmentsRequest,
+  output: ListADAssessmentsResult,
+  errors: [
+    ClientException,
+    DirectoryDoesNotExistException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Assessments",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Initiates a directory assessment to validate your self-managed AD environment for
  * hybrid domain join. The assessment checks compatibility and connectivity of the
@@ -4752,7 +5617,19 @@ export const listADAssessments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * Note: You must provide exactly one `DirectoryId` or
  * `AssessmentConfiguration`.
  */
-export const startADAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startADAssessment: (
+  input: StartADAssessmentRequest,
+) => Effect.Effect<
+  StartADAssessmentResult,
+  | ADAssessmentLimitExceededException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartADAssessmentRequest,
   output: StartADAssessmentResult,
   errors: [
@@ -4780,7 +5657,19 @@ export const startADAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must provide at least one update to UpdateHybridADRequest$HybridAdministratorAccountUpdate or UpdateHybridADRequest$SelfManagedInstancesSettings.
  */
-export const updateHybridAD = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateHybridAD: (
+  input: UpdateHybridADRequest,
+) => Effect.Effect<
+  UpdateHybridADResult,
+  | ADAssessmentLimitExceededException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHybridADRequest,
   output: UpdateHybridADResult,
   errors: [
@@ -4800,7 +5689,18 @@ export const updateHybridAD = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You cannot delete system-initiated assessments. You can delete customer-created
  * assessments even if they are in progress.
  */
-export const deleteADAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteADAssessment: (
+  input: DeleteADAssessmentRequest,
+) => Effect.Effect<
+  DeleteADAssessmentResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteADAssessmentRequest,
   output: DeleteADAssessmentResult,
   errors: [
@@ -4815,7 +5715,18 @@ export const deleteADAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an existing trust relationship between your Managed Microsoft AD directory and an external
  * domain.
  */
-export const deleteTrust = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTrust: (
+  input: DeleteTrustRequest,
+) => Effect.Effect<
+  DeleteTrustResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrustRequest,
   output: DeleteTrustResult,
   errors: [
@@ -4833,7 +5744,18 @@ export const deleteTrust = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This action verifies a trust relationship between your Managed Microsoft AD directory and an
  * external domain.
  */
-export const verifyTrust = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const verifyTrust: (
+  input: VerifyTrustRequest,
+) => Effect.Effect<
+  VerifyTrustResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyTrustRequest,
   output: VerifyTrustResult,
   errors: [
@@ -4854,7 +5776,19 @@ export const verifyTrust = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Managed Microsoft AD directory and an external domain. You can create either a forest trust or an
  * external trust.
  */
-export const createTrust = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTrust: (
+  input: CreateTrustRequest,
+) => Effect.Effect<
+  CreateTrustResult,
+  | ClientException
+  | EntityAlreadyExistsException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrustRequest,
   output: CreateTrustResult,
   errors: [
@@ -4873,7 +5807,18 @@ export const createTrust = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * permissions have been explicitly granted through a policy. For details about what permissions
  * are required to run the *CreateMicrosoftAD* operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
-export const createMicrosoftAD = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMicrosoftAD: (
+  input: CreateMicrosoftADRequest,
+) => Effect.Effect<
+  CreateMicrosoftADResult,
+  | ClientException
+  | DirectoryLimitExceededException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMicrosoftADRequest,
   output: CreateMicrosoftADResult,
   errors: [
@@ -4888,101 +5833,168 @@ export const createMicrosoftAD = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes from the system the certificate that was registered for secure LDAP or client
  * certificate authentication.
  */
-export const deregisterCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterCertificateRequest,
-    output: DeregisterCertificateResult,
-    errors: [
-      CertificateDoesNotExistException,
-      CertificateInUseException,
-      ClientException,
-      DirectoryDoesNotExistException,
-      DirectoryUnavailableException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const deregisterCertificate: (
+  input: DeregisterCertificateRequest,
+) => Effect.Effect<
+  DeregisterCertificateResult,
+  | CertificateDoesNotExistException
+  | CertificateInUseException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | DirectoryUnavailableException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterCertificateRequest,
+  output: DeregisterCertificateResult,
+  errors: [
+    CertificateDoesNotExistException,
+    CertificateInUseException,
+    ClientException,
+    DirectoryDoesNotExistException,
+    DirectoryUnavailableException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Creates a conditional forwarder associated with your Amazon Web Services directory. Conditional
  * forwarders are required in order to set up a trust relationship with another domain. The
  * conditional forwarder points to the trusted domain.
  */
-export const createConditionalForwarder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConditionalForwarderRequest,
-    output: CreateConditionalForwarderResult,
-    errors: [
-      ClientException,
-      DirectoryUnavailableException,
-      EntityAlreadyExistsException,
-      EntityDoesNotExistException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const createConditionalForwarder: (
+  input: CreateConditionalForwarderRequest,
+) => Effect.Effect<
+  CreateConditionalForwarderResult,
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityAlreadyExistsException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConditionalForwarderRequest,
+  output: CreateConditionalForwarderResult,
+  errors: [
+    ClientException,
+    DirectoryUnavailableException,
+    EntityAlreadyExistsException,
+    EntityDoesNotExistException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Deletes a conditional forwarder that has been set up for your Amazon Web Services
  * directory.
  */
-export const deleteConditionalForwarder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConditionalForwarderRequest,
-    output: DeleteConditionalForwarderResult,
-    errors: [
-      ClientException,
-      DirectoryUnavailableException,
-      EntityDoesNotExistException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const deleteConditionalForwarder: (
+  input: DeleteConditionalForwarderRequest,
+) => Effect.Effect<
+  DeleteConditionalForwarderResult,
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConditionalForwarderRequest,
+  output: DeleteConditionalForwarderResult,
+  errors: [
+    ClientException,
+    DirectoryUnavailableException,
+    EntityDoesNotExistException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Updates a conditional forwarder that has been set up for your Amazon Web Services
  * directory.
  */
-export const updateConditionalForwarder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConditionalForwarderRequest,
-    output: UpdateConditionalForwarderResult,
-    errors: [
-      ClientException,
-      DirectoryUnavailableException,
-      EntityDoesNotExistException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const updateConditionalForwarder: (
+  input: UpdateConditionalForwarderRequest,
+) => Effect.Effect<
+  UpdateConditionalForwarderResult,
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConditionalForwarderRequest,
+  output: UpdateConditionalForwarderResult,
+  errors: [
+    ClientException,
+    DirectoryUnavailableException,
+    EntityDoesNotExistException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Obtains information about the conditional forwarders for this account.
  *
  * If no input parameters are provided for RemoteDomainNames, this request describes all
  * conditional forwarders for the specified directory ID.
  */
-export const describeConditionalForwarders =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConditionalForwardersRequest,
-    output: DescribeConditionalForwardersResult,
-    errors: [
-      ClientException,
-      DirectoryUnavailableException,
-      EntityDoesNotExistException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }));
+export const describeConditionalForwarders: (
+  input: DescribeConditionalForwardersRequest,
+) => Effect.Effect<
+  DescribeConditionalForwardersResult,
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConditionalForwardersRequest,
+  output: DescribeConditionalForwardersResult,
+  errors: [
+    ClientException,
+    DirectoryUnavailableException,
+    EntityDoesNotExistException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Deactivates LDAP secure calls for the specified directory.
  */
-export const disableLDAPS = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableLDAPS: (
+  input: DisableLDAPSRequest,
+) => Effect.Effect<
+  DisableLDAPSResult,
+  | ClientException
+  | DirectoryDoesNotExistException
+  | DirectoryUnavailableException
+  | InvalidLDAPSStatusException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableLDAPSRequest,
   output: DisableLDAPSResult,
   errors: [
@@ -4998,138 +6010,343 @@ export const disableLDAPS = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disables alternative client authentication methods for the specified directory.
  */
-export const disableClientAuthentication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableClientAuthenticationRequest,
-    output: DisableClientAuthenticationResult,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      DirectoryDoesNotExistException,
-      InvalidClientAuthStatusException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const disableClientAuthentication: (
+  input: DisableClientAuthenticationRequest,
+) => Effect.Effect<
+  DisableClientAuthenticationResult,
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidClientAuthStatusException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableClientAuthenticationRequest,
+  output: DisableClientAuthenticationResult,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    DirectoryDoesNotExistException,
+    InvalidClientAuthStatusException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Describes the status of LDAP security for the specified directory.
  */
-export const describeLDAPSSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeLDAPSSettings: {
+  (
     input: DescribeLDAPSSettingsRequest,
-    output: DescribeLDAPSSettingsResult,
-    errors: [
-      ClientException,
-      DirectoryDoesNotExistException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LDAPSSettingsInfo",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeLDAPSSettingsResult,
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeLDAPSSettingsRequest,
+  ) => Stream.Stream<
+    DescribeLDAPSSettingsResult,
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeLDAPSSettingsRequest,
+  ) => Stream.Stream<
+    LDAPSSettingInfo,
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeLDAPSSettingsRequest,
+  output: DescribeLDAPSSettingsResult,
+  errors: [
+    ClientException,
+    DirectoryDoesNotExistException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LDAPSSettingsInfo",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Provides information about the Regions that are configured for multi-Region
  * replication.
  */
-export const describeRegions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeRegions: {
+  (
     input: DescribeRegionsRequest,
-    output: DescribeRegionsResult,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      DirectoryDoesNotExistException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RegionsDescription",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeRegionsResult,
+    | AccessDeniedException
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRegionsRequest,
+  ) => Stream.Stream<
+    DescribeRegionsResult,
+    | AccessDeniedException
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRegionsRequest,
+  ) => Stream.Stream<
+    RegionDescription,
+    | AccessDeniedException
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRegionsRequest,
+  output: DescribeRegionsResult,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    DirectoryDoesNotExistException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RegionsDescription",
+  } as const,
+}));
 /**
  * Obtains information about the trust relationships for this account.
  *
  * If no input parameters are provided, such as DirectoryId or TrustIds, this request
  * describes all the trust relationships belonging to the account.
  */
-export const describeTrusts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeTrusts: {
+  (
     input: DescribeTrustsRequest,
-    output: DescribeTrustsResult,
-    errors: [
-      ClientException,
-      EntityDoesNotExistException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Trusts",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeTrustsResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTrustsRequest,
+  ) => Stream.Stream<
+    DescribeTrustsResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTrustsRequest,
+  ) => Stream.Stream<
+    Trust,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTrustsRequest,
+  output: DescribeTrustsResult,
+  errors: [
+    ClientException,
+    EntityDoesNotExistException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Trusts",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * For the specified directory, lists all the certificates registered for a secure LDAP or
  * client certificate authentication.
  */
-export const listCertificates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCertificates: {
+  (
     input: ListCertificatesRequest,
-    output: ListCertificatesResult,
-    errors: [
-      ClientException,
-      DirectoryDoesNotExistException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CertificatesInfo",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCertificatesResult,
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCertificatesRequest,
+  ) => Stream.Stream<
+    ListCertificatesResult,
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCertificatesRequest,
+  ) => Stream.Stream<
+    CertificateInfo,
+    | ClientException
+    | DirectoryDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCertificatesRequest,
+  output: ListCertificatesResult,
+  errors: [
+    ClientException,
+    DirectoryDoesNotExistException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CertificatesInfo",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns the shared directories in your account.
  */
-export const describeSharedDirectories =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeSharedDirectories: {
+  (
     input: DescribeSharedDirectoriesRequest,
-    output: DescribeSharedDirectoriesResult,
-    errors: [
-      ClientException,
-      EntityDoesNotExistException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SharedDirectories",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeSharedDirectoriesResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSharedDirectoriesRequest,
+  ) => Stream.Stream<
+    DescribeSharedDirectoriesResult,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSharedDirectoriesRequest,
+  ) => Stream.Stream<
+    SharedDirectory,
+    | ClientException
+    | EntityDoesNotExistException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ServiceException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSharedDirectoriesRequest,
+  output: DescribeSharedDirectoriesResult,
+  errors: [
+    ClientException,
+    EntityDoesNotExistException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SharedDirectories",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Adds or removes domain controllers to or from the directory. Based on the difference
  * between current value and new value (provided through this API call), domain controllers will
@@ -5137,82 +6354,137 @@ export const describeSharedDirectories =
  * fully active once the requested number of domain controllers is updated. During this time, you
  * cannot make another update request.
  */
-export const updateNumberOfDomainControllers =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateNumberOfDomainControllersRequest,
-    output: UpdateNumberOfDomainControllersResult,
-    errors: [
-      ClientException,
-      DirectoryUnavailableException,
-      DomainControllerLimitExceededException,
-      EntityDoesNotExistException,
-      InvalidParameterException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }));
+export const updateNumberOfDomainControllers: (
+  input: UpdateNumberOfDomainControllersRequest,
+) => Effect.Effect<
+  UpdateNumberOfDomainControllersResult,
+  | ClientException
+  | DirectoryUnavailableException
+  | DomainControllerLimitExceededException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNumberOfDomainControllersRequest,
+  output: UpdateNumberOfDomainControllersResult,
+  errors: [
+    ClientException,
+    DirectoryUnavailableException,
+    DomainControllerLimitExceededException,
+    EntityDoesNotExistException,
+    InvalidParameterException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Creates a subscription to forward real-time Directory Service domain controller security
  * logs to the specified Amazon CloudWatch log group in your Amazon Web Services account.
  */
-export const createLogSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLogSubscriptionRequest,
-    output: CreateLogSubscriptionResult,
-    errors: [
-      ClientException,
-      EntityAlreadyExistsException,
-      EntityDoesNotExistException,
-      InsufficientPermissionsException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const createLogSubscription: (
+  input: CreateLogSubscriptionRequest,
+) => Effect.Effect<
+  CreateLogSubscriptionResult,
+  | ClientException
+  | EntityAlreadyExistsException
+  | EntityDoesNotExistException
+  | InsufficientPermissionsException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLogSubscriptionRequest,
+  output: CreateLogSubscriptionResult,
+  errors: [
+    ClientException,
+    EntityAlreadyExistsException,
+    EntityDoesNotExistException,
+    InsufficientPermissionsException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Deactivates access to directory data via the Directory Service Data API for the specified directory. For
  * more information, see Directory Service Data API Reference.
  */
-export const disableDirectoryDataAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableDirectoryDataAccessRequest,
-    output: DisableDirectoryDataAccessResult,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      DirectoryDoesNotExistException,
-      DirectoryInDesiredStateException,
-      DirectoryUnavailableException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const disableDirectoryDataAccess: (
+  input: DisableDirectoryDataAccessRequest,
+) => Effect.Effect<
+  DisableDirectoryDataAccessResult,
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | DirectoryInDesiredStateException
+  | DirectoryUnavailableException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableDirectoryDataAccessRequest,
+  output: DisableDirectoryDataAccessResult,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    DirectoryDoesNotExistException,
+    DirectoryInDesiredStateException,
+    DirectoryUnavailableException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Enables access to directory data via the Directory Service Data API for the specified directory. For
  * more information, see Directory Service Data API Reference.
  */
-export const enableDirectoryDataAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableDirectoryDataAccessRequest,
-    output: EnableDirectoryDataAccessResult,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      DirectoryDoesNotExistException,
-      DirectoryInDesiredStateException,
-      DirectoryUnavailableException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const enableDirectoryDataAccess: (
+  input: EnableDirectoryDataAccessRequest,
+) => Effect.Effect<
+  EnableDirectoryDataAccessResult,
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | DirectoryInDesiredStateException
+  | DirectoryUnavailableException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableDirectoryDataAccessRequest,
+  output: EnableDirectoryDataAccessResult,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    DirectoryDoesNotExistException,
+    DirectoryInDesiredStateException,
+    DirectoryUnavailableException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Creates a snapshot of a Simple AD or Microsoft AD directory in the Amazon Web Services cloud.
  *
  * You cannot take snapshots of AD Connector directories.
  */
-export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSnapshot: (
+  input: CreateSnapshotRequest,
+) => Effect.Effect<
+  CreateSnapshotResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | SnapshotLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotRequest,
   output: CreateSnapshotResult,
   errors: [
@@ -5226,27 +6498,54 @@ export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates directory configuration for the specified update type.
  */
-export const updateDirectorySetup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDirectorySetupRequest,
-    output: UpdateDirectorySetupResult,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      DirectoryDoesNotExistException,
-      DirectoryInDesiredStateException,
-      DirectoryUnavailableException,
-      InvalidParameterException,
-      ServiceException,
-      SnapshotLimitExceededException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const updateDirectorySetup: (
+  input: UpdateDirectorySetupRequest,
+) => Effect.Effect<
+  UpdateDirectorySetupResult,
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | DirectoryInDesiredStateException
+  | DirectoryUnavailableException
+  | InvalidParameterException
+  | ServiceException
+  | SnapshotLimitExceededException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDirectorySetupRequest,
+  output: UpdateDirectorySetupResult,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    DirectoryDoesNotExistException,
+    DirectoryInDesiredStateException,
+    DirectoryUnavailableException,
+    InvalidParameterException,
+    ServiceException,
+    SnapshotLimitExceededException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Activates the switch for the specific directory to always use LDAP secure calls.
  */
-export const enableLDAPS = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableLDAPS: (
+  input: EnableLDAPSRequest,
+) => Effect.Effect<
+  EnableLDAPSResult,
+  | ClientException
+  | DirectoryDoesNotExistException
+  | DirectoryUnavailableException
+  | InvalidLDAPSStatusException
+  | InvalidParameterException
+  | NoAvailableCertificateException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableLDAPSRequest,
   output: EnableLDAPSResult,
   errors: [
@@ -5263,25 +6562,51 @@ export const enableLDAPS = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables alternative client authentication methods for the specified directory.
  */
-export const enableClientAuthentication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableClientAuthenticationRequest,
-    output: EnableClientAuthenticationResult,
-    errors: [
-      AccessDeniedException,
-      ClientException,
-      DirectoryDoesNotExistException,
-      InvalidClientAuthStatusException,
-      NoAvailableCertificateException,
-      ServiceException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const enableClientAuthentication: (
+  input: EnableClientAuthenticationRequest,
+) => Effect.Effect<
+  EnableClientAuthenticationResult,
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidClientAuthStatusException
+  | NoAvailableCertificateException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableClientAuthenticationRequest,
+  output: EnableClientAuthenticationResult,
+  errors: [
+    AccessDeniedException,
+    ClientException,
+    DirectoryDoesNotExistException,
+    InvalidClientAuthStatusException,
+    NoAvailableCertificateException,
+    ServiceException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Registers a certificate for a secure LDAP or client certificate authentication.
  */
-export const registerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerCertificate: (
+  input: RegisterCertificateRequest,
+) => Effect.Effect<
+  RegisterCertificateResult,
+  | CertificateAlreadyExistsException
+  | CertificateLimitExceededException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | DirectoryUnavailableException
+  | InvalidCertificateException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterCertificateRequest,
   output: RegisterCertificateResult,
   errors: [
@@ -5299,7 +6624,21 @@ export const registerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the configurable settings for the specified directory.
  */
-export const updateSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSettings: (
+  input: UpdateSettingsRequest,
+) => Effect.Effect<
+  UpdateSettingsResult,
+  | ClientException
+  | DirectoryDoesNotExistException
+  | DirectoryUnavailableException
+  | IncompatibleSettingsException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | UnsupportedSettingsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSettingsRequest,
   output: UpdateSettingsResult,
   errors: [
@@ -5331,7 +6670,20 @@ export const updateSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * directory, see What Gets Created in the Directory Service Administration
  * Guide.
  */
-export const resetUserPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resetUserPassword: (
+  input: ResetUserPasswordRequest,
+) => Effect.Effect<
+  ResetUserPasswordResult,
+  | ClientException
+  | DirectoryUnavailableException
+  | EntityDoesNotExistException
+  | InvalidPasswordException
+  | ServiceException
+  | UnsupportedOperationException
+  | UserDoesNotExistException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetUserPasswordRequest,
   output: ResetUserPasswordResult,
   errors: [
@@ -5362,7 +6714,23 @@ export const resetUserPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The `ShareNotes` parameter is only used when `HANDSHAKE` is called,
  * which sends a directory sharing request to the directory consumer.
  */
-export const shareDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const shareDirectory: (
+  input: ShareDirectoryRequest,
+) => Effect.Effect<
+  ShareDirectoryResult,
+  | AccessDeniedException
+  | ClientException
+  | DirectoryAlreadySharedException
+  | EntityDoesNotExistException
+  | InvalidParameterException
+  | InvalidTargetException
+  | OrganizationsException
+  | ServiceException
+  | ShareLimitExceededException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ShareDirectoryRequest,
   output: ShareDirectoryResult,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://ecr-public.amazonaws.com/doc/2020-12-02/");
 const svc = T.AwsApiService({
   sdkId: "ECR PUBLIC",
@@ -261,6 +269,40 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type RegistryIdOrAlias = string;
+export type RepositoryName = string;
+export type BatchedOperationLayerDigest = string;
+export type UploadId = string;
+export type LayerDigest = string;
+export type RegistryId = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type Arn = string;
+export type ImageManifest = string;
+export type MediaType = string;
+export type ImageTag = string;
+export type ImageDigest = string;
+export type RegistryDisplayName = string;
+export type RepositoryPolicyText = string;
+export type TagKey = string;
+export type PartSize = number;
+export type RepositoryDescription = string;
+export type Architecture = string;
+export type OperatingSystem = string;
+export type AboutText = string;
+export type UsageText = string;
+export type TagValue = string;
+export type Base64 = string;
+export type ExceptionMessage = string;
+export type LayerSizeInBytes = number;
+export type LayerFailureReason = string;
+export type Url = string;
+export type ImageSizeInBytes = number;
+export type ResourceUrl = string;
+export type RegistryAliasName = string;
+export type ImageFailureReason = string;
 
 //# Schemas
 export interface GetAuthorizationTokenRequest {}
@@ -1404,30 +1446,43 @@ export class ReferencedImagesNotFoundException extends S.TaggedError<ReferencedI
 /**
  * Retrieves catalog metadata for a public registry.
  */
-export const getRegistryCatalogData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRegistryCatalogDataRequest,
-    output: GetRegistryCatalogDataResponse,
-    errors: [ServerException, UnsupportedCommandException],
-  }),
-);
+export const getRegistryCatalogData: (
+  input: GetRegistryCatalogDataRequest,
+) => Effect.Effect<
+  GetRegistryCatalogDataResponse,
+  ServerException | UnsupportedCommandException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRegistryCatalogDataRequest,
+  output: GetRegistryCatalogDataResponse,
+  errors: [ServerException, UnsupportedCommandException],
+}));
 /**
  * Retrieve catalog metadata for a repository in a public registry. This metadata is
  * displayed publicly in the Amazon ECR Public Gallery.
  */
-export const getRepositoryCatalogData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRepositoryCatalogDataRequest,
-    output: GetRepositoryCatalogDataResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryCatalogDataNotFoundException,
-      RepositoryNotFoundException,
-      ServerException,
-      UnsupportedCommandException,
-    ],
-  }),
-);
+export const getRepositoryCatalogData: (
+  input: GetRepositoryCatalogDataRequest,
+) => Effect.Effect<
+  GetRepositoryCatalogDataResponse,
+  | InvalidParameterException
+  | RepositoryCatalogDataNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRepositoryCatalogDataRequest,
+  output: GetRepositoryCatalogDataResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryCatalogDataNotFoundException,
+    RepositoryNotFoundException,
+    ServerException,
+    UnsupportedCommandException,
+  ],
+}));
 /**
  * Retrieves an authorization token. An authorization token represents your IAM
  * authentication credentials. You can use it to access any Amazon ECR registry that your IAM
@@ -1435,31 +1490,45 @@ export const getRepositoryCatalogData = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * the `ecr-public:GetAuthorizationToken` and
  * `sts:GetServiceBearerToken` permissions.
  */
-export const getAuthorizationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAuthorizationTokenRequest,
-    output: GetAuthorizationTokenResponse,
-    errors: [
-      InvalidParameterException,
-      ServerException,
-      UnsupportedCommandException,
-    ],
-  }),
-);
+export const getAuthorizationToken: (
+  input: GetAuthorizationTokenRequest,
+) => Effect.Effect<
+  GetAuthorizationTokenResponse,
+  | InvalidParameterException
+  | ServerException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAuthorizationTokenRequest,
+  output: GetAuthorizationTokenResponse,
+  errors: [
+    InvalidParameterException,
+    ServerException,
+    UnsupportedCommandException,
+  ],
+}));
 /**
  * Create or update the catalog data for a public registry.
  */
-export const putRegistryCatalogData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRegistryCatalogDataRequest,
-    output: PutRegistryCatalogDataResponse,
-    errors: [
-      InvalidParameterException,
-      ServerException,
-      UnsupportedCommandException,
-    ],
-  }),
-);
+export const putRegistryCatalogData: (
+  input: PutRegistryCatalogDataRequest,
+) => Effect.Effect<
+  PutRegistryCatalogDataResponse,
+  | InvalidParameterException
+  | ServerException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRegistryCatalogDataRequest,
+  output: PutRegistryCatalogDataResponse,
+  errors: [
+    InvalidParameterException,
+    ServerException,
+    UnsupportedCommandException,
+  ],
+}));
 /**
  * Notifies Amazon ECR that you intend to upload an image layer.
  *
@@ -1469,7 +1538,18 @@ export const putRegistryCatalogData = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const initiateLayerUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const initiateLayerUpload: (
+  input: InitiateLayerUploadRequest,
+) => Effect.Effect<
+  InitiateLayerUploadResponse,
+  | InvalidParameterException
+  | RegistryNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitiateLayerUploadRequest,
   output: InitiateLayerUploadResponse,
   errors: [
@@ -1483,27 +1563,70 @@ export const initiateLayerUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes repositories that are in a public registry.
  */
-export const describeRepositories =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRepositories: {
+  (
     input: DescribeRepositoriesRequest,
-    output: DescribeRepositoriesResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-      UnsupportedCommandException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "repositories",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRepositoriesResponse,
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | UnsupportedCommandException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRepositoriesRequest,
+  ) => Stream.Stream<
+    DescribeRepositoriesResponse,
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | UnsupportedCommandException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRepositoriesRequest,
+  ) => Stream.Stream<
+    Repository,
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | UnsupportedCommandException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRepositoriesRequest,
+  output: DescribeRepositoriesResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+    UnsupportedCommandException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "repositories",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List the tags for an Amazon ECR Public resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1516,24 +1639,42 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates or updates the catalog data for a repository in a public registry.
  */
-export const putRepositoryCatalogData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRepositoryCatalogDataRequest,
-    output: PutRepositoryCatalogDataResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-      UnsupportedCommandException,
-    ],
-  }),
-);
+export const putRepositoryCatalogData: (
+  input: PutRepositoryCatalogDataRequest,
+) => Effect.Effect<
+  PutRepositoryCatalogDataResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRepositoryCatalogDataRequest,
+  output: PutRepositoryCatalogDataResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+    UnsupportedCommandException,
+  ],
+}));
 /**
  * Applies a repository policy to the specified public repository to control access
  * permissions. For more information, see Amazon ECR Repository
  * Policies in the *Amazon Elastic Container Registry User Guide*.
  */
-export const setRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setRepositoryPolicy: (
+  input: SetRepositoryPolicyRequest,
+) => Effect.Effect<
+  SetRepositoryPolicyResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetRepositoryPolicyRequest,
   output: SetRepositoryPolicyResponse,
   errors: [
@@ -1551,19 +1692,28 @@ export const setRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const batchCheckLayerAvailability = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchCheckLayerAvailabilityRequest,
-    output: BatchCheckLayerAvailabilityResponse,
-    errors: [
-      InvalidParameterException,
-      RegistryNotFoundException,
-      RepositoryNotFoundException,
-      ServerException,
-      UnsupportedCommandException,
-    ],
-  }),
-);
+export const batchCheckLayerAvailability: (
+  input: BatchCheckLayerAvailabilityRequest,
+) => Effect.Effect<
+  BatchCheckLayerAvailabilityResponse,
+  | InvalidParameterException
+  | RegistryNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCheckLayerAvailabilityRequest,
+  output: BatchCheckLayerAvailabilityResponse,
+  errors: [
+    InvalidParameterException,
+    RegistryNotFoundException,
+    RepositoryNotFoundException,
+    ServerException,
+    UnsupportedCommandException,
+  ],
+}));
 /**
  * Deletes a list of specified images that are within a repository in a public registry.
  * Images are specified with either an `imageTag` or
@@ -1575,7 +1725,17 @@ export const batchCheckLayerAvailability = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can completely delete an image (and all of its tags) by specifying the digest of the
  * image in your request.
  */
-export const batchDeleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchDeleteImage: (
+  input: BatchDeleteImageRequest,
+) => Effect.Effect<
+  BatchDeleteImageResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteImageRequest,
   output: BatchDeleteImageResponse,
   errors: [
@@ -1590,7 +1750,18 @@ export const batchDeleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * either manually delete all images in the repository or use the `force` option.
  * This option deletes all images on your behalf before deleting the repository.
  */
-export const deleteRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRepository: (
+  input: DeleteRepositoryRequest,
+) => Effect.Effect<
+  DeleteRepositoryResponse,
+  | InvalidParameterException
+  | RepositoryNotEmptyException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRepositoryRequest,
   output: DeleteRepositoryResponse,
   errors: [
@@ -1610,86 +1781,203 @@ export const deleteRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * command shows the uncompressed image size. Therefore, it might return a larger image
  * size than the image sizes that are returned by DescribeImages.
  */
-export const describeImages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeImages: {
+  (
     input: DescribeImagesRequest,
-    output: DescribeImagesResponse,
-    errors: [
-      ImageNotFoundException,
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-      UnsupportedCommandException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "imageDetails",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeImagesResponse,
+    | ImageNotFoundException
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | UnsupportedCommandException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeImagesRequest,
+  ) => Stream.Stream<
+    DescribeImagesResponse,
+    | ImageNotFoundException
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | UnsupportedCommandException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeImagesRequest,
+  ) => Stream.Stream<
+    ImageDetail,
+    | ImageNotFoundException
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | UnsupportedCommandException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeImagesRequest,
+  output: DescribeImagesResponse,
+  errors: [
+    ImageNotFoundException,
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+    UnsupportedCommandException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "imageDetails",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns the image tag details for a repository in a public registry.
  */
-export const describeImageTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeImageTags: {
+  (
     input: DescribeImageTagsRequest,
-    output: DescribeImageTagsResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-      UnsupportedCommandException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "imageTagDetails",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeImageTagsResponse,
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | UnsupportedCommandException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeImageTagsRequest,
+  ) => Stream.Stream<
+    DescribeImageTagsResponse,
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | UnsupportedCommandException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeImageTagsRequest,
+  ) => Stream.Stream<
+    ImageTagDetail,
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | UnsupportedCommandException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeImageTagsRequest,
+  output: DescribeImageTagsResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+    UnsupportedCommandException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "imageTagDetails",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns details for a public registry.
  */
-export const describeRegistries = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeRegistries: {
+  (
     input: DescribeRegistriesRequest,
-    output: DescribeRegistriesResponse,
-    errors: [
-      InvalidParameterException,
-      ServerException,
-      UnsupportedCommandException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "registries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeRegistriesResponse,
+    | InvalidParameterException
+    | ServerException
+    | UnsupportedCommandException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRegistriesRequest,
+  ) => Stream.Stream<
+    DescribeRegistriesResponse,
+    | InvalidParameterException
+    | ServerException
+    | UnsupportedCommandException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRegistriesRequest,
+  ) => Stream.Stream<
+    Registry,
+    | InvalidParameterException
+    | ServerException
+    | UnsupportedCommandException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRegistriesRequest,
+  output: DescribeRegistriesResponse,
+  errors: [
+    InvalidParameterException,
+    ServerException,
+    UnsupportedCommandException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "registries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes the repository policy that's associated with the specified repository.
  */
-export const deleteRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRepositoryPolicyRequest,
-    output: DeleteRepositoryPolicyResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      RepositoryPolicyNotFoundException,
-      ServerException,
-      UnsupportedCommandException,
-    ],
-  }),
-);
+export const deleteRepositoryPolicy: (
+  input: DeleteRepositoryPolicyRequest,
+) => Effect.Effect<
+  DeleteRepositoryPolicyResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | RepositoryPolicyNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRepositoryPolicyRequest,
+  output: DeleteRepositoryPolicyResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    RepositoryPolicyNotFoundException,
+    ServerException,
+    UnsupportedCommandException,
+  ],
+}));
 /**
  * Deletes specified tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InvalidParameterException
+  | InvalidTagParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | TooManyTagsException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1704,7 +1992,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the repository policy for the specified repository.
  */
-export const getRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRepositoryPolicy: (
+  input: GetRepositoryPolicyRequest,
+) => Effect.Effect<
+  GetRepositoryPolicyResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | RepositoryPolicyNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRepositoryPolicyRequest,
   output: GetRepositoryPolicyResponse,
   errors: [
@@ -1721,7 +2020,19 @@ export const getRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * changed. When a resource is deleted, the tags associated with that resource are also
  * deleted.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InvalidParameterException
+  | InvalidTagParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | TooManyTagsException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1742,7 +2053,21 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const uploadLayerPart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const uploadLayerPart: (
+  input: UploadLayerPartRequest,
+) => Effect.Effect<
+  UploadLayerPartResponse,
+  | InvalidLayerPartException
+  | InvalidParameterException
+  | LimitExceededException
+  | RegistryNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | UploadNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadLayerPartRequest,
   output: UploadLayerPartResponse,
   errors: [
@@ -1760,7 +2085,20 @@ export const uploadLayerPart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a repository in a public registry. For more information, see Amazon ECR
  * repositories in the *Amazon Elastic Container Registry User Guide*.
  */
-export const createRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRepository: (
+  input: CreateRepositoryRequest,
+) => Effect.Effect<
+  CreateRepositoryResponse,
+  | InvalidParameterException
+  | InvalidTagParameterException
+  | LimitExceededException
+  | RepositoryAlreadyExistsException
+  | ServerException
+  | TooManyTagsException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRepositoryRequest,
   output: CreateRepositoryResponse,
   errors: [
@@ -1783,7 +2121,23 @@ export const createRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const completeLayerUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const completeLayerUpload: (
+  input: CompleteLayerUploadRequest,
+) => Effect.Effect<
+  CompleteLayerUploadResponse,
+  | EmptyUploadException
+  | InvalidLayerException
+  | InvalidParameterException
+  | LayerAlreadyExistsException
+  | LayerPartTooSmallException
+  | RegistryNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | UploadNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteLayerUploadRequest,
   output: CompleteLayerUploadResponse,
   errors: [
@@ -1808,7 +2162,24 @@ export const completeLayerUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const putImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putImage: (
+  input: PutImageRequest,
+) => Effect.Effect<
+  PutImageResponse,
+  | ImageAlreadyExistsException
+  | ImageDigestDoesNotMatchException
+  | ImageTagAlreadyExistsException
+  | InvalidParameterException
+  | LayersNotFoundException
+  | LimitExceededException
+  | ReferencedImagesNotFoundException
+  | RegistryNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutImageRequest,
   output: PutImageResponse,
   errors: [

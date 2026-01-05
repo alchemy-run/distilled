@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "ApplicationCostProfiler",
   serviceShapeName: "AWSApplicationCostProfiler",
@@ -240,6 +248,17 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ReportId = string;
+export type Token = string;
+export type Integer = number;
+export type ReportDescription = string;
+export type S3Bucket = string;
+export type S3Key = string;
+export type S3Prefix = string;
+export type ErrorMessage = string;
+export type ImportId = string;
 
 //# Schemas
 export interface DeleteReportDefinitionRequest {
@@ -484,11 +503,15 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
@@ -503,22 +526,41 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being
  * generated.
  */
-export const deleteReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteReportDefinitionRequest,
-    output: DeleteReportDefinitionResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteReportDefinition: (
+  input: DeleteReportDefinitionRequest,
+) => Effect.Effect<
+  DeleteReportDefinitionResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReportDefinitionRequest,
+  output: DeleteReportDefinitionResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates the report definition for a report in Application Cost Profiler.
  */
-export const putReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putReportDefinition: (
+  input: PutReportDefinitionRequest,
+) => Effect.Effect<
+  PutReportDefinitionResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutReportDefinitionRequest,
   output: PutReportDefinitionResult,
   errors: [
@@ -536,44 +578,95 @@ export const putReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing
  * asynchronously.
  */
-export const importApplicationUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ImportApplicationUsageRequest,
-    output: ImportApplicationUsageResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const importApplicationUsage: (
+  input: ImportApplicationUsageRequest,
+) => Effect.Effect<
+  ImportApplicationUsageResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportApplicationUsageRequest,
+  output: ImportApplicationUsageResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a list of all reports and their configurations for your AWS account.
  *
  * The maximum number of reports is one.
  */
-export const listReportDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listReportDefinitions: {
+  (
     input: ListReportDefinitionsRequest,
-    output: ListReportDefinitionsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "reportDefinitions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListReportDefinitionsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReportDefinitionsRequest,
+  ) => Stream.Stream<
+    ListReportDefinitionsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReportDefinitionsRequest,
+  ) => Stream.Stream<
+    ReportDefinition,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReportDefinitionsRequest,
+  output: ListReportDefinitionsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "reportDefinitions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the definition of a report already configured in AWS Application Cost Profiler.
  */
-export const getReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getReportDefinition: (
+  input: GetReportDefinitionRequest,
+) => Effect.Effect<
+  GetReportDefinitionResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReportDefinitionRequest,
   output: GetReportDefinitionResult,
   errors: [
@@ -586,15 +679,23 @@ export const getReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates existing report in AWS Application Cost Profiler.
  */
-export const updateReportDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateReportDefinitionRequest,
-    output: UpdateReportDefinitionResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateReportDefinition: (
+  input: UpdateReportDefinitionRequest,
+) => Effect.Effect<
+  UpdateReportDefinitionResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateReportDefinitionRequest,
+  output: UpdateReportDefinitionResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

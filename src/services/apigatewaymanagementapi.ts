@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "ApiGatewayManagementApi",
   serviceShapeName: "ApiGatewayManagementApi",
@@ -241,6 +249,9 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type __string = string;
+
 //# Schemas
 export interface DeleteConnectionRequest {
   ConnectionId: string;
@@ -352,7 +363,9 @@ export class GoneException extends S.TaggedError<GoneException>()(
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   {},
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class PayloadTooLargeException extends S.TaggedError<PayloadTooLargeException>()(
   "PayloadTooLargeException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
@@ -362,7 +375,16 @@ export class PayloadTooLargeException extends S.TaggedError<PayloadTooLargeExcep
 /**
  * Delete the connection with the provided id.
  */
-export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConnection: (
+  input: DeleteConnectionRequest,
+) => Effect.Effect<
+  DeleteConnectionResponse,
+  | ForbiddenException
+  | GoneException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionRequest,
   output: DeleteConnectionResponse,
   errors: [ForbiddenException, GoneException, LimitExceededException],
@@ -370,7 +392,17 @@ export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Sends the provided data to the specified connection.
  */
-export const postToConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const postToConnection: (
+  input: PostToConnectionRequest,
+) => Effect.Effect<
+  PostToConnectionResponse,
+  | ForbiddenException
+  | GoneException
+  | LimitExceededException
+  | PayloadTooLargeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PostToConnectionRequest,
   output: PostToConnectionResponse,
   errors: [
@@ -383,7 +415,16 @@ export const postToConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get information about the connection with the provided id.
  */
-export const getConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConnection: (
+  input: GetConnectionRequest,
+) => Effect.Effect<
+  GetConnectionResponse,
+  | ForbiddenException
+  | GoneException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionRequest,
   output: GetConnectionResponse,
   errors: [ForbiddenException, GoneException, LimitExceededException],

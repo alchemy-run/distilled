@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "License Manager User Subscriptions",
   serviceShapeName: "LicenseManagerUserSubscriptions",
@@ -241,6 +249,21 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type Arn = string;
+export type ServerType = string;
+export type BoxInteger = number;
+export type ResourceArn = string;
+export type Subnet = string;
+export type SecurityGroup = string;
+export type Directory = string;
+export type ActiveDirectoryType = string;
+export type LicenseServerEndpointId = string;
+export type LicenseServerEndpointProvisioningStatus = string;
+export type IpV4 = string;
+export type IpV6 = string;
+export type LicenseServerHealthStatus = string;
+
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
@@ -277,6 +300,9 @@ export const SecretsManagerCredentialsProvider = S.suspend(() =>
 ).annotations({
   identifier: "SecretsManagerCredentialsProvider",
 }) as any as S.Schema<SecretsManagerCredentialsProvider>;
+export type CredentialsProvider = {
+  SecretsManagerCredentialsProvider: SecretsManagerCredentialsProvider;
+};
 export const CredentialsProvider = S.Union(
   S.Struct({
     SecretsManagerCredentialsProvider: SecretsManagerCredentialsProvider,
@@ -326,6 +352,9 @@ export const ActiveDirectoryIdentityProvider = S.suspend(() =>
 ).annotations({
   identifier: "ActiveDirectoryIdentityProvider",
 }) as any as S.Schema<ActiveDirectoryIdentityProvider>;
+export type IdentityProvider = {
+  ActiveDirectoryIdentityProvider: ActiveDirectoryIdentityProvider;
+};
 export const IdentityProvider = S.Union(
   S.Struct({
     ActiveDirectoryIdentityProvider: ActiveDirectoryIdentityProvider,
@@ -1011,6 +1040,7 @@ export const UpdateIdentityProviderSettingsResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateIdentityProviderSettingsResponse",
 }) as any as S.Schema<UpdateIdentityProviderSettingsResponse>;
+export type ServerSettings = { RdsSalSettings: RdsSalSettings };
 export const ServerSettings = S.Union(
   S.Struct({ RdsSalSettings: RdsSalSettings }),
 );
@@ -1109,7 +1139,9 @@ export const AssociateUserResponse = S.suspend(() =>
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
@@ -1139,7 +1171,13 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Removes tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  InternalServerException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [InternalServerException, ResourceNotFoundException],
@@ -1147,7 +1185,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds tags to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1159,21 +1206,39 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates additional product configuration settings for the registered identity provider.
  */
-export const updateIdentityProviderSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateIdentityProviderSettingsRequest,
-    output: UpdateIdentityProviderSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateIdentityProviderSettings: (
+  input: UpdateIdentityProviderSettingsRequest,
+) => Effect.Effect<
+  UpdateIdentityProviderSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIdentityProviderSettingsRequest,
+  output: UpdateIdentityProviderSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the list of tags for the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1185,149 +1250,329 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List the Remote Desktop Services (RDS) License Server endpoints
  */
-export const listLicenseServerEndpoints =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLicenseServerEndpoints: {
+  (
     input: ListLicenseServerEndpointsRequest,
-    output: ListLicenseServerEndpointsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LicenseServerEndpoints",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListLicenseServerEndpointsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLicenseServerEndpointsRequest,
+  ) => Stream.Stream<
+    ListLicenseServerEndpointsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLicenseServerEndpointsRequest,
+  ) => Stream.Stream<
+    LicenseServerEndpoint,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLicenseServerEndpointsRequest,
+  output: ListLicenseServerEndpointsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LicenseServerEndpoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the user-based subscription products available from an identity provider.
  */
-export const listProductSubscriptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProductSubscriptions: {
+  (
     input: ListProductSubscriptionsRequest,
-    output: ListProductSubscriptionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProductUserSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProductSubscriptionsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProductSubscriptionsRequest,
+  ) => Stream.Stream<
+    ListProductSubscriptionsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProductSubscriptionsRequest,
+  ) => Stream.Stream<
+    ProductUserSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProductSubscriptionsRequest,
+  output: ListProductSubscriptionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProductUserSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Registers an identity provider for user-based subscriptions.
  */
-export const registerIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterIdentityProviderRequest,
-    output: RegisterIdentityProviderResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const registerIdentityProvider: (
+  input: RegisterIdentityProviderRequest,
+) => Effect.Effect<
+  RegisterIdentityProviderResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterIdentityProviderRequest,
+  output: RegisterIdentityProviderResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists user associations for an identity provider.
  */
-export const listUserAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUserAssociations: {
+  (
     input: ListUserAssociationsRequest,
-    output: ListUserAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InstanceUserSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListUserAssociationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUserAssociationsRequest,
+  ) => Stream.Stream<
+    ListUserAssociationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUserAssociationsRequest,
+  ) => Stream.Stream<
+    InstanceUserSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUserAssociationsRequest,
+  output: ListUserAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InstanceUserSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Starts a product subscription for a user with the specified identity provider.
  *
  * Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as **Pending** billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the *Amazon Web Services Billing User Guide*.
  */
-export const startProductSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartProductSubscriptionRequest,
-    output: StartProductSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startProductSubscription: (
+  input: StartProductSubscriptionRequest,
+) => Effect.Effect<
+  StartProductSubscriptionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartProductSubscriptionRequest,
+  output: StartProductSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Stops a product subscription for a user with the specified identity provider.
  */
-export const stopProductSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopProductSubscriptionRequest,
-    output: StopProductSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const stopProductSubscription: (
+  input: StopProductSubscriptionRequest,
+) => Effect.Effect<
+  StopProductSubscriptionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopProductSubscriptionRequest,
+  output: StopProductSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deregisters the Active Directory identity provider from License Manager user-based subscriptions.
  */
-export const deregisterIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterIdentityProviderRequest,
-    output: DeregisterIdentityProviderResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deregisterIdentityProvider: (
+  input: DeregisterIdentityProviderRequest,
+) => Effect.Effect<
+  DeregisterIdentityProviderResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterIdentityProviderRequest,
+  output: DeregisterIdentityProviderResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates the user from an EC2 instance providing user-based subscriptions.
  */
-export const disassociateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateUser: (
+  input: DisassociateUserRequest,
+) => Effect.Effect<
+  DisassociateUserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateUserRequest,
   output: DisassociateUserResponse,
   errors: [
@@ -1343,92 +1588,210 @@ export const disassociateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the Active Directory identity providers for user-based subscriptions.
  */
-export const listIdentityProviders =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIdentityProviders: {
+  (
     input: ListIdentityProvidersRequest,
-    output: ListIdentityProvidersResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IdentityProviderSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIdentityProvidersResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdentityProvidersRequest,
+  ) => Stream.Stream<
+    ListIdentityProvidersResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdentityProvidersRequest,
+  ) => Stream.Stream<
+    IdentityProviderSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdentityProvidersRequest,
+  output: ListIdentityProvidersResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IdentityProviderSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the EC2 instances providing user-based subscriptions.
  */
-export const listInstances = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listInstances: {
+  (
     input: ListInstancesRequest,
-    output: ListInstancesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InstanceSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListInstancesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInstancesRequest,
+  ) => Stream.Stream<
+    ListInstancesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInstancesRequest,
+  ) => Stream.Stream<
+    InstanceSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInstancesRequest,
+  output: ListInstancesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InstanceSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes a `LicenseServerEndpoint` resource.
  */
-export const deleteLicenseServerEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLicenseServerEndpointRequest,
-    output: DeleteLicenseServerEndpointResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteLicenseServerEndpoint: (
+  input: DeleteLicenseServerEndpointRequest,
+) => Effect.Effect<
+  DeleteLicenseServerEndpointResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLicenseServerEndpointRequest,
+  output: DeleteLicenseServerEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a network endpoint for the Remote Desktop Services (RDS) license server.
  */
-export const createLicenseServerEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLicenseServerEndpointRequest,
-    output: CreateLicenseServerEndpointResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createLicenseServerEndpoint: (
+  input: CreateLicenseServerEndpointRequest,
+) => Effect.Effect<
+  CreateLicenseServerEndpointResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLicenseServerEndpointRequest,
+  output: CreateLicenseServerEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates the user to an EC2 instance to utilize user-based subscriptions.
  *
  * Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as **Pending** billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the *Amazon Web Services Billing User Guide*.
  */
-export const associateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateUser: (
+  input: AssociateUserRequest,
+) => Effect.Effect<
+  AssociateUserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateUserRequest,
   output: AssociateUserResponse,
   errors: [

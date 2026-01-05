@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "QConnect",
   serviceShapeName: "WisdomService",
@@ -293,6 +301,157 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type Arn = string;
+export type TagKey = string;
+export type ClientToken = string;
+export type Name = string;
+export type AssistantType = string;
+export type Description = string;
+export type UuidOrArn = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type WaitTimeSeconds = number;
+export type RecommendationType = string;
+export type RecommendationId = string;
+export type Uuid = string;
+export type TargetType = string;
+export type QueryText = string;
+export type KnowledgeBaseSearchType = string;
+export type AIAgentType = string;
+export type NonEmptyString = string;
+export type NonEmptySensitiveString = string;
+export type VisibilityStatus = string;
+export type UuidOrArnOrEitherWithQualifier = string;
+export type Origin = string;
+export type Version = number;
+export type AIGuardrailBlockedMessaging = string;
+export type AIGuardrailDescription = string;
+export type AIPromptType = string;
+export type AIPromptTemplateType = string;
+export type AIPromptModelIdentifier = string;
+export type AIPromptAPIFormat = string;
+export type AssociationType = string;
+export type GenericArn = string;
+export type MessageFilterType = string;
+export type MessageType = string;
+export type SessionDataNamespace = string;
+export type KnowledgeBaseType = string;
+export type ContentType = string;
+export type TimeToLive = number;
+export type ImportJobType = string;
+export type UploadId = string;
+export type Uri = string;
+export type ContentTitle = string;
+export type ContentAssociationType = string;
+export type ChannelSubtype = string;
+export type LanguageCode = string;
+export type ContentDisposition = string;
+export type AttachmentFileName = string;
+export type NonEmptyUnlimitedString = string;
+export type MessageTemplateContentSha256 = string;
+export type QuickResponseName = string;
+export type QuickResponseType = string;
+export type QuickResponseDescription = string;
+export type ShortCutKey = string;
+export type Channel = string;
+export type TagValue = string;
+export type UuidWithQualifier = string;
+export type ContactAttributeKey = string;
+export type ContactAttributeValue = string;
+export type ExternalSource = string;
+export type GroupingCriteria = string;
+export type GroupingValue = string;
+export type QuickResponseContent = string;
+export type Url = string;
+export type ArnWithQualifier = string;
+export type MessageTemplateAttributeKey = string;
+export type Relevance = string;
+export type QueryConditionFieldName = string;
+export type QueryConditionComparisonOperator = string;
+export type CaseArn = string;
+export type FilterField = string;
+export type FilterOperator = string;
+export type GuardrailTopicName = string;
+export type GuardrailTopicDefinition = string;
+export type GuardrailTopicExample = string;
+export type GuardrailTopicType = string;
+export type GuardrailContentFilterType = string;
+export type GuardrailFilterStrength = string;
+export type GuardrailWordText = string;
+export type GuardrailManagedWordsType = string;
+export type GuardrailPiiEntityType = string;
+export type GuardrailSensitiveInformationAction = string;
+export type GuardrailRegexName = string;
+export type GuardrailRegexDescription = string;
+export type GuardrailRegexPattern = string;
+export type GuardrailContextualGroundingFilterType = string;
+export type GuardrailContextualGroundingFilterThreshold = number;
+export type TextAIPrompt = string;
+export type Probability = number;
+export type TopK = number;
+export type MaxTokensToSample = number;
+export type BedrockKnowledgeBaseArn = string;
+export type AccessRoleArn = string;
+export type SensitiveString = string;
+export type ChunkingStrategy = string;
+export type ParsingStrategy = string;
+export type MessageTemplateQueryValue = string;
+export type MessageTemplateQueryOperator = string;
+export type Priority = string;
+export type MessageTemplateFilterValue = string;
+export type MessageTemplateFilterOperator = string;
+export type Order = string;
+export type QuickResponseQueryValue = string;
+export type QuickResponseQueryOperator = string;
+export type QuickResponseFilterValue = string;
+export type QuickResponseFilterOperator = string;
+export type WhatsAppMessageTemplateContentData = string;
+export type WhatsAppBusinessAccountId = string;
+export type WhatsAppMessageTemplateId = string;
+export type WhatsAppMessageTemplateComponent = string;
+export type MessageTemplateAttributeValue = string;
+export type AssistantStatus = string;
+export type RelevanceScore = number;
+export type RelevanceLevel = string;
+export type RecommendationTriggerType = string;
+export type RecommendationSourceType = string;
+export type NotifyRecommendationsReceivedErrorMessage = string;
+export type Status = string;
+export type Participant = string;
+export type ConversationStatus = string;
+export type ConversationStatusReason = string;
+export type SpanType = string;
+export type SpanStatus = string;
+export type KnowledgeBaseStatus = string;
+export type SyncStatus = string;
+export type ImportJobStatus = string;
+export type ContentStatus = string;
+export type MessageTemplateAttributeType = string;
+export type QuickResponseStatus = string;
+export type FilterAttributeKey = string;
+export type AIAgentAssociationConfigurationType = string;
+export type ToolType = string;
+export type UrlFilterPattern = string;
+export type WebScopeType = string;
+export type BedrockModelArnForParsing = string;
+export type EmailHeaderKey = string;
+export type EmailHeaderValue = string;
+export type PushMessageAction = string;
+export type AssistantCapabilityType = string;
+export type WhatsAppMessageTemplateName = string;
+export type WhatsAppMessageTemplateLanguage = string;
+export type WhatsAppSourceConfigurationStatus = string;
+export type ReferenceType = string;
+export type ParsingPromptText = string;
+export type CitationSpanOffset = number;
+export type WebUrl = string;
+export type HighlightOffset = number;
+export type LlmModelId = string;
+export type SourceContentType = string;
+export type QueryResultType = string;
+export type ToolOverrideInputValueType = string;
+
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
@@ -530,12 +689,19 @@ export const TagCondition = S.suspend(() =>
 ).annotations({ identifier: "TagCondition" }) as any as S.Schema<TagCondition>;
 export type AndConditions = TagCondition[];
 export const AndConditions = S.Array(TagCondition);
+export type OrCondition =
+  | { andConditions: AndConditions }
+  | { tagCondition: TagCondition };
 export const OrCondition = S.Union(
   S.Struct({ andConditions: AndConditions }),
   S.Struct({ tagCondition: TagCondition }),
 );
 export type OrConditions = (typeof OrCondition)["Type"][];
 export const OrConditions = S.Array(OrCondition);
+export type TagFilter =
+  | { tagCondition: TagCondition }
+  | { andConditions: AndConditions }
+  | { orConditions: OrConditions };
 export const TagFilter = S.Union(
   S.Struct({ tagCondition: TagCondition }),
   S.Struct({ andConditions: AndConditions }),
@@ -555,6 +721,9 @@ export const KnowledgeBaseAssociationConfigurationData = S.suspend(() =>
 ).annotations({
   identifier: "KnowledgeBaseAssociationConfigurationData",
 }) as any as S.Schema<KnowledgeBaseAssociationConfigurationData>;
+export type AssociationConfigurationData = {
+  knowledgeBaseAssociationConfigurationData: KnowledgeBaseAssociationConfigurationData;
+};
 export const AssociationConfigurationData = S.Union(
   S.Struct({
     knowledgeBaseAssociationConfigurationData:
@@ -700,6 +869,9 @@ export const ToolOverrideConstantInputValue = S.suspend(() =>
 ).annotations({
   identifier: "ToolOverrideConstantInputValue",
 }) as any as S.Schema<ToolOverrideConstantInputValue>;
+export type ToolOverrideInputValueConfiguration = {
+  constant: ToolOverrideConstantInputValue;
+};
 export const ToolOverrideInputValueConfiguration = S.Union(
   S.Struct({ constant: ToolOverrideConstantInputValue }),
 );
@@ -838,6 +1010,22 @@ export const CaseSummarizationAIAgentConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "CaseSummarizationAIAgentConfiguration",
 }) as any as S.Schema<CaseSummarizationAIAgentConfiguration>;
+export type AIAgentConfiguration =
+  | { manualSearchAIAgentConfiguration: ManualSearchAIAgentConfiguration }
+  | {
+      answerRecommendationAIAgentConfiguration: AnswerRecommendationAIAgentConfiguration;
+    }
+  | { selfServiceAIAgentConfiguration: SelfServiceAIAgentConfiguration }
+  | { emailResponseAIAgentConfiguration: EmailResponseAIAgentConfiguration }
+  | { emailOverviewAIAgentConfiguration: EmailOverviewAIAgentConfiguration }
+  | {
+      emailGenerativeAnswerAIAgentConfiguration: EmailGenerativeAnswerAIAgentConfiguration;
+    }
+  | { orchestrationAIAgentConfiguration: OrchestrationAIAgentConfiguration }
+  | { noteTakingAIAgentConfiguration: NoteTakingAIAgentConfiguration }
+  | {
+      caseSummarizationAIAgentConfiguration: CaseSummarizationAIAgentConfiguration;
+    };
 export const AIAgentConfiguration = S.Union(
   S.Struct({
     manualSearchAIAgentConfiguration: ManualSearchAIAgentConfiguration,
@@ -1439,6 +1627,9 @@ export const TextFullAIPromptEditTemplateConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "TextFullAIPromptEditTemplateConfiguration",
 }) as any as S.Schema<TextFullAIPromptEditTemplateConfiguration>;
+export type AIPromptTemplateConfiguration = {
+  textFullAIPromptEditTemplateConfiguration: TextFullAIPromptEditTemplateConfiguration;
+};
 export const AIPromptTemplateConfiguration = S.Union(
   S.Struct({
     textFullAIPromptEditTemplateConfiguration:
@@ -1461,6 +1652,9 @@ export const TextAIPromptInferenceConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "TextAIPromptInferenceConfiguration",
 }) as any as S.Schema<TextAIPromptInferenceConfiguration>;
+export type AIPromptInferenceConfiguration = {
+  textAIPromptInferenceConfiguration: TextAIPromptInferenceConfiguration;
+};
 export const AIPromptInferenceConfiguration = S.Union(
   S.Struct({
     textAIPromptInferenceConfiguration: TextAIPromptInferenceConfiguration,
@@ -2453,6 +2647,7 @@ export const GetMessageTemplateRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetMessageTemplateRequest",
 }) as any as S.Schema<GetMessageTemplateRequest>;
+export type MessageTemplateBodyContentProvider = { content: string };
 export const MessageTemplateBodyContentProvider = S.Union(
   S.Struct({ content: S.String }),
 );
@@ -2631,6 +2826,11 @@ export const PushMessageTemplateContent = S.suspend(() =>
 ).annotations({
   identifier: "PushMessageTemplateContent",
 }) as any as S.Schema<PushMessageTemplateContent>;
+export type MessageTemplateContentProvider =
+  | { email: EmailMessageTemplateContent }
+  | { sms: SMSMessageTemplateContent }
+  | { whatsApp: WhatsAppMessageTemplateContent }
+  | { push: PushMessageTemplateContent };
 export const MessageTemplateContentProvider = S.Union(
   S.Struct({ email: EmailMessageTemplateContent }),
   S.Struct({ sms: SMSMessageTemplateContent }),
@@ -2653,6 +2853,9 @@ export const WhatsAppMessageTemplateSourceConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "WhatsAppMessageTemplateSourceConfiguration",
 }) as any as S.Schema<WhatsAppMessageTemplateSourceConfiguration>;
+export type MessageTemplateSourceConfiguration = {
+  whatsApp: WhatsAppMessageTemplateSourceConfiguration;
+};
 export const MessageTemplateSourceConfiguration = S.Union(
   S.Struct({ whatsApp: WhatsAppMessageTemplateSourceConfiguration }),
 );
@@ -3181,6 +3384,7 @@ export const GetQuickResponseRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetQuickResponseRequest",
 }) as any as S.Schema<GetQuickResponseRequest>;
+export type QuickResponseDataProvider = { content: string };
 export const QuickResponseDataProvider = S.Union(
   S.Struct({ content: S.String }),
 );
@@ -3362,6 +3566,9 @@ export const ToolUseResultData = S.suspend(() =>
 ).annotations({
   identifier: "ToolUseResultData",
 }) as any as S.Schema<ToolUseResultData>;
+export type MessageData =
+  | { text: TextMessage }
+  | { toolUseResult: ToolUseResultData };
 export const MessageData = S.Union(
   S.Struct({ text: TextMessage }),
   S.Struct({ toolUseResult: ToolUseResultData }),
@@ -3936,9 +4143,15 @@ export const WebCrawlerConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "WebCrawlerConfiguration",
 }) as any as S.Schema<WebCrawlerConfiguration>;
+export type ManagedSourceConfiguration = {
+  webCrawlerConfiguration: WebCrawlerConfiguration;
+};
 export const ManagedSourceConfiguration = S.Union(
   S.Struct({ webCrawlerConfiguration: WebCrawlerConfiguration }),
 );
+export type SourceConfiguration =
+  | { appIntegrations: AppIntegrationsConfiguration }
+  | { managedSourceConfiguration: (typeof ManagedSourceConfiguration)["Type"] };
 export const SourceConfiguration = S.Union(
   S.Struct({ appIntegrations: AppIntegrationsConfiguration }),
   S.Struct({ managedSourceConfiguration: ManagedSourceConfiguration }),
@@ -4131,6 +4344,9 @@ export const WhatsAppMessageTemplateSourceConfigurationSummary = S.suspend(() =>
 ).annotations({
   identifier: "WhatsAppMessageTemplateSourceConfigurationSummary",
 }) as any as S.Schema<WhatsAppMessageTemplateSourceConfigurationSummary>;
+export type MessageTemplateSourceConfigurationSummary = {
+  whatsApp: WhatsAppMessageTemplateSourceConfigurationSummary;
+};
 export const MessageTemplateSourceConfigurationSummary = S.Union(
   S.Struct({ whatsApp: WhatsAppMessageTemplateSourceConfigurationSummary }),
 );
@@ -4312,6 +4528,7 @@ export const CreateQuickResponseRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateQuickResponseRequest",
 }) as any as S.Schema<CreateQuickResponseRequest>;
+export type QuickResponseContentProvider = { content: string };
 export const QuickResponseContentProvider = S.Union(
   S.Struct({ content: S.String }),
 );
@@ -4421,6 +4638,9 @@ export const CaseSummarizationInputData = S.suspend(() =>
 ).annotations({
   identifier: "CaseSummarizationInputData",
 }) as any as S.Schema<CaseSummarizationInputData>;
+export type KnowledgeSource = {
+  assistantAssociationIds: AssistantAssociationIdList;
+};
 export const KnowledgeSource = S.Union(
   S.Struct({ assistantAssociationIds: AssistantAssociationIdList }),
 );
@@ -4454,6 +4674,7 @@ export type SelfServiceConversationHistoryList =
 export const SelfServiceConversationHistoryList = S.Array(
   SelfServiceConversationHistory,
 );
+export type RuntimeSessionDataValue = { stringValue: string };
 export const RuntimeSessionDataValue = S.Union(
   S.Struct({ stringValue: S.String }),
 );
@@ -4630,12 +4851,20 @@ export type NotifyRecommendationsReceivedErrorList =
 export const NotifyRecommendationsReceivedErrorList = S.Array(
   NotifyRecommendationsReceivedError,
 );
+export type ContentFeedbackData = {
+  generativeContentFeedbackData: GenerativeContentFeedbackData;
+};
 export const ContentFeedbackData = S.Union(
   S.Struct({ generativeContentFeedbackData: GenerativeContentFeedbackData }),
 );
+export type QueryCondition = { single: QueryConditionItem };
 export const QueryCondition = S.Union(S.Struct({ single: QueryConditionItem }));
 export type QueryConditionExpression = (typeof QueryCondition)["Type"][];
 export const QueryConditionExpression = S.Array(QueryCondition);
+export type QueryInputData =
+  | { queryTextInputData: QueryTextInputData }
+  | { intentInputData: IntentInputData }
+  | { caseSummarizationInputData: CaseSummarizationInputData };
 export const QueryInputData = S.Union(
   S.Struct({ queryTextInputData: QueryTextInputData }),
   S.Struct({ intentInputData: IntentInputData }),
@@ -4791,6 +5020,9 @@ export const AIPromptVersionSummary = S.suspend(() =>
 }) as any as S.Schema<AIPromptVersionSummary>;
 export type AIPromptVersionSummariesList = AIPromptVersionSummary[];
 export const AIPromptVersionSummariesList = S.Array(AIPromptVersionSummary);
+export type AssistantAssociationInputData =
+  | { knowledgeBaseId: string }
+  | { externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig };
 export const AssistantAssociationInputData = S.Union(
   S.Struct({ knowledgeBaseId: S.String }),
   S.Struct({
@@ -4809,6 +5041,9 @@ export const KnowledgeBaseAssociationData = S.suspend(() =>
 ).annotations({
   identifier: "KnowledgeBaseAssociationData",
 }) as any as S.Schema<KnowledgeBaseAssociationData>;
+export type AssistantAssociationOutputData =
+  | { knowledgeBaseAssociation: KnowledgeBaseAssociationData }
+  | { externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig };
 export const AssistantAssociationOutputData = S.Union(
   S.Struct({ knowledgeBaseAssociation: KnowledgeBaseAssociationData }),
   S.Struct({
@@ -4913,6 +5148,7 @@ export const ConnectConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ConnectConfiguration",
 }) as any as S.Schema<ConnectConfiguration>;
+export type Configuration = { connectConfiguration: ConnectConfiguration };
 export const Configuration = S.Union(
   S.Struct({ connectConfiguration: ConnectConfiguration }),
 );
@@ -5019,6 +5255,9 @@ export const QuickResponseSearchExpression = S.suspend(() =>
 }) as any as S.Schema<QuickResponseSearchExpression>;
 export type Headers = { [key: string]: string };
 export const Headers = S.Record({ key: S.String, value: S.String });
+export type ContentAssociationContents = {
+  amazonConnectGuideAssociation: AmazonConnectGuideAssociationData;
+};
 export const ContentAssociationContents = S.Union(
   S.Struct({
     amazonConnectGuideAssociation: AmazonConnectGuideAssociationData,
@@ -6225,6 +6464,9 @@ export const RenderMessageTemplateResponse = S.suspend(() =>
 ).annotations({
   identifier: "RenderMessageTemplateResponse",
 }) as any as S.Schema<RenderMessageTemplateResponse>;
+export type RecommendationTriggerData = {
+  query: QueryRecommendationTriggerData;
+};
 export const RecommendationTriggerData = S.Union(
   S.Struct({ query: QueryRecommendationTriggerData }),
 );
@@ -6496,6 +6738,10 @@ export const Document = S.suspend(() =>
     excerpt: S.optional(DocumentText),
   }),
 ).annotations({ identifier: "Document" }) as any as S.Schema<Document>;
+export type DataReference =
+  | { contentReference: ContentReference }
+  | { generativeReference: GenerativeReference }
+  | { suggestedMessageReference: SuggestedMessageReference };
 export const DataReference = S.Union(
   S.Struct({ contentReference: ContentReference }),
   S.Struct({ generativeReference: GenerativeReference }),
@@ -7240,7 +7486,13 @@ export class RequestTimeoutException extends S.TaggedError<RequestTimeoutExcepti
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
@@ -7248,7 +7500,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
@@ -7256,27 +7514,66 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists messages on an Amazon Q in Connect session.
  */
-export const listMessages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMessages: {
+  (
     input: ListMessagesRequest,
-    output: ListMessagesResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "messages",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMessagesResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMessagesRequest,
+  ) => Stream.Stream<
+    ListMessagesResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMessagesRequest,
+  ) => Stream.Stream<
+    MessageOutput,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMessagesRequest,
+  output: ListMessagesResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "messages",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information about the knowledge base.
  */
-export const getKnowledgeBase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKnowledgeBase: (
+  input: GetKnowledgeBaseRequest,
+) => Effect.Effect<
+  GetKnowledgeBaseResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKnowledgeBaseRequest,
   output: GetKnowledgeBaseResponse,
   errors: [
@@ -7289,23 +7586,52 @@ export const getKnowledgeBase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the knowledge bases.
  */
-export const listKnowledgeBases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listKnowledgeBases: {
+  (
     input: ListKnowledgeBasesRequest,
-    output: ListKnowledgeBasesResponse,
-    errors: [AccessDeniedException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "knowledgeBaseSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListKnowledgeBasesResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKnowledgeBasesRequest,
+  ) => Stream.Stream<
+    ListKnowledgeBasesResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKnowledgeBasesRequest,
+  ) => Stream.Stream<
+    KnowledgeBaseSummary,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKnowledgeBasesRequest,
+  output: ListKnowledgeBasesResponse,
+  errors: [AccessDeniedException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "knowledgeBaseSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the started import job.
  */
-export const getImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getImportJob: (
+  input: GetImportJobRequest,
+) => Effect.Effect<
+  GetImportJobResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImportJobRequest,
   output: GetImportJobResponse,
   errors: [
@@ -7317,44 +7643,106 @@ export const getImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists information about import jobs.
  */
-export const listImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listImportJobs: {
+  (
     input: ListImportJobsRequest,
-    output: ListImportJobsResponse,
-    errors: [AccessDeniedException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "importJobSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListImportJobsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImportJobsRequest,
+  ) => Stream.Stream<
+    ListImportJobsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImportJobsRequest,
+  ) => Stream.Stream<
+    ImportJobSummary,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImportJobsRequest,
+  output: ListImportJobsResponse,
+  errors: [AccessDeniedException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "importJobSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
  */
-export const searchContent = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchContent: {
+  (
     input: SearchContentRequest,
-    output: SearchContentResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "contentSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchContentResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchContentRequest,
+  ) => Stream.Stream<
+    SearchContentResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchContentRequest,
+  ) => Stream.Stream<
+    ContentSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchContentRequest,
+  output: SearchContentResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "contentSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use CreateContent to finalize the content creation process or UpdateContent to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
  */
-export const startContentUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startContentUpload: (
+  input: StartContentUploadRequest,
+) => Effect.Effect<
+  StartContentUploadResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartContentUploadRequest,
   output: StartContentUploadResponse,
   errors: [
@@ -7367,7 +7755,18 @@ export const startContentUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates information about the content.
  */
-export const updateContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateContent: (
+  input: UpdateContentRequest,
+) => Effect.Effect<
+  UpdateContentResponse,
+  | AccessDeniedException
+  | PreconditionFailedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContentRequest,
   output: UpdateContentResponse,
   errors: [
@@ -7383,64 +7782,140 @@ export const updateContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Amazon Connect Administrator Guide*.
  */
-export const getContentAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetContentAssociationRequest,
-    output: GetContentAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const getContentAssociation: (
+  input: GetContentAssociationRequest,
+) => Effect.Effect<
+  GetContentAssociationResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContentAssociationRequest,
+  output: GetContentAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the content associations.
  *
  * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Amazon Connect Administrator Guide*.
  */
-export const listContentAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listContentAssociations: {
+  (
     input: ListContentAssociationsRequest,
-    output: ListContentAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "contentAssociationSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListContentAssociationsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContentAssociationsRequest,
+  ) => Stream.Stream<
+    ListContentAssociationsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContentAssociationsRequest,
+  ) => Stream.Stream<
+    ContentAssociationSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContentAssociationsRequest,
+  output: ListContentAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "contentAssociationSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists information about quick response.
  */
-export const listQuickResponses = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listQuickResponses: {
+  (
     input: ListQuickResponsesRequest,
-    output: ListQuickResponsesResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "quickResponseSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListQuickResponsesResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListQuickResponsesRequest,
+  ) => Stream.Stream<
+    ListQuickResponsesResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListQuickResponsesRequest,
+  ) => Stream.Stream<
+    QuickResponseSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListQuickResponsesRequest,
+  output: ListQuickResponsesResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "quickResponseSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Adds the specified tags to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  ResourceNotFoundException | TooManyTagsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException, TooManyTagsException],
@@ -7448,22 +7923,40 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
  */
-export const removeAssistantAIAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveAssistantAIAgentRequest,
-    output: RemoveAssistantAIAgentResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const removeAssistantAIAgent: (
+  input: RemoveAssistantAIAgentRequest,
+) => Effect.Effect<
+  RemoveAssistantAIAgentResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveAssistantAIAgentRequest,
+  output: RemoveAssistantAIAgentResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a session. A session is a contextual container used for generating recommendations. Amazon Connect updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
  */
-export const updateSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSession: (
+  input: UpdateSessionRequest,
+) => Effect.Effect<
+  UpdateSessionResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSessionRequest,
   output: UpdateSessionResponse,
   errors: [
@@ -7476,7 +7969,17 @@ export const updateSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves content, including a pre-signed URL to download the content.
  */
-export const getContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getContent: (
+  input: GetContentRequest,
+) => Effect.Effect<
+  GetContentResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContentRequest,
   output: GetContentResponse,
   errors: [
@@ -7489,7 +7992,17 @@ export const getContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves summary information about the content.
  */
-export const getContentSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getContentSummary: (
+  input: GetContentSummaryRequest,
+) => Effect.Effect<
+  GetContentSummaryResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContentSummaryRequest,
   output: GetContentSummaryResponse,
   errors: [
@@ -7502,39 +8015,65 @@ export const getContentSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an assistant association.
  */
-export const deleteAssistantAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAssistantAssociationRequest,
-    output: DeleteAssistantAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAssistantAssociation: (
+  input: DeleteAssistantAssociationRequest,
+) => Effect.Effect<
+  DeleteAssistantAssociationResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAssistantAssociationRequest,
+  output: DeleteAssistantAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the content association.
  *
  * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Amazon Connect Administrator Guide*.
  */
-export const deleteContentAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContentAssociationRequest,
-    output: DeleteContentAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteContentAssociation: (
+  input: DeleteContentAssociationRequest,
+) => Effect.Effect<
+  DeleteContentAssociationResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContentAssociationRequest,
+  output: DeleteContentAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a quick response.
  */
-export const deleteQuickResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteQuickResponse: (
+  input: DeleteQuickResponseRequest,
+) => Effect.Effect<
+  DeleteQuickResponseResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQuickResponseRequest,
   output: DeleteQuickResponseResponse,
   errors: [
@@ -7547,7 +8086,19 @@ export const deleteQuickResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an AI Guardrail.
  */
-export const updateAIGuardrail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAIGuardrail: (
+  input: UpdateAIGuardrailRequest,
+) => Effect.Effect<
+  UpdateAIGuardrailResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAIGuardrailRequest,
   output: UpdateAIGuardrailResponse,
   errors: [
@@ -7562,7 +8113,19 @@ export const updateAIGuardrail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an AI Prompt.
  */
-export const updateAIPrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAIPrompt: (
+  input: UpdateAIPromptRequest,
+) => Effect.Effect<
+  UpdateAIPromptResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAIPromptRequest,
   output: UpdateAIPromptResponse,
   errors: [
@@ -7577,54 +8140,94 @@ export const updateAIPrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Activates a specific version of the Amazon Q in Connect message template. After the version is activated, the previous active version will be deactivated automatically. You can use the `$ACTIVE_VERSION` qualifier later to reference the version that is in active status.
  */
-export const activateMessageTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ActivateMessageTemplateRequest,
-    output: ActivateMessageTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const activateMessageTemplate: (
+  input: ActivateMessageTemplateRequest,
+) => Effect.Effect<
+  ActivateMessageTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ActivateMessageTemplateRequest,
+  output: ActivateMessageTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deactivates a specific version of the Amazon Q in Connect message template . After the version is deactivated, you can no longer use the `$ACTIVE_VERSION` qualifier to reference the version in active status.
  */
-export const deactivateMessageTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeactivateMessageTemplateRequest,
-    output: DeactivateMessageTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deactivateMessageTemplate: (
+  input: DeactivateMessageTemplateRequest,
+) => Effect.Effect<
+  DeactivateMessageTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeactivateMessageTemplateRequest,
+  output: DeactivateMessageTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the Amazon Q in Connect message template metadata. Note that any modification to the message template’s name, description and grouping configuration will applied to the message template pointed by the `$LATEST` qualifier and all available versions. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template.
  */
-export const updateMessageTemplateMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateMessageTemplateMetadataRequest,
-    output: UpdateMessageTemplateMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateMessageTemplateMetadata: (
+  input: UpdateMessageTemplateMetadataRequest,
+) => Effect.Effect<
+  UpdateMessageTemplateMetadataResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMessageTemplateMetadataRequest,
+  output: UpdateMessageTemplateMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an existing Amazon Q in Connect quick response.
  */
-export const updateQuickResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateQuickResponse: (
+  input: UpdateQuickResponseRequest,
+) => Effect.Effect<
+  UpdateQuickResponseResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PreconditionFailedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQuickResponseRequest,
   output: UpdateQuickResponseResponse,
   errors: [
@@ -7639,24 +8242,46 @@ export const updateQuickResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Amazon Q in Connect AI Agent Version.
  */
-export const deleteAIAgentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAIAgentVersionRequest,
-    output: DeleteAIAgentVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAIAgentVersion: (
+  input: DeleteAIAgentVersionRequest,
+) => Effect.Effect<
+  DeleteAIAgentVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAIAgentVersionRequest,
+  output: DeleteAIAgentVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an Amazon Q in Connect AI Guardrail.
  */
-export const deleteAIGuardrail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAIGuardrail: (
+  input: DeleteAIGuardrailRequest,
+) => Effect.Effect<
+  DeleteAIGuardrailResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAIGuardrailRequest,
   output: DeleteAIGuardrailResponse,
   errors: [
@@ -7671,43 +8296,74 @@ export const deleteAIGuardrail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete and Amazon Q in Connect AI Guardrail version.
  */
-export const deleteAIGuardrailVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAIGuardrailVersionRequest,
-    output: DeleteAIGuardrailVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAIGuardrailVersion: (
+  input: DeleteAIGuardrailVersionRequest,
+) => Effect.Effect<
+  DeleteAIGuardrailVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAIGuardrailVersionRequest,
+  output: DeleteAIGuardrailVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Delete and Amazon Q in Connect AI Prompt version.
  */
-export const deleteAIPromptVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAIPromptVersionRequest,
-    output: DeleteAIPromptVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAIPromptVersion: (
+  input: DeleteAIPromptVersionRequest,
+) => Effect.Effect<
+  DeleteAIPromptVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAIPromptVersionRequest,
+  output: DeleteAIPromptVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the knowledge base.
  *
  * When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the Amazon AppIntegrations DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See DeleteDataIntegration and CreateDataIntegration in the *Amazon AppIntegrations API Reference*.
  */
-export const deleteKnowledgeBase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKnowledgeBase: (
+  input: DeleteKnowledgeBaseRequest,
+) => Effect.Effect<
+  DeleteKnowledgeBaseResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKnowledgeBaseRequest,
   output: DeleteKnowledgeBaseResponse,
   errors: [
@@ -7721,7 +8377,18 @@ export const deleteKnowledgeBase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the quick response import job.
  */
-export const deleteImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteImportJob: (
+  input: DeleteImportJobRequest,
+) => Effect.Effect<
+  DeleteImportJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImportJobRequest,
   output: DeleteImportJobResponse,
   errors: [
@@ -7735,7 +8402,18 @@ export const deleteImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the content.
  */
-export const deleteContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteContent: (
+  input: DeleteContentRequest,
+) => Effect.Effect<
+  DeleteContentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContentRequest,
   output: DeleteContentResponse,
   errors: [
@@ -7749,84 +8427,158 @@ export const deleteContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Amazon Q in Connect message template entirely or a specific version of the message template if version is supplied in the request. You can provide the message template identifier as `<message-template-id>:<versionNumber>` to delete a specific version of the message template. If it is not supplied, the message template and all available versions will be deleted.
  */
-export const deleteMessageTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMessageTemplateRequest,
-    output: DeleteMessageTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteMessageTemplate: (
+  input: DeleteMessageTemplateRequest,
+) => Effect.Effect<
+  DeleteMessageTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMessageTemplateRequest,
+  output: DeleteMessageTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the attachment file from the Amazon Q in Connect message template that is referenced by `$LATEST` qualifier. Attachments on available message template versions will remain unchanged.
  */
-export const deleteMessageTemplateAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteMessageTemplateAttachmentRequest,
-    output: DeleteMessageTemplateAttachmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteMessageTemplateAttachment: (
+  input: DeleteMessageTemplateAttachmentRequest,
+) => Effect.Effect<
+  DeleteMessageTemplateAttachmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMessageTemplateAttachmentRequest,
+  output: DeleteMessageTemplateAttachmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in `${variable}` format; this interpolated by Amazon Q in Connect using ingested content. For example, if you ingest a Salesforce article, it has an `Id` value, and you can set the template URI to `https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*\/view`.
  */
-export const updateKnowledgeBaseTemplateUri =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateKnowledgeBaseTemplateUriRequest,
-    output: UpdateKnowledgeBaseTemplateUriResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const updateKnowledgeBaseTemplateUri: (
+  input: UpdateKnowledgeBaseTemplateUriRequest,
+) => Effect.Effect<
+  UpdateKnowledgeBaseTemplateUriResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateKnowledgeBaseTemplateUriRequest,
+  output: UpdateKnowledgeBaseTemplateUriResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the content.
  */
-export const listContents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listContents: {
+  (
     input: ListContentsRequest,
-    output: ListContentsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "contentSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListContentsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContentsRequest,
+  ) => Stream.Stream<
+    ListContentsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContentsRequest,
+  ) => Stream.Stream<
+    ContentSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContentsRequest,
+  output: ListContentsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "contentSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Removes a URI template from a knowledge base.
  */
-export const removeKnowledgeBaseTemplateUri =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveKnowledgeBaseTemplateUriRequest,
-    output: RemoveKnowledgeBaseTemplateUriResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const removeKnowledgeBaseTemplateUri: (
+  input: RemoveKnowledgeBaseTemplateUriRequest,
+) => Effect.Effect<
+  RemoveKnowledgeBaseTemplateUriResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveKnowledgeBaseTemplateUriRequest,
+  output: RemoveKnowledgeBaseTemplateUriResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an assistant.
  */
-export const deleteAssistant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAssistant: (
+  input: DeleteAssistantRequest,
+) => Effect.Effect<
+  DeleteAssistantResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssistantRequest,
   output: DeleteAssistantResponse,
   errors: [
@@ -7839,55 +8591,133 @@ export const deleteAssistant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists information about assistants.
  */
-export const listAssistants = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAssistants: {
+  (
     input: ListAssistantsRequest,
-    output: ListAssistantsResponse,
-    errors: [AccessDeniedException, UnauthorizedException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "assistantSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAssistantsResponse,
+    | AccessDeniedException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssistantsRequest,
+  ) => Stream.Stream<
+    ListAssistantsResponse,
+    | AccessDeniedException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssistantsRequest,
+  ) => Stream.Stream<
+    AssistantSummary,
+    | AccessDeniedException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssistantsRequest,
+  output: ListAssistantsResponse,
+  errors: [AccessDeniedException, UnauthorizedException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "assistantSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with GetRecommendations and a `waitTimeSeconds` input for long-polling behavior and avoiding duplicate recommendations.
  */
-export const notifyRecommendationsReceived =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: NotifyRecommendationsReceivedRequest,
-    output: NotifyRecommendationsReceivedResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const notifyRecommendationsReceived: (
+  input: NotifyRecommendationsReceivedRequest,
+) => Effect.Effect<
+  NotifyRecommendationsReceivedResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: NotifyRecommendationsReceivedRequest,
+  output: NotifyRecommendationsReceivedResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists information about assistant associations.
  */
-export const listAssistantAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssistantAssociations: {
+  (
     input: ListAssistantAssociationsRequest,
-    output: ListAssistantAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "assistantAssociationSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAssistantAssociationsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssistantAssociationsRequest,
+  ) => Stream.Stream<
+    ListAssistantAssociationsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssistantAssociationsRequest,
+  ) => Stream.Stream<
+    AssistantAssociationSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssistantAssociationsRequest,
+  output: ListAssistantAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "assistantAssociationSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes an Amazon Q in Connect AI Agent.
  */
-export const deleteAIAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAIAgent: (
+  input: DeleteAIAgentRequest,
+) => Effect.Effect<
+  DeleteAIAgentResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAIAgentRequest,
   output: DeleteAIAgentResponse,
   errors: [
@@ -7901,7 +8731,18 @@ export const deleteAIAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Amazon Q in Connect AI Prompt.
  */
-export const deleteAIPrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAIPrompt: (
+  input: DeleteAIPromptRequest,
+) => Effect.Effect<
+  DeleteAIPromptResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAIPromptRequest,
   output: DeleteAIPromptResponse,
   errors: [
@@ -7915,22 +8756,41 @@ export const deleteAIPrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
  */
-export const updateAssistantAIAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAssistantAIAgentRequest,
-    output: UpdateAssistantAIAgentResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAssistantAIAgent: (
+  input: UpdateAssistantAIAgentRequest,
+) => Effect.Effect<
+  UpdateAssistantAIAgentResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAssistantAIAgentRequest,
+  output: UpdateAssistantAIAgentResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets an Amazon Q in Connect AI Agent.
  */
-export const getAIAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAIAgent: (
+  input: GetAIAgentRequest,
+) => Effect.Effect<
+  GetAIAgentResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAIAgentRequest,
   output: GetAIAgentResponse,
   errors: [
@@ -7944,7 +8804,19 @@ export const getAIAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an AI Agent.
  */
-export const updateAIAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAIAgent: (
+  input: UpdateAIAgentRequest,
+) => Effect.Effect<
+  UpdateAIAgentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAIAgentRequest,
   output: UpdateAIAgentResponse,
   errors: [
@@ -7959,50 +8831,132 @@ export const updateAIAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists AI Agents.
  */
-export const listAIAgents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAIAgents: {
+  (
     input: ListAIAgentsRequest,
-    output: ListAIAgentsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "aiAgentSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAIAgentsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAIAgentsRequest,
+  ) => Stream.Stream<
+    ListAIAgentsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAIAgentsRequest,
+  ) => Stream.Stream<
+    AIAgentSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAIAgentsRequest,
+  output: ListAIAgentsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "aiAgentSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List AI Agent versions.
  */
-export const listAIAgentVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAIAgentVersions: {
+  (
     input: ListAIAgentVersionsRequest,
-    output: ListAIAgentVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "aiAgentVersionSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAIAgentVersionsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAIAgentVersionsRequest,
+  ) => Stream.Stream<
+    ListAIAgentVersionsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAIAgentVersionsRequest,
+  ) => Stream.Stream<
+    AIAgentVersionSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAIAgentVersionsRequest,
+  output: ListAIAgentVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "aiAgentVersionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets the Amazon Q in Connect AI Guardrail.
  */
-export const getAIGuardrail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAIGuardrail: (
+  input: GetAIGuardrailRequest,
+) => Effect.Effect<
+  GetAIGuardrailResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAIGuardrailRequest,
   output: GetAIGuardrailResponse,
   errors: [
@@ -8016,50 +8970,132 @@ export const getAIGuardrail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the AI Guardrails available on the Amazon Q in Connect assistant.
  */
-export const listAIGuardrails = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAIGuardrails: {
+  (
     input: ListAIGuardrailsRequest,
-    output: ListAIGuardrailsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "aiGuardrailSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAIGuardrailsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAIGuardrailsRequest,
+  ) => Stream.Stream<
+    ListAIGuardrailsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAIGuardrailsRequest,
+  ) => Stream.Stream<
+    AIGuardrailSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAIGuardrailsRequest,
+  output: ListAIGuardrailsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "aiGuardrailSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists AI Guardrail versions.
  */
-export const listAIGuardrailVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAIGuardrailVersions: {
+  (
     input: ListAIGuardrailVersionsRequest,
-    output: ListAIGuardrailVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "aiGuardrailVersionSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAIGuardrailVersionsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAIGuardrailVersionsRequest,
+  ) => Stream.Stream<
+    ListAIGuardrailVersionsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAIGuardrailVersionsRequest,
+  ) => Stream.Stream<
+    AIGuardrailVersionSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAIGuardrailVersionsRequest,
+  output: ListAIGuardrailVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "aiGuardrailVersionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets and Amazon Q in Connect AI Prompt.
  */
-export const getAIPrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAIPrompt: (
+  input: GetAIPromptRequest,
+) => Effect.Effect<
+  GetAIPromptResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAIPromptRequest,
   output: GetAIPromptResponse,
   errors: [
@@ -8073,50 +9109,132 @@ export const getAIPrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the AI Prompts available on the Amazon Q in Connect assistant.
  */
-export const listAIPrompts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAIPrompts: {
+  (
     input: ListAIPromptsRequest,
-    output: ListAIPromptsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "aiPromptSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAIPromptsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAIPromptsRequest,
+  ) => Stream.Stream<
+    ListAIPromptsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAIPromptsRequest,
+  ) => Stream.Stream<
+    AIPromptSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAIPromptsRequest,
+  output: ListAIPromptsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "aiPromptSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists AI Prompt versions.
  */
-export const listAIPromptVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAIPromptVersions: {
+  (
     input: ListAIPromptVersionsRequest,
-    output: ListAIPromptVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "aiPromptVersionSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAIPromptVersionsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAIPromptVersionsRequest,
+  ) => Stream.Stream<
+    ListAIPromptVersionsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAIPromptVersionsRequest,
+  ) => Stream.Stream<
+    AIPromptVersionSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAIPromptVersionsRequest,
+  output: ListAIPromptVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "aiPromptVersionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the Amazon Q in Connect message template. The message template identifier can contain an optional qualifier, for example, `<message-template-id>:<qualifier>`, which is either an actual version number or an Amazon Q Connect managed qualifier `$ACTIVE_VERSION` | `$LATEST`. If it is not supplied, then `$LATEST` is assumed implicitly.
  */
-export const getMessageTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMessageTemplate: (
+  input: GetMessageTemplateRequest,
+) => Effect.Effect<
+  GetMessageTemplateResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMessageTemplateRequest,
   output: GetMessageTemplateResponse,
   errors: [
@@ -8130,63 +9248,148 @@ export const getMessageTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the Amazon Q in Connect message template. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template that is referenced by the `$LATEST` qualifier. Any modification will only apply to the message template that is referenced by the `$LATEST` qualifier. The fields for all available versions will remain unchanged.
  */
-export const updateMessageTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMessageTemplateRequest,
-    output: UpdateMessageTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateMessageTemplate: (
+  input: UpdateMessageTemplateRequest,
+) => Effect.Effect<
+  UpdateMessageTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMessageTemplateRequest,
+  output: UpdateMessageTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all the available Amazon Q in Connect message templates for the specified knowledge base.
  */
-export const listMessageTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMessageTemplates: {
+  (
     input: ListMessageTemplatesRequest,
-    output: ListMessageTemplatesResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "messageTemplateSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMessageTemplatesResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMessageTemplatesRequest,
+  ) => Stream.Stream<
+    ListMessageTemplatesResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMessageTemplatesRequest,
+  ) => Stream.Stream<
+    MessageTemplateSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMessageTemplatesRequest,
+  output: ListMessageTemplatesResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "messageTemplateSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all the available versions for the specified Amazon Q in Connect message template.
  */
-export const listMessageTemplateVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMessageTemplateVersions: {
+  (
     input: ListMessageTemplateVersionsRequest,
-    output: ListMessageTemplateVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "messageTemplateVersionSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMessageTemplateVersionsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMessageTemplateVersionsRequest,
+  ) => Stream.Stream<
+    ListMessageTemplateVersionsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMessageTemplateVersionsRequest,
+  ) => Stream.Stream<
+    MessageTemplateVersionSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMessageTemplateVersionsRequest,
+  output: ListMessageTemplateVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "messageTemplateVersionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information about an assistant.
  */
-export const getAssistant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAssistant: (
+  input: GetAssistantRequest,
+) => Effect.Effect<
+  GetAssistantResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssistantRequest,
   output: GetAssistantResponse,
   errors: [
@@ -8199,7 +9402,16 @@ export const getAssistant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides feedback against the specified assistant for the specified target. This API only supports generative targets.
  */
-export const putFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putFeedback: (
+  input: PutFeedbackRequest,
+) => Effect.Effect<
+  PutFeedbackResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutFeedbackRequest,
   output: PutFeedbackResponse,
   errors: [
@@ -8211,7 +9423,17 @@ export const putFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information for a specified session.
  */
-export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSession: (
+  input: GetSessionRequest,
+) => Effect.Effect<
+  GetSessionResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
   output: GetSessionResponse,
   errors: [
@@ -8224,7 +9446,17 @@ export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves next message on an Amazon Q in Connect session.
  */
-export const getNextMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getNextMessage: (
+  input: GetNextMessageRequest,
+) => Effect.Effect<
+  GetNextMessageResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnprocessableContentException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNextMessageRequest,
   output: GetNextMessageResponse,
   errors: [
@@ -8237,7 +9469,17 @@ export const getNextMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the data stored on an Amazon Q in Connect Session.
  */
-export const updateSessionData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSessionData: (
+  input: UpdateSessionDataRequest,
+) => Effect.Effect<
+  UpdateSessionDataResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSessionDataRequest,
   output: UpdateSessionDataResponse,
   errors: [
@@ -8250,7 +9492,19 @@ export const updateSessionData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates Amazon Q in Connect content. Before to calling this API, use StartContentUpload to upload an asset.
  */
-export const createContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createContent: (
+  input: CreateContentRequest,
+) => Effect.Effect<
+  CreateContentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContentRequest,
   output: CreateContentResponse,
   errors: [
@@ -8275,57 +9529,100 @@ export const createContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Integrate Amazon Q in Connect with step-by-step guides in the *Amazon Connect Administrator Guide*.
  */
-export const createContentAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateContentAssociationRequest,
-    output: CreateContentAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const createContentAssociation: (
+  input: CreateContentAssociationRequest,
+) => Effect.Effect<
+  CreateContentAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContentAssociationRequest,
+  output: CreateContentAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Renders the Amazon Q in Connect message template based on the attribute values provided and generates the message content. For any variable present in the message template, if the attribute value is neither provided in the attribute request parameter nor the default attribute of the message template, the rendered message content will keep the variable placeholder as it is and return the attribute keys that are missing.
  */
-export const renderMessageTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RenderMessageTemplateRequest,
-    output: RenderMessageTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const renderMessageTemplate: (
+  input: RenderMessageTemplateRequest,
+) => Effect.Effect<
+  RenderMessageTemplateResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RenderMessageTemplateRequest,
+  output: RenderMessageTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Uploads an attachment file to the specified Amazon Q in Connect message template. The name of the message template attachment has to be unique for each message template referenced by the `$LATEST` qualifier. The body of the attachment file should be encoded using base64 encoding. After the file is uploaded, you can use the pre-signed Amazon S3 URL returned in response to download the uploaded file.
  */
-export const createMessageTemplateAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateMessageTemplateAttachmentRequest,
-    output: CreateMessageTemplateAttachmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }));
+export const createMessageTemplateAttachment: (
+  input: CreateMessageTemplateAttachmentRequest,
+) => Effect.Effect<
+  CreateMessageTemplateAttachmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMessageTemplateAttachmentRequest,
+  output: CreateMessageTemplateAttachmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an Amazon Q in Connect quick response.
  */
-export const createQuickResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createQuickResponse: (
+  input: CreateQuickResponseRequest,
+) => Effect.Effect<
+  CreateQuickResponseResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQuickResponseRequest,
   output: CreateQuickResponseResponse,
   errors: [
@@ -8340,77 +9637,132 @@ export const createQuickResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates and Amazon Q in Connect AI Agent version.
  */
-export const createAIAgentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAIAgentVersionRequest,
-    output: CreateAIAgentVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAIAgentVersion: (
+  input: CreateAIAgentVersionRequest,
+) => Effect.Effect<
+  CreateAIAgentVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAIAgentVersionRequest,
+  output: CreateAIAgentVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an Amazon Q in Connect AI Guardrail version.
  */
-export const createAIGuardrailVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAIGuardrailVersionRequest,
-    output: CreateAIGuardrailVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAIGuardrailVersion: (
+  input: CreateAIGuardrailVersionRequest,
+) => Effect.Effect<
+  CreateAIGuardrailVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAIGuardrailVersionRequest,
+  output: CreateAIGuardrailVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an Amazon Q in Connect AI Prompt version.
  */
-export const createAIPromptVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAIPromptVersionRequest,
-    output: CreateAIPromptVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAIPromptVersion: (
+  input: CreateAIPromptVersionRequest,
+) => Effect.Effect<
+  CreateAIPromptVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAIPromptVersionRequest,
+  output: CreateAIPromptVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new Amazon Q in Connect message template version from the current content and configuration of a message template. Versions are immutable and monotonically increasing. Once a version is created, you can reference a specific version of the message template by passing in `<message-template-id>:<versionNumber>` as the message template identifier. An error is displayed if the supplied `messageTemplateContentSha256` is different from the `messageTemplateContentSha256` of the message template with `$LATEST` qualifier. If multiple `CreateMessageTemplateVersion` requests are made while the message template remains the same, only the first invocation creates a new version and the succeeding requests will return the same response as the first invocation.
  */
-export const createMessageTemplateVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateMessageTemplateVersionRequest,
-    output: CreateMessageTemplateVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createMessageTemplateVersion: (
+  input: CreateMessageTemplateVersionRequest,
+) => Effect.Effect<
+  CreateMessageTemplateVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMessageTemplateVersionRequest,
+  output: CreateMessageTemplateVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an Amazon Q in Connect assistant.
  */
-export const createAssistant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAssistant: (
+  input: CreateAssistantRequest,
+) => Effect.Effect<
+  CreateAssistantResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ServiceQuotaExceededException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssistantRequest,
   output: CreateAssistantResponse,
   errors: [
@@ -8424,7 +9776,20 @@ export const createAssistant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon Q in Connect AI Guardrail.
  */
-export const createAIGuardrail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAIGuardrail: (
+  input: CreateAIGuardrailRequest,
+) => Effect.Effect<
+  CreateAIGuardrailResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAIGuardrailRequest,
   output: CreateAIGuardrailResponse,
   errors: [
@@ -8440,7 +9805,20 @@ export const createAIGuardrail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon Q in Connect AI Prompt.
  */
-export const createAIPrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAIPrompt: (
+  input: CreateAIPromptRequest,
+) => Effect.Effect<
+  CreateAIPromptResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAIPromptRequest,
   output: CreateAIPromptResponse,
   errors: [
@@ -8456,59 +9834,120 @@ export const createAIPrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an association between an Amazon Q in Connect assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association.
  */
-export const createAssistantAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAssistantAssociationRequest,
-    output: CreateAssistantAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAssistantAssociation: (
+  input: CreateAssistantAssociationRequest,
+) => Effect.Effect<
+  CreateAssistantAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAssistantAssociationRequest,
+  output: CreateAssistantAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Searches for sessions.
  */
-export const searchSessions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchSessions: {
+  (
     input: SearchSessionsRequest,
-    output: SearchSessionsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "sessionSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchSessionsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchSessionsRequest,
+  ) => Stream.Stream<
+    SearchSessionsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchSessionsRequest,
+  ) => Stream.Stream<
+    SessionSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchSessionsRequest,
+  output: SearchSessionsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sessionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information about an assistant association.
  */
-export const getAssistantAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAssistantAssociationRequest,
-    output: GetAssistantAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAssistantAssociation: (
+  input: GetAssistantAssociationRequest,
+) => Effect.Effect<
+  GetAssistantAssociationResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAssistantAssociationRequest,
+  output: GetAssistantAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
  */
-export const createSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSession: (
+  input: CreateSessionRequest,
+) => Effect.Effect<
+  CreateSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DependencyFailedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSessionRequest,
   output: CreateSessionResponse,
   errors: [
@@ -8523,30 +9962,78 @@ export const createSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Searches for Amazon Q in Connect message templates in the specified knowledge base.
  */
-export const searchMessageTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchMessageTemplates: {
+  (
     input: SearchMessageTemplatesRequest,
-    output: SearchMessageTemplatesResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "results",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchMessageTemplatesResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchMessageTemplatesRequest,
+  ) => Stream.Stream<
+    SearchMessageTemplatesResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchMessageTemplatesRequest,
+  ) => Stream.Stream<
+    MessageTemplateSearchResultData,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchMessageTemplatesRequest,
+  output: SearchMessageTemplatesResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "results",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Start an asynchronous job to import Amazon Q in Connect resources from an uploaded source file. Before calling this API, use StartContentUpload to upload an asset that contains the resource data.
  *
  * - For importing Amazon Q in Connect quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses.
  */
-export const startImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startImportJob: (
+  input: StartImportJobRequest,
+) => Effect.Effect<
+  StartImportJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImportJobRequest,
   output: StartImportJobResponse,
   errors: [
@@ -8561,7 +10048,17 @@ export const startImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the quick response.
  */
-export const getQuickResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getQuickResponse: (
+  input: GetQuickResponseRequest,
+) => Effect.Effect<
+  GetQuickResponseResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQuickResponseRequest,
   output: GetQuickResponseResponse,
   errors: [
@@ -8576,28 +10073,74 @@ export const getQuickResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
  */
-export const queryAssistant = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const queryAssistant: {
+  (
     input: QueryAssistantRequest,
-    output: QueryAssistantResponse,
-    errors: [
-      AccessDeniedException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "results",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    QueryAssistantResponse,
+    | AccessDeniedException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: QueryAssistantRequest,
+  ) => Stream.Stream<
+    QueryAssistantResponse,
+    | AccessDeniedException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: QueryAssistantRequest,
+  ) => Stream.Stream<
+    ResultData,
+    | AccessDeniedException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: QueryAssistantRequest,
+  output: QueryAssistantResponse,
+  errors: [
+    AccessDeniedException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "results",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves content from knowledge sources based on a query.
  */
-export const retrieve = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const retrieve: (
+  input: RetrieveRequest,
+) => Effect.Effect<
+  RetrieveResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DependencyFailedException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetrieveRequest,
   output: RetrieveResponse,
   errors: [
@@ -8614,47 +10157,102 @@ export const retrieve = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon Q in Connect message template. The name of the message template has to be unique for each knowledge base. The channel subtype of the message template is immutable and cannot be modified after creation. After the message template is created, you can use the `$LATEST` qualifier to reference the created message template.
  */
-export const createMessageTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMessageTemplateRequest,
-    output: CreateMessageTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createMessageTemplate: (
+  input: CreateMessageTemplateRequest,
+) => Effect.Effect<
+  CreateMessageTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMessageTemplateRequest,
+  output: CreateMessageTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Searches existing Amazon Q in Connect quick responses in an Amazon Q in Connect knowledge base.
  */
-export const searchQuickResponses =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchQuickResponses: {
+  (
     input: SearchQuickResponsesRequest,
-    output: SearchQuickResponsesResponse,
-    errors: [
-      AccessDeniedException,
-      RequestTimeoutException,
-      ResourceNotFoundException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "results",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchQuickResponsesResponse,
+    | AccessDeniedException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchQuickResponsesRequest,
+  ) => Stream.Stream<
+    SearchQuickResponsesResponse,
+    | AccessDeniedException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchQuickResponsesRequest,
+  ) => Stream.Stream<
+    QuickResponseSearchResultData,
+    | AccessDeniedException
+    | RequestTimeoutException
+    | ResourceNotFoundException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchQuickResponsesRequest,
+  output: SearchQuickResponsesResponse,
+  errors: [
+    AccessDeniedException,
+    RequestTimeoutException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "results",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.
  *
  * Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports long-polling behavior with the `waitTimeSeconds` parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
  */
-export const getRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRecommendations: (
+  input: GetRecommendationsRequest,
+) => Effect.Effect<
+  GetRecommendationsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecommendationsRequest,
   output: GetRecommendationsResponse,
   errors: [
@@ -8666,7 +10264,38 @@ export const getRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves AI agent execution traces for a session, providing granular visibility into agent orchestration flows, LLM interactions, and tool invocations.
  */
-export const listSpans = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSpans: {
+  (
+    input: ListSpansRequest,
+  ): Effect.Effect<
+    ListSpansResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSpansRequest,
+  ) => Stream.Stream<
+    ListSpansResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSpansRequest,
+  ) => Stream.Stream<
+    Span,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSpansRequest,
   output: ListSpansResponse,
   errors: [
@@ -8684,7 +10313,21 @@ export const listSpans = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Submits a message to the Amazon Q in Connect session.
  */
-export const sendMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendMessage: (
+  input: SendMessageRequest,
+) => Effect.Effect<
+  SendMessageResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DependencyFailedException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendMessageRequest,
   output: SendMessageResponse,
   errors: [
@@ -8713,7 +10356,18 @@ export const sendMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Call CreateKnowledgeBase.
  */
-export const createKnowledgeBase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKnowledgeBase: (
+  input: CreateKnowledgeBaseRequest,
+) => Effect.Effect<
+  CreateKnowledgeBaseResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ServiceQuotaExceededException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKnowledgeBaseRequest,
   output: CreateKnowledgeBaseResponse,
   errors: [
@@ -8727,7 +10381,20 @@ export const createKnowledgeBase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon Q in Connect AI Agent.
  */
-export const createAIAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAIAgent: (
+  input: CreateAIAgentRequest,
+) => Effect.Effect<
+  CreateAIAgentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAIAgentRequest,
   output: CreateAIAgentResponse,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Backup",
   serviceShapeName: "CryoControllerUserManager",
@@ -240,6 +248,55 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type BackupVaultName = string;
+export type ARN = string;
+export type RequesterComment = string;
+export type Long = number;
+export type FrameworkName = string;
+export type FrameworkDescription = string;
+export type ReportPlanName = string;
+export type ReportPlanDescription = string;
+export type CreatorRequestId = string;
+export type TieringConfigurationName = string;
+export type AccountId = string;
+export type ReportJobId = string;
+export type RestoreJobId = string;
+export type MaxScheduledRunsPreview = number;
+export type ResourceType = string;
+export type MaxResults = number;
+export type MessageCategory = string;
+export type MaxFrameworkInputs = number;
+export type ListRestoreTestingPlansInputMaxResultsInteger = number;
+export type ListRestoreTestingSelectionsInputMaxResultsInteger = number;
+export type ListScanJobsInputMaxResultsInteger = number;
+export type IAMPolicy = string;
+export type IAMRoleArn = string;
+export type WindowMinutes = number;
+export type BackupPlanName = string;
+export type TagKey = string;
+export type TagValue = string;
+export type BackupSelectionName = string;
+export type ControlName = string;
+export type integer = number;
+export type BackupVaultNameOrWildcard = string;
+export type GlobalSettingsName = string;
+export type GlobalSettingsValue = string;
+export type BackupOptionKey = string;
+export type BackupOptionValue = string;
+export type MetadataKey = string;
+export type MetadataValue = string;
+export type Long2 = number;
+export type BackupRuleName = string;
+export type CronExpression = string;
+export type Timezone = string;
+export type ConditionKey = string;
+export type ConditionValue = string;
+export type ParameterName = string;
+export type ParameterValue = string;
+export type TieringDownSettingsInDays = number;
+export type Region = string;
 
 //# Schemas
 export interface DescribeGlobalSettingsInput {}
@@ -6194,96 +6251,215 @@ export class DependencyFailureException extends S.TaggedError<DependencyFailureE
 /**
  * Returns the Amazon Web Services resource types supported by Backup.
  */
-export const getSupportedResourceTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSupportedResourceTypesRequest,
-    output: GetSupportedResourceTypesOutput,
-    errors: [ServiceUnavailableException],
-  }),
-);
+export const getSupportedResourceTypes: (
+  input: GetSupportedResourceTypesRequest,
+) => Effect.Effect<
+  GetSupportedResourceTypesOutput,
+  ServiceUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSupportedResourceTypesRequest,
+  output: GetSupportedResourceTypesOutput,
+  errors: [ServiceUnavailableException],
+}));
 /**
  * Returns metadata about your copy jobs.
  */
-export const listCopyJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCopyJobs: {
+  (
     input: ListCopyJobsInput,
-    output: ListCopyJobsOutput,
-    errors: [InvalidParameterValueException, ServiceUnavailableException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CopyJobs",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCopyJobsOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCopyJobsInput,
+  ) => Stream.Stream<
+    ListCopyJobsOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCopyJobsInput,
+  ) => Stream.Stream<
+    CopyJob,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCopyJobsInput,
+  output: ListCopyJobsOutput,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CopyJobs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This request lists the protected resources corresponding to each backup vault.
  */
-export const listProtectedResourcesByBackupVault =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProtectedResourcesByBackupVault: {
+  (
     input: ListProtectedResourcesByBackupVaultInput,
-    output: ListProtectedResourcesByBackupVaultOutput,
-    errors: [
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Results",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProtectedResourcesByBackupVaultOutput,
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProtectedResourcesByBackupVaultInput,
+  ) => Stream.Stream<
+    ListProtectedResourcesByBackupVaultOutput,
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProtectedResourcesByBackupVaultInput,
+  ) => Stream.Stream<
+    ProtectedResource,
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProtectedResourcesByBackupVaultInput,
+  output: ListProtectedResourcesByBackupVaultOutput,
+  errors: [
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Results",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns details about your report jobs.
  */
-export const listReportJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listReportJobs: {
+  (
     input: ListReportJobsInput,
-    output: ListReportJobsOutput,
-    errors: [
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListReportJobsOutput,
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReportJobsInput,
+  ) => Stream.Stream<
+    ListReportJobsOutput,
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReportJobsInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReportJobsInput,
+  output: ListReportJobsOutput,
+  errors: [
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of your report plans. For detailed information about a single report
  * plan, use `DescribeReportPlan`.
  */
-export const listReportPlans = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listReportPlans: {
+  (
     input: ListReportPlansInput,
-    output: ListReportPlansOutput,
-    errors: [InvalidParameterValueException, ServiceUnavailableException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListReportPlansOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReportPlansInput,
+  ) => Stream.Stream<
+    ListReportPlansOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReportPlansInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReportPlansInput,
+  output: ListReportPlansOutput,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This request deletes the specified restore testing plan.
  *
  * Deletion can only successfully occur if all associated
  * restore testing selections are deleted first.
  */
-export const deleteRestoreTestingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRestoreTestingPlanInput,
-    output: DeleteRestoreTestingPlanResponse,
-    errors: [InvalidRequestException, ServiceUnavailableException],
-  }),
-);
+export const deleteRestoreTestingPlan: (
+  input: DeleteRestoreTestingPlanInput,
+) => Effect.Effect<
+  DeleteRestoreTestingPlanResponse,
+  InvalidRequestException | ServiceUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRestoreTestingPlanInput,
+  output: DeleteRestoreTestingPlanResponse,
+  errors: [InvalidRequestException, ServiceUnavailableException],
+}));
 /**
  * Input the Restore Testing Plan name and Restore Testing Selection
  * name.
@@ -6291,24 +6467,33 @@ export const deleteRestoreTestingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * All testing selections associated with a restore testing plan must
  * be deleted before the restore testing plan can be deleted.
  */
-export const deleteRestoreTestingSelection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRestoreTestingSelectionInput,
-    output: DeleteRestoreTestingSelectionResponse,
-    errors: [ResourceNotFoundException, ServiceUnavailableException],
-  }));
+export const deleteRestoreTestingSelection: (
+  input: DeleteRestoreTestingSelectionInput,
+) => Effect.Effect<
+  DeleteRestoreTestingSelectionResponse,
+  ResourceNotFoundException | ServiceUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRestoreTestingSelectionInput,
+  output: DeleteRestoreTestingSelectionResponse,
+  errors: [ResourceNotFoundException, ServiceUnavailableException],
+}));
 /**
  * Describes whether the Amazon Web Services account is opted in to cross-account backup.
  * Returns an error if the account is not a member of an Organizations organization.
  * Example: `describe-global-settings --region us-west-2`
  */
-export const describeGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeGlobalSettingsInput,
-    output: DescribeGlobalSettingsOutput,
-    errors: [InvalidRequestException, ServiceUnavailableException],
-  }),
-);
+export const describeGlobalSettings: (
+  input: DescribeGlobalSettingsInput,
+) => Effect.Effect<
+  DescribeGlobalSettingsOutput,
+  InvalidRequestException | ServiceUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeGlobalSettingsInput,
+  output: DescribeGlobalSettingsOutput,
+  errors: [InvalidRequestException, ServiceUnavailableException],
+}));
 /**
  * Returns the current service opt-in settings for the Region. If service opt-in is enabled
  * for a service, Backup tries to protect that service's resources in this Region,
@@ -6316,17 +6501,32 @@ export const describeGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Backup does not try to protect that service's resources in this
  * Region.
  */
-export const describeRegionSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRegionSettingsInput,
-    output: DescribeRegionSettingsOutput,
-    errors: [ServiceUnavailableException],
-  }),
-);
+export const describeRegionSettings: (
+  input: DescribeRegionSettingsInput,
+) => Effect.Effect<
+  DescribeRegionSettingsOutput,
+  ServiceUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRegionSettingsInput,
+  output: DescribeRegionSettingsOutput,
+  errors: [ServiceUnavailableException],
+}));
 /**
  * Deletes the framework specified by a framework name.
  */
-export const deleteFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFramework: (
+  input: DeleteFrameworkInput,
+) => Effect.Effect<
+  DeleteFrameworkResponse,
+  | ConflictException
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFrameworkInput,
   output: DeleteFrameworkResponse,
   errors: [
@@ -6340,7 +6540,17 @@ export const deleteFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns metadata about a backup vault specified by its name.
  */
-export const describeBackupVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeBackupVault: (
+  input: DescribeBackupVaultInput,
+) => Effect.Effect<
+  DescribeBackupVaultOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBackupVaultInput,
   output: DescribeBackupVaultOutput,
   errors: [
@@ -6354,22 +6564,40 @@ export const describeBackupVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns metadata associated with a recovery point, including ID, status, encryption, and
  * lifecycle.
  */
-export const describeRecoveryPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRecoveryPointInput,
-    output: DescribeRecoveryPointOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const describeRecoveryPoint: (
+  input: DescribeRecoveryPointInput,
+) => Effect.Effect<
+  DescribeRecoveryPointOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRecoveryPointInput,
+  output: DescribeRecoveryPointOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Returns a list of all report plans for an Amazon Web Services account and Amazon Web Services Region.
  */
-export const describeReportPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeReportPlan: (
+  input: DescribeReportPlanInput,
+) => Effect.Effect<
+  DescribeReportPlanOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeReportPlanInput,
   output: DescribeReportPlanOutput,
   errors: [
@@ -6382,7 +6610,17 @@ export const describeReportPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns scan job details for the specified ScanJobID.
  */
-export const describeScanJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeScanJob: (
+  input: DescribeScanJobInput,
+) => Effect.Effect<
+  DescribeScanJobOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeScanJobInput,
   output: DescribeScanJobOutput,
   errors: [
@@ -6395,76 +6633,127 @@ export const describeScanJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a valid JSON document specifying a backup plan or an error.
  */
-export const getBackupPlanFromJSON = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBackupPlanFromJSONInput,
-    output: GetBackupPlanFromJSONOutput,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      LimitExceededException,
-      MissingParameterValueException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const getBackupPlanFromJSON: (
+  input: GetBackupPlanFromJSONInput,
+) => Effect.Effect<
+  GetBackupPlanFromJSONOutput,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBackupPlanFromJSONInput,
+  output: GetBackupPlanFromJSONOutput,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    LimitExceededException,
+    MissingParameterValueException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Returns `RestoreTestingPlan` details for the specified
  * `RestoreTestingPlanName`. The details are the body of a restore testing plan
  * in JSON format, in addition to plan metadata.
  */
-export const getRestoreTestingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRestoreTestingPlanInput,
-    output: GetRestoreTestingPlanOutput,
-    errors: [ResourceNotFoundException, ServiceUnavailableException],
-  }),
-);
+export const getRestoreTestingPlan: (
+  input: GetRestoreTestingPlanInput,
+) => Effect.Effect<
+  GetRestoreTestingPlanOutput,
+  ResourceNotFoundException | ServiceUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRestoreTestingPlanInput,
+  output: GetRestoreTestingPlanOutput,
+  errors: [ResourceNotFoundException, ServiceUnavailableException],
+}));
 /**
  * Returns RestoreTestingSelection, which displays resources
  * and elements of the restore testing plan.
  */
-export const getRestoreTestingSelection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRestoreTestingSelectionInput,
-    output: GetRestoreTestingSelectionOutput,
-    errors: [ResourceNotFoundException, ServiceUnavailableException],
-  }),
-);
+export const getRestoreTestingSelection: (
+  input: GetRestoreTestingSelectionInput,
+) => Effect.Effect<
+  GetRestoreTestingSelectionOutput,
+  ResourceNotFoundException | ServiceUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRestoreTestingSelectionInput,
+  output: GetRestoreTestingSelectionOutput,
+  errors: [ResourceNotFoundException, ServiceUnavailableException],
+}));
 /**
  * Returns `TieringConfiguration` details for the specified
  * `TieringConfigurationName`. The details are the body of a tiering configuration
  * in JSON format, in addition to configuration metadata.
  */
-export const getTieringConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTieringConfigurationInput,
-    output: GetTieringConfigurationOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const getTieringConfiguration: (
+  input: GetTieringConfigurationInput,
+) => Effect.Effect<
+  GetTieringConfigurationOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTieringConfigurationInput,
+  output: GetTieringConfigurationOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Returns a list of existing backup jobs for an authenticated account for the last 30
  * days. For a longer period of time, consider using these monitoring tools.
  */
-export const listBackupJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBackupJobs: {
+  (
     input: ListBackupJobsInput,
-    output: ListBackupJobsOutput,
-    errors: [InvalidParameterValueException, ServiceUnavailableException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "BackupJobs",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBackupJobsOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBackupJobsInput,
+  ) => Stream.Stream<
+    ListBackupJobsOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBackupJobsInput,
+  ) => Stream.Stream<
+    BackupJob,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBackupJobsInput,
+  output: ListBackupJobsOutput,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BackupJobs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This is a request for a summary of backup jobs created
  * or running within the most recent 30 days. You can
@@ -6476,101 +6765,258 @@ export const listBackupJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * Region, Account, State, ResourceType, MessageCategory,
  * StartTime, EndTime, and Count of included jobs.
  */
-export const listBackupJobSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBackupJobSummaries: {
+  (
     input: ListBackupJobSummariesInput,
-    output: ListBackupJobSummariesOutput,
-    errors: [InvalidParameterValueException, ServiceUnavailableException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBackupJobSummariesOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBackupJobSummariesInput,
+  ) => Stream.Stream<
+    ListBackupJobSummariesOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBackupJobSummariesInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBackupJobSummariesInput,
+  output: ListBackupJobSummariesOutput,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the active backup plans for the account.
  */
-export const listBackupPlans = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBackupPlans: {
+  (
     input: ListBackupPlansInput,
-    output: ListBackupPlansOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "BackupPlansList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBackupPlansOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBackupPlansInput,
+  ) => Stream.Stream<
+    ListBackupPlansOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBackupPlansInput,
+  ) => Stream.Stream<
+    BackupPlansListMember,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBackupPlansInput,
+  output: ListBackupPlansOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BackupPlansList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the backup plan templates.
  */
-export const listBackupPlanTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBackupPlanTemplates: {
+  (
     input: ListBackupPlanTemplatesInput,
-    output: ListBackupPlanTemplatesOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "BackupPlanTemplatesList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBackupPlanTemplatesOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBackupPlanTemplatesInput,
+  ) => Stream.Stream<
+    ListBackupPlanTemplatesOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBackupPlanTemplatesInput,
+  ) => Stream.Stream<
+    BackupPlanTemplatesListMember,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBackupPlanTemplatesInput,
+  output: ListBackupPlanTemplatesOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BackupPlanTemplatesList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns an array containing metadata of the resources associated with the target backup
  * plan.
  */
-export const listBackupSelections =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBackupSelections: {
+  (
     input: ListBackupSelectionsInput,
-    output: ListBackupSelectionsOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "BackupSelectionsList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBackupSelectionsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBackupSelectionsInput,
+  ) => Stream.Stream<
+    ListBackupSelectionsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBackupSelectionsInput,
+  ) => Stream.Stream<
+    BackupSelectionsListMember,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBackupSelectionsInput,
+  output: ListBackupSelectionsOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BackupSelectionsList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of recovery point storage containers along with information about
  * them.
  */
-export const listBackupVaults = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBackupVaults: {
+  (
     input: ListBackupVaultsInput,
-    output: ListBackupVaultsOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "BackupVaultList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBackupVaultsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBackupVaultsInput,
+  ) => Stream.Stream<
+    ListBackupVaultsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBackupVaultsInput,
+  ) => Stream.Stream<
+    BackupVaultListMember,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBackupVaultsInput,
+  output: ListBackupVaultsOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BackupVaultList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This request obtains a list of copy jobs created
  * or running within the the most recent 30 days. You can
@@ -6582,32 +7028,85 @@ export const listBackupVaults = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * Region, Account, State, RestourceType, MessageCategory,
  * StartTime, EndTime, and Count of included jobs.
  */
-export const listCopyJobSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCopyJobSummaries: {
+  (
     input: ListCopyJobSummariesInput,
-    output: ListCopyJobSummariesOutput,
-    errors: [InvalidParameterValueException, ServiceUnavailableException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCopyJobSummariesOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCopyJobSummariesInput,
+  ) => Stream.Stream<
+    ListCopyJobSummariesOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCopyJobSummariesInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCopyJobSummariesInput,
+  output: ListCopyJobSummariesOutput,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of all frameworks for an Amazon Web Services account and Amazon Web Services Region.
  */
-export const listFrameworks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFrameworks: {
+  (
     input: ListFrameworksInput,
-    output: ListFrameworksOutput,
-    errors: [InvalidParameterValueException, ServiceUnavailableException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFrameworksOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFrameworksInput,
+  ) => Stream.Stream<
+    ListFrameworksOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFrameworksInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFrameworksInput,
+  output: ListFrameworksOutput,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This operation returns a list of recovery points that have an
  * associated index, belonging to the specified account.
@@ -6616,75 +7115,188 @@ export const listFrameworks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * NextToken; SourceResourceArns; CreatedBefore; CreatedAfter;
  * and ResourceType.
  */
-export const listIndexedRecoveryPoints =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIndexedRecoveryPoints: {
+  (
     input: ListIndexedRecoveryPointsInput,
-    output: ListIndexedRecoveryPointsOutput,
-    errors: [
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IndexedRecoveryPoints",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIndexedRecoveryPointsOutput,
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIndexedRecoveryPointsInput,
+  ) => Stream.Stream<
+    ListIndexedRecoveryPointsOutput,
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIndexedRecoveryPointsInput,
+  ) => Stream.Stream<
+    IndexedRecoveryPoint,
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIndexedRecoveryPointsInput,
+  output: ListIndexedRecoveryPointsOutput,
+  errors: [
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IndexedRecoveryPoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This action returns metadata about active and previous legal holds.
  */
-export const listLegalHolds = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLegalHolds: {
+  (
     input: ListLegalHoldsInput,
-    output: ListLegalHoldsOutput,
-    errors: [InvalidParameterValueException, ServiceUnavailableException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LegalHolds",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLegalHoldsOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLegalHoldsInput,
+  ) => Stream.Stream<
+    ListLegalHoldsOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLegalHoldsInput,
+  ) => Stream.Stream<
+    LegalHold,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLegalHoldsInput,
+  output: ListLegalHoldsOutput,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LegalHolds",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns an array of resources successfully backed up by Backup, including
  * the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a
  * resource type.
  */
-export const listProtectedResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProtectedResources: {
+  (
     input: ListProtectedResourcesInput,
-    output: ListProtectedResourcesOutput,
-    errors: [InvalidParameterValueException, ServiceUnavailableException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Results",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProtectedResourcesOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProtectedResourcesInput,
+  ) => Stream.Stream<
+    ListProtectedResourcesOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProtectedResourcesInput,
+  ) => Stream.Stream<
+    ProtectedResource,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProtectedResourcesInput,
+  output: ListProtectedResourcesOutput,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Results",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This action returns recovery point ARNs (Amazon Resource Names) of the
  * specified legal hold.
  */
-export const listRecoveryPointsByLegalHold =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecoveryPointsByLegalHold: {
+  (
     input: ListRecoveryPointsByLegalHoldInput,
-    output: ListRecoveryPointsByLegalHoldOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RecoveryPoints",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecoveryPointsByLegalHoldOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecoveryPointsByLegalHoldInput,
+  ) => Stream.Stream<
+    ListRecoveryPointsByLegalHoldOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecoveryPointsByLegalHoldInput,
+  ) => Stream.Stream<
+    RecoveryPointMember,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecoveryPointsByLegalHoldInput,
+  output: ListRecoveryPointsByLegalHoldOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RecoveryPoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * The information about the recovery points of the type specified by a
  * resource Amazon Resource Name (ARN).
@@ -6692,45 +7304,110 @@ export const listRecoveryPointsByLegalHold =
  * For Amazon EFS and Amazon EC2, this action only lists recovery points
  * created by Backup.
  */
-export const listRecoveryPointsByResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecoveryPointsByResource: {
+  (
     input: ListRecoveryPointsByResourceInput,
-    output: ListRecoveryPointsByResourceOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RecoveryPoints",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecoveryPointsByResourceOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecoveryPointsByResourceInput,
+  ) => Stream.Stream<
+    ListRecoveryPointsByResourceOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecoveryPointsByResourceInput,
+  ) => Stream.Stream<
+    RecoveryPointByResource,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecoveryPointsByResourceInput,
+  output: ListRecoveryPointsByResourceOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RecoveryPoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of jobs that Backup initiated to restore a saved resource,
  * including details about the recovery process.
  */
-export const listRestoreJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRestoreJobs: {
+  (
     input: ListRestoreJobsInput,
-    output: ListRestoreJobsOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RestoreJobs",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRestoreJobsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRestoreJobsInput,
+  ) => Stream.Stream<
+    ListRestoreJobsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRestoreJobsInput,
+  ) => Stream.Stream<
+    RestoreJobsListMember,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRestoreJobsInput,
+  output: ListRestoreJobsOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RestoreJobs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This request obtains a summary of restore jobs created
  * or running within the the most recent 30 days. You can
@@ -6742,102 +7419,278 @@ export const listRestoreJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * Region, Account, State, RestourceType, MessageCategory,
  * StartTime, EndTime, and Count of included jobs.
  */
-export const listRestoreJobSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRestoreJobSummaries: {
+  (
     input: ListRestoreJobSummariesInput,
-    output: ListRestoreJobSummariesOutput,
-    errors: [InvalidParameterValueException, ServiceUnavailableException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRestoreJobSummariesOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRestoreJobSummariesInput,
+  ) => Stream.Stream<
+    ListRestoreJobSummariesOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRestoreJobSummariesInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRestoreJobSummariesInput,
+  output: ListRestoreJobSummariesOutput,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of restore testing plans.
  */
-export const listRestoreTestingPlans =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRestoreTestingPlans: {
+  (
     input: ListRestoreTestingPlansInput,
-    output: ListRestoreTestingPlansOutput,
-    errors: [InvalidParameterValueException, ServiceUnavailableException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RestoreTestingPlans",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRestoreTestingPlansOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRestoreTestingPlansInput,
+  ) => Stream.Stream<
+    ListRestoreTestingPlansOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRestoreTestingPlansInput,
+  ) => Stream.Stream<
+    RestoreTestingPlanForList,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRestoreTestingPlansInput,
+  output: ListRestoreTestingPlansOutput,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RestoreTestingPlans",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of restore testing selections. Can be filtered
  * by `MaxResults` and `RestoreTestingPlanName`.
  */
-export const listRestoreTestingSelections =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRestoreTestingSelections: {
+  (
     input: ListRestoreTestingSelectionsInput,
-    output: ListRestoreTestingSelectionsOutput,
-    errors: [
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RestoreTestingSelections",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRestoreTestingSelectionsOutput,
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRestoreTestingSelectionsInput,
+  ) => Stream.Stream<
+    ListRestoreTestingSelectionsOutput,
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRestoreTestingSelectionsInput,
+  ) => Stream.Stream<
+    RestoreTestingSelectionForList,
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRestoreTestingSelectionsInput,
+  output: ListRestoreTestingSelectionsOutput,
+  errors: [
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RestoreTestingSelections",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of existing scan jobs for an authenticated account for the last 30 days.
  */
-export const listScanJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listScanJobs: {
+  (
     input: ListScanJobsInput,
-    output: ListScanJobsOutput,
-    errors: [InvalidParameterValueException, ServiceUnavailableException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ScanJobs",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListScanJobsOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListScanJobsInput,
+  ) => Stream.Stream<
+    ListScanJobsOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListScanJobsInput,
+  ) => Stream.Stream<
+    ScanJob,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListScanJobsInput,
+  output: ListScanJobsOutput,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ScanJobs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This is a request for a summary of scan jobs created or running within the most recent 30 days.
  */
-export const listScanJobSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listScanJobSummaries: {
+  (
     input: ListScanJobSummariesInput,
-    output: ListScanJobSummariesOutput,
-    errors: [InvalidParameterValueException, ServiceUnavailableException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ScanJobSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListScanJobSummariesOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListScanJobSummariesInput,
+  ) => Stream.Stream<
+    ListScanJobSummariesOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListScanJobSummariesInput,
+  ) => Stream.Stream<
+    ScanJobSummary,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListScanJobSummariesInput,
+  output: ListScanJobSummariesOutput,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ScanJobSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of tiering configurations.
  */
-export const listTieringConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTieringConfigurations: {
+  (
     input: ListTieringConfigurationsInput,
-    output: ListTieringConfigurationsOutput,
-    errors: [InvalidParameterValueException, ServiceUnavailableException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TieringConfigurations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTieringConfigurationsOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTieringConfigurationsInput,
+  ) => Stream.Stream<
+    ListTieringConfigurationsOutput,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTieringConfigurationsInput,
+  ) => Stream.Stream<
+    TieringConfigurationsListMember,
+    | InvalidParameterValueException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTieringConfigurationsInput,
+  output: ListTieringConfigurationsOutput,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TieringConfigurations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Starts an on-demand backup job for the specified resource.
  */
-export const startBackupJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startBackupJob: (
+  input: StartBackupJobInput,
+) => Effect.Effect<
+  StartBackupJobOutput,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartBackupJobInput,
   output: StartBackupJobOutput,
   errors: [
@@ -6852,7 +7705,18 @@ export const startBackupJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Recovers the saved resource identified by an Amazon Resource Name (ARN).
  */
-export const startRestoreJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startRestoreJob: (
+  input: StartRestoreJobInput,
+) => Effect.Effect<
+  StartRestoreJobOutput,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRestoreJobInput,
   output: StartRestoreJobOutput,
   errors: [
@@ -6880,19 +7744,28 @@ export const startRestoreJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `SelectionWindowDays`
  */
-export const updateRestoreTestingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRestoreTestingPlanInput,
-    output: UpdateRestoreTestingPlanOutput,
-    errors: [
-      ConflictException,
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const updateRestoreTestingPlan: (
+  input: UpdateRestoreTestingPlanInput,
+) => Effect.Effect<
+  UpdateRestoreTestingPlanOutput,
+  | ConflictException
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRestoreTestingPlanInput,
+  output: UpdateRestoreTestingPlanOutput,
+  errors: [
+    ConflictException,
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Updates the specified restore testing selection.
  *
@@ -6901,18 +7774,28 @@ export const updateRestoreTestingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can use either protected resource ARNs or conditions, but not both.
  */
-export const updateRestoreTestingSelection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRestoreTestingSelectionInput,
-    output: UpdateRestoreTestingSelectionOutput,
-    errors: [
-      ConflictException,
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const updateRestoreTestingSelection: (
+  input: UpdateRestoreTestingSelectionInput,
+) => Effect.Effect<
+  UpdateRestoreTestingSelectionOutput,
+  | ConflictException
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRestoreTestingSelectionInput,
+  output: UpdateRestoreTestingSelectionOutput,
+  errors: [
+    ConflictException,
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This request will send changes to your specified tiering
  * configuration. `TieringConfigurationName`
@@ -6926,26 +7809,48 @@ export const updateRestoreTestingSelection =
  *
  * - `ResourceType`
  */
-export const updateTieringConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTieringConfigurationInput,
-    output: UpdateTieringConfigurationOutput,
-    errors: [
-      AlreadyExistsException,
-      ConflictException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const updateTieringConfiguration: (
+  input: UpdateTieringConfigurationInput,
+) => Effect.Effect<
+  UpdateTieringConfigurationOutput,
+  | AlreadyExistsException
+  | ConflictException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTieringConfigurationInput,
+  output: UpdateTieringConfigurationOutput,
+  errors: [
+    AlreadyExistsException,
+    ConflictException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Removes the specified legal hold on a recovery point. This action can only be performed
  * by a user with sufficient permissions.
  */
-export const cancelLegalHold = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelLegalHold: (
+  input: CancelLegalHoldInput,
+) => Effect.Effect<
+  CancelLegalHoldOutput,
+  | InvalidParameterValueException
+  | InvalidResourceStateException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelLegalHoldInput,
   output: CancelLegalHoldOutput,
   errors: [
@@ -6966,40 +7871,76 @@ export const cancelLegalHold = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Do not include sensitive data, such as passport numbers, in the name of a backup
  * vault.
  */
-export const createLogicallyAirGappedBackupVault =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLogicallyAirGappedBackupVaultInput,
-    output: CreateLogicallyAirGappedBackupVaultOutput,
-    errors: [
-      AlreadyExistsException,
-      InvalidParameterValueException,
-      InvalidRequestException,
-      LimitExceededException,
-      MissingParameterValueException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const createLogicallyAirGappedBackupVault: (
+  input: CreateLogicallyAirGappedBackupVaultInput,
+) => Effect.Effect<
+  CreateLogicallyAirGappedBackupVaultOutput,
+  | AlreadyExistsException
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLogicallyAirGappedBackupVaultInput,
+  output: CreateLogicallyAirGappedBackupVaultOutput,
+  errors: [
+    AlreadyExistsException,
+    InvalidParameterValueException,
+    InvalidRequestException,
+    LimitExceededException,
+    MissingParameterValueException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Creates a restore access backup vault that provides temporary access to recovery points in a logically air-gapped backup vault, subject to MPA approval.
  */
-export const createRestoreAccessBackupVault =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRestoreAccessBackupVaultInput,
-    output: CreateRestoreAccessBackupVaultOutput,
-    errors: [
-      AlreadyExistsException,
-      InvalidParameterValueException,
-      InvalidRequestException,
-      LimitExceededException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const createRestoreAccessBackupVault: (
+  input: CreateRestoreAccessBackupVaultInput,
+) => Effect.Effect<
+  CreateRestoreAccessBackupVaultOutput,
+  | AlreadyExistsException
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRestoreAccessBackupVaultInput,
+  output: CreateRestoreAccessBackupVaultOutput,
+  errors: [
+    AlreadyExistsException,
+    InvalidParameterValueException,
+    InvalidRequestException,
+    LimitExceededException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Updates the specified framework.
  */
-export const updateFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFramework: (
+  input: UpdateFrameworkInput,
+) => Effect.Effect<
+  UpdateFrameworkOutput,
+  | AlreadyExistsException
+  | ConflictException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFrameworkInput,
   output: UpdateFrameworkOutput,
   errors: [
@@ -7015,7 +7956,17 @@ export const updateFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the framework details for the specified `FrameworkName`.
  */
-export const describeFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeFramework: (
+  input: DescribeFrameworkInput,
+) => Effect.Effect<
+  DescribeFrameworkOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFrameworkInput,
   output: DescribeFrameworkOutput,
   errors: [
@@ -7030,53 +7981,87 @@ export const describeFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * its Amazon Resource Name (ARN), and the Amazon Web Services service type of the saved
  * resource.
  */
-export const describeProtectedResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeProtectedResourceInput,
-    output: DescribeProtectedResourceOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const describeProtectedResource: (
+  input: DescribeProtectedResourceInput,
+) => Effect.Effect<
+  DescribeProtectedResourceOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeProtectedResourceInput,
+  output: DescribeProtectedResourceOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Returns the backup plan that is specified by the plan ID as a backup template.
  */
-export const exportBackupPlanTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExportBackupPlanTemplateInput,
-    output: ExportBackupPlanTemplateOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const exportBackupPlanTemplate: (
+  input: ExportBackupPlanTemplateInput,
+) => Effect.Effect<
+  ExportBackupPlanTemplateOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportBackupPlanTemplateInput,
+  output: ExportBackupPlanTemplateOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Returns the template specified by its `templateId` as a backup plan.
  */
-export const getBackupPlanFromTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBackupPlanFromTemplateInput,
-    output: GetBackupPlanFromTemplateOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const getBackupPlanFromTemplate: (
+  input: GetBackupPlanFromTemplateInput,
+) => Effect.Effect<
+  GetBackupPlanFromTemplateOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBackupPlanFromTemplateInput,
+  output: GetBackupPlanFromTemplateOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Returns selection metadata and a document in JSON format that specifies a list of
  * resources that are associated with a backup plan.
  */
-export const getBackupSelection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBackupSelection: (
+  input: GetBackupSelectionInput,
+) => Effect.Effect<
+  GetBackupSelectionOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBackupSelectionInput,
   output: GetBackupSelectionOutput,
   errors: [
@@ -7090,38 +8075,64 @@ export const getBackupSelection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns the access policy document that is associated with the named backup
  * vault.
  */
-export const getBackupVaultAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBackupVaultAccessPolicyInput,
-    output: GetBackupVaultAccessPolicyOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const getBackupVaultAccessPolicy: (
+  input: GetBackupVaultAccessPolicyInput,
+) => Effect.Effect<
+  GetBackupVaultAccessPolicyOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBackupVaultAccessPolicyInput,
+  output: GetBackupVaultAccessPolicyOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Returns event notifications for the specified backup vault.
  */
-export const getBackupVaultNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBackupVaultNotificationsInput,
-    output: GetBackupVaultNotificationsOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const getBackupVaultNotifications: (
+  input: GetBackupVaultNotificationsInput,
+) => Effect.Effect<
+  GetBackupVaultNotificationsOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBackupVaultNotificationsInput,
+  output: GetBackupVaultNotificationsOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This action returns details for a specified legal hold. The details are the
  * body of a legal hold in JSON format, in addition to metadata.
  */
-export const getLegalHold = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLegalHold: (
+  input: GetLegalHoldInput,
+) => Effect.Effect<
+  GetLegalHoldOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLegalHoldInput,
   output: GetLegalHoldOutput,
   errors: [
@@ -7135,84 +8146,152 @@ export const getLegalHold = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation returns the metadata and details specific to
  * the backup index associated with the specified recovery point.
  */
-export const getRecoveryPointIndexDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRecoveryPointIndexDetailsInput,
-    output: GetRecoveryPointIndexDetailsOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const getRecoveryPointIndexDetails: (
+  input: GetRecoveryPointIndexDetailsInput,
+) => Effect.Effect<
+  GetRecoveryPointIndexDetailsOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRecoveryPointIndexDetailsInput,
+  output: GetRecoveryPointIndexDetailsOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Returns a set of metadata key-value pairs that were used to create the backup.
  */
-export const getRecoveryPointRestoreMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRecoveryPointRestoreMetadataInput,
-    output: GetRecoveryPointRestoreMetadataOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const getRecoveryPointRestoreMetadata: (
+  input: GetRecoveryPointRestoreMetadataInput,
+) => Effect.Effect<
+  GetRecoveryPointRestoreMetadataOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRecoveryPointRestoreMetadataInput,
+  output: GetRecoveryPointRestoreMetadataOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This request returns the metadata for the specified restore job.
  */
-export const getRestoreJobMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRestoreJobMetadataInput,
-    output: GetRestoreJobMetadataOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const getRestoreJobMetadata: (
+  input: GetRestoreJobMetadataInput,
+) => Effect.Effect<
+  GetRestoreJobMetadataOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRestoreJobMetadataInput,
+  output: GetRestoreJobMetadataOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This request returns the minimal required set of metadata needed to
  * start a restore job with secure default settings. `BackupVaultName`
  * and `RecoveryPointArn` are required parameters.
  * `BackupVaultAccountId` is an optional parameter.
  */
-export const getRestoreTestingInferredMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRestoreTestingInferredMetadataInput,
-    output: GetRestoreTestingInferredMetadataOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const getRestoreTestingInferredMetadata: (
+  input: GetRestoreTestingInferredMetadataInput,
+) => Effect.Effect<
+  GetRestoreTestingInferredMetadataOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRestoreTestingInferredMetadataInput,
+  output: GetRestoreTestingInferredMetadataOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Returns version metadata of your backup plans, including Amazon Resource Names (ARNs),
  * backup plan IDs, creation and deletion dates, plan names, and version IDs.
  */
-export const listBackupPlanVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBackupPlanVersions: {
+  (
     input: ListBackupPlanVersionsInput,
-    output: ListBackupPlanVersionsOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "BackupPlanVersionsList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBackupPlanVersionsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBackupPlanVersionsInput,
+  ) => Stream.Stream<
+    ListBackupPlanVersionsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBackupPlanVersionsInput,
+  ) => Stream.Stream<
+    BackupPlansListMember,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBackupPlanVersionsInput,
+  output: ListBackupPlanVersionsOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BackupPlanVersionsList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This returns restore jobs that contain the specified protected resource.
  *
@@ -7221,23 +8300,56 @@ export const listBackupPlanVersions =
  * `ByRecoveryPointCreationDateAfter` , and
  * `ByRecoveryPointCreationDateBefore`.
  */
-export const listRestoreJobsByProtectedResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRestoreJobsByProtectedResource: {
+  (
     input: ListRestoreJobsByProtectedResourceInput,
-    output: ListRestoreJobsByProtectedResourceOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RestoreJobs",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRestoreJobsByProtectedResourceOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRestoreJobsByProtectedResourceInput,
+  ) => Stream.Stream<
+    ListRestoreJobsByProtectedResourceOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRestoreJobsByProtectedResourceInput,
+  ) => Stream.Stream<
+    RestoreJobsListMember,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRestoreJobsByProtectedResourceInput,
+  output: ListRestoreJobsByProtectedResourceOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RestoreJobs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the tags assigned to the resource, such as a target recovery point, backup plan,
  * or backup vault.
@@ -7255,7 +8367,41 @@ export const listRestoreJobsByProtectedResource =
  * resource types that are fully managed by Backup. These have an ARN that begins
  * `arn:aws:backup` and they are noted in the Feature availability by resource table.
  */
-export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTags: {
+  (
+    input: ListTagsInput,
+  ): Effect.Effect<
+    ListTagsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsInput,
+  ) => Stream.Stream<
+    ListTagsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTagsInput,
   output: ListTagsOutput,
   errors: [
@@ -7273,7 +8419,17 @@ export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Starts an on-demand report job for the specified report plan.
  */
-export const startReportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startReportJob: (
+  input: StartReportJobInput,
+) => Effect.Effect<
+  StartReportJobOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartReportJobInput,
   output: StartReportJobOutput,
   errors: [
@@ -7286,7 +8442,17 @@ export const startReportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified backup plan. The new version is uniquely identified by its ID.
  */
-export const updateBackupPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBackupPlan: (
+  input: UpdateBackupPlanInput,
+) => Effect.Effect<
+  UpdateBackupPlanOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBackupPlanInput,
   output: UpdateBackupPlanOutput,
   errors: [
@@ -7301,18 +8467,28 @@ export const updateBackupPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Required: BackupVaultName, RecoveryPointArn, and IAMRoleArn
  */
-export const updateRecoveryPointIndexSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRecoveryPointIndexSettingsInput,
-    output: UpdateRecoveryPointIndexSettingsOutput,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const updateRecoveryPointIndexSettings: (
+  input: UpdateRecoveryPointIndexSettingsInput,
+) => Effect.Effect<
+  UpdateRecoveryPointIndexSettingsOutput,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRecoveryPointIndexSettingsInput,
+  output: UpdateRecoveryPointIndexSettingsOutput,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Sets the transition lifecycle of a recovery point.
  *
@@ -7334,22 +8510,43 @@ export const updateRecoveryPointIndexSettings =
  *
  * This operation does not support continuous backups.
  */
-export const updateRecoveryPointLifecycle =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRecoveryPointLifecycleInput,
-    output: UpdateRecoveryPointLifecycleOutput,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const updateRecoveryPointLifecycle: (
+  input: UpdateRecoveryPointLifecycleInput,
+) => Effect.Effect<
+  UpdateRecoveryPointLifecycleOutput,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRecoveryPointLifecycleInput,
+  output: UpdateRecoveryPointLifecycleOutput,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Updates the specified report plan.
  */
-export const updateReportPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateReportPlan: (
+  input: UpdateReportPlanInput,
+) => Effect.Effect<
+  UpdateReportPlanOutput,
+  | ConflictException
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateReportPlanInput,
   output: UpdateReportPlanOutput,
   errors: [
@@ -7364,23 +8561,42 @@ export const updateReportPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes the resource selection associated with a backup plan that is specified by the
  * `SelectionId`.
  */
-export const deleteBackupSelection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBackupSelectionInput,
-    output: DeleteBackupSelectionResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const deleteBackupSelection: (
+  input: DeleteBackupSelectionInput,
+) => Effect.Effect<
+  DeleteBackupSelectionResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBackupSelectionInput,
+  output: DeleteBackupSelectionResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Deletes the backup vault identified by its name. A vault can be deleted only if it is
  * empty.
  */
-export const deleteBackupVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBackupVault: (
+  input: DeleteBackupVaultInput,
+) => Effect.Effect<
+  DeleteBackupVaultResponse,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBackupVaultInput,
   output: DeleteBackupVaultResponse,
   errors: [
@@ -7394,17 +8610,26 @@ export const deleteBackupVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the policy document that manages permissions on a backup vault.
  */
-export const deleteBackupVaultAccessPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteBackupVaultAccessPolicyInput,
-    output: DeleteBackupVaultAccessPolicyResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const deleteBackupVaultAccessPolicy: (
+  input: DeleteBackupVaultAccessPolicyInput,
+) => Effect.Effect<
+  DeleteBackupVaultAccessPolicyResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBackupVaultAccessPolicyInput,
+  output: DeleteBackupVaultAccessPolicyResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Deletes Backup Vault Lock from a backup vault specified by a backup vault
  * name.
@@ -7414,95 +8639,150 @@ export const deleteBackupVaultAccessPolicy =
  * to do so. For more information, see Vault Lock in the
  * *Backup Developer Guide*.
  */
-export const deleteBackupVaultLockConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteBackupVaultLockConfigurationInput,
-    output: DeleteBackupVaultLockConfigurationResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const deleteBackupVaultLockConfiguration: (
+  input: DeleteBackupVaultLockConfigurationInput,
+) => Effect.Effect<
+  DeleteBackupVaultLockConfigurationResponse,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBackupVaultLockConfigurationInput,
+  output: DeleteBackupVaultLockConfigurationResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Deletes event notifications for the specified backup vault.
  */
-export const deleteBackupVaultNotifications =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteBackupVaultNotificationsInput,
-    output: DeleteBackupVaultNotificationsResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const deleteBackupVaultNotifications: (
+  input: DeleteBackupVaultNotificationsInput,
+) => Effect.Effect<
+  DeleteBackupVaultNotificationsResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBackupVaultNotificationsInput,
+  output: DeleteBackupVaultNotificationsResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Deletes the tiering configuration specified by a tiering configuration name.
  */
-export const deleteTieringConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTieringConfigurationInput,
-    output: DeleteTieringConfigurationOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const deleteTieringConfiguration: (
+  input: DeleteTieringConfigurationInput,
+) => Effect.Effect<
+  DeleteTieringConfigurationOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTieringConfigurationInput,
+  output: DeleteTieringConfigurationOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Removes the association between an MPA approval team and a backup vault, disabling the MPA approval workflow for restore operations.
  */
-export const disassociateBackupVaultMpaApprovalTeam =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateBackupVaultMpaApprovalTeamInput,
-    output: DisassociateBackupVaultMpaApprovalTeamResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const disassociateBackupVaultMpaApprovalTeam: (
+  input: DisassociateBackupVaultMpaApprovalTeamInput,
+) => Effect.Effect<
+  DisassociateBackupVaultMpaApprovalTeamResponse,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateBackupVaultMpaApprovalTeamInput,
+  output: DisassociateBackupVaultMpaApprovalTeamResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This action to a specific child (nested) recovery point removes the relationship
  * between the specified recovery point and its parent (composite) recovery point.
  */
-export const disassociateRecoveryPointFromParent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateRecoveryPointFromParentInput,
-    output: DisassociateRecoveryPointFromParentResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const disassociateRecoveryPointFromParent: (
+  input: DisassociateRecoveryPointFromParentInput,
+) => Effect.Effect<
+  DisassociateRecoveryPointFromParentResponse,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateRecoveryPointFromParentInput,
+  output: DisassociateRecoveryPointFromParentResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Sets a resource-based policy that is used to manage access permissions on the target
  * backup vault. Requires a backup vault name and an access policy document in JSON
  * format.
  */
-export const putBackupVaultAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutBackupVaultAccessPolicyInput,
-    output: PutBackupVaultAccessPolicyResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const putBackupVaultAccessPolicy: (
+  input: PutBackupVaultAccessPolicyInput,
+) => Effect.Effect<
+  PutBackupVaultAccessPolicyResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutBackupVaultAccessPolicyInput,
+  output: PutBackupVaultAccessPolicyResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Applies Backup Vault Lock to a backup vault, preventing attempts to delete
  * any recovery point stored in or created in a backup vault. Vault Lock also prevents
@@ -7518,33 +8798,51 @@ export const putBackupVaultAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information, see Backup Vault Lock.
  */
-export const putBackupVaultLockConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutBackupVaultLockConfigurationInput,
-    output: PutBackupVaultLockConfigurationResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const putBackupVaultLockConfiguration: (
+  input: PutBackupVaultLockConfigurationInput,
+) => Effect.Effect<
+  PutBackupVaultLockConfigurationResponse,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutBackupVaultLockConfigurationInput,
+  output: PutBackupVaultLockConfigurationResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Turns on notifications on a backup vault for the specified topic and events.
  */
-export const putBackupVaultNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutBackupVaultNotificationsInput,
-    output: PutBackupVaultNotificationsResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const putBackupVaultNotifications: (
+  input: PutBackupVaultNotificationsInput,
+) => Effect.Effect<
+  PutBackupVaultNotificationsResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutBackupVaultNotificationsInput,
+  output: PutBackupVaultNotificationsResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This request allows you to send your independent self-run
  * restore test validation results.
@@ -7552,34 +8850,53 @@ export const putBackupVaultNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * are required. Optionally, you can input a
  * `ValidationStatusMessage`.
  */
-export const putRestoreValidationResult = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRestoreValidationResultInput,
-    output: PutRestoreValidationResultResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const putRestoreValidationResult: (
+  input: PutRestoreValidationResultInput,
+) => Effect.Effect<
+  PutRestoreValidationResultResponse,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRestoreValidationResultInput,
+  output: PutRestoreValidationResultResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Revokes access to a restore access backup vault, removing the ability to restore from its recovery points and permanently deleting the vault.
  */
-export const revokeRestoreAccessBackupVault =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RevokeRestoreAccessBackupVaultInput,
-    output: RevokeRestoreAccessBackupVaultResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const revokeRestoreAccessBackupVault: (
+  input: RevokeRestoreAccessBackupVaultInput,
+) => Effect.Effect<
+  RevokeRestoreAccessBackupVaultResponse,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeRestoreAccessBackupVaultInput,
+  output: RevokeRestoreAccessBackupVaultResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Attempts to cancel a job to create a one-time backup of a resource.
  *
@@ -7603,7 +8920,18 @@ export const revokeRestoreAccessBackupVault =
  *
  * - Amazon RDS
  */
-export const stopBackupJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopBackupJob: (
+  input: StopBackupJobInput,
+) => Effect.Effect<
+  StopBackupJobResponse,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopBackupJobInput,
   output: StopBackupJobResponse,
   errors: [
@@ -7622,7 +8950,17 @@ export const stopBackupJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * including Aurora, Amazon DocumentDB. Amazon EBS,
  * Amazon FSx, Neptune, and Amazon RDS.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceResponse,
   errors: [
@@ -7637,18 +8975,26 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns an error if the account is not an Organizations management account. Use the
  * `DescribeGlobalSettings` API to determine the current settings.
  */
-export const updateGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateGlobalSettingsInput,
-    output: UpdateGlobalSettingsResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const updateGlobalSettings: (
+  input: UpdateGlobalSettingsInput,
+) => Effect.Effect<
+  UpdateGlobalSettingsResponse,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGlobalSettingsInput,
+  output: UpdateGlobalSettingsResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    MissingParameterValueException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Updates the current service opt-in settings for the Region.
  *
@@ -7656,21 +9002,39 @@ export const updateGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * the `DescribeRegionSettings` API to determine the resource types that are
  * supported.
  */
-export const updateRegionSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRegionSettingsInput,
-    output: UpdateRegionSettingsResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const updateRegionSettings: (
+  input: UpdateRegionSettingsInput,
+) => Effect.Effect<
+  UpdateRegionSettingsResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRegionSettingsInput,
+  output: UpdateRegionSettingsResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Deletes the report plan specified by a report plan name.
  */
-export const deleteReportPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteReportPlan: (
+  input: DeleteReportPlanInput,
+) => Effect.Effect<
+  DeleteReportPlanResponse,
+  | ConflictException
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReportPlanInput,
   output: DeleteReportPlanResponse,
   errors: [
@@ -7684,24 +9048,45 @@ export const deleteReportPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates an MPA approval team with a backup vault.
  */
-export const associateBackupVaultMpaApprovalTeam =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateBackupVaultMpaApprovalTeamInput,
-    output: AssociateBackupVaultMpaApprovalTeamResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const associateBackupVaultMpaApprovalTeam: (
+  input: AssociateBackupVaultMpaApprovalTeamInput,
+) => Effect.Effect<
+  AssociateBackupVaultMpaApprovalTeamResponse,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateBackupVaultMpaApprovalTeamInput,
+  output: AssociateBackupVaultMpaApprovalTeamResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Deletes a backup plan. A backup plan can only be deleted after all associated selections
  * of resources have been deleted. Deleting a backup plan deletes the current version of a
  * backup plan. Previous versions, if any, will still exist.
  */
-export const deleteBackupPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBackupPlan: (
+  input: DeleteBackupPlanInput,
+) => Effect.Effect<
+  DeleteBackupPlanOutput,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBackupPlanInput,
   output: DeleteBackupPlanOutput,
   errors: [
@@ -7721,7 +9106,19 @@ export const deleteBackupPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * job retry for information on how Backup retries copy job
  * operations.
  */
-export const startCopyJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startCopyJob: (
+  input: StartCopyJobInput,
+) => Effect.Effect<
+  StartCopyJobOutput,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCopyJobInput,
   output: StartCopyJobOutput,
   errors: [
@@ -7736,7 +9133,19 @@ export const startCopyJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts scanning jobs for specific resources.
  */
-export const startScanJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startScanJob: (
+  input: StartScanJobInput,
+) => Effect.Effect<
+  StartScanJobOutput,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartScanJobInput,
   output: StartScanJobOutput,
   errors: [
@@ -7751,7 +9160,18 @@ export const startScanJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Assigns a set of key-value pairs to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceResponse,
   errors: [
@@ -7770,7 +9190,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Do not include sensitive data, such as passport numbers, in the name of a backup
  * vault.
  */
-export const createBackupVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBackupVault: (
+  input: CreateBackupVaultInput,
+) => Effect.Effect<
+  CreateBackupVaultOutput,
+  | AlreadyExistsException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBackupVaultInput,
   output: CreateBackupVaultOutput,
   errors: [
@@ -7788,7 +9219,18 @@ export const createBackupVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you call `CreateReportPlan` with a plan that already exists, you receive
  * an `AlreadyExistsException` exception.
  */
-export const createReportPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createReportPlan: (
+  input: CreateReportPlanInput,
+) => Effect.Effect<
+  CreateReportPlanOutput,
+  | AlreadyExistsException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReportPlanInput,
   output: CreateReportPlanOutput,
   errors: [
@@ -7817,7 +9259,19 @@ export const createReportPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If the user or role is deleted or the permission within the role is removed,
  * the deletion will not be successful and will enter an `EXPIRED` state.
  */
-export const deleteRecoveryPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRecoveryPoint: (
+  input: DeleteRecoveryPointInput,
+) => Effect.Effect<
+  DeleteRecoveryPointResponse,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | InvalidResourceStateException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRecoveryPointInput,
   output: DeleteRecoveryPointResponse,
   errors: [
@@ -7836,27 +9290,48 @@ export const deleteRecoveryPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Does not support snapshot backup recovery points.
  */
-export const disassociateRecoveryPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateRecoveryPointInput,
-    output: DisassociateRecoveryPointResponse,
-    errors: [
-      InvalidParameterValueException,
-      InvalidRequestException,
-      InvalidResourceStateException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const disassociateRecoveryPoint: (
+  input: DisassociateRecoveryPointInput,
+) => Effect.Effect<
+  DisassociateRecoveryPointResponse,
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | InvalidResourceStateException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateRecoveryPointInput,
+  output: DisassociateRecoveryPointResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    InvalidResourceStateException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Creates a framework with one or more controls. A framework is a collection of controls
  * that you can use to evaluate your backup practices. By using pre-built customizable
  * controls to define your policies, you can evaluate whether your backup practices comply
  * with your policies and which resources are not yet in compliance.
  */
-export const createFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFramework: (
+  input: CreateFrameworkInput,
+) => Effect.Effect<
+  CreateFrameworkOutput,
+  | AlreadyExistsException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFrameworkInput,
   output: CreateFrameworkOutput,
   errors: [
@@ -7873,7 +9348,17 @@ export const createFramework = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * to delete or disassociate a recovery point will fail with an error if one or more active
  * legal holds are on the recovery point.
  */
-export const createLegalHold = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLegalHold: (
+  input: CreateLegalHoldInput,
+) => Effect.Effect<
+  CreateLegalHoldOutput,
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLegalHoldInput,
   output: CreateLegalHoldOutput,
   errors: [
@@ -7890,20 +9375,30 @@ export const createLegalHold = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * plan. After this request is successful, finish the procedure using
  * CreateRestoreTestingSelection.
  */
-export const createRestoreTestingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRestoreTestingPlanInput,
-    output: CreateRestoreTestingPlanOutput,
-    errors: [
-      AlreadyExistsException,
-      ConflictException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingParameterValueException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const createRestoreTestingPlan: (
+  input: CreateRestoreTestingPlanInput,
+) => Effect.Effect<
+  CreateRestoreTestingPlanOutput,
+  | AlreadyExistsException
+  | ConflictException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRestoreTestingPlanInput,
+  output: CreateRestoreTestingPlanOutput,
+  errors: [
+    AlreadyExistsException,
+    ConflictException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingParameterValueException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Creates a tiering configuration.
  *
@@ -7911,24 +9406,45 @@ export const createRestoreTestingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Each vault can only have one vault-specific tiering configuration, in addition to any global configuration that applies to all vaults.
  */
-export const createTieringConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTieringConfigurationInput,
-    output: CreateTieringConfigurationOutput,
-    errors: [
-      AlreadyExistsException,
-      ConflictException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingParameterValueException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const createTieringConfiguration: (
+  input: CreateTieringConfigurationInput,
+) => Effect.Effect<
+  CreateTieringConfigurationOutput,
+  | AlreadyExistsException
+  | ConflictException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTieringConfigurationInput,
+  output: CreateTieringConfigurationOutput,
+  errors: [
+    AlreadyExistsException,
+    ConflictException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingParameterValueException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Returns backup job details for the specified `BackupJobId`.
  */
-export const describeBackupJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeBackupJob: (
+  input: DescribeBackupJobInput,
+) => Effect.Effect<
+  DescribeBackupJobOutput,
+  | DependencyFailureException
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBackupJobInput,
   output: DescribeBackupJobOutput,
   errors: [
@@ -7942,7 +9458,17 @@ export const describeBackupJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns metadata associated with creating a copy of a resource.
  */
-export const describeCopyJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCopyJob: (
+  input: DescribeCopyJobInput,
+) => Effect.Effect<
+  DescribeCopyJobOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCopyJobInput,
   output: DescribeCopyJobOutput,
   errors: [
@@ -7956,7 +9482,16 @@ export const describeCopyJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns the details associated with creating a report as specified by its
  * `ReportJobId`.
  */
-export const describeReportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeReportJob: (
+  input: DescribeReportJobInput,
+) => Effect.Effect<
+  DescribeReportJobOutput,
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeReportJobInput,
   output: DescribeReportJobOutput,
   errors: [
@@ -7969,7 +9504,17 @@ export const describeReportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns `BackupPlan` details for the specified `BackupPlanId`. The
  * details are the body of a backup plan in JSON format, in addition to plan metadata.
  */
-export const getBackupPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBackupPlan: (
+  input: GetBackupPlanInput,
+) => Effect.Effect<
+  GetBackupPlanOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBackupPlanInput,
   output: GetBackupPlanOutput,
   errors: [
@@ -7982,47 +9527,124 @@ export const getBackupPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns detailed information about the recovery points stored in a backup vault.
  */
-export const listRecoveryPointsByBackupVault =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecoveryPointsByBackupVault: {
+  (
     input: ListRecoveryPointsByBackupVaultInput,
-    output: ListRecoveryPointsByBackupVaultOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RecoveryPoints",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecoveryPointsByBackupVaultOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecoveryPointsByBackupVaultInput,
+  ) => Stream.Stream<
+    ListRecoveryPointsByBackupVaultOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecoveryPointsByBackupVaultInput,
+  ) => Stream.Stream<
+    RecoveryPointByBackupVault,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecoveryPointsByBackupVaultInput,
+  output: ListRecoveryPointsByBackupVaultOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RecoveryPoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of restore access backup vaults associated with a specified backup vault.
  */
-export const listRestoreAccessBackupVaults =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRestoreAccessBackupVaults: {
+  (
     input: ListRestoreAccessBackupVaultsInput,
-    output: ListRestoreAccessBackupVaultsOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RestoreAccessBackupVaults",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRestoreAccessBackupVaultsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRestoreAccessBackupVaultsInput,
+  ) => Stream.Stream<
+    ListRestoreAccessBackupVaultsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRestoreAccessBackupVaultsInput,
+  ) => Stream.Stream<
+    RestoreAccessBackupVaultListMember,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRestoreAccessBackupVaultsInput,
+  output: ListRestoreAccessBackupVaultsOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RestoreAccessBackupVaults",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns metadata associated with a restore job that is specified by a job ID.
  */
-export const describeRestoreJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeRestoreJob: (
+  input: DescribeRestoreJobInput,
+) => Effect.Effect<
+  DescribeRestoreJobOutput,
+  | DependencyFailureException
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRestoreJobInput,
   output: DescribeRestoreJobOutput,
   errors: [
@@ -8041,7 +9663,18 @@ export const describeRestoreJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you call `CreateBackupPlan` with a plan that already exists, you receive
  * an `AlreadyExistsException` exception.
  */
-export const createBackupPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBackupPlan: (
+  input: CreateBackupPlanInput,
+) => Effect.Effect<
+  CreateBackupPlanOutput,
+  | AlreadyExistsException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBackupPlanInput,
   output: CreateBackupPlanOutput,
   errors: [
@@ -8056,19 +9689,28 @@ export const createBackupPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a JSON document that specifies a set of resources to assign to a backup plan.
  * For examples, see Assigning resources programmatically.
  */
-export const createBackupSelection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBackupSelectionInput,
-    output: CreateBackupSelectionOutput,
-    errors: [
-      AlreadyExistsException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingParameterValueException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const createBackupSelection: (
+  input: CreateBackupSelectionInput,
+) => Effect.Effect<
+  CreateBackupSelectionOutput,
+  | AlreadyExistsException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBackupSelectionInput,
+  output: CreateBackupSelectionOutput,
+  errors: [
+    AlreadyExistsException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingParameterValueException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This request can be sent after CreateRestoreTestingPlan request
  * returns successfully. This is the second part of creating a resource testing
@@ -8091,16 +9733,27 @@ export const createBackupSelection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Cannot select by both protected resource types AND specific ARNs.
  * Request will fail if both are included.
  */
-export const createRestoreTestingSelection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRestoreTestingSelectionInput,
-    output: CreateRestoreTestingSelectionOutput,
-    errors: [
-      AlreadyExistsException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingParameterValueException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const createRestoreTestingSelection: (
+  input: CreateRestoreTestingSelectionInput,
+) => Effect.Effect<
+  CreateRestoreTestingSelectionOutput,
+  | AlreadyExistsException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRestoreTestingSelectionInput,
+  output: CreateRestoreTestingSelectionOutput,
+  errors: [
+    AlreadyExistsException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));

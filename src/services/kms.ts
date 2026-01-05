@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("https://trent.amazonaws.com/doc/2014-11-01/");
 const svc = T.AwsApiService({ sdkId: "KMS", serviceShapeName: "TrentService" });
 const auth = T.AwsAuthSigv4({ name: "kms" });
@@ -238,6 +246,45 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type KeyIdType = string;
+export type CustomKeyStoreIdType = string;
+export type AliasNameType = string;
+export type CustomKeyStoreNameType = string;
+export type CloudHsmClusterIdType = string;
+export type TrustAnchorCertificateType = string;
+export type KeyStorePasswordType = string;
+export type XksProxyUriEndpointType = string;
+export type XksProxyUriPathType = string;
+export type XksProxyVpcEndpointServiceNameType = string;
+export type AccountIdType = string;
+export type PrincipalIdType = string;
+export type GrantTokenType = string;
+export type GrantNameType = string;
+export type PolicyType = string;
+export type DescriptionType = string;
+export type XksKeyIdType = string;
+export type BackingKeyIdType = string;
+export type LimitType = number;
+export type MarkerType = string;
+export type RotationPeriodInDaysType = number;
+export type NumberOfBytesType = number;
+export type PolicyNameType = string;
+export type KeyMaterialDescriptionType = string;
+export type GrantIdType = string;
+export type RegionType = string;
+export type PendingWindowInDaysType = number;
+export type TagKeyType = string;
+export type XksProxyAuthenticationAccessKeyIdType = string;
+export type XksProxyAuthenticationRawSecretAccessKeyType = string;
+export type TagValueType = string;
+export type EncryptionContextKey = string;
+export type EncryptionContextValue = string;
+export type ErrorMessageType = string;
+export type BackingKeyIdResponseType = string;
+export type AWSAccountIdType = string;
+export type ArnType = string;
 
 //# Schemas
 export type GrantOperationList = string[];
@@ -2462,7 +2509,9 @@ export class DependencyTimeoutException extends S.TaggedError<DependencyTimeoutE
   "DependencyTimeoutException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "DependencyTimeout", httpResponseCode: 503 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class CustomKeyStoreHasCMKsException extends S.TaggedError<CustomKeyStoreHasCMKsException>()(
   "CustomKeyStoreHasCMKsException",
   { message: S.optional(S.String) },
@@ -2501,7 +2550,9 @@ export class KMSInternalException extends S.TaggedError<KMSInternalException>()(
   "KMSInternalException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "KMSInternal", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class CustomKeyStoreNotFoundException extends S.TaggedError<CustomKeyStoreNotFoundException>()(
   "CustomKeyStoreNotFoundException",
   { message: S.optional(S.String) },
@@ -2629,7 +2680,9 @@ export class KeyUnavailableException extends S.TaggedError<KeyUnavailableExcepti
   "KeyUnavailableException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "KeyUnavailable", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class CustomKeyStoreNameInUseException extends S.TaggedError<CustomKeyStoreNameInUseException>()(
   "CustomKeyStoreNameInUseException",
   { message: S.optional(S.String) },
@@ -2795,17 +2848,24 @@ export class XksProxyVpcEndpointServiceNotFoundException extends S.TaggedError<X
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const disconnectCustomKeyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisconnectCustomKeyStoreRequest,
-    output: DisconnectCustomKeyStoreResponse,
-    errors: [
-      CustomKeyStoreInvalidStateException,
-      CustomKeyStoreNotFoundException,
-      KMSInternalException,
-    ],
-  }),
-);
+export const disconnectCustomKeyStore: (
+  input: DisconnectCustomKeyStoreRequest,
+) => Effect.Effect<
+  DisconnectCustomKeyStoreResponse,
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNotFoundException
+  | KMSInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisconnectCustomKeyStoreRequest,
+  output: DisconnectCustomKeyStoreResponse,
+  errors: [
+    CustomKeyStoreInvalidStateException,
+    CustomKeyStoreNotFoundException,
+    KMSInternalException,
+  ],
+}));
 /**
  * Deletes a custom key store. This operation does not affect any backing elements of the
  * custom key store. It does not delete the CloudHSM cluster that is associated with an CloudHSM key
@@ -2857,18 +2917,26 @@ export const disconnectCustomKeyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const deleteCustomKeyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCustomKeyStoreRequest,
-    output: DeleteCustomKeyStoreResponse,
-    errors: [
-      CustomKeyStoreHasCMKsException,
-      CustomKeyStoreInvalidStateException,
-      CustomKeyStoreNotFoundException,
-      KMSInternalException,
-    ],
-  }),
-);
+export const deleteCustomKeyStore: (
+  input: DeleteCustomKeyStoreRequest,
+) => Effect.Effect<
+  DeleteCustomKeyStoreResponse,
+  | CustomKeyStoreHasCMKsException
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNotFoundException
+  | KMSInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomKeyStoreRequest,
+  output: DeleteCustomKeyStoreResponse,
+  errors: [
+    CustomKeyStoreHasCMKsException,
+    CustomKeyStoreInvalidStateException,
+    CustomKeyStoreNotFoundException,
+    KMSInternalException,
+  ],
+}));
 /**
  * Connects or reconnects a custom key store to its backing key store. For an CloudHSM key
  * store, `ConnectCustomKeyStore` connects the key store to its associated CloudHSM
@@ -2953,19 +3021,28 @@ export const deleteCustomKeyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const connectCustomKeyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ConnectCustomKeyStoreRequest,
-    output: ConnectCustomKeyStoreResponse,
-    errors: [
-      CloudHsmClusterInvalidConfigurationException,
-      CloudHsmClusterNotActiveException,
-      CustomKeyStoreInvalidStateException,
-      CustomKeyStoreNotFoundException,
-      KMSInternalException,
-    ],
-  }),
-);
+export const connectCustomKeyStore: (
+  input: ConnectCustomKeyStoreRequest,
+) => Effect.Effect<
+  ConnectCustomKeyStoreResponse,
+  | CloudHsmClusterInvalidConfigurationException
+  | CloudHsmClusterNotActiveException
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNotFoundException
+  | KMSInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ConnectCustomKeyStoreRequest,
+  output: ConnectCustomKeyStoreResponse,
+  errors: [
+    CloudHsmClusterInvalidConfigurationException,
+    CloudHsmClusterNotActiveException,
+    CustomKeyStoreInvalidStateException,
+    CustomKeyStoreNotFoundException,
+    KMSInternalException,
+  ],
+}));
 /**
  * Gets a list of all KMS keys in the caller's Amazon Web Services account and Region.
  *
@@ -2986,7 +3063,38 @@ export const connectCustomKeyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const listKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listKeys: {
+  (
+    input: ListKeysRequest,
+  ): Effect.Effect<
+    ListKeysResponse,
+    | DependencyTimeoutException
+    | InvalidMarkerException
+    | KMSInternalException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKeysRequest,
+  ) => Stream.Stream<
+    ListKeysResponse,
+    | DependencyTimeoutException
+    | InvalidMarkerException
+    | KMSInternalException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKeysRequest,
+  ) => Stream.Stream<
+    KeyListEntry,
+    | DependencyTimeoutException
+    | InvalidMarkerException
+    | KMSInternalException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListKeysRequest,
   output: ListKeysResponse,
   errors: [
@@ -3052,22 +3160,52 @@ export const listKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const describeCustomKeyStores =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCustomKeyStores: {
+  (
     input: DescribeCustomKeyStoresRequest,
-    output: DescribeCustomKeyStoresResponse,
-    errors: [
-      CustomKeyStoreNotFoundException,
-      InvalidMarkerException,
-      KMSInternalException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "CustomKeyStores",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeCustomKeyStoresResponse,
+    | CustomKeyStoreNotFoundException
+    | InvalidMarkerException
+    | KMSInternalException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCustomKeyStoresRequest,
+  ) => Stream.Stream<
+    DescribeCustomKeyStoresResponse,
+    | CustomKeyStoreNotFoundException
+    | InvalidMarkerException
+    | KMSInternalException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCustomKeyStoresRequest,
+  ) => Stream.Stream<
+    CustomKeyStoresListEntry,
+    | CustomKeyStoreNotFoundException
+    | InvalidMarkerException
+    | KMSInternalException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCustomKeyStoresRequest,
+  output: DescribeCustomKeyStoresResponse,
+  errors: [
+    CustomKeyStoreNotFoundException,
+    InvalidMarkerException,
+    KMSInternalException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "CustomKeyStores",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns information about all grants in the Amazon Web Services account and Region that have the
  * specified retiring principal.
@@ -3111,24 +3249,60 @@ export const describeCustomKeyStores =
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const listRetirableGrants =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRetirableGrants: {
+  (
     input: ListRetirableGrantsRequest,
-    output: ListGrantsResponse,
-    errors: [
-      DependencyTimeoutException,
-      InvalidArnException,
-      InvalidMarkerException,
-      KMSInternalException,
-      NotFoundException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "Grants",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListGrantsResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRetirableGrantsRequest,
+  ) => Stream.Stream<
+    ListGrantsResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRetirableGrantsRequest,
+  ) => Stream.Stream<
+    GrantListEntry,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRetirableGrantsRequest,
+  output: ListGrantsResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    InvalidMarkerException,
+    KMSInternalException,
+    NotFoundException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "Grants",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Sets the state of a KMS key to disabled. This change temporarily prevents use of the KMS
  * key for cryptographic operations.
@@ -3148,7 +3322,18 @@ export const listRetirableGrants =
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const disableKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableKey: (
+  input: DisableKeyRequest,
+) => Effect.Effect<
+  DisableKeyResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableKeyRequest,
   output: DisableKeyResponse,
   errors: [
@@ -3178,19 +3363,28 @@ export const disableKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const updateKeyDescription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateKeyDescriptionRequest,
-    output: UpdateKeyDescriptionResponse,
-    errors: [
-      DependencyTimeoutException,
-      InvalidArnException,
-      KMSInternalException,
-      KMSInvalidStateException,
-      NotFoundException,
-    ],
-  }),
-);
+export const updateKeyDescription: (
+  input: UpdateKeyDescriptionRequest,
+) => Effect.Effect<
+  UpdateKeyDescriptionResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateKeyDescriptionRequest,
+  output: UpdateKeyDescriptionResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
 /**
  * Cancels the deletion of a KMS key. When this operation succeeds, the key state of the KMS
  * key is `Disabled`. To enable the KMS key, use EnableKey.
@@ -3210,7 +3404,18 @@ export const updateKeyDescription = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const cancelKeyDeletion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelKeyDeletion: (
+  input: CancelKeyDeletionRequest,
+) => Effect.Effect<
+  CancelKeyDeletionResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelKeyDeletionRequest,
   output: CancelKeyDeletionResponse,
   errors: [
@@ -3233,7 +3438,18 @@ export const cancelKeyDeletion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const getKeyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKeyPolicy: (
+  input: GetKeyPolicyRequest,
+) => Effect.Effect<
+  GetKeyPolicyResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKeyPolicyRequest,
   output: GetKeyPolicyResponse,
   errors: [
@@ -3262,25 +3478,60 @@ export const getKeyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const listKeyPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listKeyPolicies: {
+  (
     input: ListKeyPoliciesRequest,
-    output: ListKeyPoliciesResponse,
-    errors: [
-      DependencyTimeoutException,
-      InvalidArnException,
-      KMSInternalException,
-      KMSInvalidStateException,
-      NotFoundException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "PolicyNames",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListKeyPoliciesResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKeyPoliciesRequest,
+  ) => Stream.Stream<
+    ListKeyPoliciesResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKeyPoliciesRequest,
+  ) => Stream.Stream<
+    PolicyNameType,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKeyPoliciesRequest,
+  output: ListKeyPoliciesResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "PolicyNames",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Schedules the deletion of a KMS key. By default, KMS applies a waiting period of 30
  * days, but you can specify a waiting period of 7-30 days. When this operation is successful,
@@ -3337,7 +3588,18 @@ export const listKeyPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const scheduleKeyDeletion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const scheduleKeyDeletion: (
+  input: ScheduleKeyDeletionRequest,
+) => Effect.Effect<
+  ScheduleKeyDeletionResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScheduleKeyDeletionRequest,
   output: ScheduleKeyDeletionResponse,
   errors: [
@@ -3376,7 +3638,18 @@ export const scheduleKeyDeletion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const generateRandom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const generateRandom: (
+  input: GenerateRandomRequest,
+) => Effect.Effect<
+  GenerateRandomResponse,
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNotFoundException
+  | DependencyTimeoutException
+  | KMSInternalException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateRandomRequest,
   output: GenerateRandomResponse,
   errors: [
@@ -3424,7 +3697,21 @@ export const generateRandom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const retireGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const retireGrant: (
+  input: RetireGrantRequest,
+) => Effect.Effect<
+  RetireGrantResponse,
+  | DependencyTimeoutException
+  | DryRunOperationException
+  | InvalidArnException
+  | InvalidGrantIdException
+  | InvalidGrantTokenException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetireGrantRequest,
   output: RetireGrantResponse,
   errors: [
@@ -3474,7 +3761,20 @@ export const retireGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const revokeGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const revokeGrant: (
+  input: RevokeGrantRequest,
+) => Effect.Effect<
+  RevokeGrantResponse,
+  | DependencyTimeoutException
+  | DryRunOperationException
+  | InvalidArnException
+  | InvalidGrantIdException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeGrantRequest,
   output: RevokeGrantResponse,
   errors: [
@@ -3512,24 +3812,56 @@ export const revokeGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const listResourceTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listResourceTags: {
+  (
     input: ListResourceTagsRequest,
-    output: ListResourceTagsResponse,
-    errors: [
-      InvalidArnException,
-      InvalidMarkerException,
-      KMSInternalException,
-      NotFoundException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "Tags",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListResourceTagsResponse,
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceTagsRequest,
+  ) => Stream.Stream<
+    ListResourceTagsResponse,
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceTagsRequest,
+  ) => Stream.Stream<
+    Tag,
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceTagsRequest,
+  output: ListResourceTagsResponse,
+  errors: [
+    InvalidArnException,
+    InvalidMarkerException,
+    KMSInternalException,
+    NotFoundException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "Tags",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Gets a list of aliases in the caller's Amazon Web Services account and region. For more information
  * about aliases, see CreateAlias.
@@ -3567,25 +3899,60 @@ export const listResourceTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const listAliases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAliases: {
+  (
     input: ListAliasesRequest,
-    output: ListAliasesResponse,
-    errors: [
-      DependencyTimeoutException,
-      InvalidArnException,
-      InvalidMarkerException,
-      KMSInternalException,
-      NotFoundException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "Aliases",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAliasesResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAliasesRequest,
+  ) => Stream.Stream<
+    ListAliasesResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAliasesRequest,
+  ) => Stream.Stream<
+    AliasListEntry,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAliasesRequest,
+  output: ListAliasesResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    InvalidMarkerException,
+    KMSInternalException,
+    NotFoundException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "Aliases",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Deletes the specified alias.
  *
@@ -3622,7 +3989,17 @@ export const listAliases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const deleteAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAlias: (
+  input: DeleteAliasRequest,
+) => Effect.Effect<
+  DeleteAliasResponse,
+  | DependencyTimeoutException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAliasRequest,
   output: DeleteAliasResponse,
   errors: [
@@ -3668,7 +4045,50 @@ export const deleteAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const listGrants = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGrants: {
+  (
+    input: ListGrantsRequest,
+  ): Effect.Effect<
+    ListGrantsResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidGrantIdException
+    | InvalidMarkerException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGrantsRequest,
+  ) => Stream.Stream<
+    ListGrantsResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidGrantIdException
+    | InvalidMarkerException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGrantsRequest,
+  ) => Stream.Stream<
+    GrantListEntry,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidGrantIdException
+    | InvalidMarkerException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGrantsRequest,
   output: ListGrantsResponse,
   errors: [
@@ -3750,7 +4170,19 @@ export const listGrants = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const updatePrimaryRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePrimaryRegion: (
+  input: UpdatePrimaryRegionRequest,
+) => Effect.Effect<
+  UpdatePrimaryRegionResponse,
+  | DisabledException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePrimaryRegionRequest,
   output: UpdatePrimaryRegionResponse,
   errors: [
@@ -3797,7 +4229,20 @@ export const updatePrimaryRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const disableKeyRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableKeyRotation: (
+  input: DisableKeyRotationRequest,
+) => Effect.Effect<
+  DisableKeyRotationResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableKeyRotationRequest,
   output: DisableKeyRotationResponse,
   errors: [
@@ -3865,7 +4310,20 @@ export const disableKeyRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const enableKeyRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableKeyRotation: (
+  input: EnableKeyRotationRequest,
+) => Effect.Effect<
+  EnableKeyRotationResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableKeyRotationRequest,
   output: EnableKeyRotationResponse,
   errors: [
@@ -3915,20 +4373,30 @@ export const enableKeyRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const deleteImportedKeyMaterial = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteImportedKeyMaterialRequest,
-    output: DeleteImportedKeyMaterialResponse,
-    errors: [
-      DependencyTimeoutException,
-      InvalidArnException,
-      KMSInternalException,
-      KMSInvalidStateException,
-      NotFoundException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const deleteImportedKeyMaterial: (
+  input: DeleteImportedKeyMaterialRequest,
+) => Effect.Effect<
+  DeleteImportedKeyMaterialResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteImportedKeyMaterialRequest,
+  output: DeleteImportedKeyMaterialResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Provides detailed information about the rotation status for a KMS key, including whether
  * automatic
@@ -3984,20 +4452,30 @@ export const deleteImportedKeyMaterial = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const getKeyRotationStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetKeyRotationStatusRequest,
-    output: GetKeyRotationStatusResponse,
-    errors: [
-      DependencyTimeoutException,
-      InvalidArnException,
-      KMSInternalException,
-      KMSInvalidStateException,
-      NotFoundException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const getKeyRotationStatus: (
+  input: GetKeyRotationStatusRequest,
+) => Effect.Effect<
+  GetKeyRotationStatusResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetKeyRotationStatusRequest,
+  output: GetKeyRotationStatusResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Returns the public key and an import token you need to import or reimport key material for
  * a KMS key.
@@ -4065,20 +4543,30 @@ export const getKeyRotationStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const getParametersForImport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetParametersForImportRequest,
-    output: GetParametersForImportResponse,
-    errors: [
-      DependencyTimeoutException,
-      InvalidArnException,
-      KMSInternalException,
-      KMSInvalidStateException,
-      NotFoundException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const getParametersForImport: (
+  input: GetParametersForImportRequest,
+) => Effect.Effect<
+  GetParametersForImportResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetParametersForImportRequest,
+  output: GetParametersForImportResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Returns information about the key materials associated with the specified KMS key. You can
  * use the optional `IncludeKeyMaterial` parameter to control which key materials are
@@ -4111,26 +4599,64 @@ export const getParametersForImport = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const listKeyRotations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listKeyRotations: {
+  (
     input: ListKeyRotationsRequest,
-    output: ListKeyRotationsResponse,
-    errors: [
-      InvalidArnException,
-      InvalidMarkerException,
-      KMSInternalException,
-      KMSInvalidStateException,
-      NotFoundException,
-      UnsupportedOperationException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "Rotations",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListKeyRotationsResponse,
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKeyRotationsRequest,
+  ) => Stream.Stream<
+    ListKeyRotationsResponse,
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKeyRotationsRequest,
+  ) => Stream.Stream<
+    RotationsListEntry,
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKeyRotationsRequest,
+  output: ListKeyRotationsResponse,
+  errors: [
+    InvalidArnException,
+    InvalidMarkerException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "Rotations",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Immediately initiates rotation of the key material of the specified symmetric encryption
  * KMS key.
@@ -4188,7 +4714,22 @@ export const listKeyRotations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const rotateKeyOnDemand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rotateKeyOnDemand: (
+  input: RotateKeyOnDemandRequest,
+) => Effect.Effect<
+  RotateKeyOnDemandResponse,
+  | ConflictException
+  | DependencyTimeoutException
+  | DisabledException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RotateKeyOnDemandRequest,
   output: RotateKeyOnDemandResponse,
   errors: [
@@ -4250,7 +4791,20 @@ export const rotateKeyOnDemand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const createAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAlias: (
+  input: CreateAliasRequest,
+) => Effect.Effect<
+  CreateAliasResponse,
+  | AlreadyExistsException
+  | DependencyTimeoutException
+  | InvalidAliasNameException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAliasRequest,
   output: CreateAliasResponse,
   errors: [
@@ -4279,7 +4833,19 @@ export const createAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const enableKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableKey: (
+  input: EnableKeyRequest,
+) => Effect.Effect<
+  EnableKeyResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableKeyRequest,
   output: EnableKeyResponse,
   errors: [
@@ -4342,7 +4908,18 @@ export const enableKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const updateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAlias: (
+  input: UpdateAliasRequest,
+) => Effect.Effect<
+  UpdateAliasResponse,
+  | DependencyTimeoutException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAliasRequest,
   output: UpdateAliasResponse,
   errors: [
@@ -4406,7 +4983,22 @@ export const updateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const createGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGrant: (
+  input: CreateGrantRequest,
+) => Effect.Effect<
+  CreateGrantResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidArnException
+  | InvalidGrantTokenException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGrantRequest,
   output: CreateGrantResponse,
   errors: [
@@ -4480,7 +5072,17 @@ export const createGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const describeKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeKey: (
+  input: DescribeKeyRequest,
+) => Effect.Effect<
+  DescribeKeyResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeKeyRequest,
   output: DescribeKeyResponse,
   errors: [
@@ -4524,7 +5126,18 @@ export const describeKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | TagException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -4585,7 +5198,23 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const getPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPublicKey: (
+  input: GetPublicKeyRequest,
+) => Effect.Effect<
+  GetPublicKeyResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | InvalidArnException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPublicKeyRequest,
   output: GetPublicKeyResponse,
   errors: [
@@ -4641,7 +5270,19 @@ export const getPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | TagException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -4672,7 +5313,21 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const putKeyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putKeyPolicy: (
+  input: PutKeyPolicyRequest,
+) => Effect.Effect<
+  PutKeyPolicyResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | NotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutKeyPolicyRequest,
   output: PutKeyPolicyResponse,
   errors: [
@@ -4759,7 +5414,23 @@ export const putKeyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const replicateKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const replicateKey: (
+  input: ReplicateKeyRequest,
+) => Effect.Effect<
+  ReplicateKeyResponse,
+  | AlreadyExistsException
+  | DisabledException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | NotFoundException
+  | TagException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReplicateKeyRequest,
   output: ReplicateKeyResponse,
   errors: [
@@ -4851,7 +5522,22 @@ export const replicateKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const deriveSharedSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deriveSharedSecret: (
+  input: DeriveSharedSecretRequest,
+) => Effect.Effect<
+  DeriveSharedSecretResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeriveSharedSecretRequest,
   output: DeriveSharedSecretResponse,
   errors: [
@@ -4937,7 +5623,22 @@ export const deriveSharedSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const encrypt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const encrypt: (
+  input: EncryptRequest,
+) => Effect.Effect<
+  EncryptResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EncryptRequest,
   output: EncryptResponse,
   errors: [
@@ -5041,7 +5742,22 @@ export const encrypt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const generateDataKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const generateDataKey: (
+  input: GenerateDataKeyRequest,
+) => Effect.Effect<
+  GenerateDataKeyResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateDataKeyRequest,
   output: GenerateDataKeyResponse,
   errors: [
@@ -5131,7 +5847,23 @@ export const generateDataKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const generateDataKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const generateDataKeyPair: (
+  input: GenerateDataKeyPairRequest,
+) => Effect.Effect<
+  GenerateDataKeyPairResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateDataKeyPairRequest,
   output: GenerateDataKeyPairResponse,
   errors: [
@@ -5203,23 +5935,38 @@ export const generateDataKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const generateDataKeyPairWithoutPlaintext =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GenerateDataKeyPairWithoutPlaintextRequest,
-    output: GenerateDataKeyPairWithoutPlaintextResponse,
-    errors: [
-      DependencyTimeoutException,
-      DisabledException,
-      DryRunOperationException,
-      InvalidGrantTokenException,
-      InvalidKeyUsageException,
-      KeyUnavailableException,
-      KMSInternalException,
-      KMSInvalidStateException,
-      NotFoundException,
-      UnsupportedOperationException,
-    ],
-  }));
+export const generateDataKeyPairWithoutPlaintext: (
+  input: GenerateDataKeyPairWithoutPlaintextRequest,
+) => Effect.Effect<
+  GenerateDataKeyPairWithoutPlaintextResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateDataKeyPairWithoutPlaintextRequest,
+  output: GenerateDataKeyPairWithoutPlaintextResponse,
+  errors: [
+    DependencyTimeoutException,
+    DisabledException,
+    DryRunOperationException,
+    InvalidGrantTokenException,
+    InvalidKeyUsageException,
+    KeyUnavailableException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Returns a unique symmetric data key for use outside of KMS. This operation returns a
  * data key that is encrypted under a symmetric encryption KMS key that you specify. The bytes in
@@ -5289,22 +6036,36 @@ export const generateDataKeyPairWithoutPlaintext =
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const generateDataKeyWithoutPlaintext =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GenerateDataKeyWithoutPlaintextRequest,
-    output: GenerateDataKeyWithoutPlaintextResponse,
-    errors: [
-      DependencyTimeoutException,
-      DisabledException,
-      DryRunOperationException,
-      InvalidGrantTokenException,
-      InvalidKeyUsageException,
-      KeyUnavailableException,
-      KMSInternalException,
-      KMSInvalidStateException,
-      NotFoundException,
-    ],
-  }));
+export const generateDataKeyWithoutPlaintext: (
+  input: GenerateDataKeyWithoutPlaintextRequest,
+) => Effect.Effect<
+  GenerateDataKeyWithoutPlaintextResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateDataKeyWithoutPlaintextRequest,
+  output: GenerateDataKeyWithoutPlaintextResponse,
+  errors: [
+    DependencyTimeoutException,
+    DisabledException,
+    DryRunOperationException,
+    InvalidGrantTokenException,
+    InvalidKeyUsageException,
+    KeyUnavailableException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
 /**
  * Generates a hash-based message authentication code (HMAC) for a message using an HMAC KMS
  * key and a MAC algorithm that the key supports. HMAC KMS keys and the HMAC algorithms that
@@ -5339,7 +6100,21 @@ export const generateDataKeyWithoutPlaintext =
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const generateMac = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const generateMac: (
+  input: GenerateMacRequest,
+) => Effect.Effect<
+  GenerateMacResponse,
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateMacRequest,
   output: GenerateMacResponse,
   errors: [
@@ -5406,7 +6181,22 @@ export const generateMac = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const sign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sign: (
+  input: SignRequest,
+) => Effect.Effect<
+  SignResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignRequest,
   output: SignResponse,
   errors: [
@@ -5496,7 +6286,24 @@ export const sign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const reEncrypt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const reEncrypt: (
+  input: ReEncryptRequest,
+) => Effect.Effect<
+  ReEncryptResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | IncorrectKeyException
+  | InvalidCiphertextException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReEncryptRequest,
   output: ReEncryptResponse,
   errors: [
@@ -5585,7 +6392,24 @@ export const reEncrypt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const decrypt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const decrypt: (
+  input: DecryptRequest,
+) => Effect.Effect<
+  DecryptResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | IncorrectKeyException
+  | InvalidCiphertextException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DecryptRequest,
   output: DecryptResponse,
   errors: [
@@ -5718,7 +6542,23 @@ export const decrypt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const importKeyMaterial = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importKeyMaterial: (
+  input: ImportKeyMaterialRequest,
+) => Effect.Effect<
+  ImportKeyMaterialResponse,
+  | DependencyTimeoutException
+  | ExpiredImportTokenException
+  | IncorrectKeyMaterialException
+  | InvalidArnException
+  | InvalidCiphertextException
+  | InvalidImportTokenException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportKeyMaterialRequest,
   output: ImportKeyMaterialResponse,
   errors: [
@@ -5762,7 +6602,22 @@ export const importKeyMaterial = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const verifyMac = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const verifyMac: (
+  input: VerifyMacRequest,
+) => Effect.Effect<
+  VerifyMacResponse,
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidMacException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyMacRequest,
   output: VerifyMacResponse,
   errors: [
@@ -5821,7 +6676,23 @@ export const verifyMac = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const verify = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const verify: (
+  input: VerifyRequest,
+) => Effect.Effect<
+  VerifyResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidSignatureException
+  | KMSInvalidStateException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyRequest,
   output: VerifyResponse,
   errors: [
@@ -6004,7 +6875,26 @@ export const verify = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const createKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKey: (
+  input: CreateKeyRequest,
+) => Effect.Effect<
+  CreateKeyResponse,
+  | CloudHsmClusterInvalidConfigurationException
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNotFoundException
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | TagException
+  | UnsupportedOperationException
+  | XksKeyAlreadyInUseException
+  | XksKeyInvalidConfigurationException
+  | XksKeyNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKeyRequest,
   output: CreateKeyResponse,
   errors: [
@@ -6108,31 +6998,52 @@ export const createKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const updateCustomKeyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCustomKeyStoreRequest,
-    output: UpdateCustomKeyStoreResponse,
-    errors: [
-      CloudHsmClusterInvalidConfigurationException,
-      CloudHsmClusterNotActiveException,
-      CloudHsmClusterNotFoundException,
-      CloudHsmClusterNotRelatedException,
-      CustomKeyStoreInvalidStateException,
-      CustomKeyStoreNameInUseException,
-      CustomKeyStoreNotFoundException,
-      KMSInternalException,
-      XksProxyIncorrectAuthenticationCredentialException,
-      XksProxyInvalidConfigurationException,
-      XksProxyInvalidResponseException,
-      XksProxyUriEndpointInUseException,
-      XksProxyUriInUseException,
-      XksProxyUriUnreachableException,
-      XksProxyVpcEndpointServiceInUseException,
-      XksProxyVpcEndpointServiceInvalidConfigurationException,
-      XksProxyVpcEndpointServiceNotFoundException,
-    ],
-  }),
-);
+export const updateCustomKeyStore: (
+  input: UpdateCustomKeyStoreRequest,
+) => Effect.Effect<
+  UpdateCustomKeyStoreResponse,
+  | CloudHsmClusterInvalidConfigurationException
+  | CloudHsmClusterNotActiveException
+  | CloudHsmClusterNotFoundException
+  | CloudHsmClusterNotRelatedException
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNameInUseException
+  | CustomKeyStoreNotFoundException
+  | KMSInternalException
+  | XksProxyIncorrectAuthenticationCredentialException
+  | XksProxyInvalidConfigurationException
+  | XksProxyInvalidResponseException
+  | XksProxyUriEndpointInUseException
+  | XksProxyUriInUseException
+  | XksProxyUriUnreachableException
+  | XksProxyVpcEndpointServiceInUseException
+  | XksProxyVpcEndpointServiceInvalidConfigurationException
+  | XksProxyVpcEndpointServiceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCustomKeyStoreRequest,
+  output: UpdateCustomKeyStoreResponse,
+  errors: [
+    CloudHsmClusterInvalidConfigurationException,
+    CloudHsmClusterNotActiveException,
+    CloudHsmClusterNotFoundException,
+    CloudHsmClusterNotRelatedException,
+    CustomKeyStoreInvalidStateException,
+    CustomKeyStoreNameInUseException,
+    CustomKeyStoreNotFoundException,
+    KMSInternalException,
+    XksProxyIncorrectAuthenticationCredentialException,
+    XksProxyInvalidConfigurationException,
+    XksProxyInvalidResponseException,
+    XksProxyUriEndpointInUseException,
+    XksProxyUriInUseException,
+    XksProxyUriUnreachableException,
+    XksProxyVpcEndpointServiceInUseException,
+    XksProxyVpcEndpointServiceInvalidConfigurationException,
+    XksProxyVpcEndpointServiceNotFoundException,
+  ],
+}));
 /**
  * Creates a custom key store backed by a key store that you own and manage. When you use a
  * KMS key in a custom key store for a cryptographic operation, the cryptographic operation is
@@ -6208,28 +7119,49 @@ export const updateCustomKeyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const createCustomKeyStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCustomKeyStoreRequest,
-    output: CreateCustomKeyStoreResponse,
-    errors: [
-      CloudHsmClusterInUseException,
-      CloudHsmClusterInvalidConfigurationException,
-      CloudHsmClusterNotActiveException,
-      CloudHsmClusterNotFoundException,
-      CustomKeyStoreNameInUseException,
-      IncorrectTrustAnchorException,
-      KMSInternalException,
-      LimitExceededException,
-      XksProxyIncorrectAuthenticationCredentialException,
-      XksProxyInvalidConfigurationException,
-      XksProxyInvalidResponseException,
-      XksProxyUriEndpointInUseException,
-      XksProxyUriInUseException,
-      XksProxyUriUnreachableException,
-      XksProxyVpcEndpointServiceInUseException,
-      XksProxyVpcEndpointServiceInvalidConfigurationException,
-      XksProxyVpcEndpointServiceNotFoundException,
-    ],
-  }),
-);
+export const createCustomKeyStore: (
+  input: CreateCustomKeyStoreRequest,
+) => Effect.Effect<
+  CreateCustomKeyStoreResponse,
+  | CloudHsmClusterInUseException
+  | CloudHsmClusterInvalidConfigurationException
+  | CloudHsmClusterNotActiveException
+  | CloudHsmClusterNotFoundException
+  | CustomKeyStoreNameInUseException
+  | IncorrectTrustAnchorException
+  | KMSInternalException
+  | LimitExceededException
+  | XksProxyIncorrectAuthenticationCredentialException
+  | XksProxyInvalidConfigurationException
+  | XksProxyInvalidResponseException
+  | XksProxyUriEndpointInUseException
+  | XksProxyUriInUseException
+  | XksProxyUriUnreachableException
+  | XksProxyVpcEndpointServiceInUseException
+  | XksProxyVpcEndpointServiceInvalidConfigurationException
+  | XksProxyVpcEndpointServiceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomKeyStoreRequest,
+  output: CreateCustomKeyStoreResponse,
+  errors: [
+    CloudHsmClusterInUseException,
+    CloudHsmClusterInvalidConfigurationException,
+    CloudHsmClusterNotActiveException,
+    CloudHsmClusterNotFoundException,
+    CustomKeyStoreNameInUseException,
+    IncorrectTrustAnchorException,
+    KMSInternalException,
+    LimitExceededException,
+    XksProxyIncorrectAuthenticationCredentialException,
+    XksProxyInvalidConfigurationException,
+    XksProxyInvalidResponseException,
+    XksProxyUriEndpointInUseException,
+    XksProxyUriInUseException,
+    XksProxyUriUnreachableException,
+    XksProxyVpcEndpointServiceInUseException,
+    XksProxyVpcEndpointServiceInvalidConfigurationException,
+    XksProxyVpcEndpointServiceNotFoundException,
+  ],
+}));

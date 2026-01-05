@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Marketplace Entitlement Service",
   serviceShapeName: "AWSMPEntitlementService",
@@ -374,6 +382,15 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type ProductCode = string;
+export type NonEmptyString = string;
+export type PageSizeInteger = number;
+export type FilterValue = string;
+export type Integer = number;
+export type Double = number;
+export type ErrorMessage = string;
+
 //# Schemas
 export type FilterValueList = string[];
 export const FilterValueList = S.Array(S.String);
@@ -472,19 +489,48 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
  *
  * These parameters are mutually exclusive. You can't specify both `CustomerIdentifier` and `CustomerAWSAccountID` in the same request.
  */
-export const getEntitlements = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getEntitlements: {
+  (
     input: GetEntitlementsRequest,
-    output: GetEntitlementsResult,
-    errors: [
-      InternalServiceErrorException,
-      InvalidParameterException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetEntitlementsResult,
+    | InternalServiceErrorException
+    | InvalidParameterException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetEntitlementsRequest,
+  ) => Stream.Stream<
+    GetEntitlementsResult,
+    | InternalServiceErrorException
+    | InvalidParameterException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetEntitlementsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceErrorException
+    | InvalidParameterException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetEntitlementsRequest,
+  output: GetEntitlementsResult,
+  errors: [
+    InternalServiceErrorException,
+    InvalidParameterException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));

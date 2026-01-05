@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "kendra",
   serviceShapeName: "AWSKendraFrontendService",
@@ -240,6 +248,138 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ExperienceId = string;
+export type IndexId = string;
+export type DocumentId = string;
+export type FeaturedResultsSetId = string;
+export type RoleArn = string;
+export type AccessControlConfigurationName = string;
+export type Description = string;
+export type ClientTokenName = string;
+export type DataSourceName = string;
+export type ScanSchedule = string;
+export type LanguageCode = string;
+export type ExperienceName = string;
+export type FaqName = string;
+export type FeaturedResultsSetName = string;
+export type FeaturedResultsSetDescription = string;
+export type QueryText = string;
+export type IndexName = string;
+export type QuerySuggestionsBlockListName = string;
+export type ThesaurusName = string;
+export type AccessControlConfigurationId = string;
+export type DataSourceId = string;
+export type FaqId = string;
+export type GroupId = string;
+export type PrincipalOrderingId = number;
+export type QuerySuggestionsBlockListId = string;
+export type ThesaurusId = string;
+export type EntityId = string;
+export type SuggestionQueryText = string;
+export type Integer = number;
+export type NextToken = string;
+export type MaxResultsIntegerForListAccessControlConfigurationsRequest = number;
+export type MaxResultsIntegerForListDataSourcesRequest = number;
+export type MaxResultsIntegerForListDataSourceSyncJobsRequest = number;
+export type MaxResultsIntegerForListEntityPersonasRequest = number;
+export type MaxResultsIntegerForListExperiencesRequest = number;
+export type MaxResultsIntegerForListFaqsRequest = number;
+export type MaxResultsIntegerForListFeaturedResultsSetsRequest = number;
+export type MaxResultsIntegerForListPrincipalsRequest = number;
+export type MaxResultsIntegerForListIndicesRequest = number;
+export type MaxResultsIntegerForListQuerySuggestionsBlockLists = number;
+export type AmazonResourceName = string;
+export type MaxResultsIntegerForListThesauriRequest = number;
+export type DocumentAttributeKey = string;
+export type VisitorId = string;
+export type QueryId = string;
+export type TagKey = string;
+export type MinimumNumberOfQueryingUsers = number;
+export type MinimumQueryCount = number;
+export type DataSourceSyncJobId = string;
+export type Title = string;
+export type PrincipalName = string;
+export type SubnetId = string;
+export type VpcSecurityGroupId = string;
+export type TagValue = string;
+export type S3BucketName = string;
+export type S3ObjectKey = string;
+export type KmsKeyId = string;
+export type TopDocumentAttributeValueCountPairsSize = number;
+export type DocumentMetadataConfigurationName = string;
+export type Token = string;
+export type ResultId = string;
+export type StorageCapacityUnit = number;
+export type QueryCapacityUnit = number;
+export type ErrorMessage = string;
+export type Long = number;
+export type LambdaArn = string;
+export type DataSourceInclusionsExclusionsStringsMember = string;
+export type Url = string;
+export type SecretArn = string;
+export type DataSourceFieldName = string;
+export type TenantDomain = string;
+export type ServiceNowHostUrl = string;
+export type MimeType = string;
+export type UserAccount = string;
+export type SharedDriveId = string;
+export type CrawlDepth = number;
+export type MaxLinksPerPage = number;
+export type MaxContentSizePerPageInMegaBytes = number;
+export type MaxUrlsPerMinuteCrawlRate = number;
+export type OrganizationId = string;
+export type FileSystemId = string;
+export type TeamId = string;
+export type SinceCrawlDate = string;
+export type LookBackPeriod = number;
+export type EnterpriseId = string;
+export type Domain = string;
+export type FolderId = string;
+export type JiraAccountUrl = string;
+export type RepositoryName = string;
+export type SiteUrl = string;
+export type SiteId = string;
+export type IdentityAttributeName = string;
+export type UserNameAttributeField = string;
+export type GroupAttributeField = string;
+export type Issuer = string;
+export type ClaimRegex = string;
+export type UserId = string;
+export type Importance = number;
+export type Duration = string;
+export type Endpoint = string;
+export type FailureReason = string;
+export type DocumentTitle = string;
+export type Content = string;
+export type DocumentAttributeStringValue = string;
+export type DataSourceDateFieldFormat = string;
+export type IndexFieldName = string;
+export type Host = string;
+export type Port = number;
+export type DatabaseHost = string;
+export type DatabasePort = number;
+export type DatabaseName = string;
+export type TableName = string;
+export type ColumnName = string;
+export type OneDriveUser = string;
+export type ServiceNowKnowledgeArticleFilterQuery = string;
+export type ConfluenceSpaceIdentifier = string;
+export type OrganizationName = string;
+export type ValueImportanceMapKey = string;
+export type QuerySuggestionsId = string;
+export type IndexedQuestionAnswersCount = number;
+export type IndexedTextDocumentsCount = number;
+export type IndexedTextBytes = number;
+export type NameType = string;
+export type SalesforceCustomKnowledgeArticleTypeName = string;
+export type SeedUrl = string;
+export type SiteMap = string;
+export type MetricValue = string;
+export type FeedbackToken = string;
+export type WarningMessage = string;
+export type SuggestedQueryText = string;
 
 //# Schemas
 export type DocumentIdList = string[];
@@ -4884,7 +5024,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -4892,7 +5034,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
   { Message: S.optional(S.String) },
@@ -4930,43 +5074,107 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  * Retrieves search metrics data. The data provides a snapshot of how your users interact
  * with your search application and how effective the application is.
  */
-export const getSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getSnapshots: {
+  (
     input: GetSnapshotsRequest,
-    output: GetSnapshotsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetSnapshotsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetSnapshotsRequest,
+  ) => Stream.Stream<
+    GetSnapshotsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSnapshotsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetSnapshotsRequest,
+  output: GetSnapshotsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the Amazon Kendra indexes that you created.
  */
-export const listIndices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listIndices: {
+  (
     input: ListIndicesRequest,
-    output: ListIndicesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListIndicesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIndicesRequest,
+  ) => Stream.Stream<
+    ListIndicesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIndicesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIndicesRequest,
+  output: ListIndicesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves relevant passages or text excerpts given an input query.
  *
@@ -5008,7 +5216,20 @@ export const listIndices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * `USER_TOKEN` to configure user context policy, Amazon Kendra returns a
  * `ValidationException` error.
  */
-export const retrieve = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const retrieve: (
+  input: RetrieveRequest,
+) => Effect.Effect<
+  RetrieveResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetrieveRequest,
   output: RetrieveResult,
   errors: [
@@ -5028,20 +5249,30 @@ export const retrieve = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * for featuring in the results. If a query contains an exact match of a query, then one
  * or more specific documents are featured in the search results.
  */
-export const updateFeaturedResultsSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFeaturedResultsSetRequest,
-    output: UpdateFeaturedResultsSetResponse,
-    errors: [
-      AccessDeniedException,
-      FeaturedResultsConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateFeaturedResultsSet: (
+  input: UpdateFeaturedResultsSetRequest,
+) => Effect.Effect<
+  UpdateFeaturedResultsSetResponse,
+  | AccessDeniedException
+  | FeaturedResultsConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFeaturedResultsSetRequest,
+  output: UpdateFeaturedResultsSetResponse,
+  errors: [
+    AccessDeniedException,
+    FeaturedResultsConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Starts a synchronization job for a data source connector. If a synchronization job is
  * already in progress, Amazon Kendra returns a `ResourceInUseException`
@@ -5051,26 +5282,48 @@ export const updateFeaturedResultsSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * documents from your data source respository could take up to an hour or more, depending on
  * the number of documents to sync.
  */
-export const startDataSourceSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDataSourceSyncJobRequest,
-    output: StartDataSourceSyncJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startDataSourceSyncJob: (
+  input: StartDataSourceSyncJobRequest,
+) => Effect.Effect<
+  StartDataSourceSyncJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDataSourceSyncJobRequest,
+  output: StartDataSourceSyncJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a list of tags associated with a resource. Indexes, FAQs, data sources, and
  * other resources can have tags associated with them.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -5088,26 +5341,48 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * experience, see Building
  * a search experience with no code.
  */
-export const associateEntitiesToExperience =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateEntitiesToExperienceRequest,
-    output: AssociateEntitiesToExperienceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceAlreadyExistException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const associateEntitiesToExperience: (
+  input: AssociateEntitiesToExperienceRequest,
+) => Effect.Effect<
+  AssociateEntitiesToExperienceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceAlreadyExistException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateEntitiesToExperienceRequest,
+  output: AssociateEntitiesToExperienceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceAlreadyExistException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about your Amazon Kendra experience such as a search application.
  * For more information on creating a search application experience,
  * see Building
  * a search experience with no code.
  */
-export const describeExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeExperience: (
+  input: DescribeExperienceRequest,
+) => Effect.Effect<
+  DescribeExperienceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExperienceRequest,
   output: DescribeExperienceResponse,
   errors: [
@@ -5123,19 +5398,28 @@ export const describeExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * above all other results for certain queries. If there's an exact match of a query,
  * then one or more specific documents are featured in the search results.
  */
-export const describeFeaturedResultsSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFeaturedResultsSetRequest,
-    output: DescribeFeaturedResultsSetResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeFeaturedResultsSet: (
+  input: DescribeFeaturedResultsSetRequest,
+) => Effect.Effect<
+  DescribeFeaturedResultsSetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFeaturedResultsSetRequest,
+  output: DescribeFeaturedResultsSetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes the processing of `PUT` and `DELETE` actions for
  * mapping users to their groups. This includes information on the status of actions
@@ -5146,19 +5430,28 @@ export const describeFeaturedResultsSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * `DescribePrincipalMapping` is currently not supported in the Amazon Web Services GovCloud (US-West) region.
  */
-export const describePrincipalMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePrincipalMappingRequest,
-    output: DescribePrincipalMappingResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describePrincipalMapping: (
+  input: DescribePrincipalMappingRequest,
+) => Effect.Effect<
+  DescribePrincipalMappingResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePrincipalMappingRequest,
+  output: DescribePrincipalMappingResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information on the settings of query suggestions for an index.
  *
@@ -5168,18 +5461,28 @@ export const describePrincipalMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `DescribeQuerySuggestionsConfig` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const describeQuerySuggestionsConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeQuerySuggestionsConfigRequest,
-    output: DescribeQuerySuggestionsConfigResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeQuerySuggestionsConfig: (
+  input: DescribeQuerySuggestionsConfigRequest,
+) => Effect.Effect<
+  DescribeQuerySuggestionsConfigResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeQuerySuggestionsConfigRequest,
+  output: DescribeQuerySuggestionsConfigResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Prevents users or groups in your IAM Identity Center identity source
  * from accessing your Amazon Kendra experience. You can create an Amazon Kendra experience
@@ -5187,112 +5490,300 @@ export const describeQuerySuggestionsConfig =
  * application experience, see Building
  * a search experience with no code.
  */
-export const disassociateEntitiesFromExperience =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateEntitiesFromExperienceRequest,
-    output: DisassociateEntitiesFromExperienceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateEntitiesFromExperience: (
+  input: DisassociateEntitiesFromExperienceRequest,
+) => Effect.Effect<
+  DisassociateEntitiesFromExperienceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateEntitiesFromExperienceRequest,
+  output: DisassociateEntitiesFromExperienceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists one or more access control configurations for an index. This includes user and
  * group access information for your documents. This is useful for user context filtering,
  * where search results are filtered based on the user or their group access to
  * documents.
  */
-export const listAccessControlConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAccessControlConfigurations: {
+  (
     input: ListAccessControlConfigurationsRequest,
-    output: ListAccessControlConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAccessControlConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccessControlConfigurationsRequest,
+  ) => Stream.Stream<
+    ListAccessControlConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccessControlConfigurationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccessControlConfigurationsRequest,
+  output: ListAccessControlConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the data source connectors that you have created.
  */
-export const listDataSources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDataSources: {
+  (
     input: ListDataSourcesRequest,
-    output: ListDataSourcesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDataSourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataSourcesRequest,
+  ) => Stream.Stream<
+    ListDataSourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataSourcesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataSourcesRequest,
+  output: ListDataSourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists specific permissions of users and groups with access to your
  * Amazon Kendra experience.
  */
-export const listEntityPersonas = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEntityPersonas: {
+  (
     input: ListEntityPersonasRequest,
-    output: ListEntityPersonasResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEntityPersonasResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEntityPersonasRequest,
+  ) => Stream.Stream<
+    ListEntityPersonasResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEntityPersonasRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEntityPersonasRequest,
+  output: ListEntityPersonasResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists one or more Amazon Kendra experiences. You can create an Amazon Kendra experience such
  * as a search application. For more information on creating a search application
  * experience, see Building a
  * search experience with no code.
  */
-export const listExperiences = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listExperiences: {
+  (
     input: ListExperiencesRequest,
-    output: ListExperiencesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListExperiencesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExperiencesRequest,
+  ) => Stream.Stream<
+    ListExperiencesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExperiencesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExperiencesRequest,
+  output: ListExperiencesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of FAQs associated with an index.
  */
-export const listFaqs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFaqs: {
+  (
+    input: ListFaqsRequest,
+  ): Effect.Effect<
+    ListFaqsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFaqsRequest,
+  ) => Stream.Stream<
+    ListFaqsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFaqsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFaqsRequest,
   output: ListFaqsResponse,
   errors: [
@@ -5313,43 +5804,91 @@ export const listFaqs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * are placed above all other results for certain queries. If there's an exact match
  * of a query, then one or more specific documents are featured in the search results.
  */
-export const listFeaturedResultsSets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListFeaturedResultsSetsRequest,
-    output: ListFeaturedResultsSetsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const listFeaturedResultsSets: (
+  input: ListFeaturedResultsSetsRequest,
+) => Effect.Effect<
+  ListFeaturedResultsSetsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFeaturedResultsSetsRequest,
+  output: ListFeaturedResultsSetsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Provides a list of groups that are mapped to users before a given ordering or
  * timestamp identifier.
  *
  * `ListGroupsOlderThanOrderingId` is currently not supported in the Amazon Web Services GovCloud (US-West) region.
  */
-export const listGroupsOlderThanOrderingId =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGroupsOlderThanOrderingId: {
+  (
     input: ListGroupsOlderThanOrderingIdRequest,
-    output: ListGroupsOlderThanOrderingIdResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListGroupsOlderThanOrderingIdResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupsOlderThanOrderingIdRequest,
+  ) => Stream.Stream<
+    ListGroupsOlderThanOrderingIdResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupsOlderThanOrderingIdRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGroupsOlderThanOrderingIdRequest,
+  output: ListGroupsOlderThanOrderingIdResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the block lists used for query suggestions for an index.
  *
@@ -5360,44 +5899,115 @@ export const listGroupsOlderThanOrderingId =
  * `ListQuerySuggestionsBlockLists` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const listQuerySuggestionsBlockLists =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listQuerySuggestionsBlockLists: {
+  (
     input: ListQuerySuggestionsBlockListsRequest,
-    output: ListQuerySuggestionsBlockListsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListQuerySuggestionsBlockListsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListQuerySuggestionsBlockListsRequest,
+  ) => Stream.Stream<
+    ListQuerySuggestionsBlockListsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListQuerySuggestionsBlockListsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListQuerySuggestionsBlockListsRequest,
+  output: ListQuerySuggestionsBlockListsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the thesauri for an index.
  */
-export const listThesauri = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listThesauri: {
+  (
     input: ListThesauriRequest,
-    output: ListThesauriResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListThesauriResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListThesauriRequest,
+  ) => Stream.Stream<
+    ListThesauriResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListThesauriRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListThesauriRequest,
+  output: ListThesauriResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the settings of query suggestions for an index.
  *
@@ -5416,38 +6026,60 @@ export const listThesauri = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * `UpdateQuerySuggestionsConfig` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const updateQuerySuggestionsConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateQuerySuggestionsConfigRequest,
-    output: UpdateQuerySuggestionsConfigResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateQuerySuggestionsConfig: (
+  input: UpdateQuerySuggestionsConfigRequest,
+) => Effect.Effect<
+  UpdateQuerySuggestionsConfigResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQuerySuggestionsConfigRequest,
+  output: UpdateQuerySuggestionsConfigResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an access control configuration that you created for your documents in an
  * index. This includes user and group access information for your documents. This is
  * useful for user context filtering, where search results are filtered based on the user
  * or their group access to documents.
  */
-export const deleteAccessControlConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAccessControlConfigurationRequest,
-    output: DeleteAccessControlConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteAccessControlConfiguration: (
+  input: DeleteAccessControlConfigurationRequest,
+) => Effect.Effect<
+  DeleteAccessControlConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccessControlConfigurationRequest,
+  output: DeleteAccessControlConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an Amazon Kendra data source connector. An exception is not thrown if the
  * data source is already being deleted. While the data source is being deleted, the
@@ -5458,7 +6090,19 @@ export const deleteAccessControlConfiguration =
  * from a data source could take up to an hour or more, depending on the number of documents you
  * want to delete.
  */
-export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataSource: (
+  input: DeleteDataSourceRequest,
+) => Effect.Effect<
+  DeleteDataSourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataSourceRequest,
   output: DeleteDataSourceResponse,
   errors: [
@@ -5475,7 +6119,19 @@ export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * creating a search application experience, see Building a search
  * experience with no code.
  */
-export const deleteExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteExperience: (
+  input: DeleteExperienceRequest,
+) => Effect.Effect<
+  DeleteExperienceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExperienceRequest,
   output: DeleteExperienceResponse,
   errors: [
@@ -5490,7 +6146,19 @@ export const deleteExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a FAQ from an index.
  */
-export const deleteFaq = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFaq: (
+  input: DeleteFaqRequest,
+) => Effect.Effect<
+  DeleteFaqResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFaqRequest,
   output: DeleteFaqResponse,
   errors: [
@@ -5507,7 +6175,19 @@ export const deleteFaq = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * being deleted. While the index is being deleted, the `Status` field returned by a
  * call to the `DescribeIndex` API is set to `DELETING`.
  */
-export const deleteIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIndex: (
+  input: DeleteIndexRequest,
+) => Effect.Effect<
+  DeleteIndexResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIndexRequest,
   output: DeleteIndexResponse,
   errors: [
@@ -5536,20 +6216,30 @@ export const deleteIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * `DeletePrincipalMapping` is currently not supported in the Amazon Web Services GovCloud (US-West) region.
  */
-export const deletePrincipalMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePrincipalMappingRequest,
-    output: DeletePrincipalMappingResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deletePrincipalMapping: (
+  input: DeletePrincipalMappingRequest,
+) => Effect.Effect<
+  DeletePrincipalMappingResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePrincipalMappingRequest,
+  output: DeletePrincipalMappingResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a block list used for query suggestions for an index.
  *
@@ -5560,23 +6250,46 @@ export const deletePrincipalMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `DeleteQuerySuggestionsBlockList` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const deleteQuerySuggestionsBlockList =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteQuerySuggestionsBlockListRequest,
-    output: DeleteQuerySuggestionsBlockListResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteQuerySuggestionsBlockList: (
+  input: DeleteQuerySuggestionsBlockListRequest,
+) => Effect.Effect<
+  DeleteQuerySuggestionsBlockListResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteQuerySuggestionsBlockListRequest,
+  output: DeleteQuerySuggestionsBlockListResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an Amazon Kendra thesaurus.
  */
-export const deleteThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteThesaurus: (
+  input: DeleteThesaurusRequest,
+) => Effect.Effect<
+  DeleteThesaurusResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThesaurusRequest,
   output: DeleteThesaurusResponse,
   errors: [
@@ -5591,7 +6304,19 @@ export const deleteThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an Amazon Kendra data source connector.
  */
-export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDataSource: (
+  input: UpdateDataSourceRequest,
+) => Effect.Effect<
+  UpdateDataSourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataSourceRequest,
   output: UpdateDataSourceResponse,
   errors: [
@@ -5608,7 +6333,19 @@ export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * creating a search application experience, see Building a
  * search experience with no code.
  */
-export const updateExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateExperience: (
+  input: UpdateExperienceRequest,
+) => Effect.Effect<
+  UpdateExperienceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateExperienceRequest,
   output: UpdateExperienceResponse,
   errors: [
@@ -5636,23 +6373,46 @@ export const updateExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `UpdateQuerySuggestionsBlockList` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const updateQuerySuggestionsBlockList =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateQuerySuggestionsBlockListRequest,
-    output: UpdateQuerySuggestionsBlockListResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateQuerySuggestionsBlockList: (
+  input: UpdateQuerySuggestionsBlockListRequest,
+) => Effect.Effect<
+  UpdateQuerySuggestionsBlockListResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQuerySuggestionsBlockListRequest,
+  output: UpdateQuerySuggestionsBlockListResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a thesaurus for an index.
  */
-export const updateThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateThesaurus: (
+  input: UpdateThesaurusRequest,
+) => Effect.Effect<
+  UpdateThesaurusResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThesaurusRequest,
   output: UpdateThesaurusResponse,
   errors: [
@@ -5667,7 +6427,18 @@ export const updateThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about an Amazon Kendra data source connector.
  */
-export const describeDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDataSource: (
+  input: DescribeDataSourceRequest,
+) => Effect.Effect<
+  DescribeDataSourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDataSourceRequest,
   output: DescribeDataSourceResponse,
   errors: [
@@ -5681,7 +6452,18 @@ export const describeDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a FAQ.
  */
-export const describeFaq = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeFaq: (
+  input: DescribeFaqRequest,
+) => Effect.Effect<
+  DescribeFaqResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFaqRequest,
   output: DescribeFaqResponse,
   errors: [
@@ -5702,22 +6484,43 @@ export const describeFaq = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `DescribeQuerySuggestionsBlockList` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const describeQuerySuggestionsBlockList =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeQuerySuggestionsBlockListRequest,
-    output: DescribeQuerySuggestionsBlockListResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeQuerySuggestionsBlockList: (
+  input: DescribeQuerySuggestionsBlockListRequest,
+) => Effect.Effect<
+  DescribeQuerySuggestionsBlockListResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeQuerySuggestionsBlockListRequest,
+  output: DescribeQuerySuggestionsBlockListResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about an Amazon Kendra thesaurus.
  */
-export const describeThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeThesaurus: (
+  input: DescribeThesaurusRequest,
+) => Effect.Effect<
+  DescribeThesaurusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeThesaurusRequest,
   output: DescribeThesaurusResponse,
   errors: [
@@ -5735,18 +6538,28 @@ export const describeThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * search application experience, see Building a
  * search experience with no code.
  */
-export const disassociatePersonasFromEntities =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociatePersonasFromEntitiesRequest,
-    output: DisassociatePersonasFromEntitiesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociatePersonasFromEntities: (
+  input: DisassociatePersonasFromEntitiesRequest,
+) => Effect.Effect<
+  DisassociatePersonasFromEntitiesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociatePersonasFromEntitiesRequest,
+  output: DisassociatePersonasFromEntitiesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Enables you to provide feedback to Amazon Kendra to improve the
  * performance of your index.
@@ -5754,7 +6567,19 @@ export const disassociatePersonasFromEntities =
  * `SubmitFeedback` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const submitFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const submitFeedback: (
+  input: SubmitFeedbackRequest,
+) => Effect.Effect<
+  SubmitFeedbackResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitFeedbackRequest,
   output: SubmitFeedbackResponse,
   errors: [
@@ -5770,36 +6595,55 @@ export const submitFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Stops a synchronization job that is currently running. You can't stop a scheduled
  * synchronization job.
  */
-export const stopDataSourceSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopDataSourceSyncJobRequest,
-    output: StopDataSourceSyncJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const stopDataSourceSyncJob: (
+  input: StopDataSourceSyncJobRequest,
+) => Effect.Effect<
+  StopDataSourceSyncJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopDataSourceSyncJobRequest,
+  output: StopDataSourceSyncJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes one or more sets of featured results. Features results are placed
  * above all other results for certain queries. If there's an exact match of a
  * query, then one or more specific documents are featured in the search results.
  */
-export const batchDeleteFeaturedResultsSet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDeleteFeaturedResultsSetRequest,
-    output: BatchDeleteFeaturedResultsSetResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchDeleteFeaturedResultsSet: (
+  input: BatchDeleteFeaturedResultsSetRequest,
+) => Effect.Effect<
+  BatchDeleteFeaturedResultsSetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteFeaturedResultsSetRequest,
+  output: BatchDeleteFeaturedResultsSetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Clears existing query suggestions from an index.
  *
@@ -5813,20 +6657,30 @@ export const batchDeleteFeaturedResultsSet =
  * `ClearQuerySuggestions` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const clearQuerySuggestions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ClearQuerySuggestionsRequest,
-    output: ClearQuerySuggestionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const clearQuerySuggestions: (
+  input: ClearQuerySuggestionsRequest,
+) => Effect.Effect<
+  ClearQuerySuggestionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ClearQuerySuggestionsRequest,
+  output: ClearQuerySuggestionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes one or more documents from an index. The documents must have been added with
  * the `BatchPutDocument` API.
@@ -5841,7 +6695,19 @@ export const clearQuerySuggestions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Deleting documents from an index using `BatchDeleteDocument` could take up
  * to an hour or more, depending on the number of documents you want to delete.
  */
-export const batchDeleteDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchDeleteDocument: (
+  input: BatchDeleteDocumentRequest,
+) => Effect.Effect<
+  BatchDeleteDocumentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteDocumentRequest,
   output: BatchDeleteDocumentResponse,
   errors: [
@@ -5859,22 +6725,43 @@ export const batchDeleteDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * documents. This is useful for user context filtering, where search results are filtered
  * based on the user or their group access to documents.
  */
-export const describeAccessControlConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAccessControlConfigurationRequest,
-    output: DescribeAccessControlConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeAccessControlConfiguration: (
+  input: DescribeAccessControlConfigurationRequest,
+) => Effect.Effect<
+  DescribeAccessControlConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccessControlConfigurationRequest,
+  output: DescribeAccessControlConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about an Amazon Kendra index.
  */
-export const describeIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeIndex: (
+  input: DescribeIndexRequest,
+) => Effect.Effect<
+  DescribeIndexResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIndexRequest,
   output: DescribeIndexResponse,
   errors: [
@@ -5892,24 +6779,71 @@ export const describeIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * application experience, see Building
  * a search experience with no code.
  */
-export const listExperienceEntities =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listExperienceEntities: {
+  (
     input: ListExperienceEntitiesRequest,
-    output: ListExperienceEntitiesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
-  }));
+  ): Effect.Effect<
+    ListExperienceEntitiesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExperienceEntitiesRequest,
+  ) => Stream.Stream<
+    ListExperienceEntitiesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExperienceEntitiesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExperienceEntitiesRequest,
+  output: ListExperienceEntitiesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+}));
 /**
  * Adds the specified tag to the specified index, FAQ, data source, or other resource. If
  * the tag already exists, the existing value is replaced with the new value.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -5923,7 +6857,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag from an index, FAQ, data source, or other resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -5941,20 +6886,30 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * search application experience, see Building
  * a search experience with no code.
  */
-export const associatePersonasToEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociatePersonasToEntitiesRequest,
-    output: AssociatePersonasToEntitiesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceAlreadyExistException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associatePersonasToEntities: (
+  input: AssociatePersonasToEntitiesRequest,
+) => Effect.Effect<
+  AssociatePersonasToEntitiesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceAlreadyExistException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociatePersonasToEntitiesRequest,
+  output: AssociatePersonasToEntitiesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceAlreadyExistException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a set of featured results to display at the top of the search results page.
  * Featured results are placed above all other results for certain queries. You map
@@ -5965,42 +6920,92 @@ export const associatePersonasToEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can create up to 50 sets of featured results per index. You can request to
  * increase this limit by contacting Support.
  */
-export const createFeaturedResultsSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateFeaturedResultsSetRequest,
-    output: CreateFeaturedResultsSetResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      FeaturedResultsConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createFeaturedResultsSet: (
+  input: CreateFeaturedResultsSetRequest,
+) => Effect.Effect<
+  CreateFeaturedResultsSetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | FeaturedResultsConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFeaturedResultsSetRequest,
+  output: CreateFeaturedResultsSetResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    FeaturedResultsConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets statistics about synchronizing a data source connector.
  */
-export const listDataSourceSyncJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataSourceSyncJobs: {
+  (
     input: ListDataSourceSyncJobsRequest,
-    output: ListDataSourceSyncJobsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataSourceSyncJobsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataSourceSyncJobsRequest,
+  ) => Stream.Stream<
+    ListDataSourceSyncJobsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataSourceSyncJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataSourceSyncJobsRequest,
+  output: ListDataSourceSyncJobsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Maps users to their groups so that you only need to provide the user ID when you issue
  * the query.
@@ -6018,7 +7023,20 @@ export const listDataSourceSyncJobs =
  * If more than five `PUT` actions for a group are currently processing, a
  * validation exception is thrown.
  */
-export const putPrincipalMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putPrincipalMapping: (
+  input: PutPrincipalMappingRequest,
+) => Effect.Effect<
+  PutPrincipalMappingResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPrincipalMappingRequest,
   output: PutPrincipalMappingResponse,
   errors: [
@@ -6034,7 +7052,20 @@ export const putPrincipalMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an Amazon Kendra index.
  */
-export const updateIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateIndex: (
+  input: UpdateIndexRequest,
+) => Effect.Effect<
+  UpdateIndexResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIndexRequest,
   output: UpdateIndexResponse,
   errors: [
@@ -6068,20 +7099,32 @@ export const updateIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Python SDK, see Query
  * suggestions block list.
  */
-export const createQuerySuggestionsBlockList =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateQuerySuggestionsBlockListRequest,
-    output: CreateQuerySuggestionsBlockListResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createQuerySuggestionsBlockList: (
+  input: CreateQuerySuggestionsBlockListRequest,
+) => Effect.Effect<
+  CreateQuerySuggestionsBlockListResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateQuerySuggestionsBlockListRequest,
+  output: CreateQuerySuggestionsBlockListResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a thesaurus for an index. The thesaurus
  * contains a list of synonyms in Solr format.
@@ -6090,7 +7133,20 @@ export const createQuerySuggestionsBlockList =
  * Adding
  * custom synonyms to an index.
  */
-export const createThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createThesaurus: (
+  input: CreateThesaurusRequest,
+) => Effect.Effect<
+  CreateThesaurusResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateThesaurusRequest,
   output: CreateThesaurusResponse,
   errors: [
@@ -6131,20 +7187,32 @@ export const createThesaurus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Edition index. Amazon Kendra will return a `ValidationException` error for a
  * `Gen_AI_ENTERPRISE_EDITION` index.
  */
-export const updateAccessControlConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAccessControlConfigurationRequest,
-    output: UpdateAccessControlConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateAccessControlConfiguration: (
+  input: UpdateAccessControlConfigurationRequest,
+) => Effect.Effect<
+  UpdateAccessControlConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccessControlConfigurationRequest,
+  output: UpdateAccessControlConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an access configuration for your documents. This includes user and group
  * access information for your documents. This is useful for user context filtering, where
@@ -6173,20 +7241,32 @@ export const updateAccessControlConfiguration =
  * Edition index. Amazon Kendra will return a `ValidationException` error for a
  * `Gen_AI_ENTERPRISE_EDITION` index.
  */
-export const createAccessControlConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateAccessControlConfigurationRequest,
-    output: CreateAccessControlConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createAccessControlConfiguration: (
+  input: CreateAccessControlConfigurationRequest,
+) => Effect.Effect<
+  CreateAccessControlConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccessControlConfigurationRequest,
+  output: CreateAccessControlConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a set of frequently ask questions (FAQs) using a specified FAQ file stored
  * in an Amazon S3 bucket.
@@ -6195,7 +7275,20 @@ export const createAccessControlConfiguration =
  *
  * For an example of adding an FAQ to an index using Python and Java SDKs, see Using your FAQ file.
  */
-export const createFaq = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFaq: (
+  input: CreateFaqRequest,
+) => Effect.Effect<
+  CreateFaqResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFaqRequest,
   output: CreateFaqResponse,
   errors: [
@@ -6214,7 +7307,20 @@ export const createFaq = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see Building a
  * search experience with no code.
  */
-export const createExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createExperience: (
+  input: CreateExperienceRequest,
+) => Effect.Effect<
+  CreateExperienceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExperienceRequest,
   output: CreateExperienceResponse,
   errors: [
@@ -6241,7 +7347,20 @@ export const createExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Getting started with Java
  * SDK.
  */
-export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIndex: (
+  input: CreateIndexRequest,
+) => Effect.Effect<
+  CreateIndexResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceAlreadyExistException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIndexRequest,
   output: CreateIndexResponse,
   errors: [
@@ -6267,20 +7386,30 @@ export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the
  * BatchDeleteDocument API. When a document is deleted from the index, Amazon Kendra returns `NOT_FOUND` as the status.
  */
-export const batchGetDocumentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetDocumentStatusRequest,
-    output: BatchGetDocumentStatusResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchGetDocumentStatus: (
+  input: BatchGetDocumentStatusRequest,
+) => Effect.Effect<
+  BatchGetDocumentStatusResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetDocumentStatusRequest,
+  output: BatchGetDocumentStatusResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds one or more documents to an index.
  *
@@ -6299,7 +7428,20 @@ export const batchGetDocumentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For an example of ingesting inline documents using Python and Java SDKs, see Adding files
  * directly to an index.
  */
-export const batchPutDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchPutDocument: (
+  input: BatchPutDocumentRequest,
+) => Effect.Effect<
+  BatchPutDocumentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutDocumentRequest,
   output: BatchPutDocumentResponse,
   errors: [
@@ -6327,7 +7469,21 @@ export const batchPutDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Getting started with Java
  * SDK.
  */
-export const createDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDataSource: (
+  input: CreateDataSourceRequest,
+) => Effect.Effect<
+  CreateDataSourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceAlreadyExistException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataSourceRequest,
   output: CreateDataSourceResponse,
   errors: [
@@ -6347,7 +7503,20 @@ export const createDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `GetQuerySuggestions` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const getQuerySuggestions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getQuerySuggestions: (
+  input: GetQuerySuggestionsRequest,
+) => Effect.Effect<
+  GetQuerySuggestionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQuerySuggestionsRequest,
   output: GetQuerySuggestionsResponse,
   errors: [
@@ -6395,7 +7564,20 @@ export const getQuerySuggestions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `USER_TOKEN` to configure user context policy, Amazon Kendra returns a
  * `ValidationException` error.
  */
-export const query = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const query: (
+  input: QueryRequest,
+) => Effect.Effect<
+  QueryResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryRequest,
   output: QueryResult,
   errors: [

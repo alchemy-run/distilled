@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Lex Runtime V2",
   serviceShapeName: "AWSDeepSenseRunTimeServiceApi2_0",
@@ -240,6 +248,29 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type BotIdentifier = string;
+export type BotAliasIdentifier = string;
+export type LocaleId = string;
+export type SessionId = string;
+export type NonEmptyString = string;
+export type Text = string;
+export type SensitiveNonEmptyString = string;
+export type AttachmentTitle = string;
+export type AttachmentUrl = string;
+export type ActiveContextName = string;
+export type EventId = string;
+export type EpochMillis = number;
+export type DTMFRegex = string;
+export type Name = string;
+export type ButtonText = string;
+export type ButtonValue = string;
+export type ActiveContextTimeToLiveInSeconds = number;
+export type ActiveContextTurnsToLive = number;
+export type ParameterName = string;
+export type Double = number;
+export type RuntimeHintPhrase = string;
 
 //# Schemas
 export interface DeleteSessionRequest {
@@ -1102,11 +1133,15 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class BadGatewayException extends S.TaggedError<BadGatewayException>()(
   "BadGatewayException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class DependencyFailedException extends S.TaggedError<DependencyFailedException>()(
   "DependencyFailedException",
   { message: S.String },
@@ -1118,7 +1153,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String },
@@ -1144,7 +1181,19 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * enables for the alias, you receive a
  * `BadRequestException`.
  */
-export const deleteSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSession: (
+  input: DeleteSessionRequest,
+) => Effect.Effect<
+  DeleteSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSessionRequest,
   output: DeleteSessionResponse,
   errors: [
@@ -1169,7 +1218,18 @@ export const deleteSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * or is not enabled for the alias, you receive a
  * `BadRequestException`.
  */
-export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSession: (
+  input: GetSessionRequest,
+) => Effect.Effect<
+  GetSessionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
   output: GetSessionResponse,
   errors: [
@@ -1208,7 +1268,21 @@ export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Completion message.
  */
-export const recognizeText = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const recognizeText: (
+  input: RecognizeTextRequest,
+) => Effect.Effect<
+  RecognizeTextResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RecognizeTextRequest,
   output: RecognizeTextResponse,
   errors: [
@@ -1273,7 +1347,21 @@ export const recognizeText = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Completion message.
  */
-export const recognizeUtterance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const recognizeUtterance: (
+  input: RecognizeUtteranceRequest,
+) => Effect.Effect<
+  RecognizeUtteranceResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RecognizeUtteranceRequest,
   output: RecognizeUtteranceResponse,
   errors: [
@@ -1334,7 +1422,17 @@ export const recognizeUtterance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - AWS SDK for Ruby V3
  */
-export const startConversation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startConversation: (
+  input: StartConversationRequest,
+) => Effect.Effect<
+  StartConversationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartConversationRequest,
   output: StartConversationResponse,
   errors: [
@@ -1349,7 +1447,21 @@ export const startConversation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * bot. Use this operation to enable your application to set the state of
  * the bot.
  */
-export const putSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putSession: (
+  input: PutSessionRequest,
+) => Effect.Effect<
+  PutSessionResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSessionRequest,
   output: PutSessionResponse,
   errors: [

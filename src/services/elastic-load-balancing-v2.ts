@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace(
   "http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/",
 );
@@ -263,6 +271,117 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ListenerArn = string;
+export type ResourceArn = string;
+export type TrustStoreArn = string;
+export type LoadBalancerArn = string;
+export type Port = number;
+export type SslPolicyName = string;
+export type AlpnPolicyValue = string;
+export type LoadBalancerName = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type CustomerOwnedIpv4Pool = string;
+export type RulePriority = number;
+export type TargetGroupName = string;
+export type ProtocolVersion = string;
+export type VpcId = string;
+export type HealthCheckPort = string;
+export type Path = string;
+export type HealthCheckIntervalSeconds = number;
+export type HealthCheckTimeoutSeconds = number;
+export type HealthCheckThresholdCount = number;
+export type TargetControlPort = number;
+export type TrustStoreName = string;
+export type S3Bucket = string;
+export type S3Key = string;
+export type S3ObjectVersion = string;
+export type RuleArn = string;
+export type TargetGroupArn = string;
+export type Marker = string;
+export type PageSize = number;
+export type RevocationId = number;
+export type TagKey = string;
+export type CertificateArn = string;
+export type TagValue = string;
+export type ActionOrder = number;
+export type Mode = string;
+export type AllocationId = string;
+export type PrivateIPv4Address = string;
+export type IPv6Address = string;
+export type SourceNatIpv6Prefix = string;
+export type IpamPoolId = string;
+export type ConditionFieldName = string;
+export type StringValue = string;
+export type HttpCode = string;
+export type GrpcCode = string;
+export type TargetId = string;
+export type ZoneName = string;
+export type QuicServerId = string;
+export type CapacityUnits = number;
+export type ListenerAttributeKey = string;
+export type ListenerAttributeValue = string;
+export type LoadBalancerAttributeKey = string;
+export type LoadBalancerAttributeValue = string;
+export type TargetGroupAttributeKey = string;
+export type TargetGroupAttributeValue = string;
+export type ErrorDescription = string;
+export type DecreaseRequestsRemaining = number;
+export type Policy = string;
+export type Location = string;
+export type AuthenticateOidcActionIssuer = string;
+export type AuthenticateOidcActionAuthorizationEndpoint = string;
+export type AuthenticateOidcActionTokenEndpoint = string;
+export type AuthenticateOidcActionUserInfoEndpoint = string;
+export type AuthenticateOidcActionClientId = string;
+export type AuthenticateOidcActionClientSecret = string;
+export type AuthenticateOidcActionSessionCookieName = string;
+export type AuthenticateOidcActionScope = string;
+export type AuthenticateOidcActionSessionTimeout = number;
+export type AuthenticateCognitoActionUserPoolArn = string;
+export type AuthenticateCognitoActionUserPoolClientId = string;
+export type AuthenticateCognitoActionUserPoolDomain = string;
+export type AuthenticateCognitoActionSessionCookieName = string;
+export type AuthenticateCognitoActionScope = string;
+export type AuthenticateCognitoActionSessionTimeout = number;
+export type RedirectActionProtocol = string;
+export type RedirectActionPort = string;
+export type RedirectActionHost = string;
+export type RedirectActionPath = string;
+export type RedirectActionQuery = string;
+export type FixedResponseActionMessage = string;
+export type FixedResponseActionStatusCode = string;
+export type FixedResponseActionContentType = string;
+export type JwtValidationActionJwksEndpoint = string;
+export type JwtValidationActionIssuer = string;
+export type HttpHeaderConditionName = string;
+export type NumberOfCaCertificates = number;
+export type TotalRevokedEntries = number;
+export type Name = string;
+export type Max = string;
+export type CapacityUnitsDouble = number;
+export type DNSName = string;
+export type CanonicalHostedZoneId = string;
+export type EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic = string;
+export type SslProtocol = string;
+export type TrustStoreAssociationResourceArn = string;
+export type NumberOfRevokedEntries = number;
+export type OutpostId = string;
+export type AuthenticateOidcActionAuthenticationRequestParamName = string;
+export type AuthenticateOidcActionAuthenticationRequestParamValue = string;
+export type AuthenticateCognitoActionAuthenticationRequestParamName = string;
+export type AuthenticateCognitoActionAuthenticationRequestParamValue = string;
+export type TargetGroupWeight = number;
+export type TargetGroupStickinessDurationSeconds = number;
+export type JwtValidationActionAdditionalClaimName = string;
+export type JwtValidationActionAdditionalClaimValue = string;
+export type StateReason = string;
+export type CipherName = string;
+export type CipherPriority = number;
+export type Description = string;
+export type IpAddress = string;
 
 //# Schemas
 export type ResourceArns = string[];
@@ -3042,7 +3161,9 @@ export class HealthUnavailableException extends S.TaggedError<HealthUnavailableE
   "HealthUnavailableException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "HealthUnavailable", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class CapacityReservationPendingException extends S.TaggedError<CapacityReservationPendingException>()(
   "CapacityReservationPendingException",
   { Message: S.optional(S.String) },
@@ -3124,7 +3245,9 @@ export class InsufficientCapacityException extends S.TaggedError<InsufficientCap
   "InsufficientCapacityException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InsufficientCapacity", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class TooManyUniqueTargetGroupsPerLoadBalancerException extends S.TaggedError<TooManyUniqueTargetGroupsPerLoadBalancerException>()(
   "TooManyUniqueTargetGroupsPerLoadBalancerException",
   { Message: S.optional(S.String) },
@@ -3152,7 +3275,9 @@ export class PriorRequestNotCompleteException extends S.TaggedError<PriorRequest
   "PriorRequestNotCompleteException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "PriorRequestNotComplete", httpResponseCode: 429 }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class TrustStoreNotReadyException extends S.TaggedError<TrustStoreNotReadyException>()(
   "TrustStoreNotReadyException",
   { Message: S.optional(S.String) },
@@ -3168,7 +3293,13 @@ export class TrustStoreNotReadyException extends S.TaggedError<TrustStoreNotRead
  * registered targets. For example, any EC2 instances continue to run until you stop or terminate
  * them.
  */
-export const deleteTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTargetGroup: (
+  input: DeleteTargetGroupInput,
+) => Effect.Effect<
+  DeleteTargetGroupOutput,
+  ResourceInUseException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTargetGroupInput,
   output: DeleteTargetGroupOutput,
   errors: [ResourceInUseException],
@@ -3176,13 +3307,17 @@ export const deleteTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the attributes for the specified listener.
  */
-export const describeListenerAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeListenerAttributesInput,
-    output: DescribeListenerAttributesOutput,
-    errors: [ListenerNotFoundException],
-  }),
-);
+export const describeListenerAttributes: (
+  input: DescribeListenerAttributesInput,
+) => Effect.Effect<
+  DescribeListenerAttributesOutput,
+  ListenerNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeListenerAttributesInput,
+  output: DescribeListenerAttributesOutput,
+  errors: [ListenerNotFoundException],
+}));
 /**
  * Describes the default certificate and the certificate list for the specified HTTPS or TLS
  * listener.
@@ -3195,17 +3330,38 @@ export const describeListenerAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Server certificates in the Network Load Balancers
  * Guide.
  */
-export const describeListenerCertificates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeListenerCertificates: {
+  (
     input: DescribeListenerCertificatesInput,
-    output: DescribeListenerCertificatesOutput,
-    errors: [ListenerNotFoundException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "Certificates",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeListenerCertificatesOutput,
+    ListenerNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeListenerCertificatesInput,
+  ) => Stream.Stream<
+    DescribeListenerCertificatesOutput,
+    ListenerNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeListenerCertificatesInput,
+  ) => Stream.Stream<
+    Certificate,
+    ListenerNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeListenerCertificatesInput,
+  output: DescribeListenerCertificatesOutput,
+  errors: [ListenerNotFoundException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "Certificates",
+  } as const,
+}));
 /**
  * Describes the attributes for the specified Application Load Balancer, Network Load
  * Balancer, or Gateway Load Balancer.
@@ -3221,16 +3377,27 @@ export const describeListenerCertificates =
  * - Load balancer attributes in the Gateway Load Balancers
  * Guide
  */
-export const describeLoadBalancerAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeLoadBalancerAttributesInput,
-    output: DescribeLoadBalancerAttributesOutput,
-    errors: [LoadBalancerNotFoundException],
-  }));
+export const describeLoadBalancerAttributes: (
+  input: DescribeLoadBalancerAttributesInput,
+) => Effect.Effect<
+  DescribeLoadBalancerAttributesOutput,
+  LoadBalancerNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLoadBalancerAttributesInput,
+  output: DescribeLoadBalancerAttributesOutput,
+  errors: [LoadBalancerNotFoundException],
+}));
 /**
  * [Application Load Balancers] Modify the IP pool associated to a load balancer.
  */
-export const modifyIpPools = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyIpPools: (
+  input: ModifyIpPoolsInput,
+) => Effect.Effect<
+  ModifyIpPoolsOutput,
+  LoadBalancerNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyIpPoolsInput,
   output: ModifyIpPoolsOutput,
   errors: [LoadBalancerNotFoundException],
@@ -3239,13 +3406,19 @@ export const modifyIpPools = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes the specified certificate from the certificate list for the specified HTTPS or TLS
  * listener.
  */
-export const removeListenerCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveListenerCertificatesInput,
-    output: RemoveListenerCertificatesOutput,
-    errors: [ListenerNotFoundException, OperationNotPermittedException],
-  }),
-);
+export const removeListenerCertificates: (
+  input: RemoveListenerCertificatesInput,
+) => Effect.Effect<
+  RemoveListenerCertificatesOutput,
+  | ListenerNotFoundException
+  | OperationNotPermittedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveListenerCertificatesInput,
+  output: RemoveListenerCertificatesOutput,
+  errors: [ListenerNotFoundException, OperationNotPermittedException],
+}));
 /**
  * Deletes the specified Application Load Balancer, Network Load Balancer, or Gateway Load
  * Balancer. Deleting a load balancer also deletes its listeners.
@@ -3257,7 +3430,16 @@ export const removeListenerCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * instances continue to run and are still registered to their target groups. If you no longer
  * need these EC2 instances, you can stop or terminate them.
  */
-export const deleteLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLoadBalancer: (
+  input: DeleteLoadBalancerInput,
+) => Effect.Effect<
+  DeleteLoadBalancerOutput,
+  | LoadBalancerNotFoundException
+  | OperationNotPermittedException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLoadBalancerInput,
   output: DeleteLoadBalancerOutput,
   errors: [
@@ -3272,7 +3454,13 @@ export const deleteLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Alternatively, your listener is deleted when you delete the load balancer to which it is
  * attached.
  */
-export const deleteListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteListener: (
+  input: DeleteListenerInput,
+) => Effect.Effect<
+  DeleteListenerOutput,
+  ListenerNotFoundException | ResourceInUseException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteListenerInput,
   output: DeleteListenerOutput,
   errors: [ListenerNotFoundException, ResourceInUseException],
@@ -3282,7 +3470,13 @@ export const deleteListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can't delete the default rule.
  */
-export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRule: (
+  input: DeleteRuleInput,
+) => Effect.Effect<
+  DeleteRuleOutput,
+  OperationNotPermittedException | RuleNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleInput,
   output: DeleteRuleOutput,
   errors: [OperationNotPermittedException, RuleNotFoundException],
@@ -3290,7 +3484,13 @@ export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a trust store.
  */
-export const deleteTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTrustStore: (
+  input: DeleteTrustStoreInput,
+) => Effect.Effect<
+  DeleteTrustStoreOutput,
+  TrustStoreInUseException | TrustStoreNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrustStoreInput,
   output: DeleteTrustStoreOutput,
   errors: [TrustStoreInUseException, TrustStoreNotFoundException],
@@ -3310,17 +3510,38 @@ export const deleteTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - Quotas for your Gateway
  * Load Balancers
  */
-export const describeAccountLimits =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAccountLimits: {
+  (
     input: DescribeAccountLimitsInput,
-    output: DescribeAccountLimitsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "Limits",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAccountLimitsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAccountLimitsInput,
+  ) => Stream.Stream<
+    DescribeAccountLimitsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAccountLimitsInput,
+  ) => Stream.Stream<
+    Limit,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAccountLimitsInput,
+  output: DescribeAccountLimitsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "Limits",
+  } as const,
+}));
 /**
  * Describes the attributes for the specified target group.
  *
@@ -3335,64 +3556,150 @@ export const describeAccountLimits =
  * - Target group attributes in the Gateway Load Balancers
  * Guide
  */
-export const describeTargetGroupAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTargetGroupAttributesInput,
-    output: DescribeTargetGroupAttributesOutput,
-    errors: [TargetGroupNotFoundException],
-  }));
+export const describeTargetGroupAttributes: (
+  input: DescribeTargetGroupAttributesInput,
+) => Effect.Effect<
+  DescribeTargetGroupAttributesOutput,
+  TargetGroupNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTargetGroupAttributesInput,
+  output: DescribeTargetGroupAttributesOutput,
+  errors: [TargetGroupNotFoundException],
+}));
 /**
  * Describes the specified target groups or all of your target groups. By default, all target
  * groups are described. Alternatively, you can specify one of the following to filter the
  * results: the ARN of the load balancer, the names of one or more target groups, or the ARNs of
  * one or more target groups.
  */
-export const describeTargetGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTargetGroups: {
+  (
     input: DescribeTargetGroupsInput,
-    output: DescribeTargetGroupsOutput,
-    errors: [LoadBalancerNotFoundException, TargetGroupNotFoundException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "TargetGroups",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTargetGroupsOutput,
+    | LoadBalancerNotFoundException
+    | TargetGroupNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTargetGroupsInput,
+  ) => Stream.Stream<
+    DescribeTargetGroupsOutput,
+    | LoadBalancerNotFoundException
+    | TargetGroupNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTargetGroupsInput,
+  ) => Stream.Stream<
+    TargetGroup,
+    | LoadBalancerNotFoundException
+    | TargetGroupNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTargetGroupsInput,
+  output: DescribeTargetGroupsOutput,
+  errors: [LoadBalancerNotFoundException, TargetGroupNotFoundException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "TargetGroups",
+  } as const,
+}));
 /**
  * Describes all resources associated with the specified trust store.
  */
-export const describeTrustStoreAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTrustStoreAssociations: {
+  (
     input: DescribeTrustStoreAssociationsInput,
-    output: DescribeTrustStoreAssociationsOutput,
-    errors: [TrustStoreNotFoundException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "TrustStoreAssociations",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTrustStoreAssociationsOutput,
+    TrustStoreNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTrustStoreAssociationsInput,
+  ) => Stream.Stream<
+    DescribeTrustStoreAssociationsOutput,
+    TrustStoreNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTrustStoreAssociationsInput,
+  ) => Stream.Stream<
+    TrustStoreAssociation,
+    TrustStoreNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTrustStoreAssociationsInput,
+  output: DescribeTrustStoreAssociationsOutput,
+  errors: [TrustStoreNotFoundException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "TrustStoreAssociations",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Describes the revocation files in use by the specified trust store or revocation
  * files.
  */
-export const describeTrustStoreRevocations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTrustStoreRevocations: {
+  (
     input: DescribeTrustStoreRevocationsInput,
-    output: DescribeTrustStoreRevocationsOutput,
-    errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "TrustStoreRevocations",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTrustStoreRevocationsOutput,
+    | RevocationIdNotFoundException
+    | TrustStoreNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTrustStoreRevocationsInput,
+  ) => Stream.Stream<
+    DescribeTrustStoreRevocationsOutput,
+    | RevocationIdNotFoundException
+    | TrustStoreNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTrustStoreRevocationsInput,
+  ) => Stream.Stream<
+    DescribeTrustStoreRevocation,
+    | RevocationIdNotFoundException
+    | TrustStoreNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTrustStoreRevocationsInput,
+  output: DescribeTrustStoreRevocationsOutput,
+  errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "TrustStoreRevocations",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Retrieves the resource policy for a specified resource.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyInput,
+) => Effect.Effect<
+  GetResourcePolicyOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyInput,
   output: GetResourcePolicyOutput,
   errors: [ResourceNotFoundException],
@@ -3401,7 +3708,15 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Modifies the health checks used when evaluating the health state of the targets in the
  * specified target group.
  */
-export const modifyTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyTargetGroup: (
+  input: ModifyTargetGroupInput,
+) => Effect.Effect<
+  ModifyTargetGroupOutput,
+  | InvalidConfigurationRequestException
+  | TargetGroupNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyTargetGroupInput,
   output: ModifyTargetGroupOutput,
   errors: [InvalidConfigurationRequestException, TargetGroupNotFoundException],
@@ -3409,78 +3724,128 @@ export const modifyTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies the specified attributes of the specified target group.
  */
-export const modifyTargetGroupAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyTargetGroupAttributesInput,
-    output: ModifyTargetGroupAttributesOutput,
-    errors: [
-      InvalidConfigurationRequestException,
-      TargetGroupNotFoundException,
-    ],
-  }),
-);
+export const modifyTargetGroupAttributes: (
+  input: ModifyTargetGroupAttributesInput,
+) => Effect.Effect<
+  ModifyTargetGroupAttributesOutput,
+  | InvalidConfigurationRequestException
+  | TargetGroupNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyTargetGroupAttributesInput,
+  output: ModifyTargetGroupAttributesOutput,
+  errors: [InvalidConfigurationRequestException, TargetGroupNotFoundException],
+}));
 /**
  * Describes all trust stores for the specified account.
  */
-export const describeTrustStores =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTrustStores: {
+  (
     input: DescribeTrustStoresInput,
-    output: DescribeTrustStoresOutput,
-    errors: [TrustStoreNotFoundException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "TrustStores",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTrustStoresOutput,
+    TrustStoreNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTrustStoresInput,
+  ) => Stream.Stream<
+    DescribeTrustStoresOutput,
+    TrustStoreNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTrustStoresInput,
+  ) => Stream.Stream<
+    TrustStore,
+    TrustStoreNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTrustStoresInput,
+  output: DescribeTrustStoresOutput,
+  errors: [TrustStoreNotFoundException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "TrustStores",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Retrieves the ca certificate bundle.
  *
  * This action returns a pre-signed S3 URI which is
  * active for ten minutes.
  */
-export const getTrustStoreCaCertificatesBundle =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTrustStoreCaCertificatesBundleInput,
-    output: GetTrustStoreCaCertificatesBundleOutput,
-    errors: [TrustStoreNotFoundException],
-  }));
+export const getTrustStoreCaCertificatesBundle: (
+  input: GetTrustStoreCaCertificatesBundleInput,
+) => Effect.Effect<
+  GetTrustStoreCaCertificatesBundleOutput,
+  TrustStoreNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTrustStoreCaCertificatesBundleInput,
+  output: GetTrustStoreCaCertificatesBundleOutput,
+  errors: [TrustStoreNotFoundException],
+}));
 /**
  * Removes the specified revocation file from the specified trust store.
  */
-export const removeTrustStoreRevocations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveTrustStoreRevocationsInput,
-    output: RemoveTrustStoreRevocationsOutput,
-    errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
-  }),
-);
+export const removeTrustStoreRevocations: (
+  input: RemoveTrustStoreRevocationsInput,
+) => Effect.Effect<
+  RemoveTrustStoreRevocationsOutput,
+  | RevocationIdNotFoundException
+  | TrustStoreNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTrustStoreRevocationsInput,
+  output: RemoveTrustStoreRevocationsOutput,
+  errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
+}));
 /**
  * Retrieves the specified revocation file.
  *
  * This action returns a pre-signed S3 URI which is
  * active for ten minutes.
  */
-export const getTrustStoreRevocationContent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTrustStoreRevocationContentInput,
-    output: GetTrustStoreRevocationContentOutput,
-    errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
-  }));
+export const getTrustStoreRevocationContent: (
+  input: GetTrustStoreRevocationContentInput,
+) => Effect.Effect<
+  GetTrustStoreRevocationContentOutput,
+  | RevocationIdNotFoundException
+  | TrustStoreNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTrustStoreRevocationContentInput,
+  output: GetTrustStoreRevocationContentOutput,
+  errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
+}));
 /**
  * Deletes a shared trust store association.
  */
-export const deleteSharedTrustStoreAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteSharedTrustStoreAssociationInput,
-    output: DeleteSharedTrustStoreAssociationOutput,
-    errors: [
-      DeleteAssociationSameAccountException,
-      TrustStoreAssociationNotFoundException,
-      TrustStoreNotFoundException,
-    ],
-  }));
+export const deleteSharedTrustStoreAssociation: (
+  input: DeleteSharedTrustStoreAssociationInput,
+) => Effect.Effect<
+  DeleteSharedTrustStoreAssociationOutput,
+  | DeleteAssociationSameAccountException
+  | TrustStoreAssociationNotFoundException
+  | TrustStoreNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSharedTrustStoreAssociationInput,
+  output: DeleteSharedTrustStoreAssociationOutput,
+  errors: [
+    DeleteAssociationSameAccountException,
+    TrustStoreAssociationNotFoundException,
+    TrustStoreNotFoundException,
+  ],
+}));
 /**
  * Deregisters the specified targets from the specified target group. After the targets are
  * deregistered, they no longer receive traffic from the load balancer.
@@ -3502,7 +3867,13 @@ export const deleteSharedTrustStoreAssociation =
  *
  * Note: If the specified target does not exist, the action returns successfully.
  */
-export const deregisterTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deregisterTargets: (
+  input: DeregisterTargetsInput,
+) => Effect.Effect<
+  DeregisterTargetsOutput,
+  InvalidTargetException | TargetGroupNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterTargetsInput,
   output: DeregisterTargetsOutput,
   errors: [InvalidTargetException, TargetGroupNotFoundException],
@@ -3512,7 +3883,18 @@ export const deregisterTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the tags for one or more Application Load Balancers, Network Load Balancers, Gateway Load
  * Balancers, target groups, listeners, or rules.
  */
-export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTags: (
+  input: DescribeTagsInput,
+) => Effect.Effect<
+  DescribeTagsOutput,
+  | ListenerNotFoundException
+  | LoadBalancerNotFoundException
+  | RuleNotFoundException
+  | TargetGroupNotFoundException
+  | TrustStoreNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTagsInput,
   output: DescribeTagsOutput,
   errors: [
@@ -3526,13 +3908,19 @@ export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies the specified attributes of the specified listener.
  */
-export const modifyListenerAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyListenerAttributesInput,
-    output: ModifyListenerAttributesOutput,
-    errors: [InvalidConfigurationRequestException, ListenerNotFoundException],
-  }),
-);
+export const modifyListenerAttributes: (
+  input: ModifyListenerAttributesInput,
+) => Effect.Effect<
+  ModifyListenerAttributesOutput,
+  | InvalidConfigurationRequestException
+  | ListenerNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyListenerAttributesInput,
+  output: ModifyListenerAttributesOutput,
+  errors: [InvalidConfigurationRequestException, ListenerNotFoundException],
+}));
 /**
  * Modifies the specified attributes of the specified Application Load Balancer, Network Load
  * Balancer, or Gateway Load Balancer.
@@ -3540,64 +3928,131 @@ export const modifyListenerAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * If any of the specified attributes can't be modified as requested, the call fails. Any
  * existing attributes that you do not modify retain their current values.
  */
-export const modifyLoadBalancerAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyLoadBalancerAttributesInput,
-    output: ModifyLoadBalancerAttributesOutput,
-    errors: [
-      InvalidConfigurationRequestException,
-      LoadBalancerNotFoundException,
-    ],
-  }));
+export const modifyLoadBalancerAttributes: (
+  input: ModifyLoadBalancerAttributesInput,
+) => Effect.Effect<
+  ModifyLoadBalancerAttributesOutput,
+  | InvalidConfigurationRequestException
+  | LoadBalancerNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyLoadBalancerAttributesInput,
+  output: ModifyLoadBalancerAttributesOutput,
+  errors: [InvalidConfigurationRequestException, LoadBalancerNotFoundException],
+}));
 /**
  * Describes the capacity reservation status for the specified load balancer.
  */
-export const describeCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCapacityReservationInput,
-    output: DescribeCapacityReservationOutput,
-    errors: [LoadBalancerNotFoundException],
-  }),
-);
+export const describeCapacityReservation: (
+  input: DescribeCapacityReservationInput,
+) => Effect.Effect<
+  DescribeCapacityReservationOutput,
+  LoadBalancerNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCapacityReservationInput,
+  output: DescribeCapacityReservationOutput,
+  errors: [LoadBalancerNotFoundException],
+}));
 /**
  * Describes the specified listeners or the listeners for the specified Application Load
  * Balancer, Network Load Balancer, or Gateway Load Balancer. You must specify either a load
  * balancer or one or more listeners.
  */
-export const describeListeners = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeListeners: {
+  (
     input: DescribeListenersInput,
-    output: DescribeListenersOutput,
-    errors: [
-      ListenerNotFoundException,
-      LoadBalancerNotFoundException,
-      UnsupportedProtocolException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "Listeners",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeListenersOutput,
+    | ListenerNotFoundException
+    | LoadBalancerNotFoundException
+    | UnsupportedProtocolException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeListenersInput,
+  ) => Stream.Stream<
+    DescribeListenersOutput,
+    | ListenerNotFoundException
+    | LoadBalancerNotFoundException
+    | UnsupportedProtocolException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeListenersInput,
+  ) => Stream.Stream<
+    Listener,
+    | ListenerNotFoundException
+    | LoadBalancerNotFoundException
+    | UnsupportedProtocolException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeListenersInput,
+  output: DescribeListenersOutput,
+  errors: [
+    ListenerNotFoundException,
+    LoadBalancerNotFoundException,
+    UnsupportedProtocolException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "Listeners",
+  } as const,
+}));
 /**
  * Describes the specified load balancers or all of your load balancers.
  */
-export const describeLoadBalancers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeLoadBalancers: {
+  (
     input: DescribeLoadBalancersInput,
-    output: DescribeLoadBalancersOutput,
-    errors: [LoadBalancerNotFoundException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "LoadBalancers",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeLoadBalancersOutput,
+    LoadBalancerNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeLoadBalancersInput,
+  ) => Stream.Stream<
+    DescribeLoadBalancersOutput,
+    LoadBalancerNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeLoadBalancersInput,
+  ) => Stream.Stream<
+    LoadBalancer,
+    LoadBalancerNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeLoadBalancersInput,
+  output: DescribeLoadBalancersOutput,
+  errors: [LoadBalancerNotFoundException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "LoadBalancers",
+  } as const,
+}));
 /**
  * Update the ca certificate bundle for the specified trust store.
  */
-export const modifyTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyTrustStore: (
+  input: ModifyTrustStoreInput,
+) => Effect.Effect<
+  ModifyTrustStoreOutput,
+  | CaCertificatesBundleNotFoundException
+  | InvalidCaCertificatesBundleException
+  | TrustStoreNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyTrustStoreInput,
   output: ModifyTrustStoreOutput,
   errors: [
@@ -3612,7 +4067,16 @@ export const modifyTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can reorder the rules as long as there are no priority conflicts in the new order. Any
  * existing rules that you do not specify retain their current priority.
  */
-export const setRulePriorities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setRulePriorities: (
+  input: SetRulePrioritiesInput,
+) => Effect.Effect<
+  SetRulePrioritiesOutput,
+  | OperationNotPermittedException
+  | PriorityInUseException
+  | RuleNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetRulePrioritiesInput,
   output: SetRulePrioritiesOutput,
   errors: [
@@ -3626,7 +4090,19 @@ export const setRulePriorities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * remove the tags for one or more Application Load Balancers, Network Load Balancers, Gateway
  * Load Balancers, target groups, listeners, or rules.
  */
-export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removeTags: (
+  input: RemoveTagsInput,
+) => Effect.Effect<
+  RemoveTagsOutput,
+  | ListenerNotFoundException
+  | LoadBalancerNotFoundException
+  | RuleNotFoundException
+  | TargetGroupNotFoundException
+  | TooManyTagsException
+  | TrustStoreNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsInput,
   output: RemoveTagsOutput,
   errors: [
@@ -3642,26 +4118,64 @@ export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Describes the specified rules or the rules for the specified listener. You must specify
  * either a listener or rules.
  */
-export const describeRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeRules: {
+  (
     input: DescribeRulesInput,
-    output: DescribeRulesOutput,
-    errors: [
-      ListenerNotFoundException,
-      RuleNotFoundException,
-      UnsupportedProtocolException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "Rules",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeRulesOutput,
+    | ListenerNotFoundException
+    | RuleNotFoundException
+    | UnsupportedProtocolException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRulesInput,
+  ) => Stream.Stream<
+    DescribeRulesOutput,
+    | ListenerNotFoundException
+    | RuleNotFoundException
+    | UnsupportedProtocolException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRulesInput,
+  ) => Stream.Stream<
+    Rule,
+    | ListenerNotFoundException
+    | RuleNotFoundException
+    | UnsupportedProtocolException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRulesInput,
+  output: DescribeRulesOutput,
+  errors: [
+    ListenerNotFoundException,
+    RuleNotFoundException,
+    UnsupportedProtocolException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "Rules",
+  } as const,
+}));
 /**
  * Sets the type of IP addresses used by the subnets of the specified load balancer.
  */
-export const setIpAddressType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setIpAddressType: (
+  input: SetIpAddressTypeInput,
+) => Effect.Effect<
+  SetIpAddressTypeOutput,
+  | InvalidConfigurationRequestException
+  | InvalidSubnetException
+  | LoadBalancerNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIpAddressTypeInput,
   output: SetIpAddressTypeOutput,
   errors: [
@@ -3680,7 +4194,16 @@ export const setIpAddressType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can't associate a security group with a Gateway Load Balancer.
  */
-export const setSecurityGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setSecurityGroups: (
+  input: SetSecurityGroupsInput,
+) => Effect.Effect<
+  SetSecurityGroupsOutput,
+  | InvalidConfigurationRequestException
+  | InvalidSecurityGroupException
+  | LoadBalancerNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetSecurityGroupsInput,
   output: SetSecurityGroupsOutput,
   errors: [
@@ -3697,7 +4220,20 @@ export const setSecurityGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Each tag consists of a key and an optional value. If a resource already has a tag with the
  * same key, `AddTags` updates its value.
  */
-export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addTags: (
+  input: AddTagsInput,
+) => Effect.Effect<
+  AddTagsOutput,
+  | DuplicateTagKeysException
+  | ListenerNotFoundException
+  | LoadBalancerNotFoundException
+  | RuleNotFoundException
+  | TargetGroupNotFoundException
+  | TooManyTagsException
+  | TrustStoreNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsInput,
   output: AddTagsOutput,
   errors: [
@@ -3721,24 +4257,37 @@ export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * certificates in the *Application Load Balancers Guide* or Server
  * certificates in the *Network Load Balancers Guide*.
  */
-export const addListenerCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddListenerCertificatesInput,
-    output: AddListenerCertificatesOutput,
-    errors: [
-      CertificateNotFoundException,
-      ListenerNotFoundException,
-      TooManyCertificatesException,
-    ],
-  }),
-);
+export const addListenerCertificates: (
+  input: AddListenerCertificatesInput,
+) => Effect.Effect<
+  AddListenerCertificatesOutput,
+  | CertificateNotFoundException
+  | ListenerNotFoundException
+  | TooManyCertificatesException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddListenerCertificatesInput,
+  output: AddListenerCertificatesOutput,
+  errors: [
+    CertificateNotFoundException,
+    ListenerNotFoundException,
+    TooManyCertificatesException,
+  ],
+}));
 /**
  * Describes the specified policies or all policies used for SSL negotiation.
  *
  * For more information, see Security policies in the *Application Load Balancers Guide* and
  * Security policies in the *Network Load Balancers Guide*.
  */
-export const describeSSLPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeSSLPolicies: (
+  input: DescribeSSLPoliciesInput,
+) => Effect.Effect<
+  DescribeSSLPoliciesOutput,
+  SSLPolicyNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSSLPoliciesInput,
   output: DescribeSSLPoliciesOutput,
   errors: [SSLPolicyNotFoundException],
@@ -3746,17 +4295,24 @@ export const describeSSLPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the health of the specified targets or all of your targets.
  */
-export const describeTargetHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTargetHealthInput,
-    output: DescribeTargetHealthOutput,
-    errors: [
-      HealthUnavailableException,
-      InvalidTargetException,
-      TargetGroupNotFoundException,
-    ],
-  }),
-);
+export const describeTargetHealth: (
+  input: DescribeTargetHealthInput,
+) => Effect.Effect<
+  DescribeTargetHealthOutput,
+  | HealthUnavailableException
+  | InvalidTargetException
+  | TargetGroupNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTargetHealthInput,
+  output: DescribeTargetHealthOutput,
+  errors: [
+    HealthUnavailableException,
+    InvalidTargetException,
+    TargetGroupNotFoundException,
+  ],
+}));
 /**
  * Registers the specified targets with the specified target group.
  *
@@ -3779,7 +4335,17 @@ export const describeTargetHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - Register targets for your
  * Gateway Load Balancer
  */
-export const registerTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerTargets: (
+  input: RegisterTargetsInput,
+) => Effect.Effect<
+  RegisterTargetsOutput,
+  | InvalidTargetException
+  | TargetGroupNotFoundException
+  | TooManyRegistrationsForTargetIdException
+  | TooManyTargetsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterTargetsInput,
   output: RegisterTargetsOutput,
   errors: [
@@ -3794,7 +4360,19 @@ export const registerTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Mutual TLS for Application Load Balancers.
  */
-export const createTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTrustStore: (
+  input: CreateTrustStoreInput,
+) => Effect.Effect<
+  CreateTrustStoreOutput,
+  | CaCertificatesBundleNotFoundException
+  | DuplicateTagKeysException
+  | DuplicateTrustStoreNameException
+  | InvalidCaCertificatesBundleException
+  | TooManyTagsException
+  | TooManyTrustStoresException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrustStoreInput,
   output: CreateTrustStoreOutput,
   errors: [
@@ -3823,7 +4401,17 @@ export const createTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation is idempotent, which means that it completes at most one time. If you
  * attempt to create multiple target groups with the same settings, each call succeeds.
  */
-export const createTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTargetGroup: (
+  input: CreateTargetGroupInput,
+) => Effect.Effect<
+  CreateTargetGroupOutput,
+  | DuplicateTargetGroupNameException
+  | InvalidConfigurationRequestException
+  | TooManyTagsException
+  | TooManyTargetGroupsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTargetGroupInput,
   output: CreateTargetGroupOutput,
   errors: [
@@ -3838,7 +4426,20 @@ export const createTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Application Load Balancer, Network Load Balancer or Gateway Load Balancer. The specified subnets
  * replace the previously enabled subnets.
  */
-export const setSubnets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setSubnets: (
+  input: SetSubnetsInput,
+) => Effect.Effect<
+  SetSubnetsOutput,
+  | AllocationIdNotFoundException
+  | AvailabilityZoneNotSupportedException
+  | CapacityReservationPendingException
+  | InvalidConfigurationRequestException
+  | InvalidSubnetException
+  | LoadBalancerNotFoundException
+  | SubnetNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetSubnetsInput,
   output: SetSubnetsOutput,
   errors: [
@@ -3854,18 +4455,26 @@ export const setSubnets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds the specified revocation file to the specified trust store.
  */
-export const addTrustStoreRevocations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddTrustStoreRevocationsInput,
-    output: AddTrustStoreRevocationsOutput,
-    errors: [
-      InvalidRevocationContentException,
-      RevocationContentNotFoundException,
-      TooManyTrustStoreRevocationEntriesException,
-      TrustStoreNotFoundException,
-    ],
-  }),
-);
+export const addTrustStoreRevocations: (
+  input: AddTrustStoreRevocationsInput,
+) => Effect.Effect<
+  AddTrustStoreRevocationsOutput,
+  | InvalidRevocationContentException
+  | RevocationContentNotFoundException
+  | TooManyTrustStoreRevocationEntriesException
+  | TrustStoreNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddTrustStoreRevocationsInput,
+  output: AddTrustStoreRevocationsOutput,
+  errors: [
+    InvalidRevocationContentException,
+    RevocationContentNotFoundException,
+    TooManyTrustStoreRevocationEntriesException,
+    TrustStoreNotFoundException,
+  ],
+}));
 /**
  * Replaces the specified properties of the specified rule. Any properties that you do not
  * specify are unchanged.
@@ -3874,7 +4483,24 @@ export const addTrustStoreRevocations = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * must provide the entire list. For example, to add an action, specify a list with the current
  * actions plus the new action.
  */
-export const modifyRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyRule: (
+  input: ModifyRuleInput,
+) => Effect.Effect<
+  ModifyRuleOutput,
+  | IncompatibleProtocolsException
+  | InvalidLoadBalancerActionException
+  | OperationNotPermittedException
+  | RuleNotFoundException
+  | TargetGroupAssociationLimitException
+  | TargetGroupNotFoundException
+  | TooManyActionsException
+  | TooManyRegistrationsForTargetIdException
+  | TooManyTargetsException
+  | TooManyUniqueTargetGroupsPerLoadBalancerException
+  | UnsupportedProtocolException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyRuleInput,
   output: ModifyRuleOutput,
   errors: [
@@ -3901,7 +4527,28 @@ export const modifyRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If the conditions for no rules are met, the actions for the default rule are performed.
  * For more information, see Listener rules in the *Application Load Balancers Guide*.
  */
-export const createRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRule: (
+  input: CreateRuleInput,
+) => Effect.Effect<
+  CreateRuleOutput,
+  | IncompatibleProtocolsException
+  | InvalidConfigurationRequestException
+  | InvalidLoadBalancerActionException
+  | ListenerNotFoundException
+  | PriorityInUseException
+  | TargetGroupAssociationLimitException
+  | TargetGroupNotFoundException
+  | TooManyActionsException
+  | TooManyRegistrationsForTargetIdException
+  | TooManyRulesException
+  | TooManyTagsException
+  | TooManyTargetGroupsException
+  | TooManyTargetsException
+  | TooManyUniqueTargetGroupsPerLoadBalancerException
+  | UnsupportedProtocolException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleInput,
   output: CreateRuleOutput,
   errors: [
@@ -3939,7 +4586,26 @@ export const createRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation is idempotent, which means that it completes at most one time. If you
  * attempt to create multiple load balancers with the same settings, each call succeeds.
  */
-export const createLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLoadBalancer: (
+  input: CreateLoadBalancerInput,
+) => Effect.Effect<
+  CreateLoadBalancerOutput,
+  | AllocationIdNotFoundException
+  | AvailabilityZoneNotSupportedException
+  | DuplicateLoadBalancerNameException
+  | DuplicateTagKeysException
+  | InvalidConfigurationRequestException
+  | InvalidSchemeException
+  | InvalidSecurityGroupException
+  | InvalidSubnetException
+  | OperationNotPermittedException
+  | ResourceInUseException
+  | SubnetNotFoundException
+  | TooManyLoadBalancersException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLoadBalancerInput,
   output: CreateLoadBalancerOutput,
   errors: [
@@ -3964,22 +4630,34 @@ export const createLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * When modifying capacity reservation, you must include at least one `MinimumLoadBalancerCapacity`
  * or `ResetCapacityReservation`.
  */
-export const modifyCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyCapacityReservationInput,
-    output: ModifyCapacityReservationOutput,
-    errors: [
-      CapacityDecreaseRequestsLimitExceededException,
-      CapacityReservationPendingException,
-      CapacityUnitsLimitExceededException,
-      InsufficientCapacityException,
-      InvalidConfigurationRequestException,
-      LoadBalancerNotFoundException,
-      OperationNotPermittedException,
-      PriorRequestNotCompleteException,
-    ],
-  }),
-);
+export const modifyCapacityReservation: (
+  input: ModifyCapacityReservationInput,
+) => Effect.Effect<
+  ModifyCapacityReservationOutput,
+  | CapacityDecreaseRequestsLimitExceededException
+  | CapacityReservationPendingException
+  | CapacityUnitsLimitExceededException
+  | InsufficientCapacityException
+  | InvalidConfigurationRequestException
+  | LoadBalancerNotFoundException
+  | OperationNotPermittedException
+  | PriorRequestNotCompleteException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyCapacityReservationInput,
+  output: ModifyCapacityReservationOutput,
+  errors: [
+    CapacityDecreaseRequestsLimitExceededException,
+    CapacityReservationPendingException,
+    CapacityUnitsLimitExceededException,
+    InsufficientCapacityException,
+    InvalidConfigurationRequestException,
+    LoadBalancerNotFoundException,
+    OperationNotPermittedException,
+    PriorRequestNotCompleteException,
+  ],
+}));
 /**
  * Replaces the specified properties of the specified listener. Any properties that you do
  * not specify remain unchanged.
@@ -3992,7 +4670,32 @@ export const modifyCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * must provide the entire list. For example, to add an action, specify a list with the current
  * actions plus the new action.
  */
-export const modifyListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyListener: (
+  input: ModifyListenerInput,
+) => Effect.Effect<
+  ModifyListenerOutput,
+  | ALPNPolicyNotSupportedException
+  | CertificateNotFoundException
+  | DuplicateListenerException
+  | IncompatibleProtocolsException
+  | InvalidConfigurationRequestException
+  | InvalidLoadBalancerActionException
+  | ListenerNotFoundException
+  | SSLPolicyNotFoundException
+  | TargetGroupAssociationLimitException
+  | TargetGroupNotFoundException
+  | TooManyActionsException
+  | TooManyCertificatesException
+  | TooManyListenersException
+  | TooManyRegistrationsForTargetIdException
+  | TooManyTargetsException
+  | TooManyUniqueTargetGroupsPerLoadBalancerException
+  | TrustStoreNotFoundException
+  | TrustStoreNotReadyException
+  | UnsupportedProtocolException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyListenerInput,
   output: ModifyListenerOutput,
   errors: [
@@ -4035,7 +4738,33 @@ export const modifyListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation is idempotent, which means that it completes at most one time. If you
  * attempt to create multiple listeners with the same settings, each call succeeds.
  */
-export const createListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createListener: (
+  input: CreateListenerInput,
+) => Effect.Effect<
+  CreateListenerOutput,
+  | ALPNPolicyNotSupportedException
+  | CertificateNotFoundException
+  | DuplicateListenerException
+  | IncompatibleProtocolsException
+  | InvalidConfigurationRequestException
+  | InvalidLoadBalancerActionException
+  | LoadBalancerNotFoundException
+  | SSLPolicyNotFoundException
+  | TargetGroupAssociationLimitException
+  | TargetGroupNotFoundException
+  | TooManyActionsException
+  | TooManyCertificatesException
+  | TooManyListenersException
+  | TooManyRegistrationsForTargetIdException
+  | TooManyTagsException
+  | TooManyTargetsException
+  | TooManyUniqueTargetGroupsPerLoadBalancerException
+  | TrustStoreNotFoundException
+  | TrustStoreNotReadyException
+  | UnsupportedProtocolException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateListenerInput,
   output: CreateListenerOutput,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "BCM Recommended Actions",
   serviceShapeName: "AWSBillingAndCostManagementRecommendedActions",
@@ -121,6 +129,13 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type MaxResults = number;
+export type NextToken = string;
+export type FilterValue = string;
+export type AccountId = string;
+export type NextStep = string;
+
 //# Schemas
 export type FilterValues = string[];
 export const FilterValues = S.Array(S.String);
@@ -228,7 +243,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     code: "BCMRecommendedActionsInternalServer",
     httpResponseCode: 500,
   }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
@@ -236,7 +253,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     code: "BCMRecommendedActionsThrottling",
     httpResponseCode: 429,
   }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -254,20 +273,53 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Returns a list of recommended actions that match the filter criteria.
  */
-export const listRecommendedActions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecommendedActions: {
+  (
     input: ListRecommendedActionsRequest,
-    output: ListRecommendedActionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "recommendedActions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecommendedActionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecommendedActionsRequest,
+  ) => Stream.Stream<
+    ListRecommendedActionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommendedActionsRequest,
+  ) => Stream.Stream<
+    RecommendedAction,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommendedActionsRequest,
+  output: ListRecommendedActionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "recommendedActions",
+    pageSize: "maxResults",
+  } as const,
+}));

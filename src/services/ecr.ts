@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://ecr.amazonaws.com/doc/2015-09-21/");
 const svc = T.AwsApiService({
   sdkId: "ECR",
@@ -1074,6 +1082,97 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type RegistryId = string;
+export type RepositoryName = string;
+export type BatchedOperationLayerDigest = string;
+export type MediaType = string;
+export type UploadId = string;
+export type LayerDigest = string;
+export type PullThroughCacheRuleRepositoryPrefix = string;
+export type Url = string;
+export type CredentialArn = string;
+export type CustomRoleArn = string;
+export type Prefix = string;
+export type RepositoryTemplateDescription = string;
+export type RepositoryPolicyText = string;
+export type LifecyclePolicyTextForRepositoryCreationTemplate = string;
+export type RegistryPolicyText = string;
+export type PrincipalArn = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type AccountSettingName = string;
+export type LifecyclePreviewMaxResults = number;
+export type FiftyMaxResults = number;
+export type Arn = string;
+export type AccountSettingValue = string;
+export type ImageManifest = string;
+export type ImageTag = string;
+export type ImageDigest = string;
+export type LifecyclePolicyText = string;
+export type TagKey = string;
+export type PartSize = number;
+export type TagValue = string;
+export type ImageTagMutabilityExclusionFilterValue = string;
+export type KmsKey = string;
+export type KmsKeyForRepositoryCreationTemplate = string;
+export type ArtifactType = string;
+export type ExceptionMessage = string;
+export type PTCValidateFailure = string;
+export type SigningProfileArn = string;
+export type ScanningRepositoryFilterValue = string;
+export type LayerSizeInBytes = number;
+export type LayerFailureReason = string;
+export type ImageFailureReason = string;
+export type ScanningConfigurationFailureReason = string;
+export type Region = string;
+export type ReplicationError = string;
+export type ScanStatusDescription = string;
+export type SigningStatusFailureCode = string;
+export type SigningStatusFailureReason = string;
+export type Base64 = string;
+export type ProxyEndpoint = string;
+export type SigningRepositoryFilterValue = string;
+export type RepositoryFilterValue = string;
+export type KmsError = string;
+export type SeverityCount = number;
+export type FindingName = string;
+export type FindingDescription = string;
+export type FindingArn = string;
+export type Score = number;
+export type Severity = string;
+export type Status = string;
+export type Title = string;
+export type Type = string;
+export type FixAvailable = string;
+export type ExploitAvailable = string;
+export type ImageSizeInBytes = number;
+export type LifecyclePolicyRulePriority = number;
+export type ImageCount = number;
+export type AttributeKey = string;
+export type AttributeValue = string;
+export type RelatedVulnerability = string;
+export type Source = string;
+export type VulnerabilityId = string;
+export type ResourceId = string;
+export type BaseScore = number;
+export type ScoringVector = string;
+export type Version = string;
+export type Arch = string;
+export type Epoch = number;
+export type FilePath = string;
+export type VulnerablePackageName = string;
+export type PackageManager = string;
+export type Release = string;
+export type SourceLayerHash = string;
+export type FixedInVersion = string;
+export type RecommendationText = string;
+export type Author = string;
+export type Platform = string;
+export type InUseCount = number;
+export type Metric = string;
+export type Reason = string;
 
 //# Schemas
 export interface DeleteRegistryPolicyRequest {}
@@ -4345,13 +4444,17 @@ export class ScanNotFoundException extends S.TaggedError<ScanNotFoundException>(
  * process. For more information, see Registry
  * authentication in the *Amazon Elastic Container Registry User Guide*.
  */
-export const getAuthorizationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAuthorizationTokenRequest,
-    output: GetAuthorizationTokenResponse,
-    errors: [InvalidParameterException, ServerException],
-  }),
-);
+export const getAuthorizationToken: (
+  input: GetAuthorizationTokenRequest,
+) => Effect.Effect<
+  GetAuthorizationTokenResponse,
+  InvalidParameterException | ServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAuthorizationTokenRequest,
+  output: GetAuthorizationTokenResponse,
+  errors: [InvalidParameterException, ServerException],
+}));
 /**
  * Notifies Amazon ECR that you intend to upload an image layer.
  *
@@ -4362,7 +4465,17 @@ export const getAuthorizationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation is used by the Amazon ECR proxy and is not generally used by
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const initiateLayerUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const initiateLayerUpload: (
+  input: InitiateLayerUploadRequest,
+) => Effect.Effect<
+  InitiateLayerUploadResponse,
+  | InvalidParameterException
+  | KmsException
+  | RepositoryNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitiateLayerUploadRequest,
   output: InitiateLayerUploadResponse,
   errors: [
@@ -4382,7 +4495,38 @@ export const initiateLayerUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * results to return only `TAGGED` images to list all of the tags in your
  * repository.
  */
-export const listImages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listImages: {
+  (
+    input: ListImagesRequest,
+  ): Effect.Effect<
+    ListImagesResponse,
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImagesRequest,
+  ) => Stream.Stream<
+    ListImagesResponse,
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImagesRequest,
+  ) => Stream.Stream<
+    ImageIdentifier,
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListImagesRequest,
   output: ListImagesResponse,
   errors: [
@@ -4400,26 +4544,65 @@ export const listImages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Describes image repositories in a registry.
  */
-export const describeRepositories =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRepositories: {
+  (
     input: DescribeRepositoriesRequest,
-    output: DescribeRepositoriesResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "repositories",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRepositoriesResponse,
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRepositoriesRequest,
+  ) => Stream.Stream<
+    DescribeRepositoriesResponse,
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRepositoriesRequest,
+  ) => Stream.Stream<
+    Repository,
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRepositoriesRequest,
+  output: DescribeRepositoriesResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "repositories",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List the tags for an Amazon ECR resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -4433,23 +4616,39 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * information, see Image tag
  * mutability in the *Amazon Elastic Container Registry User Guide*.
  */
-export const putImageTagMutability = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutImageTagMutabilityRequest,
-    output: PutImageTagMutabilityResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-    ],
-  }),
-);
+export const putImageTagMutability: (
+  input: PutImageTagMutabilityRequest,
+) => Effect.Effect<
+  PutImageTagMutabilityResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutImageTagMutabilityRequest,
+  output: PutImageTagMutabilityResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Applies a repository policy to the specified repository to control access permissions.
  * For more information, see Amazon ECR Repository
  * policies in the *Amazon Elastic Container Registry User Guide*.
  */
-export const setRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setRepositoryPolicy: (
+  input: SetRepositoryPolicyRequest,
+) => Effect.Effect<
+  SetRepositoryPolicyResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetRepositoryPolicyRequest,
   output: SetRepositoryPolicyResponse,
   errors: [
@@ -4468,17 +4667,24 @@ export const setRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation is used by the Amazon ECR proxy and is not generally used by
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const batchCheckLayerAvailability = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchCheckLayerAvailabilityRequest,
-    output: BatchCheckLayerAvailabilityResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-    ],
-  }),
-);
+export const batchCheckLayerAvailability: (
+  input: BatchCheckLayerAvailabilityRequest,
+) => Effect.Effect<
+  BatchCheckLayerAvailabilityResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCheckLayerAvailabilityRequest,
+  output: BatchCheckLayerAvailabilityResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Deletes a list of specified images within a repository. Images are specified with
  * either an `imageTag` or `imageDigest`.
@@ -4489,7 +4695,16 @@ export const batchCheckLayerAvailability = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can completely delete an image (and all of its tags) by specifying the image's
  * digest in your request.
  */
-export const batchDeleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchDeleteImage: (
+  input: BatchDeleteImageRequest,
+) => Effect.Effect<
+  BatchDeleteImageResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteImageRequest,
   output: BatchDeleteImageResponse,
   errors: [
@@ -4501,52 +4716,100 @@ export const batchDeleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the repository policy associated with the specified repository.
  */
-export const deleteRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRepositoryPolicyRequest,
-    output: DeleteRepositoryPolicyResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      RepositoryPolicyNotFoundException,
-      ServerException,
-    ],
-  }),
-);
+export const deleteRepositoryPolicy: (
+  input: DeleteRepositoryPolicyRequest,
+) => Effect.Effect<
+  DeleteRepositoryPolicyResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | RepositoryPolicyNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRepositoryPolicyRequest,
+  output: DeleteRepositoryPolicyResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    RepositoryPolicyNotFoundException,
+    ServerException,
+  ],
+}));
 /**
  * Returns details about the repository creation templates in a registry. The
  * `prefixes` request parameter can be used to return the details for a
  * specific repository creation template.
  */
-export const describeRepositoryCreationTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRepositoryCreationTemplates: {
+  (
     input: DescribeRepositoryCreationTemplatesRequest,
-    output: DescribeRepositoryCreationTemplatesResponse,
-    errors: [InvalidParameterException, ServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "repositoryCreationTemplates",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRepositoryCreationTemplatesResponse,
+    | InvalidParameterException
+    | ServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRepositoryCreationTemplatesRequest,
+  ) => Stream.Stream<
+    DescribeRepositoryCreationTemplatesResponse,
+    | InvalidParameterException
+    | ServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRepositoryCreationTemplatesRequest,
+  ) => Stream.Stream<
+    RepositoryCreationTemplate,
+    | InvalidParameterException
+    | ServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRepositoryCreationTemplatesRequest,
+  output: DescribeRepositoryCreationTemplatesResponse,
+  errors: [InvalidParameterException, ServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "repositoryCreationTemplates",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Transitions an image between storage classes. You can transition images from Amazon ECR standard storage class to Amazon ECR archival storage class for long-term storage, or restore archived images back to Amazon ECR standard.
  */
-export const updateImageStorageClass = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateImageStorageClassRequest,
-    output: UpdateImageStorageClassResponse,
-    errors: [
-      ImageNotFoundException,
-      ImageStorageClassUpdateNotSupportedException,
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateImageStorageClass: (
+  input: UpdateImageStorageClassRequest,
+) => Effect.Effect<
+  UpdateImageStorageClassResponse,
+  | ImageNotFoundException
+  | ImageStorageClassUpdateNotSupportedException
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateImageStorageClassRequest,
+  output: UpdateImageStorageClassResponse,
+  errors: [
+    ImageNotFoundException,
+    ImageStorageClassUpdateNotSupportedException,
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Uploads an image layer part to Amazon ECR.
  *
@@ -4557,7 +4820,20 @@ export const updateImageStorageClass = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation is used by the Amazon ECR proxy and is not generally used by
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const uploadLayerPart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const uploadLayerPart: (
+  input: UploadLayerPartRequest,
+) => Effect.Effect<
+  UploadLayerPartResponse,
+  | InvalidLayerPartException
+  | InvalidParameterException
+  | KmsException
+  | LimitExceededException
+  | RepositoryNotFoundException
+  | ServerException
+  | UploadNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadLayerPartRequest,
   output: UploadLayerPartResponse,
   errors: [
@@ -4574,7 +4850,18 @@ export const uploadLayerPart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Adds specified tags to a resource with the specified ARN. Existing tags on a resource
  * are not changed if they are not specified in the request parameters.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InvalidParameterException
+  | InvalidTagParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -4588,7 +4875,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the repository policy for the specified repository.
  */
-export const getRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRepositoryPolicy: (
+  input: GetRepositoryPolicyRequest,
+) => Effect.Effect<
+  GetRepositoryPolicyResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | RepositoryPolicyNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRepositoryPolicyRequest,
   output: GetRepositoryPolicyResponse,
   errors: [
@@ -4601,17 +4898,26 @@ export const getRepositoryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing repository creation template.
  */
-export const updateRepositoryCreationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRepositoryCreationTemplateRequest,
-    output: UpdateRepositoryCreationTemplateResponse,
-    errors: [
-      InvalidParameterException,
-      ServerException,
-      TemplateNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const updateRepositoryCreationTemplate: (
+  input: UpdateRepositoryCreationTemplateRequest,
+) => Effect.Effect<
+  UpdateRepositoryCreationTemplateResponse,
+  | InvalidParameterException
+  | ServerException
+  | TemplateNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRepositoryCreationTemplateRequest,
+  output: UpdateRepositoryCreationTemplateResponse,
+  errors: [
+    InvalidParameterException,
+    ServerException,
+    TemplateNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the registry's signing configuration, which defines
  * rules for automatically signing images using Amazon Web Services Signer.
@@ -4619,22 +4925,41 @@ export const updateRepositoryCreationTemplate =
  * For more information, see Managed signing in the
  * *Amazon Elastic Container Registry User Guide*.
  */
-export const getSigningConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSigningConfigurationRequest,
-    output: GetSigningConfigurationResponse,
-    errors: [
-      InvalidParameterException,
-      ServerException,
-      SigningConfigurationNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getSigningConfiguration: (
+  input: GetSigningConfigurationRequest,
+) => Effect.Effect<
+  GetSigningConfigurationResponse,
+  | InvalidParameterException
+  | ServerException
+  | SigningConfigurationNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSigningConfigurationRequest,
+  output: GetSigningConfigurationResponse,
+  errors: [
+    InvalidParameterException,
+    ServerException,
+    SigningConfigurationNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the lifecycle policy for the specified repository.
  */
-export const getLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLifecyclePolicy: (
+  input: GetLifecyclePolicyRequest,
+) => Effect.Effect<
+  GetLifecyclePolicyResponse,
+  | InvalidParameterException
+  | LifecyclePolicyNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLifecyclePolicyRequest,
   output: GetLifecyclePolicyResponse,
   errors: [
@@ -4648,36 +4973,65 @@ export const getLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the IAM principals that are excluded from having their image pull times recorded.
  */
-export const listPullTimeUpdateExclusions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListPullTimeUpdateExclusionsRequest,
-    output: ListPullTimeUpdateExclusionsResponse,
-    errors: [
-      InvalidParameterException,
-      LimitExceededException,
-      ServerException,
-      ValidationException,
-    ],
-  }));
+export const listPullTimeUpdateExclusions: (
+  input: ListPullTimeUpdateExclusionsRequest,
+) => Effect.Effect<
+  ListPullTimeUpdateExclusionsResponse,
+  | InvalidParameterException
+  | LimitExceededException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPullTimeUpdateExclusionsRequest,
+  output: ListPullTimeUpdateExclusionsResponse,
+  errors: [
+    InvalidParameterException,
+    LimitExceededException,
+    ServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds an IAM principal to the pull time update exclusion list for a registry. Amazon ECR will not record the pull time if an excluded principal pulls an image.
  */
-export const registerPullTimeUpdateExclusion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterPullTimeUpdateExclusionRequest,
-    output: RegisterPullTimeUpdateExclusionResponse,
-    errors: [
-      ExclusionAlreadyExistsException,
-      InvalidParameterException,
-      LimitExceededException,
-      ServerException,
-      ValidationException,
-    ],
-  }));
+export const registerPullTimeUpdateExclusion: (
+  input: RegisterPullTimeUpdateExclusionRequest,
+) => Effect.Effect<
+  RegisterPullTimeUpdateExclusionResponse,
+  | ExclusionAlreadyExistsException
+  | InvalidParameterException
+  | LimitExceededException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterPullTimeUpdateExclusionRequest,
+  output: RegisterPullTimeUpdateExclusionResponse,
+  errors: [
+    ExclusionAlreadyExistsException,
+    InvalidParameterException,
+    LimitExceededException,
+    ServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the permissions policy for a registry.
  */
-export const getRegistryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRegistryPolicy: (
+  input: GetRegistryPolicyRequest,
+) => Effect.Effect<
+  GetRegistryPolicyResponse,
+  | InvalidParameterException
+  | RegistryPolicyNotFoundException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegistryPolicyRequest,
   output: GetRegistryPolicyResponse,
   errors: [
@@ -4694,23 +5048,42 @@ export const getRegistryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Updates the image scanning configuration for the specified repository.
  */
-export const putImageScanningConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutImageScanningConfigurationRequest,
-    output: PutImageScanningConfigurationResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-  }));
+export const putImageScanningConfiguration: (
+  input: PutImageScanningConfigurationRequest,
+) => Effect.Effect<
+  PutImageScanningConfigurationResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutImageScanningConfigurationRequest,
+  output: PutImageScanningConfigurationResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates or updates the lifecycle policy for the specified repository. For more
  * information, see Lifecycle policy
  * template.
  */
-export const putLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putLifecyclePolicy: (
+  input: PutLifecyclePolicyRequest,
+) => Effect.Effect<
+  PutLifecyclePolicyResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLifecyclePolicyRequest,
   output: PutLifecyclePolicyResponse,
   errors: [
@@ -4723,21 +5096,39 @@ export const putLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the scanning configuration for one or more repositories.
  */
-export const batchGetRepositoryScanningConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetRepositoryScanningConfigurationRequest,
-    output: BatchGetRepositoryScanningConfigurationResponse,
-    errors: [
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-  }));
+export const batchGetRepositoryScanningConfiguration: (
+  input: BatchGetRepositoryScanningConfigurationRequest,
+) => Effect.Effect<
+  BatchGetRepositoryScanningConfigurationResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetRepositoryScanningConfigurationRequest,
+  output: BatchGetRepositoryScanningConfigurationResponse,
+  errors: [
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the account setting value for the specified setting name.
  */
-export const getAccountSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccountSetting: (
+  input: GetAccountSettingRequest,
+) => Effect.Effect<
+  GetAccountSettingResponse,
+  | InvalidParameterException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountSettingRequest,
   output: GetAccountSettingResponse,
   errors: [InvalidParameterException, ServerException, ValidationException],
@@ -4745,19 +5136,36 @@ export const getAccountSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the scanning configuration for a registry.
  */
-export const getRegistryScanningConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRegistryScanningConfigurationRequest,
-    output: GetRegistryScanningConfigurationResponse,
-    errors: [InvalidParameterException, ServerException, ValidationException],
-  }));
+export const getRegistryScanningConfiguration: (
+  input: GetRegistryScanningConfigurationRequest,
+) => Effect.Effect<
+  GetRegistryScanningConfigurationResponse,
+  | InvalidParameterException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRegistryScanningConfigurationRequest,
+  output: GetRegistryScanningConfigurationResponse,
+  errors: [InvalidParameterException, ServerException, ValidationException],
+}));
 /**
  * Creates or updates the permissions policy for your registry.
  *
  * A registry policy is used to specify permissions for another Amazon Web Services account and is used
  * when configuring cross-account replication. For more information, see Registry permissions in the *Amazon Elastic Container Registry User Guide*.
  */
-export const putRegistryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putRegistryPolicy: (
+  input: PutRegistryPolicyRequest,
+) => Effect.Effect<
+  PutRegistryPolicyResponse,
+  | InvalidParameterException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRegistryPolicyRequest,
   output: PutRegistryPolicyResponse,
   errors: [InvalidParameterException, ServerException, ValidationException],
@@ -4774,13 +5182,20 @@ export const putRegistryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * source account permission to replicate. This permission is controlled using a
  * registry permissions policy. For more information, see PutRegistryPolicy.
  */
-export const putReplicationConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutReplicationConfigurationRequest,
-    output: PutReplicationConfigurationResponse,
-    errors: [InvalidParameterException, ServerException, ValidationException],
-  }),
-);
+export const putReplicationConfiguration: (
+  input: PutReplicationConfigurationRequest,
+) => Effect.Effect<
+  PutReplicationConfigurationResponse,
+  | InvalidParameterException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutReplicationConfigurationRequest,
+  output: PutReplicationConfigurationResponse,
+  errors: [InvalidParameterException, ServerException, ValidationException],
+}));
 /**
  * Creates or updates the registry's signing configuration, which defines
  * rules for automatically signing images with Amazon Web Services Signer.
@@ -4792,48 +5207,82 @@ export const putReplicationConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * permission to sign payloads with the Amazon Web Services Signer signing profile referenced in the signing
  * configuration.
  */
-export const putSigningConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutSigningConfigurationRequest,
-    output: PutSigningConfigurationResponse,
-    errors: [InvalidParameterException, ServerException, ValidationException],
-  }),
-);
+export const putSigningConfiguration: (
+  input: PutSigningConfigurationRequest,
+) => Effect.Effect<
+  PutSigningConfigurationResponse,
+  | InvalidParameterException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutSigningConfigurationRequest,
+  output: PutSigningConfigurationResponse,
+  errors: [InvalidParameterException, ServerException, ValidationException],
+}));
 /**
  * Deletes the registry permissions policy.
  */
-export const deleteRegistryPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRegistryPolicyRequest,
-    output: DeleteRegistryPolicyResponse,
-    errors: [
-      InvalidParameterException,
-      RegistryPolicyNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteRegistryPolicy: (
+  input: DeleteRegistryPolicyRequest,
+) => Effect.Effect<
+  DeleteRegistryPolicyResponse,
+  | InvalidParameterException
+  | RegistryPolicyNotFoundException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRegistryPolicyRequest,
+  output: DeleteRegistryPolicyResponse,
+  errors: [
+    InvalidParameterException,
+    RegistryPolicyNotFoundException,
+    ServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the lifecycle policy associated with the specified repository.
  */
-export const deleteLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLifecyclePolicyRequest,
-    output: DeleteLifecyclePolicyResponse,
-    errors: [
-      InvalidParameterException,
-      LifecyclePolicyNotFoundException,
-      RepositoryNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteLifecyclePolicy: (
+  input: DeleteLifecyclePolicyRequest,
+) => Effect.Effect<
+  DeleteLifecyclePolicyResponse,
+  | InvalidParameterException
+  | LifecyclePolicyNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLifecyclePolicyRequest,
+  output: DeleteLifecyclePolicyResponse,
+  errors: [
+    InvalidParameterException,
+    LifecyclePolicyNotFoundException,
+    RepositoryNotFoundException,
+    ServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Allows you to change the basic scan type version or registry policy scope.
  */
-export const putAccountSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putAccountSetting: (
+  input: PutAccountSettingRequest,
+) => Effect.Effect<
+  PutAccountSettingResponse,
+  | InvalidParameterException
+  | LimitExceededException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountSettingRequest,
   output: PutAccountSettingResponse,
   errors: [
@@ -4846,33 +5295,53 @@ export const putAccountSetting = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a principal from the pull time update exclusion list for a registry. Once removed, Amazon ECR will resume updating the pull time if the specified principal pulls an image.
  */
-export const deregisterPullTimeUpdateExclusion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterPullTimeUpdateExclusionRequest,
-    output: DeregisterPullTimeUpdateExclusionResponse,
-    errors: [
-      ExclusionNotFoundException,
-      InvalidParameterException,
-      LimitExceededException,
-      ServerException,
-      ValidationException,
-    ],
-  }));
+export const deregisterPullTimeUpdateExclusion: (
+  input: DeregisterPullTimeUpdateExclusionRequest,
+) => Effect.Effect<
+  DeregisterPullTimeUpdateExclusionResponse,
+  | ExclusionNotFoundException
+  | InvalidParameterException
+  | LimitExceededException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterPullTimeUpdateExclusionRequest,
+  output: DeregisterPullTimeUpdateExclusionResponse,
+  errors: [
+    ExclusionNotFoundException,
+    InvalidParameterException,
+    LimitExceededException,
+    ServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the replication status for a specified image.
  */
-export const describeImageReplicationStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeImageReplicationStatusRequest,
-    output: DescribeImageReplicationStatusResponse,
-    errors: [
-      ImageNotFoundException,
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-  }));
+export const describeImageReplicationStatus: (
+  input: DescribeImageReplicationStatusRequest,
+) => Effect.Effect<
+  DescribeImageReplicationStatusResponse,
+  | ImageNotFoundException
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeImageReplicationStatusRequest,
+  output: DescribeImageReplicationStatusResponse,
+  errors: [
+    ImageNotFoundException,
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the signing status for a specified image. If the image matched
  * signing rules that reference different signing profiles, a status is returned
@@ -4881,77 +5350,145 @@ export const describeImageReplicationStatus =
  * For more information, see Managed signing in the
  * *Amazon Elastic Container Registry User Guide*.
  */
-export const describeImageSigningStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeImageSigningStatusRequest,
-    output: DescribeImageSigningStatusResponse,
-    errors: [
-      ImageNotFoundException,
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeImageSigningStatus: (
+  input: DescribeImageSigningStatusRequest,
+) => Effect.Effect<
+  DescribeImageSigningStatusResponse,
+  | ImageNotFoundException
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeImageSigningStatusRequest,
+  output: DescribeImageSigningStatusResponse,
+  errors: [
+    ImageNotFoundException,
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Validates an existing pull through cache rule for an upstream registry that requires
  * authentication. This will retrieve the contents of the Amazon Web Services Secrets Manager secret, verify the
  * syntax, and then validate that authentication to the upstream registry is
  * successful.
  */
-export const validatePullThroughCacheRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ValidatePullThroughCacheRuleRequest,
-    output: ValidatePullThroughCacheRuleResponse,
-    errors: [
-      InvalidParameterException,
-      PullThroughCacheRuleNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-  }));
+export const validatePullThroughCacheRule: (
+  input: ValidatePullThroughCacheRuleRequest,
+) => Effect.Effect<
+  ValidatePullThroughCacheRuleResponse,
+  | InvalidParameterException
+  | PullThroughCacheRuleNotFoundException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ValidatePullThroughCacheRuleRequest,
+  output: ValidatePullThroughCacheRuleResponse,
+  errors: [
+    InvalidParameterException,
+    PullThroughCacheRuleNotFoundException,
+    ServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a pull through cache rule.
  */
-export const deletePullThroughCacheRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePullThroughCacheRuleRequest,
-    output: DeletePullThroughCacheRuleResponse,
-    errors: [
-      InvalidParameterException,
-      PullThroughCacheRuleNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-  }),
-);
+export const deletePullThroughCacheRule: (
+  input: DeletePullThroughCacheRuleRequest,
+) => Effect.Effect<
+  DeletePullThroughCacheRuleResponse,
+  | InvalidParameterException
+  | PullThroughCacheRuleNotFoundException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePullThroughCacheRuleRequest,
+  output: DeletePullThroughCacheRuleResponse,
+  errors: [
+    InvalidParameterException,
+    PullThroughCacheRuleNotFoundException,
+    ServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the pull through cache rules for a registry.
  */
-export const describePullThroughCacheRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describePullThroughCacheRules: {
+  (
     input: DescribePullThroughCacheRulesRequest,
-    output: DescribePullThroughCacheRulesResponse,
-    errors: [
-      InvalidParameterException,
-      PullThroughCacheRuleNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "pullThroughCacheRules",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribePullThroughCacheRulesResponse,
+    | InvalidParameterException
+    | PullThroughCacheRuleNotFoundException
+    | ServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribePullThroughCacheRulesRequest,
+  ) => Stream.Stream<
+    DescribePullThroughCacheRulesResponse,
+    | InvalidParameterException
+    | PullThroughCacheRuleNotFoundException
+    | ServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribePullThroughCacheRulesRequest,
+  ) => Stream.Stream<
+    PullThroughCacheRule,
+    | InvalidParameterException
+    | PullThroughCacheRuleNotFoundException
+    | ServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribePullThroughCacheRulesRequest,
+  output: DescribePullThroughCacheRulesResponse,
+  errors: [
+    InvalidParameterException,
+    PullThroughCacheRuleNotFoundException,
+    ServerException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "pullThroughCacheRules",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Describes the settings for a registry. The replication configuration for a repository
  * can be created or updated with the PutReplicationConfiguration API
  * action.
  */
-export const describeRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeRegistry: (
+  input: DescribeRegistryRequest,
+) => Effect.Effect<
+  DescribeRegistryResponse,
+  | InvalidParameterException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRegistryRequest,
   output: DescribeRegistryResponse,
   errors: [InvalidParameterException, ServerException, ValidationException],
@@ -4960,26 +5497,47 @@ export const describeRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Starts a preview of a lifecycle policy for the specified repository. This allows you
  * to see the results before associating the lifecycle policy with the repository.
  */
-export const startLifecyclePolicyPreview = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartLifecyclePolicyPreviewRequest,
-    output: StartLifecyclePolicyPreviewResponse,
-    errors: [
-      InvalidParameterException,
-      LifecyclePolicyNotFoundException,
-      LifecyclePolicyPreviewInProgressException,
-      RepositoryNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-  }),
-);
+export const startLifecyclePolicyPreview: (
+  input: StartLifecyclePolicyPreviewRequest,
+) => Effect.Effect<
+  StartLifecyclePolicyPreviewResponse,
+  | InvalidParameterException
+  | LifecyclePolicyNotFoundException
+  | LifecyclePolicyPreviewInProgressException
+  | RepositoryNotFoundException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartLifecyclePolicyPreviewRequest,
+  output: StartLifecyclePolicyPreviewResponse,
+  errors: [
+    InvalidParameterException,
+    LifecyclePolicyNotFoundException,
+    LifecyclePolicyPreviewInProgressException,
+    RepositoryNotFoundException,
+    ServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a repository. If the repository isn't empty, you must either delete the
  * contents of the repository or use the `force` option to delete the repository
  * and have Amazon ECR delete all of its contents on your behalf.
  */
-export const deleteRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRepository: (
+  input: DeleteRepositoryRequest,
+) => Effect.Effect<
+  DeleteRepositoryResponse,
+  | InvalidParameterException
+  | KmsException
+  | RepositoryNotEmptyException
+  | RepositoryNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRepositoryRequest,
   output: DeleteRepositoryResponse,
   errors: [
@@ -4997,7 +5555,18 @@ export const deleteRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * When an image is pulled, the BatchGetImage API is called once to retrieve the image
  * manifest.
  */
-export const batchGetImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetImage: (
+  input: BatchGetImageRequest,
+) => Effect.Effect<
+  BatchGetImageResponse,
+  | InvalidParameterException
+  | LimitExceededException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnableToGetUpstreamImageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetImageRequest,
   output: BatchGetImageResponse,
   errors: [
@@ -5015,18 +5584,28 @@ export const batchGetImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * repository creation templates in the
  * *Amazon Elastic Container Registry User Guide*.
  */
-export const createRepositoryCreationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRepositoryCreationTemplateRequest,
-    output: CreateRepositoryCreationTemplateResponse,
-    errors: [
-      InvalidParameterException,
-      LimitExceededException,
-      ServerException,
-      TemplateAlreadyExistsException,
-      ValidationException,
-    ],
-  }));
+export const createRepositoryCreationTemplate: (
+  input: CreateRepositoryCreationTemplateRequest,
+) => Effect.Effect<
+  CreateRepositoryCreationTemplateResponse,
+  | InvalidParameterException
+  | LimitExceededException
+  | ServerException
+  | TemplateAlreadyExistsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRepositoryCreationTemplateRequest,
+  output: CreateRepositoryCreationTemplateResponse,
+  errors: [
+    InvalidParameterException,
+    LimitExceededException,
+    ServerException,
+    TemplateAlreadyExistsException,
+    ValidationException,
+  ],
+}));
 /**
  * Starts a basic image vulnerability scan.
  *
@@ -5035,7 +5614,21 @@ export const createRepositoryCreationTemplate =
  * basic scans per 24 hours. This limit includes both scans on initial push and scans
  * initiated by the StartImageScan API. For more information, see Basic scanning in the *Amazon Elastic Container Registry User Guide*.
  */
-export const startImageScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startImageScan: (
+  input: StartImageScanRequest,
+) => Effect.Effect<
+  StartImageScanResponse,
+  | ImageArchivedException
+  | ImageNotFoundException
+  | InvalidParameterException
+  | LimitExceededException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedImageTypeException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImageScanRequest,
   output: StartImageScanResponse,
   errors: [
@@ -5053,7 +5646,20 @@ export const startImageScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a repository. For more information, see Amazon ECR repositories in the
  * *Amazon Elastic Container Registry User Guide*.
  */
-export const createRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRepository: (
+  input: CreateRepositoryRequest,
+) => Effect.Effect<
+  CreateRepositoryResponse,
+  | InvalidParameterException
+  | InvalidTagParameterException
+  | KmsException
+  | LimitExceededException
+  | RepositoryAlreadyExistsException
+  | ServerException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRepositoryRequest,
   output: CreateRepositoryResponse,
   errors: [
@@ -5069,7 +5675,18 @@ export const createRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes specified tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InvalidParameterException
+  | InvalidTagParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -5083,17 +5700,26 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a repository creation template.
  */
-export const deleteRepositoryCreationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRepositoryCreationTemplateRequest,
-    output: DeleteRepositoryCreationTemplateResponse,
-    errors: [
-      InvalidParameterException,
-      ServerException,
-      TemplateNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const deleteRepositoryCreationTemplate: (
+  input: DeleteRepositoryCreationTemplateRequest,
+) => Effect.Effect<
+  DeleteRepositoryCreationTemplateResponse,
+  | InvalidParameterException
+  | ServerException
+  | TemplateNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRepositoryCreationTemplateRequest,
+  output: DeleteRepositoryCreationTemplateResponse,
+  errors: [
+    InvalidParameterException,
+    ServerException,
+    TemplateNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the registry's signing configuration. Images pushed after deletion of the signing
  * configuration will no longer be automatically signed.
@@ -5103,17 +5729,24 @@ export const deleteRepositoryCreationTemplate =
  *
  * Deleting the signing configuration does not affect existing image signatures.
  */
-export const deleteSigningConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSigningConfigurationRequest,
-    output: DeleteSigningConfigurationResponse,
-    errors: [
-      ServerException,
-      SigningConfigurationNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteSigningConfiguration: (
+  input: DeleteSigningConfigurationRequest,
+) => Effect.Effect<
+  DeleteSigningConfigurationResponse,
+  | ServerException
+  | SigningConfigurationNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSigningConfigurationRequest,
+  output: DeleteSigningConfigurationResponse,
+  errors: [
+    ServerException,
+    SigningConfigurationNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns metadata about the images in a repository.
  *
@@ -5128,24 +5761,56 @@ export const deleteSigningConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * instead. For more information about Amazon Web Services native basic scanning, see Scan
  * images for software vulnerabilities in Amazon ECR.
  */
-export const describeImages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeImages: {
+  (
     input: DescribeImagesRequest,
-    output: DescribeImagesResponse,
-    errors: [
-      ImageNotFoundException,
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ServerException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "imageDetails",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeImagesResponse,
+    | ImageNotFoundException
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeImagesRequest,
+  ) => Stream.Stream<
+    DescribeImagesResponse,
+    | ImageNotFoundException
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeImagesRequest,
+  ) => Stream.Stream<
+    ImageDetail,
+    | ImageNotFoundException
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ServerException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeImagesRequest,
+  output: DescribeImagesResponse,
+  errors: [
+    ImageNotFoundException,
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ServerException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "imageDetails",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer. You can
  * only get URLs for image layers that are referenced in an image.
@@ -5156,24 +5821,44 @@ export const describeImages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * This operation is used by the Amazon ECR proxy and is not generally used by
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const getDownloadUrlForLayer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDownloadUrlForLayerRequest,
-    output: GetDownloadUrlForLayerResponse,
-    errors: [
-      InvalidParameterException,
-      LayerInaccessibleException,
-      LayersNotFoundException,
-      RepositoryNotFoundException,
-      ServerException,
-      UnableToGetUpstreamLayerException,
-    ],
-  }),
-);
+export const getDownloadUrlForLayer: (
+  input: GetDownloadUrlForLayerRequest,
+) => Effect.Effect<
+  GetDownloadUrlForLayerResponse,
+  | InvalidParameterException
+  | LayerInaccessibleException
+  | LayersNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnableToGetUpstreamLayerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDownloadUrlForLayerRequest,
+  output: GetDownloadUrlForLayerResponse,
+  errors: [
+    InvalidParameterException,
+    LayerInaccessibleException,
+    LayersNotFoundException,
+    RepositoryNotFoundException,
+    ServerException,
+    UnableToGetUpstreamLayerException,
+  ],
+}));
 /**
  * Lists the artifacts associated with a specified subject image.
  */
-export const listImageReferrers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listImageReferrers: (
+  input: ListImageReferrersRequest,
+) => Effect.Effect<
+  ListImageReferrersResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListImageReferrersRequest,
   output: ListImageReferrersResponse,
   errors: [
@@ -5186,17 +5871,26 @@ export const listImageReferrers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates or updates the scanning configuration for your private registry.
  */
-export const putRegistryScanningConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutRegistryScanningConfigurationRequest,
-    output: PutRegistryScanningConfigurationResponse,
-    errors: [
-      BlockedByOrganizationPolicyException,
-      InvalidParameterException,
-      ServerException,
-      ValidationException,
-    ],
-  }));
+export const putRegistryScanningConfiguration: (
+  input: PutRegistryScanningConfigurationRequest,
+) => Effect.Effect<
+  PutRegistryScanningConfigurationResponse,
+  | BlockedByOrganizationPolicyException
+  | InvalidParameterException
+  | ServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRegistryScanningConfigurationRequest,
+  output: PutRegistryScanningConfigurationResponse,
+  errors: [
+    BlockedByOrganizationPolicyException,
+    InvalidParameterException,
+    ServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Informs Amazon ECR that the image layer upload has completed for a specified registry,
  * repository name, and upload ID. You can optionally provide a `sha256` digest
@@ -5208,7 +5902,22 @@ export const putRegistryScanningConfiguration =
  * This operation is used by the Amazon ECR proxy and is not generally used by
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const completeLayerUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const completeLayerUpload: (
+  input: CompleteLayerUploadRequest,
+) => Effect.Effect<
+  CompleteLayerUploadResponse,
+  | EmptyUploadException
+  | InvalidLayerException
+  | InvalidParameterException
+  | KmsException
+  | LayerAlreadyExistsException
+  | LayerPartTooSmallException
+  | RepositoryNotFoundException
+  | ServerException
+  | UploadNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteLayerUploadRequest,
   output: CompleteLayerUploadResponse,
   errors: [
@@ -5227,24 +5936,60 @@ export const completeLayerUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves the results of the lifecycle policy preview request for the specified
  * repository.
  */
-export const getLifecyclePolicyPreview =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getLifecyclePolicyPreview: {
+  (
     input: GetLifecyclePolicyPreviewRequest,
-    output: GetLifecyclePolicyPreviewResponse,
-    errors: [
-      InvalidParameterException,
-      LifecyclePolicyPreviewNotFoundException,
-      RepositoryNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "previewResults",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetLifecyclePolicyPreviewResponse,
+    | InvalidParameterException
+    | LifecyclePolicyPreviewNotFoundException
+    | RepositoryNotFoundException
+    | ServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetLifecyclePolicyPreviewRequest,
+  ) => Stream.Stream<
+    GetLifecyclePolicyPreviewResponse,
+    | InvalidParameterException
+    | LifecyclePolicyPreviewNotFoundException
+    | RepositoryNotFoundException
+    | ServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetLifecyclePolicyPreviewRequest,
+  ) => Stream.Stream<
+    LifecyclePolicyPreviewResult,
+    | InvalidParameterException
+    | LifecyclePolicyPreviewNotFoundException
+    | RepositoryNotFoundException
+    | ServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetLifecyclePolicyPreviewRequest,
+  output: GetLifecyclePolicyPreviewResponse,
+  errors: [
+    InvalidParameterException,
+    LifecyclePolicyPreviewNotFoundException,
+    RepositoryNotFoundException,
+    ServerException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "previewResults",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates or updates the image manifest and tags associated with an image.
  *
@@ -5255,7 +6000,23 @@ export const getLifecyclePolicyPreview =
  * This operation is used by the Amazon ECR proxy and is not generally used by
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const putImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putImage: (
+  input: PutImageRequest,
+) => Effect.Effect<
+  PutImageResponse,
+  | ImageAlreadyExistsException
+  | ImageDigestDoesNotMatchException
+  | ImageTagAlreadyExistsException
+  | InvalidParameterException
+  | KmsException
+  | LayersNotFoundException
+  | LimitExceededException
+  | ReferencedImagesNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutImageRequest,
   output: PutImageResponse,
   errors: [
@@ -5274,62 +6035,125 @@ export const putImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing pull through cache rule.
  */
-export const updatePullThroughCacheRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePullThroughCacheRuleRequest,
-    output: UpdatePullThroughCacheRuleResponse,
-    errors: [
-      InvalidParameterException,
-      PullThroughCacheRuleNotFoundException,
-      SecretNotFoundException,
-      ServerException,
-      UnableToAccessSecretException,
-      UnableToDecryptSecretValueException,
-      ValidationException,
-    ],
-  }),
-);
+export const updatePullThroughCacheRule: (
+  input: UpdatePullThroughCacheRuleRequest,
+) => Effect.Effect<
+  UpdatePullThroughCacheRuleResponse,
+  | InvalidParameterException
+  | PullThroughCacheRuleNotFoundException
+  | SecretNotFoundException
+  | ServerException
+  | UnableToAccessSecretException
+  | UnableToDecryptSecretValueException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePullThroughCacheRuleRequest,
+  output: UpdatePullThroughCacheRuleResponse,
+  errors: [
+    InvalidParameterException,
+    PullThroughCacheRuleNotFoundException,
+    SecretNotFoundException,
+    ServerException,
+    UnableToAccessSecretException,
+    UnableToDecryptSecretValueException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a pull through cache rule. A pull through cache rule provides a way to cache
  * images from an upstream registry source in your Amazon ECR private registry. For more
  * information, see Using pull through cache
  * rules in the *Amazon Elastic Container Registry User Guide*.
  */
-export const createPullThroughCacheRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePullThroughCacheRuleRequest,
-    output: CreatePullThroughCacheRuleResponse,
-    errors: [
-      InvalidParameterException,
-      LimitExceededException,
-      PullThroughCacheRuleAlreadyExistsException,
-      SecretNotFoundException,
-      ServerException,
-      UnableToAccessSecretException,
-      UnableToDecryptSecretValueException,
-      UnsupportedUpstreamRegistryException,
-      ValidationException,
-    ],
-  }),
-);
+export const createPullThroughCacheRule: (
+  input: CreatePullThroughCacheRuleRequest,
+) => Effect.Effect<
+  CreatePullThroughCacheRuleResponse,
+  | InvalidParameterException
+  | LimitExceededException
+  | PullThroughCacheRuleAlreadyExistsException
+  | SecretNotFoundException
+  | ServerException
+  | UnableToAccessSecretException
+  | UnableToDecryptSecretValueException
+  | UnsupportedUpstreamRegistryException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePullThroughCacheRuleRequest,
+  output: CreatePullThroughCacheRuleResponse,
+  errors: [
+    InvalidParameterException,
+    LimitExceededException,
+    PullThroughCacheRuleAlreadyExistsException,
+    SecretNotFoundException,
+    ServerException,
+    UnableToAccessSecretException,
+    UnableToDecryptSecretValueException,
+    UnsupportedUpstreamRegistryException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the scan findings for the specified image.
  */
-export const describeImageScanFindings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeImageScanFindings: {
+  (
     input: DescribeImageScanFindingsRequest,
-    output: DescribeImageScanFindingsResponse,
-    errors: [
-      ImageNotFoundException,
-      InvalidParameterException,
-      RepositoryNotFoundException,
-      ScanNotFoundException,
-      ServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeImageScanFindingsResponse,
+    | ImageNotFoundException
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ScanNotFoundException
+    | ServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeImageScanFindingsRequest,
+  ) => Stream.Stream<
+    DescribeImageScanFindingsResponse,
+    | ImageNotFoundException
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ScanNotFoundException
+    | ServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeImageScanFindingsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | ImageNotFoundException
+    | InvalidParameterException
+    | RepositoryNotFoundException
+    | ScanNotFoundException
+    | ServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeImageScanFindingsRequest,
+  output: DescribeImageScanFindingsResponse,
+  errors: [
+    ImageNotFoundException,
+    InvalidParameterException,
+    RepositoryNotFoundException,
+    ScanNotFoundException,
+    ServerException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));

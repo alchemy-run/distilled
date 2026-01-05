@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://cognito-sync.amazonaws.com/doc/2014-06-30/");
 const svc = T.AwsApiService({
   sdkId: "Cognito Sync",
@@ -241,6 +249,26 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type IdentityPoolId = string;
+export type IdentityId = string;
+export type DatasetName = string;
+export type IntegerString = number;
+export type Long = number;
+export type SyncSessionToken = string;
+export type PushToken = string;
+export type DeviceId = string;
+export type ClientContext = string;
+export type CognitoEventType = string;
+export type LambdaFunctionArn = string;
+export type ApplicationArn = string;
+export type AssumeRoleArn = string;
+export type StreamName = string;
+export type RecordKey = string;
+export type RecordValue = string;
+export type Integer = number;
+export type ExceptionMessage = string;
 
 //# Schemas
 export interface BulkPublishRequest {
@@ -1024,7 +1052,9 @@ export class InternalErrorException extends S.TaggedError<InternalErrorException
   "InternalErrorException",
   { message: S.String },
   T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class AlreadyStreamedException extends S.TaggedError<AlreadyStreamedException>()(
   "AlreadyStreamedException",
   { message: S.String },
@@ -1067,7 +1097,9 @@ export class LambdaThrottledException extends S.TaggedError<LambdaThrottledExcep
   "LambdaThrottledException",
   { message: S.String },
   T.AwsQueryError({ code: "LambdaThrottled", httpResponseCode: 429 }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -1077,7 +1109,9 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
   "TooManyRequestsException",
   { message: S.String },
   T.AwsQueryError({ code: "TooManyRequests", httpResponseCode: 429 }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceConflictException extends S.TaggedError<ResourceConflictException>()(
   "ResourceConflictException",
   { message: S.String },
@@ -1147,7 +1181,17 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
  * "Version": "1.0"
  * }
  */
-export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listDatasets: (
+  input: ListDatasetsRequest,
+) => Effect.Effect<
+  ListDatasetsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDatasetsRequest,
   output: ListDatasetsResponse,
   errors: [
@@ -1165,7 +1209,19 @@ export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
  */
-export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataset: (
+  input: DeleteDatasetRequest,
+) => Effect.Effect<
+  DeleteDatasetResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetRequest,
   output: DeleteDatasetResponse,
   errors: [
@@ -1221,20 +1277,30 @@ export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * "Version": "1.0"
  * }
  */
-export const unsubscribeFromDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UnsubscribeFromDatasetRequest,
-    output: UnsubscribeFromDatasetResponse,
-    errors: [
-      InternalErrorException,
-      InvalidConfigurationException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const unsubscribeFromDataset: (
+  input: UnsubscribeFromDatasetRequest,
+) => Effect.Effect<
+  UnsubscribeFromDatasetResponse,
+  | InternalErrorException
+  | InvalidConfigurationException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UnsubscribeFromDatasetRequest,
+  output: UnsubscribeFromDatasetResponse,
+  errors: [
+    InternalErrorException,
+    InvalidConfigurationException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Registers a device to receive push sync notifications.
  *
@@ -1279,7 +1345,19 @@ export const unsubscribeFromDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * "Version": "1.0"
  * }
  */
-export const registerDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerDevice: (
+  input: RegisterDeviceRequest,
+) => Effect.Effect<
+  RegisterDeviceResponse,
+  | InternalErrorException
+  | InvalidConfigurationException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterDeviceRequest,
   output: RegisterDeviceResponse,
   errors: [
@@ -1296,24 +1374,43 @@ export const registerDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
-export const getBulkPublishDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBulkPublishDetailsRequest,
-    output: GetBulkPublishDetailsResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getBulkPublishDetails: (
+  input: GetBulkPublishDetailsRequest,
+) => Effect.Effect<
+  GetBulkPublishDetailsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBulkPublishDetailsRequest,
+  output: GetBulkPublishDetailsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Gets the events and the corresponding Lambda functions associated with an identity pool.
  *
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
-export const getCognitoEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCognitoEvents: (
+  input: GetCognitoEventsRequest,
+) => Effect.Effect<
+  GetCognitoEventsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCognitoEventsRequest,
   output: GetCognitoEventsResponse,
   errors: [
@@ -1369,24 +1466,45 @@ export const getCognitoEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * "Version": "1.0"
  * }
  */
-export const getIdentityPoolConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetIdentityPoolConfigurationRequest,
-    output: GetIdentityPoolConfigurationResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getIdentityPoolConfiguration: (
+  input: GetIdentityPoolConfigurationRequest,
+) => Effect.Effect<
+  GetIdentityPoolConfigurationResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdentityPoolConfigurationRequest,
+  output: GetIdentityPoolConfigurationResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Sets the AWS Lambda function for a given event type for an identity pool. This request only updates the key/value pair specified. Other key/values pairs are not updated. To remove a key value pair, pass a empty value for the particular key.
  *
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
-export const setCognitoEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setCognitoEvents: (
+  input: SetCognitoEventsRequest,
+) => Effect.Effect<
+  SetCognitoEventsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetCognitoEventsRequest,
   output: SetCognitoEventsResponse,
   errors: [
@@ -1443,19 +1561,28 @@ export const setCognitoEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * "Version": "1.0"
  * }
  */
-export const describeIdentityPoolUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeIdentityPoolUsageRequest,
-    output: DescribeIdentityPoolUsageResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeIdentityPoolUsage: (
+  input: DescribeIdentityPoolUsageRequest,
+) => Effect.Effect<
+  DescribeIdentityPoolUsageResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIdentityPoolUsageRequest,
+  output: DescribeIdentityPoolUsageResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets usage information for an identity, including number of datasets and data usage.
  *
@@ -1504,19 +1631,28 @@ export const describeIdentityPoolUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * "Version": "1.0"
  * }
  */
-export const describeIdentityUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeIdentityUsageRequest,
-    output: DescribeIdentityUsageResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeIdentityUsage: (
+  input: DescribeIdentityUsageRequest,
+) => Effect.Effect<
+  DescribeIdentityUsageResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIdentityUsageRequest,
+  output: DescribeIdentityUsageResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Subscribes to receive notifications when a dataset is modified by another device.
  *
@@ -1560,7 +1696,19 @@ export const describeIdentityUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * "Version": "1.0"
  * }
  */
-export const subscribeToDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const subscribeToDataset: (
+  input: SubscribeToDatasetRequest,
+) => Effect.Effect<
+  SubscribeToDatasetResponse,
+  | InternalErrorException
+  | InvalidConfigurationException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubscribeToDatasetRequest,
   output: SubscribeToDatasetResponse,
   errors: [
@@ -1577,7 +1725,19 @@ export const subscribeToDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
-export const bulkPublish = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const bulkPublish: (
+  input: BulkPublishRequest,
+) => Effect.Effect<
+  BulkPublishResponse,
+  | AlreadyStreamedException
+  | DuplicateRequestException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkPublishRequest,
   output: BulkPublishResponse,
   errors: [
@@ -1639,19 +1799,30 @@ export const bulkPublish = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * "Version": "1.0"
  * }
  */
-export const setIdentityPoolConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetIdentityPoolConfigurationRequest,
-    output: SetIdentityPoolConfigurationResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const setIdentityPoolConfiguration: (
+  input: SetIdentityPoolConfigurationRequest,
+) => Effect.Effect<
+  SetIdentityPoolConfigurationResponse,
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetIdentityPoolConfigurationRequest,
+  output: SetIdentityPoolConfigurationResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets a list of identity pools registered with Cognito.
  *
@@ -1709,18 +1880,26 @@ export const setIdentityPoolConfiguration =
  * "Version": "1.0"
  * }
  */
-export const listIdentityPoolUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListIdentityPoolUsageRequest,
-    output: ListIdentityPoolUsageResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const listIdentityPoolUsage: (
+  input: ListIdentityPoolUsageRequest,
+) => Effect.Effect<
+  ListIdentityPoolUsageResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIdentityPoolUsageRequest,
+  output: ListIdentityPoolUsageResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets paginated records, optionally changed after a particular sync count for a dataset and
  * identity. With Amazon Cognito Sync, each identity has access only to its own data. Thus,
@@ -1775,7 +1954,17 @@ export const listIdentityPoolUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * "Version": "1.0"
  * }
  */
-export const listRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listRecords: (
+  input: ListRecordsRequest,
+) => Effect.Effect<
+  ListRecordsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRecordsRequest,
   output: ListRecordsResponse,
   errors: [
@@ -1792,7 +1981,18 @@ export const listRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call.
  */
-export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDataset: (
+  input: DescribeDatasetRequest,
+) => Effect.Effect<
+  DescribeDatasetResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetRequest,
   output: DescribeDatasetResponse,
   errors: [
@@ -1812,7 +2012,22 @@ export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
  */
-export const updateRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRecords: (
+  input: UpdateRecordsRequest,
+) => Effect.Effect<
+  UpdateRecordsResponse,
+  | InternalErrorException
+  | InvalidLambdaFunctionOutputException
+  | InvalidParameterException
+  | LambdaThrottledException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRecordsRequest,
   output: UpdateRecordsResponse,
   errors: [

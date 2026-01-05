@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Jobs Data Plane",
   serviceShapeName: "IotLaserThingJobManagerExternalService",
@@ -240,6 +248,35 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type DescribeJobExecutionJobId = string;
+export type ThingName = string;
+export type ExecutionNumber = number;
+export type TargetArn = string;
+export type CommandArn = string;
+export type CommandExecutionTimeoutInSeconds = number;
+export type ClientRequestTokenV2 = string;
+export type StepTimeoutInMinutes = number;
+export type JobId = string;
+export type ExpectedVersion = number;
+export type CommandParameterName = string;
+export type DetailsKey = string;
+export type DetailsValue = string;
+export type JobDocument = string;
+export type StringParameterValue = string;
+export type IntegerParameterValue = number;
+export type LongParameterValue = number;
+export type DoubleParameterValue = number;
+export type UnsignedLongParameterValue = string;
+export type QueuedAt = number;
+export type StartedAt = number;
+export type LastUpdatedAt = number;
+export type ApproximateSecondsBeforeTimedOut = number;
+export type VersionNumber = number;
+export type errorMessage = string;
+export type CommandExecutionId = string;
+export type resourceId = string;
 
 //# Schemas
 export interface DescribeJobExecutionRequest {
@@ -535,7 +572,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidStateTransitionException extends S.TaggedError<InvalidStateTransitionException>()(
   "InvalidStateTransitionException",
   { message: S.optional(S.String) },
@@ -543,7 +582,9 @@ export class InvalidStateTransitionException extends S.TaggedError<InvalidStateT
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
@@ -555,7 +596,9 @@ export class TerminalStateException extends S.TaggedError<TerminalStateException
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String), payload: S.optional(T.Blob) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },
@@ -567,7 +610,19 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  *
  * Requires permission to access the UpdateJobExecution action.
  */
-export const updateJobExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateJobExecution: (
+  input: UpdateJobExecutionRequest,
+) => Effect.Effect<
+  UpdateJobExecutionResponse,
+  | CertificateValidationException
+  | InvalidRequestException
+  | InvalidStateTransitionException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobExecutionRequest,
   output: UpdateJobExecutionResponse,
   errors: [
@@ -584,71 +639,110 @@ export const updateJobExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetPendingJobExecutions action.
  */
-export const getPendingJobExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPendingJobExecutionsRequest,
-    output: GetPendingJobExecutionsResponse,
-    errors: [
-      CertificateValidationException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getPendingJobExecutions: (
+  input: GetPendingJobExecutionsRequest,
+) => Effect.Effect<
+  GetPendingJobExecutionsResponse,
+  | CertificateValidationException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPendingJobExecutionsRequest,
+  output: GetPendingJobExecutionsResponse,
+  errors: [
+    CertificateValidationException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a
  * thing.
  *
  * Requires permission to access the StartNextPendingJobExecution action.
  */
-export const startNextPendingJobExecution =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartNextPendingJobExecutionRequest,
-    output: StartNextPendingJobExecutionResponse,
-    errors: [
-      CertificateValidationException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const startNextPendingJobExecution: (
+  input: StartNextPendingJobExecutionRequest,
+) => Effect.Effect<
+  StartNextPendingJobExecutionResponse,
+  | CertificateValidationException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartNextPendingJobExecutionRequest,
+  output: StartNextPendingJobExecutionResponse,
+  errors: [
+    CertificateValidationException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets details of a job execution.
  *
  * Requires permission to access the DescribeJobExecution action.
  */
-export const describeJobExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeJobExecutionRequest,
-    output: DescribeJobExecutionResponse,
-    errors: [
-      CertificateValidationException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      TerminalStateException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeJobExecution: (
+  input: DescribeJobExecutionRequest,
+) => Effect.Effect<
+  DescribeJobExecutionResponse,
+  | CertificateValidationException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | TerminalStateException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeJobExecutionRequest,
+  output: DescribeJobExecutionResponse,
+  errors: [
+    CertificateValidationException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    TerminalStateException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Using the command created with the `CreateCommand` API, start a command
  * execution on a specific device.
  */
-export const startCommandExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartCommandExecutionRequest,
-    output: StartCommandExecutionResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startCommandExecution: (
+  input: StartCommandExecutionRequest,
+) => Effect.Effect<
+  StartCommandExecutionResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCommandExecutionRequest,
+  output: StartCommandExecutionResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://swf.amazonaws.com/doc/2012-01-25");
 const svc = T.AwsApiService({
   sdkId: "SWF",
@@ -324,6 +332,44 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type DomainName = string;
+export type PageToken = string;
+export type PageSize = number;
+export type Name = string;
+export type Arn = string;
+export type Identity = string;
+export type TaskToken = string;
+export type LimitedData = string;
+export type Version = string;
+export type Description = string;
+export type DurationInSecondsOptional = string;
+export type TaskPriority = string;
+export type DurationInDays = string;
+export type WorkflowId = string;
+export type WorkflowRunIdOptional = string;
+export type Data = string;
+export type FailureReason = string;
+export type SignalName = string;
+export type Tag = string;
+export type TerminateReason = string;
+export type ResourceTagKey = string;
+export type VersionOptional = string;
+export type WorkflowRunId = string;
+export type ResourceTagValue = string;
+export type Count = number;
+export type ErrorMessage = string;
+export type ActivityId = string;
+export type EventId = number;
+export type MarkerName = string;
+export type TimerId = string;
+export type DurationInSeconds = string;
+export type FunctionId = string;
+export type FunctionName = string;
+export type FunctionInput = string;
+export type CauseMessage = string;
+export type OpenDecisionTasksCount = number;
 
 //# Schemas
 export type TagList = string[];
@@ -3248,19 +3294,39 @@ export class WorkflowExecutionAlreadyStartedFault extends S.TaggedError<Workflow
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const listDomains = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDomains: {
+  (
     input: ListDomainsInput,
-    output: DomainInfos,
-    errors: [OperationNotPermittedFault],
-    pagination: {
-      inputToken: "nextPageToken",
-      outputToken: "nextPageToken",
-      items: "domainInfos",
-      pageSize: "maximumPageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DomainInfos,
+    OperationNotPermittedFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDomainsInput,
+  ) => Stream.Stream<
+    DomainInfos,
+    OperationNotPermittedFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDomainsInput,
+  ) => Stream.Stream<
+    DomainInfo,
+    OperationNotPermittedFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDomainsInput,
+  output: DomainInfos,
+  errors: [OperationNotPermittedFault],
+  pagination: {
+    inputToken: "nextPageToken",
+    outputToken: "nextPageToken",
+    items: "domainInfos",
+    pageSize: "maximumPageSize",
+  } as const,
+}));
 /**
  * Deprecates the specified domain. After a domain has been deprecated it cannot be used
  * to create new workflow executions or register new types. However, you can still use visibility
@@ -3290,7 +3356,16 @@ export const listDomains = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const deprecateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deprecateDomain: (
+  input: DeprecateDomainInput,
+) => Effect.Effect<
+  DeprecateDomainResponse,
+  | DomainDeprecatedFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeprecateDomainInput,
   output: DeprecateDomainResponse,
   errors: [
@@ -3330,13 +3405,17 @@ export const deprecateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const describeActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeActivityTypeInput,
-    output: ActivityTypeDetail,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }),
-);
+export const describeActivityType: (
+  input: DescribeActivityTypeInput,
+) => Effect.Effect<
+  ActivityTypeDetail,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeActivityTypeInput,
+  output: ActivityTypeDetail,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
 /**
  * Returns information about the specified domain, including description and
  * status.
@@ -3360,7 +3439,13 @@ export const describeActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDomain: (
+  input: DescribeDomainInput,
+) => Effect.Effect<
+  DomainDetail,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainInput,
   output: DomainDetail,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
@@ -3396,13 +3481,17 @@ export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const describeWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeWorkflowTypeInput,
-    output: WorkflowTypeDetail,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }),
-);
+export const describeWorkflowType: (
+  input: DescribeWorkflowTypeInput,
+) => Effect.Effect<
+  WorkflowTypeDetail,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeWorkflowTypeInput,
+  output: WorkflowTypeDetail,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
 /**
  * Returns a list of closed workflow executions in the specified domain that meet the
  * filtering criteria. The results may be split into multiple pages. To retrieve subsequent
@@ -3440,18 +3529,39 @@ export const describeWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const listClosedWorkflowExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listClosedWorkflowExecutions: {
+  (
     input: ListClosedWorkflowExecutionsInput,
-    output: WorkflowExecutionInfos,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-    pagination: {
-      inputToken: "nextPageToken",
-      outputToken: "nextPageToken",
-      items: "executionInfos",
-      pageSize: "maximumPageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    WorkflowExecutionInfos,
+    OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClosedWorkflowExecutionsInput,
+  ) => Stream.Stream<
+    WorkflowExecutionInfos,
+    OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClosedWorkflowExecutionsInput,
+  ) => Stream.Stream<
+    WorkflowExecutionInfo,
+    OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClosedWorkflowExecutionsInput,
+  output: WorkflowExecutionInfos,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+  pagination: {
+    inputToken: "nextPageToken",
+    outputToken: "nextPageToken",
+    items: "executionInfos",
+    pageSize: "maximumPageSize",
+  } as const,
+}));
 /**
  * Registers a new *activity type* along with its configuration
  * settings in the specified domain.
@@ -3488,18 +3598,26 @@ export const listClosedWorkflowExecutions =
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const registerActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterActivityTypeInput,
-    output: RegisterActivityTypeResponse,
-    errors: [
-      LimitExceededFault,
-      OperationNotPermittedFault,
-      TypeAlreadyExistsFault,
-      UnknownResourceFault,
-    ],
-  }),
-);
+export const registerActivityType: (
+  input: RegisterActivityTypeInput,
+) => Effect.Effect<
+  RegisterActivityTypeResponse,
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | TypeAlreadyExistsFault
+  | UnknownResourceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterActivityTypeInput,
+  output: RegisterActivityTypeResponse,
+  errors: [
+    LimitExceededFault,
+    OperationNotPermittedFault,
+    TypeAlreadyExistsFault,
+    UnknownResourceFault,
+  ],
+}));
 /**
  * Used by deciders to tell the service that the DecisionTask identified
  * by the `taskToken` has successfully completed. The `decisions` argument
@@ -3520,12 +3638,17 @@ export const registerActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * IAM to Manage Access to Amazon SWF Workflows in the
  * *Amazon SWF Developer Guide*.
  */
-export const respondDecisionTaskCompleted =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RespondDecisionTaskCompletedInput,
-    output: RespondDecisionTaskCompletedResponse,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }));
+export const respondDecisionTaskCompleted: (
+  input: RespondDecisionTaskCompletedInput,
+) => Effect.Effect<
+  RespondDecisionTaskCompletedResponse,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RespondDecisionTaskCompletedInput,
+  output: RespondDecisionTaskCompletedResponse,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
 /**
  * Deletes the specified *activity type*.
  *
@@ -3558,7 +3681,16 @@ export const respondDecisionTaskCompleted =
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const deleteActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteActivityType: (
+  input: DeleteActivityTypeInput,
+) => Effect.Effect<
+  DeleteActivityTypeResponse,
+  | OperationNotPermittedFault
+  | TypeNotDeprecatedFault
+  | UnknownResourceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteActivityTypeInput,
   output: DeleteActivityTypeResponse,
   errors: [
@@ -3602,17 +3734,24 @@ export const deleteActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const deprecateWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeprecateWorkflowTypeInput,
-    output: DeprecateWorkflowTypeResponse,
-    errors: [
-      OperationNotPermittedFault,
-      TypeDeprecatedFault,
-      UnknownResourceFault,
-    ],
-  }),
-);
+export const deprecateWorkflowType: (
+  input: DeprecateWorkflowTypeInput,
+) => Effect.Effect<
+  DeprecateWorkflowTypeResponse,
+  | OperationNotPermittedFault
+  | TypeDeprecatedFault
+  | UnknownResourceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeprecateWorkflowTypeInput,
+  output: DeprecateWorkflowTypeResponse,
+  errors: [
+    OperationNotPermittedFault,
+    TypeDeprecatedFault,
+    UnknownResourceFault,
+  ],
+}));
 /**
  * Returns information about all activities registered in the specified domain that match
  * the specified name and registration status. The result includes information like creation
@@ -3639,19 +3778,39 @@ export const deprecateWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const listActivityTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listActivityTypes: {
+  (
     input: ListActivityTypesInput,
-    output: ActivityTypeInfos,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-    pagination: {
-      inputToken: "nextPageToken",
-      outputToken: "nextPageToken",
-      items: "typeInfos",
-      pageSize: "maximumPageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ActivityTypeInfos,
+    OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListActivityTypesInput,
+  ) => Stream.Stream<
+    ActivityTypeInfos,
+    OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListActivityTypesInput,
+  ) => Stream.Stream<
+    ActivityTypeInfo,
+    OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListActivityTypesInput,
+  output: ActivityTypeInfos,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+  pagination: {
+    inputToken: "nextPageToken",
+    outputToken: "nextPageToken",
+    items: "typeInfos",
+    pageSize: "maximumPageSize",
+  } as const,
+}));
 /**
  * Returns information about workflow types in the specified domain. The results may be
  * split into multiple pages that can be retrieved by making the call repeatedly.
@@ -3675,19 +3834,39 @@ export const listActivityTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const listWorkflowTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkflowTypes: {
+  (
     input: ListWorkflowTypesInput,
-    output: WorkflowTypeInfos,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-    pagination: {
-      inputToken: "nextPageToken",
-      outputToken: "nextPageToken",
-      items: "typeInfos",
-      pageSize: "maximumPageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    WorkflowTypeInfos,
+    OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowTypesInput,
+  ) => Stream.Stream<
+    WorkflowTypeInfos,
+    OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowTypesInput,
+  ) => Stream.Stream<
+    WorkflowTypeInfo,
+    OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowTypesInput,
+  output: WorkflowTypeInfos,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+  pagination: {
+    inputToken: "nextPageToken",
+    outputToken: "nextPageToken",
+    items: "typeInfos",
+    pageSize: "maximumPageSize",
+  } as const,
+}));
 /**
  * Used by activity workers to report to the service that the ActivityTask represented by the specified `taskToken` is still making progress. The worker
  * can also specify details of the progress, for example percent complete, using the
@@ -3733,13 +3912,17 @@ export const listWorkflowTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const recordActivityTaskHeartbeat = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RecordActivityTaskHeartbeatInput,
-    output: ActivityTaskStatus,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }),
-);
+export const recordActivityTaskHeartbeat: (
+  input: RecordActivityTaskHeartbeatInput,
+) => Effect.Effect<
+  ActivityTaskStatus,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RecordActivityTaskHeartbeatInput,
+  output: ActivityTaskStatus,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
 /**
  * Undeprecates a previously deprecated domain. After a domain has been undeprecated it can be used
  * to create new workflow executions or register new types.
@@ -3766,7 +3949,16 @@ export const recordActivityTaskHeartbeat = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const undeprecateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const undeprecateDomain: (
+  input: UndeprecateDomainInput,
+) => Effect.Effect<
+  UndeprecateDomainResponse,
+  | DomainAlreadyExistsFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UndeprecateDomainInput,
   output: UndeprecateDomainResponse,
   errors: [
@@ -3812,18 +4004,39 @@ export const undeprecateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const listOpenWorkflowExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOpenWorkflowExecutions: {
+  (
     input: ListOpenWorkflowExecutionsInput,
-    output: WorkflowExecutionInfos,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-    pagination: {
-      inputToken: "nextPageToken",
-      outputToken: "nextPageToken",
-      items: "executionInfos",
-      pageSize: "maximumPageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    WorkflowExecutionInfos,
+    OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOpenWorkflowExecutionsInput,
+  ) => Stream.Stream<
+    WorkflowExecutionInfos,
+    OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOpenWorkflowExecutionsInput,
+  ) => Stream.Stream<
+    WorkflowExecutionInfo,
+    OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOpenWorkflowExecutionsInput,
+  output: WorkflowExecutionInfos,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+  pagination: {
+    inputToken: "nextPageToken",
+    outputToken: "nextPageToken",
+    items: "executionInfos",
+    pageSize: "maximumPageSize",
+  } as const,
+}));
 /**
  * Records a `WorkflowExecutionCancelRequested` event in the currently running
  * workflow execution identified by the given domain, workflowId, and runId. This logically
@@ -3857,12 +4070,17 @@ export const listOpenWorkflowExecutions =
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const requestCancelWorkflowExecution =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RequestCancelWorkflowExecutionInput,
-    output: RequestCancelWorkflowExecutionResponse,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }));
+export const requestCancelWorkflowExecution: (
+  input: RequestCancelWorkflowExecutionInput,
+) => Effect.Effect<
+  RequestCancelWorkflowExecutionResponse,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RequestCancelWorkflowExecutionInput,
+  output: RequestCancelWorkflowExecutionResponse,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
 /**
  * Used by workers to tell the service that the ActivityTask identified
  * by the `taskToken` was successfully canceled. Additional `details` can
@@ -3900,13 +4118,17 @@ export const requestCancelWorkflowExecution =
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const respondActivityTaskCanceled = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RespondActivityTaskCanceledInput,
-    output: RespondActivityTaskCanceledResponse,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }),
-);
+export const respondActivityTaskCanceled: (
+  input: RespondActivityTaskCanceledInput,
+) => Effect.Effect<
+  RespondActivityTaskCanceledResponse,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RespondActivityTaskCanceledInput,
+  output: RespondActivityTaskCanceledResponse,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
 /**
  * Used by workers to tell the service that the ActivityTask identified
  * by the `taskToken` completed successfully with a `result` (if provided).
@@ -3942,12 +4164,17 @@ export const respondActivityTaskCanceled = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const respondActivityTaskCompleted =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RespondActivityTaskCompletedInput,
-    output: RespondActivityTaskCompletedResponse,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }));
+export const respondActivityTaskCompleted: (
+  input: RespondActivityTaskCompletedInput,
+) => Effect.Effect<
+  RespondActivityTaskCompletedResponse,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RespondActivityTaskCompletedInput,
+  output: RespondActivityTaskCompletedResponse,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
 /**
  * Used by workers to tell the service that the ActivityTask identified
  * by the `taskToken` has failed with `reason` (if specified). The
@@ -3978,13 +4205,17 @@ export const respondActivityTaskCompleted =
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const respondActivityTaskFailed = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RespondActivityTaskFailedInput,
-    output: RespondActivityTaskFailedResponse,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }),
-);
+export const respondActivityTaskFailed: (
+  input: RespondActivityTaskFailedInput,
+) => Effect.Effect<
+  RespondActivityTaskFailedResponse,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RespondActivityTaskFailedInput,
+  output: RespondActivityTaskFailedResponse,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
 /**
  * Records a `WorkflowExecutionSignaled` event in the workflow execution
  * history and creates a decision task for the workflow execution identified by the given domain,
@@ -4017,13 +4248,17 @@ export const respondActivityTaskFailed = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const signalWorkflowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SignalWorkflowExecutionInput,
-    output: SignalWorkflowExecutionResponse,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }),
-);
+export const signalWorkflowExecution: (
+  input: SignalWorkflowExecutionInput,
+) => Effect.Effect<
+  SignalWorkflowExecutionResponse,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SignalWorkflowExecutionInput,
+  output: SignalWorkflowExecutionResponse,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
 /**
  * Records a `WorkflowExecutionTerminated` event and forces closure of the
  * workflow execution identified by the given domain, runId, and workflowId. The child policy,
@@ -4059,13 +4294,17 @@ export const signalWorkflowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const terminateWorkflowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TerminateWorkflowExecutionInput,
-    output: TerminateWorkflowExecutionResponse,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }),
-);
+export const terminateWorkflowExecution: (
+  input: TerminateWorkflowExecutionInput,
+) => Effect.Effect<
+  TerminateWorkflowExecutionResponse,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TerminateWorkflowExecutionInput,
+  output: TerminateWorkflowExecutionResponse,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
 /**
  * Returns the number of closed workflow executions within the given domain that meet the
  * specified filtering criteria.
@@ -4102,12 +4341,17 @@ export const terminateWorkflowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const countClosedWorkflowExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CountClosedWorkflowExecutionsInput,
-    output: WorkflowExecutionCount,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }));
+export const countClosedWorkflowExecutions: (
+  input: CountClosedWorkflowExecutionsInput,
+) => Effect.Effect<
+  WorkflowExecutionCount,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CountClosedWorkflowExecutionsInput,
+  output: WorkflowExecutionCount,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
 /**
  * Returns the number of open workflow executions within the given domain that meet the
  * specified filtering criteria.
@@ -4144,13 +4388,17 @@ export const countClosedWorkflowExecutions =
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const countOpenWorkflowExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CountOpenWorkflowExecutionsInput,
-    output: WorkflowExecutionCount,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }),
-);
+export const countOpenWorkflowExecutions: (
+  input: CountOpenWorkflowExecutionsInput,
+) => Effect.Effect<
+  WorkflowExecutionCount,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CountOpenWorkflowExecutionsInput,
+  output: WorkflowExecutionCount,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
 /**
  * Returns the estimated number of activity tasks in the specified task list. The count
  * returned is an approximation and isn't guaranteed to be exact. If you specify a task list that
@@ -4177,13 +4425,17 @@ export const countOpenWorkflowExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const countPendingActivityTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CountPendingActivityTasksInput,
-    output: PendingTaskCount,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }),
-);
+export const countPendingActivityTasks: (
+  input: CountPendingActivityTasksInput,
+) => Effect.Effect<
+  PendingTaskCount,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CountPendingActivityTasksInput,
+  output: PendingTaskCount,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
 /**
  * Returns the estimated number of decision tasks in the specified task list. The count
  * returned is an approximation and isn't guaranteed to be exact. If you specify a task list that
@@ -4210,17 +4462,30 @@ export const countPendingActivityTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const countPendingDecisionTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CountPendingDecisionTasksInput,
-    output: PendingTaskCount,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }),
-);
+export const countPendingDecisionTasks: (
+  input: CountPendingDecisionTasksInput,
+) => Effect.Effect<
+  PendingTaskCount,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CountPendingDecisionTasksInput,
+  output: PendingTaskCount,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
 /**
  * Remove a tag from a Amazon SWF domain.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceResponse,
   errors: [
@@ -4232,7 +4497,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List tags for a given domain.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -4274,7 +4548,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const pollForActivityTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const pollForActivityTask: (
+  input: PollForActivityTaskInput,
+) => Effect.Effect<
+  ActivityTask,
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PollForActivityTaskInput,
   output: ActivityTask,
   errors: [
@@ -4328,22 +4611,52 @@ export const pollForActivityTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const pollForDecisionTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const pollForDecisionTask: {
+  (
     input: PollForDecisionTaskInput,
-    output: DecisionTask,
-    errors: [
-      LimitExceededFault,
-      OperationNotPermittedFault,
-      UnknownResourceFault,
-    ],
-    pagination: {
-      inputToken: "nextPageToken",
-      outputToken: "nextPageToken",
-      items: "events",
-      pageSize: "maximumPageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DecisionTask,
+    | LimitExceededFault
+    | OperationNotPermittedFault
+    | UnknownResourceFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: PollForDecisionTaskInput,
+  ) => Stream.Stream<
+    DecisionTask,
+    | LimitExceededFault
+    | OperationNotPermittedFault
+    | UnknownResourceFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: PollForDecisionTaskInput,
+  ) => Stream.Stream<
+    HistoryEvent,
+    | LimitExceededFault
+    | OperationNotPermittedFault
+    | UnknownResourceFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: PollForDecisionTaskInput,
+  output: DecisionTask,
+  errors: [
+    LimitExceededFault,
+    OperationNotPermittedFault,
+    UnknownResourceFault,
+  ],
+  pagination: {
+    inputToken: "nextPageToken",
+    outputToken: "nextPageToken",
+    items: "events",
+    pageSize: "maximumPageSize",
+  } as const,
+}));
 /**
  * Deprecates the specified *activity type*. After an activity type has
  * been deprecated, you cannot create new tasks of that activity type. Tasks of this type that
@@ -4375,23 +4688,40 @@ export const pollForDecisionTask =
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const deprecateActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeprecateActivityTypeInput,
-    output: DeprecateActivityTypeResponse,
-    errors: [
-      OperationNotPermittedFault,
-      TypeDeprecatedFault,
-      UnknownResourceFault,
-    ],
-  }),
-);
+export const deprecateActivityType: (
+  input: DeprecateActivityTypeInput,
+) => Effect.Effect<
+  DeprecateActivityTypeResponse,
+  | OperationNotPermittedFault
+  | TypeDeprecatedFault
+  | UnknownResourceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeprecateActivityTypeInput,
+  output: DeprecateActivityTypeResponse,
+  errors: [
+    OperationNotPermittedFault,
+    TypeDeprecatedFault,
+    UnknownResourceFault,
+  ],
+}));
 /**
  * Add a tag to a Amazon SWF domain.
  *
  * Amazon SWF supports a maximum of 50 tags per resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceResponse,
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | TooManyTagsFault
+  | UnknownResourceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceResponse,
   errors: [
@@ -4434,17 +4764,24 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const undeprecateActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UndeprecateActivityTypeInput,
-    output: UndeprecateActivityTypeResponse,
-    errors: [
-      OperationNotPermittedFault,
-      TypeAlreadyExistsFault,
-      UnknownResourceFault,
-    ],
-  }),
-);
+export const undeprecateActivityType: (
+  input: UndeprecateActivityTypeInput,
+) => Effect.Effect<
+  UndeprecateActivityTypeResponse,
+  | OperationNotPermittedFault
+  | TypeAlreadyExistsFault
+  | UnknownResourceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UndeprecateActivityTypeInput,
+  output: UndeprecateActivityTypeResponse,
+  errors: [
+    OperationNotPermittedFault,
+    TypeAlreadyExistsFault,
+    UnknownResourceFault,
+  ],
+}));
 /**
  * Undeprecates a previously deprecated *workflow type*. After a workflow type has
  * been undeprecated, you can create new executions of that type.
@@ -4478,17 +4815,24 @@ export const undeprecateActivityType = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const undeprecateWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UndeprecateWorkflowTypeInput,
-    output: UndeprecateWorkflowTypeResponse,
-    errors: [
-      OperationNotPermittedFault,
-      TypeAlreadyExistsFault,
-      UnknownResourceFault,
-    ],
-  }),
-);
+export const undeprecateWorkflowType: (
+  input: UndeprecateWorkflowTypeInput,
+) => Effect.Effect<
+  UndeprecateWorkflowTypeResponse,
+  | OperationNotPermittedFault
+  | TypeAlreadyExistsFault
+  | UnknownResourceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UndeprecateWorkflowTypeInput,
+  output: UndeprecateWorkflowTypeResponse,
+  errors: [
+    OperationNotPermittedFault,
+    TypeAlreadyExistsFault,
+    UnknownResourceFault,
+  ],
+}));
 /**
  * Registers a new *workflow type* and its configuration settings in
  * the specified domain.
@@ -4527,18 +4871,26 @@ export const undeprecateWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const registerWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterWorkflowTypeInput,
-    output: RegisterWorkflowTypeResponse,
-    errors: [
-      LimitExceededFault,
-      OperationNotPermittedFault,
-      TypeAlreadyExistsFault,
-      UnknownResourceFault,
-    ],
-  }),
-);
+export const registerWorkflowType: (
+  input: RegisterWorkflowTypeInput,
+) => Effect.Effect<
+  RegisterWorkflowTypeResponse,
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | TypeAlreadyExistsFault
+  | UnknownResourceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterWorkflowTypeInput,
+  output: RegisterWorkflowTypeResponse,
+  errors: [
+    LimitExceededFault,
+    OperationNotPermittedFault,
+    TypeAlreadyExistsFault,
+    UnknownResourceFault,
+  ],
+}));
 /**
  * Deletes the specified *workflow type*.
  *
@@ -4572,7 +4924,16 @@ export const registerWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const deleteWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkflowType: (
+  input: DeleteWorkflowTypeInput,
+) => Effect.Effect<
+  DeleteWorkflowTypeResponse,
+  | OperationNotPermittedFault
+  | TypeNotDeprecatedFault
+  | UnknownResourceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkflowTypeInput,
   output: DeleteWorkflowTypeResponse,
   errors: [
@@ -4603,7 +4964,17 @@ export const deleteWorkflowType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const registerDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerDomain: (
+  input: RegisterDomainInput,
+) => Effect.Effect<
+  RegisterDomainResponse,
+  | DomainAlreadyExistsFault
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | TooManyTagsFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterDomainInput,
   output: RegisterDomainResponse,
   errors: [
@@ -4639,13 +5010,17 @@ export const registerDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const describeWorkflowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeWorkflowExecutionInput,
-    output: WorkflowExecutionDetail,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-  }),
-);
+export const describeWorkflowExecution: (
+  input: DescribeWorkflowExecutionInput,
+) => Effect.Effect<
+  WorkflowExecutionDetail,
+  OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeWorkflowExecutionInput,
+  output: WorkflowExecutionDetail,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
 /**
  * Returns the history of the specified workflow execution. The results may be split into
  * multiple pages. To retrieve subsequent pages, make the call again using the
@@ -4673,18 +5048,39 @@ export const describeWorkflowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const getWorkflowExecutionHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getWorkflowExecutionHistory: {
+  (
     input: GetWorkflowExecutionHistoryInput,
-    output: History,
-    errors: [OperationNotPermittedFault, UnknownResourceFault],
-    pagination: {
-      inputToken: "nextPageToken",
-      outputToken: "nextPageToken",
-      items: "events",
-      pageSize: "maximumPageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    History,
+    OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetWorkflowExecutionHistoryInput,
+  ) => Stream.Stream<
+    History,
+    OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetWorkflowExecutionHistoryInput,
+  ) => Stream.Stream<
+    HistoryEvent,
+    OperationNotPermittedFault | UnknownResourceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetWorkflowExecutionHistoryInput,
+  output: History,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+  pagination: {
+    inputToken: "nextPageToken",
+    outputToken: "nextPageToken",
+    items: "events",
+    pageSize: "maximumPageSize",
+  } as const,
+}));
 /**
  * Starts an execution of the workflow type in the specified domain using the provided
  * `workflowId` and input data.
@@ -4730,17 +5126,27 @@ export const getWorkflowExecutionHistory =
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const startWorkflowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartWorkflowExecutionInput,
-    output: Run,
-    errors: [
-      DefaultUndefinedFault,
-      LimitExceededFault,
-      OperationNotPermittedFault,
-      TypeDeprecatedFault,
-      UnknownResourceFault,
-      WorkflowExecutionAlreadyStartedFault,
-    ],
-  }),
-);
+export const startWorkflowExecution: (
+  input: StartWorkflowExecutionInput,
+) => Effect.Effect<
+  Run,
+  | DefaultUndefinedFault
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | TypeDeprecatedFault
+  | UnknownResourceFault
+  | WorkflowExecutionAlreadyStartedFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartWorkflowExecutionInput,
+  output: Run,
+  errors: [
+    DefaultUndefinedFault,
+    LimitExceededFault,
+    OperationNotPermittedFault,
+    TypeDeprecatedFault,
+    UnknownResourceFault,
+    WorkflowExecutionAlreadyStartedFault,
+  ],
+}));

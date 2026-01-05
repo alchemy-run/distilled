@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Billing",
   serviceShapeName: "AWSBilling",
@@ -363,6 +371,28 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type BillingViewArn = string;
+export type BillingViewName = string;
+export type BillingViewDescription = string;
+export type ClientToken = string;
+export type ResourceArn = string;
+export type AccountId = string;
+export type BillingViewsMaxResults = number;
+export type PageToken = string;
+export type ResourceTagKey = string;
+export type ResourceTagValue = string;
+export type SearchValue = string;
+export type PolicyDocument = string;
+export type ErrorMessage = string;
+export type Value = string;
+export type TagKey = string;
+export type ResourceId = string;
+export type ResourceType = string;
+export type ServiceCode = string;
+export type QuotaCode = string;
+export type FieldName = string;
 
 //# Schemas
 export type BillingViewSourceViewsList = string[];
@@ -812,7 +842,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.String },
   T.AwsQueryError({ code: "BillingInternalServer", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class BillingViewHealthStatusException extends S.TaggedError<BillingViewHealthStatusException>()(
   "BillingViewHealthStatusException",
   { message: S.String },
@@ -831,7 +863,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
   T.AwsQueryError({ code: "BillingThrottling", httpResponseCode: 429 }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -860,7 +894,18 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Deletes the specified billing view.
  */
-export const deleteBillingView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBillingView: (
+  input: DeleteBillingViewRequest,
+) => Effect.Effect<
+  DeleteBillingViewResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBillingViewRequest,
   output: DeleteBillingViewResponse,
   errors: [
@@ -874,7 +919,18 @@ export const deleteBillingView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -888,7 +944,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the resource-based policy document attached to the resource in `JSON` format.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => Effect.Effect<
+  GetResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
   errors: [
@@ -902,28 +969,75 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the source views (managed Amazon Web Services billing views) associated with the billing view.
  */
-export const listSourceViewsForBillingView =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSourceViewsForBillingView: {
+  (
     input: ListSourceViewsForBillingViewRequest,
-    output: ListSourceViewsForBillingViewResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "sourceViews",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSourceViewsForBillingViewResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSourceViewsForBillingViewRequest,
+  ) => Stream.Stream<
+    ListSourceViewsForBillingViewResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSourceViewsForBillingViewRequest,
+  ) => Stream.Stream<
+    BillingViewArn,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSourceViewsForBillingViewRequest,
+  output: ListSourceViewsForBillingViewResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sourceViews",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists tags associated with the billing view resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -937,25 +1051,47 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggregate billing views.
  */
-export const disassociateSourceViews = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateSourceViewsRequest,
-    output: DisassociateSourceViewsResponse,
-    errors: [
-      AccessDeniedException,
-      BillingViewHealthStatusException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateSourceViews: (
+  input: DisassociateSourceViewsRequest,
+) => Effect.Effect<
+  DisassociateSourceViewsResponse,
+  | AccessDeniedException
+  | BillingViewHealthStatusException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateSourceViewsRequest,
+  output: DisassociateSourceViewsResponse,
+  errors: [
+    AccessDeniedException,
+    BillingViewHealthStatusException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the metadata associated to the specified billing view ARN.
  */
-export const getBillingView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBillingView: (
+  input: GetBillingViewRequest,
+) => Effect.Effect<
+  GetBillingViewResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBillingViewRequest,
   output: GetBillingViewResponse,
   errors: [
@@ -971,28 +1107,71 @@ export const getBillingView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Every Amazon Web Services account has a unique `PRIMARY` billing view that represents the billing data available by default. Accounts that use Billing Conductor also have `BILLING_GROUP` billing views representing pro forma costs associated with each created billing group.
  */
-export const listBillingViews = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBillingViews: {
+  (
     input: ListBillingViewsRequest,
-    output: ListBillingViewsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "billingViews",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBillingViewsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBillingViewsRequest,
+  ) => Stream.Stream<
+    ListBillingViewsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBillingViewsRequest,
+  ) => Stream.Stream<
+    BillingViewListElement,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBillingViewsRequest,
+  output: ListBillingViewsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "billingViews",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * An API operation for adding one or more tags (key-value pairs) to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1006,26 +1185,52 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates one or more source billing views with an existing billing view. This allows creating aggregate billing views that combine data from multiple sources.
  */
-export const associateSourceViews = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateSourceViewsRequest,
-    output: AssociateSourceViewsResponse,
-    errors: [
-      AccessDeniedException,
-      BillingViewHealthStatusException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateSourceViews: (
+  input: AssociateSourceViewsRequest,
+) => Effect.Effect<
+  AssociateSourceViewsResponse,
+  | AccessDeniedException
+  | BillingViewHealthStatusException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateSourceViewsRequest,
+  output: AssociateSourceViewsResponse,
+  errors: [
+    AccessDeniedException,
+    BillingViewHealthStatusException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * An API to update the attributes of the billing view.
  */
-export const updateBillingView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBillingView: (
+  input: UpdateBillingViewRequest,
+) => Effect.Effect<
+  UpdateBillingViewResponse,
+  | AccessDeniedException
+  | BillingViewHealthStatusException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBillingViewRequest,
   output: UpdateBillingViewResponse,
   errors: [
@@ -1042,7 +1247,21 @@ export const updateBillingView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a billing view with the specified billing view attributes.
  */
-export const createBillingView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBillingView: (
+  input: CreateBillingViewRequest,
+) => Effect.Effect<
+  CreateBillingViewResponse,
+  | AccessDeniedException
+  | BillingViewHealthStatusException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBillingViewRequest,
   output: CreateBillingViewResponse,
   errors: [

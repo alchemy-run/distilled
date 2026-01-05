@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace(
   "https://object.mediastore.amazonaws.com/doc/2017-09-01",
 );
@@ -244,6 +252,22 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type PathNaming = string;
+export type RangePattern = string;
+export type ListPathNaming = string;
+export type ListLimit = number;
+export type PaginationToken = string;
+export type ContentType = string;
+export type StringPrimitive = string;
+export type ErrorMessage = string;
+export type ETag = string;
+export type NonNegativeLong = number;
+export type ContentRangePattern = string;
+export type statusCode = number;
+export type SHA256Hash = string;
+export type ItemName = string;
+
 //# Schemas
 export interface DeleteObjectRequest {
   Path: string;
@@ -483,7 +507,29 @@ export class RequestedRangeNotSatisfiableException extends S.TaggedError<Request
  * Provides a list of metadata entries about folders and objects in the specified
  * folder.
  */
-export const listItems = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listItems: {
+  (
+    input: ListItemsRequest,
+  ): Effect.Effect<
+    ListItemsResponse,
+    ContainerNotFoundException | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListItemsRequest,
+  ) => Stream.Stream<
+    ListItemsResponse,
+    ContainerNotFoundException | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListItemsRequest,
+  ) => Stream.Stream<
+    unknown,
+    ContainerNotFoundException | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListItemsRequest,
   output: ListItemsResponse,
   errors: [ContainerNotFoundException, InternalServerError],
@@ -496,7 +542,13 @@ export const listItems = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
  */
-export const putObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putObject: (
+  input: PutObjectRequest,
+) => Effect.Effect<
+  PutObjectResponse,
+  ContainerNotFoundException | InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutObjectRequest,
   output: PutObjectResponse,
   errors: [ContainerNotFoundException, InternalServerError],
@@ -504,7 +556,16 @@ export const putObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an object at the specified path.
  */
-export const deleteObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteObject: (
+  input: DeleteObjectRequest,
+) => Effect.Effect<
+  DeleteObjectResponse,
+  | ContainerNotFoundException
+  | InternalServerError
+  | ObjectNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteObjectRequest,
   output: DeleteObjectResponse,
   errors: [
@@ -516,7 +577,16 @@ export const deleteObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the headers for an object at the specified path.
  */
-export const describeObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeObject: (
+  input: DescribeObjectRequest,
+) => Effect.Effect<
+  DescribeObjectResponse,
+  | ContainerNotFoundException
+  | InternalServerError
+  | ObjectNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeObjectRequest,
   output: DescribeObjectResponse,
   errors: [
@@ -528,7 +598,17 @@ export const describeObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Downloads the object at the specified path. If the object’s upload availability is set to `streaming`, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
  */
-export const getObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getObject: (
+  input: GetObjectRequest,
+) => Effect.Effect<
+  GetObjectResponse,
+  | ContainerNotFoundException
+  | InternalServerError
+  | ObjectNotFoundException
+  | RequestedRangeNotSatisfiableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetObjectRequest,
   output: GetObjectResponse,
   errors: [

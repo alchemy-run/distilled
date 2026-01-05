@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Health",
   serviceShapeName: "AWSHealth_20160804",
@@ -400,6 +408,32 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type eventArn = string;
+export type nextToken = string;
+export type maxResults = number;
+export type locale = string;
+export type maxResultsLowerRange = number;
+export type accountId = string;
+export type healthServiceAccessStatusForOrganization = string;
+export type entityArn = string;
+export type entityValue = string;
+export type EventType2 = string;
+export type service = string;
+export type region = string;
+export type availabilityZone = string;
+export type eventTypeCode = string;
+export type tagKey = string;
+export type tagValue = string;
+export type count = number;
+export type EventDescription2 = string;
+export type metadataKey = string;
+export type metadataValue = string;
+export type entityUrl = string;
+export type aggregateValue = string;
+export type entityMetadataKey = string;
+export type entityMetadataValue = string;
 
 //# Schemas
 export interface DescribeHealthServiceStatusForOrganizationRequest {}
@@ -1263,12 +1297,17 @@ export class UnsupportedLocale extends S.TaggedError<UnsupportedLocale>()(
  * with your organization. To call this operation, you must use the organization's
  * management account.
  */
-export const describeHealthServiceStatusForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeHealthServiceStatusForOrganizationRequest,
-    output: DescribeHealthServiceStatusForOrganizationResponse,
-    errors: [],
-  }));
+export const describeHealthServiceStatusForOrganization: (
+  input: DescribeHealthServiceStatusForOrganizationRequest,
+) => Effect.Effect<
+  DescribeHealthServiceStatusForOrganizationResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeHealthServiceStatusForOrganizationRequest,
+  output: DescribeHealthServiceStatusForOrganizationResponse,
+  errors: [],
+}));
 /**
  * Disables Health from working with Organizations. To call this operation, you must sign
  * in to the organization's management account. For more information, see Aggregating
@@ -1285,12 +1324,17 @@ export const describeHealthServiceStatusForOrganization =
  * an error. Health continues to aggregate health events for your
  * Amazon Web Services account.
  */
-export const disableHealthServiceAccessForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableHealthServiceAccessForOrganizationRequest,
-    output: DisableHealthServiceAccessForOrganizationResponse,
-    errors: [ConcurrentModificationException],
-  }));
+export const disableHealthServiceAccessForOrganization: (
+  input: DisableHealthServiceAccessForOrganizationRequest,
+) => Effect.Effect<
+  DisableHealthServiceAccessForOrganizationResponse,
+  ConcurrentModificationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableHealthServiceAccessForOrganizationRequest,
+  output: DisableHealthServiceAccessForOrganizationResponse,
+  errors: [ConcurrentModificationException],
+}));
 /**
  * Enables Health to work with Organizations. You can use the organizational view feature
  * to aggregate events from all Amazon Web Services accounts in your organization in a centralized location.
@@ -1313,12 +1357,17 @@ export const disableHealthServiceAccessForOrganization =
  * to enable the organizational view feature. For more information, see Aggregating
  * Health events in the *Health User Guide*.
  */
-export const enableHealthServiceAccessForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableHealthServiceAccessForOrganizationRequest,
-    output: EnableHealthServiceAccessForOrganizationResponse,
-    errors: [ConcurrentModificationException],
-  }));
+export const enableHealthServiceAccessForOrganization: (
+  input: EnableHealthServiceAccessForOrganizationRequest,
+) => Effect.Effect<
+  EnableHealthServiceAccessForOrganizationResponse,
+  ConcurrentModificationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableHealthServiceAccessForOrganizationRequest,
+  output: EnableHealthServiceAccessForOrganizationResponse,
+  errors: [ConcurrentModificationException],
+}));
 /**
  * Returns a list of accounts in the organization from Organizations that are affected by the
  * provided event. For more information about the different types of Health events, see
@@ -1330,37 +1379,67 @@ export const enableHealthServiceAccessForOrganization =
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
-export const describeAffectedAccountsForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAffectedAccountsForOrganization: {
+  (
     input: DescribeAffectedAccountsForOrganizationRequest,
-    output: DescribeAffectedAccountsForOrganizationResponse,
-    errors: [InvalidPaginationToken],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "affectedAccounts",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAffectedAccountsForOrganizationResponse,
+    InvalidPaginationToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAffectedAccountsForOrganizationRequest,
+  ) => Stream.Stream<
+    DescribeAffectedAccountsForOrganizationResponse,
+    InvalidPaginationToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAffectedAccountsForOrganizationRequest,
+  ) => Stream.Stream<
+    accountId,
+    InvalidPaginationToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAffectedAccountsForOrganizationRequest,
+  output: DescribeAffectedAccountsForOrganizationResponse,
+  errors: [InvalidPaginationToken],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "affectedAccounts",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns the number of entities that are affected by each of the specified events.
  */
-export const describeEntityAggregates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEntityAggregatesRequest,
-    output: DescribeEntityAggregatesResponse,
-    errors: [],
-  }),
-);
+export const describeEntityAggregates: (
+  input: DescribeEntityAggregatesRequest,
+) => Effect.Effect<
+  DescribeEntityAggregatesResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEntityAggregatesRequest,
+  output: DescribeEntityAggregatesResponse,
+  errors: [],
+}));
 /**
  * Returns a list of entity aggregates for your Organizations that are affected by each of the specified events.
  */
-export const describeEntityAggregatesForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeEntityAggregatesForOrganizationRequest,
-    output: DescribeEntityAggregatesForOrganizationResponse,
-    errors: [],
-  }));
+export const describeEntityAggregatesForOrganization: (
+  input: DescribeEntityAggregatesForOrganizationRequest,
+) => Effect.Effect<
+  DescribeEntityAggregatesForOrganizationResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEntityAggregatesForOrganizationRequest,
+  output: DescribeEntityAggregatesForOrganizationResponse,
+  errors: [],
+}));
 /**
  * Returns the number of events of each event type (issue, scheduled change, and account
  * notification). If no filter is specified, the counts of all events in each category are
@@ -1368,18 +1447,39 @@ export const describeEntityAggregatesForOrganization =
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
-export const describeEventAggregates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeEventAggregates: {
+  (
     input: DescribeEventAggregatesRequest,
-    output: DescribeEventAggregatesResponse,
-    errors: [InvalidPaginationToken],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "eventAggregates",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeEventAggregatesResponse,
+    InvalidPaginationToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEventAggregatesRequest,
+  ) => Stream.Stream<
+    DescribeEventAggregatesResponse,
+    InvalidPaginationToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEventAggregatesRequest,
+  ) => Stream.Stream<
+    EventAggregate,
+    InvalidPaginationToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEventAggregatesRequest,
+  output: DescribeEventAggregatesResponse,
+  errors: [InvalidPaginationToken],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "eventAggregates",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns detailed information about one or more specified events for one or more
  * Amazon Web Services accounts in your organization. This information includes standard event data (such as
@@ -1410,12 +1510,17 @@ export const describeEventAggregates =
  * This operation doesn't support resource-level permissions. You can't use this operation to allow or deny access to specific Health events. For more
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
-export const describeEventDetailsForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeEventDetailsForOrganizationRequest,
-    output: DescribeEventDetailsForOrganizationResponse,
-    errors: [UnsupportedLocale],
-  }));
+export const describeEventDetailsForOrganization: (
+  input: DescribeEventDetailsForOrganizationRequest,
+) => Effect.Effect<
+  DescribeEventDetailsForOrganizationResponse,
+  UnsupportedLocale | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEventDetailsForOrganizationRequest,
+  output: DescribeEventDetailsForOrganizationResponse,
+  errors: [UnsupportedLocale],
+}));
 /**
  * Returns information about events across your organization in Organizations. You can use
  * the`filters` parameter to specify the events that you want to return. Events
@@ -1441,18 +1546,39 @@ export const describeEventDetailsForOrganization =
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
-export const describeEventsForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeEventsForOrganization: {
+  (
     input: DescribeEventsForOrganizationRequest,
-    output: DescribeEventsForOrganizationResponse,
-    errors: [InvalidPaginationToken, UnsupportedLocale],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "events",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeEventsForOrganizationResponse,
+    InvalidPaginationToken | UnsupportedLocale | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEventsForOrganizationRequest,
+  ) => Stream.Stream<
+    DescribeEventsForOrganizationResponse,
+    InvalidPaginationToken | UnsupportedLocale | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEventsForOrganizationRequest,
+  ) => Stream.Stream<
+    OrganizationEvent,
+    InvalidPaginationToken | UnsupportedLocale | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEventsForOrganizationRequest,
+  output: DescribeEventsForOrganizationResponse,
+  errors: [InvalidPaginationToken, UnsupportedLocale],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "events",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns the event types that meet the specified filter criteria. You can use this API
  * operation to find information about the Health event, such as the category, Amazon Web Services service, and event code. The metadata for each event appears in the EventType object.
@@ -1462,19 +1588,39 @@ export const describeEventsForOrganization =
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
-export const describeEventTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeEventTypes: {
+  (
     input: DescribeEventTypesRequest,
-    output: DescribeEventTypesResponse,
-    errors: [InvalidPaginationToken, UnsupportedLocale],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "eventTypes",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeEventTypesResponse,
+    InvalidPaginationToken | UnsupportedLocale | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEventTypesRequest,
+  ) => Stream.Stream<
+    DescribeEventTypesResponse,
+    InvalidPaginationToken | UnsupportedLocale | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEventTypesRequest,
+  ) => Stream.Stream<
+    EventType,
+    InvalidPaginationToken | UnsupportedLocale | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEventTypesRequest,
+  output: DescribeEventTypesResponse,
+  errors: [InvalidPaginationToken, UnsupportedLocale],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "eventTypes",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about events that meet the specified filter criteria. Events are
  * returned in a summary form and do not include the detailed description, any additional
@@ -1495,19 +1641,39 @@ export const describeEventTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
-export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeEvents: {
+  (
     input: DescribeEventsRequest,
-    output: DescribeEventsResponse,
-    errors: [InvalidPaginationToken, UnsupportedLocale],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "events",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeEventsResponse,
+    InvalidPaginationToken | UnsupportedLocale | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEventsRequest,
+  ) => Stream.Stream<
+    DescribeEventsResponse,
+    InvalidPaginationToken | UnsupportedLocale | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEventsRequest,
+  ) => Stream.Stream<
+    Event,
+    InvalidPaginationToken | UnsupportedLocale | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEventsRequest,
+  output: DescribeEventsResponse,
+  errors: [InvalidPaginationToken, UnsupportedLocale],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "events",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of entities that have been affected by the specified events, based on the
  * specified filter criteria. Entities can refer to individual customer resources, groups of
@@ -1522,18 +1688,39 @@ export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * - This operation supports resource-level permissions. You can use this operation to allow or deny access to specific Health events. For more
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
-export const describeAffectedEntities =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAffectedEntities: {
+  (
     input: DescribeAffectedEntitiesRequest,
-    output: DescribeAffectedEntitiesResponse,
-    errors: [InvalidPaginationToken, UnsupportedLocale],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "entities",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAffectedEntitiesResponse,
+    InvalidPaginationToken | UnsupportedLocale | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAffectedEntitiesRequest,
+  ) => Stream.Stream<
+    DescribeAffectedEntitiesResponse,
+    InvalidPaginationToken | UnsupportedLocale | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAffectedEntitiesRequest,
+  ) => Stream.Stream<
+    AffectedEntity,
+    InvalidPaginationToken | UnsupportedLocale | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAffectedEntitiesRequest,
+  output: DescribeAffectedEntitiesResponse,
+  errors: [InvalidPaginationToken, UnsupportedLocale],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "entities",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns detailed information about one or more specified events. Information includes
  * standard event data (Amazon Web Services Region, service, and so on, as returned by DescribeEvents), a detailed event description, and possible additional metadata
@@ -1546,13 +1733,17 @@ export const describeAffectedEntities =
  * This operation supports resource-level permissions. You can use this operation to allow or deny access to specific Health events. For more
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
-export const describeEventDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEventDetailsRequest,
-    output: DescribeEventDetailsResponse,
-    errors: [UnsupportedLocale],
-  }),
-);
+export const describeEventDetails: (
+  input: DescribeEventDetailsRequest,
+) => Effect.Effect<
+  DescribeEventDetailsResponse,
+  UnsupportedLocale | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEventDetailsRequest,
+  output: DescribeEventDetailsResponse,
+  errors: [UnsupportedLocale],
+}));
 /**
  * Returns a list of entities that have been affected by one or more events for one or more
  * accounts in your organization in Organizations, based on the filter criteria. Entities can refer
@@ -1570,15 +1761,36 @@ export const describeEventDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - This operation doesn't support resource-level permissions. You can't use this operation to allow or deny access to specific Health events. For more
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
-export const describeAffectedEntitiesForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAffectedEntitiesForOrganization: {
+  (
     input: DescribeAffectedEntitiesForOrganizationRequest,
-    output: DescribeAffectedEntitiesForOrganizationResponse,
-    errors: [InvalidPaginationToken, UnsupportedLocale],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "entities",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAffectedEntitiesForOrganizationResponse,
+    InvalidPaginationToken | UnsupportedLocale | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAffectedEntitiesForOrganizationRequest,
+  ) => Stream.Stream<
+    DescribeAffectedEntitiesForOrganizationResponse,
+    InvalidPaginationToken | UnsupportedLocale | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAffectedEntitiesForOrganizationRequest,
+  ) => Stream.Stream<
+    AffectedEntity,
+    InvalidPaginationToken | UnsupportedLocale | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAffectedEntitiesForOrganizationRequest,
+  output: DescribeAffectedEntitiesForOrganizationResponse,
+  errors: [InvalidPaginationToken, UnsupportedLocale],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "entities",
+    pageSize: "maxResults",
+  } as const,
+}));

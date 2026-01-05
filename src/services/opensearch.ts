@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://es.amazonaws.com/doc/2021-01-01/");
 const svc = T.AwsApiService({
   sdkId: "OpenSearch",
@@ -301,6 +309,114 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ConnectionId = string;
+export type DomainName = string;
+export type DataSourceName = string;
+export type DataSourceDescription = string;
+export type DirectQueryDataSourceName = string;
+export type DirectQueryDataSourceDescription = string;
+export type ARN = string;
+export type PackageID = string;
+export type AWSAccount = string;
+export type ClientToken = string;
+export type ApplicationName = string;
+export type KmsKeyArn = string;
+export type VersionString = string;
+export type PolicyDocument = string;
+export type IndexName = string;
+export type ConnectionAlias = string;
+export type PackageName = string;
+export type PackageDescription = string;
+export type EngineVersion = string;
+export type DomainArn = string;
+export type Id = string;
+export type VpcEndpointId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type GUID = string;
+export type RequestId = string;
+export type InstanceTypeString = string;
+export type ReservationToken = string;
+export type InstanceCount = number;
+export type NodeId = string;
+export type Long = number;
+export type CommitMessage = string;
+export type PackageUser = string;
+export type TagKey = string;
+export type TagValue = string;
+export type RoleArn = string;
+export type AppConfigValue = string;
+export type IntegerClass = number;
+export type UserPoolId = string;
+export type IdentityPoolId = string;
+export type KmsKeyId = string;
+export type DomainNameFqdn = string;
+export type IdentityCenterInstanceARN = string;
+export type Endpoint = string;
+export type S3BucketName = string;
+export type S3Key = string;
+export type LicenseFilepath = string;
+export type NonEmptyString = string;
+export type DescribePackagesFilterValue = string;
+export type ErrorMessage = string;
+export type NumberOfAZs = string;
+export type NumberOfNodes = string;
+export type NumberOfShards = string;
+export type MaintenanceStatusMessage = string;
+export type UpgradeName = string;
+export type DirectQueryDataSourceRoleArn = string;
+export type CloudWatchLogsLogGroupArn = string;
+export type Username = string;
+export type Password = string;
+export type BackendRole = string;
+export type SubjectKey = string;
+export type RolesKey = string;
+export type IAMFederationSubjectKey = string;
+export type IAMFederationRolesKey = string;
+export type OwnerId = string;
+export type Region = string;
+export type DomainId = string;
+export type ServiceUrl = string;
+export type HostedZoneId = string;
+export type PackageVersion = string;
+export type PackageOwner = string;
+export type TotalNumberOfStages = number;
+export type AvailabilityZone = string;
+export type StorageTypeName = string;
+export type VolumeSize = string;
+export type DeploymentType = string;
+export type Message = string;
+export type InstanceRole = string;
+export type Integer = number;
+export type Double = number;
+export type ReferencePath = string;
+export type SAMLMetadata = string;
+export type SAMLEntityId = string;
+export type DurationValue = number;
+export type StartTimeHours = number;
+export type StartTimeMinutes = number;
+export type ConnectionStatusMessage = string;
+export type IdentityCenterApplicationARN = string;
+export type IdentityStoreId = string;
+export type ErrorType = string;
+export type PluginName = string;
+export type PluginDescription = string;
+export type PluginVersion = string;
+export type PluginClassName = string;
+export type UncompressedPluginSizeInBytes = number;
+export type ChangeProgressStageName = string;
+export type ChangeProgressStageStatus = string;
+export type Description = string;
+export type Issue = string;
+export type ScheduledAutoTuneDescription = string;
+export type UIntValue = number;
+export type StorageSubTypeName = string;
+export type LimitName = string;
+export type LimitValue = string;
+export type MinimumInstanceCount = number;
+export type MaximumInstanceCount = number;
 
 //# Schemas
 export interface GetDefaultApplicationSettingRequest {}
@@ -1908,6 +2024,7 @@ export const S3GlueDataCatalog = S.suspend(() =>
 ).annotations({
   identifier: "S3GlueDataCatalog",
 }) as any as S.Schema<S3GlueDataCatalog>;
+export type DataSourceType = { S3GlueDataCatalog: S3GlueDataCatalog };
 export const DataSourceType = S.Union(
   S.Struct({ S3GlueDataCatalog: S3GlueDataCatalog }),
 );
@@ -1958,6 +2075,9 @@ export const SecurityLakeDirectQueryDataSource = S.suspend(() =>
 ).annotations({
   identifier: "SecurityLakeDirectQueryDataSource",
 }) as any as S.Schema<SecurityLakeDirectQueryDataSource>;
+export type DirectQueryDataSourceType =
+  | { CloudWatchLog: CloudWatchDirectQueryDataSource }
+  | { SecurityLake: SecurityLakeDirectQueryDataSource };
 export const DirectQueryDataSourceType = S.Union(
   S.Struct({ CloudWatchLog: CloudWatchDirectQueryDataSource }),
   S.Struct({ SecurityLake: SecurityLakeDirectQueryDataSource }),
@@ -5401,7 +5521,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalException extends S.TaggedError<InternalException>()(
   "InternalException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String) },
@@ -5445,13 +5567,24 @@ export class SlotNotAvailableException extends S.TaggedError<SlotNotAvailableExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current Amazon Web Services account and Region.
  */
-export const listVpcEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listVpcEndpoints: (
+  input: ListVpcEndpointsRequest,
+) => Effect.Effect<
+  ListVpcEndpointsResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVpcEndpointsRequest,
   output: ListVpcEndpointsResponse,
   errors: [BaseException, DisabledOperationException, InternalException],
@@ -5460,70 +5593,156 @@ export const listVpcEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Allows the source Amazon OpenSearch Service domain owner to delete an existing
  * outbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
-export const deleteOutboundConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOutboundConnectionRequest,
-    output: DeleteOutboundConnectionResponse,
-    errors: [DisabledOperationException, ResourceNotFoundException],
-  }),
-);
+export const deleteOutboundConnection: (
+  input: DeleteOutboundConnectionRequest,
+) => Effect.Effect<
+  DeleteOutboundConnectionResponse,
+  DisabledOperationException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOutboundConnectionRequest,
+  output: DeleteOutboundConnectionResponse,
+  errors: [DisabledOperationException, ResourceNotFoundException],
+}));
 /**
  * Lists all the inbound cross-cluster search connections for a destination (remote)
  * Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
-export const describeInboundConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeInboundConnections: {
+  (
     input: DescribeInboundConnectionsRequest,
-    output: DescribeInboundConnectionsResponse,
-    errors: [DisabledOperationException, InvalidPaginationTokenException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeInboundConnectionsResponse,
+    | DisabledOperationException
+    | InvalidPaginationTokenException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeInboundConnectionsRequest,
+  ) => Stream.Stream<
+    DescribeInboundConnectionsResponse,
+    | DisabledOperationException
+    | InvalidPaginationTokenException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeInboundConnectionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | DisabledOperationException
+    | InvalidPaginationTokenException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeInboundConnectionsRequest,
+  output: DescribeInboundConnectionsResponse,
+  errors: [DisabledOperationException, InvalidPaginationTokenException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
  */
-export const describeVpcEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVpcEndpointsRequest,
-    output: DescribeVpcEndpointsResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeVpcEndpoints: (
+  input: DescribeVpcEndpointsRequest,
+) => Effect.Effect<
+  DescribeVpcEndpointsResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVpcEndpointsRequest,
+  output: DescribeVpcEndpointsResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch
  * Service domain.
  */
-export const getUpgradeHistory = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getUpgradeHistory: {
+  (
     input: GetUpgradeHistoryRequest,
-    output: GetUpgradeHistoryResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetUpgradeHistoryResponse,
+    | BaseException
+    | DisabledOperationException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetUpgradeHistoryRequest,
+  ) => Stream.Stream<
+    GetUpgradeHistoryResponse,
+    | BaseException
+    | DisabledOperationException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetUpgradeHistoryRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BaseException
+    | DisabledOperationException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetUpgradeHistoryRequest,
+  output: GetUpgradeHistoryResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Allows you to either upgrade your Amazon OpenSearch Service domain or perform an
  * upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
  */
-export const upgradeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const upgradeDomain: (
+  input: UpgradeDomainRequest,
+) => Effect.Effect<
+  UpgradeDomainResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpgradeDomainRequest,
   output: UpgradeDomainResponse,
   errors: [
@@ -5540,7 +5759,19 @@ export const upgradeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * information, see Custom packages
  * for Amazon OpenSearch Service.
  */
-export const updatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePackage: (
+  input: UpdatePackageRequest,
+) => Effect.Effect<
+  UpdatePackageResponse,
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePackageRequest,
   output: UpdatePackageResponse,
   errors: [
@@ -5555,58 +5786,99 @@ export const updatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Allows you to purchase Amazon OpenSearch Service Reserved Instances.
  */
-export const purchaseReservedInstanceOffering =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PurchaseReservedInstanceOfferingRequest,
-    output: PurchaseReservedInstanceOfferingResponse,
-    errors: [
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const purchaseReservedInstanceOffering: (
+  input: PurchaseReservedInstanceOfferingRequest,
+) => Effect.Effect<
+  PurchaseReservedInstanceOfferingResponse,
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PurchaseReservedInstanceOfferingRequest,
+  output: PurchaseReservedInstanceOfferingResponse,
+  errors: [
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Provides access to an Amazon OpenSearch Service domain through the use of an interface
  * VPC endpoint.
  */
-export const authorizeVpcEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AuthorizeVpcEndpointAccessRequest,
-    output: AuthorizeVpcEndpointAccessResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const authorizeVpcEndpointAccess: (
+  input: AuthorizeVpcEndpointAccessRequest,
+) => Effect.Effect<
+  AuthorizeVpcEndpointAccessResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AuthorizeVpcEndpointAccessRequest,
+  output: AuthorizeVpcEndpointAccessResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Allows the destination Amazon OpenSearch Service domain owner to accept an inbound
  * cross-cluster search connection request. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
-export const acceptInboundConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptInboundConnectionRequest,
-    output: AcceptInboundConnectionResponse,
-    errors: [
-      DisabledOperationException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const acceptInboundConnection: (
+  input: AcceptInboundConnectionRequest,
+) => Effect.Effect<
+  AcceptInboundConnectionResponse,
+  | DisabledOperationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptInboundConnectionRequest,
+  output: AcceptInboundConnectionResponse,
+  errors: [
+    DisabledOperationException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a new direct-query data source to the specified domain. For more information,
  * see Creating Amazon OpenSearch Service data source integrations with Amazon
  * S3.
  */
-export const addDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addDataSource: (
+  input: AddDataSourceRequest,
+) => Effect.Effect<
+  AddDataSourceResponse,
+  | BaseException
+  | DependencyFailureException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddDataSourceRequest,
   output: AddDataSourceResponse,
   errors: [
@@ -5623,35 +5895,59 @@ export const addDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Adds a new data source in Amazon OpenSearch Service so that you can perform direct
  * queries on external data.
  */
-export const addDirectQueryDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddDirectQueryDataSourceRequest,
-    output: AddDirectQueryDataSourceResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const addDirectQueryDataSource: (
+  input: AddDirectQueryDataSourceRequest,
+) => Effect.Effect<
+  AddDirectQueryDataSourceResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddDirectQueryDataSourceRequest,
+  output: AddDirectQueryDataSourceResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Allows the destination Amazon OpenSearch Service domain owner to delete an existing
  * inbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
-export const deleteInboundConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInboundConnectionRequest,
-    output: DeleteInboundConnectionResponse,
-    errors: [DisabledOperationException, ResourceNotFoundException],
-  }),
-);
+export const deleteInboundConnection: (
+  input: DeleteInboundConnectionRequest,
+) => Effect.Effect<
+  DeleteInboundConnectionResponse,
+  DisabledOperationException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInboundConnectionRequest,
+  output: DeleteInboundConnectionResponse,
+  errors: [DisabledOperationException, ResourceNotFoundException],
+}));
 /**
  * Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
-export const deleteVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVpcEndpoint: (
+  input: DeleteVpcEndpointRequest,
+) => Effect.Effect<
+  DeleteVpcEndpointResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpcEndpointRequest,
   output: DeleteVpcEndpointResponse,
   errors: [
@@ -5666,7 +5962,19 @@ export const deleteVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * ultrawarm nodes, Availability Zone(s), standby nodes, node configurations, and node
  * states.
  */
-export const describeDomainNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDomainNodes: (
+  input: DescribeDomainNodesRequest,
+) => Effect.Effect<
+  DescribeDomainNodesResponse,
+  | BaseException
+  | DependencyFailureException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainNodesRequest,
   output: DescribeDomainNodesResponse,
   errors: [
@@ -5683,45 +5991,113 @@ export const describeDomainNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Custom packages
  * for Amazon OpenSearch Service.
  */
-export const describePackages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describePackages: {
+  (
     input: DescribePackagesRequest,
-    output: DescribePackagesResponse,
-    errors: [
-      AccessDeniedException,
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribePackagesResponse,
+    | AccessDeniedException
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribePackagesRequest,
+  ) => Stream.Stream<
+    DescribePackagesResponse,
+    | AccessDeniedException
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribePackagesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribePackagesRequest,
+  output: DescribePackagesResponse,
+  errors: [
+    AccessDeniedException,
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the Amazon OpenSearch Service instances that you have reserved in a given
  * Region. For more information, see Reserved Instances in Amazon
  * OpenSearch Service.
  */
-export const describeReservedInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeReservedInstances: {
+  (
     input: DescribeReservedInstancesRequest,
-    output: DescribeReservedInstancesResponse,
-    errors: [
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeReservedInstancesResponse,
+    | DisabledOperationException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeReservedInstancesRequest,
+  ) => Stream.Stream<
+    DescribeReservedInstancesResponse,
+    | DisabledOperationException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeReservedInstancesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | DisabledOperationException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeReservedInstancesRequest,
+  output: DescribeReservedInstancesResponse,
+  errors: [
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Removes a package from the specified Amazon OpenSearch Service domain. The package
  * can't be in use with any OpenSearch index for the dissociation to succeed. The package
@@ -5729,7 +6105,19 @@ export const describeReservedInstances =
  * see Custom packages
  * for Amazon OpenSearch Service.
  */
-export const dissociatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const dissociatePackage: (
+  input: DissociatePackageRequest,
+) => Effect.Effect<
+  DissociatePackageResponse,
+  | AccessDeniedException
+  | BaseException
+  | ConflictException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DissociatePackageRequest,
   output: DissociatePackageResponse,
   errors: [
@@ -5744,7 +6132,19 @@ export const dissociatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the configuration and status of an existing OpenSearch application.
  */
-export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApplication: (
+  input: GetApplicationRequest,
+) => Effect.Effect<
+  GetApplicationResponse,
+  | AccessDeniedException
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
   output: GetApplicationResponse,
   errors: [
@@ -5760,71 +6160,166 @@ export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns a map of OpenSearch or Elasticsearch versions and the versions you can upgrade
  * them to.
  */
-export const getCompatibleVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCompatibleVersionsRequest,
-    output: GetCompatibleVersionsResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getCompatibleVersions: (
+  input: GetCompatibleVersionsRequest,
+) => Effect.Effect<
+  GetCompatibleVersionsResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCompatibleVersionsRequest,
+  output: GetCompatibleVersionsResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of Amazon OpenSearch Service package versions, along with their creation
  * time, commit message, and plugin properties (if the package is a zip plugin package). For more
  * information, see Custom packages for Amazon
  * OpenSearch Service.
  */
-export const getPackageVersionHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getPackageVersionHistory: {
+  (
     input: GetPackageVersionHistoryRequest,
-    output: GetPackageVersionHistoryResponse,
-    errors: [
-      AccessDeniedException,
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetPackageVersionHistoryResponse,
+    | AccessDeniedException
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetPackageVersionHistoryRequest,
+  ) => Stream.Stream<
+    GetPackageVersionHistoryResponse,
+    | AccessDeniedException
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetPackageVersionHistoryRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetPackageVersionHistoryRequest,
+  output: GetPackageVersionHistoryResponse,
+  errors: [
+    AccessDeniedException,
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all OpenSearch applications under your account.
  */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listApplications: {
+  (
     input: ListApplicationsRequest,
-    output: ListApplicationsResponse,
-    errors: [
-      AccessDeniedException,
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "ApplicationSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListApplicationsResponse,
+    | AccessDeniedException
+    | BaseException
+    | DisabledOperationException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ListApplicationsResponse,
+    | AccessDeniedException
+    | BaseException
+    | DisabledOperationException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ApplicationSummary,
+    | AccessDeniedException
+    | BaseException
+    | DisabledOperationException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [
+    AccessDeniedException,
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ApplicationSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists direct-query data sources for a specific domain. For more information, see For
  * more information, see Working with
  * Amazon OpenSearch Service direct queries with Amazon S3.
  */
-export const listDataSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listDataSources: (
+  input: ListDataSourcesRequest,
+) => Effect.Effect<
+  ListDataSourcesResponse,
+  | BaseException
+  | DependencyFailureException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDataSourcesRequest,
   output: ListDataSourcesResponse,
   errors: [
@@ -5840,64 +6335,152 @@ export const listDataSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists an inventory of all the direct query data sources that you have configured
  * within Amazon OpenSearch Service.
  */
-export const listDirectQueryDataSources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDirectQueryDataSourcesRequest,
-    output: ListDirectQueryDataSourcesResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const listDirectQueryDataSources: (
+  input: ListDirectQueryDataSourcesRequest,
+) => Effect.Effect<
+  ListDirectQueryDataSourcesResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDirectQueryDataSourcesRequest,
+  output: ListDirectQueryDataSourcesResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * A list of maintenance actions for the domain.
  */
-export const listDomainMaintenances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDomainMaintenances: {
+  (
     input: ListDomainMaintenancesRequest,
-    output: ListDomainMaintenancesResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDomainMaintenancesResponse,
+    | BaseException
+    | DisabledOperationException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDomainMaintenancesRequest,
+  ) => Stream.Stream<
+    ListDomainMaintenancesResponse,
+    | BaseException
+    | DisabledOperationException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDomainMaintenancesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BaseException
+    | DisabledOperationException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDomainMaintenancesRequest,
+  output: ListDomainMaintenancesResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all instance types and available features for a given OpenSearch or
  * Elasticsearch version.
  */
-export const listInstanceTypeDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInstanceTypeDetails: {
+  (
     input: ListInstanceTypeDetailsRequest,
-    output: ListInstanceTypeDetailsResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInstanceTypeDetailsResponse,
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInstanceTypeDetailsRequest,
+  ) => Stream.Stream<
+    ListInstanceTypeDetailsResponse,
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInstanceTypeDetailsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInstanceTypeDetailsRequest,
+  output: ListInstanceTypeDetailsResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the domain configuration for the specified Amazon OpenSearch Service domain,
  * including the domain ID, domain service endpoint, and domain ARN.
  */
-export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDomain: (
+  input: DescribeDomainRequest,
+) => Effect.Effect<
+  DescribeDomainResponse,
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainRequest,
   output: DescribeDomainResponse,
   errors: [
@@ -5912,50 +6495,132 @@ export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * information, see Custom packages
  * for Amazon OpenSearch Service.
  */
-export const listDomainsForPackage =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDomainsForPackage: {
+  (
     input: ListDomainsForPackageRequest,
-    output: ListDomainsForPackageResponse,
-    errors: [
-      AccessDeniedException,
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDomainsForPackageResponse,
+    | AccessDeniedException
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDomainsForPackageRequest,
+  ) => Stream.Stream<
+    ListDomainsForPackageResponse,
+    | AccessDeniedException
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDomainsForPackageRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDomainsForPackageRequest,
+  output: ListDomainsForPackageResponse,
+  errors: [
+    AccessDeniedException,
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all packages associated with an Amazon OpenSearch Service domain. For more
  * information, see Custom packages
  * for Amazon OpenSearch Service.
  */
-export const listPackagesForDomain =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPackagesForDomain: {
+  (
     input: ListPackagesForDomainRequest,
-    output: ListPackagesForDomainResponse,
-    errors: [
-      AccessDeniedException,
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPackagesForDomainResponse,
+    | AccessDeniedException
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPackagesForDomainRequest,
+  ) => Stream.Stream<
+    ListPackagesForDomainResponse,
+    | AccessDeniedException
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPackagesForDomainRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPackagesForDomainRequest,
+  output: ListPackagesForDomainResponse,
+  errors: [
+    AccessDeniedException,
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns all resource tags for an Amazon OpenSearch Service domain, data source, or
  * application. For more information, see Tagging Amazon OpenSearch Service resources.
  */
-export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTags: (
+  input: ListTagsRequest,
+) => Effect.Effect<
+  ListTagsResponse,
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsRequest,
   output: ListTagsResponse,
   errors: [
@@ -5969,23 +6634,55 @@ export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service
  * supports.
  */
-export const listVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listVersions: {
+  (
     input: ListVersionsRequest,
-    output: ListVersionsResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListVersionsResponse,
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVersionsRequest,
+  ) => Stream.Stream<
+    ListVersionsResponse,
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVersionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVersionsRequest,
+  output: ListVersionsResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Sets the default application to the application with the specified ARN.
  *
@@ -5994,55 +6691,93 @@ export const listVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * `PutDefaultApplicationSetting` with the current applications ARN and the
  * `setAsDefault` parameter set to `false`.
  */
-export const putDefaultApplicationSetting =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutDefaultApplicationSettingRequest,
-    output: PutDefaultApplicationSettingResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const putDefaultApplicationSetting: (
+  input: PutDefaultApplicationSettingRequest,
+) => Effect.Effect<
+  PutDefaultApplicationSettingResponse,
+  | AccessDeniedException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutDefaultApplicationSettingRequest,
+  output: PutDefaultApplicationSettingResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Schedules a service software update for an Amazon OpenSearch Service domain. For more
  * information, see Service
  * software updates in Amazon OpenSearch Service.
  */
-export const startServiceSoftwareUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartServiceSoftwareUpdateRequest,
-    output: StartServiceSoftwareUpdateResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const startServiceSoftwareUpdate: (
+  input: StartServiceSoftwareUpdateRequest,
+) => Effect.Effect<
+  StartServiceSoftwareUpdateResponse,
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartServiceSoftwareUpdateRequest,
+  output: StartServiceSoftwareUpdateResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the ARN of the current default application.
  *
  * If the default application isn't set, the operation returns a resource not found
  * error.
  */
-export const getDefaultApplicationSetting =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDefaultApplicationSettingRequest,
-    output: GetDefaultApplicationSettingResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const getDefaultApplicationSetting: (
+  input: GetDefaultApplicationSettingRequest,
+) => Effect.Effect<
+  GetDefaultApplicationSettingResponse,
+  | AccessDeniedException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDefaultApplicationSettingRequest,
+  output: GetDefaultApplicationSettingResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Dissociates multiple packages from a domain simultaneously.
  */
-export const dissociatePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const dissociatePackages: (
+  input: DissociatePackagesRequest,
+) => Effect.Effect<
+  DissociatePackagesResponse,
+  | BaseException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DissociatePackagesRequest,
   output: DissociatePackagesResponse,
   errors: [
@@ -6057,7 +6792,20 @@ export const dissociatePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the configuration and settings of an existing OpenSearch application.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApplication: (
+  input: UpdateApplicationRequest,
+) => Effect.Effect<
+  UpdateApplicationResponse,
+  | AccessDeniedException
+  | BaseException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
   output: UpdateApplicationResponse,
   errors: [
@@ -6073,7 +6821,19 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
-export const updateVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVpcEndpoint: (
+  input: UpdateVpcEndpointRequest,
+) => Effect.Effect<
+  UpdateVpcEndpointResponse,
+  | BaseException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVpcEndpointRequest,
   output: UpdateVpcEndpointResponse,
   errors: [
@@ -6089,7 +6849,19 @@ export const updateVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Operation in the Amazon OpenSearch Service API for associating multiple packages with
  * a domain simultaneously.
  */
-export const associatePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associatePackages: (
+  input: AssociatePackagesRequest,
+) => Effect.Effect<
+  AssociatePackagesResponse,
+  | BaseException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociatePackagesRequest,
   output: AssociatePackagesResponse,
   errors: [
@@ -6104,7 +6876,19 @@ export const associatePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a direct query data source.
  */
-export const getDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDataSource: (
+  input: GetDataSourceRequest,
+) => Effect.Effect<
+  GetDataSourceResponse,
+  | BaseException
+  | DependencyFailureException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSourceRequest,
   output: GetDataSourceResponse,
   errors: [
@@ -6121,7 +6905,19 @@ export const getDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * with Amazon OpenSearch Service data source integrations with Amazon
  * S3.
  */
-export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDataSource: (
+  input: UpdateDataSourceRequest,
+) => Effect.Effect<
+  UpdateDataSourceResponse,
+  | BaseException
+  | DependencyFailureException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataSourceRequest,
   output: UpdateDataSourceResponse,
   errors: [
@@ -6137,40 +6933,69 @@ export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns detailed configuration information for a specific direct query data source in
  * Amazon OpenSearch Service.
  */
-export const getDirectQueryDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDirectQueryDataSourceRequest,
-    output: GetDirectQueryDataSourceResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getDirectQueryDataSource: (
+  input: GetDirectQueryDataSourceRequest,
+) => Effect.Effect<
+  GetDirectQueryDataSourceResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDirectQueryDataSourceRequest,
+  output: GetDirectQueryDataSourceResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * The status of the maintenance action.
  */
-export const getDomainMaintenanceStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDomainMaintenanceStatusRequest,
-    output: GetDomainMaintenanceStatusResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getDomainMaintenanceStatus: (
+  input: GetDomainMaintenanceStatusRequest,
+) => Effect.Effect<
+  GetDomainMaintenanceStatusResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDomainMaintenanceStatusRequest,
+  output: GetDomainMaintenanceStatusResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the most recent status of the last upgrade or upgrade eligibility check performed on
  * an Amazon OpenSearch Service domain.
  */
-export const getUpgradeStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUpgradeStatus: (
+  input: GetUpgradeStatusRequest,
+) => Effect.Effect<
+  GetUpgradeStatusResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUpgradeStatusRequest,
   output: GetUpgradeStatusResponse,
   errors: [
@@ -6186,85 +7011,134 @@ export const getUpgradeStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * access a given Amazon OpenSearch Service domain through the use of an interface VPC
  * endpoint.
  */
-export const listVpcEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListVpcEndpointAccessRequest,
-    output: ListVpcEndpointAccessResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const listVpcEndpointAccess: (
+  input: ListVpcEndpointAccessRequest,
+) => Effect.Effect<
+  ListVpcEndpointAccessResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListVpcEndpointAccessRequest,
+  output: ListVpcEndpointAccessResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a
  * particular domain.
  */
-export const listVpcEndpointsForDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListVpcEndpointsForDomainRequest,
-    output: ListVpcEndpointsForDomainResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const listVpcEndpointsForDomain: (
+  input: ListVpcEndpointsForDomainRequest,
+) => Effect.Effect<
+  ListVpcEndpointsForDomainResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListVpcEndpointsForDomainRequest,
+  output: ListVpcEndpointsForDomainResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Allows the remote Amazon OpenSearch Service domain owner to reject an inbound
  * cross-cluster connection request.
  */
-export const rejectInboundConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectInboundConnectionRequest,
-    output: RejectInboundConnectionResponse,
-    errors: [DisabledOperationException, ResourceNotFoundException],
-  }),
-);
+export const rejectInboundConnection: (
+  input: RejectInboundConnectionRequest,
+) => Effect.Effect<
+  RejectInboundConnectionResponse,
+  DisabledOperationException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectInboundConnectionRequest,
+  output: RejectInboundConnectionResponse,
+  errors: [DisabledOperationException, ResourceNotFoundException],
+}));
 /**
  * Starts the node maintenance process on the data node. These processes can include a
  * node reboot, an Opensearch or Elasticsearch process restart, or a Dashboard or Kibana
  * restart.
  */
-export const startDomainMaintenance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDomainMaintenanceRequest,
-    output: StartDomainMaintenanceResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const startDomainMaintenance: (
+  input: StartDomainMaintenanceRequest,
+) => Effect.Effect<
+  StartDomainMaintenanceResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDomainMaintenanceRequest,
+  output: StartDomainMaintenanceResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the configuration or properties of an existing direct query data source in
  * Amazon OpenSearch Service.
  */
-export const updateDirectQueryDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDirectQueryDataSourceRequest,
-    output: UpdateDirectQueryDataSourceResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateDirectQueryDataSource: (
+  input: UpdateDirectQueryDataSourceRequest,
+) => Effect.Effect<
+  UpdateDirectQueryDataSourceResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDirectQueryDataSourceRequest,
+  output: UpdateDirectQueryDataSourceResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the scope of a package. Scope of the package defines users who can view and
  * associate a package.
  */
-export const updatePackageScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePackageScope: (
+  input: UpdatePackageScopeRequest,
+) => Effect.Effect<
+  UpdatePackageScopeResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePackageScopeRequest,
   output: UpdatePackageScopeResponse,
   errors: [
@@ -6279,56 +7153,96 @@ export const updatePackageScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes a previously configured direct query data source from Amazon OpenSearch
  * Service.
  */
-export const deleteDirectQueryDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDirectQueryDataSourceRequest,
-    output: DeleteDirectQueryDataSourceResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteDirectQueryDataSource: (
+  input: DeleteDirectQueryDataSourceRequest,
+) => Effect.Effect<
+  DeleteDirectQueryDataSourceResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDirectQueryDataSourceRequest,
+  output: DeleteDirectQueryDataSourceResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Revokes access to an Amazon OpenSearch Service domain that was provided through an
  * interface VPC endpoint.
  */
-export const revokeVpcEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RevokeVpcEndpointAccessRequest,
-    output: RevokeVpcEndpointAccessResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const revokeVpcEndpointAccess: (
+  input: RevokeVpcEndpointAccessRequest,
+) => Effect.Effect<
+  RevokeVpcEndpointAccessResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeVpcEndpointAccessRequest,
+  output: RevokeVpcEndpointAccessResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Cancels a pending configuration change on an Amazon OpenSearch Service domain.
  */
-export const cancelDomainConfigChange = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelDomainConfigChangeRequest,
-    output: CancelDomainConfigChangeResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelDomainConfigChange: (
+  input: CancelDomainConfigChangeRequest,
+) => Effect.Effect<
+  CancelDomainConfigChangeResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelDomainConfigChangeRequest,
+  output: CancelDomainConfigChangeResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a specified OpenSearch application.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplication: (
+  input: DeleteApplicationRequest,
+) => Effect.Effect<
+  DeleteApplicationResponse,
+  | AccessDeniedException
+  | BaseException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResponse,
   errors: [
@@ -6345,7 +7259,19 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes a direct-query data source. For more information, see Deleting
  * an Amazon OpenSearch Service data source with Amazon S3.
  */
-export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataSource: (
+  input: DeleteDataSourceRequest,
+) => Effect.Effect<
+  DeleteDataSourceResponse,
+  | BaseException
+  | DependencyFailureException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataSourceRequest,
   output: DeleteDataSourceResponse,
   errors: [
@@ -6362,7 +7288,19 @@ export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see Custom packages
  * for Amazon OpenSearch Service.
  */
-export const associatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associatePackage: (
+  input: AssociatePackageRequest,
+) => Effect.Effect<
+  AssociatePackageResponse,
+  | AccessDeniedException
+  | BaseException
+  | ConflictException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociatePackageRequest,
   output: AssociatePackageResponse,
   errors: [
@@ -6378,7 +7316,19 @@ export const associatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Modifies the cluster configuration of the specified Amazon OpenSearch Service
  * domain.
  */
-export const updateDomainConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDomainConfig: (
+  input: UpdateDomainConfigRequest,
+) => Effect.Effect<
+  UpdateDomainConfigResponse,
+  | BaseException
+  | InternalException
+  | InvalidTypeException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainConfigRequest,
   output: UpdateDomainConfigResponse,
   errors: [
@@ -6395,43 +7345,112 @@ export const updateDomainConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * changes can be service
  * software updates or blue/green Auto-Tune enhancements.
  */
-export const listScheduledActions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listScheduledActions: {
+  (
     input: ListScheduledActionsRequest,
-    output: ListScheduledActionsResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      InvalidPaginationTokenException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListScheduledActionsResponse,
+    | BaseException
+    | InternalException
+    | InvalidPaginationTokenException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListScheduledActionsRequest,
+  ) => Stream.Stream<
+    ListScheduledActionsResponse,
+    | BaseException
+    | InternalException
+    | InvalidPaginationTokenException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListScheduledActionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BaseException
+    | InternalException
+    | InvalidPaginationTokenException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListScheduledActionsRequest,
+  output: ListScheduledActionsResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    InvalidPaginationTokenException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the outbound cross-cluster connections for a local (source) Amazon
  * OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
-export const describeOutboundConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeOutboundConnections: {
+  (
     input: DescribeOutboundConnectionsRequest,
-    output: DescribeOutboundConnectionsResponse,
-    errors: [DisabledOperationException, InvalidPaginationTokenException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeOutboundConnectionsResponse,
+    | DisabledOperationException
+    | InvalidPaginationTokenException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeOutboundConnectionsRequest,
+  ) => Stream.Stream<
+    DescribeOutboundConnectionsResponse,
+    | DisabledOperationException
+    | InvalidPaginationTokenException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeOutboundConnectionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | DisabledOperationException
+    | InvalidPaginationTokenException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeOutboundConnectionsRequest,
+  output: DescribeOutboundConnectionsResponse,
+  errors: [DisabledOperationException, InvalidPaginationTokenException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the names of all Amazon OpenSearch Service domains owned by the current user
  * in the active Region.
  */
-export const listDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listDomainNames: (
+  input: ListDomainNamesRequest,
+) => Effect.Effect<
+  ListDomainNamesResponse,
+  BaseException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDomainNamesRequest,
   output: ListDomainNamesResponse,
   errors: [BaseException, ValidationException],
@@ -6440,7 +7459,13 @@ export const listDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns domain configuration information about the specified Amazon OpenSearch Service
  * domains.
  */
-export const describeDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDomains: (
+  input: DescribeDomainsRequest,
+) => Effect.Effect<
+  DescribeDomainsResponse,
+  BaseException | InternalException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainsRequest,
   output: DescribeDomainsResponse,
   errors: [BaseException, InternalException, ValidationException],
@@ -6449,7 +7474,13 @@ export const describeDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes the specified set of tags from an Amazon OpenSearch Service domain, data
  * source, or application. For more information, see Tagging Amazon OpenSearch Service resources.
  */
-export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removeTags: (
+  input: RemoveTagsRequest,
+) => Effect.Effect<
+  RemoveTagsResponse,
+  BaseException | InternalException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsRequest,
   output: RemoveTagsResponse,
   errors: [BaseException, InternalException, ValidationException],
@@ -6457,7 +7488,19 @@ export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an OpenSearch UI application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationRequest,
+) => Effect.Effect<
+  CreateApplicationResponse,
+  | AccessDeniedException
+  | BaseException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
   output: CreateApplicationResponse,
   errors: [
@@ -6476,7 +7519,17 @@ export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Tags are a set of case-sensitive key-value pairs. A domain, data source, or
  * application can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service resources.
  */
-export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addTags: (
+  input: AddTagsRequest,
+) => Effect.Effect<
+  AddTagsResponse,
+  | BaseException
+  | InternalException
+  | LimitExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsRequest,
   output: AddTagsResponse,
   errors: [
@@ -6493,22 +7546,42 @@ export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * information, see Service
  * software updates in Amazon OpenSearch Service.
  */
-export const cancelServiceSoftwareUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelServiceSoftwareUpdateRequest,
-    output: CancelServiceSoftwareUpdateResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelServiceSoftwareUpdate: (
+  input: CancelServiceSoftwareUpdateRequest,
+) => Effect.Effect<
+  CancelServiceSoftwareUpdateResponse,
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelServiceSoftwareUpdateRequest,
+  output: CancelServiceSoftwareUpdateResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an Amazon OpenSearch Service-managed VPC endpoint.
  */
-export const createVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVpcEndpoint: (
+  input: CreateVpcEndpointRequest,
+) => Effect.Effect<
+  CreateVpcEndpointResponse,
+  | BaseException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcEndpointRequest,
   output: CreateVpcEndpointResponse,
   errors: [
@@ -6524,7 +7597,19 @@ export const createVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an Amazon OpenSearch Service package. For more information, see Custom packages
  * for Amazon OpenSearch Service.
  */
-export const deletePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePackage: (
+  input: DeletePackageRequest,
+) => Effect.Effect<
+  DeletePackageResponse,
+  | AccessDeniedException
+  | BaseException
+  | ConflictException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePackageRequest,
   output: DeletePackageResponse,
   errors: [
@@ -6540,95 +7625,176 @@ export const deletePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns information about the current blue/green deployment happening on an Amazon
  * OpenSearch Service domain. For more information, see Making configuration changes in Amazon OpenSearch Service.
  */
-export const describeDomainChangeProgress =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDomainChangeProgressRequest,
-    output: DescribeDomainChangeProgressResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const describeDomainChangeProgress: (
+  input: DescribeDomainChangeProgressRequest,
+) => Effect.Effect<
+  DescribeDomainChangeProgressResponse,
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDomainChangeProgressRequest,
+  output: DescribeDomainChangeProgressResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about domain and node health, the standby Availability Zone,
  * number of nodes per Availability Zone, and shard count per node.
  */
-export const describeDomainHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDomainHealthRequest,
-    output: DescribeDomainHealthResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeDomainHealth: (
+  input: DescribeDomainHealthRequest,
+) => Effect.Effect<
+  DescribeDomainHealthResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDomainHealthRequest,
+  output: DescribeDomainHealthResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes the progress of a pre-update dry run analysis on an Amazon OpenSearch
  * Service domain. For more information, see Determining whether a change will cause a blue/green deployment.
  */
-export const describeDryRunProgress = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDryRunProgressRequest,
-    output: DescribeDryRunProgressResponse,
-    errors: [
-      BaseException,
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeDryRunProgress: (
+  input: DescribeDryRunProgressRequest,
+) => Effect.Effect<
+  DescribeDryRunProgressResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDryRunProgressRequest,
+  output: DescribeDryRunProgressResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes the available Amazon OpenSearch Service Reserved Instance offerings for a
  * given Region. For more information, see Reserved Instances in Amazon
  * OpenSearch Service.
  */
-export const describeReservedInstanceOfferings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeReservedInstanceOfferings: {
+  (
     input: DescribeReservedInstanceOfferingsRequest,
-    output: DescribeReservedInstanceOfferingsResponse,
-    errors: [
-      DisabledOperationException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeReservedInstanceOfferingsResponse,
+    | DisabledOperationException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeReservedInstanceOfferingsRequest,
+  ) => Stream.Stream<
+    DescribeReservedInstanceOfferingsResponse,
+    | DisabledOperationException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeReservedInstanceOfferingsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | DisabledOperationException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeReservedInstanceOfferingsRequest,
+  output: DescribeReservedInstanceOfferingsResponse,
+  errors: [
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain
  * to a destination domain. For more information, see Cross-cluster search
  * for Amazon OpenSearch Service.
  */
-export const createOutboundConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateOutboundConnectionRequest,
-    output: CreateOutboundConnectionResponse,
-    errors: [
-      DisabledOperationException,
-      InternalException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-    ],
-  }),
-);
+export const createOutboundConnection: (
+  input: CreateOutboundConnectionRequest,
+) => Effect.Effect<
+  CreateOutboundConnectionResponse,
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOutboundConnectionRequest,
+  output: CreateOutboundConnectionResponse,
+  errors: [
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+  ],
+}));
 /**
  * Creates a package for use with Amazon OpenSearch Service domains. For more
  * information, see Custom packages
  * for Amazon OpenSearch Service.
  */
-export const createPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPackage: (
+  input: CreatePackageRequest,
+) => Effect.Effect<
+  CreatePackageResponse,
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | InvalidTypeException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePackageRequest,
   output: CreatePackageResponse,
   errors: [
@@ -6645,7 +7811,20 @@ export const createPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates an Amazon OpenSearch Service domain. For more information, see Creating and
  * managing Amazon OpenSearch Service domains.
  */
-export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDomain: (
+  input: CreateDomainRequest,
+) => Effect.Effect<
+  CreateDomainResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | InvalidTypeException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainRequest,
   output: CreateDomainResponse,
   errors: [
@@ -6662,7 +7841,17 @@ export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an Amazon OpenSearch Service domain and all of its data. You can't recover a
  * domain after you delete it.
  */
-export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDomain: (
+  input: DeleteDomainRequest,
+) => Effect.Effect<
+  DeleteDomainResponse,
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainRequest,
   output: DeleteDomainResponse,
   errors: [
@@ -6677,61 +7866,126 @@ export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Service domain. For more information, see Auto-Tune for Amazon
  * OpenSearch Service.
  */
-export const describeDomainAutoTunes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDomainAutoTunes: {
+  (
     input: DescribeDomainAutoTunesRequest,
-    output: DescribeDomainAutoTunesResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeDomainAutoTunesResponse,
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDomainAutoTunesRequest,
+  ) => Stream.Stream<
+    DescribeDomainAutoTunesResponse,
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDomainAutoTunesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BaseException
+    | InternalException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDomainAutoTunesRequest,
+  output: DescribeDomainAutoTunesResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the configuration of an Amazon OpenSearch Service domain.
  */
-export const describeDomainConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDomainConfigRequest,
-    output: DescribeDomainConfigResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeDomainConfig: (
+  input: DescribeDomainConfigRequest,
+) => Effect.Effect<
+  DescribeDomainConfigResponse,
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDomainConfigRequest,
+  output: DescribeDomainConfigResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Reschedules a planned domain configuration change for a later time. This change can be
  * a scheduled service
  * software update or a blue/green Auto-Tune enhancement.
  */
-export const updateScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateScheduledActionRequest,
-    output: UpdateScheduledActionResponse,
-    errors: [
-      BaseException,
-      ConflictException,
-      InternalException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      SlotNotAvailableException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateScheduledAction: (
+  input: UpdateScheduledActionRequest,
+) => Effect.Effect<
+  UpdateScheduledActionResponse,
+  | BaseException
+  | ConflictException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | SlotNotAvailableException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateScheduledActionRequest,
+  output: UpdateScheduledActionResponse,
+  errors: [
+    BaseException,
+    ConflictException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    SlotNotAvailableException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an OpenSearch index. This operation permanently removes the index and cannot be undone.
  */
-export const deleteIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIndex: (
+  input: DeleteIndexRequest,
+) => Effect.Effect<
+  DeleteIndexResponse,
+  | AccessDeniedException
+  | DependencyFailureException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIndexRequest,
   output: DeleteIndexResponse,
   errors: [
@@ -6747,7 +8001,20 @@ export const deleteIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about an OpenSearch index including its schema and semantic enrichment configuration. Use this operation to view the current index structure and semantic search settings.
  */
-export const getIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIndex: (
+  input: GetIndexRequest,
+) => Effect.Effect<
+  GetIndexResponse,
+  | AccessDeniedException
+  | DependencyFailureException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIndexRequest,
   output: GetIndexResponse,
   errors: [
@@ -6763,7 +8030,20 @@ export const getIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents.
  */
-export const updateIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateIndex: (
+  input: UpdateIndexRequest,
+) => Effect.Effect<
+  UpdateIndexResponse,
+  | AccessDeniedException
+  | DependencyFailureException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIndexRequest,
   output: UpdateIndexResponse,
   errors: [
@@ -6779,7 +8059,21 @@ export const updateIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see Automatic semantic enrichment.
  */
-export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIndex: (
+  input: CreateIndexRequest,
+) => Effect.Effect<
+  CreateIndexResponse,
+  | AccessDeniedException
+  | DependencyFailureException
+  | DisabledOperationException
+  | InternalException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIndexRequest,
   output: CreateIndexResponse,
   errors: [
@@ -6797,17 +8091,27 @@ export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Describes the instance count, storage, and master node limits for a given OpenSearch
  * or Elasticsearch version and instance type.
  */
-export const describeInstanceTypeLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInstanceTypeLimitsRequest,
-    output: DescribeInstanceTypeLimitsResponse,
-    errors: [
-      BaseException,
-      InternalException,
-      InvalidTypeException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeInstanceTypeLimits: (
+  input: DescribeInstanceTypeLimitsRequest,
+) => Effect.Effect<
+  DescribeInstanceTypeLimitsResponse,
+  | BaseException
+  | InternalException
+  | InvalidTypeException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInstanceTypeLimitsRequest,
+  output: DescribeInstanceTypeLimitsResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    InvalidTypeException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "CleanRooms",
   serviceShapeName: "AWSBastionControlPlaneServiceLambda",
@@ -292,6 +300,96 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type CleanroomsArn = string;
+export type TagKey = string;
+export type ResourceDescription = string;
+export type MembershipIdentifier = string;
+export type TableAlias = string;
+export type AnalysisTemplateIdentifier = string;
+export type PaginationToken = string;
+export type MaxResults = number;
+export type CollaborationName = string;
+export type CollaborationDescription = string;
+export type DisplayName = string;
+export type CollaborationIdentifier = string;
+export type FilterableMemberStatus = string;
+export type AnalysisTemplateArn = string;
+export type AccountId = string;
+export type CollaborationChangeRequestIdentifier = string;
+export type ConfiguredAudienceModelAssociationIdentifier = string;
+export type IdNamespaceAssociationIdentifier = string;
+export type PrivacyBudgetTemplateIdentifier = string;
+export type BudgetedResourceArn = string;
+export type ConfiguredAudienceModelArn = string;
+export type ConfiguredAudienceModelAssociationName = string;
+export type TableDescription = string;
+export type ConfiguredTableIdentifier = string;
+export type RoleArn = string;
+export type ConfiguredTableAssociationIdentifier = string;
+export type ColumnName = string;
+export type ResourceAlias = string;
+export type KMSKeyArn = string;
+export type UUID = string;
+export type GenericResourceName = string;
+export type MembershipStatus = string;
+export type ProtectedJobIdentifier = string;
+export type ProtectedQueryIdentifier = string;
+export type ProtectedQueryStatus = string;
+export type ProtectedQueryType = string;
+export type TargetProtectedQueryStatus = string;
+export type TagValue = string;
+export type AnalysisTemplateText = string;
+export type ParameterName = string;
+export type ParameterValue = string;
+export type IdMappingTableInputReferenceArn = string;
+export type IdNamespaceAssociationInputReferenceArn = string;
+export type ResourceType = string;
+export type AccessDeniedExceptionReason = string;
+export type MaxMembershipInferenceAttackScore = number;
+export type GlueTableName = string;
+export type GlueDatabaseName = string;
+export type SecretsManagerArn = string;
+export type SnowflakeAccountIdentifier = string;
+export type SnowflakeDatabaseName = string;
+export type SnowflakeTableName = string;
+export type SnowflakeSchemaName = string;
+export type AthenaWorkGroup = string;
+export type AthenaOutputLocation = string;
+export type AthenaDatabaseName = string;
+export type AthenaTableName = string;
+export type Epsilon = number;
+export type UsersNoisePerQuery = number;
+export type CollaborationArn = string;
+export type MembershipArn = string;
+export type MemberStatus = string;
+export type SchemaResourceArn = string;
+export type ConfiguredAudienceModelAssociationArn = string;
+export type IdNamespaceAssociationArn = string;
+export type PrivacyBudgetTemplateArn = string;
+export type ConfiguredTableAssociationArn = string;
+export type ConfiguredTableArn = string;
+export type IdMappingTableArn = string;
+export type AdditionalAnalysesResourceArn = string;
+export type AnalysisRuleColumnName = string;
+export type JoinOperator = string;
+export type JoinRequiredOption = string;
+export type ScalarFunctions = string;
+export type AnalysisTemplateArnOrQueryWildcard = string;
+export type ResultFormat = string;
+export type KeyPrefix = string;
+export type Budget = number;
+export type ValidationExceptionReason = string;
+export type ConflictExceptionReason = string;
+export type ColumnTypeString = string;
+export type SyntheticDataColumnName = string;
+export type AggregateFunctionName = string;
+export type AggregationType = string;
+export type SparkPropertyKey = string;
+export type SparkPropertyValue = string;
+export type RemainingBudget = number;
+export type DifferentialPrivacyAggregationExpression = string;
 
 //# Schemas
 export type TagKeys = string[];
@@ -1507,11 +1605,18 @@ export const ConfiguredTableAssociationAnalysisRuleCustom = S.suspend(() =>
 ).annotations({
   identifier: "ConfiguredTableAssociationAnalysisRuleCustom",
 }) as any as S.Schema<ConfiguredTableAssociationAnalysisRuleCustom>;
+export type ConfiguredTableAssociationAnalysisRulePolicyV1 =
+  | { list: ConfiguredTableAssociationAnalysisRuleList }
+  | { aggregation: ConfiguredTableAssociationAnalysisRuleAggregation }
+  | { custom: ConfiguredTableAssociationAnalysisRuleCustom };
 export const ConfiguredTableAssociationAnalysisRulePolicyV1 = S.Union(
   S.Struct({ list: ConfiguredTableAssociationAnalysisRuleList }),
   S.Struct({ aggregation: ConfiguredTableAssociationAnalysisRuleAggregation }),
   S.Struct({ custom: ConfiguredTableAssociationAnalysisRuleCustom }),
 );
+export type ConfiguredTableAssociationAnalysisRulePolicy = {
+  v1: (typeof ConfiguredTableAssociationAnalysisRulePolicyV1)["Type"];
+};
 export const ConfiguredTableAssociationAnalysisRulePolicy = S.Union(
   S.Struct({ v1: ConfiguredTableAssociationAnalysisRulePolicyV1 }),
 );
@@ -1594,6 +1699,7 @@ export const SnowflakeTableSchemaV1 = S.suspend(() =>
 }) as any as S.Schema<SnowflakeTableSchemaV1>;
 export type SnowflakeTableSchemaList = SnowflakeTableSchemaV1[];
 export const SnowflakeTableSchemaList = S.Array(SnowflakeTableSchemaV1);
+export type SnowflakeTableSchema = { v1: SnowflakeTableSchemaList };
 export const SnowflakeTableSchema = S.Union(
   S.Struct({ v1: SnowflakeTableSchemaList }),
 );
@@ -1635,6 +1741,10 @@ export const AthenaTableReference = S.suspend(() =>
 ).annotations({
   identifier: "AthenaTableReference",
 }) as any as S.Schema<AthenaTableReference>;
+export type TableReference =
+  | { glue: GlueTableReference }
+  | { snowflake: SnowflakeTableReference }
+  | { athena: AthenaTableReference };
 export const TableReference = S.Union(
   S.Struct({ glue: GlueTableReference }),
   S.Struct({ snowflake: SnowflakeTableReference }),
@@ -1896,11 +2006,18 @@ export const AnalysisRuleCustom = S.suspend(() =>
 ).annotations({
   identifier: "AnalysisRuleCustom",
 }) as any as S.Schema<AnalysisRuleCustom>;
+export type ConfiguredTableAnalysisRulePolicyV1 =
+  | { list: AnalysisRuleList }
+  | { aggregation: AnalysisRuleAggregation }
+  | { custom: AnalysisRuleCustom };
 export const ConfiguredTableAnalysisRulePolicyV1 = S.Union(
   S.Struct({ list: AnalysisRuleList }),
   S.Struct({ aggregation: AnalysisRuleAggregation }),
   S.Struct({ custom: AnalysisRuleCustom }),
 );
+export type ConfiguredTableAnalysisRulePolicy = {
+  v1: (typeof ConfiguredTableAnalysisRulePolicyV1)["Type"];
+};
 export const ConfiguredTableAnalysisRulePolicy = S.Union(
   S.Struct({ v1: ConfiguredTableAnalysisRulePolicyV1 }),
 );
@@ -2233,6 +2350,9 @@ export const ProtectedQueryS3OutputConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ProtectedQueryS3OutputConfiguration",
 }) as any as S.Schema<ProtectedQueryS3OutputConfiguration>;
+export type MembershipProtectedQueryOutputConfiguration = {
+  s3: ProtectedQueryS3OutputConfiguration;
+};
 export const MembershipProtectedQueryOutputConfiguration = S.Union(
   S.Struct({ s3: ProtectedQueryS3OutputConfiguration }),
 );
@@ -2257,6 +2377,9 @@ export const ProtectedJobS3OutputConfigurationInput = S.suspend(() =>
 ).annotations({
   identifier: "ProtectedJobS3OutputConfigurationInput",
 }) as any as S.Schema<ProtectedJobS3OutputConfigurationInput>;
+export type MembershipProtectedJobOutputConfiguration = {
+  s3: ProtectedJobS3OutputConfigurationInput;
+};
 export const MembershipProtectedJobOutputConfiguration = S.Union(
   S.Struct({ s3: ProtectedJobS3OutputConfigurationInput }),
 );
@@ -2878,6 +3001,9 @@ export const AnalysisTemplateArtifacts = S.suspend(() =>
 ).annotations({
   identifier: "AnalysisTemplateArtifacts",
 }) as any as S.Schema<AnalysisTemplateArtifacts>;
+export type AnalysisSource =
+  | { text: string }
+  | { artifacts: AnalysisTemplateArtifacts };
 export const AnalysisSource = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ artifacts: AnalysisTemplateArtifacts }),
@@ -2902,6 +3028,9 @@ export const AnalysisTemplateArtifactMetadata = S.suspend(() =>
 ).annotations({
   identifier: "AnalysisTemplateArtifactMetadata",
 }) as any as S.Schema<AnalysisTemplateArtifactMetadata>;
+export type AnalysisSourceMetadata = {
+  artifacts: AnalysisTemplateArtifactMetadata;
+};
 export const AnalysisSourceMetadata = S.Union(
   S.Struct({ artifacts: AnalysisTemplateArtifactMetadata }),
 );
@@ -2975,6 +3104,9 @@ export const MLSyntheticDataParameters = S.suspend(() =>
 ).annotations({
   identifier: "MLSyntheticDataParameters",
 }) as any as S.Schema<MLSyntheticDataParameters>;
+export type SyntheticDataParameters = {
+  mlSyntheticDataParameters: MLSyntheticDataParameters;
+};
 export const SyntheticDataParameters = S.Union(
   S.Struct({ mlSyntheticDataParameters: MLSyntheticDataParameters }),
 );
@@ -3219,6 +3351,9 @@ export const IdMappingTableSchemaTypeProperties = S.suspend(() =>
 ).annotations({
   identifier: "IdMappingTableSchemaTypeProperties",
 }) as any as S.Schema<IdMappingTableSchemaTypeProperties>;
+export type SchemaTypeProperties = {
+  idMappingTable: IdMappingTableSchemaTypeProperties;
+};
 export const SchemaTypeProperties = S.Union(
   S.Struct({ idMappingTable: IdMappingTableSchemaTypeProperties }),
 );
@@ -3290,6 +3425,9 @@ export const CollaborationChangeSpecification = S.suspend(() =>
 ).annotations({
   identifier: "CollaborationChangeSpecification",
 }) as any as S.Schema<CollaborationChangeSpecification>;
+export type ChangeSpecification =
+  | { member: MemberChangeSpecification }
+  | { collaboration: CollaborationChangeSpecification };
 export const ChangeSpecification = S.Union(
   S.Struct({ member: MemberChangeSpecification }),
   S.Struct({ collaboration: CollaborationChangeSpecification }),
@@ -3874,6 +4012,9 @@ export const ProtectedJobMemberOutputConfigurationOutput = S.suspend(() =>
 ).annotations({
   identifier: "ProtectedJobMemberOutputConfigurationOutput",
 }) as any as S.Schema<ProtectedJobMemberOutputConfigurationOutput>;
+export type ProtectedJobOutputConfigurationOutput =
+  | { s3: ProtectedJobS3OutputConfigurationOutput }
+  | { member: ProtectedJobMemberOutputConfigurationOutput };
 export const ProtectedJobOutputConfigurationOutput = S.Union(
   S.Struct({ s3: ProtectedJobS3OutputConfigurationOutput }),
   S.Struct({ member: ProtectedJobMemberOutputConfigurationOutput }),
@@ -3926,6 +4067,9 @@ export type ProtectedJobMemberOutputList = ProtectedJobSingleMemberOutput[];
 export const ProtectedJobMemberOutputList = S.Array(
   ProtectedJobSingleMemberOutput,
 );
+export type ProtectedJobOutput =
+  | { s3: ProtectedJobS3Output }
+  | { memberList: ProtectedJobMemberOutputList };
 export const ProtectedJobOutput = S.Union(
   S.Struct({ s3: ProtectedJobS3Output }),
   S.Struct({ memberList: ProtectedJobMemberOutputList }),
@@ -3956,6 +4100,9 @@ export const ProtectedJobWorkerComputeConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ProtectedJobWorkerComputeConfiguration",
 }) as any as S.Schema<ProtectedJobWorkerComputeConfiguration>;
+export type ProtectedJobComputeConfiguration = {
+  worker: ProtectedJobWorkerComputeConfiguration;
+};
 export const ProtectedJobComputeConfiguration = S.Union(
   S.Struct({ worker: ProtectedJobWorkerComputeConfiguration }),
 );
@@ -4019,6 +4166,9 @@ export const ProtectedQueryMemberOutputConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ProtectedQueryMemberOutputConfiguration",
 }) as any as S.Schema<ProtectedQueryMemberOutputConfiguration>;
+export type ProtectedQueryDistributeOutputConfigurationLocation =
+  | { s3: ProtectedQueryS3OutputConfiguration }
+  | { member: ProtectedQueryMemberOutputConfiguration };
 export const ProtectedQueryDistributeOutputConfigurationLocation = S.Union(
   S.Struct({ s3: ProtectedQueryS3OutputConfiguration }),
   S.Struct({ member: ProtectedQueryMemberOutputConfiguration }),
@@ -4036,6 +4186,10 @@ export const ProtectedQueryDistributeOutputConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ProtectedQueryDistributeOutputConfiguration",
 }) as any as S.Schema<ProtectedQueryDistributeOutputConfiguration>;
+export type ProtectedQueryOutputConfiguration =
+  | { s3: ProtectedQueryS3OutputConfiguration }
+  | { member: ProtectedQueryMemberOutputConfiguration }
+  | { distribute: ProtectedQueryDistributeOutputConfiguration };
 export const ProtectedQueryOutputConfiguration = S.Union(
   S.Struct({ s3: ProtectedQueryS3OutputConfiguration }),
   S.Struct({ member: ProtectedQueryMemberOutputConfiguration }),
@@ -4101,6 +4255,10 @@ export const ProtectedQueryDistributeOutput = S.suspend(() =>
 ).annotations({
   identifier: "ProtectedQueryDistributeOutput",
 }) as any as S.Schema<ProtectedQueryDistributeOutput>;
+export type ProtectedQueryOutput =
+  | { s3: ProtectedQueryS3Output }
+  | { memberList: ProtectedQueryMemberOutputList }
+  | { distribute: ProtectedQueryDistributeOutput };
 export const ProtectedQueryOutput = S.Union(
   S.Struct({ s3: ProtectedQueryS3Output }),
   S.Struct({ memberList: ProtectedQueryMemberOutputList }),
@@ -4158,6 +4316,7 @@ export const DifferentialPrivacyParameters = S.suspend(() =>
 }) as any as S.Schema<DifferentialPrivacyParameters>;
 export type SparkProperties = { [key: string]: string };
 export const SparkProperties = S.Record({ key: S.String, value: S.String });
+export type WorkerComputeConfigurationProperties = { spark: SparkProperties };
 export const WorkerComputeConfigurationProperties = S.Union(
   S.Struct({ spark: SparkProperties }),
 );
@@ -4175,6 +4334,7 @@ export const WorkerComputeConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "WorkerComputeConfiguration",
 }) as any as S.Schema<WorkerComputeConfiguration>;
+export type ComputeConfiguration = { worker: WorkerComputeConfiguration };
 export const ComputeConfiguration = S.Union(
   S.Struct({ worker: WorkerComputeConfiguration }),
 );
@@ -4375,6 +4535,7 @@ export const QueryConstraintRequireOverlap = S.suspend(() =>
 ).annotations({
   identifier: "QueryConstraintRequireOverlap",
 }) as any as S.Schema<QueryConstraintRequireOverlap>;
+export type QueryConstraint = { requireOverlap: QueryConstraintRequireOverlap };
 export const QueryConstraint = S.Union(
   S.Struct({ requireOverlap: QueryConstraintRequireOverlap }),
 );
@@ -4394,12 +4555,18 @@ export const AnalysisRuleIdMappingTable = S.suspend(() =>
 ).annotations({
   identifier: "AnalysisRuleIdMappingTable",
 }) as any as S.Schema<AnalysisRuleIdMappingTable>;
+export type AnalysisRulePolicyV1 =
+  | { list: AnalysisRuleList }
+  | { aggregation: AnalysisRuleAggregation }
+  | { custom: AnalysisRuleCustom }
+  | { idMappingTable: AnalysisRuleIdMappingTable };
 export const AnalysisRulePolicyV1 = S.Union(
   S.Struct({ list: AnalysisRuleList }),
   S.Struct({ aggregation: AnalysisRuleAggregation }),
   S.Struct({ custom: AnalysisRuleCustom }),
   S.Struct({ idMappingTable: AnalysisRuleIdMappingTable }),
 );
+export type AnalysisRulePolicy = { v1: (typeof AnalysisRulePolicyV1)["Type"] };
 export const AnalysisRulePolicy = S.Union(
   S.Struct({ v1: AnalysisRulePolicyV1 }),
 );
@@ -4473,11 +4640,16 @@ export const ConsolidatedPolicyCustom = S.suspend(() =>
 ).annotations({
   identifier: "ConsolidatedPolicyCustom",
 }) as any as S.Schema<ConsolidatedPolicyCustom>;
+export type ConsolidatedPolicyV1 =
+  | { list: ConsolidatedPolicyList }
+  | { aggregation: ConsolidatedPolicyAggregation }
+  | { custom: ConsolidatedPolicyCustom };
 export const ConsolidatedPolicyV1 = S.Union(
   S.Struct({ list: ConsolidatedPolicyList }),
   S.Struct({ aggregation: ConsolidatedPolicyAggregation }),
   S.Struct({ custom: ConsolidatedPolicyCustom }),
 );
+export type ConsolidatedPolicy = { v1: (typeof ConsolidatedPolicyV1)["Type"] };
 export const ConsolidatedPolicy = S.Union(
   S.Struct({ v1: ConsolidatedPolicyV1 }),
 );
@@ -4987,6 +5159,9 @@ export const AccessBudget = S.suspend(() =>
     aggregateRemainingBudget: S.Number,
   }),
 ).annotations({ identifier: "AccessBudget" }) as any as S.Schema<AccessBudget>;
+export type PrivacyBudget =
+  | { differentialPrivacy: DifferentialPrivacyPrivacyBudget }
+  | { accessBudget: AccessBudget };
 export const PrivacyBudget = S.Union(
   S.Struct({ differentialPrivacy: DifferentialPrivacyPrivacyBudget }),
   S.Struct({ accessBudget: AccessBudget }),
@@ -5023,6 +5198,9 @@ export const PrivacyBudgetSummary = S.suspend(() =>
 }) as any as S.Schema<PrivacyBudgetSummary>;
 export type PrivacyBudgetSummaryList = PrivacyBudgetSummary[];
 export const PrivacyBudgetSummaryList = S.Array(PrivacyBudgetSummary);
+export type PreviewPrivacyImpactParametersInput = {
+  differentialPrivacy: DifferentialPrivacyPreviewParametersInput;
+};
 export const PreviewPrivacyImpactParametersInput = S.Union(
   S.Struct({ differentialPrivacy: DifferentialPrivacyPreviewParametersInput }),
 );
@@ -5044,6 +5222,9 @@ export const AccessBudgetsPrivacyTemplateParametersOutput = S.suspend(() =>
 ).annotations({
   identifier: "AccessBudgetsPrivacyTemplateParametersOutput",
 }) as any as S.Schema<AccessBudgetsPrivacyTemplateParametersOutput>;
+export type PrivacyBudgetTemplateParametersOutput =
+  | { differentialPrivacy: DifferentialPrivacyTemplateParametersOutput }
+  | { accessBudget: AccessBudgetsPrivacyTemplateParametersOutput };
 export const PrivacyBudgetTemplateParametersOutput = S.Union(
   S.Struct({
     differentialPrivacy: DifferentialPrivacyTemplateParametersOutput,
@@ -5080,6 +5261,9 @@ export const PrivacyBudgetTemplate = S.suspend(() =>
 ).annotations({
   identifier: "PrivacyBudgetTemplate",
 }) as any as S.Schema<PrivacyBudgetTemplate>;
+export type PrivacyBudgetTemplateUpdateParameters =
+  | { differentialPrivacy: DifferentialPrivacyTemplateUpdateParameters }
+  | { accessBudget: AccessBudgetsPrivacyTemplateUpdateParameters };
 export const PrivacyBudgetTemplateUpdateParameters = S.Union(
   S.Struct({
     differentialPrivacy: DifferentialPrivacyTemplateUpdateParameters,
@@ -5489,6 +5673,9 @@ export const ListPrivacyBudgetTemplatesOutput = S.suspend(() =>
 ).annotations({
   identifier: "ListPrivacyBudgetTemplatesOutput",
 }) as any as S.Schema<ListPrivacyBudgetTemplatesOutput>;
+export type ProtectedJobOutputConfigurationInput = {
+  member: ProtectedJobMemberOutputConfigurationInput;
+};
 export const ProtectedJobOutputConfigurationInput = S.Union(
   S.Struct({ member: ProtectedJobMemberOutputConfigurationInput }),
 );
@@ -5618,6 +5805,9 @@ export const ProtectedJobResultConfigurationInput = S.suspend(() =>
 ).annotations({
   identifier: "ProtectedJobResultConfigurationInput",
 }) as any as S.Schema<ProtectedJobResultConfigurationInput>;
+export type PrivacyBudgetTemplateParametersInput =
+  | { differentialPrivacy: DifferentialPrivacyTemplateParametersInput }
+  | { accessBudget: AccessBudgetsPrivacyTemplateParametersInput };
 export const PrivacyBudgetTemplateParametersInput = S.Union(
   S.Struct({ differentialPrivacy: DifferentialPrivacyTemplateParametersInput }),
   S.Struct({ accessBudget: AccessBudgetsPrivacyTemplateParametersInput }),
@@ -5911,12 +6101,18 @@ export const CollaborationPrivacyBudgetTemplate = S.suspend(() =>
 ).annotations({
   identifier: "CollaborationPrivacyBudgetTemplate",
 }) as any as S.Schema<CollaborationPrivacyBudgetTemplate>;
+export type ProtectedJobConfigurationDetails = {
+  directAnalysisConfigurationDetails: ProtectedJobDirectAnalysisConfigurationDetails;
+};
 export const ProtectedJobConfigurationDetails = S.Union(
   S.Struct({
     directAnalysisConfigurationDetails:
       ProtectedJobDirectAnalysisConfigurationDetails,
   }),
 );
+export type ConfigurationDetails = {
+  directAnalysisConfigurationDetails: DirectAnalysisConfigurationDetails;
+};
 export const ConfigurationDetails = S.Union(
   S.Struct({
     directAnalysisConfigurationDetails: DirectAnalysisConfigurationDetails,
@@ -6348,6 +6544,9 @@ export const DifferentialPrivacyPrivacyImpact = S.suspend(() =>
 ).annotations({
   identifier: "DifferentialPrivacyPrivacyImpact",
 }) as any as S.Schema<DifferentialPrivacyPrivacyImpact>;
+export type PrivacyImpact = {
+  differentialPrivacy: DifferentialPrivacyPrivacyImpact;
+};
 export const PrivacyImpact = S.Union(
   S.Struct({ differentialPrivacy: DifferentialPrivacyPrivacyImpact }),
 );
@@ -6388,7 +6587,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -6409,7 +6610,9 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String, quotaName: S.String, quotaValue: S.Number },
@@ -6419,7 +6622,13 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Removes a tag or list of tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [ResourceNotFoundException, ValidationException],
@@ -6427,109 +6636,201 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an analysis template.
  */
-export const deleteAnalysisTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAnalysisTemplateInput,
-    output: DeleteAnalysisTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAnalysisTemplate: (
+  input: DeleteAnalysisTemplateInput,
+) => Effect.Effect<
+  DeleteAnalysisTemplateOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAnalysisTemplateInput,
+  output: DeleteAnalysisTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves multiple analysis rule schemas.
  */
-export const batchGetSchemaAnalysisRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetSchemaAnalysisRuleInput,
-    output: BatchGetSchemaAnalysisRuleOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchGetSchemaAnalysisRule: (
+  input: BatchGetSchemaAnalysisRuleInput,
+) => Effect.Effect<
+  BatchGetSchemaAnalysisRuleOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetSchemaAnalysisRuleInput,
+  output: BatchGetSchemaAnalysisRuleOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves an ID namespace association from a specific collaboration.
  */
-export const getCollaborationIdNamespaceAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCollaborationIdNamespaceAssociationInput,
-    output: GetCollaborationIdNamespaceAssociationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getCollaborationIdNamespaceAssociation: (
+  input: GetCollaborationIdNamespaceAssociationInput,
+) => Effect.Effect<
+  GetCollaborationIdNamespaceAssociationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCollaborationIdNamespaceAssociationInput,
+  output: GetCollaborationIdNamespaceAssociationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of the ID namespace associations in a collaboration.
  */
-export const listCollaborationIdNamespaceAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCollaborationIdNamespaceAssociations: {
+  (
     input: ListCollaborationIdNamespaceAssociationsInput,
-    output: ListCollaborationIdNamespaceAssociationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "collaborationIdNamespaceAssociationSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCollaborationIdNamespaceAssociationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCollaborationIdNamespaceAssociationsInput,
+  ) => Stream.Stream<
+    ListCollaborationIdNamespaceAssociationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCollaborationIdNamespaceAssociationsInput,
+  ) => Stream.Stream<
+    CollaborationIdNamespaceAssociationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCollaborationIdNamespaceAssociationsInput,
+  output: ListCollaborationIdNamespaceAssociationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "collaborationIdNamespaceAssociationSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Provides the details necessary to create a configured audience model association.
  */
-export const createConfiguredAudienceModelAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateConfiguredAudienceModelAssociationInput,
-    output: CreateConfiguredAudienceModelAssociationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createConfiguredAudienceModelAssociation: (
+  input: CreateConfiguredAudienceModelAssociationInput,
+) => Effect.Effect<
+  CreateConfiguredAudienceModelAssociationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConfiguredAudienceModelAssociationInput,
+  output: CreateConfiguredAudienceModelAssociationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the privacy budget template for the specified collaboration.
  */
-export const updatePrivacyBudgetTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePrivacyBudgetTemplateInput,
-    output: UpdatePrivacyBudgetTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updatePrivacyBudgetTemplate: (
+  input: UpdatePrivacyBudgetTemplateInput,
+) => Effect.Effect<
+  UpdatePrivacyBudgetTemplateOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePrivacyBudgetTemplateInput,
+  output: UpdatePrivacyBudgetTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all of the tags that have been added to a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [ResourceNotFoundException, ValidationException],
@@ -6537,7 +6838,13 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Tags a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [ResourceNotFoundException, ValidationException],
@@ -6545,28 +6852,74 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists analysis templates that the caller owns.
  */
-export const listAnalysisTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAnalysisTemplates: {
+  (
     input: ListAnalysisTemplatesInput,
-    output: ListAnalysisTemplatesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "analysisTemplateSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAnalysisTemplatesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAnalysisTemplatesInput,
+  ) => Stream.Stream<
+    ListAnalysisTemplatesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAnalysisTemplatesInput,
+  ) => Stream.Stream<
+    AnalysisTemplateSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAnalysisTemplatesInput,
+  output: ListAnalysisTemplatesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "analysisTemplateSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns metadata about a collaboration.
  */
-export const getCollaboration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCollaboration: (
+  input: GetCollaborationInput,
+) => Effect.Effect<
+  GetCollaborationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCollaborationInput,
   output: GetCollaborationOutput,
   errors: [
@@ -6579,261 +6932,631 @@ export const getCollaboration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists collaborations the caller owns, is active in, or has been invited to.
  */
-export const listCollaborations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCollaborations: {
+  (
     input: ListCollaborationsInput,
-    output: ListCollaborationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "collaborationList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCollaborationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCollaborationsInput,
+  ) => Stream.Stream<
+    ListCollaborationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCollaborationsInput,
+  ) => Stream.Stream<
+    CollaborationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCollaborationsInput,
+  output: ListCollaborationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "collaborationList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves multiple analysis templates within a collaboration by their Amazon Resource Names (ARNs).
  */
-export const batchGetCollaborationAnalysisTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetCollaborationAnalysisTemplateInput,
-    output: BatchGetCollaborationAnalysisTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchGetCollaborationAnalysisTemplate: (
+  input: BatchGetCollaborationAnalysisTemplateInput,
+) => Effect.Effect<
+  BatchGetCollaborationAnalysisTemplateOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetCollaborationAnalysisTemplateInput,
+  output: BatchGetCollaborationAnalysisTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a configured audience model association within a collaboration.
  */
-export const getCollaborationConfiguredAudienceModelAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCollaborationConfiguredAudienceModelAssociationInput,
-    output: GetCollaborationConfiguredAudienceModelAssociationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getCollaborationConfiguredAudienceModelAssociation: (
+  input: GetCollaborationConfiguredAudienceModelAssociationInput,
+) => Effect.Effect<
+  GetCollaborationConfiguredAudienceModelAssociationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCollaborationConfiguredAudienceModelAssociationInput,
+  output: GetCollaborationConfiguredAudienceModelAssociationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists analysis templates within a collaboration.
  */
-export const listCollaborationAnalysisTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCollaborationAnalysisTemplates: {
+  (
     input: ListCollaborationAnalysisTemplatesInput,
-    output: ListCollaborationAnalysisTemplatesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "collaborationAnalysisTemplateSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCollaborationAnalysisTemplatesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCollaborationAnalysisTemplatesInput,
+  ) => Stream.Stream<
+    ListCollaborationAnalysisTemplatesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCollaborationAnalysisTemplatesInput,
+  ) => Stream.Stream<
+    CollaborationAnalysisTemplateSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCollaborationAnalysisTemplatesInput,
+  output: ListCollaborationAnalysisTemplatesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "collaborationAnalysisTemplateSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all change requests for a collaboration with pagination support. Returns change requests sorted by creation time.
  */
-export const listCollaborationChangeRequests =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCollaborationChangeRequests: {
+  (
     input: ListCollaborationChangeRequestsInput,
-    output: ListCollaborationChangeRequestsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "collaborationChangeRequestSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCollaborationChangeRequestsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCollaborationChangeRequestsInput,
+  ) => Stream.Stream<
+    ListCollaborationChangeRequestsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCollaborationChangeRequestsInput,
+  ) => Stream.Stream<
+    CollaborationChangeRequestSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCollaborationChangeRequestsInput,
+  output: ListCollaborationChangeRequestsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "collaborationChangeRequestSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists configured audience model associations within a collaboration.
  */
-export const listCollaborationConfiguredAudienceModelAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCollaborationConfiguredAudienceModelAssociations: {
+  (
     input: ListCollaborationConfiguredAudienceModelAssociationsInput,
-    output: ListCollaborationConfiguredAudienceModelAssociationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "collaborationConfiguredAudienceModelAssociationSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCollaborationConfiguredAudienceModelAssociationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCollaborationConfiguredAudienceModelAssociationsInput,
+  ) => Stream.Stream<
+    ListCollaborationConfiguredAudienceModelAssociationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCollaborationConfiguredAudienceModelAssociationsInput,
+  ) => Stream.Stream<
+    CollaborationConfiguredAudienceModelAssociationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCollaborationConfiguredAudienceModelAssociationsInput,
+  output: ListCollaborationConfiguredAudienceModelAssociationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "collaborationConfiguredAudienceModelAssociationSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns an array that summarizes each privacy budget template in a specified collaboration.
  */
-export const listCollaborationPrivacyBudgetTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCollaborationPrivacyBudgetTemplates: {
+  (
     input: ListCollaborationPrivacyBudgetTemplatesInput,
-    output: ListCollaborationPrivacyBudgetTemplatesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "collaborationPrivacyBudgetTemplateSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCollaborationPrivacyBudgetTemplatesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCollaborationPrivacyBudgetTemplatesInput,
+  ) => Stream.Stream<
+    ListCollaborationPrivacyBudgetTemplatesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCollaborationPrivacyBudgetTemplatesInput,
+  ) => Stream.Stream<
+    CollaborationPrivacyBudgetTemplateSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCollaborationPrivacyBudgetTemplatesInput,
+  output: ListCollaborationPrivacyBudgetTemplatesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "collaborationPrivacyBudgetTemplateSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all members within a collaboration.
  */
-export const listMembers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMembers: {
+  (
     input: ListMembersInput,
-    output: ListMembersOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "memberSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMembersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMembersInput,
+  ) => Stream.Stream<
+    ListMembersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMembersInput,
+  ) => Stream.Stream<
+    MemberSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMembersInput,
+  output: ListMembersOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "memberSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the schemas for relations within a collaboration.
  */
-export const listSchemas = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSchemas: {
+  (
     input: ListSchemasInput,
-    output: ListSchemasOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "schemaSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSchemasOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSchemasInput,
+  ) => Stream.Stream<
+    ListSchemasOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSchemasInput,
+  ) => Stream.Stream<
+    SchemaSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSchemasInput,
+  output: ListSchemasOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "schemaSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates an existing collaboration change request. This operation allows approval actions for pending change requests in collaborations (APPROVE, DENY, CANCEL, COMMIT).
  *
  * For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request.
  */
-export const updateCollaborationChangeRequest =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCollaborationChangeRequestInput,
-    output: UpdateCollaborationChangeRequestOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateCollaborationChangeRequest: (
+  input: UpdateCollaborationChangeRequestInput,
+) => Effect.Effect<
+  UpdateCollaborationChangeRequestOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCollaborationChangeRequestInput,
+  output: UpdateCollaborationChangeRequestOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists information about requested configured audience model associations.
  */
-export const listConfiguredAudienceModelAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConfiguredAudienceModelAssociations: {
+  (
     input: ListConfiguredAudienceModelAssociationsInput,
-    output: ListConfiguredAudienceModelAssociationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "configuredAudienceModelAssociationSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConfiguredAudienceModelAssociationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfiguredAudienceModelAssociationsInput,
+  ) => Stream.Stream<
+    ListConfiguredAudienceModelAssociationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfiguredAudienceModelAssociationsInput,
+  ) => Stream.Stream<
+    ConfiguredAudienceModelAssociationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfiguredAudienceModelAssociationsInput,
+  output: ListConfiguredAudienceModelAssociationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "configuredAudienceModelAssociationSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists configured table associations for a membership.
  */
-export const listConfiguredTableAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConfiguredTableAssociations: {
+  (
     input: ListConfiguredTableAssociationsInput,
-    output: ListConfiguredTableAssociationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "configuredTableAssociationSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConfiguredTableAssociationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfiguredTableAssociationsInput,
+  ) => Stream.Stream<
+    ListConfiguredTableAssociationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfiguredTableAssociationsInput,
+  ) => Stream.Stream<
+    ConfiguredTableAssociationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfiguredTableAssociationsInput,
+  output: ListConfiguredTableAssociationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "configuredTableAssociationSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the analysis rule for a configured table association.
  */
-export const getConfiguredTableAssociationAnalysisRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetConfiguredTableAssociationAnalysisRuleInput,
-    output: GetConfiguredTableAssociationAnalysisRuleOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getConfiguredTableAssociationAnalysisRule: (
+  input: GetConfiguredTableAssociationAnalysisRuleInput,
+) => Effect.Effect<
+  GetConfiguredTableAssociationAnalysisRuleOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfiguredTableAssociationAnalysisRuleInput,
+  output: GetConfiguredTableAssociationAnalysisRuleOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a configured table.
  */
-export const getConfiguredTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConfiguredTable: (
+  input: GetConfiguredTableInput,
+) => Effect.Effect<
+  GetConfiguredTableOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfiguredTableInput,
   output: GetConfiguredTableOutput,
   errors: [
@@ -6847,100 +7570,235 @@ export const getConfiguredTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists configured tables.
  */
-export const listConfiguredTables =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConfiguredTables: {
+  (
     input: ListConfiguredTablesInput,
-    output: ListConfiguredTablesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "configuredTableSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConfiguredTablesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfiguredTablesInput,
+  ) => Stream.Stream<
+    ListConfiguredTablesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfiguredTablesInput,
+  ) => Stream.Stream<
+    ConfiguredTableSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfiguredTablesInput,
+  output: ListConfiguredTablesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "configuredTableSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a configured table analysis rule.
  */
-export const getConfiguredTableAnalysisRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetConfiguredTableAnalysisRuleInput,
-    output: GetConfiguredTableAnalysisRuleOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getConfiguredTableAnalysisRule: (
+  input: GetConfiguredTableAnalysisRuleInput,
+) => Effect.Effect<
+  GetConfiguredTableAnalysisRuleOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfiguredTableAnalysisRuleInput,
+  output: GetConfiguredTableAnalysisRuleOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of ID mapping tables.
  */
-export const listIdMappingTables =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIdMappingTables: {
+  (
     input: ListIdMappingTablesInput,
-    output: ListIdMappingTablesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "idMappingTableSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIdMappingTablesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdMappingTablesInput,
+  ) => Stream.Stream<
+    ListIdMappingTablesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdMappingTablesInput,
+  ) => Stream.Stream<
+    IdMappingTableSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdMappingTablesInput,
+  output: ListIdMappingTablesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "idMappingTableSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves an ID namespace association.
  */
-export const getIdNamespaceAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIdNamespaceAssociationInput,
-    output: GetIdNamespaceAssociationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getIdNamespaceAssociation: (
+  input: GetIdNamespaceAssociationInput,
+) => Effect.Effect<
+  GetIdNamespaceAssociationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdNamespaceAssociationInput,
+  output: GetIdNamespaceAssociationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of ID namespace associations.
  */
-export const listIdNamespaceAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIdNamespaceAssociations: {
+  (
     input: ListIdNamespaceAssociationsInput,
-    output: ListIdNamespaceAssociationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "idNamespaceAssociationSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIdNamespaceAssociationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdNamespaceAssociationsInput,
+  ) => Stream.Stream<
+    ListIdNamespaceAssociationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdNamespaceAssociationsInput,
+  ) => Stream.Stream<
+    IdNamespaceAssociationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdNamespaceAssociationsInput,
+  output: ListIdNamespaceAssociationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "idNamespaceAssociationSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a specified membership for an identifier.
  */
-export const getMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMembership: (
+  input: GetMembershipInput,
+) => Effect.Effect<
+  GetMembershipOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMembershipInput,
   output: GetMembershipOutput,
   errors: [
@@ -6954,87 +7812,209 @@ export const getMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all memberships resources within the caller's account.
  */
-export const listMemberships = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMemberships: {
+  (
     input: ListMembershipsInput,
-    output: ListMembershipsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "membershipSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMembershipsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMembershipsInput,
+  ) => Stream.Stream<
+    ListMembershipsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMembershipsInput,
+  ) => Stream.Stream<
+    MembershipSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMembershipsInput,
+  output: ListMembershipsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "membershipSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns detailed information about the privacy budgets in a specified membership.
  */
-export const listPrivacyBudgets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPrivacyBudgets: {
+  (
     input: ListPrivacyBudgetsInput,
-    output: ListPrivacyBudgetsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "privacyBudgetSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPrivacyBudgetsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPrivacyBudgetsInput,
+  ) => Stream.Stream<
+    ListPrivacyBudgetsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPrivacyBudgetsInput,
+  ) => Stream.Stream<
+    PrivacyBudgetSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPrivacyBudgetsInput,
+  output: ListPrivacyBudgetsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "privacyBudgetSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns details for a specified privacy budget template.
  */
-export const getPrivacyBudgetTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPrivacyBudgetTemplateInput,
-    output: GetPrivacyBudgetTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getPrivacyBudgetTemplate: (
+  input: GetPrivacyBudgetTemplateInput,
+) => Effect.Effect<
+  GetPrivacyBudgetTemplateOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPrivacyBudgetTemplateInput,
+  output: GetPrivacyBudgetTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns detailed information about the privacy budget templates in a specified membership.
  */
-export const listPrivacyBudgetTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPrivacyBudgetTemplates: {
+  (
     input: ListPrivacyBudgetTemplatesInput,
-    output: ListPrivacyBudgetTemplatesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "privacyBudgetTemplateSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPrivacyBudgetTemplatesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPrivacyBudgetTemplatesInput,
+  ) => Stream.Stream<
+    ListPrivacyBudgetTemplatesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPrivacyBudgetTemplatesInput,
+  ) => Stream.Stream<
+    PrivacyBudgetTemplateSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPrivacyBudgetTemplatesInput,
+  output: ListPrivacyBudgetTemplatesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "privacyBudgetTemplateSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates collaboration metadata and can only be called by the collaboration owner.
  */
-export const updateCollaboration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCollaboration: (
+  input: UpdateCollaborationInput,
+) => Effect.Effect<
+  UpdateCollaborationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCollaborationInput,
   output: UpdateCollaborationOutput,
   errors: [
@@ -7047,22 +8027,43 @@ export const updateCollaboration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves an analysis template within a collaboration.
  */
-export const getCollaborationAnalysisTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCollaborationAnalysisTemplateInput,
-    output: GetCollaborationAnalysisTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getCollaborationAnalysisTemplate: (
+  input: GetCollaborationAnalysisTemplateInput,
+) => Effect.Effect<
+  GetCollaborationAnalysisTemplateOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCollaborationAnalysisTemplateInput,
+  output: GetCollaborationAnalysisTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the schema for a relation within a collaboration.
  */
-export const getSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSchema: (
+  input: GetSchemaInput,
+) => Effect.Effect<
+  GetSchemaOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSchemaInput,
   output: GetSchemaOutput,
   errors: [
@@ -7076,83 +8077,142 @@ export const getSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a configured audience model association.
  */
-export const getConfiguredAudienceModelAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetConfiguredAudienceModelAssociationInput,
-    output: GetConfiguredAudienceModelAssociationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getConfiguredAudienceModelAssociation: (
+  input: GetConfiguredAudienceModelAssociationInput,
+) => Effect.Effect<
+  GetConfiguredAudienceModelAssociationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfiguredAudienceModelAssociationInput,
+  output: GetConfiguredAudienceModelAssociationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Provides the details necessary to update a configured audience model association.
  */
-export const updateConfiguredAudienceModelAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConfiguredAudienceModelAssociationInput,
-    output: UpdateConfiguredAudienceModelAssociationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateConfiguredAudienceModelAssociation: (
+  input: UpdateConfiguredAudienceModelAssociationInput,
+) => Effect.Effect<
+  UpdateConfiguredAudienceModelAssociationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfiguredAudienceModelAssociationInput,
+  output: UpdateConfiguredAudienceModelAssociationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a configured table association.
  */
-export const getConfiguredTableAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetConfiguredTableAssociationInput,
-    output: GetConfiguredTableAssociationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getConfiguredTableAssociation: (
+  input: GetConfiguredTableAssociationInput,
+) => Effect.Effect<
+  GetConfiguredTableAssociationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfiguredTableAssociationInput,
+  output: GetConfiguredTableAssociationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Provides the details that are necessary to update an ID mapping table.
  */
-export const updateIdMappingTable = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIdMappingTableInput,
-    output: UpdateIdMappingTableOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateIdMappingTable: (
+  input: UpdateIdMappingTableInput,
+) => Effect.Effect<
+  UpdateIdMappingTableOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIdMappingTableInput,
+  output: UpdateIdMappingTableOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Provides the details that are necessary to update an ID namespace association.
  */
-export const updateIdNamespaceAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateIdNamespaceAssociationInput,
-    output: UpdateIdNamespaceAssociationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateIdNamespaceAssociation: (
+  input: UpdateIdNamespaceAssociationInput,
+) => Effect.Effect<
+  UpdateIdNamespaceAssociationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIdNamespaceAssociationInput,
+  output: UpdateIdNamespaceAssociationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a collaboration. It can only be called by the collaboration owner.
  */
-export const deleteCollaboration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCollaboration: (
+  input: DeleteCollaborationInput,
+) => Effect.Effect<
+  DeleteCollaborationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCollaborationInput,
   output: DeleteCollaborationOutput,
   errors: [
@@ -7165,133 +8225,225 @@ export const deleteCollaboration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides the information necessary to delete a configured audience model association.
  */
-export const deleteConfiguredAudienceModelAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteConfiguredAudienceModelAssociationInput,
-    output: DeleteConfiguredAudienceModelAssociationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteConfiguredAudienceModelAssociation: (
+  input: DeleteConfiguredAudienceModelAssociationInput,
+) => Effect.Effect<
+  DeleteConfiguredAudienceModelAssociationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConfiguredAudienceModelAssociationInput,
+  output: DeleteConfiguredAudienceModelAssociationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an ID mapping table.
  */
-export const deleteIdMappingTable = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIdMappingTableInput,
-    output: DeleteIdMappingTableOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteIdMappingTable: (
+  input: DeleteIdMappingTableInput,
+) => Effect.Effect<
+  DeleteIdMappingTableOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIdMappingTableInput,
+  output: DeleteIdMappingTableOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an ID namespace association.
  */
-export const deleteIdNamespaceAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteIdNamespaceAssociationInput,
-    output: DeleteIdNamespaceAssociationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteIdNamespaceAssociation: (
+  input: DeleteIdNamespaceAssociationInput,
+) => Effect.Effect<
+  DeleteIdNamespaceAssociationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIdNamespaceAssociationInput,
+  output: DeleteIdNamespaceAssociationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a privacy budget template for a specified collaboration.
  */
-export const deletePrivacyBudgetTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePrivacyBudgetTemplateInput,
-    output: DeletePrivacyBudgetTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deletePrivacyBudgetTemplate: (
+  input: DeletePrivacyBudgetTemplateInput,
+) => Effect.Effect<
+  DeletePrivacyBudgetTemplateOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePrivacyBudgetTemplateInput,
+  output: DeletePrivacyBudgetTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the analysis template metadata.
  */
-export const updateAnalysisTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAnalysisTemplateInput,
-    output: UpdateAnalysisTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAnalysisTemplate: (
+  input: UpdateAnalysisTemplateInput,
+) => Effect.Effect<
+  UpdateAnalysisTemplateOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAnalysisTemplateInput,
+  output: UpdateAnalysisTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a configured table association.
  */
-export const updateConfiguredTableAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConfiguredTableAssociationInput,
-    output: UpdateConfiguredTableAssociationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateConfiguredTableAssociation: (
+  input: UpdateConfiguredTableAssociationInput,
+) => Effect.Effect<
+  UpdateConfiguredTableAssociationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfiguredTableAssociationInput,
+  output: UpdateConfiguredTableAssociationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the analysis rule for a configured table association.
  */
-export const updateConfiguredTableAssociationAnalysisRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConfiguredTableAssociationAnalysisRuleInput,
-    output: UpdateConfiguredTableAssociationAnalysisRuleOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateConfiguredTableAssociationAnalysisRule: (
+  input: UpdateConfiguredTableAssociationAnalysisRuleInput,
+) => Effect.Effect<
+  UpdateConfiguredTableAssociationAnalysisRuleOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfiguredTableAssociationAnalysisRuleInput,
+  output: UpdateConfiguredTableAssociationAnalysisRuleOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a configured table analysis rule.
  */
-export const updateConfiguredTableAnalysisRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConfiguredTableAnalysisRuleInput,
-    output: UpdateConfiguredTableAnalysisRuleOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateConfiguredTableAnalysisRule: (
+  input: UpdateConfiguredTableAnalysisRuleInput,
+) => Effect.Effect<
+  UpdateConfiguredTableAnalysisRuleOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfiguredTableAnalysisRuleInput,
+  output: UpdateConfiguredTableAnalysisRuleOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a membership.
  */
-export const updateMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMembership: (
+  input: UpdateMembershipInput,
+) => Effect.Effect<
+  UpdateMembershipOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMembershipInput,
   output: UpdateMembershipOutput,
   errors: [
@@ -7306,7 +8458,19 @@ export const updateMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the processing of a currently running job.
  */
-export const updateProtectedJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProtectedJob: (
+  input: UpdateProtectedJobInput,
+) => Effect.Effect<
+  UpdateProtectedJobOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProtectedJobInput,
   output: UpdateProtectedJobOutput,
   errors: [
@@ -7321,24 +8485,46 @@ export const updateProtectedJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the processing of a currently running query.
  */
-export const updateProtectedQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateProtectedQueryInput,
-    output: UpdateProtectedQueryOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateProtectedQuery: (
+  input: UpdateProtectedQueryInput,
+) => Effect.Effect<
+  UpdateProtectedQueryOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProtectedQueryInput,
+  output: UpdateProtectedQueryOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration.
  */
-export const deleteMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMember: (
+  input: DeleteMemberInput,
+) => Effect.Effect<
+  DeleteMemberOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMemberInput,
   output: DeleteMemberOutput,
   errors: [
@@ -7353,72 +8539,127 @@ export const deleteMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a configured table association.
  */
-export const deleteConfiguredTableAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteConfiguredTableAssociationInput,
-    output: DeleteConfiguredTableAssociationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteConfiguredTableAssociation: (
+  input: DeleteConfiguredTableAssociationInput,
+) => Effect.Effect<
+  DeleteConfiguredTableAssociationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConfiguredTableAssociationInput,
+  output: DeleteConfiguredTableAssociationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an analysis rule for a configured table association.
  */
-export const deleteConfiguredTableAssociationAnalysisRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteConfiguredTableAssociationAnalysisRuleInput,
-    output: DeleteConfiguredTableAssociationAnalysisRuleOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteConfiguredTableAssociationAnalysisRule: (
+  input: DeleteConfiguredTableAssociationAnalysisRuleInput,
+) => Effect.Effect<
+  DeleteConfiguredTableAssociationAnalysisRuleOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConfiguredTableAssociationAnalysisRuleInput,
+  output: DeleteConfiguredTableAssociationAnalysisRuleOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a configured table.
  */
-export const deleteConfiguredTable = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConfiguredTableInput,
-    output: DeleteConfiguredTableOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteConfiguredTable: (
+  input: DeleteConfiguredTableInput,
+) => Effect.Effect<
+  DeleteConfiguredTableOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConfiguredTableInput,
+  output: DeleteConfiguredTableOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a configured table analysis rule.
  */
-export const deleteConfiguredTableAnalysisRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteConfiguredTableAnalysisRuleInput,
-    output: DeleteConfiguredTableAnalysisRuleOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteConfiguredTableAnalysisRule: (
+  input: DeleteConfiguredTableAnalysisRuleInput,
+) => Effect.Effect<
+  DeleteConfiguredTableAnalysisRuleOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConfiguredTableAnalysisRuleInput,
+  output: DeleteConfiguredTableAnalysisRuleOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a specified membership. All resources under a membership must be deleted.
  */
-export const deleteMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMembership: (
+  input: DeleteMembershipInput,
+) => Effect.Effect<
+  DeleteMembershipOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMembershipInput,
   output: DeleteMembershipOutput,
   errors: [
@@ -7433,95 +8674,163 @@ export const deleteMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a configured table association. A configured table association links a configured table with a collaboration.
  */
-export const createConfiguredTableAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateConfiguredTableAssociationInput,
-    output: CreateConfiguredTableAssociationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createConfiguredTableAssociation: (
+  input: CreateConfiguredTableAssociationInput,
+) => Effect.Effect<
+  CreateConfiguredTableAssociationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConfiguredTableAssociationInput,
+  output: CreateConfiguredTableAssociationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an ID mapping table.
  */
-export const createIdMappingTable = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIdMappingTableInput,
-    output: CreateIdMappingTableOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createIdMappingTable: (
+  input: CreateIdMappingTableInput,
+) => Effect.Effect<
+  CreateIdMappingTableOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIdMappingTableInput,
+  output: CreateIdMappingTableOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an ID namespace association.
  */
-export const createIdNamespaceAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateIdNamespaceAssociationInput,
-    output: CreateIdNamespaceAssociationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createIdNamespaceAssociation: (
+  input: CreateIdNamespaceAssociationInput,
+) => Effect.Effect<
+  CreateIdNamespaceAssociationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIdNamespaceAssociationInput,
+  output: CreateIdNamespaceAssociationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a configured table.
  */
-export const updateConfiguredTable = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConfiguredTableInput,
-    output: UpdateConfiguredTableOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateConfiguredTable: (
+  input: UpdateConfiguredTableInput,
+) => Effect.Effect<
+  UpdateConfiguredTableOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfiguredTableInput,
+  output: UpdateConfiguredTableOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Defines the information that's necessary to populate an ID mapping table.
  */
-export const populateIdMappingTable = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PopulateIdMappingTableInput,
-    output: PopulateIdMappingTableOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const populateIdMappingTable: (
+  input: PopulateIdMappingTableInput,
+) => Effect.Effect<
+  PopulateIdMappingTableOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PopulateIdMappingTableInput,
+  output: PopulateIdMappingTableOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new collaboration.
  */
-export const createCollaboration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCollaboration: (
+  input: CreateCollaborationInput,
+) => Effect.Effect<
+  CreateCollaborationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCollaborationInput,
   output: CreateCollaborationOutput,
   errors: [
@@ -7535,7 +8844,18 @@ export const createCollaboration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves multiple schemas by their identifiers.
  */
-export const batchGetSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetSchema: (
+  input: BatchGetSchemaInput,
+) => Effect.Effect<
+  BatchGetSchemaOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetSchemaInput,
   output: BatchGetSchemaOutput,
   errors: [
@@ -7549,70 +8869,124 @@ export const batchGetSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new change request to modify an existing collaboration. This enables post-creation modifications to collaborations through a structured API-driven approach.
  */
-export const createCollaborationChangeRequest =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCollaborationChangeRequestInput,
-    output: CreateCollaborationChangeRequestOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createCollaborationChangeRequest: (
+  input: CreateCollaborationChangeRequestInput,
+) => Effect.Effect<
+  CreateCollaborationChangeRequestOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCollaborationChangeRequestInput,
+  output: CreateCollaborationChangeRequestOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves detailed information about a specific collaboration change request.
  */
-export const getCollaborationChangeRequest =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCollaborationChangeRequestInput,
-    output: GetCollaborationChangeRequestOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getCollaborationChangeRequest: (
+  input: GetCollaborationChangeRequestInput,
+) => Effect.Effect<
+  GetCollaborationChangeRequestOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCollaborationChangeRequestInput,
+  output: GetCollaborationChangeRequestOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns details about a specified privacy budget template.
  */
-export const getCollaborationPrivacyBudgetTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCollaborationPrivacyBudgetTemplateInput,
-    output: GetCollaborationPrivacyBudgetTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getCollaborationPrivacyBudgetTemplate: (
+  input: GetCollaborationPrivacyBudgetTemplateInput,
+) => Effect.Effect<
+  GetCollaborationPrivacyBudgetTemplateOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCollaborationPrivacyBudgetTemplateInput,
+  output: GetCollaborationPrivacyBudgetTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new analysis rule for an associated configured table.
  */
-export const createConfiguredTableAssociationAnalysisRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateConfiguredTableAssociationAnalysisRuleInput,
-    output: CreateConfiguredTableAssociationAnalysisRuleOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createConfiguredTableAssociationAnalysisRule: (
+  input: CreateConfiguredTableAssociationAnalysisRuleInput,
+) => Effect.Effect<
+  CreateConfiguredTableAssociationAnalysisRuleOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConfiguredTableAssociationAnalysisRuleInput,
+  output: CreateConfiguredTableAssociationAnalysisRuleOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves an ID mapping table.
  */
-export const getIdMappingTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIdMappingTable: (
+  input: GetIdMappingTableInput,
+) => Effect.Effect<
+  GetIdMappingTableOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdMappingTableInput,
   output: GetIdMappingTableOutput,
   errors: [
@@ -7626,7 +9000,20 @@ export const getIdMappingTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a membership for a specific collaboration identifier and joins the collaboration.
  */
-export const createMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMembership: (
+  input: CreateMembershipInput,
+) => Effect.Effect<
+  CreateMembershipOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMembershipInput,
   output: CreateMembershipOutput,
   errors: [
@@ -7642,7 +9029,19 @@ export const createMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a protected job that is started by Clean Rooms.
  */
-export const startProtectedJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startProtectedJob: (
+  input: StartProtectedJobInput,
+) => Effect.Effect<
+  StartProtectedJobOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartProtectedJobInput,
   output: StartProtectedJobOutput,
   errors: [
@@ -7657,43 +9056,76 @@ export const startProtectedJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a privacy budget template for a specified collaboration. Each collaboration can have only one privacy budget template. If you need to change the privacy budget template, use the UpdatePrivacyBudgetTemplate operation.
  */
-export const createPrivacyBudgetTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePrivacyBudgetTemplateInput,
-    output: CreatePrivacyBudgetTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createPrivacyBudgetTemplate: (
+  input: CreatePrivacyBudgetTemplateInput,
+) => Effect.Effect<
+  CreatePrivacyBudgetTemplateOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePrivacyBudgetTemplateInput,
+  output: CreatePrivacyBudgetTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new analysis template.
  */
-export const createAnalysisTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAnalysisTemplateInput,
-    output: CreateAnalysisTemplateOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAnalysisTemplate: (
+  input: CreateAnalysisTemplateInput,
+) => Effect.Effect<
+  CreateAnalysisTemplateOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAnalysisTemplateInput,
+  output: CreateAnalysisTemplateOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves an analysis template.
  */
-export const getAnalysisTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAnalysisTemplate: (
+  input: GetAnalysisTemplateInput,
+) => Effect.Effect<
+  GetAnalysisTemplateOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAnalysisTemplateInput,
   output: GetAnalysisTemplateOutput,
   errors: [
@@ -7707,46 +9139,104 @@ export const getAnalysisTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns an array that summarizes each privacy budget in a specified collaboration. The summary includes the collaboration ARN, creation time, creating account, and privacy budget details.
  */
-export const listCollaborationPrivacyBudgets =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCollaborationPrivacyBudgets: {
+  (
     input: ListCollaborationPrivacyBudgetsInput,
-    output: ListCollaborationPrivacyBudgetsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "collaborationPrivacyBudgetSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCollaborationPrivacyBudgetsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCollaborationPrivacyBudgetsInput,
+  ) => Stream.Stream<
+    ListCollaborationPrivacyBudgetsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCollaborationPrivacyBudgetsInput,
+  ) => Stream.Stream<
+    CollaborationPrivacyBudgetSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCollaborationPrivacyBudgetsInput,
+  output: ListCollaborationPrivacyBudgetsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "collaborationPrivacyBudgetSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a new configured table resource.
  */
-export const createConfiguredTable = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConfiguredTableInput,
-    output: CreateConfiguredTableOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createConfiguredTable: (
+  input: CreateConfiguredTableInput,
+) => Effect.Effect<
+  CreateConfiguredTableOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConfiguredTableInput,
+  output: CreateConfiguredTableOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns job processing metadata.
  */
-export const getProtectedJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getProtectedJob: (
+  input: GetProtectedJobInput,
+) => Effect.Effect<
+  GetProtectedJobOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProtectedJobInput,
   output: GetProtectedJobOutput,
   errors: [
@@ -7760,7 +9250,18 @@ export const getProtectedJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns query processing metadata.
  */
-export const getProtectedQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getProtectedQuery: (
+  input: GetProtectedQueryInput,
+) => Effect.Effect<
+  GetProtectedQueryOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProtectedQueryInput,
   output: GetProtectedQueryOutput,
   errors: [
@@ -7774,50 +9275,133 @@ export const getProtectedQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists protected jobs, sorted by most recent job.
  */
-export const listProtectedJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProtectedJobs: {
+  (
     input: ListProtectedJobsInput,
-    output: ListProtectedJobsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "protectedJobs",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProtectedJobsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProtectedJobsInput,
+  ) => Stream.Stream<
+    ListProtectedJobsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProtectedJobsInput,
+  ) => Stream.Stream<
+    ProtectedJobSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProtectedJobsInput,
+  output: ListProtectedJobsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "protectedJobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists protected queries, sorted by the most recent query.
  */
-export const listProtectedQueries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProtectedQueries: {
+  (
     input: ListProtectedQueriesInput,
-    output: ListProtectedQueriesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "protectedQueries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProtectedQueriesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProtectedQueriesInput,
+  ) => Stream.Stream<
+    ListProtectedQueriesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProtectedQueriesInput,
+  ) => Stream.Stream<
+    ProtectedQuerySummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProtectedQueriesInput,
+  output: ListProtectedQueriesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "protectedQueries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a protected query that is started by Clean Rooms.
  */
-export const startProtectedQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startProtectedQuery: (
+  input: StartProtectedQueryInput,
+) => Effect.Effect<
+  StartProtectedQueryOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartProtectedQueryInput,
   output: StartProtectedQueryOutput,
   errors: [
@@ -7832,49 +9416,79 @@ export const startProtectedQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new analysis rule for a configured table. Currently, only one analysis rule can be created for a given configured table.
  */
-export const createConfiguredTableAnalysisRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateConfiguredTableAnalysisRuleInput,
-    output: CreateConfiguredTableAnalysisRuleOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createConfiguredTableAnalysisRule: (
+  input: CreateConfiguredTableAnalysisRuleInput,
+) => Effect.Effect<
+  CreateConfiguredTableAnalysisRuleOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConfiguredTableAnalysisRuleInput,
+  output: CreateConfiguredTableAnalysisRuleOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * An estimate of the number of aggregation functions that the member who can query can run given epsilon and noise parameters.
  */
-export const previewPrivacyImpact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PreviewPrivacyImpactInput,
-    output: PreviewPrivacyImpactOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const previewPrivacyImpact: (
+  input: PreviewPrivacyImpactInput,
+) => Effect.Effect<
+  PreviewPrivacyImpactOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PreviewPrivacyImpactInput,
+  output: PreviewPrivacyImpactOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a schema analysis rule.
  */
-export const getSchemaAnalysisRule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSchemaAnalysisRuleInput,
-    output: GetSchemaAnalysisRuleOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getSchemaAnalysisRule: (
+  input: GetSchemaAnalysisRuleInput,
+) => Effect.Effect<
+  GetSchemaAnalysisRuleOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSchemaAnalysisRuleInput,
+  output: GetSchemaAnalysisRuleOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

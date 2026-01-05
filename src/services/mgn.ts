@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "mgn",
   serviceShapeName: "ApplicationMigrationService",
@@ -240,6 +248,100 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type LargeBoundedString = string;
+export type MaxResultsType = number;
+export type PaginationToken = string;
+export type ARN = string;
+export type TagKey = string;
+export type ApplicationName = string;
+export type ApplicationDescription = string;
+export type AccountID = string;
+export type ApplicationID = string;
+export type SourceServerID = string;
+export type ConnectorName = string;
+export type SsmInstanceID = string;
+export type ConnectorID = string;
+export type S3BucketName = string;
+export type S3Key = string;
+export type ExportID = string;
+export type ClientIdempotencyToken = string;
+export type ImportID = string;
+export type JobID = string;
+export type TagValue = string;
+export type LaunchDisposition = string;
+export type TargetInstanceTypeRightSizingMethod = string;
+export type BootMode = string;
+export type PositiveInteger = number;
+export type KmsKeyArn = string;
+export type LaunchConfigurationTemplateID = string;
+export type BoundedString = string;
+export type OrderType = number;
+export type ActionID = string;
+export type DocumentVersion = string;
+export type StrictlyPositiveInteger = number;
+export type OperatingSystemString = string;
+export type ActionDescription = string;
+export type ActionCategory = string;
+export type SubnetID = string;
+export type SecurityGroupID = string;
+export type EC2InstanceType = string;
+export type ReplicationConfigurationDefaultLargeStagingDiskType = string;
+export type ReplicationConfigurationEbsEncryption = string;
+export type BandwidthThrottling = number;
+export type ReplicationConfigurationDataPlaneRouting = string;
+export type InternetProtocol = string;
+export type ReplicationConfigurationTemplateID = string;
+export type ActionName = string;
+export type SmallBoundedString = string;
+export type ReplicationType = string;
+export type VcenterClientID = string;
+export type WaveName = string;
+export type WaveDescription = string;
+export type WaveID = string;
+export type CloudWatchLogGroupName = string;
+export type ISO8601DatetimeString = string;
+export type PostLaunchActionsDeploymentType = string;
+export type S3LogBucketName = string;
+export type VolumeType = string;
+export type Iops = number;
+export type Throughput = number;
+export type SsmDocumentParameterName = string;
+export type SecretArn = string;
+export type ConnectorArn = string;
+export type LifeCycleState = string;
+export type ChangeServerLifeCycleStateSourceServerLifecycleState = string;
+export type ReplicationConfigurationReplicatedDiskStagingDiskType = string;
+export type ValidationExceptionReason = string;
+export type EC2LaunchConfigurationTemplateID = string;
+export type UserProvidedId = string;
+export type SsmDocumentName = string;
+export type SsmParameterStoreParameterType = string;
+export type SsmParameterStoreParameterName = string;
+export type JmesPathString = string;
+export type ApplicationHealthStatus = string;
+export type ApplicationProgressStatus = string;
+export type ExportStatus = string;
+export type ImportErrorType = string;
+export type JobLogEvent = string;
+export type EC2InstanceID = string;
+export type FirstBoot = string;
+export type ISO8601DurationString = string;
+export type DataReplicationState = string;
+export type ReplicatorID = string;
+export type JobType = string;
+export type InitiatedBy = string;
+export type JobStatus = string;
+export type WaveHealthStatus = string;
+export type WaveProgressStatus = string;
+export type DataReplicationErrorString = string;
+export type LaunchStatus = string;
+export type ImportStatus = string;
+export type DataReplicationInitiationStepName = string;
+export type DataReplicationInitiationStepStatus = string;
+export type SsmDocumentType = string;
+export type PostLaunchActionExecutionStatus = string;
 
 //# Schemas
 export interface InitializeServiceRequest {}
@@ -716,6 +818,7 @@ export const SsmDocumentParameters = S.Record({
   key: S.String,
   value: SsmParameterStoreParameters,
 });
+export type SsmExternalParameter = { dynamicPath: string };
 export const SsmExternalParameter = S.Union(
   S.Struct({ dynamicPath: S.String }),
 );
@@ -3617,7 +3720,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
@@ -3670,13 +3775,21 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
  * Initialize Application Migration Service.
  */
-export const initializeService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const initializeService: (
+  input: InitializeServiceRequest,
+) => Effect.Effect<
+  InitializeServiceResponse,
+  AccessDeniedException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitializeServiceRequest,
   output: InitializeServiceResponse,
   errors: [AccessDeniedException, ValidationException],
@@ -3684,7 +3797,13 @@ export const initializeService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create Connector.
  */
-export const createConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConnector: (
+  input: CreateConnectorRequest,
+) => Effect.Effect<
+  Connector,
+  UninitializedAccountException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectorRequest,
   output: Connector,
   errors: [UninitializedAccountException, ValidationException],
@@ -3692,84 +3811,182 @@ export const createConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List Connectors.
  */
-export const listConnectors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listConnectors: {
+  (
     input: ListConnectorsRequest,
-    output: ListConnectorsResponse,
-    errors: [UninitializedAccountException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListConnectorsResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectorsRequest,
+  ) => Stream.Stream<
+    ListConnectorsResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectorsRequest,
+  ) => Stream.Stream<
+    Connector,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectorsRequest,
+  output: ListConnectorsResponse,
+  errors: [UninitializedAccountException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List exports.
  */
-export const listExports = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listExports: {
+  (
     input: ListExportsRequest,
-    output: ListExportsResponse,
-    errors: [UninitializedAccountException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListExportsResponse,
+    UninitializedAccountException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExportsRequest,
+  ) => Stream.Stream<
+    ListExportsResponse,
+    UninitializedAccountException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExportsRequest,
+  ) => Stream.Stream<
+    ExportTask,
+    UninitializedAccountException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExportsRequest,
+  output: ListExportsResponse,
+  errors: [UninitializedAccountException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List imports.
  */
-export const listImports = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listImports: {
+  (
     input: ListImportsRequest,
-    output: ListImportsResponse,
-    errors: [UninitializedAccountException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListImportsResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImportsRequest,
+  ) => Stream.Stream<
+    ListImportsResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImportsRequest,
+  ) => Stream.Stream<
+    ImportTask,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImportsRequest,
+  output: ListImportsResponse,
+  errors: [UninitializedAccountException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
  */
-export const describeJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeJobs: {
+  (
     input: DescribeJobsRequest,
-    output: DescribeJobsResponse,
-    errors: [UninitializedAccountException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeJobsResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeJobsRequest,
+  ) => Stream.Stream<
+    DescribeJobsResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeJobsRequest,
+  ) => Stream.Stream<
+    Job,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeJobsRequest,
+  output: DescribeJobsResponse,
+  errors: [UninitializedAccountException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a new Launch Configuration Template.
  */
-export const createLaunchConfigurationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLaunchConfigurationTemplateRequest,
-    output: LaunchConfigurationTemplate,
-    errors: [
-      AccessDeniedException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }));
+export const createLaunchConfigurationTemplate: (
+  input: CreateLaunchConfigurationTemplateRequest,
+) => Effect.Effect<
+  LaunchConfigurationTemplate,
+  | AccessDeniedException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLaunchConfigurationTemplateRequest,
+  output: LaunchConfigurationTemplate,
+  errors: [
+    AccessDeniedException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Put template post migration custom action.
  */
-export const putTemplateAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putTemplateAction: (
+  input: PutTemplateActionRequest,
+) => Effect.Effect<
+  TemplateActionDocument,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTemplateActionRequest,
   output: TemplateActionDocument,
   errors: [
@@ -3782,56 +3999,143 @@ export const putTemplateAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves all SourceServers or multiple SourceServers by ID.
  */
-export const describeSourceServers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeSourceServers: {
+  (
     input: DescribeSourceServersRequest,
-    output: DescribeSourceServersResponse,
-    errors: [UninitializedAccountException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeSourceServersResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSourceServersRequest,
+  ) => Stream.Stream<
+    DescribeSourceServersResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSourceServersRequest,
+  ) => Stream.Stream<
+    SourceServer,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSourceServersRequest,
+  output: DescribeSourceServersResponse,
+  errors: [UninitializedAccountException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List source server post migration custom actions.
  */
-export const listSourceServerActions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSourceServerActions: {
+  (
     input: ListSourceServerActionsRequest,
-    output: ListSourceServerActionsResponse,
-    errors: [ResourceNotFoundException, UninitializedAccountException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSourceServerActionsResponse,
+    | ResourceNotFoundException
+    | UninitializedAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSourceServerActionsRequest,
+  ) => Stream.Stream<
+    ListSourceServerActionsResponse,
+    | ResourceNotFoundException
+    | UninitializedAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSourceServerActionsRequest,
+  ) => Stream.Stream<
+    SourceServerActionDocument,
+    | ResourceNotFoundException
+    | UninitializedAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSourceServerActionsRequest,
+  output: ListSourceServerActionsResponse,
+  errors: [ResourceNotFoundException, UninitializedAccountException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of the installed vCenter clients.
  */
-export const describeVcenterClients =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVcenterClients: {
+  (
     input: DescribeVcenterClientsRequest,
-    output: DescribeVcenterClientsResponse,
-    errors: [
-      ResourceNotFoundException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVcenterClientsResponse,
+    | ResourceNotFoundException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVcenterClientsRequest,
+  ) => Stream.Stream<
+    DescribeVcenterClientsResponse,
+    | ResourceNotFoundException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVcenterClientsRequest,
+  ) => Stream.Stream<
+    VcenterClient,
+    | ResourceNotFoundException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVcenterClientsRequest,
+  output: DescribeVcenterClientsResponse,
+  errors: [
+    ResourceNotFoundException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Create wave.
  */
-export const createWave = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWave: (
+  input: CreateWaveRequest,
+) => Effect.Effect<
+  Wave,
+  | ConflictException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWaveRequest,
   output: Wave,
   errors: [
@@ -3843,7 +4147,29 @@ export const createWave = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves all waves or multiple waves by ID.
  */
-export const listWaves = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWaves: {
+  (
+    input: ListWavesRequest,
+  ): Effect.Effect<
+    ListWavesResponse,
+    UninitializedAccountException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWavesRequest,
+  ) => Stream.Stream<
+    ListWavesResponse,
+    UninitializedAccountException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWavesRequest,
+  ) => Stream.Stream<
+    Wave,
+    UninitializedAccountException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListWavesRequest,
   output: ListWavesResponse,
   errors: [UninitializedAccountException],
@@ -3857,7 +4183,18 @@ export const listWaves = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * List all tags for your Application Migration Service resources.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3871,7 +4208,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Archive application.
  */
-export const archiveApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const archiveApplication: (
+  input: ArchiveApplicationRequest,
+) => Effect.Effect<
+  Application,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ArchiveApplicationRequest,
   output: Application,
   errors: [
@@ -3884,36 +4231,60 @@ export const archiveApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associate source servers to application.
  */
-export const associateSourceServers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateSourceServersRequest,
-    output: AssociateSourceServersResponse,
-    errors: [
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      UninitializedAccountException,
-    ],
-  }),
-);
+export const associateSourceServers: (
+  input: AssociateSourceServersRequest,
+) => Effect.Effect<
+  AssociateSourceServersResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateSourceServersRequest,
+  output: AssociateSourceServersResponse,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Disassociate source servers from application.
  */
-export const disassociateSourceServers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateSourceServersRequest,
-    output: DisassociateSourceServersResponse,
-    errors: [
-      ConflictException,
-      ResourceNotFoundException,
-      UninitializedAccountException,
-    ],
-  }),
-);
+export const disassociateSourceServers: (
+  input: DisassociateSourceServersRequest,
+) => Effect.Effect<
+  DisassociateSourceServersResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateSourceServersRequest,
+  output: DisassociateSourceServersResponse,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Update application.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApplication: (
+  input: UpdateApplicationRequest,
+) => Effect.Effect<
+  Application,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
   output: Application,
   errors: [
@@ -3925,7 +4296,16 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a single Job by ID.
  */
-export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteJob: (
+  input: DeleteJobRequest,
+) => Effect.Effect<
+  DeleteJobResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobRequest,
   output: DeleteJobResponse,
   errors: [
@@ -3937,33 +4317,58 @@ export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a single Launch Configuration Template by ID.
  */
-export const deleteLaunchConfigurationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteLaunchConfigurationTemplateRequest,
-    output: DeleteLaunchConfigurationTemplateResponse,
-    errors: [
-      ConflictException,
-      ResourceNotFoundException,
-      UninitializedAccountException,
-    ],
-  }));
+export const deleteLaunchConfigurationTemplate: (
+  input: DeleteLaunchConfigurationTemplateRequest,
+) => Effect.Effect<
+  DeleteLaunchConfigurationTemplateResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLaunchConfigurationTemplateRequest,
+  output: DeleteLaunchConfigurationTemplateResponse,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Deletes a single Replication Configuration Template by ID
  */
-export const deleteReplicationConfigurationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteReplicationConfigurationTemplateRequest,
-    output: DeleteReplicationConfigurationTemplateResponse,
-    errors: [
-      ConflictException,
-      ResourceNotFoundException,
-      UninitializedAccountException,
-    ],
-  }));
+export const deleteReplicationConfigurationTemplate: (
+  input: DeleteReplicationConfigurationTemplateRequest,
+) => Effect.Effect<
+  DeleteReplicationConfigurationTemplateResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReplicationConfigurationTemplateRequest,
+  output: DeleteReplicationConfigurationTemplateResponse,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Deletes a single source server by ID.
  */
-export const deleteSourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSourceServer: (
+  input: DeleteSourceServerRequest,
+) => Effect.Effect<
+  DeleteSourceServerResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSourceServerRequest,
   output: DeleteSourceServerResponse,
   errors: [
@@ -3975,7 +4380,17 @@ export const deleteSourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property fo each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
-export const finalizeCutover = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const finalizeCutover: (
+  input: FinalizeCutoverRequest,
+) => Effect.Effect<
+  SourceServer,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FinalizeCutoverRequest,
   output: SourceServer,
   errors: [
@@ -3988,7 +4403,16 @@ export const finalizeCutover = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle. state which equals DISCONNECTED or CUTOVER.
  */
-export const markAsArchived = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const markAsArchived: (
+  input: MarkAsArchivedRequest,
+) => Effect.Effect<
+  SourceServer,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MarkAsArchivedRequest,
   output: SourceServer,
   errors: [
@@ -4000,7 +4424,18 @@ export const markAsArchived = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Pause Replication.
  */
-export const pauseReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const pauseReplication: (
+  input: PauseReplicationRequest,
+) => Effect.Effect<
+  SourceServer,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PauseReplicationRequest,
   output: SourceServer,
   errors: [
@@ -4014,7 +4449,18 @@ export const pauseReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Resume Replication.
  */
-export const resumeReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resumeReplication: (
+  input: ResumeReplicationRequest,
+) => Effect.Effect<
+  SourceServer,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeReplicationRequest,
   output: SourceServer,
   errors: [
@@ -4028,7 +4474,18 @@ export const resumeReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Start replication for source server irrespective of its replication type.
  */
-export const startReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startReplication: (
+  input: StartReplicationRequest,
+) => Effect.Effect<
+  SourceServer,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartReplicationRequest,
   output: SourceServer,
   errors: [
@@ -4042,7 +4499,18 @@ export const startReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stop Replication.
  */
-export const stopReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopReplication: (
+  input: StopReplicationRequest,
+) => Effect.Effect<
+  SourceServer,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopReplicationRequest,
   output: SourceServer,
   errors: [
@@ -4058,38 +4526,64 @@ export const stopReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * bootMode valid values are `LEGACY_BIOS | UEFI`
  */
-export const updateLaunchConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLaunchConfigurationRequest,
-    output: LaunchConfiguration,
-    errors: [
-      ConflictException,
-      ResourceNotFoundException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateLaunchConfiguration: (
+  input: UpdateLaunchConfigurationRequest,
+) => Effect.Effect<
+  LaunchConfiguration,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLaunchConfigurationRequest,
+  output: LaunchConfiguration,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING replication type.
  *
  * SNAPSHOT_SHIPPING should be used for agentless replication.
  */
-export const updateSourceServerReplicationType =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSourceServerReplicationTypeRequest,
-    output: SourceServer,
-    errors: [
-      ConflictException,
-      ResourceNotFoundException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }));
+export const updateSourceServerReplicationType: (
+  input: UpdateSourceServerReplicationTypeRequest,
+) => Effect.Effect<
+  SourceServer,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSourceServerReplicationTypeRequest,
+  output: SourceServer,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Delete wave.
  */
-export const deleteWave = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWave: (
+  input: DeleteWaveRequest,
+) => Effect.Effect<
+  DeleteWaveResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWaveRequest,
   output: DeleteWaveResponse,
   errors: [
@@ -4101,7 +4595,17 @@ export const deleteWave = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Archive wave.
  */
-export const archiveWave = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const archiveWave: (
+  input: ArchiveWaveRequest,
+) => Effect.Effect<
+  Wave,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ArchiveWaveRequest,
   output: Wave,
   errors: [
@@ -4114,36 +4618,60 @@ export const archiveWave = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associate applications to wave.
  */
-export const associateApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateApplicationsRequest,
-    output: AssociateApplicationsResponse,
-    errors: [
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      UninitializedAccountException,
-    ],
-  }),
-);
+export const associateApplications: (
+  input: AssociateApplicationsRequest,
+) => Effect.Effect<
+  AssociateApplicationsResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateApplicationsRequest,
+  output: AssociateApplicationsResponse,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Disassociate applications from wave.
  */
-export const disassociateApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateApplicationsRequest,
-    output: DisassociateApplicationsResponse,
-    errors: [
-      ConflictException,
-      ResourceNotFoundException,
-      UninitializedAccountException,
-    ],
-  }),
-);
+export const disassociateApplications: (
+  input: DisassociateApplicationsRequest,
+) => Effect.Effect<
+  DisassociateApplicationsResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateApplicationsRequest,
+  output: DisassociateApplicationsResponse,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Update wave.
  */
-export const updateWave = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWave: (
+  input: UpdateWaveRequest,
+) => Effect.Effect<
+  Wave,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWaveRequest,
   output: Wave,
   errors: [
@@ -4155,7 +4683,16 @@ export const updateWave = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update Source Server.
  */
-export const updateSourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSourceServer: (
+  input: UpdateSourceServerRequest,
+) => Effect.Effect<
+  SourceServer,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSourceServerRequest,
   output: SourceServer,
   errors: [
@@ -4167,52 +4704,87 @@ export const updateSourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.)
  */
-export const changeServerLifeCycleState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ChangeServerLifeCycleStateRequest,
-    output: SourceServer,
-    errors: [
-      ConflictException,
-      ResourceNotFoundException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }),
-);
+export const changeServerLifeCycleState: (
+  input: ChangeServerLifeCycleStateRequest,
+) => Effect.Effect<
+  SourceServer,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ChangeServerLifeCycleStateRequest,
+  output: SourceServer,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Put source server post migration custom action.
  */
-export const putSourceServerAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutSourceServerActionRequest,
-    output: SourceServerActionDocument,
-    errors: [
-      ConflictException,
-      ResourceNotFoundException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }),
-);
+export const putSourceServerAction: (
+  input: PutSourceServerActionRequest,
+) => Effect.Effect<
+  SourceServerActionDocument,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutSourceServerActionRequest,
+  output: SourceServerActionDocument,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Allows you to update multiple ReplicationConfigurations by Source Server ID.
  */
-export const updateReplicationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateReplicationConfigurationRequest,
-    output: ReplicationConfiguration,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }));
+export const updateReplicationConfiguration: (
+  input: UpdateReplicationConfigurationRequest,
+) => Effect.Effect<
+  ReplicationConfiguration,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateReplicationConfigurationRequest,
+  output: ReplicationConfiguration,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to TESTING.
  */
-export const startTest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startTest: (
+  input: StartTestRequest,
+) => Effect.Effect<
+  StartTestResponse,
+  | ConflictException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTestRequest,
   output: StartTestResponse,
   errors: [
@@ -4224,21 +4796,37 @@ export const startTest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a job that terminates specific launched EC2 Test and Cutover instances. This command will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or CUTOVER.
  */
-export const terminateTargetInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TerminateTargetInstancesRequest,
-    output: TerminateTargetInstancesResponse,
-    errors: [
-      ConflictException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }),
-);
+export const terminateTargetInstances: (
+  input: TerminateTargetInstancesRequest,
+) => Effect.Effect<
+  TerminateTargetInstancesResponse,
+  | ConflictException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TerminateTargetInstancesRequest,
+  output: TerminateTargetInstancesResponse,
+  errors: [
+    ConflictException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Create application.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationRequest,
+) => Effect.Effect<
+  Application,
+  | ConflictException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
   output: Application,
   errors: [
@@ -4250,7 +4838,16 @@ export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Unarchive wave.
  */
-export const unarchiveWave = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const unarchiveWave: (
+  input: UnarchiveWaveRequest,
+) => Effect.Effect<
+  Wave,
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnarchiveWaveRequest,
   output: Wave,
   errors: [
@@ -4262,7 +4859,16 @@ export const unarchiveWave = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update Connector.
  */
-export const updateConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateConnector: (
+  input: UpdateConnectorRequest,
+) => Effect.Effect<
+  Connector,
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectorRequest,
   output: Connector,
   errors: [
@@ -4274,92 +4880,190 @@ export const updateConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing Launch Configuration Template by ID.
  */
-export const updateLaunchConfigurationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateLaunchConfigurationTemplateRequest,
-    output: LaunchConfigurationTemplate,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }));
+export const updateLaunchConfigurationTemplate: (
+  input: UpdateLaunchConfigurationTemplateRequest,
+) => Effect.Effect<
+  LaunchConfigurationTemplate,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLaunchConfigurationTemplateRequest,
+  output: LaunchConfigurationTemplate,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
  */
-export const describeLaunchConfigurationTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeLaunchConfigurationTemplates: {
+  (
     input: DescribeLaunchConfigurationTemplatesRequest,
-    output: DescribeLaunchConfigurationTemplatesResponse,
-    errors: [
-      ResourceNotFoundException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeLaunchConfigurationTemplatesResponse,
+    | ResourceNotFoundException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeLaunchConfigurationTemplatesRequest,
+  ) => Stream.Stream<
+    DescribeLaunchConfigurationTemplatesResponse,
+    | ResourceNotFoundException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeLaunchConfigurationTemplatesRequest,
+  ) => Stream.Stream<
+    LaunchConfigurationTemplate,
+    | ResourceNotFoundException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeLaunchConfigurationTemplatesRequest,
+  output: DescribeLaunchConfigurationTemplatesResponse,
+  errors: [
+    ResourceNotFoundException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a new ReplicationConfigurationTemplate.
  */
-export const createReplicationConfigurationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateReplicationConfigurationTemplateRequest,
-    output: ReplicationConfigurationTemplate,
-    errors: [
-      AccessDeniedException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }));
+export const createReplicationConfigurationTemplate: (
+  input: CreateReplicationConfigurationTemplateRequest,
+) => Effect.Effect<
+  ReplicationConfigurationTemplate,
+  | AccessDeniedException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateReplicationConfigurationTemplateRequest,
+  output: ReplicationConfigurationTemplate,
+  errors: [
+    AccessDeniedException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
  */
-export const describeReplicationConfigurationTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeReplicationConfigurationTemplates: {
+  (
     input: DescribeReplicationConfigurationTemplatesRequest,
-    output: DescribeReplicationConfigurationTemplatesResponse,
-    errors: [
-      ResourceNotFoundException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeReplicationConfigurationTemplatesResponse,
+    | ResourceNotFoundException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeReplicationConfigurationTemplatesRequest,
+  ) => Stream.Stream<
+    DescribeReplicationConfigurationTemplatesResponse,
+    | ResourceNotFoundException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeReplicationConfigurationTemplatesRequest,
+  ) => Stream.Stream<
+    ReplicationConfigurationTemplate,
+    | ResourceNotFoundException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeReplicationConfigurationTemplatesRequest,
+  output: DescribeReplicationConfigurationTemplatesResponse,
+  errors: [
+    ResourceNotFoundException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all LaunchConfigurations available, filtered by Source Server IDs.
  */
-export const getLaunchConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLaunchConfigurationRequest,
-    output: LaunchConfiguration,
-    errors: [ResourceNotFoundException, UninitializedAccountException],
-  }),
-);
+export const getLaunchConfiguration: (
+  input: GetLaunchConfigurationRequest,
+) => Effect.Effect<
+  LaunchConfiguration,
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLaunchConfigurationRequest,
+  output: LaunchConfiguration,
+  errors: [ResourceNotFoundException, UninitializedAccountException],
+}));
 /**
  * Lists all ReplicationConfigurations, filtered by Source Server ID.
  */
-export const getReplicationConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetReplicationConfigurationRequest,
-    output: ReplicationConfiguration,
-    errors: [ResourceNotFoundException, UninitializedAccountException],
-  }),
-);
+export const getReplicationConfiguration: (
+  input: GetReplicationConfigurationRequest,
+) => Effect.Effect<
+  ReplicationConfiguration,
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReplicationConfigurationRequest,
+  output: ReplicationConfiguration,
+  errors: [ResourceNotFoundException, UninitializedAccountException],
+}));
 /**
  * Delete Connector.
  */
-export const deleteConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConnector: (
+  input: DeleteConnectorRequest,
+) => Effect.Effect<
+  DeleteConnectorResponse,
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectorRequest,
   output: DeleteConnectorResponse,
   errors: [
@@ -4371,63 +5075,102 @@ export const deleteConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Remove template post migration custom action.
  */
-export const removeTemplateAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveTemplateActionRequest,
-    output: RemoveTemplateActionResponse,
-    errors: [
-      ResourceNotFoundException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }),
-);
+export const removeTemplateAction: (
+  input: RemoveTemplateActionRequest,
+) => Effect.Effect<
+  RemoveTemplateActionResponse,
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTemplateActionRequest,
+  output: RemoveTemplateActionResponse,
+  errors: [
+    ResourceNotFoundException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates multiple ReplicationConfigurationTemplates by ID.
  */
-export const updateReplicationConfigurationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateReplicationConfigurationTemplateRequest,
-    output: ReplicationConfigurationTemplate,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }));
+export const updateReplicationConfigurationTemplate: (
+  input: UpdateReplicationConfigurationTemplateRequest,
+) => Effect.Effect<
+  ReplicationConfigurationTemplate,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateReplicationConfigurationTemplateRequest,
+  output: ReplicationConfigurationTemplate,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Remove source server post migration custom action.
  */
-export const removeSourceServerAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveSourceServerActionRequest,
-    output: RemoveSourceServerActionResponse,
-    errors: [
-      ResourceNotFoundException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }),
-);
+export const removeSourceServerAction: (
+  input: RemoveSourceServerActionRequest,
+) => Effect.Effect<
+  RemoveSourceServerActionResponse,
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveSourceServerActionRequest,
+  output: RemoveSourceServerActionResponse,
+  errors: [
+    ResourceNotFoundException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Causes the data replication initiation sequence to begin immediately upon next Handshake for specified SourceServer IDs, regardless of when the previous initiation started. This command will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED state.
  */
-export const retryDataReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RetryDataReplicationRequest,
-    output: SourceServer,
-    errors: [
-      ResourceNotFoundException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }),
-);
+export const retryDataReplication: (
+  input: RetryDataReplicationRequest,
+) => Effect.Effect<
+  SourceServer,
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RetryDataReplicationRequest,
+  output: SourceServer,
+  errors: [
+    ResourceNotFoundException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a given vCenter client by ID.
  */
-export const deleteVcenterClient = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVcenterClient: (
+  input: DeleteVcenterClientRequest,
+) => Effect.Effect<
+  DeleteVcenterClientResponse,
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVcenterClientRequest,
   output: DeleteVcenterClientResponse,
   errors: [
@@ -4439,22 +5182,52 @@ export const deleteVcenterClient = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List Managed Accounts.
  */
-export const listManagedAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listManagedAccounts: {
+  (
     input: ListManagedAccountsRequest,
-    output: ListManagedAccountsResponse,
-    errors: [UninitializedAccountException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListManagedAccountsResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListManagedAccountsRequest,
+  ) => Stream.Stream<
+    ListManagedAccountsResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListManagedAccountsRequest,
+  ) => Stream.Stream<
+    ManagedAccount,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListManagedAccountsRequest,
+  output: ListManagedAccountsResponse,
+  errors: [UninitializedAccountException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Delete application.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplication: (
+  input: DeleteApplicationRequest,
+) => Effect.Effect<
+  DeleteApplicationResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResponse,
   errors: [
@@ -4466,37 +5239,75 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves all applications or multiple applications by ID.
  */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listApplications: {
+  (
     input: ListApplicationsRequest,
-    output: ListApplicationsResponse,
-    errors: [UninitializedAccountException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListApplicationsResponse,
+    UninitializedAccountException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ListApplicationsResponse,
+    UninitializedAccountException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    Application,
+    UninitializedAccountException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [UninitializedAccountException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Unarchive application.
  */
-export const unarchiveApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UnarchiveApplicationRequest,
-    output: Application,
-    errors: [
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      UninitializedAccountException,
-    ],
-  }),
-);
+export const unarchiveApplication: (
+  input: UnarchiveApplicationRequest,
+) => Effect.Effect<
+  Application,
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UnarchiveApplicationRequest,
+  output: Application,
+  errors: [
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Adds or overwrites only the specified tags for the specified Application Migration Service resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -4510,7 +5321,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified set of tags from the specified set of Application Migration Service resources.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -4524,7 +5346,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Start export.
  */
-export const startExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startExport: (
+  input: StartExportRequest,
+) => Effect.Effect<
+  StartExportResponse,
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartExportRequest,
   output: StartExportResponse,
   errors: [
@@ -4536,83 +5367,189 @@ export const startExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List export errors.
  */
-export const listExportErrors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listExportErrors: {
+  (
     input: ListExportErrorsRequest,
-    output: ListExportErrorsResponse,
-    errors: [UninitializedAccountException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListExportErrorsResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExportErrorsRequest,
+  ) => Stream.Stream<
+    ListExportErrorsResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExportErrorsRequest,
+  ) => Stream.Stream<
+    ExportTaskError,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExportErrorsRequest,
+  output: ListExportErrorsResponse,
+  errors: [UninitializedAccountException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List import errors.
  */
-export const listImportErrors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listImportErrors: {
+  (
     input: ListImportErrorsRequest,
-    output: ListImportErrorsResponse,
-    errors: [UninitializedAccountException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListImportErrorsResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImportErrorsRequest,
+  ) => Stream.Stream<
+    ListImportErrorsResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImportErrorsRequest,
+  ) => Stream.Stream<
+    ImportTaskError,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImportErrorsRequest,
+  output: ListImportErrorsResponse,
+  errors: [UninitializedAccountException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves detailed job log items with paging.
  */
-export const describeJobLogItems =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeJobLogItems: {
+  (
     input: DescribeJobLogItemsRequest,
-    output: DescribeJobLogItemsResponse,
-    errors: [UninitializedAccountException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeJobLogItemsResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeJobLogItemsRequest,
+  ) => Stream.Stream<
+    DescribeJobLogItemsResponse,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeJobLogItemsRequest,
+  ) => Stream.Stream<
+    JobLog,
+    UninitializedAccountException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeJobLogItemsRequest,
+  output: DescribeJobLogItemsResponse,
+  errors: [UninitializedAccountException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List template post migration custom actions.
  */
-export const listTemplateActions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTemplateActions: {
+  (
     input: ListTemplateActionsRequest,
-    output: ListTemplateActionsResponse,
-    errors: [ResourceNotFoundException, UninitializedAccountException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTemplateActionsResponse,
+    | ResourceNotFoundException
+    | UninitializedAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTemplateActionsRequest,
+  ) => Stream.Stream<
+    ListTemplateActionsResponse,
+    | ResourceNotFoundException
+    | UninitializedAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTemplateActionsRequest,
+  ) => Stream.Stream<
+    TemplateActionDocument,
+    | ResourceNotFoundException
+    | UninitializedAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTemplateActionsRequest,
+  output: ListTemplateActionsResponse,
+  errors: [ResourceNotFoundException, UninitializedAccountException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with the Application Migration Service service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
-export const disconnectFromService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisconnectFromServiceRequest,
-    output: SourceServer,
-    errors: [
-      ConflictException,
-      ResourceNotFoundException,
-      UninitializedAccountException,
-    ],
-  }),
-);
+export const disconnectFromService: (
+  input: DisconnectFromServiceRequest,
+) => Effect.Effect<
+  SourceServer,
+  | ConflictException
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisconnectFromServiceRequest,
+  output: SourceServer,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Start import.
  */
-export const startImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startImport: (
+  input: StartImportRequest,
+) => Effect.Effect<
+  StartImportResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImportRequest,
   output: StartImportResponse,
   errors: [
@@ -4626,7 +5563,16 @@ export const startImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Launches a Cutover Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartCutover and changes the SourceServer.lifeCycle.state property to CUTTING_OVER.
  */
-export const startCutover = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startCutover: (
+  input: StartCutoverRequest,
+) => Effect.Effect<
+  StartCutoverResponse,
+  | ConflictException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCutoverRequest,
   output: StartCutoverResponse,
   errors: [

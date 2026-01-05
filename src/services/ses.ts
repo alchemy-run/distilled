@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://ses.amazonaws.com/doc/2010-12-01/");
 const svc = T.AwsApiService({
   sdkId: "SES",
@@ -241,6 +249,68 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ReceiptRuleSetName = string;
+export type ConfigurationSetName = string;
+export type TemplateName = string;
+export type FromAddress = string;
+export type Subject = string;
+export type TemplateContent = string;
+export type SuccessRedirectionURL = string;
+export type FailureRedirectionURL = string;
+export type ReceiptRuleName = string;
+export type EventDestinationName = string;
+export type Identity = string;
+export type PolicyName = string;
+export type ReceiptFilterName = string;
+export type Address = string;
+export type Max24HourSend = number;
+export type MaxSendRate = number;
+export type SentLast24Hours = number;
+export type NextToken = string;
+export type MaxItems = number;
+export type MaxResults = number;
+export type Policy = string;
+export type MessageId = string;
+export type Explanation = string;
+export type AmazonResourceName = string;
+export type TemplateData = string;
+export type MailFromDomainName = string;
+export type NotificationTopic = string;
+export type Domain = string;
+export type CustomRedirectDomain = string;
+export type Recipient = string;
+export type SubjectPart = string;
+export type TextPart = string;
+export type HtmlPart = string;
+export type Counter = number;
+export type ReportingMta = string;
+export type MessageTagName = string;
+export type MessageTagValue = string;
+export type RuleOrRuleSetName = string;
+export type ErrorMessage = string;
+export type RenderedTemplate = string;
+export type VerificationToken = string;
+export type Cidr = string;
+export type ExtensionFieldName = string;
+export type ExtensionFieldValue = string;
+export type RemoteMta = string;
+export type DsnStatus = string;
+export type DiagnosticCode = string;
+export type MessageData = string;
+export type Charset = string;
+export type DimensionName = string;
+export type DefaultDimensionValue = string;
+export type S3BucketName = string;
+export type S3KeyPrefix = string;
+export type IAMRoleARN = string;
+export type BounceSmtpReplyCode = string;
+export type BounceStatusCode = string;
+export type BounceMessage = string;
+export type HeaderName = string;
+export type HeaderValue = string;
+export type ConnectInstanceArn = string;
 
 //# Schemas
 export interface DescribeActiveReceiptRuleSetRequest {}
@@ -3115,19 +3185,30 @@ export class InvalidSNSDestinationException extends S.TaggedError<InvalidSNSDest
  *
  * You can execute this operation no more than once per second.
  */
-export const deleteCustomVerificationEmailTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCustomVerificationEmailTemplateRequest,
-    output: DeleteCustomVerificationEmailTemplateResponse,
-    errors: [],
-  }));
+export const deleteCustomVerificationEmailTemplate: (
+  input: DeleteCustomVerificationEmailTemplateRequest,
+) => Effect.Effect<
+  DeleteCustomVerificationEmailTemplateResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomVerificationEmailTemplateRequest,
+  output: DeleteCustomVerificationEmailTemplateResponse,
+  errors: [],
+}));
 /**
  * Deletes the specified identity (an email address or a domain) from the list of
  * verified identities.
  *
  * You can execute this operation no more than once per second.
  */
-export const deleteIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIdentity: (
+  input: DeleteIdentityRequest,
+) => Effect.Effect<
+  DeleteIdentityResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIdentityRequest,
   output: DeleteIdentityResponse,
   errors: [],
@@ -3147,13 +3228,17 @@ export const deleteIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const deleteIdentityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIdentityPolicyRequest,
-    output: DeleteIdentityPolicyResponse,
-    errors: [],
-  }),
-);
+export const deleteIdentityPolicy: (
+  input: DeleteIdentityPolicyRequest,
+) => Effect.Effect<
+  DeleteIdentityPolicyResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIdentityPolicyRequest,
+  output: DeleteIdentityPolicyResponse,
+  errors: [],
+}));
 /**
  * Deletes the specified IP address filter.
  *
@@ -3162,7 +3247,13 @@ export const deleteIdentityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can execute this operation no more than once per second.
  */
-export const deleteReceiptFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteReceiptFilter: (
+  input: DeleteReceiptFilterRequest,
+) => Effect.Effect<
+  DeleteReceiptFilterResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReceiptFilterRequest,
   output: DeleteReceiptFilterResponse,
   errors: [],
@@ -3172,7 +3263,13 @@ export const deleteReceiptFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const deleteTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTemplate: (
+  input: DeleteTemplateRequest,
+) => Effect.Effect<
+  DeleteTemplateResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTemplateRequest,
   output: DeleteTemplateResponse,
   errors: [],
@@ -3181,31 +3278,45 @@ export const deleteTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deprecated. Use the `DeleteIdentity` operation to delete email addresses
  * and domains.
  */
-export const deleteVerifiedEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVerifiedEmailAddressRequest,
-    output: DeleteVerifiedEmailAddressResponse,
-    errors: [],
-  }),
-);
+export const deleteVerifiedEmailAddress: (
+  input: DeleteVerifiedEmailAddressRequest,
+) => Effect.Effect<
+  DeleteVerifiedEmailAddressResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVerifiedEmailAddressRequest,
+  output: DeleteVerifiedEmailAddressResponse,
+  errors: [],
+}));
 /**
  * Returns the email sending status of the Amazon SES account for the current Region.
  *
  * You can execute this operation no more than once per second.
  */
-export const getAccountSendingEnabled = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAccountSendingEnabledRequest,
-    output: GetAccountSendingEnabledResponse,
-    errors: [],
-  }),
-);
+export const getAccountSendingEnabled: (
+  input: GetAccountSendingEnabledRequest,
+) => Effect.Effect<
+  GetAccountSendingEnabledResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountSendingEnabledRequest,
+  output: GetAccountSendingEnabledResponse,
+  errors: [],
+}));
 /**
  * Provides the sending limits for the Amazon SES account.
  *
  * You can execute this operation no more than once per second.
  */
-export const getSendQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSendQuota: (
+  input: GetSendQuotaRequest,
+) => Effect.Effect<
+  GetSendQuotaResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSendQuotaRequest,
   output: GetSendQuotaResponse,
   errors: [],
@@ -3219,7 +3330,13 @@ export const getSendQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const listReceiptFilters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listReceiptFilters: (
+  input: ListReceiptFiltersRequest,
+) => Effect.Effect<
+  ListReceiptFiltersResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListReceiptFiltersRequest,
   output: ListReceiptFiltersResponse,
   errors: [],
@@ -3228,13 +3345,17 @@ export const listReceiptFilters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deprecated. Use the `ListIdentities` operation to list the email addresses
  * and domains associated with your account.
  */
-export const listVerifiedEmailAddresses = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListVerifiedEmailAddressesRequest,
-    output: ListVerifiedEmailAddressesResponse,
-    errors: [],
-  }),
-);
+export const listVerifiedEmailAddresses: (
+  input: ListVerifiedEmailAddressesRequest,
+) => Effect.Effect<
+  ListVerifiedEmailAddressesResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListVerifiedEmailAddressesRequest,
+  output: ListVerifiedEmailAddressesResponse,
+  errors: [],
+}));
 /**
  * Enables or disables Easy DKIM signing of email sent from an identity. If Easy DKIM
  * signing is enabled for a domain, then Amazon SES uses DKIM to sign all email that it sends
@@ -3253,13 +3374,17 @@ export const listVerifiedEmailAddresses = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about Easy DKIM signing, go to the Amazon SES Developer
  * Guide.
  */
-export const setIdentityDkimEnabled = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetIdentityDkimEnabledRequest,
-    output: SetIdentityDkimEnabledResponse,
-    errors: [],
-  }),
-);
+export const setIdentityDkimEnabled: (
+  input: SetIdentityDkimEnabledRequest,
+) => Effect.Effect<
+  SetIdentityDkimEnabledResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetIdentityDkimEnabledRequest,
+  output: SetIdentityDkimEnabledResponse,
+  errors: [],
+}));
 /**
  * Given an identity (an email address or a domain), enables or disables whether Amazon SES
  * forwards bounce and complaint notifications as email. Feedback forwarding can only be
@@ -3274,12 +3399,17 @@ export const setIdentityDkimEnabled = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about using notifications with Amazon SES, see the Amazon SES
  * Developer Guide.
  */
-export const setIdentityFeedbackForwardingEnabled =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetIdentityFeedbackForwardingEnabledRequest,
-    output: SetIdentityFeedbackForwardingEnabledResponse,
-    errors: [],
-  }));
+export const setIdentityFeedbackForwardingEnabled: (
+  input: SetIdentityFeedbackForwardingEnabledRequest,
+) => Effect.Effect<
+  SetIdentityFeedbackForwardingEnabledResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetIdentityFeedbackForwardingEnabledRequest,
+  output: SetIdentityFeedbackForwardingEnabledResponse,
+  errors: [],
+}));
 /**
  * Given an identity (an email address or a domain), sets whether Amazon SES includes the
  * original email headers in the Amazon Simple Notification Service (Amazon SNS) notifications of a specified
@@ -3290,12 +3420,17 @@ export const setIdentityFeedbackForwardingEnabled =
  * For more information about using notifications with Amazon SES, see the Amazon SES
  * Developer Guide.
  */
-export const setIdentityHeadersInNotificationsEnabled =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetIdentityHeadersInNotificationsEnabledRequest,
-    output: SetIdentityHeadersInNotificationsEnabledResponse,
-    errors: [],
-  }));
+export const setIdentityHeadersInNotificationsEnabled: (
+  input: SetIdentityHeadersInNotificationsEnabledRequest,
+) => Effect.Effect<
+  SetIdentityHeadersInNotificationsEnabledResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetIdentityHeadersInNotificationsEnabledRequest,
+  output: SetIdentityHeadersInNotificationsEnabledResponse,
+  errors: [],
+}));
 /**
  * Enables or disables the custom MAIL FROM domain setup for a verified identity (an
  * email address or a domain).
@@ -3307,13 +3442,17 @@ export const setIdentityHeadersInNotificationsEnabled =
  *
  * You can execute this operation no more than once per second.
  */
-export const setIdentityMailFromDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetIdentityMailFromDomainRequest,
-    output: SetIdentityMailFromDomainResponse,
-    errors: [],
-  }),
-);
+export const setIdentityMailFromDomain: (
+  input: SetIdentityMailFromDomainRequest,
+) => Effect.Effect<
+  SetIdentityMailFromDomainResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetIdentityMailFromDomainRequest,
+  output: SetIdentityMailFromDomainResponse,
+  errors: [],
+}));
 /**
  * Sets an Amazon Simple Notification Service (Amazon SNS) topic to use when delivering notifications. When you use
  * this operation, you specify a verified identity, such as an email address or domain.
@@ -3327,12 +3466,17 @@ export const setIdentityMailFromDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about feedback notification, see the Amazon SES
  * Developer Guide.
  */
-export const setIdentityNotificationTopic =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetIdentityNotificationTopicRequest,
-    output: SetIdentityNotificationTopicResponse,
-    errors: [],
-  }));
+export const setIdentityNotificationTopic: (
+  input: SetIdentityNotificationTopicRequest,
+) => Effect.Effect<
+  SetIdentityNotificationTopicResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetIdentityNotificationTopicRequest,
+  output: SetIdentityNotificationTopicResponse,
+  errors: [],
+}));
 /**
  * Enables or disables email sending across your entire Amazon SES account in the current
  * Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to
@@ -3342,18 +3486,28 @@ export const setIdentityNotificationTopic =
  *
  * You can execute this operation no more than once per second.
  */
-export const updateAccountSendingEnabled = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountSendingEnabledRequest,
-    output: UpdateAccountSendingEnabledResponse,
-    errors: [],
-  }),
-);
+export const updateAccountSendingEnabled: (
+  input: UpdateAccountSendingEnabledRequest,
+) => Effect.Effect<
+  UpdateAccountSendingEnabledResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountSendingEnabledRequest,
+  output: UpdateAccountSendingEnabledResponse,
+  errors: [],
+}));
 /**
  * Deprecated. Use the `VerifyEmailIdentity` operation to verify a new email
  * address.
  */
-export const verifyEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const verifyEmailAddress: (
+  input: VerifyEmailAddressRequest,
+) => Effect.Effect<
+  VerifyEmailAddressResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyEmailAddressRequest,
   output: VerifyEmailAddressResponse,
   errors: [],
@@ -3365,7 +3519,13 @@ export const verifyEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const verifyEmailIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const verifyEmailIdentity: (
+  input: VerifyEmailIdentityRequest,
+) => Effect.Effect<
+  VerifyEmailIdentityResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyEmailIdentityRequest,
   output: VerifyEmailIdentityResponse,
   errors: [],
@@ -3377,13 +3537,17 @@ export const verifyEmailIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const deleteConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConfigurationSetRequest,
-    output: DeleteConfigurationSetResponse,
-    errors: [ConfigurationSetDoesNotExistException],
-  }),
-);
+export const deleteConfigurationSet: (
+  input: DeleteConfigurationSetRequest,
+) => Effect.Effect<
+  DeleteConfigurationSetResponse,
+  ConfigurationSetDoesNotExistException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConfigurationSetRequest,
+  output: DeleteConfigurationSetResponse,
+  errors: [ConfigurationSetDoesNotExistException],
+}));
 /**
  * Deletes the specified receipt rule.
  *
@@ -3392,7 +3556,13 @@ export const deleteConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can execute this operation no more than once per second.
  */
-export const deleteReceiptRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteReceiptRule: (
+  input: DeleteReceiptRuleRequest,
+) => Effect.Effect<
+  DeleteReceiptRuleResponse,
+  RuleSetDoesNotExistException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReceiptRuleRequest,
   output: DeleteReceiptRuleResponse,
   errors: [RuleSetDoesNotExistException],
@@ -3408,13 +3578,17 @@ export const deleteReceiptRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const deleteReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteReceiptRuleSetRequest,
-    output: DeleteReceiptRuleSetResponse,
-    errors: [CannotDeleteException],
-  }),
-);
+export const deleteReceiptRuleSet: (
+  input: DeleteReceiptRuleSetRequest,
+) => Effect.Effect<
+  DeleteReceiptRuleSetResponse,
+  CannotDeleteException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReceiptRuleSetRequest,
+  output: DeleteReceiptRuleSetResponse,
+  errors: [CannotDeleteException],
+}));
 /**
  * Returns the metadata and receipt rules for the receipt rule set that is currently
  * active.
@@ -3423,12 +3597,17 @@ export const deleteReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can execute this operation no more than once per second.
  */
-export const describeActiveReceiptRuleSet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeActiveReceiptRuleSetRequest,
-    output: DescribeActiveReceiptRuleSetResponse,
-    errors: [],
-  }));
+export const describeActiveReceiptRuleSet: (
+  input: DescribeActiveReceiptRuleSetRequest,
+) => Effect.Effect<
+  DescribeActiveReceiptRuleSetResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeActiveReceiptRuleSetRequest,
+  output: DescribeActiveReceiptRuleSetResponse,
+  errors: [],
+}));
 /**
  * Returns the details of the specified receipt rule set.
  *
@@ -3437,13 +3616,17 @@ export const describeActiveReceiptRuleSet =
  *
  * You can execute this operation no more than once per second.
  */
-export const describeReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeReceiptRuleSetRequest,
-    output: DescribeReceiptRuleSetResponse,
-    errors: [RuleSetDoesNotExistException],
-  }),
-);
+export const describeReceiptRuleSet: (
+  input: DescribeReceiptRuleSetRequest,
+) => Effect.Effect<
+  DescribeReceiptRuleSetResponse,
+  RuleSetDoesNotExistException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeReceiptRuleSetRequest,
+  output: DescribeReceiptRuleSetResponse,
+  errors: [RuleSetDoesNotExistException],
+}));
 /**
  * Provides sending statistics for the current Amazon Web Services Region. The result is a list of data
  * points, representing the last two weeks of sending activity. Each data point in the list
@@ -3451,7 +3634,13 @@ export const describeReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can execute this operation no more than once per second.
  */
-export const getSendStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSendStatistics: (
+  input: GetSendStatisticsRequest,
+) => Effect.Effect<
+  GetSendStatisticsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSendStatisticsRequest,
   output: GetSendStatisticsResponse,
   errors: [],
@@ -3469,13 +3658,17 @@ export const getSendStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `NextToken` parameter and the value of the NextToken element to retrieve
  * additional results.
  */
-export const listConfigurationSets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListConfigurationSetsRequest,
-    output: ListConfigurationSetsResponse,
-    errors: [],
-  }),
-);
+export const listConfigurationSets: (
+  input: ListConfigurationSetsRequest,
+) => Effect.Effect<
+  ListConfigurationSetsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListConfigurationSetsRequest,
+  output: ListConfigurationSetsResponse,
+  errors: [],
+}));
 /**
  * Returns a list containing all of the identities (email addresses and domains) for your
  * Amazon Web Services account in the current Amazon Web Services Region, regardless of verification status.
@@ -3491,19 +3684,39 @@ export const listConfigurationSets = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * original call, then continue to not provide it for successive pagination calls.
  * Using this protocol will ensure consistent results.
  */
-export const listIdentities = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listIdentities: {
+  (
     input: ListIdentitiesRequest,
-    output: ListIdentitiesResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Identities",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListIdentitiesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdentitiesRequest,
+  ) => Stream.Stream<
+    ListIdentitiesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdentitiesRequest,
+  ) => Stream.Stream<
+    Identity,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdentitiesRequest,
+  output: ListIdentitiesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Identities",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Returns a list of sending authorization policies that are attached to the given
  * identity (an email address or a domain). This operation returns only a list. To get the
@@ -3519,13 +3732,17 @@ export const listIdentities = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * You can execute this operation no more than once per second.
  */
-export const listIdentityPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListIdentityPoliciesRequest,
-    output: ListIdentityPoliciesResponse,
-    errors: [],
-  }),
-);
+export const listIdentityPolicies: (
+  input: ListIdentityPoliciesRequest,
+) => Effect.Effect<
+  ListIdentityPoliciesResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIdentityPoliciesRequest,
+  output: ListIdentityPoliciesResponse,
+  errors: [],
+}));
 /**
  * Lists the receipt rule sets that exist under your Amazon Web Services account in the current
  * Amazon Web Services Region. If there are additional receipt rule sets to be retrieved, you receive a
@@ -3537,7 +3754,13 @@ export const listIdentityPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can execute this operation no more than once per second.
  */
-export const listReceiptRuleSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listReceiptRuleSets: (
+  input: ListReceiptRuleSetsRequest,
+) => Effect.Effect<
+  ListReceiptRuleSetsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListReceiptRuleSetsRequest,
   output: ListReceiptRuleSetsResponse,
   errors: [],
@@ -3556,7 +3779,13 @@ export const listReceiptRuleSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const putIdentityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putIdentityPolicy: (
+  input: PutIdentityPolicyRequest,
+) => Effect.Effect<
+  PutIdentityPolicyResponse,
+  InvalidPolicyException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutIdentityPolicyRequest,
   output: PutIdentityPolicyResponse,
   errors: [InvalidPolicyException],
@@ -3572,13 +3801,19 @@ export const putIdentityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const reorderReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ReorderReceiptRuleSetRequest,
-    output: ReorderReceiptRuleSetResponse,
-    errors: [RuleDoesNotExistException, RuleSetDoesNotExistException],
-  }),
-);
+export const reorderReceiptRuleSet: (
+  input: ReorderReceiptRuleSetRequest,
+) => Effect.Effect<
+  ReorderReceiptRuleSetResponse,
+  | RuleDoesNotExistException
+  | RuleSetDoesNotExistException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReorderReceiptRuleSetRequest,
+  output: ReorderReceiptRuleSetResponse,
+  errors: [RuleDoesNotExistException, RuleSetDoesNotExistException],
+}));
 /**
  * Returns a set of DKIM tokens for a domain identity.
  *
@@ -3614,7 +3849,13 @@ export const reorderReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can execute this operation no more than once per second.
  */
-export const verifyDomainDkim = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const verifyDomainDkim: (
+  input: VerifyDomainDkimRequest,
+) => Effect.Effect<
+  VerifyDomainDkimResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyDomainDkimRequest,
   output: VerifyDomainDkimResponse,
   errors: [],
@@ -3627,13 +3868,17 @@ export const verifyDomainDkim = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const verifyDomainIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: VerifyDomainIdentityRequest,
-    output: VerifyDomainIdentityResponse,
-    errors: [],
-  }),
-);
+export const verifyDomainIdentity: (
+  input: VerifyDomainIdentityRequest,
+) => Effect.Effect<
+  VerifyDomainIdentityResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: VerifyDomainIdentityRequest,
+  output: VerifyDomainIdentityResponse,
+  errors: [],
+}));
 /**
  * Enables or disables the publishing of reputation metrics for emails sent using a
  * specific configuration set in a given Amazon Web Services Region. Reputation metrics include bounce
@@ -3642,12 +3887,17 @@ export const verifyDomainIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can execute this operation no more than once per second.
  */
-export const updateConfigurationSetReputationMetricsEnabled =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConfigurationSetReputationMetricsEnabledRequest,
-    output: UpdateConfigurationSetReputationMetricsEnabledResponse,
-    errors: [ConfigurationSetDoesNotExistException],
-  }));
+export const updateConfigurationSetReputationMetricsEnabled: (
+  input: UpdateConfigurationSetReputationMetricsEnabledRequest,
+) => Effect.Effect<
+  UpdateConfigurationSetReputationMetricsEnabledResponse,
+  ConfigurationSetDoesNotExistException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfigurationSetReputationMetricsEnabledRequest,
+  output: UpdateConfigurationSetReputationMetricsEnabledResponse,
+  errors: [ConfigurationSetDoesNotExistException],
+}));
 /**
  * Enables or disables email sending for messages sent using a specific configuration set
  * in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms
@@ -3657,12 +3907,17 @@ export const updateConfigurationSetReputationMetricsEnabled =
  *
  * You can execute this operation no more than once per second.
  */
-export const updateConfigurationSetSendingEnabled =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConfigurationSetSendingEnabledRequest,
-    output: UpdateConfigurationSetSendingEnabledResponse,
-    errors: [ConfigurationSetDoesNotExistException],
-  }));
+export const updateConfigurationSetSendingEnabled: (
+  input: UpdateConfigurationSetSendingEnabledRequest,
+) => Effect.Effect<
+  UpdateConfigurationSetSendingEnabledResponse,
+  ConfigurationSetDoesNotExistException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfigurationSetSendingEnabledRequest,
+  output: UpdateConfigurationSetSendingEnabledResponse,
+  errors: [ConfigurationSetDoesNotExistException],
+}));
 /**
  * Sets the specified receipt rule set as the active receipt rule set.
  *
@@ -3674,13 +3929,17 @@ export const updateConfigurationSetSendingEnabled =
  *
  * You can execute this operation no more than once per second.
  */
-export const setActiveReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetActiveReceiptRuleSetRequest,
-    output: SetActiveReceiptRuleSetResponse,
-    errors: [RuleSetDoesNotExistException],
-  }),
-);
+export const setActiveReceiptRuleSet: (
+  input: SetActiveReceiptRuleSetRequest,
+) => Effect.Effect<
+  SetActiveReceiptRuleSetResponse,
+  RuleSetDoesNotExistException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetActiveReceiptRuleSetRequest,
+  output: SetActiveReceiptRuleSetResponse,
+  errors: [RuleSetDoesNotExistException],
+}));
 /**
  * Sets the position of the specified receipt rule in the receipt rule set.
  *
@@ -3689,13 +3948,19 @@ export const setActiveReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can execute this operation no more than once per second.
  */
-export const setReceiptRulePosition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetReceiptRulePositionRequest,
-    output: SetReceiptRulePositionResponse,
-    errors: [RuleDoesNotExistException, RuleSetDoesNotExistException],
-  }),
-);
+export const setReceiptRulePosition: (
+  input: SetReceiptRulePositionRequest,
+) => Effect.Effect<
+  SetReceiptRulePositionResponse,
+  | RuleDoesNotExistException
+  | RuleSetDoesNotExistException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetReceiptRulePositionRequest,
+  output: SetReceiptRulePositionResponse,
+  errors: [RuleDoesNotExistException, RuleSetDoesNotExistException],
+}));
 /**
  * Returns the details of the specified receipt rule.
  *
@@ -3704,7 +3969,15 @@ export const setReceiptRulePosition = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can execute this operation no more than once per second.
  */
-export const describeReceiptRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeReceiptRule: (
+  input: DescribeReceiptRuleRequest,
+) => Effect.Effect<
+  DescribeReceiptRuleResponse,
+  | RuleDoesNotExistException
+  | RuleSetDoesNotExistException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeReceiptRuleRequest,
   output: DescribeReceiptRuleResponse,
   errors: [RuleDoesNotExistException, RuleSetDoesNotExistException],
@@ -3718,7 +3991,16 @@ export const describeReceiptRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const cloneReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cloneReceiptRuleSet: (
+  input: CloneReceiptRuleSetRequest,
+) => Effect.Effect<
+  CloneReceiptRuleSetResponse,
+  | AlreadyExistsException
+  | LimitExceededException
+  | RuleSetDoesNotExistException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CloneReceiptRuleSetRequest,
   output: CloneReceiptRuleSetResponse,
   errors: [
@@ -3735,7 +4017,13 @@ export const cloneReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const createReceiptFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createReceiptFilter: (
+  input: CreateReceiptFilterRequest,
+) => Effect.Effect<
+  CreateReceiptFilterResponse,
+  AlreadyExistsException | LimitExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReceiptFilterRequest,
   output: CreateReceiptFilterResponse,
   errors: [AlreadyExistsException, LimitExceededException],
@@ -3747,13 +4035,17 @@ export const createReceiptFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const describeConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConfigurationSetRequest,
-    output: DescribeConfigurationSetResponse,
-    errors: [ConfigurationSetDoesNotExistException],
-  }),
-);
+export const describeConfigurationSet: (
+  input: DescribeConfigurationSetRequest,
+) => Effect.Effect<
+  DescribeConfigurationSetResponse,
+  ConfigurationSetDoesNotExistException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConfigurationSetRequest,
+  output: DescribeConfigurationSetResponse,
+  errors: [ConfigurationSetDoesNotExistException],
+}));
 /**
  * Returns the custom email verification template for the template name you
  * specify.
@@ -3764,12 +4056,17 @@ export const describeConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can execute this operation no more than once per second.
  */
-export const getCustomVerificationEmailTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCustomVerificationEmailTemplateRequest,
-    output: GetCustomVerificationEmailTemplateResponse,
-    errors: [CustomVerificationEmailTemplateDoesNotExistException],
-  }));
+export const getCustomVerificationEmailTemplate: (
+  input: GetCustomVerificationEmailTemplateRequest,
+) => Effect.Effect<
+  GetCustomVerificationEmailTemplateResponse,
+  CustomVerificationEmailTemplateDoesNotExistException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCustomVerificationEmailTemplateRequest,
+  output: GetCustomVerificationEmailTemplateResponse,
+  errors: [CustomVerificationEmailTemplateDoesNotExistException],
+}));
 /**
  * Returns the requested sending authorization policies for the given identity (an email
  * address or a domain). The policies are returned as a map of policy names to policy
@@ -3785,7 +4082,13 @@ export const getCustomVerificationEmailTemplate =
  *
  * You can execute this operation no more than once per second.
  */
-export const getIdentityPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIdentityPolicies: (
+  input: GetIdentityPoliciesRequest,
+) => Effect.Effect<
+  GetIdentityPoliciesResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdentityPoliciesRequest,
   output: GetIdentityPoliciesResponse,
   errors: [],
@@ -3796,7 +4099,13 @@ export const getIdentityPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const getTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTemplate: (
+  input: GetTemplateRequest,
+) => Effect.Effect<
+  GetTemplateResponse,
+  TemplateDoesNotExistException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemplateRequest,
   output: GetTemplateResponse,
   errors: [TemplateDoesNotExistException],
@@ -3811,24 +4120,51 @@ export const getTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const listCustomVerificationEmailTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCustomVerificationEmailTemplates: {
+  (
     input: ListCustomVerificationEmailTemplatesRequest,
-    output: ListCustomVerificationEmailTemplatesResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCustomVerificationEmailTemplatesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCustomVerificationEmailTemplatesRequest,
+  ) => Stream.Stream<
+    ListCustomVerificationEmailTemplatesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCustomVerificationEmailTemplatesRequest,
+  ) => Stream.Stream<
+    unknown,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCustomVerificationEmailTemplatesRequest,
+  output: ListCustomVerificationEmailTemplatesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the email templates present in your Amazon SES account in the current
  * Amazon Web Services Region.
  *
  * You can execute this operation no more than once per second.
  */
-export const listTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTemplates: (
+  input: ListTemplatesRequest,
+) => Effect.Effect<
+  ListTemplatesResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTemplatesRequest,
   output: ListTemplatesResponse,
   errors: [],
@@ -3836,15 +4172,22 @@ export const listTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds or updates the delivery options for a configuration set.
  */
-export const putConfigurationSetDeliveryOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutConfigurationSetDeliveryOptionsRequest,
-    output: PutConfigurationSetDeliveryOptionsResponse,
-    errors: [
-      ConfigurationSetDoesNotExistException,
-      InvalidDeliveryOptionsException,
-    ],
-  }));
+export const putConfigurationSetDeliveryOptions: (
+  input: PutConfigurationSetDeliveryOptionsRequest,
+) => Effect.Effect<
+  PutConfigurationSetDeliveryOptionsResponse,
+  | ConfigurationSetDoesNotExistException
+  | InvalidDeliveryOptionsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutConfigurationSetDeliveryOptionsRequest,
+  output: PutConfigurationSetDeliveryOptionsResponse,
+  errors: [
+    ConfigurationSetDoesNotExistException,
+    InvalidDeliveryOptionsException,
+  ],
+}));
 /**
  * Creates an empty receipt rule set.
  *
@@ -3852,13 +4195,17 @@ export const putConfigurationSetDeliveryOptions =
  *
  * You can execute this operation no more than once per second.
  */
-export const createReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateReceiptRuleSetRequest,
-    output: CreateReceiptRuleSetResponse,
-    errors: [AlreadyExistsException, LimitExceededException],
-  }),
-);
+export const createReceiptRuleSet: (
+  input: CreateReceiptRuleSetRequest,
+) => Effect.Effect<
+  CreateReceiptRuleSetResponse,
+  AlreadyExistsException | LimitExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateReceiptRuleSetRequest,
+  output: CreateReceiptRuleSetResponse,
+  errors: [AlreadyExistsException, LimitExceededException],
+}));
 /**
  * Creates an email template. Email templates enable you to send personalized email to
  * one or more destinations in a single operation. For more information, see the Amazon SES
@@ -3866,7 +4213,16 @@ export const createReceiptRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can execute this operation no more than once per second.
  */
-export const createTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTemplate: (
+  input: CreateTemplateRequest,
+) => Effect.Effect<
+  CreateTemplateResponse,
+  | AlreadyExistsException
+  | InvalidTemplateException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTemplateRequest,
   output: CreateTemplateResponse,
   errors: [
@@ -3883,15 +4239,22 @@ export const createTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const deleteConfigurationSetEventDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteConfigurationSetEventDestinationRequest,
-    output: DeleteConfigurationSetEventDestinationResponse,
-    errors: [
-      ConfigurationSetDoesNotExistException,
-      EventDestinationDoesNotExistException,
-    ],
-  }));
+export const deleteConfigurationSetEventDestination: (
+  input: DeleteConfigurationSetEventDestinationRequest,
+) => Effect.Effect<
+  DeleteConfigurationSetEventDestinationResponse,
+  | ConfigurationSetDoesNotExistException
+  | EventDestinationDoesNotExistException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConfigurationSetEventDestinationRequest,
+  output: DeleteConfigurationSetEventDestinationResponse,
+  errors: [
+    ConfigurationSetDoesNotExistException,
+    EventDestinationDoesNotExistException,
+  ],
+}));
 /**
  * Deletes an association between a configuration set and a custom domain for open and
  * click event tracking.
@@ -3904,15 +4267,22 @@ export const deleteConfigurationSetEventDestination =
  * configuration set to capture open and click events using the standard,
  * Amazon SES-operated domains.
  */
-export const deleteConfigurationSetTrackingOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteConfigurationSetTrackingOptionsRequest,
-    output: DeleteConfigurationSetTrackingOptionsResponse,
-    errors: [
-      ConfigurationSetDoesNotExistException,
-      TrackingOptionsDoesNotExistException,
-    ],
-  }));
+export const deleteConfigurationSetTrackingOptions: (
+  input: DeleteConfigurationSetTrackingOptionsRequest,
+) => Effect.Effect<
+  DeleteConfigurationSetTrackingOptionsResponse,
+  | ConfigurationSetDoesNotExistException
+  | TrackingOptionsDoesNotExistException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConfigurationSetTrackingOptionsRequest,
+  output: DeleteConfigurationSetTrackingOptionsResponse,
+  errors: [
+    ConfigurationSetDoesNotExistException,
+    TrackingOptionsDoesNotExistException,
+  ],
+}));
 /**
  * Modifies an association between a configuration set and a custom domain for open and
  * click event tracking.
@@ -3921,16 +4291,24 @@ export const deleteConfigurationSetTrackingOptions =
  * domains operated by Amazon SES. You can configure a subdomain of your own to handle these
  * events. For information about using custom domains, see the Amazon SES Developer Guide.
  */
-export const updateConfigurationSetTrackingOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConfigurationSetTrackingOptionsRequest,
-    output: UpdateConfigurationSetTrackingOptionsResponse,
-    errors: [
-      ConfigurationSetDoesNotExistException,
-      InvalidTrackingOptionsException,
-      TrackingOptionsDoesNotExistException,
-    ],
-  }));
+export const updateConfigurationSetTrackingOptions: (
+  input: UpdateConfigurationSetTrackingOptionsRequest,
+) => Effect.Effect<
+  UpdateConfigurationSetTrackingOptionsResponse,
+  | ConfigurationSetDoesNotExistException
+  | InvalidTrackingOptionsException
+  | TrackingOptionsDoesNotExistException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfigurationSetTrackingOptionsRequest,
+  output: UpdateConfigurationSetTrackingOptionsResponse,
+  errors: [
+    ConfigurationSetDoesNotExistException,
+    InvalidTrackingOptionsException,
+    TrackingOptionsDoesNotExistException,
+  ],
+}));
 /**
  * Updates an email template. Email templates enable you to send personalized email to
  * one or more destinations in a single operation. For more information, see the Amazon SES
@@ -3938,7 +4316,15 @@ export const updateConfigurationSetTrackingOptions =
  *
  * You can execute this operation no more than once per second.
  */
-export const updateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTemplate: (
+  input: UpdateTemplateRequest,
+) => Effect.Effect<
+  UpdateTemplateResponse,
+  | InvalidTemplateException
+  | TemplateDoesNotExistException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTemplateRequest,
   output: UpdateTemplateResponse,
   errors: [InvalidTemplateException, TemplateDoesNotExistException],
@@ -3952,17 +4338,24 @@ export const updateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const createConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConfigurationSetRequest,
-    output: CreateConfigurationSetResponse,
-    errors: [
-      ConfigurationSetAlreadyExistsException,
-      InvalidConfigurationSetException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const createConfigurationSet: (
+  input: CreateConfigurationSetRequest,
+) => Effect.Effect<
+  CreateConfigurationSetResponse,
+  | ConfigurationSetAlreadyExistsException
+  | InvalidConfigurationSetException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConfigurationSetRequest,
+  output: CreateConfigurationSetResponse,
+  errors: [
+    ConfigurationSetAlreadyExistsException,
+    InvalidConfigurationSetException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Creates a new custom verification email template.
  *
@@ -3972,17 +4365,26 @@ export const createConfigurationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can execute this operation no more than once per second.
  */
-export const createCustomVerificationEmailTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCustomVerificationEmailTemplateRequest,
-    output: CreateCustomVerificationEmailTemplateResponse,
-    errors: [
-      CustomVerificationEmailInvalidContentException,
-      CustomVerificationEmailTemplateAlreadyExistsException,
-      FromEmailAddressNotVerifiedException,
-      LimitExceededException,
-    ],
-  }));
+export const createCustomVerificationEmailTemplate: (
+  input: CreateCustomVerificationEmailTemplateRequest,
+) => Effect.Effect<
+  CreateCustomVerificationEmailTemplateResponse,
+  | CustomVerificationEmailInvalidContentException
+  | CustomVerificationEmailTemplateAlreadyExistsException
+  | FromEmailAddressNotVerifiedException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomVerificationEmailTemplateRequest,
+  output: CreateCustomVerificationEmailTemplateResponse,
+  errors: [
+    CustomVerificationEmailInvalidContentException,
+    CustomVerificationEmailTemplateAlreadyExistsException,
+    FromEmailAddressNotVerifiedException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Returns the current status of Easy DKIM signing for an entity. For domain name
  * identities, this operation also returns the DKIM tokens that are required for Easy DKIM
@@ -4007,13 +4409,17 @@ export const createCustomVerificationEmailTemplate =
  * For more information about creating DNS records using DKIM tokens, go to the Amazon SES
  * Developer Guide.
  */
-export const getIdentityDkimAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIdentityDkimAttributesRequest,
-    output: GetIdentityDkimAttributesResponse,
-    errors: [],
-  }),
-);
+export const getIdentityDkimAttributes: (
+  input: GetIdentityDkimAttributesRequest,
+) => Effect.Effect<
+  GetIdentityDkimAttributesResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdentityDkimAttributesRequest,
+  output: GetIdentityDkimAttributesResponse,
+  errors: [],
+}));
 /**
  * Returns the custom MAIL FROM attributes for a list of identities (email addresses :
  * domains).
@@ -4021,12 +4427,17 @@ export const getIdentityDkimAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation is throttled at one request per second and can only get custom MAIL
  * FROM attributes for up to 100 identities at a time.
  */
-export const getIdentityMailFromDomainAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetIdentityMailFromDomainAttributesRequest,
-    output: GetIdentityMailFromDomainAttributesResponse,
-    errors: [],
-  }));
+export const getIdentityMailFromDomainAttributes: (
+  input: GetIdentityMailFromDomainAttributesRequest,
+) => Effect.Effect<
+  GetIdentityMailFromDomainAttributesResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdentityMailFromDomainAttributesRequest,
+  output: GetIdentityMailFromDomainAttributesResponse,
+  errors: [],
+}));
 /**
  * Given a list of verified identities (email addresses and/or domains), returns a
  * structure describing identity notification attributes.
@@ -4037,12 +4448,17 @@ export const getIdentityMailFromDomainAttributes =
  * For more information about using notifications with Amazon SES, see the Amazon SES
  * Developer Guide.
  */
-export const getIdentityNotificationAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetIdentityNotificationAttributesRequest,
-    output: GetIdentityNotificationAttributesResponse,
-    errors: [],
-  }));
+export const getIdentityNotificationAttributes: (
+  input: GetIdentityNotificationAttributesRequest,
+) => Effect.Effect<
+  GetIdentityNotificationAttributesResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdentityNotificationAttributesRequest,
+  output: GetIdentityNotificationAttributesResponse,
+  errors: [],
+}));
 /**
  * Given a list of identities (email addresses and/or domains), returns the verification
  * status and (for domain identities) the verification token for each identity.
@@ -4064,19 +4480,33 @@ export const getIdentityNotificationAttributes =
  * This operation is throttled at one request per second and can only get verification
  * attributes for up to 100 identities at a time.
  */
-export const getIdentityVerificationAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetIdentityVerificationAttributesRequest,
-    output: GetIdentityVerificationAttributesResponse,
-    errors: [],
-  }));
+export const getIdentityVerificationAttributes: (
+  input: GetIdentityVerificationAttributesRequest,
+) => Effect.Effect<
+  GetIdentityVerificationAttributesResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdentityVerificationAttributesRequest,
+  output: GetIdentityVerificationAttributesResponse,
+  errors: [],
+}));
 /**
  * Creates a preview of the MIME content of an email when provided with a template and a
  * set of replacement data.
  *
  * You can execute this operation no more than once per second.
  */
-export const testRenderTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testRenderTemplate: (
+  input: TestRenderTemplateRequest,
+) => Effect.Effect<
+  TestRenderTemplateResponse,
+  | InvalidRenderingParameterException
+  | MissingRenderingAttributeException
+  | TemplateDoesNotExistException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestRenderTemplateRequest,
   output: TestRenderTemplateResponse,
   errors: [
@@ -4093,7 +4523,19 @@ export const testRenderTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const updateReceiptRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateReceiptRule: (
+  input: UpdateReceiptRuleRequest,
+) => Effect.Effect<
+  UpdateReceiptRuleResponse,
+  | InvalidLambdaFunctionException
+  | InvalidS3ConfigurationException
+  | InvalidSnsTopicException
+  | LimitExceededException
+  | RuleDoesNotExistException
+  | RuleSetDoesNotExistException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateReceiptRuleRequest,
   output: UpdateReceiptRuleResponse,
   errors: [
@@ -4114,16 +4556,24 @@ export const updateReceiptRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const updateCustomVerificationEmailTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCustomVerificationEmailTemplateRequest,
-    output: UpdateCustomVerificationEmailTemplateResponse,
-    errors: [
-      CustomVerificationEmailInvalidContentException,
-      CustomVerificationEmailTemplateDoesNotExistException,
-      FromEmailAddressNotVerifiedException,
-    ],
-  }));
+export const updateCustomVerificationEmailTemplate: (
+  input: UpdateCustomVerificationEmailTemplateRequest,
+) => Effect.Effect<
+  UpdateCustomVerificationEmailTemplateResponse,
+  | CustomVerificationEmailInvalidContentException
+  | CustomVerificationEmailTemplateDoesNotExistException
+  | FromEmailAddressNotVerifiedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCustomVerificationEmailTemplateRequest,
+  output: UpdateCustomVerificationEmailTemplateResponse,
+  errors: [
+    CustomVerificationEmailInvalidContentException,
+    CustomVerificationEmailTemplateDoesNotExistException,
+    FromEmailAddressNotVerifiedException,
+  ],
+}));
 /**
  * Creates a receipt rule.
  *
@@ -4132,7 +4582,20 @@ export const updateCustomVerificationEmailTemplate =
  *
  * You can execute this operation no more than once per second.
  */
-export const createReceiptRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createReceiptRule: (
+  input: CreateReceiptRuleRequest,
+) => Effect.Effect<
+  CreateReceiptRuleResponse,
+  | AlreadyExistsException
+  | InvalidLambdaFunctionException
+  | InvalidS3ConfigurationException
+  | InvalidSnsTopicException
+  | LimitExceededException
+  | RuleDoesNotExistException
+  | RuleSetDoesNotExistException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReceiptRuleRequest,
   output: CreateReceiptRuleResponse,
   errors: [
@@ -4153,16 +4616,24 @@ export const createReceiptRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * domains operated by Amazon SES. You can configure a subdomain of your own to handle these
  * events. For information about using custom domains, see the Amazon SES Developer Guide.
  */
-export const createConfigurationSetTrackingOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateConfigurationSetTrackingOptionsRequest,
-    output: CreateConfigurationSetTrackingOptionsResponse,
-    errors: [
-      ConfigurationSetDoesNotExistException,
-      InvalidTrackingOptionsException,
-      TrackingOptionsAlreadyExistsException,
-    ],
-  }));
+export const createConfigurationSetTrackingOptions: (
+  input: CreateConfigurationSetTrackingOptionsRequest,
+) => Effect.Effect<
+  CreateConfigurationSetTrackingOptionsResponse,
+  | ConfigurationSetDoesNotExistException
+  | InvalidTrackingOptionsException
+  | TrackingOptionsAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConfigurationSetTrackingOptionsRequest,
+  output: CreateConfigurationSetTrackingOptionsResponse,
+  errors: [
+    ConfigurationSetDoesNotExistException,
+    InvalidTrackingOptionsException,
+    TrackingOptionsAlreadyExistsException,
+  ],
+}));
 /**
  * Generates and sends a bounce message to the sender of an email you received through
  * Amazon SES. You can only use this operation on an email up to 24 hours after you receive
@@ -4176,7 +4647,13 @@ export const createConfigurationSetTrackingOptions =
  *
  * You can execute this operation no more than once per second.
  */
-export const sendBounce = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendBounce: (
+  input: SendBounceRequest,
+) => Effect.Effect<
+  SendBounceResponse,
+  MessageRejected | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendBounceRequest,
   output: SendBounceResponse,
   errors: [MessageRejected],
@@ -4224,7 +4701,19 @@ export const sendBounce = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * notifications when Rendering Failure events occur. For more information, see Sending Personalized Email Using the Amazon SES API in the
  * *Amazon Simple Email Service Developer Guide*.
  */
-export const sendTemplatedEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendTemplatedEmail: (
+  input: SendTemplatedEmailRequest,
+) => Effect.Effect<
+  SendTemplatedEmailResponse,
+  | AccountSendingPausedException
+  | ConfigurationSetDoesNotExistException
+  | ConfigurationSetSendingPausedException
+  | MailFromDomainNotVerifiedException
+  | MessageRejected
+  | TemplateDoesNotExistException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendTemplatedEmailRequest,
   output: SendTemplatedEmailResponse,
   errors: [
@@ -4316,7 +4805,18 @@ export const sendTemplatedEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Managing Your Amazon SES Sending Limits in the Amazon SES Developer
  * Guide.
  */
-export const sendRawEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendRawEmail: (
+  input: SendRawEmailRequest,
+) => Effect.Effect<
+  SendRawEmailResponse,
+  | AccountSendingPausedException
+  | ConfigurationSetDoesNotExistException
+  | ConfigurationSetSendingPausedException
+  | MailFromDomainNotVerifiedException
+  | MessageRejected
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendRawEmailRequest,
   output: SendRawEmailResponse,
   errors: [
@@ -4363,20 +4863,30 @@ export const sendRawEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - The number of destinations you can contact in a single call can be limited by
  * your account's maximum sending rate.
  */
-export const sendBulkTemplatedEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendBulkTemplatedEmailRequest,
-    output: SendBulkTemplatedEmailResponse,
-    errors: [
-      AccountSendingPausedException,
-      ConfigurationSetDoesNotExistException,
-      ConfigurationSetSendingPausedException,
-      MailFromDomainNotVerifiedException,
-      MessageRejected,
-      TemplateDoesNotExistException,
-    ],
-  }),
-);
+export const sendBulkTemplatedEmail: (
+  input: SendBulkTemplatedEmailRequest,
+) => Effect.Effect<
+  SendBulkTemplatedEmailResponse,
+  | AccountSendingPausedException
+  | ConfigurationSetDoesNotExistException
+  | ConfigurationSetSendingPausedException
+  | MailFromDomainNotVerifiedException
+  | MessageRejected
+  | TemplateDoesNotExistException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendBulkTemplatedEmailRequest,
+  output: SendBulkTemplatedEmailResponse,
+  errors: [
+    AccountSendingPausedException,
+    ConfigurationSetDoesNotExistException,
+    ConfigurationSetSendingPausedException,
+    MailFromDomainNotVerifiedException,
+    MessageRejected,
+    TemplateDoesNotExistException,
+  ],
+}));
 /**
  * Composes an email message and immediately queues it for sending. To send email using
  * this operation, your message must meet the following requirements:
@@ -4412,7 +4922,18 @@ export const sendBulkTemplatedEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about sending quotas in Amazon SES, see Managing Your Amazon SES Sending
  * Limits in the *Amazon SES Developer Guide.*
  */
-export const sendEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendEmail: (
+  input: SendEmailRequest,
+) => Effect.Effect<
+  SendEmailResponse,
+  | AccountSendingPausedException
+  | ConfigurationSetDoesNotExistException
+  | ConfigurationSetSendingPausedException
+  | MailFromDomainNotVerifiedException
+  | MessageRejected
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendEmailRequest,
   output: SendEmailResponse,
   errors: [
@@ -4436,19 +4957,28 @@ export const sendEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can execute this operation no more than once per second.
  */
-export const sendCustomVerificationEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendCustomVerificationEmailRequest,
-    output: SendCustomVerificationEmailResponse,
-    errors: [
-      ConfigurationSetDoesNotExistException,
-      CustomVerificationEmailTemplateDoesNotExistException,
-      FromEmailAddressNotVerifiedException,
-      MessageRejected,
-      ProductionAccessNotGrantedException,
-    ],
-  }),
-);
+export const sendCustomVerificationEmail: (
+  input: SendCustomVerificationEmailRequest,
+) => Effect.Effect<
+  SendCustomVerificationEmailResponse,
+  | ConfigurationSetDoesNotExistException
+  | CustomVerificationEmailTemplateDoesNotExistException
+  | FromEmailAddressNotVerifiedException
+  | MessageRejected
+  | ProductionAccessNotGrantedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendCustomVerificationEmailRequest,
+  output: SendCustomVerificationEmailResponse,
+  errors: [
+    ConfigurationSetDoesNotExistException,
+    CustomVerificationEmailTemplateDoesNotExistException,
+    FromEmailAddressNotVerifiedException,
+    MessageRejected,
+    ProductionAccessNotGrantedException,
+  ],
+}));
 /**
  * Updates the event destination of a configuration set. Event destinations are
  * associated with configuration sets, which enable you to publish email sending events to
@@ -4462,18 +4992,28 @@ export const sendCustomVerificationEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can execute this operation no more than once per second.
  */
-export const updateConfigurationSetEventDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateConfigurationSetEventDestinationRequest,
-    output: UpdateConfigurationSetEventDestinationResponse,
-    errors: [
-      ConfigurationSetDoesNotExistException,
-      EventDestinationDoesNotExistException,
-      InvalidCloudWatchDestinationException,
-      InvalidFirehoseDestinationException,
-      InvalidSNSDestinationException,
-    ],
-  }));
+export const updateConfigurationSetEventDestination: (
+  input: UpdateConfigurationSetEventDestinationRequest,
+) => Effect.Effect<
+  UpdateConfigurationSetEventDestinationResponse,
+  | ConfigurationSetDoesNotExistException
+  | EventDestinationDoesNotExistException
+  | InvalidCloudWatchDestinationException
+  | InvalidFirehoseDestinationException
+  | InvalidSNSDestinationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfigurationSetEventDestinationRequest,
+  output: UpdateConfigurationSetEventDestinationResponse,
+  errors: [
+    ConfigurationSetDoesNotExistException,
+    EventDestinationDoesNotExistException,
+    InvalidCloudWatchDestinationException,
+    InvalidFirehoseDestinationException,
+    InvalidSNSDestinationException,
+  ],
+}));
 /**
  * Creates a configuration set event destination.
  *
@@ -4487,16 +5027,27 @@ export const updateConfigurationSetEventDestination =
  *
  * You can execute this operation no more than once per second.
  */
-export const createConfigurationSetEventDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateConfigurationSetEventDestinationRequest,
-    output: CreateConfigurationSetEventDestinationResponse,
-    errors: [
-      ConfigurationSetDoesNotExistException,
-      EventDestinationAlreadyExistsException,
-      InvalidCloudWatchDestinationException,
-      InvalidFirehoseDestinationException,
-      InvalidSNSDestinationException,
-      LimitExceededException,
-    ],
-  }));
+export const createConfigurationSetEventDestination: (
+  input: CreateConfigurationSetEventDestinationRequest,
+) => Effect.Effect<
+  CreateConfigurationSetEventDestinationResponse,
+  | ConfigurationSetDoesNotExistException
+  | EventDestinationAlreadyExistsException
+  | InvalidCloudWatchDestinationException
+  | InvalidFirehoseDestinationException
+  | InvalidSNSDestinationException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConfigurationSetEventDestinationRequest,
+  output: CreateConfigurationSetEventDestinationResponse,
+  errors: [
+    ConfigurationSetDoesNotExistException,
+    EventDestinationAlreadyExistsException,
+    InvalidCloudWatchDestinationException,
+    InvalidFirehoseDestinationException,
+    InvalidSNSDestinationException,
+    LimitExceededException,
+  ],
+}));

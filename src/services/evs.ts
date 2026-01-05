@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "evs",
   serviceShapeName: "AmazonElasticVMwareService",
@@ -292,6 +300,34 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type TagKey = string;
+export type ClientToken = string;
+export type EnvironmentName = string;
+export type VpcId = string;
+export type SubnetId = string;
+export type EnvironmentId = string;
+export type PaginationToken = string;
+export type MaxResults = number;
+export type AllocationId = string;
+export type HostName = string;
+export type AssociationId = string;
+export type TagValue = string;
+export type SecurityGroupId = string;
+export type SolutionKey = string;
+export type VSanLicenseKey = string;
+export type NetworkAclId = string;
+export type KeyName = string;
+export type PlacementGroupId = string;
+export type DedicatedHostId = string;
+export type RouteServerPeering = string;
+export type Cidr = string;
+export type StateDetails = string;
+export type VlanId = number;
+export type IpAddress = string;
+export type NetworkInterfaceId = string;
 
 //# Schemas
 export type TagKeys = string[];
@@ -953,7 +989,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },
@@ -975,7 +1013,13 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 /**
  * Lists the tags for an Amazon EVS resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
@@ -983,7 +1027,13 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes specified tags from an Amazon EVS resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  ResourceNotFoundException | TagPolicyException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException, TagPolicyException],
@@ -995,7 +1045,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Environment deletion also deletes the associated Amazon EVS VLAN subnets and Amazon Web Services Secrets Manager secrets that Amazon EVS created. Amazon Web Services resources that you create are not deleted. These resources may continue to incur costs.
  */
-export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEnvironment: (
+  input: DeleteEnvironmentRequest,
+) => Effect.Effect<
+  DeleteEnvironmentResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentRequest,
   output: DeleteEnvironmentResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -1003,7 +1059,16 @@ export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates an Elastic IP address with a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
  */
-export const associateEipToVlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateEipToVlan: (
+  input: AssociateEipToVlanRequest,
+) => Effect.Effect<
+  AssociateEipToVlanResponse,
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateEipToVlanRequest,
   output: AssociateEipToVlanResponse,
   errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
@@ -1019,17 +1084,31 @@ export const associateEipToVlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You cannot use the `dedicatedHostId` and `placementGroupId` parameters together in the same `CreateEnvironmentHost` action. This results in a `ValidationException` response.
  */
-export const createEnvironmentHost = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEnvironmentHostRequest,
-    output: CreateEnvironmentHostResponse,
-    errors: [ThrottlingException, ValidationException],
-  }),
-);
+export const createEnvironmentHost: (
+  input: CreateEnvironmentHostRequest,
+) => Effect.Effect<
+  CreateEnvironmentHostResponse,
+  ThrottlingException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEnvironmentHostRequest,
+  output: CreateEnvironmentHostResponse,
+  errors: [ThrottlingException, ValidationException],
+}));
 /**
  * Associates the specified tags to an Amazon EVS resource with the specified `resourceArn`. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EVS resources don't propagate to any other resources associated with the environment. For example, if you tag an environment with this operation, that tag doesn't automatically propagate to the VLAN subnets and hosts associated with the environment.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | TagPolicyException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1044,73 +1123,142 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Before deleting a host, you must unassign and decommission the host from within the SDDC Manager user interface. Not doing so could impact the availability of your virtual machines or result in data loss.
  */
-export const deleteEnvironmentHost = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEnvironmentHostRequest,
-    output: DeleteEnvironmentHostResponse,
-    errors: [ResourceNotFoundException, ValidationException],
-  }),
-);
+export const deleteEnvironmentHost: (
+  input: DeleteEnvironmentHostRequest,
+) => Effect.Effect<
+  DeleteEnvironmentHostResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEnvironmentHostRequest,
+  output: DeleteEnvironmentHostResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
 /**
  * List the hosts within an environment.
  */
-export const listEnvironmentHosts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEnvironmentHosts: {
+  (
     input: ListEnvironmentHostsRequest,
-    output: ListEnvironmentHostsResponse,
-    errors: [ResourceNotFoundException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "environmentHosts",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEnvironmentHostsResponse,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnvironmentHostsRequest,
+  ) => Stream.Stream<
+    ListEnvironmentHostsResponse,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnvironmentHostsRequest,
+  ) => Stream.Stream<
+    Host,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnvironmentHostsRequest,
+  output: ListEnvironmentHostsResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "environmentHosts",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists environment VLANs that are associated with the specified environment.
  */
-export const listEnvironmentVlans =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEnvironmentVlans: {
+  (
     input: ListEnvironmentVlansRequest,
-    output: ListEnvironmentVlansResponse,
-    errors: [ResourceNotFoundException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "environmentVlans",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEnvironmentVlansResponse,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnvironmentVlansRequest,
+  ) => Stream.Stream<
+    ListEnvironmentVlansResponse,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnvironmentVlansRequest,
+  ) => Stream.Stream<
+    Vlan,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnvironmentVlansRequest,
+  output: ListEnvironmentVlansResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "environmentVlans",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the Amazon EVS environments in your Amazon Web Services account in the specified Amazon Web Services Region.
  */
-export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEnvironments: {
+  (
     input: ListEnvironmentsRequest,
-    output: ListEnvironmentsResponse,
-    errors: [ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "environmentSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEnvironmentsResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnvironmentsRequest,
+  ) => Stream.Stream<
+    ListEnvironmentsResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnvironmentsRequest,
+  ) => Stream.Stream<
+    EnvironmentSummary,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnvironmentsRequest,
+  output: ListEnvironmentsResponse,
+  errors: [ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "environmentSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Disassociates an Elastic IP address from a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
  */
-export const disassociateEipFromVlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateEipFromVlanRequest,
-    output: DisassociateEipFromVlanResponse,
-    errors: [
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateEipFromVlan: (
+  input: DisassociateEipFromVlanRequest,
+) => Effect.Effect<
+  DisassociateEipFromVlanResponse,
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateEipFromVlanRequest,
+  output: DisassociateEipFromVlanResponse,
+  errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
+}));
 /**
  * Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server.
  *
@@ -1120,7 +1268,13 @@ export const disassociateEipFromVlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You cannot use the `dedicatedHostId` and `placementGroupId` parameters together in the same `CreateEnvironment` action. This results in a `ValidationException` response.
  */
-export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEnvironment: (
+  input: CreateEnvironmentRequest,
+) => Effect.Effect<
+  CreateEnvironmentResponse,
+  ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentRequest,
   output: CreateEnvironmentResponse,
   errors: [ValidationException],
@@ -1128,7 +1282,13 @@ export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a description of the specified environment.
  */
-export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEnvironment: (
+  input: GetEnvironmentRequest,
+) => Effect.Effect<
+  GetEnvironmentResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentRequest,
   output: GetEnvironmentResponse,
   errors: [ResourceNotFoundException, ValidationException],

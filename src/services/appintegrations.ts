@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "AppIntegrations",
   serviceShapeName: "AmazonAppIntegrationService",
@@ -240,6 +248,38 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ApplicationName = string;
+export type ApplicationNamespace = string;
+export type Description = string;
+export type IdempotencyToken = string;
+export type Permission = string;
+export type InitializationTimeout = number;
+export type Name = string;
+export type NonBlankString = string;
+export type SourceURI = string;
+export type Identifier = string;
+export type ClientId = string;
+export type DestinationURI = string;
+export type EventBridgeBus = string;
+export type ArnOrUUID = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type Arn = string;
+export type TagKey = string;
+export type EventName = string;
+export type EventDefinitionSchema = string;
+export type TagValue = string;
+export type IframePermission = string;
+export type NonBlankLongString = string;
+export type Source = string;
+export type Message = string;
+export type UUID = string;
+export type URL = string;
+export type ApplicationTrustedSource = string;
+export type Fields = string;
+export type EventBridgeRuleName = string;
 
 //# Schemas
 export type PermissionList = string[];
@@ -1397,7 +1437,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServiceError extends S.TaggedError<InternalServiceError>()(
   "InternalServiceError",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { Message: S.optional(S.String) },
@@ -1413,11 +1455,15 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceQuotaExceededException extends S.TaggedError<ResourceQuotaExceededException>()(
   "ResourceQuotaExceededException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
   "UnsupportedOperationException",
   { Message: S.optional(S.String) },
@@ -1427,24 +1473,56 @@ export class UnsupportedOperationException extends S.TaggedError<UnsupportedOper
 /**
  * Lists applications in the account.
  */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listApplications: {
+  (
     input: ListApplicationsRequest,
-    output: ListApplicationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Applications",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListApplicationsResponse,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ListApplicationsResponse,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ApplicationSummary,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Applications",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes the DataIntegration. Only DataIntegrations that don't have any
  * DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the
@@ -1454,36 +1532,54 @@ export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * Use a different DataIntegration, or recreate the DataIntegration using the
  * CreateDataIntegration API.
  */
-export const deleteDataIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDataIntegrationRequest,
-    output: DeleteDataIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteDataIntegration: (
+  input: DeleteDataIntegrationRequest,
+) => Effect.Effect<
+  DeleteDataIntegrationResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataIntegrationRequest,
+  output: DeleteDataIntegrationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes the specified existing event integration. If the event integration is associated
  * with clients, the request is rejected.
  */
-export const deleteEventIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEventIntegrationRequest,
-    output: DeleteEventIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteEventIntegration: (
+  input: DeleteEventIntegrationRequest,
+) => Effect.Effect<
+  DeleteEventIntegrationResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEventIntegrationRequest,
+  output: DeleteEventIntegrationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the description of a DataIntegration.
  *
@@ -1491,56 +1587,94 @@ export const deleteEventIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Use a different DataIntegration, or recreate the DataIntegration using the
  * CreateDataIntegration API.
  */
-export const updateDataIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDataIntegrationRequest,
-    output: UpdateDataIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateDataIntegration: (
+  input: UpdateDataIntegrationRequest,
+) => Effect.Effect<
+  UpdateDataIntegrationResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataIntegrationRequest,
+  output: UpdateDataIntegrationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates and persists a DataIntegrationAssociation resource.
  *
  * Updating a DataIntegrationAssociation with ExecutionConfiguration will rerun the on-demand job.
  */
-export const updateDataIntegrationAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDataIntegrationAssociationRequest,
-    output: UpdateDataIntegrationAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateDataIntegrationAssociation: (
+  input: UpdateDataIntegrationAssociationRequest,
+) => Effect.Effect<
+  UpdateDataIntegrationAssociationResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataIntegrationAssociationRequest,
+  output: UpdateDataIntegrationAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the description of an event integration.
  */
-export const updateEventIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEventIntegrationRequest,
-    output: UpdateEventIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateEventIntegration: (
+  input: UpdateEventIntegrationRequest,
+) => Effect.Effect<
+  UpdateEventIntegrationResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEventIntegrationRequest,
+  output: UpdateEventIntegrationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1554,7 +1688,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes the Application. Only Applications that don't have any Application Associations
  * can be deleted.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplication: (
+  input: DeleteApplicationRequest,
+) => Effect.Effect<
+  DeleteApplicationResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResponse,
   errors: [
@@ -1568,7 +1713,18 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get an Application resource.
  */
-export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApplication: (
+  input: GetApplicationRequest,
+) => Effect.Effect<
+  GetApplicationResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
   output: GetApplicationResponse,
   errors: [
@@ -1586,7 +1742,18 @@ export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Use a different DataIntegration, or recreate the DataIntegration using the
  * CreateDataIntegration API.
  */
-export const getDataIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDataIntegration: (
+  input: GetDataIntegrationRequest,
+) => Effect.Effect<
+  GetDataIntegrationResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataIntegrationRequest,
   output: GetDataIntegrationResponse,
   errors: [
@@ -1600,7 +1767,18 @@ export const getDataIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the event integration.
  */
-export const getEventIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEventIntegration: (
+  input: GetEventIntegrationRequest,
+) => Effect.Effect<
+  GetEventIntegrationResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventIntegrationRequest,
   output: GetEventIntegrationResponse,
   errors: [
@@ -1614,7 +1792,17 @@ export const getEventIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1627,45 +1815,117 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a paginated list of application associations for an application.
  */
-export const listApplicationAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApplicationAssociations: {
+  (
     input: ListApplicationAssociationsRequest,
-    output: ListApplicationAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ApplicationAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListApplicationAssociationsResponse,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationAssociationsRequest,
+  ) => Stream.Stream<
+    ListApplicationAssociationsResponse,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationAssociationsRequest,
+  ) => Stream.Stream<
+    ApplicationAssociationSummary,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationAssociationsRequest,
+  output: ListApplicationAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ApplicationAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a paginated list of event integration associations in the account.
  */
-export const listEventIntegrationAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEventIntegrationAssociations: {
+  (
     input: ListEventIntegrationAssociationsRequest,
-    output: ListEventIntegrationAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EventIntegrationAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEventIntegrationAssociationsResponse,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEventIntegrationAssociationsRequest,
+  ) => Stream.Stream<
+    ListEventIntegrationAssociationsResponse,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEventIntegrationAssociationsRequest,
+  ) => Stream.Stream<
+    EventIntegrationAssociation,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEventIntegrationAssociationsRequest,
+  output: ListEventIntegrationAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EventIntegrationAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a paginated list of DataIntegration associations in the account.
  *
@@ -1673,24 +1933,60 @@ export const listEventIntegrationAssociations =
  * Use a different DataIntegration, or recreate the DataIntegration using the
  * CreateDataIntegration API.
  */
-export const listDataIntegrationAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataIntegrationAssociations: {
+  (
     input: ListDataIntegrationAssociationsRequest,
-    output: ListDataIntegrationAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DataIntegrationAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataIntegrationAssociationsResponse,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataIntegrationAssociationsRequest,
+  ) => Stream.Stream<
+    ListDataIntegrationAssociationsResponse,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataIntegrationAssociationsRequest,
+  ) => Stream.Stream<
+    DataIntegrationAssociationSummary,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataIntegrationAssociationsRequest,
+  output: ListDataIntegrationAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DataIntegrationAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a paginated list of DataIntegrations in the account.
  *
@@ -1698,47 +1994,123 @@ export const listDataIntegrationAssociations =
  * Use a different DataIntegration, or recreate the DataIntegration using the
  * CreateDataIntegration API.
  */
-export const listDataIntegrations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataIntegrations: {
+  (
     input: ListDataIntegrationsRequest,
-    output: ListDataIntegrationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DataIntegrations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataIntegrationsResponse,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataIntegrationsRequest,
+  ) => Stream.Stream<
+    ListDataIntegrationsResponse,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataIntegrationsRequest,
+  ) => Stream.Stream<
+    DataIntegrationSummary,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataIntegrationsRequest,
+  output: ListDataIntegrationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DataIntegrations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a paginated list of event integrations in the account.
  */
-export const listEventIntegrations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEventIntegrations: {
+  (
     input: ListEventIntegrationsRequest,
-    output: ListEventIntegrationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EventIntegrations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEventIntegrationsResponse,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEventIntegrationsRequest,
+  ) => Stream.Stream<
+    ListEventIntegrationsResponse,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEventIntegrationsRequest,
+  ) => Stream.Stream<
+    EventIntegration,
+    | AccessDeniedException
+    | InternalServiceError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEventIntegrationsRequest,
+  output: ListEventIntegrationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EventIntegrations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Adds the specified tags to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1754,20 +2126,30 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * that bus. No objects are created in the your account, only metadata that is persisted on the
  * EventIntegration control plane.
  */
-export const createEventIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEventIntegrationRequest,
-    output: CreateEventIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      DuplicateResourceException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createEventIntegration: (
+  input: CreateEventIntegrationRequest,
+) => Effect.Effect<
+  CreateEventIntegrationResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEventIntegrationRequest,
+  output: CreateEventIntegrationResponse,
+  errors: [
+    AccessDeniedException,
+    DuplicateResourceException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates and persists a DataIntegration resource.
  *
@@ -1775,40 +2157,73 @@ export const createEventIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * previously associated. Use a different DataIntegration, or recreate the DataIntegration
  * using the `CreateDataIntegration` API.
  */
-export const createDataIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataIntegrationRequest,
-    output: CreateDataIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      DuplicateResourceException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createDataIntegration: (
+  input: CreateDataIntegrationRequest,
+) => Effect.Effect<
+  CreateDataIntegrationResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataIntegrationRequest,
+  output: CreateDataIntegrationResponse,
+  errors: [
+    AccessDeniedException,
+    DuplicateResourceException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates and persists a DataIntegrationAssociation resource.
  */
-export const createDataIntegrationAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDataIntegrationAssociationRequest,
-    output: CreateDataIntegrationAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ResourceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }));
+export const createDataIntegrationAssociation: (
+  input: CreateDataIntegrationAssociationRequest,
+) => Effect.Effect<
+  CreateDataIntegrationAssociationResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ResourceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataIntegrationAssociationRequest,
+  output: CreateDataIntegrationAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ResourceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates and persists an Application resource.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApplication: (
+  input: UpdateApplicationRequest,
+) => Effect.Effect<
+  UpdateApplicationResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
   output: UpdateApplicationResponse,
   errors: [
@@ -1823,7 +2238,20 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates and persists an Application resource.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationRequest,
+) => Effect.Effect<
+  CreateApplicationResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceQuotaExceededException
+  | ThrottlingException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
   output: CreateApplicationResponse,
   errors: [

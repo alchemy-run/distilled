@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://directconnect.amazonaws.com/doc/2012-10-25/");
 const svc = T.AwsApiService({
   sdkId: "Direct Connect",
@@ -241,6 +249,77 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type DirectConnectGatewayId = string;
+export type DirectConnectGatewayAssociationProposalId = string;
+export type OwnerAccount = string;
+export type Bandwidth = string;
+export type ConnectionName = string;
+export type InterconnectId = string;
+export type VLAN = number;
+export type ConnectionId = string;
+export type LagId = string;
+export type SecretARN = string;
+export type Ckn = string;
+export type Cak = string;
+export type VirtualInterfaceId = string;
+export type AgreementName = string;
+export type VirtualGatewayId = string;
+export type LocationCode = string;
+export type ProviderName = string;
+export type DirectConnectGatewayName = string;
+export type LongAsn = number;
+export type GatewayIdToAssociate = string;
+export type InterconnectName = string;
+export type Count = number;
+export type LagName = string;
+export type ASN = number;
+export type CustomerAddress = string;
+export type BGPPeerId = string;
+export type DirectConnectGatewayAssociationId = string;
+export type MaxResultSetSize = number;
+export type PaginationToken = string;
+export type AssociatedGatewayId = string;
+export type RouterTypeIdentifier = string;
+export type ResourceArn = string;
+export type TestId = string;
+export type FailureTestHistoryStatus = string;
+export type TestDuration = number;
+export type TagKey = string;
+export type EncryptionMode = string;
+export type MTU = number;
+export type VirtualInterfaceName = string;
+export type CIDR = string;
+export type TagValue = string;
+export type BGPAuthKey = string;
+export type AmazonAddress = string;
+export type Status = string;
+export type LocationName = string;
+export type Region = string;
+export type PortSpeed = string;
+export type VirtualGatewayState = string;
+export type PartnerName = string;
+export type AwsDevice = string;
+export type AwsDeviceV2 = string;
+export type AwsLogicalDeviceId = string;
+export type PortEncryptionStatus = string;
+export type ErrorMessage = string;
+export type VirtualInterfaceType = string;
+export type RouterConfig = string;
+export type State = string;
+export type StartOnDate = string;
+export type StateChangeError = string;
+export type VirtualGatewayRegion = string;
+export type VirtualInterfaceRegion = string;
+export type Vendor = string;
+export type Platform = string;
+export type Software = string;
+export type XsltTemplateName = string;
+export type XsltTemplateNameForMacSec = string;
+export type GatewayIdentifier = string;
+export type CoreNetworkIdentifier = string;
+export type CoreNetworkAttachmentId = string;
 
 //# Schemas
 export interface DescribeCustomerMetadataRequest {}
@@ -2873,7 +2952,9 @@ export class DirectConnectClientException extends S.TaggedError<DirectConnectCli
 export class DirectConnectServerException extends S.TaggedError<DirectConnectServerException>()(
   "DirectConnectServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class DuplicateTagKeysException extends S.TaggedError<DuplicateTagKeysException>()(
   "DuplicateTagKeysException",
   { message: S.optional(S.String) },
@@ -2902,13 +2983,19 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
  * LAG. If the interconnect was originally associated with a different LAG, the hosted
  * connections remain associated with the original LAG.
  */
-export const associateConnectionWithLag = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateConnectionWithLagRequest,
-    output: Connection,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const associateConnectionWithLag: (
+  input: AssociateConnectionWithLagRequest,
+) => Effect.Effect<
+  Connection,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateConnectionWithLagRequest,
+  output: Connection,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Associates a virtual interface with a specified link aggregation group (LAG) or
  * connection. Connectivity to Amazon Web Services is temporarily interrupted as the virtual interface is
@@ -2923,13 +3010,19 @@ export const associateConnectionWithLag = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * interface is currently associated. Additionally, the requester must own the connection
  * or LAG for the association.
  */
-export const associateVirtualInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateVirtualInterfaceRequest,
-    output: VirtualInterface,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const associateVirtualInterface: (
+  input: AssociateVirtualInterfaceRequest,
+) => Effect.Effect<
+  VirtualInterface,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateVirtualInterfaceRequest,
+  output: VirtualInterface,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Creates a BGP peer on the specified virtual interface.
  *
@@ -2951,7 +3044,15 @@ export const associateVirtualInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For a public virtual interface, the Autonomous System Number (ASN) must be private or already on the allow list for the virtual interface.
  */
-export const createBGPPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBGPPeer: (
+  input: CreateBGPPeerRequest,
+) => Effect.Effect<
+  CreateBGPPeerResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBGPPeerRequest,
   output: CreateBGPPeerResponse,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -2964,24 +3065,37 @@ export const createBGPPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * connect to a VPC in any Region, regardless of the Region in which the virtual interfaces
  * are located, and pass traffic between them.
  */
-export const createDirectConnectGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDirectConnectGatewayRequest,
-    output: CreateDirectConnectGatewayResult,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const createDirectConnectGateway: (
+  input: CreateDirectConnectGatewayRequest,
+) => Effect.Effect<
+  CreateDirectConnectGatewayResult,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDirectConnectGatewayRequest,
+  output: CreateDirectConnectGatewayResult,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Creates a proposal to associate the specified virtual private gateway or transit gateway with the specified Direct Connect gateway.
  *
  * You can associate a Direct Connect gateway and virtual private gateway or transit gateway that is owned by any Amazon Web Services account.
  */
-export const createDirectConnectGatewayAssociationProposal =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDirectConnectGatewayAssociationProposalRequest,
-    output: CreateDirectConnectGatewayAssociationProposalResult,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const createDirectConnectGatewayAssociationProposal: (
+  input: CreateDirectConnectGatewayAssociationProposalRequest,
+) => Effect.Effect<
+  CreateDirectConnectGatewayAssociationProposalResult,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDirectConnectGatewayAssociationProposalRequest,
+  output: CreateDirectConnectGatewayAssociationProposalResult,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Lists the attachments between your Direct Connect gateways and virtual interfaces. You must specify
  * a Direct Connect gateway, a virtual interface, or both. If you specify a Direct Connect gateway, the response contains
@@ -2989,26 +3103,47 @@ export const createDirectConnectGatewayAssociationProposal =
  * response contains all Direct Connect gateways attached to the virtual interface. If you specify both,
  * the response contains the attachment between the Direct Connect gateway and the virtual interface.
  */
-export const describeDirectConnectGatewayAttachments =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDirectConnectGatewayAttachmentsRequest,
-    output: DescribeDirectConnectGatewayAttachmentsResult,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const describeDirectConnectGatewayAttachments: (
+  input: DescribeDirectConnectGatewayAttachmentsRequest,
+) => Effect.Effect<
+  DescribeDirectConnectGatewayAttachmentsResult,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDirectConnectGatewayAttachmentsRequest,
+  output: DescribeDirectConnectGatewayAttachmentsResult,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Details about the router.
  */
-export const describeRouterConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRouterConfigurationRequest,
-    output: DescribeRouterConfigurationResponse,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const describeRouterConfiguration: (
+  input: DescribeRouterConfigurationRequest,
+) => Effect.Effect<
+  DescribeRouterConfigurationResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRouterConfigurationRequest,
+  output: DescribeRouterConfigurationResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Describes the tags associated with the specified Direct Connect resources.
  */
-export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTags: (
+  input: DescribeTagsRequest,
+) => Effect.Effect<
+  DescribeTagsResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTagsRequest,
   output: DescribeTagsResponse,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -3016,12 +3151,19 @@ export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the virtual interface failover test history.
  */
-export const listVirtualInterfaceTestHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListVirtualInterfaceTestHistoryRequest,
-    output: ListVirtualInterfaceTestHistoryResponse,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const listVirtualInterfaceTestHistory: (
+  input: ListVirtualInterfaceTestHistoryRequest,
+) => Effect.Effect<
+  ListVirtualInterfaceTestHistoryResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListVirtualInterfaceTestHistoryRequest,
+  output: ListVirtualInterfaceTestHistoryResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key (CAK) pair with a Direct Connect connection.
  *
@@ -3029,7 +3171,15 @@ export const listVirtualInterfaceTestHistory =
  *
  * For information about MAC Security (MACsec) key considerations, see MACsec pre-shared CKN/CAK key considerations in the *Direct Connect User Guide*.
  */
-export const associateMacSecKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateMacSecKey: (
+  input: AssociateMacSecKeyRequest,
+) => Effect.Effect<
+  AssociateMacSecKeyResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateMacSecKeyRequest,
   output: AssociateMacSecKeyResponse,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -3040,7 +3190,15 @@ export const associateMacSecKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Upon creation, the hosted connection is initially in the `Ordering` state, and
  * remains in this state until the owner confirms creation of the hosted connection.
  */
-export const confirmConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const confirmConnection: (
+  input: ConfirmConnectionRequest,
+) => Effect.Effect<
+  ConfirmConnectionResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfirmConnectionRequest,
   output: ConfirmConnectionResponse,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -3048,13 +3206,19 @@ export const confirmConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The confirmation of the terms of agreement when creating the connection/link aggregation group (LAG).
  */
-export const confirmCustomerAgreement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ConfirmCustomerAgreementRequest,
-    output: ConfirmCustomerAgreementResponse,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const confirmCustomerAgreement: (
+  input: ConfirmCustomerAgreementRequest,
+) => Effect.Effect<
+  ConfirmCustomerAgreementResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ConfirmCustomerAgreementRequest,
+  output: ConfirmCustomerAgreementResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Accepts ownership of a private virtual interface created by another Amazon Web Services account.
  *
@@ -3062,41 +3226,70 @@ export const confirmCustomerAgreement = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * created and attached to the specified virtual private gateway or Direct Connect gateway, and is
  * made available to handle traffic.
  */
-export const confirmPrivateVirtualInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ConfirmPrivateVirtualInterfaceRequest,
-    output: ConfirmPrivateVirtualInterfaceResponse,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const confirmPrivateVirtualInterface: (
+  input: ConfirmPrivateVirtualInterfaceRequest,
+) => Effect.Effect<
+  ConfirmPrivateVirtualInterfaceResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ConfirmPrivateVirtualInterfaceRequest,
+  output: ConfirmPrivateVirtualInterfaceResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Accepts ownership of a public virtual interface created by another Amazon Web Services account.
  *
  * After the virtual interface owner makes this call, the specified virtual interface is
  * created and made available to handle traffic.
  */
-export const confirmPublicVirtualInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ConfirmPublicVirtualInterfaceRequest,
-    output: ConfirmPublicVirtualInterfaceResponse,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const confirmPublicVirtualInterface: (
+  input: ConfirmPublicVirtualInterfaceRequest,
+) => Effect.Effect<
+  ConfirmPublicVirtualInterfaceResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ConfirmPublicVirtualInterfaceRequest,
+  output: ConfirmPublicVirtualInterfaceResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Accepts ownership of a transit virtual interface created by another Amazon Web Services account.
  *
  * After the owner of the transit virtual interface makes this call, the specified transit virtual interface is created and made available to handle traffic.
  */
-export const confirmTransitVirtualInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ConfirmTransitVirtualInterfaceRequest,
-    output: ConfirmTransitVirtualInterfaceResponse,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const confirmTransitVirtualInterface: (
+  input: ConfirmTransitVirtualInterfaceRequest,
+) => Effect.Effect<
+  ConfirmTransitVirtualInterfaceResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ConfirmTransitVirtualInterfaceRequest,
+  output: ConfirmTransitVirtualInterfaceResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Deletes the specified BGP peer on the specified virtual interface with the specified customer address and ASN.
  *
  * You cannot delete the last BGP peer from a virtual interface.
  */
-export const deleteBGPPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBGPPeer: (
+  input: DeleteBGPPeerRequest,
+) => Effect.Effect<
+  DeleteBGPPeerResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBGPPeerRequest,
   output: DeleteBGPPeerResponse,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -3106,40 +3299,68 @@ export const deleteBGPPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * attached to the Direct Connect gateway and disassociate all virtual private gateways associated
  * with the Direct Connect gateway.
  */
-export const deleteDirectConnectGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDirectConnectGatewayRequest,
-    output: DeleteDirectConnectGatewayResult,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const deleteDirectConnectGateway: (
+  input: DeleteDirectConnectGatewayRequest,
+) => Effect.Effect<
+  DeleteDirectConnectGatewayResult,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDirectConnectGatewayRequest,
+  output: DeleteDirectConnectGatewayResult,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Deletes the association between the specified Direct Connect gateway and virtual private gateway.
  *
  * We recommend that you specify the `associationID` to delete the association. Alternatively, if you own virtual gateway and a Direct Connect gateway association, you can specify the `virtualGatewayId` and `directConnectGatewayId` to delete an association.
  */
-export const deleteDirectConnectGatewayAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDirectConnectGatewayAssociationRequest,
-    output: DeleteDirectConnectGatewayAssociationResult,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const deleteDirectConnectGatewayAssociation: (
+  input: DeleteDirectConnectGatewayAssociationRequest,
+) => Effect.Effect<
+  DeleteDirectConnectGatewayAssociationResult,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDirectConnectGatewayAssociationRequest,
+  output: DeleteDirectConnectGatewayAssociationResult,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Deletes the association proposal request between the specified Direct Connect gateway and virtual private gateway or transit gateway.
  */
-export const deleteDirectConnectGatewayAssociationProposal =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDirectConnectGatewayAssociationProposalRequest,
-    output: DeleteDirectConnectGatewayAssociationProposalResult,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const deleteDirectConnectGatewayAssociationProposal: (
+  input: DeleteDirectConnectGatewayAssociationProposalRequest,
+) => Effect.Effect<
+  DeleteDirectConnectGatewayAssociationProposalResult,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDirectConnectGatewayAssociationProposalRequest,
+  output: DeleteDirectConnectGatewayAssociationProposalResult,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Deletes the specified interconnect.
  *
  * Intended for use
  * by Direct Connect Partners only.
  */
-export const deleteInterconnect = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteInterconnect: (
+  input: DeleteInterconnectRequest,
+) => Effect.Effect<
+  DeleteInterconnectResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInterconnectRequest,
   output: DeleteInterconnectResponse,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -3147,13 +3368,19 @@ export const deleteInterconnect = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a virtual interface.
  */
-export const deleteVirtualInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVirtualInterfaceRequest,
-    output: DeleteVirtualInterfaceResponse,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const deleteVirtualInterface: (
+  input: DeleteVirtualInterfaceRequest,
+) => Effect.Effect<
+  DeleteVirtualInterfaceResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVirtualInterfaceRequest,
+  output: DeleteVirtualInterfaceResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Deprecated. Use DescribeLoa instead.
  *
@@ -3164,17 +3391,31 @@ export const deleteVirtualInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * see Requesting Cross Connects
  * at Direct Connect Locations in the *Direct Connect User Guide*.
  */
-export const describeConnectionLoa = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConnectionLoaRequest,
-    output: DescribeConnectionLoaResponse,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const describeConnectionLoa: (
+  input: DescribeConnectionLoaRequest,
+) => Effect.Effect<
+  DescribeConnectionLoaResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConnectionLoaRequest,
+  output: DescribeConnectionLoaResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Displays the specified connection or all connections in this Region.
  */
-export const describeConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeConnections: (
+  input: DescribeConnectionsRequest,
+) => Effect.Effect<
+  Connections,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConnectionsRequest,
   output: Connections,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -3182,22 +3423,35 @@ export const describeConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get and view a list of customer agreements, along with their signed status and whether the customer is an NNIPartner, NNIPartnerV2, or a nonPartner.
  */
-export const describeCustomerMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCustomerMetadataRequest,
-    output: DescribeCustomerMetadataResponse,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const describeCustomerMetadata: (
+  input: DescribeCustomerMetadataRequest,
+) => Effect.Effect<
+  DescribeCustomerMetadataResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCustomerMetadataRequest,
+  output: DescribeCustomerMetadataResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Describes one or more association proposals for connection between a virtual private gateway or transit gateway and a Direct Connect gateway.
  */
-export const describeDirectConnectGatewayAssociationProposals =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDirectConnectGatewayAssociationProposalsRequest,
-    output: DescribeDirectConnectGatewayAssociationProposalsResult,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const describeDirectConnectGatewayAssociationProposals: (
+  input: DescribeDirectConnectGatewayAssociationProposalsRequest,
+) => Effect.Effect<
+  DescribeDirectConnectGatewayAssociationProposalsResult,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDirectConnectGatewayAssociationProposalsRequest,
+  output: DescribeDirectConnectGatewayAssociationProposalsResult,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Lists the associations between your Direct Connect gateways and virtual private gateways and transit gateways. You must specify one of the following:
  *
@@ -3229,21 +3483,35 @@ export const describeDirectConnectGatewayAssociationProposals =
  *
  * The response contains the Cloud WAN core network ID that the Direct Connect gateway is associated to.
  */
-export const describeDirectConnectGatewayAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDirectConnectGatewayAssociationsRequest,
-    output: DescribeDirectConnectGatewayAssociationsResult,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const describeDirectConnectGatewayAssociations: (
+  input: DescribeDirectConnectGatewayAssociationsRequest,
+) => Effect.Effect<
+  DescribeDirectConnectGatewayAssociationsResult,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDirectConnectGatewayAssociationsRequest,
+  output: DescribeDirectConnectGatewayAssociationsResult,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Lists all your Direct Connect gateways or only the specified Direct Connect gateway. Deleted Direct Connect gateways are not returned.
  */
-export const describeDirectConnectGateways =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDirectConnectGatewaysRequest,
-    output: DescribeDirectConnectGatewaysResult,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const describeDirectConnectGateways: (
+  input: DescribeDirectConnectGatewaysRequest,
+) => Effect.Effect<
+  DescribeDirectConnectGatewaysResult,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDirectConnectGatewaysRequest,
+  output: DescribeDirectConnectGatewaysResult,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Deprecated. Use DescribeLoa instead.
  *
@@ -3253,27 +3521,47 @@ export const describeDirectConnectGateways =
  * For more information, see Requesting Cross Connects at Direct Connect Locations
  * in the *Direct Connect User Guide*.
  */
-export const describeInterconnectLoa = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInterconnectLoaRequest,
-    output: DescribeInterconnectLoaResponse,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const describeInterconnectLoa: (
+  input: DescribeInterconnectLoaRequest,
+) => Effect.Effect<
+  DescribeInterconnectLoaResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInterconnectLoaRequest,
+  output: DescribeInterconnectLoaResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Lists the interconnects owned by the Amazon Web Services account or only the specified interconnect.
  */
-export const describeInterconnects = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInterconnectsRequest,
-    output: Interconnects,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const describeInterconnects: (
+  input: DescribeInterconnectsRequest,
+) => Effect.Effect<
+  Interconnects,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInterconnectsRequest,
+  output: Interconnects,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Describes all your link aggregation groups (LAG) or the specified LAG.
  */
-export const describeLags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeLags: (
+  input: DescribeLagsRequest,
+) => Effect.Effect<
+  Lags,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLagsRequest,
   output: Lags,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -3285,7 +3573,15 @@ export const describeLags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * your cross connect to Amazon Web Services at the colocation facility. For more information, see Requesting Cross Connects at Direct Connect Locations
  * in the *Direct Connect User Guide*.
  */
-export const describeLoa = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeLoa: (
+  input: DescribeLoaRequest,
+) => Effect.Effect<
+  Loa,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLoaRequest,
   output: Loa,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -3294,7 +3590,15 @@ export const describeLoa = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists the Direct Connect locations in the current Amazon Web Services Region. These are the locations that can be selected when calling
  * CreateConnection or CreateInterconnect.
  */
-export const describeLocations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeLocations: (
+  input: DescribeLocationsRequest,
+) => Effect.Effect<
+  Locations,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLocationsRequest,
   output: Locations,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -3306,13 +3610,19 @@ export const describeLocations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can create one or more Direct Connect private virtual interfaces linked to a virtual private gateway.
  */
-export const describeVirtualGateways = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVirtualGatewaysRequest,
-    output: VirtualGateways,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const describeVirtualGateways: (
+  input: DescribeVirtualGatewaysRequest,
+) => Effect.Effect<
+  VirtualGateways,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVirtualGatewaysRequest,
+  output: VirtualGateways,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces deleted fewer
  * than 15 minutes before you make the request are also returned. If you specify a
@@ -3325,23 +3635,35 @@ export const describeVirtualGateways = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - If you're using `asnLong`, the response returns a value of `0` (zero) for the `asn` attribute because it exceeds the highest ASN value of 2,147,483,647 that it can support
  */
-export const describeVirtualInterfaces = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVirtualInterfacesRequest,
-    output: VirtualInterfaces,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const describeVirtualInterfaces: (
+  input: DescribeVirtualInterfacesRequest,
+) => Effect.Effect<
+  VirtualInterfaces,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVirtualInterfacesRequest,
+  output: VirtualInterfaces,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Removes the association between a MAC Security (MACsec) security key and a Direct Connect connection.
  */
-export const disassociateMacSecKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateMacSecKeyRequest,
-    output: DisassociateMacSecKeyResponse,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const disassociateMacSecKey: (
+  input: DisassociateMacSecKeyRequest,
+) => Effect.Effect<
+  DisassociateMacSecKeyResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateMacSecKeyRequest,
+  output: DisassociateMacSecKeyResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Starts the virtual interface failover test that verifies your configuration meets your resiliency requirements by placing the BGP peering session in the DOWN state. You can then send traffic to verify that there are no outages.
  *
@@ -3351,17 +3673,31 @@ export const disassociateMacSecKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * If you need to stop the test before the test interval completes, use StopBgpFailoverTest.
  */
-export const startBgpFailoverTest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartBgpFailoverTestRequest,
-    output: StartBgpFailoverTestResponse,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const startBgpFailoverTest: (
+  input: StartBgpFailoverTestRequest,
+) => Effect.Effect<
+  StartBgpFailoverTestResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartBgpFailoverTestRequest,
+  output: StartBgpFailoverTestResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Stops the virtual interface failover test.
  */
-export const stopBgpFailoverTest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopBgpFailoverTest: (
+  input: StopBgpFailoverTestRequest,
+) => Effect.Effect<
+  StopBgpFailoverTestResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopBgpFailoverTestRequest,
   output: StopBgpFailoverTestResponse,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -3369,24 +3705,37 @@ export const stopBgpFailoverTest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the name of a current Direct Connect gateway.
  */
-export const updateDirectConnectGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDirectConnectGatewayRequest,
-    output: UpdateDirectConnectGatewayResponse,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const updateDirectConnectGateway: (
+  input: UpdateDirectConnectGatewayRequest,
+) => Effect.Effect<
+  UpdateDirectConnectGatewayResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDirectConnectGatewayRequest,
+  output: UpdateDirectConnectGatewayResponse,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Updates the specified attributes of the Direct Connect gateway association.
  *
  * Add or remove prefixes from the association.
  */
-export const updateDirectConnectGatewayAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDirectConnectGatewayAssociationRequest,
-    output: UpdateDirectConnectGatewayAssociationResult,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const updateDirectConnectGatewayAssociation: (
+  input: UpdateDirectConnectGatewayAssociationRequest,
+) => Effect.Effect<
+  UpdateDirectConnectGatewayAssociationResult,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDirectConnectGatewayAssociationRequest,
+  output: UpdateDirectConnectGatewayAssociationResult,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Associates a hosted connection and its virtual interfaces with a link aggregation
  * group (LAG) or interconnect. If the target interconnect or LAG has an existing hosted
@@ -3396,13 +3745,19 @@ export const updateDirectConnectGatewayAssociation =
  *
  * Intended for use by Direct Connect Partners only.
  */
-export const associateHostedConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateHostedConnectionRequest,
-    output: Connection,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const associateHostedConnection: (
+  input: AssociateHostedConnectionRequest,
+) => Effect.Effect<
+  Connection,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateHostedConnectionRequest,
+  output: Connection,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Deletes the specified connection.
  *
@@ -3410,7 +3765,15 @@ export const associateHostedConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * If you are partnering with any third parties to connect with the Direct Connect location,
  * you must cancel your service with them separately.
  */
-export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConnection: (
+  input: DeleteConnectionRequest,
+) => Effect.Effect<
+  Connection,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionRequest,
   output: Connection,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -3419,7 +3782,15 @@ export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes the specified link aggregation group (LAG). You cannot delete a LAG if it has active
  * virtual interfaces or hosted connections.
  */
-export const deleteLag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLag: (
+  input: DeleteLagRequest,
+) => Effect.Effect<
+  Lag,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLagRequest,
   output: Lag,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -3431,25 +3802,38 @@ export const deleteLag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Intended for use by Direct Connect Partners only.
  */
-export const describeConnectionsOnInterconnect =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConnectionsOnInterconnectRequest,
-    output: Connections,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const describeConnectionsOnInterconnect: (
+  input: DescribeConnectionsOnInterconnectRequest,
+) => Effect.Effect<
+  Connections,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConnectionsOnInterconnectRequest,
+  output: Connections,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Lists the hosted connections that have been provisioned on the specified
  * interconnect or link aggregation group (LAG).
  *
  * Intended for use by Direct Connect Partners only.
  */
-export const describeHostedConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeHostedConnectionsRequest,
-    output: Connections,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }),
-);
+export const describeHostedConnections: (
+  input: DescribeHostedConnectionsRequest,
+) => Effect.Effect<
+  Connections,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeHostedConnectionsRequest,
+  output: Connections,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Disassociates a connection from a link aggregation group (LAG). The connection is
  * interrupted and re-established as a standalone connection (the connection is not
@@ -3463,16 +3847,31 @@ export const describeHostedConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * member of the LAG. If all connections are disassociated, the LAG continues to exist as
  * an empty LAG with no physical connections.
  */
-export const disassociateConnectionFromLag =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateConnectionFromLagRequest,
-    output: Connection,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const disassociateConnectionFromLag: (
+  input: DisassociateConnectionFromLagRequest,
+) => Effect.Effect<
+  Connection,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateConnectionFromLagRequest,
+  output: Connection,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Removes one or more tags from the specified Direct Connect resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -3486,7 +3885,15 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - The connection's MAC Security (MACsec) encryption mode.
  */
-export const updateConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateConnection: (
+  input: UpdateConnectionRequest,
+) => Effect.Effect<
+  Connection,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectionRequest,
   output: Connection,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -3511,7 +3918,15 @@ export const updateConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * that the new value does not cause the LAG to fall below the threshold and become
  * non-operational.
  */
-export const updateLag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLag: (
+  input: UpdateLagRequest,
+) => Effect.Effect<
+  Lag,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLagRequest,
   output: Lag,
   errors: [DirectConnectClientException, DirectConnectServerException],
@@ -3526,21 +3941,35 @@ export const updateLag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * frames, call DescribeConnections. To check whether your virtual
  * interface supports jumbo frames, call DescribeVirtualInterfaces.
  */
-export const updateVirtualInterfaceAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateVirtualInterfaceAttributesRequest,
-    output: VirtualInterface,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const updateVirtualInterfaceAttributes: (
+  input: UpdateVirtualInterfaceAttributesRequest,
+) => Effect.Effect<
+  VirtualInterface,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateVirtualInterfaceAttributesRequest,
+  output: VirtualInterface,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Accepts a proposal request to attach a virtual private gateway or transit gateway to a Direct Connect gateway.
  */
-export const acceptDirectConnectGatewayAssociationProposal =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AcceptDirectConnectGatewayAssociationProposalRequest,
-    output: AcceptDirectConnectGatewayAssociationProposalResult,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const acceptDirectConnectGatewayAssociationProposal: (
+  input: AcceptDirectConnectGatewayAssociationProposalRequest,
+) => Effect.Effect<
+  AcceptDirectConnectGatewayAssociationProposalResult,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptDirectConnectGatewayAssociationProposalRequest,
+  output: AcceptDirectConnectGatewayAssociationProposalResult,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Deprecated. Use AllocateHostedConnection instead.
  *
@@ -3550,22 +3979,36 @@ export const acceptDirectConnectGatewayAssociationProposal =
  *
  * Intended for use by Direct Connect Partners only.
  */
-export const allocateConnectionOnInterconnect =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AllocateConnectionOnInterconnectRequest,
-    output: Connection,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const allocateConnectionOnInterconnect: (
+  input: AllocateConnectionOnInterconnectRequest,
+) => Effect.Effect<
+  Connection,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AllocateConnectionOnInterconnectRequest,
+  output: Connection,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Creates an association between a Direct Connect gateway and a virtual private gateway. The virtual
  * private gateway must be attached to a VPC and must not be associated with another Direct Connect gateway.
  */
-export const createDirectConnectGatewayAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDirectConnectGatewayAssociationRequest,
-    output: CreateDirectConnectGatewayAssociationResult,
-    errors: [DirectConnectClientException, DirectConnectServerException],
-  }));
+export const createDirectConnectGatewayAssociation: (
+  input: CreateDirectConnectGatewayAssociationRequest,
+) => Effect.Effect<
+  CreateDirectConnectGatewayAssociationResult,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDirectConnectGatewayAssociationRequest,
+  output: CreateDirectConnectGatewayAssociationResult,
+  errors: [DirectConnectClientException, DirectConnectServerException],
+}));
 /**
  * Creates a transit virtual interface. A transit virtual interface should be used to access one or more transit gateways associated with Direct Connect gateways. A transit virtual interface enables the connection of multiple VPCs attached to a transit gateway to a Direct Connect gateway.
  *
@@ -3578,17 +4021,26 @@ export const createDirectConnectGatewayAssociation =
  * to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections. To check whether your virtual interface supports jumbo
  * frames, call DescribeVirtualInterfaces.
  */
-export const createTransitVirtualInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTransitVirtualInterfaceRequest,
-    output: CreateTransitVirtualInterfaceResult,
-    errors: [
-      DirectConnectClientException,
-      DirectConnectServerException,
-      DuplicateTagKeysException,
-      TooManyTagsException,
-    ],
-  }));
+export const createTransitVirtualInterface: (
+  input: CreateTransitVirtualInterfaceRequest,
+) => Effect.Effect<
+  CreateTransitVirtualInterfaceResult,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | DuplicateTagKeysException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitVirtualInterfaceRequest,
+  output: CreateTransitVirtualInterfaceResult,
+  errors: [
+    DirectConnectClientException,
+    DirectConnectServerException,
+    DuplicateTagKeysException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Creates an interconnect between an Direct Connect Partner's network and a specific Direct Connect location.
  *
@@ -3609,7 +4061,17 @@ export const createTransitVirtualInterface =
  *
  * Intended for use by Direct Connect Partners only.
  */
-export const createInterconnect = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createInterconnect: (
+  input: CreateInterconnectRequest,
+) => Effect.Effect<
+  Interconnect,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | DuplicateTagKeysException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInterconnectRequest,
   output: Interconnect,
   errors: [
@@ -3644,7 +4106,17 @@ export const createInterconnect = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * automatically enabled to host sub-connections. For a LAG owned by a partner, any associated virtual
  * interfaces cannot be directly configured.
  */
-export const createLag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLag: (
+  input: CreateLagRequest,
+) => Effect.Effect<
+  Lag,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | DuplicateTagKeysException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLagRequest,
   output: Lag,
   errors: [
@@ -3668,17 +4140,26 @@ export const createLag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * frames, call DescribeConnections. To check whether your virtual
  * interface supports jumbo frames, call DescribeVirtualInterfaces.
  */
-export const createPrivateVirtualInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePrivateVirtualInterfaceRequest,
-    output: VirtualInterface,
-    errors: [
-      DirectConnectClientException,
-      DirectConnectServerException,
-      DuplicateTagKeysException,
-      TooManyTagsException,
-    ],
-  }));
+export const createPrivateVirtualInterface: (
+  input: CreatePrivateVirtualInterfaceRequest,
+) => Effect.Effect<
+  VirtualInterface,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | DuplicateTagKeysException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePrivateVirtualInterfaceRequest,
+  output: VirtualInterface,
+  errors: [
+    DirectConnectClientException,
+    DirectConnectServerException,
+    DuplicateTagKeysException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Creates a public virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic.
  * A public virtual interface supports sending traffic to public services of Amazon Web Services such as Amazon S3.
@@ -3686,17 +4167,26 @@ export const createPrivateVirtualInterface =
  * When creating an IPv6 public virtual interface (`addressFamily` is `ipv6`), leave the `customer`
  * and `amazon` address fields blank to use auto-assigned IPv6 space. Custom IPv6 addresses are not supported.
  */
-export const createPublicVirtualInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePublicVirtualInterfaceRequest,
-    output: VirtualInterface,
-    errors: [
-      DirectConnectClientException,
-      DirectConnectServerException,
-      DuplicateTagKeysException,
-      TooManyTagsException,
-    ],
-  }));
+export const createPublicVirtualInterface: (
+  input: CreatePublicVirtualInterfaceRequest,
+) => Effect.Effect<
+  VirtualInterface,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | DuplicateTagKeysException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePublicVirtualInterfaceRequest,
+  output: VirtualInterface,
+  errors: [
+    DirectConnectClientException,
+    DirectConnectServerException,
+    DuplicateTagKeysException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Creates a connection between a customer network and a specific Direct Connect location.
  *
@@ -3710,7 +4200,17 @@ export const createPublicVirtualInterface =
  * same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint,
  * the request fails and no connection is created.
  */
-export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConnection: (
+  input: CreateConnectionRequest,
+) => Effect.Effect<
+  Connection,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | DuplicateTagKeysException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectionRequest,
   output: Connection,
   errors: [
@@ -3725,7 +4225,17 @@ export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | DuplicateTagKeysException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3743,35 +4253,52 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Intended for use by Direct Connect Partners only.
  */
-export const allocateHostedConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AllocateHostedConnectionRequest,
-    output: Connection,
-    errors: [
-      DirectConnectClientException,
-      DirectConnectServerException,
-      DuplicateTagKeysException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const allocateHostedConnection: (
+  input: AllocateHostedConnectionRequest,
+) => Effect.Effect<
+  Connection,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | DuplicateTagKeysException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AllocateHostedConnectionRequest,
+  output: Connection,
+  errors: [
+    DirectConnectClientException,
+    DirectConnectServerException,
+    DuplicateTagKeysException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Provisions a private virtual interface to be owned by the specified Amazon Web Services account.
  *
  * Virtual interfaces created using this action must be confirmed by the owner using ConfirmPrivateVirtualInterface.
  * Until then, the virtual interface is in the `Confirming` state and is not available to handle traffic.
  */
-export const allocatePrivateVirtualInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AllocatePrivateVirtualInterfaceRequest,
-    output: VirtualInterface,
-    errors: [
-      DirectConnectClientException,
-      DirectConnectServerException,
-      DuplicateTagKeysException,
-      TooManyTagsException,
-    ],
-  }));
+export const allocatePrivateVirtualInterface: (
+  input: AllocatePrivateVirtualInterfaceRequest,
+) => Effect.Effect<
+  VirtualInterface,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | DuplicateTagKeysException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AllocatePrivateVirtualInterfaceRequest,
+  output: VirtualInterface,
+  errors: [
+    DirectConnectClientException,
+    DirectConnectServerException,
+    DuplicateTagKeysException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Provisions a public virtual interface to be owned by the specified Amazon Web Services account.
  *
@@ -3783,17 +4310,26 @@ export const allocatePrivateVirtualInterface =
  * When creating an IPv6 public virtual interface, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from
  * the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
  */
-export const allocatePublicVirtualInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AllocatePublicVirtualInterfaceRequest,
-    output: VirtualInterface,
-    errors: [
-      DirectConnectClientException,
-      DirectConnectServerException,
-      DuplicateTagKeysException,
-      TooManyTagsException,
-    ],
-  }));
+export const allocatePublicVirtualInterface: (
+  input: AllocatePublicVirtualInterfaceRequest,
+) => Effect.Effect<
+  VirtualInterface,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | DuplicateTagKeysException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AllocatePublicVirtualInterfaceRequest,
+  output: VirtualInterface,
+  errors: [
+    DirectConnectClientException,
+    DirectConnectServerException,
+    DuplicateTagKeysException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Provisions a transit virtual interface to be owned by the specified Amazon Web Services account. Use this type of interface to connect a transit gateway to your Direct Connect gateway.
  *
@@ -3801,14 +4337,23 @@ export const allocatePublicVirtualInterface =
  *
  * After you create a transit virtual interface, it must be confirmed by the owner using ConfirmTransitVirtualInterface. Until this step has been completed, the transit virtual interface is in the `requested` state and is not available to handle traffic.
  */
-export const allocateTransitVirtualInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AllocateTransitVirtualInterfaceRequest,
-    output: AllocateTransitVirtualInterfaceResult,
-    errors: [
-      DirectConnectClientException,
-      DirectConnectServerException,
-      DuplicateTagKeysException,
-      TooManyTagsException,
-    ],
-  }));
+export const allocateTransitVirtualInterface: (
+  input: AllocateTransitVirtualInterfaceRequest,
+) => Effect.Effect<
+  AllocateTransitVirtualInterfaceResult,
+  | DirectConnectClientException
+  | DirectConnectServerException
+  | DuplicateTagKeysException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AllocateTransitVirtualInterfaceRequest,
+  output: AllocateTransitVirtualInterfaceResult,
+  errors: [
+    DirectConnectClientException,
+    DirectConnectServerException,
+    DuplicateTagKeysException,
+    TooManyTagsException,
+  ],
+}));

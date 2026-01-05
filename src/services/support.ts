@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://support.amazonaws.com/doc/2013-04-15/");
 const svc = T.AwsApiService({
   sdkId: "Support",
@@ -421,6 +429,50 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AttachmentSetId = string;
+export type CaseId = string;
+export type CommunicationBody = string;
+export type CcEmailAddress = string;
+export type Subject = string;
+export type ServiceCode2 = string;
+export type SeverityCode = string;
+export type CategoryCode = string;
+export type Language = string;
+export type IssueType = string;
+export type AttachmentId = string;
+export type DisplayId = string;
+export type AfterTime = string;
+export type BeforeTime = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type ValidatedIssueTypeString = string;
+export type ValidatedServiceCode = string;
+export type ValidatedCategoryCode = string;
+export type FileName = string;
+export type ValidatedLanguageAvailability = string;
+export type CaseStatus = string;
+export type Status = string;
+export type ServiceCode = string;
+export type SubmittedBy = string;
+export type TimeCreated = string;
+export type ValidatedCommunicationBody = string;
+export type Type = string;
+export type ServiceName = string;
+export type SeverityLevelCode = string;
+export type SeverityLevelName = string;
+export type Code = string;
+export type Display = string;
+export type Long = number;
+export type ExpiryTime = string;
+export type ErrorMessage = string;
+export type StartTime = string;
+export type EndTime = string;
+export type ValidatedDateTime = string;
+export type CategoryName = string;
+export type Double = number;
+export type AvailabilityErrorMessage = string;
 
 //# Schemas
 export type CcEmailAddressList = string[];
@@ -1331,13 +1383,17 @@ export class AttachmentSetSizeLimitExceeded extends S.TaggedError<AttachmentSetS
  * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
  * API in the *Amazon Web Services Support User Guide*.
  */
-export const refreshTrustedAdvisorCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RefreshTrustedAdvisorCheckRequest,
-    output: RefreshTrustedAdvisorCheckResponse,
-    errors: [InternalServerError],
-  }),
-);
+export const refreshTrustedAdvisorCheck: (
+  input: RefreshTrustedAdvisorCheckRequest,
+) => Effect.Effect<
+  RefreshTrustedAdvisorCheckResponse,
+  InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RefreshTrustedAdvisorCheckRequest,
+  output: RefreshTrustedAdvisorCheckResponse,
+  errors: [InternalServerError],
+}));
 /**
  * Resolves a support case. This operation takes a `caseId` and returns the
  * initial and final state of the case.
@@ -1350,7 +1406,13 @@ export const refreshTrustedAdvisorCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const resolveCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resolveCase: (
+  input: ResolveCaseRequest,
+) => Effect.Effect<
+  ResolveCaseResponse,
+  CaseIdNotFound | InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResolveCaseRequest,
   output: ResolveCaseResponse,
   errors: [CaseIdNotFound, InternalServerError],
@@ -1368,13 +1430,17 @@ export const resolveCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const describeSeverityLevels = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSeverityLevelsRequest,
-    output: DescribeSeverityLevelsResponse,
-    errors: [InternalServerError],
-  }),
-);
+export const describeSeverityLevels: (
+  input: DescribeSeverityLevelsRequest,
+) => Effect.Effect<
+  DescribeSeverityLevelsResponse,
+  InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSeverityLevelsRequest,
+  output: DescribeSeverityLevelsResponse,
+  errors: [InternalServerError],
+}));
 /**
  * Adds additional customer communication to an Amazon Web Services Support case. Use the `caseId`
  * parameter to identify the case to which to add communication. You can list a set of
@@ -1390,18 +1456,26 @@ export const describeSeverityLevels = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const addCommunicationToCase = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddCommunicationToCaseRequest,
-    output: AddCommunicationToCaseResponse,
-    errors: [
-      AttachmentSetExpired,
-      AttachmentSetIdNotFound,
-      CaseIdNotFound,
-      InternalServerError,
-    ],
-  }),
-);
+export const addCommunicationToCase: (
+  input: AddCommunicationToCaseRequest,
+) => Effect.Effect<
+  AddCommunicationToCaseResponse,
+  | AttachmentSetExpired
+  | AttachmentSetIdNotFound
+  | CaseIdNotFound
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddCommunicationToCaseRequest,
+  output: AddCommunicationToCaseResponse,
+  errors: [
+    AttachmentSetExpired,
+    AttachmentSetIdNotFound,
+    CaseIdNotFound,
+    InternalServerError,
+  ],
+}));
 /**
  * Returns the attachment that has the specified ID. Attachments can include screenshots,
  * error logs, or other files that describe your issue. Attachment IDs are generated by the
@@ -1417,7 +1491,16 @@ export const addCommunicationToCase = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const describeAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAttachment: (
+  input: DescribeAttachmentRequest,
+) => Effect.Effect<
+  DescribeAttachmentResponse,
+  | AttachmentIdNotFound
+  | DescribeAttachmentLimitExceeded
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAttachmentRequest,
   output: DescribeAttachmentResponse,
   errors: [
@@ -1451,19 +1534,39 @@ export const describeAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const describeCases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeCases: {
+  (
     input: DescribeCasesRequest,
-    output: DescribeCasesResponse,
-    errors: [CaseIdNotFound, InternalServerError],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "cases",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeCasesResponse,
+    CaseIdNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCasesRequest,
+  ) => Stream.Stream<
+    DescribeCasesResponse,
+    CaseIdNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCasesRequest,
+  ) => Stream.Stream<
+    CaseDetails,
+    CaseIdNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCasesRequest,
+  output: DescribeCasesResponse,
+  errors: [CaseIdNotFound, InternalServerError],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "cases",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns communications and attachments for one or more support cases. Use the
  * `afterTime` and `beforeTime` parameters to filter by date. You
@@ -1486,18 +1589,39 @@ export const describeCases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const describeCommunications =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCommunications: {
+  (
     input: DescribeCommunicationsRequest,
-    output: DescribeCommunicationsResponse,
-    errors: [CaseIdNotFound, InternalServerError],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "communications",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeCommunicationsResponse,
+    CaseIdNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCommunicationsRequest,
+  ) => Stream.Stream<
+    DescribeCommunicationsResponse,
+    CaseIdNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCommunicationsRequest,
+  ) => Stream.Stream<
+    Communication,
+    CaseIdNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCommunicationsRequest,
+  output: DescribeCommunicationsResponse,
+  errors: [CaseIdNotFound, InternalServerError],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "communications",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns the current list of Amazon Web Services services and a list of service categories for each
  * service. You then use service names and categories in your CreateCase
@@ -1518,7 +1642,13 @@ export const describeCommunications =
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const describeServices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeServices: (
+  input: DescribeServicesRequest,
+) => Effect.Effect<
+  DescribeServicesResponse,
+  InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeServicesRequest,
   output: DescribeServicesResponse,
   errors: [InternalServerError],
@@ -1536,13 +1666,17 @@ export const describeServices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const describeSupportedLanguages = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSupportedLanguagesRequest,
-    output: DescribeSupportedLanguagesResponse,
-    errors: [InternalServerError, ThrottlingException],
-  }),
-);
+export const describeSupportedLanguages: (
+  input: DescribeSupportedLanguagesRequest,
+) => Effect.Effect<
+  DescribeSupportedLanguagesResponse,
+  InternalServerError | ThrottlingException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSupportedLanguagesRequest,
+  output: DescribeSupportedLanguagesResponse,
+  errors: [InternalServerError, ThrottlingException],
+}));
 /**
  * Returns the refresh status of the Trusted Advisor checks that have the specified check
  * IDs. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation.
@@ -1565,12 +1699,17 @@ export const describeSupportedLanguages = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
  * API in the *Amazon Web Services Support User Guide*.
  */
-export const describeTrustedAdvisorCheckRefreshStatuses =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTrustedAdvisorCheckRefreshStatusesRequest,
-    output: DescribeTrustedAdvisorCheckRefreshStatusesResponse,
-    errors: [InternalServerError, ThrottlingException],
-  }));
+export const describeTrustedAdvisorCheckRefreshStatuses: (
+  input: DescribeTrustedAdvisorCheckRefreshStatusesRequest,
+) => Effect.Effect<
+  DescribeTrustedAdvisorCheckRefreshStatusesResponse,
+  InternalServerError | ThrottlingException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTrustedAdvisorCheckRefreshStatusesRequest,
+  output: DescribeTrustedAdvisorCheckRefreshStatusesResponse,
+  errors: [InternalServerError, ThrottlingException],
+}));
 /**
  * Returns information about all available Trusted Advisor checks, including the name, ID,
  * category, description, and metadata. You must specify a language code.
@@ -1594,12 +1733,17 @@ export const describeTrustedAdvisorCheckRefreshStatuses =
  * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
  * API in the *Amazon Web Services Support User Guide*.
  */
-export const describeTrustedAdvisorChecks =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTrustedAdvisorChecksRequest,
-    output: DescribeTrustedAdvisorChecksResponse,
-    errors: [InternalServerError, ThrottlingException],
-  }));
+export const describeTrustedAdvisorChecks: (
+  input: DescribeTrustedAdvisorChecksRequest,
+) => Effect.Effect<
+  DescribeTrustedAdvisorChecksResponse,
+  InternalServerError | ThrottlingException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTrustedAdvisorChecksRequest,
+  output: DescribeTrustedAdvisorChecksResponse,
+  errors: [InternalServerError, ThrottlingException],
+}));
 /**
  * Returns the results for the Trusted Advisor check summaries for the check IDs that you
  * specified. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation.
@@ -1620,12 +1764,17 @@ export const describeTrustedAdvisorChecks =
  * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
  * API in the *Amazon Web Services Support User Guide*.
  */
-export const describeTrustedAdvisorCheckSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTrustedAdvisorCheckSummariesRequest,
-    output: DescribeTrustedAdvisorCheckSummariesResponse,
-    errors: [InternalServerError, ThrottlingException],
-  }));
+export const describeTrustedAdvisorCheckSummaries: (
+  input: DescribeTrustedAdvisorCheckSummariesRequest,
+) => Effect.Effect<
+  DescribeTrustedAdvisorCheckSummariesResponse,
+  InternalServerError | ThrottlingException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTrustedAdvisorCheckSummariesRequest,
+  output: DescribeTrustedAdvisorCheckSummariesResponse,
+  errors: [InternalServerError, ThrottlingException],
+}));
 /**
  * Returns a list of CreateCaseOption types along with the
  * corresponding supported hours and language availability. You can specify the `language`
@@ -1640,13 +1789,17 @@ export const describeTrustedAdvisorCheckSummaries =
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const describeCreateCaseOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCreateCaseOptionsRequest,
-    output: DescribeCreateCaseOptionsResponse,
-    errors: [InternalServerError, ThrottlingException],
-  }),
-);
+export const describeCreateCaseOptions: (
+  input: DescribeCreateCaseOptionsRequest,
+) => Effect.Effect<
+  DescribeCreateCaseOptionsResponse,
+  InternalServerError | ThrottlingException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCreateCaseOptionsRequest,
+  output: DescribeCreateCaseOptionsResponse,
+  errors: [InternalServerError, ThrottlingException],
+}));
 /**
  * Returns the results of the Trusted Advisor check that has the specified check ID. You
  * can get the check IDs by calling the DescribeTrustedAdvisorChecks
@@ -1686,12 +1839,17 @@ export const describeCreateCaseOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
  * API in the *Amazon Web Services Support User Guide*.
  */
-export const describeTrustedAdvisorCheckResult =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTrustedAdvisorCheckResultRequest,
-    output: DescribeTrustedAdvisorCheckResultResponse,
-    errors: [InternalServerError, ThrottlingException],
-  }));
+export const describeTrustedAdvisorCheckResult: (
+  input: DescribeTrustedAdvisorCheckResultRequest,
+) => Effect.Effect<
+  DescribeTrustedAdvisorCheckResultResponse,
+  InternalServerError | ThrottlingException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTrustedAdvisorCheckResultRequest,
+  output: DescribeTrustedAdvisorCheckResultResponse,
+  errors: [InternalServerError, ThrottlingException],
+}));
 /**
  * Creates a case in the Amazon Web Services Support Center. This operation is similar to how you create a case
  * in the Amazon Web Services Support Center Create
@@ -1720,7 +1878,17 @@ export const describeTrustedAdvisorCheckResult =
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const createCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCase: (
+  input: CreateCaseRequest,
+) => Effect.Effect<
+  CreateCaseResponse,
+  | AttachmentSetExpired
+  | AttachmentSetIdNotFound
+  | CaseCreationLimitExceeded
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCaseRequest,
   output: CreateCaseResponse,
   errors: [
@@ -1745,7 +1913,18 @@ export const createCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const addAttachmentsToSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addAttachmentsToSet: (
+  input: AddAttachmentsToSetRequest,
+) => Effect.Effect<
+  AddAttachmentsToSetResponse,
+  | AttachmentLimitExceeded
+  | AttachmentSetExpired
+  | AttachmentSetIdNotFound
+  | AttachmentSetSizeLimitExceeded
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddAttachmentsToSetRequest,
   output: AddAttachmentsToSetResponse,
   errors: [

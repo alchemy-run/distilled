@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "DLM", serviceShapeName: "dlm_20180112" });
 const auth = T.AwsAuthSigv4({ name: "dlm" });
 const ver = T.ServiceVersion("2018-01-12");
@@ -257,6 +265,39 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ExecutionRoleArn = string;
+export type PolicyDescription = string;
+export type CreateInterval = number;
+export type RetainInterval = number;
+export type PolicyId = string;
+export type TagFilter = string;
+export type PolicyArn = string;
+export type TagKey = string;
+export type TagValue = string;
+export type TargetRegion = string;
+export type VolumeTypeValues = string;
+export type ErrorMessage = string;
+export type ErrorCode = string;
+export type ScheduleName = string;
+export type ActionName = string;
+export type StatusMessage = string;
+export type Interval = number;
+export type Time = string;
+export type CronExpression = string;
+export type StandardTierRetainRuleCount = number;
+export type StandardTierRetainRuleInterval = number;
+export type Count = number;
+export type AvailabilityZone = string;
+export type Target = string;
+export type CmkArn = string;
+export type AwsAccountId = string;
+export type DescriptionRegex = string;
+export type Parameter = string;
+export type ExecutionHandler = string;
+export type ScriptExecutionTimeout = number;
+export type ScriptMaximumRetryCount = number;
 
 //# Schemas
 export type PolicyIdList = string[];
@@ -950,7 +991,9 @@ export const CreateLifecyclePolicyResponse = S.suspend(() =>
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   {
@@ -958,7 +1001,9 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
     Code: S.optional(S.String),
     ResourceType: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   {
@@ -986,21 +1031,37 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
  * For more information about deleting a policy, see Delete lifecycle
  * policies.
  */
-export const deleteLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLifecyclePolicyRequest,
-    output: DeleteLifecyclePolicyResponse,
-    errors: [
-      InternalServerException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteLifecyclePolicy: (
+  input: DeleteLifecyclePolicyRequest,
+) => Effect.Effect<
+  DeleteLifecyclePolicyResponse,
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLifecyclePolicyRequest,
+  output: DeleteLifecyclePolicyResponse,
+  errors: [
+    InternalServerException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Gets detailed information about the specified lifecycle policy.
  */
-export const getLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLifecyclePolicy: (
+  input: GetLifecyclePolicyRequest,
+) => Effect.Effect<
+  GetLifecyclePolicyResponse,
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLifecyclePolicyRequest,
   output: GetLifecyclePolicyResponse,
   errors: [
@@ -1012,7 +1073,16 @@ export const getLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1024,7 +1094,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds the specified tags to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1036,7 +1115,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1051,35 +1139,51 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about updating a policy, see Modify lifecycle
  * policies.
  */
-export const updateLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLifecyclePolicyRequest,
-    output: UpdateLifecyclePolicyResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateLifecyclePolicy: (
+  input: UpdateLifecyclePolicyRequest,
+) => Effect.Effect<
+  UpdateLifecyclePolicyResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLifecyclePolicyRequest,
+  output: UpdateLifecyclePolicyResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Gets summary information about all or the specified data lifecycle policies.
  *
  * To get complete information about a policy, use GetLifecyclePolicy.
  */
-export const getLifecyclePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLifecyclePoliciesRequest,
-    output: GetLifecyclePoliciesResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getLifecyclePolicies: (
+  input: GetLifecyclePoliciesRequest,
+) => Effect.Effect<
+  GetLifecyclePoliciesResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLifecyclePoliciesRequest,
+  output: GetLifecyclePoliciesResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates an Amazon Data Lifecycle Manager lifecycle policy. Amazon Data Lifecycle Manager supports the following policy types:
  *
@@ -1099,14 +1203,21 @@ export const getLifecyclePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * If you create a default policy, you can specify the request parameters either in
  * the request body, or in the PolicyDetails request structure, but not both.
  */
-export const createLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLifecyclePolicyRequest,
-    output: CreateLifecyclePolicyResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const createLifecyclePolicy: (
+  input: CreateLifecyclePolicyRequest,
+) => Effect.Effect<
+  CreateLifecyclePolicyResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLifecyclePolicyRequest,
+  output: CreateLifecyclePolicyResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    LimitExceededException,
+  ],
+}));

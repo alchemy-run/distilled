@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "AppConfig",
   serviceShapeName: "AmazonAppConfig",
@@ -268,6 +276,39 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Name = string;
+export type Description = string;
+export type Id = string;
+export type LongName = string;
+export type Uri = string;
+export type RoleArn = string;
+export type ConfigurationProfileType = string;
+export type KmsKeyIdentifier = string;
+export type MinutesBetween0And24Hours = number;
+export type GrowthFactor = number;
+export type ExtensionOrParameterName = string;
+export type Integer = number;
+export type Identifier = string;
+export type StringWithLengthBetween1And255 = string;
+export type VersionLabel = string;
+export type DeploymentStrategyId = string;
+export type StringWithLengthBetween1And64 = string;
+export type Version = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type Arn = string;
+export type QueryName = string;
+export type TagKey = string;
+export type KmsKeyIdentifierOrEmpty = string;
+export type TagValue = string;
+export type StringWithLengthBetween0And32768 = string;
+export type StringWithLengthBetween1And2048 = string;
+export type DeletionProtectionDuration = number;
+export type DynamicParameterKey = string;
+export type Percentage = number;
+export type Float = number;
 
 //# Schemas
 export interface GetAccountSettingsRequest {}
@@ -2031,6 +2072,9 @@ export const ActionInvocation = S.suspend(() =>
 }) as any as S.Schema<ActionInvocation>;
 export type ActionInvocations = ActionInvocation[];
 export const ActionInvocations = S.Array(ActionInvocation);
+export type BadRequestDetails = {
+  InvalidConfiguration: InvalidConfigurationDetailList;
+};
 export const BadRequestDetails = S.Union(
   S.Struct({ InvalidConfiguration: InvalidConfigurationDetailList }),
 );
@@ -2117,7 +2161,9 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },
@@ -2144,18 +2190,28 @@ export class PayloadTooLargeException extends S.TaggedError<PayloadTooLargeExcep
 /**
  * Updates the value of the `DeletionProtection` parameter.
  */
-export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountSettingsRequest,
-    output: AccountSettings,
-    errors: [BadRequestException, InternalServerException],
-  }),
-);
+export const updateAccountSettings: (
+  input: UpdateAccountSettingsRequest,
+) => Effect.Effect<
+  AccountSettings,
+  BadRequestException | InternalServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountSettingsRequest,
+  output: AccountSettings,
+  errors: [BadRequestException, InternalServerException],
+}));
 /**
  * Returns information about the status of the `DeletionProtection`
  * parameter.
  */
-export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccountSettings: (
+  input: GetAccountSettingsRequest,
+) => Effect.Effect<
+  AccountSettings,
+  BadRequestException | InternalServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountSettingsRequest,
   output: AccountSettings,
   errors: [BadRequestException, InternalServerException],
@@ -2163,73 +2219,164 @@ export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all applications in your Amazon Web Services account.
  */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listApplications: {
+  (
     input: ListApplicationsRequest,
-    output: Applications,
-    errors: [BadRequestException, InternalServerException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    Applications,
+    BadRequestException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    Applications,
+    BadRequestException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    Application,
+    BadRequestException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsRequest,
+  output: Applications,
+  errors: [BadRequestException, InternalServerException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists deployment strategies.
  */
-export const listDeploymentStrategies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDeploymentStrategies: {
+  (
     input: ListDeploymentStrategiesRequest,
-    output: DeploymentStrategies,
-    errors: [BadRequestException, InternalServerException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DeploymentStrategies,
+    BadRequestException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeploymentStrategiesRequest,
+  ) => Stream.Stream<
+    DeploymentStrategies,
+    BadRequestException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeploymentStrategiesRequest,
+  ) => Stream.Stream<
+    DeploymentStrategy,
+    BadRequestException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeploymentStrategiesRequest,
+  output: DeploymentStrategies,
+  errors: [BadRequestException, InternalServerException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all AppConfig extension associations in the account. For more
  * information about extensions and associations, see Extending
  * workflows in the *AppConfig User Guide*.
  */
-export const listExtensionAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listExtensionAssociations: {
+  (
     input: ListExtensionAssociationsRequest,
-    output: ExtensionAssociations,
-    errors: [BadRequestException, InternalServerException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ExtensionAssociations,
+    BadRequestException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExtensionAssociationsRequest,
+  ) => Stream.Stream<
+    ExtensionAssociations,
+    BadRequestException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExtensionAssociationsRequest,
+  ) => Stream.Stream<
+    ExtensionAssociationSummary,
+    BadRequestException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExtensionAssociationsRequest,
+  output: ExtensionAssociations,
+  errors: [BadRequestException, InternalServerException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all custom and Amazon Web Services authored AppConfig extensions in the
  * account. For more information about extensions, see Extending
  * workflows in the *AppConfig User Guide*.
  */
-export const listExtensions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listExtensions: {
+  (
     input: ListExtensionsRequest,
-    output: Extensions,
-    errors: [BadRequestException, InternalServerException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    Extensions,
+    BadRequestException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExtensionsRequest,
+  ) => Stream.Stream<
+    Extensions,
+    BadRequestException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExtensionsRequest,
+  ) => Stream.Stream<
+    ExtensionSummary,
+    BadRequestException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExtensionsRequest,
+  output: Extensions,
+  errors: [BadRequestException, InternalServerException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes an application.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplication: (
+  input: DeleteApplicationRequest,
+) => Effect.Effect<
+  DeleteApplicationResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResponse,
   errors: [
@@ -2245,7 +2392,16 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * MyMobileApp to organize and manage configuration data for a mobile application installed by
  * your users.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationRequest,
+) => Effect.Effect<
+  Application,
+  | BadRequestException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
   output: Application,
   errors: [
@@ -2261,22 +2417,39 @@ export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * enable deletion
  * protection.
  */
-export const deleteConfigurationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConfigurationProfileRequest,
-    output: DeleteConfigurationProfileResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteConfigurationProfile: (
+  input: DeleteConfigurationProfileRequest,
+) => Effect.Effect<
+  DeleteConfigurationProfileResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConfigurationProfileRequest,
+  output: DeleteConfigurationProfileResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Retrieves information about a configuration deployment.
  */
-export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeployment: (
+  input: GetDeploymentRequest,
+) => Effect.Effect<
+  Deployment,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentRequest,
   output: Deployment,
   errors: [
@@ -2288,22 +2461,38 @@ export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a deployment strategy.
  */
-export const deleteDeploymentStrategy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDeploymentStrategyRequest,
-    output: DeleteDeploymentStrategyResponse,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteDeploymentStrategy: (
+  input: DeleteDeploymentStrategyRequest,
+) => Effect.Effect<
+  DeleteDeploymentStrategyResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDeploymentStrategyRequest,
+  output: DeleteDeploymentStrategyResponse,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes an AppConfig extension. You must delete all associations to an
  * extension before you delete the extension.
  */
-export const deleteExtension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteExtension: (
+  input: DeleteExtensionRequest,
+) => Effect.Effect<
+  DeleteExtensionResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExtensionRequest,
   output: DeleteExtensionResponse,
   errors: [
@@ -2316,31 +2505,46 @@ export const deleteExtension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an extension association. This action doesn't delete extensions defined in the
  * association.
  */
-export const deleteExtensionAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteExtensionAssociationRequest,
-    output: DeleteExtensionAssociationResponse,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteExtensionAssociation: (
+  input: DeleteExtensionAssociationRequest,
+) => Effect.Effect<
+  DeleteExtensionAssociationResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteExtensionAssociationRequest,
+  output: DeleteExtensionAssociationResponse,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes a version of a configuration from the AppConfig hosted configuration
  * store.
  */
-export const deleteHostedConfigurationVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteHostedConfigurationVersionRequest,
-    output: DeleteHostedConfigurationVersionResponse,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const deleteHostedConfigurationVersion: (
+  input: DeleteHostedConfigurationVersionRequest,
+) => Effect.Effect<
+  DeleteHostedConfigurationVersionResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteHostedConfigurationVersionRequest,
+  output: DeleteHostedConfigurationVersionResponse,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Retrieves information about a deployment strategy. A deployment strategy defines
  * important criteria for rolling out your configuration to the designated targets. A
@@ -2348,30 +2552,45 @@ export const deleteHostedConfigurationVersion =
  * receive the deployment during each interval, an algorithm that defines how percentage
  * grows, and bake time.
  */
-export const getDeploymentStrategy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDeploymentStrategyRequest,
-    output: DeploymentStrategy,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getDeploymentStrategy: (
+  input: GetDeploymentStrategyRequest,
+) => Effect.Effect<
+  DeploymentStrategy,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDeploymentStrategyRequest,
+  output: DeploymentStrategy,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Retrieves information about a specific configuration version.
  */
-export const getHostedConfigurationVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetHostedConfigurationVersionRequest,
-    output: HostedConfigurationVersion,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const getHostedConfigurationVersion: (
+  input: GetHostedConfigurationVersionRequest,
+) => Effect.Effect<
+  HostedConfigurationVersion,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetHostedConfigurationVersionRequest,
+  output: HostedConfigurationVersion,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Stops a deployment. This API action works only on deployments that have a status of
  * `DEPLOYING`, unless an `AllowRevert` parameter is supplied. If the
@@ -2380,7 +2599,16 @@ export const getHostedConfigurationVersion =
  * `REVERTED`. AppConfig only allows a revert within 72 hours of
  * deployment completion.
  */
-export const stopDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopDeployment: (
+  input: StopDeploymentRequest,
+) => Effect.Effect<
+  Deployment,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDeploymentRequest,
   output: Deployment,
   errors: [
@@ -2394,7 +2622,16 @@ export const stopDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * your AppConfig resources. Each tag consists of a key and an optional value, both
  * of which you define. You can specify a maximum of 50 tags for a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2406,7 +2643,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a tag key and value from an AppConfig resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2418,7 +2664,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an application.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApplication: (
+  input: UpdateApplicationRequest,
+) => Effect.Effect<
+  Application,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
   output: Application,
   errors: [
@@ -2430,35 +2685,58 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a configuration profile.
  */
-export const updateConfigurationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConfigurationProfileRequest,
-    output: ConfigurationProfile,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateConfigurationProfile: (
+  input: UpdateConfigurationProfileRequest,
+) => Effect.Effect<
+  ConfigurationProfile,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfigurationProfileRequest,
+  output: ConfigurationProfile,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Updates a deployment strategy.
  */
-export const updateDeploymentStrategy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDeploymentStrategyRequest,
-    output: DeploymentStrategy,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateDeploymentStrategy: (
+  input: UpdateDeploymentStrategyRequest,
+) => Effect.Effect<
+  DeploymentStrategy,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDeploymentStrategyRequest,
+  output: DeploymentStrategy,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Updates an environment.
  */
-export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEnvironment: (
+  input: UpdateEnvironmentRequest,
+) => Effect.Effect<
+  Environment,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentRequest,
   output: Environment,
   errors: [
@@ -2472,31 +2750,45 @@ export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Extending
  * workflows in the *AppConfig User Guide*.
  */
-export const updateExtensionAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateExtensionAssociationRequest,
-    output: ExtensionAssociation,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateExtensionAssociation: (
+  input: UpdateExtensionAssociationRequest,
+) => Effect.Effect<
+  ExtensionAssociation,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateExtensionAssociationRequest,
+  output: ExtensionAssociation,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Uses the validators in a configuration profile to validate a configuration.
  */
-export const validateConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ValidateConfigurationRequest,
-    output: ValidateConfigurationResponse,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const validateConfiguration: (
+  input: ValidateConfigurationRequest,
+) => Effect.Effect<
+  ValidateConfigurationResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ValidateConfigurationRequest,
+  output: ValidateConfigurationResponse,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a configuration profile, which is information that enables AppConfig
  * to access the configuration source. Valid configuration sources include the
@@ -2528,18 +2820,26 @@ export const validateConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Configuration and a Configuration Profile in the AppConfig
  * User Guide.
  */
-export const createConfigurationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConfigurationProfileRequest,
-    output: ConfigurationProfile,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }),
-);
+export const createConfigurationProfile: (
+  input: CreateConfigurationProfileRequest,
+) => Effect.Effect<
+  ConfigurationProfile,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConfigurationProfileRequest,
+  output: ConfigurationProfile,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Creates an environment. For each application, you define one or more environments. An
  * environment is a deployment group of AppConfig targets, such as applications in a
@@ -2550,7 +2850,17 @@ export const createConfigurationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * configuration deployment. If an alarm is triggered, the system rolls back the
  * configuration.
  */
-export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEnvironment: (
+  input: CreateEnvironmentRequest,
+) => Effect.Effect<
+  Environment,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentRequest,
   output: Environment,
   errors: [
@@ -2574,22 +2884,39 @@ export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * associations, see Extending
  * workflows in the *AppConfig User Guide*.
  */
-export const createExtensionAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateExtensionAssociationRequest,
-    output: ExtensionAssociation,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }),
-);
+export const createExtensionAssociation: (
+  input: CreateExtensionAssociationRequest,
+) => Effect.Effect<
+  ExtensionAssociation,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateExtensionAssociationRequest,
+  output: ExtensionAssociation,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Retrieves information about an application.
  */
-export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApplication: (
+  input: GetApplicationRequest,
+) => Effect.Effect<
+  Application,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
   output: Application,
   errors: [
@@ -2609,7 +2936,16 @@ export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - GetConfiguration is a priced call. For more information, see
  * Pricing.
  */
-export const getConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConfiguration: (
+  input: GetConfigurationRequest,
+) => Effect.Effect<
+  Configuration,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigurationRequest,
   output: Configuration,
   errors: [
@@ -2621,17 +2957,24 @@ export const getConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a configuration profile.
  */
-export const getConfigurationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetConfigurationProfileRequest,
-    output: ConfigurationProfile,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getConfigurationProfile: (
+  input: GetConfigurationProfileRequest,
+) => Effect.Effect<
+  ConfigurationProfile,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfigurationProfileRequest,
+  output: ConfigurationProfile,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Retrieves information about an environment. An environment is a deployment group of
  * AppConfig applications, such as applications in a `Production`
@@ -2640,7 +2983,16 @@ export const getConfigurationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * an alarm is triggered during a deployment, AppConfig roles back the
  * configuration.
  */
-export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEnvironment: (
+  input: GetEnvironmentRequest,
+) => Effect.Effect<
+  Environment,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentRequest,
   output: Environment,
   errors: [
@@ -2652,7 +3004,16 @@ export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about an AppConfig extension.
  */
-export const getExtension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getExtension: (
+  input: GetExtensionRequest,
+) => Effect.Effect<
+  Extension,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExtensionRequest,
   output: Extension,
   errors: [
@@ -2666,41 +3027,86 @@ export const getExtension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * information about extensions and associations, see Extending
  * workflows in the *AppConfig User Guide*.
  */
-export const getExtensionAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetExtensionAssociationRequest,
-    output: ExtensionAssociation,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getExtensionAssociation: (
+  input: GetExtensionAssociationRequest,
+) => Effect.Effect<
+  ExtensionAssociation,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetExtensionAssociationRequest,
+  output: ExtensionAssociation,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Lists the environments for an application.
  */
-export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEnvironments: {
+  (
     input: ListEnvironmentsRequest,
-    output: Environments,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    Environments,
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnvironmentsRequest,
+  ) => Stream.Stream<
+    Environments,
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnvironmentsRequest,
+  ) => Stream.Stream<
+    Environment,
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnvironmentsRequest,
+  output: Environments,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the list of key-value tags assigned to the resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ResourceTags,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ResourceTags,
   errors: [
@@ -2712,69 +3118,168 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the configuration profiles for an application.
  */
-export const listConfigurationProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConfigurationProfiles: {
+  (
     input: ListConfigurationProfilesRequest,
-    output: ConfigurationProfiles,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ConfigurationProfiles,
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfigurationProfilesRequest,
+  ) => Stream.Stream<
+    ConfigurationProfiles,
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfigurationProfilesRequest,
+  ) => Stream.Stream<
+    ConfigurationProfileSummary,
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfigurationProfilesRequest,
+  output: ConfigurationProfiles,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the deployments for an environment in descending deployment number order.
  */
-export const listDeployments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDeployments: {
+  (
     input: ListDeploymentsRequest,
-    output: Deployments,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    Deployments,
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeploymentsRequest,
+  ) => Stream.Stream<
+    Deployments,
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeploymentsRequest,
+  ) => Stream.Stream<
+    DeploymentSummary,
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeploymentsRequest,
+  output: Deployments,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists configurations stored in the AppConfig hosted configuration store by
  * version.
  */
-export const listHostedConfigurationVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listHostedConfigurationVersions: {
+  (
     input: ListHostedConfigurationVersionsRequest,
-    output: HostedConfigurationVersions,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    HostedConfigurationVersions,
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListHostedConfigurationVersionsRequest,
+  ) => Stream.Stream<
+    HostedConfigurationVersions,
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListHostedConfigurationVersionsRequest,
+  ) => Stream.Stream<
+    HostedConfigurationVersionSummary,
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListHostedConfigurationVersionsRequest,
+  output: HostedConfigurationVersions,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes an environment.
  *
  * To prevent users from unintentionally deleting actively-used environments, enable deletion
  * protection.
  */
-export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEnvironment: (
+  input: DeleteEnvironmentRequest,
+) => Effect.Effect<
+  DeleteEnvironmentResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentRequest,
   output: DeleteEnvironmentResponse,
   errors: [
@@ -2789,7 +3294,17 @@ export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Extending
  * workflows in the *AppConfig User Guide*.
  */
-export const updateExtension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateExtension: (
+  input: UpdateExtensionRequest,
+) => Effect.Effect<
+  Extension,
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateExtensionRequest,
   output: Extension,
   errors: [
@@ -2802,7 +3317,17 @@ export const updateExtension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a deployment.
  */
-export const startDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startDeployment: (
+  input: StartDeploymentRequest,
+) => Effect.Effect<
+  Deployment,
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDeploymentRequest,
   output: Deployment,
   errors: [
@@ -2818,36 +3343,54 @@ export const startDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * for feature flag data. For more information, see Type reference for AWS.AppConfig.FeatureFlags in the
  * *AppConfig User Guide*.
  */
-export const createHostedConfigurationVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateHostedConfigurationVersionRequest,
-    output: HostedConfigurationVersion,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      PayloadTooLargeException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }));
+export const createHostedConfigurationVersion: (
+  input: CreateHostedConfigurationVersionRequest,
+) => Effect.Effect<
+  HostedConfigurationVersion,
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | PayloadTooLargeException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateHostedConfigurationVersionRequest,
+  output: HostedConfigurationVersion,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    PayloadTooLargeException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Creates a deployment strategy that defines important criteria for rolling out your
  * configuration to the designated targets. A deployment strategy includes the overall
  * duration required, a percentage of targets to receive the deployment during each interval,
  * an algorithm that defines how percentage grows, and bake time.
  */
-export const createDeploymentStrategy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDeploymentStrategyRequest,
-    output: DeploymentStrategy,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-    ],
-  }),
-);
+export const createDeploymentStrategy: (
+  input: CreateDeploymentStrategyRequest,
+) => Effect.Effect<
+  DeploymentStrategy,
+  | BadRequestException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDeploymentStrategyRequest,
+  output: DeploymentStrategy,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Creates an AppConfig extension. An extension augments your ability to inject
  * logic or behavior at different points during the AppConfig workflow of creating
@@ -2871,7 +3414,17 @@ export const createDeploymentStrategy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about extensions, see Extending
  * workflows in the *AppConfig User Guide*.
  */
-export const createExtension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createExtension: (
+  input: CreateExtensionRequest,
+) => Effect.Effect<
+  Extension,
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExtensionRequest,
   output: Extension,
   errors: [

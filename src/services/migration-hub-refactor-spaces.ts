@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Migration Hub Refactor Spaces",
   serviceShapeName: "RefactorSpaces",
@@ -240,6 +248,55 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ApplicationName = string;
+export type EnvironmentId = string;
+export type VpcId = string;
+export type ProxyType = string;
+export type ClientToken = string;
+export type EnvironmentName = string;
+export type Description = string;
+export type NetworkFabricType = string;
+export type ApplicationId = string;
+export type ServiceId = string;
+export type RouteType = string;
+export type ServiceName = string;
+export type ServiceEndpointType = string;
+export type ResourcePolicyIdentifier = string;
+export type RouteId = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type ResourceArn = string;
+export type PolicyString = string;
+export type RouteActivationState = string;
+export type ApiGatewayEndpointType = string;
+export type StageName = string;
+export type UriPath = string;
+export type HttpMethod = string;
+export type Uri = string;
+export type LambdaArn = string;
+export type AccountId = string;
+export type EnvironmentState = string;
+export type ApplicationState = string;
+export type RouteState = string;
+export type ServiceState = string;
+export type TransitGatewayId = string;
+export type ApiGatewayId = string;
+export type VpcLinkId = string;
+export type NlbArn = string;
+export type NlbName = string;
+export type ErrorCode = string;
+export type ErrorMessage = string;
+export type ResourceIdentifier = string;
+export type ErrorResourceType = string;
+export type PathResourceToIdKey = string;
+export type PathResourceToIdValue = string;
+export type CidrBlock = string;
+export type Ec2TagValue = string;
+export type AdditionalDetailsKey = string;
+export type AdditionalDetailsValue = string;
+export type RetryAfterSeconds = number;
 
 //# Schemas
 export type TagKeys = string[];
@@ -1718,7 +1775,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -1743,7 +1802,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     ServiceCode: S.optional(S.String),
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -1764,7 +1825,16 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  * Amazon Web Services Migration Hub Refactor Spaces does not propagate tags to orchestrated resources, such as an
  * environment’s transit gateway.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1779,7 +1849,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `arn:aws:ram::aws:permission/AWSRAMDefaultPermissionRefactorSpacesEnvironment`
  * permission in Resource Access Manager. The policy must not contain new lines or blank lines.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidResourcePolicyException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [
@@ -1804,7 +1886,20 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * a transit gateway and you must use your network infrastructure to route traffic to services
  * with private URL endpoints.
  */
-export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEnvironment: (
+  input: CreateEnvironmentRequest,
+) => Effect.Effect<
+  CreateEnvironmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentRequest,
   output: CreateEnvironmentResponse,
   errors: [
@@ -1822,7 +1917,16 @@ export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * manage a resource. To untag a resource, the caller account must be the same as the resource’s
  * `OwnerAccountId`. Untagging resources across accounts is not supported.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1835,7 +1939,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists the tags of a resource. The caller account must be the same as the resource’s
  * `OwnerAccountId`. Listing tags in other accounts is not supported.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1847,7 +1960,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Amazon Web Services Migration Hub Refactor Spaces service.
  */
-export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteService: (
+  input: DeleteServiceRequest,
+) => Effect.Effect<
+  DeleteServiceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceRequest,
   output: DeleteServiceResponse,
   errors: [
@@ -1863,7 +1988,19 @@ export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an Amazon Web Services Migration Hub Refactor Spaces application. Before you can delete an application, you must first
  * delete any services or routes within the application.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplication: (
+  input: DeleteApplicationRequest,
+) => Effect.Effect<
+  DeleteApplicationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResponse,
   errors: [
@@ -1879,7 +2016,19 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an Amazon Web Services Migration Hub Refactor Spaces environment. Before you can delete an environment, you must first
  * delete any applications and services within the environment.
  */
-export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEnvironment: (
+  input: DeleteEnvironmentRequest,
+) => Effect.Effect<
+  DeleteEnvironmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentRequest,
   output: DeleteEnvironmentResponse,
   errors: [
@@ -1894,7 +2043,18 @@ export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an Amazon Web Services Migration Hub Refactor Spaces route.
  */
-export const updateRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRoute: (
+  input: UpdateRouteRequest,
+) => Effect.Effect<
+  UpdateRouteResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRouteRequest,
   output: UpdateRouteResponse,
   errors: [
@@ -1908,23 +2068,43 @@ export const updateRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the resource policy set for the environment.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets an Amazon Web Services Migration Hub Refactor Spaces environment.
  */
-export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEnvironment: (
+  input: GetEnvironmentRequest,
+) => Effect.Effect<
+  GetEnvironmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentRequest,
   output: GetEnvironmentResponse,
   errors: [
@@ -1938,7 +2118,18 @@ export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the resource-based permission policy that is set for the given environment.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => Effect.Effect<
+  GetResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
   errors: [
@@ -1952,7 +2143,19 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Amazon Web Services Migration Hub Refactor Spaces route.
  */
-export const deleteRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRoute: (
+  input: DeleteRouteRequest,
+) => Effect.Effect<
+  DeleteRouteResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouteRequest,
   output: DeleteRouteResponse,
   errors: [
@@ -1967,7 +2170,18 @@ export const deleteRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets an Amazon Web Services Migration Hub Refactor Spaces route.
  */
-export const getRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRoute: (
+  input: GetRouteRequest,
+) => Effect.Effect<
+  GetRouteResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouteRequest,
   output: GetRouteResponse,
   errors: [
@@ -1981,7 +2195,18 @@ export const getRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets an Amazon Web Services Migration Hub Refactor Spaces service.
  */
-export const getService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getService: (
+  input: GetServiceRequest,
+) => Effect.Effect<
+  GetServiceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceRequest,
   output: GetServiceResponse,
   errors: [
@@ -1996,51 +2221,133 @@ export const getService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists Amazon Web Services Migration Hub Refactor Spaces environments owned by a caller account or shared with the caller
  * account.
  */
-export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEnvironments: {
+  (
     input: ListEnvironmentsRequest,
-    output: ListEnvironmentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EnvironmentSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEnvironmentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnvironmentsRequest,
+  ) => Stream.Stream<
+    ListEnvironmentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnvironmentsRequest,
+  ) => Stream.Stream<
+    EnvironmentSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnvironmentsRequest,
+  output: ListEnvironmentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EnvironmentSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all Amazon Web Services Migration Hub Refactor Spaces service virtual private clouds (VPCs) that are part of the
  * environment.
  */
-export const listEnvironmentVpcs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEnvironmentVpcs: {
+  (
     input: ListEnvironmentVpcsRequest,
-    output: ListEnvironmentVpcsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EnvironmentVpcList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEnvironmentVpcsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnvironmentVpcsRequest,
+  ) => Stream.Stream<
+    ListEnvironmentVpcsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnvironmentVpcsRequest,
+  ) => Stream.Stream<
+    EnvironmentVpc,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnvironmentVpcsRequest,
+  output: ListEnvironmentVpcsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EnvironmentVpcList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets an Amazon Web Services Migration Hub Refactor Spaces application.
  */
-export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApplication: (
+  input: GetApplicationRequest,
+) => Effect.Effect<
+  GetApplicationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
   output: GetApplicationResponse,
   errors: [
@@ -2063,7 +2370,20 @@ export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * information, see
  * Create an application in the *Refactor Spaces User Guide*.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationRequest,
+) => Effect.Effect<
+  CreateApplicationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
   output: CreateApplicationResponse,
   errors: [
@@ -2146,7 +2466,20 @@ export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * configured to connect to the application proxy VPC. For more information, see Create
  * a route in the *Refactor Spaces User Guide*.
  */
-export const createRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRoute: (
+  input: CreateRouteRequest,
+) => Effect.Effect<
+  CreateRouteResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouteRequest,
   output: CreateRouteResponse,
   errors: [
@@ -2170,7 +2503,20 @@ export const createRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `RefactorSpacesSecurityGroup` to the resource. Alternatively, to add more
  * cross-account constraints, apply your own security group.
  */
-export const createService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createService: (
+  input: CreateServiceRequest,
+) => Effect.Effect<
+  CreateServiceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceRequest,
   output: CreateServiceResponse,
   errors: [
@@ -2186,7 +2532,50 @@ export const createService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all the Amazon Web Services Migration Hub Refactor Spaces routes within an application.
  */
-export const listRoutes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRoutes: {
+  (
+    input: ListRoutesRequest,
+  ): Effect.Effect<
+    ListRoutesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRoutesRequest,
+  ) => Stream.Stream<
+    ListRoutesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoutesRequest,
+  ) => Stream.Stream<
+    RouteSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRoutesRequest,
   output: ListRoutesResponse,
   errors: [
@@ -2208,48 +2597,130 @@ export const listRoutes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists all the Amazon Web Services Migration Hub Refactor Spaces applications within an environment.
  */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listApplications: {
+  (
     input: ListApplicationsRequest,
-    output: ListApplicationsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ApplicationSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListApplicationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ListApplicationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ApplicationSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ApplicationSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the Amazon Web Services Migration Hub Refactor Spaces services within an application.
  */
-export const listServices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listServices: {
+  (
     input: ListServicesRequest,
-    output: ListServicesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ServiceSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListServicesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServicesRequest,
+  ) => Stream.Stream<
+    ListServicesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServicesRequest,
+  ) => Stream.Stream<
+    ServiceSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServicesRequest,
+  output: ListServicesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ServiceSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));

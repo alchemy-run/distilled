@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "mq", serviceShapeName: "mq" });
 const auth = T.AwsAuthSigv4({ name: "mq" });
 const ver = T.ServiceVersion("2017-11-27");
@@ -237,6 +245,12 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type __string = string;
+export type MaxResults = number;
+export type __integer = number;
+export type __integerMin5Max100 = number;
 
 //# Schemas
 export type __listOf__string = string[];
@@ -1794,7 +1808,9 @@ export class InternalServerErrorException extends S.TaggedError<InternalServerEr
     ErrorAttribute: S.optional(S.String).pipe(T.JsonName("errorAttribute")),
     Message: S.optional(S.String).pipe(T.JsonName("message")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   {
@@ -1814,54 +1830,107 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
 /**
  * Describe available engine types and versions.
  */
-export const describeBrokerEngineTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeBrokerEngineTypesRequest,
-    output: DescribeBrokerEngineTypesResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-    ],
-  }),
-);
+export const describeBrokerEngineTypes: (
+  input: DescribeBrokerEngineTypesRequest,
+) => Effect.Effect<
+  DescribeBrokerEngineTypesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBrokerEngineTypesRequest,
+  output: DescribeBrokerEngineTypesResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+  ],
+}));
 /**
  * Describe available broker instance options.
  */
-export const describeBrokerInstanceOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeBrokerInstanceOptionsRequest,
-    output: DescribeBrokerInstanceOptionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-    ],
-  }));
+export const describeBrokerInstanceOptions: (
+  input: DescribeBrokerInstanceOptionsRequest,
+) => Effect.Effect<
+  DescribeBrokerInstanceOptionsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBrokerInstanceOptionsRequest,
+  output: DescribeBrokerInstanceOptionsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+  ],
+}));
 /**
  * Returns a list of all brokers.
  */
-export const listBrokers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBrokers: {
+  (
     input: ListBrokersRequest,
-    output: ListBrokersResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "BrokerSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBrokersResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBrokersRequest,
+  ) => Stream.Stream<
+    ListBrokersResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBrokersRequest,
+  ) => Stream.Stream<
+    BrokerSummary,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBrokersRequest,
+  output: ListBrokersResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BrokerSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of all configurations.
  */
-export const listConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listConfigurations: (
+  input: ListConfigurationsRequest,
+) => Effect.Effect<
+  ListConfigurationsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListConfigurationsRequest,
   output: ListConfigurationsResponse,
   errors: [
@@ -1873,7 +1942,17 @@ export const listConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
  */
-export const createConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConfiguration: (
+  input: CreateConfigurationRequest,
+) => Effect.Effect<
+  CreateConfigurationResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigurationRequest,
   output: CreateConfigurationResponse,
   errors: [
@@ -1886,7 +1965,17 @@ export const createConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Add a tag to a resource.
  */
-export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTags: (
+  input: CreateTagsRequest,
+) => Effect.Effect<
+  CreateTagsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagsRequest,
   output: CreateTagsResponse,
   errors: [
@@ -1931,7 +2020,18 @@ export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Create an IAM User and Get Your Amazon Web Services Credentials and Never Modify or Delete the Amazon MQ Elastic Network Interface in the *Amazon MQ Developer Guide*.
  */
-export const createBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBroker: (
+  input: CreateBrokerRequest,
+) => Effect.Effect<
+  CreateBrokerResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBrokerRequest,
   output: CreateBrokerResponse,
   errors: [
@@ -1945,7 +2045,17 @@ export const createBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the specified broker.
  */
-export const describeBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeBroker: (
+  input: DescribeBrokerRequest,
+) => Effect.Effect<
+  DescribeBrokerResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBrokerRequest,
   output: DescribeBrokerResponse,
   errors: [
@@ -1958,7 +2068,18 @@ export const describeBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified configuration.
  */
-export const deleteConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConfiguration: (
+  input: DeleteConfigurationRequest,
+) => Effect.Effect<
+  DeleteConfigurationResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationRequest,
   output: DeleteConfigurationResponse,
   errors: [
@@ -1972,7 +2093,17 @@ export const deleteConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about an ActiveMQ user.
  */
-export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeUser: (
+  input: DescribeUserRequest,
+) => Effect.Effect<
+  DescribeUserResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserRequest,
   output: DescribeUserResponse,
   errors: [
@@ -1985,7 +2116,18 @@ export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified configuration.
  */
-export const updateConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateConfiguration: (
+  input: UpdateConfigurationRequest,
+) => Effect.Effect<
+  UpdateConfigurationResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigurationRequest,
   output: UpdateConfigurationResponse,
   errors: [
@@ -1999,7 +2141,17 @@ export const updateConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a broker. Note: This API is asynchronous.
  */
-export const deleteBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBroker: (
+  input: DeleteBrokerRequest,
+) => Effect.Effect<
+  DeleteBrokerResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBrokerRequest,
   output: DeleteBrokerResponse,
   errors: [
@@ -2012,51 +2164,86 @@ export const deleteBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the specified configuration.
  */
-export const describeConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConfigurationRequest,
-    output: DescribeConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-    ],
-  }),
-);
+export const describeConfiguration: (
+  input: DescribeConfigurationRequest,
+) => Effect.Effect<
+  DescribeConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConfigurationRequest,
+  output: DescribeConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
 /**
  * Returns the specified configuration revision for the specified configuration.
  */
-export const describeConfigurationRevision =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConfigurationRevisionRequest,
-    output: DescribeConfigurationRevisionResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-    ],
-  }));
+export const describeConfigurationRevision: (
+  input: DescribeConfigurationRevisionRequest,
+) => Effect.Effect<
+  DescribeConfigurationRevisionResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConfigurationRevisionRequest,
+  output: DescribeConfigurationRevisionResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
 /**
  * Returns a list of all revisions for the specified configuration.
  */
-export const listConfigurationRevisions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListConfigurationRevisionsRequest,
-    output: ListConfigurationRevisionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-    ],
-  }),
-);
+export const listConfigurationRevisions: (
+  input: ListConfigurationRevisionsRequest,
+) => Effect.Effect<
+  ListConfigurationRevisionsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListConfigurationRevisionsRequest,
+  output: ListConfigurationRevisionsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
 /**
  * Lists tags for a resource.
  */
-export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTags: (
+  input: ListTagsRequest,
+) => Effect.Effect<
+  ListTagsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsRequest,
   output: ListTagsResponse,
   errors: [
@@ -2069,7 +2256,17 @@ export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of all ActiveMQ users.
  */
-export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listUsers: (
+  input: ListUsersRequest,
+) => Effect.Effect<
+  ListUsersResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse,
   errors: [
@@ -2082,7 +2279,17 @@ export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Promotes a data replication replica broker to the primary broker role.
  */
-export const promote = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const promote: (
+  input: PromoteRequest,
+) => Effect.Effect<
+  PromoteResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PromoteRequest,
   output: PromoteResponse,
   errors: [
@@ -2095,7 +2302,17 @@ export const promote = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag from a resource.
  */
-export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTags: (
+  input: DeleteTagsRequest,
+) => Effect.Effect<
+  DeleteTagsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsRequest,
   output: DeleteTagsResponse,
   errors: [
@@ -2108,7 +2325,17 @@ export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an ActiveMQ user.
  */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUser: (
+  input: DeleteUserRequest,
+) => Effect.Effect<
+  DeleteUserResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
   output: DeleteUserResponse,
   errors: [
@@ -2121,7 +2348,17 @@ export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Reboots a broker. Note: This API is asynchronous.
  */
-export const rebootBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rebootBroker: (
+  input: RebootBrokerRequest,
+) => Effect.Effect<
+  RebootBrokerResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootBrokerRequest,
   output: RebootBrokerResponse,
   errors: [
@@ -2134,7 +2371,18 @@ export const rebootBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds a pending configuration change to a broker.
  */
-export const updateBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBroker: (
+  input: UpdateBrokerRequest,
+) => Effect.Effect<
+  UpdateBrokerResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBrokerRequest,
   output: UpdateBrokerResponse,
   errors: [
@@ -2150,7 +2398,18 @@ export const updateBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUser: (
+  input: CreateUserRequest,
+) => Effect.Effect<
+  CreateUserResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
   output: CreateUserResponse,
   errors: [
@@ -2164,7 +2423,18 @@ export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the information for an ActiveMQ user.
  */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUser: (
+  input: UpdateUserRequest,
+) => Effect.Effect<
+  UpdateUserResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,
   output: UpdateUserResponse,
   errors: [

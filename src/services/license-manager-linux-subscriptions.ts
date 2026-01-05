@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "License Manager Linux Subscriptions",
   serviceShapeName: "LicenseManagerLinuxSubscriptions",
@@ -292,6 +300,18 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type SubscriptionProviderArn = string;
+export type LinuxSubscriptionsDiscovery = string;
+export type Status = string;
+export type BoxInteger = number;
+export type SubscriptionProviderSource = string;
+export type SecretArn = string;
+export type OrganizationIntegration = string;
+export type Operator = string;
+export type SubscriptionProviderStatus = string;
+export type BoxLong = number;
 
 //# Schemas
 export interface GetServiceSettingsRequest {}
@@ -801,7 +821,13 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Remove one or more metadata tag from the specified Amazon Web Services resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  InternalServerException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [InternalServerException, ResourceNotFoundException],
@@ -809,7 +835,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the Linux subscriptions service settings for your account.
  */
-export const getServiceSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getServiceSettings: (
+  input: GetServiceSettingsRequest,
+) => Effect.Effect<
+  GetServiceSettingsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceSettingsRequest,
   output: GetServiceSettingsResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
@@ -818,78 +853,194 @@ export const getServiceSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists the running Amazon EC2 instances that were discovered with commercial Linux
  * subscriptions.
  */
-export const listLinuxSubscriptionInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLinuxSubscriptionInstances: {
+  (
     input: ListLinuxSubscriptionInstancesRequest,
-    output: ListLinuxSubscriptionInstancesResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Instances",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListLinuxSubscriptionInstancesResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLinuxSubscriptionInstancesRequest,
+  ) => Stream.Stream<
+    ListLinuxSubscriptionInstancesResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLinuxSubscriptionInstancesRequest,
+  ) => Stream.Stream<
+    Instance,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLinuxSubscriptionInstancesRequest,
+  output: ListLinuxSubscriptionInstancesResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Instances",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the Linux subscriptions that have been discovered. If you have linked your
  * organization, the returned results will include data aggregated across your accounts in
  * Organizations.
  */
-export const listLinuxSubscriptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLinuxSubscriptions: {
+  (
     input: ListLinuxSubscriptionsRequest,
-    output: ListLinuxSubscriptionsResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Subscriptions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListLinuxSubscriptionsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLinuxSubscriptionsRequest,
+  ) => Stream.Stream<
+    ListLinuxSubscriptionsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLinuxSubscriptionsRequest,
+  ) => Stream.Stream<
+    Subscription,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLinuxSubscriptionsRequest,
+  output: ListLinuxSubscriptionsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Subscriptions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List Bring Your Own License (BYOL) subscription registration resources for your account.
  */
-export const listRegisteredSubscriptionProviders =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRegisteredSubscriptionProviders: {
+  (
     input: ListRegisteredSubscriptionProvidersRequest,
-    output: ListRegisteredSubscriptionProvidersResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RegisteredSubscriptionProviders",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRegisteredSubscriptionProvidersResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRegisteredSubscriptionProvidersRequest,
+  ) => Stream.Stream<
+    ListRegisteredSubscriptionProvidersResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRegisteredSubscriptionProvidersRequest,
+  ) => Stream.Stream<
+    RegisteredSubscriptionProvider,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRegisteredSubscriptionProvidersRequest,
+  output: ListRegisteredSubscriptionProvidersResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RegisteredSubscriptionProviders",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Register the supported third-party subscription provider for your Bring Your Own License (BYOL) subscription.
  */
-export const registerSubscriptionProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterSubscriptionProviderRequest,
-    output: RegisterSubscriptionProviderResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-  }));
+export const registerSubscriptionProvider: (
+  input: RegisterSubscriptionProviderRequest,
+) => Effect.Effect<
+  RegisterSubscriptionProviderResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterSubscriptionProviderRequest,
+  output: RegisterSubscriptionProviderResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+}));
 /**
  * Get details for a Bring Your Own License (BYOL) subscription that's registered to your account.
  */
-export const getRegisteredSubscriptionProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRegisteredSubscriptionProviderRequest,
-    output: GetRegisteredSubscriptionProviderResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getRegisteredSubscriptionProvider: (
+  input: GetRegisteredSubscriptionProviderRequest,
+) => Effect.Effect<
+  GetRegisteredSubscriptionProviderResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRegisteredSubscriptionProviderRequest,
+  output: GetRegisteredSubscriptionProviderResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List the metadata tags that are assigned to the
  * specified Amazon Web Services resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -901,7 +1052,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Add metadata tags to the specified Amazon Web Services resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -913,25 +1073,41 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the service settings for Linux subscriptions.
  */
-export const updateServiceSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServiceSettingsRequest,
-    output: UpdateServiceSettingsResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-  }),
-);
+export const updateServiceSettings: (
+  input: UpdateServiceSettingsRequest,
+) => Effect.Effect<
+  UpdateServiceSettingsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceSettingsRequest,
+  output: UpdateServiceSettingsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+}));
 /**
  * Remove a third-party subscription provider from the Bring Your Own License (BYOL) subscriptions
  * registered to your account.
  */
-export const deregisterSubscriptionProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterSubscriptionProviderRequest,
-    output: DeregisterSubscriptionProviderResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deregisterSubscriptionProvider: (
+  input: DeregisterSubscriptionProviderRequest,
+) => Effect.Effect<
+  DeregisterSubscriptionProviderResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterSubscriptionProviderRequest,
+  output: DeregisterSubscriptionProviderResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

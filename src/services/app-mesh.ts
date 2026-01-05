@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "App Mesh", serviceShapeName: "AppMesh" });
 const auth = T.AwsAuthSigv4({ name: "appmesh" });
 const ver = T.ServiceVersion("2019-01-25");
@@ -238,6 +246,81 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type Arn = string;
+export type TagsLimit = number;
+export type TagKey = string;
+export type ResourceName = string;
+export type AccountId = string;
+export type ListMeshesLimit = number;
+export type ListVirtualGatewaysLimit = number;
+export type ListGatewayRoutesLimit = number;
+export type ListVirtualNodesLimit = number;
+export type ListVirtualRoutersLimit = number;
+export type ListRoutesLimit = number;
+export type ServiceName = string;
+export type ListVirtualServicesLimit = number;
+export type TagValue = string;
+export type GatewayRoutePriority = number;
+export type RoutePriority = number;
+export type EgressFilterType = string;
+export type IpPreference = string;
+export type VirtualGatewayHealthCheckTimeoutMillis = number;
+export type VirtualGatewayHealthCheckIntervalMillis = number;
+export type VirtualGatewayPortProtocol = string;
+export type PortNumber = number;
+export type VirtualGatewayHealthCheckThreshold = number;
+export type VirtualGatewayListenerTlsMode = string;
+export type HttpMethod = string;
+export type ListenerPort = number;
+export type Hostname = string;
+export type DnsResponseType = string;
+export type AwsCloudMapName = string;
+export type PortProtocol = string;
+export type ListenerTlsMode = string;
+export type HealthCheckTimeoutMillis = number;
+export type HealthCheckIntervalMillis = number;
+export type HealthCheckThreshold = number;
+export type OutlierDetectionMaxServerErrors = number;
+export type OutlierDetectionMaxEjectionPercent = number;
+export type HttpScheme = string;
+export type MaxRetries = number;
+export type HttpRetryPolicyEvent = string;
+export type TcpRetryPolicyEvent = string;
+export type MethodName = string;
+export type GrpcRetryPolicyEvent = string;
+export type MeshStatusCode = string;
+export type VirtualGatewayStatusCode = string;
+export type GatewayRouteStatusCode = string;
+export type VirtualNodeStatusCode = string;
+export type VirtualRouterStatusCode = string;
+export type RouteStatusCode = string;
+export type VirtualServiceStatusCode = string;
+export type MaxConnections = number;
+export type MaxPendingRequests = number;
+export type MaxRequests = number;
+export type FilePath = string;
+export type HttpPathExact = string;
+export type HttpPathRegex = string;
+export type QueryParameterName = string;
+export type ExactHostName = string;
+export type SuffixHostname = string;
+export type HeaderName = string;
+export type AwsCloudMapInstanceAttributeKey = string;
+export type AwsCloudMapInstanceAttributeValue = string;
+export type DurationValue = number;
+export type DurationUnit = string;
+export type PercentInt = number;
+export type VirtualGatewaySdsSecretName = string;
+export type TextFormat = string;
+export type HeaderMatch = string;
+export type DefaultGatewayRouteRewrite = string;
+export type HttpGatewayRoutePrefix = string;
+export type SdsSecretName = string;
+export type SubjectAlternativeName = string;
+export type JsonKey = string;
+export type JsonValue = string;
+
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
@@ -440,6 +523,9 @@ export const VirtualGatewayListenerTlsSdsCertificate = S.suspend(() =>
 ).annotations({
   identifier: "VirtualGatewayListenerTlsSdsCertificate",
 }) as any as S.Schema<VirtualGatewayListenerTlsSdsCertificate>;
+export type VirtualGatewayClientTlsCertificate =
+  | { file: VirtualGatewayListenerTlsFileCertificate }
+  | { sds: VirtualGatewayListenerTlsSdsCertificate };
 export const VirtualGatewayClientTlsCertificate = S.Union(
   S.Struct({ file: VirtualGatewayListenerTlsFileCertificate }),
   S.Struct({ sds: VirtualGatewayListenerTlsSdsCertificate }),
@@ -472,6 +558,10 @@ export const VirtualGatewayTlsValidationContextSdsTrust = S.suspend(() =>
 ).annotations({
   identifier: "VirtualGatewayTlsValidationContextSdsTrust",
 }) as any as S.Schema<VirtualGatewayTlsValidationContextSdsTrust>;
+export type VirtualGatewayTlsValidationContextTrust =
+  | { acm: VirtualGatewayTlsValidationContextAcmTrust }
+  | { file: VirtualGatewayTlsValidationContextFileTrust }
+  | { sds: VirtualGatewayTlsValidationContextSdsTrust };
 export const VirtualGatewayTlsValidationContextTrust = S.Union(
   S.Struct({ acm: VirtualGatewayTlsValidationContextAcmTrust }),
   S.Struct({ file: VirtualGatewayTlsValidationContextFileTrust }),
@@ -570,6 +660,9 @@ export const VirtualGatewayPortMapping = S.suspend(() =>
 ).annotations({
   identifier: "VirtualGatewayPortMapping",
 }) as any as S.Schema<VirtualGatewayPortMapping>;
+export type VirtualGatewayListenerTlsValidationContextTrust =
+  | { file: VirtualGatewayTlsValidationContextFileTrust }
+  | { sds: VirtualGatewayTlsValidationContextSdsTrust };
 export const VirtualGatewayListenerTlsValidationContextTrust = S.Union(
   S.Struct({ file: VirtualGatewayTlsValidationContextFileTrust }),
   S.Struct({ sds: VirtualGatewayTlsValidationContextSdsTrust }),
@@ -594,6 +687,10 @@ export const VirtualGatewayListenerTlsAcmCertificate = S.suspend(() =>
 ).annotations({
   identifier: "VirtualGatewayListenerTlsAcmCertificate",
 }) as any as S.Schema<VirtualGatewayListenerTlsAcmCertificate>;
+export type VirtualGatewayListenerTlsCertificate =
+  | { acm: VirtualGatewayListenerTlsAcmCertificate }
+  | { file: VirtualGatewayListenerTlsFileCertificate }
+  | { sds: VirtualGatewayListenerTlsSdsCertificate };
 export const VirtualGatewayListenerTlsCertificate = S.Union(
   S.Struct({ acm: VirtualGatewayListenerTlsAcmCertificate }),
   S.Struct({ file: VirtualGatewayListenerTlsFileCertificate }),
@@ -641,6 +738,10 @@ export const VirtualGatewayGrpcConnectionPool = S.suspend(() =>
 ).annotations({
   identifier: "VirtualGatewayGrpcConnectionPool",
 }) as any as S.Schema<VirtualGatewayGrpcConnectionPool>;
+export type VirtualGatewayConnectionPool =
+  | { http: VirtualGatewayHttpConnectionPool }
+  | { http2: VirtualGatewayHttp2ConnectionPool }
+  | { grpc: VirtualGatewayGrpcConnectionPool };
 export const VirtualGatewayConnectionPool = S.Union(
   S.Struct({ http: VirtualGatewayHttpConnectionPool }),
   S.Struct({ http2: VirtualGatewayHttp2ConnectionPool }),
@@ -675,6 +776,7 @@ export const JsonFormatRef = S.suspend(() =>
 }) as any as S.Schema<JsonFormatRef>;
 export type JsonFormat = JsonFormatRef[];
 export const JsonFormat = S.Array(JsonFormatRef);
+export type LoggingFormat = { text: string } | { json: JsonFormat };
 export const LoggingFormat = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ json: JsonFormat }),
@@ -688,6 +790,7 @@ export const VirtualGatewayFileAccessLog = S.suspend(() =>
 ).annotations({
   identifier: "VirtualGatewayFileAccessLog",
 }) as any as S.Schema<VirtualGatewayFileAccessLog>;
+export type VirtualGatewayAccessLog = { file: VirtualGatewayFileAccessLog };
 export const VirtualGatewayAccessLog = S.Union(
   S.Struct({ file: VirtualGatewayFileAccessLog }),
 );
@@ -869,6 +972,12 @@ export interface MatchRange {
 export const MatchRange = S.suspend(() =>
   S.Struct({ start: S.Number, end: S.Number }),
 ).annotations({ identifier: "MatchRange" }) as any as S.Schema<MatchRange>;
+export type HeaderMatchMethod =
+  | { exact: string }
+  | { regex: string }
+  | { range: MatchRange }
+  | { prefix: string }
+  | { suffix: string };
 export const HeaderMatchMethod = S.Union(
   S.Struct({ exact: S.String }),
   S.Struct({ regex: S.String }),
@@ -997,6 +1106,12 @@ export const HttpGatewayRoute = S.suspend(() =>
 ).annotations({
   identifier: "HttpGatewayRoute",
 }) as any as S.Schema<HttpGatewayRoute>;
+export type GrpcMetadataMatchMethod =
+  | { exact: string }
+  | { regex: string }
+  | { range: MatchRange }
+  | { prefix: string }
+  | { suffix: string };
 export const GrpcMetadataMatchMethod = S.Union(
   S.Struct({ exact: S.String }),
   S.Struct({ regex: S.String }),
@@ -1240,6 +1355,9 @@ export const AwsCloudMapServiceDiscovery = S.suspend(() =>
 ).annotations({
   identifier: "AwsCloudMapServiceDiscovery",
 }) as any as S.Schema<AwsCloudMapServiceDiscovery>;
+export type ServiceDiscovery =
+  | { dns: DnsServiceDiscovery }
+  | { awsCloudMap: AwsCloudMapServiceDiscovery };
 export const ServiceDiscovery = S.Union(
   S.Struct({ dns: DnsServiceDiscovery }),
   S.Struct({ awsCloudMap: AwsCloudMapServiceDiscovery }),
@@ -1276,6 +1394,10 @@ export const ListenerTlsSdsCertificate = S.suspend(() =>
 ).annotations({
   identifier: "ListenerTlsSdsCertificate",
 }) as any as S.Schema<ListenerTlsSdsCertificate>;
+export type ListenerTlsCertificate =
+  | { acm: ListenerTlsAcmCertificate }
+  | { file: ListenerTlsFileCertificate }
+  | { sds: ListenerTlsSdsCertificate };
 export const ListenerTlsCertificate = S.Union(
   S.Struct({ acm: ListenerTlsAcmCertificate }),
   S.Struct({ file: ListenerTlsFileCertificate }),
@@ -1297,6 +1419,9 @@ export const TlsValidationContextSdsTrust = S.suspend(() =>
 ).annotations({
   identifier: "TlsValidationContextSdsTrust",
 }) as any as S.Schema<TlsValidationContextSdsTrust>;
+export type ListenerTlsValidationContextTrust =
+  | { file: TlsValidationContextFileTrust }
+  | { sds: TlsValidationContextSdsTrust };
 export const ListenerTlsValidationContextTrust = S.Union(
   S.Struct({ file: TlsValidationContextFileTrust }),
   S.Struct({ sds: TlsValidationContextSdsTrust }),
@@ -1374,6 +1499,11 @@ export interface GrpcTimeout {
 export const GrpcTimeout = S.suspend(() =>
   S.Struct({ perRequest: S.optional(Duration), idle: S.optional(Duration) }),
 ).annotations({ identifier: "GrpcTimeout" }) as any as S.Schema<GrpcTimeout>;
+export type ListenerTimeout =
+  | { tcp: TcpTimeout }
+  | { http: HttpTimeout }
+  | { http2: HttpTimeout }
+  | { grpc: GrpcTimeout };
 export const ListenerTimeout = S.Union(
   S.Struct({ tcp: TcpTimeout }),
   S.Struct({ http: HttpTimeout }),
@@ -1432,6 +1562,11 @@ export const VirtualNodeGrpcConnectionPool = S.suspend(() =>
 ).annotations({
   identifier: "VirtualNodeGrpcConnectionPool",
 }) as any as S.Schema<VirtualNodeGrpcConnectionPool>;
+export type VirtualNodeConnectionPool =
+  | { tcp: VirtualNodeTcpConnectionPool }
+  | { http: VirtualNodeHttpConnectionPool }
+  | { http2: VirtualNodeHttp2ConnectionPool }
+  | { grpc: VirtualNodeGrpcConnectionPool };
 export const VirtualNodeConnectionPool = S.Union(
   S.Struct({ tcp: VirtualNodeTcpConnectionPool }),
   S.Struct({ http: VirtualNodeHttpConnectionPool }),
@@ -1458,6 +1593,9 @@ export const Listener = S.suspend(() =>
 ).annotations({ identifier: "Listener" }) as any as S.Schema<Listener>;
 export type Listeners = Listener[];
 export const Listeners = S.Array(Listener);
+export type ClientTlsCertificate =
+  | { file: ListenerTlsFileCertificate }
+  | { sds: ListenerTlsSdsCertificate };
 export const ClientTlsCertificate = S.Union(
   S.Struct({ file: ListenerTlsFileCertificate }),
   S.Struct({ sds: ListenerTlsSdsCertificate }),
@@ -1472,6 +1610,10 @@ export const TlsValidationContextAcmTrust = S.suspend(() =>
 ).annotations({
   identifier: "TlsValidationContextAcmTrust",
 }) as any as S.Schema<TlsValidationContextAcmTrust>;
+export type TlsValidationContextTrust =
+  | { acm: TlsValidationContextAcmTrust }
+  | { file: TlsValidationContextFileTrust }
+  | { sds: TlsValidationContextSdsTrust };
 export const TlsValidationContextTrust = S.Union(
   S.Struct({ acm: TlsValidationContextAcmTrust }),
   S.Struct({ file: TlsValidationContextFileTrust }),
@@ -1523,6 +1665,7 @@ export const VirtualServiceBackend = S.suspend(() =>
 ).annotations({
   identifier: "VirtualServiceBackend",
 }) as any as S.Schema<VirtualServiceBackend>;
+export type Backend = { virtualService: VirtualServiceBackend };
 export const Backend = S.Union(
   S.Struct({ virtualService: VirtualServiceBackend }),
 );
@@ -1545,6 +1688,7 @@ export const FileAccessLog = S.suspend(() =>
 ).annotations({
   identifier: "FileAccessLog",
 }) as any as S.Schema<FileAccessLog>;
+export type AccessLog = { file: FileAccessLog };
 export const AccessLog = S.Union(S.Struct({ file: FileAccessLog }));
 export interface Logging {
   accessLog?: (typeof AccessLog)["Type"];
@@ -1942,6 +2086,12 @@ export const GrpcRouteAction = S.suspend(() =>
 ).annotations({
   identifier: "GrpcRouteAction",
 }) as any as S.Schema<GrpcRouteAction>;
+export type GrpcRouteMetadataMatchMethod =
+  | { exact: string }
+  | { regex: string }
+  | { range: MatchRange }
+  | { prefix: string }
+  | { suffix: string };
 export const GrpcRouteMetadataMatchMethod = S.Union(
   S.Struct({ exact: S.String }),
   S.Struct({ regex: S.String }),
@@ -2163,6 +2313,9 @@ export const VirtualRouterServiceProvider = S.suspend(() =>
 ).annotations({
   identifier: "VirtualRouterServiceProvider",
 }) as any as S.Schema<VirtualRouterServiceProvider>;
+export type VirtualServiceProvider =
+  | { virtualNode: VirtualNodeServiceProvider }
+  | { virtualRouter: VirtualRouterServiceProvider };
 export const VirtualServiceProvider = S.Union(
   S.Struct({ virtualNode: VirtualNodeServiceProvider }),
   S.Struct({ virtualRouter: VirtualRouterServiceProvider }),
@@ -3330,7 +3483,9 @@ export class InternalServerErrorException extends S.TaggedError<InternalServerEr
   "InternalServerErrorException",
   { message: S.optional(S.String) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { message: S.optional(S.String) },
@@ -3343,7 +3498,9 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
   { message: S.optional(S.String) },
@@ -3352,7 +3509,9 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
   "TooManyRequestsException",
   { message: S.optional(S.String) },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
   { message: S.optional(S.String) },
@@ -3362,7 +3521,19 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 /**
  * Deletes specified tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -3382,7 +3553,21 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about routes, see Routes.
  */
-export const createRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRoute: (
+  input: CreateRouteInput,
+) => Effect.Effect<
+  CreateRouteOutput,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouteInput,
   output: CreateRouteOutput,
   errors: [
@@ -3402,7 +3587,20 @@ export const createRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You must delete all resources (virtual services, routes, virtual routers, and virtual
  * nodes) in the service mesh before you can delete the mesh itself.
  */
-export const deleteMesh = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMesh: (
+  input: DeleteMeshInput,
+) => Effect.Effect<
+  DeleteMeshOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ResourceInUseException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMeshInput,
   output: DeleteMeshOutput,
   errors: [
@@ -3425,7 +3623,21 @@ export const deleteMesh = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about service meshes, see Service meshes.
  */
-export const createMesh = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMesh: (
+  input: CreateMeshInput,
+) => Effect.Effect<
+  CreateMeshOutput,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMeshInput,
   output: CreateMeshOutput,
   errors: [
@@ -3450,26 +3662,50 @@ export const createMesh = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about virtual services, see Virtual services.
  */
-export const createVirtualService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVirtualServiceInput,
-    output: CreateVirtualServiceOutput,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const createVirtualService: (
+  input: CreateVirtualServiceInput,
+) => Effect.Effect<
+  CreateVirtualServiceOutput,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVirtualServiceInput,
+  output: CreateVirtualServiceOutput,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Describes an existing service mesh.
  */
-export const describeMesh = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeMesh: (
+  input: DescribeMeshInput,
+) => Effect.Effect<
+  DescribeMeshOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMeshInput,
   output: DescribeMeshOutput,
   errors: [
@@ -3484,41 +3720,73 @@ export const describeMesh = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes an existing virtual gateway.
  */
-export const describeVirtualGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVirtualGatewayInput,
-    output: DescribeVirtualGatewayOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeVirtualGateway: (
+  input: DescribeVirtualGatewayInput,
+) => Effect.Effect<
+  DescribeVirtualGatewayOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVirtualGatewayInput,
+  output: DescribeVirtualGatewayOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Describes an existing gateway route.
  */
-export const describeGatewayRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeGatewayRouteInput,
-    output: DescribeGatewayRouteOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeGatewayRoute: (
+  input: DescribeGatewayRouteInput,
+) => Effect.Effect<
+  DescribeGatewayRouteOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeGatewayRouteInput,
+  output: DescribeGatewayRouteOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Describes an existing virtual node.
  */
-export const describeVirtualNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeVirtualNode: (
+  input: DescribeVirtualNodeInput,
+) => Effect.Effect<
+  DescribeVirtualNodeOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVirtualNodeInput,
   output: DescribeVirtualNodeOutput,
   errors: [
@@ -3533,24 +3801,46 @@ export const describeVirtualNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes an existing virtual router.
  */
-export const describeVirtualRouter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVirtualRouterInput,
-    output: DescribeVirtualRouterOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeVirtualRouter: (
+  input: DescribeVirtualRouterInput,
+) => Effect.Effect<
+  DescribeVirtualRouterOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVirtualRouterInput,
+  output: DescribeVirtualRouterOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Describes an existing route.
  */
-export const describeRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeRoute: (
+  input: DescribeRouteInput,
+) => Effect.Effect<
+  DescribeRouteOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRouteInput,
   output: DescribeRouteOutput,
   errors: [
@@ -3565,24 +3855,47 @@ export const describeRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes an existing virtual service.
  */
-export const describeVirtualService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVirtualServiceInput,
-    output: DescribeVirtualServiceOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeVirtualService: (
+  input: DescribeVirtualServiceInput,
+) => Effect.Effect<
+  DescribeVirtualServiceOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVirtualServiceInput,
+  output: DescribeVirtualServiceOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Updates an existing service mesh.
  */
-export const updateMesh = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMesh: (
+  input: UpdateMeshInput,
+) => Effect.Effect<
+  UpdateMeshOutput,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMeshInput,
   output: UpdateMeshOutput,
   errors: [
@@ -3598,7 +3911,47 @@ export const updateMesh = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of existing service meshes.
  */
-export const listMeshes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMeshes: {
+  (
+    input: ListMeshesInput,
+  ): Effect.Effect<
+    ListMeshesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMeshesInput,
+  ) => Stream.Stream<
+    ListMeshesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMeshesInput,
+  ) => Stream.Stream<
+    MeshRef,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListMeshesInput,
   output: ListMeshesOutput,
   errors: [
@@ -3619,99 +3972,292 @@ export const listMeshes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns a list of existing virtual gateways in a service mesh.
  */
-export const listVirtualGateways =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listVirtualGateways: {
+  (
     input: ListVirtualGatewaysInput,
-    output: ListVirtualGatewaysOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "virtualGateways",
-      pageSize: "limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListVirtualGatewaysOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVirtualGatewaysInput,
+  ) => Stream.Stream<
+    ListVirtualGatewaysOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVirtualGatewaysInput,
+  ) => Stream.Stream<
+    VirtualGatewayRef,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVirtualGatewaysInput,
+  output: ListVirtualGatewaysOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "virtualGateways",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Returns a list of existing gateway routes that are associated to a virtual
  * gateway.
  */
-export const listGatewayRoutes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listGatewayRoutes: {
+  (
     input: ListGatewayRoutesInput,
-    output: ListGatewayRoutesOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "gatewayRoutes",
-      pageSize: "limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListGatewayRoutesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGatewayRoutesInput,
+  ) => Stream.Stream<
+    ListGatewayRoutesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGatewayRoutesInput,
+  ) => Stream.Stream<
+    GatewayRouteRef,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGatewayRoutesInput,
+  output: ListGatewayRoutesOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "gatewayRoutes",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Returns a list of existing virtual nodes.
  */
-export const listVirtualNodes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listVirtualNodes: {
+  (
     input: ListVirtualNodesInput,
-    output: ListVirtualNodesOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "virtualNodes",
-      pageSize: "limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListVirtualNodesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVirtualNodesInput,
+  ) => Stream.Stream<
+    ListVirtualNodesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVirtualNodesInput,
+  ) => Stream.Stream<
+    VirtualNodeRef,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVirtualNodesInput,
+  output: ListVirtualNodesOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "virtualNodes",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Returns a list of existing virtual routers in a service mesh.
  */
-export const listVirtualRouters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listVirtualRouters: {
+  (
     input: ListVirtualRoutersInput,
-    output: ListVirtualRoutersOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "virtualRouters",
-      pageSize: "limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListVirtualRoutersOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVirtualRoutersInput,
+  ) => Stream.Stream<
+    ListVirtualRoutersOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVirtualRoutersInput,
+  ) => Stream.Stream<
+    VirtualRouterRef,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVirtualRoutersInput,
+  output: ListVirtualRoutersOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "virtualRouters",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Returns a list of existing routes in a service mesh.
  */
-export const listRoutes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRoutes: {
+  (
+    input: ListRoutesInput,
+  ): Effect.Effect<
+    ListRoutesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRoutesInput,
+  ) => Stream.Stream<
+    ListRoutesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoutesInput,
+  ) => Stream.Stream<
+    RouteRef,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRoutesInput,
   output: ListRoutesOutput,
   errors: [
@@ -3732,47 +4278,125 @@ export const listRoutes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns a list of existing virtual services in a service mesh.
  */
-export const listVirtualServices =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listVirtualServices: {
+  (
     input: ListVirtualServicesInput,
-    output: ListVirtualServicesOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "virtualServices",
-      pageSize: "limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListVirtualServicesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVirtualServicesInput,
+  ) => Stream.Stream<
+    ListVirtualServicesOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVirtualServicesInput,
+  ) => Stream.Stream<
+    VirtualServiceRef,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVirtualServicesInput,
+  output: ListVirtualServicesOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "virtualServices",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * List the tags for an App Mesh resource.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceInput,
-    output: ListTagsForResourceOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "tags",
-      pageSize: "limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceInput,
+  ) => Stream.Stream<
+    ListTagsForResourceOutput,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceInput,
+  ) => Stream.Stream<
+    TagRef,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tags",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Creates a virtual router within a service mesh.
  *
@@ -3784,7 +4408,21 @@ export const listTagsForResource =
  *
  * For more information about virtual routers, see Virtual routers.
  */
-export const createVirtualRouter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVirtualRouter: (
+  input: CreateVirtualRouterInput,
+) => Effect.Effect<
+  CreateVirtualRouterOutput,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVirtualRouterInput,
   output: CreateVirtualRouterOutput,
   errors: [
@@ -3801,27 +4439,53 @@ export const createVirtualRouter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing virtual gateway in a specified service mesh.
  */
-export const updateVirtualGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateVirtualGatewayInput,
-    output: UpdateVirtualGatewayOutput,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateVirtualGateway: (
+  input: UpdateVirtualGatewayInput,
+) => Effect.Effect<
+  UpdateVirtualGatewayOutput,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateVirtualGatewayInput,
+  output: UpdateVirtualGatewayOutput,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Updates an existing gateway route that is associated to a specified virtual gateway in a
  * service mesh.
  */
-export const updateGatewayRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGatewayRoute: (
+  input: UpdateGatewayRouteInput,
+) => Effect.Effect<
+  UpdateGatewayRouteOutput,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGatewayRouteInput,
   output: UpdateGatewayRouteOutput,
   errors: [
@@ -3838,7 +4502,21 @@ export const updateGatewayRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing virtual node in a specified service mesh.
  */
-export const updateVirtualNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVirtualNode: (
+  input: UpdateVirtualNodeInput,
+) => Effect.Effect<
+  UpdateVirtualNodeOutput,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVirtualNodeInput,
   output: UpdateVirtualNodeOutput,
   errors: [
@@ -3855,7 +4533,21 @@ export const updateVirtualNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing virtual router in a specified service mesh.
  */
-export const updateVirtualRouter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVirtualRouter: (
+  input: UpdateVirtualRouterInput,
+) => Effect.Effect<
+  UpdateVirtualRouterOutput,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVirtualRouterInput,
   output: UpdateVirtualRouterOutput,
   errors: [
@@ -3872,7 +4564,21 @@ export const updateVirtualRouter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing route for a specified service mesh and virtual router.
  */
-export const updateRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRoute: (
+  input: UpdateRouteInput,
+) => Effect.Effect<
+  UpdateRouteOutput,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRouteInput,
   output: UpdateRouteOutput,
   errors: [
@@ -3889,45 +4595,81 @@ export const updateRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing virtual service in a specified service mesh.
  */
-export const updateVirtualService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateVirtualServiceInput,
-    output: UpdateVirtualServiceOutput,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateVirtualService: (
+  input: UpdateVirtualServiceInput,
+) => Effect.Effect<
+  UpdateVirtualServiceOutput,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateVirtualServiceInput,
+  output: UpdateVirtualServiceOutput,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway
  * routes are associated to it.
  */
-export const deleteVirtualGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVirtualGatewayInput,
-    output: DeleteVirtualGatewayOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ResourceInUseException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const deleteVirtualGateway: (
+  input: DeleteVirtualGatewayInput,
+) => Effect.Effect<
+  DeleteVirtualGatewayOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ResourceInUseException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVirtualGatewayInput,
+  output: DeleteVirtualGatewayOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ResourceInUseException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes an existing gateway route.
  */
-export const deleteGatewayRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGatewayRoute: (
+  input: DeleteGatewayRouteInput,
+) => Effect.Effect<
+  DeleteGatewayRouteOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ResourceInUseException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGatewayRouteInput,
   output: DeleteGatewayRouteOutput,
   errors: [
@@ -3946,7 +4688,20 @@ export const deleteGatewayRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You must delete any virtual services that list a virtual node as a service provider
  * before you can delete the virtual node itself.
  */
-export const deleteVirtualNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVirtualNode: (
+  input: DeleteVirtualNodeInput,
+) => Effect.Effect<
+  DeleteVirtualNodeOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ResourceInUseException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVirtualNodeInput,
   output: DeleteVirtualNodeOutput,
   errors: [
@@ -3965,7 +4720,20 @@ export const deleteVirtualNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You must delete any routes associated with the virtual router before you can delete the
  * router itself.
  */
-export const deleteVirtualRouter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVirtualRouter: (
+  input: DeleteVirtualRouterInput,
+) => Effect.Effect<
+  DeleteVirtualRouterOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ResourceInUseException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVirtualRouterInput,
   output: DeleteVirtualRouterOutput,
   errors: [
@@ -3981,7 +4749,20 @@ export const deleteVirtualRouter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing route.
  */
-export const deleteRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRoute: (
+  input: DeleteRouteInput,
+) => Effect.Effect<
+  DeleteRouteOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ResourceInUseException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouteInput,
   output: DeleteRouteOutput,
   errors: [
@@ -3997,21 +4778,32 @@ export const deleteRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing virtual service.
  */
-export const deleteVirtualService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVirtualServiceInput,
-    output: DeleteVirtualServiceOutput,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ResourceInUseException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const deleteVirtualService: (
+  input: DeleteVirtualServiceInput,
+) => Effect.Effect<
+  DeleteVirtualServiceOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ResourceInUseException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVirtualServiceInput,
+  output: DeleteVirtualServiceOutput,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ResourceInUseException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates a gateway route.
  *
@@ -4021,7 +4813,21 @@ export const deleteVirtualService = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information about gateway routes, see Gateway routes.
  */
-export const createGatewayRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGatewayRoute: (
+  input: CreateGatewayRouteInput,
+) => Effect.Effect<
+  CreateGatewayRouteOutput,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGatewayRouteInput,
   output: CreateGatewayRouteOutput,
   errors: [
@@ -4041,7 +4847,20 @@ export const createGatewayRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * changed. When a resource is deleted, the tags associated with that resource are also
  * deleted.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -4064,22 +4883,34 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about virtual gateways, see Virtual gateways.
  */
-export const createVirtualGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVirtualGatewayInput,
-    output: CreateVirtualGatewayOutput,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const createVirtualGateway: (
+  input: CreateVirtualGatewayInput,
+) => Effect.Effect<
+  CreateVirtualGatewayOutput,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVirtualGatewayInput,
+  output: CreateVirtualGatewayOutput,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates a virtual node within a service mesh.
  *
@@ -4109,7 +4940,21 @@ export const createVirtualGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Envoy
  * image in the App Mesh User Guide.
  */
-export const createVirtualNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVirtualNode: (
+  input: CreateVirtualNodeInput,
+) => Effect.Effect<
+  CreateVirtualNodeOutput,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVirtualNodeInput,
   output: CreateVirtualNodeOutput,
   errors: [

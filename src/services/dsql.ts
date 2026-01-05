@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "DSQL", serviceShapeName: "DSQL" });
 const auth = T.AwsAuthSigv4({ name: "dsql" });
 const ver = T.ServiceVersion("2018-05-10");
@@ -101,6 +109,24 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type TagKey = string;
+export type KmsEncryptionKey = string;
+export type ClientToken = string;
+export type PolicyDocument = string;
+export type ClusterId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type PolicyVersion = string;
+export type TagValue = string;
+export type Region = string;
+export type ClusterArn = string;
+export type Endpoint = string;
+export type ServiceName = string;
+export type ClusterVpcEndpoint = string;
+export type KmsKeyArn = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -584,7 +610,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -612,13 +640,21 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
  * Removes a tag from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
@@ -626,7 +662,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all of the tags for a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [ResourceNotFoundException],
@@ -634,7 +676,13 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a cluster.
  */
-export const getCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCluster: (
+  input: GetClusterInput,
+) => Effect.Effect<
+  GetClusterOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetClusterInput,
   output: GetClusterOutput,
   errors: [ResourceNotFoundException],
@@ -642,23 +690,51 @@ export const getCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a list of clusters.
  */
-export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listClusters: {
+  (
     input: ListClustersInput,
-    output: ListClustersOutput,
-    errors: [ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "clusters",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListClustersOutput,
+    ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClustersInput,
+  ) => Stream.Stream<
+    ListClustersOutput,
+    ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClustersInput,
+  ) => Stream.Stream<
+    ClusterSummary,
+    ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClustersInput,
+  output: ListClustersOutput,
+  errors: [ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "clusters",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Tags a resource with a map of key and value pairs.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException, ServiceQuotaExceededException],
@@ -666,7 +742,13 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a cluster in Amazon Aurora DSQL.
  */
-export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCluster: (
+  input: DeleteClusterInput,
+) => Effect.Effect<
+  DeleteClusterOutput,
+  ConflictException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterInput,
   output: DeleteClusterOutput,
   errors: [ConflictException, ResourceNotFoundException],
@@ -674,7 +756,13 @@ export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the cluster.
  */
-export const getClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getClusterPolicy: (
+  input: GetClusterPolicyInput,
+) => Effect.Effect<
+  GetClusterPolicyOutput,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetClusterPolicyInput,
   output: GetClusterPolicyOutput,
   errors: [ResourceNotFoundException, ValidationException],
@@ -682,18 +770,26 @@ export const getClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the VPC endpoint service name.
  */
-export const getVpcEndpointServiceName = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetVpcEndpointServiceNameInput,
-    output: GetVpcEndpointServiceNameOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getVpcEndpointServiceName: (
+  input: GetVpcEndpointServiceNameInput,
+) => Effect.Effect<
+  GetVpcEndpointServiceNameOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVpcEndpointServiceNameInput,
+  output: GetVpcEndpointServiceNameOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * The *UpdateCluster* API allows you to modify both single-Region and multi-Region cluster configurations. With the *multiRegionProperties* parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions.
  *
@@ -751,7 +847,16 @@ export const getVpcEndpointServiceName = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - The `dsql:RemovePeerCluster` permission uses a wildcard ARN pattern to simplify permission management during updates.
  */
-export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCluster: (
+  input: UpdateClusterInput,
+) => Effect.Effect<
+  UpdateClusterOutput,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterInput,
   output: UpdateClusterOutput,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -759,7 +864,16 @@ export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default access controls.
  */
-export const deleteClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteClusterPolicy: (
+  input: DeleteClusterPolicyInput,
+) => Effect.Effect<
+  DeleteClusterPolicyOutput,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterPolicyInput,
   output: DeleteClusterPolicyOutput,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -767,7 +881,16 @@ export const deleteClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Attaches a resource-based policy to a cluster. This policy defines access permissions and conditions for the cluster, allowing you to control which principals can perform actions on the cluster.
  */
-export const putClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putClusterPolicy: (
+  input: PutClusterPolicyInput,
+) => Effect.Effect<
+  PutClusterPolicyOutput,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutClusterPolicyInput,
   output: PutClusterPolicyOutput,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -817,7 +940,16 @@ export const putClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - The witness Region specified in `multiRegionProperties.witnessRegion` cannot be the same as the cluster's Region.
  */
-export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCluster: (
+  input: CreateClusterInput,
+) => Effect.Effect<
+  CreateClusterOutput,
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterInput,
   output: CreateClusterOutput,
   errors: [

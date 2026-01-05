@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Data Plane",
   serviceShapeName: "IotMoonrakerService",
@@ -410,6 +418,24 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type ClientId = string;
+export type ThingName = string;
+export type ShadowName = string;
+export type Topic = string;
+export type NextToken = string;
+export type PageSize = number;
+export type MaxResults = number;
+export type Qos = number;
+export type SynthesizedJsonUserProperties = string;
+export type ContentType = string;
+export type ResponseTopic = string;
+export type CorrelationData = string;
+export type MessageExpiry = number;
+export type errorMessage = string;
+export type Timestamp = number;
+export type PayloadSize = number;
+
 //# Schemas
 export interface DeleteConnectionRequest {
   clientId: string;
@@ -715,7 +741,9 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { message: S.optional(S.String) },
@@ -735,7 +763,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class RequestEntityTooLargeException extends S.TaggedError<RequestEntityTooLargeException>()(
   "RequestEntityTooLargeException",
   { message: S.optional(S.String) },
@@ -743,7 +773,9 @@ export class RequestEntityTooLargeException extends S.TaggedError<RequestEntityT
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
   { message: S.optional(S.String) },
@@ -757,7 +789,18 @@ export class UnsupportedDocumentEncodingException extends S.TaggedError<Unsuppor
 /**
  * Disconnects a connected MQTT client from Amazon Web Services IoT Core. When you disconnect a client, Amazon Web Services IoT Core closes the client's network connection and optionally cleans the session state.
  */
-export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConnection: (
+  input: DeleteConnectionRequest,
+) => Effect.Effect<
+  DeleteConnectionResponse,
+  | ForbiddenException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionRequest,
   output: DeleteConnectionResponse,
   errors: [
@@ -780,7 +823,18 @@ export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about messaging costs, see Amazon Web Services IoT Core
  * pricing - Messaging.
  */
-export const publish = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const publish: (
+  input: PublishRequest,
+) => Effect.Effect<
+  PublishResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | MethodNotAllowedException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishRequest,
   output: PublishResponse,
   errors: [
@@ -803,7 +857,20 @@ export const publish = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about messaging costs, see Amazon Web Services IoT Core
  * pricing - Messaging.
  */
-export const getRetainedMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRetainedMessage: (
+  input: GetRetainedMessageRequest,
+) => Effect.Effect<
+  GetRetainedMessageResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | MethodNotAllowedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRetainedMessageRequest,
   output: GetRetainedMessageResponse,
   errors: [
@@ -821,21 +888,32 @@ export const getRetainedMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the ListNamedShadowsForThing action.
  */
-export const listNamedShadowsForThing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListNamedShadowsForThingRequest,
-    output: ListNamedShadowsForThingResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      MethodNotAllowedException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const listNamedShadowsForThing: (
+  input: ListNamedShadowsForThingRequest,
+) => Effect.Effect<
+  ListNamedShadowsForThingResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | MethodNotAllowedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListNamedShadowsForThingRequest,
+  output: ListNamedShadowsForThingResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    MethodNotAllowedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Lists summary information about the retained messages stored for the account.
  *
@@ -852,25 +930,64 @@ export const listNamedShadowsForThing = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about messaging costs, see Amazon Web Services IoT Core
  * pricing - Messaging.
  */
-export const listRetainedMessages =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRetainedMessages: {
+  (
     input: ListRetainedMessagesRequest,
-    output: ListRetainedMessagesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      MethodNotAllowedException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "retainedTopics",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRetainedMessagesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | MethodNotAllowedException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRetainedMessagesRequest,
+  ) => Stream.Stream<
+    ListRetainedMessagesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | MethodNotAllowedException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRetainedMessagesRequest,
+  ) => Stream.Stream<
+    RetainedMessageSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | MethodNotAllowedException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRetainedMessagesRequest,
+  output: ListRetainedMessagesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    MethodNotAllowedException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "retainedTopics",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes the shadow for the specified thing.
  *
@@ -878,7 +995,21 @@ export const listRetainedMessages =
  *
  * For more information, see DeleteThingShadow in the IoT Developer Guide.
  */
-export const deleteThingShadow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteThingShadow: (
+  input: DeleteThingShadowRequest,
+) => Effect.Effect<
+  DeleteThingShadowResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | MethodNotAllowedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | UnsupportedDocumentEncodingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThingShadowRequest,
   output: DeleteThingShadowResponse,
   errors: [
@@ -900,7 +1031,21 @@ export const deleteThingShadow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see GetThingShadow in the
  * IoT Developer Guide.
  */
-export const getThingShadow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getThingShadow: (
+  input: GetThingShadowRequest,
+) => Effect.Effect<
+  GetThingShadowResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | MethodNotAllowedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | UnsupportedDocumentEncodingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetThingShadowRequest,
   output: GetThingShadowResponse,
   errors: [
@@ -922,7 +1067,22 @@ export const getThingShadow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see UpdateThingShadow in the
  * IoT Developer Guide.
  */
-export const updateThingShadow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateThingShadow: (
+  input: UpdateThingShadowRequest,
+) => Effect.Effect<
+  UpdateThingShadowResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | MethodNotAllowedException
+  | RequestEntityTooLargeException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | UnsupportedDocumentEncodingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThingShadowRequest,
   output: UpdateThingShadowResponse,
   errors: [

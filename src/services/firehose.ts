@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://firehose.amazonaws.com/doc/2015-08-04");
 const svc = T.AwsApiService({
   sdkId: "Firehose",
@@ -241,6 +249,109 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type DeliveryStreamName = string;
+export type DescribeDeliveryStreamInputLimit = number;
+export type DestinationId = string;
+export type ListDeliveryStreamsInputLimit = number;
+export type TagKey = string;
+export type ListTagsForDeliveryStreamInputLimit = number;
+export type DeliveryStreamVersionId = string;
+export type ThroughputHintInMBs = number;
+export type KinesisStreamARN = string;
+export type RoleARN = string;
+export type AWSKMSKeyARN = string;
+export type BucketARN = string;
+export type Prefix = string;
+export type ErrorOutputPrefix = string;
+export type FileExtension = string;
+export type CustomTimeZone = string;
+export type ClusterJDBCURL = string;
+export type Username = string;
+export type Password = string;
+export type ElasticsearchDomainARN = string;
+export type ElasticsearchClusterEndpoint = string;
+export type ElasticsearchIndexName = string;
+export type ElasticsearchTypeName = string;
+export type AmazonopensearchserviceDomainARN = string;
+export type AmazonopensearchserviceClusterEndpoint = string;
+export type AmazonopensearchserviceIndexName = string;
+export type AmazonopensearchserviceTypeName = string;
+export type HECEndpoint = string;
+export type HECToken = string;
+export type HECAcknowledgmentTimeoutInSeconds = number;
+export type TagValue = string;
+export type AmazonOpenSearchServerlessCollectionEndpoint = string;
+export type AmazonOpenSearchServerlessIndexName = string;
+export type MSKClusterARN = string;
+export type TopicName = string;
+export type SnowflakeAccountUrl = string;
+export type SnowflakePrivateKey = string;
+export type SnowflakeKeyPassphrase = string;
+export type SnowflakeUser = string;
+export type SnowflakeDatabase = string;
+export type SnowflakeSchema = string;
+export type SnowflakeTable = string;
+export type SnowflakeMetaDataColumnName = string;
+export type SnowflakeContentColumnName = string;
+export type DatabaseEndpoint = string;
+export type DatabasePort = number;
+export type NonEmptyStringWithoutWhitespace = string;
+export type DatabaseTableName = string;
+export type ErrorMessage = string;
+export type NonNegativeIntegerObject = number;
+export type SizeInMBs = number;
+export type IntervalInSeconds = number;
+export type LogGroupName = string;
+export type LogStreamName = string;
+export type DataTableName = string;
+export type DataTableColumns = string;
+export type CopyOptions = string;
+export type RedshiftRetryDurationInSeconds = number;
+export type SecretARN = string;
+export type ElasticsearchBufferingIntervalInSeconds = number;
+export type ElasticsearchBufferingSizeInMBs = number;
+export type ElasticsearchRetryDurationInSeconds = number;
+export type AmazonopensearchserviceBufferingIntervalInSeconds = number;
+export type AmazonopensearchserviceBufferingSizeInMBs = number;
+export type AmazonopensearchserviceRetryDurationInSeconds = number;
+export type SplunkRetryDurationInSeconds = number;
+export type SplunkBufferingIntervalInSeconds = number;
+export type SplunkBufferingSizeInMBs = number;
+export type HttpEndpointUrl = string;
+export type HttpEndpointName = string;
+export type HttpEndpointAccessKey = string;
+export type HttpEndpointBufferingSizeInMBs = number;
+export type HttpEndpointBufferingIntervalInSeconds = number;
+export type HttpEndpointRetryDurationInSeconds = number;
+export type AmazonOpenSearchServerlessBufferingIntervalInSeconds = number;
+export type AmazonOpenSearchServerlessBufferingSizeInMBs = number;
+export type AmazonOpenSearchServerlessRetryDurationInSeconds = number;
+export type SnowflakeRole = string;
+export type SnowflakePrivateLinkVpceId = string;
+export type SnowflakeRetryDurationInSeconds = number;
+export type SnowflakeBufferingSizeInMBs = number;
+export type SnowflakeBufferingIntervalInSeconds = number;
+export type StringWithLettersDigitsUnderscoresDots = string;
+export type RetryDurationInSeconds = number;
+export type GlueDataCatalogARN = string;
+export type WarehouseLocation = string;
+export type DatabaseName = string;
+export type DatabaseColumnName = string;
+export type VpcEndpointServiceName = string;
+export type DeliveryStreamARN = string;
+export type PutResponseRecordId = string;
+export type ErrorCode = string;
+export type HttpEndpointAttributeName = string;
+export type HttpEndpointAttributeValue = string;
+export type NonEmptyString = string;
+export type ProcessorParameterValue = string;
+export type BlockSizeBytes = number;
+export type ParquetPageSizeBytes = number;
+export type OrcStripeSizeBytes = number;
+export type OrcRowIndexStride = number;
+export type Proportion = number;
 
 //# Schemas
 export interface Record {
@@ -2693,7 +2804,9 @@ export class InvalidSourceException extends S.TaggedError<InvalidSourceException
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 
 //# Operations
 /**
@@ -2707,7 +2820,13 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
  * again and setting the `ExclusiveStartDeliveryStreamName` parameter to the name
  * of the last Firehose stream returned in the last call.
  */
-export const listDeliveryStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listDeliveryStreams: (
+  input: ListDeliveryStreamsInput,
+) => Effect.Effect<
+  ListDeliveryStreamsOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDeliveryStreamsInput,
   output: ListDeliveryStreamsOutput,
   errors: [],
@@ -2730,13 +2849,17 @@ export const listDeliveryStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `DELETING` state for several minutes. Therefore, as a best practice, applications should not wait for streams in the `DELETING` state
  * to be removed.
  */
-export const deleteDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDeliveryStreamInput,
-    output: DeleteDeliveryStreamOutput,
-    errors: [ResourceInUseException, ResourceNotFoundException],
-  }),
-);
+export const deleteDeliveryStream: (
+  input: DeleteDeliveryStreamInput,
+) => Effect.Effect<
+  DeleteDeliveryStreamOutput,
+  ResourceInUseException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDeliveryStreamInput,
+  output: DeleteDeliveryStreamOutput,
+  errors: [ResourceInUseException, ResourceNotFoundException],
+}));
 /**
  * Updates the specified destination of the specified Firehose stream.
  *
@@ -2767,7 +2890,17 @@ export const deleteDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * update is applied successfully, the version ID is updated, and can be retrieved using DescribeDeliveryStream. Use the new version ID to set
  * `CurrentDeliveryStreamVersionId` in the next call.
  */
-export const updateDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDestination: (
+  input: UpdateDestinationInput,
+) => Effect.Effect<
+  UpdateDestinationOutput,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDestinationInput,
   output: UpdateDestinationOutput,
   errors: [
@@ -2802,17 +2935,26 @@ export const updateDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `StopDeliveryStreamEncryption` 12 times for the same Firehose stream in a
  * 24-hour period.
  */
-export const stopDeliveryStreamEncryption =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopDeliveryStreamEncryptionInput,
-    output: StopDeliveryStreamEncryptionOutput,
-    errors: [
-      InvalidArgumentException,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const stopDeliveryStreamEncryption: (
+  input: StopDeliveryStreamEncryptionInput,
+) => Effect.Effect<
+  StopDeliveryStreamEncryptionOutput,
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopDeliveryStreamEncryptionInput,
+  output: StopDeliveryStreamEncryptionOutput,
+  errors: [
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Adds or updates tags for the specified Firehose stream. A tag is a key-value pair
  * that you can define and assign to Amazon Web Services resources. If you specify a tag that
@@ -2827,7 +2969,17 @@ export const stopDeliveryStreamEncryption =
  *
  * This operation has a limit of five transactions per second per account.
  */
-export const tagDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagDeliveryStream: (
+  input: TagDeliveryStreamInput,
+) => Effect.Effect<
+  TagDeliveryStreamOutput,
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagDeliveryStreamInput,
   output: TagDeliveryStreamOutput,
   errors: [
@@ -2845,7 +2997,17 @@ export const tagDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation has a limit of five transactions per second per account.
  */
-export const untagDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagDeliveryStream: (
+  input: UntagDeliveryStreamInput,
+) => Effect.Effect<
+  UntagDeliveryStreamOutput,
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagDeliveryStreamInput,
   output: UntagDeliveryStreamOutput,
   errors: [
@@ -2859,17 +3021,24 @@ export const untagDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists the tags for the specified Firehose stream. This operation has a limit of five
  * transactions per second per account.
  */
-export const listTagsForDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTagsForDeliveryStreamInput,
-    output: ListTagsForDeliveryStreamOutput,
-    errors: [
-      InvalidArgumentException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const listTagsForDeliveryStream: (
+  input: ListTagsForDeliveryStreamInput,
+) => Effect.Effect<
+  ListTagsForDeliveryStreamOutput,
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForDeliveryStreamInput,
+  output: ListTagsForDeliveryStreamOutput,
+  errors: [
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Enables server-side encryption (SSE) for the Firehose stream.
  *
@@ -2918,18 +3087,28 @@ export const listTagsForDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `StopDeliveryStreamEncryption` 12 times for the same Firehose stream in a
  * 24-hour period.
  */
-export const startDeliveryStreamEncryption =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDeliveryStreamEncryptionInput,
-    output: StartDeliveryStreamEncryptionOutput,
-    errors: [
-      InvalidArgumentException,
-      InvalidKMSResourceException,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const startDeliveryStreamEncryption: (
+  input: StartDeliveryStreamEncryptionInput,
+) => Effect.Effect<
+  StartDeliveryStreamEncryptionOutput,
+  | InvalidArgumentException
+  | InvalidKMSResourceException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDeliveryStreamEncryptionInput,
+  output: StartDeliveryStreamEncryptionOutput,
+  errors: [
+    InvalidArgumentException,
+    InvalidKMSResourceException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Writes a single data record into an Firehose stream. To
  * write multiple data records into a Firehose stream, use PutRecordBatch.
@@ -2981,7 +3160,18 @@ export const startDeliveryStreamEncryption =
  * Don't concatenate two or more base64 strings to form the data fields of your records.
  * Instead, concatenate the raw data, then perform base64 encoding.
  */
-export const putRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putRecord: (
+  input: PutRecordInput,
+) => Effect.Effect<
+  PutRecordOutput,
+  | InvalidArgumentException
+  | InvalidKMSResourceException
+  | InvalidSourceException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRecordInput,
   output: PutRecordOutput,
   errors: [
@@ -3064,7 +3254,18 @@ export const putRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Don't concatenate two or more base64 strings to form the data fields of your records.
  * Instead, concatenate the raw data, then perform base64 encoding.
  */
-export const putRecordBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putRecordBatch: (
+  input: PutRecordBatchInput,
+) => Effect.Effect<
+  PutRecordBatchOutput,
+  | InvalidArgumentException
+  | InvalidKMSResourceException
+  | InvalidSourceException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRecordBatchInput,
   output: PutRecordBatchOutput,
   errors: [
@@ -3085,13 +3286,17 @@ export const putRecordBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * However, you can invoke the DeleteDeliveryStream operation to delete it.
  * If the status is `DELETING_FAILED`, you can force deletion by invoking DeleteDeliveryStream again but with DeleteDeliveryStreamInput$AllowForceDelete set to true.
  */
-export const describeDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDeliveryStreamInput,
-    output: DescribeDeliveryStreamOutput,
-    errors: [ResourceNotFoundException],
-  }),
-);
+export const describeDeliveryStream: (
+  input: DescribeDeliveryStreamInput,
+) => Effect.Effect<
+  DescribeDeliveryStreamOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDeliveryStreamInput,
+  output: DescribeDeliveryStreamOutput,
+  errors: [ResourceNotFoundException],
+}));
 /**
  * Creates a Firehose stream.
  *
@@ -3165,15 +3370,23 @@ export const describeDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * and the role should have permissions that allow the service to deliver the data. For more
  * information, see Grant Firehose Access to an Amazon S3 Destination in the *Amazon Firehose Developer Guide*.
  */
-export const createDeliveryStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDeliveryStreamInput,
-    output: CreateDeliveryStreamOutput,
-    errors: [
-      InvalidArgumentException,
-      InvalidKMSResourceException,
-      LimitExceededException,
-      ResourceInUseException,
-    ],
-  }),
-);
+export const createDeliveryStream: (
+  input: CreateDeliveryStreamInput,
+) => Effect.Effect<
+  CreateDeliveryStreamOutput,
+  | InvalidArgumentException
+  | InvalidKMSResourceException
+  | LimitExceededException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDeliveryStreamInput,
+  output: CreateDeliveryStreamOutput,
+  errors: [
+    InvalidArgumentException,
+    InvalidKMSResourceException,
+    LimitExceededException,
+    ResourceInUseException,
+  ],
+}));

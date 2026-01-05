@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "SSO OIDC",
   serviceShapeName: "AWSSSOOIDCService",
@@ -261,6 +269,34 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type ClientId = string;
+export type ClientSecret = string;
+export type GrantType = string;
+export type DeviceCode = string;
+export type AuthCode = string;
+export type RefreshToken = string;
+export type Scope = string;
+export type URI = string;
+export type CodeVerifier = string;
+export type Assertion = string;
+export type SubjectToken = string;
+export type TokenTypeURI = string;
+export type ClientName = string;
+export type ClientType = string;
+export type ArnType = string;
+export type AccessToken = string;
+export type TokenType = string;
+export type ExpirationInSeconds = number;
+export type IdToken = string;
+export type LongTimeStampType = number;
+export type UserCode = string;
+export type IntervalInSeconds = number;
+export type IdentityContext = string;
+export type ErrorDescription = string;
+export type Location = string;
+export type Region = string;
+
 //# Schemas
 export type Scopes = string[];
 export const Scopes = S.Array(S.String);
@@ -499,7 +535,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { error: S.optional(S.String), error_description: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class AuthorizationPendingException extends S.TaggedError<AuthorizationPendingException>()(
   "AuthorizationPendingException",
   { error: S.optional(S.String), error_description: S.optional(S.String) },
@@ -563,25 +601,47 @@ export class UnsupportedGrantTypeException extends S.TaggedError<UnsupportedGran
  * Initiates device authorization by requesting a pair of verification codes from the
  * authorization service.
  */
-export const startDeviceAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDeviceAuthorizationRequest,
-    output: StartDeviceAuthorizationResponse,
-    errors: [
-      InternalServerException,
-      InvalidClientException,
-      InvalidRequestException,
-      SlowDownException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const startDeviceAuthorization: (
+  input: StartDeviceAuthorizationRequest,
+) => Effect.Effect<
+  StartDeviceAuthorizationResponse,
+  | InternalServerException
+  | InvalidClientException
+  | InvalidRequestException
+  | SlowDownException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDeviceAuthorizationRequest,
+  output: StartDeviceAuthorizationResponse,
+  errors: [
+    InternalServerException,
+    InvalidClientException,
+    InvalidRequestException,
+    SlowDownException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Registers a public client with IAM Identity Center. This allows clients to perform authorization using
  * the authorization code grant with Proof Key for Code Exchange (PKCE) or the device
  * code grant.
  */
-export const registerClient = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerClient: (
+  input: RegisterClientRequest,
+) => Effect.Effect<
+  RegisterClientResponse,
+  | InternalServerException
+  | InvalidClientMetadataException
+  | InvalidRedirectUriException
+  | InvalidRequestException
+  | InvalidScopeException
+  | SlowDownException
+  | UnsupportedGrantTypeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterClientRequest,
   output: RegisterClientResponse,
   errors: [
@@ -599,7 +659,24 @@ export const registerClient = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * client secrets. The access token can be used to fetch short-lived credentials for the assigned
  * AWS accounts or to access application APIs using `bearer` authentication.
  */
-export const createToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createToken: (
+  input: CreateTokenRequest,
+) => Effect.Effect<
+  CreateTokenResponse,
+  | AccessDeniedException
+  | AuthorizationPendingException
+  | ExpiredTokenException
+  | InternalServerException
+  | InvalidClientException
+  | InvalidGrantException
+  | InvalidRequestException
+  | InvalidScopeException
+  | SlowDownException
+  | UnauthorizedClientException
+  | UnsupportedGrantTypeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTokenRequest,
   output: CreateTokenResponse,
   errors: [
@@ -625,7 +702,25 @@ export const createToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This API is used with Signature Version 4. For more information, see Amazon Web Services Signature
  * Version 4 for API Requests.
  */
-export const createTokenWithIAM = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTokenWithIAM: (
+  input: CreateTokenWithIAMRequest,
+) => Effect.Effect<
+  CreateTokenWithIAMResponse,
+  | AccessDeniedException
+  | AuthorizationPendingException
+  | ExpiredTokenException
+  | InternalServerException
+  | InvalidClientException
+  | InvalidGrantException
+  | InvalidRequestException
+  | InvalidRequestRegionException
+  | InvalidScopeException
+  | SlowDownException
+  | UnauthorizedClientException
+  | UnsupportedGrantTypeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTokenWithIAMRequest,
   output: CreateTokenWithIAMResponse,
   errors: [

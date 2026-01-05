@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker Geospatial",
   serviceShapeName: "SageMakerGeospatial",
@@ -292,6 +300,40 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type KmsKey = string;
+export type ExecutionRoleArn = string;
+export type EarthObservationJobArn = string;
+export type EarthObservationJobStatus = string;
+export type SortOrder = string;
+export type NextToken = string;
+export type TargetOptions = string;
+export type OutputType = string;
+export type DataCollectionArn = string;
+export type VectorEnrichmentJobArn = string;
+export type VectorEnrichmentJobDocumentType = string;
+export type EarthObservationJobExportStatus = string;
+export type DataCollectionType = string;
+export type VectorEnrichmentJobType = string;
+export type VectorEnrichmentJobStatus = string;
+export type VectorEnrichmentJobExportStatus = string;
+export type AlgorithmNameResampling = string;
+export type GroupBy = string;
+export type TemporalStatistics = string;
+export type AlgorithmNameCloudRemoval = string;
+export type S3Uri = string;
+export type ZonalStatistics = string;
+export type AlgorithmNameGeoMosaic = string;
+export type LogicalOperator = string;
+export type EarthObservationJobErrorType = string;
+export type VectorEnrichmentJobErrorType = string;
+export type VectorEnrichmentJobExportErrorType = string;
+export type PredefinedResolution = string;
+export type ExportErrorType = string;
+export type Unit = string;
+export type ComparisonOperator = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -696,10 +738,16 @@ export const MultiPolygonGeometryInput = S.suspend(() =>
 ).annotations({
   identifier: "MultiPolygonGeometryInput",
 }) as any as S.Schema<MultiPolygonGeometryInput>;
+export type AreaOfInterestGeometry =
+  | { PolygonGeometry: PolygonGeometryInput }
+  | { MultiPolygonGeometry: MultiPolygonGeometryInput };
 export const AreaOfInterestGeometry = S.Union(
   S.Struct({ PolygonGeometry: PolygonGeometryInput }),
   S.Struct({ MultiPolygonGeometry: MultiPolygonGeometryInput }),
 );
+export type AreaOfInterest = {
+  AreaOfInterestGeometry: (typeof AreaOfInterestGeometry)["Type"];
+};
 export const AreaOfInterest = S.Union(
   S.Struct({ AreaOfInterestGeometry: AreaOfInterestGeometry }),
 );
@@ -757,6 +805,13 @@ export const LandsatCloudCoverLandInput = S.suspend(() =>
 ).annotations({
   identifier: "LandsatCloudCoverLandInput",
 }) as any as S.Schema<LandsatCloudCoverLandInput>;
+export type Property =
+  | { EoCloudCover: EoCloudCoverInput }
+  | { ViewOffNadir: ViewOffNadirInput }
+  | { ViewSunAzimuth: ViewSunAzimuthInput }
+  | { ViewSunElevation: ViewSunElevationInput }
+  | { Platform: PlatformInput }
+  | { LandsatCloudCoverLand: LandsatCloudCoverLandInput };
 export const Property = S.Union(
   S.Struct({ EoCloudCover: EoCloudCoverInput }),
   S.Struct({ ViewOffNadir: ViewOffNadirInput }),
@@ -877,6 +932,9 @@ export const VectorEnrichmentJobS3Data = S.suspend(() =>
 ).annotations({
   identifier: "VectorEnrichmentJobS3Data",
 }) as any as S.Schema<VectorEnrichmentJobS3Data>;
+export type VectorEnrichmentJobDataSourceConfigInput = {
+  S3Data: VectorEnrichmentJobS3Data;
+};
 export const VectorEnrichmentJobDataSourceConfigInput = S.Union(
   S.Struct({ S3Data: VectorEnrichmentJobS3Data }),
 );
@@ -1021,6 +1079,9 @@ export const VectorEnrichmentJobInputConfig = S.suspend(() =>
 ).annotations({
   identifier: "VectorEnrichmentJobInputConfig",
 }) as any as S.Schema<VectorEnrichmentJobInputConfig>;
+export type VectorEnrichmentJobConfig =
+  | { ReverseGeocodingConfig: ReverseGeocodingConfig }
+  | { MapMatchingConfig: MapMatchingConfig };
 export const VectorEnrichmentJobConfig = S.Union(
   S.Struct({ ReverseGeocodingConfig: ReverseGeocodingConfig }),
   S.Struct({ MapMatchingConfig: MapMatchingConfig }),
@@ -1465,6 +1526,16 @@ export const RasterDataCollectionQueryOutput = S.suspend(() =>
 ).annotations({
   identifier: "RasterDataCollectionQueryOutput",
 }) as any as S.Schema<RasterDataCollectionQueryOutput>;
+export type JobConfigInput =
+  | { BandMathConfig: BandMathConfigInput }
+  | { ResamplingConfig: ResamplingConfigInput }
+  | { TemporalStatisticsConfig: TemporalStatisticsConfigInput }
+  | { CloudRemovalConfig: CloudRemovalConfigInput }
+  | { ZonalStatisticsConfig: ZonalStatisticsConfigInput }
+  | { GeoMosaicConfig: GeoMosaicConfigInput }
+  | { StackConfig: StackConfigInput }
+  | { CloudMaskingConfig: CloudMaskingConfigInput }
+  | { LandCoverSegmentationConfig: LandCoverSegmentationConfigInput };
 export const JobConfigInput = S.Union(
   S.Struct({ BandMathConfig: BandMathConfigInput }),
   S.Struct({ ResamplingConfig: ResamplingConfigInput }),
@@ -1696,7 +1767,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String, ResourceId: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String, ResourceId: S.optional(S.String) },
@@ -1708,7 +1781,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String, ResourceId: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.String, ResourceId: S.optional(S.String) },
@@ -1722,7 +1797,18 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * The resource you want to untag.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1736,168 +1822,346 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Use this operation to create an Earth observation job.
  */
-export const startEarthObservationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartEarthObservationJobInput,
-    output: StartEarthObservationJobOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startEarthObservationJob: (
+  input: StartEarthObservationJobInput,
+) => Effect.Effect<
+  StartEarthObservationJobOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartEarthObservationJobInput,
+  output: StartEarthObservationJobOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get the details for a previously initiated Earth Observation job.
  */
-export const getEarthObservationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEarthObservationJobInput,
-    output: GetEarthObservationJobOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getEarthObservationJob: (
+  input: GetEarthObservationJobInput,
+) => Effect.Effect<
+  GetEarthObservationJobOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEarthObservationJobInput,
+  output: GetEarthObservationJobOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location.
  */
-export const exportEarthObservationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExportEarthObservationJobInput,
-    output: ExportEarthObservationJobOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const exportEarthObservationJob: (
+  input: ExportEarthObservationJobInput,
+) => Effect.Effect<
+  ExportEarthObservationJobOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportEarthObservationJobInput,
+  output: ExportEarthObservationJobOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
  */
-export const listEarthObservationJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEarthObservationJobs: {
+  (
     input: ListEarthObservationJobInput,
-    output: ListEarthObservationJobOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EarthObservationJobSummaries",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEarthObservationJobOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEarthObservationJobInput,
+  ) => Stream.Stream<
+    ListEarthObservationJobOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEarthObservationJobInput,
+  ) => Stream.Stream<
+    ListEarthObservationJobOutputConfig,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEarthObservationJobInput,
+  output: ListEarthObservationJobOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EarthObservationJobSummaries",
+  } as const,
+}));
 /**
  * Use this operation to get details of a specific raster data collection.
  */
-export const getRasterDataCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRasterDataCollectionInput,
-    output: GetRasterDataCollectionOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getRasterDataCollection: (
+  input: GetRasterDataCollectionInput,
+) => Effect.Effect<
+  GetRasterDataCollectionOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRasterDataCollectionInput,
+  output: GetRasterDataCollectionOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Use this operation to get raster data collections.
  */
-export const listRasterDataCollections =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRasterDataCollections: {
+  (
     input: ListRasterDataCollectionsInput,
-    output: ListRasterDataCollectionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RasterDataCollectionSummaries",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRasterDataCollectionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRasterDataCollectionsInput,
+  ) => Stream.Stream<
+    ListRasterDataCollectionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRasterDataCollectionsInput,
+  ) => Stream.Stream<
+    RasterDataCollectionMetadata,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRasterDataCollectionsInput,
+  output: ListRasterDataCollectionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RasterDataCollectionSummaries",
+  } as const,
+}));
 /**
  * Retrieves details of a Vector Enrichment Job for a given job Amazon Resource Name (ARN).
  */
-export const getVectorEnrichmentJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetVectorEnrichmentJobInput,
-    output: GetVectorEnrichmentJobOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getVectorEnrichmentJob: (
+  input: GetVectorEnrichmentJobInput,
+) => Effect.Effect<
+  GetVectorEnrichmentJobOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVectorEnrichmentJobInput,
+  output: GetVectorEnrichmentJobOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a list of vector enrichment jobs.
  */
-export const listVectorEnrichmentJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listVectorEnrichmentJobs: {
+  (
     input: ListVectorEnrichmentJobInput,
-    output: ListVectorEnrichmentJobOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "VectorEnrichmentJobSummaries",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListVectorEnrichmentJobOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVectorEnrichmentJobInput,
+  ) => Stream.Stream<
+    ListVectorEnrichmentJobOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVectorEnrichmentJobInput,
+  ) => Stream.Stream<
+    ListVectorEnrichmentJobOutputConfig,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVectorEnrichmentJobInput,
+  output: ListVectorEnrichmentJobOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "VectorEnrichmentJobSummaries",
+  } as const,
+}));
 /**
  * Use this operation to delete an Earth Observation job.
  */
-export const deleteEarthObservationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEarthObservationJobInput,
-    output: DeleteEarthObservationJobOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteEarthObservationJob: (
+  input: DeleteEarthObservationJobInput,
+) => Effect.Effect<
+  DeleteEarthObservationJobOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEarthObservationJobInput,
+  output: DeleteEarthObservationJobOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a web mercator tile for the given Earth Observation job.
  */
-export const getTile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTile: (
+  input: GetTileInput,
+) => Effect.Effect<
+  GetTileOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTileInput,
   output: GetTileOutput,
   errors: [
@@ -1911,7 +2175,18 @@ export const getTile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags attached to the resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1925,7 +2200,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The resource you want to tag.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1939,103 +2225,191 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Use this operation to stop an existing earth observation job.
  */
-export const stopEarthObservationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopEarthObservationJobInput,
-    output: StopEarthObservationJobOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const stopEarthObservationJob: (
+  input: StopEarthObservationJobInput,
+) => Effect.Effect<
+  StopEarthObservationJobOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopEarthObservationJobInput,
+  output: StopEarthObservationJobOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Use this operation to delete a Vector Enrichment job.
  */
-export const deleteVectorEnrichmentJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVectorEnrichmentJobInput,
-    output: DeleteVectorEnrichmentJobOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteVectorEnrichmentJob: (
+  input: DeleteVectorEnrichmentJobInput,
+) => Effect.Effect<
+  DeleteVectorEnrichmentJobOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVectorEnrichmentJobInput,
+  output: DeleteVectorEnrichmentJobOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Stops the Vector Enrichment job for a given job ARN.
  */
-export const stopVectorEnrichmentJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopVectorEnrichmentJobInput,
-    output: StopVectorEnrichmentJobOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const stopVectorEnrichmentJob: (
+  input: StopVectorEnrichmentJobInput,
+) => Effect.Effect<
+  StopVectorEnrichmentJobOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopVectorEnrichmentJobInput,
+  output: StopVectorEnrichmentJobOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a Vector Enrichment job for the supplied job type. Currently, there are two supported job types: reverse geocoding and map matching.
  */
-export const startVectorEnrichmentJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartVectorEnrichmentJobInput,
-    output: StartVectorEnrichmentJobOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startVectorEnrichmentJob: (
+  input: StartVectorEnrichmentJobInput,
+) => Effect.Effect<
+  StartVectorEnrichmentJobOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartVectorEnrichmentJobInput,
+  output: StartVectorEnrichmentJobOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
  */
-export const exportVectorEnrichmentJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExportVectorEnrichmentJobInput,
-    output: ExportVectorEnrichmentJobOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const exportVectorEnrichmentJob: (
+  input: ExportVectorEnrichmentJobInput,
+) => Effect.Effect<
+  ExportVectorEnrichmentJobOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportVectorEnrichmentJobInput,
+  output: ExportVectorEnrichmentJobOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
  */
-export const searchRasterDataCollection =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchRasterDataCollection: {
+  (
     input: SearchRasterDataCollectionInput,
-    output: SearchRasterDataCollectionOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
-  }));
+  ): Effect.Effect<
+    SearchRasterDataCollectionOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchRasterDataCollectionInput,
+  ) => Stream.Stream<
+    SearchRasterDataCollectionOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchRasterDataCollectionInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchRasterDataCollectionInput,
+  output: SearchRasterDataCollectionOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+}));

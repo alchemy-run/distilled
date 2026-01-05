@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace(
   "http://elasticbeanstalk.amazonaws.com/docs/2010-12-01/",
 );
@@ -263,6 +271,88 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type EnvironmentId = string;
+export type EnvironmentName = string;
+export type OperationsRole = string;
+export type DNSCnamePrefix = string;
+export type ApplicationName = string;
+export type GroupName = string;
+export type VersionLabel = string;
+export type Description = string;
+export type ConfigurationTemplateName = string;
+export type SolutionStackName = string;
+export type PlatformArn = string;
+export type PlatformName = string;
+export type PlatformVersion = string;
+export type S3Bucket = string;
+export type MaxRecords = number;
+export type Token = string;
+export type ManagedActionHistoryMaxItems = number;
+export type RequestId = string;
+export type NextToken = string;
+export type PlatformBranchMaxRecords = number;
+export type PlatformMaxRecords = number;
+export type ResourceArn = string;
+export type TagKey = string;
+export type TagValue = string;
+export type SourceLocation = string;
+export type S3Key = string;
+export type NonEmptyString = string;
+export type BoxedInt = number;
+export type ResourceName = string;
+export type OptionNamespace = string;
+export type ConfigurationOptionName = string;
+export type ConfigurationOptionValue = string;
+export type FileTypeExtension = string;
+export type SearchFilterAttribute = string;
+export type SearchFilterOperator = string;
+export type SearchFilterValue = string;
+export type PlatformFilterType = string;
+export type PlatformFilterOperator = string;
+export type PlatformFilterValue = string;
+export type ExceptionMessage = string;
+export type DNSCname = string;
+export type Cause = string;
+export type EndpointURL = string;
+export type EnvironmentArn = string;
+export type PlatformOwner = string;
+export type PlatformCategory = string;
+export type OperatingSystemName = string;
+export type OperatingSystemVersion = string;
+export type SupportedTier = string;
+export type SupportedAddon = string;
+export type PlatformLifecycleState = string;
+export type BranchName = string;
+export type PlatformBranchLifecycleState = string;
+export type ARN = string;
+export type ApplicationArn = string;
+export type ApplicationVersionArn = string;
+export type ConfigurationOptionDefaultValue = string;
+export type ConfigurationOptionSeverity = string;
+export type ConfigurationOptionPossibleValue = string;
+export type OptionRestrictionMinValue = number;
+export type OptionRestrictionMaxValue = number;
+export type OptionRestrictionMaxLength = number;
+export type NullableInteger = number;
+export type RequestCount = number;
+export type EventMessage = string;
+export type InstanceId = string;
+export type Maintainer = string;
+export type Ec2InstanceId = string;
+export type Message = string;
+export type ValidationMessageString = string;
+export type RegexPattern = string;
+export type RegexLabel = string;
+export type NullableDouble = number;
+export type ResourceId = string;
+export type LoadAverageValue = number;
+export type NullableLong = number;
+export type VirtualizationType = string;
+export type ImageId = string;
+export type BranchOrder = number;
+export type Integer = number;
 
 //# Schemas
 export interface CreateStorageLocationRequest {}
@@ -2945,22 +3035,31 @@ export class TooManyApplicationVersionsException extends S.TaggedError<TooManyAp
  * deployment is in process or has failed. The draft configuration remains in existence until it
  * is deleted with this action.
  */
-export const deleteEnvironmentConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteEnvironmentConfigurationMessage,
-    output: DeleteEnvironmentConfigurationResponse,
-    errors: [],
-  }));
+export const deleteEnvironmentConfiguration: (
+  input: DeleteEnvironmentConfigurationMessage,
+) => Effect.Effect<
+  DeleteEnvironmentConfigurationResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEnvironmentConfigurationMessage,
+  output: DeleteEnvironmentConfigurationResponse,
+  errors: [],
+}));
 /**
  * Returns descriptions for existing environments.
  */
-export const describeEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEnvironmentsMessage,
-    output: EnvironmentDescriptionsMessage,
-    errors: [],
-  }),
-);
+export const describeEnvironments: (
+  input: DescribeEnvironmentsMessage,
+) => Effect.Effect<
+  EnvironmentDescriptionsMessage,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEnvironmentsMessage,
+  output: EnvironmentDescriptionsMessage,
+  errors: [],
+}));
 /**
  * Initiates a request to compile the specified type of information of the deployed
  * environment.
@@ -2978,18 +3077,28 @@ export const describeEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - RetrieveEnvironmentInfo
  */
-export const requestEnvironmentInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RequestEnvironmentInfoMessage,
-    output: RequestEnvironmentInfoResponse,
-    errors: [],
-  }),
-);
+export const requestEnvironmentInfo: (
+  input: RequestEnvironmentInfoMessage,
+) => Effect.Effect<
+  RequestEnvironmentInfoResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RequestEnvironmentInfoMessage,
+  output: RequestEnvironmentInfoResponse,
+  errors: [],
+}));
 /**
  * Causes the environment to restart the application container server running on each
  * Amazon EC2 instance.
  */
-export const restartAppServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const restartAppServer: (
+  input: RestartAppServerMessage,
+) => Effect.Effect<
+  RestartAppServerResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestartAppServerMessage,
   output: RestartAppServerResponse,
   errors: [],
@@ -2997,34 +3106,46 @@ export const restartAppServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Swaps the CNAMEs of two environments.
  */
-export const swapEnvironmentCNAMEs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SwapEnvironmentCNAMEsMessage,
-    output: SwapEnvironmentCNAMEsResponse,
-    errors: [],
-  }),
-);
+export const swapEnvironmentCNAMEs: (
+  input: SwapEnvironmentCNAMEsMessage,
+) => Effect.Effect<
+  SwapEnvironmentCNAMEsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SwapEnvironmentCNAMEsMessage,
+  output: SwapEnvironmentCNAMEsResponse,
+  errors: [],
+}));
 /**
  * Cancels in-progress environment configuration update or application version
  * deployment.
  */
-export const abortEnvironmentUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AbortEnvironmentUpdateMessage,
-    output: AbortEnvironmentUpdateResponse,
-    errors: [InsufficientPrivilegesException],
-  }),
-);
+export const abortEnvironmentUpdate: (
+  input: AbortEnvironmentUpdateMessage,
+) => Effect.Effect<
+  AbortEnvironmentUpdateResponse,
+  InsufficientPrivilegesException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AbortEnvironmentUpdateMessage,
+  output: AbortEnvironmentUpdateResponse,
+  errors: [InsufficientPrivilegesException],
+}));
 /**
  * Checks if the specified CNAME is available.
  */
-export const checkDNSAvailability = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CheckDNSAvailabilityMessage,
-    output: CheckDNSAvailabilityResultMessage,
-    errors: [],
-  }),
-);
+export const checkDNSAvailability: (
+  input: CheckDNSAvailabilityMessage,
+) => Effect.Effect<
+  CheckDNSAvailabilityResultMessage,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CheckDNSAvailabilityMessage,
+  output: CheckDNSAvailabilityResultMessage,
+  errors: [],
+}));
 /**
  * Deletes the specified application along with all associated versions and
  * configurations. The application versions will not be deleted from your Amazon S3
@@ -3032,7 +3153,13 @@ export const checkDNSAvailability = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You cannot delete an application that has a running environment.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplication: (
+  input: DeleteApplicationMessage,
+) => Effect.Effect<
+  DeleteApplicationResponse,
+  OperationInProgressException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationMessage,
   output: DeleteApplicationResponse,
   errors: [OperationInProgressException],
@@ -3041,20 +3168,30 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns a list of the available solution stack names, with the public version first and
  * then in reverse chronological order.
  */
-export const listAvailableSolutionStacks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAvailableSolutionStacksRequest,
-    output: ListAvailableSolutionStacksResultMessage,
-    errors: [],
-  }),
-);
+export const listAvailableSolutionStacks: (
+  input: ListAvailableSolutionStacksRequest,
+) => Effect.Effect<
+  ListAvailableSolutionStacksResultMessage,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAvailableSolutionStacksRequest,
+  output: ListAvailableSolutionStacksResultMessage,
+  errors: [],
+}));
 /**
  * Updates the specified application to have the specified properties.
  *
  * If a property (for example, `description`) is not provided, the value
  * remains unchanged. To clear these properties, specify an empty string.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApplication: (
+  input: UpdateApplicationMessage,
+) => Effect.Effect<
+  ApplicationDescriptionMessage,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationMessage,
   output: ApplicationDescriptionMessage,
   errors: [],
@@ -3062,54 +3199,79 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies lifecycle settings for an application.
  */
-export const updateApplicationResourceLifecycle =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateApplicationResourceLifecycleMessage,
-    output: ApplicationResourceLifecycleDescriptionMessage,
-    errors: [InsufficientPrivilegesException],
-  }));
+export const updateApplicationResourceLifecycle: (
+  input: UpdateApplicationResourceLifecycleMessage,
+) => Effect.Effect<
+  ApplicationResourceLifecycleDescriptionMessage,
+  InsufficientPrivilegesException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationResourceLifecycleMessage,
+  output: ApplicationResourceLifecycleDescriptionMessage,
+  errors: [InsufficientPrivilegesException],
+}));
 /**
  * Updates the specified application version to have the specified properties.
  *
  * If a property (for example, `description`) is not provided, the value
  * remains unchanged. To clear properties, specify an empty string.
  */
-export const updateApplicationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateApplicationVersionMessage,
-    output: ApplicationVersionDescriptionMessage,
-    errors: [],
-  }),
-);
+export const updateApplicationVersion: (
+  input: UpdateApplicationVersionMessage,
+) => Effect.Effect<
+  ApplicationVersionDescriptionMessage,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationVersionMessage,
+  output: ApplicationVersionDescriptionMessage,
+  errors: [],
+}));
 /**
  * Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk
  * uses the associated operations role for permissions to downstream services during subsequent
  * calls acting on this environment. For more information, see Operations roles in the
  * *AWS Elastic Beanstalk Developer Guide*.
  */
-export const associateEnvironmentOperationsRole =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateEnvironmentOperationsRoleMessage,
-    output: AssociateEnvironmentOperationsRoleResponse,
-    errors: [InsufficientPrivilegesException],
-  }));
+export const associateEnvironmentOperationsRole: (
+  input: AssociateEnvironmentOperationsRoleMessage,
+) => Effect.Effect<
+  AssociateEnvironmentOperationsRoleResponse,
+  InsufficientPrivilegesException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateEnvironmentOperationsRoleMessage,
+  output: AssociateEnvironmentOperationsRoleResponse,
+  errors: [InsufficientPrivilegesException],
+}));
 /**
  * Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses
  * the caller's permissions for permissions to downstream services during subsequent calls acting
  * on this environment. For more information, see Operations roles in the
  * *AWS Elastic Beanstalk Developer Guide*.
  */
-export const disassociateEnvironmentOperationsRole =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateEnvironmentOperationsRoleMessage,
-    output: DisassociateEnvironmentOperationsRoleResponse,
-    errors: [InsufficientPrivilegesException],
-  }));
+export const disassociateEnvironmentOperationsRole: (
+  input: DisassociateEnvironmentOperationsRoleMessage,
+) => Effect.Effect<
+  DisassociateEnvironmentOperationsRoleResponse,
+  InsufficientPrivilegesException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateEnvironmentOperationsRoleMessage,
+  output: DisassociateEnvironmentOperationsRoleResponse,
+  errors: [InsufficientPrivilegesException],
+}));
 /**
  * Deletes and recreates all of the AWS resources (for example: the Auto Scaling group,
  * load balancer, etc.) for a specified environment and forces a restart.
  */
-export const rebuildEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rebuildEnvironment: (
+  input: RebuildEnvironmentMessage,
+) => Effect.Effect<
+  RebuildEnvironmentResponse,
+  InsufficientPrivilegesException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebuildEnvironmentMessage,
   output: RebuildEnvironmentResponse,
   errors: [InsufficientPrivilegesException],
@@ -3121,13 +3283,17 @@ export const rebuildEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * copy of the template. You can delete or modify the environment's copy of the template
  * without affecting the running environment.
  */
-export const deleteConfigurationTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConfigurationTemplateMessage,
-    output: DeleteConfigurationTemplateResponse,
-    errors: [OperationInProgressException],
-  }),
-);
+export const deleteConfigurationTemplate: (
+  input: DeleteConfigurationTemplateMessage,
+) => Effect.Effect<
+  DeleteConfigurationTemplateResponse,
+  OperationInProgressException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConfigurationTemplateMessage,
+  output: DeleteConfigurationTemplateResponse,
+  errors: [OperationInProgressException],
+}));
 /**
  * Create or update a group of environments that each run a separate component of a single
  * application. Takes a list of version labels that specify application source bundles for each
@@ -3136,7 +3302,15 @@ export const deleteConfigurationTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `env.yaml`. See Compose Environments
  * for details.
  */
-export const composeEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const composeEnvironments: (
+  input: ComposeEnvironmentsMessage,
+) => Effect.Effect<
+  EnvironmentDescriptionsMessage,
+  | InsufficientPrivilegesException
+  | TooManyEnvironmentsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ComposeEnvironmentsMessage,
   output: EnvironmentDescriptionsMessage,
   errors: [InsufficientPrivilegesException, TooManyEnvironmentsException],
@@ -3147,76 +3321,134 @@ export const composeEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The result currently has one set of attributes—resource quotas.
  */
-export const describeAccountAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccountAttributesRequest,
-    output: DescribeAccountAttributesResult,
-    errors: [InsufficientPrivilegesException],
-  }),
-);
+export const describeAccountAttributes: (
+  input: DescribeAccountAttributesRequest,
+) => Effect.Effect<
+  DescribeAccountAttributesResult,
+  InsufficientPrivilegesException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccountAttributesRequest,
+  output: DescribeAccountAttributesResult,
+  errors: [InsufficientPrivilegesException],
+}));
 /**
  * Returns the descriptions of existing applications.
  */
-export const describeApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeApplicationsMessage,
-    output: ApplicationDescriptionsMessage,
-    errors: [],
-  }),
-);
+export const describeApplications: (
+  input: DescribeApplicationsMessage,
+) => Effect.Effect<
+  ApplicationDescriptionsMessage,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeApplicationsMessage,
+  output: ApplicationDescriptionsMessage,
+  errors: [],
+}));
 /**
  * Retrieve a list of application versions.
  */
-export const describeApplicationVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeApplicationVersionsMessage,
-    output: ApplicationVersionDescriptionsMessage,
-    errors: [],
-  }),
-);
+export const describeApplicationVersions: (
+  input: DescribeApplicationVersionsMessage,
+) => Effect.Effect<
+  ApplicationVersionDescriptionsMessage,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeApplicationVersionsMessage,
+  output: ApplicationVersionDescriptionsMessage,
+  errors: [],
+}));
 /**
  * Lists an environment's completed and failed managed actions.
  */
-export const describeEnvironmentManagedActionHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeEnvironmentManagedActionHistory: {
+  (
     input: DescribeEnvironmentManagedActionHistoryRequest,
-    output: DescribeEnvironmentManagedActionHistoryResult,
-    errors: [ElasticBeanstalkServiceException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ManagedActionHistoryItems",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeEnvironmentManagedActionHistoryResult,
+    ElasticBeanstalkServiceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEnvironmentManagedActionHistoryRequest,
+  ) => Stream.Stream<
+    DescribeEnvironmentManagedActionHistoryResult,
+    ElasticBeanstalkServiceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEnvironmentManagedActionHistoryRequest,
+  ) => Stream.Stream<
+    ManagedActionHistoryItem,
+    ElasticBeanstalkServiceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEnvironmentManagedActionHistoryRequest,
+  output: DescribeEnvironmentManagedActionHistoryResult,
+  errors: [ElasticBeanstalkServiceException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ManagedActionHistoryItems",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists an environment's upcoming and in-progress managed actions.
  */
-export const describeEnvironmentManagedActions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeEnvironmentManagedActionsRequest,
-    output: DescribeEnvironmentManagedActionsResult,
-    errors: [ElasticBeanstalkServiceException],
-  }));
+export const describeEnvironmentManagedActions: (
+  input: DescribeEnvironmentManagedActionsRequest,
+) => Effect.Effect<
+  DescribeEnvironmentManagedActionsResult,
+  ElasticBeanstalkServiceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEnvironmentManagedActionsRequest,
+  output: DescribeEnvironmentManagedActionsResult,
+  errors: [ElasticBeanstalkServiceException],
+}));
 /**
  * Returns list of event descriptions matching criteria up to the last 6 weeks.
  *
  * This action returns the most recent 1,000 events from the specified
  * `NextToken`.
  */
-export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeEvents: {
+  (
     input: DescribeEventsMessage,
-    output: EventDescriptionsMessage,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Events",
-      pageSize: "MaxRecords",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    EventDescriptionsMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEventsMessage,
+  ) => Stream.Stream<
+    EventDescriptionsMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEventsMessage,
+  ) => Stream.Stream<
+    EventDescription,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEventsMessage,
+  output: EventDescriptionsMessage,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Events",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Lists the platform versions available for your account in an AWS Region. Provides
  * summary information about each platform version. Compare to DescribePlatformVersion, which provides full details about a single platform
@@ -3225,18 +3457,45 @@ export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk
  * Platforms Glossary.
  */
-export const listPlatformVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPlatformVersions: {
+  (
     input: ListPlatformVersionsRequest,
-    output: ListPlatformVersionsResult,
-    errors: [ElasticBeanstalkServiceException, InsufficientPrivilegesException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PlatformSummaryList",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPlatformVersionsResult,
+    | ElasticBeanstalkServiceException
+    | InsufficientPrivilegesException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPlatformVersionsRequest,
+  ) => Stream.Stream<
+    ListPlatformVersionsResult,
+    | ElasticBeanstalkServiceException
+    | InsufficientPrivilegesException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPlatformVersionsRequest,
+  ) => Stream.Stream<
+    PlatformSummary,
+    | ElasticBeanstalkServiceException
+    | InsufficientPrivilegesException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPlatformVersionsRequest,
+  output: ListPlatformVersionsResult,
+  errors: [ElasticBeanstalkServiceException, InsufficientPrivilegesException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PlatformSummaryList",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Retrieves the compiled information from a RequestEnvironmentInfo
  * request.
@@ -3245,13 +3504,17 @@ export const listPlatformVersions =
  *
  * - RequestEnvironmentInfo
  */
-export const retrieveEnvironmentInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RetrieveEnvironmentInfoMessage,
-    output: RetrieveEnvironmentInfoResultMessage,
-    errors: [],
-  }),
-);
+export const retrieveEnvironmentInfo: (
+  input: RetrieveEnvironmentInfoMessage,
+) => Effect.Effect<
+  RetrieveEnvironmentInfoResultMessage,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RetrieveEnvironmentInfoMessage,
+  output: RetrieveEnvironmentInfoResultMessage,
+  errors: [],
+}));
 /**
  * Takes a set of configuration settings and either a configuration template or
  * environment, and determines whether those values are valid.
@@ -3259,12 +3522,19 @@ export const retrieveEnvironmentInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This action returns a list of messages indicating any errors or warnings associated
  * with the selection of option values.
  */
-export const validateConfigurationSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ValidateConfigurationSettingsMessage,
-    output: ConfigurationSettingsValidationMessages,
-    errors: [InsufficientPrivilegesException, TooManyBucketsException],
-  }));
+export const validateConfigurationSettings: (
+  input: ValidateConfigurationSettingsMessage,
+) => Effect.Effect<
+  ConfigurationSettingsValidationMessages,
+  | InsufficientPrivilegesException
+  | TooManyBucketsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ValidateConfigurationSettingsMessage,
+  output: ConfigurationSettingsValidationMessages,
+  errors: [InsufficientPrivilegesException, TooManyBucketsException],
+}));
 /**
  * Creates a bucket in Amazon S3 to store application versions, logs, and other files used
  * by Elastic Beanstalk environments. The Elastic Beanstalk console and EB CLI call this API the
@@ -3272,22 +3542,37 @@ export const validateConfigurationSettings =
  * `CreateStorageLocation` still returns the bucket name but does not create a new
  * bucket.
  */
-export const createStorageLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateStorageLocationRequest,
-    output: CreateStorageLocationResultMessage,
-    errors: [
-      InsufficientPrivilegesException,
-      S3SubscriptionRequiredException,
-      TooManyBucketsException,
-    ],
-  }),
-);
+export const createStorageLocation: (
+  input: CreateStorageLocationRequest,
+) => Effect.Effect<
+  CreateStorageLocationResultMessage,
+  | InsufficientPrivilegesException
+  | S3SubscriptionRequiredException
+  | TooManyBucketsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStorageLocationRequest,
+  output: CreateStorageLocationResultMessage,
+  errors: [
+    InsufficientPrivilegesException,
+    S3SubscriptionRequiredException,
+    TooManyBucketsException,
+  ],
+}));
 /**
  * Launches an AWS Elastic Beanstalk environment for the specified application using the specified
  * configuration.
  */
-export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEnvironment: (
+  input: CreateEnvironmentMessage,
+) => Effect.Effect<
+  EnvironmentDescription,
+  | InsufficientPrivilegesException
+  | TooManyEnvironmentsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentMessage,
   output: EnvironmentDescription,
   errors: [InsufficientPrivilegesException, TooManyEnvironmentsException],
@@ -3306,12 +3591,17 @@ export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - DeleteEnvironmentConfiguration
  */
-export const describeConfigurationSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConfigurationSettingsMessage,
-    output: ConfigurationSettingsDescriptions,
-    errors: [TooManyBucketsException],
-  }));
+export const describeConfigurationSettings: (
+  input: DescribeConfigurationSettingsMessage,
+) => Effect.Effect<
+  ConfigurationSettingsDescriptions,
+  TooManyBucketsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConfigurationSettingsMessage,
+  output: ConfigurationSettingsDescriptions,
+  errors: [TooManyBucketsException],
+}));
 /**
  * Updates the specified configuration template to have the specified properties or
  * configuration option values.
@@ -3323,13 +3613,19 @@ export const describeConfigurationSettings =
  *
  * - DescribeConfigurationOptions
  */
-export const updateConfigurationTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConfigurationTemplateMessage,
-    output: ConfigurationSettingsDescription,
-    errors: [InsufficientPrivilegesException, TooManyBucketsException],
-  }),
-);
+export const updateConfigurationTemplate: (
+  input: UpdateConfigurationTemplateMessage,
+) => Effect.Effect<
+  ConfigurationSettingsDescription,
+  | InsufficientPrivilegesException
+  | TooManyBucketsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfigurationTemplateMessage,
+  output: ConfigurationSettingsDescription,
+  errors: [InsufficientPrivilegesException, TooManyBucketsException],
+}));
 /**
  * Updates the environment description, deploys a new application version, updates the
  * configuration settings to an entirely new configuration template, or updates select
@@ -3343,7 +3639,15 @@ export const updateConfigurationTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * environment returns two setting descriptions with different `DeploymentStatus`
  * values.
  */
-export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEnvironment: (
+  input: UpdateEnvironmentMessage,
+) => Effect.Effect<
+  EnvironmentDescription,
+  | InsufficientPrivilegesException
+  | TooManyBucketsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentMessage,
   output: EnvironmentDescription,
   errors: [InsufficientPrivilegesException, TooManyBucketsException],
@@ -3353,15 +3657,22 @@ export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * its status is `Scheduled`. Get the status and action ID of a managed action with
  * DescribeEnvironmentManagedActions.
  */
-export const applyEnvironmentManagedAction =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ApplyEnvironmentManagedActionRequest,
-    output: ApplyEnvironmentManagedActionResult,
-    errors: [
-      ElasticBeanstalkServiceException,
-      ManagedActionInvalidStateException,
-    ],
-  }));
+export const applyEnvironmentManagedAction: (
+  input: ApplyEnvironmentManagedActionRequest,
+) => Effect.Effect<
+  ApplyEnvironmentManagedActionResult,
+  | ElasticBeanstalkServiceException
+  | ManagedActionInvalidStateException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ApplyEnvironmentManagedActionRequest,
+  output: ApplyEnvironmentManagedActionResult,
+  errors: [
+    ElasticBeanstalkServiceException,
+    ManagedActionInvalidStateException,
+  ],
+}));
 /**
  * Creates an AWS Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk
  * application. You define application configuration settings in a configuration template. You
@@ -3379,52 +3690,76 @@ export const applyEnvironmentManagedAction =
  *
  * - ListAvailableSolutionStacks
  */
-export const createConfigurationTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConfigurationTemplateMessage,
-    output: ConfigurationSettingsDescription,
-    errors: [
-      InsufficientPrivilegesException,
-      TooManyBucketsException,
-      TooManyConfigurationTemplatesException,
-    ],
-  }),
-);
+export const createConfigurationTemplate: (
+  input: CreateConfigurationTemplateMessage,
+) => Effect.Effect<
+  ConfigurationSettingsDescription,
+  | InsufficientPrivilegesException
+  | TooManyBucketsException
+  | TooManyConfigurationTemplatesException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConfigurationTemplateMessage,
+  output: ConfigurationSettingsDescription,
+  errors: [
+    InsufficientPrivilegesException,
+    TooManyBucketsException,
+    TooManyConfigurationTemplatesException,
+  ],
+}));
 /**
  * Create a new version of your custom platform.
  */
-export const createPlatformVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePlatformVersionRequest,
-    output: CreatePlatformVersionResult,
-    errors: [
-      ElasticBeanstalkServiceException,
-      InsufficientPrivilegesException,
-      TooManyPlatformsException,
-    ],
-  }),
-);
+export const createPlatformVersion: (
+  input: CreatePlatformVersionRequest,
+) => Effect.Effect<
+  CreatePlatformVersionResult,
+  | ElasticBeanstalkServiceException
+  | InsufficientPrivilegesException
+  | TooManyPlatformsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePlatformVersionRequest,
+  output: CreatePlatformVersionResult,
+  errors: [
+    ElasticBeanstalkServiceException,
+    InsufficientPrivilegesException,
+    TooManyPlatformsException,
+  ],
+}));
 /**
  * Describes the configuration options that are used in a particular configuration
  * template or environment, or that a specified solution stack defines. The description includes
  * the values the options, their default values, and an indication of the required action on a
  * running environment if an option value is changed.
  */
-export const describeConfigurationOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConfigurationOptionsMessage,
-    output: ConfigurationOptionsDescription,
-    errors: [TooManyBucketsException],
-  }));
+export const describeConfigurationOptions: (
+  input: DescribeConfigurationOptionsMessage,
+) => Effect.Effect<
+  ConfigurationOptionsDescription,
+  TooManyBucketsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConfigurationOptionsMessage,
+  output: ConfigurationOptionsDescription,
+  errors: [TooManyBucketsException],
+}));
 /**
  * Returns AWS resources for this environment.
  */
-export const describeEnvironmentResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeEnvironmentResourcesMessage,
-    output: EnvironmentResourceDescriptionsMessage,
-    errors: [InsufficientPrivilegesException],
-  }));
+export const describeEnvironmentResources: (
+  input: DescribeEnvironmentResourcesMessage,
+) => Effect.Effect<
+  EnvironmentResourceDescriptionsMessage,
+  InsufficientPrivilegesException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEnvironmentResourcesMessage,
+  output: EnvironmentResourceDescriptionsMessage,
+  errors: [InsufficientPrivilegesException],
+}));
 /**
  * Describes a platform version. Provides full details. Compare to ListPlatformVersions, which provides summary information about a list of
  * platform versions.
@@ -3432,13 +3767,19 @@ export const describeEnvironmentResources =
  * For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk
  * Platforms Glossary.
  */
-export const describePlatformVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePlatformVersionRequest,
-    output: DescribePlatformVersionResult,
-    errors: [ElasticBeanstalkServiceException, InsufficientPrivilegesException],
-  }),
-);
+export const describePlatformVersion: (
+  input: DescribePlatformVersionRequest,
+) => Effect.Effect<
+  DescribePlatformVersionResult,
+  | ElasticBeanstalkServiceException
+  | InsufficientPrivilegesException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePlatformVersionRequest,
+  output: DescribePlatformVersionResult,
+  errors: [ElasticBeanstalkServiceException, InsufficientPrivilegesException],
+}));
 /**
  * Lists the platform branches available for your account in an AWS Region. Provides
  * summary information about each platform branch.
@@ -3446,17 +3787,38 @@ export const describePlatformVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For definitions of platform branch and other platform-related terms, see AWS Elastic Beanstalk
  * Platforms Glossary.
  */
-export const listPlatformBranches =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPlatformBranches: {
+  (
     input: ListPlatformBranchesRequest,
-    output: ListPlatformBranchesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPlatformBranchesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPlatformBranchesRequest,
+  ) => Stream.Stream<
+    ListPlatformBranchesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPlatformBranchesRequest,
+  ) => Stream.Stream<
+    unknown,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPlatformBranchesRequest,
+  output: ListPlatformBranchesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Return the tags applied to an AWS Elastic Beanstalk resource. The response contains a list of tag key-value pairs.
  *
@@ -3464,7 +3826,16 @@ export const listPlatformBranches =
  * Tagging Application
  * Resources.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceMessage,
+) => Effect.Effect<
+  ResourceTagsDescriptionMessage,
+  | InsufficientPrivilegesException
+  | ResourceNotFoundException
+  | ResourceTypeNotSupportedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceMessage,
   output: ResourceTagsDescriptionMessage,
   errors: [
@@ -3479,38 +3850,60 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You cannot delete an application version that is associated with a running
  * environment.
  */
-export const deleteApplicationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteApplicationVersionMessage,
-    output: DeleteApplicationVersionResponse,
-    errors: [
-      InsufficientPrivilegesException,
-      OperationInProgressException,
-      S3LocationNotInServiceRegionException,
-      SourceBundleDeletionException,
-    ],
-  }),
-);
+export const deleteApplicationVersion: (
+  input: DeleteApplicationVersionMessage,
+) => Effect.Effect<
+  DeleteApplicationVersionResponse,
+  | InsufficientPrivilegesException
+  | OperationInProgressException
+  | S3LocationNotInServiceRegionException
+  | SourceBundleDeletionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationVersionMessage,
+  output: DeleteApplicationVersionResponse,
+  errors: [
+    InsufficientPrivilegesException,
+    OperationInProgressException,
+    S3LocationNotInServiceRegionException,
+    SourceBundleDeletionException,
+  ],
+}));
 /**
  * Deletes the specified version of a custom platform.
  */
-export const deletePlatformVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePlatformVersionRequest,
-    output: DeletePlatformVersionResult,
-    errors: [
-      ElasticBeanstalkServiceException,
-      InsufficientPrivilegesException,
-      OperationInProgressException,
-      PlatformVersionStillReferencedException,
-    ],
-  }),
-);
+export const deletePlatformVersion: (
+  input: DeletePlatformVersionRequest,
+) => Effect.Effect<
+  DeletePlatformVersionResult,
+  | ElasticBeanstalkServiceException
+  | InsufficientPrivilegesException
+  | OperationInProgressException
+  | PlatformVersionStillReferencedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePlatformVersionRequest,
+  output: DeletePlatformVersionResult,
+  errors: [
+    ElasticBeanstalkServiceException,
+    InsufficientPrivilegesException,
+    OperationInProgressException,
+    PlatformVersionStillReferencedException,
+  ],
+}));
 /**
  * Creates an application that has one configuration template named `default`
  * and no application versions.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationMessage,
+) => Effect.Effect<
+  ApplicationDescriptionMessage,
+  TooManyApplicationsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationMessage,
   output: ApplicationDescriptionMessage,
   errors: [TooManyApplicationsException],
@@ -3520,35 +3913,51 @@ export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **DescribeEnvironmentHealth** operation is only available with
  * AWS Elastic Beanstalk Enhanced Health.
  */
-export const describeEnvironmentHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEnvironmentHealthRequest,
-    output: DescribeEnvironmentHealthResult,
-    errors: [ElasticBeanstalkServiceException, InvalidRequestException],
-  }),
-);
+export const describeEnvironmentHealth: (
+  input: DescribeEnvironmentHealthRequest,
+) => Effect.Effect<
+  DescribeEnvironmentHealthResult,
+  | ElasticBeanstalkServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEnvironmentHealthRequest,
+  output: DescribeEnvironmentHealthResult,
+  errors: [ElasticBeanstalkServiceException, InvalidRequestException],
+}));
 /**
  * Retrieves detailed information about the health of instances in your AWS Elastic
  * Beanstalk. This operation requires enhanced health
  * reporting.
  */
-export const describeInstancesHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInstancesHealthRequest,
-    output: DescribeInstancesHealthResult,
-    errors: [ElasticBeanstalkServiceException, InvalidRequestException],
-  }),
-);
+export const describeInstancesHealth: (
+  input: DescribeInstancesHealthRequest,
+) => Effect.Effect<
+  DescribeInstancesHealthResult,
+  | ElasticBeanstalkServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInstancesHealthRequest,
+  output: DescribeInstancesHealthResult,
+  errors: [ElasticBeanstalkServiceException, InvalidRequestException],
+}));
 /**
  * Terminates the specified environment.
  */
-export const terminateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TerminateEnvironmentMessage,
-    output: EnvironmentDescription,
-    errors: [InsufficientPrivilegesException],
-  }),
-);
+export const terminateEnvironment: (
+  input: TerminateEnvironmentMessage,
+) => Effect.Effect<
+  EnvironmentDescription,
+  InsufficientPrivilegesException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TerminateEnvironmentMessage,
+  output: EnvironmentDescription,
+  errors: [InsufficientPrivilegesException],
+}));
 /**
  * Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be passed: `TagsToAdd`
  * for tags to add or update, and `TagsToRemove`.
@@ -3572,19 +3981,28 @@ export const terminateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For details about creating a custom user policy, see Creating a Custom User Policy.
  */
-export const updateTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTagsForResourceMessage,
-    output: UpdateTagsForResourceResponse,
-    errors: [
-      InsufficientPrivilegesException,
-      OperationInProgressException,
-      ResourceNotFoundException,
-      ResourceTypeNotSupportedException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const updateTagsForResource: (
+  input: UpdateTagsForResourceMessage,
+) => Effect.Effect<
+  UpdateTagsForResourceResponse,
+  | InsufficientPrivilegesException
+  | OperationInProgressException
+  | ResourceNotFoundException
+  | ResourceTypeNotSupportedException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTagsForResourceMessage,
+  output: UpdateTagsForResourceResponse,
+  errors: [
+    InsufficientPrivilegesException,
+    OperationInProgressException,
+    ResourceNotFoundException,
+    ResourceTypeNotSupportedException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Creates an application version for the specified application. You can create an
  * application version from a source bundle in Amazon S3, a commit in AWS CodeCommit, or the
@@ -3606,16 +4024,25 @@ export const updateTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * you receive an exception when you attempt to launch an environment from the application
  * version.
  */
-export const createApplicationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateApplicationVersionMessage,
-    output: ApplicationVersionDescriptionMessage,
-    errors: [
-      CodeBuildNotInServiceRegionException,
-      InsufficientPrivilegesException,
-      S3LocationNotInServiceRegionException,
-      TooManyApplicationsException,
-      TooManyApplicationVersionsException,
-    ],
-  }),
-);
+export const createApplicationVersion: (
+  input: CreateApplicationVersionMessage,
+) => Effect.Effect<
+  ApplicationVersionDescriptionMessage,
+  | CodeBuildNotInServiceRegionException
+  | InsufficientPrivilegesException
+  | S3LocationNotInServiceRegionException
+  | TooManyApplicationsException
+  | TooManyApplicationVersionsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApplicationVersionMessage,
+  output: ApplicationVersionDescriptionMessage,
+  errors: [
+    CodeBuildNotInServiceRegionException,
+    InsufficientPrivilegesException,
+    S3LocationNotInServiceRegionException,
+    TooManyApplicationsException,
+    TooManyApplicationVersionsException,
+  ],
+}));

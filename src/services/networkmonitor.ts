@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "NetworkMonitor",
   serviceShapeName: "NetworkMonitor",
@@ -292,6 +300,21 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type TagKey = string;
+export type ResourceName = string;
+export type AggregationPeriod = number;
+export type PaginationToken = string;
+export type MaxResults = number;
+export type ProbeId = string;
+export type Destination = string;
+export type Port = number;
+export type PacketSize = number;
+export type TagValue = string;
+export type MonitorArn = string;
+export type VpcId = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -872,7 +895,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.optional(S.String) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -881,7 +906,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
@@ -895,24 +922,56 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Returns a list of all of your monitors.
  */
-export const listMonitors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMonitors: {
+  (
     input: ListMonitorsInput,
-    output: ListMonitorsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "monitors",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMonitorsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMonitorsInput,
+  ) => Stream.Stream<
+    ListMonitorsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMonitorsInput,
+  ) => Stream.Stream<
+    MonitorSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMonitorsInput,
+  output: ListMonitorsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "monitors",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a monitor between a source subnet and destination IP address. Within a monitor you'll create one or more probes that monitor network traffic between your source Amazon Web Services VPC subnets and your destination IP addresses. Each probe then aggregates and sends metrics to Amazon CloudWatch.
  *
@@ -936,7 +995,19 @@ export const listMonitors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * - (Optional) `tags` —Key-value pairs created and assigned to the
  * probe.
  */
-export const createMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMonitor: (
+  input: CreateMonitorInput,
+) => Effect.Effect<
+  CreateMonitorOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMonitorInput,
   output: CreateMonitorOutput,
   errors: [
@@ -955,7 +1026,19 @@ export const createMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * monitor names. Note the name of the `monitorName` you want to create the
  * probe for.
  */
-export const createProbe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProbe: (
+  input: CreateProbeInput,
+) => Effect.Effect<
+  CreateProbeOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProbeInput,
   output: CreateProbeOutput,
   errors: [
@@ -970,7 +1053,19 @@ export const createProbe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags assigned to this resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -985,7 +1080,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds key-value pairs to a monitor or probe.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -1003,7 +1110,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `ListMonitors` to get a list of monitor names. Run
  * `GetMonitor` to get a list of probes and probe IDs.
  */
-export const getProbe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getProbe: (
+  input: GetProbeInput,
+) => Effect.Effect<
+  GetProbeOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProbeInput,
   output: GetProbeOutput,
   errors: [
@@ -1037,7 +1155,19 @@ export const getProbe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - (Optional) `tags` —Key-value pairs created and assigned to the
  * probe.
  */
-export const updateProbe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProbe: (
+  input: UpdateProbeInput,
+) => Effect.Effect<
+  UpdateProbeOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProbeInput,
   output: UpdateProbeOutput,
   errors: [
@@ -1055,7 +1185,18 @@ export const updateProbe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This action requires the `monitorName` parameter. Run
  * `ListMonitors` to get a list of monitor names.
  */
-export const deleteMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMonitor: (
+  input: DeleteMonitorInput,
+) => Effect.Effect<
+  DeleteMonitorOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMonitorInput,
   output: DeleteMonitorOutput,
   errors: [
@@ -1075,7 +1216,19 @@ export const deleteMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `GetMonitor` to get a list of probes and probe IDs. You can only delete a
  * single probe at a time using this action.
  */
-export const deleteProbe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProbe: (
+  input: DeleteProbeInput,
+) => Effect.Effect<
+  DeleteProbeOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProbeInput,
   output: DeleteProbeOutput,
   errors: [
@@ -1090,7 +1243,19 @@ export const deleteProbe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a key-value pair from a monitor or probe.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -1108,7 +1273,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This action requires the `monitorName` parameter. Run
  * `ListMonitors` to get a list of monitor names.
  */
-export const getMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMonitor: (
+  input: GetMonitorInput,
+) => Effect.Effect<
+  GetMonitorOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMonitorInput,
   output: GetMonitorOutput,
   errors: [
@@ -1125,7 +1301,19 @@ export const getMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This action requires the `monitorName` and `probeId` parameter.
  * Run `ListMonitors` to get a list of monitor names.
  */
-export const updateMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMonitor: (
+  input: UpdateMonitorInput,
+) => Effect.Effect<
+  UpdateMonitorOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMonitorInput,
   output: UpdateMonitorOutput,
   errors: [

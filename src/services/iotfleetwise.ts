@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "IoTFleetWise",
   serviceShapeName: "IoTAutobahnControlPlane",
@@ -240,6 +248,72 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type errorMessage = string;
+export type customerAccountId = string;
+export type nextToken = string;
+export type maxResults = number;
+export type vehicleName = string;
+export type AmazonResourceName = string;
+export type TagKey = string;
+export type campaignName = string;
+export type description = string;
+export type arn = string;
+export type uint32 = number;
+export type priority = number;
+export type NodePath = string;
+export type statusStr = string;
+export type resourceName = string;
+export type FullyQualifiedName = string;
+export type InterfaceId = string;
+export type fleetId = string;
+export type ResourceIdentifier = string;
+export type attributeName = string;
+export type attributeValue = string;
+export type listVehiclesMaxResults = number;
+export type CloudWatchLogGroupName = string;
+export type TimestreamDatabaseName = string;
+export type TimestreamTableName = string;
+export type IAMRoleArn = string;
+export type TagValue = string;
+export type wildcardSignalName = string;
+export type maxSampleCount = number;
+export type DataPartitionId = string;
+export type languageVersion = number;
+export type actionEventExpression = string;
+export type campaignArn = string;
+export type message = string;
+export type ResourceUniqueId = string;
+export type collectionPeriodMs = number;
+export type eventExpression = string;
+export type S3BucketArn = string;
+export type Prefix = string;
+export type TimestreamTableArn = string;
+export type MqttTopicArn = string;
+export type StorageLocation = string;
+export type nonNegativeInteger = number;
+export type double = number;
+export type CanSignalName = string;
+export type positiveInteger = number;
+export type ObdByteLength = number;
+export type ObdBitmaskLength = number;
+export type TopicName = string;
+export type CustomDecodingId = string;
+export type CanInterfaceName = string;
+export type ProtocolName = string;
+export type ProtocolVersion = string;
+export type ObdInterfaceName = string;
+export type ObdStandard = string;
+export type VehicleMiddlewareName = string;
+export type CustomDecodingSignalInterfaceName = string;
+export type StorageMaximumSizeValue = number;
+export type StorageMinimumTimeToLiveValue = number;
+export type positiveLong = number;
+export type fetchConfigEventExpression = string;
+export type RetryAfterSeconds = number;
+export type StructureMessageName = string;
+export type maxStringSize = number;
 
 //# Schemas
 export interface GetEncryptionConfigurationRequest {}
@@ -621,6 +695,9 @@ export const ROS2PrimitiveMessageDefinition = S.suspend(() =>
 ).annotations({
   identifier: "ROS2PrimitiveMessageDefinition",
 }) as any as S.Schema<ROS2PrimitiveMessageDefinition>;
+export type PrimitiveMessageDefinition = {
+  ros2PrimitiveMessageDefinition: ROS2PrimitiveMessageDefinition;
+};
 export const PrimitiveMessageDefinition = S.Union(
   S.Struct({ ros2PrimitiveMessageDefinition: ROS2PrimitiveMessageDefinition }),
 );
@@ -1312,6 +1389,13 @@ export const CustomProperty = S.suspend(() =>
 ).annotations({
   identifier: "CustomProperty",
 }) as any as S.Schema<CustomProperty>;
+export type Node =
+  | { branch: Branch }
+  | { sensor: Sensor }
+  | { actuator: Actuator }
+  | { attribute: Attribute }
+  | { struct: CustomStruct }
+  | { property: CustomProperty };
 export const Node = S.Union(
   S.Struct({ branch: Branch }),
   S.Struct({ sensor: Sensor }),
@@ -1579,6 +1663,9 @@ export const OnChangeStateTemplateUpdateStrategy = S.suspend(() =>
 ).annotations({
   identifier: "OnChangeStateTemplateUpdateStrategy",
 }) as any as S.Schema<OnChangeStateTemplateUpdateStrategy>;
+export type StateTemplateUpdateStrategy =
+  | { periodic: PeriodicStateTemplateUpdateStrategy }
+  | { onChange: OnChangeStateTemplateUpdateStrategy };
 export const StateTemplateUpdateStrategy = S.Union(
   S.Struct({ periodic: PeriodicStateTemplateUpdateStrategy }),
   S.Struct({ onChange: OnChangeStateTemplateUpdateStrategy }),
@@ -1882,6 +1969,7 @@ export type SignalInformationList = SignalInformation[];
 export const SignalInformationList = S.Array(SignalInformation);
 export type vehicles = string[];
 export const vehicles = S.Array(S.String);
+export type FormattedVss = { vssJson: string };
 export const FormattedVss = S.Union(S.Struct({ vssJson: S.String }));
 export type fleets = string[];
 export const fleets = S.Array(S.String);
@@ -2041,6 +2129,9 @@ export const ConditionBasedCollectionScheme = S.suspend(() =>
 ).annotations({
   identifier: "ConditionBasedCollectionScheme",
 }) as any as S.Schema<ConditionBasedCollectionScheme>;
+export type CollectionScheme =
+  | { timeBasedCollectionScheme: TimeBasedCollectionScheme }
+  | { conditionBasedCollectionScheme: ConditionBasedCollectionScheme };
 export const CollectionScheme = S.Union(
   S.Struct({ timeBasedCollectionScheme: TimeBasedCollectionScheme }),
   S.Struct({ conditionBasedCollectionScheme: ConditionBasedCollectionScheme }),
@@ -2077,6 +2168,10 @@ export const MqttTopicConfig = S.suspend(() =>
 ).annotations({
   identifier: "MqttTopicConfig",
 }) as any as S.Schema<MqttTopicConfig>;
+export type DataDestinationConfig =
+  | { s3Config: S3Config }
+  | { timestreamConfig: TimestreamConfig }
+  | { mqttTopicConfig: MqttTopicConfig };
 export const DataDestinationConfig = S.Union(
   S.Struct({ s3Config: S3Config }),
   S.Struct({ timestreamConfig: TimestreamConfig }),
@@ -2161,6 +2256,9 @@ export const ConditionBasedSignalFetchConfig = S.suspend(() =>
 ).annotations({
   identifier: "ConditionBasedSignalFetchConfig",
 }) as any as S.Schema<ConditionBasedSignalFetchConfig>;
+export type SignalFetchConfig =
+  | { timeBased: TimeBasedSignalFetchConfig }
+  | { conditionBased: ConditionBasedSignalFetchConfig };
 export const SignalFetchConfig = S.Union(
   S.Struct({ timeBased: TimeBasedSignalFetchConfig }),
   S.Struct({ conditionBased: ConditionBasedSignalFetchConfig }),
@@ -3106,6 +3204,7 @@ export const UpdateVehicleError = S.suspend(() =>
 }) as any as S.Schema<UpdateVehicleError>;
 export type updateVehicleErrors = UpdateVehicleError[];
 export const updateVehicleErrors = S.Array(UpdateVehicleError);
+export type NetworkFileDefinition = { canDbc: CanDbcDefinition };
 export const NetworkFileDefinition = S.Union(
   S.Struct({ canDbc: CanDbcDefinition }),
 );
@@ -3382,7 +3481,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   {
@@ -3391,7 +3492,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     serviceCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resource: S.String, resourceType: S.String },
@@ -3437,7 +3540,13 @@ export class DecoderManifestValidationException extends S.TaggedError<DecoderMan
 /**
  * Retrieves the logging options.
  */
-export const getLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLoggingOptions: (
+  input: GetLoggingOptionsRequest,
+) => Effect.Effect<
+  GetLoggingOptionsResponse,
+  AccessDeniedException | ThrottlingException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoggingOptionsRequest,
   output: GetLoggingOptionsResponse,
   errors: [AccessDeniedException, ThrottlingException],
@@ -3447,7 +3556,17 @@ export const getLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const getCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCampaign: (
+  input: GetCampaignRequest,
+) => Effect.Effect<
+  GetCampaignResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCampaignRequest,
   output: GetCampaignResponse,
   errors: [
@@ -3461,7 +3580,21 @@ export const getCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a signal catalog using your existing VSS formatted content from your local
  * device.
  */
-export const importSignalCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importSignalCatalog: (
+  input: ImportSignalCatalogRequest,
+) => Effect.Effect<
+  ImportSignalCatalogResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidSignalsException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportSignalCatalogRequest,
   output: ImportSignalCatalogResponse,
   errors: [
@@ -3481,67 +3614,177 @@ export const importSignalCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * A decoder manifest can only be updated when the status is `DRAFT`. Only
  * `ACTIVE` decoder manifests can be associated with vehicles.
  */
-export const updateDecoderManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDecoderManifestRequest,
-    output: UpdateDecoderManifestResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DecoderManifestValidationException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateDecoderManifest: (
+  input: UpdateDecoderManifestRequest,
+) => Effect.Effect<
+  UpdateDecoderManifestResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DecoderManifestValidationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDecoderManifestRequest,
+  output: UpdateDecoderManifestResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DecoderManifestValidationException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists information about created campaigns.
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listCampaigns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCampaigns: {
+  (
     input: ListCampaignsRequest,
-    output: ListCampaignsResponse,
-    errors: [AccessDeniedException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "campaignSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCampaignsResponse,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCampaignsRequest,
+  ) => Stream.Stream<
+    ListCampaignsResponse,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCampaignsRequest,
+  ) => Stream.Stream<
+    CampaignSummary,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCampaignsRequest,
+  output: ListCampaignsResponse,
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "campaignSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists decoder manifests.
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listDecoderManifests =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDecoderManifests: {
+  (
     input: ListDecoderManifestsRequest,
-    output: ListDecoderManifestsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "summaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDecoderManifestsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDecoderManifestsRequest,
+  ) => Stream.Stream<
+    ListDecoderManifestsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDecoderManifestsRequest,
+  ) => Stream.Stream<
+    DecoderManifestSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDecoderManifestsRequest,
+  output: ListDecoderManifestsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "summaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information for each created fleet in an Amazon Web Services account.
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listFleets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFleets: {
+  (
+    input: ListFleetsRequest,
+  ): Effect.Effect<
+    ListFleetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFleetsRequest,
+  ) => Stream.Stream<
+    ListFleetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFleetsRequest,
+  ) => Stream.Stream<
+    FleetSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFleetsRequest,
   output: ListFleetsResponse,
   errors: [
@@ -3563,28 +3806,70 @@ export const listFleets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listModelManifests = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listModelManifests: {
+  (
     input: ListModelManifestsRequest,
-    output: ListModelManifestsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "summaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListModelManifestsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListModelManifestsRequest,
+  ) => Stream.Stream<
+    ListModelManifestsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListModelManifestsRequest,
+  ) => Stream.Stream<
+    ModelManifestSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListModelManifestsRequest,
+  output: ListModelManifestsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "summaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information about a signal catalog.
  */
-export const getSignalCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSignalCatalog: (
+  input: GetSignalCatalogRequest,
+) => Effect.Effect<
+  GetSignalCatalogResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSignalCatalogRequest,
   output: GetSignalCatalogResponse,
   errors: [
@@ -3602,70 +3887,166 @@ export const getSignalCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listSignalCatalogs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSignalCatalogs: {
+  (
     input: ListSignalCatalogsRequest,
-    output: ListSignalCatalogsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "summaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSignalCatalogsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSignalCatalogsRequest,
+  ) => Stream.Stream<
+    ListSignalCatalogsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSignalCatalogsRequest,
+  ) => Stream.Stream<
+    SignalCatalogSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSignalCatalogsRequest,
+  output: ListSignalCatalogsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "summaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists information about created state templates.
  *
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const listStateTemplates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listStateTemplates: {
+  (
     input: ListStateTemplatesRequest,
-    output: ListStateTemplatesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "summaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListStateTemplatesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStateTemplatesRequest,
+  ) => Stream.Stream<
+    ListStateTemplatesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStateTemplatesRequest,
+  ) => Stream.Stream<
+    StateTemplateSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStateTemplatesRequest,
+  output: ListStateTemplatesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "summaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of summaries of created vehicles.
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listVehicles = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listVehicles: {
+  (
     input: ListVehiclesRequest,
-    output: ListVehiclesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "vehicleSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListVehiclesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVehiclesRequest,
+  ) => Stream.Stream<
+    ListVehiclesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVehiclesRequest,
+  ) => Stream.Stream<
+    VehicleSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVehiclesRequest,
+  output: ListVehiclesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "vehicleSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information about the status of registering your Amazon Web Services account, IAM, and
  * Amazon Timestream resources so that Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services
@@ -3675,23 +4056,43 @@ export const listVehicles = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * This API operation doesn't require input parameters.
  */
-export const getRegisterAccountStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRegisterAccountStatusRequest,
-    output: GetRegisterAccountStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getRegisterAccountStatus: (
+  input: GetRegisterAccountStatusRequest,
+) => Effect.Effect<
+  GetRegisterAccountStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRegisterAccountStatusRequest,
+  output: GetRegisterAccountStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the tags (metadata) you have assigned to the resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3706,7 +4107,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Adds to or modifies the tags of the given resource. Tags are metadata which can be
  * used to manage a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3722,51 +4134,134 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listDecoderManifestNetworkInterfaces =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDecoderManifestNetworkInterfaces: {
+  (
     input: ListDecoderManifestNetworkInterfacesRequest,
-    output: ListDecoderManifestNetworkInterfacesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "networkInterfaces",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDecoderManifestNetworkInterfacesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDecoderManifestNetworkInterfacesRequest,
+  ) => Stream.Stream<
+    ListDecoderManifestNetworkInterfacesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDecoderManifestNetworkInterfacesRequest,
+  ) => Stream.Stream<
+    NetworkInterface,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDecoderManifestNetworkInterfacesRequest,
+  output: ListDecoderManifestNetworkInterfacesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "networkInterfaces",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * A list of information about signal decoders specified in a decoder manifest.
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listDecoderManifestSignals =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDecoderManifestSignals: {
+  (
     input: ListDecoderManifestSignalsRequest,
-    output: ListDecoderManifestSignalsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "signalDecoders",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDecoderManifestSignalsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDecoderManifestSignalsRequest,
+  ) => Stream.Stream<
+    ListDecoderManifestSignalsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDecoderManifestSignalsRequest,
+  ) => Stream.Stream<
+    SignalDecoder,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDecoderManifestSignalsRequest,
+  output: ListDecoderManifestSignalsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "signalDecoders",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information about a fleet.
  */
-export const getFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFleet: (
+  input: GetFleetRequest,
+) => Effect.Effect<
+  GetFleetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFleetRequest,
   output: GetFleetResponse,
   errors: [
@@ -3782,7 +4277,17 @@ export const getFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * dissociated from the fleet. For more information, see Delete a fleet (AWS
  * CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const deleteFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFleet: (
+  input: DeleteFleetRequest,
+) => Effect.Effect<
+  DeleteFleetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFleetRequest,
   output: DeleteFleetResponse,
   errors: [
@@ -3797,30 +4302,77 @@ export const deleteFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listVehiclesInFleet =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listVehiclesInFleet: {
+  (
     input: ListVehiclesInFleetRequest,
-    output: ListVehiclesInFleetResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "vehicles",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListVehiclesInFleetResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVehiclesInFleetRequest,
+  ) => Stream.Stream<
+    ListVehiclesInFleetResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVehiclesInFleetRequest,
+  ) => Stream.Stream<
+    vehicleName,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVehiclesInFleetRequest,
+  output: ListVehiclesInFleetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "vehicles",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information about a state template.
  *
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const getStateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStateTemplate: (
+  input: GetStateTemplateRequest,
+) => Effect.Effect<
+  GetStateTemplateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStateTemplateRequest,
   output: GetStateTemplateResponse,
   errors: [
@@ -3834,7 +4386,17 @@ export const getStateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a state template.
  */
-export const deleteStateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteStateTemplate: (
+  input: DeleteStateTemplateRequest,
+) => Effect.Effect<
+  DeleteStateTemplateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStateTemplateRequest,
   output: DeleteStateTemplateResponse,
   errors: [
@@ -3847,7 +4409,18 @@ export const deleteStateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a vehicle.
  */
-export const getVehicle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVehicle: (
+  input: GetVehicleRequest,
+) => Effect.Effect<
+  GetVehicleResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVehicleRequest,
   output: GetVehicleResponse,
   errors: [
@@ -3861,7 +4434,17 @@ export const getVehicle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a vehicle and removes it from any campaigns.
  */
-export const deleteVehicle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVehicle: (
+  input: DeleteVehicleRequest,
+) => Effect.Effect<
+  DeleteVehicleResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVehicleRequest,
   output: DeleteVehicleResponse,
   errors: [
@@ -3876,28 +4459,75 @@ export const deleteVehicle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listFleetsForVehicle =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFleetsForVehicle: {
+  (
     input: ListFleetsForVehicleRequest,
-    output: ListFleetsForVehicleResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "fleets",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFleetsForVehicleResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFleetsForVehicleRequest,
+  ) => Stream.Stream<
+    ListFleetsForVehicleResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFleetsForVehicleRequest,
+  ) => Stream.Stream<
+    fleetId,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFleetsForVehicleRequest,
+  output: ListFleetsForVehicleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "fleets",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Removes the given tags (metadata) from the resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3912,23 +4542,43 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a
  * fleet doesn't delete the vehicle.
  */
-export const disassociateVehicleFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateVehicleFleetRequest,
-    output: DisassociateVehicleFleetResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateVehicleFleet: (
+  input: DisassociateVehicleFleetRequest,
+) => Effect.Effect<
+  DisassociateVehicleFleetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateVehicleFleetRequest,
+  output: DisassociateVehicleFleetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a campaign.
  */
-export const updateCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCampaign: (
+  input: UpdateCampaignRequest,
+) => Effect.Effect<
+  UpdateCampaignResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCampaignRequest,
   output: UpdateCampaignResponse,
   errors: [
@@ -3943,23 +4593,44 @@ export const updateCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles
  * associated with it.
  */
-export const deleteDecoderManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDecoderManifestRequest,
-    output: DeleteDecoderManifestResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteDecoderManifest: (
+  input: DeleteDecoderManifestRequest,
+) => Effect.Effect<
+  DeleteDecoderManifestResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDecoderManifestRequest,
+  output: DeleteDecoderManifestResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the description of an existing fleet.
  */
-export const updateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFleet: (
+  input: UpdateFleetRequest,
+) => Effect.Effect<
+  UpdateFleetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFleetRequest,
   output: UpdateFleetResponse,
   errors: [
@@ -3974,7 +4645,18 @@ export const updateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a vehicle model (model manifest).
  */
-export const deleteModelManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteModelManifest: (
+  input: DeleteModelManifestRequest,
+) => Effect.Effect<
+  DeleteModelManifestResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelManifestRequest,
   output: DeleteModelManifestResponse,
   errors: [
@@ -3988,7 +4670,18 @@ export const deleteModelManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a signal catalog.
  */
-export const deleteSignalCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSignalCatalog: (
+  input: DeleteSignalCatalogRequest,
+) => Effect.Effect<
+  DeleteSignalCatalogResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSignalCatalogRequest,
   output: DeleteSignalCatalogResponse,
   errors: [
@@ -4002,7 +4695,18 @@ export const deleteSignalCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates or updates the logging option.
  */
-export const putLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putLoggingOptions: (
+  input: PutLoggingOptionsRequest,
+) => Effect.Effect<
+  PutLoggingOptionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLoggingOptionsRequest,
   output: PutLoggingOptionsResponse,
   errors: [
@@ -4017,7 +4721,17 @@ export const putLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes a data collection campaign. Deleting a campaign suspends all data collection
  * and removes it from any vehicles.
  */
-export const deleteCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCampaign: (
+  input: DeleteCampaignRequest,
+) => Effect.Effect<
+  DeleteCampaignResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCampaignRequest,
   output: DeleteCampaignResponse,
   errors: [
@@ -4030,7 +4744,17 @@ export const deleteCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a created decoder manifest.
  */
-export const getDecoderManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDecoderManifest: (
+  input: GetDecoderManifestRequest,
+) => Effect.Effect<
+  GetDecoderManifestResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDecoderManifestRequest,
   output: GetDecoderManifestResponse,
   errors: [
@@ -4043,7 +4767,17 @@ export const getDecoderManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a vehicle model (model manifest).
  */
-export const getModelManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getModelManifest: (
+  input: GetModelManifestRequest,
+) => Effect.Effect<
+  GetModelManifestResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelManifestRequest,
   output: GetModelManifestResponse,
   errors: [
@@ -4056,61 +4790,112 @@ export const getModelManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the encryption configuration for resources and data in Amazon Web Services IoT FleetWise.
  */
-export const getEncryptionConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEncryptionConfigurationRequest,
-    output: GetEncryptionConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getEncryptionConfiguration: (
+  input: GetEncryptionConfigurationRequest,
+) => Effect.Effect<
+  GetEncryptionConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEncryptionConfigurationRequest,
+  output: GetEncryptionConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about the status of campaigns, decoder manifests, or state templates
  * associated with a vehicle.
  */
-export const getVehicleStatus = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getVehicleStatus: {
+  (
     input: GetVehicleStatusRequest,
-    output: GetVehicleStatusResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "campaigns",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetVehicleStatusResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetVehicleStatusRequest,
+  ) => Stream.Stream<
+    GetVehicleStatusResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetVehicleStatusRequest,
+  ) => Stream.Stream<
+    VehicleStatus,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetVehicleStatusRequest,
+  output: GetVehicleStatusResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "campaigns",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and
  * resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and
  * manage. For more information, see Data
  * encryption in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const putEncryptionConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutEncryptionConfigurationRequest,
-    output: PutEncryptionConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putEncryptionConfiguration: (
+  input: PutEncryptionConfigurationRequest,
+) => Effect.Effect<
+  PutEncryptionConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutEncryptionConfigurationRequest,
+  output: PutEncryptionConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * This API operation contains deprecated parameters. Register your account again
  * without the Timestream resources parameter so that Amazon Web Services IoT FleetWise can remove the Timestream
@@ -4136,7 +4921,19 @@ export const putEncryptionConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * with credentials. A single Amazon Web Services account can, and typically does,
  * contain many users and roles.
  */
-export const registerAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerAccount: (
+  input: RegisterAccountRequest,
+) => Effect.Effect<
+  RegisterAccountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterAccountRequest,
   output: RegisterAccountResponse,
   errors: [
@@ -4153,66 +4950,154 @@ export const registerAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listModelManifestNodes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listModelManifestNodes: {
+  (
     input: ListModelManifestNodesRequest,
-    output: ListModelManifestNodesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "nodes",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListModelManifestNodesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListModelManifestNodesRequest,
+  ) => Stream.Stream<
+    ListModelManifestNodesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListModelManifestNodesRequest,
+  ) => Stream.Stream<
+    Node,
+    | AccessDeniedException
+    | InternalServerException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListModelManifestNodesRequest,
+  output: ListModelManifestNodesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "nodes",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists of information about the signals (nodes) specified in a signal catalog.
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listSignalCatalogNodes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSignalCatalogNodes: {
+  (
     input: ListSignalCatalogNodesRequest,
-    output: ListSignalCatalogNodesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "nodes",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSignalCatalogNodesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSignalCatalogNodesRequest,
+  ) => Stream.Stream<
+    ListSignalCatalogNodesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSignalCatalogNodesRequest,
+  ) => Stream.Stream<
+    Node,
+    | AccessDeniedException
+    | InternalServerException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSignalCatalogNodesRequest,
+  output: ListSignalCatalogNodesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "nodes",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Adds, or associates, a vehicle with a fleet.
  */
-export const associateVehicleFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateVehicleFleetRequest,
-    output: AssociateVehicleFleetResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateVehicleFleet: (
+  input: AssociateVehicleFleetRequest,
+) => Effect.Effect<
+  AssociateVehicleFleetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateVehicleFleetRequest,
+  output: AssociateVehicleFleetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a fleet that represents a group of vehicles.
  *
@@ -4221,7 +5106,20 @@ export const associateVehicleFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Fleets in the
  * *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFleet: (
+  input: CreateFleetRequest,
+) => Effect.Effect<
+  CreateFleetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFleetRequest,
   output: CreateFleetResponse,
   errors: [
@@ -4239,7 +5137,20 @@ export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const updateVehicle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVehicle: (
+  input: UpdateVehicleRequest,
+) => Effect.Effect<
+  UpdateVehicleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVehicleRequest,
   output: UpdateVehicleResponse,
   errors: [
@@ -4261,7 +5172,18 @@ export const updateVehicle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Create multiple
  * vehicles (AWS CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const batchCreateVehicle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchCreateVehicle: (
+  input: BatchCreateVehicleRequest,
+) => Effect.Effect<
+  BatchCreateVehicleResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateVehicleRequest,
   output: BatchCreateVehicleResponse,
   errors: [
@@ -4281,7 +5203,18 @@ export const batchCreateVehicle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Update multiple
  * vehicles (AWS CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const batchUpdateVehicle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchUpdateVehicle: (
+  input: BatchUpdateVehicleRequest,
+) => Effect.Effect<
+  BatchUpdateVehicleResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateVehicleRequest,
   output: BatchUpdateVehicleResponse,
   errors: [
@@ -4303,7 +5236,19 @@ export const batchUpdateVehicle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const createCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCampaign: (
+  input: CreateCampaignRequest,
+) => Effect.Effect<
+  CreateCampaignResponse,
+  | AccessDeniedException
+  | ConflictException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCampaignRequest,
   output: CreateCampaignResponse,
   errors: [
@@ -4320,7 +5265,20 @@ export const createCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const updateStateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateStateTemplate: (
+  input: UpdateStateTemplateRequest,
+) => Effect.Effect<
+  UpdateStateTemplateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidSignalsException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStateTemplateRequest,
   output: UpdateStateTemplateResponse,
   errors: [
@@ -4340,7 +5298,20 @@ export const updateStateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Vehicle models
  * in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const createModelManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createModelManifest: (
+  input: CreateModelManifestRequest,
+) => Effect.Effect<
+  CreateModelManifestResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InvalidSignalsException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelManifestRequest,
   output: CreateModelManifestResponse,
   errors: [
@@ -4357,7 +5328,20 @@ export const createModelManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates a vehicle model (model manifest). If created vehicles are associated with a
  * vehicle model, it can't be updated.
  */
-export const updateModelManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateModelManifest: (
+  input: UpdateModelManifestRequest,
+) => Effect.Effect<
+  UpdateModelManifestResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidSignalsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateModelManifestRequest,
   output: UpdateModelManifestResponse,
   errors: [
@@ -4375,7 +5359,21 @@ export const updateModelManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const createStateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createStateTemplate: (
+  input: CreateStateTemplateRequest,
+) => Effect.Effect<
+  CreateStateTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidSignalsException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStateTemplateRequest,
   output: CreateStateTemplateResponse,
   errors: [
@@ -4392,7 +5390,22 @@ export const createStateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a signal catalog.
  */
-export const updateSignalCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSignalCatalog: (
+  input: UpdateSignalCatalogRequest,
+) => Effect.Effect<
+  UpdateSignalCatalogResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidNodeException
+  | InvalidSignalsException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSignalCatalogRequest,
   output: UpdateSignalCatalogResponse,
   errors: [
@@ -4411,7 +5424,20 @@ export const updateSignalCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a collection of standardized signals that can be reused to create vehicle
  * models.
  */
-export const createSignalCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSignalCatalog: (
+  input: CreateSignalCatalogRequest,
+) => Effect.Effect<
+  CreateSignalCatalogResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InvalidNodeException
+  | InvalidSignalsException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSignalCatalogRequest,
   output: CreateSignalCatalogResponse,
   errors: [
@@ -4429,21 +5455,32 @@ export const createSignalCatalog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The CAN signal name must be unique and not repeated across CAN message definitions in a .dbc file.
  */
-export const importDecoderManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ImportDecoderManifestRequest,
-    output: ImportDecoderManifestResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DecoderManifestValidationException,
-      InvalidSignalsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const importDecoderManifest: (
+  input: ImportDecoderManifestRequest,
+) => Effect.Effect<
+  ImportDecoderManifestResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DecoderManifestValidationException
+  | InvalidSignalsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportDecoderManifestRequest,
+  output: ImportDecoderManifestResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DecoderManifestValidationException,
+    InvalidSignalsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a vehicle, which is an instance of a vehicle model (model manifest). Vehicles
  * created from the same vehicle model consist of the same signals inherited from the
@@ -4455,7 +5492,20 @@ export const importDecoderManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Create a vehicle
  * (AWS CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const createVehicle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVehicle: (
+  input: CreateVehicleRequest,
+) => Effect.Effect<
+  CreateVehicleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVehicleRequest,
   output: CreateVehicleResponse,
   errors: [
@@ -4480,18 +5530,29 @@ export const createVehicle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - The signal decoders are specified in the model manifest.
  */
-export const createDecoderManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDecoderManifestRequest,
-    output: CreateDecoderManifestResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DecoderManifestValidationException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createDecoderManifest: (
+  input: CreateDecoderManifestRequest,
+) => Effect.Effect<
+  CreateDecoderManifestResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DecoderManifestValidationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDecoderManifestRequest,
+  output: CreateDecoderManifestResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DecoderManifestValidationException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

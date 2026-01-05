@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://datapipeline.amazonaws.com/doc/2012-10-29/");
 const svc = T.AwsApiService({
   sdkId: "Data Pipeline",
@@ -241,6 +249,20 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type id = string;
+export type longString = string;
+export type int = number;
+export type taskId = string;
+export type errorMessage = string;
+export type fieldNameString = string;
+export type fieldStringValue = string;
+export type tagKey = string;
+export type tagValue = string;
+export type attributeNameString = string;
+export type attributeValueString = string;
+export type validationMessage = string;
 
 //# Schemas
 export type idList = string[];
@@ -1073,18 +1095,38 @@ export class TaskNotFoundException extends S.TaggedError<TaskNotFoundException>(
  * ]
  * }
  */
-export const listPipelines = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPipelines: {
+  (
     input: ListPipelinesInput,
-    output: ListPipelinesOutput,
-    errors: [InternalServiceError, InvalidRequestException],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "marker",
-      items: "pipelineIdList",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPipelinesOutput,
+    InternalServiceError | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPipelinesInput,
+  ) => Stream.Stream<
+    ListPipelinesOutput,
+    InternalServiceError | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPipelinesInput,
+  ) => Stream.Stream<
+    PipelineIdName,
+    InternalServiceError | InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPipelinesInput,
+  output: ListPipelinesOutput,
+  errors: [InternalServiceError, InvalidRequestException],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "marker",
+    items: "pipelineIdList",
+  } as const,
+}));
 /**
  * Task runners call `ReportTaskRunnerHeartbeat` every 15 minutes to indicate that they are operational.
  * If the AWS Data Pipeline Task Runner is launched on a resource managed by AWS Data Pipeline, the web service can use
@@ -1110,13 +1152,17 @@ export const listPipelines = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * {"terminate": false}
  */
-export const reportTaskRunnerHeartbeat = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ReportTaskRunnerHeartbeatInput,
-    output: ReportTaskRunnerHeartbeatOutput,
-    errors: [InternalServiceError, InvalidRequestException],
-  }),
-);
+export const reportTaskRunnerHeartbeat: (
+  input: ReportTaskRunnerHeartbeatInput,
+) => Effect.Effect<
+  ReportTaskRunnerHeartbeatOutput,
+  InternalServiceError | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReportTaskRunnerHeartbeatInput,
+  output: ReportTaskRunnerHeartbeatOutput,
+  errors: [InternalServiceError, InvalidRequestException],
+}));
 /**
  * Creates a new, empty pipeline. Use PutPipelineDefinition to populate the pipeline.
  *
@@ -1140,7 +1186,13 @@ export const reportTaskRunnerHeartbeat = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * {"pipelineId": "df-06372391ZG65EXAMPLE"}
  */
-export const createPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPipeline: (
+  input: CreatePipelineInput,
+) => Effect.Effect<
+  CreatePipelineOutput,
+  InternalServiceError | InvalidRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePipelineInput,
   output: CreatePipelineOutput,
   errors: [InternalServiceError, InvalidRequestException],
@@ -1170,7 +1222,16 @@ export const createPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Unexpected response: 200, OK, undefined
  */
-export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePipeline: (
+  input: DeletePipelineInput,
+) => Effect.Effect<
+  DeletePipelineResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePipelineInput,
   output: DeletePipelineResponse,
   errors: [
@@ -1235,7 +1296,17 @@ export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * ]
  * }
  */
-export const describePipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describePipelines: (
+  input: DescribePipelinesInput,
+) => Effect.Effect<
+  DescribePipelinesOutput,
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePipelinesInput,
   output: DescribePipelinesOutput,
   errors: [
@@ -1379,18 +1450,26 @@ export const describePipelines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * ]
  * }
  */
-export const validatePipelineDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ValidatePipelineDefinitionInput,
-    output: ValidatePipelineDefinitionOutput,
-    errors: [
-      InternalServiceError,
-      InvalidRequestException,
-      PipelineDeletedException,
-      PipelineNotFoundException,
-    ],
-  }),
-);
+export const validatePipelineDefinition: (
+  input: ValidatePipelineDefinitionInput,
+) => Effect.Effect<
+  ValidatePipelineDefinitionOutput,
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ValidatePipelineDefinitionInput,
+  output: ValidatePipelineDefinitionOutput,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    PipelineDeletedException,
+    PipelineNotFoundException,
+  ],
+}));
 /**
  * Gets the object definitions for a set of objects associated with the pipeline. Object definitions are composed of
  * a set of fields that define the properties of the object.
@@ -1442,23 +1521,55 @@ export const validatePipelineDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * ]
  * }
  */
-export const describeObjects = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeObjects: {
+  (
     input: DescribeObjectsInput,
-    output: DescribeObjectsOutput,
-    errors: [
-      InternalServiceError,
-      InvalidRequestException,
-      PipelineDeletedException,
-      PipelineNotFoundException,
-    ],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "marker",
-      items: "pipelineObjects",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeObjectsOutput,
+    | InternalServiceError
+    | InvalidRequestException
+    | PipelineDeletedException
+    | PipelineNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeObjectsInput,
+  ) => Stream.Stream<
+    DescribeObjectsOutput,
+    | InternalServiceError
+    | InvalidRequestException
+    | PipelineDeletedException
+    | PipelineNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeObjectsInput,
+  ) => Stream.Stream<
+    PipelineObject,
+    | InternalServiceError
+    | InvalidRequestException
+    | PipelineDeletedException
+    | PipelineNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeObjectsInput,
+  output: DescribeObjectsOutput,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    PipelineDeletedException,
+    PipelineNotFoundException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "marker",
+    items: "pipelineObjects",
+  } as const,
+}));
 /**
  * Gets the definition of the specified pipeline. You can call `GetPipelineDefinition` to retrieve
  * the pipeline definition that you provided using PutPipelineDefinition.
@@ -1516,22 +1627,40 @@ export const describeObjects = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * ]
  * }
  */
-export const getPipelineDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPipelineDefinitionInput,
-    output: GetPipelineDefinitionOutput,
-    errors: [
-      InternalServiceError,
-      InvalidRequestException,
-      PipelineDeletedException,
-      PipelineNotFoundException,
-    ],
-  }),
-);
+export const getPipelineDefinition: (
+  input: GetPipelineDefinitionInput,
+) => Effect.Effect<
+  GetPipelineDefinitionOutput,
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPipelineDefinitionInput,
+  output: GetPipelineDefinitionOutput,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    PipelineDeletedException,
+    PipelineNotFoundException,
+  ],
+}));
 /**
  * Removes existing tags from the specified pipeline.
  */
-export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removeTags: (
+  input: RemoveTagsInput,
+) => Effect.Effect<
+  RemoveTagsOutput,
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsInput,
   output: RemoveTagsOutput,
   errors: [
@@ -1566,7 +1695,17 @@ export const removeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Unexpected response: 200, OK, undefined
  */
-export const setStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setStatus: (
+  input: SetStatusInput,
+) => Effect.Effect<
+  SetStatusResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetStatusInput,
   output: SetStatusResponse,
   errors: [
@@ -1603,7 +1742,17 @@ export const setStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * {}
  */
-export const activatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const activatePipeline: (
+  input: ActivatePipelineInput,
+) => Effect.Effect<
+  ActivatePipelineOutput,
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivatePipelineInput,
   output: ActivatePipelineOutput,
   errors: [
@@ -1616,7 +1765,17 @@ export const activatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds or modifies tags for the specified pipeline.
  */
-export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addTags: (
+  input: AddTagsInput,
+) => Effect.Effect<
+  AddTagsOutput,
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsInput,
   output: AddTagsOutput,
   errors: [
@@ -1633,7 +1792,17 @@ export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To resume a deactivated pipeline, use ActivatePipeline. By default, the pipeline resumes from the last completed execution.
  * Optionally, you can specify the date and time to resume the pipeline.
  */
-export const deactivatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deactivatePipeline: (
+  input: DeactivatePipelineInput,
+) => Effect.Effect<
+  DeactivatePipelineOutput,
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivatePipelineInput,
   output: DeactivatePipelineOutput,
   errors: [
@@ -1785,18 +1954,26 @@ export const deactivatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * {"__type": "com.amazon.setl.webservice#InvalidRequestException",
  * "message": "Pipeline definition has errors: Could not save the pipeline definition due to FATAL errors: [com.amazon.setl.webservice.ValidationError@108d7ea9] Please call Validate to validate your pipeline"}
  */
-export const putPipelineDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutPipelineDefinitionInput,
-    output: PutPipelineDefinitionOutput,
-    errors: [
-      InternalServiceError,
-      InvalidRequestException,
-      PipelineDeletedException,
-      PipelineNotFoundException,
-    ],
-  }),
-);
+export const putPipelineDefinition: (
+  input: PutPipelineDefinitionInput,
+) => Effect.Effect<
+  PutPipelineDefinitionOutput,
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutPipelineDefinitionInput,
+  output: PutPipelineDefinitionOutput,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    PipelineDeletedException,
+    PipelineNotFoundException,
+  ],
+}));
 /**
  * Queries the specified pipeline for the names of objects that match the specified set of conditions.
  *
@@ -1828,24 +2005,56 @@ export const putPipelineDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * ["@SayHello_1_2012-09-25T17:00:00"]
  * }
  */
-export const queryObjects = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const queryObjects: {
+  (
     input: QueryObjectsInput,
-    output: QueryObjectsOutput,
-    errors: [
-      InternalServiceError,
-      InvalidRequestException,
-      PipelineDeletedException,
-      PipelineNotFoundException,
-    ],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "marker",
-      items: "ids",
-      pageSize: "limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    QueryObjectsOutput,
+    | InternalServiceError
+    | InvalidRequestException
+    | PipelineDeletedException
+    | PipelineNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: QueryObjectsInput,
+  ) => Stream.Stream<
+    QueryObjectsOutput,
+    | InternalServiceError
+    | InvalidRequestException
+    | PipelineDeletedException
+    | PipelineNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: QueryObjectsInput,
+  ) => Stream.Stream<
+    id,
+    | InternalServiceError
+    | InvalidRequestException
+    | PipelineDeletedException
+    | PipelineNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: QueryObjectsInput,
+  output: QueryObjectsOutput,
+  errors: [
+    InternalServiceError,
+    InvalidRequestException,
+    PipelineDeletedException,
+    PipelineNotFoundException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "marker",
+    items: "ids",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * Task runners call `ReportTaskProgress` when assigned a task to acknowledge that it has the task. If the web service does not
  * receive this acknowledgement within 2 minutes, it assigns the task in a subsequent PollForTask call. After this initial acknowledgement,
@@ -1878,7 +2087,18 @@ export const queryObjects = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * {"canceled": false}
  */
-export const reportTaskProgress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const reportTaskProgress: (
+  input: ReportTaskProgressInput,
+) => Effect.Effect<
+  ReportTaskProgressOutput,
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | TaskNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReportTaskProgressInput,
   output: ReportTaskProgressOutput,
   errors: [
@@ -1912,7 +2132,18 @@ export const reportTaskProgress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * {"evaluatedExpression": "Transform started at 2012-12-12T00:00:00 and finished at 2012-12-21T18:00:00"}
  */
-export const evaluateExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const evaluateExpression: (
+  input: EvaluateExpressionInput,
+) => Effect.Effect<
+  EvaluateExpressionOutput,
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | TaskNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EvaluateExpressionInput,
   output: EvaluateExpressionOutput,
   errors: [
@@ -1946,7 +2177,18 @@ export const evaluateExpression = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * {}
  */
-export const setTaskStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setTaskStatus: (
+  input: SetTaskStatusInput,
+) => Effect.Effect<
+  SetTaskStatusOutput,
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | TaskNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetTaskStatusInput,
   output: SetTaskStatusOutput,
   errors: [
@@ -2028,7 +2270,16 @@ export const setTaskStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * "taskId": "2xaM4wRs5zOsIH+g9U3oVHfAgAlbSqU6XduncB0HhZ3xMnmvfePZPn4dIbYXHyWyRK+cU15MqDHwdrvftx/4wv+sNS4w34vJfv7QA9aOoOazW28l1GYSb2ZRR0N0paiQp+d1MhSKo10hOTWOsVK5S5Lnx9Qm6omFgXHyIvZRIvTlrQMpr1xuUrflyGOfbFOGpOLpvPE172MYdqpZKnbSS4TcuqgQKSWV2833fEubI57DPOP7ghWa2TcYeSIv4pdLYG53fTuwfbnbdc98g2LNUQzSVhSnt7BoqyNwht2aQ6b/UHg9A80+KVpuXuqmz3m1MXwHFgxjdmuesXNOrrlGpeLCcRWD+aGo0RN1NqhQRzNAig8V4GlaPTQzMsRCljKqvrIyAoP3Tt2XEGsHkkQo12rEX8Z90957XX2qKRwhruwYzqGkSLWjINoLdAxUJdpRXRc5DJTrBd3D5mdzn7kY1l7NEh4kFHJDt3Cx4Z3Mk8MYCACyCk/CEyy9DwuPi66cLz0NBcgbCM5LKjTBOwo1m+am+pvM1kSposE9FPP1+RFGb8k6jQBTJx3TRz1yKilnGXQTZ5xvdOFpJrklIT0OXP1MG3+auM9FlJA+1dX90QoNJE5z7axmK//MOGXUdkqFe2kiDkorqjxwDvc0Js9pVKfKvAmW8YqUbmI9l0ERpWCXXnLVHNmPWz3jaPY+OBAmuJWDmxB/Z8p94aEDg4BVXQ7LvsKQ3DLYhaB7yJ390CJT+i0mm+EBqY60V6YikPSWDFrYQ/NPi2b1DgE19mX8zHqw8qprIl4yh1Ckx2Iige4En/N5ktOoIxnASxAw/TzcE2skxdw5KlHDF+UTj71m16CR/dIaKlXijlfNlNzUBo/bNSadCQn3G5NoO501wPKI:XO50TgDNyo8EXAMPLE/g==:1"}
  * }
  */
-export const pollForTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const pollForTask: (
+  input: PollForTaskInput,
+) => Effect.Effect<
+  PollForTaskOutput,
+  | InternalServiceError
+  | InvalidRequestException
+  | TaskNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PollForTaskInput,
   output: PollForTaskOutput,
   errors: [

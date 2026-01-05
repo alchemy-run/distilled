@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "EC2 Instance Connect",
   serviceShapeName: "AWSEC2InstanceConnectService",
@@ -241,6 +249,14 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type InstanceId = string;
+export type SerialPort = number;
+export type SSHPublicKey = string;
+export type InstanceOSUser = string;
+export type AvailabilityZone = string;
+export type RequestId = string;
+
 //# Schemas
 export interface SendSerialConsoleSSHPublicKeyRequest {
   InstanceId: string;
@@ -320,7 +336,9 @@ export class EC2InstanceUnavailableException extends S.TaggedError<EC2InstanceUn
   "EC2InstanceUnavailableException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "EC2InstanceUnavailable", httpResponseCode: 503 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidArgsException extends S.TaggedError<InvalidArgsException>()(
   "InvalidArgsException",
   { Message: S.optional(S.String) },
@@ -330,7 +348,9 @@ export class ServiceException extends S.TaggedError<ServiceException>()(
   "ServiceException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalServerError", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class SerialConsoleAccessDisabledException extends S.TaggedError<SerialConsoleAccessDisabledException>()(
   "SerialConsoleAccessDisabledException",
   { Message: S.optional(S.String) },
@@ -343,7 +363,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "TooManyRequests", httpResponseCode: 429 }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class SerialConsoleSessionLimitExceededException extends S.TaggedError<SerialConsoleSessionLimitExceededException>()(
   "SerialConsoleSessionLimitExceededException",
   { Message: S.optional(S.String) },
@@ -359,7 +381,9 @@ export class SerialConsoleSessionUnavailableException extends S.TaggedError<Seri
     code: "SerialConsoleSessionUnavailable",
     httpResponseCode: 500,
   }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class SerialConsoleSessionUnsupportedException extends S.TaggedError<SerialConsoleSessionUnsupportedException>()(
   "SerialConsoleSessionUnsupportedException",
   { Message: S.optional(S.String) },
@@ -376,7 +400,20 @@ export class SerialConsoleSessionUnsupportedException extends S.TaggedError<Seri
  * your Linux instance using EC2 Instance Connect in the Amazon EC2
  * User Guide.
  */
-export const sendSSHPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendSSHPublicKey: (
+  input: SendSSHPublicKeyRequest,
+) => Effect.Effect<
+  SendSSHPublicKeyResponse,
+  | AuthException
+  | EC2InstanceNotFoundException
+  | EC2InstanceStateInvalidException
+  | EC2InstanceUnavailableException
+  | InvalidArgsException
+  | ServiceException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendSSHPublicKeyRequest,
   output: SendSSHPublicKeyResponse,
   errors: [
@@ -395,22 +432,39 @@ export const sendSSHPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * instance using SSH. For more information, see EC2 Serial Console in
  * the *Amazon EC2 User Guide*.
  */
-export const sendSerialConsoleSSHPublicKey =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SendSerialConsoleSSHPublicKeyRequest,
-    output: SendSerialConsoleSSHPublicKeyResponse,
-    errors: [
-      AuthException,
-      EC2InstanceNotFoundException,
-      EC2InstanceStateInvalidException,
-      EC2InstanceTypeInvalidException,
-      EC2InstanceUnavailableException,
-      InvalidArgsException,
-      SerialConsoleAccessDisabledException,
-      SerialConsoleSessionLimitExceededException,
-      SerialConsoleSessionUnavailableException,
-      SerialConsoleSessionUnsupportedException,
-      ServiceException,
-      ThrottlingException,
-    ],
-  }));
+export const sendSerialConsoleSSHPublicKey: (
+  input: SendSerialConsoleSSHPublicKeyRequest,
+) => Effect.Effect<
+  SendSerialConsoleSSHPublicKeyResponse,
+  | AuthException
+  | EC2InstanceNotFoundException
+  | EC2InstanceStateInvalidException
+  | EC2InstanceTypeInvalidException
+  | EC2InstanceUnavailableException
+  | InvalidArgsException
+  | SerialConsoleAccessDisabledException
+  | SerialConsoleSessionLimitExceededException
+  | SerialConsoleSessionUnavailableException
+  | SerialConsoleSessionUnsupportedException
+  | ServiceException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendSerialConsoleSSHPublicKeyRequest,
+  output: SendSerialConsoleSSHPublicKeyResponse,
+  errors: [
+    AuthException,
+    EC2InstanceNotFoundException,
+    EC2InstanceStateInvalidException,
+    EC2InstanceTypeInvalidException,
+    EC2InstanceUnavailableException,
+    InvalidArgsException,
+    SerialConsoleAccessDisabledException,
+    SerialConsoleSessionLimitExceededException,
+    SerialConsoleSessionUnavailableException,
+    SerialConsoleSessionUnsupportedException,
+    ServiceException,
+    ThrottlingException,
+  ],
+}));

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "S3Outposts",
   serviceShapeName: "S3Outposts",
@@ -241,6 +249,26 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type OutpostId = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type CustomerOwnedIpv4Pool = string;
+export type EndpointId = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type EndpointArn = string;
+export type ErrorMessage = string;
+export type CidrBlock = string;
+export type VpcId = string;
+export type OutpostArn = string;
+export type S3OutpostArn = string;
+export type AwsAccountId = string;
+export type CapacityInBytes = number;
+export type NetworkInterfaceId = string;
+export type ErrorCode = string;
+export type Message = string;
+
 //# Schemas
 export interface CreateEndpointRequest {
   OutpostId: string;
@@ -476,7 +504,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },
@@ -488,7 +518,9 @@ export class OutpostOfflineException extends S.TaggedError<OutpostOfflineExcepti
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -504,24 +536,56 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * Includes S3 on Outposts that you have access to as the Outposts owner, or as a shared user
  * from Resource Access Manager (RAM).
  */
-export const listOutpostsWithS3 = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listOutpostsWithS3: {
+  (
     input: ListOutpostsWithS3Request,
-    output: ListOutpostsWithS3Result,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Outposts",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListOutpostsWithS3Result,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOutpostsWithS3Request,
+  ) => Stream.Stream<
+    ListOutpostsWithS3Result,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOutpostsWithS3Request,
+  ) => Stream.Stream<
+    Outpost,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOutpostsWithS3Request,
+  output: ListOutpostsWithS3Result,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Outposts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all endpoints associated with an Outpost that has been shared by Amazon Web Services Resource Access Manager (RAM).
  *
@@ -531,24 +595,60 @@ export const listOutpostsWithS3 = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - DeleteEndpoint
  */
-export const listSharedEndpoints =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSharedEndpoints: {
+  (
     input: ListSharedEndpointsRequest,
-    output: ListSharedEndpointsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Endpoints",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSharedEndpointsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSharedEndpointsRequest,
+  ) => Stream.Stream<
+    ListSharedEndpointsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSharedEndpointsRequest,
+  ) => Stream.Stream<
+    Endpoint,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSharedEndpointsRequest,
+  output: ListSharedEndpointsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Endpoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates an endpoint and associates it with the specified Outpost.
  *
@@ -560,7 +660,20 @@ export const listSharedEndpoints =
  *
  * - ListEndpoints
  */
-export const createEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEndpoint: (
+  input: CreateEndpointRequest,
+) => Effect.Effect<
+  CreateEndpointResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | OutpostOfflineException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEndpointRequest,
   output: CreateEndpointResult,
   errors: [
@@ -584,7 +697,19 @@ export const createEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - ListEndpoints
  */
-export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEndpoint: (
+  input: DeleteEndpointRequest,
+) => Effect.Effect<
+  DeleteEndpointResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | OutpostOfflineException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEndpointRequest,
   output: DeleteEndpointResponse,
   errors: [
@@ -605,22 +730,57 @@ export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - DeleteEndpoint
  */
-export const listEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEndpoints: {
+  (
     input: ListEndpointsRequest,
-    output: ListEndpointsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Endpoints",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEndpointsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEndpointsRequest,
+  ) => Stream.Stream<
+    ListEndpointsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEndpointsRequest,
+  ) => Stream.Stream<
+    Endpoint,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEndpointsRequest,
+  output: ListEndpointsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Endpoints",
+    pageSize: "MaxResults",
+  } as const,
+}));

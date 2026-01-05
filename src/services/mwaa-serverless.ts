@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "MWAA Serverless",
   serviceShapeName: "AmazonMWAAServerless",
@@ -104,6 +112,23 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type TaggableResourceArn = string;
+export type TagKey = string;
+export type WorkflowArn = string;
+export type IdString = string;
+export type NameString = string;
+export type IdempotencyTokenString = string;
+export type RoleARN = string;
+export type DescriptionString = string;
+export type GenericString = string;
+export type WorkflowVersion = string;
+export type VersionId = string;
+export type TagValue = string;
+export type SecurityGroupString = string;
+export type SubnetString = string;
+export type ErrorMessage = string;
 
 //# Schemas
 export type TagKeys = string[];
@@ -943,7 +968,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -951,7 +978,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class OperationTimeoutException extends S.TaggedError<OperationTimeoutException>()(
   "OperationTimeoutException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -965,7 +994,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -989,29 +1020,77 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Lists all runs for a specified workflow, with optional pagination and filtering support.
  */
-export const listWorkflowRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkflowRuns: {
+  (
     input: ListWorkflowRunsRequest,
-    output: ListWorkflowRunsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      OperationTimeoutException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "WorkflowRuns",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkflowRunsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | OperationTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowRunsRequest,
+  ) => Stream.Stream<
+    ListWorkflowRunsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | OperationTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowRunsRequest,
+  ) => Stream.Stream<
+    WorkflowRunSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | OperationTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowRunsRequest,
+  output: ListWorkflowRunsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    OperationTimeoutException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "WorkflowRuns",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a new workflow in Amazon Managed Workflows for Apache Airflow Serverless. This operation initializes a workflow with the specified configuration including the workflow definition, execution role, and optional settings for encryption, logging, and networking. You must provide the workflow definition as a YAML file stored in Amazon S3 that defines the DAG structure using supported Amazon Web Services operators. Amazon Managed Workflows for Apache Airflow Serverless automatically creates the first version of the workflow and sets up the necessary execution environment with multi-tenant isolation and security controls.
  */
-export const createWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkflow: (
+  input: CreateWorkflowRequest,
+) => Effect.Effect<
+  CreateWorkflowResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | OperationTimeoutException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkflowRequest,
   output: CreateWorkflowResponse,
   errors: [
@@ -1027,7 +1106,19 @@ export const createWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a specific task instance within a workflow run. Task instances represent individual tasks that are executed as part of a workflow in the Amazon Managed Workflows for Apache Airflow Serverless environment. Each task instance runs in an isolated ECS container with dedicated resources and security boundaries. The service tracks task execution state, retry attempts, and provides detailed timing and error information for troubleshooting and monitoring purposes.
  */
-export const getTaskInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTaskInstance: (
+  input: GetTaskInstanceRequest,
+) => Effect.Effect<
+  GetTaskInstanceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTaskInstanceRequest,
   output: GetTaskInstanceResponse,
   errors: [
@@ -1042,7 +1133,19 @@ export const getTaskInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a workflow, including its configuration, status, and metadata.
  */
-export const getWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkflow: (
+  input: GetWorkflowRequest,
+) => Effect.Effect<
+  GetWorkflowResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowRequest,
   output: GetWorkflowResponse,
   errors: [
@@ -1057,7 +1160,21 @@ export const getWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing workflow with new configuration settings. This operation allows you to modify the workflow definition, role, and other settings. When you update a workflow, Amazon Managed Workflows for Apache Airflow Serverless automatically creates a new version with the updated configuration and disables scheduling on all previous versions to ensure only one version is actively scheduled at a time. The update operation maintains workflow history while providing a clean transition to the new configuration.
  */
-export const updateWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWorkflow: (
+  input: UpdateWorkflowRequest,
+) => Effect.Effect<
+  UpdateWorkflowResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkflowRequest,
   output: UpdateWorkflowResponse,
   errors: [
@@ -1074,7 +1191,21 @@ export const updateWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a new execution of a workflow. This operation creates a workflow run that executes the tasks that are defined in the workflow. Amazon Managed Workflows for Apache Airflow Serverless schedules the workflow execution across its managed Airflow environment, automatically scaling ECS worker tasks based on the workload. The service handles task isolation, dependency resolution, and provides comprehensive monitoring and logging throughout the execution lifecycle.
  */
-export const startWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startWorkflowRun: (
+  input: StartWorkflowRunRequest,
+) => Effect.Effect<
+  StartWorkflowRunResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartWorkflowRunRequest,
   output: StartWorkflowRunResponse,
   errors: [
@@ -1091,7 +1222,19 @@ export const startWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a specific workflow run, including its status, execution details, and task instances.
  */
-export const getWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkflowRun: (
+  input: GetWorkflowRunRequest,
+) => Effect.Effect<
+  GetWorkflowRunResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowRunRequest,
   output: GetWorkflowRunResponse,
   errors: [
@@ -1106,7 +1249,19 @@ export const getWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a workflow and all its versions. This operation permanently removes the workflow and cannot be undone. Amazon Managed Workflows for Apache Airflow Serverless ensures that all associated resources are properly cleaned up, including stopping any running executions, removing scheduled triggers, and cleaning up execution history. The deletion process respects the multi-tenant isolation boundaries and ensures that no residual data or configurations remain that could affect other customers or workflows.
  */
-export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkflow: (
+  input: DeleteWorkflowRequest,
+) => Effect.Effect<
+  DeleteWorkflowResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkflowRequest,
   output: DeleteWorkflowResponse,
   errors: [
@@ -1121,7 +1276,19 @@ export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a running workflow execution. This operation terminates all running tasks and prevents new tasks from starting. Amazon Managed Workflows for Apache Airflow Serverless gracefully shuts down the workflow execution by stopping task scheduling and terminating active ECS worker containers. The operation transitions the workflow run to a `STOPPING` state and then to `STOPPED` once all cleanup is complete. In-flight tasks may complete or be terminated depending on their current execution state.
  */
-export const stopWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopWorkflowRun: (
+  input: StopWorkflowRunRequest,
+) => Effect.Effect<
+  StopWorkflowRunResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopWorkflowRunRequest,
   output: StopWorkflowRunResponse,
   errors: [
@@ -1136,7 +1303,19 @@ export const stopWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all tags that are associated with a specified Amazon Managed Workflows for Apache Airflow Serverless resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1151,7 +1330,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds tags to an Amazon Managed Workflows for Apache Airflow Serverless resource. Tags are key-value pairs that help you organize and categorize your resources.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1166,72 +1357,190 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all task instances for a specific workflow run, with optional pagination support.
  */
-export const listTaskInstances = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTaskInstances: {
+  (
     input: ListTaskInstancesRequest,
-    output: ListTaskInstancesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      OperationTimeoutException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TaskInstances",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTaskInstancesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | OperationTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTaskInstancesRequest,
+  ) => Stream.Stream<
+    ListTaskInstancesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | OperationTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTaskInstancesRequest,
+  ) => Stream.Stream<
+    TaskInstanceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | OperationTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTaskInstancesRequest,
+  output: ListTaskInstancesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    OperationTimeoutException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TaskInstances",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all workflows in your account, with optional pagination support. This operation returns summary information for workflows, showing only the most recently created version of each workflow. Amazon Managed Workflows for Apache Airflow Serverless maintains workflow metadata in a highly available, distributed storage system that enables efficient querying and filtering. The service implements proper access controls to ensure you can only view workflows that you have permissions to access, supporting both individual and team-based workflow management scenarios.
  */
-export const listWorkflows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkflows: {
+  (
     input: ListWorkflowsRequest,
-    output: ListWorkflowsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      OperationTimeoutException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Workflows",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkflowsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | OperationTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowsRequest,
+  ) => Stream.Stream<
+    ListWorkflowsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | OperationTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowsRequest,
+  ) => Stream.Stream<
+    WorkflowSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | OperationTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowsRequest,
+  output: ListWorkflowsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    OperationTimeoutException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Workflows",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all versions of a specified workflow, with optional pagination support.
  */
-export const listWorkflowVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWorkflowVersions: {
+  (
     input: ListWorkflowVersionsRequest,
-    output: ListWorkflowVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      OperationTimeoutException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "WorkflowVersions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWorkflowVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | OperationTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowVersionsRequest,
+  ) => Stream.Stream<
+    ListWorkflowVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | OperationTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowVersionsRequest,
+  ) => Stream.Stream<
+    WorkflowVersionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | OperationTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowVersionsRequest,
+  output: ListWorkflowVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    OperationTimeoutException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "WorkflowVersions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Removes tags from an Amazon Managed Workflows for Apache Airflow Serverless resource. This operation removes the specified tags from the resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [

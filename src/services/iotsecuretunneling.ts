@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "IoTSecureTunneling",
   serviceShapeName: "IoTSecuredTunneling",
@@ -361,6 +369,21 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type TunnelId = string;
+export type AmazonResourceName = string;
+export type ThingName = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type Description = string;
+export type TagKey = string;
+export type TagValue = string;
+export type Service = string;
+export type TimeoutInMin = number;
+export type ErrorMessage = string;
+export type TunnelArn = string;
+export type ClientAccessToken = string;
+
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
@@ -707,7 +730,13 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
  *
  * Requires permission to access the CloseTunnel action.
  */
-export const closeTunnel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const closeTunnel: (
+  input: CloseTunnelRequest,
+) => Effect.Effect<
+  CloseTunnelResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CloseTunnelRequest,
   output: CloseTunnelResponse,
   errors: [ResourceNotFoundException],
@@ -715,7 +744,13 @@ export const closeTunnel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
@@ -731,17 +766,27 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * rotate the access tokens, the new tokens that are generated can only be used for the
  * remaining 8 hours.
  */
-export const rotateTunnelAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RotateTunnelAccessTokenRequest,
-    output: RotateTunnelAccessTokenResponse,
-    errors: [ResourceNotFoundException],
-  }),
-);
+export const rotateTunnelAccessToken: (
+  input: RotateTunnelAccessTokenRequest,
+) => Effect.Effect<
+  RotateTunnelAccessTokenResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RotateTunnelAccessTokenRequest,
+  output: RotateTunnelAccessTokenResponse,
+  errors: [ResourceNotFoundException],
+}));
 /**
  * A resource tag.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException],
@@ -749,7 +794,13 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
@@ -760,24 +811,50 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the ListTunnels action.
  */
-export const listTunnels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTunnels: {
+  (
     input: ListTunnelsRequest,
-    output: ListTunnelsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTunnelsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTunnelsRequest,
+  ) => Stream.Stream<
+    ListTunnelsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTunnelsRequest,
+  ) => Stream.Stream<
+    unknown,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTunnelsRequest,
+  output: ListTunnelsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets information about a tunnel identified by the unique tunnel id.
  *
  * Requires permission to access the DescribeTunnel action.
  */
-export const describeTunnel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTunnel: (
+  input: DescribeTunnelRequest,
+) => Effect.Effect<
+  DescribeTunnelResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTunnelRequest,
   output: DescribeTunnelResponse,
   errors: [ResourceNotFoundException],
@@ -788,7 +865,13 @@ export const describeTunnel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the OpenTunnel action.
  */
-export const openTunnel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const openTunnel: (
+  input: OpenTunnelRequest,
+) => Effect.Effect<
+  OpenTunnelResponse,
+  LimitExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: OpenTunnelRequest,
   output: OpenTunnelResponse,
   errors: [LimitExceededException],

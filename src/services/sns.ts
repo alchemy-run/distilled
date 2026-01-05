@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://sns.amazonaws.com/doc/2010-03-31/");
 const svc = T.AwsApiService({
   sdkId: "SNS",
@@ -269,6 +277,35 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type topicARN = string;
+export type label = string;
+export type delegate = string;
+export type action = string;
+export type PhoneNumber = string;
+export type token = string;
+export type authenticateOnUnsubscribe = string;
+export type PhoneNumberString = string;
+export type topicName = string;
+export type attributeValue = string;
+export type subscriptionARN = string;
+export type nextToken = string;
+export type MaxItemsListOriginationNumbers = number;
+export type MaxItems = number;
+export type AmazonResourceName = string;
+export type message = string;
+export type subject = string;
+export type messageStructure = string;
+export type attributeName = string;
+export type protocol = string;
+export type Endpoint2 = string;
+export type TagKey = string;
+export type OTPCode = string;
+export type TagValue = string;
+export type Iso2CountryCode = string;
+export type account = string;
+export type messageId = string;
 
 //# Schemas
 export interface GetSMSSandboxAccountStatusInput {}
@@ -1672,7 +1709,9 @@ export class InternalErrorException extends S.TaggedError<InternalErrorException
   "InternalErrorException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class FilterPolicyLimitExceededException extends S.TaggedError<FilterPolicyLimitExceededException>()(
   "FilterPolicyLimitExceededException",
   { message: S.optional(S.String) },
@@ -1692,7 +1731,9 @@ export class ThrottledException extends S.TaggedError<ThrottledException>()(
   "ThrottledException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "Throttled", httpResponseCode: 429 }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class InvalidClientTokenId extends S.TaggedError<InvalidClientTokenId>()(
   "InvalidClientTokenId",
   {},
@@ -1857,17 +1898,24 @@ export class TooManyEntriesInBatchRequestException extends S.TaggedError<TooMany
  * see SMS sandbox in
  * the *Amazon SNS Developer Guide*.
  */
-export const getSMSSandboxAccountStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSMSSandboxAccountStatusInput,
-    output: GetSMSSandboxAccountStatusResult,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      ThrottledException,
-    ],
-  }),
-);
+export const getSMSSandboxAccountStatus: (
+  input: GetSMSSandboxAccountStatusInput,
+) => Effect.Effect<
+  GetSMSSandboxAccountStatusResult,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSMSSandboxAccountStatusInput,
+  output: GetSMSSandboxAccountStatusResult,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    ThrottledException,
+  ],
+}));
 /**
  * Creates a platform application object for one of the supported push notification
  * services, such as APNS and GCM (Firebase Cloud Messaging), to which devices and mobile
@@ -1908,17 +1956,24 @@ export const getSMSSandboxAccountStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can use the returned `PlatformApplicationArn` as an attribute for the
  * `CreatePlatformEndpoint` action.
  */
-export const createPlatformApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePlatformApplicationInput,
-    output: CreatePlatformApplicationResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-    ],
-  }),
-);
+export const createPlatformApplication: (
+  input: CreatePlatformApplicationInput,
+) => Effect.Effect<
+  CreatePlatformApplicationResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePlatformApplicationInput,
+  output: CreatePlatformApplicationResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+  ],
+}));
 /**
  * Lists the platform application objects for the supported push notification services,
  * such as APNS and GCM (Firebase Cloud Messaging). The results for
@@ -1932,21 +1987,51 @@ export const createPlatformApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This action is throttled at 15 transactions per second (TPS).
  */
-export const listPlatformApplications =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPlatformApplications: {
+  (
     input: ListPlatformApplicationsInput,
-    output: ListPlatformApplicationsResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PlatformApplications",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPlatformApplicationsResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPlatformApplicationsInput,
+  ) => Stream.Stream<
+    ListPlatformApplicationsResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPlatformApplicationsInput,
+  ) => Stream.Stream<
+    PlatformApplication,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPlatformApplicationsInput,
+  output: ListPlatformApplicationsResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PlatformApplications",
+  } as const,
+}));
 /**
  * Returns a list of the requester's subscriptions. Each call returns a limited list of
  * subscriptions, up to 100. If there are more subscriptions, a `NextToken` is
@@ -1955,22 +2040,51 @@ export const listPlatformApplications =
  *
  * This action is throttled at 30 transactions per second (TPS).
  */
-export const listSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSubscriptions: {
+  (
     input: ListSubscriptionsInput,
-    output: ListSubscriptionsResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Subscriptions",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSubscriptionsResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSubscriptionsInput,
+  ) => Stream.Stream<
+    ListSubscriptionsResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSubscriptionsInput,
+  ) => Stream.Stream<
+    Subscription,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSubscriptionsInput,
+  output: ListSubscriptionsResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Subscriptions",
+  } as const,
+}));
 /**
  * Returns a list of the requester's topics. Each call returns a limited list of topics,
  * up to 100. If there are more topics, a `NextToken` is also returned. Use the
@@ -1979,7 +2093,38 @@ export const listSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * This action is throttled at 30 transactions per second (TPS).
  */
-export const listTopics = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTopics: {
+  (
+    input: ListTopicsInput,
+  ): Effect.Effect<
+    ListTopicsResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTopicsInput,
+  ) => Stream.Stream<
+    ListTopicsResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTopicsInput,
+  ) => Stream.Stream<
+    Topic,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTopicsInput,
   output: ListTopicsResponse,
   errors: [
@@ -2001,23 +2146,42 @@ export const listTopics = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * To resume sending messages, you can opt in the number by using the
  * `OptInPhoneNumber` action.
  */
-export const checkIfPhoneNumberIsOptedOut =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CheckIfPhoneNumberIsOptedOutInput,
-    output: CheckIfPhoneNumberIsOptedOutResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      ThrottledException,
-    ],
-  }));
+export const checkIfPhoneNumberIsOptedOut: (
+  input: CheckIfPhoneNumberIsOptedOutInput,
+) => Effect.Effect<
+  CheckIfPhoneNumberIsOptedOutResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CheckIfPhoneNumberIsOptedOutInput,
+  output: CheckIfPhoneNumberIsOptedOutResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ThrottledException,
+  ],
+}));
 /**
  * Returns the settings for sending SMS messages from your Amazon Web Services account.
  *
  * These settings are set with the `SetSMSAttributes` action.
  */
-export const getSMSAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSMSAttributes: (
+  input: GetSMSAttributesInput,
+) => Effect.Effect<
+  GetSMSAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSMSAttributesInput,
   output: GetSMSAttributesResponse,
   errors: [
@@ -2038,22 +2202,55 @@ export const getSMSAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `NextToken` string received from the previous call. When there are no
  * more records to return, `NextToken` will be null.
  */
-export const listPhoneNumbersOptedOut =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPhoneNumbersOptedOut: {
+  (
     input: ListPhoneNumbersOptedOutInput,
-    output: ListPhoneNumbersOptedOutResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      ThrottledException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "phoneNumbers",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPhoneNumbersOptedOutResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPhoneNumbersOptedOutInput,
+  ) => Stream.Stream<
+    ListPhoneNumbersOptedOutResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPhoneNumbersOptedOutInput,
+  ) => Stream.Stream<
+    PhoneNumber,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPhoneNumbersOptedOutInput,
+  output: ListPhoneNumbersOptedOutResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ThrottledException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "phoneNumbers",
+  } as const,
+}));
 /**
  * Deletes the endpoint for a device and mobile app from Amazon SNS. This action is
  * idempotent. For more information, see Using Amazon SNS Mobile Push
@@ -2062,7 +2259,17 @@ export const listPhoneNumbersOptedOut =
  * When you delete an endpoint that is also subscribed to a topic, then you must also
  * unsubscribe the endpoint from the topic.
  */
-export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEndpoint: (
+  input: DeleteEndpointInput,
+) => Effect.Effect<
+  DeleteEndpointResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEndpointInput,
   output: DeleteEndpointResponse,
   errors: [
@@ -2078,25 +2285,43 @@ export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Using Amazon SNS
  * Mobile Push Notifications.
  */
-export const deletePlatformApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePlatformApplicationInput,
-    output: DeletePlatformApplicationResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      InvalidClientTokenId,
-    ],
-  }),
-);
+export const deletePlatformApplication: (
+  input: DeletePlatformApplicationInput,
+) => Effect.Effect<
+  DeletePlatformApplicationResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePlatformApplicationInput,
+  output: DeletePlatformApplicationResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidClientTokenId,
+  ],
+}));
 /**
  * Use this request to opt in a phone number that is opted out, which enables you to
  * resume sending SMS messages to the number.
  *
  * You can opt in a phone number only once every 30 days.
  */
-export const optInPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const optInPhoneNumber: (
+  input: OptInPhoneNumberInput,
+) => Effect.Effect<
+  OptInPhoneNumberResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: OptInPhoneNumberInput,
   output: OptInPhoneNumberResponse,
   errors: [
@@ -2119,7 +2344,17 @@ export const optInPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * (`sns.amazonaws.com`) permission to perform the
  * `s3:ListBucket` action.
  */
-export const setSMSAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setSMSAttributes: (
+  input: SetSMSAttributesInput,
+) => Effect.Effect<
+  SetSMSAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetSMSAttributesInput,
   output: SetSMSAttributesResponse,
   errors: [
@@ -2137,7 +2372,18 @@ export const setSMSAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the `AddPermission`, `RemovePermission`, and
  * `SetTopicAttributes` actions in your IAM policy.
  */
-export const addPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addPermission: (
+  input: AddPermissionInput,
+) => Effect.Effect<
+  AddPermissionResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddPermissionInput,
   output: AddPermissionResponse,
   errors: [
@@ -2153,24 +2399,60 @@ export const addPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about origination numbers, see Origination numbers in the Amazon SNS Developer
  * Guide.
  */
-export const listOriginationNumbers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOriginationNumbers: {
+  (
     input: ListOriginationNumbersRequest,
-    output: ListOriginationNumbersResult,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      ThrottledException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PhoneNumbers",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOriginationNumbersResult,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOriginationNumbersRequest,
+  ) => Stream.Stream<
+    ListOriginationNumbersResult,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOriginationNumbersRequest,
+  ) => Stream.Stream<
+    PhoneNumberInformation,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOriginationNumbersRequest,
+  output: ListOriginationNumbersResult,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ThrottledException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PhoneNumbers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the calling Amazon Web Services account's current verified and pending destination phone
  * numbers in the SMS sandbox.
@@ -2184,24 +2466,60 @@ export const listOriginationNumbers =
  * see SMS sandbox in
  * the *Amazon SNS Developer Guide*.
  */
-export const listSMSSandboxPhoneNumbers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSMSSandboxPhoneNumbers: {
+  (
     input: ListSMSSandboxPhoneNumbersInput,
-    output: ListSMSSandboxPhoneNumbersResult,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottledException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PhoneNumbers",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSMSSandboxPhoneNumbersResult,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSMSSandboxPhoneNumbersInput,
+  ) => Stream.Stream<
+    ListSMSSandboxPhoneNumbersResult,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSMSSandboxPhoneNumbersInput,
+  ) => Stream.Stream<
+    SMSSandboxPhoneNumber,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSMSSandboxPhoneNumbersInput,
+  output: ListSMSSandboxPhoneNumbersResult,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottledException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PhoneNumbers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the endpoints and endpoint attributes for devices in a supported push
  * notification service, such as GCM (Firebase Cloud Messaging) and APNS. The results for
@@ -2215,23 +2533,59 @@ export const listSMSSandboxPhoneNumbers =
  *
  * This action is throttled at 30 transactions per second (TPS).
  */
-export const listEndpointsByPlatformApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEndpointsByPlatformApplication: {
+  (
     input: ListEndpointsByPlatformApplicationInput,
-    output: ListEndpointsByPlatformApplicationResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-      InvalidClientTokenId,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Endpoints",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEndpointsByPlatformApplicationResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
+    | InvalidClientTokenId
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEndpointsByPlatformApplicationInput,
+  ) => Stream.Stream<
+    ListEndpointsByPlatformApplicationResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
+    | InvalidClientTokenId
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEndpointsByPlatformApplicationInput,
+  ) => Stream.Stream<
+    Endpoint,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
+    | InvalidClientTokenId
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEndpointsByPlatformApplicationInput,
+  output: ListEndpointsByPlatformApplicationResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    InvalidClientTokenId,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Endpoints",
+  } as const,
+}));
 /**
  * Creates an endpoint for a device and mobile app on one of the supported push
  * notification services, such as GCM (Firebase Cloud Messaging) and APNS.
@@ -2249,69 +2603,105 @@ export const listEndpointsByPlatformApplication =
  * more information, see Creating an Amazon SNS Endpoint for
  * Baidu.
  */
-export const createPlatformEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePlatformEndpointInput,
-    output: CreateEndpointResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-      InvalidClientTokenId,
-    ],
-  }),
-);
+export const createPlatformEndpoint: (
+  input: CreatePlatformEndpointInput,
+) => Effect.Effect<
+  CreateEndpointResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePlatformEndpointInput,
+  output: CreateEndpointResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    InvalidClientTokenId,
+  ],
+}));
 /**
  * Retrieves the endpoint attributes for a device on one of the supported push
  * notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more
  * information, see Using Amazon SNS Mobile Push Notifications.
  */
-export const getEndpointAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEndpointAttributesInput,
-    output: GetEndpointAttributesResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-      InvalidClientTokenId,
-    ],
-  }),
-);
+export const getEndpointAttributes: (
+  input: GetEndpointAttributesInput,
+) => Effect.Effect<
+  GetEndpointAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEndpointAttributesInput,
+  output: GetEndpointAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    InvalidClientTokenId,
+  ],
+}));
 /**
  * Retrieves the attributes of the platform application object for the supported push
  * notification services, such as APNS and GCM (Firebase Cloud Messaging). For more
  * information, see Using Amazon SNS Mobile Push Notifications.
  */
-export const getPlatformApplicationAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetPlatformApplicationAttributesInput,
-    output: GetPlatformApplicationAttributesResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-      InvalidClientTokenId,
-    ],
-  }));
+export const getPlatformApplicationAttributes: (
+  input: GetPlatformApplicationAttributesInput,
+) => Effect.Effect<
+  GetPlatformApplicationAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPlatformApplicationAttributesInput,
+  output: GetPlatformApplicationAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    InvalidClientTokenId,
+  ],
+}));
 /**
  * Returns all of the properties of a subscription.
  */
-export const getSubscriptionAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSubscriptionAttributesInput,
-    output: GetSubscriptionAttributesResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-    ],
-  }),
-);
+export const getSubscriptionAttributes: (
+  input: GetSubscriptionAttributesInput,
+) => Effect.Effect<
+  GetSubscriptionAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSubscriptionAttributesInput,
+  output: GetSubscriptionAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+  ],
+}));
 /**
  * Returns a list of the subscriptions to a specific topic. Each call returns a limited
  * list of subscriptions, up to 100. If there are more subscriptions, a
@@ -2320,23 +2710,59 @@ export const getSubscriptionAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This action is throttled at 30 transactions per second (TPS).
  */
-export const listSubscriptionsByTopic =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSubscriptionsByTopic: {
+  (
     input: ListSubscriptionsByTopicInput,
-    output: ListSubscriptionsByTopicResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-      InvalidClientTokenId,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Subscriptions",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSubscriptionsByTopicResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
+    | InvalidClientTokenId
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSubscriptionsByTopicInput,
+  ) => Stream.Stream<
+    ListSubscriptionsByTopicResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
+    | InvalidClientTokenId
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSubscriptionsByTopicInput,
+  ) => Stream.Stream<
+    Subscription,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
+    | InvalidClientTokenId
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSubscriptionsByTopicInput,
+  output: ListSubscriptionsByTopicResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    InvalidClientTokenId,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Subscriptions",
+  } as const,
+}));
 /**
  * Removes a statement from a topic's access control policy.
  *
@@ -2344,7 +2770,18 @@ export const listSubscriptionsByTopic =
  * the `AddPermission`, `RemovePermission`, and
  * `SetTopicAttributes` actions in your IAM policy.
  */
-export const removePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removePermission: (
+  input: RemovePermissionInput,
+) => Effect.Effect<
+  RemovePermissionResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemovePermissionInput,
   output: RemovePermissionResponse,
   errors: [
@@ -2360,19 +2797,28 @@ export const removePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more
  * information, see Using Amazon SNS Mobile Push Notifications.
  */
-export const setEndpointAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetEndpointAttributesInput,
-    output: SetEndpointAttributesResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-      InvalidClientTokenId,
-    ],
-  }),
-);
+export const setEndpointAttributes: (
+  input: SetEndpointAttributesInput,
+) => Effect.Effect<
+  SetEndpointAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetEndpointAttributesInput,
+  output: SetEndpointAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    InvalidClientTokenId,
+  ],
+}));
 /**
  * Sets the attributes of the platform application object for the supported push
  * notification services, such as APNS and GCM (Firebase Cloud Messaging). For more
@@ -2380,41 +2826,73 @@ export const setEndpointAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * attributes for message delivery status, see Using Amazon SNS Application Attributes for
  * Message Delivery Status.
  */
-export const setPlatformApplicationAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetPlatformApplicationAttributesInput,
-    output: SetPlatformApplicationAttributesResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-      InvalidClientTokenId,
-    ],
-  }));
+export const setPlatformApplicationAttributes: (
+  input: SetPlatformApplicationAttributesInput,
+) => Effect.Effect<
+  SetPlatformApplicationAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetPlatformApplicationAttributesInput,
+  output: SetPlatformApplicationAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    InvalidClientTokenId,
+  ],
+}));
 /**
  * Retrieves the specified inline `DataProtectionPolicy` document that is
  * stored in the specified Amazon SNS topic.
  */
-export const getDataProtectionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDataProtectionPolicyInput,
-    output: GetDataProtectionPolicyResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      InvalidSecurityException,
-      NotFoundException,
-      InvalidClientTokenId,
-    ],
-  }),
-);
+export const getDataProtectionPolicy: (
+  input: GetDataProtectionPolicyInput,
+) => Effect.Effect<
+  GetDataProtectionPolicyResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidSecurityException
+  | NotFoundException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataProtectionPolicyInput,
+  output: GetDataProtectionPolicyResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidSecurityException,
+    NotFoundException,
+    InvalidClientTokenId,
+  ],
+}));
 /**
  * Returns all of the properties of a topic. Topic properties returned might differ based
  * on the authorization of the user.
  */
-export const getTopicAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTopicAttributes: (
+  input: GetTopicAttributesInput,
+) => Effect.Effect<
+  GetTopicAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidSecurityException
+  | NotFoundException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTopicAttributesInput,
   output: GetTopicAttributesResponse,
   errors: [
@@ -2430,20 +2908,30 @@ export const getTopicAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Adds or updates an inline policy document that is stored in the specified Amazon SNS
  * topic.
  */
-export const putDataProtectionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutDataProtectionPolicyInput,
-    output: PutDataProtectionPolicyResponse,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      InvalidSecurityException,
-      NotFoundException,
-      InvalidClientTokenId,
-    ],
-  }),
-);
+export const putDataProtectionPolicy: (
+  input: PutDataProtectionPolicyInput,
+) => Effect.Effect<
+  PutDataProtectionPolicyResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidSecurityException
+  | NotFoundException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutDataProtectionPolicyInput,
+  output: PutDataProtectionPolicyResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidSecurityException,
+    NotFoundException,
+    InvalidClientTokenId,
+  ],
+}));
 /**
  * Allows a topic owner to set an attribute of the topic to a new value.
  *
@@ -2451,7 +2939,19 @@ export const putDataProtectionPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * the `AddPermission`, `RemovePermission`, and
  * `SetTopicAttributes` actions in your IAM policy.
  */
-export const setTopicAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setTopicAttributes: (
+  input: SetTopicAttributesInput,
+) => Effect.Effect<
+  SetTopicAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidSecurityException
+  | NotFoundException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetTopicAttributesInput,
   output: SetTopicAttributesResponse,
   errors: [
@@ -2473,7 +2973,18 @@ export const setTopicAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This action is throttled at 100 transactions per second (TPS).
  */
-export const unsubscribe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const unsubscribe: (
+  input: UnsubscribeInput,
+) => Effect.Effect<
+  UnsubscribeResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidSecurityException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnsubscribeInput,
   output: UnsubscribeResponse,
   errors: [
@@ -2497,25 +3008,47 @@ export const unsubscribe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see SMS sandbox in
  * the *Amazon SNS Developer Guide*.
  */
-export const createSMSSandboxPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSMSSandboxPhoneNumberInput,
-    output: CreateSMSSandboxPhoneNumberResult,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      OptedOutException,
-      ThrottledException,
-      UserErrorException,
-    ],
-  }),
-);
+export const createSMSSandboxPhoneNumber: (
+  input: CreateSMSSandboxPhoneNumberInput,
+) => Effect.Effect<
+  CreateSMSSandboxPhoneNumberResult,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | OptedOutException
+  | ThrottledException
+  | UserErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSMSSandboxPhoneNumberInput,
+  output: CreateSMSSandboxPhoneNumberResult,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    OptedOutException,
+    ThrottledException,
+    UserErrorException,
+  ],
+}));
 /**
  * List all tags added to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
  * *Amazon Simple Notification Service Developer Guide*.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AuthorizationErrorException
+  | ConcurrentAccessException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | TagPolicyException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2540,38 +3073,58 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see SMS sandbox in
  * the *Amazon SNS Developer Guide*.
  */
-export const verifySMSSandboxPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: VerifySMSSandboxPhoneNumberInput,
-    output: VerifySMSSandboxPhoneNumberResult,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottledException,
-      VerificationException,
-    ],
-  }),
-);
+export const verifySMSSandboxPhoneNumber: (
+  input: VerifySMSSandboxPhoneNumberInput,
+) => Effect.Effect<
+  VerifySMSSandboxPhoneNumberResult,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottledException
+  | VerificationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: VerifySMSSandboxPhoneNumberInput,
+  output: VerifySMSSandboxPhoneNumberResult,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottledException,
+    VerificationException,
+  ],
+}));
 /**
  * Allows a subscription owner to set an attribute of the subscription to a new
  * value.
  */
-export const setSubscriptionAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetSubscriptionAttributesInput,
-    output: SetSubscriptionAttributesResponse,
-    errors: [
-      AuthorizationErrorException,
-      FilterPolicyLimitExceededException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotFoundException,
-      ReplayLimitExceededException,
-    ],
-  }),
-);
+export const setSubscriptionAttributes: (
+  input: SetSubscriptionAttributesInput,
+) => Effect.Effect<
+  SetSubscriptionAttributesResponse,
+  | AuthorizationErrorException
+  | FilterPolicyLimitExceededException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | ReplayLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetSubscriptionAttributesInput,
+  output: SetSubscriptionAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    FilterPolicyLimitExceededException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    ReplayLimitExceededException,
+  ],
+}));
 /**
  * Deletes an Amazon Web Services account's verified or pending phone number from the SMS
  * sandbox.
@@ -2585,27 +3138,52 @@ export const setSubscriptionAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * see SMS sandbox in
  * the *Amazon SNS Developer Guide*.
  */
-export const deleteSMSSandboxPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSMSSandboxPhoneNumberInput,
-    output: DeleteSMSSandboxPhoneNumberResult,
-    errors: [
-      AuthorizationErrorException,
-      InternalErrorException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottledException,
-      UserErrorException,
-    ],
-  }),
-);
+export const deleteSMSSandboxPhoneNumber: (
+  input: DeleteSMSSandboxPhoneNumberInput,
+) => Effect.Effect<
+  DeleteSMSSandboxPhoneNumberResult,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottledException
+  | UserErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSMSSandboxPhoneNumberInput,
+  output: DeleteSMSSandboxPhoneNumberResult,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottledException,
+    UserErrorException,
+  ],
+}));
 /**
  * Deletes a topic and all its subscriptions. Deleting a topic might prevent some
  * messages previously sent to the topic from being delivered to subscribers. This action
  * is idempotent, so deleting a topic that does not exist does not result in an
  * error.
  */
-export const deleteTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTopic: (
+  input: DeleteTopicInput,
+) => Effect.Effect<
+  DeleteTopicResponse,
+  | AuthorizationErrorException
+  | ConcurrentAccessException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidStateException
+  | NotFoundException
+  | StaleTagException
+  | TagPolicyException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTopicInput,
   output: DeleteTopicResponse,
   errors: [
@@ -2630,7 +3208,22 @@ export const deleteTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This action is throttled at 100 transactions per second (TPS).
  */
-export const subscribe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const subscribe: (
+  input: SubscribeInput,
+) => Effect.Effect<
+  SubscribeResponse,
+  | AuthorizationErrorException
+  | FilterPolicyLimitExceededException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidSecurityException
+  | NotFoundException
+  | ReplayLimitExceededException
+  | SubscriptionLimitExceededException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubscribeInput,
   output: SubscribeResponse,
   errors: [
@@ -2652,7 +3245,20 @@ export const subscribe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * requires an AWS signature only when the `AuthenticateOnUnsubscribe` flag is
  * set to "true".
  */
-export const confirmSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const confirmSubscription: (
+  input: ConfirmSubscriptionInput,
+) => Effect.Effect<
+  ConfirmSubscriptionResponse,
+  | AuthorizationErrorException
+  | FilterPolicyLimitExceededException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | ReplayLimitExceededException
+  | SubscriptionLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfirmSubscriptionInput,
   output: ConfirmSubscriptionResponse,
   errors: [
@@ -2684,7 +3290,21 @@ export const confirmSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - Tagging actions are limited to 10 TPS per Amazon Web Services account, per Amazon Web Services Region. If
  * your application requires a higher throughput, file a technical support request.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AuthorizationErrorException
+  | ConcurrentAccessException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | StaleTagException
+  | TagLimitExceededException
+  | TagPolicyException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2702,7 +3322,21 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Remove tags from the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
  * *Amazon SNS Developer Guide*.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AuthorizationErrorException
+  | ConcurrentAccessException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | StaleTagException
+  | TagLimitExceededException
+  | TagPolicyException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2723,7 +3357,22 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * idempotent, so if the requester already owns a topic with the specified name, that
  * topic's ARN is returned without creating a new topic.
  */
-export const createTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTopic: (
+  input: CreateTopicInput,
+) => Effect.Effect<
+  CreateTopicResponse,
+  | AuthorizationErrorException
+  | ConcurrentAccessException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidSecurityException
+  | StaleTagException
+  | TagLimitExceededException
+  | TagPolicyException
+  | TopicLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTopicInput,
   output: CreateTopicResponse,
   errors: [
@@ -2761,7 +3410,29 @@ export const createTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can publish messages only to topics and endpoints in the same
  * Amazon Web Services Region.
  */
-export const publish = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const publish: (
+  input: PublishInput,
+) => Effect.Effect<
+  PublishResponse,
+  | AuthorizationErrorException
+  | EndpointDisabledException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | InvalidSecurityException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
+  | KMSOptInRequired
+  | KMSThrottlingException
+  | NotFoundException
+  | PlatformApplicationDisabledException
+  | ValidationException
+  | InvalidClientTokenId
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishInput,
   output: PublishResponse,
   errors: [
@@ -2823,7 +3494,33 @@ export const publish = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * When a `messageId` is returned, the batch message is saved, and Amazon SNS
  * immediately delivers the message to subscribers.
  */
-export const publishBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const publishBatch: (
+  input: PublishBatchInput,
+) => Effect.Effect<
+  PublishBatchResponse,
+  | AuthorizationErrorException
+  | BatchEntryIdsNotDistinctException
+  | BatchRequestTooLongException
+  | EmptyBatchRequestException
+  | EndpointDisabledException
+  | InternalErrorException
+  | InvalidBatchEntryIdException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | InvalidSecurityException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
+  | KMSOptInRequired
+  | KMSThrottlingException
+  | NotFoundException
+  | PlatformApplicationDisabledException
+  | TooManyEntriesInBatchRequestException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishBatchInput,
   output: PublishBatchResponse,
   errors: [

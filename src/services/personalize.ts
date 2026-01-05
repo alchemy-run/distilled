@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Personalize",
   serviceShapeName: "AmazonPersonalize",
@@ -240,6 +248,54 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Name = string;
+export type Arn = string;
+export type NumBatchResults = number;
+export type RoleArn = string;
+export type TransactionsPerSecond = number;
+export type DatasetType = string;
+export type KmsKeyArn = string;
+export type FilterExpression = string;
+export type AvroSchema = string;
+export type EventType = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type TagKey = string;
+export type MetricName = string;
+export type TagValue = string;
+export type S3Location = string;
+export type MetricExpression = string;
+export type EventValueThreshold = string;
+export type TrackingId = string;
+export type ErrorMessage = string;
+export type ParameterName = string;
+export type ParameterValue = string;
+export type RankingInfluenceWeight = number;
+export type ColumnName = string;
+export type ItemAttribute = string;
+export type SchedulingExpression = string;
+export type TrainingInputMode = string;
+export type FailureReason = string;
+export type Status = string;
+export type Integer = number;
+export type AccountId = string;
+export type Description = string;
+export type RecipeType = string;
+export type TrainingHours = number;
+export type MetricValue = number;
+export type HPOObjectiveType = string;
+export type MetricRegex = string;
+export type HPOResource = string;
+export type EventTypeThresholdValue = number;
+export type EventTypeWeight = number;
+export type DockerURI = string;
+export type IntegerMinValue = number;
+export type IntegerMaxValue = number;
+export type ContinuousMinValue = number;
+export type ContinuousMaxValue = number;
+export type CategoricalValue = string;
 
 //# Schemas
 export type TagKeys = string[];
@@ -3479,157 +3535,341 @@ export class TooManyTagKeysException extends S.TaggedError<TooManyTagKeysExcepti
 /**
  * Lists the metrics for the metric attribution.
  */
-export const listMetricAttributionMetrics =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMetricAttributionMetrics: {
+  (
     input: ListMetricAttributionMetricsRequest,
-    output: ListMetricAttributionMetricsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "metrics",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMetricAttributionMetricsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMetricAttributionMetricsRequest,
+  ) => Stream.Stream<
+    ListMetricAttributionMetricsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMetricAttributionMetricsRequest,
+  ) => Stream.Stream<
+    MetricAttribute,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMetricAttributionMetricsRequest,
+  output: ListMetricAttributionMetricsResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "metrics",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists metric attributions.
  */
-export const listMetricAttributions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMetricAttributions: {
+  (
     input: ListMetricAttributionsRequest,
-    output: ListMetricAttributionsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "metricAttributions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMetricAttributionsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMetricAttributionsRequest,
+  ) => Stream.Stream<
+    ListMetricAttributionsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMetricAttributionsRequest,
+  ) => Stream.Stream<
+    MetricAttributionSummary,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMetricAttributionsRequest,
+  output: ListMetricAttributionsResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "metricAttributions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of available recipes. The response provides the properties
  * for each recipe, including the recipe's Amazon Resource Name (ARN).
  */
-export const listRecipes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRecipes: {
+  (
     input: ListRecipesRequest,
-    output: ListRecipesResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "recipes",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRecipesResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecipesRequest,
+  ) => Stream.Stream<
+    ListRecipesResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecipesRequest,
+  ) => Stream.Stream<
+    RecipeSummary,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecipesRequest,
+  output: ListRecipesResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "recipes",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of recommenders in a given Domain dataset group.
  * When a Domain dataset group is not specified, all the recommenders associated with the account are listed.
  * The response provides the properties for each recommender, including the Amazon Resource Name (ARN).
  * For more information on recommenders, see CreateRecommender.
  */
-export const listRecommenders = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRecommenders: {
+  (
     input: ListRecommendersRequest,
-    output: ListRecommendersResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "recommenders",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRecommendersResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecommendersRequest,
+  ) => Stream.Stream<
+    ListRecommendersResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommendersRequest,
+  ) => Stream.Stream<
+    RecommenderSummary,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommendersRequest,
+  output: ListRecommendersResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "recommenders",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns the list of schemas associated with the account. The response provides the
  * properties for each schema, including the Amazon Resource Name (ARN).
  * For more information on schemas, see CreateSchema.
  */
-export const listSchemas = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSchemas: {
+  (
     input: ListSchemasRequest,
-    output: ListSchemasResponse,
-    errors: [InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "schemas",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSchemasResponse,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSchemasRequest,
+  ) => Stream.Stream<
+    ListSchemasResponse,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSchemasRequest,
+  ) => Stream.Stream<
+    DatasetSchemaSummary,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSchemasRequest,
+  output: ListSchemasResponse,
+  errors: [InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "schemas",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of solutions in a given dataset group.
  * When a dataset group is not specified, all the solutions associated with the account are listed.
  * The response provides the properties for each solution, including the Amazon Resource Name (ARN).
  * For more information on solutions, see CreateSolution.
  */
-export const listSolutions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSolutions: {
+  (
     input: ListSolutionsRequest,
-    output: ListSolutionsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "solutions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSolutionsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSolutionsRequest,
+  ) => Stream.Stream<
+    ListSolutionsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSolutionsRequest,
+  ) => Stream.Stream<
+    SolutionSummary,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSolutionsRequest,
+  output: ListSolutionsResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "solutions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of the batch inference jobs that have been performed off of a solution
  * version.
  */
-export const listBatchInferenceJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBatchInferenceJobs: {
+  (
     input: ListBatchInferenceJobsRequest,
-    output: ListBatchInferenceJobsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "batchInferenceJobs",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBatchInferenceJobsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBatchInferenceJobsRequest,
+  ) => Stream.Stream<
+    ListBatchInferenceJobsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBatchInferenceJobsRequest,
+  ) => Stream.Stream<
+    BatchInferenceJobSummary,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBatchInferenceJobsRequest,
+  output: ListBatchInferenceJobsResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "batchInferenceJobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of the batch segment jobs that have been performed off of a solution
  * version that you specify.
  */
-export const listBatchSegmentJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBatchSegmentJobs: {
+  (
     input: ListBatchSegmentJobsRequest,
-    output: ListBatchSegmentJobsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "batchSegmentJobs",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBatchSegmentJobsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBatchSegmentJobsRequest,
+  ) => Stream.Stream<
+    ListBatchSegmentJobsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBatchSegmentJobsRequest,
+  ) => Stream.Stream<
+    BatchSegmentJobSummary,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBatchSegmentJobsRequest,
+  output: ListBatchSegmentJobsResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "batchSegmentJobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of campaigns that use the given solution.
  * When a solution is not specified, all the campaigns associated with the account are listed.
  * The response provides the properties for each campaign, including the Amazon Resource Name (ARN).
  * For more information on campaigns, see CreateCampaign.
  */
-export const listCampaigns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCampaigns: {
+  (
     input: ListCampaignsRequest,
-    output: ListCampaignsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "campaigns",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCampaignsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCampaignsRequest,
+  ) => Stream.Stream<
+    ListCampaignsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCampaignsRequest,
+  ) => Stream.Stream<
+    CampaignSummary,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCampaignsRequest,
+  output: ListCampaignsResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "campaigns",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of data deletion jobs for a dataset group ordered by creation time,
  * with the most recent first.
@@ -3639,13 +3879,17 @@ export const listCampaigns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * job, including the Amazon Resource Name (ARN). For more
  * information on data deletion jobs, see Deleting users.
  */
-export const listDataDeletionJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDataDeletionJobsRequest,
-    output: ListDataDeletionJobsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-  }),
-);
+export const listDataDeletionJobs: (
+  input: ListDataDeletionJobsRequest,
+) => Effect.Effect<
+  ListDataDeletionJobsResponse,
+  InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDataDeletionJobsRequest,
+  output: ListDataDeletionJobsResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+}));
 /**
  * Returns a list of dataset export jobs that use the given dataset. When
  * a dataset is not specified, all the dataset export jobs associated with
@@ -3654,36 +3898,77 @@ export const listDataDeletionJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * information on dataset export jobs, see CreateDatasetExportJob. For more information on datasets, see
  * CreateDataset.
  */
-export const listDatasetExportJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDatasetExportJobs: {
+  (
     input: ListDatasetExportJobsRequest,
-    output: ListDatasetExportJobsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "datasetExportJobs",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDatasetExportJobsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatasetExportJobsRequest,
+  ) => Stream.Stream<
+    ListDatasetExportJobsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatasetExportJobsRequest,
+  ) => Stream.Stream<
+    DatasetExportJobSummary,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatasetExportJobsRequest,
+  output: ListDatasetExportJobsResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "datasetExportJobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of dataset groups. The response provides the properties
  * for each dataset group, including the Amazon Resource Name (ARN). For more
  * information on dataset groups, see CreateDatasetGroup.
  */
-export const listDatasetGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDatasetGroups: {
+  (
     input: ListDatasetGroupsRequest,
-    output: ListDatasetGroupsResponse,
-    errors: [InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "datasetGroups",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDatasetGroupsResponse,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatasetGroupsRequest,
+  ) => Stream.Stream<
+    ListDatasetGroupsResponse,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatasetGroupsRequest,
+  ) => Stream.Stream<
+    DatasetGroupSummary,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatasetGroupsRequest,
+  output: ListDatasetGroupsResponse,
+  errors: [InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "datasetGroups",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of dataset import jobs that use the given dataset. When
  * a dataset is not specified, all the dataset import jobs associated with
@@ -3692,71 +3977,152 @@ export const listDatasetGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * information on dataset import jobs, see CreateDatasetImportJob. For more information on datasets, see
  * CreateDataset.
  */
-export const listDatasetImportJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDatasetImportJobs: {
+  (
     input: ListDatasetImportJobsRequest,
-    output: ListDatasetImportJobsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "datasetImportJobs",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDatasetImportJobsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatasetImportJobsRequest,
+  ) => Stream.Stream<
+    ListDatasetImportJobsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatasetImportJobsRequest,
+  ) => Stream.Stream<
+    DatasetImportJobSummary,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatasetImportJobsRequest,
+  output: ListDatasetImportJobsResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "datasetImportJobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns the list of datasets contained in the given dataset group. The
  * response provides the properties for each dataset, including the Amazon
  * Resource Name (ARN). For more information on datasets, see CreateDataset.
  */
-export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDatasets: {
+  (
     input: ListDatasetsRequest,
-    output: ListDatasetsResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "datasets",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDatasetsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatasetsRequest,
+  ) => Stream.Stream<
+    ListDatasetsResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatasetsRequest,
+  ) => Stream.Stream<
+    DatasetSummary,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatasetsRequest,
+  output: ListDatasetsResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "datasets",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns the list of event trackers associated with the account.
  * The response provides the properties for each event tracker, including the Amazon Resource
  * Name (ARN) and tracking ID. For more
  * information on event trackers, see CreateEventTracker.
  */
-export const listEventTrackers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEventTrackers: {
+  (
     input: ListEventTrackersRequest,
-    output: ListEventTrackersResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "eventTrackers",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEventTrackersResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEventTrackersRequest,
+  ) => Stream.Stream<
+    ListEventTrackersResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEventTrackersRequest,
+  ) => Stream.Stream<
+    EventTrackerSummary,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEventTrackersRequest,
+  output: ListEventTrackersResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "eventTrackers",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all filters that belong to a given dataset group.
  */
-export const listFilters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFilters: {
+  (
     input: ListFiltersRequest,
-    output: ListFiltersResponse,
-    errors: [InvalidInputException, InvalidNextTokenException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "Filters",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFiltersResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFiltersRequest,
+  ) => Stream.Stream<
+    ListFiltersResponse,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFiltersRequest,
+  ) => Stream.Stream<
+    FilterSummary,
+    InvalidInputException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFiltersRequest,
+  output: ListFiltersResponse,
+  errors: [InvalidInputException, InvalidNextTokenException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "Filters",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates an Amazon Personalize schema from the specified schema string. The schema you create
  * must be in Avro JSON format.
@@ -3774,7 +4140,16 @@ export const listFilters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - DeleteSchema
  */
-export const createSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSchema: (
+  input: CreateSchemaRequest,
+) => Effect.Effect<
+  CreateSchemaResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSchemaRequest,
   output: CreateSchemaResponse,
   errors: [
@@ -3791,7 +4166,16 @@ export const createSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * request.
  * For information on creating campaigns, see CreateCampaign.
  */
-export const deleteCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCampaign: (
+  input: DeleteCampaignRequest,
+) => Effect.Effect<
+  DeleteCampaignResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCampaignRequest,
   output: DeleteCampaignResponse,
   errors: [
@@ -3814,7 +4198,13 @@ export const deleteCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information on campaigns, see CreateCampaign.
  */
-export const describeCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCampaign: (
+  input: DescribeCampaignRequest,
+) => Effect.Effect<
+  DescribeCampaignResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCampaignRequest,
   output: DescribeCampaignResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -3823,7 +4213,13 @@ export const describeCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Describes the given dataset. For more information on datasets, see
  * CreateDataset.
  */
-export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDataset: (
+  input: DescribeDatasetRequest,
+) => Effect.Effect<
+  DescribeDatasetResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetRequest,
   output: DescribeDatasetResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -3831,12 +4227,17 @@ export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the given feature transformation.
  */
-export const describeFeatureTransformation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeFeatureTransformationRequest,
-    output: DescribeFeatureTransformationResponse,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }));
+export const describeFeatureTransformation: (
+  input: DescribeFeatureTransformationRequest,
+) => Effect.Effect<
+  DescribeFeatureTransformationResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFeatureTransformationRequest,
+  output: DescribeFeatureTransformationResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * Describes the given recommender, including its status.
  *
@@ -3856,7 +4257,13 @@ export const describeFeatureTransformation =
  *
  * For more information on recommenders, see CreateRecommender.
  */
-export const describeRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeRecommender: (
+  input: DescribeRecommenderRequest,
+) => Effect.Effect<
+  DescribeRecommenderResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRecommenderRequest,
   output: DescribeRecommenderResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -3865,7 +4272,13 @@ export const describeRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Describes a solution.
  * For more information on solutions, see CreateSolution.
  */
-export const describeSolution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeSolution: (
+  input: DescribeSolutionRequest,
+) => Effect.Effect<
+  DescribeSolutionResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSolutionRequest,
   output: DescribeSolutionResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -3873,94 +4286,132 @@ export const describeSolution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes a specific version of a solution. For more information on solutions, see CreateSolution
  */
-export const describeSolutionVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSolutionVersionRequest,
-    output: DescribeSolutionVersionResponse,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const describeSolutionVersion: (
+  input: DescribeSolutionVersionRequest,
+) => Effect.Effect<
+  DescribeSolutionVersionResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSolutionVersionRequest,
+  output: DescribeSolutionVersionResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * Gets the properties of a batch inference job including name, Amazon Resource Name (ARN),
  * status, input and output configurations, and the ARN of the solution version used to generate
  * the recommendations.
  */
-export const describeBatchInferenceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeBatchInferenceJobRequest,
-    output: DescribeBatchInferenceJobResponse,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const describeBatchInferenceJob: (
+  input: DescribeBatchInferenceJobRequest,
+) => Effect.Effect<
+  DescribeBatchInferenceJobResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBatchInferenceJobRequest,
+  output: DescribeBatchInferenceJobResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * Gets the properties of a batch segment job including name, Amazon Resource Name (ARN),
  * status, input and output configurations, and the ARN of the solution version used to generate
  * segments.
  */
-export const describeBatchSegmentJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeBatchSegmentJobRequest,
-    output: DescribeBatchSegmentJobResponse,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const describeBatchSegmentJob: (
+  input: DescribeBatchSegmentJobRequest,
+) => Effect.Effect<
+  DescribeBatchSegmentJobResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBatchSegmentJobRequest,
+  output: DescribeBatchSegmentJobResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * Describes the data deletion job created by CreateDataDeletionJob, including the job status.
  */
-export const describeDataDeletionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDataDeletionJobRequest,
-    output: DescribeDataDeletionJobResponse,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const describeDataDeletionJob: (
+  input: DescribeDataDeletionJobRequest,
+) => Effect.Effect<
+  DescribeDataDeletionJobResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDataDeletionJobRequest,
+  output: DescribeDataDeletionJobResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * Describes the dataset export job created by CreateDatasetExportJob, including the export job status.
  */
-export const describeDatasetExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDatasetExportJobRequest,
-    output: DescribeDatasetExportJobResponse,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const describeDatasetExportJob: (
+  input: DescribeDatasetExportJobRequest,
+) => Effect.Effect<
+  DescribeDatasetExportJobResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDatasetExportJobRequest,
+  output: DescribeDatasetExportJobResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * Describes the given dataset group. For more information on dataset
  * groups, see CreateDatasetGroup.
  */
-export const describeDatasetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDatasetGroupRequest,
-    output: DescribeDatasetGroupResponse,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const describeDatasetGroup: (
+  input: DescribeDatasetGroupRequest,
+) => Effect.Effect<
+  DescribeDatasetGroupResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDatasetGroupRequest,
+  output: DescribeDatasetGroupResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * Describes the dataset import job created by CreateDatasetImportJob, including the import job status.
  */
-export const describeDatasetImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDatasetImportJobRequest,
-    output: DescribeDatasetImportJobResponse,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const describeDatasetImportJob: (
+  input: DescribeDatasetImportJobRequest,
+) => Effect.Effect<
+  DescribeDatasetImportJobResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDatasetImportJobRequest,
+  output: DescribeDatasetImportJobResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * Describes an event tracker. The response includes the `trackingId` and
  * `status` of the event tracker.
  * For more information on event trackers, see CreateEventTracker.
  */
-export const describeEventTracker = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEventTrackerRequest,
-    output: DescribeEventTrackerResponse,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const describeEventTracker: (
+  input: DescribeEventTrackerRequest,
+) => Effect.Effect<
+  DescribeEventTrackerResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEventTrackerRequest,
+  output: DescribeEventTrackerResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * Describes a filter's properties.
  */
-export const describeFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeFilter: (
+  input: DescribeFilterRequest,
+) => Effect.Effect<
+  DescribeFilterResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFilterRequest,
   output: DescribeFilterResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -3968,13 +4419,17 @@ export const describeFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes a metric attribution.
  */
-export const describeMetricAttribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeMetricAttributionRequest,
-    output: DescribeMetricAttributionResponse,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const describeMetricAttribution: (
+  input: DescribeMetricAttributionRequest,
+) => Effect.Effect<
+  DescribeMetricAttributionResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeMetricAttributionRequest,
+  output: DescribeMetricAttributionResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * Describes a recipe.
  *
@@ -3993,7 +4448,13 @@ export const describeMetricAttribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * can provide recommendations using the
  * GetRecommendations API.
  */
-export const describeRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeRecipe: (
+  input: DescribeRecipeRequest,
+) => Effect.Effect<
+  DescribeRecipeResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRecipeRequest,
   output: DescribeRecipeResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -4002,7 +4463,13 @@ export const describeRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Describes a schema. For more information on schemas, see
  * CreateSchema.
  */
-export const describeSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeSchema: (
+  input: DescribeSchemaRequest,
+) => Effect.Effect<
+  DescribeSchemaResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSchemaRequest,
   output: DescribeSchemaResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -4010,7 +4477,16 @@ export const describeSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the metrics for the specified solution version.
  */
-export const getSolutionMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSolutionMetrics: (
+  input: GetSolutionMetricsRequest,
+) => Effect.Effect<
+  GetSolutionMetricsResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSolutionMetricsRequest,
   output: GetSolutionMetricsResponse,
   errors: [
@@ -4024,41 +4500,88 @@ export const getSolutionMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * specified, all the solution versions associated with the account are listed. The response
  * provides the properties for each solution version, including the Amazon Resource Name (ARN).
  */
-export const listSolutionVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSolutionVersions: {
+  (
     input: ListSolutionVersionsRequest,
-    output: ListSolutionVersionsResponse,
-    errors: [
-      InvalidInputException,
-      InvalidNextTokenException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "solutionVersions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSolutionVersionsResponse,
+    | InvalidInputException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSolutionVersionsRequest,
+  ) => Stream.Stream<
+    ListSolutionVersionsResponse,
+    | InvalidInputException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSolutionVersionsRequest,
+  ) => Stream.Stream<
+    SolutionVersionSummary,
+    | InvalidInputException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSolutionVersionsRequest,
+  output: ListSolutionVersionsResponse,
+  errors: [
+    InvalidInputException,
+    InvalidNextTokenException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "solutionVersions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates a metric attribution.
  */
-export const updateMetricAttribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMetricAttributionRequest,
-    output: UpdateMetricAttributionResponse,
-    errors: [
-      InvalidInputException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateMetricAttribution: (
+  input: UpdateMetricAttributionRequest,
+) => Effect.Effect<
+  UpdateMetricAttributionResponse,
+  | InvalidInputException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMetricAttributionRequest,
+  output: UpdateMetricAttributionResponse,
+  errors: [
+    InvalidInputException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Get a list of tags attached to a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -4071,7 +4594,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Starts a recommender that is INACTIVE. Starting a recommender does not
  * create any new models, but resumes billing and automatic retraining for the recommender.
  */
-export const startRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startRecommender: (
+  input: StartRecommenderRequest,
+) => Effect.Effect<
+  StartRecommenderResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRecommenderRequest,
   output: StartRecommenderResponse,
   errors: [
@@ -4083,7 +4615,16 @@ export const startRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a recommender that is ACTIVE. Stopping a recommender halts billing and automatic retraining for the recommender.
  */
-export const stopRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopRecommender: (
+  input: StopRecommenderRequest,
+) => Effect.Effect<
+  StopRecommenderResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopRecommenderRequest,
   output: StopRecommenderResponse,
   errors: [
@@ -4112,7 +4653,16 @@ export const stopRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about updating a campaign, including code samples, see Updating a campaign.
  * For more information about campaigns, see Creating a campaign.
  */
-export const updateCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCampaign: (
+  input: UpdateCampaignRequest,
+) => Effect.Effect<
+  UpdateCampaignResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCampaignRequest,
   output: UpdateCampaignResponse,
   errors: [
@@ -4124,7 +4674,16 @@ export const updateCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update a dataset to replace its schema with a new or existing one. For more information, see Replacing a dataset's schema.
  */
-export const updateDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDataset: (
+  input: UpdateDatasetRequest,
+) => Effect.Effect<
+  UpdateDatasetResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDatasetRequest,
   output: UpdateDatasetResponse,
   errors: [
@@ -4142,7 +4701,16 @@ export const updateDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * use the `latestRecommenderUpdate` returned in the DescribeRecommender
  * operation.
  */
-export const updateRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRecommender: (
+  input: UpdateRecommenderRequest,
+) => Effect.Effect<
+  UpdateRecommenderResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRecommenderRequest,
   output: UpdateRecommenderResponse,
   errors: [
@@ -4157,7 +4725,16 @@ export const updateRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * CREATE PENDING or IN PROGRESS state. For more information about deleting datasets,
  * see Deleting a dataset.
  */
-export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataset: (
+  input: DeleteDatasetRequest,
+) => Effect.Effect<
+  DeleteDatasetResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetRequest,
   output: DeleteDatasetResponse,
   errors: [
@@ -4176,7 +4753,16 @@ export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - All datasets in the dataset group.
  */
-export const deleteDatasetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDatasetGroup: (
+  input: DeleteDatasetGroupRequest,
+) => Effect.Effect<
+  DeleteDatasetGroupResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetGroupRequest,
   output: DeleteDatasetGroupResponse,
   errors: [
@@ -4190,7 +4776,16 @@ export const deleteDatasetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the dataset group. For more
  * information on event trackers, see CreateEventTracker.
  */
-export const deleteEventTracker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEventTracker: (
+  input: DeleteEventTrackerRequest,
+) => Effect.Effect<
+  DeleteEventTrackerResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventTrackerRequest,
   output: DeleteEventTrackerResponse,
   errors: [
@@ -4202,7 +4797,16 @@ export const deleteEventTracker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a filter.
  */
-export const deleteFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFilter: (
+  input: DeleteFilterRequest,
+) => Effect.Effect<
+  DeleteFilterResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFilterRequest,
   output: DeleteFilterResponse,
   errors: [
@@ -4214,22 +4818,38 @@ export const deleteFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a metric attribution.
  */
-export const deleteMetricAttribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMetricAttributionRequest,
-    output: DeleteMetricAttributionResponse,
-    errors: [
-      InvalidInputException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteMetricAttribution: (
+  input: DeleteMetricAttributionRequest,
+) => Effect.Effect<
+  DeleteMetricAttributionResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMetricAttributionRequest,
+  output: DeleteMetricAttributionResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deactivates and removes a recommender. A deleted recommender can no longer be specified in a GetRecommendations
  * request.
  */
-export const deleteRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRecommender: (
+  input: DeleteRecommenderRequest,
+) => Effect.Effect<
+  DeleteRecommenderResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRecommenderRequest,
   output: DeleteRecommenderResponse,
   errors: [
@@ -4243,7 +4863,16 @@ export const deleteRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * datasets referencing the schema. For more information on schemas, see
  * CreateSchema.
  */
-export const deleteSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSchema: (
+  input: DeleteSchemaRequest,
+) => Effect.Effect<
+  DeleteSchemaResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSchemaRequest,
   output: DeleteSchemaResponse,
   errors: [
@@ -4261,7 +4890,16 @@ export const deleteSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * CREATE PENDING or IN PROGRESS state.
  * For more information on solutions, see CreateSolution.
  */
-export const deleteSolution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSolution: (
+  input: DeleteSolutionRequest,
+) => Effect.Effect<
+  DeleteSolutionResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSolutionRequest,
   output: DeleteSolutionResponse,
   errors: [
@@ -4284,35 +4922,51 @@ export const deleteSolution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You are billed for all of the training completed up
  * until you stop the solution version creation. You cannot resume creating a solution version once it has been stopped.
  */
-export const stopSolutionVersionCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopSolutionVersionCreationRequest,
-    output: StopSolutionVersionCreationResponse,
-    errors: [
-      InvalidInputException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const stopSolutionVersionCreation: (
+  input: StopSolutionVersionCreationRequest,
+) => Effect.Effect<
+  StopSolutionVersionCreationResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopSolutionVersionCreationRequest,
+  output: StopSolutionVersionCreationResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a metric attribution.
  * A metric attribution creates reports on the data that you import into Amazon Personalize. Depending on how you imported the data, you can view reports in Amazon CloudWatch or Amazon S3.
  * For more information, see Measuring impact of recommendations.
  */
-export const createMetricAttribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMetricAttributionRequest,
-    output: CreateMetricAttributionResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const createMetricAttribution: (
+  input: CreateMetricAttributionRequest,
+) => Effect.Effect<
+  CreateMetricAttributionResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMetricAttributionRequest,
+  output: CreateMetricAttributionResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Updates an Amazon Personalize solution to use a different automatic training configuration. When you update a solution,
  * you can change whether the solution uses
@@ -4328,7 +4982,17 @@ export const createMetricAttribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * DescribeSolution API operation and find the status
  * in the `latestSolutionUpdate`.
  */
-export const updateSolution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSolution: (
+  input: UpdateSolutionRequest,
+) => Effect.Effect<
+  UpdateSolutionResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSolutionRequest,
   output: UpdateSolutionResponse,
   errors: [
@@ -4395,7 +5059,17 @@ export const updateSolution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - DeleteDatasetGroup
  */
-export const createDatasetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDatasetGroup: (
+  input: CreateDatasetGroupRequest,
+) => Effect.Effect<
+  CreateDatasetGroupResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetGroupRequest,
   output: CreateDatasetGroupResponse,
   errors: [
@@ -4408,7 +5082,18 @@ export const createDatasetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Add a list of tags to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -4459,7 +5144,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - DeleteDataset
  */
-export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDataset: (
+  input: CreateDatasetRequest,
+) => Effect.Effect<
+  CreateDatasetResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetRequest,
   output: CreateDatasetResponse,
   errors: [
@@ -4511,20 +5208,30 @@ export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - DescribeDatasetImportJob
  */
-export const createDatasetImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDatasetImportJobRequest,
-    output: CreateDatasetImportJobResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const createDatasetImportJob: (
+  input: CreateDatasetImportJobRequest,
+) => Effect.Effect<
+  CreateDatasetImportJobResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDatasetImportJobRequest,
+  output: CreateDatasetImportJobResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Creates an event tracker that you use when adding event data to a specified dataset
  * group using the
@@ -4557,7 +5264,19 @@ export const createDatasetImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - DeleteEventTracker
  */
-export const createEventTracker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEventTracker: (
+  input: CreateEventTrackerRequest,
+) => Effect.Effect<
+  CreateEventTrackerResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventTrackerRequest,
   output: CreateEventTrackerResponse,
   errors: [
@@ -4572,7 +5291,18 @@ export const createEventTracker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a recommendation filter. For more information, see Filtering recommendations and user segments.
  */
-export const createFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFilter: (
+  input: CreateFilterRequest,
+) => Effect.Effect<
+  CreateFilterResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFilterRequest,
   output: CreateFilterResponse,
   errors: [
@@ -4625,39 +5355,59 @@ export const createFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - DeleteSolution
  */
-export const createSolutionVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSolutionVersionRequest,
-    output: CreateSolutionVersionResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const createSolutionVersion: (
+  input: CreateSolutionVersionRequest,
+) => Effect.Effect<
+  CreateSolutionVersionResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSolutionVersionRequest,
+  output: CreateSolutionVersionResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Creates a batch segment job. The operation can handle up to 50 million records and the
  * input file must be in JSON format. For more information, see
  * Getting batch recommendations and user segments.
  */
-export const createBatchSegmentJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBatchSegmentJobRequest,
-    output: CreateBatchSegmentJobResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const createBatchSegmentJob: (
+  input: CreateBatchSegmentJobRequest,
+) => Effect.Effect<
+  CreateBatchSegmentJobResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBatchSegmentJobRequest,
+  output: CreateBatchSegmentJobResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * You incur campaign costs while it is active. To avoid unnecessary costs, make sure to delete the campaign when you are finished. For information about campaign
  * costs, see Amazon Personalize pricing.
@@ -4715,7 +5465,19 @@ export const createBatchSegmentJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - DeleteCampaign
  */
-export const createCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCampaign: (
+  input: CreateCampaignRequest,
+) => Effect.Effect<
+  CreateCampaignResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCampaignRequest,
   output: CreateCampaignResponse,
   errors: [
@@ -4764,20 +5526,30 @@ export const createCampaign = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - DescribeDataDeletionJob
  */
-export const createDataDeletionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataDeletionJobRequest,
-    output: CreateDataDeletionJobResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const createDataDeletionJob: (
+  input: CreateDataDeletionJobRequest,
+) => Effect.Effect<
+  CreateDataDeletionJobResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataDeletionJobRequest,
+  output: CreateDataDeletionJobResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Creates a job that exports data from your dataset to an Amazon S3 bucket.
  * To allow Amazon Personalize to export the training data, you must specify an
@@ -4797,20 +5569,30 @@ export const createDataDeletionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * includes a `failureReason` key, which describes why the job
  * failed.
  */
-export const createDatasetExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDatasetExportJobRequest,
-    output: CreateDatasetExportJobResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const createDatasetExportJob: (
+  input: CreateDatasetExportJobRequest,
+) => Effect.Effect<
+  CreateDatasetExportJobResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDatasetExportJobRequest,
+  output: CreateDatasetExportJobResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Generates batch recommendations based on a list of items or users stored in Amazon S3
  * and exports the recommendations to an Amazon S3 bucket.
@@ -4833,20 +5615,30 @@ export const createDatasetExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can't get batch recommendations with the Trending-Now or Next-Best-Action recipes.
  */
-export const createBatchInferenceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBatchInferenceJobRequest,
-    output: CreateBatchInferenceJobResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const createBatchInferenceJob: (
+  input: CreateBatchInferenceJobRequest,
+) => Effect.Effect<
+  CreateBatchInferenceJobResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBatchInferenceJobRequest,
+  output: CreateBatchInferenceJobResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Creates a recommender with the recipe (a Domain dataset group use case) you specify.
  * You create recommenders for a Domain dataset group and specify the recommender's Amazon Resource Name (ARN) when you make a
@@ -4903,7 +5695,19 @@ export const createBatchInferenceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - DeleteRecommender
  */
-export const createRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRecommender: (
+  input: CreateRecommenderRequest,
+) => Effect.Effect<
+  CreateRecommenderResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRecommenderRequest,
   output: CreateRecommenderResponse,
   errors: [
@@ -4918,7 +5722,13 @@ export const createRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the given algorithm.
  */
-export const describeAlgorithm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAlgorithm: (
+  input: DescribeAlgorithmRequest,
+) => Effect.Effect<
+  DescribeAlgorithmResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAlgorithmRequest,
   output: DescribeAlgorithmResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -4926,7 +5736,17 @@ export const describeAlgorithm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the specified tags that are attached to a resource. For more information, see Removing tags from Amazon Personalize resources.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagKeysException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -4995,7 +5815,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - DescribeSolutionVersion
  */
-export const createSolution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSolution: (
+  input: CreateSolutionRequest,
+) => Effect.Effect<
+  CreateSolutionResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSolutionRequest,
   output: CreateSolutionResponse,
   errors: [

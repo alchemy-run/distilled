@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Managed Integrations",
   serviceShapeName: "IotManagedIntegrations",
@@ -104,6 +112,145 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type EndpointAddress = string;
+export type IoTManagedIntegrationsResourceARN = string;
+export type ConnectorId = string;
+export type ThirdPartyUserId = string;
+export type ConnectorEventOperationVersion = string;
+export type ConnectorEventStatusCode = number;
+export type ConnectorEventMessage = string;
+export type DeviceDiscoveryId = string;
+export type ConnectorDeviceId = string;
+export type TraceId = string;
+export type TagKey = string;
+export type ClientToken = string;
+export type ConnectorDestinationId = string;
+export type AccountAssociationName = string;
+export type AccountAssociationDescription = string;
+export type AccountAssociationId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type DisplayName = string;
+export type CloudConnectorDescription = string;
+export type CloudConnectorId = string;
+export type LambdaArn = string;
+export type ConnectorDestinationName = string;
+export type ConnectorDestinationDescription = string;
+export type CredentialLockerName = string;
+export type CredentialLockerId = string;
+export type DeliveryDestinationArn = string;
+export type DestinationName = string;
+export type DeliveryDestinationRoleArn = string;
+export type DestinationDescription = string;
+export type ManagedThingId = string;
+export type ConnectorAssociationId = string;
+export type DiscoveryAuthMaterialString = string;
+export type SmartHomeResourceType = string;
+export type SmartHomeResourceId = string;
+export type LogConfigurationId = string;
+export type HubTokenTimerExpirySettingInSeconds = number;
+export type KmsKeyArn = string;
+export type Owner = string;
+export type AuthMaterialString = string;
+export type SerialNumber = string;
+export type Brand = string;
+export type Model = string;
+export type Name = string;
+export type Capabilities = string;
+export type Classification = string;
+export type ParentControllerId = string;
+export type ConnectorPolicyId = string;
+export type EndpointId = string;
+export type CapabilityId = string;
+export type OtaDescription = string;
+export type OtaTaskConfigurationName = string;
+export type OtaTaskConfigurationId = string;
+export type S3Url = string;
+export type OtaTargetQueryString = string;
+export type OtaTaskId = string;
+export type OtaNextToken = string;
+export type CaCertificate = string;
+export type ProvisioningProfileName = string;
+export type ProvisioningProfileId = string;
+export type SchemaVersionedId = string;
+export type SchemaId = string;
+export type SchemaVersionNamespaceName = string;
+export type SchemaVersionVersion = string;
+export type ConnectorDeviceName = string;
+export type TagValue = string;
+export type SecretsManagerArn = string;
+export type SecretsManagerVersionId = string;
+export type CustomProtocolDetailKey = string;
+export type CustomProtocolDetailValue = string;
+export type CapabilityReportVersion = string;
+export type NodeId = string;
+export type ExtrinsicSchemaId = string;
+export type MatterCapabilityReportClusterRevisionId = number;
+export type AttributeName = string;
+export type AttributeValue = string;
+export type EndTime = string;
+export type ScheduleStartTime = string;
+export type LocalStoreLocation = string;
+export type LocalStoreFileRotationMaxFiles = number;
+export type LocalStoreFileRotationMaxBytes = number;
+export type UploadPeriodMinutes = number;
+export type ErrorMessage = string;
+export type OAuthAuthorizationUrl = string;
+export type AccountAssociationArn = string;
+export type AccountAssociationErrorMessage = string;
+export type OAuthCompleteRedirectUrl = string;
+export type CredentialLockerArn = string;
+export type DeviceDiscoveryArn = string;
+export type ManagedThingArn = string;
+export type AdvertisedProductId = string;
+export type UniversalProductCode = string;
+export type InternationalArticleNumber = string;
+export type DeviceSpecificKey = string;
+export type MacAddress = string;
+export type CertificatePem = string;
+export type OtaTaskArn = string;
+export type ProvisioningProfileArn = string;
+export type ClaimCertificate = string;
+export type ClaimCertificatePrivateKey = string;
+export type SchemaVersionDescription = string;
+export type ClusterId = string;
+export type AuthUrl = string;
+export type TokenUrl = string;
+export type ConfigurationErrorCode = string;
+export type ConfigurationErrorMessage = string;
+export type CapabilityName = string;
+export type CapabilityVersion = string;
+export type DeviceType = string;
+export type MaximumPerMinute = number;
+export type InProgressTimeoutInMinutes = number;
+export type DurationInMinutes = number;
+export type StartTime = string;
+export type MinNumberOfRetries = number;
+export type EndpointSemanticTag = string;
+export type MatterCommandId = string;
+export type MatterEventId = string;
+export type CapabilityActionName = string;
+export type ActionReference = string;
+export type ActionTraceId = string;
+export type PropertyName = string;
+export type ActionName = string;
+export type EventName = string;
+export type MinNumberOfExecutedThings = number;
+export type ThresholdPercentage = number;
+export type BaseRatePerMinute = number;
+export type IncrementFactor = number;
+export type ExecutionNumber = number;
+export type RetryAttempt = number;
+export type SpecVersion = string;
+export type MatterCapabilityReportFeatureMap = number;
+export type MatterCapabilityReportFabricIndex = number;
+export type NumberOfNotifiedThings = number;
+export type NumberOfSucceededThings = number;
+export type ErrorResourceId = string;
+export type ErrorResourceType = string;
+export type MatterAttributeId = string;
 
 //# Schemas
 export interface GetCustomEndpointRequest {}
@@ -4018,7 +4165,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { Message: S.optional(S.String) },
@@ -4026,7 +4175,9 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
@@ -4038,11 +4189,15 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },
@@ -4064,86 +4219,189 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
 /**
  * Returns a list of connectors filtered by its Lambda Amazon Resource Name (ARN) and `type`.
  */
-export const listCloudConnectors =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCloudConnectors: {
+  (
     input: ListCloudConnectorsRequest,
-    output: ListCloudConnectorsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCloudConnectorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCloudConnectorsRequest,
+  ) => Stream.Stream<
+    ListCloudConnectorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCloudConnectorsRequest,
+  ) => Stream.Stream<
+    ConnectorItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCloudConnectorsRequest,
+  output: ListCloudConnectorsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the managed thing state for the given device Id.
  */
-export const getManagedThingState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetManagedThingStateRequest,
-    output: GetManagedThingStateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const getManagedThingState: (
+  input: GetManagedThingStateRequest,
+) => Effect.Effect<
+  GetManagedThingStateResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetManagedThingStateRequest,
+  output: GetManagedThingStateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * List all of the over-the-air (OTA) task executions.
  */
-export const listOtaTaskExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOtaTaskExecutions: {
+  (
     input: ListOtaTaskExecutionsRequest,
-    output: ListOtaTaskExecutionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ExecutionSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOtaTaskExecutionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOtaTaskExecutionsRequest,
+  ) => Stream.Stream<
+    ListOtaTaskExecutionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOtaTaskExecutionsRequest,
+  ) => Stream.Stream<
+    OtaTaskExecutionSummaries,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOtaTaskExecutionsRequest,
+  output: ListOtaTaskExecutionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ExecutionSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Create a credential locker.
  *
  * This operation will not trigger the creation of all the manufacturing resources.
  */
-export const createCredentialLocker = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCredentialLockerRequest,
-    output: CreateCredentialLockerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createCredentialLocker: (
+  input: CreateCredentialLockerRequest,
+) => Effect.Effect<
+  CreateCredentialLockerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCredentialLockerRequest,
+  output: CreateCredentialLockerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Delete the over-the-air (OTA) task.
  */
-export const deleteOtaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteOtaTask: (
+  input: DeleteOtaTaskRequest,
+) => Effect.Effect<
+  DeleteOtaTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOtaTaskRequest,
   output: DeleteOtaTaskResponse,
   errors: [
@@ -4158,23 +4416,43 @@ export const deleteOtaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the properties of an existing connector destination.
  */
-export const updateConnectorDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConnectorDestinationRequest,
-    output: UpdateConnectorDestinationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateConnectorDestination: (
+  input: UpdateConnectorDestinationRequest,
+) => Effect.Effect<
+  UpdateConnectorDestinationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConnectorDestinationRequest,
+  output: UpdateConnectorDestinationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get details of the over-the-air (OTA) task by its task id.
  */
-export const getOtaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getOtaTask: (
+  input: GetOtaTaskRequest,
+) => Effect.Effect<
+  GetOtaTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOtaTaskRequest,
   output: GetOtaTaskResponse,
   errors: [
@@ -4188,62 +4466,129 @@ export const getOtaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List all of the over-the-air (OTA) tasks.
  */
-export const listOtaTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listOtaTasks: {
+  (
     input: ListOtaTasksRequest,
-    output: ListOtaTasksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Tasks",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListOtaTasksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOtaTasksRequest,
+  ) => Stream.Stream<
+    ListOtaTasksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOtaTasksRequest,
+  ) => Stream.Stream<
+    OtaTaskSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOtaTasksRequest,
+  output: ListOtaTasksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Tasks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Get an account association for an Amazon Web Services account linked to a customer-managed destination.
  */
-export const getAccountAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAccountAssociationRequest,
-    output: GetAccountAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAccountAssociation: (
+  input: GetAccountAssociationRequest,
+) => Effect.Effect<
+  GetAccountAssociationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountAssociationRequest,
+  output: GetAccountAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Initiates a refresh of an existing account association to update its authorization and connection status.
  */
-export const startAccountAssociationRefresh =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartAccountAssociationRefreshRequest,
-    output: StartAccountAssociationRefreshResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startAccountAssociationRefresh: (
+  input: StartAccountAssociationRefreshRequest,
+) => Effect.Effect<
+  StartAccountAssociationRefreshResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAccountAssociationRefreshRequest,
+  output: StartAccountAssociationRefreshResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get configuration details for a cloud connector.
  */
-export const getCloudConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCloudConnector: (
+  input: GetCloudConnectorRequest,
+) => Effect.Effect<
+  GetCloudConnectorResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCloudConnectorRequest,
   output: GetCloudConnectorResponse,
   errors: [
@@ -4257,23 +4602,44 @@ export const getCloudConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get connector destination details linked to a cloud-to-cloud (C2C) connector.
  */
-export const getConnectorDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetConnectorDestinationRequest,
-    output: GetConnectorDestinationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getConnectorDestination: (
+  input: GetConnectorDestinationRequest,
+) => Effect.Effect<
+  GetConnectorDestinationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConnectorDestinationRequest,
+  output: GetConnectorDestinationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get information on an existing credential locker
  */
-export const getCredentialLocker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCredentialLocker: (
+  input: GetCredentialLockerRequest,
+) => Effect.Effect<
+  GetCredentialLockerResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCredentialLockerRequest,
   output: GetCredentialLockerResponse,
   errors: [
@@ -4288,7 +4654,18 @@ export const getCredentialLocker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a destination by name.
  */
-export const getDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDestination: (
+  input: GetDestinationRequest,
+) => Effect.Effect<
+  GetDestinationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDestinationRequest,
   output: GetDestinationResponse,
   errors: [
@@ -4302,23 +4679,44 @@ export const getDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get an event log configuration.
  */
-export const getEventLogConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEventLogConfigurationRequest,
-    output: GetEventLogConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getEventLogConfiguration: (
+  input: GetEventLogConfigurationRequest,
+) => Effect.Effect<
+  GetEventLogConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEventLogConfigurationRequest,
+  output: GetEventLogConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update a hub configuration.
  */
-export const putHubConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putHubConfiguration: (
+  input: PutHubConfigurationRequest,
+) => Effect.Effect<
+  PutHubConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutHubConfigurationRequest,
   output: PutHubConfigurationResponse,
   errors: [
@@ -4333,87 +4731,147 @@ export const putHubConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Registers an account association with a managed thing, establishing a connection between a device and a third-party account.
  */
-export const registerAccountAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterAccountAssociationRequest,
-    output: RegisterAccountAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const registerAccountAssociation: (
+  input: RegisterAccountAssociationRequest,
+) => Effect.Effect<
+  RegisterAccountAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterAccountAssociationRequest,
+  output: RegisterAccountAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get a notification configuration for a specified event type.
  */
-export const getNotificationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetNotificationConfigurationRequest,
-    output: GetNotificationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getNotificationConfiguration: (
+  input: GetNotificationConfigurationRequest,
+) => Effect.Effect<
+  GetNotificationConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetNotificationConfigurationRequest,
+  output: GetNotificationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get a configuraiton for the over-the-air (OTA) task.
  */
-export const getOtaTaskConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetOtaTaskConfigurationRequest,
-    output: GetOtaTaskConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getOtaTaskConfiguration: (
+  input: GetOtaTaskConfigurationRequest,
+) => Effect.Effect<
+  GetOtaTaskConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOtaTaskConfigurationRequest,
+  output: GetOtaTaskConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get the runtime log configuration for a specific managed thing.
  */
-export const getRuntimeLogConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRuntimeLogConfigurationRequest,
-    output: GetRuntimeLogConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getRuntimeLogConfiguration: (
+  input: GetRuntimeLogConfigurationRequest,
+) => Effect.Effect<
+  GetRuntimeLogConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRuntimeLogConfigurationRequest,
+  output: GetRuntimeLogConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Set the runtime log configuration for a specific managed thing or for all managed things as a group.
  */
-export const putRuntimeLogConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRuntimeLogConfigurationRequest,
-    output: PutRuntimeLogConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putRuntimeLogConfiguration: (
+  input: PutRuntimeLogConfigurationRequest,
+) => Effect.Effect<
+  PutRuntimeLogConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRuntimeLogConfigurationRequest,
+  output: PutRuntimeLogConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a schema version with the provided information.
  */
-export const getSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSchemaVersion: (
+  input: GetSchemaVersionRequest,
+) => Effect.Effect<
+  GetSchemaVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSchemaVersionRequest,
   output: GetSchemaVersionResponse,
   errors: [
@@ -4429,81 +4887,132 @@ export const getSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the properties of an existing account association.
  */
-export const updateAccountAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountAssociationRequest,
-    output: UpdateAccountAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAccountAssociation: (
+  input: UpdateAccountAssociationRequest,
+) => Effect.Effect<
+  UpdateAccountAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountAssociationRequest,
+  output: UpdateAccountAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Remove a third-party account association for an end user.
  *
  * You must first call the `DeregisterAccountAssociation` to remove the connection between the managed thing and the third-party account before calling the `DeleteAccountAssociation` API.
  */
-export const deleteAccountAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAccountAssociationRequest,
-    output: DeleteAccountAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAccountAssociation: (
+  input: DeleteAccountAssociationRequest,
+) => Effect.Effect<
+  DeleteAccountAssociationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountAssociationRequest,
+  output: DeleteAccountAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Delete a connector destination linked to a cloud-to-cloud (C2C) connector.
  *
  * Deletion can't be done if the account association has used this connector destination.
  */
-export const deleteConnectorDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConnectorDestinationRequest,
-    output: DeleteConnectorDestinationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteConnectorDestination: (
+  input: DeleteConnectorDestinationRequest,
+) => Effect.Effect<
+  DeleteConnectorDestinationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectorDestinationRequest,
+  output: DeleteConnectorDestinationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Delete a credential locker.
  *
  * This operation can't be undone and any existing device won't be able to use IoT managed integrations.
  */
-export const deleteCredentialLocker = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCredentialLockerRequest,
-    output: DeleteCredentialLockerResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteCredentialLocker: (
+  input: DeleteCredentialLockerRequest,
+) => Effect.Effect<
+  DeleteCredentialLockerResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCredentialLockerRequest,
+  output: DeleteCredentialLockerResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a notification destination specified by name.
  */
-export const deleteDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDestination: (
+  input: DeleteDestinationRequest,
+) => Effect.Effect<
+  DeleteDestinationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDestinationRequest,
   output: DeleteDestinationResponse,
   errors: [
@@ -4517,7 +5026,18 @@ export const deleteDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update a destination specified by name.
  */
-export const updateDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDestination: (
+  input: UpdateDestinationRequest,
+) => Effect.Effect<
+  UpdateDestinationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDestinationRequest,
   output: UpdateDestinationResponse,
   errors: [
@@ -4531,39 +5051,69 @@ export const updateDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete an event log configuration.
  */
-export const deleteEventLogConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEventLogConfigurationRequest,
-    output: DeleteEventLogConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteEventLogConfiguration: (
+  input: DeleteEventLogConfigurationRequest,
+) => Effect.Effect<
+  DeleteEventLogConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEventLogConfigurationRequest,
+  output: DeleteEventLogConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update an event log configuration by log configuration ID.
  */
-export const updateEventLogConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEventLogConfigurationRequest,
-    output: UpdateEventLogConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateEventLogConfiguration: (
+  input: UpdateEventLogConfigurationRequest,
+) => Effect.Effect<
+  UpdateEventLogConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEventLogConfigurationRequest,
+  output: UpdateEventLogConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get a hub configuration.
  */
-export const getHubConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getHubConfiguration: (
+  input: GetHubConfigurationRequest,
+) => Effect.Effect<
+  GetHubConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHubConfigurationRequest,
   output: GetHubConfigurationResponse,
   errors: [
@@ -4578,68 +5128,118 @@ export const getHubConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deregister an account association from a managed thing.
  */
-export const deregisterAccountAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterAccountAssociationRequest,
-    output: DeregisterAccountAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deregisterAccountAssociation: (
+  input: DeregisterAccountAssociationRequest,
+) => Effect.Effect<
+  DeregisterAccountAssociationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterAccountAssociationRequest,
+  output: DeregisterAccountAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a notification configuration.
  */
-export const deleteNotificationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteNotificationConfigurationRequest,
-    output: DeleteNotificationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteNotificationConfiguration: (
+  input: DeleteNotificationConfigurationRequest,
+) => Effect.Effect<
+  DeleteNotificationConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNotificationConfigurationRequest,
+  output: DeleteNotificationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update a notification configuration.
  */
-export const updateNotificationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateNotificationConfigurationRequest,
-    output: UpdateNotificationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateNotificationConfiguration: (
+  input: UpdateNotificationConfigurationRequest,
+) => Effect.Effect<
+  UpdateNotificationConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNotificationConfigurationRequest,
+  output: UpdateNotificationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Delete the over-the-air (OTA) task configuration.
  */
-export const deleteOtaTaskConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOtaTaskConfigurationRequest,
-    output: DeleteOtaTaskConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteOtaTaskConfiguration: (
+  input: DeleteOtaTaskConfigurationRequest,
+) => Effect.Effect<
+  DeleteOtaTaskConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOtaTaskConfigurationRequest,
+  output: DeleteOtaTaskConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update an over-the-air (OTA) task.
  */
-export const updateOtaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateOtaTask: (
+  input: UpdateOtaTaskRequest,
+) => Effect.Effect<
+  UpdateOtaTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOtaTaskRequest,
   output: UpdateOtaTaskResponse,
   errors: [
@@ -4653,187 +5253,479 @@ export const updateOtaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Reset a runtime log configuration for a specific managed thing.
  */
-export const resetRuntimeLogConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ResetRuntimeLogConfigurationRequest,
-    output: ResetRuntimeLogConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const resetRuntimeLogConfiguration: (
+  input: ResetRuntimeLogConfigurationRequest,
+) => Effect.Effect<
+  ResetRuntimeLogConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetRuntimeLogConfigurationRequest,
+  output: ResetRuntimeLogConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List information on an existing credential locker.
  */
-export const listCredentialLockers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCredentialLockers: {
+  (
     input: ListCredentialLockersRequest,
-    output: ListCredentialLockersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCredentialLockersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCredentialLockersRequest,
+  ) => Stream.Stream<
+    ListCredentialLockersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCredentialLockersRequest,
+  ) => Stream.Stream<
+    CredentialLockerSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCredentialLockersRequest,
+  output: ListCredentialLockersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists schema versions with the provided information.
  */
-export const listSchemaVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSchemaVersions: {
+  (
     input: ListSchemaVersionsRequest,
-    output: ListSchemaVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSchemaVersionsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSchemaVersionsRequest,
+  ) => Stream.Stream<
+    ListSchemaVersionsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSchemaVersionsRequest,
+  ) => Stream.Stream<
+    SchemaVersionListItem,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSchemaVersionsRequest,
+  output: ListSchemaVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all connector destinations, with optional filtering by cloud connector ID.
  */
-export const listConnectorDestinations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConnectorDestinations: {
+  (
     input: ListConnectorDestinationsRequest,
-    output: ListConnectorDestinationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConnectorDestinationList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConnectorDestinationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectorDestinationsRequest,
+  ) => Stream.Stream<
+    ListConnectorDestinationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectorDestinationsRequest,
+  ) => Stream.Stream<
+    ConnectorDestinationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectorDestinationsRequest,
+  output: ListConnectorDestinationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConnectorDestinationList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List all notification destinations.
  */
-export const listDestinations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDestinations: {
+  (
     input: ListDestinationsRequest,
-    output: ListDestinationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DestinationList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDestinationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDestinationsRequest,
+  ) => Stream.Stream<
+    ListDestinationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDestinationsRequest,
+  ) => Stream.Stream<
+    DestinationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDestinationsRequest,
+  output: ListDestinationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DestinationList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List all event log configurations for an account.
  */
-export const listEventLogConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEventLogConfigurations: {
+  (
     input: ListEventLogConfigurationsRequest,
-    output: ListEventLogConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EventLogConfigurationList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEventLogConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEventLogConfigurationsRequest,
+  ) => Stream.Stream<
+    ListEventLogConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEventLogConfigurationsRequest,
+  ) => Stream.Stream<
+    EventLogConfigurationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEventLogConfigurationsRequest,
+  output: ListEventLogConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EventLogConfigurationList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all account associations for a specific managed thing.
  */
-export const listManagedThingAccountAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listManagedThingAccountAssociations: {
+  (
     input: ListManagedThingAccountAssociationsRequest,
-    output: ListManagedThingAccountAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListManagedThingAccountAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListManagedThingAccountAssociationsRequest,
+  ) => Stream.Stream<
+    ListManagedThingAccountAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListManagedThingAccountAssociationsRequest,
+  ) => Stream.Stream<
+    ManagedThingAssociation,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListManagedThingAccountAssociationsRequest,
+  output: ListManagedThingAccountAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List all notification configurations.
  */
-export const listNotificationConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listNotificationConfigurations: {
+  (
     input: ListNotificationConfigurationsRequest,
-    output: ListNotificationConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "NotificationConfigurationList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListNotificationConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNotificationConfigurationsRequest,
+  ) => Stream.Stream<
+    ListNotificationConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNotificationConfigurationsRequest,
+  ) => Stream.Stream<
+    NotificationConfigurationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNotificationConfigurationsRequest,
+  output: ListNotificationConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "NotificationConfigurationList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List all of the over-the-air (OTA) task configurations.
  */
-export const listOtaTaskConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOtaTaskConfigurations: {
+  (
     input: ListOtaTaskConfigurationsRequest,
-    output: ListOtaTaskConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOtaTaskConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOtaTaskConfigurationsRequest,
+  ) => Stream.Stream<
+    ListOtaTaskConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOtaTaskConfigurationsRequest,
+  ) => Stream.Stream<
+    OtaTaskConfigurationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOtaTaskConfigurationsRequest,
+  output: ListOtaTaskConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Create a notification destination such as Kinesis Data Streams that receive events and notifications from Managed integrations. Managed integrations uses the destination to determine where to deliver notifications.
  */
-export const createDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDestination: (
+  input: CreateDestinationRequest,
+) => Effect.Effect<
+  CreateDestinationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDestinationRequest,
   output: CreateDestinationResponse,
   errors: [
@@ -4847,76 +5739,154 @@ export const createDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a notification configuration. A configuration is a connection between an event type and a destination that you have already created.
  */
-export const createNotificationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateNotificationConfigurationRequest,
-    output: CreateNotificationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createNotificationConfiguration: (
+  input: CreateNotificationConfigurationRequest,
+) => Effect.Effect<
+  CreateNotificationConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNotificationConfigurationRequest,
+  output: CreateNotificationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all account associations, with optional filtering by connector destination ID.
  */
-export const listAccountAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAccountAssociations: {
+  (
     input: ListAccountAssociationsRequest,
-    output: ListAccountAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAccountAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccountAssociationsRequest,
+  ) => Stream.Stream<
+    ListAccountAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccountAssociationsRequest,
+  ) => Stream.Stream<
+    AccountAssociationItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountAssociationsRequest,
+  output: ListAccountAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a C2C (cloud-to-cloud) connector.
  */
-export const createCloudConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCloudConnectorRequest,
-    output: CreateCloudConnectorResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createCloudConnector: (
+  input: CreateCloudConnectorRequest,
+) => Effect.Effect<
+  CreateCloudConnectorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCloudConnectorRequest,
+  output: CreateCloudConnectorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Set the event log configuration for the account, resource type, or specific resource.
  */
-export const createEventLogConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEventLogConfigurationRequest,
-    output: CreateEventLogConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createEventLogConfiguration: (
+  input: CreateEventLogConfigurationRequest,
+) => Effect.Effect<
+  CreateEventLogConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEventLogConfigurationRequest,
+  output: CreateEventLogConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Create an over-the-air (OTA) task to target a device.
  */
-export const createOtaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createOtaTask: (
+  input: CreateOtaTaskRequest,
+) => Effect.Effect<
+  CreateOtaTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOtaTaskRequest,
   output: CreateOtaTaskResponse,
   errors: [
@@ -4932,7 +5902,17 @@ export const createOtaTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List tags for the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -4945,108 +5925,241 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is delivered as a message to the controller instructing it to start the discovery.
  */
-export const startDeviceDiscovery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDeviceDiscoveryRequest,
-    output: StartDeviceDiscoveryResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const startDeviceDiscovery: (
+  input: StartDeviceDiscoveryRequest,
+) => Effect.Effect<
+  StartDeviceDiscoveryResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDeviceDiscoveryRequest,
+  output: StartDeviceDiscoveryResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all devices discovered during a specific device discovery task.
  */
-export const listDiscoveredDevices =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDiscoveredDevices: {
+  (
     input: ListDiscoveredDevicesRequest,
-    output: ListDiscoveredDevicesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDiscoveredDevicesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDiscoveredDevicesRequest,
+  ) => Stream.Stream<
+    ListDiscoveredDevicesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDiscoveredDevicesRequest,
+  ) => Stream.Stream<
+    DiscoveredDeviceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDiscoveredDevicesRequest,
+  output: ListDiscoveredDevicesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the AWS IoT SiteWise User Guide.
  */
-export const putDefaultEncryptionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutDefaultEncryptionConfigurationRequest,
-    output: PutDefaultEncryptionConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }));
+export const putDefaultEncryptionConfiguration: (
+  input: PutDefaultEncryptionConfigurationRequest,
+) => Effect.Effect<
+  PutDefaultEncryptionConfigurationResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutDefaultEncryptionConfigurationRequest,
+  output: PutDefaultEncryptionConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * List schemas associated with a managed thing.
  */
-export const listManagedThingSchemas =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listManagedThingSchemas: {
+  (
     input: ListManagedThingSchemasRequest,
-    output: ListManagedThingSchemasResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListManagedThingSchemasResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListManagedThingSchemasRequest,
+  ) => Stream.Stream<
+    ListManagedThingSchemasResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListManagedThingSchemasRequest,
+  ) => Stream.Stream<
+    ManagedThingSchemaListItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListManagedThingSchemasRequest,
+  output: ListManagedThingSchemasResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a new account association via the destination id.
  */
-export const createAccountAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAccountAssociationRequest,
-    output: CreateAccountAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAccountAssociation: (
+  input: CreateAccountAssociationRequest,
+) => Effect.Effect<
+  CreateAccountAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountAssociationRequest,
+  output: CreateAccountAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Get the current state of a device discovery.
  */
-export const getDeviceDiscovery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeviceDiscovery: (
+  input: GetDeviceDiscoveryRequest,
+) => Effect.Effect<
+  GetDeviceDiscoveryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeviceDiscoveryRequest,
   output: GetDeviceDiscoveryResponse,
   errors: [
@@ -5062,7 +6175,20 @@ export const getDeviceDiscovery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get details of a managed thing including its attributes and capabilities.
  */
-export const getManagedThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getManagedThing: (
+  input: GetManagedThingRequest,
+) => Effect.Effect<
+  GetManagedThingResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetManagedThingRequest,
   output: GetManagedThingResponse,
   errors: [
@@ -5078,151 +6204,253 @@ export const getManagedThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get the capabilities for a managed thing using the device ID.
  */
-export const getManagedThingCapabilities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetManagedThingCapabilitiesRequest,
-    output: GetManagedThingCapabilitiesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const getManagedThingCapabilities: (
+  input: GetManagedThingCapabilitiesRequest,
+) => Effect.Effect<
+  GetManagedThingCapabilitiesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetManagedThingCapabilitiesRequest,
+  output: GetManagedThingCapabilitiesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the certificate PEM for a managed IoT thing.
  */
-export const getManagedThingCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetManagedThingCertificateRequest,
-    output: GetManagedThingCertificateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const getManagedThingCertificate: (
+  input: GetManagedThingCertificateRequest,
+) => Effect.Effect<
+  GetManagedThingCertificateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetManagedThingCertificateRequest,
+  output: GetManagedThingCertificateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Get the connectivity status of a managed thing.
  */
-export const getManagedThingConnectivityData =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetManagedThingConnectivityDataRequest,
-    output: GetManagedThingConnectivityDataResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }));
+export const getManagedThingConnectivityData: (
+  input: GetManagedThingConnectivityDataRequest,
+) => Effect.Effect<
+  GetManagedThingConnectivityDataResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetManagedThingConnectivityDataRequest,
+  output: GetManagedThingConnectivityDataResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Get the metadata information for a managed thing.
  *
  * The `managedThing` `metadata` parameter is used for associating attributes with a `managedThing` that can be used for grouping over-the-air (OTA) tasks. Name value pairs in `metadata` can be used in the `OtaTargetQueryString` parameter for the `CreateOtaTask` API operation.
  */
-export const getManagedThingMetaData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetManagedThingMetaDataRequest,
-    output: GetManagedThingMetaDataResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const getManagedThingMetaData: (
+  input: GetManagedThingMetaDataRequest,
+) => Effect.Effect<
+  GetManagedThingMetaDataResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetManagedThingMetaDataRequest,
+  output: GetManagedThingMetaDataResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Create a provisioning profile for a device to execute the provisioning flows using a provisioning template. The provisioning template is a document that defines the set of resources and policies applied to a device during the provisioning process.
  */
-export const createProvisioningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateProvisioningProfileRequest,
-    output: CreateProvisioningProfileResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const createProvisioningProfile: (
+  input: CreateProvisioningProfileRequest,
+) => Effect.Effect<
+  CreateProvisioningProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProvisioningProfileRequest,
+  output: CreateProvisioningProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Get a provisioning profile by template name.
  */
-export const getProvisioningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetProvisioningProfileRequest,
-    output: GetProvisioningProfileResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const getProvisioningProfile: (
+  input: GetProvisioningProfileRequest,
+) => Effect.Effect<
+  GetProvisioningProfileResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProvisioningProfileRequest,
+  output: GetProvisioningProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Update an existing cloud connector.
  */
-export const updateCloudConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCloudConnectorRequest,
-    output: UpdateCloudConnectorResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateCloudConnector: (
+  input: UpdateCloudConnectorRequest,
+) => Effect.Effect<
+  UpdateCloudConnectorResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCloudConnectorRequest,
+  output: UpdateCloudConnectorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Delete a cloud connector.
  */
-export const deleteCloudConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCloudConnectorRequest,
-    output: DeleteCloudConnectorResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteCloudConnector: (
+  input: DeleteCloudConnectorRequest,
+) => Effect.Effect<
+  DeleteCloudConnectorResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCloudConnectorRequest,
+  output: DeleteCloudConnectorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Update the attributes and capabilities associated with a managed thing.
  */
-export const updateManagedThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateManagedThing: (
+  input: UpdateManagedThingRequest,
+) => Effect.Effect<
+  UpdateManagedThingResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateManagedThingRequest,
   output: UpdateManagedThingResponse,
   errors: [
@@ -5239,7 +6467,21 @@ export const updateManagedThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the devices connected to it will have their status changed to `PENDING`. It is not possible to remove a cloud-to-cloud device.
  */
-export const deleteManagedThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteManagedThing: (
+  input: DeleteManagedThingRequest,
+) => Effect.Effect<
+  DeleteManagedThingResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteManagedThingRequest,
   output: DeleteManagedThingResponse,
   errors: [
@@ -5256,25 +6498,47 @@ export const deleteManagedThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete a provisioning profile.
  */
-export const deleteProvisioningProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteProvisioningProfileRequest,
-    output: DeleteProvisioningProfileResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteProvisioningProfile: (
+  input: DeleteProvisioningProfileRequest,
+) => Effect.Effect<
+  DeleteProvisioningProfileResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProvisioningProfileRequest,
+  output: DeleteProvisioningProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Remove tags for the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | ConflictException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -5288,7 +6552,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Add tags for the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ConflictException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -5302,109 +6577,261 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified region. For more information, see Key management in the *AWS IoT SiteWise User Guide*.
  */
-export const getDefaultEncryptionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDefaultEncryptionConfigurationRequest,
-    output: GetDefaultEncryptionConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }));
+export const getDefaultEncryptionConfiguration: (
+  input: GetDefaultEncryptionConfigurationRequest,
+) => Effect.Effect<
+  GetDefaultEncryptionConfigurationResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDefaultEncryptionConfigurationRequest,
+  output: GetDefaultEncryptionConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all device discovery tasks, with optional filtering by type and status.
  */
-export const listDeviceDiscoveries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDeviceDiscoveries: {
+  (
     input: ListDeviceDiscoveriesRequest,
-    output: ListDeviceDiscoveriesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDeviceDiscoveriesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeviceDiscoveriesRequest,
+  ) => Stream.Stream<
+    ListDeviceDiscoveriesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeviceDiscoveriesRequest,
+  ) => Stream.Stream<
+    DeviceDiscoverySummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeviceDiscoveriesRequest,
+  output: ListDeviceDiscoveriesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Listing all managed things with provision for filters.
  */
-export const listManagedThings = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listManagedThings: {
+  (
     input: ListManagedThingsRequest,
-    output: ListManagedThingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListManagedThingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListManagedThingsRequest,
+  ) => Stream.Stream<
+    ListManagedThingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListManagedThingsRequest,
+  ) => Stream.Stream<
+    ManagedThingSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListManagedThingsRequest,
+  output: ListManagedThingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the provisioning profiles within the Amazon Web Services account.
  */
-export const listProvisioningProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProvisioningProfiles: {
+  (
     input: ListProvisioningProfilesRequest,
-    output: ListProvisioningProfilesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProvisioningProfilesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProvisioningProfilesRequest,
+  ) => Stream.Stream<
+    ListProvisioningProfilesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProvisioningProfilesRequest,
+  ) => Stream.Stream<
+    ProvisioningProfileSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProvisioningProfilesRequest,
+  output: ListProvisioningProfilesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Customers can request IoT managed integrations to manage the server trust for them or bring their own external server trusts for the custom domain. Returns an IoT managed integrations endpoint.
  */
-export const registerCustomEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterCustomEndpointRequest,
-    output: RegisterCustomEndpointResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const registerCustomEndpoint: (
+  input: RegisterCustomEndpointRequest,
+) => Effect.Effect<
+  RegisterCustomEndpointResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterCustomEndpointRequest,
+  output: RegisterCustomEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the IoT managed integrations custom endpoint.
  */
-export const getCustomEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCustomEndpoint: (
+  input: GetCustomEndpointRequest,
+) => Effect.Effect<
+  GetCustomEndpointResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomEndpointRequest,
   output: GetCustomEndpointResponse,
   errors: [
@@ -5420,43 +6847,79 @@ export const getCustomEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
  */
-export const createConnectorDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConnectorDestinationRequest,
-    output: CreateConnectorDestinationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const createConnectorDestination: (
+  input: CreateConnectorDestinationRequest,
+) => Effect.Effect<
+  CreateConnectorDestinationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConnectorDestinationRequest,
+  output: CreateConnectorDestinationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Send the command to the device represented by the managed thing.
  */
-export const sendManagedThingCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendManagedThingCommandRequest,
-    output: SendManagedThingCommandResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const sendManagedThingCommand: (
+  input: SendManagedThingCommandRequest,
+) => Effect.Effect<
+  SendManagedThingCommandResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendManagedThingCommandRequest,
+  output: SendManagedThingCommandResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations.
  */
-export const createManagedThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createManagedThing: (
+  input: CreateManagedThingRequest,
+) => Effect.Effect<
+  CreateManagedThingResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateManagedThingRequest,
   output: CreateManagedThingResponse,
   errors: [
@@ -5473,23 +6936,44 @@ export const createManagedThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a configuraiton for the over-the-air (OTA) task.
  */
-export const createOtaTaskConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateOtaTaskConfigurationRequest,
-    output: CreateOtaTaskConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createOtaTaskConfiguration: (
+  input: CreateOtaTaskConfigurationRequest,
+) => Effect.Effect<
+  CreateOtaTaskConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOtaTaskConfigurationRequest,
+  output: CreateOtaTaskConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Relays third-party device events for a connector such as a new device or a device state change event.
  */
-export const sendConnectorEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendConnectorEvent: (
+  input: SendConnectorEventRequest,
+) => Effect.Effect<
+  SendConnectorEventResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendConnectorEventRequest,
   output: SendConnectorEventResponse,
   errors: [

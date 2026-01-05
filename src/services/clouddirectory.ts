@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "CloudDirectory",
   serviceShapeName: "AmazonCloudDirectory_20170111",
@@ -261,6 +269,35 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type Arn = string;
+export type LinkName = string;
+export type DirectoryName = string;
+export type FacetName = string;
+export type SchemaName = string;
+export type TypedLinkName = string;
+export type DirectoryArn = string;
+export type AttributeName = string;
+export type NextToken = string;
+export type NumberResults = number;
+export type TagsNumberResults = number;
+export type Version = string;
+export type SchemaJsonDocument = string;
+export type TagKey = string;
+export type SelectorObjectReference = string;
+export type TagValue = string;
+export type ObjectIdentifier = string;
+export type ExceptionMessage = string;
+export type StringAttributeValue = string;
+export type NumberAttributeValue = string;
+export type BatchReferenceName = string;
+export type PathString = string;
+export type RuleKey = string;
+export type PolicyType = string;
+export type RuleParameterKey = string;
+export type RuleParameterValue = string;
+export type BatchOperationIndex = number;
+
 //# Schemas
 export interface SchemaFacet {
   SchemaArn?: string;
@@ -426,6 +463,12 @@ export interface AttributeKey {
 export const AttributeKey = S.suspend(() =>
   S.Struct({ SchemaArn: S.String, FacetName: S.String, Name: S.String }),
 ).annotations({ identifier: "AttributeKey" }) as any as S.Schema<AttributeKey>;
+export type TypedAttributeValue =
+  | { StringValue: string }
+  | { BinaryValue: Uint8Array }
+  | { BooleanValue: boolean }
+  | { NumberValue: string }
+  | { DatetimeValue: Date };
 export const TypedAttributeValue = S.Union(
   S.Struct({ StringValue: S.String }),
   S.Struct({ BinaryValue: T.Blob }),
@@ -3866,7 +3909,9 @@ export class DirectoryAlreadyExistsException extends S.TaggedError<DirectoryAlre
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class DirectoryDeletedException extends S.TaggedError<DirectoryDeletedException>()(
   "DirectoryDeletedException",
   { Message: S.optional(S.String) },
@@ -4000,28 +4045,58 @@ export class UnsupportedIndexTypeException extends S.TaggedError<UnsupportedInde
 /**
  * Creates a TypedLinkFacet. For more information, see Typed Links.
  */
-export const createTypedLinkFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTypedLinkFacetRequest,
-    output: CreateTypedLinkFacetResponse,
-    errors: [
-      AccessDeniedException,
-      FacetAlreadyExistsException,
-      FacetValidationException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidRuleException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
+export const createTypedLinkFacet: (
+  input: CreateTypedLinkFacetRequest,
+) => Effect.Effect<
+  CreateTypedLinkFacetResponse,
+  | AccessDeniedException
+  | FacetAlreadyExistsException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidRuleException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTypedLinkFacetRequest,
+  output: CreateTypedLinkFacetResponse,
+  errors: [
+    AccessDeniedException,
+    FacetAlreadyExistsException,
+    FacetValidationException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidRuleException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
 /**
  * Detaches the specified object from the specified index.
  */
-export const detachFromIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detachFromIndex: (
+  input: DetachFromIndexRequest,
+) => Effect.Effect<
+  DetachFromIndexResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | NotIndexException
+  | ObjectAlreadyDetachedException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachFromIndexRequest,
   output: DetachFromIndexResponse,
   errors: [
@@ -4040,28 +4115,56 @@ export const detachFromIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Upgrades a single directory in-place using the `PublishedSchemaArn` with schema updates found in `MinorVersion`. Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory.
  */
-export const upgradeAppliedSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpgradeAppliedSchemaRequest,
-    output: UpgradeAppliedSchemaResponse,
-    errors: [
-      AccessDeniedException,
-      IncompatibleSchemaException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidAttachmentException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      SchemaAlreadyExistsException,
-      ValidationException,
-    ],
-  }),
-);
+export const upgradeAppliedSchema: (
+  input: UpgradeAppliedSchemaRequest,
+) => Effect.Effect<
+  UpgradeAppliedSchemaResponse,
+  | AccessDeniedException
+  | IncompatibleSchemaException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidAttachmentException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | SchemaAlreadyExistsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpgradeAppliedSchemaRequest,
+  output: UpgradeAppliedSchemaResponse,
+  errors: [
+    AccessDeniedException,
+    IncompatibleSchemaException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidAttachmentException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    SchemaAlreadyExistsException,
+    ValidationException,
+  ],
+}));
 /**
  * Copies the input published schema, at the specified version, into the Directory with the same
  * name and version as that of the published schema.
  */
-export const applySchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const applySchema: (
+  input: ApplySchemaRequest,
+) => Effect.Effect<
+  ApplySchemaResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidAttachmentException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | SchemaAlreadyExistsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApplySchemaRequest,
   output: ApplySchemaResponse,
   errors: [
@@ -4079,7 +4182,21 @@ export const applySchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a given schema. Schemas in a development and published state can only be deleted.
  */
-export const deleteSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSchema: (
+  input: DeleteSchemaRequest,
+) => Effect.Effect<
+  DeleteSchemaResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | StillContainsLinksException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSchemaRequest,
   output: DeleteSchemaResponse,
   errors: [
@@ -4096,7 +4213,21 @@ export const deleteSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Publishes a development schema with a major version and a recommended minor version.
  */
-export const publishSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const publishSchema: (
+  input: PublishSchemaRequest,
+) => Effect.Effect<
+  PublishSchemaResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | SchemaAlreadyPublishedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishSchemaRequest,
   output: PublishSchemaResponse,
   errors: [
@@ -4114,7 +4245,22 @@ export const publishSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Detaches a given object from the parent object. The object that is to be detached from the
  * parent is specified by the link name.
  */
-export const detachObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detachObject: (
+  input: DetachObjectRequest,
+) => Effect.Effect<
+  DetachObjectResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | NotNodeException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachObjectRequest,
   output: DetachObjectResponse,
   errors: [
@@ -4133,7 +4279,22 @@ export const detachObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an object and its associated attributes. Only objects with no children and no
  * parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see Amazon Cloud Directory Limits.
  */
-export const deleteObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteObject: (
+  input: DeleteObjectRequest,
+) => Effect.Effect<
+  DeleteObjectResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ObjectNotDetachedException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteObjectRequest,
   output: DeleteObjectResponse,
   errors: [
@@ -4151,7 +4312,22 @@ export const deleteObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Detaches a policy from an object.
  */
-export const detachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detachPolicy: (
+  input: DetachPolicyRequest,
+) => Effect.Effect<
+  DetachPolicyResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | NotPolicyException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachPolicyRequest,
   output: DetachPolicyResponse,
   errors: [
@@ -4169,7 +4345,19 @@ export const detachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves metadata about a directory.
  */
-export const getDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDirectory: (
+  input: GetDirectoryRequest,
+) => Effect.Effect<
+  GetDirectoryResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDirectoryRequest,
   output: GetDirectoryResponse,
   errors: [
@@ -4184,30 +4372,85 @@ export const getDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists directories created within an account.
  */
-export const listDirectories = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDirectories: {
+  (
     input: ListDirectoriesRequest,
-    output: ListDirectoriesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDirectoriesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDirectoriesRequest,
+  ) => Stream.Stream<
+    ListDirectoriesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDirectoriesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDirectoriesRequest,
+  output: ListDirectoriesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Allows a schema to be updated using JSON upload. Only available for development schemas. See JSON Schema Format for more information.
  */
-export const putSchemaFromJson = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putSchemaFromJson: (
+  input: PutSchemaFromJsonRequest,
+) => Effect.Effect<
+  PutSchemaFromJsonResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidRuleException
+  | InvalidSchemaDocException
+  | LimitExceededException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSchemaFromJsonRequest,
   output: PutSchemaFromJsonResponse,
   errors: [
@@ -4226,24 +4469,38 @@ export const putSchemaFromJson = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * information for an object. It also supports filtering by typed link facet and identity
  * attributes. For more information, see Typed Links.
  */
-export const listIncomingTypedLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListIncomingTypedLinksRequest,
-    output: ListIncomingTypedLinksResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      FacetValidationException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
+export const listIncomingTypedLinks: (
+  input: ListIncomingTypedLinksRequest,
+) => Effect.Effect<
+  ListIncomingTypedLinksResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIncomingTypedLinksRequest,
+  output: ListIncomingTypedLinksResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    FacetValidationException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
 /**
  * Does the following:
  *
@@ -4253,7 +4510,24 @@ export const listIncomingTypedLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Deletes existing `Attributes`, `Rules`, or `ObjectTypes`.
  */
-export const updateFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFacet: (
+  input: UpdateFacetRequest,
+) => Effect.Effect<
+  UpdateFacetResponse,
+  | AccessDeniedException
+  | FacetNotFoundException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidFacetUpdateException
+  | InvalidRuleException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFacetRequest,
   output: UpdateFacetResponse,
   errors: [
@@ -4275,32 +4549,92 @@ export const updateFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * limit of 50 tags per directory. All 50 tags are returned for a given directory with this API
  * call.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceRequest,
-    output: ListTagsForResourceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidTaggingRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidTaggingRequestException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    ListTagsForResourceResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidTaggingRequestException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidTaggingRequestException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidTaggingRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes a directory. Only disabled directories can be deleted. A deleted directory cannot be undone. Exercise extreme
  * caution
  * when deleting directories.
  */
-export const deleteDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDirectory: (
+  input: DeleteDirectoryRequest,
+) => Effect.Effect<
+  DeleteDirectoryResponse,
+  | AccessDeniedException
+  | DirectoryDeletedException
+  | DirectoryNotDisabledException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDirectoryRequest,
   output: DeleteDirectoryResponse,
   errors: [
@@ -4318,27 +4652,55 @@ export const deleteDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a given typed link’s attributes. Attributes to be updated must not contribute to the typed link’s identity, as defined by its `IdentityAttributeOrder`.
  */
-export const updateLinkAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLinkAttributesRequest,
-    output: UpdateLinkAttributesResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      FacetValidationException,
-      InternalServiceException,
-      InvalidArnException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateLinkAttributes: (
+  input: UpdateLinkAttributesRequest,
+) => Effect.Effect<
+  UpdateLinkAttributesResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLinkAttributesRequest,
+  output: UpdateLinkAttributesResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    FacetValidationException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
 /**
  * Detaches a typed link from a specified source and target object. For more information, see Typed Links.
  */
-export const detachTypedLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detachTypedLink: (
+  input: DetachTypedLinkRequest,
+) => Effect.Effect<
+  DetachTypedLinkResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachTypedLinkRequest,
   output: DetachTypedLinkResponse,
   errors: [
@@ -4356,7 +4718,22 @@ export const detachTypedLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves attributes that are associated with a typed link.
  */
-export const getLinkAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLinkAttributes: (
+  input: GetLinkAttributesRequest,
+) => Effect.Effect<
+  GetLinkAttributesResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLinkAttributesRequest,
   output: GetLinkAttributesResponse,
   errors: [
@@ -4374,7 +4751,22 @@ export const getLinkAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves attributes within a facet that are associated with an object.
  */
-export const getObjectAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getObjectAttributes: (
+  input: GetObjectAttributesRequest,
+) => Effect.Effect<
+  GetObjectAttributesResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetObjectAttributesRequest,
   output: GetObjectAttributesResponse,
   errors: [
@@ -4392,27 +4784,55 @@ export const getObjectAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the specified facet from the specified object.
  */
-export const removeFacetFromObject = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveFacetFromObjectRequest,
-    output: RemoveFacetFromObjectResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      FacetValidationException,
-      InternalServiceException,
-      InvalidArnException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
+export const removeFacetFromObject: (
+  input: RemoveFacetFromObjectRequest,
+) => Effect.Effect<
+  RemoveFacetFromObjectResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveFacetFromObjectRequest,
+  output: RemoveFacetFromObjectResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    FacetValidationException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds a new Facet to an object. An object can have more than one facet applied on it.
  */
-export const addFacetToObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addFacetToObject: (
+  input: AddFacetToObjectRequest,
+) => Effect.Effect<
+  AddFacetToObjectResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddFacetToObjectRequest,
   output: AddFacetToObjectResponse,
   errors: [
@@ -4430,32 +4850,92 @@ export const addFacetToObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists indices attached to the specified object.
  */
-export const listAttachedIndices =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAttachedIndices: {
+  (
     input: ListAttachedIndicesRequest,
-    output: ListAttachedIndicesResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      InternalServiceException,
-      InvalidArnException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAttachedIndicesResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttachedIndicesRequest,
+  ) => Stream.Stream<
+    ListAttachedIndicesResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttachedIndicesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttachedIndicesRequest,
+  output: ListAttachedIndicesResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes a given Facet. All attributes and Rules
  * that are associated with the facet will be deleted. Only development schema facets are allowed
  * deletion.
  */
-export const deleteFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFacet: (
+  input: DeleteFacetRequest,
+) => Effect.Effect<
+  DeleteFacetResponse,
+  | AccessDeniedException
+  | FacetInUseException
+  | FacetNotFoundException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFacetRequest,
   output: DeleteFacetResponse,
   errors: [
@@ -4473,44 +4953,80 @@ export const deleteFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves metadata about an object.
  */
-export const getObjectInformation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetObjectInformationRequest,
-    output: GetObjectInformationResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      InternalServiceException,
-      InvalidArnException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
+export const getObjectInformation: (
+  input: GetObjectInformationRequest,
+) => Effect.Effect<
+  GetObjectInformationResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetObjectInformationRequest,
+  output: GetObjectInformationResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns current applied schema version ARN, including the minor version in use.
  */
-export const getAppliedSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAppliedSchemaVersionRequest,
-    output: GetAppliedSchemaVersionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidArnException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAppliedSchemaVersion: (
+  input: GetAppliedSchemaVersionRequest,
+) => Effect.Effect<
+  GetAppliedSchemaVersionResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAppliedSchemaVersionRequest,
+  output: GetAppliedSchemaVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a JSON representation of the schema. See JSON Schema Format for more information.
  */
-export const getSchemaAsJson = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSchemaAsJson: (
+  input: GetSchemaAsJsonRequest,
+) => Effect.Effect<
+  GetSchemaAsJsonResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSchemaAsJsonRequest,
   output: GetSchemaAsJsonResponse,
   errors: [
@@ -4527,7 +5043,20 @@ export const getSchemaAsJson = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the schema name with a new name. Only development schema names can be
  * updated.
  */
-export const updateSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSchema: (
+  input: UpdateSchemaRequest,
+) => Effect.Effect<
+  UpdateSchemaResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSchemaRequest,
   output: UpdateSchemaResponse,
   errors: [
@@ -4547,7 +5076,21 @@ export const updateSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can also quickly create a directory using a managed schema, called the
  * `QuickStartSchema`. For more information, see Managed Schema in the *Amazon Cloud Directory Developer Guide*.
  */
-export const createDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDirectory: (
+  input: CreateDirectoryRequest,
+) => Effect.Effect<
+  CreateDirectoryResponse,
+  | AccessDeniedException
+  | DirectoryAlreadyExistsException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDirectoryRequest,
   output: CreateDirectoryResponse,
   errors: [
@@ -4565,7 +5108,21 @@ export const createDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Disables the specified directory. Disabled directories cannot be read or written to.
  * Only enabled directories can be disabled. Disabled directories may be reenabled.
  */
-export const disableDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableDirectory: (
+  input: DisableDirectoryRequest,
+) => Effect.Effect<
+  DisableDirectoryResponse,
+  | AccessDeniedException
+  | DirectoryDeletedException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableDirectoryRequest,
   output: DisableDirectoryResponse,
   errors: [
@@ -4583,7 +5140,21 @@ export const disableDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Enables the specified directory. Only disabled directories can be enabled. Once
  * enabled, the directory can then be read and written to.
  */
-export const enableDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableDirectory: (
+  input: EnableDirectoryRequest,
+) => Effect.Effect<
+  EnableDirectoryResponse,
+  | AccessDeniedException
+  | DirectoryDeletedException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableDirectoryRequest,
   output: EnableDirectoryResponse,
   errors: [
@@ -4600,27 +5171,53 @@ export const enableDirectory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a TypedLinkFacet. For more information, see Typed Links.
  */
-export const deleteTypedLinkFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTypedLinkFacetRequest,
-    output: DeleteTypedLinkFacetResponse,
-    errors: [
-      AccessDeniedException,
-      FacetNotFoundException,
-      InternalServiceException,
-      InvalidArnException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteTypedLinkFacet: (
+  input: DeleteTypedLinkFacetRequest,
+) => Effect.Effect<
+  DeleteTypedLinkFacetResponse,
+  | AccessDeniedException
+  | FacetNotFoundException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTypedLinkFacetRequest,
+  output: DeleteTypedLinkFacetResponse,
+  errors: [
+    AccessDeniedException,
+    FacetNotFoundException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets details of the Facet, such as facet name, attributes, Rules, or `ObjectType`. You can call this on all kinds of schema
  * facets -- published, development, or applied.
  */
-export const getFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFacet: (
+  input: GetFacetRequest,
+) => Effect.Effect<
+  GetFacetResponse,
+  | AccessDeniedException
+  | FacetNotFoundException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFacetRequest,
   output: GetFacetResponse,
   errors: [
@@ -4638,29 +5235,79 @@ export const getFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists parent objects that are associated with a given object in pagination
  * fashion.
  */
-export const listObjectParents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listObjectParents: {
+  (
     input: ListObjectParentsRequest,
-    output: ListObjectParentsResponse,
-    errors: [
-      AccessDeniedException,
-      CannotListParentOfRootException,
-      DirectoryNotEnabledException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListObjectParentsResponse,
+    | AccessDeniedException
+    | CannotListParentOfRootException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListObjectParentsRequest,
+  ) => Stream.Stream<
+    ListObjectParentsResponse,
+    | AccessDeniedException
+    | CannotListParentOfRootException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListObjectParentsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | CannotListParentOfRootException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListObjectParentsRequest,
+  output: ListObjectParentsResponse,
+  errors: [
+    AccessDeniedException,
+    CannotListParentOfRootException,
+    DirectoryNotEnabledException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all policies from the root of the Directory to the object
  * specified. If there are no policies present, an empty list is returned. If policies are
@@ -4669,95 +5316,221 @@ export const listObjectParents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * `policyType`. Paths that don't lead to the root from the target object are ignored. For more
  * information, see Policies.
  */
-export const lookupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const lookupPolicy: {
+  (
     input: LookupPolicyRequest,
-    output: LookupPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    LookupPolicyResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: LookupPolicyRequest,
+  ) => Stream.Stream<
+    LookupPolicyResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: LookupPolicyRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: LookupPolicyRequest,
+  output: LookupPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all attributes that are associated with an object.
  */
-export const listObjectAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listObjectAttributes: {
+  (
     input: ListObjectAttributesRequest,
-    output: ListObjectAttributesResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      FacetValidationException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListObjectAttributesResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | FacetValidationException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListObjectAttributesRequest,
+  ) => Stream.Stream<
+    ListObjectAttributesResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | FacetValidationException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListObjectAttributesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | FacetValidationException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListObjectAttributesRequest,
+  output: ListObjectAttributesResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    FacetValidationException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a paginated list of all the outgoing TypedLinkSpecifier
  * information for an object. It also supports filtering by typed link facet and identity
  * attributes. For more information, see Typed Links.
  */
-export const listOutgoingTypedLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListOutgoingTypedLinksRequest,
-    output: ListOutgoingTypedLinksResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      FacetValidationException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
+export const listOutgoingTypedLinks: (
+  input: ListOutgoingTypedLinksRequest,
+) => Effect.Effect<
+  ListOutgoingTypedLinksResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListOutgoingTypedLinksRequest,
+  output: ListOutgoingTypedLinksResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    FacetValidationException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the identity attribute order for a specific TypedLinkFacet. For more information, see Typed Links.
  */
-export const getTypedLinkFacetInformation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTypedLinkFacetInformationRequest,
-    output: GetTypedLinkFacetInformationResponse,
-    errors: [
-      AccessDeniedException,
-      FacetNotFoundException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }));
+export const getTypedLinkFacetInformation: (
+  input: GetTypedLinkFacetInformationRequest,
+) => Effect.Effect<
+  GetTypedLinkFacetInformationResponse,
+  | AccessDeniedException
+  | FacetNotFoundException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTypedLinkFacetInformationRequest,
+  output: GetTypedLinkFacetInformationResponse,
+  errors: [
+    AccessDeniedException,
+    FacetNotFoundException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves all available parent paths for any object type such as node, leaf node,
  * policy node, and index node objects. For more information about objects, see Directory Structure.
@@ -4769,263 +5542,746 @@ export const getTypedLinkFacetInformation =
  * objects are deleted or moved. Paths not leading to the directory root are ignored from the
  * target object.
  */
-export const listObjectParentPaths =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listObjectParentPaths: {
+  (
     input: ListObjectParentPathsRequest,
-    output: ListObjectParentPathsResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListObjectParentPathsResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListObjectParentPathsRequest,
+  ) => Stream.Stream<
+    ListObjectParentPathsResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListObjectParentPathsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListObjectParentPathsRequest,
+  output: ListObjectParentPathsResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns policies attached to an object in pagination fashion.
  */
-export const listObjectPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listObjectPolicies: {
+  (
     input: ListObjectPoliciesRequest,
-    output: ListObjectPoliciesResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListObjectPoliciesResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListObjectPoliciesRequest,
+  ) => Stream.Stream<
+    ListObjectPoliciesResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListObjectPoliciesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListObjectPoliciesRequest,
+  output: ListObjectPoliciesResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists schema major versions applied to a directory. If `SchemaArn` is provided, lists the minor version.
  */
-export const listAppliedSchemaArns =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAppliedSchemaArns: {
+  (
     input: ListAppliedSchemaArnsRequest,
-    output: ListAppliedSchemaArnsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAppliedSchemaArnsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppliedSchemaArnsRequest,
+  ) => Stream.Stream<
+    ListAppliedSchemaArnsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppliedSchemaArnsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppliedSchemaArnsRequest,
+  output: ListAppliedSchemaArnsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves each Amazon Resource Name (ARN) of schemas in the development
  * state.
  */
-export const listDevelopmentSchemaArns =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDevelopmentSchemaArns: {
+  (
     input: ListDevelopmentSchemaArnsRequest,
-    output: ListDevelopmentSchemaArnsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDevelopmentSchemaArnsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDevelopmentSchemaArnsRequest,
+  ) => Stream.Stream<
+    ListDevelopmentSchemaArnsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDevelopmentSchemaArnsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDevelopmentSchemaArnsRequest,
+  output: ListDevelopmentSchemaArnsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the names of facets that exist in a schema.
  */
-export const listFacetNames = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFacetNames: {
+  (
     input: ListFacetNamesRequest,
-    output: ListFacetNamesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFacetNamesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFacetNamesRequest,
+  ) => Stream.Stream<
+    ListFacetNamesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFacetNamesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFacetNamesRequest,
+  output: ListFacetNamesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the major version families of each managed schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
  */
-export const listManagedSchemaArns =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listManagedSchemaArns: {
+  (
     input: ListManagedSchemaArnsRequest,
-    output: ListManagedSchemaArnsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListManagedSchemaArnsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListManagedSchemaArnsRequest,
+  ) => Stream.Stream<
+    ListManagedSchemaArnsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListManagedSchemaArnsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListManagedSchemaArnsRequest,
+  output: ListManagedSchemaArnsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the major version families of each published schema. If a major version ARN is provided as `SchemaArn`, the minor version revisions in that family are listed instead.
  */
-export const listPublishedSchemaArns =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPublishedSchemaArns: {
+  (
     input: ListPublishedSchemaArnsRequest,
-    output: ListPublishedSchemaArnsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPublishedSchemaArnsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPublishedSchemaArnsRequest,
+  ) => Stream.Stream<
+    ListPublishedSchemaArnsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPublishedSchemaArnsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPublishedSchemaArnsRequest,
+  output: ListPublishedSchemaArnsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a paginated list of `TypedLink` facet names for a particular schema.
  * For more information, see Typed Links.
  */
-export const listTypedLinkFacetNames =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTypedLinkFacetNames: {
+  (
     input: ListTypedLinkFacetNamesRequest,
-    output: ListTypedLinkFacetNamesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTypedLinkFacetNamesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTypedLinkFacetNamesRequest,
+  ) => Stream.Stream<
+    ListTypedLinkFacetNamesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTypedLinkFacetNamesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTypedLinkFacetNamesRequest,
+  output: ListTypedLinkFacetNamesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves attributes attached to the facet.
  */
-export const listFacetAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFacetAttributes: {
+  (
     input: ListFacetAttributesRequest,
-    output: ListFacetAttributesResponse,
-    errors: [
-      AccessDeniedException,
-      FacetNotFoundException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFacetAttributesResponse,
+    | AccessDeniedException
+    | FacetNotFoundException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFacetAttributesRequest,
+  ) => Stream.Stream<
+    ListFacetAttributesResponse,
+    | AccessDeniedException
+    | FacetNotFoundException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFacetAttributesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | FacetNotFoundException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFacetAttributesRequest,
+  output: ListFacetAttributesResponse,
+  errors: [
+    AccessDeniedException,
+    FacetNotFoundException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a paginated list of all attribute definitions for a particular TypedLinkFacet. For more information, see Typed Links.
  */
-export const listTypedLinkFacetAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTypedLinkFacetAttributes: {
+  (
     input: ListTypedLinkFacetAttributesRequest,
-    output: ListTypedLinkFacetAttributesResponse,
-    errors: [
-      AccessDeniedException,
-      FacetNotFoundException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTypedLinkFacetAttributesResponse,
+    | AccessDeniedException
+    | FacetNotFoundException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTypedLinkFacetAttributesRequest,
+  ) => Stream.Stream<
+    ListTypedLinkFacetAttributesResponse,
+    | AccessDeniedException
+    | FacetNotFoundException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTypedLinkFacetAttributesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | FacetNotFoundException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTypedLinkFacetAttributesRequest,
+  output: ListTypedLinkFacetAttributesResponse,
+  errors: [
+    AccessDeniedException,
+    FacetNotFoundException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Upgrades a published schema under a new minor version revision using the current contents of `DevelopmentSchemaArn`.
  */
-export const upgradePublishedSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpgradePublishedSchemaRequest,
-    output: UpgradePublishedSchemaResponse,
-    errors: [
-      AccessDeniedException,
-      IncompatibleSchemaException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidAttachmentException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
+export const upgradePublishedSchema: (
+  input: UpgradePublishedSchemaRequest,
+) => Effect.Effect<
+  UpgradePublishedSchemaResponse,
+  | AccessDeniedException
+  | IncompatibleSchemaException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidAttachmentException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpgradePublishedSchemaRequest,
+  output: UpgradePublishedSchemaResponse,
+  errors: [
+    AccessDeniedException,
+    IncompatibleSchemaException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidAttachmentException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
 /**
  * Attaches a typed link to a specified source and target object. For more information, see Typed Links.
  */
-export const attachTypedLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const attachTypedLink: (
+  input: AttachTypedLinkRequest,
+) => Effect.Effect<
+  AttachTypedLinkResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidAttachmentException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachTypedLinkRequest,
   output: AttachTypedLinkResponse,
   errors: [
@@ -5044,29 +6300,58 @@ export const attachTypedLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a TypedLinkFacet. For more information, see Typed Links.
  */
-export const updateTypedLinkFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTypedLinkFacetRequest,
-    output: UpdateTypedLinkFacetResponse,
-    errors: [
-      AccessDeniedException,
-      FacetNotFoundException,
-      FacetValidationException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidFacetUpdateException,
-      InvalidRuleException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateTypedLinkFacet: (
+  input: UpdateTypedLinkFacetRequest,
+) => Effect.Effect<
+  UpdateTypedLinkFacetResponse,
+  | AccessDeniedException
+  | FacetNotFoundException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidFacetUpdateException
+  | InvalidRuleException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTypedLinkFacetRequest,
+  output: UpdateTypedLinkFacetResponse,
+  errors: [
+    AccessDeniedException,
+    FacetNotFoundException,
+    FacetValidationException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidFacetUpdateException,
+    InvalidRuleException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
 /**
  * An API operation for adding tags to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidTaggingRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -5083,7 +6368,21 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * An API operation for removing tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidTaggingRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -5101,7 +6400,23 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a new Facet in a schema. Facet creation is allowed only
  * in development or applied schemas.
  */
-export const createFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFacet: (
+  input: CreateFacetRequest,
+) => Effect.Effect<
+  CreateFacetResponse,
+  | AccessDeniedException
+  | FacetAlreadyExistsException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidRuleException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFacetRequest,
   output: CreateFacetResponse,
   errors: [
@@ -5120,24 +6435,38 @@ export const createFacet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a given object's attributes.
  */
-export const updateObjectAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateObjectAttributesRequest,
-    output: UpdateObjectAttributesResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      FacetValidationException,
-      InternalServiceException,
-      InvalidArnException,
-      LimitExceededException,
-      LinkNameAlreadyInUseException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateObjectAttributes: (
+  input: UpdateObjectAttributesRequest,
+) => Effect.Effect<
+  UpdateObjectAttributesResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | LinkNameAlreadyInUseException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateObjectAttributesRequest,
+  output: UpdateObjectAttributesResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    FacetValidationException,
+    InternalServiceException,
+    InvalidArnException,
+    LimitExceededException,
+    LinkNameAlreadyInUseException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+}));
 /**
  * Attaches an existing object to another object. An object can be accessed in two
  * ways:
@@ -5146,7 +6475,24 @@ export const updateObjectAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Using `ObjectIdentifier`
  */
-export const attachObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const attachObject: (
+  input: AttachObjectRequest,
+) => Effect.Effect<
+  AttachObjectResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidAttachmentException
+  | LimitExceededException
+  | LinkNameAlreadyInUseException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachObjectRequest,
   output: AttachObjectResponse,
   errors: [
@@ -5166,7 +6512,62 @@ export const attachObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists objects attached to the specified index.
  */
-export const listIndex = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIndex: {
+  (
+    input: ListIndexRequest,
+  ): Effect.Effect<
+    ListIndexResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | FacetValidationException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | NotIndexException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIndexRequest,
+  ) => Stream.Stream<
+    ListIndexResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | FacetValidationException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | NotIndexException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIndexRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | FacetValidationException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | NotIndexException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListIndexRequest,
   output: ListIndexResponse,
   errors: [
@@ -5191,7 +6592,25 @@ export const listIndex = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Attaches the specified object to the specified index.
  */
-export const attachToIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const attachToIndex: (
+  input: AttachToIndexRequest,
+) => Effect.Effect<
+  AttachToIndexResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | IndexedAttributeMissingException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidAttachmentException
+  | LimitExceededException
+  | LinkNameAlreadyInUseException
+  | NotIndexException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachToIndexRequest,
   output: AttachToIndexResponse,
   errors: [
@@ -5213,34 +6632,99 @@ export const attachToIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns a paginated list of child objects that are associated with a given
  * object.
  */
-export const listObjectChildren = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listObjectChildren: {
+  (
     input: ListObjectChildrenRequest,
-    output: ListObjectChildrenResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      NotNodeException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListObjectChildrenResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | NotNodeException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListObjectChildrenRequest,
+  ) => Stream.Stream<
+    ListObjectChildrenResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | NotNodeException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListObjectChildrenRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | NotNodeException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListObjectChildrenRequest,
+  output: ListObjectChildrenResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    NotNodeException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Attaches a policy object to a regular object. An object can have a limited number of attached
  * policies.
  */
-export const attachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const attachPolicy: (
+  input: AttachPolicyRequest,
+) => Effect.Effect<
+  AttachPolicyResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | NotPolicyException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachPolicyRequest,
   output: AttachPolicyResponse,
   errors: [
@@ -5258,32 +6742,96 @@ export const attachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns all of the `ObjectIdentifiers` to which a given policy is attached.
  */
-export const listPolicyAttachments =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPolicyAttachments: {
+  (
     input: ListPolicyAttachmentsRequest,
-    output: ListPolicyAttachmentsResponse,
-    errors: [
-      AccessDeniedException,
-      DirectoryNotEnabledException,
-      InternalServiceException,
-      InvalidArnException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      NotPolicyException,
-      ResourceNotFoundException,
-      RetryableConflictException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPolicyAttachmentsResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | NotPolicyException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPolicyAttachmentsRequest,
+  ) => Stream.Stream<
+    ListPolicyAttachmentsResponse,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | NotPolicyException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPolicyAttachmentsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | DirectoryNotEnabledException
+    | InternalServiceException
+    | InvalidArnException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | NotPolicyException
+    | ResourceNotFoundException
+    | RetryableConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPolicyAttachmentsRequest,
+  output: ListPolicyAttachmentsResponse,
+  errors: [
+    AccessDeniedException,
+    DirectoryNotEnabledException,
+    InternalServiceException,
+    InvalidArnException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    NotPolicyException,
+    ResourceNotFoundException,
+    RetryableConflictException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Performs all the read operations in a batch.
  */
-export const batchRead = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchRead: (
+  input: BatchReadRequest,
+) => Effect.Effect<
+  BatchReadResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchReadRequest,
   output: BatchReadResponse,
   errors: [
@@ -5300,7 +6848,21 @@ export const batchRead = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Performs all the write operations in a batch. Either all the operations succeed or
  * none.
  */
-export const batchWrite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchWrite: (
+  input: BatchWriteRequest,
+) => Effect.Effect<
+  BatchWriteResponse,
+  | AccessDeniedException
+  | BatchWriteException
+  | DirectoryNotEnabledException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | RetryableConflictException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchWriteRequest,
   output: BatchWriteResponse,
   errors: [
@@ -5329,7 +6891,20 @@ export const batchWrite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * to add new schema facets. You can also add new, nonrequired attributes to existing schema
  * facets. You can apply only published schemas to directories.
  */
-export const createSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSchema: (
+  input: CreateSchemaRequest,
+) => Effect.Effect<
+  CreateSchemaResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | RetryableConflictException
+  | SchemaAlreadyExistsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSchemaRequest,
   output: CreateSchemaResponse,
   errors: [
@@ -5345,7 +6920,24 @@ export const createSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an index object. See Indexing and search for more information.
  */
-export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIndex: (
+  input: CreateIndexRequest,
+) => Effect.Effect<
+  CreateIndexResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | LinkNameAlreadyInUseException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | UnsupportedIndexTypeException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIndexRequest,
   output: CreateIndexResponse,
   errors: [
@@ -5368,7 +6960,24 @@ export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * collection of Facet attributes. You can also use this API call to create a
  * policy object, if the facet from which you create the object is a policy facet.
  */
-export const createObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createObject: (
+  input: CreateObjectRequest,
+) => Effect.Effect<
+  CreateObjectResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | LinkNameAlreadyInUseException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | UnsupportedIndexTypeException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateObjectRequest,
   output: CreateObjectResponse,
   errors: [

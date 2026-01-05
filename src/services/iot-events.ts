@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Events",
   serviceShapeName: "IotColumboService",
@@ -240,6 +248,74 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AlarmModelName = string;
+export type AlarmModelDescription = string;
+export type AmazonResourceName = string;
+export type AttributeJsonPath = string;
+export type Severity = number;
+export type DetectorModelName = string;
+export type DetectorModelDescription = string;
+export type InputName = string;
+export type InputDescription = string;
+export type AlarmModelVersion = string;
+export type DetectorModelVersion = string;
+export type AnalysisId = string;
+export type NextToken = string;
+export type MaxAnalysisResults = number;
+export type MaxResults = number;
+export type TagKey = string;
+export type TagValue = string;
+export type StateName = string;
+export type errorMessage = string;
+export type AlarmModelArn = string;
+export type StatusMessage = string;
+export type InputProperty = string;
+export type Threshold = string;
+export type KeyValue = string;
+export type AnalysisType = string;
+export type AnalysisMessage = string;
+export type DetectorModelArn = string;
+export type InputArn = string;
+export type SMSSenderId = string;
+export type NotificationAdditionalMessage = string;
+export type FromEmail = string;
+export type MQTTTopic = string;
+export type QueueUrl = string;
+export type DeliveryStreamName = string;
+export type FirehoseSeparator = string;
+export type DynamoKeyType = string;
+export type DynamoKeyField = string;
+export type DynamoKeyValue = string;
+export type DynamoOperation = string;
+export type DynamoTableName = string;
+export type AssetPropertyEntryId = string;
+export type AssetId = string;
+export type AssetPropertyId = string;
+export type AssetPropertyAlias = string;
+export type AssetModelId = string;
+export type AnalysisResultLocationPath = string;
+export type EmailSubject = string;
+export type ContentExpression = string;
+export type AssetPropertyQuality = string;
+export type EventName = string;
+export type Condition = string;
+export type IdentityStoreId = string;
+export type SSOReferenceId = string;
+export type AssetPropertyStringValue = string;
+export type AssetPropertyIntegerValue = string;
+export type AssetPropertyDoubleValue = string;
+export type AssetPropertyBooleanValue = string;
+export type AssetPropertyTimeInSeconds = string;
+export type AssetPropertyOffsetInNanos = string;
+export type VariableName = string;
+export type VariableValue = string;
+export type TimerName = string;
+export type Seconds = number;
+export type resourceId = string;
+export type resourceArn = string;
+export type ResourceName = string;
 
 //# Schemas
 export interface DescribeLoggingOptionsRequest {}
@@ -1903,7 +1979,9 @@ export const CreateDetectorModelResponse = S.suspend(() =>
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { message: S.optional(S.String) },
@@ -1919,7 +1997,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { message: S.optional(S.String) },
@@ -1935,18 +2015,32 @@ export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlread
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
   "UnsupportedOperationException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 
 //# Operations
 /**
  * Lists the alarm models that you created. The operation returns only the metadata
  * associated with each alarm model.
  */
-export const listAlarmModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listAlarmModels: (
+  input: ListAlarmModelsRequest,
+) => Effect.Effect<
+  ListAlarmModelsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAlarmModelsRequest,
   output: ListAlarmModelsResponse,
   errors: [
@@ -1961,24 +2055,45 @@ export const listAlarmModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see Troubleshooting a detector model
  * in the *AWS IoT Events Developer Guide*.
  */
-export const startDetectorModelAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDetectorModelAnalysisRequest,
-    output: StartDetectorModelAnalysisResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const startDetectorModelAnalysis: (
+  input: StartDetectorModelAnalysisRequest,
+) => Effect.Effect<
+  StartDetectorModelAnalysisResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDetectorModelAnalysisRequest,
+  output: StartDetectorModelAnalysisResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a detector model. Detectors (instances) spawned by the previous version are
  * deleted and then re-created as new inputs arrive.
  */
-export const updateDetectorModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDetectorModel: (
+  input: UpdateDetectorModelRequest,
+) => Effect.Effect<
+  UpdateDetectorModelResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDetectorModelRequest,
   output: UpdateDetectorModelResponse,
   errors: [
@@ -1993,7 +2108,19 @@ export const updateDetectorModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an input.
  */
-export const updateInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateInput: (
+  input: UpdateInputRequest,
+) => Effect.Effect<
+  UpdateInputResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInputRequest,
   output: UpdateInputResponse,
   errors: [
@@ -2008,7 +2135,18 @@ export const updateInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags (metadata) you have assigned to the resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2023,7 +2161,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates an alarm model. Any alarms that were created based on the previous version are
  * deleted and then created again as new data arrives.
  */
-export const updateAlarmModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAlarmModel: (
+  input: UpdateAlarmModelRequest,
+) => Effect.Effect<
+  UpdateAlarmModelResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAlarmModelRequest,
   output: UpdateAlarmModelResponse,
   errors: [
@@ -2039,7 +2189,19 @@ export const updateAlarmModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes a detector model. Any active instances of the detector model are also
  * deleted.
  */
-export const deleteDetectorModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDetectorModel: (
+  input: DeleteDetectorModelRequest,
+) => Effect.Effect<
+  DeleteDetectorModelResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDetectorModelRequest,
   output: DeleteDetectorModelResponse,
   errors: [
@@ -2054,7 +2216,19 @@ export const deleteDetectorModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an input.
  */
-export const deleteInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteInput: (
+  input: DeleteInputRequest,
+) => Effect.Effect<
+  DeleteInputResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInputRequest,
   output: DeleteInputResponse,
   errors: [
@@ -2069,7 +2243,18 @@ export const deleteInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the given tags (metadata) from the resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2083,7 +2268,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes an input.
  */
-export const describeInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeInput: (
+  input: DescribeInputRequest,
+) => Effect.Effect<
+  DescribeInputResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInputRequest,
   output: DescribeInputResponse,
   errors: [
@@ -2098,41 +2294,70 @@ export const describeInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists all the versions of an alarm model. The operation returns only the metadata
  * associated with each alarm model version.
  */
-export const listAlarmModelVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAlarmModelVersionsRequest,
-    output: ListAlarmModelVersionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const listAlarmModelVersions: (
+  input: ListAlarmModelVersionsRequest,
+) => Effect.Effect<
+  ListAlarmModelVersionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAlarmModelVersionsRequest,
+  output: ListAlarmModelVersionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists all the versions of a detector model. Only the metadata associated with each
  * detector model version is returned.
  */
-export const listDetectorModelVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDetectorModelVersionsRequest,
-    output: ListDetectorModelVersionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const listDetectorModelVersions: (
+  input: ListDetectorModelVersionsRequest,
+) => Effect.Effect<
+  ListDetectorModelVersionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDetectorModelVersionsRequest,
+  output: ListDetectorModelVersionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves information about an alarm model. If you don't specify a value for the
  * `alarmModelVersion` parameter, the latest version is returned.
  */
-export const describeAlarmModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAlarmModel: (
+  input: DescribeAlarmModelRequest,
+) => Effect.Effect<
+  DescribeAlarmModelResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAlarmModelRequest,
   output: DescribeAlarmModelResponse,
   errors: [
@@ -2148,23 +2373,45 @@ export const describeAlarmModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
  */
-export const describeDetectorModelAnalysis =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDetectorModelAnalysisRequest,
-    output: DescribeDetectorModelAnalysisResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const describeDetectorModelAnalysis: (
+  input: DescribeDetectorModelAnalysisRequest,
+) => Effect.Effect<
+  DescribeDetectorModelAnalysisResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDetectorModelAnalysisRequest,
+  output: DescribeDetectorModelAnalysisResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes an alarm model. Any alarm instances that were created based on this alarm model
  * are also deleted. This action can't be undone.
  */
-export const deleteAlarmModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAlarmModel: (
+  input: DeleteAlarmModelRequest,
+) => Effect.Effect<
+  DeleteAlarmModelResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAlarmModelRequest,
   output: DeleteAlarmModelResponse,
   errors: [
@@ -2180,7 +2427,17 @@ export const deleteAlarmModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists the detector models you have created. Only the metadata associated with each
  * detector model is returned.
  */
-export const listDetectorModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listDetectorModels: (
+  input: ListDetectorModelsRequest,
+) => Effect.Effect<
+  ListDetectorModelsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDetectorModelsRequest,
   output: ListDetectorModelsResponse,
   errors: [
@@ -2193,7 +2450,17 @@ export const listDetectorModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the inputs you have created.
  */
-export const listInputs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listInputs: (
+  input: ListInputsRequest,
+) => Effect.Effect<
+  ListInputsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListInputsRequest,
   output: ListInputsResponse,
   errors: [
@@ -2207,41 +2474,72 @@ export const listInputs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Describes a detector model. If the `version` parameter is not specified,
  * information about the latest version is returned.
  */
-export const describeDetectorModel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDetectorModelRequest,
-    output: DescribeDetectorModelResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeDetectorModel: (
+  input: DescribeDetectorModelRequest,
+) => Effect.Effect<
+  DescribeDetectorModelResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDetectorModelRequest,
+  output: DescribeDetectorModelResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves one or more analysis results of the detector model.
  *
  * After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
  */
-export const getDetectorModelAnalysisResults =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDetectorModelAnalysisResultsRequest,
-    output: GetDetectorModelAnalysisResultsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const getDetectorModelAnalysisResults: (
+  input: GetDetectorModelAnalysisResultsRequest,
+) => Effect.Effect<
+  GetDetectorModelAnalysisResultsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDetectorModelAnalysisResultsRequest,
+  output: GetDetectorModelAnalysisResultsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Adds to or modifies the tags of the given resource. Tags are metadata that can be used to
  * manage a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2256,7 +2554,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an input.
  */
-export const createInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createInput: (
+  input: CreateInputRequest,
+) => Effect.Effect<
+  CreateInputResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInputRequest,
   output: CreateInputResponse,
   errors: [
@@ -2270,7 +2579,18 @@ export const createInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists one or more input routings.
  */
-export const listInputRoutings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listInputRoutings: (
+  input: ListInputRoutingsRequest,
+) => Effect.Effect<
+  ListInputRoutingsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListInputRoutingsRequest,
   output: ListInputRoutingsResponse,
   errors: [
@@ -2289,7 +2609,19 @@ export const listInputRoutings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * specified in the `roleArn` field (for example, to correct an invalid policy), it
  * takes up to five minutes for that change to take effect.
  */
-export const putLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putLoggingOptions: (
+  input: PutLoggingOptionsRequest,
+) => Effect.Effect<
+  PutLoggingOptionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLoggingOptionsRequest,
   output: PutLoggingOptionsResponse,
   errors: [
@@ -2304,26 +2636,49 @@ export const putLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the current settings of the AWS IoT Events logging options.
  */
-export const describeLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLoggingOptionsRequest,
-    output: DescribeLoggingOptionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const describeLoggingOptions: (
+  input: DescribeLoggingOptionsRequest,
+) => Effect.Effect<
+  DescribeLoggingOptionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLoggingOptionsRequest,
+  output: DescribeLoggingOptionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Creates an alarm model to monitor an AWS IoT Events input attribute. You can use the alarm to get
  * notified when the value is outside a specified range. For more information, see Create an
  * alarm model in the *AWS IoT Events Developer Guide*.
  */
-export const createAlarmModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAlarmModel: (
+  input: CreateAlarmModelRequest,
+) => Effect.Effect<
+  CreateAlarmModelResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAlarmModelRequest,
   output: CreateAlarmModelResponse,
   errors: [
@@ -2339,7 +2694,20 @@ export const createAlarmModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a detector model.
  */
-export const createDetectorModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDetectorModel: (
+  input: CreateDetectorModelRequest,
+) => Effect.Effect<
+  CreateDetectorModelResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDetectorModelRequest,
   output: CreateDetectorModelResponse,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "CodeGuru Security",
   serviceShapeName: "AwsCodeGuruSecurity",
@@ -293,6 +301,20 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type ClientToken = string;
+export type ScanName = string;
+export type NextToken = string;
+export type Uuid = string;
+export type ScanNameArn = string;
+export type TagKey = string;
+export type TagValue = string;
+export type KmsKeyArn = string;
+export type S3Url = string;
+export type ErrorMessage = string;
+export type HeaderKey = string;
+export type HeaderValue = string;
+
 //# Schemas
 export interface GetAccountConfigurationRequest {}
 export const GetAccountConfigurationRequest = S.suspend(() =>
@@ -550,6 +572,7 @@ export const FindingIdentifier = S.suspend(() =>
 }) as any as S.Schema<FindingIdentifier>;
 export type FindingIdentifiers = FindingIdentifier[];
 export const FindingIdentifiers = S.Array(FindingIdentifier);
+export type ResourceId = { codeArtifactId: string };
 export const ResourceId = S.Union(S.Struct({ codeArtifactId: S.String }));
 export interface BatchGetFindingsRequest {
   findingIdentifiers: FindingIdentifiers;
@@ -1018,7 +1041,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { error: S.optional(S.String), message: S.optional(S.String) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
@@ -1037,7 +1062,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -1052,22 +1079,42 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Use to get the encryption configuration for an account.
  */
-export const getAccountConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAccountConfigurationRequest,
-    output: GetAccountConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAccountConfiguration: (
+  input: GetAccountConfigurationRequest,
+) => Effect.Effect<
+  GetAccountConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountConfigurationRequest,
+  output: GetAccountConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Use to remove one or more tags from an existing scan.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1082,7 +1129,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of all tags associated with a scan.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1097,7 +1156,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Use to create a scan using code uploaded to an Amazon S3 bucket.
  */
-export const createScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createScan: (
+  input: CreateScanRequest,
+) => Effect.Effect<
+  CreateScanResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScanRequest,
   output: CreateScanResponse,
   errors: [
@@ -1112,7 +1183,18 @@ export const createScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns details about a scan, including whether or not a scan has completed.
  */
-export const getScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getScan: (
+  input: GetScanRequest,
+) => Effect.Effect<
+  GetScanResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetScanRequest,
   output: GetScanResponse,
   errors: [
@@ -1126,7 +1208,19 @@ export const getScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Use to add one or more tags to an existing scan.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1143,7 +1237,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can upload your code resource to the URL with the request headers using any HTTP client.
  */
-export const createUploadUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUploadUrl: (
+  input: CreateUploadUrlRequest,
+) => Effect.Effect<
+  CreateUploadUrlResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUploadUrlRequest,
   output: CreateUploadUrlResponse,
   errors: [
@@ -1156,27 +1260,94 @@ export const createUploadUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns metrics about all findings in an account within a specified time range.
  */
-export const listFindingsMetrics =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFindingsMetrics: {
+  (
     input: ListFindingsMetricsRequest,
-    output: ListFindingsMetricsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "findingsMetrics",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFindingsMetricsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFindingsMetricsRequest,
+  ) => Stream.Stream<
+    ListFindingsMetricsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFindingsMetricsRequest,
+  ) => Stream.Stream<
+    AccountFindingsMetric,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFindingsMetricsRequest,
+  output: ListFindingsMetricsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "findingsMetrics",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of all scans in an account. Does not return `EXPRESS` scans.
  */
-export const listScans = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listScans: {
+  (
+    input: ListScansRequest,
+  ): Effect.Effect<
+    ListScansResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListScansRequest,
+  ) => Stream.Stream<
+    ListScansResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListScansRequest,
+  ) => Stream.Stream<
+    ScanSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListScansRequest,
   output: ListScansResponse,
   errors: [
@@ -1195,7 +1366,17 @@ export const listScans = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns a list of requested findings from standard scans.
  */
-export const batchGetFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetFindings: (
+  input: BatchGetFindingsRequest,
+) => Effect.Effect<
+  BatchGetFindingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetFindingsRequest,
   output: BatchGetFindingsResponse,
   errors: [
@@ -1208,7 +1389,17 @@ export const batchGetFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a summary of metrics for an account from a specified date, including number of open findings, the categories with most findings, the scans with most open findings, and scans with most open critical findings.
  */
-export const getMetricsSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMetricsSummary: (
+  input: GetMetricsSummaryRequest,
+) => Effect.Effect<
+  GetMetricsSummaryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetricsSummaryRequest,
   output: GetMetricsSummaryResponse,
   errors: [
@@ -1221,39 +1412,86 @@ export const getMetricsSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Use to update the encryption configuration for an account.
  */
-export const updateAccountConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountConfigurationRequest,
-    output: UpdateAccountConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAccountConfiguration: (
+  input: UpdateAccountConfigurationRequest,
+) => Effect.Effect<
+  UpdateAccountConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountConfigurationRequest,
+  output: UpdateAccountConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of all findings generated by a particular scan.
  */
-export const getFindings = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getFindings: {
+  (
     input: GetFindingsRequest,
-    output: GetFindingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "findings",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetFindingsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetFindingsRequest,
+  ) => Stream.Stream<
+    GetFindingsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetFindingsRequest,
+  ) => Stream.Stream<
+    Finding,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetFindingsRequest,
+  output: GetFindingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "findings",
+    pageSize: "maxResults",
+  } as const,
+}));

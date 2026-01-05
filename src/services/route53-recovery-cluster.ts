@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Route53 Recovery Cluster",
   serviceShapeName: "ToggleCustomerAPI",
@@ -241,6 +249,15 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type Arn = string;
+export type PageToken = string;
+export type MaxResults = number;
+export type RoutingControlName = string;
+export type ControlPanelName = string;
+export type Owner = string;
+export type RetryAfterSeconds = number;
+
 //# Schemas
 export type Arns = string[];
 export const Arns = S.Array(S.String);
@@ -397,14 +414,18 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class EndpointTemporarilyUnavailableException extends S.TaggedError<EndpointTemporarilyUnavailableException>()(
   "EndpointTemporarilyUnavailableException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   {
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -415,7 +436,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExceededException>()(
   "ServiceLimitExceededException",
   {
@@ -463,20 +486,30 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * - Working with
  * routing controls in Route 53 ARC
  */
-export const getRoutingControlState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRoutingControlStateRequest,
-    output: GetRoutingControlStateResponse,
-    errors: [
-      AccessDeniedException,
-      EndpointTemporarilyUnavailableException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getRoutingControlState: (
+  input: GetRoutingControlStateRequest,
+) => Effect.Effect<
+  GetRoutingControlStateResponse,
+  | AccessDeniedException
+  | EndpointTemporarilyUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRoutingControlStateRequest,
+  output: GetRoutingControlStateResponse,
+  errors: [
+    AccessDeniedException,
+    EndpointTemporarilyUnavailableException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Set multiple routing control states. You can set the value for each state to be ON or OFF.
  * When the state is ON, traffic flows to a cell. When it's OFF, traffic does not
@@ -507,22 +540,34 @@ export const getRoutingControlState = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Working with routing controls overall
  */
-export const updateRoutingControlStates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRoutingControlStatesRequest,
-    output: UpdateRoutingControlStatesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      EndpointTemporarilyUnavailableException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceLimitExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateRoutingControlStates: (
+  input: UpdateRoutingControlStatesRequest,
+) => Effect.Effect<
+  UpdateRoutingControlStatesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | EndpointTemporarilyUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRoutingControlStatesRequest,
+  output: UpdateRoutingControlStatesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    EndpointTemporarilyUnavailableException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceLimitExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List routing control names and Amazon Resource Names (ARNs), as well as the routing control
  * state for each routing control, along with the control panel name and control panel ARN for the routing controls.
@@ -551,25 +596,64 @@ export const updateRoutingControlStates = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - Working with
  * routing controls in Route 53 ARC
  */
-export const listRoutingControls =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRoutingControls: {
+  (
     input: ListRoutingControlsRequest,
-    output: ListRoutingControlsResponse,
-    errors: [
-      AccessDeniedException,
-      EndpointTemporarilyUnavailableException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RoutingControls",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRoutingControlsResponse,
+    | AccessDeniedException
+    | EndpointTemporarilyUnavailableException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRoutingControlsRequest,
+  ) => Stream.Stream<
+    ListRoutingControlsResponse,
+    | AccessDeniedException
+    | EndpointTemporarilyUnavailableException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoutingControlsRequest,
+  ) => Stream.Stream<
+    RoutingControl,
+    | AccessDeniedException
+    | EndpointTemporarilyUnavailableException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRoutingControlsRequest,
+  output: ListRoutingControlsResponse,
+  errors: [
+    AccessDeniedException,
+    EndpointTemporarilyUnavailableException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RoutingControls",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Set the state of the routing control to reroute traffic. You can set the value to ON or
  * OFF. When the state is ON, traffic flows to a cell. When the state is OFF, traffic does not
@@ -600,18 +684,29 @@ export const listRoutingControls =
  *
  * - Working with routing controls overall
  */
-export const updateRoutingControlState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRoutingControlStateRequest,
-    output: UpdateRoutingControlStateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      EndpointTemporarilyUnavailableException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateRoutingControlState: (
+  input: UpdateRoutingControlStateRequest,
+) => Effect.Effect<
+  UpdateRoutingControlStateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | EndpointTemporarilyUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRoutingControlStateRequest,
+  output: UpdateRoutingControlStateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    EndpointTemporarilyUnavailableException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

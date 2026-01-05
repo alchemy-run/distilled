@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock Data Automation Runtime",
   serviceShapeName: "AmazonBedrockKeystoneRuntimeService",
@@ -293,6 +301,22 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type DataAutomationProfileArn = string;
+export type TaggableResourceArn = string;
+export type TagKey = string;
+export type IdempotencyToken = string;
+export type InvocationArn = string;
+export type S3Uri = string;
+export type DataAutomationArn = string;
+export type BlueprintArn = string;
+export type BlueprintVersion = string;
+export type KMSKeyId = string;
+export type TagValue = string;
+export type NonBlankString = string;
+export type EncryptionContextKey = string;
+export type EncryptionContextValue = string;
+
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
@@ -487,6 +511,7 @@ export const TimestampSegment = S.suspend(() =>
 ).annotations({
   identifier: "TimestampSegment",
 }) as any as S.Schema<TimestampSegment>;
+export type VideoSegmentConfiguration = { timestampSegment: TimestampSegment };
 export const VideoSegmentConfiguration = S.Union(
   S.Struct({ timestampSegment: TimestampSegment }),
 );
@@ -588,7 +613,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -596,7 +623,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
@@ -604,7 +633,9 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },
@@ -614,7 +645,18 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Untag an Amazon Bedrock Data Automation resource
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -628,7 +670,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Tag an Amazon Bedrock Data Automation resource
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -643,23 +697,43 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * API used to get data automation status.
  */
-export const getDataAutomationStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDataAutomationStatusRequest,
-    output: GetDataAutomationStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getDataAutomationStatus: (
+  input: GetDataAutomationStatusRequest,
+) => Effect.Effect<
+  GetDataAutomationStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataAutomationStatusRequest,
+  output: GetDataAutomationStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List tags for an Amazon Bedrock Data Automation resource
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -673,32 +747,50 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Sync API: Invoke data automation.
  */
-export const invokeDataAutomation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: InvokeDataAutomationRequest,
-    output: InvokeDataAutomationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const invokeDataAutomation: (
+  input: InvokeDataAutomationRequest,
+) => Effect.Effect<
+  InvokeDataAutomationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InvokeDataAutomationRequest,
+  output: InvokeDataAutomationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Async API: Invoke data automation.
  */
-export const invokeDataAutomationAsync = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: InvokeDataAutomationAsyncRequest,
-    output: InvokeDataAutomationAsyncResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const invokeDataAutomationAsync: (
+  input: InvokeDataAutomationAsyncRequest,
+) => Effect.Effect<
+  InvokeDataAutomationAsyncResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InvokeDataAutomationAsyncRequest,
+  output: InvokeDataAutomationAsyncResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

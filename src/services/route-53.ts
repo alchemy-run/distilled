@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("https://route53.amazonaws.com/doc/2013-04-01/");
 const svc = T.AwsApiService({
   sdkId: "Route 53",
@@ -770,6 +778,100 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ResourceId = string;
+export type SigningKeyName = string;
+export type AssociateVPCComment = string;
+export type UUID = string;
+export type CollectionVersion = number;
+export type TagResourceId = string;
+export type TagKey = string;
+export type CollectionName = string;
+export type CidrNonce = string;
+export type HealthCheckNonce = string;
+export type DNSName = string;
+export type Nonce = string;
+export type SigningKeyString = string;
+export type SigningKeyStatus = string;
+export type CloudWatchLogsLogGroupArn = string;
+export type TrafficPolicyName = string;
+export type TrafficPolicyDocument = string;
+export type TrafficPolicyComment = string;
+export type TTL = number;
+export type TrafficPolicyId = string;
+export type TrafficPolicyVersion = number;
+export type HealthCheckId = string;
+export type QueryLoggingConfigId = string;
+export type TrafficPolicyInstanceId = string;
+export type DisassociateVPCComment = string;
+export type ChangeId = string;
+export type IPAddressCidr = string;
+export type GeoLocationContinentCode = string;
+export type GeoLocationCountryCode = string;
+export type GeoLocationSubdivisionCode = string;
+export type HealthCheckCount = number;
+export type HostedZoneCount = number;
+export type TrafficPolicyInstanceCount = number;
+export type CidrLocationNameDefaultNotAllowed = string;
+export type PaginationToken = string;
+export type PageMarker = string;
+export type VPCId = string;
+export type ResourceRecordSetIdentifier = string;
+export type TrafficPolicyVersionMarker = string;
+export type IPAddress = string;
+export type SubnetMask = string;
+export type HealthCheckVersion = number;
+export type Port = number;
+export type ResourcePath = string;
+export type FullyQualifiedDomainName = string;
+export type SearchString = string;
+export type FailureThreshold = number;
+export type HealthThreshold = number;
+export type ResourceDescription = string;
+export type Cidr = string;
+export type TagValue = string;
+export type RequestInterval = number;
+export type RoutingControlArn = string;
+export type AlarmName = string;
+export type ResourceURI = string;
+export type ErrorMessage = string;
+export type UsageCount = number;
+export type Nameserver = string;
+export type RecordDataEntry = string;
+export type DNSRCode = string;
+export type TransportProtocol = string;
+export type ARN = string;
+export type SigningKeyInteger = number;
+export type SigningKeyTag = number;
+export type SigningKeyStatusMessage = string;
+export type TrafficPolicyInstanceState = string;
+export type Message = string;
+export type LimitValue = number;
+export type ServeSignature = string;
+export type GeoLocationContinentName = string;
+export type GeoLocationCountryName = string;
+export type GeoLocationSubdivisionName = string;
+export type HostedZoneRRSetCount = number;
+export type CidrLocationNameDefaultAllowed = string;
+export type ResourceRecordSetWeight = number;
+export type ServicePrincipal = string;
+export type EvaluationPeriods = number;
+export type Threshold = number;
+export type Period = number;
+export type MetricName = string;
+export type Namespace = string;
+export type Status = string;
+export type AWSAccountID = string;
+export type HostedZoneOwningService = string;
+export type RData = string;
+export type AWSRegion = string;
+export type LocalZoneGroup = string;
+export type Bias = number;
+export type DimensionField = string;
+export type FailureReason = string;
+export type Latitude = string;
+export type Longitude = string;
 
 //# Schemas
 export interface GetCheckerIpRangesRequest {}
@@ -4285,7 +4387,13 @@ export class TooManyHostedZones extends S.TaggedError<TooManyHostedZones>()(
  * of Amazon Route 53 Servers in the Amazon Route 53 Developer
  * Guide.
  */
-export const getCheckerIpRanges = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCheckerIpRanges: (
+  input: GetCheckerIpRangesRequest,
+) => Effect.Effect<
+  GetCheckerIpRangesResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCheckerIpRangesRequest,
   output: GetCheckerIpRangesResponse,
   errors: [],
@@ -4293,7 +4401,13 @@ export const getCheckerIpRanges = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the number of health checks that are associated with the current Amazon Web Services account.
  */
-export const getHealthCheckCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getHealthCheckCount: (
+  input: GetHealthCheckCountRequest,
+) => Effect.Effect<
+  GetHealthCheckCountResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHealthCheckCountRequest,
   output: GetHealthCheckCountResponse,
   errors: [],
@@ -4302,12 +4416,17 @@ export const getHealthCheckCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets the number of traffic policy instances that are associated with the current
  * Amazon Web Services account.
  */
-export const getTrafficPolicyInstanceCount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTrafficPolicyInstanceCountRequest,
-    output: GetTrafficPolicyInstanceCountResponse,
-    errors: [],
-  }));
+export const getTrafficPolicyInstanceCount: (
+  input: GetTrafficPolicyInstanceCountRequest,
+) => Effect.Effect<
+  GetTrafficPolicyInstanceCountResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTrafficPolicyInstanceCountRequest,
+  output: GetTrafficPolicyInstanceCountResponse,
+  errors: [],
+}));
 /**
  * Retrieves a list of supported geographic locations.
  *
@@ -4322,7 +4441,13 @@ export const getTrafficPolicyInstanceCount =
  * For a list of supported geolocation codes, see the GeoLocation data
  * type.
  */
-export const listGeoLocations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listGeoLocations: (
+  input: ListGeoLocationsRequest,
+) => Effect.Effect<
+  ListGeoLocationsResponse,
+  InvalidInput | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListGeoLocationsRequest,
   output: ListGeoLocationsResponse,
   errors: [InvalidInput],
@@ -4331,17 +4456,27 @@ export const listGeoLocations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves a list of the reusable delegation sets that are associated with the current
  * Amazon Web Services account.
  */
-export const listReusableDelegationSets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListReusableDelegationSetsRequest,
-    output: ListReusableDelegationSetsResponse,
-    errors: [InvalidInput],
-  }),
-);
+export const listReusableDelegationSets: (
+  input: ListReusableDelegationSetsRequest,
+) => Effect.Effect<
+  ListReusableDelegationSetsResponse,
+  InvalidInput | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListReusableDelegationSetsRequest,
+  output: ListReusableDelegationSetsResponse,
+  errors: [InvalidInput],
+}));
 /**
  * Retrieves the number of hosted zones that are associated with the current Amazon Web Services account.
  */
-export const getHostedZoneCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getHostedZoneCount: (
+  input: GetHostedZoneCountRequest,
+) => Effect.Effect<
+  GetHostedZoneCountResponse,
+  InvalidInput | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHostedZoneCountRequest,
   output: GetHostedZoneCountResponse,
   errors: [InvalidInput],
@@ -4357,7 +4492,13 @@ export const getHostedZoneCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can also view account limits in Amazon Web Services Trusted Advisor. Sign in to
  * the Amazon Web Services Management Console and open the Trusted Advisor console at https://console.aws.amazon.com/trustedadvisor/. Then choose **Service limits** in the navigation pane.
  */
-export const getAccountLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccountLimit: (
+  input: GetAccountLimitRequest,
+) => Effect.Effect<
+  GetAccountLimitResponse,
+  InvalidInput | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountLimitRequest,
   output: GetAccountLimitResponse,
   errors: [InvalidInput],
@@ -4373,7 +4514,13 @@ export const getAccountLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - `INSYNC` indicates that the changes have propagated to all Route 53
  * DNS servers managing the hosted zone.
  */
-export const getChange = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getChange: (
+  input: GetChangeRequest,
+) => Effect.Effect<
+  GetChangeResponse,
+  InvalidInput | NoSuchChange | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChangeRequest,
   output: GetChangeResponse,
   errors: [InvalidInput, NoSuchChange],
@@ -4385,33 +4532,47 @@ export const getChange = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * support production use-cases with high query rates that require immediate and
  * actionable responses.
  */
-export const getHealthCheckStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetHealthCheckStatusRequest,
-    output: GetHealthCheckStatusResponse,
-    errors: [InvalidInput, NoSuchHealthCheck],
-  }),
-);
+export const getHealthCheckStatus: (
+  input: GetHealthCheckStatusRequest,
+) => Effect.Effect<
+  GetHealthCheckStatusResponse,
+  InvalidInput | NoSuchHealthCheck | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetHealthCheckStatusRequest,
+  output: GetHealthCheckStatusResponse,
+  errors: [InvalidInput, NoSuchHealthCheck],
+}));
 /**
  * Gets information about a specified configuration for DNS query logging.
  *
  * For more information about DNS query logs, see CreateQueryLoggingConfig and Logging DNS
  * Queries.
  */
-export const getQueryLoggingConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetQueryLoggingConfigRequest,
-    output: GetQueryLoggingConfigResponse,
-    errors: [InvalidInput, NoSuchQueryLoggingConfig],
-  }),
-);
+export const getQueryLoggingConfig: (
+  input: GetQueryLoggingConfigRequest,
+) => Effect.Effect<
+  GetQueryLoggingConfigResponse,
+  InvalidInput | NoSuchQueryLoggingConfig | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQueryLoggingConfigRequest,
+  output: GetQueryLoggingConfigResponse,
+  errors: [InvalidInput, NoSuchQueryLoggingConfig],
+}));
 /**
  * Gets information about a specific traffic policy version.
  *
  * For information about how of deleting a traffic policy affects the response from
  * `GetTrafficPolicy`, see DeleteTrafficPolicy.
  */
-export const getTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTrafficPolicy: (
+  input: GetTrafficPolicyRequest,
+) => Effect.Effect<
+  GetTrafficPolicyResponse,
+  InvalidInput | NoSuchTrafficPolicy | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrafficPolicyRequest,
   output: GetTrafficPolicyResponse,
   errors: [InvalidInput, NoSuchTrafficPolicy],
@@ -4420,34 +4581,75 @@ export const getTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns a paginated list of CIDR collections in the Amazon Web Services account
  * (metadata only).
  */
-export const listCidrCollections =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCidrCollections: {
+  (
     input: ListCidrCollectionsRequest,
-    output: ListCidrCollectionsResponse,
-    errors: [InvalidInput],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CidrCollections",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCidrCollectionsResponse,
+    InvalidInput | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCidrCollectionsRequest,
+  ) => Stream.Stream<
+    ListCidrCollectionsResponse,
+    InvalidInput | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCidrCollectionsRequest,
+  ) => Stream.Stream<
+    CollectionSummary,
+    InvalidInput | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCidrCollectionsRequest,
+  output: ListCidrCollectionsResponse,
+  errors: [InvalidInput],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CidrCollections",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
  */
-export const listHealthChecks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listHealthChecks: {
+  (
     input: ListHealthChecksRequest,
-    output: ListHealthChecksResponse,
-    errors: [IncompatibleVersion, InvalidInput],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "HealthChecks",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListHealthChecksResponse,
+    IncompatibleVersion | InvalidInput | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListHealthChecksRequest,
+  ) => Stream.Stream<
+    ListHealthChecksResponse,
+    IncompatibleVersion | InvalidInput | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListHealthChecksRequest,
+  ) => Stream.Stream<
+    HealthCheck,
+    IncompatibleVersion | InvalidInput | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListHealthChecksRequest,
+  output: ListHealthChecksResponse,
+  errors: [IncompatibleVersion, InvalidInput],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "HealthChecks",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Retrieves a list of your hosted zones in lexicographic order. The response includes a
  * `HostedZones` child element for each hosted zone created by the current
@@ -4503,13 +4705,17 @@ export const listHealthChecks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * `NextHostedZoneId` in the `dnsname` and
  * `hostedzoneid` parameters, respectively.
  */
-export const listHostedZonesByName = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListHostedZonesByNameRequest,
-    output: ListHostedZonesByNameResponse,
-    errors: [InvalidDomainName, InvalidInput],
-  }),
-);
+export const listHostedZonesByName: (
+  input: ListHostedZonesByNameRequest,
+) => Effect.Effect<
+  ListHostedZonesByNameResponse,
+  InvalidDomainName | InvalidInput | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListHostedZonesByNameRequest,
+  output: ListHostedZonesByNameResponse,
+  errors: [InvalidDomainName, InvalidInput],
+}));
 /**
  * Gets information about the latest version for every traffic policy that is associated
  * with the current Amazon Web Services account. Policies are listed in the order that they
@@ -4518,7 +4724,13 @@ export const listHostedZonesByName = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For information about how of deleting a traffic policy affects the response from
  * `ListTrafficPolicies`, see DeleteTrafficPolicy.
  */
-export const listTrafficPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTrafficPolicies: (
+  input: ListTrafficPoliciesRequest,
+) => Effect.Effect<
+  ListTrafficPoliciesResponse,
+  InvalidInput | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTrafficPoliciesRequest,
   output: ListTrafficPoliciesResponse,
   errors: [InvalidInput],
@@ -4537,28 +4749,44 @@ export const listTrafficPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * policy instances, you can use the `MaxItems` parameter to list them in groups
  * of up to 100.
  */
-export const listTrafficPolicyInstancesByHostedZone =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListTrafficPolicyInstancesByHostedZoneRequest,
-    output: ListTrafficPolicyInstancesByHostedZoneResponse,
-    errors: [InvalidInput, NoSuchHostedZone, NoSuchTrafficPolicyInstance],
-  }));
+export const listTrafficPolicyInstancesByHostedZone: (
+  input: ListTrafficPolicyInstancesByHostedZoneRequest,
+) => Effect.Effect<
+  ListTrafficPolicyInstancesByHostedZoneResponse,
+  | InvalidInput
+  | NoSuchHostedZone
+  | NoSuchTrafficPolicyInstance
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTrafficPolicyInstancesByHostedZoneRequest,
+  output: ListTrafficPolicyInstancesByHostedZoneResponse,
+  errors: [InvalidInput, NoSuchHostedZone, NoSuchTrafficPolicyInstance],
+}));
 /**
  * Deletes a CIDR collection in the current Amazon Web Services account. The collection
  * must be empty before it can be deleted.
  */
-export const deleteCidrCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCidrCollectionRequest,
-    output: DeleteCidrCollectionResponse,
-    errors: [
-      CidrCollectionInUseException,
-      ConcurrentModification,
-      InvalidInput,
-      NoSuchCidrCollectionException,
-    ],
-  }),
-);
+export const deleteCidrCollection: (
+  input: DeleteCidrCollectionRequest,
+) => Effect.Effect<
+  DeleteCidrCollectionResponse,
+  | CidrCollectionInUseException
+  | ConcurrentModification
+  | InvalidInput
+  | NoSuchCidrCollectionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCidrCollectionRequest,
+  output: DeleteCidrCollectionResponse,
+  errors: [
+    CidrCollectionInUseException,
+    ConcurrentModification,
+    InvalidInput,
+    NoSuchCidrCollectionException,
+  ],
+}));
 /**
  * Gets information about a specified traffic policy instance.
  *
@@ -4570,13 +4798,17 @@ export const deleteCidrCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * In the Route 53 console, traffic policy instances are known as policy
  * records.
  */
-export const getTrafficPolicyInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTrafficPolicyInstanceRequest,
-    output: GetTrafficPolicyInstanceResponse,
-    errors: [InvalidInput, NoSuchTrafficPolicyInstance],
-  }),
-);
+export const getTrafficPolicyInstance: (
+  input: GetTrafficPolicyInstanceRequest,
+) => Effect.Effect<
+  GetTrafficPolicyInstanceResponse,
+  InvalidInput | NoSuchTrafficPolicyInstance | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTrafficPolicyInstanceRequest,
+  output: GetTrafficPolicyInstanceResponse,
+  errors: [InvalidInput, NoSuchTrafficPolicyInstance],
+}));
 /**
  * Gets information about the traffic policy instances that you created by using the
  * current Amazon Web Services account.
@@ -4590,13 +4822,17 @@ export const getTrafficPolicyInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * policy instances, you can use the `MaxItems` parameter to list them in groups
  * of up to 100.
  */
-export const listTrafficPolicyInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTrafficPolicyInstancesRequest,
-    output: ListTrafficPolicyInstancesResponse,
-    errors: [InvalidInput, NoSuchTrafficPolicyInstance],
-  }),
-);
+export const listTrafficPolicyInstances: (
+  input: ListTrafficPolicyInstancesRequest,
+) => Effect.Effect<
+  ListTrafficPolicyInstancesResponse,
+  InvalidInput | NoSuchTrafficPolicyInstance | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTrafficPolicyInstancesRequest,
+  output: ListTrafficPolicyInstancesResponse,
+  errors: [InvalidInput, NoSuchTrafficPolicyInstance],
+}));
 /**
  * Deletes a health check.
  *
@@ -4614,7 +4850,13 @@ export const listTrafficPolicyInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * is deleted automatically when you deregister the instance; there can be a delay of
  * several hours before the health check is deleted from Route 53.
  */
-export const deleteHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteHealthCheck: (
+  input: DeleteHealthCheckRequest,
+) => Effect.Effect<
+  DeleteHealthCheckResponse,
+  HealthCheckInUse | InvalidInput | NoSuchHealthCheck | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHealthCheckRequest,
   output: DeleteHealthCheckResponse,
   errors: [HealthCheckInUse, InvalidInput, NoSuchHealthCheck],
@@ -4626,13 +4868,20 @@ export const deleteHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about DNS query logs, see CreateQueryLoggingConfig.
  */
-export const deleteQueryLoggingConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteQueryLoggingConfigRequest,
-    output: DeleteQueryLoggingConfigResponse,
-    errors: [ConcurrentModification, InvalidInput, NoSuchQueryLoggingConfig],
-  }),
-);
+export const deleteQueryLoggingConfig: (
+  input: DeleteQueryLoggingConfigRequest,
+) => Effect.Effect<
+  DeleteQueryLoggingConfigResponse,
+  | ConcurrentModification
+  | InvalidInput
+  | NoSuchQueryLoggingConfig
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteQueryLoggingConfigRequest,
+  output: DeleteQueryLoggingConfigResponse,
+  errors: [ConcurrentModification, InvalidInput, NoSuchQueryLoggingConfig],
+}));
 /**
  * Gets information about the traffic policy instances that you created by using a
  * specify traffic policy version.
@@ -4647,35 +4896,54 @@ export const deleteQueryLoggingConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * policy instances, you can use the `MaxItems` parameter to list them in groups
  * of up to 100.
  */
-export const listTrafficPolicyInstancesByPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListTrafficPolicyInstancesByPolicyRequest,
-    output: ListTrafficPolicyInstancesByPolicyResponse,
-    errors: [InvalidInput, NoSuchTrafficPolicy, NoSuchTrafficPolicyInstance],
-  }));
+export const listTrafficPolicyInstancesByPolicy: (
+  input: ListTrafficPolicyInstancesByPolicyRequest,
+) => Effect.Effect<
+  ListTrafficPolicyInstancesByPolicyResponse,
+  | InvalidInput
+  | NoSuchTrafficPolicy
+  | NoSuchTrafficPolicyInstance
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTrafficPolicyInstancesByPolicyRequest,
+  output: ListTrafficPolicyInstancesByPolicyResponse,
+  errors: [InvalidInput, NoSuchTrafficPolicy, NoSuchTrafficPolicyInstance],
+}));
 /**
  * Gets information about all of the versions for a specified traffic policy.
  *
  * Traffic policy versions are listed in numerical order by
  * `VersionNumber`.
  */
-export const listTrafficPolicyVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTrafficPolicyVersionsRequest,
-    output: ListTrafficPolicyVersionsResponse,
-    errors: [InvalidInput, NoSuchTrafficPolicy],
-  }),
-);
+export const listTrafficPolicyVersions: (
+  input: ListTrafficPolicyVersionsRequest,
+) => Effect.Effect<
+  ListTrafficPolicyVersionsResponse,
+  InvalidInput | NoSuchTrafficPolicy | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTrafficPolicyVersionsRequest,
+  output: ListTrafficPolicyVersionsResponse,
+  errors: [InvalidInput, NoSuchTrafficPolicy],
+}));
 /**
  * Updates the comment for a specified traffic policy version.
  */
-export const updateTrafficPolicyComment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTrafficPolicyCommentRequest,
-    output: UpdateTrafficPolicyCommentResponse,
-    errors: [ConcurrentModification, InvalidInput, NoSuchTrafficPolicy],
-  }),
-);
+export const updateTrafficPolicyComment: (
+  input: UpdateTrafficPolicyCommentRequest,
+) => Effect.Effect<
+  UpdateTrafficPolicyCommentResponse,
+  | ConcurrentModification
+  | InvalidInput
+  | NoSuchTrafficPolicy
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTrafficPolicyCommentRequest,
+  output: UpdateTrafficPolicyCommentResponse,
+  errors: [ConcurrentModification, InvalidInput, NoSuchTrafficPolicy],
+}));
 /**
  * Gets a list of the VPCs that were created by other accounts and that can be associated
  * with a specified hosted zone because you've submitted one or more
@@ -4684,12 +4952,20 @@ export const updateTrafficPolicyComment = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * The response includes a `VPCs` element with a `VPC` child
  * element for each VPC that can be associated with the hosted zone.
  */
-export const listVPCAssociationAuthorizations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListVPCAssociationAuthorizationsRequest,
-    output: ListVPCAssociationAuthorizationsResponse,
-    errors: [InvalidInput, InvalidPaginationToken, NoSuchHostedZone],
-  }));
+export const listVPCAssociationAuthorizations: (
+  input: ListVPCAssociationAuthorizationsRequest,
+) => Effect.Effect<
+  ListVPCAssociationAuthorizationsResponse,
+  | InvalidInput
+  | InvalidPaginationToken
+  | NoSuchHostedZone
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListVPCAssociationAuthorizationsRequest,
+  output: ListVPCAssociationAuthorizationsResponse,
+  errors: [InvalidInput, InvalidPaginationToken, NoSuchHostedZone],
+}));
 /**
  * Gets the value that Amazon Route 53 returns in response to a DNS request for a
  * specified record name and type. You can optionally specify the IP address of a DNS
@@ -4702,7 +4978,13 @@ export const listVPCAssociationAuthorizations =
  * servers of a subdomain that point to the parent name servers, those will not be
  * returned.
  */
-export const testDNSAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testDNSAnswer: (
+  input: TestDNSAnswerRequest,
+) => Effect.Effect<
+  TestDNSAnswerResponse,
+  InvalidInput | NoSuchHostedZone | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestDNSAnswerRequest,
   output: TestDNSAnswerResponse,
   errors: [InvalidInput, NoSuchHostedZone],
@@ -4716,50 +4998,108 @@ export const testDNSAnswer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * DNS query logs, appears in Logging DNS Queries in
  * the *Amazon Route 53 Developer Guide*.
  */
-export const listQueryLoggingConfigs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listQueryLoggingConfigs: {
+  (
     input: ListQueryLoggingConfigsRequest,
-    output: ListQueryLoggingConfigsResponse,
-    errors: [InvalidInput, InvalidPaginationToken, NoSuchHostedZone],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "QueryLoggingConfigs",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListQueryLoggingConfigsResponse,
+    | InvalidInput
+    | InvalidPaginationToken
+    | NoSuchHostedZone
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListQueryLoggingConfigsRequest,
+  ) => Stream.Stream<
+    ListQueryLoggingConfigsResponse,
+    | InvalidInput
+    | InvalidPaginationToken
+    | NoSuchHostedZone
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListQueryLoggingConfigsRequest,
+  ) => Stream.Stream<
+    QueryLoggingConfig,
+    | InvalidInput
+    | InvalidPaginationToken
+    | NoSuchHostedZone
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListQueryLoggingConfigsRequest,
+  output: ListQueryLoggingConfigsResponse,
+  errors: [InvalidInput, InvalidPaginationToken, NoSuchHostedZone],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "QueryLoggingConfigs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a paginated list of CIDR locations for the given collection (metadata only,
  * does not include CIDR blocks).
  */
-export const listCidrLocations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCidrLocations: {
+  (
     input: ListCidrLocationsRequest,
-    output: ListCidrLocationsResponse,
-    errors: [InvalidInput, NoSuchCidrCollectionException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CidrLocations",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCidrLocationsResponse,
+    InvalidInput | NoSuchCidrCollectionException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCidrLocationsRequest,
+  ) => Stream.Stream<
+    ListCidrLocationsResponse,
+    InvalidInput | NoSuchCidrCollectionException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCidrLocationsRequest,
+  ) => Stream.Stream<
+    LocationSummary,
+    InvalidInput | NoSuchCidrCollectionException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCidrLocationsRequest,
+  output: ListCidrLocationsResponse,
+  errors: [InvalidInput, NoSuchCidrCollectionException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CidrLocations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a CIDR collection in the current Amazon Web Services account.
  */
-export const createCidrCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCidrCollectionRequest,
-    output: CreateCidrCollectionResponse,
-    errors: [
-      CidrCollectionAlreadyExistsException,
-      ConcurrentModification,
-      InvalidInput,
-      LimitsExceeded,
-    ],
-  }),
-);
+export const createCidrCollection: (
+  input: CreateCidrCollectionRequest,
+) => Effect.Effect<
+  CreateCidrCollectionResponse,
+  | CidrCollectionAlreadyExistsException
+  | ConcurrentModification
+  | InvalidInput
+  | LimitsExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCidrCollectionRequest,
+  output: CreateCidrCollectionResponse,
+  errors: [
+    CidrCollectionAlreadyExistsException,
+    ConcurrentModification,
+    InvalidInput,
+    LimitsExceeded,
+  ],
+}));
 /**
  * Deletes a reusable delegation set.
  *
@@ -4770,18 +5110,26 @@ export const createCidrCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * submit a GetReusableDelegationSet request and specify the ID of the reusable
  * delegation set that you want to delete.
  */
-export const deleteReusableDelegationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteReusableDelegationSetRequest,
-    output: DeleteReusableDelegationSetResponse,
-    errors: [
-      DelegationSetInUse,
-      DelegationSetNotReusable,
-      InvalidInput,
-      NoSuchDelegationSet,
-    ],
-  }),
-);
+export const deleteReusableDelegationSet: (
+  input: DeleteReusableDelegationSetRequest,
+) => Effect.Effect<
+  DeleteReusableDelegationSetResponse,
+  | DelegationSetInUse
+  | DelegationSetNotReusable
+  | InvalidInput
+  | NoSuchDelegationSet
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReusableDelegationSetRequest,
+  output: DeleteReusableDelegationSetResponse,
+  errors: [
+    DelegationSetInUse,
+    DelegationSetNotReusable,
+    InvalidInput,
+    NoSuchDelegationSet,
+  ],
+}));
 /**
  * Deletes a traffic policy instance and all of the resource record sets that Amazon
  * Route 53 created when you created the instance.
@@ -4789,17 +5137,20 @@ export const deleteReusableDelegationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * In the Route 53 console, traffic policy instances are known as policy
  * records.
  */
-export const deleteTrafficPolicyInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTrafficPolicyInstanceRequest,
-    output: DeleteTrafficPolicyInstanceResponse,
-    errors: [
-      InvalidInput,
-      NoSuchTrafficPolicyInstance,
-      PriorRequestNotComplete,
-    ],
-  }),
-);
+export const deleteTrafficPolicyInstance: (
+  input: DeleteTrafficPolicyInstanceRequest,
+) => Effect.Effect<
+  DeleteTrafficPolicyInstanceResponse,
+  | InvalidInput
+  | NoSuchTrafficPolicyInstance
+  | PriorRequestNotComplete
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTrafficPolicyInstanceRequest,
+  output: DeleteTrafficPolicyInstanceResponse,
+  errors: [InvalidInput, NoSuchTrafficPolicyInstance, PriorRequestNotComplete],
+}));
 /**
  * Gets information about whether a specified geographic location is supported for Amazon
  * Route 53 geolocation resource record sets.
@@ -4826,7 +5177,13 @@ export const deleteTrafficPolicyInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * code&subdivisioncode=subdivision
  * code
  */
-export const getGeoLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGeoLocation: (
+  input: GetGeoLocationRequest,
+) => Effect.Effect<
+  GetGeoLocationResponse,
+  InvalidInput | NoSuchGeoLocation | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGeoLocationRequest,
   output: GetGeoLocationResponse,
   errors: [InvalidInput, NoSuchGeoLocation],
@@ -4834,12 +5191,17 @@ export const getGeoLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the reason that a specified health check failed most recently.
  */
-export const getHealthCheckLastFailureReason =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetHealthCheckLastFailureReasonRequest,
-    output: GetHealthCheckLastFailureReasonResponse,
-    errors: [InvalidInput, NoSuchHealthCheck],
-  }));
+export const getHealthCheckLastFailureReason: (
+  input: GetHealthCheckLastFailureReasonRequest,
+) => Effect.Effect<
+  GetHealthCheckLastFailureReasonResponse,
+  InvalidInput | NoSuchHealthCheck | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetHealthCheckLastFailureReasonRequest,
+  output: GetHealthCheckLastFailureReasonResponse,
+  errors: [InvalidInput, NoSuchHealthCheck],
+}));
 /**
  * Gets the specified limit for a specified hosted zone, for example, the maximum number
  * of records that you can create in the hosted zone.
@@ -4848,7 +5210,13 @@ export const getHealthCheckLastFailureReason =
  * *Amazon Route 53 Developer Guide*. To request a higher limit,
  * open a case.
  */
-export const getHostedZoneLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getHostedZoneLimit: (
+  input: GetHostedZoneLimitRequest,
+) => Effect.Effect<
+  GetHostedZoneLimitResponse,
+  HostedZoneNotPrivate | InvalidInput | NoSuchHostedZone | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHostedZoneLimitRequest,
   output: GetHostedZoneLimitResponse,
   errors: [HostedZoneNotPrivate, InvalidInput, NoSuchHostedZone],
@@ -4887,13 +5255,17 @@ export const getHostedZoneLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Access Management
  * in the *Amazon Web Services General Reference*.
  */
-export const listHostedZonesByVPC = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListHostedZonesByVPCRequest,
-    output: ListHostedZonesByVPCResponse,
-    errors: [InvalidInput, InvalidPaginationToken],
-  }),
-);
+export const listHostedZonesByVPC: (
+  input: ListHostedZonesByVPCRequest,
+) => Effect.Effect<
+  ListHostedZonesByVPCResponse,
+  InvalidInput | InvalidPaginationToken | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListHostedZonesByVPCRequest,
+  output: ListHostedZonesByVPCResponse,
+  errors: [InvalidInput, InvalidPaginationToken],
+}));
 /**
  * Updates an existing health check. Note that some values can't be updated.
  *
@@ -4901,7 +5273,16 @@ export const listHostedZonesByVPC = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Updating, and Deleting Health Checks in the Amazon Route 53
  * Developer Guide.
  */
-export const updateHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateHealthCheck: (
+  input: UpdateHealthCheckRequest,
+) => Effect.Effect<
+  UpdateHealthCheckResponse,
+  | HealthCheckVersionMismatch
+  | InvalidInput
+  | NoSuchHealthCheck
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHealthCheckRequest,
   output: UpdateHealthCheckResponse,
   errors: [HealthCheckVersionMismatch, InvalidInput, NoSuchHealthCheck],
@@ -4910,7 +5291,13 @@ export const updateHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns information about DNSSEC for a specific hosted zone, including the key-signing
  * keys (KSKs) in the hosted zone.
  */
-export const getDNSSEC = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDNSSEC: (
+  input: GetDNSSECRequest,
+) => Effect.Effect<
+  GetDNSSECResponse,
+  InvalidArgument | InvalidInput | NoSuchHostedZone | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDNSSECRequest,
   output: GetDNSSECResponse,
   errors: [InvalidArgument, InvalidInput, NoSuchHostedZone],
@@ -4924,19 +5311,28 @@ export const getDNSSEC = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * of a traffic policy. If you reach the limit and need to create another version, you'll
  * need to start a new traffic policy.
  */
-export const createTrafficPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTrafficPolicyVersionRequest,
-    output: CreateTrafficPolicyVersionResponse,
-    errors: [
-      ConcurrentModification,
-      InvalidInput,
-      InvalidTrafficPolicyDocument,
-      NoSuchTrafficPolicy,
-      TooManyTrafficPolicyVersionsForCurrentPolicy,
-    ],
-  }),
-);
+export const createTrafficPolicyVersion: (
+  input: CreateTrafficPolicyVersionRequest,
+) => Effect.Effect<
+  CreateTrafficPolicyVersionResponse,
+  | ConcurrentModification
+  | InvalidInput
+  | InvalidTrafficPolicyDocument
+  | NoSuchTrafficPolicy
+  | TooManyTrafficPolicyVersionsForCurrentPolicy
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTrafficPolicyVersionRequest,
+  output: CreateTrafficPolicyVersionResponse,
+  errors: [
+    ConcurrentModification,
+    InvalidInput,
+    InvalidTrafficPolicyDocument,
+    NoSuchTrafficPolicy,
+    TooManyTrafficPolicyVersionsForCurrentPolicy,
+  ],
+}));
 /**
  * Gets the maximum number of hosted zones that you can associate with the specified
  * reusable delegation set.
@@ -4945,23 +5341,35 @@ export const createTrafficPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * *Amazon Route 53 Developer Guide*. To request a higher limit,
  * open a case.
  */
-export const getReusableDelegationSetLimit =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetReusableDelegationSetLimitRequest,
-    output: GetReusableDelegationSetLimitResponse,
-    errors: [InvalidInput, NoSuchDelegationSet],
-  }));
+export const getReusableDelegationSetLimit: (
+  input: GetReusableDelegationSetLimitRequest,
+) => Effect.Effect<
+  GetReusableDelegationSetLimitResponse,
+  InvalidInput | NoSuchDelegationSet | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReusableDelegationSetLimitRequest,
+  output: GetReusableDelegationSetLimitResponse,
+  errors: [InvalidInput, NoSuchDelegationSet],
+}));
 /**
  * Retrieves information about a specified reusable delegation set, including the four
  * name servers that are assigned to the delegation set.
  */
-export const getReusableDelegationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetReusableDelegationSetRequest,
-    output: GetReusableDelegationSetResponse,
-    errors: [DelegationSetNotReusable, InvalidInput, NoSuchDelegationSet],
-  }),
-);
+export const getReusableDelegationSet: (
+  input: GetReusableDelegationSetRequest,
+) => Effect.Effect<
+  GetReusableDelegationSetResponse,
+  | DelegationSetNotReusable
+  | InvalidInput
+  | NoSuchDelegationSet
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReusableDelegationSetRequest,
+  output: GetReusableDelegationSetResponse,
+  errors: [DelegationSetNotReusable, InvalidInput, NoSuchDelegationSet],
+}));
 /**
  * Retrieves a list of the public and private hosted zones that are associated with the
  * current Amazon Web Services account. The response includes a `HostedZones`
@@ -4971,19 +5379,48 @@ export const getReusableDelegationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * hosted zones, you can use the `maxitems` parameter to list them in groups of
  * up to 100.
  */
-export const listHostedZones = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listHostedZones: {
+  (
     input: ListHostedZonesRequest,
-    output: ListHostedZonesResponse,
-    errors: [DelegationSetNotReusable, InvalidInput, NoSuchDelegationSet],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "HostedZones",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListHostedZonesResponse,
+    | DelegationSetNotReusable
+    | InvalidInput
+    | NoSuchDelegationSet
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListHostedZonesRequest,
+  ) => Stream.Stream<
+    ListHostedZonesResponse,
+    | DelegationSetNotReusable
+    | InvalidInput
+    | NoSuchDelegationSet
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListHostedZonesRequest,
+  ) => Stream.Stream<
+    HostedZone,
+    | DelegationSetNotReusable
+    | InvalidInput
+    | NoSuchDelegationSet
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListHostedZonesRequest,
+  output: ListHostedZonesResponse,
+  errors: [DelegationSetNotReusable, InvalidInput, NoSuchDelegationSet],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "HostedZones",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * After you submit a `UpdateTrafficPolicyInstance` request, there's a brief delay while Route 53 creates the resource record sets
  * that are specified in the traffic policy definition. Use `GetTrafficPolicyInstance` with the `id` of updated traffic policy instance confirm
@@ -5009,36 +5446,53 @@ export const listHostedZones = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * - Route 53 deletes the old group of resource record sets that are associated
  * with the root resource record set name.
  */
-export const updateTrafficPolicyInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTrafficPolicyInstanceRequest,
-    output: UpdateTrafficPolicyInstanceResponse,
-    errors: [
-      ConflictingTypes,
-      InvalidInput,
-      NoSuchTrafficPolicy,
-      NoSuchTrafficPolicyInstance,
-      PriorRequestNotComplete,
-    ],
-  }),
-);
+export const updateTrafficPolicyInstance: (
+  input: UpdateTrafficPolicyInstanceRequest,
+) => Effect.Effect<
+  UpdateTrafficPolicyInstanceResponse,
+  | ConflictingTypes
+  | InvalidInput
+  | NoSuchTrafficPolicy
+  | NoSuchTrafficPolicyInstance
+  | PriorRequestNotComplete
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTrafficPolicyInstanceRequest,
+  output: UpdateTrafficPolicyInstanceResponse,
+  errors: [
+    ConflictingTypes,
+    InvalidInput,
+    NoSuchTrafficPolicy,
+    NoSuchTrafficPolicyInstance,
+    PriorRequestNotComplete,
+  ],
+}));
 /**
  * Updates the features configuration for a hosted zone. This operation allows you to enable or disable specific features for your hosted zone, such as accelerated recovery.
  *
  * Accelerated recovery enables you to update DNS records in your public hosted zone even when the us-east-1 region is unavailable.
  */
-export const updateHostedZoneFeatures = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateHostedZoneFeaturesRequest,
-    output: UpdateHostedZoneFeaturesResponse,
-    errors: [
-      InvalidInput,
-      LimitsExceeded,
-      NoSuchHostedZone,
-      PriorRequestNotComplete,
-    ],
-  }),
-);
+export const updateHostedZoneFeatures: (
+  input: UpdateHostedZoneFeaturesRequest,
+) => Effect.Effect<
+  UpdateHostedZoneFeaturesResponse,
+  | InvalidInput
+  | LimitsExceeded
+  | NoSuchHostedZone
+  | PriorRequestNotComplete
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateHostedZoneFeaturesRequest,
+  output: UpdateHostedZoneFeaturesResponse,
+  errors: [
+    InvalidInput,
+    LimitsExceeded,
+    NoSuchHostedZone,
+    PriorRequestNotComplete,
+  ],
+}));
 /**
  * Deletes a hosted zone.
  *
@@ -5083,7 +5537,18 @@ export const updateHostedZoneFeatures = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - Use the `ListHostedZones` action to get a list of the hosted zones
  * associated with the current Amazon Web Services account.
  */
-export const deleteHostedZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteHostedZone: (
+  input: DeleteHostedZoneRequest,
+) => Effect.Effect<
+  DeleteHostedZoneResponse,
+  | HostedZoneNotEmpty
+  | InvalidDomainName
+  | InvalidInput
+  | NoSuchHostedZone
+  | PriorRequestNotComplete
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHostedZoneRequest,
   output: DeleteHostedZoneResponse,
   errors: [
@@ -5097,13 +5562,20 @@ export const deleteHostedZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the comment for a specified hosted zone.
  */
-export const updateHostedZoneComment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateHostedZoneCommentRequest,
-    output: UpdateHostedZoneCommentResponse,
-    errors: [InvalidInput, NoSuchHostedZone, PriorRequestNotComplete],
-  }),
-);
+export const updateHostedZoneComment: (
+  input: UpdateHostedZoneCommentRequest,
+) => Effect.Effect<
+  UpdateHostedZoneCommentResponse,
+  | InvalidInput
+  | NoSuchHostedZone
+  | PriorRequestNotComplete
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateHostedZoneCommentRequest,
+  output: UpdateHostedZoneCommentResponse,
+  errors: [InvalidInput, NoSuchHostedZone, PriorRequestNotComplete],
+}));
 /**
  * Removes authorization to submit an `AssociateVPCWithHostedZone` request to
  * associate a specified VPC with a hosted zone that was created by a different account.
@@ -5117,18 +5589,28 @@ export const updateHostedZoneComment = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * the hosted zone. If you want to delete an existing association, use
  * `DisassociateVPCFromHostedZone`.
  */
-export const deleteVPCAssociationAuthorization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteVPCAssociationAuthorizationRequest,
-    output: DeleteVPCAssociationAuthorizationResponse,
-    errors: [
-      ConcurrentModification,
-      InvalidInput,
-      InvalidVPCId,
-      NoSuchHostedZone,
-      VPCAssociationAuthorizationNotFound,
-    ],
-  }));
+export const deleteVPCAssociationAuthorization: (
+  input: DeleteVPCAssociationAuthorizationRequest,
+) => Effect.Effect<
+  DeleteVPCAssociationAuthorizationResponse,
+  | ConcurrentModification
+  | InvalidInput
+  | InvalidVPCId
+  | NoSuchHostedZone
+  | VPCAssociationAuthorizationNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVPCAssociationAuthorizationRequest,
+  output: DeleteVPCAssociationAuthorizationResponse,
+  errors: [
+    ConcurrentModification,
+    InvalidInput,
+    InvalidVPCId,
+    NoSuchHostedZone,
+    VPCAssociationAuthorizationNotFound,
+  ],
+}));
 /**
  * Authorizes the Amazon Web Services account that created a specified VPC to submit an
  * `AssociateVPCWithHostedZone` request to associate the VPC with a
@@ -5141,18 +5623,28 @@ export const deleteVPCAssociationAuthorization =
  * a hosted zone that you created by using a different account, you must submit one
  * authorization request for each VPC.
  */
-export const createVPCAssociationAuthorization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateVPCAssociationAuthorizationRequest,
-    output: CreateVPCAssociationAuthorizationResponse,
-    errors: [
-      ConcurrentModification,
-      InvalidInput,
-      InvalidVPCId,
-      NoSuchHostedZone,
-      TooManyVPCAssociationAuthorizations,
-    ],
-  }));
+export const createVPCAssociationAuthorization: (
+  input: CreateVPCAssociationAuthorizationRequest,
+) => Effect.Effect<
+  CreateVPCAssociationAuthorizationResponse,
+  | ConcurrentModification
+  | InvalidInput
+  | InvalidVPCId
+  | NoSuchHostedZone
+  | TooManyVPCAssociationAuthorizations
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVPCAssociationAuthorizationRequest,
+  output: CreateVPCAssociationAuthorizationResponse,
+  errors: [
+    ConcurrentModification,
+    InvalidInput,
+    InvalidVPCId,
+    NoSuchHostedZone,
+    TooManyVPCAssociationAuthorizations,
+  ],
+}));
 /**
  * Deletes a traffic policy.
  *
@@ -5167,7 +5659,17 @@ export const createVPCAssociationAuthorization =
  * - If you retain the ID of the policy, you can get information about the policy,
  * including the traffic policy document, by running GetTrafficPolicy.
  */
-export const deleteTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTrafficPolicy: (
+  input: DeleteTrafficPolicyRequest,
+) => Effect.Effect<
+  DeleteTrafficPolicyResponse,
+  | ConcurrentModification
+  | InvalidInput
+  | NoSuchTrafficPolicy
+  | TrafficPolicyInUse
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrafficPolicyRequest,
   output: DeleteTrafficPolicyResponse,
   errors: [
@@ -5180,23 +5682,52 @@ export const deleteTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a paginated list of location objects and their CIDR blocks.
  */
-export const listCidrBlocks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCidrBlocks: {
+  (
     input: ListCidrBlocksRequest,
-    output: ListCidrBlocksResponse,
-    errors: [
-      InvalidInput,
-      NoSuchCidrCollectionException,
-      NoSuchCidrLocationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CidrBlocks",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCidrBlocksResponse,
+    | InvalidInput
+    | NoSuchCidrCollectionException
+    | NoSuchCidrLocationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCidrBlocksRequest,
+  ) => Stream.Stream<
+    ListCidrBlocksResponse,
+    | InvalidInput
+    | NoSuchCidrCollectionException
+    | NoSuchCidrLocationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCidrBlocksRequest,
+  ) => Stream.Stream<
+    CidrBlockSummary,
+    | InvalidInput
+    | NoSuchCidrCollectionException
+    | NoSuchCidrLocationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCidrBlocksRequest,
+  output: ListCidrBlocksResponse,
+  errors: [
+    InvalidInput,
+    NoSuchCidrCollectionException,
+    NoSuchCidrLocationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CidrBlocks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates, changes, or deletes CIDR blocks within a collection. Contains authoritative
  * IP information mapping blocks to one or multiple locations.
@@ -5219,20 +5750,30 @@ export const listCidrBlocks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * - ` DELETE_IF_EXISTS`: Delete an existing CIDR block from the
  * collection.
  */
-export const changeCidrCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ChangeCidrCollectionRequest,
-    output: ChangeCidrCollectionResponse,
-    errors: [
-      CidrBlockInUseException,
-      CidrCollectionVersionMismatchException,
-      ConcurrentModification,
-      InvalidInput,
-      LimitsExceeded,
-      NoSuchCidrCollectionException,
-    ],
-  }),
-);
+export const changeCidrCollection: (
+  input: ChangeCidrCollectionRequest,
+) => Effect.Effect<
+  ChangeCidrCollectionResponse,
+  | CidrBlockInUseException
+  | CidrCollectionVersionMismatchException
+  | ConcurrentModification
+  | InvalidInput
+  | LimitsExceeded
+  | NoSuchCidrCollectionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ChangeCidrCollectionRequest,
+  output: ChangeCidrCollectionResponse,
+  errors: [
+    CidrBlockInUseException,
+    CidrCollectionVersionMismatchException,
+    ConcurrentModification,
+    InvalidInput,
+    LimitsExceeded,
+    NoSuchCidrCollectionException,
+  ],
+}));
 /**
  * Creates, changes, or deletes a resource record set, which contains authoritative DNS
  * information for a specified domain name or subdomain name. For example, you can use
@@ -5319,19 +5860,28 @@ export const changeCidrCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For information about the limits on a `ChangeResourceRecordSets` request,
  * see Limits in the *Amazon Route 53 Developer Guide*.
  */
-export const changeResourceRecordSets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ChangeResourceRecordSetsRequest,
-    output: ChangeResourceRecordSetsResponse,
-    errors: [
-      InvalidChangeBatch,
-      InvalidInput,
-      NoSuchHealthCheck,
-      NoSuchHostedZone,
-      PriorRequestNotComplete,
-    ],
-  }),
-);
+export const changeResourceRecordSets: (
+  input: ChangeResourceRecordSetsRequest,
+) => Effect.Effect<
+  ChangeResourceRecordSetsResponse,
+  | InvalidChangeBatch
+  | InvalidInput
+  | NoSuchHealthCheck
+  | NoSuchHostedZone
+  | PriorRequestNotComplete
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ChangeResourceRecordSetsRequest,
+  output: ChangeResourceRecordSetsResponse,
+  errors: [
+    InvalidChangeBatch,
+    InvalidInput,
+    NoSuchHealthCheck,
+    NoSuchHostedZone,
+    PriorRequestNotComplete,
+  ],
+}));
 /**
  * Creates a new health check.
  *
@@ -5365,7 +5915,16 @@ export const changeResourceRecordSets = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * see the Amazon
  * CloudWatch User Guide.
  */
-export const createHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createHealthCheck: (
+  input: CreateHealthCheckRequest,
+) => Effect.Effect<
+  CreateHealthCheckResponse,
+  | HealthCheckAlreadyExists
+  | InvalidInput
+  | TooManyHealthChecks
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHealthCheckRequest,
   output: CreateHealthCheckResponse,
   errors: [HealthCheckAlreadyExists, InvalidInput, TooManyHealthChecks],
@@ -5409,22 +5968,38 @@ export const createHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Access Management
  * in the *Amazon Web Services General Reference*.
  */
-export const disassociateVPCFromHostedZone =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateVPCFromHostedZoneRequest,
-    output: DisassociateVPCFromHostedZoneResponse,
-    errors: [
-      InvalidInput,
-      InvalidVPCId,
-      LastVPCAssociation,
-      NoSuchHostedZone,
-      VPCAssociationNotFound,
-    ],
-  }));
+export const disassociateVPCFromHostedZone: (
+  input: DisassociateVPCFromHostedZoneRequest,
+) => Effect.Effect<
+  DisassociateVPCFromHostedZoneResponse,
+  | InvalidInput
+  | InvalidVPCId
+  | LastVPCAssociation
+  | NoSuchHostedZone
+  | VPCAssociationNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateVPCFromHostedZoneRequest,
+  output: DisassociateVPCFromHostedZoneResponse,
+  errors: [
+    InvalidInput,
+    InvalidVPCId,
+    LastVPCAssociation,
+    NoSuchHostedZone,
+    VPCAssociationNotFound,
+  ],
+}));
 /**
  * Gets information about a specified health check.
  */
-export const getHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getHealthCheck: (
+  input: GetHealthCheckRequest,
+) => Effect.Effect<
+  GetHealthCheckResponse,
+  IncompatibleVersion | InvalidInput | NoSuchHealthCheck | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHealthCheckRequest,
   output: GetHealthCheckResponse,
   errors: [IncompatibleVersion, InvalidInput, NoSuchHealthCheck],
@@ -5436,7 +6011,13 @@ export const getHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `` returns the VPCs associated with the specified hosted zone and does not reflect the VPC
  * associations by Route 53 Profiles. To get the associations to a Profile, call the ListProfileAssociations API.
  */
-export const getHostedZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getHostedZone: (
+  input: GetHostedZoneRequest,
+) => Effect.Effect<
+  GetHostedZoneResponse,
+  InvalidInput | NoSuchHostedZone | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHostedZoneRequest,
   output: GetHostedZoneResponse,
   errors: [InvalidInput, NoSuchHostedZone],
@@ -5513,32 +6094,45 @@ export const getHostedZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * those values for `StartRecordName`, `StartRecordType`, and
  * `StartRecordIdentifier`.
  */
-export const listResourceRecordSets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListResourceRecordSetsRequest,
-    output: ListResourceRecordSetsResponse,
-    errors: [InvalidInput, NoSuchHostedZone],
-  }),
-);
+export const listResourceRecordSets: (
+  input: ListResourceRecordSetsRequest,
+) => Effect.Effect<
+  ListResourceRecordSetsResponse,
+  InvalidInput | NoSuchHostedZone | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListResourceRecordSetsRequest,
+  output: ListResourceRecordSetsResponse,
+  errors: [InvalidInput, NoSuchHostedZone],
+}));
 /**
  * Lists tags for up to 10 health checks or hosted zones.
  *
  * For information about using tags for cost allocation, see Using Cost Allocation
  * Tags in the *Billing and Cost Management User Guide*.
  */
-export const listTagsForResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTagsForResourcesRequest,
-    output: ListTagsForResourcesResponse,
-    errors: [
-      InvalidInput,
-      NoSuchHealthCheck,
-      NoSuchHostedZone,
-      PriorRequestNotComplete,
-      ThrottlingException,
-    ],
-  }),
-);
+export const listTagsForResources: (
+  input: ListTagsForResourcesRequest,
+) => Effect.Effect<
+  ListTagsForResourcesResponse,
+  | InvalidInput
+  | NoSuchHealthCheck
+  | NoSuchHostedZone
+  | PriorRequestNotComplete
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourcesRequest,
+  output: ListTagsForResourcesResponse,
+  errors: [
+    InvalidInput,
+    NoSuchHealthCheck,
+    NoSuchHostedZone,
+    PriorRequestNotComplete,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates resource record sets in a specified hosted zone based on the settings in a
  * specified traffic policy version. In addition, `CreateTrafficPolicyInstance`
@@ -5554,25 +6148,44 @@ export const listTagsForResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * request completed successfully. For more information, see the
  * `State` response element.
  */
-export const createTrafficPolicyInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTrafficPolicyInstanceRequest,
-    output: CreateTrafficPolicyInstanceResponse,
-    errors: [
-      InvalidInput,
-      NoSuchHostedZone,
-      NoSuchTrafficPolicy,
-      TooManyTrafficPolicyInstances,
-      TrafficPolicyInstanceAlreadyExists,
-    ],
-  }),
-);
+export const createTrafficPolicyInstance: (
+  input: CreateTrafficPolicyInstanceRequest,
+) => Effect.Effect<
+  CreateTrafficPolicyInstanceResponse,
+  | InvalidInput
+  | NoSuchHostedZone
+  | NoSuchTrafficPolicy
+  | TooManyTrafficPolicyInstances
+  | TrafficPolicyInstanceAlreadyExists
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTrafficPolicyInstanceRequest,
+  output: CreateTrafficPolicyInstanceResponse,
+  errors: [
+    InvalidInput,
+    NoSuchHostedZone,
+    NoSuchTrafficPolicy,
+    TooManyTrafficPolicyInstances,
+    TrafficPolicyInstanceAlreadyExists,
+  ],
+}));
 /**
  * Creates a traffic policy, which you use to create multiple DNS resource record sets
  * for one domain name (such as example.com) or one subdomain name (such as
  * www.example.com).
  */
-export const createTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTrafficPolicy: (
+  input: CreateTrafficPolicyRequest,
+) => Effect.Effect<
+  CreateTrafficPolicyResponse,
+  | InvalidInput
+  | InvalidTrafficPolicyDocument
+  | TooManyTrafficPolicies
+  | TrafficPolicyAlreadyExists
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrafficPolicyRequest,
   output: CreateTrafficPolicyResponse,
   errors: [
@@ -5592,7 +6205,19 @@ export const createTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Use GetDNSSEC to verify that the KSK is in an `INACTIVE`
  * status.
  */
-export const deleteKeySigningKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKeySigningKey: (
+  input: DeleteKeySigningKeyRequest,
+) => Effect.Effect<
+  DeleteKeySigningKeyResponse,
+  | ConcurrentModification
+  | InvalidInput
+  | InvalidKeySigningKeyStatus
+  | InvalidKMSArn
+  | InvalidSigningStatus
+  | NoSuchKeySigningKey
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeySigningKeyRequest,
   output: DeleteKeySigningKeyResponse,
   errors: [
@@ -5608,48 +6233,80 @@ export const deleteKeySigningKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any
  * key-signing keys (KSKs) that are active in the hosted zone.
  */
-export const disableHostedZoneDNSSEC = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableHostedZoneDNSSECRequest,
-    output: DisableHostedZoneDNSSECResponse,
-    errors: [
-      ConcurrentModification,
-      DNSSECNotFound,
-      InvalidArgument,
-      InvalidInput,
-      InvalidKeySigningKeyStatus,
-      InvalidKMSArn,
-      KeySigningKeyInParentDSRecord,
-      NoSuchHostedZone,
-    ],
-  }),
-);
+export const disableHostedZoneDNSSEC: (
+  input: DisableHostedZoneDNSSECRequest,
+) => Effect.Effect<
+  DisableHostedZoneDNSSECResponse,
+  | ConcurrentModification
+  | DNSSECNotFound
+  | InvalidArgument
+  | InvalidInput
+  | InvalidKeySigningKeyStatus
+  | InvalidKMSArn
+  | KeySigningKeyInParentDSRecord
+  | NoSuchHostedZone
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableHostedZoneDNSSECRequest,
+  output: DisableHostedZoneDNSSECResponse,
+  errors: [
+    ConcurrentModification,
+    DNSSECNotFound,
+    InvalidArgument,
+    InvalidInput,
+    InvalidKeySigningKeyStatus,
+    InvalidKMSArn,
+    KeySigningKeyInParentDSRecord,
+    NoSuchHostedZone,
+  ],
+}));
 /**
  * Adds, edits, or deletes tags for a health check or a hosted zone.
  *
  * For information about using tags for cost allocation, see Using Cost Allocation
  * Tags in the *Billing and Cost Management User Guide*.
  */
-export const changeTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ChangeTagsForResourceRequest,
-    output: ChangeTagsForResourceResponse,
-    errors: [
-      InvalidInput,
-      NoSuchHealthCheck,
-      NoSuchHostedZone,
-      PriorRequestNotComplete,
-      ThrottlingException,
-    ],
-  }),
-);
+export const changeTagsForResource: (
+  input: ChangeTagsForResourceRequest,
+) => Effect.Effect<
+  ChangeTagsForResourceResponse,
+  | InvalidInput
+  | NoSuchHealthCheck
+  | NoSuchHostedZone
+  | PriorRequestNotComplete
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ChangeTagsForResourceRequest,
+  output: ChangeTagsForResourceResponse,
+  errors: [
+    InvalidInput,
+    NoSuchHealthCheck,
+    NoSuchHostedZone,
+    PriorRequestNotComplete,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists tags for one health check or hosted zone.
  *
  * For information about using tags for cost allocation, see Using Cost Allocation
  * Tags in the *Billing and Cost Management User Guide*.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InvalidInput
+  | NoSuchHealthCheck
+  | NoSuchHostedZone
+  | PriorRequestNotComplete
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -5663,41 +6320,64 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables DNSSEC signing in a specific hosted zone.
  */
-export const enableHostedZoneDNSSEC = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableHostedZoneDNSSECRequest,
-    output: EnableHostedZoneDNSSECResponse,
-    errors: [
-      ConcurrentModification,
-      DNSSECNotFound,
-      HostedZonePartiallyDelegated,
-      InvalidArgument,
-      InvalidInput,
-      InvalidKeySigningKeyStatus,
-      InvalidKMSArn,
-      KeySigningKeyWithActiveStatusNotFound,
-      NoSuchHostedZone,
-    ],
-  }),
-);
+export const enableHostedZoneDNSSEC: (
+  input: EnableHostedZoneDNSSECRequest,
+) => Effect.Effect<
+  EnableHostedZoneDNSSECResponse,
+  | ConcurrentModification
+  | DNSSECNotFound
+  | HostedZonePartiallyDelegated
+  | InvalidArgument
+  | InvalidInput
+  | InvalidKeySigningKeyStatus
+  | InvalidKMSArn
+  | KeySigningKeyWithActiveStatusNotFound
+  | NoSuchHostedZone
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableHostedZoneDNSSECRequest,
+  output: EnableHostedZoneDNSSECResponse,
+  errors: [
+    ConcurrentModification,
+    DNSSECNotFound,
+    HostedZonePartiallyDelegated,
+    InvalidArgument,
+    InvalidInput,
+    InvalidKeySigningKeyStatus,
+    InvalidKMSArn,
+    KeySigningKeyWithActiveStatusNotFound,
+    NoSuchHostedZone,
+  ],
+}));
 /**
  * Activates a key-signing key (KSK) so that it can be used for signing by DNSSEC. This
  * operation changes the KSK status to `ACTIVE`.
  */
-export const activateKeySigningKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ActivateKeySigningKeyRequest,
-    output: ActivateKeySigningKeyResponse,
-    errors: [
-      ConcurrentModification,
-      InvalidInput,
-      InvalidKeySigningKeyStatus,
-      InvalidKMSArn,
-      InvalidSigningStatus,
-      NoSuchKeySigningKey,
-    ],
-  }),
-);
+export const activateKeySigningKey: (
+  input: ActivateKeySigningKeyRequest,
+) => Effect.Effect<
+  ActivateKeySigningKeyResponse,
+  | ConcurrentModification
+  | InvalidInput
+  | InvalidKeySigningKeyStatus
+  | InvalidKMSArn
+  | InvalidSigningStatus
+  | NoSuchKeySigningKey
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ActivateKeySigningKeyRequest,
+  output: ActivateKeySigningKeyResponse,
+  errors: [
+    ConcurrentModification,
+    InvalidInput,
+    InvalidKeySigningKeyStatus,
+    InvalidKMSArn,
+    InvalidSigningStatus,
+    NoSuchKeySigningKey,
+  ],
+}));
 /**
  * Associates an Amazon VPC with a private hosted zone.
  *
@@ -5725,22 +6405,34 @@ export const activateKeySigningKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Access Management
  * in the *Amazon Web Services General Reference*.
  */
-export const associateVPCWithHostedZone = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateVPCWithHostedZoneRequest,
-    output: AssociateVPCWithHostedZoneResponse,
-    errors: [
-      ConflictingDomainExists,
-      InvalidInput,
-      InvalidVPCId,
-      LimitsExceeded,
-      NoSuchHostedZone,
-      NotAuthorizedException,
-      PriorRequestNotComplete,
-      PublicZoneVPCAssociation,
-    ],
-  }),
-);
+export const associateVPCWithHostedZone: (
+  input: AssociateVPCWithHostedZoneRequest,
+) => Effect.Effect<
+  AssociateVPCWithHostedZoneResponse,
+  | ConflictingDomainExists
+  | InvalidInput
+  | InvalidVPCId
+  | LimitsExceeded
+  | NoSuchHostedZone
+  | NotAuthorizedException
+  | PriorRequestNotComplete
+  | PublicZoneVPCAssociation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateVPCWithHostedZoneRequest,
+  output: AssociateVPCWithHostedZoneResponse,
+  errors: [
+    ConflictingDomainExists,
+    InvalidInput,
+    InvalidVPCId,
+    LimitsExceeded,
+    NoSuchHostedZone,
+    NotAuthorizedException,
+    PriorRequestNotComplete,
+    PublicZoneVPCAssociation,
+  ],
+}));
 /**
  * Creates a configuration for DNS query logging. After you create a query logging
  * configuration, Amazon Route 53 begins to publish log data to an Amazon CloudWatch Logs
@@ -5884,39 +6576,60 @@ export const associateVPCWithHostedZone = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * If you want Route 53 to stop sending query logs to CloudWatch Logs, delete
  * the query logging configuration. For more information, see DeleteQueryLoggingConfig.
  */
-export const createQueryLoggingConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateQueryLoggingConfigRequest,
-    output: CreateQueryLoggingConfigResponse,
-    errors: [
-      ConcurrentModification,
-      InsufficientCloudWatchLogsResourcePolicy,
-      InvalidInput,
-      NoSuchCloudWatchLogsLogGroup,
-      NoSuchHostedZone,
-      QueryLoggingConfigAlreadyExists,
-    ],
-  }),
-);
+export const createQueryLoggingConfig: (
+  input: CreateQueryLoggingConfigRequest,
+) => Effect.Effect<
+  CreateQueryLoggingConfigResponse,
+  | ConcurrentModification
+  | InsufficientCloudWatchLogsResourcePolicy
+  | InvalidInput
+  | NoSuchCloudWatchLogsLogGroup
+  | NoSuchHostedZone
+  | QueryLoggingConfigAlreadyExists
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateQueryLoggingConfigRequest,
+  output: CreateQueryLoggingConfigResponse,
+  errors: [
+    ConcurrentModification,
+    InsufficientCloudWatchLogsResourcePolicy,
+    InvalidInput,
+    NoSuchCloudWatchLogsLogGroup,
+    NoSuchHostedZone,
+    QueryLoggingConfigAlreadyExists,
+  ],
+}));
 /**
  * Deactivates a key-signing key (KSK) so that it will not be used for signing by DNSSEC.
  * This operation changes the KSK status to `INACTIVE`.
  */
-export const deactivateKeySigningKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeactivateKeySigningKeyRequest,
-    output: DeactivateKeySigningKeyResponse,
-    errors: [
-      ConcurrentModification,
-      InvalidInput,
-      InvalidKeySigningKeyStatus,
-      InvalidSigningStatus,
-      KeySigningKeyInParentDSRecord,
-      KeySigningKeyInUse,
-      NoSuchKeySigningKey,
-    ],
-  }),
-);
+export const deactivateKeySigningKey: (
+  input: DeactivateKeySigningKeyRequest,
+) => Effect.Effect<
+  DeactivateKeySigningKeyResponse,
+  | ConcurrentModification
+  | InvalidInput
+  | InvalidKeySigningKeyStatus
+  | InvalidSigningStatus
+  | KeySigningKeyInParentDSRecord
+  | KeySigningKeyInUse
+  | NoSuchKeySigningKey
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeactivateKeySigningKeyRequest,
+  output: DeactivateKeySigningKeyResponse,
+  errors: [
+    ConcurrentModification,
+    InvalidInput,
+    InvalidKeySigningKeyStatus,
+    InvalidSigningStatus,
+    KeySigningKeyInParentDSRecord,
+    KeySigningKeyInUse,
+    NoSuchKeySigningKey,
+  ],
+}));
 /**
  * Creates a delegation set (a group of four name servers) that can be reused by multiple
  * hosted zones that were created by the same Amazon Web Services account.
@@ -5967,26 +6680,53 @@ export const deactivateKeySigningKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * servers, then migrate the hosted zones again to use the reusable delegation
  * set.
  */
-export const createReusableDelegationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateReusableDelegationSetRequest,
-    output: CreateReusableDelegationSetResponse,
-    errors: [
-      DelegationSetAlreadyCreated,
-      DelegationSetAlreadyReusable,
-      DelegationSetNotAvailable,
-      HostedZoneNotFound,
-      InvalidArgument,
-      InvalidInput,
-      LimitsExceeded,
-    ],
-  }),
-);
+export const createReusableDelegationSet: (
+  input: CreateReusableDelegationSetRequest,
+) => Effect.Effect<
+  CreateReusableDelegationSetResponse,
+  | DelegationSetAlreadyCreated
+  | DelegationSetAlreadyReusable
+  | DelegationSetNotAvailable
+  | HostedZoneNotFound
+  | InvalidArgument
+  | InvalidInput
+  | LimitsExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateReusableDelegationSetRequest,
+  output: CreateReusableDelegationSetResponse,
+  errors: [
+    DelegationSetAlreadyCreated,
+    DelegationSetAlreadyReusable,
+    DelegationSetNotAvailable,
+    HostedZoneNotFound,
+    InvalidArgument,
+    InvalidInput,
+    LimitsExceeded,
+  ],
+}));
 /**
  * Creates a new key-signing key (KSK) associated with a hosted zone. You can only have
  * two KSKs per hosted zone.
  */
-export const createKeySigningKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKeySigningKey: (
+  input: CreateKeySigningKeyRequest,
+) => Effect.Effect<
+  CreateKeySigningKeyResponse,
+  | ConcurrentModification
+  | InvalidArgument
+  | InvalidInput
+  | InvalidKeySigningKeyName
+  | InvalidKeySigningKeyStatus
+  | InvalidKMSArn
+  | InvalidSigningStatus
+  | KeySigningKeyAlreadyExists
+  | NoSuchHostedZone
+  | TooManyKeySigningKeys
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKeySigningKeyRequest,
   output: CreateKeySigningKeyResponse,
   errors: [
@@ -6059,7 +6799,22 @@ export const createKeySigningKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Access Management
  * in the *Amazon Web Services General Reference*.
  */
-export const createHostedZone = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createHostedZone: (
+  input: CreateHostedZoneRequest,
+) => Effect.Effect<
+  CreateHostedZoneResponse,
+  | ConflictingDomainExists
+  | DelegationSetNotAvailable
+  | DelegationSetNotReusable
+  | HostedZoneAlreadyExists
+  | InvalidDomainName
+  | InvalidInput
+  | InvalidVPCId
+  | NoSuchDelegationSet
+  | TooManyHostedZones
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHostedZoneRequest,
   output: CreateHostedZoneResponse,
   errors: [

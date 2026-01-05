@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://gamelift.amazonaws.com/doc/");
 const svc = T.AwsApiService({
   sdkId: "GameLift",
@@ -241,6 +249,128 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type MatchmakingIdStringModel = string;
+export type PlayerId = string;
+export type GameServerGroupNameOrArn = string;
+export type GameServerId = string;
+export type GameServerData = string;
+export type NonBlankAndLengthConstraintString = string;
+export type NonZeroAndMaxString = string;
+export type ServerSdkVersion = string;
+export type IamRoleArn = string;
+export type ContainerGroupDefinitionNameOrArn = string;
+export type GameServerContainerGroupsPerInstance = number;
+export type MetricGroup = string;
+export type ContainerGroupDefinitionName = string;
+export type ContainerTotalMemoryLimit = number;
+export type ContainerTotalVcpuLimit = number;
+export type BuildIdOrArn = string;
+export type ScriptIdOrArn = string;
+export type LaunchPathStringModel = string;
+export type LaunchParametersStringModel = string;
+export type NonEmptyString = string;
+export type FleetIdOrArn = string;
+export type GameServerGroupName = string;
+export type WholeNumber = number;
+export type PositiveInteger = number;
+export type VpcSubnet = string;
+export type AliasIdOrArn = string;
+export type IdStringModel = string;
+export type LargeGameSessionData = string;
+export type LocationStringModel = string;
+export type GameSessionQueueName = string;
+export type QueueCustomEventData = string;
+export type QueueSnsArnStringModel = string;
+export type CustomInputLocationStringModel = string;
+export type ArnStringModel = string;
+export type MatchmakingRequestTimeoutInteger = number;
+export type MatchmakingAcceptanceTimeoutInteger = number;
+export type MatchmakingRuleSetName = string;
+export type SnsArnStringModel = string;
+export type CustomEventData = string;
+export type GameSessionData = string;
+export type RuleSetBody = string;
+export type PlayerData = string;
+export type FleetId = string;
+export type GameSessionQueueNameOrArn = string;
+export type CustomLocationNameOrArnModel = string;
+export type MatchmakingConfigurationName = string;
+export type ComputeNameOrArn = string;
+export type DeploymentId = string;
+export type GameServerInstanceId = string;
+export type InstanceId = string;
+export type RuleSetLimit = number;
+export type PlayerSessionId = string;
+export type ListContainerGroupDefinitionsLimit = number;
+export type ListContainerGroupDefinitionVersionsLimit = number;
+export type ListLocationsLimit = number;
+export type AmazonResourceName = string;
+export type Integer = number;
+export type Double = number;
+export type ComputeName = string;
+export type DnsNameInput = string;
+export type IpAddress = string;
+export type GameServerConnectionInfo = string;
+export type TagKey = string;
+export type FreeText = string;
+export type TagValue = string;
+export type PortNumber = number;
+export type IpRange = string;
+export type LogGroupArnStringModel = string;
+export type NonZeroAnd128MaxAsciiString = string;
+export type ImageUriString = string;
+export type ContainerMemoryLimit = number;
+export type ContainerVcpu = number;
+export type MaxConcurrentGameSessionActivations = number;
+export type GameSessionActivationTimeoutSeconds = number;
+export type NonNegativeLimitedLengthDouble = string;
+export type LaunchTemplateId = string;
+export type LaunchTemplateName = string;
+export type LaunchTemplateVersion = string;
+export type WeightedCapacity = string;
+export type GamePropertyKey = string;
+export type GamePropertyValue = string;
+export type Float = number;
+export type MinimumHealthyPercentage = number;
+export type FleetArn = string;
+export type ComputeArn = string;
+export type SessionTarget = string;
+export type ComputeAuthToken = string;
+export type InstancePathString = string;
+export type ContainerPathString = string;
+export type NonZeroAnd255MaxString = string;
+export type ContainerHealthCheckInterval = number;
+export type ContainerHealthCheckRetries = number;
+export type ContainerHealthCheckStartPeriod = number;
+export type ContainerHealthCheckTimeout = number;
+export type NonNegativeDouble = number;
+export type LocationArnModel = string;
+export type MatchmakingConfigurationArn = string;
+export type MatchmakingRuleSetArn = string;
+export type DnsName = string;
+export type ScriptId = string;
+export type ScriptArn = string;
+export type PositiveLong = number;
+export type GameServerGroupArn = string;
+export type AutoScalingGroupArn = string;
+export type AliasId = string;
+export type AliasArn = string;
+export type BuildId = string;
+export type BuildArn = string;
+export type GameLiftServiceSdkEndpointOutput = string;
+export type GameLiftAgentEndpointOutput = string;
+export type ContainerGroupDefinitionArn = string;
+export type MaximumGameServerContainerGroupsPerInstance = number;
+export type FleetBinaryArn = string;
+export type EventCount = number;
+export type MatchmakerData = string;
+export type GameSessionQueueArn = string;
+export type StringModel = string;
+export type PlayerAttributeString = string;
+export type DoubleObject = number;
+export type Sha256 = string;
 
 //# Schemas
 export interface DescribeVpcPeeringAuthorizationsInput {}
@@ -6063,17 +6193,26 @@ export class IdempotentParameterMismatchException extends S.TaggedError<Idempote
  * queues. Continuously polling with `DescribeGameSessionPlacement` should only
  * be used for games in development with low game session usage.
  */
-export const describeGameSessionPlacement =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeGameSessionPlacementInput,
-    output: DescribeGameSessionPlacementOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }));
+export const describeGameSessionPlacement: (
+  input: DescribeGameSessionPlacementInput,
+) => Effect.Effect<
+  DescribeGameSessionPlacementOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeGameSessionPlacementInput,
+  output: DescribeGameSessionPlacementOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -6090,17 +6229,26 @@ export const describeGameSessionPlacement =
  *
  * All APIs by task
  */
-export const describeVpcPeeringConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeVpcPeeringConnectionsInput,
-    output: DescribeVpcPeeringConnectionsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }));
+export const describeVpcPeeringConnections: (
+  input: DescribeVpcPeeringConnectionsInput,
+) => Effect.Effect<
+  DescribeVpcPeeringConnectionsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVpcPeeringConnectionsInput,
+  output: DescribeVpcPeeringConnectionsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -6135,7 +6283,17 @@ export const describeVpcPeeringConnections =
  *
  * All APIs by task
  */
-export const getInstanceAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInstanceAccess: (
+  input: GetInstanceAccessInput,
+) => Effect.Effect<
+  GetInstanceAccessOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceAccessInput,
   output: GetInstanceAccessOutput,
   errors: [
@@ -6162,22 +6320,52 @@ export const getInstanceAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Setting up FlexMatch matchmakers
  */
-export const describeMatchmakingConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeMatchmakingConfigurations: {
+  (
     input: DescribeMatchmakingConfigurationsInput,
-    output: DescribeMatchmakingConfigurationsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      UnsupportedRegionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Configurations",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeMatchmakingConfigurationsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeMatchmakingConfigurationsInput,
+  ) => Stream.Stream<
+    DescribeMatchmakingConfigurationsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeMatchmakingConfigurationsInput,
+  ) => Stream.Stream<
+    MatchmakingConfiguration,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeMatchmakingConfigurationsInput,
+  output: DescribeMatchmakingConfigurationsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    UnsupportedRegionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Configurations",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -6210,18 +6398,26 @@ export const describeMatchmakingConfigurations =
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const deleteGameServerGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteGameServerGroupInput,
-    output: DeleteGameServerGroupOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteGameServerGroup: (
+  input: DeleteGameServerGroupInput,
+) => Effect.Effect<
+  DeleteGameServerGroupOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGameServerGroupInput,
+  output: DeleteGameServerGroupOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -6235,7 +6431,17 @@ export const deleteGameServerGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * All APIs by task
  */
-export const describeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAlias: (
+  input: DescribeAliasInput,
+) => Effect.Effect<
+  DescribeAliasOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAliasInput,
   output: DescribeAliasOutput,
   errors: [
@@ -6258,7 +6464,17 @@ export const describeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * All APIs by task
  */
-export const describeBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeBuild: (
+  input: DescribeBuildInput,
+) => Effect.Effect<
+  DescribeBuildOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBuildInput,
   output: DescribeBuildOutput,
   errors: [
@@ -6295,23 +6511,56 @@ export const describeBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const describeFleetAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeFleetAttributes: {
+  (
     input: DescribeFleetAttributesInput,
-    output: DescribeFleetAttributesOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FleetAttributes",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeFleetAttributesOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFleetAttributesInput,
+  ) => Stream.Stream<
+    DescribeFleetAttributesOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFleetAttributesInput,
+  ) => Stream.Stream<
+    FleetAttributes,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFleetAttributesInput,
+  output: DescribeFleetAttributesOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FleetAttributes",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -6330,24 +6579,60 @@ export const describeFleetAttributes =
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const describeFleetEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeFleetEvents: {
+  (
     input: DescribeFleetEventsInput,
-    output: DescribeFleetEventsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Events",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeFleetEventsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFleetEventsInput,
+  ) => Stream.Stream<
+    DescribeFleetEventsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFleetEventsInput,
+  ) => Stream.Stream<
+    Event,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFleetEventsInput,
+  output: DescribeFleetEventsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Events",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -6377,23 +6662,59 @@ export const describeFleetEvents =
  *
  * Amazon GameLift Servers service locations for managed hosting
  */
-export const describeFleetLocationAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeFleetLocationAttributes: {
+  (
     input: DescribeFleetLocationAttributesInput,
-    output: DescribeFleetLocationAttributesOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeFleetLocationAttributesOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFleetLocationAttributesInput,
+  ) => Stream.Stream<
+    DescribeFleetLocationAttributesOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFleetLocationAttributesInput,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFleetLocationAttributesInput,
+  output: DescribeFleetLocationAttributesOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -6417,18 +6738,28 @@ export const describeFleetLocationAttributes =
  *
  * GameLift metrics for fleets
  */
-export const describeFleetLocationUtilization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeFleetLocationUtilizationInput,
-    output: DescribeFleetLocationUtilizationOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }));
+export const describeFleetLocationUtilization: (
+  input: DescribeFleetLocationUtilizationInput,
+) => Effect.Effect<
+  DescribeFleetLocationUtilizationOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFleetLocationUtilizationInput,
+  output: DescribeFleetLocationUtilizationOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -6444,7 +6775,17 @@ export const describeFleetLocationUtilization =
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const describeGameServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeGameServer: (
+  input: DescribeGameServerInput,
+) => Effect.Effect<
+  DescribeGameServerOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGameServerInput,
   output: DescribeGameServerOutput,
   errors: [
@@ -6478,23 +6819,56 @@ export const describeGameServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const describeGameServerInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeGameServerInstances: {
+  (
     input: DescribeGameServerInstancesInput,
-    output: DescribeGameServerInstancesOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "GameServerInstances",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeGameServerInstancesOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeGameServerInstancesInput,
+  ) => Stream.Stream<
+    DescribeGameServerInstancesOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeGameServerInstancesInput,
+  ) => Stream.Stream<
+    GameServerInstance,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeGameServerInstancesInput,
+  output: DescribeGameServerInstancesOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "GameServerInstances",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -6507,23 +6881,56 @@ export const describeGameServerInstances =
  *
  * View Your Queues
  */
-export const describeGameSessionQueues =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeGameSessionQueues: {
+  (
     input: DescribeGameSessionQueuesInput,
-    output: DescribeGameSessionQueuesOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "GameSessionQueues",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeGameSessionQueuesOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeGameSessionQueuesInput,
+  ) => Stream.Stream<
+    DescribeGameSessionQueuesOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeGameSessionQueuesInput,
+  ) => Stream.Stream<
+    GameSessionQueue,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeGameSessionQueuesInput,
+  output: DescribeGameSessionQueuesOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "GameSessionQueues",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -6562,25 +6969,60 @@ export const describeGameSessionQueues =
  *
  * All APIs by task
  */
-export const describeInstances = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeInstances: {
+  (
     input: DescribeInstancesInput,
-    output: DescribeInstancesOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Instances",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeInstancesOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeInstancesInput,
+  ) => Stream.Stream<
+    DescribeInstancesOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeInstancesInput,
+  ) => Stream.Stream<
+    Instance,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeInstancesInput,
+  output: DescribeInstancesOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Instances",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -6594,24 +7036,60 @@ export const describeInstances = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * A fleet may have all of its scaling policies suspended. This operation does not affect
  * the status of the scaling policies, which remains ACTIVE.
  */
-export const describeScalingPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeScalingPolicies: {
+  (
     input: DescribeScalingPoliciesInput,
-    output: DescribeScalingPoliciesOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ScalingPolicies",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeScalingPoliciesOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeScalingPoliciesInput,
+  ) => Stream.Stream<
+    DescribeScalingPoliciesOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeScalingPoliciesInput,
+  ) => Stream.Stream<
+    ScalingPolicy,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeScalingPoliciesInput,
+  output: DescribeScalingPoliciesOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ScalingPolicies",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -6640,7 +7118,18 @@ export const describeScalingPolicies =
  * details, see Starting a session (CLI) in the Amazon EC2 Systems Manager User
  * Guide.
  */
-export const getComputeAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getComputeAccess: (
+  input: GetComputeAccessInput,
+) => Effect.Effect<
+  GetComputeAccessOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComputeAccessInput,
   output: GetComputeAccessOutput,
   errors: [
@@ -6723,7 +7212,18 @@ export const getComputeAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * auto-scaling actions are temporarily suspended, the new policy will be in force once the
  * fleet actions are restarted.
  */
-export const putScalingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putScalingPolicy: (
+  input: PutScalingPolicyInput,
+) => Effect.Effect<
+  PutScalingPolicyOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutScalingPolicyInput,
   output: PutScalingPolicyOutput,
   errors: [
@@ -6814,19 +7314,28 @@ export const putScalingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * setting. If a request times out, you can resubmit the request to the same queue or try a
  * different queue.
  */
-export const startGameSessionPlacement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartGameSessionPlacementInput,
-    output: StartGameSessionPlacementOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }),
-);
+export const startGameSessionPlacement: (
+  input: StartGameSessionPlacementInput,
+) => Effect.Effect<
+  StartGameSessionPlacementOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartGameSessionPlacementInput,
+  output: StartGameSessionPlacementOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -6860,17 +7369,26 @@ export const startGameSessionPlacement = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * All APIs by task
  */
-export const createVpcPeeringAuthorization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateVpcPeeringAuthorizationInput,
-    output: CreateVpcPeeringAuthorizationOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }));
+export const createVpcPeeringAuthorization: (
+  input: CreateVpcPeeringAuthorizationInput,
+) => Effect.Effect<
+  CreateVpcPeeringAuthorizationOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVpcPeeringAuthorizationInput,
+  output: CreateVpcPeeringAuthorizationOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -6889,19 +7407,28 @@ export const createVpcPeeringAuthorization =
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const deleteFleetLocations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFleetLocationsInput,
-    output: DeleteFleetLocationsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }),
-);
+export const deleteFleetLocations: (
+  input: DeleteFleetLocationsInput,
+) => Effect.Effect<
+  DeleteFleetLocationsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFleetLocationsInput,
+  output: DeleteFleetLocationsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -6928,18 +7455,28 @@ export const deleteFleetLocations = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * GameLift metrics for fleets
  */
-export const describeFleetLocationCapacity =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeFleetLocationCapacityInput,
-    output: DescribeFleetLocationCapacityOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }));
+export const describeFleetLocationCapacity: (
+  input: DescribeFleetLocationCapacityInput,
+) => Effect.Effect<
+  DescribeFleetLocationCapacityOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFleetLocationCapacityInput,
+  output: DescribeFleetLocationCapacityOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -6966,19 +7503,28 @@ export const describeFleetLocationCapacity =
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const describeFleetPortSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFleetPortSettingsInput,
-    output: DescribeFleetPortSettingsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }),
-);
+export const describeFleetPortSettings: (
+  input: DescribeFleetPortSettingsInput,
+) => Effect.Effect<
+  DescribeFleetPortSettingsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFleetPortSettingsInput,
+  output: DescribeFleetPortSettingsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -7013,23 +7559,56 @@ export const describeFleetPortSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * GameLift Metrics for Fleets
  */
-export const describeFleetUtilization =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeFleetUtilization: {
+  (
     input: DescribeFleetUtilizationInput,
-    output: DescribeFleetUtilizationOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FleetUtilization",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeFleetUtilizationOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFleetUtilizationInput,
+  ) => Stream.Stream<
+    DescribeFleetUtilizationOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFleetUtilizationInput,
+  ) => Stream.Stream<
+    FleetUtilization,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFleetUtilizationInput,
+  output: DescribeFleetUtilizationOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FleetUtilization",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -7047,18 +7626,26 @@ export const describeFleetUtilization =
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const describeGameServerGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeGameServerGroupInput,
-    output: DescribeGameServerGroupOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const describeGameServerGroup: (
+  input: DescribeGameServerGroupInput,
+) => Effect.Effect<
+  DescribeGameServerGroupOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeGameServerGroupInput,
+  output: DescribeGameServerGroupOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -7072,23 +7659,56 @@ export const describeGameServerGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - Build a rule
  * set
  */
-export const describeMatchmakingRuleSets =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeMatchmakingRuleSets: {
+  (
     input: DescribeMatchmakingRuleSetsInput,
-    output: DescribeMatchmakingRuleSetsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnsupportedRegionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RuleSets",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeMatchmakingRuleSetsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeMatchmakingRuleSetsInput,
+  ) => Stream.Stream<
+    DescribeMatchmakingRuleSetsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeMatchmakingRuleSetsInput,
+  ) => Stream.Stream<
+    MatchmakingRuleSet,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeMatchmakingRuleSetsInput,
+  output: DescribeMatchmakingRuleSetsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnsupportedRegionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RuleSets",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -7117,23 +7737,56 @@ export const describeMatchmakingRuleSets =
  *
  * All APIs by task
  */
-export const describePlayerSessions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describePlayerSessions: {
+  (
     input: DescribePlayerSessionsInput,
-    output: DescribePlayerSessionsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PlayerSessions",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribePlayerSessionsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribePlayerSessionsInput,
+  ) => Stream.Stream<
+    DescribePlayerSessionsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribePlayerSessionsInput,
+  ) => Stream.Stream<
+    PlayerSession,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribePlayerSessionsInput,
+  output: DescribePlayerSessionsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PlayerSessions",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -7157,17 +7810,26 @@ export const describePlayerSessions =
  * Running multiple
  * processes on a fleet
  */
-export const describeRuntimeConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeRuntimeConfigurationInput,
-    output: DescribeRuntimeConfigurationOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }));
+export const describeRuntimeConfiguration: (
+  input: DescribeRuntimeConfigurationInput,
+) => Effect.Effect<
+  DescribeRuntimeConfigurationOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRuntimeConfigurationInput,
+  output: DescribeRuntimeConfigurationOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -7184,7 +7846,17 @@ export const describeRuntimeConfiguration =
  *
  * All APIs by task
  */
-export const describeScript = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeScript: (
+  input: DescribeScriptInput,
+) => Effect.Effect<
+  DescribeScriptOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeScriptInput,
   output: DescribeScriptOutput,
   errors: [
@@ -7226,7 +7898,18 @@ export const describeScript = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - Server SDK
  * reference guides (for version 5.x)
  */
-export const getComputeAuthToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getComputeAuthToken: (
+  input: GetComputeAuthTokenInput,
+) => Effect.Effect<
+  GetComputeAuthTokenOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComputeAuthTokenInput,
   output: GetComputeAuthTokenOutput,
   errors: [
@@ -7250,18 +7933,26 @@ export const getComputeAuthToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * All APIs by task
  */
-export const getGameSessionLogUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetGameSessionLogUrlInput,
-    output: GetGameSessionLogUrlOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getGameSessionLogUrl: (
+  input: GetGameSessionLogUrlInput,
+) => Effect.Effect<
+  GetGameSessionLogUrlOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGameSessionLogUrlInput,
+  output: GetGameSessionLogUrlOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -7286,24 +7977,60 @@ export const getGameSessionLogUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Manage a container group definition
  */
-export const listContainerGroupDefinitionVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listContainerGroupDefinitionVersions: {
+  (
     input: ListContainerGroupDefinitionVersionsInput,
-    output: ListContainerGroupDefinitionVersionsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ContainerGroupDefinitions",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListContainerGroupDefinitionVersionsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContainerGroupDefinitionVersionsInput,
+  ) => Stream.Stream<
+    ListContainerGroupDefinitionVersionsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContainerGroupDefinitionVersionsInput,
+  ) => Stream.Stream<
+    ContainerGroupDefinition,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContainerGroupDefinitionVersionsInput,
+  output: ListContainerGroupDefinitionVersionsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ContainerGroupDefinitions",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -7324,24 +8051,60 @@ export const listContainerGroupDefinitionVersions =
  *
  * Deployments are returned starting with the latest.
  */
-export const listFleetDeployments =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFleetDeployments: {
+  (
     input: ListFleetDeploymentsInput,
-    output: ListFleetDeploymentsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FleetDeployments",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFleetDeploymentsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFleetDeploymentsInput,
+  ) => Stream.Stream<
+    ListFleetDeploymentsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFleetDeploymentsInput,
+  ) => Stream.Stream<
+    FleetDeployment,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFleetDeploymentsInput,
+  output: ListFleetDeploymentsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FleetDeployments",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -7369,7 +8132,41 @@ export const listFleetDeployments =
  *
  * Fleet IDs are returned in no particular order.
  */
-export const listFleets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFleets: {
+  (
+    input: ListFleetsInput,
+  ): Effect.Effect<
+    ListFleetsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFleetsInput,
+  ) => Stream.Stream<
+    ListFleetsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFleetsInput,
+  ) => Stream.Stream<
+    FleetId,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFleetsInput,
   output: ListFleetsOutput,
   errors: [
@@ -7402,18 +8199,26 @@ export const listFleets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * All APIs by task
  */
-export const requestUploadCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RequestUploadCredentialsInput,
-    output: RequestUploadCredentialsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const requestUploadCredentials: (
+  input: RequestUploadCredentialsInput,
+) => Effect.Effect<
+  RequestUploadCredentialsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RequestUploadCredentialsInput,
+  output: RequestUploadCredentialsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -7434,18 +8239,26 @@ export const requestUploadCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const resumeGameServerGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResumeGameServerGroupInput,
-    output: ResumeGameServerGroupOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const resumeGameServerGroup: (
+  input: ResumeGameServerGroupInput,
+) => Effect.Effect<
+  ResumeGameServerGroupOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResumeGameServerGroupInput,
+  output: ResumeGameServerGroupOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -7470,7 +8283,18 @@ export const resumeGameServerGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const startFleetActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startFleetActions: (
+  input: StartFleetActionsInput,
+) => Effect.Effect<
+  StartFleetActionsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFleetActionsInput,
   output: StartFleetActionsOutput,
   errors: [
@@ -7511,7 +8335,17 @@ export const startFleetActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * How Amazon GameLift Servers FlexMatch works
  */
-export const startMatchmaking = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startMatchmaking: (
+  input: StartMatchmakingInput,
+) => Effect.Effect<
+  StartMatchmakingOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMatchmakingInput,
   output: StartMatchmakingOutput,
   errors: [
@@ -7550,7 +8384,18 @@ export const startMatchmaking = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Setting up Amazon GameLift Servers
  * Fleets
  */
-export const stopFleetActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopFleetActions: (
+  input: StopFleetActionsInput,
+) => Effect.Effect<
+  StopFleetActionsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopFleetActionsInput,
   output: StopFleetActionsOutput,
   errors: [
@@ -7576,18 +8421,26 @@ export const stopFleetActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * game session has already been created for this placement. You can clean up an unneeded
  * game session by calling TerminateGameSession.
  */
-export const stopGameSessionPlacement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopGameSessionPlacementInput,
-    output: StopGameSessionPlacementOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const stopGameSessionPlacement: (
+  input: StopGameSessionPlacementInput,
+) => Effect.Effect<
+  StopGameSessionPlacementOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopGameSessionPlacementInput,
+  output: StopGameSessionPlacementOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -7614,18 +8467,26 @@ export const stopGameSessionPlacement = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const suspendGameServerGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SuspendGameServerGroupInput,
-    output: SuspendGameServerGroupOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const suspendGameServerGroup: (
+  input: SuspendGameServerGroupInput,
+) => Effect.Effect<
+  SuspendGameServerGroupOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SuspendGameServerGroupInput,
+  output: SuspendGameServerGroupOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -7639,7 +8500,17 @@ export const suspendGameServerGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * All APIs by task
  */
-export const updateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAlias: (
+  input: UpdateAliasInput,
+) => Effect.Effect<
+  UpdateAliasOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAliasInput,
   output: UpdateAliasOutput,
   errors: [
@@ -7663,7 +8534,17 @@ export const updateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * All APIs by task
  */
-export const updateBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBuild: (
+  input: UpdateBuildInput,
+) => Effect.Effect<
+  UpdateBuildOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBuildInput,
   output: UpdateBuildOutput,
   errors: [
@@ -7706,7 +8587,17 @@ export const updateBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const updateGameServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGameServer: (
+  input: UpdateGameServerInput,
+) => Effect.Effect<
+  UpdateGameServerOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGameServerInput,
   output: UpdateGameServerOutput,
   errors: [
@@ -7734,18 +8625,26 @@ export const updateGameServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const updateGameServerGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateGameServerGroupInput,
-    output: UpdateGameServerGroupOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateGameServerGroup: (
+  input: UpdateGameServerGroupInput,
+) => Effect.Effect<
+  UpdateGameServerGroupOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGameServerGroupInput,
+  output: UpdateGameServerGroupOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -7758,18 +8657,26 @@ export const updateGameServerGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Using Multi-Region Queues
  */
-export const updateGameSessionQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateGameSessionQueueInput,
-    output: UpdateGameSessionQueueOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateGameSessionQueue: (
+  input: UpdateGameSessionQueueInput,
+) => Effect.Effect<
+  UpdateGameSessionQueueOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGameSessionQueueInput,
+  output: UpdateGameSessionQueueOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -7782,17 +8689,26 @@ export const updateGameSessionQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Design a FlexMatch
  * matchmaker
  */
-export const updateMatchmakingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateMatchmakingConfigurationInput,
-    output: UpdateMatchmakingConfigurationOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnsupportedRegionException,
-    ],
-  }));
+export const updateMatchmakingConfiguration: (
+  input: UpdateMatchmakingConfigurationInput,
+) => Effect.Effect<
+  UpdateMatchmakingConfigurationOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMatchmakingConfigurationInput,
+  output: UpdateMatchmakingConfigurationOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -7818,7 +8734,17 @@ export const updateMatchmakingConfiguration =
  *
  * All APIs by task
  */
-export const updateScript = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateScript: (
+  input: UpdateScriptInput,
+) => Effect.Effect<
+  UpdateScriptOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateScriptInput,
   output: UpdateScriptOutput,
   errors: [
@@ -7856,18 +8782,26 @@ export const updateScript = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * All APIs by task
  */
-export const createVpcPeeringConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVpcPeeringConnectionInput,
-    output: CreateVpcPeeringConnectionOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createVpcPeeringConnection: (
+  input: CreateVpcPeeringConnectionInput,
+) => Effect.Effect<
+  CreateVpcPeeringConnectionOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVpcPeeringConnectionInput,
+  output: CreateVpcPeeringConnectionOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** Anywhere
  *
@@ -7876,7 +8810,17 @@ export const createVpcPeeringConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Before deleting a custom location, review any fleets currently using the custom
  * location and deregister the location if it is in use. For more information, see DeregisterCompute.
  */
-export const deleteLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLocation: (
+  input: DeleteLocationInput,
+) => Effect.Effect<
+  DeleteLocationOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLocationInput,
   output: DeleteLocationOutput,
   errors: [
@@ -7896,7 +8840,18 @@ export const deleteLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To temporarily suspend scaling policies, use StopFleetActions. This operation suspends all policies for the
  * fleet.
  */
-export const deleteScalingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteScalingPolicy: (
+  input: DeleteScalingPolicyInput,
+) => Effect.Effect<
+  DeleteScalingPolicyResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScalingPolicyInput,
   output: DeleteScalingPolicyResponse,
   errors: [
@@ -7917,17 +8872,26 @@ export const deleteScalingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * All APIs by task
  */
-export const deleteVpcPeeringAuthorization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteVpcPeeringAuthorizationInput,
-    output: DeleteVpcPeeringAuthorizationOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }));
+export const deleteVpcPeeringAuthorization: (
+  input: DeleteVpcPeeringAuthorizationInput,
+) => Effect.Effect<
+  DeleteVpcPeeringAuthorizationOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpcPeeringAuthorizationInput,
+  output: DeleteVpcPeeringAuthorizationOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -7942,18 +8906,26 @@ export const deleteVpcPeeringAuthorization =
  *
  * All APIs by task
  */
-export const deleteVpcPeeringConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVpcPeeringConnectionInput,
-    output: DeleteVpcPeeringConnectionOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteVpcPeeringConnection: (
+  input: DeleteVpcPeeringConnectionInput,
+) => Effect.Effect<
+  DeleteVpcPeeringConnectionOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpcPeeringConnectionInput,
+  output: DeleteVpcPeeringConnectionOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** Anywhere
  *
@@ -7965,7 +8937,17 @@ export const deleteVpcPeeringConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To deregister a compute, call this operation from the compute that's being
  * deregistered and specify the compute name and the fleet ID.
  */
-export const deregisterCompute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deregisterCompute: (
+  input: DeregisterComputeInput,
+) => Effect.Effect<
+  DeregisterComputeOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterComputeInput,
   output: DeregisterComputeOutput,
   errors: [
@@ -7991,18 +8973,26 @@ export const deregisterCompute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const deregisterGameServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterGameServerInput,
-    output: DeregisterGameServerResponse,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deregisterGameServer: (
+  input: DeregisterGameServerInput,
+) => Effect.Effect<
+  DeregisterGameServerResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterGameServerInput,
+  output: DeregisterGameServerResponse,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -8023,7 +9013,17 @@ export const deregisterGameServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Add FlexMatch to a game client
  */
-export const stopMatchmaking = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopMatchmaking: (
+  input: StopMatchmakingInput,
+) => Effect.Effect<
+  StopMatchmakingOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopMatchmakingInput,
   output: StopMatchmakingOutput,
   errors: [
@@ -8057,20 +9057,30 @@ export const stopMatchmaking = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const updateRuntimeConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRuntimeConfigurationInput,
-    output: UpdateRuntimeConfigurationOutput,
-    errors: [
-      InternalServiceException,
-      InvalidFleetStatusException,
-      InvalidRequestException,
-      LimitExceededException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateRuntimeConfiguration: (
+  input: UpdateRuntimeConfigurationInput,
+) => Effect.Effect<
+  UpdateRuntimeConfigurationOutput,
+  | InternalServiceException
+  | InvalidFleetStatusException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRuntimeConfigurationInput,
+  output: UpdateRuntimeConfigurationOutput,
+  errors: [
+    InternalServiceException,
+    InvalidFleetStatusException,
+    InvalidRequestException,
+    LimitExceededException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -8111,19 +9121,30 @@ export const updateRuntimeConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * automatically initiates a new fleet deployment of the new version. You can track a fleet's
  * deployments using ListFleetDeployments.
  */
-export const updateContainerGroupDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateContainerGroupDefinitionInput,
-    output: UpdateContainerGroupDefinitionOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      LimitExceededException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }));
+export const updateContainerGroupDefinition: (
+  input: UpdateContainerGroupDefinitionInput,
+) => Effect.Effect<
+  UpdateContainerGroupDefinitionOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContainerGroupDefinitionInput,
+  output: UpdateContainerGroupDefinitionOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    LimitExceededException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -8148,7 +9169,18 @@ export const updateContainerGroupDefinition =
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const registerGameServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerGameServer: (
+  input: RegisterGameServerInput,
+) => Effect.Effect<
+  RegisterGameServerOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterGameServerInput,
   output: RegisterGameServerOutput,
   errors: [
@@ -8180,21 +9212,32 @@ export const registerGameServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const updateFleetAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFleetAttributesInput,
-    output: UpdateFleetAttributesOutput,
-    errors: [
-      ConflictException,
-      InternalServiceException,
-      InvalidFleetStatusException,
-      InvalidRequestException,
-      LimitExceededException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateFleetAttributes: (
+  input: UpdateFleetAttributesInput,
+) => Effect.Effect<
+  UpdateFleetAttributesOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidFleetStatusException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFleetAttributesInput,
+  output: UpdateFleetAttributesOutput,
+  errors: [
+    ConflictException,
+    InternalServiceException,
+    InvalidFleetStatusException,
+    InvalidRequestException,
+    LimitExceededException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -8237,7 +9280,21 @@ export const updateFleetAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Scaling fleet
  * capacity
  */
-export const updateFleetCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFleetCapacity: (
+  input: UpdateFleetCapacityInput,
+) => Effect.Effect<
+  UpdateFleetCapacityOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidFleetStatusException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFleetCapacityInput,
   output: UpdateFleetCapacityOutput,
   errors: [
@@ -8273,21 +9330,32 @@ export const updateFleetCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const updateFleetPortSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFleetPortSettingsInput,
-    output: UpdateFleetPortSettingsOutput,
-    errors: [
-      ConflictException,
-      InternalServiceException,
-      InvalidFleetStatusException,
-      InvalidRequestException,
-      LimitExceededException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateFleetPortSettings: (
+  input: UpdateFleetPortSettingsInput,
+) => Effect.Effect<
+  UpdateFleetPortSettingsOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidFleetStatusException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFleetPortSettingsInput,
+  output: UpdateFleetPortSettingsOutput,
+  errors: [
+    ConflictException,
+    InternalServiceException,
+    InvalidFleetStatusException,
+    InvalidRequestException,
+    LimitExceededException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -8328,19 +9396,28 @@ export const updateFleetPortSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const createGameServerGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateGameServerGroupInput,
-    output: CreateGameServerGroupOutput,
-    errors: [
-      ConflictException,
-      InternalServiceException,
-      InvalidRequestException,
-      LimitExceededException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createGameServerGroup: (
+  input: CreateGameServerGroupInput,
+) => Effect.Effect<
+  CreateGameServerGroupOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGameServerGroupInput,
+  output: CreateGameServerGroupOutput,
+  errors: [
+    ConflictException,
+    InternalServiceException,
+    InvalidRequestException,
+    LimitExceededException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -8352,16 +9429,24 @@ export const createGameServerGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * All APIs by task
  */
-export const describeVpcPeeringAuthorizations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeVpcPeeringAuthorizationsInput,
-    output: DescribeVpcPeeringAuthorizationsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      UnauthorizedException,
-    ],
-  }));
+export const describeVpcPeeringAuthorizations: (
+  input: DescribeVpcPeeringAuthorizationsInput,
+) => Effect.Effect<
+  DescribeVpcPeeringAuthorizationsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVpcPeeringAuthorizationsInput,
+  output: DescribeVpcPeeringAuthorizationsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -8375,23 +9460,52 @@ export const describeVpcPeeringAuthorizations =
  *
  * All APIs by task
  */
-export const listAliases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAliases: {
+  (
     input: ListAliasesInput,
-    output: ListAliasesOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Aliases",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAliasesOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAliasesInput,
+  ) => Stream.Stream<
+    ListAliasesOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAliasesInput,
+  ) => Stream.Stream<
+    Alias,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAliasesInput,
+  output: ListAliasesOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Aliases",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -8408,7 +9522,38 @@ export const listAliases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * All APIs by task
  */
-export const listBuilds = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBuilds: {
+  (
+    input: ListBuildsInput,
+  ): Effect.Effect<
+    ListBuildsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBuildsInput,
+  ) => Stream.Stream<
+    ListBuildsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBuildsInput,
+  ) => Stream.Stream<
+    Build,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuildsInput,
   output: ListBuildsOutput,
   errors: [
@@ -8451,24 +9596,56 @@ export const listBuilds = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * `GameLiftServiceSdkEndpoint` or
  * `GameLiftAgentEndpoint`.
  */
-export const listCompute = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCompute: {
+  (
     input: ListComputeInput,
-    output: ListComputeOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ComputeList",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListComputeOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComputeInput,
+  ) => Stream.Stream<
+    ListComputeOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComputeInput,
+  ) => Stream.Stream<
+    Compute,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComputeInput,
+  output: ListComputeOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ComputeList",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -8495,23 +9672,56 @@ export const listCompute = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * Fleet IDs are returned in no particular order.
  */
-export const listContainerFleets =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listContainerFleets: {
+  (
     input: ListContainerFleetsInput,
-    output: ListContainerFleetsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ContainerFleets",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListContainerFleetsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContainerFleetsInput,
+  ) => Stream.Stream<
+    ListContainerFleetsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContainerFleetsInput,
+  ) => Stream.Stream<
+    ContainerFleet,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContainerFleetsInput,
+  output: ListContainerFleetsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ContainerFleets",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -8535,44 +9745,107 @@ export const listContainerFleets =
  *
  * This operation returns the list of container group definitions in no particular order.
  */
-export const listContainerGroupDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listContainerGroupDefinitions: {
+  (
     input: ListContainerGroupDefinitionsInput,
-    output: ListContainerGroupDefinitionsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ContainerGroupDefinitions",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListContainerGroupDefinitionsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContainerGroupDefinitionsInput,
+  ) => Stream.Stream<
+    ListContainerGroupDefinitionsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContainerGroupDefinitionsInput,
+  ) => Stream.Stream<
+    ContainerGroupDefinition,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContainerGroupDefinitionsInput,
+  output: ListContainerGroupDefinitionsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ContainerGroupDefinitions",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
  * Lists a game server groups.
  */
-export const listGameServerGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGameServerGroups: {
+  (
     input: ListGameServerGroupsInput,
-    output: ListGameServerGroupsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "GameServerGroups",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListGameServerGroupsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGameServerGroupsInput,
+  ) => Stream.Stream<
+    ListGameServerGroupsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGameServerGroupsInput,
+  ) => Stream.Stream<
+    GameServerGroup,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGameServerGroupsInput,
+  output: ListGameServerGroupsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "GameServerGroups",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -8586,23 +9859,52 @@ export const listGameServerGroups =
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const listGameServers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listGameServers: {
+  (
     input: ListGameServersInput,
-    output: ListGameServersOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "GameServers",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListGameServersOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGameServersInput,
+  ) => Stream.Stream<
+    ListGameServersOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGameServersInput,
+  ) => Stream.Stream<
+    GameServer,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGameServersInput,
+  output: ListGameServersOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "GameServers",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** Anywhere
  *
@@ -8620,23 +9922,52 @@ export const listGameServers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * Service locations
  */
-export const listLocations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLocations: {
+  (
     input: ListLocationsInput,
-    output: ListLocationsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Locations",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLocationsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLocationsInput,
+  ) => Stream.Stream<
+    ListLocationsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLocationsInput,
+  ) => Stream.Stream<
+    LocationModel,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLocationsInput,
+  output: ListLocationsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Locations",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -8651,23 +9982,52 @@ export const listLocations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * All APIs by task
  */
-export const listScripts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listScripts: {
+  (
     input: ListScriptsInput,
-    output: ListScriptsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Scripts",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListScriptsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListScriptsInput,
+  ) => Stream.Stream<
+    ListScriptsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListScriptsInput,
+  ) => Stream.Stream<
+    Script,
+    | InternalServiceException
+    | InvalidRequestException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListScriptsInput,
+  output: ListScriptsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Scripts",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -8701,7 +10061,18 @@ export const listScripts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * - For an Anywhere fleet, this operation returns information about the registered
  * compute.
  */
-export const describeCompute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCompute: (
+  input: DescribeComputeInput,
+) => Effect.Effect<
+  DescribeComputeOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeComputeInput,
   output: DescribeComputeOutput,
   errors: [
@@ -8732,19 +10103,28 @@ export const describeCompute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * a request exceeds this limit, the request fails and the error message contains the
  * maximum allowed number.
  */
-export const describeContainerFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeContainerFleetInput,
-    output: DescribeContainerFleetOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }),
-);
+export const describeContainerFleet: (
+  input: DescribeContainerFleetInput,
+) => Effect.Effect<
+  DescribeContainerFleetOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeContainerFleetInput,
+  output: DescribeContainerFleetOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -8768,18 +10148,28 @@ export const describeContainerFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Manage a container group definition
  */
-export const describeContainerGroupDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeContainerGroupDefinitionInput,
-    output: DescribeContainerGroupDefinitionOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }));
+export const describeContainerGroupDefinition: (
+  input: DescribeContainerGroupDefinitionInput,
+) => Effect.Effect<
+  DescribeContainerGroupDefinitionOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeContainerGroupDefinitionInput,
+  output: DescribeContainerGroupDefinitionOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere
  *
@@ -8820,7 +10210,18 @@ export const describeContainerGroupDefinition =
  *
  * All APIs by task
  */
-export const createBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBuild: (
+  input: CreateBuildInput,
+) => Effect.Effect<
+  CreateBuildOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | TaggingFailedException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBuildInput,
   output: CreateBuildOutput,
   errors: [
@@ -8843,17 +10244,24 @@ export const createBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - Build a rule
  * set
  */
-export const validateMatchmakingRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ValidateMatchmakingRuleSetInput,
-    output: ValidateMatchmakingRuleSetOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      UnsupportedRegionException,
-    ],
-  }),
-);
+export const validateMatchmakingRuleSet: (
+  input: ValidateMatchmakingRuleSetInput,
+) => Effect.Effect<
+  ValidateMatchmakingRuleSetOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ValidateMatchmakingRuleSetInput,
+  output: ValidateMatchmakingRuleSetOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -8888,7 +10296,17 @@ export const validateMatchmakingRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * FlexMatch events (reference)
  */
-export const acceptMatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const acceptMatch: (
+  input: AcceptMatchInput,
+) => Effect.Effect<
+  AcceptMatchOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptMatchInput,
   output: AcceptMatchOutput,
   errors: [
@@ -8949,18 +10367,26 @@ export const acceptMatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Setting up Amazon GameLift Servers fleets
  */
-export const describeEC2InstanceLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEC2InstanceLimitsInput,
-    output: DescribeEC2InstanceLimitsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }),
-);
+export const describeEC2InstanceLimits: (
+  input: DescribeEC2InstanceLimitsInput,
+) => Effect.Effect<
+  DescribeEC2InstanceLimitsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEC2InstanceLimitsInput,
+  output: DescribeEC2InstanceLimitsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -8997,24 +10423,60 @@ export const describeEC2InstanceLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * GameLift metrics for fleets
  */
-export const describeFleetCapacity =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeFleetCapacity: {
+  (
     input: DescribeFleetCapacityInput,
-    output: DescribeFleetCapacityOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FleetCapacity",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeFleetCapacityOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFleetCapacityInput,
+  ) => Stream.Stream<
+    DescribeFleetCapacityOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFleetCapacityInput,
+  ) => Stream.Stream<
+    FleetCapacity,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFleetCapacityInput,
+  output: DescribeFleetCapacityOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FleetCapacity",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -9032,19 +10494,28 @@ export const describeFleetCapacity =
  *
  * If successful, a `FleetDeployment` object is returned.
  */
-export const describeFleetDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFleetDeploymentInput,
-    output: DescribeFleetDeploymentOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }),
-);
+export const describeFleetDeployment: (
+  input: DescribeFleetDeploymentInput,
+) => Effect.Effect<
+  DescribeFleetDeploymentOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFleetDeploymentInput,
+  output: DescribeFleetDeploymentOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere
  *
@@ -9081,7 +10552,18 @@ export const describeFleetDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * All APIs by task
  */
-export const createScript = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createScript: (
+  input: CreateScriptInput,
+) => Effect.Effect<
+  CreateScriptOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | TaggingFailedException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScriptInput,
   output: CreateScriptOutput,
   errors: [
@@ -9169,20 +10651,30 @@ export const createScript = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * |
  * All APIs by task
  */
-export const createGameSessionQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateGameSessionQueueInput,
-    output: CreateGameSessionQueueOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      LimitExceededException,
-      NotFoundException,
-      TaggingFailedException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createGameSessionQueue: (
+  input: CreateGameSessionQueueInput,
+) => Effect.Effect<
+  CreateGameSessionQueueOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGameSessionQueueInput,
+  output: CreateGameSessionQueueOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    LimitExceededException,
+    NotFoundException,
+    TaggingFailedException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -9203,7 +10695,18 @@ export const createGameSessionQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * All APIs by task
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -9225,7 +10728,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * All APIs by task
  */
-export const deleteAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAlias: (
+  input: DeleteAliasInput,
+) => Effect.Effect<
+  DeleteAliasResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAliasInput,
   output: DeleteAliasResponse,
   errors: [
@@ -9252,7 +10766,18 @@ export const deleteAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * All APIs by task
  */
-export const deleteBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBuild: (
+  input: DeleteBuildInput,
+) => Effect.Effect<
+  DeleteBuildResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBuildInput,
   output: DeleteBuildResponse,
   errors: [
@@ -9278,20 +10803,30 @@ export const deleteBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Setting up Amazon GameLift Servers
  * Fleets
  */
-export const deleteContainerFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContainerFleetInput,
-    output: DeleteContainerFleetOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      TaggingFailedException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }),
-);
+export const deleteContainerFleet: (
+  input: DeleteContainerFleetInput,
+) => Effect.Effect<
+  DeleteContainerFleetOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContainerFleetInput,
+  output: DeleteContainerFleetOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    TaggingFailedException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -9325,38 +10860,58 @@ export const deleteContainerFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Manage a container group definition
  */
-export const deleteContainerGroupDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteContainerGroupDefinitionInput,
-    output: DeleteContainerGroupDefinitionOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      TaggingFailedException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }));
+export const deleteContainerGroupDefinition: (
+  input: DeleteContainerGroupDefinitionInput,
+) => Effect.Effect<
+  DeleteContainerGroupDefinitionOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContainerGroupDefinitionInput,
+  output: DeleteContainerGroupDefinitionOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    TaggingFailedException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
  * Deletes a game session queue. Once a queue is successfully deleted, unfulfilled StartGameSessionPlacement requests that reference the queue will fail. To
  * delete a queue, specify the queue name.
  */
-export const deleteGameSessionQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteGameSessionQueueInput,
-    output: DeleteGameSessionQueueOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      TaggingFailedException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteGameSessionQueue: (
+  input: DeleteGameSessionQueueInput,
+) => Effect.Effect<
+  DeleteGameSessionQueueOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGameSessionQueueInput,
+  output: DeleteGameSessionQueueOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    TaggingFailedException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -9364,18 +10919,28 @@ export const deleteGameSessionQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * configuration name. A matchmaking configuration cannot be deleted if it is being used in
  * any active matchmaking tickets.
  */
-export const deleteMatchmakingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteMatchmakingConfigurationInput,
-    output: DeleteMatchmakingConfigurationOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      TaggingFailedException,
-      UnsupportedRegionException,
-    ],
-  }));
+export const deleteMatchmakingConfiguration: (
+  input: DeleteMatchmakingConfigurationInput,
+) => Effect.Effect<
+  DeleteMatchmakingConfigurationOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMatchmakingConfigurationInput,
+  output: DeleteMatchmakingConfigurationOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    TaggingFailedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -9388,19 +10953,28 @@ export const deleteMatchmakingConfiguration =
  * - Build a rule
  * set
  */
-export const deleteMatchmakingRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMatchmakingRuleSetInput,
-    output: DeleteMatchmakingRuleSetOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      TaggingFailedException,
-      UnsupportedRegionException,
-    ],
-  }),
-);
+export const deleteMatchmakingRuleSet: (
+  input: DeleteMatchmakingRuleSetInput,
+) => Effect.Effect<
+  DeleteMatchmakingRuleSetOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMatchmakingRuleSetInput,
+  output: DeleteMatchmakingRuleSetOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    TaggingFailedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2
  *
@@ -9421,7 +10995,18 @@ export const deleteMatchmakingRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * All APIs by task
  */
-export const deleteScript = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteScript: (
+  input: DeleteScriptInput,
+) => Effect.Effect<
+  DeleteScriptResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScriptInput,
   output: DeleteScriptResponse,
   errors: [
@@ -9455,7 +11040,18 @@ export const deleteScript = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * All APIs by task
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -9488,7 +11084,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * All APIs by task
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -9519,7 +11126,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Setting up Amazon GameLift Servers
  * Fleets
  */
-export const deleteFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFleet: (
+  input: DeleteFleetInput,
+) => Effect.Effect<
+  DeleteFleetResponse,
+  | InternalServiceException
+  | InvalidFleetStatusException
+  | InvalidRequestException
+  | NotFoundException
+  | TaggingFailedException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFleetInput,
   output: DeleteFleetResponse,
   errors: [
@@ -9560,19 +11179,30 @@ export const deleteFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Set up FlexMatch event
  * notification
  */
-export const createMatchmakingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateMatchmakingConfigurationInput,
-    output: CreateMatchmakingConfigurationOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      LimitExceededException,
-      NotFoundException,
-      TaggingFailedException,
-      UnsupportedRegionException,
-    ],
-  }));
+export const createMatchmakingConfiguration: (
+  input: CreateMatchmakingConfigurationInput,
+) => Effect.Effect<
+  CreateMatchmakingConfigurationOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | TaggingFailedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMatchmakingConfigurationInput,
+  output: CreateMatchmakingConfigurationOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    LimitExceededException,
+    NotFoundException,
+    TaggingFailedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -9598,19 +11228,28 @@ export const createMatchmakingConfiguration =
  * - Matchmaking with
  * FlexMatch
  */
-export const createMatchmakingRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMatchmakingRuleSetInput,
-    output: CreateMatchmakingRuleSetOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      LimitExceededException,
-      TaggingFailedException,
-      UnsupportedRegionException,
-    ],
-  }),
-);
+export const createMatchmakingRuleSet: (
+  input: CreateMatchmakingRuleSetInput,
+) => Effect.Effect<
+  CreateMatchmakingRuleSetOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | TaggingFailedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMatchmakingRuleSetInput,
+  output: CreateMatchmakingRuleSetOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    LimitExceededException,
+    TaggingFailedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -9635,7 +11274,19 @@ export const createMatchmakingRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * All APIs by task
  */
-export const createAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAlias: (
+  input: CreateAliasInput,
+) => Effect.Effect<
+  CreateAliasOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | TaggingFailedException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAliasInput,
   output: CreateAliasOutput,
   errors: [
@@ -9724,21 +11375,32 @@ export const createAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * servers. For guidance, see
  * Security best practices for Amazon GameLift Servers.
  */
-export const createContainerFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateContainerFleetInput,
-    output: CreateContainerFleetOutput,
-    errors: [
-      ConflictException,
-      InternalServiceException,
-      InvalidRequestException,
-      LimitExceededException,
-      TaggingFailedException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }),
-);
+export const createContainerFleet: (
+  input: CreateContainerFleetInput,
+) => Effect.Effect<
+  CreateContainerFleetOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | TaggingFailedException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContainerFleetInput,
+  output: CreateContainerFleetOutput,
+  errors: [
+    ConflictException,
+    InternalServiceException,
+    InvalidRequestException,
+    LimitExceededException,
+    TaggingFailedException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** Container
  *
@@ -9834,26 +11496,50 @@ export const createContainerFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * assigns a unique ARN value. You can update most properties of a container group definition by
  * calling UpdateContainerGroupDefinition, and optionally save the update as a new version.
  */
-export const createContainerGroupDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateContainerGroupDefinitionInput,
-    output: CreateContainerGroupDefinitionOutput,
-    errors: [
-      ConflictException,
-      InternalServiceException,
-      InvalidRequestException,
-      LimitExceededException,
-      TaggingFailedException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }));
+export const createContainerGroupDefinition: (
+  input: CreateContainerGroupDefinitionInput,
+) => Effect.Effect<
+  CreateContainerGroupDefinitionOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | TaggingFailedException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContainerGroupDefinitionInput,
+  output: CreateContainerGroupDefinitionOutput,
+  errors: [
+    ConflictException,
+    InternalServiceException,
+    InvalidRequestException,
+    LimitExceededException,
+    TaggingFailedException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** Anywhere
  *
  * Creates a custom location for use in an Anywhere fleet.
  */
-export const createLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLocation: (
+  input: CreateLocationInput,
+) => Effect.Effect<
+  CreateLocationOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | TaggingFailedException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLocationInput,
   output: CreateLocationOutput,
   errors: [
@@ -9888,7 +11574,20 @@ export const createLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * All APIs by task
  */
-export const createPlayerSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPlayerSession: (
+  input: CreatePlayerSessionInput,
+) => Effect.Effect<
+  CreatePlayerSessionOutput,
+  | GameSessionFullException
+  | InternalServiceException
+  | InvalidGameSessionStatusException
+  | InvalidRequestException
+  | NotFoundException
+  | TerminalRoutingStrategyException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePlayerSessionInput,
   output: CreatePlayerSessionOutput,
   errors: [
@@ -9924,7 +11623,16 @@ export const createPlayerSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Set Up FlexMatch event
  * notification
  */
-export const describeMatchmaking = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeMatchmaking: (
+  input: DescribeMatchmakingInput,
+) => Effect.Effect<
+  DescribeMatchmakingOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMatchmakingInput,
   output: DescribeMatchmakingOutput,
   errors: [
@@ -9980,20 +11688,30 @@ export const describeMatchmaking = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * (Unreal)
  * (Go)
  */
-export const terminateGameSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TerminateGameSessionInput,
-    output: TerminateGameSessionOutput,
-    errors: [
-      InternalServiceException,
-      InvalidGameSessionStatusException,
-      InvalidRequestException,
-      NotFoundException,
-      NotReadyException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const terminateGameSession: (
+  input: TerminateGameSessionInput,
+) => Effect.Effect<
+  TerminateGameSessionOutput,
+  | InternalServiceException
+  | InvalidGameSessionStatusException
+  | InvalidRequestException
+  | NotFoundException
+  | NotReadyException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TerminateGameSessionInput,
+  output: TerminateGameSessionOutput,
+  errors: [
+    InternalServiceException,
+    InvalidGameSessionStatusException,
+    InvalidRequestException,
+    NotFoundException,
+    NotReadyException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
@@ -10034,7 +11752,19 @@ export const terminateGameSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const claimGameServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const claimGameServer: (
+  input: ClaimGameServerInput,
+) => Effect.Effect<
+  ClaimGameServerOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | OutOfCapacityException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClaimGameServerInput,
   output: ClaimGameServerOutput,
   errors: [
@@ -10080,25 +11810,64 @@ export const claimGameServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * All APIs by task
  */
-export const describeGameSessionDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeGameSessionDetails: {
+  (
     input: DescribeGameSessionDetailsInput,
-    output: DescribeGameSessionDetailsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      TerminalRoutingStrategyException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "GameSessionDetails",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeGameSessionDetailsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | TerminalRoutingStrategyException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeGameSessionDetailsInput,
+  ) => Stream.Stream<
+    DescribeGameSessionDetailsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | TerminalRoutingStrategyException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeGameSessionDetailsInput,
+  ) => Stream.Stream<
+    GameSessionDetail,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | TerminalRoutingStrategyException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeGameSessionDetailsInput,
+  output: DescribeGameSessionDetailsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    TerminalRoutingStrategyException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "GameSessionDetails",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -10140,25 +11909,64 @@ export const describeGameSessionDetails =
  *
  * All APIs by task
  */
-export const describeGameSessions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeGameSessions: {
+  (
     input: DescribeGameSessionsInput,
-    output: DescribeGameSessionsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      TerminalRoutingStrategyException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "GameSessions",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeGameSessionsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | TerminalRoutingStrategyException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeGameSessionsInput,
+  ) => Stream.Stream<
+    DescribeGameSessionsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | TerminalRoutingStrategyException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeGameSessionsInput,
+  ) => Stream.Stream<
+    GameSession,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | TerminalRoutingStrategyException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeGameSessionsInput,
+  output: DescribeGameSessionsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    TerminalRoutingStrategyException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "GameSessions",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -10173,7 +11981,18 @@ export const describeGameSessions =
  *
  * All APIs by task
  */
-export const resolveAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resolveAlias: (
+  input: ResolveAliasInput,
+) => Effect.Effect<
+  ResolveAliasOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TerminalRoutingStrategyException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResolveAliasInput,
   output: ResolveAliasOutput,
   errors: [
@@ -10253,26 +12072,64 @@ export const resolveAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * All APIs by task
  */
-export const searchGameSessions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchGameSessions: {
+  (
     input: SearchGameSessionsInput,
-    output: SearchGameSessionsOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      NotFoundException,
-      TerminalRoutingStrategyException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "GameSessions",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchGameSessionsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | TerminalRoutingStrategyException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchGameSessionsInput,
+  ) => Stream.Stream<
+    SearchGameSessionsOutput,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | TerminalRoutingStrategyException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchGameSessionsInput,
+  ) => Stream.Stream<
+    GameSession,
+    | InternalServiceException
+    | InvalidRequestException
+    | NotFoundException
+    | TerminalRoutingStrategyException
+    | UnauthorizedException
+    | UnsupportedRegionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchGameSessionsInput,
+  output: SearchGameSessionsOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    NotFoundException,
+    TerminalRoutingStrategyException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "GameSessions",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -10296,21 +12153,32 @@ export const searchGameSessions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * All APIs by task
  */
-export const createPlayerSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePlayerSessionsInput,
-    output: CreatePlayerSessionsOutput,
-    errors: [
-      GameSessionFullException,
-      InternalServiceException,
-      InvalidGameSessionStatusException,
-      InvalidRequestException,
-      NotFoundException,
-      TerminalRoutingStrategyException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createPlayerSessions: (
+  input: CreatePlayerSessionsInput,
+) => Effect.Effect<
+  CreatePlayerSessionsOutput,
+  | GameSessionFullException
+  | InternalServiceException
+  | InvalidGameSessionStatusException
+  | InvalidRequestException
+  | NotFoundException
+  | TerminalRoutingStrategyException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePlayerSessionsInput,
+  output: CreatePlayerSessionsOutput,
+  errors: [
+    GameSessionFullException,
+    InternalServiceException,
+    InvalidGameSessionStatusException,
+    InvalidRequestException,
+    NotFoundException,
+    TerminalRoutingStrategyException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -10354,7 +12222,24 @@ export const createPlayerSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * All APIs by task
  */
-export const createGameSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGameSession: (
+  input: CreateGameSessionInput,
+) => Effect.Effect<
+  CreateGameSessionOutput,
+  | ConflictException
+  | FleetCapacityExceededException
+  | IdempotentParameterMismatchException
+  | InternalServiceException
+  | InvalidFleetStatusException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | TerminalRoutingStrategyException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGameSessionInput,
   output: CreateGameSessionOutput,
   errors: [
@@ -10383,7 +12268,20 @@ export const createGameSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * All APIs by task
  */
-export const updateGameSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGameSession: (
+  input: UpdateGameSessionInput,
+) => Effect.Effect<
+  UpdateGameSessionOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidGameSessionStatusException
+  | InvalidRequestException
+  | NotFoundException
+  | NotReadyException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGameSessionInput,
   output: UpdateGameSessionOutput,
   errors: [
@@ -10428,7 +12326,19 @@ export const updateGameSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - Server SDK
  * reference guides (for version 5.x)
  */
-export const registerCompute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerCompute: (
+  input: RegisterComputeInput,
+) => Effect.Effect<
+  RegisterComputeOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotReadyException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterComputeInput,
   output: RegisterComputeOutput,
   errors: [
@@ -10492,21 +12402,32 @@ export const registerCompute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * update request initiates a deployment while another deployment is in progress, the first
  * deployment is cancelled.
  */
-export const updateContainerFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContainerFleetInput,
-    output: UpdateContainerFleetOutput,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      LimitExceededException,
-      NotFoundException,
-      NotReadyException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }),
-);
+export const updateContainerFleet: (
+  input: UpdateContainerFleetInput,
+) => Effect.Effect<
+  UpdateContainerFleetOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | NotReadyException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContainerFleetInput,
+  output: UpdateContainerFleetOutput,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    LimitExceededException,
+    NotFoundException,
+    NotReadyException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Container
  *
@@ -10535,23 +12456,36 @@ export const updateContainerFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Amazon GameLift Servers service locations for managed hosting.
  */
-export const createFleetLocations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateFleetLocationsInput,
-    output: CreateFleetLocationsOutput,
-    errors: [
-      ConflictException,
-      InternalServiceException,
-      InvalidFleetStatusException,
-      InvalidRequestException,
-      LimitExceededException,
-      NotFoundException,
-      NotReadyException,
-      UnauthorizedException,
-      UnsupportedRegionException,
-    ],
-  }),
-);
+export const createFleetLocations: (
+  input: CreateFleetLocationsInput,
+) => Effect.Effect<
+  CreateFleetLocationsOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidFleetStatusException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | NotReadyException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFleetLocationsInput,
+  output: CreateFleetLocationsOutput,
+  errors: [
+    ConflictException,
+    InternalServiceException,
+    InvalidFleetStatusException,
+    InvalidRequestException,
+    LimitExceededException,
+    NotFoundException,
+    NotReadyException,
+    UnauthorizedException,
+    UnsupportedRegionException,
+  ],
+}));
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
@@ -10628,7 +12562,22 @@ export const createFleetLocations = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Multi-location fleets
  */
-export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFleet: (
+  input: CreateFleetInput,
+) => Effect.Effect<
+  CreateFleetOutput,
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotFoundException
+  | NotReadyException
+  | TaggingFailedException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFleetInput,
   output: CreateFleetOutput,
   errors: [
@@ -10683,7 +12632,17 @@ export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * How Amazon GameLift Servers FlexMatch works
  */
-export const startMatchBackfill = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startMatchBackfill: (
+  input: StartMatchBackfillInput,
+) => Effect.Effect<
+  StartMatchBackfillOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnsupportedRegionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMatchBackfillInput,
   output: StartMatchBackfillOutput,
   errors: [

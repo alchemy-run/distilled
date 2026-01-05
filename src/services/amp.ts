@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "amp",
   serviceShapeName: "AmazonPrometheusService",
@@ -241,6 +249,50 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type TagKey = string;
+export type ScraperAlias = string;
+export type IdempotencyToken = string;
+export type ScraperId = string;
+export type PaginationToken = string;
+export type WorkspaceAlias = string;
+export type KmsKeyArn = string;
+export type WorkspaceId = string;
+export type AnomalyDetectorAlias = string;
+export type AnomalyDetectorEvaluationInterval = number;
+export type AnomalyDetectorId = string;
+export type LogGroupArn = string;
+export type RuleGroupsNamespaceName = string;
+export type TagValue = string;
+export type IamRoleArn = string;
+export type FilterKey = string;
+export type FilterValue = string;
+export type ScraperComponentType = string;
+export type PrometheusMetricLabelKey = string;
+export type PrometheusMetricLabelValue = string;
+export type ScraperArn = string;
+export type WorkspaceArn = string;
+export type AnomalyDetectorArn = string;
+export type RuleGroupsNamespaceArn = string;
+export type WorkspacePolicyStatusCode = string;
+export type ClusterArn = string;
+export type SecurityGroupId = string;
+export type SubnetId = string;
+export type RandomCutForestQuery = string;
+export type LabelName = string;
+export type LabelValue = string;
+export type StatusReason = string;
+export type ScraperStatusCode = string;
+export type ScraperLoggingConfigurationStatusCode = string;
+export type WorkspaceStatusCode = string;
+export type Uri = string;
+export type AlertManagerDefinitionStatusCode = string;
+export type LoggingConfigurationStatusCode = string;
+export type QueryLoggingConfigurationStatusCode = string;
+export type RuleGroupsNamespaceStatusCode = string;
+export type WorkspaceConfigurationStatusCode = string;
+export type ValidationExceptionReason = string;
+
 //# Schemas
 export interface GetDefaultScraperConfigurationRequest {}
 export const GetDefaultScraperConfigurationRequest = S.suspend(() =>
@@ -326,6 +378,7 @@ export const DescribeScraperRequest = S.suspend(() =>
 ).annotations({
   identifier: "DescribeScraperRequest",
 }) as any as S.Schema<DescribeScraperRequest>;
+export type ScrapeConfiguration = { configurationBlob: Uint8Array };
 export const ScrapeConfiguration = S.Union(
   S.Struct({ configurationBlob: T.Blob }),
 );
@@ -337,6 +390,7 @@ export const AmpConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "AmpConfiguration",
 }) as any as S.Schema<AmpConfiguration>;
+export type Destination = { ampConfiguration: AmpConfiguration };
 export const Destination = S.Union(
   S.Struct({ ampConfiguration: AmpConfiguration }),
 );
@@ -677,10 +731,14 @@ export const DeleteAlertManagerDefinitionResponse = S.suspend(() =>
 ).annotations({
   identifier: "DeleteAlertManagerDefinitionResponse",
 }) as any as S.Schema<DeleteAlertManagerDefinitionResponse>;
+export type AnomalyDetectorMissingDataAction =
+  | { markAsAnomaly: boolean }
+  | { skip: boolean };
 export const AnomalyDetectorMissingDataAction = S.Union(
   S.Struct({ markAsAnomaly: S.Boolean }),
   S.Struct({ skip: S.Boolean }),
 );
+export type IgnoreNearExpected = { amount: number } | { ratio: number };
 export const IgnoreNearExpected = S.Union(
   S.Struct({ amount: S.Number }),
   S.Struct({ ratio: S.Number }),
@@ -703,6 +761,9 @@ export const RandomCutForestConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "RandomCutForestConfiguration",
 }) as any as S.Schema<RandomCutForestConfiguration>;
+export type AnomalyDetectorConfiguration = {
+  randomCutForest: RandomCutForestConfiguration;
+};
 export const AnomalyDetectorConfiguration = S.Union(
   S.Struct({ randomCutForest: RandomCutForestConfiguration }),
 );
@@ -1445,6 +1506,9 @@ export const LimitsPerLabelSetEntry = S.suspend(() =>
 }) as any as S.Schema<LimitsPerLabelSetEntry>;
 export type LabelSet = { [key: string]: string };
 export const LabelSet = S.Record({ key: S.String, value: S.String });
+export type Source =
+  | { eksConfiguration: EksConfiguration }
+  | { vpcConfiguration: VpcConfiguration };
 export const Source = S.Union(
   S.Struct({ eksConfiguration: EksConfiguration }),
   S.Struct({ vpcConfiguration: VpcConfiguration }),
@@ -1483,6 +1547,9 @@ export const ScraperDescription = S.suspend(() =>
 ).annotations({
   identifier: "ScraperDescription",
 }) as any as S.Schema<ScraperDescription>;
+export type ScraperLoggingDestination = {
+  cloudWatchLogs: CloudWatchLogDestination;
+};
 export const ScraperLoggingDestination = S.Union(
   S.Struct({ cloudWatchLogs: CloudWatchLogDestination }),
 );
@@ -2254,7 +2321,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -2268,7 +2337,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -2296,20 +2367,35 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * The `GetDefaultScraperConfiguration` operation returns the default scraper configuration used when Amazon EKS creates a scraper for you.
  */
-export const getDefaultScraperConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDefaultScraperConfigurationRequest,
-    output: GetDefaultScraperConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-    ],
-  }));
+export const getDefaultScraperConfiguration: (
+  input: GetDefaultScraperConfigurationRequest,
+) => Effect.Effect<
+  GetDefaultScraperConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDefaultScraperConfigurationRequest,
+  output: GetDefaultScraperConfigurationResponse,
+  errors: [AccessDeniedException, InternalServerException, ThrottlingException],
+}));
 /**
  * The `DescribeScraper` operation displays information about an existing scraper.
  */
-export const describeScraper = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeScraper: (
+  input: DescribeScraperRequest,
+) => Effect.Effect<
+  DescribeScraperResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeScraperRequest,
   output: DescribeScraperResponse,
   errors: [
@@ -2323,28 +2409,72 @@ export const describeScraper = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The `ListScrapers` operation lists all of the scrapers in your account. This includes scrapers being created or deleted. You can optionally filter the returned list.
  */
-export const listScrapers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listScrapers: {
+  (
     input: ListScrapersRequest,
-    output: ListScrapersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "scrapers",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListScrapersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListScrapersRequest,
+  ) => Stream.Stream<
+    ListScrapersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListScrapersRequest,
+  ) => Stream.Stream<
+    ScraperSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListScrapersRequest,
+  output: ListScrapersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "scrapers",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a Prometheus workspace. A workspace is a logical space dedicated to the storage and querying of Prometheus metrics. You can have one or more workspaces in each Region in your account.
  */
-export const createWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkspace: (
+  input: CreateWorkspaceRequest,
+) => Effect.Effect<
+  CreateWorkspaceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkspaceRequest,
   output: CreateWorkspaceResponse,
   errors: [
@@ -2359,76 +2489,151 @@ export const createWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a query logging configuration for the specified workspace. This operation enables logging of queries that exceed the specified QSP threshold.
  */
-export const createQueryLoggingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateQueryLoggingConfigurationRequest,
-    output: CreateQueryLoggingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const createQueryLoggingConfiguration: (
+  input: CreateQueryLoggingConfigurationRequest,
+) => Effect.Effect<
+  CreateQueryLoggingConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateQueryLoggingConfigurationRequest,
+  output: CreateQueryLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Use this operation to return information about the configuration of a workspace. The configuration details returned include workspace configuration status, label set limits, and retention period.
  */
-export const describeWorkspaceConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeWorkspaceConfigurationRequest,
-    output: DescribeWorkspaceConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeWorkspaceConfiguration: (
+  input: DescribeWorkspaceConfigurationRequest,
+) => Effect.Effect<
+  DescribeWorkspaceConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeWorkspaceConfigurationRequest,
+  output: DescribeWorkspaceConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Use this operation to create or update the label sets, label set limits, and retention period of a workspace.
  *
  * You must specify at least one of `limitsPerLabelSet` or `retentionPeriodInDays` for the request to be valid.
  */
-export const updateWorkspaceConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateWorkspaceConfigurationRequest,
-    output: UpdateWorkspaceConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateWorkspaceConfiguration: (
+  input: UpdateWorkspaceConfigurationRequest,
+) => Effect.Effect<
+  UpdateWorkspaceConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkspaceConfigurationRequest,
+  output: UpdateWorkspaceConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all of the Amazon Managed Service for Prometheus workspaces in your account. This includes workspaces being created or deleted.
  */
-export const listWorkspaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkspaces: {
+  (
     input: ListWorkspacesRequest,
-    output: ListWorkspacesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "workspaces",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkspacesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkspacesRequest,
+  ) => Stream.Stream<
+    ListWorkspacesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkspacesRequest,
+  ) => Stream.Stream<
+    WorkspaceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkspacesRequest,
+  output: ListWorkspacesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workspaces",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * The `DeleteScraper` operation deletes one scraper, and stops any metrics collection that the scraper performs.
  */
-export const deleteScraper = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteScraper: (
+  input: DeleteScraperRequest,
+) => Effect.Effect<
+  DeleteScraperResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScraperRequest,
   output: DeleteScraperResponse,
   errors: [
@@ -2443,21 +2648,41 @@ export const deleteScraper = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the logging configuration for a Amazon Managed Service for Prometheus scraper.
  */
-export const describeScraperLoggingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeScraperLoggingConfigurationRequest,
-    output: DescribeScraperLoggingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const describeScraperLoggingConfiguration: (
+  input: DescribeScraperLoggingConfigurationRequest,
+) => Effect.Effect<
+  DescribeScraperLoggingConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeScraperLoggingConfigurationRequest,
+  output: DescribeScraperLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about an existing workspace.
  */
-export const describeWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeWorkspace: (
+  input: DescribeWorkspaceRequest,
+) => Effect.Effect<
+  DescribeWorkspaceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkspaceRequest,
   output: DescribeWorkspaceResponse,
   errors: [
@@ -2471,134 +2696,237 @@ export const describeWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The `CreateAlertManagerDefinition` operation creates the alert manager definition in a workspace. If a workspace already has an alert manager definition, don't use this operation to update it. Instead, use `PutAlertManagerDefinition`.
  */
-export const createAlertManagerDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateAlertManagerDefinitionRequest,
-    output: CreateAlertManagerDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createAlertManagerDefinition: (
+  input: CreateAlertManagerDefinitionRequest,
+) => Effect.Effect<
+  CreateAlertManagerDefinitionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAlertManagerDefinitionRequest,
+  output: CreateAlertManagerDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the full information about the alert manager definition for a workspace.
  */
-export const describeAlertManagerDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAlertManagerDefinitionRequest,
-    output: DescribeAlertManagerDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeAlertManagerDefinition: (
+  input: DescribeAlertManagerDefinitionRequest,
+) => Effect.Effect<
+  DescribeAlertManagerDefinitionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAlertManagerDefinitionRequest,
+  output: DescribeAlertManagerDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves detailed information about a specific anomaly detector, including its status and configuration.
  */
-export const describeAnomalyDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAnomalyDetectorRequest,
-    output: DescribeAnomalyDetectorResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeAnomalyDetector: (
+  input: DescribeAnomalyDetectorRequest,
+) => Effect.Effect<
+  DescribeAnomalyDetectorResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAnomalyDetectorRequest,
+  output: DescribeAnomalyDetectorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a paginated list of anomaly detectors for a workspace with optional filtering by alias.
  */
-export const listAnomalyDetectors =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAnomalyDetectors: {
+  (
     input: ListAnomalyDetectorsRequest,
-    output: ListAnomalyDetectorsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "anomalyDetectors",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAnomalyDetectorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAnomalyDetectorsRequest,
+  ) => Stream.Stream<
+    ListAnomalyDetectorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAnomalyDetectorsRequest,
+  ) => Stream.Stream<
+    AnomalyDetectorSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAnomalyDetectorsRequest,
+  output: ListAnomalyDetectorsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "anomalyDetectors",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * The `CreateLoggingConfiguration` operation creates rules and alerting logging configuration for the workspace. Use this operation to set the CloudWatch log group to which the logs will be published to.
  *
  * These logging configurations are only for rules and alerting logs.
  */
-export const createLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLoggingConfigurationRequest,
-    output: CreateLoggingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const createLoggingConfiguration: (
+  input: CreateLoggingConfigurationRequest,
+) => Effect.Effect<
+  CreateLoggingConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLoggingConfigurationRequest,
+  output: CreateLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns complete information about the current rules and alerting logging configuration of the workspace.
  *
  * These logging configurations are only for rules and alerting logs.
  */
-export const describeLoggingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeLoggingConfigurationRequest,
-    output: DescribeLoggingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const describeLoggingConfiguration: (
+  input: DescribeLoggingConfigurationRequest,
+) => Effect.Effect<
+  DescribeLoggingConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLoggingConfigurationRequest,
+  output: DescribeLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the details of the query logging configuration for the specified workspace.
  */
-export const describeQueryLoggingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeQueryLoggingConfigurationRequest,
-    output: DescribeQueryLoggingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const describeQueryLoggingConfiguration: (
+  input: DescribeQueryLoggingConfigurationRequest,
+) => Effect.Effect<
+  DescribeQueryLoggingConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeQueryLoggingConfigurationRequest,
+  output: DescribeQueryLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the query logging configuration for the specified workspace.
  */
-export const updateQueryLoggingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateQueryLoggingConfigurationRequest,
-    output: UpdateQueryLoggingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const updateQueryLoggingConfiguration: (
+  input: UpdateQueryLoggingConfigurationRequest,
+) => Effect.Effect<
+  UpdateQueryLoggingConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQueryLoggingConfigurationRequest,
+  output: UpdateQueryLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * The `CreateRuleGroupsNamespace` operation creates a rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces.
  *
@@ -2606,62 +2934,129 @@ export const updateQueryLoggingConfiguration =
  *
  * Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use `PutRuleGroupsNamespace`.
  */
-export const createRuleGroupsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRuleGroupsNamespaceRequest,
-    output: CreateRuleGroupsNamespaceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createRuleGroupsNamespace: (
+  input: CreateRuleGroupsNamespaceRequest,
+) => Effect.Effect<
+  CreateRuleGroupsNamespaceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRuleGroupsNamespaceRequest,
+  output: CreateRuleGroupsNamespaceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns complete information about one rule groups namespace. To retrieve a list of rule groups namespaces, use `ListRuleGroupsNamespaces`.
  */
-export const describeRuleGroupsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRuleGroupsNamespaceRequest,
-    output: DescribeRuleGroupsNamespaceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeRuleGroupsNamespace: (
+  input: DescribeRuleGroupsNamespaceRequest,
+) => Effect.Effect<
+  DescribeRuleGroupsNamespaceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRuleGroupsNamespaceRequest,
+  output: DescribeRuleGroupsNamespaceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of rule groups namespaces in a workspace.
  */
-export const listRuleGroupsNamespaces =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRuleGroupsNamespaces: {
+  (
     input: ListRuleGroupsNamespacesRequest,
-    output: ListRuleGroupsNamespacesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "ruleGroupsNamespaces",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRuleGroupsNamespacesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRuleGroupsNamespacesRequest,
+  ) => Stream.Stream<
+    ListRuleGroupsNamespacesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRuleGroupsNamespacesRequest,
+  ) => Stream.Stream<
+    RuleGroupsNamespaceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRuleGroupsNamespacesRequest,
+  output: ListRuleGroupsNamespacesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ruleGroupsNamespaces",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * The `ListTagsForResource` operation returns the tags that are associated with an Amazon Managed Service for Prometheus resource. Currently, the only resources that can be tagged are scrapers, workspaces, and rule groups namespaces.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2677,7 +3072,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use `UntagResource`.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2691,23 +3097,43 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
  */
-export const describeResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeResourcePolicyRequest,
-    output: DescribeResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeResourcePolicy: (
+  input: DescribeResourcePolicyRequest,
+) => Effect.Effect<
+  DescribeResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeResourcePolicyRequest,
+  output: DescribeResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes the specified tags from an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2721,39 +3147,59 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing alert manager definition in a workspace. If the workspace does not already have an alert manager definition, don't use this operation to create it. Instead, use `CreateAlertManagerDefinition`.
  */
-export const putAlertManagerDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutAlertManagerDefinitionRequest,
-    output: PutAlertManagerDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putAlertManagerDefinition: (
+  input: PutAlertManagerDefinitionRequest,
+) => Effect.Effect<
+  PutAlertManagerDefinitionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAlertManagerDefinitionRequest,
+  output: PutAlertManagerDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the log group ARN or the workspace ID of the current rules and alerting logging configuration.
  *
  * These logging configurations are only for rules and alerting logs.
  */
-export const updateLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLoggingConfigurationRequest,
-    output: UpdateLoggingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateLoggingConfiguration: (
+  input: UpdateLoggingConfigurationRequest,
+) => Effect.Effect<
+  UpdateLoggingConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLoggingConfigurationRequest,
+  output: UpdateLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an existing rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces.
  *
@@ -2763,21 +3209,32 @@ export const updateLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can't use this operation to add tags to an existing rule groups namespace. Instead, use `TagResource`.
  */
-export const putRuleGroupsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRuleGroupsNamespaceRequest,
-    output: PutRuleGroupsNamespaceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putRuleGroupsNamespace: (
+  input: PutRuleGroupsNamespaceRequest,
+) => Effect.Effect<
+  PutRuleGroupsNamespaceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRuleGroupsNamespaceRequest,
+  output: PutRuleGroupsNamespaceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates or updates a resource-based policy for an Amazon Managed Service for Prometheus workspace. Use resource-based policies to grant permissions to other AWS accounts or services to access your workspace.
  *
@@ -2787,7 +3244,19 @@ export const putRuleGroupsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information about working with IAM, see Using Amazon Managed Service for Prometheus with IAM in the *Amazon Managed Service for Prometheus User Guide*.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [
@@ -2802,42 +3271,75 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the logging configuration for a Amazon Managed Service for Prometheus scraper.
  */
-export const deleteScraperLoggingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteScraperLoggingConfigurationRequest,
-    output: DeleteScraperLoggingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const deleteScraperLoggingConfiguration: (
+  input: DeleteScraperLoggingConfigurationRequest,
+) => Effect.Effect<
+  DeleteScraperLoggingConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteScraperLoggingConfigurationRequest,
+  output: DeleteScraperLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the alias of an existing workspace.
  */
-export const updateWorkspaceAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWorkspaceAliasRequest,
-    output: UpdateWorkspaceAliasResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateWorkspaceAlias: (
+  input: UpdateWorkspaceAliasRequest,
+) => Effect.Effect<
+  UpdateWorkspaceAliasResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkspaceAliasRequest,
+  output: UpdateWorkspaceAliasResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an existing workspace.
  *
  * When you delete a workspace, the data that has been ingested into it is not immediately deleted. It will be permanently deleted within one month.
  */
-export const deleteWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkspace: (
+  input: DeleteWorkspaceRequest,
+) => Effect.Effect<
+  DeleteWorkspaceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkspaceRequest,
   output: DeleteWorkspaceResponse,
   errors: [
@@ -2852,109 +3354,182 @@ export const deleteWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the alert manager definition from a workspace.
  */
-export const deleteAlertManagerDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAlertManagerDefinitionRequest,
-    output: DeleteAlertManagerDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteAlertManagerDefinition: (
+  input: DeleteAlertManagerDefinitionRequest,
+) => Effect.Effect<
+  DeleteAlertManagerDefinitionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAlertManagerDefinitionRequest,
+  output: DeleteAlertManagerDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes an anomaly detector from a workspace. This operation is idempotent.
  */
-export const deleteAnomalyDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAnomalyDetectorRequest,
-    output: DeleteAnomalyDetectorResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAnomalyDetector: (
+  input: DeleteAnomalyDetectorRequest,
+) => Effect.Effect<
+  DeleteAnomalyDetectorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAnomalyDetectorRequest,
+  output: DeleteAnomalyDetectorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the rules and alerting logging configuration for a workspace.
  *
  * These logging configurations are only for rules and alerting logs.
  */
-export const deleteLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLoggingConfigurationRequest,
-    output: DeleteLoggingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteLoggingConfiguration: (
+  input: DeleteLoggingConfigurationRequest,
+) => Effect.Effect<
+  DeleteLoggingConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLoggingConfigurationRequest,
+  output: DeleteLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the query logging configuration for the specified workspace.
  */
-export const deleteQueryLoggingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteQueryLoggingConfigurationRequest,
-    output: DeleteQueryLoggingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const deleteQueryLoggingConfiguration: (
+  input: DeleteQueryLoggingConfigurationRequest,
+) => Effect.Effect<
+  DeleteQueryLoggingConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteQueryLoggingConfigurationRequest,
+  output: DeleteQueryLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes one rule groups namespace and its associated rule groups definition.
  */
-export const deleteRuleGroupsNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRuleGroupsNamespaceRequest,
-    output: DeleteRuleGroupsNamespaceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteRuleGroupsNamespace: (
+  input: DeleteRuleGroupsNamespaceRequest,
+) => Effect.Effect<
+  DeleteRuleGroupsNamespaceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRuleGroupsNamespaceRequest,
+  output: DeleteRuleGroupsNamespaceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an existing scraper.
  *
  * You can't use this function to update the source from which the scraper is collecting metrics. To change the source, delete the scraper and create a new one.
  */
-export const updateScraper = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateScraper: (
+  input: UpdateScraperRequest,
+) => Effect.Effect<
+  UpdateScraperResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateScraperRequest,
   output: UpdateScraperResponse,
   errors: [
@@ -2978,7 +3553,20 @@ export const updateScraper = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an Amazon Web Services managed collector in the *Amazon Managed Service for Prometheus User Guide*.
  */
-export const createScraper = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createScraper: (
+  input: CreateScraperRequest,
+) => Effect.Effect<
+  CreateScraperResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScraperRequest,
   output: CreateScraperResponse,
   errors: [
@@ -2994,7 +3582,19 @@ export const createScraper = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * When you call `PutAnomalyDetector`, the operation creates a new anomaly detector if one doesn't exist, or updates an existing one. Each call to this operation triggers a complete retraining of the detector, which includes querying the minimum required samples and backfilling the detector with historical data. This process occurs regardless of whether you're making a minor change like updating the evaluation interval or making more substantial modifications. The operation serves as the single method for creating, updating, and retraining anomaly detectors.
  */
-export const putAnomalyDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putAnomalyDetector: (
+  input: PutAnomalyDetectorRequest,
+) => Effect.Effect<
+  PutAnomalyDetectorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAnomalyDetectorRequest,
   output: PutAnomalyDetectorResponse,
   errors: [
@@ -3009,32 +3609,52 @@ export const putAnomalyDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the logging configuration for a Amazon Managed Service for Prometheus scraper.
  */
-export const updateScraperLoggingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateScraperLoggingConfigurationRequest,
-    output: UpdateScraperLoggingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const updateScraperLoggingConfiguration: (
+  input: UpdateScraperLoggingConfigurationRequest,
+) => Effect.Effect<
+  UpdateScraperLoggingConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateScraperLoggingConfigurationRequest,
+  output: UpdateScraperLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an anomaly detector within a workspace using the Random Cut Forest algorithm for time-series analysis. The anomaly detector analyzes Amazon Managed Service for Prometheus metrics to identify unusual patterns and behaviors.
  */
-export const createAnomalyDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAnomalyDetectorRequest,
-    output: CreateAnomalyDetectorResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAnomalyDetector: (
+  input: CreateAnomalyDetectorRequest,
+) => Effect.Effect<
+  CreateAnomalyDetectorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAnomalyDetectorRequest,
+  output: CreateAnomalyDetectorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

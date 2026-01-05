@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Auto Scaling Plans",
   serviceShapeName: "AnyScaleScalingPlannerFrontendService",
@@ -268,6 +276,28 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ScalingPlanName = string;
+export type ScalingPlanVersion = number;
+export type MaxResults = number;
+export type NextToken = string;
+export type XmlString = string;
+export type ResourceIdMaxLen1600 = string;
+export type ResourceCapacity = number;
+export type ScheduledActionBufferTime = number;
+export type ErrorMessage = string;
+export type XmlStringMaxLen128 = string;
+export type XmlStringMaxLen256 = string;
+export type MetricScale = number;
+export type Cooldown = number;
+export type ResourceLabel = string;
+export type MetricName = string;
+export type MetricNamespace = string;
+export type MetricUnit = string;
+export type MetricDimensionName = string;
+export type MetricDimensionValue = string;
+export type PolicyName = string;
 
 //# Schemas
 export type ScalingPlanNames = string[];
@@ -687,12 +717,16 @@ export class ConcurrentUpdateException extends S.TaggedError<ConcurrentUpdateExc
   "ConcurrentUpdateException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ConcurrentUpdateException", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalServiceException", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ObjectNotFoundException extends S.TaggedError<ObjectNotFoundException>()(
   "ObjectNotFoundException",
   { Message: S.optional(S.String) },
@@ -722,19 +756,34 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
  * calculated using historical data points from a specified CloudWatch load metric. Data points are
  * available for up to 56 days.
  */
-export const getScalingPlanResourceForecastData =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetScalingPlanResourceForecastDataRequest,
-    output: GetScalingPlanResourceForecastDataResponse,
-    errors: [InternalServiceException, ValidationException],
-  }));
+export const getScalingPlanResourceForecastData: (
+  input: GetScalingPlanResourceForecastDataRequest,
+) => Effect.Effect<
+  GetScalingPlanResourceForecastDataResponse,
+  InternalServiceException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetScalingPlanResourceForecastDataRequest,
+  output: GetScalingPlanResourceForecastDataResponse,
+  errors: [InternalServiceException, ValidationException],
+}));
 /**
  * Updates the specified scaling plan.
  *
  * You cannot update a scaling plan if it is in the process of being created, updated, or
  * deleted.
  */
-export const updateScalingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateScalingPlan: (
+  input: UpdateScalingPlanRequest,
+) => Effect.Effect<
+  UpdateScalingPlanResponse,
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | ObjectNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateScalingPlanRequest,
   output: UpdateScalingPlanResponse,
   errors: [
@@ -747,17 +796,26 @@ export const updateScalingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the scalable resources in the specified scaling plan.
  */
-export const describeScalingPlanResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeScalingPlanResourcesRequest,
-    output: DescribeScalingPlanResourcesResponse,
-    errors: [
-      ConcurrentUpdateException,
-      InternalServiceException,
-      InvalidNextTokenException,
-      ValidationException,
-    ],
-  }));
+export const describeScalingPlanResources: (
+  input: DescribeScalingPlanResourcesRequest,
+) => Effect.Effect<
+  DescribeScalingPlanResourcesResponse,
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | InvalidNextTokenException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeScalingPlanResourcesRequest,
+  output: DescribeScalingPlanResourcesResponse,
+  errors: [
+    ConcurrentUpdateException,
+    InternalServiceException,
+    InvalidNextTokenException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the specified scaling plan.
  *
@@ -767,7 +825,17 @@ export const describeScalingPlanResources =
  * If the plan has launched resources or has scaling activities in progress, you must
  * delete those resources separately.
  */
-export const deleteScalingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteScalingPlan: (
+  input: DeleteScalingPlanRequest,
+) => Effect.Effect<
+  DeleteScalingPlanResponse,
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | ObjectNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteScalingPlanRequest,
   output: DeleteScalingPlanResponse,
   errors: [
@@ -780,22 +848,40 @@ export const deleteScalingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes one or more of your scaling plans.
  */
-export const describeScalingPlans = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeScalingPlansRequest,
-    output: DescribeScalingPlansResponse,
-    errors: [
-      ConcurrentUpdateException,
-      InternalServiceException,
-      InvalidNextTokenException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeScalingPlans: (
+  input: DescribeScalingPlansRequest,
+) => Effect.Effect<
+  DescribeScalingPlansResponse,
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | InvalidNextTokenException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeScalingPlansRequest,
+  output: DescribeScalingPlansResponse,
+  errors: [
+    ConcurrentUpdateException,
+    InternalServiceException,
+    InvalidNextTokenException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a scaling plan.
  */
-export const createScalingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createScalingPlan: (
+  input: CreateScalingPlanRequest,
+) => Effect.Effect<
+  CreateScalingPlanResponse,
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | LimitExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScalingPlanRequest,
   output: CreateScalingPlanResponse,
   errors: [

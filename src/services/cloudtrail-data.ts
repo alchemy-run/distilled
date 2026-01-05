@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "CloudTrail Data",
   serviceShapeName: "CloudTrailDataService",
@@ -293,6 +301,13 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type ChannelArn = string;
+export type ExternalId = string;
+export type Uuid = string;
+export type ErrorCode = string;
+export type ErrorMessage = string;
+
 //# Schemas
 export interface AuditEvent {
   id: string;
@@ -398,7 +413,19 @@ export class UnsupportedOperationException extends S.TaggedError<UnsupportedOper
  * can add up to 100 of these events (or up to 1 MB) per `PutAuditEvents`
  * request.
  */
-export const putAuditEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putAuditEvents: (
+  input: PutAuditEventsRequest,
+) => Effect.Effect<
+  PutAuditEventsResponse,
+  | ChannelInsufficientPermission
+  | ChannelNotFound
+  | ChannelUnsupportedSchema
+  | DuplicatedAuditEventId
+  | InvalidChannelARN
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAuditEventsRequest,
   output: PutAuditEventsResponse,
   errors: [

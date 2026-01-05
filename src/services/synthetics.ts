@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "synthetics",
   serviceShapeName: "Synthetics",
@@ -240,6 +248,41 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type GroupIdentifier = string;
+export type CanaryArn = string;
+export type CanaryName = string;
+export type RoleArn = string;
+export type MaxSize1024 = number;
+export type GroupName = string;
+export type Token = string;
+export type MaxCanaryResults = number;
+export type MaxSize100 = number;
+export type UUID = string;
+export type PaginationToken = string;
+export type MaxGroupResults = number;
+export type ResourceArn = string;
+export type TagKey = string;
+export type CodeHandler = string;
+export type BlueprintType = string;
+export type MaxOneYearInSeconds = number;
+export type MaxFifteenMinutesInSeconds = number;
+export type MaxSize3008 = number;
+export type EphemeralStorageSize = number;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type TagValue = string;
+export type ErrorMessage = string;
+export type MaxRetries = number;
+export type EnvironmentVariableName = string;
+export type EnvironmentVariableValue = string;
+export type KmsKeyArn = string;
+export type BaseScreenshotConfigIgnoreCoordinate = string;
+export type GroupArn = string;
+export type FunctionArn = string;
+export type RetryAttempt = number;
+export type VpcId = string;
 
 //# Schemas
 export type ResourceList = string[];
@@ -1467,11 +1510,15 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -1495,7 +1542,9 @@ export class RequestEntityTooLargeException extends S.TaggedError<RequestEntityT
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
@@ -1511,40 +1560,101 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
  * see
  * Limiting a user to viewing specific canaries.
  */
-export const describeCanariesLastRun =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCanariesLastRun: {
+  (
     input: DescribeCanariesLastRunRequest,
-    output: DescribeCanariesLastRunResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeCanariesLastRunResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCanariesLastRunRequest,
+  ) => Stream.Stream<
+    DescribeCanariesLastRunResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCanariesLastRunRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCanariesLastRunRequest,
+  output: DescribeCanariesLastRunResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of runs for a specified canary.
  */
-export const getCanaryRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getCanaryRuns: {
+  (
     input: GetCanaryRunsRequest,
-    output: GetCanaryRunsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetCanaryRunsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCanaryRunsRequest,
+  ) => Stream.Stream<
+    GetCanaryRunsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCanaryRunsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCanaryRunsRequest,
+  output: GetCanaryRunsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Use this operation to start a dry run for a canary that has already been created
  */
-export const startCanaryDryRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startCanaryDryRun: (
+  input: StartCanaryDryRunRequest,
+) => Effect.Effect<
+  StartCanaryDryRunResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCanaryDryRunRequest,
   output: StartCanaryDryRunResponse,
   errors: [
@@ -1569,7 +1679,19 @@ export const startCanaryDryRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you use the `dryRunId` field when updating a canary, the only other field you can provide is the `Schedule`. Adding any other field will thrown an exception.
  */
-export const updateCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCanary: (
+  input: UpdateCanaryRequest,
+) => Effect.Effect<
+  UpdateCanaryResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestEntityTooLargeException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCanaryRequest,
   output: UpdateCanaryResponse,
   errors: [
@@ -1585,26 +1707,66 @@ export const updateCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns a list of the groups that the specified canary is associated with. The canary
  * that you specify must be in the current Region.
  */
-export const listAssociatedGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssociatedGroups: {
+  (
     input: ListAssociatedGroupsRequest,
-    output: ListAssociatedGroupsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAssociatedGroupsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssociatedGroupsRequest,
+  ) => Stream.Stream<
+    ListAssociatedGroupsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssociatedGroupsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssociatedGroupsRequest,
+  output: ListAssociatedGroupsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about one group. Groups are a global resource, so you can use this operation from
  * any Region.
  */
-export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGroup: (
+  input: GetGroupRequest,
+) => Effect.Effect<
+  GetGroupResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupRequest,
   output: GetGroupResponse,
   errors: [
@@ -1617,23 +1779,55 @@ export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This operation returns a list of the ARNs of the canaries that are associated with the specified group.
  */
-export const listGroupResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listGroupResources: {
+  (
     input: ListGroupResourcesRequest,
-    output: ListGroupResourcesResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListGroupResourcesResponse,
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupResourcesRequest,
+  ) => Stream.Stream<
+    ListGroupResourcesResponse,
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupResourcesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGroupResourcesRequest,
+  output: ListGroupResourcesResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Permanently deletes the specified canary.
  *
@@ -1662,7 +1856,17 @@ export const listGroupResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * note of the information returned by this operation so that you can delete these resources
  * after you delete the canary.
  */
-export const deleteCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCanary: (
+  input: DeleteCanaryRequest,
+) => Effect.Effect<
+  DeleteCanaryResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCanaryRequest,
   output: DeleteCanaryResponse,
   errors: [
@@ -1679,7 +1883,17 @@ export const deleteCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Groups are a global resource that appear in all Regions, but the request to delete a group
  * must be made from its home Region. You can find the home Region of a group within its ARN.
  */
-export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGroup: (
+  input: DeleteGroupRequest,
+) => Effect.Effect<
+  DeleteGroupResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupRequest,
   output: DeleteGroupResponse,
   errors: [
@@ -1692,24 +1906,42 @@ export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a canary from a group. You must run this operation in the Region where the canary exists.
  */
-export const disassociateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateResourceRequest,
-    output: DisassociateResourceResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateResource: (
+  input: DisassociateResourceRequest,
+) => Effect.Effect<
+  DisassociateResourceResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateResourceRequest,
+  output: DisassociateResourceResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Use this operation to run a canary that has already been created.
  * The frequency of the canary runs is determined by the value of the canary's `Schedule`. To see a canary's schedule,
  * use GetCanary.
  */
-export const startCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startCanary: (
+  input: StartCanaryRequest,
+) => Effect.Effect<
+  StartCanaryResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCanaryRequest,
   output: StartCanaryResponse,
   errors: [
@@ -1727,7 +1959,17 @@ export const startCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can use `StartCanary` to start it running again
  * with the canary’s current schedule at any point in the future.
  */
-export const stopCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopCanary: (
+  input: StopCanaryRequest,
+) => Effect.Effect<
+  StopCanaryResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopCanaryRequest,
   output: StopCanaryResponse,
   errors: [
@@ -1744,7 +1986,18 @@ export const stopCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must run this operation in the Region where the canary exists.
  */
-export const associateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateResource: (
+  input: AssociateResourceRequest,
+) => Effect.Effect<
+  AssociateResourceResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateResourceRequest,
   output: AssociateResourceResponse,
   errors: [
@@ -1760,23 +2013,50 @@ export const associateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see
  * Canary Runtime Versions.
  */
-export const describeRuntimeVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRuntimeVersions: {
+  (
     input: DescribeRuntimeVersionsRequest,
-    output: DescribeRuntimeVersionsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRuntimeVersionsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRuntimeVersionsRequest,
+  ) => Stream.Stream<
+    DescribeRuntimeVersionsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRuntimeVersionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRuntimeVersionsRequest,
+  output: DescribeRuntimeVersionsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves complete information about one canary. You must specify
  * the name of the canary that you want. To get a list of canaries
  * and their names, use DescribeCanaries.
  */
-export const getCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCanary: (
+  input: GetCanaryRequest,
+) => Effect.Effect<
+  GetCanaryResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCanaryRequest,
   output: GetCanaryResponse,
   errors: [InternalServerException, ValidationException],
@@ -1785,7 +2065,29 @@ export const getCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns a list of all groups in the account, displaying their names, unique IDs, and ARNs. The groups
  * from all Regions are returned.
  */
-export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGroups: {
+  (
+    input: ListGroupsRequest,
+  ): Effect.Effect<
+    ListGroupsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupsRequest,
+  ) => Stream.Stream<
+    ListGroupsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGroupsRequest,
   output: ListGroupsResponse,
   errors: [InternalServerException, ValidationException],
@@ -1813,7 +2115,17 @@ export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Each group can contain as many as 10 canaries. You can have as many as 20 groups in your account. Any single canary
  * can be a member of up to 10 groups.
  */
-export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGroup: (
+  input: CreateGroupRequest,
+) => Effect.Effect<
+  CreateGroupResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupRequest,
   output: CreateGroupResponse,
   errors: [
@@ -1842,7 +2154,16 @@ export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * outbound calls over the internet. For more information, see Security
  * Considerations for Synthetics Canaries.
  */
-export const createCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCanary: (
+  input: CreateCanaryRequest,
+) => Effect.Effect<
+  CreateCanaryResponse,
+  | InternalServerException
+  | RequestEntityTooLargeException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCanaryRequest,
   output: CreateCanaryResponse,
   errors: [
@@ -1865,18 +2186,38 @@ export const createCanary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see
  * Limiting a user to viewing specific canaries.
  */
-export const describeCanaries = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeCanaries: {
+  (
     input: DescribeCanariesRequest,
-    output: DescribeCanariesResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeCanariesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCanariesRequest,
+  ) => Stream.Stream<
+    DescribeCanariesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCanariesRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCanariesRequest,
+  output: DescribeCanariesResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Assigns one or more tags (key-value pairs) to the specified canary or group.
  *
@@ -1895,7 +2236,18 @@ export const describeCanaries = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * You can associate as many as 50 tags with a canary or group.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1909,7 +2261,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1923,7 +2286,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Displays the tags associated with a canary or group.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [

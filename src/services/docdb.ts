@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://rds.amazonaws.com/doc/2014-10-31/");
 const svc = T.AwsApiService({
   sdkId: "DocDB",
@@ -261,6 +269,14 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type IntegerOptional = number;
+export type GlobalClusterIdentifier = string;
+export type DBClusterIdentifier = string;
+export type DoubleOptional = number;
+export type ExceptionMessage = string;
+export type Integer = number;
 
 //# Schemas
 export type AvailabilityZones = string[];
@@ -3606,50 +3622,113 @@ export class StorageTypeNotSupportedFault extends S.TaggedError<StorageTypeNotSu
 /**
  * Returns a list of `DBClusterParameterGroup` descriptions. If a `DBClusterParameterGroupName` parameter is specified, the list contains only the description of the specified cluster parameter group.
  */
-export const describeDBClusterParameterGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDBClusterParameterGroups: {
+  (
     input: DescribeDBClusterParameterGroupsMessage,
-    output: DBClusterParameterGroupsMessage,
-    errors: [DBParameterGroupNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "DBClusterParameterGroups",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DBClusterParameterGroupsMessage,
+    DBParameterGroupNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDBClusterParameterGroupsMessage,
+  ) => Stream.Stream<
+    DBClusterParameterGroupsMessage,
+    DBParameterGroupNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDBClusterParameterGroupsMessage,
+  ) => Stream.Stream<
+    DBClusterParameterGroup,
+    DBParameterGroupNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDBClusterParameterGroupsMessage,
+  output: DBClusterParameterGroupsMessage,
+  errors: [DBParameterGroupNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "DBClusterParameterGroups",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns the detailed parameter list for a particular cluster parameter
  * group.
  */
-export const describeDBClusterParameters =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDBClusterParameters: {
+  (
     input: DescribeDBClusterParametersMessage,
-    output: DBClusterParameterGroupDetails,
-    errors: [DBParameterGroupNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Parameters",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DBClusterParameterGroupDetails,
+    DBParameterGroupNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDBClusterParametersMessage,
+  ) => Stream.Stream<
+    DBClusterParameterGroupDetails,
+    DBParameterGroupNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDBClusterParametersMessage,
+  ) => Stream.Stream<
+    Parameter,
+    DBParameterGroupNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDBClusterParametersMessage,
+  output: DBClusterParameterGroupDetails,
+  errors: [DBParameterGroupNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Parameters",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns a list of `DBSubnetGroup` descriptions. If a
  * `DBSubnetGroupName` is specified, the list will contain only the descriptions of the specified `DBSubnetGroup`.
  */
-export const describeDBSubnetGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDBSubnetGroups: {
+  (
     input: DescribeDBSubnetGroupsMessage,
-    output: DBSubnetGroupMessage,
-    errors: [DBSubnetGroupNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "DBSubnetGroups",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DBSubnetGroupMessage,
+    DBSubnetGroupNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDBSubnetGroupsMessage,
+  ) => Stream.Stream<
+    DBSubnetGroupMessage,
+    DBSubnetGroupNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDBSubnetGroupsMessage,
+  ) => Stream.Stream<
+    DBSubnetGroup,
+    DBSubnetGroupNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDBSubnetGroupsMessage,
+  output: DBSubnetGroupMessage,
+  errors: [DBSubnetGroupNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "DBSubnetGroups",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns information about provisioned Amazon DocumentDB clusters. This API
  * operation supports pagination. For certain management features
@@ -3658,108 +3737,211 @@ export const describeDBSubnetGroups =
  * Neptune. Use the `filterName=engine,Values=docdb` filter
  * parameter to return only Amazon DocumentDB clusters.
  */
-export const describeDBClusters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeDBClusters: {
+  (
     input: DescribeDBClustersMessage,
-    output: DBClusterMessage,
-    errors: [DBClusterNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "DBClusters",
-      pageSize: "MaxRecords",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DBClusterMessage,
+    DBClusterNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDBClustersMessage,
+  ) => Stream.Stream<
+    DBClusterMessage,
+    DBClusterNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDBClustersMessage,
+  ) => Stream.Stream<
+    DBCluster,
+    DBClusterNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDBClustersMessage,
+  output: DBClusterMessage,
+  errors: [DBClusterNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "DBClusters",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Deletes a specified cluster parameter group. The cluster parameter group to be deleted can't be associated with any clusters.
  */
-export const deleteDBClusterParameterGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDBClusterParameterGroupMessage,
-    output: DeleteDBClusterParameterGroupResponse,
-    errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
-  }));
+export const deleteDBClusterParameterGroup: (
+  input: DeleteDBClusterParameterGroupMessage,
+) => Effect.Effect<
+  DeleteDBClusterParameterGroupResponse,
+  | DBParameterGroupNotFoundFault
+  | InvalidDBParameterGroupStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDBClusterParameterGroupMessage,
+  output: DeleteDBClusterParameterGroupResponse,
+  errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
+}));
 /**
  * Returns the default engine and system parameter information for the cluster database
  * engine.
  */
-export const describeEngineDefaultClusterParameters =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeEngineDefaultClusterParametersMessage,
-    output: DescribeEngineDefaultClusterParametersResult,
-    errors: [],
-  }));
+export const describeEngineDefaultClusterParameters: (
+  input: DescribeEngineDefaultClusterParametersMessage,
+) => Effect.Effect<
+  DescribeEngineDefaultClusterParametersResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEngineDefaultClusterParametersMessage,
+  output: DescribeEngineDefaultClusterParametersResult,
+  errors: [],
+}));
 /**
  * Displays a list of categories for all event source types, or, if specified, for a
  * specified source type.
  */
-export const describeEventCategories = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEventCategoriesMessage,
-    output: EventCategoriesMessage,
-    errors: [],
-  }),
-);
+export const describeEventCategories: (
+  input: DescribeEventCategoriesMessage,
+) => Effect.Effect<
+  EventCategoriesMessage,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEventCategoriesMessage,
+  output: EventCategoriesMessage,
+  errors: [],
+}));
 /**
  * Returns events related to instances, security groups, snapshots, and DB parameter groups for the past 14 days. You can obtain events specific to a particular DB instance, security group, snapshot, or parameter group by providing the name as a parameter. By default, the events of the past hour are returned.
  */
-export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeEvents: {
+  (
     input: DescribeEventsMessage,
-    output: EventsMessage,
-    errors: [],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Events",
-      pageSize: "MaxRecords",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    EventsMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEventsMessage,
+  ) => Stream.Stream<
+    EventsMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEventsMessage,
+  ) => Stream.Stream<
+    Event,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEventsMessage,
+  output: EventsMessage,
+  errors: [],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Events",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Lists all the subscription descriptions for a customer account. The description for a subscription includes `SubscriptionName`, `SNSTopicARN`, `CustomerID`, `SourceType`, `SourceID`, `CreationTime`, and `Status`.
  *
  * If you specify a `SubscriptionName`, lists the description for that subscription.
  */
-export const describeEventSubscriptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeEventSubscriptions: {
+  (
     input: DescribeEventSubscriptionsMessage,
-    output: EventSubscriptionsMessage,
-    errors: [SubscriptionNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "EventSubscriptionsList",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    EventSubscriptionsMessage,
+    SubscriptionNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEventSubscriptionsMessage,
+  ) => Stream.Stream<
+    EventSubscriptionsMessage,
+    SubscriptionNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEventSubscriptionsMessage,
+  ) => Stream.Stream<
+    EventSubscription,
+    SubscriptionNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEventSubscriptionsMessage,
+  output: EventSubscriptionsMessage,
+  errors: [SubscriptionNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "EventSubscriptionsList",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns a list of resources (for example, instances) that have at least one pending
  * maintenance action.
  */
-export const describePendingMaintenanceActions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describePendingMaintenanceActions: {
+  (
     input: DescribePendingMaintenanceActionsMessage,
-    output: PendingMaintenanceActionsMessage,
-    errors: [ResourceNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "PendingMaintenanceActions",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    PendingMaintenanceActionsMessage,
+    ResourceNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribePendingMaintenanceActionsMessage,
+  ) => Stream.Stream<
+    PendingMaintenanceActionsMessage,
+    ResourceNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribePendingMaintenanceActionsMessage,
+  ) => Stream.Stream<
+    ResourcePendingMaintenanceActions,
+    ResourceNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribePendingMaintenanceActionsMessage,
+  output: PendingMaintenanceActionsMessage,
+  errors: [ResourceNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "PendingMaintenanceActions",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Removes a source identifier from an existing Amazon DocumentDB event notification
  * subscription.
  */
-export const removeSourceIdentifierFromSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveSourceIdentifierFromSubscriptionMessage,
-    output: RemoveSourceIdentifierFromSubscriptionResult,
-    errors: [SourceNotFoundFault, SubscriptionNotFoundFault],
-  }));
+export const removeSourceIdentifierFromSubscription: (
+  input: RemoveSourceIdentifierFromSubscriptionMessage,
+) => Effect.Effect<
+  RemoveSourceIdentifierFromSubscriptionResult,
+  SourceNotFoundFault | SubscriptionNotFoundFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveSourceIdentifierFromSubscriptionMessage,
+  output: RemoveSourceIdentifierFromSubscriptionResult,
+  errors: [SourceNotFoundFault, SubscriptionNotFoundFault],
+}));
 /**
  * Modifies the parameters of a cluster parameter group. To modify more than one
  * parameter, submit a list of the following: `ParameterName`,
@@ -3779,12 +3961,19 @@ export const removeSourceIdentifierFromSubscription =
  * database for a cluster, such as the character set for the default database
  * defined by the `character_set_database` parameter.
  */
-export const modifyDBClusterParameterGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyDBClusterParameterGroupMessage,
-    output: DBClusterParameterGroupNameMessage,
-    errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
-  }));
+export const modifyDBClusterParameterGroup: (
+  input: ModifyDBClusterParameterGroupMessage,
+) => Effect.Effect<
+  DBClusterParameterGroupNameMessage,
+  | DBParameterGroupNotFoundFault
+  | InvalidDBParameterGroupStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyDBClusterParameterGroupMessage,
+  output: DBClusterParameterGroupNameMessage,
+  errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
+}));
 /**
  * Modifies the parameters of a cluster parameter group to the default value. To
  * reset specific parameters, submit a list of the following: `ParameterName`
@@ -3796,79 +3985,160 @@ export const modifyDBClusterParameterGroup =
  * static parameters are set to `pending-reboot` to take effect on the next DB
  * instance reboot.
  */
-export const resetDBClusterParameterGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ResetDBClusterParameterGroupMessage,
-    output: DBClusterParameterGroupNameMessage,
-    errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
-  }));
+export const resetDBClusterParameterGroup: (
+  input: ResetDBClusterParameterGroupMessage,
+) => Effect.Effect<
+  DBClusterParameterGroupNameMessage,
+  | DBParameterGroupNotFoundFault
+  | InvalidDBParameterGroupStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetDBClusterParameterGroupMessage,
+  output: DBClusterParameterGroupNameMessage,
+  errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
+}));
 /**
  * Returns information about cluster snapshots. This API operation supports pagination.
  */
-export const describeDBClusterSnapshots =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDBClusterSnapshots: {
+  (
     input: DescribeDBClusterSnapshotsMessage,
-    output: DBClusterSnapshotMessage,
-    errors: [DBClusterSnapshotNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "DBClusterSnapshots",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DBClusterSnapshotMessage,
+    DBClusterSnapshotNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDBClusterSnapshotsMessage,
+  ) => Stream.Stream<
+    DBClusterSnapshotMessage,
+    DBClusterSnapshotNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDBClusterSnapshotsMessage,
+  ) => Stream.Stream<
+    DBClusterSnapshot,
+    DBClusterSnapshotNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDBClusterSnapshotsMessage,
+  output: DBClusterSnapshotMessage,
+  errors: [DBClusterSnapshotNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "DBClusterSnapshots",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns information about provisioned Amazon DocumentDB instances. This API supports pagination.
  */
-export const describeDBInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDBInstances: {
+  (
     input: DescribeDBInstancesMessage,
-    output: DBInstanceMessage,
-    errors: [DBInstanceNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "DBInstances",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DBInstanceMessage,
+    DBInstanceNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDBInstancesMessage,
+  ) => Stream.Stream<
+    DBInstanceMessage,
+    DBInstanceNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDBInstancesMessage,
+  ) => Stream.Stream<
+    DBInstance,
+    DBInstanceNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDBInstancesMessage,
+  output: DBInstanceMessage,
+  errors: [DBInstanceNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "DBInstances",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns information about Amazon DocumentDB global clusters. This API supports pagination.
  *
  * This action only applies to Amazon DocumentDB clusters.
  */
-export const describeGlobalClusters =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeGlobalClusters: {
+  (
     input: DescribeGlobalClustersMessage,
-    output: GlobalClustersMessage,
-    errors: [GlobalClusterNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "GlobalClusters",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GlobalClustersMessage,
+    GlobalClusterNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeGlobalClustersMessage,
+  ) => Stream.Stream<
+    GlobalClustersMessage,
+    GlobalClusterNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeGlobalClustersMessage,
+  ) => Stream.Stream<
+    GlobalCluster,
+    GlobalClusterNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeGlobalClustersMessage,
+  output: GlobalClustersMessage,
+  errors: [GlobalClusterNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "GlobalClusters",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Deletes an Amazon DocumentDB event notification subscription.
  */
-export const deleteEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEventSubscriptionMessage,
-    output: DeleteEventSubscriptionResult,
-    errors: [InvalidEventSubscriptionStateFault, SubscriptionNotFoundFault],
-  }),
-);
+export const deleteEventSubscription: (
+  input: DeleteEventSubscriptionMessage,
+) => Effect.Effect<
+  DeleteEventSubscriptionResult,
+  | InvalidEventSubscriptionStateFault
+  | SubscriptionNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEventSubscriptionMessage,
+  output: DeleteEventSubscriptionResult,
+  errors: [InvalidEventSubscriptionStateFault, SubscriptionNotFoundFault],
+}));
 /**
  * Adds a source identifier to an existing event notification
  * subscription.
  */
-export const addSourceIdentifierToSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AddSourceIdentifierToSubscriptionMessage,
-    output: AddSourceIdentifierToSubscriptionResult,
-    errors: [SourceNotFoundFault, SubscriptionNotFoundFault],
-  }));
+export const addSourceIdentifierToSubscription: (
+  input: AddSourceIdentifierToSubscriptionMessage,
+) => Effect.Effect<
+  AddSourceIdentifierToSubscriptionResult,
+  SourceNotFoundFault | SubscriptionNotFoundFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddSourceIdentifierToSubscriptionMessage,
+  output: AddSourceIdentifierToSubscriptionResult,
+  errors: [SourceNotFoundFault, SubscriptionNotFoundFault],
+}));
 /**
  * Creates a new cluster parameter group.
  *
@@ -3891,37 +4161,56 @@ export const addSourceIdentifierToSubscription =
  * see
  * Modifying Amazon DocumentDB Cluster Parameter Groups.
  */
-export const createDBClusterParameterGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDBClusterParameterGroupMessage,
-    output: CreateDBClusterParameterGroupResult,
-    errors: [
-      DBParameterGroupAlreadyExistsFault,
-      DBParameterGroupQuotaExceededFault,
-    ],
-  }));
+export const createDBClusterParameterGroup: (
+  input: CreateDBClusterParameterGroupMessage,
+) => Effect.Effect<
+  CreateDBClusterParameterGroupResult,
+  | DBParameterGroupAlreadyExistsFault
+  | DBParameterGroupQuotaExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDBClusterParameterGroupMessage,
+  output: CreateDBClusterParameterGroupResult,
+  errors: [
+    DBParameterGroupAlreadyExistsFault,
+    DBParameterGroupQuotaExceededFault,
+  ],
+}));
 /**
  * Deletes a cluster snapshot. If the snapshot is being copied, the copy operation is terminated.
  *
  * The cluster snapshot must be in the `available` state to be deleted.
  */
-export const deleteDBClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDBClusterSnapshotMessage,
-    output: DeleteDBClusterSnapshotResult,
-    errors: [
-      DBClusterSnapshotNotFoundFault,
-      InvalidDBClusterSnapshotStateFault,
-    ],
-  }),
-);
+export const deleteDBClusterSnapshot: (
+  input: DeleteDBClusterSnapshotMessage,
+) => Effect.Effect<
+  DeleteDBClusterSnapshotResult,
+  | DBClusterSnapshotNotFoundFault
+  | InvalidDBClusterSnapshotStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDBClusterSnapshotMessage,
+  output: DeleteDBClusterSnapshotResult,
+  errors: [DBClusterSnapshotNotFoundFault, InvalidDBClusterSnapshotStateFault],
+}));
 /**
  * Deletes a subnet group.
  *
  * The specified database subnet group must not be associated with any DB
  * instances.
  */
-export const deleteDBSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDBSubnetGroup: (
+  input: DeleteDBSubnetGroupMessage,
+) => Effect.Effect<
+  DeleteDBSubnetGroupResponse,
+  | DBSubnetGroupNotFoundFault
+  | InvalidDBSubnetGroupStateFault
+  | InvalidDBSubnetStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBSubnetGroupMessage,
   output: DeleteDBSubnetGroupResponse,
   errors: [
@@ -3935,7 +4224,15 @@ export const deleteDBSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This action only applies to Amazon DocumentDB clusters.
  */
-export const deleteGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGlobalCluster: (
+  input: DeleteGlobalClusterMessage,
+) => Effect.Effect<
+  DeleteGlobalClusterResult,
+  | GlobalClusterNotFoundFault
+  | InvalidGlobalClusterStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGlobalClusterMessage,
   output: DeleteGlobalClusterResult,
   errors: [GlobalClusterNotFoundFault, InvalidGlobalClusterStateFault],
@@ -3947,48 +4244,104 @@ export const deleteGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * When you share snapshots with other Amazon Web Services accounts,
  * `DescribeDBClusterSnapshotAttributes` returns the `restore` attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual cluster snapshot. If `all` is included in the list of values for the `restore` attribute, then the manual cluster snapshot is public and can be copied or restored by all Amazon Web Services accounts.
  */
-export const describeDBClusterSnapshotAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDBClusterSnapshotAttributesMessage,
-    output: DescribeDBClusterSnapshotAttributesResult,
-    errors: [DBClusterSnapshotNotFoundFault],
-  }));
+export const describeDBClusterSnapshotAttributes: (
+  input: DescribeDBClusterSnapshotAttributesMessage,
+) => Effect.Effect<
+  DescribeDBClusterSnapshotAttributesResult,
+  DBClusterSnapshotNotFoundFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDBClusterSnapshotAttributesMessage,
+  output: DescribeDBClusterSnapshotAttributesResult,
+  errors: [DBClusterSnapshotNotFoundFault],
+}));
 /**
  * Returns a list of the available engines.
  */
-export const describeDBEngineVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDBEngineVersions: {
+  (
     input: DescribeDBEngineVersionsMessage,
-    output: DBEngineVersionMessage,
-    errors: [],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "DBEngineVersions",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DBEngineVersionMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDBEngineVersionsMessage,
+  ) => Stream.Stream<
+    DBEngineVersionMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDBEngineVersionsMessage,
+  ) => Stream.Stream<
+    DBEngineVersion,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDBEngineVersionsMessage,
+  output: DBEngineVersionMessage,
+  errors: [],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "DBEngineVersions",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns a list of orderable instance options for the specified engine.
  */
-export const describeOrderableDBInstanceOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeOrderableDBInstanceOptions: {
+  (
     input: DescribeOrderableDBInstanceOptionsMessage,
-    output: OrderableDBInstanceOptionsMessage,
-    errors: [],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "OrderableDBInstanceOptions",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    OrderableDBInstanceOptionsMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeOrderableDBInstanceOptionsMessage,
+  ) => Stream.Stream<
+    OrderableDBInstanceOptionsMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeOrderableDBInstanceOptionsMessage,
+  ) => Stream.Stream<
+    OrderableDBInstanceOption,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeOrderableDBInstanceOptionsMessage,
+  output: OrderableDBInstanceOptionsMessage,
+  errors: [],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "OrderableDBInstanceOptions",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Restarts the stopped cluster that is specified by `DBClusterIdentifier`.
  * For more information, see Stopping and
  * Starting an Amazon DocumentDB Cluster.
  */
-export const startDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startDBCluster: (
+  input: StartDBClusterMessage,
+) => Effect.Effect<
+  StartDBClusterResult,
+  | DBClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDBClusterMessage,
   output: StartDBClusterResult,
   errors: [
@@ -4000,37 +4353,59 @@ export const startDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Copies the specified cluster parameter group.
  */
-export const copyDBClusterParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CopyDBClusterParameterGroupMessage,
-    output: CopyDBClusterParameterGroupResult,
-    errors: [
-      DBParameterGroupAlreadyExistsFault,
-      DBParameterGroupNotFoundFault,
-      DBParameterGroupQuotaExceededFault,
-    ],
-  }),
-);
+export const copyDBClusterParameterGroup: (
+  input: CopyDBClusterParameterGroupMessage,
+) => Effect.Effect<
+  CopyDBClusterParameterGroupResult,
+  | DBParameterGroupAlreadyExistsFault
+  | DBParameterGroupNotFoundFault
+  | DBParameterGroupQuotaExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CopyDBClusterParameterGroupMessage,
+  output: CopyDBClusterParameterGroupResult,
+  errors: [
+    DBParameterGroupAlreadyExistsFault,
+    DBParameterGroupNotFoundFault,
+    DBParameterGroupQuotaExceededFault,
+  ],
+}));
 /**
  * Removes metadata tags from an Amazon DocumentDB resource.
  */
-export const removeTagsFromResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveTagsFromResourceMessage,
-    output: RemoveTagsFromResourceResponse,
-    errors: [
-      DBClusterNotFoundFault,
-      DBInstanceNotFoundFault,
-      DBSnapshotNotFoundFault,
-    ],
-  }),
-);
+export const removeTagsFromResource: (
+  input: RemoveTagsFromResourceMessage,
+) => Effect.Effect<
+  RemoveTagsFromResourceResponse,
+  | DBClusterNotFoundFault
+  | DBInstanceNotFoundFault
+  | DBSnapshotNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTagsFromResourceMessage,
+  output: RemoveTagsFromResourceResponse,
+  errors: [
+    DBClusterNotFoundFault,
+    DBInstanceNotFoundFault,
+    DBSnapshotNotFoundFault,
+  ],
+}));
 /**
  * Modify a setting for an Amazon DocumentDB global cluster. You can change one or more configuration parameters (for example: deletion protection), or the global cluster identifier by specifying these parameters and the new values in the request.
  *
  * This action only applies to Amazon DocumentDB clusters.
  */
-export const modifyGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyGlobalCluster: (
+  input: ModifyGlobalClusterMessage,
+) => Effect.Effect<
+  ModifyGlobalClusterResult,
+  | GlobalClusterNotFoundFault
+  | InvalidGlobalClusterStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyGlobalClusterMessage,
   output: ModifyGlobalClusterResult,
   errors: [GlobalClusterNotFoundFault, InvalidGlobalClusterStateFault],
@@ -4038,18 +4413,26 @@ export const modifyGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon DocumentDB cluster in the global database cluster.
  */
-export const switchoverGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SwitchoverGlobalClusterMessage,
-    output: SwitchoverGlobalClusterResult,
-    errors: [
-      DBClusterNotFoundFault,
-      GlobalClusterNotFoundFault,
-      InvalidDBClusterStateFault,
-      InvalidGlobalClusterStateFault,
-    ],
-  }),
-);
+export const switchoverGlobalCluster: (
+  input: SwitchoverGlobalClusterMessage,
+) => Effect.Effect<
+  SwitchoverGlobalClusterResult,
+  | DBClusterNotFoundFault
+  | GlobalClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidGlobalClusterStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SwitchoverGlobalClusterMessage,
+  output: SwitchoverGlobalClusterResult,
+  errors: [
+    DBClusterNotFoundFault,
+    GlobalClusterNotFoundFault,
+    InvalidDBClusterStateFault,
+    InvalidGlobalClusterStateFault,
+  ],
+}));
 /**
  * Promotes the specified secondary DB cluster to be the primary DB cluster in the global cluster when failing over a global cluster occurs.
  *
@@ -4057,49 +4440,85 @@ export const switchoverGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Failing over can result in a loss of write transaction data that wasn't replicated to the chosen secondary before the failover event occurred.
  * However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the primary writer DB instance guarantees that the data is in a transactionally consistent state.
  */
-export const failoverGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: FailoverGlobalClusterMessage,
-    output: FailoverGlobalClusterResult,
-    errors: [
-      DBClusterNotFoundFault,
-      GlobalClusterNotFoundFault,
-      InvalidDBClusterStateFault,
-      InvalidGlobalClusterStateFault,
-    ],
-  }),
-);
+export const failoverGlobalCluster: (
+  input: FailoverGlobalClusterMessage,
+) => Effect.Effect<
+  FailoverGlobalClusterResult,
+  | DBClusterNotFoundFault
+  | GlobalClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidGlobalClusterStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: FailoverGlobalClusterMessage,
+  output: FailoverGlobalClusterResult,
+  errors: [
+    DBClusterNotFoundFault,
+    GlobalClusterNotFoundFault,
+    InvalidDBClusterStateFault,
+    InvalidGlobalClusterStateFault,
+  ],
+}));
 /**
  * Detaches an Amazon DocumentDB secondary cluster from a global cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary in a different region.
  *
  * This action only applies to Amazon DocumentDB clusters.
  */
-export const removeFromGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveFromGlobalClusterMessage,
-    output: RemoveFromGlobalClusterResult,
-    errors: [
-      DBClusterNotFoundFault,
-      GlobalClusterNotFoundFault,
-      InvalidGlobalClusterStateFault,
-    ],
-  }),
-);
+export const removeFromGlobalCluster: (
+  input: RemoveFromGlobalClusterMessage,
+) => Effect.Effect<
+  RemoveFromGlobalClusterResult,
+  | DBClusterNotFoundFault
+  | GlobalClusterNotFoundFault
+  | InvalidGlobalClusterStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveFromGlobalClusterMessage,
+  output: RemoveFromGlobalClusterResult,
+  errors: [
+    DBClusterNotFoundFault,
+    GlobalClusterNotFoundFault,
+    InvalidGlobalClusterStateFault,
+  ],
+}));
 /**
  * Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this Amazon Web Services account.
  */
-export const describeCertificates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCertificates: {
+  (
     input: DescribeCertificatesMessage,
-    output: CertificateMessage,
-    errors: [CertificateNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Certificates",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    CertificateMessage,
+    CertificateNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCertificatesMessage,
+  ) => Stream.Stream<
+    CertificateMessage,
+    CertificateNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCertificatesMessage,
+  ) => Stream.Stream<
+    Certificate,
+    CertificateNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCertificatesMessage,
+  output: CertificateMessage,
+  errors: [CertificateNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Certificates",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * You might need to reboot your instance, usually for maintenance reasons. For
  * example, if you make certain changes, or if you change the cluster parameter group
@@ -4110,7 +4529,13 @@ export const describeCertificates =
  * results in a momentary outage, during which the instance status is set to
  * *rebooting*.
  */
-export const rebootDBInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rebootDBInstance: (
+  input: RebootDBInstanceMessage,
+) => Effect.Effect<
+  RebootDBInstanceResult,
+  DBInstanceNotFoundFault | InvalidDBInstanceStateFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootDBInstanceMessage,
   output: RebootDBInstanceResult,
   errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault],
@@ -4121,7 +4546,16 @@ export const rebootDBInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Stopping and
  * Starting an Amazon DocumentDB Cluster.
  */
-export const stopDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopDBCluster: (
+  input: StopDBClusterMessage,
+) => Effect.Effect<
+  StopDBClusterResult,
+  | DBClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDBClusterMessage,
   output: StopDBClusterResult,
   errors: [
@@ -4137,7 +4571,16 @@ export const stopDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If the primary instance fails, Amazon DocumentDB automatically fails over to an Amazon DocumentDB replica, if one exists. You can force a failover when you want to simulate a failure of a primary instance for testing.
  */
-export const failoverDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const failoverDBCluster: (
+  input: FailoverDBClusterMessage,
+) => Effect.Effect<
+  FailoverDBClusterResult,
+  | DBClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FailoverDBClusterMessage,
   output: FailoverDBClusterResult,
   errors: [
@@ -4150,23 +4593,40 @@ export const failoverDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Applies a pending maintenance action to a resource (for example,
  * to an Amazon DocumentDB instance).
  */
-export const applyPendingMaintenanceAction =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ApplyPendingMaintenanceActionMessage,
-    output: ApplyPendingMaintenanceActionResult,
-    errors: [
-      InvalidDBClusterStateFault,
-      InvalidDBInstanceStateFault,
-      ResourceNotFoundFault,
-    ],
-  }));
+export const applyPendingMaintenanceAction: (
+  input: ApplyPendingMaintenanceActionMessage,
+) => Effect.Effect<
+  ApplyPendingMaintenanceActionResult,
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | ResourceNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ApplyPendingMaintenanceActionMessage,
+  output: ApplyPendingMaintenanceActionResult,
+  errors: [
+    InvalidDBClusterStateFault,
+    InvalidDBInstanceStateFault,
+    ResourceNotFoundFault,
+  ],
+}));
 /**
  * Adds metadata tags to an Amazon DocumentDB resource. You can use these tags
  * with cost allocation reporting to track costs that are associated
  * with Amazon DocumentDB resources or in a `Condition` statement in
  * an Identity and Access Management (IAM) policy for Amazon DocumentDB.
  */
-export const addTagsToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addTagsToResource: (
+  input: AddTagsToResourceMessage,
+) => Effect.Effect<
+  AddTagsToResourceResponse,
+  | DBClusterNotFoundFault
+  | DBInstanceNotFoundFault
+  | DBSnapshotNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsToResourceMessage,
   output: AddTagsToResourceResponse,
   errors: [
@@ -4178,7 +4638,16 @@ export const addTagsToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all tags on an Amazon DocumentDB resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceMessage,
+) => Effect.Effect<
+  TagListMessage,
+  | DBClusterNotFoundFault
+  | DBInstanceNotFoundFault
+  | DBSnapshotNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceMessage,
   output: TagListMessage,
   errors: [
@@ -4192,32 +4661,49 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To share a manual cluster snapshot with other Amazon Web Services accounts, specify `restore` as the `AttributeName`, and use the `ValuesToAdd` parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual cluster snapshot. Use the value `all` to make the manual cluster snapshot public, which means that it can be copied or restored by all Amazon Web Services accounts. Do not add the `all` value for any manual cluster snapshots that contain private information that you don't want available to all Amazon Web Services accounts. If a manual cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized Amazon Web Services account IDs for the `ValuesToAdd` parameter. You can't use `all` as a value for that parameter in this case.
  */
-export const modifyDBClusterSnapshotAttribute =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyDBClusterSnapshotAttributeMessage,
-    output: ModifyDBClusterSnapshotAttributeResult,
-    errors: [
-      DBClusterSnapshotNotFoundFault,
-      InvalidDBClusterSnapshotStateFault,
-      SharedSnapshotQuotaExceededFault,
-    ],
-  }));
+export const modifyDBClusterSnapshotAttribute: (
+  input: ModifyDBClusterSnapshotAttributeMessage,
+) => Effect.Effect<
+  ModifyDBClusterSnapshotAttributeResult,
+  | DBClusterSnapshotNotFoundFault
+  | InvalidDBClusterSnapshotStateFault
+  | SharedSnapshotQuotaExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyDBClusterSnapshotAttributeMessage,
+  output: ModifyDBClusterSnapshotAttributeResult,
+  errors: [
+    DBClusterSnapshotNotFoundFault,
+    InvalidDBClusterSnapshotStateFault,
+    SharedSnapshotQuotaExceededFault,
+  ],
+}));
 /**
  * Creates a snapshot of a cluster.
  */
-export const createDBClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDBClusterSnapshotMessage,
-    output: CreateDBClusterSnapshotResult,
-    errors: [
-      DBClusterNotFoundFault,
-      DBClusterSnapshotAlreadyExistsFault,
-      InvalidDBClusterSnapshotStateFault,
-      InvalidDBClusterStateFault,
-      SnapshotQuotaExceededFault,
-    ],
-  }),
-);
+export const createDBClusterSnapshot: (
+  input: CreateDBClusterSnapshotMessage,
+) => Effect.Effect<
+  CreateDBClusterSnapshotResult,
+  | DBClusterNotFoundFault
+  | DBClusterSnapshotAlreadyExistsFault
+  | InvalidDBClusterSnapshotStateFault
+  | InvalidDBClusterStateFault
+  | SnapshotQuotaExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDBClusterSnapshotMessage,
+  output: CreateDBClusterSnapshotResult,
+  errors: [
+    DBClusterNotFoundFault,
+    DBClusterSnapshotAlreadyExistsFault,
+    InvalidDBClusterSnapshotStateFault,
+    InvalidDBClusterStateFault,
+    SnapshotQuotaExceededFault,
+  ],
+}));
 /**
  * Copies a snapshot of a cluster.
  *
@@ -4232,24 +4718,45 @@ export const createDBClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `TargetDBClusterSnapshotIdentifier` while that cluster
  * snapshot is in the *copying* status.
  */
-export const copyDBClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CopyDBClusterSnapshotMessage,
-    output: CopyDBClusterSnapshotResult,
-    errors: [
-      DBClusterSnapshotAlreadyExistsFault,
-      DBClusterSnapshotNotFoundFault,
-      InvalidDBClusterSnapshotStateFault,
-      InvalidDBClusterStateFault,
-      KMSKeyNotAccessibleFault,
-      SnapshotQuotaExceededFault,
-    ],
-  }),
-);
+export const copyDBClusterSnapshot: (
+  input: CopyDBClusterSnapshotMessage,
+) => Effect.Effect<
+  CopyDBClusterSnapshotResult,
+  | DBClusterSnapshotAlreadyExistsFault
+  | DBClusterSnapshotNotFoundFault
+  | InvalidDBClusterSnapshotStateFault
+  | InvalidDBClusterStateFault
+  | KMSKeyNotAccessibleFault
+  | SnapshotQuotaExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CopyDBClusterSnapshotMessage,
+  output: CopyDBClusterSnapshotResult,
+  errors: [
+    DBClusterSnapshotAlreadyExistsFault,
+    DBClusterSnapshotNotFoundFault,
+    InvalidDBClusterSnapshotStateFault,
+    InvalidDBClusterStateFault,
+    KMSKeyNotAccessibleFault,
+    SnapshotQuotaExceededFault,
+  ],
+}));
 /**
  * Deletes a previously provisioned cluster. When you delete a cluster, all automated backups for that cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified cluster are not deleted.
  */
-export const deleteDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDBCluster: (
+  input: DeleteDBClusterMessage,
+) => Effect.Effect<
+  DeleteDBClusterResult,
+  | DBClusterNotFoundFault
+  | DBClusterSnapshotAlreadyExistsFault
+  | InvalidDBClusterSnapshotStateFault
+  | InvalidDBClusterStateFault
+  | SnapshotQuotaExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBClusterMessage,
   output: DeleteDBClusterResult,
   errors: [
@@ -4263,7 +4770,18 @@ export const deleteDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a previously provisioned instance.
  */
-export const deleteDBInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDBInstance: (
+  input: DeleteDBInstanceMessage,
+) => Effect.Effect<
+  DeleteDBInstanceResult,
+  | DBInstanceNotFoundFault
+  | DBSnapshotAlreadyExistsFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | SnapshotQuotaExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDBInstanceMessage,
   output: DeleteDBInstanceResult,
   errors: [
@@ -4278,7 +4796,18 @@ export const deleteDBInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a new subnet group. subnet groups must contain at least one subnet in at
  * least two Availability Zones in the Amazon Web Services Region.
  */
-export const createDBSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDBSubnetGroup: (
+  input: CreateDBSubnetGroupMessage,
+) => Effect.Effect<
+  CreateDBSubnetGroupResult,
+  | DBSubnetGroupAlreadyExistsFault
+  | DBSubnetGroupDoesNotCoverEnoughAZs
+  | DBSubnetGroupQuotaExceededFault
+  | DBSubnetQuotaExceededFault
+  | InvalidSubnet
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBSubnetGroupMessage,
   output: CreateDBSubnetGroupResult,
   errors: [
@@ -4298,7 +4827,17 @@ export const createDBSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This action only applies to Amazon DocumentDB clusters.
  */
-export const createGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGlobalCluster: (
+  input: CreateGlobalClusterMessage,
+) => Effect.Effect<
+  CreateGlobalClusterResult,
+  | DBClusterNotFoundFault
+  | GlobalClusterAlreadyExistsFault
+  | GlobalClusterQuotaExceededFault
+  | InvalidDBClusterStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGlobalClusterMessage,
   output: CreateGlobalClusterResult,
   errors: [
@@ -4311,7 +4850,18 @@ export const createGlobalCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies an existing subnet group. subnet groups must contain at least one subnet in at least two Availability Zones in the Amazon Web Services Region.
  */
-export const modifyDBSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyDBSubnetGroup: (
+  input: ModifyDBSubnetGroupMessage,
+) => Effect.Effect<
+  ModifyDBSubnetGroupResult,
+  | DBSubnetGroupDoesNotCoverEnoughAZs
+  | DBSubnetGroupNotFoundFault
+  | DBSubnetQuotaExceededFault
+  | InvalidSubnet
+  | SubnetAlreadyInUse
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBSubnetGroupMessage,
   output: ModifyDBSubnetGroupResult,
   errors: [
@@ -4325,20 +4875,30 @@ export const modifyDBSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies an existing Amazon DocumentDB event notification subscription.
  */
-export const modifyEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyEventSubscriptionMessage,
-    output: ModifyEventSubscriptionResult,
-    errors: [
-      EventSubscriptionQuotaExceededFault,
-      SNSInvalidTopicFault,
-      SNSNoAuthorizationFault,
-      SNSTopicArnNotFoundFault,
-      SubscriptionCategoryNotFoundFault,
-      SubscriptionNotFoundFault,
-    ],
-  }),
-);
+export const modifyEventSubscription: (
+  input: ModifyEventSubscriptionMessage,
+) => Effect.Effect<
+  ModifyEventSubscriptionResult,
+  | EventSubscriptionQuotaExceededFault
+  | SNSInvalidTopicFault
+  | SNSNoAuthorizationFault
+  | SNSTopicArnNotFoundFault
+  | SubscriptionCategoryNotFoundFault
+  | SubscriptionNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyEventSubscriptionMessage,
+  output: ModifyEventSubscriptionResult,
+  errors: [
+    EventSubscriptionQuotaExceededFault,
+    SNSInvalidTopicFault,
+    SNSNoAuthorizationFault,
+    SNSTopicArnNotFoundFault,
+    SubscriptionCategoryNotFoundFault,
+    SubscriptionNotFoundFault,
+  ],
+}));
 /**
  * Creates an Amazon DocumentDB event notification subscription. This action requires a topic Amazon Resource Name (ARN) created by using the Amazon DocumentDB console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the Amazon SNS console.
  *
@@ -4346,25 +4906,60 @@ export const modifyEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * If you specify both the `SourceType` and `SourceIds` (such as `SourceType = db-instance` and `SourceIdentifier = myDBInstance1`), you are notified of all the `db-instance` events for the specified source. If you specify a `SourceType` but do not specify a `SourceIdentifier`, you receive notice of the events for that source type for all your Amazon DocumentDB sources. If you do not specify either the `SourceType` or the `SourceIdentifier`, you are notified of events generated from all Amazon DocumentDB sources belonging to your customer account.
  */
-export const createEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEventSubscriptionMessage,
-    output: CreateEventSubscriptionResult,
-    errors: [
-      EventSubscriptionQuotaExceededFault,
-      SNSInvalidTopicFault,
-      SNSNoAuthorizationFault,
-      SNSTopicArnNotFoundFault,
-      SourceNotFoundFault,
-      SubscriptionAlreadyExistFault,
-      SubscriptionCategoryNotFoundFault,
-    ],
-  }),
-);
+export const createEventSubscription: (
+  input: CreateEventSubscriptionMessage,
+) => Effect.Effect<
+  CreateEventSubscriptionResult,
+  | EventSubscriptionQuotaExceededFault
+  | SNSInvalidTopicFault
+  | SNSNoAuthorizationFault
+  | SNSTopicArnNotFoundFault
+  | SourceNotFoundFault
+  | SubscriptionAlreadyExistFault
+  | SubscriptionCategoryNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEventSubscriptionMessage,
+  output: CreateEventSubscriptionResult,
+  errors: [
+    EventSubscriptionQuotaExceededFault,
+    SNSInvalidTopicFault,
+    SNSNoAuthorizationFault,
+    SNSTopicArnNotFoundFault,
+    SourceNotFoundFault,
+    SubscriptionAlreadyExistFault,
+    SubscriptionCategoryNotFoundFault,
+  ],
+}));
 /**
  * Creates a new Amazon DocumentDB cluster.
  */
-export const createDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDBCluster: (
+  input: CreateDBClusterMessage,
+) => Effect.Effect<
+  CreateDBClusterResult,
+  | DBClusterAlreadyExistsFault
+  | DBClusterNotFoundFault
+  | DBClusterParameterGroupNotFoundFault
+  | DBClusterQuotaExceededFault
+  | DBInstanceNotFoundFault
+  | DBSubnetGroupDoesNotCoverEnoughAZs
+  | DBSubnetGroupNotFoundFault
+  | GlobalClusterNotFoundFault
+  | InsufficientStorageClusterCapacityFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | InvalidDBSubnetGroupStateFault
+  | InvalidGlobalClusterStateFault
+  | InvalidSubnet
+  | InvalidVPCNetworkStateFault
+  | KMSKeyNotAccessibleFault
+  | NetworkTypeNotSupported
+  | StorageQuotaExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBClusterMessage,
   output: CreateDBClusterResult,
   errors: [
@@ -4395,35 +4990,74 @@ export const createDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * source cluster with the same configuration as the original cluster, except that
  * the new cluster is created with the default security group.
  */
-export const restoreDBClusterToPointInTime =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RestoreDBClusterToPointInTimeMessage,
-    output: RestoreDBClusterToPointInTimeResult,
-    errors: [
-      DBClusterAlreadyExistsFault,
-      DBClusterNotFoundFault,
-      DBClusterQuotaExceededFault,
-      DBClusterSnapshotNotFoundFault,
-      DBSubnetGroupNotFoundFault,
-      InsufficientDBClusterCapacityFault,
-      InsufficientStorageClusterCapacityFault,
-      InvalidDBClusterSnapshotStateFault,
-      InvalidDBClusterStateFault,
-      InvalidDBSnapshotStateFault,
-      InvalidRestoreFault,
-      InvalidSubnet,
-      InvalidVPCNetworkStateFault,
-      KMSKeyNotAccessibleFault,
-      NetworkTypeNotSupported,
-      StorageQuotaExceededFault,
-    ],
-  }));
+export const restoreDBClusterToPointInTime: (
+  input: RestoreDBClusterToPointInTimeMessage,
+) => Effect.Effect<
+  RestoreDBClusterToPointInTimeResult,
+  | DBClusterAlreadyExistsFault
+  | DBClusterNotFoundFault
+  | DBClusterQuotaExceededFault
+  | DBClusterSnapshotNotFoundFault
+  | DBSubnetGroupNotFoundFault
+  | InsufficientDBClusterCapacityFault
+  | InsufficientStorageClusterCapacityFault
+  | InvalidDBClusterSnapshotStateFault
+  | InvalidDBClusterStateFault
+  | InvalidDBSnapshotStateFault
+  | InvalidRestoreFault
+  | InvalidSubnet
+  | InvalidVPCNetworkStateFault
+  | KMSKeyNotAccessibleFault
+  | NetworkTypeNotSupported
+  | StorageQuotaExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreDBClusterToPointInTimeMessage,
+  output: RestoreDBClusterToPointInTimeResult,
+  errors: [
+    DBClusterAlreadyExistsFault,
+    DBClusterNotFoundFault,
+    DBClusterQuotaExceededFault,
+    DBClusterSnapshotNotFoundFault,
+    DBSubnetGroupNotFoundFault,
+    InsufficientDBClusterCapacityFault,
+    InsufficientStorageClusterCapacityFault,
+    InvalidDBClusterSnapshotStateFault,
+    InvalidDBClusterStateFault,
+    InvalidDBSnapshotStateFault,
+    InvalidRestoreFault,
+    InvalidSubnet,
+    InvalidVPCNetworkStateFault,
+    KMSKeyNotAccessibleFault,
+    NetworkTypeNotSupported,
+    StorageQuotaExceededFault,
+  ],
+}));
 /**
  * Modifies a setting for an Amazon DocumentDB cluster. You can change one or more database
  * configuration parameters by specifying these parameters and the new values in the
  * request.
  */
-export const modifyDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyDBCluster: (
+  input: ModifyDBClusterMessage,
+) => Effect.Effect<
+  ModifyDBClusterResult,
+  | DBClusterAlreadyExistsFault
+  | DBClusterNotFoundFault
+  | DBClusterParameterGroupNotFoundFault
+  | DBSubnetGroupNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | InvalidDBSecurityGroupStateFault
+  | InvalidDBSubnetGroupStateFault
+  | InvalidSubnet
+  | InvalidVPCNetworkStateFault
+  | NetworkTypeNotSupported
+  | StorageQuotaExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBClusterMessage,
   output: ModifyDBClusterResult,
   errors: [
@@ -4448,32 +5082,71 @@ export const modifyDBCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If a cluster snapshot is specified, the target cluster is created from the source cluster restore point with the same configuration as the original source DB cluster, except that the new cluster is created with the default security group.
  */
-export const restoreDBClusterFromSnapshot =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RestoreDBClusterFromSnapshotMessage,
-    output: RestoreDBClusterFromSnapshotResult,
-    errors: [
-      DBClusterAlreadyExistsFault,
-      DBClusterQuotaExceededFault,
-      DBClusterSnapshotNotFoundFault,
-      DBSnapshotNotFoundFault,
-      DBSubnetGroupNotFoundFault,
-      InsufficientDBClusterCapacityFault,
-      InsufficientStorageClusterCapacityFault,
-      InvalidDBClusterSnapshotStateFault,
-      InvalidDBSnapshotStateFault,
-      InvalidRestoreFault,
-      InvalidSubnet,
-      InvalidVPCNetworkStateFault,
-      KMSKeyNotAccessibleFault,
-      NetworkTypeNotSupported,
-      StorageQuotaExceededFault,
-    ],
-  }));
+export const restoreDBClusterFromSnapshot: (
+  input: RestoreDBClusterFromSnapshotMessage,
+) => Effect.Effect<
+  RestoreDBClusterFromSnapshotResult,
+  | DBClusterAlreadyExistsFault
+  | DBClusterQuotaExceededFault
+  | DBClusterSnapshotNotFoundFault
+  | DBSnapshotNotFoundFault
+  | DBSubnetGroupNotFoundFault
+  | InsufficientDBClusterCapacityFault
+  | InsufficientStorageClusterCapacityFault
+  | InvalidDBClusterSnapshotStateFault
+  | InvalidDBSnapshotStateFault
+  | InvalidRestoreFault
+  | InvalidSubnet
+  | InvalidVPCNetworkStateFault
+  | KMSKeyNotAccessibleFault
+  | NetworkTypeNotSupported
+  | StorageQuotaExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreDBClusterFromSnapshotMessage,
+  output: RestoreDBClusterFromSnapshotResult,
+  errors: [
+    DBClusterAlreadyExistsFault,
+    DBClusterQuotaExceededFault,
+    DBClusterSnapshotNotFoundFault,
+    DBSnapshotNotFoundFault,
+    DBSubnetGroupNotFoundFault,
+    InsufficientDBClusterCapacityFault,
+    InsufficientStorageClusterCapacityFault,
+    InvalidDBClusterSnapshotStateFault,
+    InvalidDBSnapshotStateFault,
+    InvalidRestoreFault,
+    InvalidSubnet,
+    InvalidVPCNetworkStateFault,
+    KMSKeyNotAccessibleFault,
+    NetworkTypeNotSupported,
+    StorageQuotaExceededFault,
+  ],
+}));
 /**
  * Modifies settings for an instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
  */
-export const modifyDBInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyDBInstance: (
+  input: ModifyDBInstanceMessage,
+) => Effect.Effect<
+  ModifyDBInstanceResult,
+  | AuthorizationNotFoundFault
+  | CertificateNotFoundFault
+  | DBInstanceAlreadyExistsFault
+  | DBInstanceNotFoundFault
+  | DBParameterGroupNotFoundFault
+  | DBSecurityGroupNotFoundFault
+  | DBUpgradeDependencyFailureFault
+  | InsufficientDBInstanceCapacityFault
+  | InvalidDBInstanceStateFault
+  | InvalidDBSecurityGroupStateFault
+  | InvalidVPCNetworkStateFault
+  | StorageQuotaExceededFault
+  | StorageTypeNotSupportedFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDBInstanceMessage,
   output: ModifyDBInstanceResult,
   errors: [
@@ -4495,7 +5168,28 @@ export const modifyDBInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new instance.
  */
-export const createDBInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDBInstance: (
+  input: CreateDBInstanceMessage,
+) => Effect.Effect<
+  CreateDBInstanceResult,
+  | AuthorizationNotFoundFault
+  | DBClusterNotFoundFault
+  | DBInstanceAlreadyExistsFault
+  | DBParameterGroupNotFoundFault
+  | DBSecurityGroupNotFoundFault
+  | DBSubnetGroupDoesNotCoverEnoughAZs
+  | DBSubnetGroupNotFoundFault
+  | InstanceQuotaExceededFault
+  | InsufficientDBInstanceCapacityFault
+  | InvalidDBClusterStateFault
+  | InvalidSubnet
+  | InvalidVPCNetworkStateFault
+  | KMSKeyNotAccessibleFault
+  | StorageQuotaExceededFault
+  | StorageTypeNotSupportedFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDBInstanceMessage,
   output: CreateDBInstanceResult,
   errors: [

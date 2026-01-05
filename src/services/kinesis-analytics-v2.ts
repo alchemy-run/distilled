@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace(
   "http://analytics.kinesis.amazonaws.com/doc/2018-05-23",
 );
@@ -243,6 +251,68 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ApplicationName = string;
+export type ApplicationVersionId = number;
+export type ConditionalToken = string;
+export type Id = string;
+export type ApplicationDescription = string;
+export type RoleARN = string;
+export type SessionExpirationDurationInSeconds = number;
+export type SnapshotName = string;
+export type OperationId = string;
+export type ResourceARN = string;
+export type ListApplicationOperationsInputLimit = number;
+export type NextToken = string;
+export type Operation = string;
+export type ListApplicationsInputLimit = number;
+export type ListSnapshotsInputLimit = number;
+export type ListApplicationVersionsInputLimit = number;
+export type KinesisAnalyticsARN = string;
+export type TagKey = string;
+export type LogStreamARN = string;
+export type InAppStreamName = string;
+export type InAppTableName = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type TagValue = string;
+export type BucketARN = string;
+export type FileKey = string;
+export type ApplicationMaintenanceWindowStartTime = string;
+export type AuthorizedUrl = string;
+export type ErrorMessage = string;
+export type InputParallelismCount = number;
+export type RecordEncoding = string;
+export type KeyId = string;
+export type RecordColumnName = string;
+export type RecordColumnMapping = string;
+export type RecordColumnSqlType = string;
+export type CheckpointInterval = number;
+export type MinPauseBetweenCheckpoints = number;
+export type Parallelism = number;
+export type ParallelismPerKPU = number;
+export type TextContent = string;
+export type ParsedInputRecordField = string;
+export type ProcessedInputRecord = string;
+export type RawInputRecord = string;
+export type ApplicationMaintenanceWindowEndTime = string;
+export type PropertyKey = string;
+export type PropertyValue = string;
+export type ObjectVersion = string;
+export type DatabaseARN = string;
+export type BasePath = string;
+export type MavenGroupId = string;
+export type MavenArtifactId = string;
+export type MavenVersion = string;
+export type VpcId = string;
+export type JobPlanDescription = string;
+export type ErrorString = string;
+export type RecordRowPath = string;
+export type RecordRowDelimiter = string;
+export type RecordColumnDelimiter = string;
+export type CodeMD5 = string;
+export type CodeSize = number;
 
 //# Schemas
 export interface CloudWatchLoggingOption {
@@ -3202,7 +3272,9 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class CodeValidationException extends S.TaggedError<CodeValidationException>()(
   "CodeValidationException",
   { Message: S.optional(S.String) },
@@ -3221,7 +3293,18 @@ export class UnableToDetectSchemaException extends S.TaggedError<UnableToDetectS
  * Starts the specified Managed Service for Apache Flink application. After creating an application, you must exclusively call this operation to
  * start your application.
  */
-export const startApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startApplication: (
+  input: StartApplicationRequest,
+) => Effect.Effect<
+  StartApplicationResponse,
+  | InvalidApplicationConfigurationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartApplicationRequest,
   output: StartApplicationResponse,
   errors: [
@@ -3235,18 +3318,45 @@ export const startApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists information about the current application snapshots.
  */
-export const listApplicationSnapshots =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApplicationSnapshots: {
+  (
     input: ListApplicationSnapshotsRequest,
-    output: ListApplicationSnapshotsResponse,
-    errors: [InvalidArgumentException, UnsupportedOperationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SnapshotSummaries",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListApplicationSnapshotsResponse,
+    | InvalidArgumentException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationSnapshotsRequest,
+  ) => Stream.Stream<
+    ListApplicationSnapshotsResponse,
+    | InvalidArgumentException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationSnapshotsRequest,
+  ) => Stream.Stream<
+    SnapshotDetails,
+    | InvalidArgumentException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationSnapshotsRequest,
+  output: ListApplicationSnapshotsResponse,
+  errors: [InvalidArgumentException, UnsupportedOperationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SnapshotSummaries",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Updates the maintenance configuration of the Managed Service for Apache Flink application.
  *
@@ -3267,33 +3377,53 @@ export const listApplicationSnapshots =
  *
  * This operation is supported only for Managed Service for Apache Flink.
  */
-export const updateApplicationMaintenanceConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateApplicationMaintenanceConfigurationRequest,
-    output: UpdateApplicationMaintenanceConfigurationResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-  }));
+export const updateApplicationMaintenanceConfiguration: (
+  input: UpdateApplicationMaintenanceConfigurationRequest,
+) => Effect.Effect<
+  UpdateApplicationMaintenanceConfigurationResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationMaintenanceConfigurationRequest,
+  output: UpdateApplicationMaintenanceConfigurationResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Removes a VPC configuration from a Managed Service for Apache Flink application.
  */
-export const deleteApplicationVpcConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteApplicationVpcConfigurationRequest,
-    output: DeleteApplicationVpcConfigurationResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidApplicationConfigurationException,
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const deleteApplicationVpcConfiguration: (
+  input: DeleteApplicationVpcConfigurationRequest,
+) => Effect.Effect<
+  DeleteApplicationVpcConfigurationResponse,
+  | ConcurrentModificationException
+  | InvalidApplicationConfigurationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationVpcConfigurationRequest,
+  output: DeleteApplicationVpcConfigurationResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidApplicationConfigurationException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Adds a Virtual Private Cloud (VPC) configuration to the application. Applications can use VPCs to store
  * and access resources securely.
@@ -3305,18 +3435,28 @@ export const deleteApplicationVpcConfiguration =
  * - When a VPC is added to a Managed Service for Apache Flink application, the application can no longer be accessed from the
  * Internet directly. To enable Internet access to the application, add an Internet gateway to your VPC.
  */
-export const addApplicationVpcConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AddApplicationVpcConfigurationRequest,
-    output: AddApplicationVpcConfigurationResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidApplicationConfigurationException,
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const addApplicationVpcConfiguration: (
+  input: AddApplicationVpcConfigurationRequest,
+) => Effect.Effect<
+  AddApplicationVpcConfigurationResponse,
+  | ConcurrentModificationException
+  | InvalidApplicationConfigurationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddApplicationVpcConfigurationRequest,
+  output: AddApplicationVpcConfigurationResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidApplicationConfigurationException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns a list of Managed Service for Apache Flink applications in your account. For each
  * application, the response includes the application name, Amazon Resource Name (ARN), and
@@ -3325,23 +3465,55 @@ export const addApplicationVpcConfiguration =
  * If you want detailed information about a specific application, use
  * DescribeApplication.
  */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listApplications: {
+  (
     input: ListApplicationsRequest,
-    output: ListApplicationsResponse,
-    errors: [InvalidRequestException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ApplicationSummaries",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListApplicationsResponse,
+    InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ListApplicationsResponse,
+    InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ApplicationSummary,
+    InvalidRequestException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ApplicationSummaries",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Deletes the specified application. Managed Service for Apache Flink halts application execution and deletes the application.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplication: (
+  input: DeleteApplicationRequest,
+) => Effect.Effect<
+  DeleteApplicationResponse,
+  | ConcurrentModificationException
+  | InvalidApplicationConfigurationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResponse,
   errors: [
@@ -3356,54 +3528,83 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an InputProcessingConfiguration from an input.
  */
-export const deleteApplicationInputProcessingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteApplicationInputProcessingConfigurationRequest,
-    output: DeleteApplicationInputProcessingConfigurationResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const deleteApplicationInputProcessingConfiguration: (
+  input: DeleteApplicationInputProcessingConfigurationRequest,
+) => Effect.Effect<
+  DeleteApplicationInputProcessingConfigurationResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationInputProcessingConfigurationRequest,
+  output: DeleteApplicationInputProcessingConfigurationResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes the output destination configuration from your SQL-based Kinesis Data Analytics application's configuration.
  * Kinesis Data Analytics will no longer write data from
  * the corresponding in-application stream to the external output destination.
  */
-export const deleteApplicationOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteApplicationOutputRequest,
-    output: DeleteApplicationOutputResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteApplicationOutput: (
+  input: DeleteApplicationOutputRequest,
+) => Effect.Effect<
+  DeleteApplicationOutputResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationOutputRequest,
+  output: DeleteApplicationOutputResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes a reference data source configuration from the specified SQL-based Kinesis Data Analytics application's configuration.
  *
  * If the application is running, Kinesis Data Analytics immediately removes the in-application table
  * that you created using the AddApplicationReferenceDataSource operation.
  */
-export const deleteApplicationReferenceDataSource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteApplicationReferenceDataSourceRequest,
-    output: DeleteApplicationReferenceDataSourceResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const deleteApplicationReferenceDataSource: (
+  input: DeleteApplicationReferenceDataSourceRequest,
+) => Effect.Effect<
+  DeleteApplicationReferenceDataSourceResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationReferenceDataSourceRequest,
+  output: DeleteApplicationReferenceDataSourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Reverts the application to the previous running version. You can roll back an
  * application if you suspect it is stuck in a transient status or in the running status.
@@ -3414,7 +3615,19 @@ export const deleteApplicationReferenceDataSource =
  * When you rollback an application, it loads state data from the last successful snapshot.
  * If the application has no snapshots, Managed Service for Apache Flink rejects the rollback request.
  */
-export const rollbackApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rollbackApplication: (
+  input: RollbackApplicationRequest,
+) => Effect.Effect<
+  RollbackApplicationResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RollbackApplicationRequest,
   output: RollbackApplicationResponse,
   errors: [
@@ -3436,7 +3649,19 @@ export const rollbackApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Managed Service for Apache Flink takes a snapshot when the application is stopped, unless `Force` is set
  * to `true`.
  */
-export const stopApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopApplication: (
+  input: StopApplicationRequest,
+) => Effect.Effect<
+  StopApplicationResponse,
+  | ConcurrentModificationException
+  | InvalidApplicationConfigurationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopApplicationRequest,
   output: StopApplicationResponse,
   errors: [
@@ -3451,36 +3676,57 @@ export const stopApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a snapshot of application state.
  */
-export const deleteApplicationSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteApplicationSnapshotRequest,
-    output: DeleteApplicationSnapshotResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const deleteApplicationSnapshot: (
+  input: DeleteApplicationSnapshotRequest,
+) => Effect.Effect<
+  DeleteApplicationSnapshotResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationSnapshotRequest,
+  output: DeleteApplicationSnapshotResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Adds an Amazon CloudWatch log stream to monitor application configuration errors.
  */
-export const addApplicationCloudWatchLoggingOption =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AddApplicationCloudWatchLoggingOptionRequest,
-    output: AddApplicationCloudWatchLoggingOptionResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidApplicationConfigurationException,
-      InvalidArgumentException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const addApplicationCloudWatchLoggingOption: (
+  input: AddApplicationCloudWatchLoggingOptionRequest,
+) => Effect.Effect<
+  AddApplicationCloudWatchLoggingOptionResponse,
+  | ConcurrentModificationException
+  | InvalidApplicationConfigurationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddApplicationCloudWatchLoggingOptionRequest,
+  output: AddApplicationCloudWatchLoggingOptionResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidApplicationConfigurationException,
+    InvalidArgumentException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Adds an external destination to your SQL-based Kinesis Data Analytics application.
  *
@@ -3499,19 +3745,28 @@ export const addApplicationCloudWatchLoggingOption =
  * operation, results in a new version of the application. You can use the DescribeApplication operation to find the current application
  * version.
  */
-export const addApplicationOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddApplicationOutputRequest,
-    output: AddApplicationOutputResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const addApplicationOutput: (
+  input: AddApplicationOutputRequest,
+) => Effect.Effect<
+  AddApplicationOutputResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddApplicationOutputRequest,
+  output: AddApplicationOutputResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Adds a reference data source to an existing SQL-based Kinesis Data Analytics application.
  *
@@ -3521,18 +3776,28 @@ export const addApplicationOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * necessary mapping information that describes how data in an Amazon S3 object maps to columns
  * in the resulting in-application table.
  */
-export const addApplicationReferenceDataSource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AddApplicationReferenceDataSourceRequest,
-    output: AddApplicationReferenceDataSourceResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const addApplicationReferenceDataSource: (
+  input: AddApplicationReferenceDataSourceRequest,
+) => Effect.Effect<
+  AddApplicationReferenceDataSourceResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddApplicationReferenceDataSourceRequest,
+  output: AddApplicationReferenceDataSourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Lists all the versions for the specified application, including versions that were rolled back. The response also includes a summary of the configuration
  * associated with each version.
@@ -3541,43 +3806,89 @@ export const addApplicationReferenceDataSource =
  *
  * This operation is supported only for Managed Service for Apache Flink.
  */
-export const listApplicationVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApplicationVersions: {
+  (
     input: ListApplicationVersionsRequest,
-    output: ListApplicationVersionsResponse,
-    errors: [
-      InvalidArgumentException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ApplicationVersionSummaries",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListApplicationVersionsResponse,
+    | InvalidArgumentException
+    | ResourceNotFoundException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationVersionsRequest,
+  ) => Stream.Stream<
+    ListApplicationVersionsResponse,
+    | InvalidArgumentException
+    | ResourceNotFoundException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationVersionsRequest,
+  ) => Stream.Stream<
+    ApplicationVersionSummary,
+    | InvalidArgumentException
+    | ResourceNotFoundException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationVersionsRequest,
+  output: ListApplicationVersionsResponse,
+  errors: [
+    InvalidArgumentException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ApplicationVersionSummaries",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Provides a detailed description of a specified version of the application. To see a list of all the versions of an application, invoke the ListApplicationVersions operation.
  *
  * This operation is supported only for Managed Service for Apache Flink.
  */
-export const describeApplicationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeApplicationVersionRequest,
-    output: DescribeApplicationVersionResponse,
-    errors: [
-      InvalidArgumentException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const describeApplicationVersion: (
+  input: DescribeApplicationVersionRequest,
+) => Effect.Effect<
+  DescribeApplicationVersionResponse,
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeApplicationVersionRequest,
+  output: DescribeApplicationVersionResponse,
+  errors: [
+    InvalidArgumentException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Retrieves the list of key-value tags assigned to the application. For more information, see
  * Using Tagging.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3602,46 +3913,72 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * to be valid.
  * If you first try to use the URL after the 3-minute limit expires, the service returns an HTTP 403 Forbidden error.
  */
-export const createApplicationPresignedUrl =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateApplicationPresignedUrlRequest,
-    output: CreateApplicationPresignedUrlResponse,
-    errors: [
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const createApplicationPresignedUrl: (
+  input: CreateApplicationPresignedUrlRequest,
+) => Effect.Effect<
+  CreateApplicationPresignedUrlResponse,
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApplicationPresignedUrlRequest,
+  output: CreateApplicationPresignedUrlResponse,
+  errors: [
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes an Amazon CloudWatch log stream from an SQL-based Kinesis Data Analytics application.
  */
-export const deleteApplicationCloudWatchLoggingOption =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteApplicationCloudWatchLoggingOptionRequest,
-    output: DeleteApplicationCloudWatchLoggingOptionResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidApplicationConfigurationException,
-      InvalidArgumentException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const deleteApplicationCloudWatchLoggingOption: (
+  input: DeleteApplicationCloudWatchLoggingOptionRequest,
+) => Effect.Effect<
+  DeleteApplicationCloudWatchLoggingOptionResponse,
+  | ConcurrentModificationException
+  | InvalidApplicationConfigurationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationCloudWatchLoggingOptionRequest,
+  output: DeleteApplicationCloudWatchLoggingOptionResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidApplicationConfigurationException,
+    InvalidArgumentException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns information about a snapshot of application state data.
  */
-export const describeApplicationSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeApplicationSnapshotRequest,
-    output: DescribeApplicationSnapshotResponse,
-    errors: [
-      InvalidArgumentException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const describeApplicationSnapshot: (
+  input: DescribeApplicationSnapshotRequest,
+) => Effect.Effect<
+  DescribeApplicationSnapshotResponse,
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeApplicationSnapshotRequest,
+  output: DescribeApplicationSnapshotResponse,
+  errors: [
+    InvalidArgumentException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Lists all the operations performed for the specified application such as UpdateApplication, StartApplication etc.
  * The response also includes a summary of the operation.
@@ -3650,43 +3987,92 @@ export const describeApplicationSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This operation is supported only for Managed Service for Apache Flink.
  */
-export const listApplicationOperations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApplicationOperations: {
+  (
     input: ListApplicationOperationsRequest,
-    output: ListApplicationOperationsResponse,
-    errors: [
-      InvalidArgumentException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ApplicationOperationInfoList",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListApplicationOperationsResponse,
+    | InvalidArgumentException
+    | ResourceNotFoundException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationOperationsRequest,
+  ) => Stream.Stream<
+    ListApplicationOperationsResponse,
+    | InvalidArgumentException
+    | ResourceNotFoundException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationOperationsRequest,
+  ) => Stream.Stream<
+    ApplicationOperationInfo,
+    | InvalidArgumentException
+    | ResourceNotFoundException
+    | UnsupportedOperationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationOperationsRequest,
+  output: ListApplicationOperationsResponse,
+  errors: [
+    InvalidArgumentException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ApplicationOperationInfoList",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Provides a detailed description of a specified application operation. To see a list of all the operations of an application, invoke the ListApplicationOperations operation.
  *
  * This operation is supported only for Managed Service for Apache Flink.
  */
-export const describeApplicationOperation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeApplicationOperationRequest,
-    output: DescribeApplicationOperationResponse,
-    errors: [
-      InvalidArgumentException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-  }));
+export const describeApplicationOperation: (
+  input: DescribeApplicationOperationRequest,
+) => Effect.Effect<
+  DescribeApplicationOperationResponse,
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeApplicationOperationRequest,
+  output: DescribeApplicationOperationResponse,
+  errors: [
+    InvalidArgumentException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Adds one or more key-value tags to a Managed Service for Apache Flink application. Note that the maximum number of application
  * tags includes system tags. The maximum number of user-defined application tags is 50.
  * For more information, see Using Tagging.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3700,26 +4086,48 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a snapshot of the application's state data.
  */
-export const createApplicationSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateApplicationSnapshotRequest,
-    output: CreateApplicationSnapshotResponse,
-    errors: [
-      InvalidApplicationConfigurationException,
-      InvalidArgumentException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const createApplicationSnapshot: (
+  input: CreateApplicationSnapshotRequest,
+) => Effect.Effect<
+  CreateApplicationSnapshotResponse,
+  | InvalidApplicationConfigurationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApplicationSnapshotRequest,
+  output: CreateApplicationSnapshotResponse,
+  errors: [
+    InvalidApplicationConfigurationException,
+    InvalidArgumentException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Removes one or more tags from a Managed Service for Apache Flink application. For more information, see
  * Using Tagging.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3735,24 +4143,48 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * on the input stream before the
  * application's SQL code executes. Currently, the only input processor available is Amazon Lambda.
  */
-export const addApplicationInputProcessingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AddApplicationInputProcessingConfigurationRequest,
-    output: AddApplicationInputProcessingConfigurationResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const addApplicationInputProcessingConfiguration: (
+  input: AddApplicationInputProcessingConfigurationRequest,
+) => Effect.Effect<
+  AddApplicationInputProcessingConfigurationResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddApplicationInputProcessingConfigurationRequest,
+  output: AddApplicationInputProcessingConfigurationResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a Managed Service for Apache Flink application. For information about creating a
  * Managed Service for Apache Flink application, see Creating an
  * Application.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationRequest,
+) => Effect.Effect<
+  CreateApplicationResponse,
+  | CodeValidationException
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceInUseException
+  | TooManyTagsException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
   output: CreateApplicationResponse,
   errors: [
@@ -3772,7 +4204,16 @@ export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you want to retrieve a list of all applications in your account,
  * use the ListApplications operation.
  */
-export const describeApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeApplication: (
+  input: DescribeApplicationRequest,
+) => Effect.Effect<
+  DescribeApplicationResponse,
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeApplicationRequest,
   output: DescribeApplicationResponse,
   errors: [
@@ -3788,7 +4229,21 @@ export const describeApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Managed Service for Apache Flink updates the `ApplicationVersionId` each time you update
  * your application.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApplication: (
+  input: UpdateApplicationRequest,
+) => Effect.Effect<
+  UpdateApplicationResponse,
+  | CodeValidationException
+  | ConcurrentModificationException
+  | InvalidApplicationConfigurationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
   output: UpdateApplicationResponse,
   errors: [
@@ -3813,7 +4268,19 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * results in a new version of the application. You can use the DescribeApplication operation
  * to find the current application version.
  */
-export const addApplicationInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addApplicationInput: (
+  input: AddApplicationInputRequest,
+) => Effect.Effect<
+  AddApplicationInputResponse,
+  | CodeValidationException
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddApplicationInputRequest,
   output: AddApplicationInputResponse,
   errors: [
@@ -3835,7 +4302,19 @@ export const addApplicationInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * When you create an application using the Kinesis Data Analytics console, the console uses this
  * operation to infer a schema and show it in the console user interface.
  */
-export const discoverInputSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const discoverInputSchema: (
+  input: DiscoverInputSchemaRequest,
+) => Effect.Effect<
+  DiscoverInputSchemaResponse,
+  | InvalidArgumentException
+  | InvalidRequestException
+  | ResourceProvisionedThroughputExceededException
+  | ServiceUnavailableException
+  | UnableToDetectSchemaException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DiscoverInputSchemaRequest,
   output: DiscoverInputSchemaResponse,
   errors: [

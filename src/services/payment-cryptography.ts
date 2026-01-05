@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Payment Cryptography",
   serviceShapeName: "PaymentCryptographyControlPlane",
@@ -292,6 +300,47 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Region = string;
+export type KeyArnOrKeyAliasType = string;
+export type SigningAlgorithmType = string;
+export type KeyMaterialType = string;
+export type KeyAlgorithm = string;
+export type KeyCheckValueAlgorithm = string;
+export type ResourceArn = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type TagKey = string;
+export type AliasName = string;
+export type KeyArn = string;
+export type DeriveKeyUsage = string;
+export type KeyState = string;
+export type TagValue = string;
+export type KeyUsage = string;
+export type KeyClass = string;
+export type CertificateType = string;
+export type ExportTokenId = string;
+export type ImportTokenId = string;
+export type Tr34KeyBlockFormat = string;
+export type EvenHexLengthBetween16And32 = string;
+export type WrappingKeySpec = string;
+export type HexLength20Or24 = string;
+export type Tr31WrappedKeyBlock = string;
+export type Tr34WrappedKeyBlock = string;
+export type WrappedKeyCryptogram = string;
+export type KeyCheckValue = string;
+export type KeyOrigin = string;
+export type MultiRegionKeyType = string;
+export type KeyExportability = string;
+export type KeyVersion = string;
+export type SharedInformation = string;
+export type CertificateSigningRequestType = string;
+export type OptionalBlockId = string;
+export type OptionalBlockValue = string;
+export type KeyReplicationState = string;
+export type WrappedKeyMaterialFormat = string;
+export type KeyMaterial = string;
 
 //# Schemas
 export interface GetDefaultKeyReplicationRegionsInput {}
@@ -1020,6 +1069,7 @@ export const ImportKeyCryptogram = S.suspend(() =>
 ).annotations({
   identifier: "ImportKeyCryptogram",
 }) as any as S.Schema<ImportKeyCryptogram>;
+export type DiffieHellmanDerivationData = { SharedInformation: string };
 export const DiffieHellmanDerivationData = S.Union(
   S.Struct({ SharedInformation: S.String }),
 );
@@ -1079,6 +1129,14 @@ export const ExportAttributes = S.suspend(() =>
 ).annotations({
   identifier: "ExportAttributes",
 }) as any as S.Schema<ExportAttributes>;
+export type ImportKeyMaterial =
+  | { RootCertificatePublicKey: RootCertificatePublicKey }
+  | { TrustedCertificatePublicKey: TrustedCertificatePublicKey }
+  | { Tr31KeyBlock: ImportTr31KeyBlock }
+  | { Tr34KeyBlock: ImportTr34KeyBlock }
+  | { KeyCryptogram: ImportKeyCryptogram }
+  | { DiffieHellmanTr31KeyBlock: ImportDiffieHellmanTr31KeyBlock }
+  | { As2805KeyCryptogram: ImportAs2805KeyCryptogram };
 export const ImportKeyMaterial = S.Union(
   S.Struct({ RootCertificatePublicKey: RootCertificatePublicKey }),
   S.Struct({ TrustedCertificatePublicKey: TrustedCertificatePublicKey }),
@@ -1233,6 +1291,12 @@ export const ExportTr31KeyBlock = S.suspend(() =>
 ).annotations({
   identifier: "ExportTr31KeyBlock",
 }) as any as S.Schema<ExportTr31KeyBlock>;
+export type ExportKeyMaterial =
+  | { Tr31KeyBlock: ExportTr31KeyBlock }
+  | { Tr34KeyBlock: ExportTr34KeyBlock }
+  | { KeyCryptogram: ExportKeyCryptogram }
+  | { DiffieHellmanTr31KeyBlock: ExportDiffieHellmanTr31KeyBlock }
+  | { As2805KeyCryptogram: ExportAs2805KeyCryptogram };
 export const ExportKeyMaterial = S.Union(
   S.Struct({ Tr31KeyBlock: ExportTr31KeyBlock }),
   S.Struct({ Tr34KeyBlock: ExportTr34KeyBlock }),
@@ -1299,7 +1363,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { ResourceId: S.optional(S.String) },
@@ -1307,7 +1373,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },
@@ -1315,7 +1383,9 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String) },
@@ -1329,20 +1399,30 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  *
  * **Cross-account use:** This operation can't be used across different Amazon Web Services accounts.
  */
-export const getPublicKeyCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPublicKeyCertificateInput,
-    output: GetPublicKeyCertificateOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getPublicKeyCertificate: (
+  input: GetPublicKeyCertificateInput,
+) => Effect.Effect<
+  GetPublicKeyCertificateOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPublicKeyCertificateInput,
+  output: GetPublicKeyCertificateOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Imports symmetric keys and public key certificates in PEM format (base64 encoded) into Amazon Web Services Payment Cryptography.
  *
@@ -1440,7 +1520,21 @@ export const getPublicKeyCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - GetParametersForImport
  */
-export const importKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importKey: (
+  input: ImportKeyInput,
+) => Effect.Effect<
+  ImportKeyOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportKeyInput,
   output: ImportKeyOutput,
   errors: [
@@ -1467,7 +1561,19 @@ export const importKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - ListKeys
  */
-export const getKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKey: (
+  input: GetKeyInput,
+) => Effect.Effect<
+  GetKeyOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKeyInput,
   output: GetKeyOutput,
   errors: [
@@ -1494,7 +1600,47 @@ export const getKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - GetKey
  */
-export const listKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listKeys: {
+  (
+    input: ListKeysInput,
+  ): Effect.Effect<
+    ListKeysOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKeysInput,
+  ) => Stream.Stream<
+    ListKeysOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKeysInput,
+  ) => Stream.Stream<
+    KeySummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListKeysInput,
   output: ListKeysOutput,
   errors: [
@@ -1527,7 +1673,20 @@ export const listKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * - ListAliases
  */
-export const updateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAlias: (
+  input: UpdateAliasInput,
+) => Effect.Effect<
+  UpdateAliasOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAliasInput,
   output: UpdateAliasOutput,
   errors: [
@@ -1557,7 +1716,20 @@ export const updateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - StopKeyUsage
  */
-export const deleteKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKey: (
+  input: DeleteKeyInput,
+) => Effect.Effect<
+  DeleteKeyOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeyInput,
   output: DeleteKeyOutput,
   errors: [
@@ -1583,7 +1755,20 @@ export const deleteKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - TagResource
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -1613,7 +1798,20 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - UpdateAlias
  */
-export const deleteAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAlias: (
+  input: DeleteAliasInput,
+) => Effect.Effect<
+  DeleteAliasOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAliasInput,
   output: DeleteAliasOutput,
   errors: [
@@ -1639,25 +1837,64 @@ export const deleteAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - UntagResource
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceInput,
-    output: ListTagsForResourceOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Tags",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceInput,
+  ) => Stream.Stream<
+    ListTagsForResourceOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceInput,
+  ) => Stream.Stream<
+    Tag,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Tags",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the Amazon Web Services Payment Cryptography key associated with the alias.
  *
@@ -1673,7 +1910,19 @@ export const listTagsForResource =
  *
  * - UpdateAlias
  */
-export const getAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAlias: (
+  input: GetAliasInput,
+) => Effect.Effect<
+  GetAliasOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAliasInput,
   output: GetAliasOutput,
   errors: [
@@ -1702,42 +1951,91 @@ export const getAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - UpdateAlias
  */
-export const listAliases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAliases: {
+  (
     input: ListAliasesInput,
-    output: ListAliasesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Aliases",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAliasesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAliasesInput,
+  ) => Stream.Stream<
+    ListAliasesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAliasesInput,
+  ) => Stream.Stream<
+    Alias,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAliasesInput,
+  output: ListAliasesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Aliases",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a certificate signing request (CSR) from a key pair.
  */
-export const getCertificateSigningRequest =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCertificateSigningRequestInput,
-    output: GetCertificateSigningRequestOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getCertificateSigningRequest: (
+  input: GetCertificateSigningRequestInput,
+) => Effect.Effect<
+  GetCertificateSigningRequestOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCertificateSigningRequestInput,
+  output: GetCertificateSigningRequestOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an Amazon Web Services Payment Cryptography key, a logical representation of a cryptographic key, that is unique in your account and Amazon Web Services Region. You use keys for cryptographic functions such as encryption and decryption.
  *
@@ -1761,7 +2059,21 @@ export const getCertificateSigningRequest =
  *
  * - ListKeys
  */
-export const createKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKey: (
+  input: CreateKeyInput,
+) => Effect.Effect<
+  CreateKeyOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKeyInput,
   output: CreateKeyOutput,
   errors: [
@@ -1794,7 +2106,21 @@ export const createKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - UpdateAlias
  */
-export const createAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAlias: (
+  input: CreateAliasInput,
+) => Effect.Effect<
+  CreateAliasOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAliasInput,
   output: CreateAliasOutput,
   errors: [
@@ -1821,22 +2147,34 @@ export const createAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - GetParametersForImport
  */
-export const getParametersForExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetParametersForExportInput,
-    output: GetParametersForExportOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getParametersForExport: (
+  input: GetParametersForExportInput,
+) => Effect.Effect<
+  GetParametersForExportOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetParametersForExportInput,
+  output: GetParametersForExportOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the import token and the wrapping key certificate in PEM format (base64 encoded) to initiate a TR-34 WrappedKeyBlock or a RSA WrappedKeyCryptogram import into Amazon Web Services Payment Cryptography.
  *
@@ -1850,22 +2188,34 @@ export const getParametersForExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - ImportKey
  */
-export const getParametersForImport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetParametersForImportInput,
-    output: GetParametersForImportOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getParametersForImport: (
+  input: GetParametersForImportInput,
+) => Effect.Effect<
+  GetParametersForImportOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetParametersForImportInput,
+  output: GetParametersForImportOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment Cryptography key, enabling the key to be used for cryptographic operations in additional Amazon Web Services Regions.
  *
@@ -1883,21 +2233,32 @@ export const getParametersForImport = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - GetDefaultKeyReplicationRegions
  */
-export const addKeyReplicationRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddKeyReplicationRegionsInput,
-    output: AddKeyReplicationRegionsOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const addKeyReplicationRegions: (
+  input: AddKeyReplicationRegionsInput,
+) => Effect.Effect<
+  AddKeyReplicationRegionsOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddKeyReplicationRegionsInput,
+  output: AddKeyReplicationRegionsOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes Replication Regions from an existing Amazon Web Services Payment Cryptography key, disabling the key's availability for cryptographic operations in the specified Amazon Web Services Regions.
  *
@@ -1913,21 +2274,32 @@ export const addKeyReplicationRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - DisableDefaultKeyReplicationRegions
  */
-export const removeKeyReplicationRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveKeyReplicationRegionsInput,
-    output: RemoveKeyReplicationRegionsOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const removeKeyReplicationRegions: (
+  input: RemoveKeyReplicationRegionsInput,
+) => Effect.Effect<
+  RemoveKeyReplicationRegionsOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveKeyReplicationRegionsInput,
+  output: RemoveKeyReplicationRegionsOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Cancels a scheduled key deletion during the waiting period. Use this operation to restore a `Key` that is scheduled for deletion.
  *
@@ -1943,7 +2315,21 @@ export const removeKeyReplicationRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - StopKeyUsage
  */
-export const restoreKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const restoreKey: (
+  input: RestoreKeyInput,
+) => Effect.Effect<
+  RestoreKeyOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreKeyInput,
   output: RestoreKeyOutput,
   errors: [
@@ -1966,7 +2352,21 @@ export const restoreKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - StopKeyUsage
  */
-export const startKeyUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startKeyUsage: (
+  input: StartKeyUsageInput,
+) => Effect.Effect<
+  StartKeyUsageOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartKeyUsageInput,
   output: StartKeyUsageOutput,
   errors: [
@@ -1993,7 +2393,21 @@ export const startKeyUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - StartKeyUsage
  */
-export const stopKeyUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopKeyUsage: (
+  input: StopKeyUsageInput,
+) => Effect.Effect<
+  StopKeyUsageOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopKeyUsageInput,
   output: StopKeyUsageOutput,
   errors: [
@@ -2022,7 +2436,21 @@ export const stopKeyUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - UntagResource
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -2051,20 +2479,32 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - GetDefaultKeyReplicationRegions
  */
-export const disableDefaultKeyReplicationRegions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableDefaultKeyReplicationRegionsInput,
-    output: DisableDefaultKeyReplicationRegionsOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disableDefaultKeyReplicationRegions: (
+  input: DisableDefaultKeyReplicationRegionsInput,
+) => Effect.Effect<
+  DisableDefaultKeyReplicationRegionsOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableDefaultKeyReplicationRegionsInput,
+  output: DisableDefaultKeyReplicationRegionsOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Enables Multi-Region key replication settings for your Amazon Web Services account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created.
  *
@@ -2080,20 +2520,32 @@ export const disableDefaultKeyReplicationRegions =
  *
  * - GetDefaultKeyReplicationRegions
  */
-export const enableDefaultKeyReplicationRegions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableDefaultKeyReplicationRegionsInput,
-    output: EnableDefaultKeyReplicationRegionsOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const enableDefaultKeyReplicationRegions: (
+  input: EnableDefaultKeyReplicationRegionsInput,
+) => Effect.Effect<
+  EnableDefaultKeyReplicationRegionsOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableDefaultKeyReplicationRegionsInput,
+  output: EnableDefaultKeyReplicationRegionsOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the list of Amazon Web Services Regions where Multi-Region key replication is currently enabled for your Amazon Web Services account.
  *
@@ -2107,20 +2559,32 @@ export const enableDefaultKeyReplicationRegions =
  *
  * - DisableDefaultKeyReplicationRegions
  */
-export const getDefaultKeyReplicationRegions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDefaultKeyReplicationRegionsInput,
-    output: GetDefaultKeyReplicationRegionsOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getDefaultKeyReplicationRegions: (
+  input: GetDefaultKeyReplicationRegionsInput,
+) => Effect.Effect<
+  GetDefaultKeyReplicationRegionsOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDefaultKeyReplicationRegionsInput,
+  output: GetDefaultKeyReplicationRegionsOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Exports a key from Amazon Web Services Payment Cryptography.
  *
@@ -2212,7 +2676,20 @@ export const getDefaultKeyReplicationRegions =
  *
  * - ImportKey
  */
-export const exportKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const exportKey: (
+  input: ExportKeyInput,
+) => Effect.Effect<
+  ExportKeyOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportKeyInput,
   output: ExportKeyOutput,
   errors: [

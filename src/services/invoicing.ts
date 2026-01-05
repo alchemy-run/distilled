@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Invoicing",
   serviceShapeName: "Invoicing",
@@ -120,6 +128,28 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AccountIdString = string;
+export type InvoiceUnitName = string;
+export type DescriptionString = string;
+export type BasicStringWithoutSpace = string;
+export type SensitiveBasicStringWithoutSpace = string;
+export type InvoiceUnitArnString = string;
+export type ProcurementPortalPreferenceArnString = string;
+export type StringWithoutNewLine = string;
+export type NextTokenString = string;
+export type InvoiceSummariesMaxResults = number;
+export type MaxResultsInteger = number;
+export type MaxResults = number;
+export type TagrisArn = string;
+export type ResourceTagKey = string;
+export type BasicString = string;
+export type ResourceTagValue = string;
+export type EmailString = string;
+export type Month = number;
+export type Year = number;
+export type CurrencyCode = string;
 
 //# Schemas
 export type AccountIdList = string[];
@@ -1146,7 +1176,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.optional(S.String),
   },
   T.AwsQueryError({ code: "InvoicingInternalServer", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -1165,7 +1197,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvoicingThrottling", httpResponseCode: 429 }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },
@@ -1189,7 +1223,17 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * This creates a new invoice unit with the provided definition.
  */
-export const createInvoiceUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createInvoiceUnit: (
+  input: CreateInvoiceUnitRequest,
+) => Effect.Effect<
+  CreateInvoiceUnitResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInvoiceUnitRequest,
   output: CreateInvoiceUnitResponse,
   errors: [
@@ -1202,7 +1246,18 @@ export const createInvoiceUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * You can update the invoice unit configuration at any time, and Amazon Web Services will use the latest configuration at the end of the month.
  */
-export const updateInvoiceUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateInvoiceUnit: (
+  input: UpdateInvoiceUnitRequest,
+) => Effect.Effect<
+  UpdateInvoiceUnitResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInvoiceUnitRequest,
   output: UpdateInvoiceUnitResponse,
   errors: [
@@ -1216,7 +1271,18 @@ export const updateInvoiceUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1230,7 +1296,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This deletes an invoice unit with the provided invoice unit ARN.
  */
-export const deleteInvoiceUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteInvoiceUnit: (
+  input: DeleteInvoiceUnitRequest,
+) => Effect.Effect<
+  DeleteInvoiceUnitResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInvoiceUnitRequest,
   output: DeleteInvoiceUnitResponse,
   errors: [
@@ -1244,7 +1321,18 @@ export const deleteInvoiceUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This retrieves the invoice unit definition.
  */
-export const getInvoiceUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInvoiceUnit: (
+  input: GetInvoiceUnitRequest,
+) => Effect.Effect<
+  GetInvoiceUnitResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInvoiceUnitRequest,
   output: GetInvoiceUnitResponse,
   errors: [
@@ -1258,7 +1346,18 @@ export const getInvoiceUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags for a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1272,23 +1371,43 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This gets the invoice profile associated with a set of accounts. The accounts must be linked accounts under the requester management account organization.
  */
-export const batchGetInvoiceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetInvoiceProfileRequest,
-    output: BatchGetInvoiceProfileResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchGetInvoiceProfile: (
+  input: BatchGetInvoiceProfileRequest,
+) => Effect.Effect<
+  BatchGetInvoiceProfileResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetInvoiceProfileRequest,
+  output: BatchGetInvoiceProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a URL to download the invoice document and supplemental documents associated with an invoice. The URLs are pre-signed and have expiration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this operation, the caller needs the `invoicing:GetInvoicePDF` policy action.
  */
-export const getInvoicePDF = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInvoicePDF: (
+  input: GetInvoicePDFRequest,
+) => Effect.Effect<
+  GetInvoicePDFResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInvoicePDFRequest,
   output: GetInvoicePDFResponse,
   errors: [
@@ -1302,66 +1421,160 @@ export const getInvoicePDF = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of procurement portal preferences associated with the Amazon Web Services account.
  */
-export const listProcurementPortalPreferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProcurementPortalPreferences: {
+  (
     input: ListProcurementPortalPreferencesRequest,
-    output: ListProcurementPortalPreferencesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProcurementPortalPreferences",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProcurementPortalPreferencesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProcurementPortalPreferencesRequest,
+  ) => Stream.Stream<
+    ListProcurementPortalPreferencesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProcurementPortalPreferencesRequest,
+  ) => Stream.Stream<
+    ProcurementPortalPreferenceSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProcurementPortalPreferencesRequest,
+  output: ListProcurementPortalPreferencesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProcurementPortalPreferences",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This fetches a list of all invoice unit definitions for a given account, as of the provided `AsOf` date.
  */
-export const listInvoiceUnits = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listInvoiceUnits: {
+  (
     input: ListInvoiceUnitsRequest,
-    output: ListInvoiceUnitsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InvoiceUnits",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListInvoiceUnitsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInvoiceUnitsRequest,
+  ) => Stream.Stream<
+    ListInvoiceUnitsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInvoiceUnitsRequest,
+  ) => Stream.Stream<
+    InvoiceUnit,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInvoiceUnitsRequest,
+  output: ListInvoiceUnitsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InvoiceUnits",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a procurement portal preference configuration for e-invoice delivery and purchase order retrieval. This preference defines how invoices are delivered to a procurement portal and how purchase orders are retrieved.
  */
-export const createProcurementPortalPreference =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateProcurementPortalPreferenceRequest,
-    output: CreateProcurementPortalPreferenceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createProcurementPortalPreference: (
+  input: CreateProcurementPortalPreferenceRequest,
+) => Effect.Effect<
+  CreateProcurementPortalPreferenceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProcurementPortalPreferenceRequest,
+  output: CreateProcurementPortalPreferenceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds a tag to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1376,88 +1589,171 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features.
  */
-export const updateProcurementPortalPreferenceStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateProcurementPortalPreferenceStatusRequest,
-    output: UpdateProcurementPortalPreferenceStatusResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateProcurementPortalPreferenceStatus: (
+  input: UpdateProcurementPortalPreferenceStatusRequest,
+) => Effect.Effect<
+  UpdateProcurementPortalPreferenceStatusResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProcurementPortalPreferenceStatusRequest,
+  output: UpdateProcurementPortalPreferenceStatusResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated.
  */
-export const deleteProcurementPortalPreference =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteProcurementPortalPreferenceRequest,
-    output: DeleteProcurementPortalPreferenceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteProcurementPortalPreference: (
+  input: DeleteProcurementPortalPreferenceRequest,
+) => Effect.Effect<
+  DeleteProcurementPortalPreferenceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProcurementPortalPreferenceRequest,
+  output: DeleteProcurementPortalPreferenceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval.
  */
-export const putProcurementPortalPreference =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutProcurementPortalPreferenceRequest,
-    output: PutProcurementPortalPreferenceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const putProcurementPortalPreference: (
+  input: PutProcurementPortalPreferenceRequest,
+) => Effect.Effect<
+  PutProcurementPortalPreferenceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutProcurementPortalPreferenceRequest,
+  output: PutProcurementPortalPreferenceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the details of a specific procurement portal preference configuration.
  */
-export const getProcurementPortalPreference =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetProcurementPortalPreferenceRequest,
-    output: GetProcurementPortalPreferenceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getProcurementPortalPreference: (
+  input: GetProcurementPortalPreferenceRequest,
+) => Effect.Effect<
+  GetProcurementPortalPreferenceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProcurementPortalPreferenceRequest,
+  output: GetProcurementPortalPreferenceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves your invoice details programmatically, without line item details.
  */
-export const listInvoiceSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInvoiceSummaries: {
+  (
     input: ListInvoiceSummariesRequest,
-    output: ListInvoiceSummariesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InvoiceSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInvoiceSummariesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInvoiceSummariesRequest,
+  ) => Stream.Stream<
+    ListInvoiceSummariesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInvoiceSummariesRequest,
+  ) => Stream.Stream<
+    InvoiceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInvoiceSummariesRequest,
+  output: ListInvoiceSummariesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InvoiceSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));

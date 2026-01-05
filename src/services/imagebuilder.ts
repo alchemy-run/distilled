@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "imagebuilder",
   serviceShapeName: "imagebuilder",
@@ -260,6 +268,108 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ImageBuildVersionArn = string;
+export type ClientToken = string;
+export type LifecycleExecutionId = string;
+export type ResourceName = string;
+export type VersionNumber = string;
+export type NonEmptyString = string;
+export type OsVersion = string;
+export type InlineComponentData = string;
+export type Uri = string;
+export type WildcardVersionNumber = string;
+export type InlineDockerFileTemplate = string;
+export type ImageRecipeArn = string;
+export type ContainerRecipeArn = string;
+export type DistributionConfigurationArn = string;
+export type InfrastructureConfigurationArn = string;
+export type RoleNameOrArn = string;
+export type InstanceType = string;
+export type InstanceProfileNameType = string;
+export type SnsTopicArn = string;
+export type InlineWorkflowData = string;
+export type ComponentBuildVersionArn = string;
+export type ImagePipelineArn = string;
+export type LifecyclePolicyArn = string;
+export type WorkflowBuildVersionArn = string;
+export type ComponentVersionArnOrBuildVersionArn = string;
+export type ImageVersionArnOrBuildVersionArn = string;
+export type ImageBuilderArn = string;
+export type MarketplaceResourceLocation = string;
+export type WorkflowVersionArnOrBuildVersionArn = string;
+export type WorkflowExecutionId = string;
+export type WorkflowStepExecutionId = string;
+export type ComponentVersionArn = string;
+export type RestrictedInteger = number;
+export type PaginationToken = string;
+export type ImageVersionArn = string;
+export type WorkflowWildcardVersionArn = string;
+export type ResourcePolicyDocument = string;
+export type TagKey = string;
+export type TagValue = string;
+export type LicenseConfigurationArn = string;
+export type ImageTestsTimeoutMinutes = number;
+export type ParallelGroup = string;
+export type LogGroupName = string;
+export type Timezone = string;
+export type EmptyString = string;
+export type UserDataOverride = string;
+export type HttpTokens = string;
+export type HttpPutResponseHopLimit = number;
+export type FilterName = string;
+export type FilterValue = string;
+export type WorkflowExecutionMessage = string;
+export type WorkflowStepCount = number;
+export type DateTime = string;
+export type WorkflowStepName = string;
+export type WorkflowStepDescription = string;
+export type WorkflowStepAction = string;
+export type WorkflowStepMessage = string;
+export type WorkflowStepInputs = string;
+export type WorkflowStepOutputs = string;
+export type WorkflowStepTimeoutSecondsInteger = number;
+export type Arn = string;
+export type ImageBuildMessage = string;
+export type ErrorMessage = string;
+export type ComponentParameterName = string;
+export type ComponentParameterValue = string;
+export type AmiNameString = string;
+export type AccountId = string;
+export type LaunchTemplateId = string;
+export type MaxParallelLaunches = number;
+export type SsmParameterName = string;
+export type WorkflowParameterName = string;
+export type WorkflowParameterValue = string;
+export type AutoDisableFailureCount = number;
+export type EbsIopsInteger = number;
+export type EbsVolumeSizeInteger = number;
+export type EbsVolumeThroughput = number;
+export type LifecyclePolicyDetailFilterValue = number;
+export type LifecyclePolicyDetailFilterRetainAtLeast = number;
+export type ComponentData = string;
+export type DockerFileTemplate = string;
+export type DistributionTimeoutMinutes = number;
+export type ConsecutiveFailures = number;
+export type WorkflowData = string;
+export type WorkflowNameArn = string;
+export type WorkflowVersionArn = string;
+export type OrganizationArn = string;
+export type OrganizationalUnitArn = string;
+export type TargetResourceCount = number;
+export type LifecyclePolicyDetailExclusionRulesAmisLastLaunchedValue = number;
+export type ComponentParameterType = string;
+export type ComponentParameterDescription = string;
+export type ProductCodeId = string;
+export type WorkflowParameterType = string;
+export type WorkflowParameterDescription = string;
+export type NonNegativeDouble = number;
+export type SeverityCountNumber = number;
+export type VulnerabilityId = string;
+export type SourceLayerHash = string;
+export type PackageEpoch = number;
+export type PackageArchitecture = string;
 
 //# Schemas
 export type OsVersionList = string[];
@@ -5185,7 +5295,9 @@ export class InvalidParameterException extends S.TaggedError<InvalidParameterExc
 export class CallRateLimitExceededException extends S.TaggedError<CallRateLimitExceededException>()(
   "CallRateLimitExceededException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
@@ -5201,7 +5313,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ServiceException extends S.TaggedError<ServiceException>()(
   "ServiceException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
   "ForbiddenException",
   { message: S.optional(S.String) },
@@ -5213,7 +5327,9 @@ export class DryRunOperationException extends S.TaggedError<DryRunOperationExcep
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidPaginationTokenException extends S.TaggedError<InvalidPaginationTokenException>()(
   "InvalidPaginationTokenException",
   { message: S.optional(S.String) },
@@ -5257,13 +5373,24 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
  * Adds a tag to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -5275,7 +5402,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -5287,7 +5423,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the list of tags for the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -5302,7 +5447,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Windows 11 Enterprise
  */
-export const importDiskImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importDiskImage: (
+  input: ImportDiskImageRequest,
+) => Effect.Effect<
+  ImportDiskImageResponse,
+  | ClientException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportDiskImageRequest,
   output: ImportDiskImageResponse,
   errors: [ClientException, ServiceException, ServiceUnavailableException],
@@ -5317,7 +5471,16 @@ export const importDiskImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can reference the task ID from the VM import to pull in the AMI that the import
  * created as the base image for your Image Builder recipe.
  */
-export const importVmImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importVmImage: (
+  input: ImportVmImageRequest,
+) => Effect.Effect<
+  ImportVmImageResponse,
+  | ClientException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportVmImageRequest,
   output: ImportVmImageResponse,
   errors: [ClientException, ServiceException, ServiceUnavailableException],
@@ -5327,7 +5490,21 @@ export const importVmImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `PutComponentPolicy`, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
  * visible to all principals with whom the resource is shared.
  */
-export const putComponentPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putComponentPolicy: (
+  input: PutComponentPolicyRequest,
+) => Effect.Effect<
+  PutComponentPolicyResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutComponentPolicyRequest,
   output: PutComponentPolicyResponse,
   errors: [
@@ -5354,174 +5531,511 @@ export const putComponentPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
  * wildcards.
  */
-export const listComponents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listComponents: {
+  (
     input: ListComponentsRequest,
-    output: ListComponentsResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "componentVersionList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListComponentsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComponentsRequest,
+  ) => Stream.Stream<
+    ListComponentsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComponentsRequest,
+  ) => Stream.Stream<
+    ComponentVersion,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComponentsRequest,
+  output: ListComponentsResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "componentVersionList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List resources that the runtime instance of the image lifecycle identified for lifecycle actions.
  */
-export const listLifecycleExecutionResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLifecycleExecutionResources: {
+  (
     input: ListLifecycleExecutionResourcesRequest,
-    output: ListLifecycleExecutionResourcesResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "resources",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListLifecycleExecutionResourcesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLifecycleExecutionResourcesRequest,
+  ) => Stream.Stream<
+    ListLifecycleExecutionResourcesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLifecycleExecutionResourcesRequest,
+  ) => Stream.Stream<
+    LifecycleExecutionResource,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLifecycleExecutionResourcesRequest,
+  output: ListLifecycleExecutionResourcesResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "resources",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of container recipes.
  */
-export const listContainerRecipes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listContainerRecipes: {
+  (
     input: ListContainerRecipesRequest,
-    output: ListContainerRecipesResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "containerRecipeSummaryList",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListContainerRecipesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContainerRecipesRequest,
+  ) => Stream.Stream<
+    ListContainerRecipesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContainerRecipesRequest,
+  ) => Stream.Stream<
+    ContainerRecipeSummary,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContainerRecipesRequest,
+  output: ListContainerRecipesResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "containerRecipeSummaryList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of distribution configurations.
  */
-export const listDistributionConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDistributionConfigurations: {
+  (
     input: ListDistributionConfigurationsRequest,
-    output: ListDistributionConfigurationsResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "distributionConfigurationSummaryList",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDistributionConfigurationsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDistributionConfigurationsRequest,
+  ) => Stream.Stream<
+    ListDistributionConfigurationsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDistributionConfigurationsRequest,
+  ) => Stream.Stream<
+    DistributionConfigurationSummary,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDistributionConfigurationsRequest,
+  output: ListDistributionConfigurationsResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "distributionConfigurationSummaryList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of image build versions.
  */
-export const listImageBuildVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listImageBuildVersions: {
+  (
     input: ListImageBuildVersionsRequest,
-    output: ListImageBuildVersionsResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "imageSummaryList",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListImageBuildVersionsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImageBuildVersionsRequest,
+  ) => Stream.Stream<
+    ListImageBuildVersionsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImageBuildVersionsRequest,
+  ) => Stream.Stream<
+    ImageSummary,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImageBuildVersionsRequest,
+  output: ListImageBuildVersionsResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "imageSummaryList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List the Packages that are associated with an Image Build Version, as determined by
  * Amazon Web Services Systems Manager Inventory at build time.
  */
-export const listImagePackages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listImagePackages: {
+  (
     input: ListImagePackagesRequest,
-    output: ListImagePackagesResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "imagePackageList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListImagePackagesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImagePackagesRequest,
+  ) => Stream.Stream<
+    ListImagePackagesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImagePackagesRequest,
+  ) => Stream.Stream<
+    ImagePackage,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImagePackagesRequest,
+  output: ListImagePackagesResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "imagePackageList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of image recipes.
  */
-export const listImageRecipes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listImageRecipes: {
+  (
     input: ListImageRecipesRequest,
-    output: ListImageRecipesResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "imageRecipeSummaryList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListImageRecipesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImageRecipesRequest,
+  ) => Stream.Stream<
+    ListImageRecipesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImageRecipesRequest,
+  ) => Stream.Stream<
+    ImageRecipeSummary,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImageRecipesRequest,
+  output: ListImageRecipesResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "imageRecipeSummaryList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns the list of images that you have access to. Newly created images can take up
  * to two minutes to appear in the ListImages API Results.
  */
-export const listImages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listImages: {
+  (
+    input: ListImagesRequest,
+  ): Effect.Effect<
+    ListImagesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImagesRequest,
+  ) => Stream.Stream<
+    ListImagesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImagesRequest,
+  ) => Stream.Stream<
+    ImageVersion,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListImagesRequest,
   output: ListImagesResponse,
   errors: [
@@ -5543,243 +6057,676 @@ export const listImages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns a list of infrastructure configurations.
  */
-export const listInfrastructureConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInfrastructureConfigurations: {
+  (
     input: ListInfrastructureConfigurationsRequest,
-    output: ListInfrastructureConfigurationsResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "infrastructureConfigurationSummaryList",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInfrastructureConfigurationsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInfrastructureConfigurationsRequest,
+  ) => Stream.Stream<
+    ListInfrastructureConfigurationsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInfrastructureConfigurationsRequest,
+  ) => Stream.Stream<
+    InfrastructureConfigurationSummary,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInfrastructureConfigurationsRequest,
+  output: ListInfrastructureConfigurationsResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "infrastructureConfigurationSummaryList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Get a list of lifecycle policies in your Amazon Web Services account.
  */
-export const listLifecyclePolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLifecyclePolicies: {
+  (
     input: ListLifecyclePoliciesRequest,
-    output: ListLifecyclePoliciesResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "lifecyclePolicySummaryList",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListLifecyclePoliciesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLifecyclePoliciesRequest,
+  ) => Stream.Stream<
+    ListLifecyclePoliciesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLifecyclePoliciesRequest,
+  ) => Stream.Stream<
+    LifecyclePolicySummary,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLifecyclePoliciesRequest,
+  output: ListLifecyclePoliciesResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "lifecyclePolicySummaryList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Get a list of workflow steps that are waiting for action for workflows
  * in your Amazon Web Services account.
  */
-export const listWaitingWorkflowSteps =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWaitingWorkflowSteps: {
+  (
     input: ListWaitingWorkflowStepsRequest,
-    output: ListWaitingWorkflowStepsResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "steps",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWaitingWorkflowStepsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWaitingWorkflowStepsRequest,
+  ) => Stream.Stream<
+    ListWaitingWorkflowStepsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWaitingWorkflowStepsRequest,
+  ) => Stream.Stream<
+    WorkflowStepExecution,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWaitingWorkflowStepsRequest,
+  output: ListWaitingWorkflowStepsResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "steps",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of build versions for a specific workflow resource.
  */
-export const listWorkflowBuildVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWorkflowBuildVersions: {
+  (
     input: ListWorkflowBuildVersionsRequest,
-    output: ListWorkflowBuildVersionsResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "workflowSummaryList",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWorkflowBuildVersionsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowBuildVersionsRequest,
+  ) => Stream.Stream<
+    ListWorkflowBuildVersionsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowBuildVersionsRequest,
+  ) => Stream.Stream<
+    WorkflowSummary,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowBuildVersionsRequest,
+  output: ListWorkflowBuildVersionsResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workflowSummaryList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of workflow runtime instance metadata objects for a specific image build
  * version.
  */
-export const listWorkflowExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWorkflowExecutions: {
+  (
     input: ListWorkflowExecutionsRequest,
-    output: ListWorkflowExecutionsResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "workflowExecutions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWorkflowExecutionsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowExecutionsRequest,
+  ) => Stream.Stream<
+    ListWorkflowExecutionsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowExecutionsRequest,
+  ) => Stream.Stream<
+    WorkflowExecutionMetadata,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowExecutionsRequest,
+  output: ListWorkflowExecutionsResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workflowExecutions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists workflow build versions based on filtering parameters.
  */
-export const listWorkflows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkflows: {
+  (
     input: ListWorkflowsRequest,
-    output: ListWorkflowsResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "workflowVersionList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkflowsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowsRequest,
+  ) => Stream.Stream<
+    ListWorkflowsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowsRequest,
+  ) => Stream.Stream<
+    WorkflowVersion,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowsRequest,
+  output: ListWorkflowsResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workflowVersionList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns runtime data for each step in a runtime instance of the workflow
  * that you specify in the request.
  */
-export const listWorkflowStepExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWorkflowStepExecutions: {
+  (
     input: ListWorkflowStepExecutionsRequest,
-    output: ListWorkflowStepExecutionsResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "steps",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWorkflowStepExecutionsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowStepExecutionsRequest,
+  ) => Stream.Stream<
+    ListWorkflowStepExecutionsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowStepExecutionsRequest,
+  ) => Stream.Stream<
+    WorkflowStepMetadata,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowStepExecutionsRequest,
+  output: ListWorkflowStepExecutionsResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "steps",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of images created by the specified pipeline.
  */
-export const listImagePipelineImages =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listImagePipelineImages: {
+  (
     input: ListImagePipelineImagesRequest,
-    output: ListImagePipelineImagesResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "imageSummaryList",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListImagePipelineImagesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImagePipelineImagesRequest,
+  ) => Stream.Stream<
+    ListImagePipelineImagesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImagePipelineImagesRequest,
+  ) => Stream.Stream<
+    ImageSummary,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImagePipelineImagesRequest,
+  output: ListImagePipelineImagesResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "imageSummaryList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of image pipelines.
  */
-export const listImagePipelines = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listImagePipelines: {
+  (
     input: ListImagePipelinesRequest,
-    output: ListImagePipelinesResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "imagePipelineList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListImagePipelinesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImagePipelinesRequest,
+  ) => Stream.Stream<
+    ListImagePipelinesResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImagePipelinesRequest,
+  ) => Stream.Stream<
+    ImagePipeline,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImagePipelinesRequest,
+  output: ListImagePipelinesResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "imagePipelineList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Get the lifecycle runtime history for the specified resource.
  */
-export const listLifecycleExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLifecycleExecutions: {
+  (
     input: ListLifecycleExecutionsRequest,
-    output: ListLifecycleExecutionsResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "lifecycleExecutions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListLifecycleExecutionsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLifecycleExecutionsRequest,
+  ) => Stream.Stream<
+    ListLifecycleExecutionsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLifecycleExecutionsRequest,
+  ) => Stream.Stream<
+    LifecycleExecution,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLifecycleExecutionsRequest,
+  output: ListLifecycleExecutionsResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "lifecycleExecutions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a component policy.
  */
-export const getComponentPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getComponentPolicy: (
+  input: GetComponentPolicyRequest,
+) => Effect.Effect<
+  GetComponentPolicyResponse,
+  | CallRateLimitExceededException
+  | ForbiddenException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComponentPolicyRequest,
   output: GetComponentPolicyResponse,
   errors: [
@@ -5794,24 +6741,46 @@ export const getComponentPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the policy for a container recipe.
  */
-export const getContainerRecipePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetContainerRecipePolicyRequest,
-    output: GetContainerRecipePolicyResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ForbiddenException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const getContainerRecipePolicy: (
+  input: GetContainerRecipePolicyRequest,
+) => Effect.Effect<
+  GetContainerRecipePolicyResponse,
+  | CallRateLimitExceededException
+  | ForbiddenException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContainerRecipePolicyRequest,
+  output: GetContainerRecipePolicyResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ForbiddenException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Gets an image policy.
  */
-export const getImagePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getImagePolicy: (
+  input: GetImagePolicyRequest,
+) => Effect.Effect<
+  GetImagePolicyResponse,
+  | CallRateLimitExceededException
+  | ForbiddenException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImagePolicyRequest,
   output: GetImagePolicyResponse,
   errors: [
@@ -5826,79 +6795,131 @@ export const getImagePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets an image recipe policy.
  */
-export const getImageRecipePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetImageRecipePolicyRequest,
-    output: GetImageRecipePolicyResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ForbiddenException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const getImageRecipePolicy: (
+  input: GetImageRecipePolicyRequest,
+) => Effect.Effect<
+  GetImageRecipePolicyResponse,
+  | CallRateLimitExceededException
+  | ForbiddenException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetImageRecipePolicyRequest,
+  output: GetImageRecipePolicyResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ForbiddenException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Verify the subscription and perform resource dependency checks on the requested
  * Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the
  * components and their artifacts.
  */
-export const getMarketplaceResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMarketplaceResourceRequest,
-    output: GetMarketplaceResourceResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const getMarketplaceResource: (
+  input: GetMarketplaceResourceRequest,
+) => Effect.Effect<
+  GetMarketplaceResourceResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMarketplaceResourceRequest,
+  output: GetMarketplaceResourceResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Get the runtime information that was logged for a specific runtime instance
  * of the workflow.
  */
-export const getWorkflowExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetWorkflowExecutionRequest,
-    output: GetWorkflowExecutionResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const getWorkflowExecution: (
+  input: GetWorkflowExecutionRequest,
+) => Effect.Effect<
+  GetWorkflowExecutionResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkflowExecutionRequest,
+  output: GetWorkflowExecutionResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Get the runtime information that was logged for a specific runtime instance of
  * the workflow step.
  */
-export const getWorkflowStepExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetWorkflowStepExecutionRequest,
-    output: GetWorkflowStepExecutionResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const getWorkflowStepExecution: (
+  input: GetWorkflowStepExecutionRequest,
+) => Effect.Effect<
+  GetWorkflowStepExecutionResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkflowStepExecutionRequest,
+  output: GetWorkflowStepExecutionResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Retrieves a container recipe.
  */
-export const getContainerRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getContainerRecipe: (
+  input: GetContainerRecipeRequest,
+) => Effect.Effect<
+  GetContainerRecipeResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContainerRecipeRequest,
   output: GetContainerRecipeResponse,
   errors: [
@@ -5913,23 +6934,46 @@ export const getContainerRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a distribution configuration.
  */
-export const getDistributionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDistributionConfigurationRequest,
-    output: GetDistributionConfigurationResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const getDistributionConfiguration: (
+  input: GetDistributionConfigurationRequest,
+) => Effect.Effect<
+  GetDistributionConfigurationResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDistributionConfigurationRequest,
+  output: GetDistributionConfigurationResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Gets an image pipeline.
  */
-export const getImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getImagePipeline: (
+  input: GetImagePipelineRequest,
+) => Effect.Effect<
+  GetImagePipelineResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImagePipelineRequest,
   output: GetImagePipelineResponse,
   errors: [
@@ -5944,7 +6988,19 @@ export const getImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets an image recipe.
  */
-export const getImageRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getImageRecipe: (
+  input: GetImageRecipeRequest,
+) => Effect.Effect<
+  GetImageRecipeResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImageRecipeRequest,
   output: GetImageRecipeResponse,
   errors: [
@@ -5959,23 +7015,46 @@ export const getImageRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets an infrastructure configuration.
  */
-export const getInfrastructureConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetInfrastructureConfigurationRequest,
-    output: GetInfrastructureConfigurationResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const getInfrastructureConfiguration: (
+  input: GetInfrastructureConfigurationRequest,
+) => Effect.Effect<
+  GetInfrastructureConfigurationResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInfrastructureConfigurationRequest,
+  output: GetInfrastructureConfigurationResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Get details for the specified image lifecycle policy.
  */
-export const getLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLifecyclePolicy: (
+  input: GetLifecyclePolicyRequest,
+) => Effect.Effect<
+  GetLifecyclePolicyResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLifecyclePolicyRequest,
   output: GetLifecyclePolicyResponse,
   errors: [
@@ -5990,7 +7069,19 @@ export const getLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a component object.
  */
-export const getComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getComponent: (
+  input: GetComponentRequest,
+) => Effect.Effect<
+  GetComponentResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComponentRequest,
   output: GetComponentResponse,
   errors: [
@@ -6005,24 +7096,46 @@ export const getComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get the runtime information that was logged for a specific runtime instance of the lifecycle policy.
  */
-export const getLifecycleExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLifecycleExecutionRequest,
-    output: GetLifecycleExecutionResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const getLifecycleExecution: (
+  input: GetLifecycleExecutionRequest,
+) => Effect.Effect<
+  GetLifecycleExecutionResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLifecycleExecutionRequest,
+  output: GetLifecycleExecutionResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Get a workflow resource object.
  */
-export const getWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkflow: (
+  input: GetWorkflowRequest,
+) => Effect.Effect<
+  GetWorkflowResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowRequest,
   output: GetWorkflowResponse,
   errors: [
@@ -6037,7 +7150,19 @@ export const getWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets an image.
  */
-export const getImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getImage: (
+  input: GetImageRequest,
+) => Effect.Effect<
+  GetImageResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImageRequest,
   output: GetImageResponse,
   errors: [
@@ -6053,26 +7178,68 @@ export const getImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns the list of component build versions for the specified component
  * version Amazon Resource Name (ARN).
  */
-export const listComponentBuildVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listComponentBuildVersions: {
+  (
     input: ListComponentBuildVersionsRequest,
-    output: ListComponentBuildVersionsResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "componentSummaryList",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListComponentBuildVersionsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComponentBuildVersionsRequest,
+  ) => Stream.Stream<
+    ListComponentBuildVersionsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComponentBuildVersionsRequest,
+  ) => Stream.Stream<
+    ComponentSummary,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComponentBuildVersionsRequest,
+  output: ListComponentBuildVersionsResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "componentSummaryList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of image scan aggregations for your account. You can filter by the type
  * of key that Image Builder uses to group results. For example, if you want to get a list of
@@ -6090,25 +7257,67 @@ export const listComponentBuildVersions =
  *
  * - `vulnerabilityId`
  */
-export const listImageScanFindingAggregations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listImageScanFindingAggregations: {
+  (
     input: ListImageScanFindingAggregationsRequest,
-    output: ListImageScanFindingAggregationsResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "responses",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListImageScanFindingAggregationsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImageScanFindingAggregationsRequest,
+  ) => Stream.Stream<
+    ListImageScanFindingAggregationsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImageScanFindingAggregationsRequest,
+  ) => Stream.Stream<
+    ImageScanFindingAggregation,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImageScanFindingAggregationsRequest,
+  output: ListImageScanFindingAggregationsResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "responses",
+  } as const,
+}));
 /**
  * Applies a policy to a container image. We recommend that you call the RAM API
  * CreateResourceShare
@@ -6119,28 +7328,54 @@ export const listImageScanFindingAggregations =
  * in order for the resource to be visible to all principals with whom the resource is
  * shared.
  */
-export const putContainerRecipePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutContainerRecipePolicyRequest,
-    output: PutContainerRecipePolicyResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidParameterValueException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const putContainerRecipePolicy: (
+  input: PutContainerRecipePolicyRequest,
+) => Effect.Effect<
+  PutContainerRecipePolicyResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutContainerRecipePolicyRequest,
+  output: PutContainerRecipePolicyResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidParameterValueException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Applies a policy to an image. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
  * `PutImagePolicy`, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
  * visible to all principals with whom the resource is shared.
  */
-export const putImagePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putImagePolicy: (
+  input: PutImagePolicyRequest,
+) => Effect.Effect<
+  PutImagePolicyResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutImagePolicyRequest,
   output: PutImagePolicyResponse,
   errors: [
@@ -6159,26 +7394,51 @@ export const putImagePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `PutImageRecipePolicy`, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
  * visible to all principals with whom the resource is shared.
  */
-export const putImageRecipePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutImageRecipePolicyRequest,
-    output: PutImageRecipePolicyResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidParameterValueException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const putImageRecipePolicy: (
+  input: PutImageRecipePolicyRequest,
+) => Effect.Effect<
+  PutImageRecipePolicyResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutImageRecipePolicyRequest,
+  output: PutImageRecipePolicyResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidParameterValueException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Deletes a component build version.
  */
-export const deleteComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteComponent: (
+  input: DeleteComponentRequest,
+) => Effect.Effect<
+  DeleteComponentResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ResourceDependencyException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteComponentRequest,
   output: DeleteComponentResponse,
   errors: [
@@ -6194,26 +7454,54 @@ export const deleteComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancel a specific image lifecycle policy runtime instance.
  */
-export const cancelLifecycleExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelLifecycleExecutionRequest,
-    output: CancelLifecycleExecutionResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const cancelLifecycleExecution: (
+  input: CancelLifecycleExecutionRequest,
+) => Effect.Effect<
+  CancelLifecycleExecutionResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelLifecycleExecutionRequest,
+  output: CancelLifecycleExecutionResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Imports a component and transforms its data into a component document.
  */
-export const importComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importComponent: (
+  input: ImportComponentRequest,
+) => Effect.Effect<
+  ImportComponentResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidParameterCombinationException
+  | InvalidRequestException
+  | InvalidVersionNumberException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportComponentRequest,
   output: ImportComponentResponse,
   errors: [
@@ -6233,77 +7521,127 @@ export const importComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates a new distribution configuration. Distribution configurations define and
  * configure the outputs of your pipeline.
  */
-export const updateDistributionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDistributionConfigurationRequest,
-    output: UpdateDistributionConfigurationResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidParameterCombinationException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const updateDistributionConfiguration: (
+  input: UpdateDistributionConfigurationRequest,
+) => Effect.Effect<
+  UpdateDistributionConfigurationResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidParameterCombinationException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDistributionConfigurationRequest,
+  output: UpdateDistributionConfigurationResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidParameterCombinationException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Update the specified lifecycle policy.
  */
-export const updateLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLifecyclePolicyRequest,
-    output: UpdateLifecyclePolicyResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidParameterCombinationException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const updateLifecyclePolicy: (
+  input: UpdateLifecyclePolicyRequest,
+) => Effect.Effect<
+  UpdateLifecyclePolicyResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidParameterCombinationException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLifecyclePolicyRequest,
+  output: UpdateLifecyclePolicyResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidParameterCombinationException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Deletes a container recipe.
  */
-export const deleteContainerRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContainerRecipeRequest,
-    output: DeleteContainerRecipeResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ResourceDependencyException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const deleteContainerRecipe: (
+  input: DeleteContainerRecipeRequest,
+) => Effect.Effect<
+  DeleteContainerRecipeResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ResourceDependencyException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContainerRecipeRequest,
+  output: DeleteContainerRecipeResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ResourceDependencyException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Deletes a distribution configuration.
  */
-export const deleteDistributionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDistributionConfigurationRequest,
-    output: DeleteDistributionConfigurationResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ResourceDependencyException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const deleteDistributionConfiguration: (
+  input: DeleteDistributionConfigurationRequest,
+) => Effect.Effect<
+  DeleteDistributionConfigurationResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ResourceDependencyException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDistributionConfigurationRequest,
+  output: DeleteDistributionConfigurationResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ResourceDependencyException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container
  * images that are created during the image build process. You must clean those up
@@ -6323,7 +7661,20 @@ export const deleteDistributionConfiguration =
  * - To delete a container image from Amazon ECR, see Deleting
  * an image in the *Amazon ECR User Guide*.
  */
-export const deleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteImage: (
+  input: DeleteImageRequest,
+) => Effect.Effect<
+  DeleteImageResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ResourceDependencyException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImageRequest,
   output: DeleteImageResponse,
   errors: [
@@ -6339,7 +7690,20 @@ export const deleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an image pipeline.
  */
-export const deleteImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteImagePipeline: (
+  input: DeleteImagePipelineRequest,
+) => Effect.Effect<
+  DeleteImagePipelineResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ResourceDependencyException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImagePipelineRequest,
   output: DeleteImagePipelineResponse,
   errors: [
@@ -6355,7 +7719,20 @@ export const deleteImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an image recipe.
  */
-export const deleteImageRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteImageRecipe: (
+  input: DeleteImageRecipeRequest,
+) => Effect.Effect<
+  DeleteImageRecipeResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ResourceDependencyException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImageRecipeRequest,
   output: DeleteImageRecipeResponse,
   errors: [
@@ -6371,42 +7748,78 @@ export const deleteImageRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an infrastructure configuration.
  */
-export const deleteInfrastructureConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteInfrastructureConfigurationRequest,
-    output: DeleteInfrastructureConfigurationResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ResourceDependencyException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const deleteInfrastructureConfiguration: (
+  input: DeleteInfrastructureConfigurationRequest,
+) => Effect.Effect<
+  DeleteInfrastructureConfigurationResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ResourceDependencyException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInfrastructureConfigurationRequest,
+  output: DeleteInfrastructureConfigurationResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ResourceDependencyException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Delete the specified lifecycle policy resource.
  */
-export const deleteLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLifecyclePolicyRequest,
-    output: DeleteLifecyclePolicyResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidRequestException,
-      ResourceDependencyException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const deleteLifecyclePolicy: (
+  input: DeleteLifecyclePolicyRequest,
+) => Effect.Effect<
+  DeleteLifecyclePolicyResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ResourceDependencyException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLifecyclePolicyRequest,
+  output: DeleteLifecyclePolicyResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidRequestException,
+    ResourceDependencyException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Deletes a specific workflow resource.
  */
-export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkflow: (
+  input: DeleteWorkflowRequest,
+) => Effect.Effect<
+  DeleteWorkflowResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidRequestException
+  | ResourceDependencyException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkflowRequest,
   output: DeleteWorkflowResponse,
   errors: [
@@ -6422,7 +7835,21 @@ export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * RetryImage retries an image distribution without rebuilding the image.
  */
-export const retryImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const retryImage: (
+  input: RetryImageRequest,
+) => Effect.Effect<
+  RetryImageResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetryImageRequest,
   output: RetryImageResponse,
   errors: [
@@ -6440,44 +7867,71 @@ export const retryImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Pauses or resumes image creation when the associated workflow runs a
  * `WaitForAction` step.
  */
-export const sendWorkflowStepAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendWorkflowStepActionRequest,
-    output: SendWorkflowStepActionResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidParameterValueException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const sendWorkflowStepAction: (
+  input: SendWorkflowStepActionRequest,
+) => Effect.Effect<
+  SendWorkflowStepActionResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendWorkflowStepActionRequest,
+  output: SendWorkflowStepActionResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidParameterValueException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Manually triggers a pipeline to create an image.
  */
-export const startImagePipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartImagePipelineExecutionRequest,
-    output: StartImagePipelineExecutionResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const startImagePipelineExecution: (
+  input: StartImagePipelineExecutionRequest,
+) => Effect.Effect<
+  StartImagePipelineExecutionResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartImagePipelineExecutionRequest,
+  output: StartImagePipelineExecutionResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Updates an image pipeline. Image pipelines enable you to automate the creation and
  * distribution of images. You must specify exactly one recipe for your image, using either
@@ -6487,7 +7941,21 @@ export const startImagePipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * specify all of the required properties in the update request, not just the
  * properties that have changed.
  */
-export const updateImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateImagePipeline: (
+  input: UpdateImagePipelineRequest,
+) => Effect.Effect<
+  UpdateImagePipelineResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateImagePipelineRequest,
   output: UpdateImagePipelineResponse,
   errors: [
@@ -6505,26 +7973,53 @@ export const updateImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates a new infrastructure configuration. An infrastructure configuration defines
  * the environment in which your image will be built and tested.
  */
-export const updateInfrastructureConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateInfrastructureConfigurationRequest,
-    output: UpdateInfrastructureConfigurationResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const updateInfrastructureConfiguration: (
+  input: UpdateInfrastructureConfigurationRequest,
+) => Effect.Effect<
+  UpdateInfrastructureConfigurationResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInfrastructureConfigurationRequest,
+  output: UpdateInfrastructureConfigurationResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * CancelImageCreation cancels the creation of Image. This operation can only be used on
  * images in a non-terminal state.
  */
-export const cancelImageCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelImageCreation: (
+  input: CancelImageCreationRequest,
+) => Effect.Effect<
+  CancelImageCreationResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelImageCreationRequest,
   output: CancelImageCreationResponse,
   errors: [
@@ -6542,51 +8037,122 @@ export const cancelImageCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Begin asynchronous resource state update for lifecycle changes to the
  * specified image resources.
  */
-export const startResourceStateUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartResourceStateUpdateRequest,
-    output: StartResourceStateUpdateResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const startResourceStateUpdate: (
+  input: StartResourceStateUpdateRequest,
+) => Effect.Effect<
+  StartResourceStateUpdateResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartResourceStateUpdateRequest,
+  output: StartResourceStateUpdateResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Returns a list of image scan findings for your account.
  */
-export const listImageScanFindings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listImageScanFindings: {
+  (
     input: ListImageScanFindingsRequest,
-    output: ListImageScanFindingsResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      InvalidPaginationTokenException,
-      InvalidRequestException,
-      ServiceException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "findings",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListImageScanFindingsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImageScanFindingsRequest,
+  ) => Stream.Stream<
+    ListImageScanFindingsResponse,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImageScanFindingsRequest,
+  ) => Stream.Stream<
+    ImageScanFinding,
+    | CallRateLimitExceededException
+    | ClientException
+    | ForbiddenException
+    | InvalidPaginationTokenException
+    | InvalidRequestException
+    | ServiceException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImageScanFindingsRequest,
+  output: ListImageScanFindingsResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    InvalidPaginationTokenException,
+    InvalidRequestException,
+    ServiceException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "findings",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a new image pipeline. Image pipelines enable you to automate the creation and
  * distribution of images.
  */
-export const createImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createImagePipeline: (
+  input: CreateImagePipelineRequest,
+) => Effect.Effect<
+  CreateImagePipelineResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateImagePipelineRequest,
   output: CreateImagePipelineResponse,
   errors: [
@@ -6605,7 +8171,25 @@ export const createImagePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a new workflow or a new version of an existing workflow.
  */
-export const createWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkflow: (
+  input: CreateWorkflowRequest,
+) => Effect.Effect<
+  CreateWorkflowResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | DryRunOperationException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidParameterCombinationException
+  | InvalidRequestException
+  | InvalidVersionNumberException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkflowRequest,
   output: CreateWorkflowResponse,
   errors: [
@@ -6627,31 +8211,62 @@ export const createWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a new distribution configuration. Distribution configurations define and
  * configure the outputs of your pipeline.
  */
-export const createDistributionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDistributionConfigurationRequest,
-    output: CreateDistributionConfigurationResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidParameterCombinationException,
-      InvalidRequestException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ServiceException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const createDistributionConfiguration: (
+  input: CreateDistributionConfigurationRequest,
+) => Effect.Effect<
+  CreateDistributionConfigurationResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidParameterCombinationException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDistributionConfigurationRequest,
+  output: CreateDistributionConfigurationResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidParameterCombinationException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Creates a new image. This request will create a new image along with all of the
  * configured output resources defined in the distribution configuration. You must specify
  * exactly one recipe for your image, using either a ContainerRecipeArn or an
  * ImageRecipeArn.
  */
-export const createImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createImage: (
+  input: CreateImageRequest,
+) => Effect.Effect<
+  CreateImageResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateImageRequest,
   output: CreateImageResponse,
   errors: [
@@ -6670,7 +8285,24 @@ export const createImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a new image recipe. Image recipes define how images are configured, tested,
  * and assessed.
  */
-export const createImageRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createImageRecipe: (
+  input: CreateImageRecipeRequest,
+) => Effect.Effect<
+  CreateImageRecipeResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidRequestException
+  | InvalidVersionNumberException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateImageRecipeRequest,
   output: CreateImageRecipeResponse,
   errors: [
@@ -6697,7 +8329,25 @@ export const createImageRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - A URL that points to a YAML document file stored in Amazon S3, using the
  * `uri` property in the request body.
  */
-export const createComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createComponent: (
+  input: CreateComponentRequest,
+) => Effect.Effect<
+  CreateComponentResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | DryRunOperationException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidParameterCombinationException
+  | InvalidRequestException
+  | InvalidVersionNumberException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComponentRequest,
   output: CreateComponentResponse,
   errors: [
@@ -6719,71 +8369,133 @@ export const createComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a new infrastructure configuration. An infrastructure configuration defines
  * the environment in which your image will be built and tested.
  */
-export const createInfrastructureConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateInfrastructureConfigurationRequest,
-    output: CreateInfrastructureConfigurationResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidRequestException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ServiceException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const createInfrastructureConfiguration: (
+  input: CreateInfrastructureConfigurationRequest,
+) => Effect.Effect<
+  CreateInfrastructureConfigurationResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInfrastructureConfigurationRequest,
+  output: CreateInfrastructureConfigurationResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Create a lifecycle policy resource.
  */
-export const createLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLifecyclePolicyRequest,
-    output: CreateLifecyclePolicyResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidRequestException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ServiceException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const createLifecyclePolicy: (
+  input: CreateLifecyclePolicyRequest,
+) => Effect.Effect<
+  CreateLifecyclePolicyResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLifecyclePolicyRequest,
+  output: CreateLifecyclePolicyResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Creates a new container recipe. Container recipes define how images are configured,
  * tested, and assessed.
  */
-export const createContainerRecipe = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateContainerRecipeRequest,
-    output: CreateContainerRecipeResponse,
-    errors: [
-      CallRateLimitExceededException,
-      ClientException,
-      ForbiddenException,
-      IdempotentParameterMismatchException,
-      InvalidRequestException,
-      InvalidVersionNumberException,
-      ResourceAlreadyExistsException,
-      ResourceInUseException,
-      ServiceException,
-      ServiceQuotaExceededException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const createContainerRecipe: (
+  input: CreateContainerRecipeRequest,
+) => Effect.Effect<
+  CreateContainerRecipeResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidRequestException
+  | InvalidVersionNumberException
+  | ResourceAlreadyExistsException
+  | ResourceInUseException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContainerRecipeRequest,
+  output: CreateContainerRecipeResponse,
+  errors: [
+    CallRateLimitExceededException,
+    ClientException,
+    ForbiddenException,
+    IdempotentParameterMismatchException,
+    InvalidRequestException,
+    InvalidVersionNumberException,
+    ResourceAlreadyExistsException,
+    ResourceInUseException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * DistributeImage distributes existing AMIs to additional regions and accounts without rebuilding the image.
  */
-export const distributeImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const distributeImage: (
+  input: DistributeImageRequest,
+) => Effect.Effect<
+  DistributeImageResponse,
+  | AccessDeniedException
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | IdempotentParameterMismatchException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DistributeImageRequest,
   output: DistributeImageResponse,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "QuickSight",
   serviceShapeName: "QuickSight_20180401",
@@ -240,6 +248,264 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AwsAccountId = string;
+export type TopicId = string;
+export type AnswerId = string;
+export type IngestionId = string;
+export type Namespace = string;
+export type AccountName = string;
+export type ShortRestrictiveResourceId = string;
+export type ActionConnectorName = string;
+export type ActionConnectorDescription = string;
+export type Arn = string;
+export type AnalysisName = string;
+export type CustomPermissionsName = string;
+export type DashboardName = string;
+export type VersionDescription = string;
+export type LinkEntityArn = string;
+export type ResourceId = string;
+export type ResourceName = string;
+export type RestrictiveResourceId = string;
+export type FolderName = string;
+export type GroupName = string;
+export type GroupDescription = string;
+export type GroupMemberName = string;
+export type IAMPolicyAssignmentName = string;
+export type TemplateName = string;
+export type AliasName = string;
+export type VersionNumber = number;
+export type ThemeName = string;
+export type VPCConnectionResourceIdRestricted = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type IPv4Address = string;
+export type RoleArn = string;
+export type RecoveryWindowInDays = number;
+export type UserName = string;
+export type VPCConnectionResourceIdUnrestricted = string;
+export type MaxResults = number;
+export type AwsAndAccountId = string;
+export type SessionLifetimeInMinutes = number;
+export type AccountId = string;
+export type FlowId = string;
+export type EntryPoint = string;
+export type FlowMaxResults = number;
+export type ListIdentityPropagationMaxResults = number;
+export type IngestionMaxResults = number;
+export type QAQueryText = string;
+export type MaxTopicsToConsider = number;
+export type RoleSessionName = string;
+export type RoleName = string;
+export type SearchActionConnectorsRequestMaxResultsInteger = number;
+export type TagKey = string;
+export type LimitedString = string;
+export type TagValue = string;
+export type Principal = string;
+export type Name = string;
+export type Description = string;
+export type PhysicalTableId = string;
+export type LogicalTableId = string;
+export type FieldFolderPath = string;
+export type SessionTagKey = string;
+export type CopySourceArn = string;
+export type SecretArn = string;
+export type IdentityName = string;
+export type CustomInstructionsString = string;
+export type SessionTagValue = string;
+export type SensitiveString = string;
+export type S3Uri = string;
+export type ActionsListMemberString = string;
+export type PermissionPrincipalString = string;
+export type CIDR = string;
+export type IpRestrictionRuleDescription = string;
+export type VpcId = string;
+export type VpcIdRestrictionRuleDescription = string;
+export type VpcEndpointId = string;
+export type VpcEndpointIdRestrictionRuleDescription = string;
+export type StatusCode = number;
+export type SensitiveS3Uri = string;
+export type NonEmptyString = string;
+export type EmbeddingUrl = string;
+export type Title = string;
+export type FlowDescription = string;
+export type Integer = number;
+export type SensitiveLong = number;
+export type SensitiveDouble = number;
+export type DataSetIdentifier = string;
+export type SheetTitle = string;
+export type SheetDescription = string;
+export type SheetName = string;
+export type ColumnName = string;
+export type CalculatedFieldExpression = string;
+export type LogicalTableAlias = string;
+export type ColumnGroupName = string;
+export type FieldFolderDescription = string;
+export type RowLevelPermissionTagDelimiter = string;
+export type DatasetParameterId = string;
+export type DatasetParameterName = string;
+export type DataSetEntityResourceId = string;
+export type Domain = string;
+export type WorkGroup = string;
+export type Host = string;
+export type Port = number;
+export type Database = string;
+export type DataSetName = string;
+export type SiteBaseUrl = string;
+export type Catalog = string;
+export type InstanceId = string;
+export type OptionalPort = number;
+export type ClusterId = string;
+export type S3Bucket = string;
+export type MetadataFilesLocation = string;
+export type Warehouse = string;
+export type DatabaseAccessControlRole = string;
+export type Query = string;
+export type PositiveInteger = number;
+export type SqlEndpointPath = string;
+export type ProjectId = string;
+export type DataSetRegion = string;
+export type XpathFields = string;
+export type ApplicationArn = string;
+export type DbUsername = string;
+export type Password = string;
+export type PrivateKey = string;
+export type PrivateKeyPassphrase = string;
+export type HexColor = string;
+export type EntryPath = string;
+export type AssetBundleRestrictiveResourceId = string;
+export type ActionId = string;
+export type ErrorMessage = string;
+export type Long = number;
+export type Expression = string;
+export type Endpoint = string;
+export type ActionUserName = string;
+export type ActionPassword = string;
+export type APIKey = string;
+export type Email = string;
+export type SheetTextBoxContent = string;
+export type LongPlainText = string;
+export type ParameterName = string;
+export type RelationalTableCatalog = string;
+export type RelationalTableSchema = string;
+export type RelationalTableName = string;
+export type CustomSqlName = string;
+export type SqlQuery = string;
+export type StringDatasetParameterDefaultValue = string;
+export type DecimalDatasetParameterDefaultValue = number;
+export type IntegerDatasetParameterDefaultValue = number;
+export type DestinationTableAlias = string;
+export type SemanticTableAlias = string;
+export type DatabaseUser = string;
+export type DatabaseGroup = string;
+export type S3Key = string;
+export type TokenProviderUrl = string;
+export type OAuthScope = string;
+export type IdentityProviderResourceUri = string;
+export type DayOfMonth = string;
+export type Color = string;
+export type BorderRadius = string;
+export type Padding = string;
+export type StatusCode2 = number;
+export type AltText = string;
+export type ColumnId = string;
+export type ColumnDescriptiveText = string;
+export type NetworkInterfaceId = string;
+export type VisualTitle = string;
+export type VisualSubtitle = string;
+export type QAUrl = string;
+export type QuestionId = string;
+export type ConstantValueString = string;
+export type AggFunctionParamKey = string;
+export type AggFunctionParamValue = string;
+export type SheetControlTitle = string;
+export type TextAreaControlDelimiter = string;
+export type Double = number;
+export type ImageCustomActionName = string;
+export type SensitiveStringObject = string;
+export type SensitiveDoubleObject = number;
+export type SensitiveLongObject = number;
+export type DateTimeFormat = string;
+export type FieldValue = string;
+export type ElementValue = string;
+export type HexColorWithTransparency = string;
+export type Delimiter = string;
+export type TablePathElementName = string;
+export type TablePathElementId = string;
+export type TransformOperationAlias = string;
+export type TypeCastFormat = string;
+export type OnClause = string;
+export type JoinOperationOnClause = string;
+export type Width = string;
+export type PixelLength = string;
+export type PositiveLong = number;
+export type ClientId = string;
+export type ClientSecret = string;
+export type VisualCustomActionName = string;
+export type URLOperationTemplate = string;
+export type RadarChartStartAngle = number;
+export type NullString = string;
+export type DataSetCalculatedFieldExpression = string;
+export type CellValue = string;
+export type ResourceArn = string;
+export type SheetControlInfoIconText = string;
+export type ShortPlainText = string;
+export type ShortRichText = string;
+export type LongRichText = string;
+export type FieldId = string;
+export type VisiblePanelRows = number;
+export type VisiblePanelColumns = number;
+export type HierarchyId = string;
+export type GeocoderHierarchyCountryString = string;
+export type GeocoderHierarchyStateString = string;
+export type GeocoderHierarchyCountyString = string;
+export type GeocoderHierarchyCityString = string;
+export type GeocoderHierarchyPostCodeString = string;
+export type WordCloudMaximumStringLength = number;
+export type NarrativeString = string;
+export type GridLayoutElementColumnIndex = number;
+export type GridLayoutElementColumnSpan = number;
+export type GridLayoutElementRowIndex = number;
+export type GridLayoutElementRowSpan = number;
+export type UnlimitedPixelLength = string;
+export type CategoryValue = string;
+export type Prefix = string;
+export type Suffix = string;
+export type CurrencyCode = string;
+export type PageNumber = number;
+export type TableFieldHeight = number;
+export type CustomLabel = string;
+export type TransposedColumnIndex = number;
+export type PivotTableRowsLabelText = string;
+export type PeriodsForward = number;
+export type PeriodsBackward = number;
+export type PredictionInterval = number;
+export type Seasonality = number;
+export type Latitude = number;
+export type Longitude = number;
+export type CoordinateLatitudeDouble = number;
+export type CoordinateLongitudeDouble = number;
+export type LayerCustomActionName = string;
+export type BinCountValue = number;
+export type BinWidthValue = number;
+export type BinCountLimit = number;
+export type TopBottomRankedComputationResultSize = number;
+export type TopBottomMoversComputationMoverSize = number;
+export type GrowthRatePeriodSize = number;
+export type ForecastComputationCustomSeasonalityValue = number;
+export type PercentileValue = number;
+export type DecimalPlaces = number;
+export type DataSetStringFilterStaticValue = string;
+export type Separator = string;
+export type Length = string;
+export type TableBorderThickness = number;
+export type PercentNumber = number;
+export type BodySectionDynamicDimensionLimit = number;
+export type UnicodeIcon = string;
+export type GeospatialWidth = number;
+export type GeospatialRadius = number;
+export type Opacity = number;
 
 //# Schemas
 export type AnswerIds = string[];
@@ -4498,6 +4764,9 @@ export const AuthorizationCodeGrantDetails = S.suspend(() =>
 ).annotations({
   identifier: "AuthorizationCodeGrantDetails",
 }) as any as S.Schema<AuthorizationCodeGrantDetails>;
+export type AuthorizationCodeGrantCredentialsDetails = {
+  AuthorizationCodeGrantDetails: AuthorizationCodeGrantDetails;
+};
 export const AuthorizationCodeGrantCredentialsDetails = S.Union(
   S.Struct({ AuthorizationCodeGrantDetails: AuthorizationCodeGrantDetails }),
 );
@@ -4533,6 +4802,9 @@ export const ClientCredentialsGrantDetails = S.suspend(() =>
 ).annotations({
   identifier: "ClientCredentialsGrantDetails",
 }) as any as S.Schema<ClientCredentialsGrantDetails>;
+export type ClientCredentialsDetails = {
+  ClientCredentialsGrantDetails: ClientCredentialsGrantDetails;
+};
 export const ClientCredentialsDetails = S.Union(
   S.Struct({ ClientCredentialsGrantDetails: ClientCredentialsGrantDetails }),
 );
@@ -4590,6 +4862,13 @@ export const IAMConnectionMetadata = S.suspend(() =>
 ).annotations({
   identifier: "IAMConnectionMetadata",
 }) as any as S.Schema<IAMConnectionMetadata>;
+export type AuthenticationMetadata =
+  | { AuthorizationCodeGrantMetadata: AuthorizationCodeGrantMetadata }
+  | { ClientCredentialsGrantMetadata: ClientCredentialsGrantMetadata }
+  | { BasicAuthConnectionMetadata: BasicAuthConnectionMetadata }
+  | { ApiKeyConnectionMetadata: APIKeyConnectionMetadata }
+  | { NoneConnectionMetadata: NoneConnectionMetadata }
+  | { IamConnectionMetadata: IAMConnectionMetadata };
 export const AuthenticationMetadata = S.Union(
   S.Struct({ AuthorizationCodeGrantMetadata: AuthorizationCodeGrantMetadata }),
   S.Struct({ ClientCredentialsGrantMetadata: ClientCredentialsGrantMetadata }),
@@ -9219,6 +9498,9 @@ export interface Coordinate {
 export const Coordinate = S.suspend(() =>
   S.Struct({ Latitude: S.Number, Longitude: S.Number }),
 ).annotations({ identifier: "Coordinate" }) as any as S.Schema<Coordinate>;
+export type GeocodePreferenceValue =
+  | { GeocoderHierarchy: GeocoderHierarchy }
+  | { Coordinate: Coordinate };
 export const GeocodePreferenceValue = S.Union(
   S.Struct({ GeocoderHierarchy: GeocoderHierarchy }),
   S.Struct({ Coordinate: Coordinate }),
@@ -13212,6 +13494,7 @@ export const ApplicationTheme = S.suspend(() =>
 ).annotations({
   identifier: "ApplicationTheme",
 }) as any as S.Schema<ApplicationTheme>;
+export type ImageSource = { PublicUrl: string } | { S3Uri: string };
 export const ImageSource = S.Union(
   S.Struct({ PublicUrl: S.String }),
   S.Struct({ S3Uri: S.String }),
@@ -13907,6 +14190,11 @@ export const SaaSTable = S.suspend(() =>
     InputColumns: InputColumnList,
   }),
 ).annotations({ identifier: "SaaSTable" }) as any as S.Schema<SaaSTable>;
+export type PhysicalTable =
+  | { RelationalTable: RelationalTable }
+  | { CustomSql: CustomSql }
+  | { S3Source: S3Source }
+  | { SaaSTable: SaaSTable };
 export const PhysicalTable = S.Union(
   S.Struct({ RelationalTable: RelationalTable }),
   S.Struct({ CustomSql: CustomSql }),
@@ -14262,6 +14550,15 @@ export const OverrideDatasetParameterOperation = S.suspend(() =>
 ).annotations({
   identifier: "OverrideDatasetParameterOperation",
 }) as any as S.Schema<OverrideDatasetParameterOperation>;
+export type TransformOperation =
+  | { ProjectOperation: ProjectOperation }
+  | { FilterOperation: FilterOperation }
+  | { CreateColumnsOperation: CreateColumnsOperation }
+  | { RenameColumnOperation: RenameColumnOperation }
+  | { CastColumnTypeOperation: CastColumnTypeOperation }
+  | { TagColumnOperation: TagColumnOperation }
+  | { UntagColumnOperation: UntagColumnOperation }
+  | { OverrideDatasetParameterOperation: OverrideDatasetParameterOperation };
 export const TransformOperation = S.Union(
   S.Struct({ ProjectOperation: ProjectOperation }),
   S.Struct({ FilterOperation: FilterOperation }),
@@ -15531,6 +15828,39 @@ export const QBusinessParameters = S.suspend(() =>
 ).annotations({
   identifier: "QBusinessParameters",
 }) as any as S.Schema<QBusinessParameters>;
+export type DataSourceParameters =
+  | { AmazonElasticsearchParameters: AmazonElasticsearchParameters }
+  | { AthenaParameters: AthenaParameters }
+  | { AuroraParameters: AuroraParameters }
+  | { AuroraPostgreSqlParameters: AuroraPostgreSqlParameters }
+  | { AwsIotAnalyticsParameters: AwsIotAnalyticsParameters }
+  | { JiraParameters: JiraParameters }
+  | { MariaDbParameters: MariaDbParameters }
+  | { MySqlParameters: MySqlParameters }
+  | { OracleParameters: OracleParameters }
+  | { PostgreSqlParameters: PostgreSqlParameters }
+  | { PrestoParameters: PrestoParameters }
+  | { RdsParameters: RdsParameters }
+  | { RedshiftParameters: RedshiftParameters }
+  | { S3Parameters: S3Parameters }
+  | { S3KnowledgeBaseParameters: S3KnowledgeBaseParameters }
+  | { ServiceNowParameters: ServiceNowParameters }
+  | { SnowflakeParameters: SnowflakeParameters }
+  | { SparkParameters: SparkParameters }
+  | { SqlServerParameters: SqlServerParameters }
+  | { TeradataParameters: TeradataParameters }
+  | { TwitterParameters: TwitterParameters }
+  | { AmazonOpenSearchParameters: AmazonOpenSearchParameters }
+  | { ExasolParameters: ExasolParameters }
+  | { DatabricksParameters: DatabricksParameters }
+  | { StarburstParameters: StarburstParameters }
+  | { TrinoParameters: TrinoParameters }
+  | { BigQueryParameters: BigQueryParameters }
+  | { ImpalaParameters: ImpalaParameters }
+  | { CustomConnectionParameters: CustomConnectionParameters }
+  | { WebCrawlerParameters: WebCrawlerParameters }
+  | { ConfluenceParameters: ConfluenceParameters }
+  | { QBusinessParameters: QBusinessParameters };
 export const DataSourceParameters = S.Union(
   S.Struct({ AmazonElasticsearchParameters: AmazonElasticsearchParameters }),
   S.Struct({ AthenaParameters: AthenaParameters }),
@@ -17342,6 +17672,10 @@ export type SessionTagList = SessionTag[];
 export const SessionTagList = S.Array(SessionTag);
 export type PermissionsList = Permission[];
 export const PermissionsList = S.Array(Permission);
+export type UserIdentifier =
+  | { UserName: string }
+  | { Email: string }
+  | { UserArn: string };
 export const UserIdentifier = S.Union(
   S.Struct({ UserName: S.String }),
   S.Struct({ Email: S.String }),
@@ -24952,11 +25286,17 @@ export const CreateThemeResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateThemeResponse",
 }) as any as S.Schema<CreateThemeResponse>;
+export type ReadAuthorizationCodeGrantCredentialsDetails = {
+  ReadAuthorizationCodeGrantDetails: ReadAuthorizationCodeGrantDetails;
+};
 export const ReadAuthorizationCodeGrantCredentialsDetails = S.Union(
   S.Struct({
     ReadAuthorizationCodeGrantDetails: ReadAuthorizationCodeGrantDetails,
   }),
 );
+export type ReadClientCredentialsDetails = {
+  ReadClientCredentialsGrantDetails: ReadClientCredentialsGrantDetails;
+};
 export const ReadClientCredentialsDetails = S.Union(
   S.Struct({
     ReadClientCredentialsGrantDetails: ReadClientCredentialsGrantDetails,
@@ -25109,6 +25449,13 @@ export const SnapshotJobResult = S.suspend(() =>
 ).annotations({
   identifier: "SnapshotJobResult",
 }) as any as S.Schema<SnapshotJobResult>;
+export type ReadAuthenticationMetadata =
+  | { AuthorizationCodeGrantMetadata: ReadAuthorizationCodeGrantMetadata }
+  | { ClientCredentialsGrantMetadata: ReadClientCredentialsGrantMetadata }
+  | { BasicAuthConnectionMetadata: ReadBasicAuthConnectionMetadata }
+  | { ApiKeyConnectionMetadata: ReadAPIKeyConnectionMetadata }
+  | { NoneConnectionMetadata: ReadNoneConnectionMetadata }
+  | { IamConnectionMetadata: ReadIamConnectionMetadata };
 export const ReadAuthenticationMetadata = S.Union(
   S.Struct({
     AuthorizationCodeGrantMetadata: ReadAuthorizationCodeGrantMetadata,
@@ -25512,11 +25859,15 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { Message: S.optional(S.String), RequestId: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConcurrentUpdatingException extends S.TaggedError<ConcurrentUpdatingException>()(
   "ConcurrentUpdatingException",
   { Message: S.optional(S.String), RequestId: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
   "InvalidParameterValueException",
   { Message: S.optional(S.String), RequestId: S.optional(S.String) },
@@ -25540,7 +25891,9 @@ export class InvalidParameterException extends S.TaggedError<InvalidParameterExc
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class DomainNotWhitelistedException extends S.TaggedError<DomainNotWhitelistedException>()(
   "DomainNotWhitelistedException",
   { Message: S.optional(S.String), RequestId: S.optional(S.String) },
@@ -25564,7 +25917,9 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String), RequestId: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceExistsException extends S.TaggedError<ResourceExistsException>()(
   "ResourceExistsException",
   {
@@ -25580,7 +25935,9 @@ export class ResourceUnavailableException extends S.TaggedError<ResourceUnavaila
     ResourceType: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class PreconditionNotMetException extends S.TaggedError<PreconditionNotMetException>()(
   "PreconditionNotMetException",
   { Message: S.optional(S.String), RequestId: S.optional(S.String) },
@@ -25614,7 +25971,19 @@ export class UnsupportedPricingPlanException extends S.TaggedError<UnsupportedPr
 /**
  * Describes a SPICE ingestion.
  */
-export const describeIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeIngestion: (
+  input: DescribeIngestionRequest,
+) => Effect.Effect<
+  DescribeIngestionResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIngestionRequest,
   output: DescribeIngestionResponse,
   errors: [
@@ -25629,7 +25998,19 @@ export const describeIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the current namespace.
  */
-export const describeNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeNamespace: (
+  input: DescribeNamespaceRequest,
+) => Effect.Effect<
+  DescribeNamespaceResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNamespaceRequest,
   output: DescribeNamespaceResponse,
   errors: [
@@ -25644,25 +26025,72 @@ export const describeNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the self-upgrade configuration for a Quick Suite account.
  */
-export const describeSelfUpgradeConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeSelfUpgradeConfigurationRequest,
-    output: DescribeSelfUpgradeConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const describeSelfUpgradeConfiguration: (
+  input: DescribeSelfUpgradeConfigurationRequest,
+) => Effect.Effect<
+  DescribeSelfUpgradeConfigurationResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSelfUpgradeConfigurationRequest,
+  output: DescribeSelfUpgradeConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists all brands in an Quick Sight account.
  */
-export const listBrands = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBrands: {
+  (
+    input: ListBrandsRequest,
+  ): Effect.Effect<
+    ListBrandsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBrandsRequest,
+  ) => Stream.Stream<
+    ListBrandsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBrandsRequest,
+  ) => Stream.Stream<
+    BrandSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBrandsRequest,
   output: ListBrandsResponse,
   errors: [
@@ -25682,7 +26110,18 @@ export const listBrands = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Describes a dataset. This operation doesn't support datasets that include uploaded
  * files as a source.
  */
-export const describeDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDataSet: (
+  input: DescribeDataSetRequest,
+) => Effect.Effect<
+  DescribeDataSetResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDataSetRequest,
   output: DescribeDataSetResponse,
   errors: [
@@ -25696,7 +26135,18 @@ export const describeDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes a data source.
  */
-export const describeDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDataSource: (
+  input: DescribeDataSourceRequest,
+) => Effect.Effect<
+  DescribeDataSourceResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDataSourceRequest,
   output: DescribeDataSourceResponse,
   errors: [
@@ -25711,20 +26161,30 @@ export const describeDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Describes an existing IAM policy assignment, as specified by the
  * assignment name.
  */
-export const describeIAMPolicyAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeIAMPolicyAssignmentRequest,
-    output: DescribeIAMPolicyAssignmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeIAMPolicyAssignment: (
+  input: DescribeIAMPolicyAssignmentRequest,
+) => Effect.Effect<
+  DescribeIAMPolicyAssignmentResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIAMPolicyAssignmentRequest,
+  output: DescribeIAMPolicyAssignmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists all of the datasets belonging to the current Amazon Web Services account in an
  * Amazon Web Services Region.
@@ -25732,25 +26192,60 @@ export const describeIAMPolicyAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * The permissions resource is
  * `arn:aws:quicksight:region:aws-account-id:dataset/*`.
  */
-export const listDataSets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDataSets: {
+  (
     input: ListDataSetsRequest,
-    output: ListDataSetsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DataSetSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDataSetsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataSetsRequest,
+  ) => Stream.Stream<
+    ListDataSetsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataSetsRequest,
+  ) => Stream.Stream<
+    DataSetSummary,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataSetsRequest,
+  output: ListDataSetsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DataSetSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Predicts existing visuals or generates new visuals to answer a given query.
  *
@@ -25758,7 +26253,17 @@ export const listDataSets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * We recommend enabling the `QSearchStatus` API to unlock the full potential of `PredictQnA`. When `QSearchStatus` is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, `PredictQnA` uses generative Q&A to provide an answer. To update the `QSearchStatus`, see UpdateQuickSightQSearchConfiguration.
  */
-export const predictQAResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const predictQAResults: (
+  input: PredictQAResultsRequest,
+) => Effect.Effect<
+  PredictQAResultsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PredictQAResultsRequest,
   output: PredictQAResultsResponse,
   errors: [
@@ -25772,45 +26277,104 @@ export const predictQAResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Use the `SearchDataSources` operation to search for data sources that
  * belong to an account.
  */
-export const searchDataSources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchDataSources: {
+  (
     input: SearchDataSourcesRequest,
-    output: SearchDataSourcesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DataSourceSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchDataSourcesResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchDataSourcesRequest,
+  ) => Stream.Stream<
+    SearchDataSourcesResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchDataSourcesRequest,
+  ) => Stream.Stream<
+    DataSourceSummary,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchDataSourcesRequest,
+  output: SearchDataSourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DataSourceSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates a customer managed key in a Quick Sight account.
  */
-export const updateKeyRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateKeyRegistrationRequest,
-    output: UpdateKeyRegistrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateKeyRegistration: (
+  input: UpdateKeyRegistrationRequest,
+) => Effect.Effect<
+  UpdateKeyRegistrationResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateKeyRegistrationRequest,
+  output: UpdateKeyRegistrationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a data source.
  */
-export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDataSource: (
+  input: UpdateDataSourceRequest,
+) => Effect.Effect<
+  UpdateDataSourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | CustomerManagedKeyUnavailableException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataSourceRequest,
   output: UpdateDataSourceResponse,
   errors: [
@@ -25826,38 +26390,89 @@ export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes all customer managed key registrations in a Quick Sight account.
  */
-export const describeKeyRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeKeyRegistrationRequest,
-    output: DescribeKeyRegistrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeKeyRegistration: (
+  input: DescribeKeyRegistrationRequest,
+) => Effect.Effect<
+  DescribeKeyRegistrationResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeKeyRegistrationRequest,
+  output: DescribeKeyRegistrationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the status of a topic refresh.
  */
-export const describeTopicRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTopicRefreshRequest,
-    output: DescribeTopicRefreshResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeTopicRefresh: (
+  input: DescribeTopicRefreshRequest,
+) => Effect.Effect<
+  DescribeTopicRefreshResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTopicRefreshRequest,
+  output: DescribeTopicRefreshResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists flows in an Amazon Web Services account.
  */
-export const listFlows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFlows: {
+  (
+    input: ListFlowsInput,
+  ): Effect.Effect<
+    ListFlowsOutput,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFlowsInput,
+  ) => Stream.Stream<
+    ListFlowsOutput,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFlowsInput,
+  ) => Stream.Stream<
+    FlowSummary,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFlowsInput,
   output: ListFlowsOutput,
   errors: [
@@ -25878,74 +26493,145 @@ export const listFlows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * This operation is only supported for Quick Sight accounts that use IAM Identity Center.
  */
-export const listIdentityPropagationConfigs =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListIdentityPropagationConfigsRequest,
-    output: ListIdentityPropagationConfigsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const listIdentityPropagationConfigs: (
+  input: ListIdentityPropagationConfigsRequest,
+) => Effect.Effect<
+  ListIdentityPropagationConfigsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIdentityPropagationConfigsRequest,
+  output: ListIdentityPropagationConfigsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists all reviewed answers for a Q Topic.
  */
-export const listTopicReviewedAnswers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTopicReviewedAnswersRequest,
-    output: ListTopicReviewedAnswersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const listTopicReviewedAnswers: (
+  input: ListTopicReviewedAnswersRequest,
+) => Effect.Effect<
+  ListTopicReviewedAnswersResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTopicReviewedAnswersRequest,
+  output: ListTopicReviewedAnswersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Search for the flows in an Amazon Web Services account.
  */
-export const searchFlows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchFlows: {
+  (
     input: SearchFlowsInput,
-    output: SearchFlowsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FlowSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchFlowsOutput,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchFlowsInput,
+  ) => Stream.Stream<
+    SearchFlowsOutput,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchFlowsInput,
+  ) => Stream.Stream<
+    FlowSummary,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchFlowsInput,
+  output: SearchFlowsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FlowSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates permissions against principals on a flow.
  */
-export const updateFlowPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFlowPermissionsInput,
-    output: UpdateFlowPermissionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateFlowPermissions: (
+  input: UpdateFlowPermissionsInput,
+) => Effect.Effect<
+  UpdateFlowPermissionsOutput,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFlowPermissionsInput,
+  output: UpdateFlowPermissionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the `IpRestrictionRule`, `VpcIdRestrictionRule`, or `VpcEndpointIdRestrictionRule`. To use this operation, you must provide the entire map of rules. You can use the `DescribeIpRestriction` operation to get the current rule map.
  */
-export const updateIpRestriction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateIpRestriction: (
+  input: UpdateIpRestrictionRequest,
+) => Effect.Effect<
+  UpdateIpRestrictionResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIpRestrictionRequest,
   output: UpdateIpRestrictionResponse,
   errors: [
@@ -25960,38 +26646,68 @@ export const updateIpRestriction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Unapplies a custom permissions profile from an account.
  */
-export const deleteAccountCustomPermission =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAccountCustomPermissionRequest,
-    output: DeleteAccountCustomPermissionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteAccountCustomPermission: (
+  input: DeleteAccountCustomPermissionRequest,
+) => Effect.Effect<
+  DeleteAccountCustomPermissionResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountCustomPermissionRequest,
+  output: DeleteAccountCustomPermissionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Hard deletes an action connector, making it unrecoverable. This operation removes the connector and all its associated configurations. Any resources currently using this action connector will no longer be able to perform actions through it.
  */
-export const deleteActionConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteActionConnectorRequest,
-    output: DeleteActionConnectorResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteActionConnector: (
+  input: DeleteActionConnectorRequest,
+) => Effect.Effect<
+  DeleteActionConnectorResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteActionConnectorRequest,
+  output: DeleteActionConnectorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a dataset.
  */
-export const deleteDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataSet: (
+  input: DeleteDataSetRequest,
+) => Effect.Effect<
+  DeleteDataSetResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataSetRequest,
   output: DeleteDataSetResponse,
   errors: [
@@ -26005,25 +26721,48 @@ export const deleteDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the dataset refresh properties of the dataset.
  */
-export const deleteDataSetRefreshProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDataSetRefreshPropertiesRequest,
-    output: DeleteDataSetRefreshPropertiesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteDataSetRefreshProperties: (
+  input: DeleteDataSetRefreshPropertiesRequest,
+) => Effect.Effect<
+  DeleteDataSetRefreshPropertiesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataSetRefreshPropertiesRequest,
+  output: DeleteDataSetRefreshPropertiesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes the data source permanently. This operation breaks all the datasets that
  * reference the deleted data source.
  */
-export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataSource: (
+  input: DeleteDataSourceRequest,
+) => Effect.Effect<
+  DeleteDataSourceResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataSourceRequest,
   output: DeleteDataSourceResponse,
   errors: [
@@ -26039,39 +26778,71 @@ export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation is only supported for Quick Sight accounts that use IAM Identity Center.
  */
-export const deleteIdentityPropagationConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteIdentityPropagationConfigRequest,
-    output: DeleteIdentityPropagationConfigResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteIdentityPropagationConfig: (
+  input: DeleteIdentityPropagationConfigRequest,
+) => Effect.Effect<
+  DeleteIdentityPropagationConfigResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIdentityPropagationConfigRequest,
+  output: DeleteIdentityPropagationConfigResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a refresh schedule from a dataset.
  */
-export const deleteRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRefreshScheduleRequest,
-    output: DeleteRefreshScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteRefreshSchedule: (
+  input: DeleteRefreshScheduleRequest,
+) => Effect.Effect<
+  DeleteRefreshScheduleResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRefreshScheduleRequest,
+  output: DeleteRefreshScheduleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a topic.
  */
-export const deleteTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTopic: (
+  input: DeleteTopicRequest,
+) => Effect.Effect<
+  DeleteTopicResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTopicRequest,
   output: DeleteTopicResponse,
   errors: [
@@ -26086,167 +26857,279 @@ export const deleteTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the custom permissions profile that is applied to an account.
  */
-export const describeAccountCustomPermission =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAccountCustomPermissionRequest,
-    output: DescribeAccountCustomPermissionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeAccountCustomPermission: (
+  input: DescribeAccountCustomPermissionRequest,
+) => Effect.Effect<
+  DescribeAccountCustomPermissionResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccountCustomPermissionRequest,
+  output: DescribeAccountCustomPermissionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves the permissions configuration for an action connector, showing which users, groups, and namespaces have access and what operations they can perform.
  */
-export const describeActionConnectorPermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeActionConnectorPermissionsRequest,
-    output: DescribeActionConnectorPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeActionConnectorPermissions: (
+  input: DescribeActionConnectorPermissionsRequest,
+) => Effect.Effect<
+  DescribeActionConnectorPermissionsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeActionConnectorPermissionsRequest,
+  output: DescribeActionConnectorPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes an existing dashboard QA configuration.
  */
-export const describeDashboardsQAConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDashboardsQAConfigurationRequest,
-    output: DescribeDashboardsQAConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeDashboardsQAConfiguration: (
+  input: DescribeDashboardsQAConfigurationRequest,
+) => Effect.Effect<
+  DescribeDashboardsQAConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDashboardsQAConfigurationRequest,
+  output: DescribeDashboardsQAConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the permissions on a dataset.
  *
  * The permissions resource is
  * `arn:aws:quicksight:region:aws-account-id:dataset/data-set-id`.
  */
-export const describeDataSetPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDataSetPermissionsRequest,
-    output: DescribeDataSetPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeDataSetPermissions: (
+  input: DescribeDataSetPermissionsRequest,
+) => Effect.Effect<
+  DescribeDataSetPermissionsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDataSetPermissionsRequest,
+  output: DescribeDataSetPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the resource permissions for a data source.
  */
-export const describeDataSourcePermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDataSourcePermissionsRequest,
-    output: DescribeDataSourcePermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeDataSourcePermissions: (
+  input: DescribeDataSourcePermissionsRequest,
+) => Effect.Effect<
+  DescribeDataSourcePermissionsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDataSourcePermissionsRequest,
+  output: DescribeDataSourcePermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes a Amazon Q Business application that is linked to an Quick Sight account.
  */
-export const describeDefaultQBusinessApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDefaultQBusinessApplicationRequest,
-    output: DescribeDefaultQBusinessApplicationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeDefaultQBusinessApplication: (
+  input: DescribeDefaultQBusinessApplicationRequest,
+) => Effect.Effect<
+  DescribeDefaultQBusinessApplicationResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDefaultQBusinessApplicationRequest,
+  output: DescribeDefaultQBusinessApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Provides a summary and status of IP rules.
  */
-export const describeIpRestriction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeIpRestrictionRequest,
-    output: DescribeIpRestrictionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeIpRestriction: (
+  input: DescribeIpRestrictionRequest,
+) => Effect.Effect<
+  DescribeIpRestrictionResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIpRestrictionRequest,
+  output: DescribeIpRestrictionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes a personalization configuration.
  */
-export const describeQPersonalizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeQPersonalizationConfigurationRequest,
-    output: DescribeQPersonalizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeQPersonalizationConfiguration: (
+  input: DescribeQPersonalizationConfigurationRequest,
+) => Effect.Effect<
+  DescribeQPersonalizationConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeQPersonalizationConfigurationRequest,
+  output: DescribeQPersonalizationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the state of a Quick Sight Q Search configuration.
  */
-export const describeQuickSightQSearchConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeQuickSightQSearchConfigurationRequest,
-    output: DescribeQuickSightQSearchConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeQuickSightQSearchConfiguration: (
+  input: DescribeQuickSightQSearchConfigurationRequest,
+) => Effect.Effect<
+  DescribeQuickSightQSearchConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeQuickSightQSearchConfigurationRequest,
+  output: DescribeQuickSightQSearchConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Provides a summary of a refresh schedule.
  */
-export const describeRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRefreshScheduleRequest,
-    output: DescribeRefreshScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeRefreshSchedule: (
+  input: DescribeRefreshScheduleRequest,
+) => Effect.Effect<
+  DescribeRefreshScheduleResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRefreshScheduleRequest,
+  output: DescribeRefreshScheduleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes a topic.
  */
-export const describeTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTopic: (
+  input: DescribeTopicRequest,
+) => Effect.Effect<
+  DescribeTopicResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTopicRequest,
   output: DescribeTopicResponse,
   errors: [
@@ -26260,23 +27143,42 @@ export const describeTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the permissions of a topic.
  */
-export const describeTopicPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTopicPermissionsRequest,
-    output: DescribeTopicPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeTopicPermissions: (
+  input: DescribeTopicPermissionsRequest,
+) => Effect.Effect<
+  DescribeTopicPermissionsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTopicPermissionsRequest,
+  output: DescribeTopicPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves the metadata of a flow, not including its definition specifying the steps.
  */
-export const getFlowMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFlowMetadata: (
+  input: GetFlowMetadataInput,
+) => Effect.Effect<
+  GetFlowMetadataOutput,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFlowMetadataInput,
   output: GetFlowMetadataOutput,
   errors: [
@@ -26289,7 +27191,17 @@ export const getFlowMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get permissions for a flow.
  */
-export const getFlowPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFlowPermissions: (
+  input: GetFlowPermissionsInput,
+) => Effect.Effect<
+  GetFlowPermissionsOutput,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFlowPermissionsInput,
   output: GetFlowPermissionsOutput,
   errors: [
@@ -26302,24 +27214,45 @@ export const getFlowPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedules.
  */
-export const listRefreshSchedules = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListRefreshSchedulesRequest,
-    output: ListRefreshSchedulesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const listRefreshSchedules: (
+  input: ListRefreshSchedulesRequest,
+) => Effect.Effect<
+  ListRefreshSchedulesResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRefreshSchedulesRequest,
+  output: ListRefreshSchedulesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists the tags assigned to a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -26353,7 +27286,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Amazon Quick Sight doesn't currently support the tag editor for Resource Groups.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -26368,7 +27313,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag or tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -26382,234 +27338,460 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Applies a custom permissions profile to an account.
  */
-export const updateAccountCustomPermission =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAccountCustomPermissionRequest,
-    output: UpdateAccountCustomPermissionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateAccountCustomPermission: (
+  input: UpdateAccountCustomPermissionRequest,
+) => Effect.Effect<
+  UpdateAccountCustomPermissionResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountCustomPermissionRequest,
+  output: UpdateAccountCustomPermissionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates an existing action connector with new configuration details, authentication settings, or enabled actions.
  * You can modify the connector's name, description, authentication configuration, and which actions are enabled. For more information,
  * https://docs.aws.amazon.com/quicksuite/latest/userguide/quick-action-auth.html.
  */
-export const updateActionConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateActionConnectorRequest,
-    output: UpdateActionConnectorResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateActionConnector: (
+  input: UpdateActionConnectorRequest,
+) => Effect.Effect<
+  UpdateActionConnectorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateActionConnectorRequest,
+  output: UpdateActionConnectorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a Dashboard QA configuration.
  */
-export const updateDashboardsQAConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDashboardsQAConfigurationRequest,
-    output: UpdateDashboardsQAConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateDashboardsQAConfiguration: (
+  input: UpdateDashboardsQAConfigurationRequest,
+) => Effect.Effect<
+  UpdateDashboardsQAConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDashboardsQAConfigurationRequest,
+  output: UpdateDashboardsQAConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the permissions on a dataset.
  *
  * The permissions resource is
  * `arn:aws:quicksight:region:aws-account-id:dataset/data-set-id`.
  */
-export const updateDataSetPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDataSetPermissionsRequest,
-    output: UpdateDataSetPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateDataSetPermissions: (
+  input: UpdateDataSetPermissionsRequest,
+) => Effect.Effect<
+  UpdateDataSetPermissionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataSetPermissionsRequest,
+  output: UpdateDataSetPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the permissions to a data source.
  */
-export const updateDataSourcePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDataSourcePermissionsRequest,
-    output: UpdateDataSourcePermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateDataSourcePermissions: (
+  input: UpdateDataSourcePermissionsRequest,
+) => Effect.Effect<
+  UpdateDataSourcePermissionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataSourcePermissionsRequest,
+  output: UpdateDataSourcePermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a Amazon Q Business application that is linked to a Quick Sight account.
  */
-export const updateDefaultQBusinessApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDefaultQBusinessApplicationRequest,
-    output: UpdateDefaultQBusinessApplicationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateDefaultQBusinessApplication: (
+  input: UpdateDefaultQBusinessApplicationRequest,
+) => Effect.Effect<
+  UpdateDefaultQBusinessApplicationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDefaultQBusinessApplicationRequest,
+  output: UpdateDefaultQBusinessApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Adds or updates services and authorized targets to configure what the Quick Sight IAM Identity Center application can access.
  *
  * This operation is only supported for Quick Sight accounts using IAM Identity Center
  */
-export const updateIdentityPropagationConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateIdentityPropagationConfigRequest,
-    output: UpdateIdentityPropagationConfigResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateIdentityPropagationConfig: (
+  input: UpdateIdentityPropagationConfigRequest,
+) => Effect.Effect<
+  UpdateIdentityPropagationConfigResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIdentityPropagationConfigRequest,
+  output: UpdateIdentityPropagationConfigResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the state of a Quick Sight Q Search configuration.
  */
-export const updateQuickSightQSearchConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateQuickSightQSearchConfigurationRequest,
-    output: UpdateQuickSightQSearchConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateQuickSightQSearchConfiguration: (
+  input: UpdateQuickSightQSearchConfigurationRequest,
+) => Effect.Effect<
+  UpdateQuickSightQSearchConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQuickSightQSearchConfigurationRequest,
+  output: UpdateQuickSightQSearchConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the SPICE capacity configuration for a Quick Sight account.
  */
-export const updateSPICECapacityConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSPICECapacityConfigurationRequest,
-    output: UpdateSPICECapacityConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateSPICECapacityConfiguration: (
+  input: UpdateSPICECapacityConfigurationRequest,
+) => Effect.Effect<
+  UpdateSPICECapacityConfigurationResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSPICECapacityConfigurationRequest,
+  output: UpdateSPICECapacityConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes reviewed answers for Q Topic.
  */
-export const batchDeleteTopicReviewedAnswer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDeleteTopicReviewedAnswerRequest,
-    output: BatchDeleteTopicReviewedAnswerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const batchDeleteTopicReviewedAnswer: (
+  input: BatchDeleteTopicReviewedAnswerRequest,
+) => Effect.Effect<
+  BatchDeleteTopicReviewedAnswerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteTopicReviewedAnswerRequest,
+  output: BatchDeleteTopicReviewedAnswerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a linked Amazon Q Business application from an Quick Sight account
  */
-export const deleteDefaultQBusinessApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDefaultQBusinessApplicationRequest,
-    output: DeleteDefaultQBusinessApplicationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteDefaultQBusinessApplication: (
+  input: DeleteDefaultQBusinessApplicationRequest,
+) => Effect.Effect<
+  DeleteDefaultQBusinessApplicationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDefaultQBusinessApplicationRequest,
+  output: DeleteDefaultQBusinessApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists all action connectors in the specified Amazon Web Services account. Returns summary information for each connector including its name, type, creation time, and status.
  */
-export const listActionConnectors =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listActionConnectors: {
+  (
     input: ListActionConnectorsRequest,
-    output: ListActionConnectorsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ActionConnectorSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListActionConnectorsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListActionConnectorsRequest,
+  ) => Stream.Stream<
+    ListActionConnectorsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListActionConnectorsRequest,
+  ) => Stream.Stream<
+    ActionConnectorSummary,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListActionConnectorsRequest,
+  output: ListActionConnectorsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ActionConnectorSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the
  * IAM policy assignments in the current Amazon Quick Sight
  * account.
  */
-export const listIAMPolicyAssignments =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIAMPolicyAssignments: {
+  (
     input: ListIAMPolicyAssignmentsRequest,
-    output: ListIAMPolicyAssignmentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IAMPolicyAssignments",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIAMPolicyAssignmentsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIAMPolicyAssignmentsRequest,
+  ) => Stream.Stream<
+    ListIAMPolicyAssignmentsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIAMPolicyAssignmentsRequest,
+  ) => Stream.Stream<
+    IAMPolicyAssignmentSummary,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIAMPolicyAssignmentsRequest,
+  output: ListIAMPolicyAssignmentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IAMPolicyAssignments",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all of the topics within an account.
  */
-export const listTopics = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTopics: {
+  (
+    input: ListTopicsRequest,
+  ): Effect.Effect<
+    ListTopicsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTopicsRequest,
+  ) => Stream.Stream<
+    ListTopicsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTopicsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTopicsRequest,
   output: ListTopicsResponse,
   errors: [
@@ -26628,69 +27810,175 @@ export const listTopics = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Searches for action connectors in the specified Amazon Web Services account using filters. You can search by connector name, type, or user permissions.
  */
-export const searchActionConnectors =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchActionConnectors: {
+  (
     input: SearchActionConnectorsRequest,
-    output: SearchActionConnectorsResponse,
-    errors: [
-      AccessDeniedException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ActionConnectorSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchActionConnectorsResponse,
+    | AccessDeniedException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchActionConnectorsRequest,
+  ) => Stream.Stream<
+    SearchActionConnectorsResponse,
+    | AccessDeniedException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchActionConnectorsRequest,
+  ) => Stream.Stream<
+    ActionConnectorSummary,
+    | AccessDeniedException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchActionConnectorsRequest,
+  output: SearchActionConnectorsResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ActionConnectorSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Use the `SearchDataSets` operation to search for datasets that belong to an
  * account.
  */
-export const searchDataSets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchDataSets: {
+  (
     input: SearchDataSetsRequest,
-    output: SearchDataSetsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DataSetSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchDataSetsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchDataSetsRequest,
+  ) => Stream.Stream<
+    SearchDataSetsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchDataSetsRequest,
+  ) => Stream.Stream<
+    DataSetSummary,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchDataSetsRequest,
+  output: SearchDataSetsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DataSetSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
  */
-export const listDataSources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDataSources: {
+  (
     input: ListDataSourcesRequest,
-    output: ListDataSourcesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DataSources",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDataSourcesResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataSourcesRequest,
+  ) => Stream.Stream<
+    ListDataSourcesResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataSourcesRequest,
+  ) => Stream.Stream<
+    DataSource,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataSourcesRequest,
+  output: ListDataSourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DataSources",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all of
  * the IAM policy assignments, including the Amazon
@@ -26700,83 +27988,159 @@ export const listDataSources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * group,
  * or groups that the user belongs to.
  */
-export const listIAMPolicyAssignmentsForUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIAMPolicyAssignmentsForUser: {
+  (
     input: ListIAMPolicyAssignmentsForUserRequest,
-    output: ListIAMPolicyAssignmentsForUserResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentUpdatingException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ActiveAssignments",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIAMPolicyAssignmentsForUserResponse,
+    | AccessDeniedException
+    | ConcurrentUpdatingException
+    | InternalFailureException
+    | InvalidParameterValueException
+    | ResourceExistsException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIAMPolicyAssignmentsForUserRequest,
+  ) => Stream.Stream<
+    ListIAMPolicyAssignmentsForUserResponse,
+    | AccessDeniedException
+    | ConcurrentUpdatingException
+    | InternalFailureException
+    | InvalidParameterValueException
+    | ResourceExistsException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIAMPolicyAssignmentsForUserRequest,
+  ) => Stream.Stream<
+    ActiveIAMPolicyAssignment,
+    | AccessDeniedException
+    | ConcurrentUpdatingException
+    | InternalFailureException
+    | InvalidParameterValueException
+    | ResourceExistsException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIAMPolicyAssignmentsForUserRequest,
+  output: ListIAMPolicyAssignmentsForUserResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentUpdatingException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ActiveAssignments",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes an existing IAM policy assignment.
  */
-export const deleteIAMPolicyAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIAMPolicyAssignmentRequest,
-    output: DeleteIAMPolicyAssignmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentUpdatingException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteIAMPolicyAssignment: (
+  input: DeleteIAMPolicyAssignmentRequest,
+) => Effect.Effect<
+  DeleteIAMPolicyAssignmentResponse,
+  | AccessDeniedException
+  | ConcurrentUpdatingException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIAMPolicyAssignmentRequest,
+  output: DeleteIAMPolicyAssignmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentUpdatingException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates an existing IAM policy assignment. This operation updates only
  * the optional parameter or parameters that are specified in the request. This overwrites
  * all of the users included in `Identities`.
  */
-export const updateIAMPolicyAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIAMPolicyAssignmentRequest,
-    output: UpdateIAMPolicyAssignmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentUpdatingException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateIAMPolicyAssignment: (
+  input: UpdateIAMPolicyAssignmentRequest,
+) => Effect.Effect<
+  UpdateIAMPolicyAssignmentResponse,
+  | AccessDeniedException
+  | ConcurrentUpdatingException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIAMPolicyAssignmentRequest,
+  output: UpdateIAMPolicyAssignmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentUpdatingException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists all of the refresh schedules for a topic.
  */
-export const listTopicRefreshSchedules = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTopicRefreshSchedulesRequest,
-    output: ListTopicRefreshSchedulesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const listTopicRefreshSchedules: (
+  input: ListTopicRefreshSchedulesRequest,
+) => Effect.Effect<
+  ListTopicRefreshSchedulesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTopicRefreshSchedulesRequest,
+  output: ListTopicRefreshSchedulesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets in
  * an Enterprise edition account 32 times in a 24-hour period. You can manually refresh
@@ -26787,7 +28151,20 @@ export const listTopicRefreshSchedules = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * access control. For an example, see How do I create an IAM policy to control access to Amazon EC2 resources using
  * tags? in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
  */
-export const createIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIngestion: (
+  input: CreateIngestionRequest,
+) => Effect.Effect<
+  CreateIngestionResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIngestionRequest,
   output: CreateIngestionResponse,
   errors: [
@@ -26803,44 +28180,83 @@ export const createIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a topic refresh schedule.
  */
-export const deleteTopicRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTopicRefreshScheduleRequest,
-    output: DeleteTopicRefreshScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteTopicRefreshSchedule: (
+  input: DeleteTopicRefreshScheduleRequest,
+) => Effect.Effect<
+  DeleteTopicRefreshScheduleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTopicRefreshScheduleRequest,
+  output: DeleteTopicRefreshScheduleResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a topic refresh schedule.
  */
-export const describeTopicRefreshSchedule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTopicRefreshScheduleRequest,
-    output: DescribeTopicRefreshScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeTopicRefreshSchedule: (
+  input: DescribeTopicRefreshScheduleRequest,
+) => Effect.Effect<
+  DescribeTopicRefreshScheduleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTopicRefreshScheduleRequest,
+  output: DescribeTopicRefreshScheduleResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a topic.
  */
-export const updateTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTopic: (
+  input: UpdateTopicRequest,
+) => Effect.Effect<
+  UpdateTopicResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTopicRequest,
   output: UpdateTopicResponse,
   errors: [
@@ -26857,22 +28273,34 @@ export const updateTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a topic refresh schedule.
  */
-export const updateTopicRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTopicRefreshScheduleRequest,
-    output: UpdateTopicRefreshScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateTopicRefreshSchedule: (
+  input: UpdateTopicRefreshScheduleRequest,
+) => Effect.Effect<
+  UpdateTopicRefreshScheduleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTopicRefreshScheduleRequest,
+  output: UpdateTopicRefreshScheduleResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates Amazon Quick Sight customizations. Currently, you can add a custom default theme by using the
  * `CreateAccountCustomization` or `UpdateAccountCustomization`
@@ -26899,45 +28327,81 @@ export const updateTopicRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * API operation.
  */
-export const createAccountCustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAccountCustomizationRequest,
-    output: CreateAccountCustomizationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createAccountCustomization: (
+  input: CreateAccountCustomizationRequest,
+) => Effect.Effect<
+  CreateAccountCustomizationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountCustomizationRequest,
+  output: CreateAccountCustomizationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a topic refresh schedule.
  */
-export const createTopicRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTopicRefreshScheduleRequest,
-    output: CreateTopicRefreshScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createTopicRefreshSchedule: (
+  input: CreateTopicRefreshScheduleRequest,
+) => Effect.Effect<
+  CreateTopicRefreshScheduleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTopicRefreshScheduleRequest,
+  output: CreateTopicRefreshScheduleResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Cancels an ongoing ingestion of data into SPICE.
  */
-export const cancelIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelIngestion: (
+  input: CancelIngestionRequest,
+) => Effect.Effect<
+  CancelIngestionResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelIngestionRequest,
   output: CancelIngestionResponse,
   errors: [
@@ -26956,49 +28420,116 @@ export const cancelIngestion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * account. To avoid overwriting rules in other namespaces, use assignment names that are
  * unique.
  */
-export const createIAMPolicyAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIAMPolicyAssignmentRequest,
-    output: CreateIAMPolicyAssignmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentUpdatingException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createIAMPolicyAssignment: (
+  input: CreateIAMPolicyAssignmentRequest,
+) => Effect.Effect<
+  CreateIAMPolicyAssignmentResponse,
+  | AccessDeniedException
+  | ConcurrentUpdatingException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIAMPolicyAssignmentRequest,
+  output: CreateIAMPolicyAssignmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentUpdatingException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists the history of SPICE ingestions for a dataset. Limited to 5 TPS per user and 25 TPS per account.
  */
-export const listIngestions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listIngestions: {
+  (
     input: ListIngestionsRequest,
-    output: ListIngestionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Ingestions",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListIngestionsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceExistsException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIngestionsRequest,
+  ) => Stream.Stream<
+    ListIngestionsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceExistsException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIngestionsRequest,
+  ) => Stream.Stream<
+    Ingestion,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceExistsException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIngestionsRequest,
+  output: ListIngestionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Ingestions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a data source.
  */
-export const createDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDataSource: (
+  input: CreateDataSourceRequest,
+) => Effect.Effect<
+  CreateDataSourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | CustomerManagedKeyUnavailableException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataSourceRequest,
   output: CreateDataSourceResponse,
   errors: [
@@ -27055,19 +28586,30 @@ export const createDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Settings that you apply to a namespace override settings that you apply to an
  * Amazon Web Services account.
  */
-export const describeAccountCustomization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAccountCustomizationRequest,
-    output: DescribeAccountCustomizationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const describeAccountCustomization: (
+  input: DescribeAccountCustomizationRequest,
+) => Effect.Effect<
+  DescribeAccountCustomizationResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccountCustomizationRequest,
+  output: DescribeAccountCustomizationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates Amazon Quick Sight customizations. Currently, the only customization that you can use is a theme.
  *
@@ -27076,112 +28618,189 @@ export const describeAccountCustomization =
  * customizations that apply to an Amazon Web Services account. To find out which customizations apply, use
  * the `DescribeAccountCustomization` API operation.
  */
-export const updateAccountCustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountCustomizationRequest,
-    output: UpdateAccountCustomizationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateAccountCustomization: (
+  input: UpdateAccountCustomizationRequest,
+) => Effect.Effect<
+  UpdateAccountCustomizationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountCustomizationRequest,
+  output: UpdateAccountCustomizationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the Amazon Quick Sight settings in your Amazon Web Services account.
  */
-export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountSettingsRequest,
-    output: UpdateAccountSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateAccountSettings: (
+  input: UpdateAccountSettingsRequest,
+) => Effect.Effect<
+  UpdateAccountSettingsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountSettingsRequest,
+  output: UpdateAccountSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a personalization configuration.
  */
-export const updateQPersonalizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateQPersonalizationConfigurationRequest,
-    output: UpdateQPersonalizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const updateQPersonalizationConfiguration: (
+  input: UpdateQPersonalizationConfigurationRequest,
+) => Effect.Effect<
+  UpdateQPersonalizationConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQPersonalizationConfigurationRequest,
+  output: UpdateQPersonalizationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the settings that were used when your Quick Sight subscription was first
  * created in this Amazon Web Services account.
  */
-export const describeAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccountSettingsRequest,
-    output: DescribeAccountSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeAccountSettings: (
+  input: DescribeAccountSettingsRequest,
+) => Effect.Effect<
+  DescribeAccountSettingsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccountSettingsRequest,
+  output: DescribeAccountSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Use the DescribeAccountSubscription operation to receive a description of an Quick Sight account's subscription. A successful API call returns an `AccountInfo` object that includes an account's name, subscription status, authentication type, edition, and notification email address.
  */
-export const describeAccountSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccountSubscriptionRequest,
-    output: DescribeAccountSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeAccountSubscription: (
+  input: DescribeAccountSubscriptionRequest,
+) => Effect.Effect<
+  DescribeAccountSubscriptionResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccountSubscriptionRequest,
+  output: DescribeAccountSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes a custom permissions profile.
  */
-export const describeCustomPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCustomPermissionsRequest,
-    output: DescribeCustomPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeCustomPermissions: (
+  input: DescribeCustomPermissionsRequest,
+) => Effect.Effect<
+  DescribeCustomPermissionsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCustomPermissionsRequest,
+  output: DescribeCustomPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns information about a user, given the user name.
  */
-export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeUser: (
+  input: DescribeUserRequest,
+) => Effect.Effect<
+  DescribeUserResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserRequest,
   output: DescribeUserResponse,
   errors: [
@@ -27223,7 +28842,19 @@ export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The assumed role must allow the `sts:SetContext` action in addition to `sts:AssumeRole` in its trust relationship policy. The trust policy should include both actions for the principal that will be assuming the role.
  */
-export const getIdentityContext = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIdentityContext: (
+  input: GetIdentityContextRequest,
+) => Effect.Effect<
+  GetIdentityContextResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdentityContextRequest,
   output: GetIdentityContextResponse,
   errors: [
@@ -27246,7 +28877,23 @@ export const getIdentityContext = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with
  * Amazon Web Services Support.
  */
-export const createNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createNamespace: (
+  input: CreateNamespaceRequest,
+) => Effect.Effect<
+  CreateNamespaceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | PreconditionNotMetException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNamespaceRequest,
   output: CreateNamespaceResponse,
   errors: [
@@ -27265,21 +28912,32 @@ export const createNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Use `CreateRoleMembership` to add an existing Quick Sight group to an existing role.
  */
-export const createRoleMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRoleMembershipRequest,
-    output: CreateRoleMembershipResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createRoleMembership: (
+  input: CreateRoleMembershipRequest,
+) => Effect.Effect<
+  CreateRoleMembershipResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRoleMembershipRequest,
+  output: CreateRoleMembershipResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API permanently deletes all Quick Sight customizations for the specified Amazon Web Services account and namespace. When you delete account customizations:
  *
@@ -27293,23 +28951,36 @@ export const createRoleMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Deletes all Amazon Quick Sight customizations for the specified Amazon Web Services account and Quick Sight namespace.
  */
-export const deleteAccountCustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAccountCustomizationRequest,
-    output: DeleteAccountCustomizationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteAccountCustomization: (
+  input: DeleteAccountCustomizationRequest,
+) => Effect.Effect<
+  DeleteAccountCustomizationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountCustomizationRequest,
+  output: DeleteAccountCustomizationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deleting your Quick Sight account subscription has permanent, irreversible consequences across all Amazon Web Services regions:
  *
@@ -27329,45 +29000,82 @@ export const deleteAccountCustomization = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Use the `DeleteAccountSubscription` operation to delete an Quick Sight account. This operation will result in an error message if you have configured your account termination protection settings to `True`. To change this setting and delete your account, call the `UpdateAccountSettings` API and set the value of the `TerminationProtectionEnabled` parameter to `False`, then make another call to the `DeleteAccountSubscription` API.
  */
-export const deleteAccountSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAccountSubscriptionRequest,
-    output: DeleteAccountSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteAccountSubscription: (
+  input: DeleteAccountSubscriptionRequest,
+) => Effect.Effect<
+  DeleteAccountSubscriptionResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountSubscriptionRequest,
+  output: DeleteAccountSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a custom permissions profile.
  */
-export const deleteCustomPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCustomPermissionsRequest,
-    output: DeleteCustomPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteCustomPermissions: (
+  input: DeleteCustomPermissionsRequest,
+) => Effect.Effect<
+  DeleteCustomPermissionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomPermissionsRequest,
+  output: DeleteCustomPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Removes a user group from Amazon Quick Sight.
  */
-export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGroup: (
+  input: DeleteGroupRequest,
+) => Effect.Effect<
+  DeleteGroupResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupRequest,
   output: DeleteGroupResponse,
   errors: [
@@ -27383,27 +29091,51 @@ export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a user from a group so that the user is no longer a member of the group.
  */
-export const deleteGroupMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteGroupMembershipRequest,
-    output: DeleteGroupMembershipResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteGroupMembership: (
+  input: DeleteGroupMembershipRequest,
+) => Effect.Effect<
+  DeleteGroupMembershipResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGroupMembershipRequest,
+  output: DeleteGroupMembershipResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a namespace and the users and groups that are associated with the namespace.
  * This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not
  * deleted. To delete these assets, you use the API operations for the relevant asset.
  */
-export const deleteNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteNamespace: (
+  input: DeleteNamespaceRequest,
+) => Effect.Effect<
+  DeleteNamespaceResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNamespaceRequest,
   output: DeleteNamespaceResponse,
   errors: [
@@ -27419,45 +29151,80 @@ export const deleteNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes custom permissions from the role.
  */
-export const deleteRoleCustomPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRoleCustomPermissionRequest,
-    output: DeleteRoleCustomPermissionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteRoleCustomPermission: (
+  input: DeleteRoleCustomPermissionRequest,
+) => Effect.Effect<
+  DeleteRoleCustomPermissionResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRoleCustomPermissionRequest,
+  output: DeleteRoleCustomPermissionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Removes a group from a role.
  */
-export const deleteRoleMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRoleMembershipRequest,
-    output: DeleteRoleMembershipResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteRoleMembership: (
+  input: DeleteRoleMembershipRequest,
+) => Effect.Effect<
+  DeleteRoleMembershipResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRoleMembershipRequest,
+  output: DeleteRoleMembershipResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes the Amazon Quick Sight user that is associated with the identity of the
  * IAM user or role that's making the call. The IAM user
  * isn't deleted as a result of this call.
  */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUser: (
+  input: DeleteUserRequest,
+) => Effect.Effect<
+  DeleteUserResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
   output: DeleteUserResponse,
   errors: [
@@ -27473,61 +29240,109 @@ export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a user identified by its principal ID.
  */
-export const deleteUserByPrincipalId = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteUserByPrincipalIdRequest,
-    output: DeleteUserByPrincipalIdResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteUserByPrincipalId: (
+  input: DeleteUserByPrincipalIdRequest,
+) => Effect.Effect<
+  DeleteUserByPrincipalIdResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserByPrincipalIdRequest,
+  output: DeleteUserByPrincipalIdResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a custom permissions profile from a user.
  */
-export const deleteUserCustomPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteUserCustomPermissionRequest,
-    output: DeleteUserCustomPermissionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteUserCustomPermission: (
+  input: DeleteUserCustomPermissionRequest,
+) => Effect.Effect<
+  DeleteUserCustomPermissionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserCustomPermissionRequest,
+  output: DeleteUserCustomPermissionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the refresh properties of a dataset.
  */
-export const describeDataSetRefreshProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDataSetRefreshPropertiesRequest,
-    output: DescribeDataSetRefreshPropertiesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeDataSetRefreshProperties: (
+  input: DescribeDataSetRefreshPropertiesRequest,
+) => Effect.Effect<
+  DescribeDataSetRefreshPropertiesResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDataSetRefreshPropertiesRequest,
+  output: DescribeDataSetRefreshPropertiesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns an Amazon Quick Sight group's description and Amazon Resource Name (ARN).
  */
-export const describeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeGroup: (
+  input: DescribeGroupRequest,
+) => Effect.Effect<
+  DescribeGroupResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGroupRequest,
   output: DescribeGroupResponse,
   errors: [
@@ -27545,89 +29360,210 @@ export const describeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * member of the specified group. If the user exists and is a member of the specified
  * group, an associated `GroupMember` object is returned.
  */
-export const describeGroupMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeGroupMembershipRequest,
-    output: DescribeGroupMembershipResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeGroupMembership: (
+  input: DescribeGroupMembershipRequest,
+) => Effect.Effect<
+  DescribeGroupMembershipResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeGroupMembershipRequest,
+  output: DescribeGroupMembershipResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes all custom permissions that are mapped to a role.
  */
-export const describeRoleCustomPermission =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeRoleCustomPermissionRequest,
-    output: DescribeRoleCustomPermissionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const describeRoleCustomPermission: (
+  input: DescribeRoleCustomPermissionRequest,
+) => Effect.Effect<
+  DescribeRoleCustomPermissionResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRoleCustomPermissionRequest,
+  output: DescribeRoleCustomPermissionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns a list of all the custom permissions profiles.
  */
-export const listCustomPermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCustomPermissions: {
+  (
     input: ListCustomPermissionsRequest,
-    output: ListCustomPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CustomPermissionsList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCustomPermissionsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCustomPermissionsRequest,
+  ) => Stream.Stream<
+    ListCustomPermissionsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCustomPermissionsRequest,
+  ) => Stream.Stream<
+    CustomPermissions,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCustomPermissionsRequest,
+  output: ListCustomPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CustomPermissionsList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the Amazon Quick Sight groups that an Amazon Quick Sight user is a member of.
  */
-export const listUserGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listUserGroups: {
+  (
     input: ListUserGroupsRequest,
-    output: ListUserGroupsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "GroupList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListUserGroupsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUserGroupsRequest,
+  ) => Stream.Stream<
+    ListUserGroupsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUserGroupsRequest,
+  ) => Stream.Stream<
+    Group,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUserGroupsRequest,
+  output: ListUserGroupsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "GroupList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates an Amazon Quick Sight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Quick Sight API, Quick Sight generates a registration URL. The user accesses this registration URL to create their account. Quick Sight doesn't send a registration email to users who are registered from the Quick Sight API. If you want new users to receive a registration email, then add those users in the Quick Sight console. For more information on registering a new user in the Quick Sight console, see Inviting users to access Quick Sight.
  */
-export const registerUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerUser: (
+  input: RegisterUserRequest,
+) => Effect.Effect<
+  RegisterUserResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | PreconditionNotMetException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterUserRequest,
   output: RegisterUserResponse,
   errors: [
@@ -27645,26 +29581,51 @@ export const registerUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a custom permissions profile.
  */
-export const updateCustomPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCustomPermissionsRequest,
-    output: UpdateCustomPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateCustomPermissions: (
+  input: UpdateCustomPermissionsRequest,
+) => Effect.Effect<
+  UpdateCustomPermissionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCustomPermissionsRequest,
+  output: UpdateCustomPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Changes a group description.
  */
-export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGroup: (
+  input: UpdateGroupRequest,
+) => Effect.Effect<
+  UpdateGroupResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupRequest,
   output: UpdateGroupResponse,
   errors: [
@@ -27680,43 +29641,78 @@ export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a refresh schedule for a dataset.
  */
-export const updateRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRefreshScheduleRequest,
-    output: UpdateRefreshScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateRefreshSchedule: (
+  input: UpdateRefreshScheduleRequest,
+) => Effect.Effect<
+  UpdateRefreshScheduleResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRefreshScheduleRequest,
+  output: UpdateRefreshScheduleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the custom permissions that are associated with a role.
  */
-export const updateRoleCustomPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRoleCustomPermissionRequest,
-    output: UpdateRoleCustomPermissionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateRoleCustomPermission: (
+  input: UpdateRoleCustomPermissionRequest,
+) => Effect.Effect<
+  UpdateRoleCustomPermissionResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRoleCustomPermissionRequest,
+  output: UpdateRoleCustomPermissionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates an Amazon Quick Sight user.
  */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUser: (
+  input: UpdateUserRequest,
+) => Effect.Effect<
+  UpdateUserResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,
   output: UpdateUserResponse,
   errors: [
@@ -27732,22 +29728,34 @@ export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a custom permissions profile for a user.
  */
-export const updateUserCustomPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserCustomPermissionRequest,
-    output: UpdateUserCustomPermissionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateUserCustomPermission: (
+  input: UpdateUserCustomPermissionRequest,
+) => Effect.Effect<
+  UpdateUserCustomPermissionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserCustomPermissionRequest,
+  output: UpdateUserCustomPermissionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates an Amazon Quick Sight account, or subscribes to Amazon Quick Sight Q.
  *
@@ -27777,44 +29785,71 @@ export const updateUserCustomPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * access to Amazon Web Services services in the Amazon Quick Sight
  * User Guide.
  */
-export const createAccountSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAccountSubscriptionRequest,
-    output: CreateAccountSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createAccountSubscription: (
+  input: CreateAccountSubscriptionRequest,
+) => Effect.Effect<
+  CreateAccountSubscriptionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountSubscriptionRequest,
+  output: CreateAccountSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a custom permissions profile.
  */
-export const createCustomPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCustomPermissionsRequest,
-    output: CreateCustomPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      PreconditionNotMetException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createCustomPermissions: (
+  input: CreateCustomPermissionsRequest,
+) => Effect.Effect<
+  CreateCustomPermissionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | PreconditionNotMetException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomPermissionsRequest,
+  output: CreateCustomPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    PreconditionNotMetException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Use the `CreateGroup` operation to create a group in Quick Sight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support.
  *
@@ -27824,7 +29859,22 @@ export const createCustomPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * The response is a group object.
  */
-export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGroup: (
+  input: CreateGroupRequest,
+) => Effect.Effect<
+  CreateGroupResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | PreconditionNotMetException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupRequest,
   output: CreateGroupResponse,
   errors: [
@@ -27842,25 +29892,51 @@ export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds an Amazon Quick Sight user to an Amazon Quick Sight group.
  */
-export const createGroupMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateGroupMembershipRequest,
-    output: CreateGroupMembershipResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createGroupMembership: (
+  input: CreateGroupMembershipRequest,
+) => Effect.Effect<
+  CreateGroupMembershipResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGroupMembershipRequest,
+  output: CreateGroupMembershipResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists all self-upgrade requests for a Quick Suite account.
  */
-export const listSelfUpgrades = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listSelfUpgrades: (
+  input: ListSelfUpgradesRequest,
+) => Effect.Effect<
+  ListSelfUpgradesResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSelfUpgradesRequest,
   output: ListSelfUpgradesResponse,
   errors: [
@@ -27878,56 +29954,191 @@ export const listSelfUpgrades = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Use the `SearchGroups` operation to search groups in a specified Quick Sight namespace using the supplied filters.
  */
-export const searchGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchGroups: {
+  (
     input: SearchGroupsRequest,
-    output: SearchGroupsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "GroupList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchGroupsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchGroupsRequest,
+  ) => Stream.Stream<
+    SearchGroupsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchGroupsRequest,
+  ) => Stream.Stream<
+    Group,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchGroupsRequest,
+  output: SearchGroupsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "GroupList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists member users in a group.
  */
-export const listGroupMemberships =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGroupMemberships: {
+  (
     input: ListGroupMembershipsRequest,
-    output: ListGroupMembershipsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "GroupMemberList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListGroupMembershipsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupMembershipsRequest,
+  ) => Stream.Stream<
+    ListGroupMembershipsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupMembershipsRequest,
+  ) => Stream.Stream<
+    GroupMember,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGroupMembershipsRequest,
+  output: ListGroupMembershipsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "GroupMemberList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all user groups in Amazon Quick Sight.
  */
-export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGroups: {
+  (
+    input: ListGroupsRequest,
+  ): Effect.Effect<
+    ListGroupsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupsRequest,
+  ) => Stream.Stream<
+    ListGroupsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupsRequest,
+  ) => Stream.Stream<
+    Group,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGroupsRequest,
   output: ListGroupsResponse,
   errors: [
@@ -27950,57 +30161,195 @@ export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
  */
-export const listNamespaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listNamespaces: {
+  (
     input: ListNamespacesRequest,
-    output: ListNamespacesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Namespaces",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListNamespacesResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNamespacesRequest,
+  ) => Stream.Stream<
+    ListNamespacesResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNamespacesRequest,
+  ) => Stream.Stream<
+    NamespaceInfoV2,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNamespacesRequest,
+  output: ListNamespacesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Namespaces",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all groups that are associated with a role.
  */
-export const listRoleMemberships =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRoleMemberships: {
+  (
     input: ListRoleMembershipsRequest,
-    output: ListRoleMembershipsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MembersList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRoleMembershipsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | LimitExceededException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRoleMembershipsRequest,
+  ) => Stream.Stream<
+    ListRoleMembershipsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | LimitExceededException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoleMembershipsRequest,
+  ) => Stream.Stream<
+    String,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | LimitExceededException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRoleMembershipsRequest,
+  output: ListRoleMembershipsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MembersList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of all of the Amazon Quick Sight users belonging to this account.
  */
-export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUsers: {
+  (
+    input: ListUsersRequest,
+  ): Effect.Effect<
+    ListUsersResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    ListUsersResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    User,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | PreconditionNotMetException
+    | ResourceNotFoundException
+    | ResourceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse,
   errors: [
@@ -28023,7 +30372,22 @@ export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Updates a self-upgrade request for a Quick Suite user by approving, denying, or verifying the request.
  */
-export const updateSelfUpgrade = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSelfUpgrade: (
+  input: UpdateSelfUpgradeRequest,
+) => Effect.Effect<
+  UpdateSelfUpgradeResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSelfUpgradeRequest,
   output: UpdateSelfUpgradeResponse,
   errors: [
@@ -28041,57 +30405,94 @@ export const updateSelfUpgrade = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the self-upgrade configuration for a Quick Suite account.
  */
-export const updateSelfUpgradeConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSelfUpgradeConfigurationRequest,
-    output: UpdateSelfUpgradeConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      ThrottlingException,
-    ],
-  }));
+export const updateSelfUpgradeConfiguration: (
+  input: UpdateSelfUpgradeConfigurationRequest,
+) => Effect.Effect<
+  UpdateSelfUpgradeConfigurationResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSelfUpgradeConfigurationRequest,
+  output: UpdateSelfUpgradeConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset.
  */
-export const createRefreshSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRefreshScheduleRequest,
-    output: CreateRefreshScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      PreconditionNotMetException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createRefreshSchedule: (
+  input: CreateRefreshScheduleRequest,
+) => Effect.Effect<
+  CreateRefreshScheduleResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | PreconditionNotMetException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRefreshScheduleRequest,
+  output: CreateRefreshScheduleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    PreconditionNotMetException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates an Quick Suite application with a token exchange grant. This operation only supports Quick Suite applications that are registered with IAM Identity Center.
  */
-export const updateApplicationWithTokenExchangeGrant =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateApplicationWithTokenExchangeGrantRequest,
-    output: UpdateApplicationWithTokenExchangeGrantResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateApplicationWithTokenExchangeGrant: (
+  input: UpdateApplicationWithTokenExchangeGrantRequest,
+) => Effect.Effect<
+  UpdateApplicationWithTokenExchangeGrantResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationWithTokenExchangeGrantRequest,
+  output: UpdateApplicationWithTokenExchangeGrantResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API permanently deletes the specified Quick Sight brand. When you delete a brand:
  *
@@ -28105,7 +30506,19 @@ export const updateApplicationWithTokenExchangeGrant =
  *
  * Deletes an Quick Sight brand.
  */
-export const deleteBrand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBrand: (
+  input: DeleteBrandRequest,
+) => Effect.Effect<
+  DeleteBrandResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBrandRequest,
   output: DeleteBrandResponse,
   errors: [
@@ -28120,57 +30533,100 @@ export const deleteBrand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a brand assignment.
  */
-export const deleteBrandAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBrandAssignmentRequest,
-    output: DeleteBrandAssignmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteBrandAssignment: (
+  input: DeleteBrandAssignmentRequest,
+) => Effect.Effect<
+  DeleteBrandAssignmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBrandAssignmentRequest,
+  output: DeleteBrandAssignmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes a brand assignment.
  */
-export const describeBrandAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeBrandAssignmentRequest,
-    output: DescribeBrandAssignmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeBrandAssignment: (
+  input: DescribeBrandAssignmentRequest,
+) => Effect.Effect<
+  DescribeBrandAssignmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBrandAssignmentRequest,
+  output: DescribeBrandAssignmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the published version of the brand.
  */
-export const describeBrandPublishedVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeBrandPublishedVersionRequest,
-    output: DescribeBrandPublishedVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeBrandPublishedVersion: (
+  input: DescribeBrandPublishedVersionRequest,
+) => Effect.Effect<
+  DescribeBrandPublishedVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBrandPublishedVersionRequest,
+  output: DescribeBrandPublishedVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a brand.
  */
-export const updateBrand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBrand: (
+  input: UpdateBrandRequest,
+) => Effect.Effect<
+  UpdateBrandResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBrandRequest,
   output: UpdateBrandResponse,
   errors: [
@@ -28185,37 +30641,57 @@ export const updateBrand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a brand assignment.
  */
-export const updateBrandAssignment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateBrandAssignmentRequest,
-    output: UpdateBrandAssignmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateBrandAssignment: (
+  input: UpdateBrandAssignmentRequest,
+) => Effect.Effect<
+  UpdateBrandAssignmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBrandAssignmentRequest,
+  output: UpdateBrandAssignmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the published version of a brand.
  */
-export const updateBrandPublishedVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateBrandPublishedVersionRequest,
-    output: UpdateBrandPublishedVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateBrandPublishedVersion: (
+  input: UpdateBrandPublishedVersionRequest,
+) => Effect.Effect<
+  UpdateBrandPublishedVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBrandPublishedVersionRequest,
+  output: UpdateBrandPublishedVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes an existing export job.
  *
@@ -28226,35 +30702,55 @@ export const updateBrandPublishedVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Job descriptions are available for 14 days after the job starts.
  */
-export const describeAssetBundleExportJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAssetBundleExportJobRequest,
-    output: DescribeAssetBundleExportJobResponse,
-    errors: [
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }));
+export const describeAssetBundleExportJob: (
+  input: DescribeAssetBundleExportJobRequest,
+) => Effect.Effect<
+  DescribeAssetBundleExportJobResponse,
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAssetBundleExportJobRequest,
+  output: DescribeAssetBundleExportJobResponse,
+  errors: [
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Creates or updates the dataset refresh properties for the dataset.
  */
-export const putDataSetRefreshProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutDataSetRefreshPropertiesRequest,
-    output: PutDataSetRefreshPropertiesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const putDataSetRefreshProperties: (
+  input: PutDataSetRefreshPropertiesRequest,
+) => Effect.Effect<
+  PutDataSetRefreshPropertiesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutDataSetRefreshPropertiesRequest,
+  output: PutDataSetRefreshPropertiesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Starts an Asset Bundle import job.
  *
@@ -28269,21 +30765,32 @@ export const putDataSetRefreshProperties = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * resource type that is contained in the bundle file before the resources can be
  * imported.
  */
-export const startAssetBundleImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartAssetBundleImportJobRequest,
-    output: StartAssetBundleImportJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const startAssetBundleImportJob: (
+  input: StartAssetBundleImportJobRequest,
+) => Effect.Effect<
+  StartAssetBundleImportJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAssetBundleImportJobRequest,
+  output: StartAssetBundleImportJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * This API controls public sharing settings for your entire Quick Sight account, affecting
  * data security and access. When you enable public sharing:
@@ -28308,24 +30815,47 @@ export const startAssetBundleImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Quick Sight, see Using Quick Suite with IAM in the Amazon Quick Sight
  * User Guide.
  */
-export const updatePublicSharingSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePublicSharingSettingsRequest,
-    output: UpdatePublicSharingSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedPricingPlanException,
-    ],
-  }),
-);
+export const updatePublicSharingSettings: (
+  input: UpdatePublicSharingSettingsRequest,
+) => Effect.Effect<
+  UpdatePublicSharingSettingsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedPricingPlanException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePublicSharingSettingsRequest,
+  output: UpdatePublicSharingSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedPricingPlanException,
+  ],
+}));
 /**
  * Describes a theme.
  */
-export const describeTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTheme: (
+  input: DescribeThemeRequest,
+) => Effect.Effect<
+  DescribeThemeResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeThemeRequest,
   output: DescribeThemeResponse,
   errors: [
@@ -28341,7 +30871,19 @@ export const describeTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides a summary for a dashboard.
  */
-export const describeDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDashboard: (
+  input: DescribeDashboardRequest,
+) => Effect.Effect<
+  DescribeDashboardResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDashboardRequest,
   output: DescribeDashboardResponse,
   errors: [
@@ -28372,39 +30914,71 @@ export const describeDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Impersonated Quick Sight user doesn't have access to the specified dashboard in the job.
  */
-export const describeDashboardSnapshotJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDashboardSnapshotJobRequest,
-    output: DescribeDashboardSnapshotJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }));
+export const describeDashboardSnapshotJob: (
+  input: DescribeDashboardSnapshotJobRequest,
+) => Effect.Effect<
+  DescribeDashboardSnapshotJobResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDashboardSnapshotJobRequest,
+  output: DescribeDashboardSnapshotJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Describes a VPC connection.
  */
-export const describeVPCConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVPCConnectionRequest,
-    output: DescribeVPCConnectionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const describeVPCConnection: (
+  input: DescribeVPCConnectionRequest,
+) => Effect.Effect<
+  DescribeVPCConnectionResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVPCConnectionRequest,
+  output: DescribeVPCConnectionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Describes a folder.
  */
-export const describeFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeFolder: (
+  input: DescribeFolderRequest,
+) => Effect.Effect<
+  DescribeFolderResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFolderRequest,
   output: DescribeFolderResponse,
   errors: [
@@ -28419,24 +30993,47 @@ export const describeFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
  */
-export const deleteFolderMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFolderMembershipRequest,
-    output: DeleteFolderMembershipResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const deleteFolderMembership: (
+  input: DeleteFolderMembershipRequest,
+) => Effect.Effect<
+  DeleteFolderMembershipResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFolderMembershipRequest,
+  output: DeleteFolderMembershipResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Deletes a theme.
  */
-export const deleteTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTheme: (
+  input: DeleteThemeRequest,
+) => Effect.Effect<
+  DeleteThemeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThemeRequest,
   output: DeleteThemeResponse,
   errors: [
@@ -28452,7 +31049,20 @@ export const deleteTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a VPC connection.
  */
-export const deleteVPCConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVPCConnection: (
+  input: DeleteVPCConnectionRequest,
+) => Effect.Effect<
+  DeleteVPCConnectionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVPCConnectionRequest,
   output: DeleteVPCConnectionResponse,
   errors: [
@@ -28468,20 +31078,30 @@ export const deleteVPCConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the read and write permissions for a theme.
  */
-export const describeThemePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeThemePermissionsRequest,
-    output: DescribeThemePermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const describeThemePermissions: (
+  input: DescribeThemePermissionsRequest,
+) => Effect.Effect<
+  DescribeThemePermissionsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeThemePermissionsRequest,
+  output: DescribeThemePermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email.
  *
@@ -28489,74 +31109,121 @@ export const describeThemePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information, see Scheduling and sending Amazon Quick Sight reports by email and Configuring email report settings for a Amazon Quick Sight dashboard in the *Amazon Quick Sight User Guide*.
  */
-export const startDashboardSnapshotJobSchedule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDashboardSnapshotJobScheduleRequest,
-    output: StartDashboardSnapshotJobScheduleResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }));
+export const startDashboardSnapshotJobSchedule: (
+  input: StartDashboardSnapshotJobScheduleRequest,
+) => Effect.Effect<
+  StartDashboardSnapshotJobScheduleResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDashboardSnapshotJobScheduleRequest,
+  output: StartDashboardSnapshotJobScheduleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Updates the permissions for an action connector by granting or revoking access for specific users and groups. You can control who can view, use, or manage the action connector.
  */
-export const updateActionConnectorPermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateActionConnectorPermissionsRequest,
-    output: UpdateActionConnectorPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }));
+export const updateActionConnectorPermissions: (
+  input: UpdateActionConnectorPermissionsRequest,
+) => Effect.Effect<
+  UpdateActionConnectorPermissionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateActionConnectorPermissionsRequest,
+  output: UpdateActionConnectorPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Updates the linked analyses on a dashboard.
  */
-export const updateDashboardLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDashboardLinksRequest,
-    output: UpdateDashboardLinksResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const updateDashboardLinks: (
+  input: UpdateDashboardLinksRequest,
+) => Effect.Effect<
+  UpdateDashboardLinksResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDashboardLinksRequest,
+  output: UpdateDashboardLinksResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Updates permissions of a folder.
  */
-export const updateFolderPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFolderPermissionsRequest,
-    output: UpdateFolderPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const updateFolderPermissions: (
+  input: UpdateFolderPermissionsRequest,
+) => Effect.Effect<
+  UpdateFolderPermissionsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFolderPermissionsRequest,
+  output: UpdateFolderPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Updates the resource permissions for a theme. Permissions apply to the action to grant or
  * revoke permissions on, for example `"quicksight:DescribeTheme"`.
@@ -28600,44 +31267,81 @@ export const updateFolderPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - To specify no permissions, omit the permissions list.
  */
-export const updateThemePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateThemePermissionsRequest,
-    output: UpdateThemePermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const updateThemePermissions: (
+  input: UpdateThemePermissionsRequest,
+) => Effect.Effect<
+  UpdateThemePermissionsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateThemePermissionsRequest,
+  output: UpdateThemePermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Updates the permissions of a topic.
  */
-export const updateTopicPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTopicPermissionsRequest,
-    output: UpdateTopicPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const updateTopicPermissions: (
+  input: UpdateTopicPermissionsRequest,
+) => Effect.Effect<
+  UpdateTopicPermissionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTopicPermissionsRequest,
+  output: UpdateTopicPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Updates a VPC connection.
  */
-export const updateVPCConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVPCConnection: (
+  input: UpdateVPCConnectionRequest,
+) => Effect.Effect<
+  UpdateVPCConnectionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVPCConnectionRequest,
   output: UpdateVPCConnectionResponse,
   errors: [
@@ -28654,7 +31358,19 @@ export const updateVPCConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a dashboard.
  */
-export const deleteDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDashboard: (
+  input: DeleteDashboardRequest,
+) => Effect.Effect<
+  DeleteDashboardResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDashboardRequest,
   output: DeleteDashboardResponse,
   errors: [
@@ -28669,7 +31385,20 @@ export const deleteDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a template.
  */
-export const deleteTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTemplate: (
+  input: DeleteTemplateRequest,
+) => Effect.Effect<
+  DeleteTemplateResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTemplateRequest,
   output: DeleteTemplateResponse,
   errors: [
@@ -28687,7 +31416,19 @@ export const deleteTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you provide a specific alias, you delete the version of the theme
  * that the alias points to.
  */
-export const deleteThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteThemeAlias: (
+  input: DeleteThemeAliasRequest,
+) => Effect.Effect<
+  DeleteThemeAliasResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThemeAliasRequest,
   output: DeleteThemeAliasResponse,
   errors: [
@@ -28702,24 +31443,46 @@ export const deleteThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes read and write permissions on a template.
  */
-export const describeTemplatePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTemplatePermissionsRequest,
-    output: DescribeTemplatePermissionsResponse,
-    errors: [
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const describeTemplatePermissions: (
+  input: DescribeTemplatePermissionsRequest,
+) => Effect.Effect<
+  DescribeTemplatePermissionsResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTemplatePermissionsRequest,
+  output: DescribeTemplatePermissionsResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Describes the alias for a theme.
  */
-export const describeThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeThemeAlias: (
+  input: DescribeThemeAliasRequest,
+) => Effect.Effect<
+  DescribeThemeAliasResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeThemeAliasRequest,
   output: DescribeThemeAliasResponse,
   errors: [
@@ -28734,21 +31497,32 @@ export const describeThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the read and write permissions for an analysis.
  */
-export const updateAnalysisPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAnalysisPermissionsRequest,
-    output: UpdateAnalysisPermissionsResponse,
-    errors: [
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const updateAnalysisPermissions: (
+  input: UpdateAnalysisPermissionsRequest,
+) => Effect.Effect<
+  UpdateAnalysisPermissionsResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAnalysisPermissionsRequest,
+  output: UpdateAnalysisPermissionsResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Updates a dashboard in an Amazon Web Services account.
  *
@@ -28758,7 +31532,20 @@ export const updateAnalysisPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * UpdateDashboardPublishedVersion
  * API operation.
  */
-export const updateDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDashboard: (
+  input: UpdateDashboardRequest,
+) => Effect.Effect<
+  UpdateDashboardResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDashboardRequest,
   output: UpdateDashboardResponse,
   errors: [
@@ -28774,70 +31561,113 @@ export const updateDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates read and write permissions on a dashboard.
  */
-export const updateDashboardPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDashboardPermissionsRequest,
-    output: UpdateDashboardPermissionsResponse,
-    errors: [
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const updateDashboardPermissions: (
+  input: UpdateDashboardPermissionsRequest,
+) => Effect.Effect<
+  UpdateDashboardPermissionsResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDashboardPermissionsRequest,
+  output: UpdateDashboardPermissionsResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Updates the published version of a dashboard.
  */
-export const updateDashboardPublishedVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDashboardPublishedVersionRequest,
-    output: UpdateDashboardPublishedVersionResponse,
-    errors: [
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }));
+export const updateDashboardPublishedVersion: (
+  input: UpdateDashboardPublishedVersionRequest,
+) => Effect.Effect<
+  UpdateDashboardPublishedVersionResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDashboardPublishedVersionRequest,
+  output: UpdateDashboardPublishedVersionResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Updates the resource permissions for a template.
  */
-export const updateTemplatePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTemplatePermissionsRequest,
-    output: UpdateTemplatePermissionsResponse,
-    errors: [
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const updateTemplatePermissions: (
+  input: UpdateTemplatePermissionsRequest,
+) => Effect.Effect<
+  UpdateTemplatePermissionsResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTemplatePermissionsRequest,
+  output: UpdateTemplatePermissionsResponse,
+  errors: [
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Describes read and write permissions for a dashboard.
  */
-export const describeDashboardPermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDashboardPermissionsRequest,
-    output: DescribeDashboardPermissionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }));
+export const describeDashboardPermissions: (
+  input: DescribeDashboardPermissionsRequest,
+) => Effect.Effect<
+  DescribeDashboardPermissionsResponse,
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDashboardPermissionsRequest,
+  output: DescribeDashboardPermissionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Deletes an analysis from Amazon Quick Sight. You can optionally include a recovery window during
  * which you can restore the analysis. If you don't specify a recovery window value, the
@@ -28854,7 +31684,19 @@ export const describeDashboardPermissions =
  * To access it in the console, restore it. Deleting an analysis doesn't delete the
  * dashboards that you publish from it.
  */
-export const deleteAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAnalysis: (
+  input: DeleteAnalysisRequest,
+) => Effect.Effect<
+  DeleteAnalysisResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAnalysisRequest,
   output: DeleteAnalysisResponse,
   errors: [
@@ -28869,7 +31711,19 @@ export const deleteAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides a summary of the metadata for an analysis.
  */
-export const describeAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAnalysis: (
+  input: DescribeAnalysisRequest,
+) => Effect.Effect<
+  DescribeAnalysisResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAnalysisRequest,
   output: DescribeAnalysisResponse,
   errors: [
@@ -28887,21 +31741,40 @@ export const describeAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Poll job descriptions after starting a job to know when it has succeeded or failed. Job
  * descriptions are available for 14 days after job starts.
  */
-export const describeAssetBundleImportJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAssetBundleImportJobRequest,
-    output: DescribeAssetBundleImportJobResponse,
-    errors: [
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }));
+export const describeAssetBundleImportJob: (
+  input: DescribeAssetBundleImportJobRequest,
+) => Effect.Effect<
+  DescribeAssetBundleImportJobResponse,
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAssetBundleImportJobRequest,
+  output: DescribeAssetBundleImportJobResponse,
+  errors: [
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Deletes the item that the specified template alias points to. If you provide a specific
  * alias, you delete the version of the template that the alias points to.
  */
-export const deleteTemplateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTemplateAlias: (
+  input: DeleteTemplateAliasRequest,
+) => Effect.Effect<
+  DeleteTemplateAliasResponse,
+  | ConflictException
+  | InternalFailureException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTemplateAliasRequest,
   output: DeleteTemplateAliasResponse,
   errors: [
@@ -28915,7 +31788,18 @@ export const deleteTemplateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the template alias of a template.
  */
-export const updateTemplateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTemplateAlias: (
+  input: UpdateTemplateAliasRequest,
+) => Effect.Effect<
+  UpdateTemplateAliasResponse,
+  | ConflictException
+  | InternalFailureException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTemplateAliasRequest,
   output: UpdateTemplateAliasResponse,
   errors: [
@@ -28929,243 +31813,637 @@ export const updateTemplateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the template alias for a template.
  */
-export const describeTemplateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTemplateAliasRequest,
-    output: DescribeTemplateAliasResponse,
-    errors: [
-      InternalFailureException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const describeTemplateAlias: (
+  input: DescribeTemplateAliasRequest,
+) => Effect.Effect<
+  DescribeTemplateAliasResponse,
+  | InternalFailureException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTemplateAliasRequest,
+  output: DescribeTemplateAliasResponse,
+  errors: [
+    InternalFailureException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Provides the read and write permissions for an analysis.
  */
-export const describeAnalysisPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAnalysisPermissionsRequest,
-    output: DescribeAnalysisPermissionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const describeAnalysisPermissions: (
+  input: DescribeAnalysisPermissionsRequest,
+) => Effect.Effect<
+  DescribeAnalysisPermissionsResponse,
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAnalysisPermissionsRequest,
+  output: DescribeAnalysisPermissionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Lists Amazon Quick Sight analyses that exist in the specified Amazon Web Services account.
  */
-export const listAnalyses = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAnalyses: {
+  (
     input: ListAnalysesRequest,
-    output: ListAnalysesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidNextTokenException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AnalysisSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAnalysesResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAnalysesRequest,
+  ) => Stream.Stream<
+    ListAnalysesResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAnalysesRequest,
+  ) => Stream.Stream<
+    AnalysisSummary,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAnalysesRequest,
+  output: ListAnalysesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidNextTokenException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AnalysisSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs
  * created more than 14 days ago are deleted forever and are not returned. If you are using
  * the same job ID for multiple jobs, `ListAssetBundleExportJobs` only returns the
  * most recent job that uses the repeated job ID.
  */
-export const listAssetBundleExportJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssetBundleExportJobs: {
+  (
     input: ListAssetBundleExportJobsRequest,
-    output: ListAssetBundleExportJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InvalidNextTokenException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AssetBundleExportJobSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAssetBundleExportJobsResponse,
+    | AccessDeniedException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssetBundleExportJobsRequest,
+  ) => Stream.Stream<
+    ListAssetBundleExportJobsResponse,
+    | AccessDeniedException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssetBundleExportJobsRequest,
+  ) => Stream.Stream<
+    AssetBundleExportJobSummary,
+    | AccessDeniedException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssetBundleExportJobsRequest,
+  output: ListAssetBundleExportJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidNextTokenException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AssetBundleExportJobSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all asset bundle import jobs that have taken place in the last 14 days. Jobs
  * created more than 14 days ago are deleted forever and are not returned. If you are using
  * the same job ID for multiple jobs, `ListAssetBundleImportJobs` only returns the
  * most recent job that uses the repeated job ID.
  */
-export const listAssetBundleImportJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssetBundleImportJobs: {
+  (
     input: ListAssetBundleImportJobsRequest,
-    output: ListAssetBundleImportJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InvalidNextTokenException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AssetBundleImportJobSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAssetBundleImportJobsResponse,
+    | AccessDeniedException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssetBundleImportJobsRequest,
+  ) => Stream.Stream<
+    ListAssetBundleImportJobsResponse,
+    | AccessDeniedException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssetBundleImportJobsRequest,
+  ) => Stream.Stream<
+    AssetBundleImportJobSummary,
+    | AccessDeniedException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssetBundleImportJobsRequest,
+  output: ListAssetBundleImportJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidNextTokenException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AssetBundleImportJobSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists dashboards in an Amazon Web Services account.
  */
-export const listDashboards = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDashboards: {
+  (
     input: ListDashboardsRequest,
-    output: ListDashboardsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidNextTokenException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DashboardSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDashboardsResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDashboardsRequest,
+  ) => Stream.Stream<
+    ListDashboardsResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDashboardsRequest,
+  ) => Stream.Stream<
+    DashboardSummary,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDashboardsRequest,
+  output: ListDashboardsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidNextTokenException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DashboardSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the versions of the dashboards in the Amazon Quick Sight subscription.
  */
-export const listDashboardVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDashboardVersions: {
+  (
     input: ListDashboardVersionsRequest,
-    output: ListDashboardVersionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DashboardVersionSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDashboardVersionsResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDashboardVersionsRequest,
+  ) => Stream.Stream<
+    ListDashboardVersionsResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDashboardVersionsRequest,
+  ) => Stream.Stream<
+    DashboardVersionSummary,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDashboardVersionsRequest,
+  output: ListDashboardVersionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DashboardVersionSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List all assets (`DASHBOARD`, `ANALYSIS`, and `DATASET`) in a folder.
  */
-export const listFolderMembers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFolderMembers: {
+  (
     input: ListFolderMembersRequest,
-    output: ListFolderMembersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FolderMemberList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFolderMembersResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFolderMembersRequest,
+  ) => Stream.Stream<
+    ListFolderMembersResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFolderMembersRequest,
+  ) => Stream.Stream<
+    MemberIdArnPair,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFolderMembersRequest,
+  output: ListFolderMembersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FolderMemberList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all folders in an account.
  */
-export const listFolders = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFolders: {
+  (
     input: ListFoldersRequest,
-    output: ListFoldersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FolderSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFoldersResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFoldersRequest,
+  ) => Stream.Stream<
+    ListFoldersResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFoldersRequest,
+  ) => Stream.Stream<
+    FolderSummary,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFoldersRequest,
+  output: ListFoldersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FolderSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the templates in the current Amazon Quick Sight account.
  */
-export const listTemplates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTemplates: {
+  (
     input: ListTemplatesRequest,
-    output: ListTemplatesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TemplateSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTemplatesResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTemplatesRequest,
+  ) => Stream.Stream<
+    ListTemplatesResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTemplatesRequest,
+  ) => Stream.Stream<
+    TemplateSummary,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTemplatesRequest,
+  output: ListTemplatesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TemplateSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the versions of the templates in the current Amazon Quick Sight account.
  */
-export const listTemplateVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTemplateVersions: {
+  (
     input: ListTemplateVersionsRequest,
-    output: ListTemplateVersionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TemplateVersionSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTemplateVersionsResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTemplateVersionsRequest,
+  ) => Stream.Stream<
+    ListTemplateVersionsResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTemplateVersionsRequest,
+  ) => Stream.Stream<
+    TemplateVersionSummary,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTemplateVersionsRequest,
+  output: ListTemplateVersionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TemplateVersionSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the themes in the current Amazon Web Services account.
  */
-export const listThemes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listThemes: {
+  (
+    input: ListThemesRequest,
+  ): Effect.Effect<
+    ListThemesResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListThemesRequest,
+  ) => Stream.Stream<
+    ListThemesResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListThemesRequest,
+  ) => Stream.Stream<
+    ThemeSummary,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListThemesRequest,
   output: ListThemesResponse,
   errors: [
@@ -29187,197 +32465,529 @@ export const listThemes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists all the versions of the themes in the current Amazon Web Services account.
  */
-export const listThemeVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listThemeVersions: {
+  (
     input: ListThemeVersionsRequest,
-    output: ListThemeVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ThemeVersionSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListThemeVersionsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListThemeVersionsRequest,
+  ) => Stream.Stream<
+    ListThemeVersionsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListThemeVersionsRequest,
+  ) => Stream.Stream<
+    ThemeVersionSummary,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListThemeVersionsRequest,
+  output: ListThemeVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ThemeVersionSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all of the VPC connections in the current set Amazon Web Services Region of an
  * Amazon Web Services account.
  */
-export const listVPCConnections = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listVPCConnections: {
+  (
     input: ListVPCConnectionsRequest,
-    output: ListVPCConnectionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListVPCConnectionsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVPCConnectionsRequest,
+  ) => Stream.Stream<
+    ListVPCConnectionsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVPCConnectionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVPCConnectionsRequest,
+  output: ListVPCConnectionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches for analyses that belong to the user specified in the filter.
  *
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
-export const searchAnalyses = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchAnalyses: {
+  (
     input: SearchAnalysesRequest,
-    output: SearchAnalysesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AnalysisSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchAnalysesResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchAnalysesRequest,
+  ) => Stream.Stream<
+    SearchAnalysesResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchAnalysesRequest,
+  ) => Stream.Stream<
+    AnalysisSummary,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchAnalysesRequest,
+  output: SearchAnalysesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AnalysisSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches for dashboards that belong to a user.
  *
  * This operation is eventually consistent. The results are best effort and may not
  * reflect very recent updates and changes.
  */
-export const searchDashboards = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchDashboards: {
+  (
     input: SearchDashboardsRequest,
-    output: SearchDashboardsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DashboardSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchDashboardsResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchDashboardsRequest,
+  ) => Stream.Stream<
+    SearchDashboardsResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchDashboardsRequest,
+  ) => Stream.Stream<
+    DashboardSummary,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchDashboardsRequest,
+  output: SearchDashboardsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DashboardSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches for any Q topic that exists in an Quick Suite account.
  */
-export const searchTopics = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchTopics: {
+  (
     input: SearchTopicsRequest,
-    output: SearchTopicsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TopicSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchTopicsResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchTopicsRequest,
+  ) => Stream.Stream<
+    SearchTopicsResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchTopicsRequest,
+  ) => Stream.Stream<
+    TopicSummary,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchTopicsRequest,
+  output: SearchTopicsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TopicSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes permissions for a folder.
  */
-export const describeFolderPermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeFolderPermissions: {
+  (
     input: DescribeFolderPermissionsRequest,
-    output: DescribeFolderPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Permissions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeFolderPermissionsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFolderPermissionsRequest,
+  ) => Stream.Stream<
+    DescribeFolderPermissionsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFolderPermissionsRequest,
+  ) => Stream.Stream<
+    ResourcePermission,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFolderPermissionsRequest,
+  output: DescribeFolderPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Permissions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ancestor folders.
  */
-export const describeFolderResolvedPermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeFolderResolvedPermissions: {
+  (
     input: DescribeFolderResolvedPermissionsRequest,
-    output: DescribeFolderResolvedPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Permissions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeFolderResolvedPermissionsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFolderResolvedPermissionsRequest,
+  ) => Stream.Stream<
+    DescribeFolderResolvedPermissionsResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFolderResolvedPermissionsRequest,
+  ) => Stream.Stream<
+    ResourcePermission,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFolderResolvedPermissionsRequest,
+  output: DescribeFolderResolvedPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Permissions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List all folders that a resource is a member of.
  */
-export const listFoldersForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFoldersForResource: {
+  (
     input: ListFoldersForResourceRequest,
-    output: ListFoldersForResourceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Folders",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFoldersForResourceResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFoldersForResourceRequest,
+  ) => Stream.Stream<
+    ListFoldersForResourceResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFoldersForResourceRequest,
+  ) => Stream.Stream<
+    Arn,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFoldersForResourceRequest,
+  output: ListFoldersForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Folders",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the aliases of a theme.
  */
-export const listThemeAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listThemeAliases: (
+  input: ListThemeAliasesRequest,
+) => Effect.Effect<
+  ListThemeAliasesResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListThemeAliasesRequest,
   output: ListThemeAliasesResponse,
   errors: [
@@ -29393,24 +33003,60 @@ export const listThemeAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all the aliases of a template.
  */
-export const listTemplateAliases =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTemplateAliases: {
+  (
     input: ListTemplateAliasesRequest,
-    output: ListTemplateAliasesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidNextTokenException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TemplateAliasList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTemplateAliasesResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTemplateAliasesRequest,
+  ) => Stream.Stream<
+    ListTemplateAliasesResponse,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTemplateAliasesRequest,
+  ) => Stream.Stream<
+    TemplateAlias,
+    | InternalFailureException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTemplateAliasesRequest,
+  output: ListTemplateAliasesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidNextTokenException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TemplateAliasList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Starts an Asset Bundle export job.
  *
@@ -29425,26 +33071,52 @@ export const listTemplateAliases =
  * The API caller must have the necessary permissions in their IAM role to
  * access each resource before the resources can be exported.
  */
-export const startAssetBundleExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartAssetBundleExportJobRequest,
-    output: StartAssetBundleExportJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const startAssetBundleExportJob: (
+  input: StartAssetBundleExportJobRequest,
+) => Effect.Effect<
+  StartAssetBundleExportJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAssetBundleExportJobRequest,
+  output: StartAssetBundleExportJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Updates a dataset. This operation doesn't support datasets that include uploaded files
  * as a source. Partial updates are not supported by this operation.
  */
-export const updateDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDataSet: (
+  input: UpdateDataSetRequest,
+) => Effect.Effect<
+  UpdateDataSetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidDataSetParameterValueException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataSetRequest,
   output: UpdateDataSetResponse,
   errors: [
@@ -29462,7 +33134,21 @@ export const updateDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes a template's metadata.
  */
-export const describeTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTemplate: (
+  input: DescribeTemplateRequest,
+) => Effect.Effect<
+  DescribeTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTemplateRequest,
   output: DescribeTemplateResponse,
   errors: [
@@ -29479,7 +33165,20 @@ export const describeTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a template alias for a template.
  */
-export const createTemplateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTemplateAlias: (
+  input: CreateTemplateAliasRequest,
+) => Effect.Effect<
+  CreateTemplateAliasResponse,
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTemplateAliasRequest,
   output: CreateTemplateAliasResponse,
   errors: [
@@ -29501,22 +33200,34 @@ export const createTemplateAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `DescribeDashboard`
  * instead.
  */
-export const describeDashboardDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDashboardDefinitionRequest,
-    output: DescribeDashboardDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const describeDashboardDefinition: (
+  input: DescribeDashboardDefinitionRequest,
+) => Effect.Effect<
+  DescribeDashboardDefinitionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDashboardDefinitionRequest,
+  output: DescribeDashboardDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Provides a detailed description of the definition of a template.
  *
@@ -29526,26 +33237,53 @@ export const describeDashboardDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `DescribeTemplate`
  * instead.
  */
-export const describeTemplateDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTemplateDefinitionRequest,
-    output: DescribeTemplateDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const describeTemplateDefinition: (
+  input: DescribeTemplateDefinitionRequest,
+) => Effect.Effect<
+  DescribeTemplateDefinitionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTemplateDefinitionRequest,
+  output: DescribeTemplateDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Creates an empty shared folder.
  */
-export const createFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFolder: (
+  input: CreateFolderRequest,
+) => Effect.Effect<
+  CreateFolderResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFolderRequest,
   output: CreateFolderResponse,
   errors: [
@@ -29563,7 +33301,21 @@ export const createFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new VPC connection.
  */
-export const createVPCConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVPCConnection: (
+  input: CreateVPCConnectionRequest,
+) => Effect.Effect<
+  CreateVPCConnectionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVPCConnectionRequest,
   output: CreateVPCConnectionResponse,
   errors: [
@@ -29580,7 +33332,21 @@ export const createVPCConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the name of a folder.
  */
-export const updateFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFolder: (
+  input: UpdateFolderRequest,
+) => Effect.Effect<
+  UpdateFolderResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFolderRequest,
   output: UpdateFolderResponse,
   errors: [
@@ -29597,7 +33363,21 @@ export const updateFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a theme.
  */
-export const updateTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTheme: (
+  input: UpdateThemeRequest,
+) => Effect.Effect<
+  UpdateThemeResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThemeRequest,
   output: UpdateThemeResponse,
   errors: [
@@ -29614,7 +33394,20 @@ export const updateTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an analysis in Amazon Quick Sight
  */
-export const updateAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAnalysis: (
+  input: UpdateAnalysisRequest,
+) => Effect.Effect<
+  UpdateAnalysisResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAnalysisRequest,
   output: UpdateAnalysisResponse,
   errors: [
@@ -29630,7 +33423,21 @@ export const updateAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a template from an existing Amazon Quick Sight analysis or another template.
  */
-export const updateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTemplate: (
+  input: UpdateTemplateRequest,
+) => Effect.Effect<
+  UpdateTemplateResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTemplateRequest,
   output: UpdateTemplateResponse,
   errors: [
@@ -29647,7 +33454,20 @@ export const updateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an alias of a theme.
  */
-export const updateThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateThemeAlias: (
+  input: UpdateThemeAliasRequest,
+) => Effect.Effect<
+  UpdateThemeAliasResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThemeAliasRequest,
   output: UpdateThemeAliasResponse,
   errors: [
@@ -29663,7 +33483,21 @@ export const updateThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a theme alias for a theme.
  */
-export const createThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createThemeAlias: (
+  input: CreateThemeAliasRequest,
+) => Effect.Effect<
+  CreateThemeAliasResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateThemeAliasRequest,
   output: CreateThemeAliasResponse,
   errors: [
@@ -29680,22 +33514,34 @@ export const createThemeAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds an asset, such as a dashboard, analysis, or dataset into a folder.
  */
-export const createFolderMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateFolderMembershipRequest,
-    output: CreateFolderMembershipResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const createFolderMembership: (
+  input: CreateFolderMembershipRequest,
+) => Effect.Effect<
+  CreateFolderMembershipResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFolderMembershipRequest,
+  output: CreateFolderMembershipResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Provides a detailed description of the definition of an analysis.
  *
@@ -29705,22 +33551,34 @@ export const createFolderMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `DescribeAnalysis`
  * instead.
  */
-export const describeAnalysisDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAnalysisDefinitionRequest,
-    output: DescribeAnalysisDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const describeAnalysisDefinition: (
+  input: DescribeAnalysisDefinitionRequest,
+) => Effect.Effect<
+  DescribeAnalysisDefinitionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAnalysisDefinitionRequest,
+  output: DescribeAnalysisDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Creates a dashboard from either a template or directly with a
  * `DashboardDefinition`. To first create a template, see the
@@ -29733,7 +33591,21 @@ export const describeAnalysisDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * correct permissions, you can create a dashboard from a template that exists in a
  * different Amazon Web Services account.
  */
-export const createDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDashboard: (
+  input: CreateDashboardRequest,
+) => Effect.Effect<
+  CreateDashboardResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDashboardRequest,
   output: CreateDashboardResponse,
   errors: [
@@ -29750,7 +33622,21 @@ export const createDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an empty folder.
  */
-export const deleteFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFolder: (
+  input: DeleteFolderRequest,
+) => Effect.Effect<
+  DeleteFolderResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFolderRequest,
   output: DeleteFolderResponse,
   errors: [
@@ -29767,7 +33653,21 @@ export const deleteFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Restores an analysis.
  */
-export const restoreAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const restoreAnalysis: (
+  input: RestoreAnalysisRequest,
+) => Effect.Effect<
+  RestoreAnalysisResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreAnalysisRequest,
   output: RestoreAnalysisResponse,
   errors: [
@@ -29784,28 +33684,72 @@ export const restoreAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Searches the subfolders in a folder.
  */
-export const searchFolders = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchFolders: {
+  (
     input: SearchFoldersRequest,
-    output: SearchFoldersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidNextTokenException,
-      InvalidParameterValueException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FolderSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchFoldersResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchFoldersRequest,
+  ) => Stream.Stream<
+    SearchFoldersResponse,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchFoldersRequest,
+  ) => Stream.Stream<
+    FolderSummary,
+    | AccessDeniedException
+    | InternalFailureException
+    | InvalidNextTokenException
+    | InvalidParameterValueException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnsupportedUserEditionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchFoldersRequest,
+  output: SearchFoldersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidNextTokenException,
+    InvalidParameterValueException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FolderSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a template either from a `TemplateDefinition` or from an existing Quick Sight analysis or template. You can use the resulting
  * template to create additional dashboards, templates, or analyses.
@@ -29817,7 +33761,22 @@ export const searchFolders = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * with datasets that follow the same schema that was used to create the source analysis
  * and template.
  */
-export const createTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTemplate: (
+  input: CreateTemplateRequest,
+) => Effect.Effect<
+  CreateTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTemplateRequest,
   output: CreateTemplateResponse,
   errors: [
@@ -29839,7 +33798,21 @@ export const createTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Themes apply to analyses and dashboards. For more information, see Using
  * Themes in Amazon Quick Sight in the *Amazon Quick Sight User Guide*.
  */
-export const createTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTheme: (
+  input: CreateThemeRequest,
+) => Effect.Effect<
+  CreateThemeResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateThemeRequest,
   output: CreateThemeResponse,
   errors: [
@@ -29873,7 +33846,22 @@ export const createTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Customizing Access to the Amazon Quick Suite Console
  */
-export const getSessionEmbedUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSessionEmbedUrl: (
+  input: GetSessionEmbedUrlRequest,
+) => Effect.Effect<
+  GetSessionEmbedUrlResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | QuickSightUserNotFoundException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | SessionLifetimeInMinutesInvalidException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionEmbedUrlRequest,
   output: GetSessionEmbedUrlResponse,
   errors: [
@@ -29917,26 +33905,42 @@ export const getSessionEmbedUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * demo of the ways you can customize embedding, visit the Amazon Quick Suite
  * Developer Portal.
  */
-export const getDashboardEmbedUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDashboardEmbedUrlRequest,
-    output: GetDashboardEmbedUrlResponse,
-    errors: [
-      AccessDeniedException,
-      DomainNotWhitelistedException,
-      IdentityTypeNotSupportedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      QuickSightUserNotFoundException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      SessionLifetimeInMinutesInvalidException,
-      ThrottlingException,
-      UnsupportedPricingPlanException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const getDashboardEmbedUrl: (
+  input: GetDashboardEmbedUrlRequest,
+) => Effect.Effect<
+  GetDashboardEmbedUrlResponse,
+  | AccessDeniedException
+  | DomainNotWhitelistedException
+  | IdentityTypeNotSupportedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | QuickSightUserNotFoundException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | SessionLifetimeInMinutesInvalidException
+  | ThrottlingException
+  | UnsupportedPricingPlanException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDashboardEmbedUrlRequest,
+  output: GetDashboardEmbedUrlResponse,
+  errors: [
+    AccessDeniedException,
+    DomainNotWhitelistedException,
+    IdentityTypeNotSupportedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    QuickSightUserNotFoundException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    SessionLifetimeInMinutesInvalidException,
+    ThrottlingException,
+    UnsupportedPricingPlanException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Generates an embed URL that you can use to embed an Amazon Quick Suite dashboard or
  * visual in your website, without having to register any reader users. Before you use this
@@ -29963,21 +33967,34 @@ export const getDashboardEmbedUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * demo of the ways you can customize embedding, visit the Amazon Quick Suite
  * Developer Portal.
  */
-export const generateEmbedUrlForAnonymousUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GenerateEmbedUrlForAnonymousUserRequest,
-    output: GenerateEmbedUrlForAnonymousUserResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      SessionLifetimeInMinutesInvalidException,
-      ThrottlingException,
-      UnsupportedPricingPlanException,
-      UnsupportedUserEditionException,
-    ],
-  }));
+export const generateEmbedUrlForAnonymousUser: (
+  input: GenerateEmbedUrlForAnonymousUserRequest,
+) => Effect.Effect<
+  GenerateEmbedUrlForAnonymousUserResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | SessionLifetimeInMinutesInvalidException
+  | ThrottlingException
+  | UnsupportedPricingPlanException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateEmbedUrlForAnonymousUserRequest,
+  output: GenerateEmbedUrlForAnonymousUserResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    SessionLifetimeInMinutesInvalidException,
+    ThrottlingException,
+    UnsupportedPricingPlanException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Starts an asynchronous job that generates a snapshot of a dashboard's output. You can request one or several of the following format configurations in each API call.
  *
@@ -30065,23 +34082,36 @@ export const generateEmbedUrlForAnonymousUser =
  *
  * - The impersonated Quick Sight user is restricted from exporting data in the selected formats. For more information about export restrictions, see Customizing access to Amazon Quick Sight capabilities.
  */
-export const startDashboardSnapshotJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDashboardSnapshotJobRequest,
-    output: StartDashboardSnapshotJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      ResourceExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedPricingPlanException,
-      UnsupportedUserEditionException,
-    ],
-  }),
-);
+export const startDashboardSnapshotJob: (
+  input: StartDashboardSnapshotJobRequest,
+) => Effect.Effect<
+  StartDashboardSnapshotJobResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedPricingPlanException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDashboardSnapshotJobRequest,
+  output: StartDashboardSnapshotJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedPricingPlanException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Generates an embed URL that you can use to embed an Amazon Quick Sight experience in
  * your website. This action can be used for any type of user that is registered in an
@@ -30096,60 +34126,106 @@ export const startDashboardSnapshotJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * value set to `quicksight:read`. Before you use this action, make sure that
  * you have configured the relevant Amazon Quick Sight resource and permissions.
  */
-export const generateEmbedUrlForRegisteredUserWithIdentity =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GenerateEmbedUrlForRegisteredUserWithIdentityRequest,
-    output: GenerateEmbedUrlForRegisteredUserWithIdentityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      QuickSightUserNotFoundException,
-      ResourceNotFoundException,
-      SessionLifetimeInMinutesInvalidException,
-      ThrottlingException,
-      UnsupportedPricingPlanException,
-      UnsupportedUserEditionException,
-    ],
-  }));
+export const generateEmbedUrlForRegisteredUserWithIdentity: (
+  input: GenerateEmbedUrlForRegisteredUserWithIdentityRequest,
+) => Effect.Effect<
+  GenerateEmbedUrlForRegisteredUserWithIdentityResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | QuickSightUserNotFoundException
+  | ResourceNotFoundException
+  | SessionLifetimeInMinutesInvalidException
+  | ThrottlingException
+  | UnsupportedPricingPlanException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateEmbedUrlForRegisteredUserWithIdentityRequest,
+  output: GenerateEmbedUrlForRegisteredUserWithIdentityResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    QuickSightUserNotFoundException,
+    ResourceNotFoundException,
+    SessionLifetimeInMinutesInvalidException,
+    ThrottlingException,
+    UnsupportedPricingPlanException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Creates new reviewed answers for a Q Topic.
  */
-export const batchCreateTopicReviewedAnswer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchCreateTopicReviewedAnswerRequest,
-    output: BatchCreateTopicReviewedAnswerResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const batchCreateTopicReviewedAnswer: (
+  input: BatchCreateTopicReviewedAnswerRequest,
+) => Effect.Effect<
+  BatchCreateTopicReviewedAnswerResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCreateTopicReviewedAnswerRequest,
+  output: BatchCreateTopicReviewedAnswerResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates an action connector that enables Amazon Quick Sight to connect to external services and perform actions.
  * Action connectors support various authentication methods and can be configured with specific actions from supported connector types
  * like Amazon S3, Salesforce, JIRA.
  */
-export const createActionConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateActionConnectorRequest,
-    output: CreateActionConnectorResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceExistsException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createActionConnector: (
+  input: CreateActionConnectorRequest,
+) => Effect.Effect<
+  CreateActionConnectorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateActionConnectorRequest,
+  output: CreateActionConnectorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceExistsException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes a brand.
  */
-export const describeBrand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeBrand: (
+  input: DescribeBrandRequest,
+) => Effect.Effect<
+  DescribeBrandResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBrandRequest,
   output: DescribeBrandResponse,
   errors: [
@@ -30198,20 +34274,32 @@ export const describeBrand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `DATASET_DELETED` - The dataset has been deleted. Verify the dataset exists before re-running the job.
  */
-export const describeDashboardSnapshotJobResult =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDashboardSnapshotJobResultRequest,
-    output: DescribeDashboardSnapshotJobResultResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      PreconditionNotMetException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedUserEditionException,
-    ],
-  }));
+export const describeDashboardSnapshotJobResult: (
+  input: DescribeDashboardSnapshotJobResultRequest,
+) => Effect.Effect<
+  DescribeDashboardSnapshotJobResultResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDashboardSnapshotJobResultRequest,
+  output: DescribeDashboardSnapshotJobResultResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    PreconditionNotMetException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Generates an embed URL that you can use to embed an Amazon Quick Suite experience
  * in your website. This action can be used for any type of user registered in an Amazon Quick Suite account. Before you use this action, make sure that you have
@@ -30239,26 +34327,52 @@ export const describeDashboardSnapshotJobResult =
  * demo of the ways you can customize embedding, visit the Amazon Quick Suite
  * Developer Portal.
  */
-export const generateEmbedUrlForRegisteredUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GenerateEmbedUrlForRegisteredUserRequest,
-    output: GenerateEmbedUrlForRegisteredUserResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      QuickSightUserNotFoundException,
-      ResourceNotFoundException,
-      SessionLifetimeInMinutesInvalidException,
-      ThrottlingException,
-      UnsupportedPricingPlanException,
-      UnsupportedUserEditionException,
-    ],
-  }));
+export const generateEmbedUrlForRegisteredUser: (
+  input: GenerateEmbedUrlForRegisteredUserRequest,
+) => Effect.Effect<
+  GenerateEmbedUrlForRegisteredUserResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | QuickSightUserNotFoundException
+  | ResourceNotFoundException
+  | SessionLifetimeInMinutesInvalidException
+  | ThrottlingException
+  | UnsupportedPricingPlanException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateEmbedUrlForRegisteredUserRequest,
+  output: GenerateEmbedUrlForRegisteredUserResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    QuickSightUserNotFoundException,
+    ResourceNotFoundException,
+    SessionLifetimeInMinutesInvalidException,
+    ThrottlingException,
+    UnsupportedPricingPlanException,
+    UnsupportedUserEditionException,
+  ],
+}));
 /**
  * Creates an Quick Sight brand.
  */
-export const createBrand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBrand: (
+  input: CreateBrandRequest,
+) => Effect.Effect<
+  CreateBrandResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidRequestException
+  | LimitExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBrandRequest,
   output: CreateBrandResponse,
   errors: [
@@ -30273,7 +34387,21 @@ export const createBrand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new Q topic.
  */
-export const createTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTopic: (
+  input: CreateTopicRequest,
+) => Effect.Effect<
+  CreateTopicResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTopicRequest,
   output: CreateTopicResponse,
   errors: [
@@ -30290,24 +34418,49 @@ export const createTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about an action connector, including its configuration, authentication settings, enabled actions, and current status.
  */
-export const describeActionConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeActionConnectorRequest,
-    output: DescribeActionConnectorResponse,
-    errors: [
-      AccessDeniedException,
-      InternalFailureException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeActionConnector: (
+  input: DescribeActionConnectorRequest,
+) => Effect.Effect<
+  DescribeActionConnectorResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeActionConnectorRequest,
+  output: DescribeActionConnectorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a dataset. This operation doesn't support datasets that include uploaded files
  * as a source.
  */
-export const createDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDataSet: (
+  input: CreateDataSetRequest,
+) => Effect.Effect<
+  CreateDataSetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalFailureException
+  | InvalidDataSetParameterValueException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataSetRequest,
   output: CreateDataSetResponse,
   errors: [
@@ -30326,7 +34479,21 @@ export const createDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an analysis in Amazon Quick Sight. Analyses can be created either from a template or from an `AnalysisDefinition`.
  */
-export const createAnalysis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAnalysis: (
+  input: CreateAnalysisRequest,
+) => Effect.Effect<
+  CreateAnalysisResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAnalysisRequest,
   output: CreateAnalysisResponse,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Personalize Runtime",
   serviceShapeName: "AmazonPersonalizeRuntime",
@@ -241,6 +249,26 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type Arn = string;
+export type UserID = string;
+export type NumResults = number;
+export type ItemID = string;
+export type FilterAttributeName = string;
+export type FilterAttributeValue = string;
+export type AttributeName = string;
+export type AttributeValue = string;
+export type DatasetType = string;
+export type ColumnName = string;
+export type Name = string;
+export type PercentPromotedItems = number;
+export type RecommendationID = string;
+export type ActionID = string;
+export type Score = number;
+export type Reason = string;
+export type ErrorMessage = string;
+export type ColumnValue = string;
+
 //# Schemas
 export type InputList = string[];
 export const InputList = S.Array(S.String);
@@ -463,7 +491,13 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
  * For recommenders, the recommender's ARN is required and the required item and user input depends on the use case (domain-based recipe) backing the recommender.
  * For information on use case requirements see Choosing recommender use cases.
  */
-export const getRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRecommendations: (
+  input: GetRecommendationsRequest,
+) => Effect.Effect<
+  GetRecommendationsResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecommendationsRequest,
   output: GetRecommendationsResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -476,13 +510,17 @@ export const getRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about PERSONALIZED_ACTIONS recipes, see PERSONALIZED_ACTIONS recipes.
  * For more information about getting action recommendations, see Getting action recommendations.
  */
-export const getActionRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetActionRecommendationsRequest,
-    output: GetActionRecommendationsResponse,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const getActionRecommendations: (
+  input: GetActionRecommendationsRequest,
+) => Effect.Effect<
+  GetActionRecommendationsResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetActionRecommendationsRequest,
+  output: GetActionRecommendationsResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * Re-ranks a list of recommended items for the given user. The first item in the list is
  * deemed the most likely item to be of interest to the user.
@@ -490,10 +528,14 @@ export const getActionRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * The solution backing the campaign must have been created using a recipe of type
  * PERSONALIZED_RANKING.
  */
-export const getPersonalizedRanking = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPersonalizedRankingRequest,
-    output: GetPersonalizedRankingResponse,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const getPersonalizedRanking: (
+  input: GetPersonalizedRankingRequest,
+) => Effect.Effect<
+  GetPersonalizedRankingResponse,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPersonalizedRankingRequest,
+  output: GetPersonalizedRankingResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));

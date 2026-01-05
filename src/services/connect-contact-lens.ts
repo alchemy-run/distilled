@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Connect Contact Lens",
   serviceShapeName: "AmazonConnectContactLens",
@@ -241,6 +249,21 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type InstanceId = string;
+export type ContactId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type TranscriptId = string;
+export type ParticipantId = string;
+export type ParticipantRole = string;
+export type TranscriptContent = string;
+export type OffsetMillis = number;
+export type CategoryName = string;
+export type PostContactSummaryContent = string;
+export type CharacterOffset = number;
+export type Message = string;
+
 //# Schemas
 export interface ListRealtimeContactAnalysisSegmentsRequest {
   InstanceId: string;
@@ -400,7 +423,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { Message: S.optional(S.String) },
@@ -412,26 +437,64 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
  * Provides a list of analysis segments for a real-time analysis session.
  */
-export const listRealtimeContactAnalysisSegments =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRealtimeContactAnalysisSegments: {
+  (
     input: ListRealtimeContactAnalysisSegmentsRequest,
-    output: ListRealtimeContactAnalysisSegmentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRealtimeContactAnalysisSegmentsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRealtimeContactAnalysisSegmentsRequest,
+  ) => Stream.Stream<
+    ListRealtimeContactAnalysisSegmentsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRealtimeContactAnalysisSegmentsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRealtimeContactAnalysisSegmentsRequest,
+  output: ListRealtimeContactAnalysisSegmentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));

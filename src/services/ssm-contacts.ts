@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "SSM Contacts",
   serviceShapeName: "SSMContacts",
@@ -240,6 +248,43 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type SsmContactsArn = string;
+export type ReceiptInfo = string;
+export type AcceptCode = string;
+export type ActivationCode = string;
+export type ContactAlias = string;
+export type ContactName = string;
+export type IdempotencyToken = string;
+export type ChannelName = string;
+export type RotationName = string;
+export type TimeZoneId = string;
+export type Uuid = string;
+export type PaginationToken = string;
+export type MaxResults = number;
+export type IncidentId = string;
+export type Member = string;
+export type AmazonResourceName = string;
+export type Policy = string;
+export type Sender = string;
+export type Subject = string;
+export type Content = string;
+export type PublicSubject = string;
+export type PublicContent = string;
+export type StopReason = string;
+export type TagKey = string;
+export type TagValue = string;
+export type SimpleAddress = string;
+export type NumberOfOnCalls = number;
+export type RecurrenceMultiplier = number;
+export type StageDurationInMins = number;
+export type DayOfMonth = number;
+export type HourOfDay = number;
+export type MinuteOfHour = number;
+export type StageIndex = number;
+export type RetryAfterSeconds = number;
+export type RetryIntervalInMinutes = number;
 
 //# Schemas
 export type RotationContactsArnList = string[];
@@ -1600,7 +1645,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     Message: S.String,
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class DataEncryptionException extends S.TaggedError<DataEncryptionException>()(
   "DataEncryptionException",
   { Message: S.String },
@@ -1617,7 +1664,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     ServiceCode: S.optional(S.String),
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -1650,45 +1699,109 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Lists all contacts and escalation plans in Incident Manager.
  */
-export const listContacts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listContacts: {
+  (
     input: ListContactsRequest,
-    output: ListContactsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Contacts",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListContactsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContactsRequest,
+  ) => Stream.Stream<
+    ListContactsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContactsRequest,
+  ) => Stream.Stream<
+    Contact,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContactsRequest,
+  output: ListContactsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Contacts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all engagements that have happened in an incident.
  */
-export const listEngagements = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEngagements: {
+  (
     input: ListEngagementsRequest,
-    output: ListEngagementsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Engagements",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEngagementsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEngagementsRequest,
+  ) => Stream.Stream<
+    ListEngagementsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEngagementsRequest,
+  ) => Stream.Stream<
+    Engagement,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEngagementsRequest,
+  output: ListEngagementsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Engagements",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * To remove a contact from Incident Manager, you can delete the contact. However, deleting a
  * contact does not remove it from escalation plans and related response plans. Deleting an
@@ -1696,7 +1809,19 @@ export const listEngagements = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * escalation plan, we recommend using the UpdateContact action to specify a
  * different existing contact.
  */
-export const deleteContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteContact: (
+  input: DeleteContactRequest,
+) => Effect.Effect<
+  DeleteContactResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContactRequest,
   output: DeleteContactResult,
   errors: [
@@ -1712,7 +1837,19 @@ export const deleteContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Incident Manager uses engagements to engage contacts and escalation plans during an incident.
  * Use this command to describe the engagement that occurred during an incident.
  */
-export const describeEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeEngagement: (
+  input: DescribeEngagementRequest,
+) => Effect.Effect<
+  DescribeEngagementResult,
+  | AccessDeniedException
+  | DataEncryptionException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEngagementRequest,
   output: DescribeEngagementResult,
   errors: [
@@ -1727,47 +1864,121 @@ export const describeEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all contact channels for the specified contact.
  */
-export const listContactChannels =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listContactChannels: {
+  (
     input: ListContactChannelsRequest,
-    output: ListContactChannelsResult,
-    errors: [
-      AccessDeniedException,
-      DataEncryptionException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ContactChannels",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListContactChannelsResult,
+    | AccessDeniedException
+    | DataEncryptionException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContactChannelsRequest,
+  ) => Stream.Stream<
+    ListContactChannelsResult,
+    | AccessDeniedException
+    | DataEncryptionException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContactChannelsRequest,
+  ) => Stream.Stream<
+    ContactChannel,
+    | AccessDeniedException
+    | DataEncryptionException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContactChannelsRequest,
+  output: ListContactChannelsResult,
+  errors: [
+    AccessDeniedException,
+    DataEncryptionException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ContactChannels",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all of the engagements to contact channels that have been acknowledged.
  */
-export const listPageReceipts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPageReceipts: {
+  (
     input: ListPageReceiptsRequest,
-    output: ListPageReceiptsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Receipts",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPageReceiptsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPageReceiptsRequest,
+  ) => Stream.Stream<
+    ListPageReceiptsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPageReceiptsRequest,
+  ) => Stream.Stream<
+    Receipt,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPageReceiptsRequest,
+  output: ListPageReceiptsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Receipts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the resolution path of an engagement. For example, the escalation plan engaged
  * in an incident might target an on-call schedule that includes several contacts in a
@@ -1775,93 +1986,246 @@ export const listPageReceipts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * indicates the hierarchy of escalation plan > on-call schedule >
  * contact.
  */
-export const listPageResolutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPageResolutions: {
+  (
     input: ListPageResolutionsRequest,
-    output: ListPageResolutionsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PageResolutions",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPageResolutionsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPageResolutionsRequest,
+  ) => Stream.Stream<
+    ListPageResolutionsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPageResolutionsRequest,
+  ) => Stream.Stream<
+    ResolutionContact,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPageResolutionsRequest,
+  output: ListPageResolutionsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PageResolutions",
+  } as const,
+}));
 /**
  * Lists the engagements to a contact's contact channels.
  */
-export const listPagesByContact = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPagesByContact: {
+  (
     input: ListPagesByContactRequest,
-    output: ListPagesByContactResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Pages",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPagesByContactResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPagesByContactRequest,
+  ) => Stream.Stream<
+    ListPagesByContactResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPagesByContactRequest,
+  ) => Stream.Stream<
+    Page,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPagesByContactRequest,
+  output: ListPagesByContactResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Pages",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of overrides currently specified for an on-call rotation.
  */
-export const listRotationOverrides =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRotationOverrides: {
+  (
     input: ListRotationOverridesRequest,
-    output: ListRotationOverridesResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RotationOverrides",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRotationOverridesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRotationOverridesRequest,
+  ) => Stream.Stream<
+    ListRotationOverridesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRotationOverridesRequest,
+  ) => Stream.Stream<
+    RotationOverride,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRotationOverridesRequest,
+  output: ListRotationOverridesResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RotationOverrides",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of on-call rotations.
  */
-export const listRotations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRotations: {
+  (
     input: ListRotationsRequest,
-    output: ListRotationsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Rotations",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRotationsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRotationsRequest,
+  ) => Stream.Stream<
+    ListRotationsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRotationsRequest,
+  ) => Stream.Stream<
+    Rotation,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRotationsRequest,
+  output: ListRotationsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Rotations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the resource policies attached to the specified contact or escalation
  * plan.
  */
-export const getContactPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getContactPolicy: (
+  input: GetContactPolicyRequest,
+) => Effect.Effect<
+  GetContactPolicyResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContactPolicyRequest,
   output: GetContactPolicyResult,
   errors: [
@@ -1875,7 +2239,18 @@ export const getContactPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about an on-call rotation.
  */
-export const getRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRotation: (
+  input: GetRotationRequest,
+) => Effect.Effect<
+  GetRotationResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRotationRequest,
   output: GetRotationResult,
   errors: [
@@ -1889,7 +2264,18 @@ export const getRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about an override to an on-call rotation.
  */
-export const getRotationOverride = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRotationOverride: (
+  input: GetRotationOverrideRequest,
+) => Effect.Effect<
+  GetRotationOverrideResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRotationOverrideRequest,
   output: GetRotationOverrideResult,
   errors: [
@@ -1903,28 +2289,75 @@ export const getRotationOverride = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the engagements to contact channels that occurred by engaging a contact.
  */
-export const listPagesByEngagement =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPagesByEngagement: {
+  (
     input: ListPagesByEngagementRequest,
-    output: ListPagesByEngagementResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Pages",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPagesByEngagementResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPagesByEngagementRequest,
+  ) => Stream.Stream<
+    ListPagesByEngagementResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPagesByEngagementRequest,
+  ) => Stream.Stream<
+    Page,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPagesByEngagementRequest,
+  output: ListPagesByEngagementResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Pages",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the tags of a contact, escalation plan, rotation, or on-call schedule.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResult,
   errors: [
@@ -1939,36 +2372,54 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Activates a contact's contact channel. Incident Manager can't engage a contact until the
  * contact channel has been activated.
  */
-export const activateContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ActivateContactChannelRequest,
-    output: ActivateContactChannelResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const activateContactChannel: (
+  input: ActivateContactChannelRequest,
+) => Effect.Effect<
+  ActivateContactChannelResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ActivateContactChannelRequest,
+  output: ActivateContactChannelResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * To no longer receive Incident Manager engagements to a contact channel, you can deactivate
  * the channel.
  */
-export const deactivateContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeactivateContactChannelRequest,
-    output: DeactivateContactChannelResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deactivateContactChannel: (
+  input: DeactivateContactChannelRequest,
+) => Effect.Effect<
+  DeactivateContactChannelResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeactivateContactChannelRequest,
+  output: DeactivateContactChannelResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * To stop receiving engagements on a contact channel, you can delete the channel from a
  * contact. Deleting the contact channel does not remove it from the contact's engagement
@@ -1976,40 +2427,69 @@ export const deactivateContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * contact channel for a contact, you'll no longer be able to engage that contact during an
  * incident.
  */
-export const deleteContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContactChannelRequest,
-    output: DeleteContactChannelResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteContactChannel: (
+  input: DeleteContactChannelRequest,
+) => Effect.Effect<
+  DeleteContactChannelResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContactChannelRequest,
+  output: DeleteContactChannelResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an existing override for an on-call rotation.
  */
-export const deleteRotationOverride = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRotationOverrideRequest,
-    output: DeleteRotationOverrideResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteRotationOverride: (
+  input: DeleteRotationOverrideRequest,
+) => Effect.Effect<
+  DeleteRotationOverrideResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRotationOverrideRequest,
+  output: DeleteRotationOverrideResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Stops an engagement before it finishes the final stage of the escalation plan or
  * engagement plan. Further contacts aren't engaged.
  */
-export const stopEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopEngagement: (
+  input: StopEngagementRequest,
+) => Effect.Effect<
+  StopEngagementResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopEngagementRequest,
   output: StopEngagementResult,
   errors: [
@@ -2023,7 +2503,18 @@ export const stopEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResult,
   errors: [
@@ -2037,7 +2528,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists details of the engagement to a contact channel.
  */
-export const describePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describePage: (
+  input: DescribePageRequest,
+) => Effect.Effect<
+  DescribePageResult,
+  | AccessDeniedException
+  | DataEncryptionException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePageRequest,
   output: DescribePageResult,
   errors: [
@@ -2052,7 +2555,19 @@ export const describePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the specified contact or escalation plan.
  */
-export const getContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getContact: (
+  input: GetContactRequest,
+) => Effect.Effect<
+  GetContactResult,
+  | AccessDeniedException
+  | DataEncryptionException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContactRequest,
   output: GetContactResult,
   errors: [
@@ -2067,7 +2582,19 @@ export const getContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List details about a specific contact channel.
  */
-export const getContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getContactChannel: (
+  input: GetContactChannelRequest,
+) => Effect.Effect<
+  GetContactChannelResult,
+  | AccessDeniedException
+  | DataEncryptionException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContactChannelRequest,
   output: GetContactChannelResult,
   errors: [
@@ -2083,7 +2610,19 @@ export const getContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Starts an engagement to a contact or escalation plan. The engagement engages each
  * contact specified in the incident.
  */
-export const startEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startEngagement: (
+  input: StartEngagementRequest,
+) => Effect.Effect<
+  StartEngagementResult,
+  | AccessDeniedException
+  | DataEncryptionException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartEngagementRequest,
   output: StartEngagementResult,
   errors: [
@@ -2100,27 +2639,71 @@ export const startEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The Incident Manager primarily uses this operation to populate the **Preview** calendar. It is not typically run by end users.
  */
-export const listPreviewRotationShifts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPreviewRotationShifts: {
+  (
     input: ListPreviewRotationShiftsRequest,
-    output: ListPreviewRotationShiftsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RotationShifts",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPreviewRotationShiftsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPreviewRotationShiftsRequest,
+  ) => Stream.Stream<
+    ListPreviewRotationShiftsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPreviewRotationShiftsRequest,
+  ) => Stream.Stream<
+    RotationShift,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPreviewRotationShiftsRequest,
+  output: ListPreviewRotationShiftsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RotationShifts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Used to acknowledge an engagement to a contact channel during an incident.
  */
-export const acceptPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const acceptPage: (
+  input: AcceptPageRequest,
+) => Effect.Effect<
+  AcceptPageResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptPageRequest,
   output: AcceptPageResult,
   errors: [
@@ -2135,7 +2718,19 @@ export const acceptPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes a rotation from the system. If a rotation belongs to more than one on-call
  * schedule, this operation deletes it from all of them.
  */
-export const deleteRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRotation: (
+  input: DeleteRotationRequest,
+) => Effect.Effect<
+  DeleteRotationResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRotationRequest,
   output: DeleteRotationResult,
   errors: [
@@ -2152,7 +2747,19 @@ export const deleteRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * is used to share the contact or escalation plan using Resource Access Manager (RAM). For more information about cross-account sharing, see Setting up
  * cross-account functionality.
  */
-export const putContactPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putContactPolicy: (
+  input: PutContactPolicyRequest,
+) => Effect.Effect<
+  PutContactPolicyResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutContactPolicyRequest,
   output: PutContactPolicyResult,
   errors: [
@@ -2167,25 +2774,48 @@ export const putContactPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a contact's contact channel.
  */
-export const updateContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContactChannelRequest,
-    output: UpdateContactChannelResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DataEncryptionException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateContactChannel: (
+  input: UpdateContactChannelRequest,
+) => Effect.Effect<
+  UpdateContactChannelResult,
+  | AccessDeniedException
+  | ConflictException
+  | DataEncryptionException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContactChannelRequest,
+  output: UpdateContactChannelResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DataEncryptionException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the information specified for an on-call rotation.
  */
-export const updateRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRotation: (
+  input: UpdateRotationRequest,
+) => Effect.Effect<
+  UpdateRotationResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRotationRequest,
   output: UpdateRotationResult,
   errors: [
@@ -2200,65 +2830,135 @@ export const updateRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * A contact channel is the method that Incident Manager uses to engage your contact.
  */
-export const createContactChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateContactChannelRequest,
-    output: CreateContactChannelResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DataEncryptionException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createContactChannel: (
+  input: CreateContactChannelRequest,
+) => Effect.Effect<
+  CreateContactChannelResult,
+  | AccessDeniedException
+  | ConflictException
+  | DataEncryptionException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContactChannelRequest,
+  output: CreateContactChannelResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DataEncryptionException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of shifts generated by an existing rotation in the system.
  */
-export const listRotationShifts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRotationShifts: {
+  (
     input: ListRotationShiftsRequest,
-    output: ListRotationShiftsResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RotationShifts",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRotationShiftsResult,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRotationShiftsRequest,
+  ) => Stream.Stream<
+    ListRotationShiftsResult,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRotationShiftsRequest,
+  ) => Stream.Stream<
+    RotationShift,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRotationShiftsRequest,
+  output: ListRotationShiftsResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RotationShifts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates an override for a rotation in an on-call schedule.
  */
-export const createRotationOverride = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRotationOverrideRequest,
-    output: CreateRotationOverrideResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createRotationOverride: (
+  input: CreateRotationOverrideRequest,
+) => Effect.Effect<
+  CreateRotationOverrideResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRotationOverrideRequest,
+  output: CreateRotationOverrideResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Tags a contact or escalation plan. You can tag only contacts and escalation plans in the
  * first region of your replication set.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResult,
   errors: [
@@ -2275,7 +2975,20 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the contact channel in the console or with the `ActivateChannel` operation.
  * Incident Manager can't engage a contact channel until it has been activated.
  */
-export const sendActivationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendActivationCode: (
+  input: SendActivationCodeRequest,
+) => Effect.Effect<
+  SendActivationCodeResult,
+  | AccessDeniedException
+  | DataEncryptionException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendActivationCodeRequest,
   output: SendActivationCodeResult,
   errors: [
@@ -2291,7 +3004,20 @@ export const sendActivationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the contact or escalation plan specified.
  */
-export const updateContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateContact: (
+  input: UpdateContactRequest,
+) => Effect.Effect<
+  UpdateContactResult,
+  | AccessDeniedException
+  | DataEncryptionException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactRequest,
   output: UpdateContactResult,
   errors: [
@@ -2307,7 +3033,19 @@ export const updateContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a rotation in an on-call schedule.
  */
-export const createRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRotation: (
+  input: CreateRotationRequest,
+) => Effect.Effect<
+  CreateRotationResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRotationRequest,
   output: CreateRotationResult,
   errors: [
@@ -2324,7 +3062,20 @@ export const createRotation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * escalation plans that Incident Manager uses to engage contacts in phases during an
  * incident.
  */
-export const createContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createContact: (
+  input: CreateContactRequest,
+) => Effect.Effect<
+  CreateContactResult,
+  | AccessDeniedException
+  | ConflictException
+  | DataEncryptionException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContactRequest,
   output: CreateContactResult,
   errors: [

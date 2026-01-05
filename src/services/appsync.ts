@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://appsync.amazonaws.com");
 const svc = T.AwsApiService({
   sdkId: "AppSync",
@@ -241,6 +249,41 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type DomainName = string;
+export type ApiName = string;
+export type Long = number;
+export type Namespace = string;
+export type Code = string;
+export type ResourceName = string;
+export type CertificateArn = string;
+export type Description = string;
+export type MappingTemplate = string;
+export type MaxBatchSize = number;
+export type QueryDepthLimit = number;
+export type ResolverCountLimit = number;
+export type Context = string;
+export type Template = string;
+export type PaginationToken = string;
+export type MaxResults = number;
+export type ResourceArn = string;
+export type TagKey = string;
+export type TagValue = string;
+export type TTL = number;
+export type EnvironmentVariableKey = string;
+export type EnvironmentVariableValue = string;
+export type RdsDataApiConfigResourceArn = string;
+export type RdsDataApiConfigSecretArn = string;
+export type RdsDataApiConfigDatabaseName = string;
+export type ErrorMessage = string;
+export type EvaluationResult = string;
+export type Stash = string;
+export type OutErrors = string;
+export type OwnerContact = string;
+export type CodeErrorLine = number;
+export type CodeErrorColumn = number;
+export type CodeErrorSpan = number;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -3816,7 +3859,9 @@ export class ConcurrentModificationException extends S.TaggedError<ConcurrentMod
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ApiLimitExceededException extends S.TaggedError<ApiLimitExceededException>()(
   "ApiLimitExceededException",
   { message: S.optional(S.String) },
@@ -3840,7 +3885,9 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
@@ -3854,7 +3901,17 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 /**
  * Retrieves an `ApiAssociation` object.
  */
-export const getApiAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApiAssociation: (
+  input: GetApiAssociationRequest,
+) => Effect.Effect<
+  GetApiAssociationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApiAssociationRequest,
   output: GetApiAssociationResponse,
   errors: [
@@ -3867,7 +3924,17 @@ export const getApiAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a custom `DomainName` object.
  */
-export const getDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDomainName: (
+  input: GetDomainNameRequest,
+) => Effect.Effect<
+  GetDomainNameResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainNameRequest,
   output: GetDomainNameResponse,
   errors: [
@@ -3880,27 +3947,67 @@ export const getDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists multiple custom domain names.
  */
-export const listDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDomainNames: {
+  (
     input: ListDomainNamesRequest,
-    output: ListDomainNamesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalFailureException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "domainNameConfigs",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDomainNamesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDomainNamesRequest,
+  ) => Stream.Stream<
+    ListDomainNamesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDomainNamesRequest,
+  ) => Stream.Stream<
+    DomainNameConfig,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDomainNamesRequest,
+  output: ListDomainNamesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalFailureException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "domainNameConfigs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates a custom `DomainName` object.
  */
-export const updateDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDomainName: (
+  input: UpdateDomainNameRequest,
+) => Effect.Effect<
+  UpdateDomainNameResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainNameRequest,
   output: UpdateDomainNameResponse,
   errors: [
@@ -3914,7 +4021,18 @@ export const updateDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a custom `DomainName` object.
  */
-export const deleteDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDomainName: (
+  input: DeleteDomainNameRequest,
+) => Effect.Effect<
+  DeleteDomainNameResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainNameRequest,
   output: DeleteDomainNameResponse,
   errors: [
@@ -3928,7 +4046,18 @@ export const deleteDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes an `ApiAssociation` object from a custom domain.
  */
-export const disassociateApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateApi: (
+  input: DisassociateApiRequest,
+) => Effect.Effect<
+  DisassociateApiResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateApiRequest,
   output: DisassociateApiResponse,
   errors: [
@@ -3942,7 +4071,17 @@ export const disassociateApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Maps an endpoint to your custom domain.
  */
-export const associateApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateApi: (
+  input: AssociateApiRequest,
+) => Effect.Effect<
+  AssociateApiResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateApiRequest,
   output: AssociateApiResponse,
   errors: [
@@ -3955,7 +4094,16 @@ export const associateApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a custom `DomainName` object.
  */
-export const createDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDomainName: (
+  input: CreateDomainNameRequest,
+) => Effect.Effect<
+  CreateDomainNameResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainNameRequest,
   output: CreateDomainNameResponse,
   errors: [
@@ -3972,7 +4120,16 @@ export const createDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * data source operation. The response function interprets responses from the data source and
  * maps it to the shape of the GraphQL field output type.
  */
-export const evaluateCode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const evaluateCode: (
+  input: EvaluateCodeRequest,
+) => Effect.Effect<
+  EvaluateCodeResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EvaluateCodeRequest,
   output: EvaluateCodeResponse,
   errors: [
@@ -3992,33 +4149,56 @@ export const evaluateCode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Mapping templates are written in the Apache Velocity Template Language (VTL).
  */
-export const evaluateMappingTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EvaluateMappingTemplateRequest,
-    output: EvaluateMappingTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalFailureException,
-    ],
-  }),
-);
+export const evaluateMappingTemplate: (
+  input: EvaluateMappingTemplateRequest,
+) => Effect.Effect<
+  EvaluateMappingTemplateResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EvaluateMappingTemplateRequest,
+  output: EvaluateMappingTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalFailureException,
+  ],
+}));
 /**
  * Retrieves the record of an existing introspection. If the retrieval is successful, the
  * result of the instrospection will also be returned. If the retrieval fails the operation,
  * an error message will be returned instead.
  */
-export const getDataSourceIntrospection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDataSourceIntrospectionRequest,
-    output: GetDataSourceIntrospectionResponse,
-    errors: [BadRequestException, InternalFailureException, NotFoundException],
-  }),
-);
+export const getDataSourceIntrospection: (
+  input: GetDataSourceIntrospectionRequest,
+) => Effect.Effect<
+  GetDataSourceIntrospectionResponse,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataSourceIntrospectionRequest,
+  output: GetDataSourceIntrospectionResponse,
+  errors: [BadRequestException, InternalFailureException, NotFoundException],
+}));
 /**
  * Get a `Function`.
  */
-export const getFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFunction: (
+  input: GetFunctionRequest,
+) => Effect.Effect<
+  GetFunctionResponse,
+  | ConcurrentModificationException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFunctionRequest,
   output: GetFunctionResponse,
   errors: [
@@ -4030,7 +4210,19 @@ export const getFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags for a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -4047,7 +4239,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * API with your preferred configuration, such as an Event API that provides real-time message
  * publishing and message subscriptions over WebSockets.
  */
-export const createApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApi: (
+  input: CreateApiRequest,
+) => Effect.Effect<
+  CreateApiResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | ServiceQuotaExceededException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApiRequest,
   output: CreateApiResponse,
   errors: [
@@ -4061,7 +4264,17 @@ export const createApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an API key.
  */
-export const deleteApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApiKey: (
+  input: DeleteApiKeyRequest,
+) => Effect.Effect<
+  DeleteApiKeyResponse,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApiKeyRequest,
   output: DeleteApiKeyResponse,
   errors: [
@@ -4074,7 +4287,18 @@ export const deleteApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a `DataSource` object.
  */
-export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataSource: (
+  input: DeleteDataSourceRequest,
+) => Effect.Effect<
+  DeleteDataSourceResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataSourceRequest,
   output: DeleteDataSourceResponse,
   errors: [
@@ -4088,7 +4312,18 @@ export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a `Function`.
  */
-export const deleteFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFunction: (
+  input: DeleteFunctionRequest,
+) => Effect.Effect<
+  DeleteFunctionResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFunctionRequest,
   output: DeleteFunctionResponse,
   errors: [
@@ -4102,7 +4337,18 @@ export const deleteFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a `Resolver` object.
  */
-export const deleteResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteResolver: (
+  input: DeleteResolverRequest,
+) => Effect.Effect<
+  DeleteResolverResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResolverRequest,
   output: DeleteResolverResponse,
   errors: [
@@ -4116,7 +4362,18 @@ export const deleteResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a `Type` object.
  */
-export const deleteType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteType: (
+  input: DeleteTypeRequest,
+) => Effect.Effect<
+  DeleteTypeResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTypeRequest,
   output: DeleteTypeResponse,
   errors: [
@@ -4130,7 +4387,18 @@ export const deleteType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Flushes an `ApiCache` object.
  */
-export const flushApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const flushApiCache: (
+  input: FlushApiCacheRequest,
+) => Effect.Effect<
+  FlushApiCacheResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FlushApiCacheRequest,
   output: FlushApiCacheResponse,
   errors: [
@@ -4144,7 +4412,19 @@ export const flushApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an `Api` object
  */
-export const deleteApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApi: (
+  input: DeleteApiRequest,
+) => Effect.Effect<
+  DeleteApiResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApiRequest,
   output: DeleteApiResponse,
   errors: [
@@ -4160,38 +4440,69 @@ export const deleteApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an association between a Merged API and source API using the source API's
  * identifier and the association ID.
  */
-export const disassociateMergedGraphqlApi =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateMergedGraphqlApiRequest,
-    output: DisassociateMergedGraphqlApiResponse,
-    errors: [
-      BadRequestException,
-      ConcurrentModificationException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }));
+export const disassociateMergedGraphqlApi: (
+  input: DisassociateMergedGraphqlApiRequest,
+) => Effect.Effect<
+  DisassociateMergedGraphqlApiResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateMergedGraphqlApiRequest,
+  output: DisassociateMergedGraphqlApiResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes an association between a Merged API and source API using the Merged API's
  * identifier and the association ID.
  */
-export const disassociateSourceGraphqlApi =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateSourceGraphqlApiRequest,
-    output: DisassociateSourceGraphqlApiResponse,
-    errors: [
-      BadRequestException,
-      ConcurrentModificationException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }));
+export const disassociateSourceGraphqlApi: (
+  input: DisassociateSourceGraphqlApiRequest,
+) => Effect.Effect<
+  DisassociateSourceGraphqlApiResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateSourceGraphqlApiRequest,
+  output: DisassociateSourceGraphqlApiResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Retrieves an `ApiCache` object.
  */
-export const getApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApiCache: (
+  input: GetApiCacheRequest,
+) => Effect.Effect<
+  GetApiCacheResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApiCacheRequest,
   output: GetApiCacheResponse,
   errors: [
@@ -4206,52 +4517,89 @@ export const getApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves the list of environmental variable key-value pairs associated with an API by
  * its ID value.
  */
-export const getGraphqlApiEnvironmentVariables =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetGraphqlApiEnvironmentVariablesRequest,
-    output: GetGraphqlApiEnvironmentVariablesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }));
+export const getGraphqlApiEnvironmentVariables: (
+  input: GetGraphqlApiEnvironmentVariablesRequest,
+) => Effect.Effect<
+  GetGraphqlApiEnvironmentVariablesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGraphqlApiEnvironmentVariablesRequest,
+  output: GetGraphqlApiEnvironmentVariablesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Retrieves the current status of a schema creation operation.
  */
-export const getSchemaCreationStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSchemaCreationStatusRequest,
-    output: GetSchemaCreationStatusResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getSchemaCreationStatus: (
+  input: GetSchemaCreationStatusRequest,
+) => Effect.Effect<
+  GetSchemaCreationStatusResponse,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSchemaCreationStatusRequest,
+  output: GetSchemaCreationStatusResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Retrieves a `SourceApiAssociation` object.
  */
-export const getSourceApiAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSourceApiAssociationRequest,
-    output: GetSourceApiAssociationResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getSourceApiAssociation: (
+  input: GetSourceApiAssociationRequest,
+) => Effect.Effect<
+  GetSourceApiAssociationResponse,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSourceApiAssociationRequest,
+  output: GetSourceApiAssociationResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Retrieves a `Type` object.
  */
-export const getType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getType: (
+  input: GetTypeRequest,
+) => Effect.Effect<
+  GetTypeResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTypeRequest,
   output: GetTypeResponse,
   errors: [
@@ -4270,31 +4618,94 @@ export const getType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `DeleteApiKey` to manually delete a key before it's automatically
  * deleted.
  */
-export const listApiKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listApiKeys: {
+  (
     input: ListApiKeysRequest,
-    output: ListApiKeysResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "apiKeys",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListApiKeysResponse,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApiKeysRequest,
+  ) => Stream.Stream<
+    ListApiKeysResponse,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApiKeysRequest,
+  ) => Stream.Stream<
+    ApiKey,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApiKeysRequest,
+  output: ListApiKeysResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "apiKeys",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the APIs in your AppSync account.
  *
  * `ListApis` returns only the high level API details. For more detailed
  * information about an API, use `GetApi`.
  */
-export const listApis = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApis: {
+  (
+    input: ListApisRequest,
+  ): Effect.Effect<
+    ListApisResponse,
+    | BadRequestException
+    | InternalFailureException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApisRequest,
+  ) => Stream.Stream<
+    ListApisResponse,
+    | BadRequestException
+    | InternalFailureException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApisRequest,
+  ) => Stream.Stream<
+    Api,
+    | BadRequestException
+    | InternalFailureException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListApisRequest,
   output: ListApisResponse,
   errors: [
@@ -4315,130 +4726,358 @@ export const listApis = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * `ListChannelNamespaces` returns only high level details for the channel
  * namespace. To retrieve code handlers, use `GetChannelNamespace`.
  */
-export const listChannelNamespaces =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listChannelNamespaces: {
+  (
     input: ListChannelNamespacesRequest,
-    output: ListChannelNamespacesResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "channelNamespaces",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListChannelNamespacesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelNamespacesRequest,
+  ) => Stream.Stream<
+    ListChannelNamespacesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelNamespacesRequest,
+  ) => Stream.Stream<
+    ChannelNamespace,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelNamespacesRequest,
+  output: ListChannelNamespacesResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "channelNamespaces",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the data sources for a given API.
  */
-export const listDataSources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDataSources: {
+  (
     input: ListDataSourcesRequest,
-    output: ListDataSourcesResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dataSources",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDataSourcesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataSourcesRequest,
+  ) => Stream.Stream<
+    ListDataSourcesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataSourcesRequest,
+  ) => Stream.Stream<
+    DataSource,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataSourcesRequest,
+  output: ListDataSourcesResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dataSources",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List multiple functions.
  */
-export const listFunctions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFunctions: {
+  (
     input: ListFunctionsRequest,
-    output: ListFunctionsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "functions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFunctionsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFunctionsRequest,
+  ) => Stream.Stream<
+    ListFunctionsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFunctionsRequest,
+  ) => Stream.Stream<
+    FunctionConfiguration,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFunctionsRequest,
+  output: ListFunctionsResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "functions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists your GraphQL APIs.
  */
-export const listGraphqlApis = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listGraphqlApis: {
+  (
     input: ListGraphqlApisRequest,
-    output: ListGraphqlApisResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "graphqlApis",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListGraphqlApisResponse,
+    | BadRequestException
+    | InternalFailureException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGraphqlApisRequest,
+  ) => Stream.Stream<
+    ListGraphqlApisResponse,
+    | BadRequestException
+    | InternalFailureException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGraphqlApisRequest,
+  ) => Stream.Stream<
+    GraphqlApi,
+    | BadRequestException
+    | InternalFailureException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGraphqlApisRequest,
+  output: ListGraphqlApisResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "graphqlApis",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the resolvers for a given API and type.
  */
-export const listResolvers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listResolvers: {
+  (
     input: ListResolversRequest,
-    output: ListResolversResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "resolvers",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListResolversResponse,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResolversRequest,
+  ) => Stream.Stream<
+    ListResolversResponse,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResolversRequest,
+  ) => Stream.Stream<
+    Resolver,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResolversRequest,
+  output: ListResolversResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "resolvers",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List the resolvers that are associated with a specific function.
  */
-export const listResolversByFunction =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResolversByFunction: {
+  (
     input: ListResolversByFunctionRequest,
-    output: ListResolversByFunctionResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "resolvers",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResolversByFunctionResponse,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResolversByFunctionRequest,
+  ) => Stream.Stream<
+    ListResolversByFunctionResponse,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResolversByFunctionRequest,
+  ) => Stream.Stream<
+    Resolver,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResolversByFunctionRequest,
+  output: ListResolversByFunctionResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "resolvers",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the types for a given API.
  */
-export const listTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTypes: {
+  (
+    input: ListTypesRequest,
+  ): Effect.Effect<
+    ListTypesResponse,
+    | BadRequestException
+    | ConcurrentModificationException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTypesRequest,
+  ) => Stream.Stream<
+    ListTypesResponse,
+    | BadRequestException
+    | ConcurrentModificationException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTypesRequest,
+  ) => Stream.Stream<
+    Type,
+    | BadRequestException
+    | ConcurrentModificationException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTypesRequest,
   output: ListTypesResponse,
   errors: [
@@ -4458,31 +5097,78 @@ export const listTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists `Type` objects by the source API association ID.
  */
-export const listTypesByAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTypesByAssociation: {
+  (
     input: ListTypesByAssociationRequest,
-    output: ListTypesByAssociationResponse,
-    errors: [
-      BadRequestException,
-      ConcurrentModificationException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "types",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTypesByAssociationResponse,
+    | BadRequestException
+    | ConcurrentModificationException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTypesByAssociationRequest,
+  ) => Stream.Stream<
+    ListTypesByAssociationResponse,
+    | BadRequestException
+    | ConcurrentModificationException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTypesByAssociationRequest,
+  ) => Stream.Stream<
+    Type,
+    | BadRequestException
+    | ConcurrentModificationException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTypesByAssociationRequest,
+  output: ListTypesByAssociationResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "types",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Adds a new schema to your GraphQL API.
  *
  * This operation is asynchronous. Use to
  * determine when it has completed.
  */
-export const startSchemaCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startSchemaCreation: (
+  input: StartSchemaCreationRequest,
+) => Effect.Effect<
+  StartSchemaCreationResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSchemaCreationRequest,
   output: StartSchemaCreationResponse,
   errors: [
@@ -4497,7 +5183,18 @@ export const startSchemaCreation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Initiates a merge operation. Returns a status that shows the result of the merge
  * operation.
  */
-export const startSchemaMerge = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startSchemaMerge: (
+  input: StartSchemaMergeRequest,
+) => Effect.Effect<
+  StartSchemaMergeResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSchemaMergeRequest,
   output: StartSchemaMergeResponse,
   errors: [
@@ -4511,7 +5208,19 @@ export const startSchemaMerge = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an `Api`.
  */
-export const updateApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApi: (
+  input: UpdateApiRequest,
+) => Effect.Effect<
+  UpdateApiResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApiRequest,
   output: UpdateApiResponse,
   errors: [
@@ -4526,7 +5235,18 @@ export const updateApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the cache for the GraphQL API.
  */
-export const updateApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApiCache: (
+  input: UpdateApiCacheRequest,
+) => Effect.Effect<
+  UpdateApiCacheResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApiCacheRequest,
   output: UpdateApiCacheResponse,
   errors: [
@@ -4540,24 +5260,45 @@ export const updateApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a `ChannelNamespace` associated with an `Api`.
  */
-export const updateChannelNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateChannelNamespaceRequest,
-    output: UpdateChannelNamespaceResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConcurrentModificationException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateChannelNamespace: (
+  input: UpdateChannelNamespaceRequest,
+) => Effect.Effect<
+  UpdateChannelNamespaceResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateChannelNamespaceRequest,
+  output: UpdateChannelNamespaceResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConcurrentModificationException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates a `DataSource` object.
  */
-export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDataSource: (
+  input: UpdateDataSourceRequest,
+) => Effect.Effect<
+  UpdateDataSourceResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataSourceRequest,
   output: UpdateDataSourceResponse,
   errors: [
@@ -4571,7 +5312,18 @@ export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a `Function` object.
  */
-export const updateFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFunction: (
+  input: UpdateFunctionRequest,
+) => Effect.Effect<
+  UpdateFunctionResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFunctionRequest,
   output: UpdateFunctionResponse,
   errors: [
@@ -4585,7 +5337,19 @@ export const updateFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a `GraphqlApi` object.
  */
-export const updateGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGraphqlApi: (
+  input: UpdateGraphqlApiRequest,
+) => Effect.Effect<
+  UpdateGraphqlApiResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGraphqlApiRequest,
   output: UpdateGraphqlApiResponse,
   errors: [
@@ -4600,7 +5364,18 @@ export const updateGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a `Resolver` object.
  */
-export const updateResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateResolver: (
+  input: UpdateResolverRequest,
+) => Effect.Effect<
+  UpdateResolverResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResolverRequest,
   output: UpdateResolverResponse,
   errors: [
@@ -4614,23 +5389,43 @@ export const updateResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates some of the configuration choices of a particular source API association.
  */
-export const updateSourceApiAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSourceApiAssociationRequest,
-    output: UpdateSourceApiAssociationResponse,
-    errors: [
-      BadRequestException,
-      ConcurrentModificationException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateSourceApiAssociation: (
+  input: UpdateSourceApiAssociationRequest,
+) => Effect.Effect<
+  UpdateSourceApiAssociationResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSourceApiAssociationRequest,
+  output: UpdateSourceApiAssociationResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates a `Type` object.
  */
-export const updateType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateType: (
+  input: UpdateTypeRequest,
+) => Effect.Effect<
+  UpdateTypeResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTypeRequest,
   output: UpdateTypeResponse,
   errors: [
@@ -4644,24 +5439,46 @@ export const updateType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a `ChannelNamespace`.
  */
-export const deleteChannelNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteChannelNamespaceRequest,
-    output: DeleteChannelNamespaceResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConcurrentModificationException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteChannelNamespace: (
+  input: DeleteChannelNamespaceRequest,
+) => Effect.Effect<
+  DeleteChannelNamespaceResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChannelNamespaceRequest,
+  output: DeleteChannelNamespaceResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConcurrentModificationException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes a `GraphqlApi` object.
  */
-export const deleteGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGraphqlApi: (
+  input: DeleteGraphqlApiRequest,
+) => Effect.Effect<
+  DeleteGraphqlApiResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGraphqlApiRequest,
   output: DeleteGraphqlApiResponse,
   errors: [
@@ -4676,7 +5493,18 @@ export const deleteGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a cache for the GraphQL API.
  */
-export const createApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApiCache: (
+  input: CreateApiCacheRequest,
+) => Effect.Effect<
+  CreateApiCacheResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApiCacheRequest,
   output: CreateApiCacheResponse,
   errors: [
@@ -4693,7 +5521,18 @@ export const createApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * A resolver converts incoming requests into a format that a data source can understand,
  * and converts the data source's responses into GraphQL.
  */
-export const createResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createResolver: (
+  input: CreateResolverRequest,
+) => Effect.Effect<
+  CreateResolverResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResolverRequest,
   output: CreateResolverResponse,
   errors: [
@@ -4707,7 +5546,18 @@ export const createResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a `Type` object.
  */
-export const createType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createType: (
+  input: CreateTypeRequest,
+) => Effect.Effect<
+  CreateTypeResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTypeRequest,
   output: CreateTypeResponse,
   errors: [
@@ -4721,7 +5571,18 @@ export const createType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the channel namespace for a specified `Api`.
  */
-export const getChannelNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getChannelNamespace: (
+  input: GetChannelNamespaceRequest,
+) => Effect.Effect<
+  GetChannelNamespaceResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChannelNamespaceRequest,
   output: GetChannelNamespaceResponse,
   errors: [
@@ -4735,7 +5596,18 @@ export const getChannelNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a `DataSource` object.
  */
-export const getDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDataSource: (
+  input: GetDataSourceRequest,
+) => Effect.Effect<
+  GetDataSourceResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSourceRequest,
   output: GetDataSourceResponse,
   errors: [
@@ -4749,7 +5621,18 @@ export const getDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a `GraphqlApi` object.
  */
-export const getGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGraphqlApi: (
+  input: GetGraphqlApiRequest,
+) => Effect.Effect<
+  GetGraphqlApiResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGraphqlApiRequest,
   output: GetGraphqlApiResponse,
   errors: [
@@ -4763,23 +5646,56 @@ export const getGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the `SourceApiAssociationSummary` data.
  */
-export const listSourceApiAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSourceApiAssociations: {
+  (
     input: ListSourceApiAssociationsRequest,
-    output: ListSourceApiAssociationsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "sourceApiAssociationSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSourceApiAssociationsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSourceApiAssociationsRequest,
+  ) => Stream.Stream<
+    ListSourceApiAssociationsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSourceApiAssociationsRequest,
+  ) => Stream.Stream<
+    SourceApiAssociationSummary,
+    | BadRequestException
+    | InternalFailureException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSourceApiAssociationsRequest,
+  output: ListSourceApiAssociationsResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sourceApiAssociationSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a list of environmental variables in an API by its ID value.
  *
@@ -4819,41 +5735,72 @@ export const listSourceApiAssociations =
  * variables will be lost. To avoid this, you must include all existing and new environmental
  * variables in the list each time you call this action.
  */
-export const putGraphqlApiEnvironmentVariables =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutGraphqlApiEnvironmentVariablesRequest,
-    output: PutGraphqlApiEnvironmentVariablesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConcurrentModificationException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }));
+export const putGraphqlApiEnvironmentVariables: (
+  input: PutGraphqlApiEnvironmentVariablesRequest,
+) => Effect.Effect<
+  PutGraphqlApiEnvironmentVariablesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutGraphqlApiEnvironmentVariablesRequest,
+  output: PutGraphqlApiEnvironmentVariablesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConcurrentModificationException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a new introspection. Returns the `introspectionId` of the new
  * introspection after its creation.
  */
-export const startDataSourceIntrospection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDataSourceIntrospectionRequest,
-    output: StartDataSourceIntrospectionResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }));
+export const startDataSourceIntrospection: (
+  input: StartDataSourceIntrospectionRequest,
+) => Effect.Effect<
+  StartDataSourceIntrospectionResponse,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDataSourceIntrospectionRequest,
+  output: StartDataSourceIntrospectionResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a `Function` object.
  *
  * A function is a reusable entity. You can use multiple functions to compose the resolver
  * logic.
  */
-export const createFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFunction: (
+  input: CreateFunctionRequest,
+) => Effect.Effect<
+  CreateFunctionResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFunctionRequest,
   output: CreateFunctionResponse,
   errors: [
@@ -4867,7 +5814,18 @@ export const createFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves an `Api` object.
  */
-export const getApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApi: (
+  input: GetApiRequest,
+) => Effect.Effect<
+  GetApiResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApiRequest,
   output: GetApiResponse,
   errors: [
@@ -4881,7 +5839,18 @@ export const getApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a `DataSource` object.
  */
-export const createDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDataSource: (
+  input: CreateDataSourceRequest,
+) => Effect.Effect<
+  CreateDataSourceResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataSourceRequest,
   output: CreateDataSourceResponse,
   errors: [
@@ -4895,22 +5864,39 @@ export const createDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the introspection schema for a GraphQL API.
  */
-export const getIntrospectionSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIntrospectionSchemaRequest,
-    output: GetIntrospectionSchemaResponse,
-    errors: [
-      GraphQLSchemaException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getIntrospectionSchema: (
+  input: GetIntrospectionSchemaRequest,
+) => Effect.Effect<
+  GetIntrospectionSchemaResponse,
+  | GraphQLSchemaException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIntrospectionSchemaRequest,
+  output: GetIntrospectionSchemaResponse,
+  errors: [
+    GraphQLSchemaException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Retrieves a `Resolver` object.
  */
-export const getResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResolver: (
+  input: GetResolverRequest,
+) => Effect.Effect<
+  GetResolverResponse,
+  | ConcurrentModificationException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResolverRequest,
   output: GetResolverResponse,
   errors: [
@@ -4922,7 +5908,18 @@ export const getResolver = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an `ApiCache` object.
  */
-export const deleteApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApiCache: (
+  input: DeleteApiCacheRequest,
+) => Effect.Effect<
+  DeleteApiCacheResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApiCacheRequest,
   output: DeleteApiCacheResponse,
   errors: [
@@ -4936,7 +5933,19 @@ export const deleteApiCache = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Tags a resource with user-supplied tags.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -4951,7 +5960,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Untags a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -4967,42 +5988,74 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates an association between a Merged API and source API using the source API's
  * identifier.
  */
-export const associateMergedGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateMergedGraphqlApiRequest,
-    output: AssociateMergedGraphqlApiResponse,
-    errors: [
-      BadRequestException,
-      ConcurrentModificationException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const associateMergedGraphqlApi: (
+  input: AssociateMergedGraphqlApiRequest,
+) => Effect.Effect<
+  AssociateMergedGraphqlApiResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateMergedGraphqlApiRequest,
+  output: AssociateMergedGraphqlApiResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates an association between a Merged API and source API using the Merged API's
  * identifier.
  */
-export const associateSourceGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateSourceGraphqlApiRequest,
-    output: AssociateSourceGraphqlApiResponse,
-    errors: [
-      BadRequestException,
-      ConcurrentModificationException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const associateSourceGraphqlApi: (
+  input: AssociateSourceGraphqlApiRequest,
+) => Effect.Effect<
+  AssociateSourceGraphqlApiResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateSourceGraphqlApiRequest,
+  output: AssociateSourceGraphqlApiResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates an API key. You can update the key as long as it's not deleted.
  */
-export const updateApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApiKey: (
+  input: UpdateApiKeyRequest,
+) => Effect.Effect<
+  UpdateApiKeyResponse,
+  | ApiKeyValidityOutOfBoundsException
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApiKeyRequest,
   output: UpdateApiKeyResponse,
   errors: [
@@ -5017,7 +6070,20 @@ export const updateApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a unique key that you can distribute to clients who invoke your API.
  */
-export const createApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApiKey: (
+  input: CreateApiKeyRequest,
+) => Effect.Effect<
+  CreateApiKeyResponse,
+  | ApiKeyLimitExceededException
+  | ApiKeyValidityOutOfBoundsException
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApiKeyRequest,
   output: CreateApiKeyResponse,
   errors: [
@@ -5033,7 +6099,19 @@ export const createApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a `GraphqlApi` object.
  */
-export const createGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGraphqlApi: (
+  input: CreateGraphqlApiRequest,
+) => Effect.Effect<
+  CreateGraphqlApiResponse,
+  | ApiLimitExceededException
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | LimitExceededException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGraphqlApiRequest,
   output: CreateGraphqlApiResponse,
   errors: [
@@ -5048,18 +6126,29 @@ export const createGraphqlApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a `ChannelNamespace` for an `Api`.
  */
-export const createChannelNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateChannelNamespaceRequest,
-    output: CreateChannelNamespaceResponse,
-    errors: [
-      BadRequestException,
-      ConcurrentModificationException,
-      ConflictException,
-      InternalFailureException,
-      NotFoundException,
-      ServiceQuotaExceededException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createChannelNamespace: (
+  input: CreateChannelNamespaceRequest,
+) => Effect.Effect<
+  CreateChannelNamespaceResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | ConflictException
+  | InternalFailureException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateChannelNamespaceRequest,
+  output: CreateChannelNamespaceResponse,
+  errors: [
+    BadRequestException,
+    ConcurrentModificationException,
+    ConflictException,
+    InternalFailureException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    UnauthorizedException,
+  ],
+}));

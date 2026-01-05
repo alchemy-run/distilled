@@ -47,6 +47,17 @@ class SdkFile extends Context.Tag("SdkFile")<
     allArrayNames: Set<string>;
     // Set of ALL map names (type aliases can be used directly as types)
     allMapNames: Set<string>;
+    // Set of ALL union names
+    allUnionNames: Set<string>;
+    // Set of ALL schema names (for conflict detection)
+    allSchemaNames: Set<string>;
+    // Import reference names (resolved based on conflicts)
+    credsRef: string;
+    rgnRef: string;
+    errRef: string;
+    streamRef: string;
+    // Map of newtype names to their underlying TypeScript type (e.g., PhoneNumber -> string)
+    newtypes: Ref.Ref<Map<string, string>>;
     // Map of error shape IDs to their error traits (for TaggedError generation)
     errorShapeIds: Map<string, ErrorShapeTraits>;
     // Map of error shape names to their inline fields definition
@@ -507,6 +518,8 @@ function findCyclicSchemasFromDeps(
   allStructNames: Set<string>;
   allArrayNames: Set<string>;
   allMapNames: Set<string>;
+  allUnionNames: Set<string>;
+  allSchemaNames: Set<string>;
 } {
   const cyclicSchemas = new Set<string>();
 
@@ -580,6 +593,7 @@ function findCyclicSchemasFromDeps(
   // Collect ALL array and map names (type aliases can be used directly as types)
   const allArrayNames = new Set<string>();
   const allMapNames = new Set<string>();
+  const allUnionNames = new Set<string>();
   for (const [name, info] of shapeDeps) {
     if (info.type === "structure") {
       allStructNames.add(name);
@@ -590,8 +604,18 @@ function findCyclicSchemasFromDeps(
       allArrayNames.add(name);
     } else if (info.type === "map") {
       allMapNames.add(name);
+    } else if (info.type === "union") {
+      allUnionNames.add(name);
     }
   }
+
+  // Combine all schema names for conflict detection
+  const allSchemaNames = new Set<string>([
+    ...allStructNames,
+    ...allArrayNames,
+    ...allMapNames,
+    ...allUnionNames,
+  ]);
 
   return {
     cyclicSchemas,
@@ -599,6 +623,8 @@ function findCyclicSchemasFromDeps(
     allStructNames,
     allArrayNames,
     allMapNames,
+    allUnionNames,
+    allSchemaNames,
   };
 }
 
@@ -862,11 +888,35 @@ const convertShapeToSchema: (
               s.type === "long" ||
               s.type === "double" ||
               s.type === "float",
-            () => Effect.succeed("S.Number"),
+            () =>
+              Effect.gen(function* () {
+                // Track this as a newtype (e.g., type Count = number)
+                // Only for non-Smithy primitives (service-defined newtypes)
+                if (!targetShapeId.startsWith("smithy.api#")) {
+                  const sdkFile = yield* SdkFile;
+                  const name = formatName(targetShapeId);
+                  yield* Ref.update(sdkFile.newtypes, (m) =>
+                    new Map(m).set(name, "number"),
+                  );
+                }
+                return "S.Number";
+              }),
           ),
           Match.when(
             (s) => s.type === "string",
-            () => Effect.succeed("S.String"),
+            () =>
+              Effect.gen(function* () {
+                // Track this as a newtype (e.g., type PhoneNumber = string)
+                // Only for non-Smithy primitives (service-defined newtypes)
+                if (!targetShapeId.startsWith("smithy.api#")) {
+                  const sdkFile = yield* SdkFile;
+                  const name = formatName(targetShapeId);
+                  yield* Ref.update(sdkFile.newtypes, (m) =>
+                    new Map(m).set(name, "string"),
+                  );
+                }
+                return "S.String";
+              }),
           ),
           Match.when(
             (s) => s.type === "blob",
@@ -1427,24 +1477,25 @@ const convertShapeToSchema: (
                         return `export const ${schemaName} = T.EventStream(S.Union(${wrappedMembers.join(", ")}));`;
                       }
 
+                      // Generate explicit type alias for unions (needed for pagination item types)
+                      // Each member is now a struct { memberName: type }, so the TS types need to reflect that
+                      const memberTsTypes = members.map((m) => {
+                        const innerType = schemaExprToTsType(
+                          m.raw,
+                          sdkFile.allStructNames,
+                          sdkFile.allArrayNames,
+                          sdkFile.allMapNames,
+                          sdkFile.cyclicSchemas,
+                        );
+                        return `{ ${m.name}: ${innerType} }`;
+                      });
+                      const typeAlias = `export type ${schemaName} = ${memberTsTypes.join(" | ")};`;
+
                       if (isCurrentCyclic) {
-                        // For cyclic unions, generate explicit type alias to help TypeScript inference
-                        // Each member is now a struct { memberName: type }, so the TS types need to reflect that
-                        const memberTsTypes = members.map((m) => {
-                          const innerType = schemaExprToTsType(
-                            m.raw,
-                            sdkFile.allStructNames,
-                            sdkFile.allArrayNames,
-                            sdkFile.allMapNames,
-                            sdkFile.cyclicSchemas,
-                          );
-                          return `{ ${m.name}: ${innerType} }`;
-                        });
-                        const typeAlias = `export type ${schemaName} = ${memberTsTypes.join(" | ")};`;
                         return `${typeAlias}\nexport const ${schemaName} = S.Union(${wrappedMembers.join(", ")}) as any as S.Schema<${schemaName}>;`;
                       }
 
-                      return `export const ${schemaName} = S.Union(${wrappedMembers.join(", ")});`;
+                      return `${typeAlias}\nexport const ${schemaName} = S.Union(${wrappedMembers.join(", ")});`;
                     }),
                   ),
                 ),
@@ -1593,9 +1644,9 @@ const addError = Effect.fn(function* (error: {
     // Add error categories based on HTTP status code
     if (errorTraits?.httpError) {
       if (errorTraits.httpError === 429) {
-        categories.push("ERROR_CATEGORIES.THROTTLING_ERROR");
+        categories.push("ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR");
       } else if (errorTraits.httpError >= 500 && errorTraits.httpError < 600) {
-        categories.push("ERROR_CATEGORIES.SERVER_ERROR");
+        categories.push("ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR");
       }
     }
 
@@ -1610,7 +1661,7 @@ const addError = Effect.fn(function* (error: {
     // Build the category pipe if needed
     const categoryPipe =
       categories.length > 0
-        ? `.pipe(withCategory(${categories.join(", ")}))`
+        ? `.pipe(ErrorCategory.withCategory(${categories.join(", ")}))`
         : "";
 
     yield* Ref.update(sdkFile.errors, (errors) => [
@@ -1804,7 +1855,8 @@ const generateClient = Effect.fn(function* (
           sdkFile.serviceSpec.operations[formatName(operationShapeName, true)]
             ?.errors ?? [];
 
-        const operationErrors = yield* Effect.gen(function* () {
+        // Collect error names for both the runtime array and the type annotation
+        const errorNames = yield* Effect.gen(function* () {
           // Process model-defined errors
           const modelErrors =
             operationShape.errors == null || operationShape.errors.length === 0
@@ -1836,9 +1888,12 @@ const generateClient = Effect.fn(function* (
           );
 
           // Combine and deduplicate
-          const allErrors = [...new Set([...modelErrors, ...patchErrors])];
-          return allErrors.length === 0 ? "[]" : `[${allErrors.join(", ")}]`;
+          return [...new Set([...modelErrors, ...patchErrors])];
         });
+
+        // Build the errors array string for runtime
+        const operationErrors =
+          errorNames.length === 0 ? "[]" : `[${errorNames.join(", ")}]`;
 
         // Extract pagination trait from operation (smithy.api#paginated)
         // Operations may only specify partial pagination (e.g., just `items`)
@@ -1885,19 +1940,113 @@ const generateClient = Effect.fn(function* (
 
         // Build operation object - include pagination metadata if present
         // Use 'as const' on pagination to preserve literal types for type inference
+        const exportedName = formatName(operationShapeName, true);
         const metaObject = paginatedTrait
           ? `{ input: ${input}, output: ${output}, errors: ${operationErrors}, pagination: ${JSON.stringify(paginatedTrait)} as const }`
           : `{ input: ${input}, output: ${output}, errors: ${operationErrors} }`;
 
-        // Use API.makePaginated for paginated operations, API.make for others
+        // Build the error union type for the function signature
+        // Errors include operation-specific errors plus common API errors
+        const errorUnion =
+          errorNames.length > 0
+            ? `${errorNames.join(" | ")} | ${sdkFile.errRef}.CommonErrors`
+            : `${sdkFile.errRef}.CommonErrors`;
+
+        // Explicit type annotations are required to avoid TypeScript resolving internal imports
+        // in emitted .d.ts files, which would break type portability for consumers
         const apiFn = paginatedTrait ? "API.makePaginated" : "API.make";
+
+        // Dependencies type for operations
+        const depsType = `${sdkFile.credsRef}.Credentials | ${sdkFile.rgnRef}.Region | HttpClient.HttpClient`;
+
+        // Map Smithy primitives to TypeScript types
+        const smithyPrimitiveToTs: Record<string, string> = {
+          "smithy.api#String": "string",
+          "smithy.api#Boolean": "boolean",
+          "smithy.api#Integer": "number",
+          "smithy.api#Long": "number",
+          "smithy.api#Float": "number",
+          "smithy.api#Double": "number",
+          "smithy.api#Byte": "number",
+          "smithy.api#Short": "number",
+          "smithy.api#BigInteger": "bigint",
+          "smithy.api#BigDecimal": "number",
+          "smithy.api#Blob": "Uint8Array",
+          "smithy.api#Timestamp": "Date",
+          "smithy.api#Document": "unknown",
+        };
+
+        // Generate the explicit function type signature
+        let typeAnnotation: string;
+        if (paginatedTrait) {
+          // For paginated operations, resolve the item type from the output shape
+          // paginatedTrait.items points to a member name in the output (e.g., "Subscriptions")
+          let itemType = "unknown";
+          if (paginatedTrait.items) {
+            // Look up the output shape to find the items member
+            const [, outputShape] = yield* findShape(
+              operationShape.output.target,
+            );
+            if (outputShape.type === "structure" && outputShape.members) {
+              const itemsMember = outputShape.members[paginatedTrait.items];
+              if (itemsMember) {
+                // Look up the list shape to get its element type
+                const [, listShape] = yield* findShape(itemsMember.target);
+                if (listShape.type === "list" && listShape.member) {
+                  const memberTarget = listShape.member.target;
+                  // Check if it's a Smithy primitive
+                  if (smithyPrimitiveToTs[memberTarget]) {
+                    itemType = smithyPrimitiveToTs[memberTarget];
+                  } else {
+                    // Look up the member shape to determine how to reference the type
+                    const [, memberShape] = yield* findShape(memberTarget);
+                    const memberName = formatName(memberTarget);
+                    // Structures have generated interfaces
+                    if (memberShape.type === "structure") {
+                      itemType = memberName;
+                    } else if (sdkFile.allUnionNames.has(memberName)) {
+                      // Unions have generated type aliases
+                      itemType = memberName;
+                    } else if (
+                      memberShape.type === "string" ||
+                      memberShape.type === "boolean" ||
+                      memberShape.type === "integer" ||
+                      memberShape.type === "long" ||
+                      memberShape.type === "float" ||
+                      memberShape.type === "double"
+                    ) {
+                      // Simple type newtypes - we generate type aliases for these
+                      itemType = memberName;
+                    } else if (memberShape.type === "enum") {
+                      // Enums are generated as literal unions with type aliases
+                      itemType = memberName;
+                    } else if (memberShape.type === "document") {
+                      // Document types are converted to S.Any -> unknown
+                      itemType = "unknown";
+                    } else {
+                      // Fallback: use the schema type extraction
+                      itemType = `S.Schema.Type<typeof ${memberName}>`;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          typeAnnotation = `{
+  (input: ${input}): Effect.Effect<${output}, ${errorUnion}, ${depsType}>;
+  pages: (input: ${input}) => ${sdkFile.streamRef}.Stream<${output}, ${errorUnion}, ${depsType}>;
+  items: (input: ${input}) => ${sdkFile.streamRef}.Stream<${itemType}, ${errorUnion}, ${depsType}>;
+}`;
+        } else {
+          typeAnnotation = `(input: ${input}) => Effect.Effect<${output}, ${errorUnion}, ${depsType}>`;
+        }
 
         yield* sdkFile.operations.pipe(
           Ref.update(
             (c) =>
               c +
               operationComment +
-              `export const ${formatName(operationShapeName, true)} = /*@__PURE__*/ /*#__PURE__*/ ${apiFn}(() => (${metaObject}));\n`,
+              `export const ${exportedName}: ${typeAnnotation} = /*@__PURE__*/ /*#__PURE__*/ ${apiFn}(() => (${metaObject}));\n`,
           ),
         );
       }),
@@ -1918,13 +2067,58 @@ const generateClient = Effect.fn(function* (
     const errors = yield* Ref.get(sdkFile.errors);
     const errorDefinitions = errors.map((s) => s.definition).join("\n");
 
+    // Generate type aliases for newtypes (e.g., type PhoneNumber = string)
+    // Skip names that would shadow built-in types or TypeScript keywords
+    const reservedNames = new Set([
+      "String",
+      "Number",
+      "Boolean",
+      "Object",
+      "Array",
+      "Date",
+      "Error",
+      "Function",
+      "Symbol",
+      "BigInt",
+      // Lowercase primitives (TypeScript keywords)
+      "string",
+      "number",
+      "boolean",
+      "object",
+      "symbol",
+      "bigint",
+      "undefined",
+      "null",
+      "never",
+      "unknown",
+      "any",
+      "void",
+    ]);
+    const newtypes = yield* Ref.get(sdkFile.newtypes);
+    const newtypeDefinitions = [...newtypes.entries()]
+      .filter(([name]) => !reservedNames.has(name))
+      .map(([name, tsType]) => `export type ${name} = ${tsType};`)
+      .join("\n");
+
     const operations = yield* Ref.get(sdkFile.operations);
 
+    // Build imports with aliases only where conflicts exist (detected upfront)
+    const credentialsImport =
+      sdkFile.credsRef === "Creds" ? "Credentials as Creds" : "Credentials";
+    const regionImport = sdkFile.rgnRef === "Rgn" ? "Region as Rgn" : "Region";
+    const errorsImport = sdkFile.errRef === "Err" ? "Errors as Err" : "Errors";
+    const streamImport =
+      sdkFile.streamRef === "Strm"
+        ? 'import * as Strm from "effect/Stream";'
+        : 'import * as Stream from "effect/Stream";';
+
     const imports = dedent`
+      import { HttpClient } from "@effect/platform";
+      import * as Effect from "effect/Effect";
       import * as S from "effect/Schema";
+      ${streamImport}
       import * as API from "../api.ts";
-      import * as T from "../traits.ts";
-      import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";`;
+      import { ${credentialsImport}, ${regionImport}, Traits as T, ErrorCategory, ${errorsImport} } from "../index.ts";`;
 
     // Define service-level constants
     const serviceConstants: string[] = [];
@@ -1980,7 +2174,11 @@ const generateClient = Effect.fn(function* (
     const serviceConstantsBlock =
       serviceConstants.length > 0 ? `\n${serviceConstants.join("\n")}` : "";
 
-    const fileContents = `${imports}${serviceConstantsBlock}\n\n//# Schemas\n${schemaDefinitions}\n\n//# Errors\n${errorDefinitions}\n\n//# Operations\n${operations}`;
+    const newtypesBlock = newtypeDefinitions
+      ? `\n\n//# Newtypes\n${newtypeDefinitions}`
+      : "";
+
+    const fileContents = `${imports}${serviceConstantsBlock}${newtypesBlock}\n\n//# Schemas\n${schemaDefinitions}\n\n//# Errors\n${errorDefinitions}\n\n//# Operations\n${operations}`;
 
     yield* fs.writeFileString(
       path.join(
@@ -1999,7 +2197,20 @@ const generateClient = Effect.fn(function* (
     allStructNames,
     allArrayNames,
     allMapNames,
+    allUnionNames,
+    allSchemaNames,
   } = findCyclicSchemasFromDeps(shapeDeps);
+
+  // Pre-compute conflict resolution for imports
+  const hasCredentialsConflict = allSchemaNames.has("Credentials");
+  const hasRegionConflict = allSchemaNames.has("Region");
+  const hasErrorsConflict = allSchemaNames.has("Errors");
+  const hasStreamConflict = allSchemaNames.has("Stream");
+
+  const credsRef = hasCredentialsConflict ? "Creds" : "Credentials";
+  const rgnRef = hasRegionConflict ? "Rgn" : "Region";
+  const errRef = hasErrorsConflict ? "Err" : "Errors";
+  const streamRef = hasStreamConflict ? "Strm" : "Stream";
 
   // Pre-collect error shape IDs so we can inline their fields in TaggedError
   const errorShapeIds = collectErrorShapeIds(model);
@@ -2065,6 +2276,13 @@ const generateClient = Effect.fn(function* (
       allStructNames,
       allArrayNames,
       allMapNames,
+      allUnionNames,
+      allSchemaNames,
+      credsRef,
+      rgnRef,
+      errRef,
+      streamRef,
+      newtypes: yield* Ref.make<Map<string, string>>(new Map()),
       errorShapeIds,
       errorFields: yield* Ref.make<Map<string, string>>(new Map()),
       usesMiddleware: yield* Ref.make<boolean>(false),

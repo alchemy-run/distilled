@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "MediaConvert",
   serviceShapeName: "MediaConvert",
@@ -274,6 +282,194 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type __string = string;
+export type __integerMinNegative50Max50 = number;
+export type __integer = number;
+export type __integerMin1Max20 = number;
+export type __integerMinNegative1000Max1000 = number;
+export type __integerMin1Max150 = number;
+export type __stringMax100 = string;
+export type __stringMin14PatternS3BmpBMPPngPNGHttpsBmpBMPPngPNG = string;
+export type __stringMin14PatternS3CubeCUBEHttpsCubeCUBE = string;
+export type __integerMin0Max2147483647 = number;
+export type __integerMin0Max30000 = number;
+export type __stringMin14PatternS3XmlXMLHttpsXmlXML = string;
+export type __stringMax2048PatternS3Https = string;
+export type __integerMin0Max5 = number;
+export type __integerMin1Max2147483647 = number;
+export type __stringPatternS3ASSETMAPXml = string;
+export type __stringMin11Max11Pattern01D20305D205D = string;
+export type __stringMin1Max20 = string;
+export type __stringMin1Max50PatternAZAZ09 = string;
+export type __stringMin1Max2048PatternArnAZSecretsmanagerWD12SecretAZAZ09 =
+  string;
+export type __doubleMin0 = number;
+export type __stringPatternHttpsKantarmedia = string;
+export type __stringPatternS3 = string;
+export type __stringMin1Max50 = string;
+export type __stringMin14PatternS3Mov09PngHttpsMov09Png = string;
+export type __integerMin0Max0 = number;
+export type __stringPattern0xAFaF0908190908 = string;
+export type __integerMin0Max65534 = number;
+export type __stringPatternHttps = string;
+export type __stringMax2048 = string;
+export type __stringPattern010920405090509092 = string;
+export type __stringPattern0940191020191209301 = string;
+export type __integerMin0Max255 = number;
+export type __stringPatternAZaZ23AZaZ09 = string;
+export type __stringPatternWS = string;
+export type __stringPatternAZaZ23AZaZ = string;
+export type __integerMin0Max15 = number;
+export type __integerMin32Max8192 = number;
+export type __integerMin0Max100 = number;
+export type __stringPatternSNManifestConfirmConditionNotificationNS = string;
+export type __stringPatternSNSignalProcessingNotificationNS = string;
+export type __integerMin2Max2147483647 = number;
+export type __stringMin24Max512PatternAZaZ0902 = string;
+export type __stringMin16Max24PatternAZaZ0922AZaZ0916 = string;
+export type __stringMin9Max19PatternAZ26EastWestCentralNorthSouthEastWest1912 =
+  string;
+export type __integerMin100Max1000 = number;
+export type __stringPattern010920405090509092090909 = string;
+export type __stringPatternArnAwsAZ09EventsAZ090912ConnectionAZAZ09AF0936 =
+  string;
+export type __stringPattern019090190908019090190908 = string;
+export type __integerMin1Max32 = number;
+export type __integerMin1Max86400000 = number;
+export type __integerMin1Max1001 = number;
+export type __integerMin1Max60000 = number;
+export type __stringMin14PatternS3BmpBMPPngPNGTgaTGAHttpsBmpBMPPngPNGTgaTGA =
+  string;
+export type __integerMin32000Max48000 = number;
+export type __integerMinNegative2147483648Max2147483647 = number;
+export type __integerMin1Max17895697 = number;
+export type __integerMin1Max2147483640 = number;
+export type __stringMax256 = string;
+export type __stringMin1Max256 = string;
+export type __stringMin0 = string;
+export type __stringPatternAZaZ0902 = string;
+export type __integerMinNegative70Max0 = number;
+export type __doubleMinNegative59Max0 = number;
+export type __doubleMinNegative8Max0 = number;
+export type __integerMin1Max64 = number;
+export type __stringMin1PatternArnAwsUsGovCnKmsAZ26EastWestCentralNorthSouthEastWest1912D12KeyAFAF098AFAF094AFAF094AFAF094AFAF0912MrkAFAF0932 =
+  string;
+export type __stringMax1000 = string;
+export type __integerMin32Max8182 = number;
+export type __integerMinNegative10000Max10000 = number;
+export type __integerMin0Max500 = number;
+export type __integerMin0Max10000 = number;
+export type __integerMin0Max1000 = number;
+export type __integerMin0Max65535 = number;
+export type __integerMin0Max3600 = number;
+export type __integerMin0Max1 = number;
+export type __stringMin1 = string;
+export type __stringMin3Max3PatternAZaZ3 = string;
+export type __stringPatternS3Https = string;
+export type __integerMin0Max8 = number;
+export type __integerMin0Max99 = number;
+export type __stringPattern01D20305D205D = string;
+export type __integerMinNegative1Max2147483647 = number;
+export type __integerMin0Max50000 = number;
+export type __integerMin100000Max100000000 = number;
+export type __doubleMin1Max10 = number;
+export type __integerMin3Max15 = number;
+export type __doubleMin0Max2147483647 = number;
+export type __integerMin6000Max1024000 = number;
+export type __integerMin2000Max30000 = number;
+export type __integerMin8000Max96000 = number;
+export type __integerMin6Max16 = number;
+export type __integerMin64000Max640000 = number;
+export type __integerMin1Max31 = number;
+export type __integerMin48000Max48000 = number;
+export type __integerMin16Max24 = number;
+export type __integerMin8000Max192000 = number;
+export type __integerMin384000Max1024000 = number;
+export type __doubleMinNegative6Max3 = number;
+export type __doubleMinNegative60MaxNegative1 = number;
+export type __integerMin32000Max3024000 = number;
+export type __doubleMinNegative60Max3 = number;
+export type __integerMin1Max8 = number;
+export type __integerMin22050Max192000 = number;
+export type __integerMin32000Max384000 = number;
+export type __integerMin1Max2 = number;
+export type __integerMin16000Max320000 = number;
+export type __integerMin22050Max48000 = number;
+export type __integerMin0Max9 = number;
+export type __integerMin32000Max192000 = number;
+export type __integerMin16000Max48000 = number;
+export type __integerMinNegative1Max10 = number;
+export type __stringPatternS3TtfHttpsTtf = string;
+export type __integerMin96Max600 = number;
+export type __integerMin0Max96 = number;
+export type __stringMin6Max8Pattern09aFAF609aFAF2 = string;
+export type __integerMin0Max10 = number;
+export type __integerMin1Max4 = number;
+export type __integerMin1Max6 = number;
+export type __stringMin3Max3Pattern1809aFAF09aEAE = string;
+export type __integerMin25Max10000 = number;
+export type __integerMin25Max2000 = number;
+export type __integerMin1000Max30000 = number;
+export type __integerMin1000Max1152000000 = number;
+export type __integerMin24Max60000 = number;
+export type __integerMin1Max10000000 = number;
+export type __integerMin1Max100 = number;
+export type __integerMin0Max1152000000 = number;
+export type __integerMin0Max30 = number;
+export type __integerMin0Max7 = number;
+export type __integerMin0Max128 = number;
+export type __integerMin1000Max1466400000 = number;
+export type __integerMin0Max1466400000 = number;
+export type __integerMin64Max2160 = number;
+export type __integerMin256Max3840 = number;
+export type __integerMin1000Max288000000 = number;
+export type __integerMin0Max47185920 = number;
+export type __integerMin1000Max300000000 = number;
+export type __integerMin1000Max480000000 = number;
+export type __integerMinNegative180Max180 = number;
+export type __integerMin0Max4000 = number;
+export type __integerMin10Max48 = number;
+export type __stringPattern = string;
+export type __stringMin32Max32Pattern09aFAF32 = string;
+export type __integerMin2Max4096 = number;
+export type __integerMin8Max4096 = number;
+export type __integerMin1Max2048 = number;
+export type __integerMin1Max512 = number;
+export type __integerMin1Max4096 = number;
+export type __integerMinNegative60Max6 = number;
+export type __doubleMinNegative60Max6 = number;
+export type __integerMin1Max10 = number;
+export type __doubleMin0Max1 = number;
+export type __integerMin8Max12 = number;
+export type __integerMin4Max12 = number;
+export type __integerMin90Max105 = number;
+export type __integerMin920Max1023 = number;
+export type __integerMinNegative5Max10 = number;
+export type __integerMin0Max3 = number;
+export type __integerMinNegative2Max3 = number;
+export type __integerMin0Max16 = number;
+export type __integerMin0Max4 = number;
+export type __integerMinNegative1Max3 = number;
+export type __stringMin1Max100000 = string;
+export type __integerMin0Max4194303 = number;
+export type __double = number;
+export type __long = number;
+export type __integerMin1Max1 = number;
+export type __stringMin14PatternS3SccSCCTtmlTTMLDfxpDFXPStlSTLSrtSRTXmlXMLSmiSMIVttVTTWebvttWEBVTTHttpsSccSCCTtmlTTMLDfxpDFXPStlSTLSrtSRTXmlXMLSmiSMIVttVTTWebvttWEBVTT =
+  string;
+export type __stringPatternArnAwsUsGovAcm = string;
+export type __stringMin36Max36Pattern09aFAF809aFAF409aFAF409aFAF409aFAF12 =
+  string;
+export type __stringPatternW = string;
+export type __stringPatternHttpsD = string;
+export type __stringPatternIdentityAZaZ26AZaZ09163 = string;
+export type __stringPatternDD = string;
+export type __stringPatternAZaZ0932 = string;
+export type __stringPattern09aFAF809aFAF409aFAF409aFAF409aFAF12 = string;
+export type __stringPatternArnAwsUsGovCnKmsAZ26EastWestCentralNorthSouthEastWest1912D12KeyAFAF098AFAF094AFAF094AFAF094AFAF0912MrkAFAF0932 =
+  string;
 
 //# Schemas
 export interface DeletePolicyRequest {}
@@ -6995,7 +7191,9 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
@@ -7007,13 +7205,28 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
  * Permanently delete a policy that you created.
  */
-export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePolicy: (
+  input: DeletePolicyRequest,
+) => Effect.Effect<
+  DeletePolicyResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyRequest,
   output: DeletePolicyResponse,
   errors: [
@@ -7029,7 +7242,20 @@ export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve the JSON for a specific transcoding job.
  */
-export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJob: (
+  input: GetJobRequest,
+) => Effect.Effect<
+  GetJobResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRequest,
   output: GetJobResponse,
   errors: [
@@ -7045,7 +7271,20 @@ export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve the JSON for a specific queue.
  */
-export const getQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getQueue: (
+  input: GetQueueRequest,
+) => Effect.Effect<
+  GetQueueResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueueRequest,
   output: GetQueueResponse,
   errors: [
@@ -7061,31 +7300,85 @@ export const getQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Send a request with an empty body to the regional API endpoint to get your account API endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send your requests directly to the regional endpoint instead.
  */
-export const describeEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeEndpoints: {
+  (
     input: DescribeEndpointsRequest,
-    output: DescribeEndpointsResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceQuotaExceededException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Endpoints",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeEndpointsResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEndpointsRequest,
+  ) => Stream.Stream<
+    DescribeEndpointsResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEndpointsRequest,
+  ) => Stream.Stream<
+    Endpoint,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEndpointsRequest,
+  output: DescribeEndpointsResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Endpoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieve the JSON for a specific job template.
  */
-export const getJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJobTemplate: (
+  input: GetJobTemplateRequest,
+) => Effect.Effect<
+  GetJobTemplateResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobTemplateRequest,
   output: GetJobTemplateResponse,
   errors: [
@@ -7101,7 +7394,20 @@ export const getJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve the JSON for a specific preset.
  */
-export const getPreset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPreset: (
+  input: GetPresetRequest,
+) => Effect.Effect<
+  GetPresetResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPresetRequest,
   output: GetPresetResponse,
   errors: [
@@ -7117,7 +7423,20 @@ export const getPreset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve the tags for a MediaConvert resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -7133,31 +7452,85 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve a JSON array of all available Job engine versions and the date they expire.
  */
-export const listVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listVersions: {
+  (
     input: ListVersionsRequest,
-    output: ListVersionsResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceQuotaExceededException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Versions",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListVersionsResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVersionsRequest,
+  ) => Stream.Stream<
+    ListVersionsResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVersionsRequest,
+  ) => Stream.Stream<
+    JobEngineVersion,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVersionsRequest,
+  output: ListVersionsResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Versions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Start an asynchronous jobs query using the provided filters. To receive the list of jobs that match your query, call the GetJobsQueryResults API using the query ID returned by this API.
  */
-export const startJobsQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startJobsQuery: (
+  input: StartJobsQueryRequest,
+) => Effect.Effect<
+  StartJobsQueryResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartJobsQueryRequest,
   output: StartJobsQueryResponse,
   errors: [
@@ -7173,7 +7546,20 @@ export const startJobsQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve a JSON array of up to twenty of your most recent jobs matched by a jobs query.
  */
-export const getJobsQueryResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJobsQueryResults: (
+  input: GetJobsQueryResultsRequest,
+) => Effect.Effect<
+  GetJobsQueryResultsResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobsQueryResultsRequest,
   output: GetJobsQueryResultsResponse,
   errors: [
@@ -7189,7 +7575,20 @@ export const getJobsQueryResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve the JSON for your policy.
  */
-export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicy: (
+  input: GetPolicyRequest,
+) => Effect.Effect<
+  GetPolicyResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyRequest,
   output: GetPolicyResponse,
   errors: [
@@ -7205,7 +7604,50 @@ export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
  */
-export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listJobs: {
+  (
+    input: ListJobsRequest,
+  ): Effect.Effect<
+    ListJobsResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobsRequest,
+  ) => Stream.Stream<
+    ListJobsResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobsRequest,
+  ) => Stream.Stream<
+    Job,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListJobsRequest,
   output: ListJobsResponse,
   errors: [
@@ -7227,55 +7669,180 @@ export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Retrieve a JSON array of up to twenty of your job templates. This will return the templates themselves, not just a list of them. To retrieve the next twenty templates, use the nextToken string returned with the array
  */
-export const listJobTemplates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listJobTemplates: {
+  (
     input: ListJobTemplatesRequest,
-    output: ListJobTemplatesResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceQuotaExceededException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "JobTemplates",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListJobTemplatesResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobTemplatesRequest,
+  ) => Stream.Stream<
+    ListJobTemplatesResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobTemplatesRequest,
+  ) => Stream.Stream<
+    JobTemplate,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListJobTemplatesRequest,
+  output: ListJobTemplatesResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "JobTemplates",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieve a JSON array of up to twenty of your presets. This will return the presets themselves, not just a list of them. To retrieve the next twenty presets, use the nextToken string returned with the array.
  */
-export const listPresets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPresets: {
+  (
     input: ListPresetsRequest,
-    output: ListPresetsResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceQuotaExceededException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Presets",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPresetsResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPresetsRequest,
+  ) => Stream.Stream<
+    ListPresetsResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPresetsRequest,
+  ) => Stream.Stream<
+    Preset,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPresetsRequest,
+  output: ListPresetsResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Presets",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieve a JSON array of up to twenty of your queues. This will return the queues themselves, not just a list of them. To retrieve the next twenty queues, use the nextToken string returned with the array.
  */
-export const listQueues = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listQueues: {
+  (
+    input: ListQueuesRequest,
+  ): Effect.Effect<
+    ListQueuesResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListQueuesRequest,
+  ) => Stream.Stream<
+    ListQueuesResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListQueuesRequest,
+  ) => Stream.Stream<
+    Queue,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListQueuesRequest,
   output: ListQueuesResponse,
   errors: [
@@ -7297,7 +7864,20 @@ export const listQueues = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
  */
-export const putPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putPolicy: (
+  input: PutPolicyRequest,
+) => Effect.Effect<
+  PutPolicyResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPolicyRequest,
   output: PutPolicyResponse,
   errors: [
@@ -7313,7 +7893,50 @@ export const putPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve a JSON array that includes job details for up to twenty of your most recent jobs. Optionally filter results further according to input file, queue, or status. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
  */
-export const searchJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchJobs: {
+  (
+    input: SearchJobsRequest,
+  ): Effect.Effect<
+    SearchJobsResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchJobsRequest,
+  ) => Stream.Stream<
+    SearchJobsResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchJobsRequest,
+  ) => Stream.Stream<
+    Job,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchJobsRequest,
   output: SearchJobsResponse,
   errors: [
@@ -7335,7 +7958,20 @@ export const searchJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Modify one of your existing job templates.
  */
-export const updateJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateJobTemplate: (
+  input: UpdateJobTemplateRequest,
+) => Effect.Effect<
+  UpdateJobTemplateResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobTemplateRequest,
   output: UpdateJobTemplateResponse,
   errors: [
@@ -7351,7 +7987,20 @@ export const updateJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modify one of your existing presets.
  */
-export const updatePreset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePreset: (
+  input: UpdatePresetRequest,
+) => Effect.Effect<
+  UpdatePresetResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePresetRequest,
   output: UpdatePresetResponse,
   errors: [
@@ -7367,7 +8016,20 @@ export const updatePreset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modify one of your existing queues.
  */
-export const updateQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateQueue: (
+  input: UpdateQueueRequest,
+) => Effect.Effect<
+  UpdateQueueResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueRequest,
   output: UpdateQueueResponse,
   errors: [
@@ -7383,7 +8045,20 @@ export const updateQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Permanently delete a preset you have created.
  */
-export const deletePreset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePreset: (
+  input: DeletePresetRequest,
+) => Effect.Effect<
+  DeletePresetResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePresetRequest,
   output: DeletePresetResponse,
   errors: [
@@ -7399,7 +8074,20 @@ export const deletePreset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Permanently delete a queue you have created.
  */
-export const deleteQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteQueue: (
+  input: DeleteQueueRequest,
+) => Effect.Effect<
+  DeleteQueueResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueueRequest,
   output: DeleteQueueResponse,
   errors: [
@@ -7415,25 +8103,49 @@ export const deleteQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
  */
-export const disassociateCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateCertificateRequest,
-    output: DisassociateCertificateResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceQuotaExceededException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const disassociateCertificate: (
+  input: DisassociateCertificateRequest,
+) => Effect.Effect<
+  DisassociateCertificateResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateCertificateRequest,
+  output: DisassociateCertificateResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -7449,7 +8161,20 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -7465,25 +8190,49 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
  */
-export const associateCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateCertificateRequest,
-    output: AssociateCertificateResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceQuotaExceededException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const associateCertificate: (
+  input: AssociateCertificateRequest,
+) => Effect.Effect<
+  AssociateCertificateResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateCertificateRequest,
+  output: AssociateCertificateResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Permanently cancel a job. Once you have canceled a job, you can't start it again.
  */
-export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelJob: (
+  input: CancelJobRequest,
+) => Effect.Effect<
+  CancelJobResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobRequest,
   output: CancelJobResponse,
   errors: [
@@ -7499,7 +8248,20 @@ export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a new resource share request for MediaConvert resources with AWS Support.
  */
-export const createResourceShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createResourceShare: (
+  input: CreateResourceShareRequest,
+) => Effect.Effect<
+  CreateResourceShareResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceShareRequest,
   output: CreateResourceShareResponse,
   errors: [
@@ -7515,7 +8277,20 @@ export const createResourceShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Permanently delete a job template you have created.
  */
-export const deleteJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteJobTemplate: (
+  input: DeleteJobTemplateRequest,
+) => Effect.Effect<
+  DeleteJobTemplateResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobTemplateRequest,
   output: DeleteJobTemplateResponse,
   errors: [
@@ -7531,7 +8306,20 @@ export const deleteJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
  */
-export const createQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createQueue: (
+  input: CreateQueueRequest,
+) => Effect.Effect<
+  CreateQueueResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQueueRequest,
   output: CreateQueueResponse,
   errors: [
@@ -7547,7 +8335,20 @@ export const createQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
  */
-export const createJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createJobTemplate: (
+  input: CreateJobTemplateRequest,
+) => Effect.Effect<
+  CreateJobTemplateResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobTemplateRequest,
   output: CreateJobTemplateResponse,
   errors: [
@@ -7563,7 +8364,20 @@ export const createJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
  */
-export const createPreset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPreset: (
+  input: CreatePresetRequest,
+) => Effect.Effect<
+  CreatePresetResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePresetRequest,
   output: CreatePresetResponse,
   errors: [
@@ -7579,7 +8393,20 @@ export const createPreset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow.
  */
-export const probe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const probe: (
+  input: ProbeRequest,
+) => Effect.Effect<
+  ProbeResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProbeRequest,
   output: ProbeResponse,
   errors: [
@@ -7595,7 +8422,20 @@ export const probe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a new transcoding job. For information about jobs and job settings, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
  */
-export const createJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createJob: (
+  input: CreateJobRequest,
+) => Effect.Effect<
+  CreateJobResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobRequest,
   output: CreateJobResponse,
   errors: [

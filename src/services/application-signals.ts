@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Application Signals",
   serviceShapeName: "ApplicationSignals",
@@ -104,6 +112,72 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ServiceErrorMessage = string;
+export type NextToken = string;
+export type ListAuditFindingMaxResults = number;
+export type ListEntityEventsMaxResults = number;
+export type AwsAccountId = string;
+export type ListServiceDependenciesMaxResults = number;
+export type ListServiceDependentsMaxResults = number;
+export type ServiceLevelObjectiveId = string;
+export type ListServiceLevelObjectiveExclusionWindowsMaxResults = number;
+export type ListServiceOperationMaxResults = number;
+export type ListServicesMaxResults = number;
+export type ListServiceStatesMaxResults = number;
+export type AmazonResourceName = string;
+export type TagKey = string;
+export type ServiceLevelObjectiveName = string;
+export type ServiceLevelObjectiveDescription = string;
+export type OperationName = string;
+export type ListServiceLevelObjectivesMaxResults = number;
+export type ExclusionReason = string;
+export type KeyAttributeName = string;
+export type KeyAttributeValue = string;
+export type AttributeFilterName = string;
+export type AttributeFilterValue = string;
+export type GroupingString = string;
+export type TagValue = string;
+export type ServiceLevelIndicatorMetricThreshold = number;
+export type AttainmentGoal = number;
+export type WarningThreshold = number;
+export type BurnRateLookBackWindowMinutes = number;
+export type ResourceType = string;
+export type ResourceId = string;
+export type FaultDescription = string;
+export type ExclusionDuration = number;
+export type Expression = string;
+export type MetricName = string;
+export type ServiceLevelIndicatorStatistic = string;
+export type SLIPeriodSeconds = number;
+export type ServiceLevelObjectiveArn = string;
+export type Attainment = number;
+export type TotalBudgetSeconds = number;
+export type BudgetSecondsRemaining = number;
+export type TotalBudgetRequests = number;
+export type BudgetRequestsRemaining = number;
+export type ServiceLevelObjectiveBudgetReportErrorCode = string;
+export type ServiceLevelObjectiveBudgetReportErrorMessage = string;
+export type MetricId = string;
+export type MetricExpression = string;
+export type MetricLabel = string;
+export type Period = number;
+export type AccountId = string;
+export type RollingIntervalDuration = number;
+export type CalendarIntervalDuration = number;
+export type ValidationExceptionMessage = string;
+export type Namespace = string;
+export type MetricType = string;
+export type GroupName = string;
+export type GroupValue = string;
+export type GroupSource = string;
+export type GroupIdentifier = string;
+export type Stat = string;
+export type DimensionName = string;
+export type DimensionValue = string;
+export type ExclusionWindowErrorCode = string;
+export type ExclusionWindowErrorMessage = string;
 
 //# Schemas
 export interface DeleteGroupingConfigurationRequest {}
@@ -538,6 +612,9 @@ export const ServiceLevelIndicatorConfig = S.suspend(() =>
 ).annotations({
   identifier: "ServiceLevelIndicatorConfig",
 }) as any as S.Schema<ServiceLevelIndicatorConfig>;
+export type MonitoredRequestCountMetricDataQueries =
+  | { GoodCountMetric: MetricDataQueries }
+  | { BadCountMetric: MetricDataQueries };
 export const MonitoredRequestCountMetricDataQueries = S.Union(
   S.Struct({ GoodCountMetric: MetricDataQueries }),
   S.Struct({ BadCountMetric: MetricDataQueries }),
@@ -601,6 +678,9 @@ export const CalendarInterval = S.suspend(() =>
 ).annotations({
   identifier: "CalendarInterval",
 }) as any as S.Schema<CalendarInterval>;
+export type Interval =
+  | { RollingInterval: RollingInterval }
+  | { CalendarInterval: CalendarInterval };
 export const Interval = S.Union(
   S.Struct({ RollingInterval: RollingInterval }),
   S.Struct({ CalendarInterval: CalendarInterval }),
@@ -1249,6 +1329,11 @@ export const GetServiceLevelObjectiveOutput = S.suspend(() =>
 ).annotations({
   identifier: "GetServiceLevelObjectiveOutput",
 }) as any as S.Schema<GetServiceLevelObjectiveOutput>;
+export type AuditTargetEntity =
+  | { Service: ServiceEntity }
+  | { Slo: ServiceLevelObjectiveEntity }
+  | { ServiceOperation: ServiceOperationEntity }
+  | { Canary: CanaryEntity };
 export const AuditTargetEntity = S.Union(
   S.Struct({ Service: ServiceEntity }),
   S.Struct({ Slo: ServiceLevelObjectiveEntity }),
@@ -1753,7 +1838,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { ResourceType: S.String, ResourceId: S.String, Message: S.String },
@@ -1776,7 +1863,13 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  ResourceNotFoundException | ThrottlingException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException, ThrottlingException],
@@ -1784,7 +1877,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Displays the tags associated with a CloudWatch resource. Tags can be assigned to service level objectives.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  ResourceNotFoundException | ThrottlingException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException, ThrottlingException],
@@ -1792,98 +1891,181 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the grouping configuration for this account. This removes all custom grouping attribute definitions that were previously configured.
  */
-export const deleteGroupingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteGroupingConfigurationRequest,
-    output: DeleteGroupingConfigurationOutput,
-    errors: [AccessDeniedException, ThrottlingException, ValidationException],
-  }),
-);
+export const deleteGroupingConfiguration: (
+  input: DeleteGroupingConfigurationRequest,
+) => Effect.Effect<
+  DeleteGroupingConfigurationOutput,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGroupingConfigurationRequest,
+  output: DeleteGroupingConfigurationOutput,
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
+}));
 /**
  * Returns a list of change events for a specific entity, such as deployments, configuration changes, or other state-changing activities. This operation helps track the history of changes that may have affected service performance.
  */
-export const listEntityEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEntityEvents: {
+  (
     input: ListEntityEventsInput,
-    output: ListEntityEventsOutput,
-    errors: [ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ChangeEvents",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEntityEventsOutput,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEntityEventsInput,
+  ) => Stream.Stream<
+    ListEntityEventsOutput,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEntityEventsInput,
+  ) => Stream.Stream<
+    ChangeEvent,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEntityEventsInput,
+  output: ListEntityEventsOutput,
+  errors: [ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ChangeEvents",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the list of dependents that invoked the specified service during the provided time range. Dependents include other services, CloudWatch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors.
  */
-export const listServiceDependents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceDependents: {
+  (
     input: ListServiceDependentsInput,
-    output: ListServiceDependentsOutput,
-    errors: [ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ServiceDependents",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceDependentsOutput,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceDependentsInput,
+  ) => Stream.Stream<
+    ListServiceDependentsOutput,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceDependentsInput,
+  ) => Stream.Stream<
+    ServiceDependent,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceDependentsInput,
+  output: ListServiceDependentsOutput,
+  errors: [ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ServiceDependents",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of the *operations* of this service that have been discovered by Application Signals. Only the operations that were invoked during the specified time range are returned.
  */
-export const listServiceOperations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceOperations: {
+  (
     input: ListServiceOperationsInput,
-    output: ListServiceOperationsOutput,
-    errors: [ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ServiceOperations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceOperationsOutput,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceOperationsInput,
+  ) => Stream.Stream<
+    ListServiceOperationsOutput,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceOperationsInput,
+  ) => Stream.Stream<
+    ServiceOperation,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceOperationsInput,
+  output: ListServiceOperationsOutput,
+  errors: [ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ServiceOperations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about one SLO created in the account.
  */
-export const getServiceLevelObjective = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetServiceLevelObjectiveInput,
-    output: GetServiceLevelObjectiveOutput,
-    errors: [
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getServiceLevelObjective: (
+  input: GetServiceLevelObjectiveInput,
+) => Effect.Effect<
+  GetServiceLevelObjectiveOutput,
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceLevelObjectiveInput,
+  output: GetServiceLevelObjectiveOutput,
+  errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
+}));
 /**
  * Returns the current grouping configuration for this account, including all custom grouping attribute definitions that have been configured. These definitions determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings.
  */
-export const listGroupingAttributeDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListGroupingAttributeDefinitionsInput,
-    output: ListGroupingAttributeDefinitionsOutput,
-    errors: [AccessDeniedException, ThrottlingException, ValidationException],
-  }));
+export const listGroupingAttributeDefinitions: (
+  input: ListGroupingAttributeDefinitionsInput,
+) => Effect.Effect<
+  ListGroupingAttributeDefinitionsOutput,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListGroupingAttributeDefinitionsInput,
+  output: ListGroupingAttributeDefinitionsOutput,
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
+}));
 /**
  * Updates an existing service level objective (SLO). If you omit parameters, the previous values of those parameters are retained.
  *
  * You cannot change from a period-based SLO to a request-based SLO, or change from a request-based SLO to a period-based SLO.
  */
-export const updateServiceLevelObjective = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServiceLevelObjectiveInput,
-    output: UpdateServiceLevelObjectiveOutput,
-    errors: [
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateServiceLevelObjective: (
+  input: UpdateServiceLevelObjectiveInput,
+) => Effect.Effect<
+  UpdateServiceLevelObjectiveOutput,
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceLevelObjectiveInput,
+  output: UpdateServiceLevelObjectiveOutput,
+  errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
+}));
 /**
  * Enables this Amazon Web Services account to be able to use CloudWatch Application Signals by creating the *AWSServiceRoleForCloudWatchApplicationSignals* service-linked role. This service- linked role has the following permissions:
  *
@@ -1905,7 +2087,16 @@ export const updateServiceLevelObjective = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * After completing this step, you still need to instrument your Java and Python applications to send data to Application Signals. For more information, see Enabling Application Signals.
  */
-export const startDiscovery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startDiscovery: (
+  input: StartDiscoveryInput,
+) => Effect.Effect<
+  StartDiscoveryOutput,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDiscoveryInput,
   output: StartDiscoveryOutput,
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
@@ -1913,36 +2104,65 @@ export const startDiscovery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified service level objective.
  */
-export const deleteServiceLevelObjective = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteServiceLevelObjectiveInput,
-    output: DeleteServiceLevelObjectiveOutput,
-    errors: [
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteServiceLevelObjective: (
+  input: DeleteServiceLevelObjectiveInput,
+) => Effect.Effect<
+  DeleteServiceLevelObjectiveOutput,
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceLevelObjectiveInput,
+  output: DeleteServiceLevelObjectiveOutput,
+  errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
+}));
 /**
  * Retrieves all exclusion windows configured for a specific SLO.
  */
-export const listServiceLevelObjectiveExclusionWindows =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceLevelObjectiveExclusionWindows: {
+  (
     input: ListServiceLevelObjectiveExclusionWindowsInput,
-    output: ListServiceLevelObjectiveExclusionWindowsOutput,
-    errors: [
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ExclusionWindows",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceLevelObjectiveExclusionWindowsOutput,
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceLevelObjectiveExclusionWindowsInput,
+  ) => Stream.Stream<
+    ListServiceLevelObjectiveExclusionWindowsOutput,
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceLevelObjectiveExclusionWindowsInput,
+  ) => Stream.Stream<
+    ExclusionWindow,
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceLevelObjectiveExclusionWindowsInput,
+  output: ListServiceLevelObjectiveExclusionWindowsOutput,
+  errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ExclusionWindows",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Assigns one or more tags (key-value pairs) to the specified CloudWatch resource, such as a service level objective.
  *
@@ -1954,7 +2174,16 @@ export const listServiceLevelObjectiveExclusionWindows =
  *
  * You can associate as many as 50 tags with a CloudWatch resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1966,7 +2195,13 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a service discovered by Application Signals.
  */
-export const getService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getService: (
+  input: GetServiceInput,
+) => Effect.Effect<
+  GetServiceOutput,
+  ThrottlingException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceInput,
   output: GetServiceOutput,
   errors: [ThrottlingException, ValidationException],
@@ -1974,60 +2209,128 @@ export const getService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of services that have been discovered by Application Signals. A service represents a minimum logical and transactional unit that completes a business function. Services are discovered through Application Signals instrumentation.
  */
-export const listServices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listServices: {
+  (
     input: ListServicesInput,
-    output: ListServicesOutput,
-    errors: [ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ServiceSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListServicesOutput,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServicesInput,
+  ) => Stream.Stream<
+    ListServicesOutput,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServicesInput,
+  ) => Stream.Stream<
+    ServiceSummary,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServicesInput,
+  output: ListServicesOutput,
+  errors: [ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ServiceSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about the last deployment and other change states of services. This API provides visibility into recent changes that may have affected service performance, helping with troubleshooting and change correlation.
  */
-export const listServiceStates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listServiceStates: {
+  (
     input: ListServiceStatesInput,
-    output: ListServiceStatesOutput,
-    errors: [ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ServiceStates",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListServiceStatesOutput,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceStatesInput,
+  ) => Stream.Stream<
+    ListServiceStatesOutput,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceStatesInput,
+  ) => Stream.Stream<
+    ServiceState,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceStatesInput,
+  output: ListServiceStatesOutput,
+  errors: [ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ServiceStates",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping attributes can then be used to organize and filter services in the Application Signals console and APIs.
  */
-export const putGroupingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutGroupingConfigurationInput,
-    output: PutGroupingConfigurationOutput,
-    errors: [AccessDeniedException, ThrottlingException, ValidationException],
-  }),
-);
+export const putGroupingConfiguration: (
+  input: PutGroupingConfigurationInput,
+) => Effect.Effect<
+  PutGroupingConfigurationOutput,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutGroupingConfigurationInput,
+  output: PutGroupingConfigurationOutput,
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
+}));
 /**
  * Returns a list of SLOs created in this account.
  */
-export const listServiceLevelObjectives =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceLevelObjectives: {
+  (
     input: ListServiceLevelObjectivesInput,
-    output: ListServiceLevelObjectivesOutput,
-    errors: [ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SloSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceLevelObjectivesOutput,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceLevelObjectivesInput,
+  ) => Stream.Stream<
+    ListServiceLevelObjectivesOutput,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceLevelObjectivesInput,
+  ) => Stream.Stream<
+    ServiceLevelObjectiveSummary,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceLevelObjectivesInput,
+  output: ListServiceLevelObjectivesOutput,
+  errors: [ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SloSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Use this operation to retrieve one or more *service level objective (SLO) budget reports*.
  *
@@ -2037,45 +2340,80 @@ export const listServiceLevelObjectives =
  *
  * For more information about SLO error budgets, see SLO concepts.
  */
-export const batchGetServiceLevelObjectiveBudgetReport =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetServiceLevelObjectiveBudgetReportInput,
-    output: BatchGetServiceLevelObjectiveBudgetReportOutput,
-    errors: [ThrottlingException, ValidationException],
-  }));
+export const batchGetServiceLevelObjectiveBudgetReport: (
+  input: BatchGetServiceLevelObjectiveBudgetReportInput,
+) => Effect.Effect<
+  BatchGetServiceLevelObjectiveBudgetReportOutput,
+  ThrottlingException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetServiceLevelObjectiveBudgetReportInput,
+  output: BatchGetServiceLevelObjectiveBudgetReportOutput,
+  errors: [ThrottlingException, ValidationException],
+}));
 /**
  * Add or remove time window exclusions for one or more Service Level Objectives (SLOs).
  */
-export const batchUpdateExclusionWindows = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchUpdateExclusionWindowsInput,
-    output: BatchUpdateExclusionWindowsOutput,
-    errors: [
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchUpdateExclusionWindows: (
+  input: BatchUpdateExclusionWindowsInput,
+) => Effect.Effect<
+  BatchUpdateExclusionWindowsOutput,
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateExclusionWindowsInput,
+  output: BatchUpdateExclusionWindowsOutput,
+  errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
+}));
 /**
  * Returns a list of service dependencies of the service that you specify. A dependency is an infrastructure component that an operation of this service connects with. Dependencies can include Amazon Web Services services, Amazon Web Services resources, and third-party services.
  */
-export const listServiceDependencies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceDependencies: {
+  (
     input: ListServiceDependenciesInput,
-    output: ListServiceDependenciesOutput,
-    errors: [ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ServiceDependencies",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceDependenciesOutput,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceDependenciesInput,
+  ) => Stream.Stream<
+    ListServiceDependenciesOutput,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceDependenciesInput,
+  ) => Stream.Stream<
+    ServiceDependency,
+    ThrottlingException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceDependenciesInput,
+  output: ListServiceDependenciesOutput,
+  errors: [ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ServiceDependencies",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of audit findings that provide automated analysis of service behavior and root cause analysis. These findings help identify the most significant observations about your services, including performance issues, anomalies, and potential problems. The findings are generated using heuristic algorithms based on established troubleshooting patterns.
  */
-export const listAuditFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listAuditFindings: (
+  input: ListAuditFindingsInput,
+) => Effect.Effect<
+  ListAuditFindingsOutput,
+  ThrottlingException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAuditFindingsInput,
   output: ListAuditFindingsOutput,
   errors: [ThrottlingException, ValidationException],
@@ -2125,16 +2463,25 @@ export const listAuditFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `autoscaling:DescribeAutoScalingGroups`
  */
-export const createServiceLevelObjective = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateServiceLevelObjectiveInput,
-    output: CreateServiceLevelObjectiveOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createServiceLevelObjective: (
+  input: CreateServiceLevelObjectiveInput,
+) => Effect.Effect<
+  CreateServiceLevelObjectiveOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateServiceLevelObjectiveInput,
+  output: CreateServiceLevelObjectiveOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://ddp.amazonaws.com/doc/2016-06-02/");
 const svc = T.AwsApiService({
   sdkId: "Shield",
@@ -301,6 +309,31 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type LogBucket = string;
+export type RoleArn = string;
+export type ProtectionId = string;
+export type HealthCheckArn = string;
+export type ProtectionName = string;
+export type ResourceArn = string;
+export type ProtectionGroupId = string;
+export type errorMessage = string;
+export type AttackId = string;
+export type Token = string;
+export type MaxResults = number;
+export type TagKey = string;
+export type EmailAddress = string;
+export type PhoneNumber = string;
+export type ContactNotes = string;
+export type TagValue = string;
+export type Long = number;
+export type DurationInSeconds = number;
+export type HealthCheckId = string;
+export type Double = number;
+export type Integer = number;
+export type LimitType = string;
+export type LimitNumber = number;
 
 //# Schemas
 export interface CreateSubscriptionRequest {}
@@ -1754,13 +1787,17 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 /**
  * Returns the `SubscriptionState`, either `Active` or `Inactive`.
  */
-export const getSubscriptionState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSubscriptionStateRequest,
-    output: GetSubscriptionStateResponse,
-    errors: [InternalErrorException],
-  }),
-);
+export const getSubscriptionState: (
+  input: GetSubscriptionStateRequest,
+) => Effect.Effect<
+  GetSubscriptionStateResponse,
+  InternalErrorException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSubscriptionStateRequest,
+  output: GetSubscriptionStateResponse,
+  errors: [InternalErrorException],
+}));
 /**
  * Activates Shield Advanced for an account.
  *
@@ -1769,7 +1806,13 @@ export const getSubscriptionState = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * When you initially create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an `UpdateSubscription` request.
  */
-export const createSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSubscription: (
+  input: CreateSubscriptionRequest,
+) => Effect.Effect<
+  CreateSubscriptionResponse,
+  InternalErrorException | ResourceAlreadyExistsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubscriptionRequest,
   output: CreateSubscriptionResponse,
   errors: [InternalErrorException, ResourceAlreadyExistsException],
@@ -1777,7 +1820,13 @@ export const createSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the current role and list of Amazon S3 log buckets used by the Shield Response Team (SRT) to access your Amazon Web Services account while assisting with attack mitigation.
  */
-export const describeDRTAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDRTAccess: (
+  input: DescribeDRTAccessRequest,
+) => Effect.Effect<
+  DescribeDRTAccessResponse,
+  InternalErrorException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDRTAccessRequest,
   output: DescribeDRTAccessResponse,
   errors: [InternalErrorException, ResourceNotFoundException],
@@ -1785,7 +1834,16 @@ export const describeDRTAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes Shield Advanced from an account. Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment.
  */
-export const deleteSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSubscription: (
+  input: DeleteSubscriptionRequest,
+) => Effect.Effect<
+  DeleteSubscriptionResponse,
+  | InternalErrorException
+  | LockedSubscriptionException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubscriptionRequest,
   output: DeleteSubscriptionResponse,
   errors: [
@@ -1797,30 +1855,51 @@ export const deleteSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the specified protection group.
  */
-export const deleteProtectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteProtectionGroupRequest,
-    output: DeleteProtectionGroupResponse,
-    errors: [
-      InternalErrorException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteProtectionGroup: (
+  input: DeleteProtectionGroupRequest,
+) => Effect.Effect<
+  DeleteProtectionGroupResponse,
+  | InternalErrorException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProtectionGroupRequest,
+  output: DeleteProtectionGroupResponse,
+  errors: [
+    InternalErrorException,
+    OptimisticLockException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
  */
-export const describeEmergencyContactSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeEmergencyContactSettingsRequest,
-    output: DescribeEmergencyContactSettingsResponse,
-    errors: [InternalErrorException, ResourceNotFoundException],
-  }));
+export const describeEmergencyContactSettings: (
+  input: DescribeEmergencyContactSettingsRequest,
+) => Effect.Effect<
+  DescribeEmergencyContactSettingsResponse,
+  InternalErrorException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEmergencyContactSettingsRequest,
+  output: DescribeEmergencyContactSettingsResponse,
+  errors: [InternalErrorException, ResourceNotFoundException],
+}));
 /**
  * Deletes an Shield Advanced Protection.
  */
-export const deleteProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProtection: (
+  input: DeleteProtectionRequest,
+) => Effect.Effect<
+  DeleteProtectionResponse,
+  | InternalErrorException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProtectionRequest,
   output: DeleteProtectionResponse,
   errors: [
@@ -1832,7 +1911,17 @@ export const deleteProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the Shield Response Team's (SRT) access to your Amazon Web Services account.
  */
-export const disassociateDRTRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateDRTRole: (
+  input: DisassociateDRTRoleRequest,
+) => Effect.Effect<
+  DisassociateDRTRoleResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateDRTRoleRequest,
   output: DisassociateDRTRoleResponse,
   errors: [
@@ -1845,35 +1934,78 @@ export const disassociateDRTRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the specification for the specified protection group.
  */
-export const describeProtectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeProtectionGroupRequest,
-    output: DescribeProtectionGroupResponse,
-    errors: [InternalErrorException, ResourceNotFoundException],
-  }),
-);
+export const describeProtectionGroup: (
+  input: DescribeProtectionGroupRequest,
+) => Effect.Effect<
+  DescribeProtectionGroupResponse,
+  InternalErrorException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeProtectionGroupRequest,
+  output: DescribeProtectionGroupResponse,
+  errors: [InternalErrorException, ResourceNotFoundException],
+}));
 /**
  * Retrieves the resources that are included in the protection group.
  */
-export const listResourcesInProtectionGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourcesInProtectionGroup: {
+  (
     input: ListResourcesInProtectionGroupRequest,
-    output: ListResourcesInProtectionGroupResponse,
-    errors: [
-      InternalErrorException,
-      InvalidPaginationTokenException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourcesInProtectionGroupResponse,
+    | InternalErrorException
+    | InvalidPaginationTokenException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourcesInProtectionGroupRequest,
+  ) => Stream.Stream<
+    ListResourcesInProtectionGroupResponse,
+    | InternalErrorException
+    | InvalidPaginationTokenException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourcesInProtectionGroupRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalErrorException
+    | InvalidPaginationTokenException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourcesInProtectionGroupRequest,
+  output: ListResourcesInProtectionGroupResponse,
+  errors: [
+    InternalErrorException,
+    InvalidPaginationTokenException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in Shield.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalErrorException
+  | InvalidResourceException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1885,24 +2017,44 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing the logs that you shared previously.
  */
-export const disassociateDRTLogBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateDRTLogBucketRequest,
-    output: DisassociateDRTLogBucketResponse,
-    errors: [
-      AccessDeniedForDependencyException,
-      InternalErrorException,
-      InvalidOperationException,
-      NoAssociatedRoleException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const disassociateDRTLogBucket: (
+  input: DisassociateDRTLogBucketRequest,
+) => Effect.Effect<
+  DisassociateDRTLogBucketResponse,
+  | AccessDeniedForDependencyException
+  | InternalErrorException
+  | InvalidOperationException
+  | NoAssociatedRoleException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateDRTLogBucketRequest,
+  output: DisassociateDRTLogBucketResponse,
+  errors: [
+    AccessDeniedForDependencyException,
+    InternalErrorException,
+    InvalidOperationException,
+    NoAssociatedRoleException,
+    OptimisticLockException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Adds or updates tags for a resource in Shield.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidResourceException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1915,7 +2067,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from a resource in Shield.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidResourceException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1928,39 +2090,67 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the details of the list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
  */
-export const updateEmergencyContactSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateEmergencyContactSettingsRequest,
-    output: UpdateEmergencyContactSettingsResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const updateEmergencyContactSettings: (
+  input: UpdateEmergencyContactSettingsRequest,
+) => Effect.Effect<
+  UpdateEmergencyContactSettingsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEmergencyContactSettingsRequest,
+  output: UpdateEmergencyContactSettingsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    OptimisticLockException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Updates an existing protection group. A protection group is a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
  */
-export const updateProtectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateProtectionGroupRequest,
-    output: UpdateProtectionGroupResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateProtectionGroup: (
+  input: UpdateProtectionGroupRequest,
+) => Effect.Effect<
+  UpdateProtectionGroupResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProtectionGroupRequest,
+  output: UpdateProtectionGroupResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    OptimisticLockException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Updates the details of an existing subscription. Only enter values for parameters you want to change. Empty parameters are not updated.
  *
  * For accounts that are members of an Organizations organization, Shield Advanced subscriptions are billed against the organization's payer account,
  * regardless of whether the payer account itself is subscribed.
  */
-export const updateSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSubscription: (
+  input: UpdateSubscriptionRequest,
+) => Effect.Effect<
+  UpdateSubscriptionResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | LockedSubscriptionException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSubscriptionRequest,
   output: UpdateSubscriptionResponse,
   errors: [
@@ -1975,18 +2165,28 @@ export const updateSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Disable the Shield Advanced automatic application layer DDoS mitigation feature for the protected resource. This
  * stops Shield Advanced from creating, verifying, and applying WAF rules for attacks that it detects for the resource.
  */
-export const disableApplicationLayerAutomaticResponse =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableApplicationLayerAutomaticResponseRequest,
-    output: DisableApplicationLayerAutomaticResponseResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      InvalidParameterException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const disableApplicationLayerAutomaticResponse: (
+  input: DisableApplicationLayerAutomaticResponseRequest,
+) => Effect.Effect<
+  DisableApplicationLayerAutomaticResponseResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableApplicationLayerAutomaticResponseRequest,
+  output: DisableApplicationLayerAutomaticResponseResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    InvalidParameterException,
+    OptimisticLockException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Authorizes the Shield Response Team (SRT) using the specified role, to access your Amazon Web Services account to assist with DDoS attack mitigation during potential attacks. This enables the SRT to inspect your WAF configuration and create or update WAF rules and web ACLs.
  *
@@ -2001,7 +2201,19 @@ export const disableApplicationLayerAutomaticResponse =
  *
  * To use the services of the SRT and make an `AssociateDRTRole` request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
  */
-export const associateDRTRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateDRTRole: (
+  input: AssociateDRTRoleRequest,
+) => Effect.Effect<
+  AssociateDRTRoleResponse,
+  | AccessDeniedForDependencyException
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateDRTRoleRequest,
   output: AssociateDRTRoleResponse,
   errors: [
@@ -2016,50 +2228,78 @@ export const associateDRTRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing Shield Advanced automatic application layer DDoS mitigation configuration for the specified resource.
  */
-export const updateApplicationLayerAutomaticResponse =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateApplicationLayerAutomaticResponseRequest,
-    output: UpdateApplicationLayerAutomaticResponseResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      InvalidParameterException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const updateApplicationLayerAutomaticResponse: (
+  input: UpdateApplicationLayerAutomaticResponseRequest,
+) => Effect.Effect<
+  UpdateApplicationLayerAutomaticResponseResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationLayerAutomaticResponseRequest,
+  output: UpdateApplicationLayerAutomaticResponseResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    InvalidParameterException,
+    OptimisticLockException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Removes authorization from the Shield Response Team (SRT) to notify contacts about escalations to the SRT and to initiate proactive customer support.
  */
-export const disableProactiveEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableProactiveEngagementRequest,
-    output: DisableProactiveEngagementResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      InvalidParameterException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const disableProactiveEngagement: (
+  input: DisableProactiveEngagementRequest,
+) => Effect.Effect<
+  DisableProactiveEngagementResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableProactiveEngagementRequest,
+  output: DisableProactiveEngagementResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    InvalidParameterException,
+    OptimisticLockException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Authorizes the Shield Response Team (SRT) to use email and phone to notify contacts about escalations to the SRT and to initiate proactive customer support.
  */
-export const enableProactiveEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableProactiveEngagementRequest,
-    output: EnableProactiveEngagementResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      InvalidParameterException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const enableProactiveEngagement: (
+  input: EnableProactiveEngagementRequest,
+) => Effect.Effect<
+  EnableProactiveEngagementResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableProactiveEngagementRequest,
+  output: EnableProactiveEngagementResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    InvalidParameterException,
+    OptimisticLockException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Initializes proactive engagement and sets the list of contacts for the Shield Response Team (SRT) to use. You must provide at least one phone number in the emergency contact list.
  *
@@ -2069,76 +2309,154 @@ export const enableProactiveEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * The contacts that you provide in the request replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using `DescribeEmergencyContactSettings` and then provide it to this call.
  */
-export const associateProactiveEngagementDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateProactiveEngagementDetailsRequest,
-    output: AssociateProactiveEngagementDetailsResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      InvalidParameterException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const associateProactiveEngagementDetails: (
+  input: AssociateProactiveEngagementDetailsRequest,
+) => Effect.Effect<
+  AssociateProactiveEngagementDetailsResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateProactiveEngagementDetailsRequest,
+  output: AssociateProactiveEngagementDetailsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    InvalidParameterException,
+    OptimisticLockException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Retrieves ProtectionGroup objects for the account. You can retrieve all protection groups or you can provide
  * filtering criteria and retrieve just the subset of protection groups that match the criteria.
  */
-export const listProtectionGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProtectionGroups: {
+  (
     input: ListProtectionGroupsRequest,
-    output: ListProtectionGroupsResponse,
-    errors: [
-      InternalErrorException,
-      InvalidPaginationTokenException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProtectionGroupsResponse,
+    | InternalErrorException
+    | InvalidPaginationTokenException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProtectionGroupsRequest,
+  ) => Stream.Stream<
+    ListProtectionGroupsResponse,
+    | InternalErrorException
+    | InvalidPaginationTokenException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProtectionGroupsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalErrorException
+    | InvalidPaginationTokenException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProtectionGroupsRequest,
+  output: ListProtectionGroupsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidPaginationTokenException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves Protection objects for the account. You can retrieve all protections or you can provide
  * filtering criteria and retrieve just the subset of protections that match the criteria.
  */
-export const listProtections = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProtections: {
+  (
     input: ListProtectionsRequest,
-    output: ListProtectionsResponse,
-    errors: [
-      InternalErrorException,
-      InvalidPaginationTokenException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Protections",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProtectionsResponse,
+    | InternalErrorException
+    | InvalidPaginationTokenException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProtectionsRequest,
+  ) => Stream.Stream<
+    ListProtectionsResponse,
+    | InternalErrorException
+    | InvalidPaginationTokenException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProtectionsRequest,
+  ) => Stream.Stream<
+    Protection,
+    | InternalErrorException
+    | InvalidPaginationTokenException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProtectionsRequest,
+  output: ListProtectionsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidPaginationTokenException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Protections",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response.
  *
  * You define the health check in Route 53 and then associate or disassociate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the *WAF Developer Guide*.
  */
-export const disassociateHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateHealthCheckRequest,
-    output: DisassociateHealthCheckResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      InvalidResourceException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const disassociateHealthCheck: (
+  input: DisassociateHealthCheckRequest,
+) => Effect.Effect<
+  DisassociateHealthCheckResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidResourceException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateHealthCheckRequest,
+  output: DisassociateHealthCheckResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidResourceException,
+    OptimisticLockException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Provides information about the number and type of attacks Shield has detected in the last year for all resources that belong to your account, regardless of whether you've defined Shield protections for them. This operation is available to Shield customers as well as to Shield Advanced customers.
  *
@@ -2146,17 +2464,30 @@ export const disassociateHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * The time range indicates the period covered by the attack statistics data items.
  */
-export const describeAttackStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAttackStatisticsRequest,
-    output: DescribeAttackStatisticsResponse,
-    errors: [InternalErrorException],
-  }),
-);
+export const describeAttackStatistics: (
+  input: DescribeAttackStatisticsRequest,
+) => Effect.Effect<
+  DescribeAttackStatisticsResponse,
+  InternalErrorException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAttackStatisticsRequest,
+  output: DescribeAttackStatisticsResponse,
+  errors: [InternalErrorException],
+}));
 /**
  * Lists the details of a Protection object.
  */
-export const describeProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeProtection: (
+  input: DescribeProtectionRequest,
+) => Effect.Effect<
+  DescribeProtectionResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProtectionRequest,
   output: DescribeProtectionResponse,
   errors: [
@@ -2169,59 +2500,108 @@ export const describeProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns all ongoing DDoS attacks or all DDoS attacks during a specified time
  * period.
  */
-export const listAttacks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAttacks: {
+  (
     input: ListAttacksRequest,
-    output: ListAttacksResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      InvalidParameterException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AttackSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAttacksResponse,
+    | InternalErrorException
+    | InvalidOperationException
+    | InvalidParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttacksRequest,
+  ) => Stream.Stream<
+    ListAttacksResponse,
+    | InternalErrorException
+    | InvalidOperationException
+    | InvalidParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttacksRequest,
+  ) => Stream.Stream<
+    AttackSummary,
+    | InternalErrorException
+    | InvalidOperationException
+    | InvalidParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttacksRequest,
+  output: ListAttacksResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    InvalidParameterException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AttackSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Adds health-based detection to the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response.
  *
  * You define the health check in Route 53 and then associate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the *WAF Developer Guide*.
  */
-export const associateHealthCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateHealthCheckRequest,
-    output: AssociateHealthCheckResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      InvalidResourceException,
-      LimitsExceededException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const associateHealthCheck: (
+  input: AssociateHealthCheckRequest,
+) => Effect.Effect<
+  AssociateHealthCheckResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidResourceException
+  | LimitsExceededException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateHealthCheckRequest,
+  output: AssociateHealthCheckResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidResourceException,
+    LimitsExceededException,
+    OptimisticLockException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
  */
-export const createProtectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateProtectionGroupRequest,
-    output: CreateProtectionGroupResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      LimitsExceededException,
-      OptimisticLockException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const createProtectionGroup: (
+  input: CreateProtectionGroupRequest,
+) => Effect.Effect<
+  CreateProtectionGroupResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitsExceededException
+  | OptimisticLockException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProtectionGroupRequest,
+  output: CreateProtectionGroupResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    LimitsExceededException,
+    OptimisticLockException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Enable the Shield Advanced automatic application layer DDoS mitigation for the protected resource.
  *
@@ -2239,40 +2619,63 @@ export const createProtectionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * see Getting Started with Shield Advanced. You can also associate the web ACL to the resource through the WAF console or the WAF API, but you must manage Shield Advanced automatic mitigation through Shield Advanced. For information about WAF, see
  * WAF Developer Guide.
  */
-export const enableApplicationLayerAutomaticResponse =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableApplicationLayerAutomaticResponseRequest,
-    output: EnableApplicationLayerAutomaticResponseResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      InvalidParameterException,
-      LimitsExceededException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const enableApplicationLayerAutomaticResponse: (
+  input: EnableApplicationLayerAutomaticResponseRequest,
+) => Effect.Effect<
+  EnableApplicationLayerAutomaticResponseResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | LimitsExceededException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableApplicationLayerAutomaticResponseRequest,
+  output: EnableApplicationLayerAutomaticResponseResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    InvalidParameterException,
+    LimitsExceededException,
+    OptimisticLockException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Authorizes the Shield Response Team (SRT) to access the specified Amazon S3 bucket containing log data such as Application Load Balancer access logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription.
  *
  * To use the services of the SRT and make an `AssociateDRTLogBucket` request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
  */
-export const associateDRTLogBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateDRTLogBucketRequest,
-    output: AssociateDRTLogBucketResponse,
-    errors: [
-      AccessDeniedForDependencyException,
-      InternalErrorException,
-      InvalidOperationException,
-      InvalidParameterException,
-      LimitsExceededException,
-      NoAssociatedRoleException,
-      OptimisticLockException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const associateDRTLogBucket: (
+  input: AssociateDRTLogBucketRequest,
+) => Effect.Effect<
+  AssociateDRTLogBucketResponse,
+  | AccessDeniedForDependencyException
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | LimitsExceededException
+  | NoAssociatedRoleException
+  | OptimisticLockException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateDRTLogBucketRequest,
+  output: AssociateDRTLogBucketResponse,
+  errors: [
+    AccessDeniedForDependencyException,
+    InternalErrorException,
+    InvalidOperationException,
+    InvalidParameterException,
+    LimitsExceededException,
+    NoAssociatedRoleException,
+    OptimisticLockException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted zone, Global Accelerator standard accelerator, Elastic IP Address, Application Load Balancer, or a Classic Load Balancer. You can protect Amazon EC2 instances and Network Load Balancers by association with protected Amazon EC2 Elastic IP addresses.
  *
@@ -2282,7 +2685,21 @@ export const associateDRTLogBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Getting Started with Shield Advanced
  * and Adding Shield Advanced protection to Amazon Web Services resources.
  */
-export const createProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProtection: (
+  input: CreateProtectionRequest,
+) => Effect.Effect<
+  CreateProtectionResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | InvalidResourceException
+  | LimitsExceededException
+  | OptimisticLockException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProtectionRequest,
   output: CreateProtectionResponse,
   errors: [
@@ -2299,7 +2716,13 @@ export const createProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the details of a DDoS attack.
  */
-export const describeAttack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAttack: (
+  input: DescribeAttackRequest,
+) => Effect.Effect<
+  DescribeAttackResponse,
+  AccessDeniedException | InternalErrorException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAttackRequest,
   output: DescribeAttackResponse,
   errors: [AccessDeniedException, InternalErrorException],
@@ -2307,10 +2730,14 @@ export const describeAttack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides details about the Shield Advanced subscription for an account.
  */
-export const describeSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSubscriptionRequest,
-    output: DescribeSubscriptionResponse,
-    errors: [InternalErrorException, ResourceNotFoundException],
-  }),
-);
+export const describeSubscription: (
+  input: DescribeSubscriptionRequest,
+) => Effect.Effect<
+  DescribeSubscriptionResponse,
+  InternalErrorException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSubscriptionRequest,
+  output: DescribeSubscriptionResponse,
+  errors: [InternalErrorException, ResourceNotFoundException],
+}));

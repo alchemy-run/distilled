@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "MediaConnect",
   serviceShapeName: "MediaConnect",
@@ -241,6 +249,23 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type MaxResults = number;
+export type BridgeArn = string;
+export type FlowArn = string;
+export type GatewayInstanceArn = string;
+export type GatewayArn = string;
+export type OfferingArn = string;
+export type ReservationArn = string;
+export type RouterInputArn = string;
+export type RouterNetworkInterfaceArn = string;
+export type RouterOutputArn = string;
+export type FlowOutputArn = string;
+export type FlowSourceArn = string;
+export type MediaLiveInputArn = string;
+export type SecretArn = string;
+export type RoleArn = string;
+
 //# Schemas
 export type __listOfString = string[];
 export const __listOfString = S.Array(S.String);
@@ -361,6 +386,9 @@ export const AutomaticEncryptionKeyConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "AutomaticEncryptionKeyConfiguration",
 }) as any as S.Schema<AutomaticEncryptionKeyConfiguration>;
+export type FlowTransitEncryptionKeyConfiguration =
+  | { SecretsManager: SecretsManagerEncryptionKeyConfiguration }
+  | { Automatic: AutomaticEncryptionKeyConfiguration };
 export const FlowTransitEncryptionKeyConfiguration = S.Union(
   S.Struct({
     SecretsManager: SecretsManagerEncryptionKeyConfiguration.pipe(
@@ -1813,6 +1841,11 @@ export const SrtCallerRouterInputConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "SrtCallerRouterInputConfiguration",
 }) as any as S.Schema<SrtCallerRouterInputConfiguration>;
+export type RouterInputProtocolConfiguration =
+  | { Rtp: RtpRouterInputConfiguration }
+  | { Rist: RistRouterInputConfiguration }
+  | { SrtListener: SrtListenerRouterInputConfiguration }
+  | { SrtCaller: SrtCallerRouterInputConfiguration };
 export const RouterInputProtocolConfiguration = S.Union(
   S.Struct({
     Rtp: RtpRouterInputConfiguration.pipe(T.JsonName("rtp")).annotations({
@@ -1851,6 +1884,11 @@ export const StandardRouterInputConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "StandardRouterInputConfiguration",
 }) as any as S.Schema<StandardRouterInputConfiguration>;
+export type FailoverRouterInputProtocolConfiguration =
+  | { Rtp: RtpRouterInputConfiguration }
+  | { Rist: RistRouterInputConfiguration }
+  | { SrtListener: SrtListenerRouterInputConfiguration }
+  | { SrtCaller: SrtCallerRouterInputConfiguration };
 export const FailoverRouterInputProtocolConfiguration = S.Union(
   S.Struct({
     Rtp: RtpRouterInputConfiguration.pipe(T.JsonName("rtp")).annotations({
@@ -1898,6 +1936,9 @@ export const FailoverRouterInputConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "FailoverRouterInputConfiguration",
 }) as any as S.Schema<FailoverRouterInputConfiguration>;
+export type MergeRouterInputProtocolConfiguration =
+  | { Rtp: RtpRouterInputConfiguration }
+  | { Rist: RistRouterInputConfiguration };
 export const MergeRouterInputProtocolConfiguration = S.Union(
   S.Struct({
     Rtp: RtpRouterInputConfiguration.pipe(T.JsonName("rtp")).annotations({
@@ -1949,6 +1990,11 @@ export const MediaConnectFlowRouterInputConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "MediaConnectFlowRouterInputConfiguration",
 }) as any as S.Schema<MediaConnectFlowRouterInputConfiguration>;
+export type RouterInputConfiguration =
+  | { Standard: StandardRouterInputConfiguration }
+  | { Failover: FailoverRouterInputConfiguration }
+  | { Merge: MergeRouterInputConfiguration }
+  | { MediaConnectFlow: MediaConnectFlowRouterInputConfiguration };
 export const RouterInputConfiguration = S.Union(
   S.Struct({
     Standard: StandardRouterInputConfiguration.pipe(
@@ -1971,6 +2017,9 @@ export const RouterInputConfiguration = S.Union(
     ).annotations({ identifier: "MediaConnectFlowRouterInputConfiguration" }),
   }),
 );
+export type RouterInputTransitEncryptionKeyConfiguration =
+  | { SecretsManager: SecretsManagerEncryptionKeyConfiguration }
+  | { Automatic: AutomaticEncryptionKeyConfiguration };
 export const RouterInputTransitEncryptionKeyConfiguration = S.Union(
   S.Struct({
     SecretsManager: SecretsManagerEncryptionKeyConfiguration.pipe(
@@ -2018,6 +2067,9 @@ export const DefaultMaintenanceConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "DefaultMaintenanceConfiguration",
 }) as any as S.Schema<DefaultMaintenanceConfiguration>;
+export type MaintenanceConfiguration =
+  | { PreferredDayTime: PreferredDayTimeMaintenanceConfiguration }
+  | { Default: DefaultMaintenanceConfiguration };
 export const MaintenanceConfiguration = S.Union(
   S.Struct({
     PreferredDayTime: PreferredDayTimeMaintenanceConfiguration.pipe(
@@ -2241,6 +2293,9 @@ export const VpcRouterNetworkInterfaceConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "VpcRouterNetworkInterfaceConfiguration",
 }) as any as S.Schema<VpcRouterNetworkInterfaceConfiguration>;
+export type RouterNetworkInterfaceConfiguration =
+  | { Public: PublicRouterNetworkInterfaceConfiguration }
+  | { Vpc: VpcRouterNetworkInterfaceConfiguration };
 export const RouterNetworkInterfaceConfiguration = S.Union(
   S.Struct({
     Public: PublicRouterNetworkInterfaceConfiguration.pipe(
@@ -2411,6 +2466,11 @@ export const SrtCallerRouterOutputConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "SrtCallerRouterOutputConfiguration",
 }) as any as S.Schema<SrtCallerRouterOutputConfiguration>;
+export type RouterOutputProtocolConfiguration =
+  | { Rtp: RtpRouterOutputConfiguration }
+  | { Rist: RistRouterOutputConfiguration }
+  | { SrtListener: SrtListenerRouterOutputConfiguration }
+  | { SrtCaller: SrtCallerRouterOutputConfiguration };
 export const RouterOutputProtocolConfiguration = S.Union(
   S.Struct({
     Rtp: RtpRouterOutputConfiguration.pipe(T.JsonName("rtp")).annotations({
@@ -2465,6 +2525,9 @@ export const MediaConnectFlowRouterOutputConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "MediaConnectFlowRouterOutputConfiguration",
 }) as any as S.Schema<MediaConnectFlowRouterOutputConfiguration>;
+export type MediaLiveTransitEncryptionKeyConfiguration =
+  | { SecretsManager: SecretsManagerEncryptionKeyConfiguration }
+  | { Automatic: AutomaticEncryptionKeyConfiguration };
 export const MediaLiveTransitEncryptionKeyConfiguration = S.Union(
   S.Struct({
     SecretsManager: SecretsManagerEncryptionKeyConfiguration.pipe(
@@ -2513,6 +2576,10 @@ export const MediaLiveInputRouterOutputConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "MediaLiveInputRouterOutputConfiguration",
 }) as any as S.Schema<MediaLiveInputRouterOutputConfiguration>;
+export type RouterOutputConfiguration =
+  | { Standard: StandardRouterOutputConfiguration }
+  | { MediaConnectFlow: MediaConnectFlowRouterOutputConfiguration }
+  | { MediaLiveInput: MediaLiveInputRouterOutputConfiguration };
 export const RouterOutputConfiguration = S.Union(
   S.Struct({
     Standard: StandardRouterOutputConfiguration.pipe(
@@ -2944,6 +3011,12 @@ export const Reservation = S.suspend(() =>
 ).annotations({ identifier: "Reservation" }) as any as S.Schema<Reservation>;
 export type __listOfReservation = Reservation[];
 export const __listOfReservation = S.Array(Reservation);
+export type RouterInputFilter =
+  | { RegionNames: StringList }
+  | { InputTypes: RouterInputTypeList }
+  | { NameContains: StringList }
+  | { NetworkInterfaceArns: RouterNetworkInterfaceArnList }
+  | { RoutingScopes: RoutingScopeList };
 export const RouterInputFilter = S.Union(
   S.Struct({ RegionNames: StringList.pipe(T.JsonName("regionNames")) }),
   S.Struct({ InputTypes: RouterInputTypeList.pipe(T.JsonName("inputTypes")) }),
@@ -3045,6 +3118,11 @@ export const MediaConnectFlowRouterInputStreamDetails = S.suspend(() =>
 ).annotations({
   identifier: "MediaConnectFlowRouterInputStreamDetails",
 }) as any as S.Schema<MediaConnectFlowRouterInputStreamDetails>;
+export type RouterInputStreamDetails =
+  | { Standard: StandardRouterInputStreamDetails }
+  | { Failover: FailoverRouterInputStreamDetails }
+  | { Merge: MergeRouterInputStreamDetails }
+  | { MediaConnectFlow: MediaConnectFlowRouterInputStreamDetails };
 export const RouterInputStreamDetails = S.Union(
   S.Struct({
     Standard: StandardRouterInputStreamDetails.pipe(
@@ -3085,6 +3163,7 @@ export const WindowMaintenanceSchedule = S.suspend(() =>
 ).annotations({
   identifier: "WindowMaintenanceSchedule",
 }) as any as S.Schema<WindowMaintenanceSchedule>;
+export type MaintenanceSchedule = { Window: WindowMaintenanceSchedule };
 export const MaintenanceSchedule = S.Union(
   S.Struct({
     Window: WindowMaintenanceSchedule.pipe(T.JsonName("window")).annotations({
@@ -3162,6 +3241,10 @@ export const RouterInput = S.suspend(() =>
 ).annotations({ identifier: "RouterInput" }) as any as S.Schema<RouterInput>;
 export type RouterInputList = RouterInput[];
 export const RouterInputList = S.Array(RouterInput);
+export type RouterNetworkInterfaceFilter =
+  | { RegionNames: StringList }
+  | { NetworkInterfaceTypes: RouterNetworkInterfaceTypeList }
+  | { NameContains: StringList };
 export const RouterNetworkInterfaceFilter = S.Union(
   S.Struct({ RegionNames: StringList.pipe(T.JsonName("regionNames")) }),
   S.Struct({
@@ -3216,6 +3299,13 @@ export const RouterNetworkInterface = S.suspend(() =>
 }) as any as S.Schema<RouterNetworkInterface>;
 export type RouterNetworkInterfaceList = RouterNetworkInterface[];
 export const RouterNetworkInterfaceList = S.Array(RouterNetworkInterface);
+export type RouterOutputFilter =
+  | { RegionNames: StringList }
+  | { OutputTypes: RouterOutputTypeList }
+  | { NameContains: StringList }
+  | { NetworkInterfaceArns: RouterNetworkInterfaceArnList }
+  | { RoutedInputArns: RouterInputArnList }
+  | { RoutingScopes: RoutingScopeList };
 export const RouterOutputFilter = S.Union(
   S.Struct({ RegionNames: StringList.pipe(T.JsonName("regionNames")) }),
   S.Struct({
@@ -3274,6 +3364,10 @@ export const MediaLiveInputRouterOutputStreamDetails = S.suspend(() =>
 ).annotations({
   identifier: "MediaLiveInputRouterOutputStreamDetails",
 }) as any as S.Schema<MediaLiveInputRouterOutputStreamDetails>;
+export type RouterOutputStreamDetails =
+  | { Standard: StandardRouterOutputStreamDetails }
+  | { MediaConnectFlow: MediaConnectFlowRouterOutputStreamDetails }
+  | { MediaLiveInput: MediaLiveInputRouterOutputStreamDetails };
 export const RouterOutputStreamDetails = S.Union(
   S.Struct({
     Standard: StandardRouterOutputStreamDetails.pipe(
@@ -5591,6 +5685,9 @@ export const TransportMediaInfo = S.suspend(() =>
 ).annotations({
   identifier: "TransportMediaInfo",
 }) as any as S.Schema<TransportMediaInfo>;
+export type RouterInputMetadata = {
+  TransportStreamMediaInfo: TransportMediaInfo;
+};
 export const RouterInputMetadata = S.Union(
   S.Struct({
     TransportStreamMediaInfo: TransportMediaInfo.pipe(
@@ -6355,7 +6452,9 @@ export class InternalServerErrorException extends S.TaggedError<InternalServerEr
   "InternalServerErrorException",
   { Message: S.String.pipe(T.JsonName("message")) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String.pipe(T.JsonName("message")) },
@@ -6373,7 +6472,9 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
   "ServiceUnavailableException",
   { Message: S.String.pipe(T.JsonName("message")) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class GrantFlowEntitlements420Exception extends S.TaggedError<GrantFlowEntitlements420Exception>()(
   "GrantFlowEntitlements420Exception",
   { Message: S.String.pipe(T.JsonName("message")) },
@@ -6390,7 +6491,9 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
   "TooManyRequestsException",
   { Message: S.String.pipe(T.JsonName("message")) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class CreateFlow420Exception extends S.TaggedError<CreateFlow420Exception>()(
   "CreateFlow420Exception",
   { Message: S.String.pipe(T.JsonName("message")) },
@@ -6416,7 +6519,16 @@ export class RouterOutputServiceQuotaExceededException extends S.TaggedError<Rou
 /**
  * Associates the specified tags to a resource with the specified `resourceArn` in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -6428,7 +6540,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
  */
-export const untagGlobalResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagGlobalResource: (
+  input: UntagGlobalResourceRequest,
+) => Effect.Effect<
+  UntagGlobalResourceResponse,
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagGlobalResourceRequest,
   output: UntagGlobalResourceResponse,
   errors: [
@@ -6440,7 +6561,16 @@ export const untagGlobalResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes specified tags from a resource in the current region.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -6452,21 +6582,37 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags associated with a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
  */
-export const listTagsForGlobalResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTagsForGlobalResourceRequest,
-    output: ListTagsForGlobalResourceResponse,
-    errors: [
-      BadRequestException,
-      InternalServerErrorException,
-      NotFoundException,
-    ],
-  }),
-);
+export const listTagsForGlobalResource: (
+  input: ListTagsForGlobalResourceRequest,
+) => Effect.Effect<
+  ListTagsForGlobalResourceResponse,
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForGlobalResourceRequest,
+  output: ListTagsForGlobalResourceResponse,
+  errors: [
+    BadRequestException,
+    InternalServerErrorException,
+    NotFoundException,
+  ],
+}));
 /**
  * List all tags on a MediaConnect resource in the current region.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -6478,7 +6624,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds tags to a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
  */
-export const tagGlobalResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagGlobalResource: (
+  input: TagGlobalResourceRequest,
+) => Effect.Effect<
+  TagGlobalResourceResponse,
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagGlobalResourceRequest,
   output: TagGlobalResourceResponse,
   errors: [
@@ -6490,29 +6645,76 @@ export const tagGlobalResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Displays a list of bridges that are associated with this account and an optionally specified Amazon Resource Name (ARN). This request returns a paginated result.
  */
-export const listBridges = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBridges: {
+  (
     input: ListBridgesRequest,
-    output: ListBridgesResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Bridges",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBridgesResponse,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBridgesRequest,
+  ) => Stream.Stream<
+    ListBridgesResponse,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBridgesRequest,
+  ) => Stream.Stream<
+    ListedBridge,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBridgesRequest,
+  output: ListBridgesResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Bridges",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
  */
-export const addFlowMediaStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addFlowMediaStreams: (
+  input: AddFlowMediaStreamsRequest,
+) => Effect.Effect<
+  AddFlowMediaStreamsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddFlowMediaStreamsRequest,
   output: AddFlowMediaStreamsResponse,
   errors: [
@@ -6527,7 +6729,19 @@ export const addFlowMediaStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds sources to a flow.
  */
-export const addFlowSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addFlowSources: (
+  input: AddFlowSourcesRequest,
+) => Effect.Effect<
+  AddFlowSourcesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddFlowSourcesRequest,
   output: AddFlowSourcesResponse,
   errors: [
@@ -6542,7 +6756,19 @@ export const addFlowSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing flow output.
  */
-export const updateFlowOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFlowOutput: (
+  input: UpdateFlowOutputRequest,
+) => Effect.Effect<
+  UpdateFlowOutputResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlowOutputRequest,
   output: UpdateFlowOutputResponse,
   errors: [
@@ -6557,7 +6783,20 @@ export const updateFlowOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a specific router output in AWS Elemental MediaConnect.
  */
-export const getRouterOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRouterOutput: (
+  input: GetRouterOutputRequest,
+) => Effect.Effect<
+  GetRouterOutputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouterOutputRequest,
   output: GetRouterOutputResponse,
   errors: [
@@ -6573,7 +6812,20 @@ export const getRouterOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds outputs to an existing bridge.
  */
-export const addBridgeOutputs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addBridgeOutputs: (
+  input: AddBridgeOutputsRequest,
+) => Effect.Effect<
+  AddBridgeOutputsResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddBridgeOutputsRequest,
   output: AddBridgeOutputsResponse,
   errors: [
@@ -6589,7 +6841,20 @@ export const addBridgeOutputs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds sources to an existing bridge.
  */
-export const addBridgeSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addBridgeSources: (
+  input: AddBridgeSourcesRequest,
+) => Effect.Effect<
+  AddBridgeSourcesResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddBridgeSourcesRequest,
   output: AddBridgeSourcesResponse,
   errors: [
@@ -6605,7 +6870,20 @@ export const addBridgeSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing bridge source.
  */
-export const updateBridgeSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBridgeSource: (
+  input: UpdateBridgeSourceRequest,
+) => Effect.Effect<
+  UpdateBridgeSourceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBridgeSourceRequest,
   output: UpdateBridgeSourceResponse,
   errors: [
@@ -6621,7 +6899,19 @@ export const updateBridgeSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Displays the details of a flow. The response includes the flow Amazon Resource Name (ARN), name, and Availability Zone, as well as details about the source, outputs, and entitlements.
  */
-export const describeFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeFlow: (
+  input: DescribeFlowRequest,
+) => Effect.Effect<
+  DescribeFlowResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFlowRequest,
   output: DescribeFlowResponse,
   errors: [
@@ -6636,42 +6926,75 @@ export const describeFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Grants entitlements to an existing flow.
  */
-export const grantFlowEntitlements = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GrantFlowEntitlementsRequest,
-    output: GrantFlowEntitlementsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      GrantFlowEntitlements420Exception,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const grantFlowEntitlements: (
+  input: GrantFlowEntitlementsRequest,
+) => Effect.Effect<
+  GrantFlowEntitlementsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | GrantFlowEntitlements420Exception
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GrantFlowEntitlementsRequest,
+  output: GrantFlowEntitlementsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    GrantFlowEntitlements420Exception,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Updates an existing media stream.
  */
-export const updateFlowMediaStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFlowMediaStreamRequest,
-    output: UpdateFlowMediaStreamResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateFlowMediaStream: (
+  input: UpdateFlowMediaStreamRequest,
+) => Effect.Effect<
+  UpdateFlowMediaStreamResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFlowMediaStreamRequest,
+  output: UpdateFlowMediaStreamResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Updates the source of a flow.
  */
-export const updateFlowSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFlowSource: (
+  input: UpdateFlowSourceRequest,
+) => Effect.Effect<
+  UpdateFlowSourceResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlowSourceRequest,
   output: UpdateFlowSourceResponse,
   errors: [
@@ -6686,7 +7009,20 @@ export const updateFlowSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new gateway. The request must include at least one network (up to four).
  */
-export const createGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGateway: (
+  input: CreateGatewayRequest,
+) => Effect.Effect<
+  CreateGatewayResponse,
+  | BadRequestException
+  | ConflictException
+  | CreateGateway420Exception
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGatewayRequest,
   output: CreateGatewayResponse,
   errors: [
@@ -6702,7 +7038,18 @@ export const createGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
  */
-export const describeOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeOffering: (
+  input: DescribeOfferingRequest,
+) => Effect.Effect<
+  DescribeOfferingResponse,
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeOfferingRequest,
   output: DescribeOfferingResponse,
   errors: [
@@ -6716,45 +7063,104 @@ export const describeOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of router inputs in AWS Elemental MediaConnect.
  */
-export const listRouterInputs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRouterInputs: {
+  (
     input: ListRouterInputsRequest,
-    output: ListRouterInputsResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RouterInputs",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRouterInputsResponse,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRouterInputsRequest,
+  ) => Stream.Stream<
+    ListRouterInputsResponse,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRouterInputsRequest,
+  ) => Stream.Stream<
+    ListedRouterInput,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRouterInputsRequest,
+  output: ListRouterInputsResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RouterInputs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves detailed metadata information about a specific router input source, including stream details and connection state.
  */
-export const getRouterInputSourceMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRouterInputSourceMetadataRequest,
-    output: GetRouterInputSourceMetadataResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getRouterInputSourceMetadata: (
+  input: GetRouterInputSourceMetadataRequest,
+) => Effect.Effect<
+  GetRouterInputSourceMetadataResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRouterInputSourceMetadataRequest,
+  output: GetRouterInputSourceMetadataResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Starts a router input in AWS Elemental MediaConnect.
  */
-export const startRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startRouterInput: (
+  input: StartRouterInputRequest,
+) => Effect.Effect<
+  StartRouterInputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRouterInputRequest,
   output: StartRouterInputResponse,
   errors: [
@@ -6770,50 +7176,133 @@ export const startRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of router network interfaces in AWS Elemental MediaConnect.
  */
-export const listRouterNetworkInterfaces =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRouterNetworkInterfaces: {
+  (
     input: ListRouterNetworkInterfacesRequest,
-    output: ListRouterNetworkInterfacesResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RouterNetworkInterfaces",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRouterNetworkInterfacesResponse,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRouterNetworkInterfacesRequest,
+  ) => Stream.Stream<
+    ListRouterNetworkInterfacesResponse,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRouterNetworkInterfacesRequest,
+  ) => Stream.Stream<
+    ListedRouterNetworkInterface,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRouterNetworkInterfacesRequest,
+  output: ListRouterNetworkInterfacesResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RouterNetworkInterfaces",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of router outputs in AWS Elemental MediaConnect.
  */
-export const listRouterOutputs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRouterOutputs: {
+  (
     input: ListRouterOutputsRequest,
-    output: ListRouterOutputsResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RouterOutputs",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRouterOutputsResponse,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRouterOutputsRequest,
+  ) => Stream.Stream<
+    ListRouterOutputsResponse,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRouterOutputsRequest,
+  ) => Stream.Stream<
+    ListedRouterOutput,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRouterOutputsRequest,
+  output: ListRouterOutputsResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RouterOutputs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes a flow. Before you can delete a flow, you must stop the flow.
  */
-export const deleteFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFlow: (
+  input: DeleteFlowRequest,
+) => Effect.Effect<
+  DeleteFlowResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFlowRequest,
   output: DeleteFlowResponse,
   errors: [
@@ -6828,76 +7317,130 @@ export const deleteFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds VPC interfaces to a flow.
  */
-export const addFlowVpcInterfaces = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddFlowVpcInterfacesRequest,
-    output: AddFlowVpcInterfacesResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const addFlowVpcInterfaces: (
+  input: AddFlowVpcInterfacesRequest,
+) => Effect.Effect<
+  AddFlowVpcInterfacesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddFlowVpcInterfacesRequest,
+  output: AddFlowVpcInterfacesResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Describes the thumbnail for the flow source.
  */
-export const describeFlowSourceThumbnail = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFlowSourceThumbnailRequest,
-    output: DescribeFlowSourceThumbnailResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeFlowSourceThumbnail: (
+  input: DescribeFlowSourceThumbnailRequest,
+) => Effect.Effect<
+  DescribeFlowSourceThumbnailResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFlowSourceThumbnailRequest,
+  output: DescribeFlowSourceThumbnailResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Updates an entitlement. You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
  */
-export const updateFlowEntitlement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFlowEntitlementRequest,
-    output: UpdateFlowEntitlementResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateFlowEntitlement: (
+  input: UpdateFlowEntitlementRequest,
+) => Effect.Effect<
+  UpdateFlowEntitlementResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFlowEntitlementRequest,
+  output: UpdateFlowEntitlementResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Displays the details of an instance.
  */
-export const describeGatewayInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeGatewayInstanceRequest,
-    output: DescribeGatewayInstanceResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeGatewayInstance: (
+  input: DescribeGatewayInstanceRequest,
+) => Effect.Effect<
+  DescribeGatewayInstanceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeGatewayInstanceRequest,
+  output: DescribeGatewayInstanceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Displays the details of a gateway. The response includes the gateway Amazon Resource Name (ARN), name, and CIDR blocks, as well as details about the networks.
  */
-export const describeGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeGateway: (
+  input: DescribeGatewayRequest,
+) => Effect.Effect<
+  DescribeGatewayResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGatewayRequest,
   output: DescribeGatewayResponse,
   errors: [
@@ -6913,7 +7456,19 @@ export const describeGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
  */
-export const purchaseOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const purchaseOffering: (
+  input: PurchaseOfferingRequest,
+) => Effect.Effect<
+  PurchaseOfferingResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurchaseOfferingRequest,
   output: PurchaseOfferingResponse,
   errors: [
@@ -6928,42 +7483,74 @@ export const purchaseOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the thumbnail for a router input in AWS Elemental MediaConnect.
  */
-export const getRouterInputThumbnail = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRouterInputThumbnailRequest,
-    output: GetRouterInputThumbnailResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getRouterInputThumbnail: (
+  input: GetRouterInputThumbnailRequest,
+) => Effect.Effect<
+  GetRouterInputThumbnailResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRouterInputThumbnailRequest,
+  output: GetRouterInputThumbnailResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves information about a specific router network interface in AWS Elemental MediaConnect.
  */
-export const getRouterNetworkInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRouterNetworkInterfaceRequest,
-    output: GetRouterNetworkInterfaceResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getRouterNetworkInterface: (
+  input: GetRouterNetworkInterfaceRequest,
+) => Effect.Effect<
+  GetRouterNetworkInterfaceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRouterNetworkInterfaceRequest,
+  output: GetRouterNetworkInterfaceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
  */
-export const describeReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeReservation: (
+  input: DescribeReservationRequest,
+) => Effect.Effect<
+  DescribeReservationResponse,
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeReservationRequest,
   output: DescribeReservationResponse,
   errors: [
@@ -6977,7 +7564,20 @@ export const describeReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes an output from a bridge.
  */
-export const removeBridgeOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removeBridgeOutput: (
+  input: RemoveBridgeOutputRequest,
+) => Effect.Effect<
+  RemoveBridgeOutputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveBridgeOutputRequest,
   output: RemoveBridgeOutputResponse,
   errors: [
@@ -6993,7 +7593,20 @@ export const removeBridgeOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a source from a bridge.
  */
-export const removeBridgeSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removeBridgeSource: (
+  input: RemoveBridgeSourceRequest,
+) => Effect.Effect<
+  RemoveBridgeSourceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveBridgeSourceRequest,
   output: RemoveBridgeSourceResponse,
   errors: [
@@ -7009,7 +7622,20 @@ export const removeBridgeSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the bridge state.
  */
-export const updateBridgeState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBridgeState: (
+  input: UpdateBridgeStateRequest,
+) => Effect.Effect<
+  UpdateBridgeStateResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBridgeStateRequest,
   output: UpdateBridgeStateResponse,
   errors: [
@@ -7025,43 +7651,78 @@ export const updateBridgeState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing gateway instance.
  */
-export const updateGatewayInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateGatewayInstanceRequest,
-    output: UpdateGatewayInstanceResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateGatewayInstance: (
+  input: UpdateGatewayInstanceRequest,
+) => Effect.Effect<
+  UpdateGatewayInstanceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGatewayInstanceRequest,
+  output: UpdateGatewayInstanceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
  */
-export const deregisterGatewayInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterGatewayInstanceRequest,
-    output: DeregisterGatewayInstanceResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const deregisterGatewayInstance: (
+  input: DeregisterGatewayInstanceRequest,
+) => Effect.Effect<
+  DeregisterGatewayInstanceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterGatewayInstanceRequest,
+  output: DeregisterGatewayInstanceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges.
  */
-export const deleteGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGateway: (
+  input: DeleteGatewayRequest,
+) => Effect.Effect<
+  DeleteGatewayResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGatewayRequest,
   output: DeleteGatewayResponse,
   errors: [
@@ -7077,7 +7738,20 @@ export const deleteGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the configuration of an existing router input in AWS Elemental MediaConnect.
  */
-export const updateRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRouterInput: (
+  input: UpdateRouterInputRequest,
+) => Effect.Effect<
+  UpdateRouterInputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRouterInputRequest,
   output: UpdateRouterInputResponse,
   errors: [
@@ -7093,7 +7767,20 @@ export const updateRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a router input from AWS Elemental MediaConnect.
  */
-export const deleteRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRouterInput: (
+  input: DeleteRouterInputRequest,
+) => Effect.Effect<
+  DeleteRouterInputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouterInputRequest,
   output: DeleteRouterInputResponse,
   errors: [
@@ -7109,7 +7796,20 @@ export const deleteRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Restarts a router input. This operation can be used to recover from errors or refresh the input state.
  */
-export const restartRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const restartRouterInput: (
+  input: RestartRouterInputRequest,
+) => Effect.Effect<
+  RestartRouterInputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestartRouterInputRequest,
   output: RestartRouterInputResponse,
   errors: [
@@ -7125,7 +7825,20 @@ export const restartRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a router input in AWS Elemental MediaConnect.
  */
-export const stopRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopRouterInput: (
+  input: StopRouterInputRequest,
+) => Effect.Effect<
+  StopRouterInputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopRouterInputRequest,
   output: StopRouterInputResponse,
   errors: [
@@ -7141,24 +7854,49 @@ export const stopRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a router network interface from AWS Elemental MediaConnect.
  */
-export const deleteRouterNetworkInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRouterNetworkInterfaceRequest,
-    output: DeleteRouterNetworkInterfaceResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }));
+export const deleteRouterNetworkInterface: (
+  input: DeleteRouterNetworkInterfaceRequest,
+) => Effect.Effect<
+  DeleteRouterNetworkInterfaceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRouterNetworkInterfaceRequest,
+  output: DeleteRouterNetworkInterfaceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Updates the configuration of an existing router output in AWS Elemental MediaConnect.
  */
-export const updateRouterOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRouterOutput: (
+  input: UpdateRouterOutputRequest,
+) => Effect.Effect<
+  UpdateRouterOutputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRouterOutputRequest,
   output: UpdateRouterOutputResponse,
   errors: [
@@ -7174,7 +7912,20 @@ export const updateRouterOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a router output from AWS Elemental MediaConnect.
  */
-export const deleteRouterOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRouterOutput: (
+  input: DeleteRouterOutputRequest,
+) => Effect.Effect<
+  DeleteRouterOutputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouterOutputRequest,
   output: DeleteRouterOutputResponse,
   errors: [
@@ -7190,7 +7941,20 @@ export const deleteRouterOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Restarts a router output. This operation can be used to recover from errors or refresh the output state.
  */
-export const restartRouterOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const restartRouterOutput: (
+  input: RestartRouterOutputRequest,
+) => Effect.Effect<
+  RestartRouterOutputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestartRouterOutputRequest,
   output: RestartRouterOutputResponse,
   errors: [
@@ -7206,7 +7970,20 @@ export const restartRouterOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a router output in AWS Elemental MediaConnect.
  */
-export const startRouterOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startRouterOutput: (
+  input: StartRouterOutputRequest,
+) => Effect.Effect<
+  StartRouterOutputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRouterOutputRequest,
   output: StartRouterOutputResponse,
   errors: [
@@ -7222,7 +7999,20 @@ export const startRouterOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a router output in AWS Elemental MediaConnect.
  */
-export const stopRouterOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopRouterOutput: (
+  input: StopRouterOutputRequest,
+) => Effect.Effect<
+  StopRouterOutputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopRouterOutputRequest,
   output: StopRouterOutputResponse,
   errors: [
@@ -7238,7 +8028,20 @@ export const stopRouterOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates a router input with a router output in AWS Elemental MediaConnect.
  */
-export const takeRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const takeRouterInput: (
+  input: TakeRouterInputRequest,
+) => Effect.Effect<
+  TakeRouterInputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TakeRouterInputRequest,
   output: TakeRouterInputResponse,
   errors: [
@@ -7254,7 +8057,20 @@ export const takeRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the bridge.
  */
-export const updateBridge = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBridge: (
+  input: UpdateBridgeRequest,
+) => Effect.Effect<
+  UpdateBridgeResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBridgeRequest,
   output: UpdateBridgeResponse,
   errors: [
@@ -7270,24 +8086,46 @@ export const updateBridge = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
  */
-export const removeFlowMediaStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveFlowMediaStreamRequest,
-    output: RemoveFlowMediaStreamResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const removeFlowMediaStream: (
+  input: RemoveFlowMediaStreamRequest,
+) => Effect.Effect<
+  RemoveFlowMediaStreamResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveFlowMediaStreamRequest,
+  output: RemoveFlowMediaStreamResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
  */
-export const removeFlowOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removeFlowOutput: (
+  input: RemoveFlowOutputRequest,
+) => Effect.Effect<
+  RemoveFlowOutputResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveFlowOutputRequest,
   output: RemoveFlowOutputResponse,
   errors: [
@@ -7302,7 +8140,19 @@ export const removeFlowOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
  */
-export const removeFlowSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removeFlowSource: (
+  input: RemoveFlowSourceRequest,
+) => Effect.Effect<
+  RemoveFlowSourceResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveFlowSourceRequest,
   output: RemoveFlowSourceResponse,
   errors: [
@@ -7317,41 +8167,73 @@ export const removeFlowSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
  */
-export const removeFlowVpcInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveFlowVpcInterfaceRequest,
-    output: RemoveFlowVpcInterfaceResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const removeFlowVpcInterface: (
+  input: RemoveFlowVpcInterfaceRequest,
+) => Effect.Effect<
+  RemoveFlowVpcInterfaceResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveFlowVpcInterfaceRequest,
+  output: RemoveFlowVpcInterfaceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
  */
-export const revokeFlowEntitlement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RevokeFlowEntitlementRequest,
-    output: RevokeFlowEntitlementResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const revokeFlowEntitlement: (
+  input: RevokeFlowEntitlementRequest,
+) => Effect.Effect<
+  RevokeFlowEntitlementResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeFlowEntitlementRequest,
+  output: RevokeFlowEntitlementResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Starts a flow.
  */
-export const startFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startFlow: (
+  input: StartFlowRequest,
+) => Effect.Effect<
+  StartFlowResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFlowRequest,
   output: StartFlowResponse,
   errors: [
@@ -7366,7 +8248,19 @@ export const startFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a flow.
  */
-export const stopFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopFlow: (
+  input: StopFlowRequest,
+) => Effect.Effect<
+  StopFlowResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopFlowRequest,
   output: StopFlowResponse,
   errors: [
@@ -7381,7 +8275,20 @@ export const stopFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
  */
-export const deleteBridge = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBridge: (
+  input: DeleteBridgeRequest,
+) => Effect.Effect<
+  DeleteBridgeResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBridgeRequest,
   output: DeleteBridgeResponse,
   errors: [
@@ -7397,7 +8304,20 @@ export const deleteBridge = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing bridge output.
  */
-export const updateBridgeOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBridgeOutput: (
+  input: UpdateBridgeOutputRequest,
+) => Effect.Effect<
+  UpdateBridgeOutputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBridgeOutputRequest,
   output: UpdateBridgeOutputResponse,
   errors: [
@@ -7413,7 +8333,19 @@ export const updateBridgeOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing flow.
  */
-export const updateFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFlow: (
+  input: UpdateFlowRequest,
+) => Effect.Effect<
+  UpdateFlowResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlowRequest,
   output: UpdateFlowResponse,
   errors: [
@@ -7428,7 +8360,41 @@ export const updateFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Displays a list of flows that are associated with this account. This request returns a paginated result.
  */
-export const listFlows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFlows: {
+  (
+    input: ListFlowsRequest,
+  ): Effect.Effect<
+    ListFlowsResponse,
+    | BadRequestException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFlowsRequest,
+  ) => Stream.Stream<
+    ListFlowsResponse,
+    | BadRequestException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFlowsRequest,
+  ) => Stream.Stream<
+    ListedFlow,
+    | BadRequestException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFlowsRequest,
   output: ListFlowsResponse,
   errors: [
@@ -7447,50 +8413,132 @@ export const listFlows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Displays a list of instances associated with the Amazon Web Services account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
  */
-export const listGatewayInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGatewayInstances: {
+  (
     input: ListGatewayInstancesRequest,
-    output: ListGatewayInstancesResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Instances",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListGatewayInstancesResponse,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGatewayInstancesRequest,
+  ) => Stream.Stream<
+    ListGatewayInstancesResponse,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGatewayInstancesRequest,
+  ) => Stream.Stream<
+    ListedGatewayInstance,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGatewayInstancesRequest,
+  output: ListGatewayInstancesResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Instances",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Displays a list of gateways that are associated with this account. This request returns a paginated result.
  */
-export const listGateways = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listGateways: {
+  (
     input: ListGatewaysRequest,
-    output: ListGatewaysResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Gateways",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListGatewaysResponse,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGatewaysRequest,
+  ) => Stream.Stream<
+    ListGatewaysResponse,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGatewaysRequest,
+  ) => Stream.Stream<
+    ListedGateway,
+    | BadRequestException
+    | ConflictException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGatewaysRequest,
+  output: ListGatewaysResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Gateways",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves information about multiple router inputs in AWS Elemental MediaConnect.
  */
-export const batchGetRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetRouterInput: (
+  input: BatchGetRouterInputRequest,
+) => Effect.Effect<
+  BatchGetRouterInputResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetRouterInputRequest,
   output: BatchGetRouterInputResponse,
   errors: [
@@ -7504,117 +8552,256 @@ export const batchGetRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about multiple router network interfaces in AWS Elemental MediaConnect.
  */
-export const batchGetRouterNetworkInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetRouterNetworkInterfaceRequest,
-    output: BatchGetRouterNetworkInterfaceResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }));
+export const batchGetRouterNetworkInterface: (
+  input: BatchGetRouterNetworkInterfaceRequest,
+) => Effect.Effect<
+  BatchGetRouterNetworkInterfaceResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetRouterNetworkInterfaceRequest,
+  output: BatchGetRouterNetworkInterfaceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves information about multiple router outputs in AWS Elemental MediaConnect.
  */
-export const batchGetRouterOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetRouterOutputRequest,
-    output: BatchGetRouterOutputResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const batchGetRouterOutput: (
+  input: BatchGetRouterOutputRequest,
+) => Effect.Effect<
+  BatchGetRouterOutputResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetRouterOutputRequest,
+  output: BatchGetRouterOutputResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Displays a list of all offerings that are available to this account in the current Amazon Web Services Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
  */
-export const listOfferings = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listOfferings: {
+  (
     input: ListOfferingsRequest,
-    output: ListOfferingsResponse,
-    errors: [
-      BadRequestException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Offerings",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListOfferingsResponse,
+    | BadRequestException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOfferingsRequest,
+  ) => Stream.Stream<
+    ListOfferingsResponse,
+    | BadRequestException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOfferingsRequest,
+  ) => Stream.Stream<
+    Offering,
+    | BadRequestException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOfferingsRequest,
+  output: ListOfferingsResponse,
+  errors: [
+    BadRequestException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Offerings",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Displays a list of all reservations that have been purchased by this account in the current Amazon Web Services Region. This list includes all reservations in all states (such as active and expired).
  */
-export const listReservations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listReservations: {
+  (
     input: ListReservationsRequest,
-    output: ListReservationsResponse,
-    errors: [
-      BadRequestException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Reservations",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListReservationsResponse,
+    | BadRequestException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReservationsRequest,
+  ) => Stream.Stream<
+    ListReservationsResponse,
+    | BadRequestException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReservationsRequest,
+  ) => Stream.Stream<
+    Reservation,
+    | BadRequestException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReservationsRequest,
+  output: ListReservationsResponse,
+  errors: [
+    BadRequestException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Reservations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
  */
-export const listEntitlements = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEntitlements: {
+  (
     input: ListEntitlementsRequest,
-    output: ListEntitlementsResponse,
-    errors: [
-      BadRequestException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Entitlements",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEntitlementsResponse,
+    | BadRequestException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEntitlementsRequest,
+  ) => Stream.Stream<
+    ListEntitlementsResponse,
+    | BadRequestException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEntitlementsRequest,
+  ) => Stream.Stream<
+    ListedEntitlement,
+    | BadRequestException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEntitlementsRequest,
+  output: ListEntitlementsResponse,
+  errors: [
+    BadRequestException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Entitlements",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the configuration of an existing router network interface in AWS Elemental MediaConnect.
  */
-export const updateRouterNetworkInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRouterNetworkInterfaceRequest,
-    output: UpdateRouterNetworkInterfaceResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }));
+export const updateRouterNetworkInterface: (
+  input: UpdateRouterNetworkInterfaceRequest,
+) => Effect.Effect<
+  UpdateRouterNetworkInterfaceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRouterNetworkInterfaceRequest,
+  output: UpdateRouterNetworkInterfaceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Displays the details of a bridge.
  */
-export const describeBridge = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeBridge: (
+  input: DescribeBridgeRequest,
+) => Effect.Effect<
+  DescribeBridgeResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBridgeRequest,
   output: DescribeBridgeResponse,
   errors: [
@@ -7630,7 +8817,20 @@ export const describeBridge = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new bridge. The request must include one source.
  */
-export const createBridge = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBridge: (
+  input: CreateBridgeRequest,
+) => Effect.Effect<
+  CreateBridgeResponse,
+  | BadRequestException
+  | ConflictException
+  | CreateBridge420Exception
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBridgeRequest,
   output: CreateBridgeResponse,
   errors: [
@@ -7646,7 +8846,19 @@ export const createBridge = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
  */
-export const createFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFlow: (
+  input: CreateFlowRequest,
+) => Effect.Effect<
+  CreateFlowResponse,
+  | BadRequestException
+  | CreateFlow420Exception
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFlowRequest,
   output: CreateFlowResponse,
   errors: [
@@ -7661,24 +8873,47 @@ export const createFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The `DescribeFlowSourceMetadata` API is used to view information about the flow's source transport stream and programs. This API displays status messages about the flow's source as well as details about the program's video, audio, and other data.
  */
-export const describeFlowSourceMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFlowSourceMetadataRequest,
-    output: DescribeFlowSourceMetadataResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeFlowSourceMetadata: (
+  input: DescribeFlowSourceMetadataRequest,
+) => Effect.Effect<
+  DescribeFlowSourceMetadataResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFlowSourceMetadataRequest,
+  output: DescribeFlowSourceMetadataResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves information about a specific router input in AWS Elemental MediaConnect.
  */
-export const getRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRouterInput: (
+  input: GetRouterInputRequest,
+) => Effect.Effect<
+  GetRouterInputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouterInputRequest,
   output: GetRouterInputResponse,
   errors: [
@@ -7694,24 +8929,49 @@ export const getRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new router network interface in AWS Elemental MediaConnect.
  */
-export const createRouterNetworkInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRouterNetworkInterfaceRequest,
-    output: CreateRouterNetworkInterfaceResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      RouterNetworkInterfaceServiceQuotaExceededException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }));
+export const createRouterNetworkInterface: (
+  input: CreateRouterNetworkInterfaceRequest,
+) => Effect.Effect<
+  CreateRouterNetworkInterfaceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | RouterNetworkInterfaceServiceQuotaExceededException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRouterNetworkInterfaceRequest,
+  output: CreateRouterNetworkInterfaceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    RouterNetworkInterfaceServiceQuotaExceededException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Adds outputs to an existing flow. You can create up to 50 outputs per flow.
  */
-export const addFlowOutputs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addFlowOutputs: (
+  input: AddFlowOutputsRequest,
+) => Effect.Effect<
+  AddFlowOutputsResponse,
+  | AddFlowOutputs420Exception
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddFlowOutputsRequest,
   output: AddFlowOutputsResponse,
   errors: [
@@ -7727,7 +8987,20 @@ export const addFlowOutputs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new router input in AWS Elemental MediaConnect.
  */
-export const createRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRouterInput: (
+  input: CreateRouterInputRequest,
+) => Effect.Effect<
+  CreateRouterInputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | RouterInputServiceQuotaExceededException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouterInputRequest,
   output: CreateRouterInputResponse,
   errors: [
@@ -7743,7 +9016,20 @@ export const createRouterInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new router output in AWS Elemental MediaConnect.
  */
-export const createRouterOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRouterOutput: (
+  input: CreateRouterOutputRequest,
+) => Effect.Effect<
+  CreateRouterOutputResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | RouterOutputServiceQuotaExceededException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouterOutputRequest,
   output: CreateRouterOutputResponse,
   errors: [

@@ -1,10 +1,8 @@
-import type { HttpClientError } from "@effect/platform";
 import { HttpBody, HttpClient, HttpClientRequest } from "@effect/platform";
 import { AwsV4Signer } from "aws4fetch";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
 import * as Option from "effect/Option";
-import type * as ParseResult from "effect/ParseResult";
 import * as Redacted from "effect/Redacted";
 import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
@@ -16,27 +14,9 @@ import { makeDefault, Retry } from "./retry-policy.ts";
 import { makeRulesResolver } from "./rules-engine/resolver.ts";
 import { getAwsAuthSigv4, getPath } from "./traits.ts";
 
-import { Credentials as _Credentials } from "./aws/credentials.ts";
-import { Endpoint as _Endpoint } from "./aws/endpoint.ts";
-import { Region as _Region } from "./aws/region.ts";
-// warning: we do a type-only import here so that our types are connected through public exports for portability
-import type { Credentials, Errors, Region } from "./index.ts";
+import { Credentials, Endpoint, Region } from "./index.ts";
 
-export const make = <Op extends Operation>(
-  initOperation: () => Op,
-): ((
-  payload: Operation.Input<Op>,
-) => Effect.Effect<
-  Operation.Output<Op>,
-  | Operation.Error<Op>
-  | ParseResult.ParseError
-  | Errors.UnknownAwsError
-  | Errors.CommonAwsError
-  | HttpClientError.HttpClientError
-  | Errors.EndpointError
-  | Errors.NoMatchingRuleError,
-  Region.Region | Credentials.Credentials | HttpClient.HttpClient
->) => {
+export const make = <Op extends Operation>(initOperation: () => Op): any => {
   const op = initOperation();
   let _init;
   const init = () => {
@@ -71,14 +51,14 @@ export const make = <Op extends Operation>(
     yield* Effect.logDebug("Built Request", request);
 
     // Sign the request
-    const credentials = yield* _Credentials;
-    const region = yield* _Region;
+    const credentials = yield* Credentials.Credentials;
+    const region = yield* Region.Region;
     const serviceName = sigv4?.name ?? "s3";
 
     // Resolve endpoint and adjust request path if needed
     let endpoint: string;
     let resolvedRequest = request;
-    const customEndpoint = yield* Effect.serviceOption(_Endpoint);
+    const customEndpoint = yield* Effect.serviceOption(Endpoint.Endpoint);
 
     if (Option.isSome(customEndpoint)) {
       // User provided a custom endpoint - use it directly
@@ -264,98 +244,19 @@ export const make = <Op extends Operation>(
   );
 };
 
-// =============================================================================
-// Paginated Operation Types
-// =============================================================================
-
-/** Error types returned by paginated operations */
-type PaginatedErrors =
-  | ParseResult.ParseError
-  | Errors.UnknownAwsError
-  | Errors.CommonAwsError
-  | HttpClientError.HttpClientError
-  | Errors.EndpointError
-  | Errors.NoMatchingRuleError;
-
-/** Extract the item type from a paginated operation's output */
-type PaginatedItemType<Op extends Operation> = Op["pagination"] extends {
-  items: string;
-}
-  ? Op["pagination"]["items"] extends keyof Operation.Output<Op>
-    ? Operation.Output<Op>[Op["pagination"]["items"]] extends
-        | readonly (infer Item)[]
-        | undefined
-      ? Item
-      : never
-    : never
-  : never;
-
-/** A paginated operation with both Effect and Stream interfaces */
-export interface PaginatedOperation<Op extends Operation> {
-  /** Call the operation once, returning a single page */
-  (
-    payload: Operation.Input<Op>,
-  ): Effect.Effect<
-    Operation.Output<Op>,
-    Operation.Error<Op> | PaginatedErrors,
-    Region.Region | Credentials.Credentials | HttpClient.HttpClient
-  >;
-
-  /** Stream all pages (full response objects) */
-  pages: (
-    payload: Operation.Input<Op>,
-  ) => Stream.Stream<
-    Operation.Output<Op>,
-    Operation.Error<Op> | PaginatedErrors,
-    Region.Region | Credentials.Credentials | HttpClient.HttpClient
-  >;
-
-  /** Stream individual items from the paginated field across all pages */
-  items: (
-    payload: Operation.Input<Op>,
-  ) => Stream.Stream<
-    PaginatedItemType<Op>,
-    Operation.Error<Op> | PaginatedErrors,
-    Region.Region | Credentials.Credentials | HttpClient.HttpClient
-  >;
-
-  /** The operation metadata */
-  input: Op["input"];
-  output: Op["output"];
-  errors: Op["errors"];
-  pagination: Op["pagination"];
-}
-
-/**
- * Create a paginated operation that supports both single-call and streaming interfaces.
- *
- * @param initOperation - Factory function that returns the operation definition
- * @returns A callable with `.pages()` and `.items()` methods for paginated access
- */
 export const makePaginated = <Op extends Operation>(
   initOperation: () => Op,
-): PaginatedOperation<Op> => {
+): any => {
   const op = initOperation();
   const pagination = op.pagination!;
 
   // Reuse API.make for the Effect-based single-call interface
   const baseFn = make(initOperation);
 
-  type State = { token: unknown; done: boolean };
-  type Errors = Operation.Error<Op> | PaginatedErrors;
-  type Deps = Region.Region | Credentials.Credentials | HttpClient.HttpClient;
-
   // Stream all pages (full response objects)
-  const pagesFn = (
-    payload: Operation.Input<Op>,
-  ): Stream.Stream<Operation.Output<Op>, Errors, Deps> => {
-    const unfoldFn = (
-      state: State,
-    ): Effect.Effect<
-      Option.Option<readonly [Operation.Output<Op>, State]>,
-      Errors,
-      Deps
-    > =>
+  const pagesFn = (payload: Operation.Input<Op>) => {
+    type State = { token: unknown; done: boolean };
+    const unfoldFn = (state: State) =>
       Effect.gen(function* () {
         if (state.done) {
           return Option.none();
@@ -388,26 +289,19 @@ export const makePaginated = <Op extends Operation>(
   };
 
   // Stream individual items from the paginated field
-  const itemsFn = (
-    payload: Operation.Input<Op>,
-  ): Stream.Stream<PaginatedItemType<Op>, Errors, Deps> => {
+  const itemsFn = (payload: Operation.Input<Op>) => {
     if (!pagination.items) {
-      // If no items path is specified, this operation doesn't support .items()
-      // Return an empty stream (caller should use .pages() instead)
-      return Stream.empty as Stream.Stream<PaginatedItemType<Op>, Errors, Deps>;
+      return Stream.empty;
     }
 
     return pagesFn(payload).pipe(
       Stream.flatMap((page) => {
-        const items = getPath(page, pagination.items!) as
-          | PaginatedItemType<Op>[]
-          | undefined;
+        const items = getPath(page, pagination.items!) as unknown[] | undefined;
         return Stream.fromIterable(items ?? []);
       }),
     );
   };
 
-  // Return callable with .pages and .items methods and operation metadata
   return Object.assign(baseFn, {
     pages: pagesFn,
     items: itemsFn,
@@ -415,5 +309,5 @@ export const makePaginated = <Op extends Operation>(
     output: op.output,
     errors: op.errors,
     pagination: op.pagination,
-  }) as PaginatedOperation<Op>;
+  });
 };

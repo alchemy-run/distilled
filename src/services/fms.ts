@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "FMS",
   serviceShapeName: "AWSFMS_20180101",
@@ -240,6 +248,57 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AWSAccountId = string;
+export type Identifier = string;
+export type ListId = string;
+export type ErrorMessage = string;
+export type PolicyId = string;
+export type Base62Id = string;
+export type ResourceArn = string;
+export type PaginationToken = string;
+export type PaginationMaxResults = number;
+export type ResourceId = string;
+export type ResourceType = string;
+export type TagKey = string;
+export type ResourceName = string;
+export type UpdateToken = string;
+export type TagValue = string;
+export type PolicyUpdateToken = string;
+export type ResourceDescription = string;
+export type Protocol = string;
+export type Name = string;
+export type Description = string;
+export type ProtectionData = string;
+export type OrganizationalUnitId = string;
+export type AWSRegion = string;
+export type IPPortNumber = number;
+export type PreviousListVersion = string;
+export type ManagedServiceData = string;
+export type ResourceTagKey = string;
+export type ResourceTagValue = string;
+export type CustomerPolicyScopeId = string;
+export type LengthBoundedString = string;
+export type FirewallPolicyId = string;
+export type FirewallPolicyName = string;
+export type DetailedInfo = string;
+export type ResourceCount = number;
+export type ViolationTarget = string;
+export type TargetViolationReason = string;
+export type DnsRuleGroupPriority = number;
+export type BasicInteger = number;
+export type ReferenceRule = string;
+export type RemediationActionDescription = string;
+export type NetworkFirewallAction = string;
+export type CIDR = string;
+export type LengthBoundedNonEmptyString = string;
+export type NetworkFirewallResourceName = string;
+export type StatelessRuleGroupPriority = number;
+export type PriorityNumber = number;
+export type IntegerObjectMinimum0 = number;
+export type IntegerObject = number;
+export type IPPortNumberInteger = number;
 
 //# Schemas
 export interface DeleteNotificationChannelRequest {}
@@ -2839,21 +2898,39 @@ export class InvalidTypeException extends S.TaggedError<InvalidTypeException>()(
  * Deletes an Firewall Manager association with the IAM role and the Amazon Simple
  * Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
  */
-export const deleteNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteNotificationChannelRequest,
-    output: DeleteNotificationChannelResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteNotificationChannel: (
+  input: DeleteNotificationChannelRequest,
+) => Effect.Effect<
+  DeleteNotificationChannelResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNotificationChannelRequest,
+  output: DeleteNotificationChannelResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Permanently deletes an Firewall Manager policy.
  */
-export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePolicy: (
+  input: DeletePolicyRequest,
+) => Effect.Effect<
+  DeletePolicyResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyRequest,
   output: DeletePolicyResponse,
   errors: [
@@ -2867,7 +2944,17 @@ export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the specified Firewall Manager policy.
  */
-export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicy: (
+  input: GetPolicyRequest,
+) => Effect.Effect<
+  GetPolicyResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidTypeException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyRequest,
   output: GetPolicyResponse,
   errors: [
@@ -2882,118 +2969,268 @@ export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation can be called only from the organization's management account.
  */
-export const listAdminAccountsForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAdminAccountsForOrganization: {
+  (
     input: ListAdminAccountsForOrganizationRequest,
-    output: ListAdminAccountsForOrganizationResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AdminAccounts",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAdminAccountsForOrganizationResponse,
+    | InternalErrorException
+    | InvalidOperationException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAdminAccountsForOrganizationRequest,
+  ) => Stream.Stream<
+    ListAdminAccountsForOrganizationResponse,
+    | InternalErrorException
+    | InvalidOperationException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAdminAccountsForOrganizationRequest,
+  ) => Stream.Stream<
+    AdminAccountSummary,
+    | InternalErrorException
+    | InvalidOperationException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAdminAccountsForOrganizationRequest,
+  output: ListAdminAccountsForOrganizationResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AdminAccounts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns an array of `AppsListDataSummary` objects.
  */
-export const listAppsLists = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAppsLists: {
+  (
     input: ListAppsListsRequest,
-    output: ListAppsListsResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AppsLists",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAppsListsResponse,
+    | InternalErrorException
+    | InvalidOperationException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppsListsRequest,
+  ) => Stream.Stream<
+    ListAppsListsResponse,
+    | InternalErrorException
+    | InvalidOperationException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppsListsRequest,
+  ) => Stream.Stream<
+    AppsListDataSummary,
+    | InternalErrorException
+    | InvalidOperationException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppsListsRequest,
+  output: ListAppsListsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AppsLists",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns an array of resources in the organization's accounts that are available to be associated with a resource set.
  */
-export const listDiscoveredResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDiscoveredResourcesRequest,
-    output: ListDiscoveredResourcesResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      InvalidOperationException,
-    ],
-  }),
-);
+export const listDiscoveredResources: (
+  input: ListDiscoveredResourcesRequest,
+) => Effect.Effect<
+  ListDiscoveredResourcesResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDiscoveredResourcesRequest,
+  output: ListDiscoveredResourcesResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    InvalidOperationException,
+  ],
+}));
 /**
  * Returns an array of `PolicySummary` objects.
  */
-export const listPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPolicies: {
+  (
     input: ListPoliciesRequest,
-    output: ListPoliciesResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PolicyList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPoliciesResponse,
+    | InternalErrorException
+    | InvalidOperationException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPoliciesRequest,
+  ) => Stream.Stream<
+    ListPoliciesResponse,
+    | InternalErrorException
+    | InvalidOperationException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPoliciesRequest,
+  ) => Stream.Stream<
+    PolicySummary,
+    | InternalErrorException
+    | InvalidOperationException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPoliciesRequest,
+  output: ListPoliciesResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PolicyList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns an array of `ProtocolsListDataSummary` objects.
  */
-export const listProtocolsLists = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProtocolsLists: {
+  (
     input: ListProtocolsListsRequest,
-    output: ListProtocolsListsResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProtocolsLists",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProtocolsListsResponse,
+    | InternalErrorException
+    | InvalidOperationException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProtocolsListsRequest,
+  ) => Stream.Stream<
+    ListProtocolsListsResponse,
+    | InternalErrorException
+    | InvalidOperationException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProtocolsListsRequest,
+  ) => Stream.Stream<
+    ProtocolsListDataSummary,
+    | InternalErrorException
+    | InvalidOperationException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProtocolsListsRequest,
+  output: ListProtocolsListsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProtocolsLists",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns an array of resources that are currently associated to a resource set.
  */
-export const listResourceSetResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListResourceSetResourcesRequest,
-    output: ListResourceSetResourcesResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const listResourceSetResources: (
+  input: ListResourceSetResourcesRequest,
+) => Effect.Effect<
+  ListResourceSetResourcesResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListResourceSetResourcesRequest,
+  output: ListResourceSetResourcesResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns an array of `ResourceSetSummary` objects.
  */
-export const listResourceSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listResourceSets: (
+  input: ListResourceSetsRequest,
+) => Effect.Effect<
+  ListResourceSetsResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListResourceSetsRequest,
   output: ListResourceSetsResponse,
   errors: [
@@ -3005,28 +3242,71 @@ export const listResourceSets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account.
  */
-export const listThirdPartyFirewallFirewallPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listThirdPartyFirewallFirewallPolicies: {
+  (
     input: ListThirdPartyFirewallFirewallPoliciesRequest,
-    output: ListThirdPartyFirewallFirewallPoliciesResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ThirdPartyFirewallFirewallPolicies",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListThirdPartyFirewallFirewallPoliciesResponse,
+    | InternalErrorException
+    | InvalidInputException
+    | InvalidOperationException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListThirdPartyFirewallFirewallPoliciesRequest,
+  ) => Stream.Stream<
+    ListThirdPartyFirewallFirewallPoliciesResponse,
+    | InternalErrorException
+    | InvalidInputException
+    | InvalidOperationException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListThirdPartyFirewallFirewallPoliciesRequest,
+  ) => Stream.Stream<
+    ThirdPartyFirewallFirewallPolicy,
+    | InternalErrorException
+    | InvalidInputException
+    | InvalidOperationException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListThirdPartyFirewallFirewallPoliciesRequest,
+  output: ListThirdPartyFirewallFirewallPoliciesResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ThirdPartyFirewallFirewallPolicies",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates or updates an Firewall Manager administrator account. The account must be a member of the organization that was onboarded to Firewall Manager by AssociateAdminAccount. Only the organization's management account can create an Firewall Manager administrator account. When you create an Firewall Manager administrator account, the service checks to see if the account is already a delegated administrator within Organizations. If the account isn't a delegated administrator, Firewall Manager calls Organizations to delegate the account within Organizations. For more information about administrator accounts within Organizations, see
  * Managing the Amazon Web Services Accounts in Your Organization.
  */
-export const putAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putAdminAccount: (
+  input: PutAdminAccountRequest,
+) => Effect.Effect<
+  PutAdminAccountResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAdminAccountRequest,
   output: PutAdminAccountResponse,
   errors: [
@@ -3041,7 +3321,17 @@ export const putAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * An Firewall Manager resource set defines the resources to import into an Firewall Manager policy from another Amazon Web Services service.
  */
-export const putResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourceSet: (
+  input: PutResourceSetRequest,
+) => Effect.Effect<
+  PutResourceSetResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourceSetRequest,
   output: PutResourceSetResponse,
   errors: [
@@ -3054,21 +3344,39 @@ export const putResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates a Firewall Manager policy administrator from a third-party firewall tenant. When you call `DisassociateThirdPartyFirewall`, the third-party firewall vendor deletes all of the firewalls that are associated with the account.
  */
-export const disassociateThirdPartyFirewall =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateThirdPartyFirewallRequest,
-    output: DisassociateThirdPartyFirewallResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const disassociateThirdPartyFirewall: (
+  input: DisassociateThirdPartyFirewallRequest,
+) => Effect.Effect<
+  DisassociateThirdPartyFirewallResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateThirdPartyFirewallRequest,
+  output: DisassociateThirdPartyFirewallResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns information about the specified Firewall Manager applications list.
  */
-export const getAppsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAppsList: (
+  input: GetAppsListRequest,
+) => Effect.Effect<
+  GetAppsListResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppsListRequest,
   output: GetAppsListResponse,
   errors: [
@@ -3081,7 +3389,16 @@ export const getAppsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you created a Shield Advanced policy, returns policy-level attack summary information
  * in the event of a potential DDoS attack. Other policy types are currently unsupported.
  */
-export const getProtectionStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getProtectionStatus: (
+  input: GetProtectionStatusRequest,
+) => Effect.Effect<
+  GetProtectionStatusResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProtectionStatusRequest,
   output: GetProtectionStatusResponse,
   errors: [
@@ -3093,7 +3410,16 @@ export const getProtectionStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the specified Firewall Manager protocols list.
  */
-export const getProtocolsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getProtocolsList: (
+  input: GetProtocolsListRequest,
+) => Effect.Effect<
+  GetProtocolsListResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProtocolsListRequest,
   output: GetProtocolsListResponse,
   errors: [
@@ -3105,7 +3431,17 @@ export const getProtocolsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a specific resource set.
  */
-export const getResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourceSet: (
+  input: GetResourceSetRequest,
+) => Effect.Effect<
+  GetResourceSetResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceSetRequest,
   output: GetResourceSetResponse,
   errors: [
@@ -3118,59 +3454,128 @@ export const getResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The onboarding status of a Firewall Manager admin account to third-party firewall vendor tenant.
  */
-export const getThirdPartyFirewallAssociationStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetThirdPartyFirewallAssociationStatusRequest,
-    output: GetThirdPartyFirewallAssociationStatusResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const getThirdPartyFirewallAssociationStatus: (
+  input: GetThirdPartyFirewallAssociationStatusRequest,
+) => Effect.Effect<
+  GetThirdPartyFirewallAssociationStatusResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetThirdPartyFirewallAssociationStatusRequest,
+  output: GetThirdPartyFirewallAssociationStatusResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Lists the accounts that are managing the specified Organizations member account. This is useful for any member account so that they can view the accounts who are managing their account. This operation only returns the managing administrators that have the requested account within their AdminScope.
  */
-export const listAdminsManagingAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAdminsManagingAccount: {
+  (
     input: ListAdminsManagingAccountRequest,
-    output: ListAdminsManagingAccountResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AdminAccounts",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAdminsManagingAccountResponse,
+    | InternalErrorException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAdminsManagingAccountRequest,
+  ) => Stream.Stream<
+    ListAdminsManagingAccountResponse,
+    | InternalErrorException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAdminsManagingAccountRequest,
+  ) => Stream.Stream<
+    AWSAccountId,
+    | InternalErrorException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAdminsManagingAccountRequest,
+  output: ListAdminsManagingAccountResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AdminAccounts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a `MemberAccounts` object that lists the member accounts in the
  * administrator's Amazon Web Services organization.
  *
  * Either an Firewall Manager administrator or the organization's management account can make this request.
  */
-export const listMemberAccounts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMemberAccounts: {
+  (
     input: ListMemberAccountsRequest,
-    output: ListMemberAccountsResponse,
-    errors: [InternalErrorException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MemberAccounts",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMemberAccountsResponse,
+    InternalErrorException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMemberAccountsRequest,
+  ) => Stream.Stream<
+    ListMemberAccountsResponse,
+    InternalErrorException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMemberAccountsRequest,
+  ) => Stream.Stream<
+    AWSAccountId,
+    InternalErrorException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMemberAccountsRequest,
+  output: ListMemberAccountsResponse,
+  errors: [InternalErrorException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MemberAccounts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the list of tags for the specified Amazon Web Services resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3183,7 +3588,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Permanently deletes an Firewall Manager protocols list.
  */
-export const deleteProtocolsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProtocolsList: (
+  input: DeleteProtocolsListRequest,
+) => Effect.Effect<
+  DeleteProtocolsListResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProtocolsListRequest,
   output: DeleteProtocolsListResponse,
   errors: [
@@ -3196,7 +3610,16 @@ export const deleteProtocolsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns the Organizations account that is associated with Firewall Manager
  * as the Firewall Manager default administrator.
  */
-export const getAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAdminAccount: (
+  input: GetAdminAccountRequest,
+) => Effect.Effect<
+  GetAdminAccountResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdminAccountRequest,
   output: GetAdminAccountResponse,
   errors: [
@@ -3210,17 +3633,24 @@ export const getAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * about the Amazon Simple Notification Service (SNS) topic that is used to
  * record Firewall Manager SNS logs.
  */
-export const getNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetNotificationChannelRequest,
-    output: GetNotificationChannelResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getNotificationChannel: (
+  input: GetNotificationChannelRequest,
+) => Effect.Effect<
+  GetNotificationChannelResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetNotificationChannelRequest,
+  output: GetNotificationChannelResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Designates the IAM role and Amazon Simple Notification Service (SNS) topic that
  * Firewall Manager uses to record SNS logs.
@@ -3228,37 +3658,60 @@ export const getNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To perform this action outside of the console, you must first configure the SNS topic's access policy to allow the `SnsRoleName` to publish SNS logs. If the `SnsRoleName` provided is a role other than the `AWSServiceRoleForFMS` service-linked role, this role must have a trust relationship configured to allow the Firewall Manager service principal `fms.amazonaws.com` to assume this role. For information about configuring an SNS access policy, see
  * Service roles for Firewall Manager in the *Firewall Manager Developer Guide*.
  */
-export const putNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutNotificationChannelRequest,
-    output: PutNotificationChannelResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const putNotificationChannel: (
+  input: PutNotificationChannelRequest,
+) => Effect.Effect<
+  PutNotificationChannelResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutNotificationChannelRequest,
+  output: PutNotificationChannelResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Disassociates an Firewall Manager administrator account. To set a different account as an Firewall Manager administrator, submit a PutAdminAccount request. To set an account as a default administrator account, you must submit an AssociateAdminAccount request.
  *
  * Disassociation of the default administrator account follows the first in, last out principle. If you are the default administrator, all Firewall Manager administrators within the organization must first disassociate their accounts before you can disassociate your account.
  */
-export const disassociateAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateAdminAccountRequest,
-    output: DisassociateAdminAccountResponse,
-    errors: [
-      InternalErrorException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const disassociateAdminAccount: (
+  input: DisassociateAdminAccountRequest,
+) => Effect.Effect<
+  DisassociateAdminAccountResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateAdminAccountRequest,
+  output: DisassociateAdminAccountResponse,
+  errors: [
+    InternalErrorException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Permanently deletes an Firewall Manager applications list.
  */
-export const deleteAppsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAppsList: (
+  input: DeleteAppsListRequest,
+) => Effect.Effect<
+  DeleteAppsListResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppsListRequest,
   output: DeleteAppsListResponse,
   errors: [
@@ -3270,7 +3723,17 @@ export const deleteAppsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified ResourceSet.
  */
-export const deleteResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteResourceSet: (
+  input: DeleteResourceSetRequest,
+) => Effect.Effect<
+  DeleteResourceSetResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourceSetRequest,
   output: DeleteResourceSetResponse,
   errors: [
@@ -3283,7 +3746,17 @@ export const deleteResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes one or more tags from an Amazon Web Services resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3296,37 +3769,64 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Sets the Firewall Manager policy administrator as a tenant administrator of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account.
  */
-export const associateThirdPartyFirewall = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateThirdPartyFirewallRequest,
-    output: AssociateThirdPartyFirewallResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const associateThirdPartyFirewall: (
+  input: AssociateThirdPartyFirewallRequest,
+) => Effect.Effect<
+  AssociateThirdPartyFirewallResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateThirdPartyFirewallRequest,
+  output: AssociateThirdPartyFirewallResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Disassociates resources from a Firewall Manager resource set.
  */
-export const batchDisassociateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDisassociateResourceRequest,
-    output: BatchDisassociateResourceResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      InvalidOperationException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const batchDisassociateResource: (
+  input: BatchDisassociateResourceRequest,
+) => Effect.Effect<
+  BatchDisassociateResourceResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDisassociateResourceRequest,
+  output: BatchDisassociateResourceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    InvalidOperationException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns information about the specified account's administrative scope. The administrative scope defines the resources that an Firewall Manager administrator can manage.
  */
-export const getAdminScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAdminScope: (
+  input: GetAdminScopeRequest,
+) => Effect.Effect<
+  GetAdminScopeResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdminScopeRequest,
   output: GetAdminScopeResponse,
   errors: [
@@ -3340,7 +3840,18 @@ export const getAdminScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds one or more tags to an Amazon Web Services resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3356,56 +3867,106 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For information about working with Firewall Manager administrator accounts, see Managing Firewall Manager administrators in the *Firewall Manager Developer Guide*.
  */
-export const associateAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateAdminAccountRequest,
-    output: AssociateAdminAccountResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      InvalidOperationException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const associateAdminAccount: (
+  input: AssociateAdminAccountRequest,
+) => Effect.Effect<
+  AssociateAdminAccountResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateAdminAccountRequest,
+  output: AssociateAdminAccountResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    InvalidOperationException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Associate resources to a Firewall Manager resource set.
  */
-export const batchAssociateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchAssociateResourceRequest,
-    output: BatchAssociateResourceResponse,
-    errors: [
-      InternalErrorException,
-      InvalidInputException,
-      InvalidOperationException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const batchAssociateResource: (
+  input: BatchAssociateResourceRequest,
+) => Effect.Effect<
+  BatchAssociateResourceResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchAssociateResourceRequest,
+  output: BatchAssociateResourceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidInputException,
+    InvalidOperationException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns an array of `PolicyComplianceStatus` objects. Use
  * `PolicyComplianceStatus` to get a summary of which member accounts are protected
  * by the specified policy.
  */
-export const listComplianceStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listComplianceStatus: {
+  (
     input: ListComplianceStatusRequest,
-    output: ListComplianceStatusResponse,
-    errors: [InternalErrorException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PolicyComplianceStatusList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListComplianceStatusResponse,
+    InternalErrorException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComplianceStatusRequest,
+  ) => Stream.Stream<
+    ListComplianceStatusResponse,
+    InternalErrorException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComplianceStatusRequest,
+  ) => Stream.Stream<
+    PolicyComplianceStatus,
+    InternalErrorException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComplianceStatusRequest,
+  output: ListComplianceStatusResponse,
+  errors: [InternalErrorException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PolicyComplianceStatusList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates an Firewall Manager applications list.
  */
-export const putAppsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putAppsList: (
+  input: PutAppsListRequest,
+) => Effect.Effect<
+  PutAppsListResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAppsListRequest,
   output: PutAppsListResponse,
   errors: [
@@ -3419,7 +3980,18 @@ export const putAppsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Firewall Manager protocols list.
  */
-export const putProtocolsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putProtocolsList: (
+  input: PutProtocolsListRequest,
+) => Effect.Effect<
+  PutProtocolsListResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutProtocolsListRequest,
   output: PutProtocolsListResponse,
   errors: [
@@ -3436,7 +4008,17 @@ export const putProtocolsList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The reasons for resources being considered compliant depend on the Firewall Manager policy type.
  */
-export const getComplianceDetail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getComplianceDetail: (
+  input: GetComplianceDetailRequest,
+) => Effect.Effect<
+  GetComplianceDetailResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComplianceDetailRequest,
   output: GetComplianceDetailResponse,
   errors: [
@@ -3486,7 +4068,19 @@ export const getComplianceDetail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - **Fortigate CNF policy** - This policy applies
  * Fortigate Cloud Native Firewall (CNF) protections. Fortigate CNF is a cloud-centered solution that blocks Zero-Day threats and secures cloud infrastructures with industry-leading advanced threat prevention, smart web application firewalls (WAF), and API protection.
  */
-export const putPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putPolicy: (
+  input: PutPolicyRequest,
+) => Effect.Effect<
+  PutPolicyResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | InvalidTypeException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPolicyRequest,
   output: PutPolicyResponse,
   errors: [
@@ -3501,7 +4095,16 @@ export const putPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves violations for a resource based on the specified Firewall Manager policy and Amazon Web Services account.
  */
-export const getViolationDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getViolationDetails: (
+  input: GetViolationDetailsRequest,
+) => Effect.Effect<
+  GetViolationDetailsResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetViolationDetailsRequest,
   output: GetViolationDetailsResponse,
   errors: [

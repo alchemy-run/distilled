@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Neptune Graph",
   serviceShapeName: "AmazonNeptuneGraph",
@@ -333,6 +341,34 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type GraphIdentifier = string;
+export type Arn = string;
+export type TagKey = string;
+export type GraphName = string;
+export type KmsKeyArn = string;
+export type ReplicaCount = number;
+export type ProvisionedMemory = number;
+export type PaginationToken = string;
+export type MaxResults = number;
+export type SnapshotIdentifier = string;
+export type VpcId = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type SnapshotName = string;
+export type ExportTaskId = string;
+export type TaskId = string;
+export type RoleArn = string;
+export type TagValue = string;
+export type VectorSearchDimension = number;
+export type GraphId = string;
+export type SnapshotId = string;
+export type VpcEndpointId = string;
+export type ExportFilterLabel = string;
+export type ExportFilterOutputPropertyName = string;
+export type ExportFilterOutputDataType = string;
+export type ExportFilterSourcePropertyName = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -1010,6 +1046,7 @@ export const NeptuneImportOptions = S.suspend(() =>
 ).annotations({
   identifier: "NeptuneImportOptions",
 }) as any as S.Schema<NeptuneImportOptions>;
+export type ImportOptions = { neptune: NeptuneImportOptions };
 export const ImportOptions = S.Union(
   S.Struct({ neptune: NeptuneImportOptions }),
 );
@@ -2273,7 +2310,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -2286,7 +2325,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -2310,7 +2351,38 @@ export class UnprocessableException extends S.TaggedError<UnprocessableException
 /**
  * Lists available Neptune Analytics graphs.
  */
-export const listGraphs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGraphs: {
+  (
+    input: ListGraphsInput,
+  ): Effect.Effect<
+    ListGraphsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGraphsInput,
+  ) => Stream.Stream<
+    ListGraphsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGraphsInput,
+  ) => Stream.Stream<
+    GraphSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGraphsInput,
   output: ListGraphsOutput,
   errors: [
@@ -2328,7 +2400,17 @@ export const listGraphs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists active openCypher queries.
  */
-export const listQueries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listQueries: (
+  input: ListQueriesInput,
+) => Effect.Effect<
+  ListQueriesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListQueriesInput,
   output: ListQueriesOutput,
   errors: [
@@ -2349,7 +2431,19 @@ export const listQueries = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - neptune-graph:DeleteDataViaQuery
  */
-export const executeQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const executeQuery: (
+  input: ExecuteQueryInput,
+) => Effect.Effect<
+  ExecuteQueryOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | UnprocessableException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteQueryInput,
   output: ExecuteQueryOutput,
   errors: [
@@ -2364,7 +2458,17 @@ export const executeQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -2377,7 +2481,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified graph. Graphs cannot be deleted if delete-protection is enabled.
  */
-export const deleteGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGraph: (
+  input: DeleteGraphInput,
+) => Effect.Effect<
+  DeleteGraphOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGraphInput,
   output: DeleteGraphOutput,
   errors: [
@@ -2391,48 +2506,123 @@ export const deleteGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists private endpoints for a specified Neptune Analytics graph.
  */
-export const listPrivateGraphEndpoints =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPrivateGraphEndpoints: {
+  (
     input: ListPrivateGraphEndpointsInput,
-    output: ListPrivateGraphEndpointsOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "privateGraphEndpoints",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPrivateGraphEndpointsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPrivateGraphEndpointsInput,
+  ) => Stream.Stream<
+    ListPrivateGraphEndpointsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPrivateGraphEndpointsInput,
+  ) => Stream.Stream<
+    PrivateGraphEndpointSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPrivateGraphEndpointsInput,
+  output: ListPrivateGraphEndpointsOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "privateGraphEndpoints",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists available snapshots of a specified Neptune Analytics graph.
  */
-export const listGraphSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listGraphSnapshots: {
+  (
     input: ListGraphSnapshotsInput,
-    output: ListGraphSnapshotsOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "graphSnapshots",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListGraphSnapshotsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGraphSnapshotsInput,
+  ) => Stream.Stream<
+    ListGraphSnapshotsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGraphSnapshotsInput,
+  ) => Stream.Stream<
+    GraphSnapshotSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGraphSnapshotsInput,
+  output: ListGraphSnapshotsOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "graphSnapshots",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a specified export task.
  */
-export const getExportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getExportTask: (
+  input: GetExportTaskInput,
+) => Effect.Effect<
+  GetExportTaskOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExportTaskInput,
   output: GetExportTaskOutput,
   errors: [
@@ -2445,7 +2635,17 @@ export const getExportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a specified import task.
  */
-export const getImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getImportTask: (
+  input: GetImportTaskInput,
+) => Effect.Effect<
+  GetImportTaskOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImportTaskInput,
   output: GetImportTaskOutput,
   errors: [
@@ -2458,49 +2658,123 @@ export const getImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of export tasks.
  */
-export const listExportTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listExportTasks: {
+  (
     input: ListExportTasksInput,
-    output: ListExportTasksOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "tasks",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListExportTasksOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExportTasksInput,
+  ) => Stream.Stream<
+    ListExportTasksOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExportTasksInput,
+  ) => Stream.Stream<
+    ExportTaskSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExportTasksInput,
+  output: ListExportTasksOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tasks",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists import tasks.
  */
-export const listImportTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listImportTasks: {
+  (
     input: ListImportTasksInput,
-    output: ListImportTasksOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "tasks",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListImportTasksOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImportTasksInput,
+  ) => Stream.Stream<
+    ListImportTasksOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImportTasksInput,
+  ) => Stream.Stream<
+    ImportTaskSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImportTasksInput,
+  output: ListImportTasksOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tasks",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets information about a specified graph.
  */
-export const getGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGraph: (
+  input: GetGraphInput,
+) => Effect.Effect<
+  GetGraphOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGraphInput,
   output: GetGraphOutput,
   errors: [
@@ -2513,22 +2787,40 @@ export const getGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a specified private endpoint.
  */
-export const getPrivateGraphEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPrivateGraphEndpointInput,
-    output: GetPrivateGraphEndpointOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getPrivateGraphEndpoint: (
+  input: GetPrivateGraphEndpointInput,
+) => Effect.Effect<
+  GetPrivateGraphEndpointOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPrivateGraphEndpointInput,
+  output: GetPrivateGraphEndpointOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a specified graph snapshot.
  */
-export const getGraphSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGraphSnapshot: (
+  input: GetGraphSnapshotInput,
+) => Effect.Effect<
+  GetGraphSnapshotOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGraphSnapshotInput,
   output: GetGraphSnapshotOutput,
   errors: [
@@ -2541,7 +2833,18 @@ export const getGraphSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels a specified query.
  */
-export const cancelQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelQuery: (
+  input: CancelQueryInput,
+) => Effect.Effect<
+  CancelQueryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelQueryInput,
   output: CancelQueryResponse,
   errors: [
@@ -2557,7 +2860,18 @@ export const cancelQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have the `neptune-graph:GetQueryStatus` IAM action attached.
  */
-export const getQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getQuery: (
+  input: GetQueryInput,
+) => Effect.Effect<
+  GetQueryOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueryInput,
   output: GetQueryOutput,
   errors: [
@@ -2571,7 +2885,17 @@ export const getQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists tags associated with a specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -2584,7 +2908,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds tags to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -2597,7 +2931,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Empties the data from a specified Neptune Analytics graph.
  */
-export const resetGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resetGraph: (
+  input: ResetGraphInput,
+) => Effect.Effect<
+  ResetGraphOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetGraphInput,
   output: ResetGraphOutput,
   errors: [
@@ -2611,7 +2956,18 @@ export const resetGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts the specific graph.
  */
-export const startGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startGraph: (
+  input: StartGraphInput,
+) => Effect.Effect<
+  StartGraphOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartGraphInput,
   output: StartGraphOutput,
   errors: [
@@ -2625,7 +2981,18 @@ export const startGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops the specific graph.
  */
-export const stopGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopGraph: (
+  input: StopGraphInput,
+) => Effect.Effect<
+  StopGraphOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopGraphInput,
   output: StopGraphOutput,
   errors: [
@@ -2639,7 +3006,18 @@ export const stopGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the configuration of a specified Neptune Analytics graph
  */
-export const updateGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGraph: (
+  input: UpdateGraphInput,
+) => Effect.Effect<
+  UpdateGraphOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGraphInput,
   output: UpdateGraphOutput,
   errors: [
@@ -2653,23 +3031,43 @@ export const updateGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a private graph endpoint.
  */
-export const deletePrivateGraphEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePrivateGraphEndpointInput,
-    output: DeletePrivateGraphEndpointOutput,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deletePrivateGraphEndpoint: (
+  input: DeletePrivateGraphEndpointInput,
+) => Effect.Effect<
+  DeletePrivateGraphEndpointOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePrivateGraphEndpointInput,
+  output: DeletePrivateGraphEndpointOutput,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the specifed graph snapshot.
  */
-export const deleteGraphSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGraphSnapshot: (
+  input: DeleteGraphSnapshotInput,
+) => Effect.Effect<
+  DeleteGraphSnapshotOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGraphSnapshotInput,
   output: DeleteGraphSnapshotOutput,
   errors: [
@@ -2683,7 +3081,18 @@ export const deleteGraphSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancel the specified export task.
  */
-export const cancelExportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelExportTask: (
+  input: CancelExportTaskInput,
+) => Effect.Effect<
+  CancelExportTaskOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelExportTaskInput,
   output: CancelExportTaskOutput,
   errors: [
@@ -2697,7 +3106,18 @@ export const cancelExportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified import task.
  */
-export const cancelImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelImportTask: (
+  input: CancelImportTaskInput,
+) => Effect.Effect<
+  CancelImportTaskOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelImportTaskInput,
   output: CancelImportTaskOutput,
   errors: [
@@ -2711,7 +3131,18 @@ export const cancelImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state.
  */
-export const startImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startImportTask: (
+  input: StartImportTaskInput,
+) => Effect.Effect<
+  StartImportTaskOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImportTaskInput,
   output: StartImportTaskOutput,
   errors: [
@@ -2725,7 +3156,18 @@ export const startImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a graph summary for a property graph.
  */
-export const getGraphSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGraphSummary: (
+  input: GetGraphSummaryInput,
+) => Effect.Effect<
+  GetGraphSummaryOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGraphSummaryInput,
   output: GetGraphSummaryOutput,
   errors: [
@@ -2739,43 +3181,75 @@ export const getGraphSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Restores a graph from a snapshot.
  */
-export const restoreGraphFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RestoreGraphFromSnapshotInput,
-    output: RestoreGraphFromSnapshotOutput,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const restoreGraphFromSnapshot: (
+  input: RestoreGraphFromSnapshotInput,
+) => Effect.Effect<
+  RestoreGraphFromSnapshotOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreGraphFromSnapshotInput,
+  output: RestoreGraphFromSnapshotOutput,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Create a private graph endpoint to allow private access from to the graph from within a VPC. You can attach security groups to the private graph endpoint.
  *
  * VPC endpoint charges apply.
  */
-export const createPrivateGraphEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePrivateGraphEndpointInput,
-    output: CreatePrivateGraphEndpointOutput,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createPrivateGraphEndpoint: (
+  input: CreatePrivateGraphEndpointInput,
+) => Effect.Effect<
+  CreatePrivateGraphEndpointOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePrivateGraphEndpointInput,
+  output: CreatePrivateGraphEndpointOutput,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a snapshot of the specific graph.
  */
-export const createGraphSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGraphSnapshot: (
+  input: CreateGraphSnapshotInput,
+) => Effect.Effect<
+  CreateGraphSnapshotOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGraphSnapshotInput,
   output: CreateGraphSnapshotOutput,
   errors: [
@@ -2790,7 +3264,18 @@ export const createGraphSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new Neptune Analytics graph.
  */
-export const createGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGraph: (
+  input: CreateGraphInput,
+) => Effect.Effect<
+  CreateGraphOutput,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGraphInput,
   output: CreateGraphOutput,
   errors: [
@@ -2806,23 +3291,43 @@ export const createGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The data can be loaded from files in S3 that in either the Gremlin CSV format or the openCypher load format.
  */
-export const createGraphUsingImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateGraphUsingImportTaskInput,
-    output: CreateGraphUsingImportTaskOutput,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createGraphUsingImportTask: (
+  input: CreateGraphUsingImportTaskInput,
+) => Effect.Effect<
+  CreateGraphUsingImportTaskOutput,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGraphUsingImportTaskInput,
+  output: CreateGraphUsingImportTaskOutput,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Export data from an existing Neptune Analytics graph to Amazon S3. The graph state should be `AVAILABLE`.
  */
-export const startExportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startExportTask: (
+  input: StartExportTaskInput,
+) => Effect.Effect<
+  StartExportTaskOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartExportTaskInput,
   output: StartExportTaskOutput,
   errors: [

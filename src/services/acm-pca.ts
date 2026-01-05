@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "ACM PCA",
   serviceShapeName: "ACMPrivateCA",
@@ -260,6 +268,43 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type IdempotencyToken = string;
+export type Arn = string;
+export type S3BucketName = string;
+export type Principal = string;
+export type AccountId = string;
+export type PermanentDeletionTimeInDays = number;
+export type AuditReportId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type AWSPolicy = string;
+export type String128 = string;
+export type TagKey = string;
+export type TagValue = string;
+export type PositiveLong = number;
+export type S3Key = string;
+export type CertificateBody = string;
+export type CertificateChain = string;
+export type CsrBody = string;
+export type CountryCodeString = string;
+export type String64 = string;
+export type ASN1PrintableString64 = string;
+export type String40 = string;
+export type String16 = string;
+export type String5 = string;
+export type String3 = string;
+export type Integer1To5000 = number;
+export type CnameString = string;
+export type S3BucketName3To255 = string;
+export type CrlPathString = string;
+export type CustomObjectIdentifier = string;
+export type String1To256 = string;
+export type String256 = string;
+export type String253 = string;
+export type String39 = string;
+export type Base64String1To4096 = string;
 
 //# Schemas
 export type ActionList = string[];
@@ -1246,18 +1291,39 @@ export class MalformedCSRException extends S.TaggedError<MalformedCSRException>(
 /**
  * Lists the private certificate authorities that you created by using the CreateCertificateAuthority action.
  */
-export const listCertificateAuthorities =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCertificateAuthorities: {
+  (
     input: ListCertificateAuthoritiesRequest,
-    output: ListCertificateAuthoritiesResponse,
-    errors: [InvalidNextTokenException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CertificateAuthorities",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCertificateAuthoritiesResponse,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCertificateAuthoritiesRequest,
+  ) => Stream.Stream<
+    ListCertificateAuthoritiesResponse,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCertificateAuthoritiesRequest,
+  ) => Stream.Stream<
+    CertificateAuthority,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCertificateAuthoritiesRequest,
+  output: ListCertificateAuthoritiesResponse,
+  errors: [InvalidNextTokenException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CertificateAuthorities",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists information about your private certificate authority (CA) or one that has been shared with you. You specify the private CA on input by its ARN (Amazon Resource Name). The output contains the status of your CA. This can be any of the following:
  *
@@ -1275,12 +1341,17 @@ export const listCertificateAuthorities =
  *
  * - `DELETED` - Your private CA is within the restoration period, after which it is permanently deleted. The length of time remaining in the CA's restoration period is also included in this action's output.
  */
-export const describeCertificateAuthority =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeCertificateAuthorityRequest,
-    output: DescribeCertificateAuthorityResponse,
-    errors: [InvalidArnException, ResourceNotFoundException],
-  }));
+export const describeCertificateAuthority: (
+  input: DescribeCertificateAuthorityRequest,
+) => Effect.Effect<
+  DescribeCertificateAuthorityResponse,
+  InvalidArnException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCertificateAuthorityRequest,
+  output: DescribeCertificateAuthorityResponse,
+  errors: [InvalidArnException, ResourceNotFoundException],
+}));
 /**
  * List all permissions on a private CA, if any, granted to the Certificate Manager (ACM) service principal (acm.amazonaws.com).
  *
@@ -1295,25 +1366,60 @@ export const describeCertificateAuthority =
  *
  * - If the private CA and the ACM certificates reside in different accounts, then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based policy to enable cross-account issuance and renewals. For more information, see Using a Resource Based Policy with Amazon Web Services Private CA.
  */
-export const listPermissions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPermissions: {
+  (
     input: ListPermissionsRequest,
-    output: ListPermissionsResponse,
-    errors: [
-      InvalidArnException,
-      InvalidNextTokenException,
-      InvalidStateException,
-      RequestFailedException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Permissions",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPermissionsResponse,
+    | InvalidArnException
+    | InvalidNextTokenException
+    | InvalidStateException
+    | RequestFailedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPermissionsRequest,
+  ) => Stream.Stream<
+    ListPermissionsResponse,
+    | InvalidArnException
+    | InvalidNextTokenException
+    | InvalidStateException
+    | RequestFailedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPermissionsRequest,
+  ) => Stream.Stream<
+    Permission,
+    | InvalidArnException
+    | InvalidNextTokenException
+    | InvalidStateException
+    | RequestFailedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPermissionsRequest,
+  output: ListPermissionsResponse,
+  errors: [
+    InvalidArnException,
+    InvalidNextTokenException,
+    InvalidStateException,
+    RequestFailedException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Permissions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes the resource-based policy attached to a private CA. Deletion will remove any access that the policy has granted. If there is no policy attached to the private CA, this action will return successful.
  *
@@ -1332,7 +1438,19 @@ export const listPermissions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - Updates made in Amazon Web Services Resource Manager (RAM) are reflected in policies. For more information, see Attach a Policy for Cross-Account Access.
  */
-export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePolicy: (
+  input: DeletePolicyRequest,
+) => Effect.Effect<
+  DeletePolicyResponse,
+  | ConcurrentModificationException
+  | InvalidArnException
+  | InvalidStateException
+  | LockoutPreventedException
+  | RequestFailedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyRequest,
   output: DeletePolicyResponse,
   errors: [
@@ -1347,16 +1465,24 @@ export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists information about a specific audit report created by calling the CreateCertificateAuthorityAuditReport action. Audit information is created every time the certificate authority (CA) private key is used. The private key is used when you call the IssueCertificate action or the RevokeCertificate action.
  */
-export const describeCertificateAuthorityAuditReport =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeCertificateAuthorityAuditReportRequest,
-    output: DescribeCertificateAuthorityAuditReportResponse,
-    errors: [
-      InvalidArgsException,
-      InvalidArnException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const describeCertificateAuthorityAuditReport: (
+  input: DescribeCertificateAuthorityAuditReportRequest,
+) => Effect.Effect<
+  DescribeCertificateAuthorityAuditReportResponse,
+  | InvalidArgsException
+  | InvalidArnException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCertificateAuthorityAuditReportRequest,
+  output: DescribeCertificateAuthorityAuditReportResponse,
+  errors: [
+    InvalidArgsException,
+    InvalidArnException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes a private certificate authority (CA). You must provide the Amazon Resource Name (ARN) of the private CA that you want to delete. You can find the ARN by calling the ListCertificateAuthorities action.
  *
@@ -1370,64 +1496,97 @@ export const describeCertificateAuthorityAuditReport =
  *
  * A private CA can be deleted if it is in the `PENDING_CERTIFICATE`, `CREATING`, `EXPIRED`, `DISABLED`, or `FAILED` state. To delete a CA in the `ACTIVE` state, you must first disable it, or else the delete request results in an exception. If you are deleting a private CA in the `PENDING_CERTIFICATE` or `DISABLED` state, you can set the length of its restoration period to 7-30 days. The default is 30. During this time, the status is set to `DELETED` and the CA can be restored. A private CA deleted in the `CREATING` or `FAILED` state has no assigned restoration period and cannot be restored.
  */
-export const deleteCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCertificateAuthorityRequest,
-    output: DeleteCertificateAuthorityResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArnException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteCertificateAuthority: (
+  input: DeleteCertificateAuthorityRequest,
+) => Effect.Effect<
+  DeleteCertificateAuthorityResponse,
+  | ConcurrentModificationException
+  | InvalidArnException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCertificateAuthorityRequest,
+  output: DeleteCertificateAuthorityResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArnException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Retrieves the certificate and certificate chain for your private certificate authority (CA) or one that has been shared with you. Both the certificate and the chain are base64 PEM-encoded. The chain does not include the CA certificate. Each certificate in the chain signs the one before it.
  */
-export const getCertificateAuthorityCertificate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCertificateAuthorityCertificateRequest,
-    output: GetCertificateAuthorityCertificateResponse,
-    errors: [
-      InvalidArnException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const getCertificateAuthorityCertificate: (
+  input: GetCertificateAuthorityCertificateRequest,
+) => Effect.Effect<
+  GetCertificateAuthorityCertificateResponse,
+  | InvalidArnException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCertificateAuthorityCertificateRequest,
+  output: GetCertificateAuthorityCertificateResponse,
+  errors: [
+    InvalidArnException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Restores a certificate authority (CA) that is in the `DELETED` state. You can restore a CA during the period that you defined in the **PermanentDeletionTimeInDays** parameter of the DeleteCertificateAuthority action. Currently, you can specify 7 to 30 days. If you did not specify a **PermanentDeletionTimeInDays** value, by default you can restore the CA at any time in a 30 day period. You can check the time remaining in the restoration period of a private CA in the `DELETED` state by calling the DescribeCertificateAuthority or ListCertificateAuthorities actions. The status of a restored CA is set to its pre-deletion status when the **RestoreCertificateAuthority** action returns. To change its status to `ACTIVE`, call the UpdateCertificateAuthority action. If the private CA was in the `PENDING_CERTIFICATE` state at deletion, you must use the ImportCertificateAuthorityCertificate action to import a certificate authority into the private CA before it can be activated. You cannot restore a CA after the restoration period has ended.
  */
-export const restoreCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RestoreCertificateAuthorityRequest,
-    output: RestoreCertificateAuthorityResponse,
-    errors: [
-      InvalidArnException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const restoreCertificateAuthority: (
+  input: RestoreCertificateAuthorityRequest,
+) => Effect.Effect<
+  RestoreCertificateAuthorityResponse,
+  | InvalidArnException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreCertificateAuthorityRequest,
+  output: RestoreCertificateAuthorityResponse,
+  errors: [
+    InvalidArnException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Updates the status or configuration of a private certificate authority (CA). Your private CA must be in the `ACTIVE` or `DISABLED` state before you can update it. You can disable a private CA that is in the `ACTIVE` state or make a CA that is in the `DISABLED` state active again.
  *
  * Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see Access policies for CRLs in Amazon S3.
  */
-export const updateCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCertificateAuthorityRequest,
-    output: UpdateCertificateAuthorityResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgsException,
-      InvalidArnException,
-      InvalidPolicyException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateCertificateAuthority: (
+  input: UpdateCertificateAuthorityRequest,
+) => Effect.Effect<
+  UpdateCertificateAuthorityResponse,
+  | ConcurrentModificationException
+  | InvalidArgsException
+  | InvalidArnException
+  | InvalidPolicyException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCertificateAuthorityRequest,
+  output: UpdateCertificateAuthorityResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgsException,
+    InvalidArnException,
+    InvalidPolicyException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Retrieves the resource-based policy attached to a private CA. If either the private CA resource or the policy cannot be found, this action returns a `ResourceNotFoundException`.
  *
@@ -1442,7 +1601,17 @@ export const updateCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Updates made in Amazon Web Services Resource Manager (RAM) are reflected in policies. For more information, see Attach a Policy for Cross-Account Access.
  */
-export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicy: (
+  input: GetPolicyRequest,
+) => Effect.Effect<
+  GetPolicyResponse,
+  | InvalidArnException
+  | InvalidStateException
+  | RequestFailedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyRequest,
   output: GetPolicyResponse,
   errors: [
@@ -1455,7 +1624,41 @@ export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags, if any, that are associated with your private CA or one that has been shared with you. Tags are labels that you can use to identify and organize your CAs. Each tag consists of a key and an optional value. Call the TagCertificateAuthority action to add one or more tags to your CA. Call the UntagCertificateAuthority action to remove tags.
  */
-export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTags: {
+  (
+    input: ListTagsRequest,
+  ): Effect.Effect<
+    ListTagsResponse,
+    | InvalidArnException
+    | InvalidStateException
+    | RequestFailedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsRequest,
+  ) => Stream.Stream<
+    ListTagsResponse,
+    | InvalidArnException
+    | InvalidStateException
+    | RequestFailedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsRequest,
+  ) => Stream.Stream<
+    Tag,
+    | InvalidArnException
+    | InvalidStateException
+    | RequestFailedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTagsRequest,
   output: ListTagsResponse,
   errors: [
@@ -1485,7 +1688,17 @@ export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * - If the private CA and the ACM certificates reside in different accounts, then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based policy to enable cross-account issuance and renewals. For more information, see Using a Resource Based Policy with Amazon Web Services Private CA.
  */
-export const deletePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePermission: (
+  input: DeletePermissionRequest,
+) => Effect.Effect<
+  DeletePermissionResponse,
+  | InvalidArnException
+  | InvalidStateException
+  | RequestFailedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePermissionRequest,
   output: DeletePermissionResponse,
   errors: [
@@ -1498,18 +1711,26 @@ export const deletePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Remove one or more tags from your private CA. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this action, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value. To add tags to a private CA, use the TagCertificateAuthority. Call the ListTags action to see what tags are associated with your CA.
  */
-export const untagCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UntagCertificateAuthorityRequest,
-    output: UntagCertificateAuthorityResponse,
-    errors: [
-      InvalidArnException,
-      InvalidStateException,
-      InvalidTagException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const untagCertificateAuthority: (
+  input: UntagCertificateAuthorityRequest,
+) => Effect.Effect<
+  UntagCertificateAuthorityResponse,
+  | InvalidArnException
+  | InvalidStateException
+  | InvalidTagException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagCertificateAuthorityRequest,
+  output: UntagCertificateAuthorityResponse,
+  errors: [
+    InvalidArnException,
+    InvalidStateException,
+    InvalidTagException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Attaches a resource-based policy to a private CA.
  *
@@ -1526,7 +1747,20 @@ export const untagCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Updates made in Amazon Web Services Resource Manager (RAM) are reflected in policies. For more information, see Attach a Policy for Cross-Account Access.
  */
-export const putPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putPolicy: (
+  input: PutPolicyRequest,
+) => Effect.Effect<
+  PutPolicyResponse,
+  | ConcurrentModificationException
+  | InvalidArnException
+  | InvalidPolicyException
+  | InvalidStateException
+  | LockoutPreventedException
+  | RequestFailedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPolicyRequest,
   output: PutPolicyResponse,
   errors: [
@@ -1551,7 +1785,19 @@ export const putPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - If the private CA and the ACM certificates reside in different accounts, then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based policy to enable cross-account issuance and renewals. For more information, see Using a Resource Based Policy with Amazon Web Services Private CA.
  */
-export const createPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPermission: (
+  input: CreatePermissionRequest,
+) => Effect.Effect<
+  CreatePermissionResponse,
+  | InvalidArnException
+  | InvalidStateException
+  | LimitExceededException
+  | PermissionAlreadyExistsException
+  | RequestFailedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePermissionRequest,
   output: CreatePermissionResponse,
   errors: [
@@ -1568,23 +1814,43 @@ export const createPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To attach tags to a private CA during the creation procedure, a CA administrator must first associate an inline IAM policy with the `CreateCertificateAuthority` action and explicitly allow tagging. For more information, see Attaching tags to a CA at the time of creation.
  */
-export const tagCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TagCertificateAuthorityRequest,
-    output: TagCertificateAuthorityResponse,
-    errors: [
-      InvalidArnException,
-      InvalidStateException,
-      InvalidTagException,
-      ResourceNotFoundException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const tagCertificateAuthority: (
+  input: TagCertificateAuthorityRequest,
+) => Effect.Effect<
+  TagCertificateAuthorityResponse,
+  | InvalidArnException
+  | InvalidStateException
+  | InvalidTagException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagCertificateAuthorityRequest,
+  output: TagCertificateAuthorityResponse,
+  errors: [
+    InvalidArnException,
+    InvalidStateException,
+    InvalidTagException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Retrieves a certificate from your private CA or one that has been shared with you. The ARN of the certificate is returned when you call the IssueCertificate action. You must specify both the ARN of your private CA and the ARN of the issued certificate when calling the **GetCertificate** action. You can retrieve the certificate if it is in the **ISSUED**, **EXPIRED**, or **REVOKED** state. You can call the CreateCertificateAuthorityAuditReport action to create a report that contains information about all of the certificates issued and revoked by your private CA.
  */
-export const getCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCertificate: (
+  input: GetCertificateRequest,
+) => Effect.Effect<
+  GetCertificateResponse,
+  | InvalidArnException
+  | InvalidStateException
+  | RequestFailedException
+  | RequestInProgressException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCertificateRequest,
   output: GetCertificateResponse,
   errors: [
@@ -1598,19 +1864,28 @@ export const getCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the certificate signing request (CSR) for your private certificate authority (CA). The CSR is created when you call the CreateCertificateAuthority action. Sign the CSR with your Amazon Web Services Private CA-hosted or on-premises root or subordinate CA. Then import the signed certificate back into Amazon Web Services Private CA by calling the ImportCertificateAuthorityCertificate action. The CSR is returned as a base64 PEM-encoded string.
  */
-export const getCertificateAuthorityCsr = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCertificateAuthorityCsrRequest,
-    output: GetCertificateAuthorityCsrResponse,
-    errors: [
-      InvalidArnException,
-      InvalidStateException,
-      RequestFailedException,
-      RequestInProgressException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getCertificateAuthorityCsr: (
+  input: GetCertificateAuthorityCsrRequest,
+) => Effect.Effect<
+  GetCertificateAuthorityCsrResponse,
+  | InvalidArnException
+  | InvalidStateException
+  | RequestFailedException
+  | RequestInProgressException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCertificateAuthorityCsrRequest,
+  output: GetCertificateAuthorityCsrResponse,
+  errors: [
+    InvalidArnException,
+    InvalidStateException,
+    RequestFailedException,
+    RequestInProgressException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates an audit report that lists every time that your CA private key is used to issue a certificate. The IssueCertificate and RevokeCertificate actions use the private key.
  *
@@ -1620,19 +1895,30 @@ export const getCertificateAuthorityCsr = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can generate a maximum of one report every 30 minutes.
  */
-export const createCertificateAuthorityAuditReport =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCertificateAuthorityAuditReportRequest,
-    output: CreateCertificateAuthorityAuditReportResponse,
-    errors: [
-      InvalidArgsException,
-      InvalidArnException,
-      InvalidStateException,
-      RequestFailedException,
-      RequestInProgressException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const createCertificateAuthorityAuditReport: (
+  input: CreateCertificateAuthorityAuditReportRequest,
+) => Effect.Effect<
+  CreateCertificateAuthorityAuditReportResponse,
+  | InvalidArgsException
+  | InvalidArnException
+  | InvalidStateException
+  | RequestFailedException
+  | RequestInProgressException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCertificateAuthorityAuditReportRequest,
+  output: CreateCertificateAuthorityAuditReportResponse,
+  errors: [
+    InvalidArgsException,
+    InvalidArnException,
+    InvalidStateException,
+    RequestFailedException,
+    RequestInProgressException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Imports a signed private CA certificate into Amazon Web Services Private CA. This action is used when you are using a chain of trust whose root is located outside Amazon Web Services Private CA. Before you can call this action, the following preparations must in place:
  *
@@ -1710,22 +1996,36 @@ export const createCertificateAuthorityAuditReport =
  *
  * Amazon Web Services Private Certificate Authority will also reject any other extension marked as critical not contained on the preceding list of allowed extensions.
  */
-export const importCertificateAuthorityCertificate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ImportCertificateAuthorityCertificateRequest,
-    output: ImportCertificateAuthorityCertificateResponse,
-    errors: [
-      CertificateMismatchException,
-      ConcurrentModificationException,
-      InvalidArnException,
-      InvalidRequestException,
-      InvalidStateException,
-      MalformedCertificateException,
-      RequestFailedException,
-      RequestInProgressException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const importCertificateAuthorityCertificate: (
+  input: ImportCertificateAuthorityCertificateRequest,
+) => Effect.Effect<
+  ImportCertificateAuthorityCertificateResponse,
+  | CertificateMismatchException
+  | ConcurrentModificationException
+  | InvalidArnException
+  | InvalidRequestException
+  | InvalidStateException
+  | MalformedCertificateException
+  | RequestFailedException
+  | RequestInProgressException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportCertificateAuthorityCertificateRequest,
+  output: ImportCertificateAuthorityCertificateResponse,
+  errors: [
+    CertificateMismatchException,
+    ConcurrentModificationException,
+    InvalidArnException,
+    InvalidRequestException,
+    InvalidStateException,
+    MalformedCertificateException,
+    RequestFailedException,
+    RequestInProgressException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Revokes a certificate that was issued inside Amazon Web Services Private CA. If you enable a certificate revocation list (CRL) when you create or update your private CA, information about the revoked certificates will be included in the CRL. Amazon Web Services Private CA writes the CRL to an S3 bucket that you specify. A CRL is typically updated approximately 30 minutes after a certificate is revoked. If for any reason the CRL update fails, Amazon Web Services Private CA attempts makes further attempts every 15 minutes. With Amazon CloudWatch, you can create alarms for the metrics `CRLGenerated` and `MisconfiguredCRLBucket`. For more information, see Supported CloudWatch Metrics.
  *
@@ -1735,7 +2035,22 @@ export const importCertificateAuthorityCertificate =
  *
  * You cannot revoke a root CA self-signed certificate.
  */
-export const revokeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const revokeCertificate: (
+  input: RevokeCertificateRequest,
+) => Effect.Effect<
+  RevokeCertificateResponse,
+  | ConcurrentModificationException
+  | InvalidArnException
+  | InvalidRequestException
+  | InvalidStateException
+  | LimitExceededException
+  | RequestAlreadyProcessedException
+  | RequestFailedException
+  | RequestInProgressException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeCertificateRequest,
   output: RevokeCertificateResponse,
   errors: [
@@ -1757,24 +2072,44 @@ export const revokeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with encryption. For more information, see Encrypting Your CRLs.
  */
-export const createCertificateAuthority = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCertificateAuthorityRequest,
-    output: CreateCertificateAuthorityResponse,
-    errors: [
-      InvalidArgsException,
-      InvalidPolicyException,
-      InvalidTagException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const createCertificateAuthority: (
+  input: CreateCertificateAuthorityRequest,
+) => Effect.Effect<
+  CreateCertificateAuthorityResponse,
+  | InvalidArgsException
+  | InvalidPolicyException
+  | InvalidTagException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCertificateAuthorityRequest,
+  output: CreateCertificateAuthorityResponse,
+  errors: [
+    InvalidArgsException,
+    InvalidPolicyException,
+    InvalidTagException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Uses your private certificate authority (CA), or one that has been shared with you, to issue a client certificate. This action returns the Amazon Resource Name (ARN) of the certificate. You can retrieve the certificate by calling the GetCertificate action and specifying the ARN.
  *
  * You cannot use the ACM **ListCertificateAuthorities** action to retrieve the ARNs of the certificates that you issue by using Amazon Web Services Private CA.
  */
-export const issueCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const issueCertificate: (
+  input: IssueCertificateRequest,
+) => Effect.Effect<
+  IssueCertificateResponse,
+  | InvalidArgsException
+  | InvalidArnException
+  | InvalidStateException
+  | LimitExceededException
+  | MalformedCSRException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IssueCertificateRequest,
   output: IssueCertificateResponse,
   errors: [

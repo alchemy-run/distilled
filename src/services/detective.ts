@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Detective",
   serviceShapeName: "AmazonDetective",
@@ -373,6 +381,40 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type GraphArn = string;
+export type AccountId = string;
+export type EmailMessage = string;
+export type ErrorMessage = string;
+export type ErrorCodeReason = string;
+export type InvestigationId = string;
+export type PaginationToken = string;
+export type MemberResultsLimit = number;
+export type AiPaginationToken = string;
+export type MaxResults = number;
+export type EntityArn = string;
+export type TagKey = string;
+export type TagValue = string;
+export type EmailAddress = string;
+export type Value = string;
+export type UnprocessedReason = string;
+export type ByteValue = number;
+export type Percentage = number;
+export type Tactic = string;
+export type Technique = string;
+export type Procedure = string;
+export type IpAddress = string;
+export type APIName = string;
+export type APISuccessCount = number;
+export type APIFailureCount = number;
+export type Location = string;
+export type HourlyTimeDelta = number;
+export type Aso = string;
+export type UserAgent = string;
+export type Type = string;
+export type Id = string;
+export type Resource = string;
 
 //# Schemas
 export interface DisableOrganizationAdminAccountRequest {}
@@ -1648,7 +1690,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },
@@ -1656,7 +1700,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -1685,42 +1731,100 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  * invitation. The results also do not include behavior graphs that the member account
  * resigned from or was removed from.
  */
-export const listInvitations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listInvitations: {
+  (
     input: ListInvitationsRequest,
-    output: ListInvitationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListInvitationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInvitationsRequest,
+  ) => Stream.Stream<
+    ListInvitationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInvitationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInvitationsRequest,
+  output: ListInvitationsResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about the Detective administrator account for an
  * organization. Can only be called by the organization management account.
  */
-export const listOrganizationAdminAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOrganizationAdminAccounts: {
+  (
     input: ListOrganizationAdminAccountsRequest,
-    output: ListOrganizationAdminAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOrganizationAdminAccountsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | TooManyRequestsException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOrganizationAdminAccountsRequest,
+  ) => Stream.Stream<
+    ListOrganizationAdminAccountsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | TooManyRequestsException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOrganizationAdminAccountsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | TooManyRequestsException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOrganizationAdminAccountsRequest,
+  output: ListOrganizationAdminAccountsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Designates the Detective administrator account for the organization in the
  * current Region.
@@ -1739,33 +1843,51 @@ export const listOrganizationAdminAccounts =
  * make that account the delegated administrator account for Detective. The
  * organization management account cannot be the delegated administrator account.
  */
-export const enableOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableOrganizationAdminAccountRequest,
-    output: EnableOrganizationAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
+export const enableOrganizationAdminAccount: (
+  input: EnableOrganizationAdminAccountRequest,
+) => Effect.Effect<
+  EnableOrganizationAdminAccountResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableOrganizationAdminAccountRequest,
+  output: EnableOrganizationAdminAccountResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the configuration for the Organizations integration in the current Region.
  * Can only be called by the Detective administrator account for the
  * organization.
  */
-export const updateOrganizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateOrganizationConfigurationRequest,
-    output: UpdateOrganizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
+export const updateOrganizationConfiguration: (
+  input: UpdateOrganizationConfigurationRequest,
+) => Effect.Effect<
+  UpdateOrganizationConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOrganizationConfigurationRequest,
+  output: UpdateOrganizationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about the configuration for the organization behavior graph.
  * Currently indicates whether to automatically enable new organization accounts as member
@@ -1773,21 +1895,41 @@ export const updateOrganizationConfiguration =
  *
  * Can only be called by the Detective administrator account for the organization.
  */
-export const describeOrganizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeOrganizationConfigurationRequest,
-    output: DescribeOrganizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
+export const describeOrganizationConfiguration: (
+  input: DescribeOrganizationConfigurationRequest,
+) => Effect.Effect<
+  DescribeOrganizationConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeOrganizationConfigurationRequest,
+  output: DescribeOrganizationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
 /**
  * Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. `GetInvestigation` returns the investigation results of an investigation for a behavior graph.
  */
-export const getInvestigation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInvestigation: (
+  input: GetInvestigationRequest,
+) => Effect.Effect<
+  GetInvestigationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInvestigationRequest,
   output: GetInvestigationResponse,
   errors: [
@@ -1808,27 +1950,69 @@ export const getInvestigation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * that the Detective administrator account has not enabled as member
  * accounts.
  */
-export const listMembers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMembers: {
+  (
     input: ListMembersRequest,
-    output: ListMembersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMembersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMembersRequest,
+  ) => Stream.Stream<
+    ListMembersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMembersRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMembersRequest,
+  output: ListMembersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the tag values that are assigned to a behavior graph.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1841,7 +2025,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. `StartInvestigation` initiates an investigation on an entity in a behavior graph.
  */
-export const startInvestigation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startInvestigation: (
+  input: StartInvestigationRequest,
+) => Effect.Effect<
+  StartInvestigationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartInvestigationRequest,
   output: StartInvestigationResponse,
   errors: [
@@ -1855,7 +2050,17 @@ export const startInvestigation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Applies tag values to a behavior graph.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1868,7 +2073,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from a behavior graph.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1881,19 +2096,28 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the state of an investigation.
  */
-export const updateInvestigationState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateInvestigationStateRequest,
-    output: UpdateInvestigationStateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateInvestigationState: (
+  input: UpdateInvestigationStateRequest,
+) => Effect.Effect<
+  UpdateInvestigationStateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInvestigationStateRequest,
+  output: UpdateInvestigationStateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
 /**
  * Disables the specified behavior graph and queues it to be deleted. This operation
  * removes the behavior graph from each member account's list of behavior graphs.
@@ -1901,7 +2125,17 @@ export const updateInvestigationState = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `DeleteGraph` can only be called by the administrator account for a behavior
  * graph.
  */
-export const deleteGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGraph: (
+  input: DeleteGraphRequest,
+) => Effect.Effect<
+  DeleteGraphResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGraphRequest,
   output: DeleteGraphResponse,
   errors: [
@@ -1920,7 +2154,18 @@ export const deleteGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * organization behavior graph. In the organization behavior graph, organization accounts do
  * not receive an invitation.
  */
-export const rejectInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rejectInvitation: (
+  input: RejectInvitationRequest,
+) => Effect.Effect<
+  RejectInvitationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectInvitationRequest,
   output: RejectInvitationResponse,
   errors: [
@@ -1939,7 +2184,18 @@ export const rejectInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The member account status in the graph must be `INVITED`.
  */
-export const acceptInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const acceptInvitation: (
+  input: AcceptInvitationRequest,
+) => Effect.Effect<
+  AcceptInvitationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptInvitationRequest,
   output: AcceptInvitationResponse,
   errors: [
@@ -1968,7 +2224,18 @@ export const acceptInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * account from the behavior graph. To disable a behavior graph, the administrator account
  * uses the `DeleteGraph` API method.
  */
-export const deleteMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMembers: (
+  input: DeleteMembersRequest,
+) => Effect.Effect<
+  DeleteMembersResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMembersRequest,
   output: DeleteMembersResponse,
   errors: [
@@ -1982,17 +2249,26 @@ export const deleteMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information on the data source package history for an account.
  */
-export const batchGetMembershipDatasources =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetMembershipDatasourcesRequest,
-    output: BatchGetMembershipDatasourcesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const batchGetMembershipDatasources: (
+  input: BatchGetMembershipDatasourcesRequest,
+) => Effect.Effect<
+  BatchGetMembershipDatasourcesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetMembershipDatasourcesRequest,
+  output: BatchGetMembershipDatasourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes the Detective administrator account in the current Region. Deletes the
  * organization behavior graph.
@@ -2004,17 +2280,26 @@ export const batchGetMembershipDatasources =
  *
  * To remove the delegated administrator account in Organizations, use the Organizations API. Removing the delegated administrator account also removes the Detective administrator account in all Regions, except for Regions where the Detective administrator account is the organization management account.
  */
-export const disableOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableOrganizationAdminAccountRequest,
-    output: DisableOrganizationAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
+export const disableOrganizationAdminAccount: (
+  input: DisableOrganizationAdminAccountRequest,
+) => Effect.Effect<
+  DisableOrganizationAdminAccountResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableOrganizationAdminAccountRequest,
+  output: DisableOrganizationAdminAccountResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes the member account from the specified behavior graph. This operation can only be
  * called by an invited member account that has the `ENABLED` status.
@@ -2024,19 +2309,28 @@ export const disableOrganizationAdminAccount =
  * administrator account determines which organization accounts to enable or disable as member
  * accounts.
  */
-export const disassociateMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateMembershipRequest,
-    output: DisassociateMembershipResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateMembership: (
+  input: DisassociateMembershipRequest,
+) => Effect.Effect<
+  DisassociateMembershipResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateMembershipRequest,
+  output: DisassociateMembershipResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the list of behavior graphs that the calling account is an administrator account
  * of. This operation can only be called by an administrator account.
@@ -2044,7 +2338,38 @@ export const disassociateMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Because an account can currently only be the administrator of one behavior graph within
  * a Region, the results always contain a single behavior graph.
  */
-export const listGraphs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGraphs: {
+  (
+    input: ListGraphsRequest,
+  ): Effect.Effect<
+    ListGraphsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGraphsRequest,
+  ) => Stream.Stream<
+    ListGraphsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGraphsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGraphsRequest,
   output: ListGraphsResponse,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
@@ -2068,7 +2393,17 @@ export const listGraphs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * If the same account calls `CreateGraph` with the same administrator account, it
  * always returns the same behavior graph ARN. It does not create a new behavior graph.
  */
-export const createGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGraph: (
+  input: CreateGraphRequest,
+) => Effect.Effect<
+  CreateGraphResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGraphRequest,
   output: CreateGraphResponse,
   errors: [
@@ -2081,38 +2416,80 @@ export const createGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists data source packages in the behavior graph.
  */
-export const listDatasourcePackages =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDatasourcePackages: {
+  (
     input: ListDatasourcePackagesRequest,
-    output: ListDatasourcePackagesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDatasourcePackagesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatasourcePackagesRequest,
+  ) => Stream.Stream<
+    ListDatasourcePackagesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatasourcePackagesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatasourcePackagesRequest,
+  output: ListDatasourcePackagesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Starts a data source package for the Detective behavior graph.
  */
-export const updateDatasourcePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDatasourcePackagesRequest,
-    output: UpdateDatasourcePackagesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateDatasourcePackages: (
+  input: UpdateDatasourcePackagesRequest,
+) => Effect.Effect<
+  UpdateDatasourcePackagesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDatasourcePackagesRequest,
+  output: UpdateDatasourcePackagesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Sends a request to enable data ingest for a member account that has a status of
  * `ACCEPTED_BUT_DISABLED`.
@@ -2125,20 +2502,30 @@ export const updateDatasourcePackages = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - If Detective cannot enable the member account, the status remains
  * `ACCEPTED_BUT_DISABLED`.
  */
-export const startMonitoringMember = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMonitoringMemberRequest,
-    output: StartMonitoringMemberResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const startMonitoringMember: (
+  input: StartMonitoringMemberRequest,
+) => Effect.Effect<
+  StartMonitoringMemberResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMonitoringMemberRequest,
+  output: StartMonitoringMemberResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * `CreateMembers` is used to send invitations to accounts. For the organization
  * behavior graph, the Detective administrator account uses
@@ -2172,7 +2559,18 @@ export const startMonitoringMember = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * includes accounts that were already invited to be member accounts in the behavior
  * graph.
  */
-export const createMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMembers: (
+  input: CreateMembersRequest,
+) => Effect.Effect<
+  CreateMembersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMembersRequest,
   output: CreateMembersResponse,
   errors: [
@@ -2187,7 +2585,17 @@ export const createMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns the membership details for specified member accounts for a behavior
  * graph.
  */
-export const getMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMembers: (
+  input: GetMembersRequest,
+) => Effect.Effect<
+  GetMembersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMembersRequest,
   output: GetMembersResponse,
   errors: [
@@ -2200,7 +2608,18 @@ export const getMembers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the indicators from an investigation. You can use the information from the indicators to determine if an IAM user and/or IAM role is involved in an unusual activity that could indicate malicious behavior and its impact.
  */
-export const listIndicators = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listIndicators: (
+  input: ListIndicatorsRequest,
+) => Effect.Effect<
+  ListIndicatorsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListIndicatorsRequest,
   output: ListIndicatorsResponse,
   errors: [
@@ -2219,7 +2638,18 @@ export const listIndicators = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `ListInvestigations` lists all active Detective
  * investigations.
  */
-export const listInvestigations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listInvestigations: (
+  input: ListInvestigationsRequest,
+) => Effect.Effect<
+  ListInvestigationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListInvestigationsRequest,
   output: ListInvestigationsResponse,
   errors: [
@@ -2233,14 +2663,23 @@ export const listInvestigations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets data source package information for the behavior graph.
  */
-export const batchGetGraphMemberDatasources =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetGraphMemberDatasourcesRequest,
-    output: BatchGetGraphMemberDatasourcesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const batchGetGraphMemberDatasources: (
+  input: BatchGetGraphMemberDatasourcesRequest,
+) => Effect.Effect<
+  BatchGetGraphMemberDatasourcesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetGraphMemberDatasourcesRequest,
+  output: BatchGetGraphMemberDatasourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "MediaPackage",
   serviceShapeName: "MediaPackage",
@@ -240,6 +248,12 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type __string = string;
+export type __integer = number;
+export type MaxResults = number;
+export type SensitiveString = string;
 
 //# Schemas
 export type __listOf__string = string[];
@@ -1758,7 +1772,9 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
@@ -1766,11 +1782,15 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class UnprocessableEntityException extends S.TaggedError<UnprocessableEntityException>()(
   "UnprocessableEntityException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
@@ -1780,7 +1800,13 @@ export class UnprocessableEntityException extends S.TaggedError<UnprocessableEnt
 /**
  *
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [],
@@ -1788,7 +1814,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  *
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [],
@@ -1796,7 +1828,13 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  *
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [],
@@ -1804,7 +1842,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing Channel.
  */
-export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteChannel: (
+  input: DeleteChannelRequest,
+) => Effect.Effect<
+  DeleteChannelResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelRequest,
   output: DeleteChannelResponse,
   errors: [
@@ -1819,7 +1869,19 @@ export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets details about a Channel.
  */
-export const describeChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeChannel: (
+  input: DescribeChannelRequest,
+) => Effect.Effect<
+  DescribeChannelResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeChannelRequest,
   output: DescribeChannelResponse,
   errors: [
@@ -1834,92 +1896,229 @@ export const describeChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets details about an existing OriginEndpoint.
  */
-export const describeOriginEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeOriginEndpointRequest,
-    output: DescribeOriginEndpointResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
+export const describeOriginEndpoint: (
+  input: DescribeOriginEndpointRequest,
+) => Effect.Effect<
+  DescribeOriginEndpointResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeOriginEndpointRequest,
+  output: DescribeOriginEndpointResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
 /**
  * Returns a collection of Channels.
  */
-export const listChannels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listChannels: {
+  (
     input: ListChannelsRequest,
-    output: ListChannelsResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Channels",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListChannelsResponse,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelsRequest,
+  ) => Stream.Stream<
+    ListChannelsResponse,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelsRequest,
+  ) => Stream.Stream<
+    Channel,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelsRequest,
+  output: ListChannelsResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Channels",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a collection of HarvestJob records.
  */
-export const listHarvestJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listHarvestJobs: {
+  (
     input: ListHarvestJobsRequest,
-    output: ListHarvestJobsResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "HarvestJobs",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListHarvestJobsResponse,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListHarvestJobsRequest,
+  ) => Stream.Stream<
+    ListHarvestJobsResponse,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListHarvestJobsRequest,
+  ) => Stream.Stream<
+    HarvestJob,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListHarvestJobsRequest,
+  output: ListHarvestJobsResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "HarvestJobs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a collection of OriginEndpoint records.
  */
-export const listOriginEndpoints =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOriginEndpoints: {
+  (
     input: ListOriginEndpointsRequest,
-    output: ListOriginEndpointsResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "OriginEndpoints",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOriginEndpointsResponse,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOriginEndpointsRequest,
+  ) => Stream.Stream<
+    ListOriginEndpointsResponse,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOriginEndpointsRequest,
+  ) => Stream.Stream<
+    OriginEndpoint,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOriginEndpointsRequest,
+  output: ListOriginEndpointsResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "OriginEndpoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets details about an existing HarvestJob.
  */
-export const describeHarvestJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeHarvestJob: (
+  input: DescribeHarvestJobRequest,
+) => Effect.Effect<
+  DescribeHarvestJobResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHarvestJobRequest,
   output: DescribeHarvestJobResponse,
   errors: [
@@ -1934,40 +2133,73 @@ export const describeHarvestJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
  */
-export const rotateChannelCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RotateChannelCredentialsRequest,
-    output: RotateChannelCredentialsResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
+export const rotateChannelCredentials: (
+  input: RotateChannelCredentialsRequest,
+) => Effect.Effect<
+  RotateChannelCredentialsResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RotateChannelCredentialsRequest,
+  output: RotateChannelCredentialsResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
 /**
  * Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
  */
-export const rotateIngestEndpointCredentials =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RotateIngestEndpointCredentialsRequest,
-    output: RotateIngestEndpointCredentialsResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }));
+export const rotateIngestEndpointCredentials: (
+  input: RotateIngestEndpointCredentialsRequest,
+) => Effect.Effect<
+  RotateIngestEndpointCredentialsResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RotateIngestEndpointCredentialsRequest,
+  output: RotateIngestEndpointCredentialsResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
 /**
  * Updates an existing Channel.
  */
-export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateChannel: (
+  input: UpdateChannelRequest,
+) => Effect.Effect<
+  UpdateChannelResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelRequest,
   output: UpdateChannelResponse,
   errors: [
@@ -1982,41 +2214,73 @@ export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing OriginEndpoint.
  */
-export const updateOriginEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateOriginEndpointRequest,
-    output: UpdateOriginEndpointResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
+export const updateOriginEndpoint: (
+  input: UpdateOriginEndpointRequest,
+) => Effect.Effect<
+  UpdateOriginEndpointResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOriginEndpointRequest,
+  output: UpdateOriginEndpointResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
 /**
  * Deletes an existing OriginEndpoint.
  */
-export const deleteOriginEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOriginEndpointRequest,
-    output: DeleteOriginEndpointResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
+export const deleteOriginEndpoint: (
+  input: DeleteOriginEndpointRequest,
+) => Effect.Effect<
+  DeleteOriginEndpointResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOriginEndpointRequest,
+  output: DeleteOriginEndpointResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
 /**
  * Changes the Channel's properities to configure log subscription
  */
-export const configureLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const configureLogs: (
+  input: ConfigureLogsRequest,
+) => Effect.Effect<
+  ConfigureLogsResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfigureLogsRequest,
   output: ConfigureLogsResponse,
   errors: [
@@ -2031,7 +2295,19 @@ export const configureLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new Channel.
  */
-export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createChannel: (
+  input: CreateChannelRequest,
+) => Effect.Effect<
+  CreateChannelResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelRequest,
   output: CreateChannelResponse,
   errors: [
@@ -2046,7 +2322,19 @@ export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new HarvestJob record.
  */
-export const createHarvestJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createHarvestJob: (
+  input: CreateHarvestJobRequest,
+) => Effect.Effect<
+  CreateHarvestJobResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHarvestJobRequest,
   output: CreateHarvestJobResponse,
   errors: [
@@ -2061,17 +2349,27 @@ export const createHarvestJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new OriginEndpoint record.
  */
-export const createOriginEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateOriginEndpointRequest,
-    output: CreateOriginEndpointResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
+export const createOriginEndpoint: (
+  input: CreateOriginEndpointRequest,
+) => Effect.Effect<
+  CreateOriginEndpointResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOriginEndpointRequest,
+  output: CreateOriginEndpointResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));

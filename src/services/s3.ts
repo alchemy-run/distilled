@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors as Err,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://s3.amazonaws.com/doc/2006-03-01/");
 const svc = T.AwsApiService({ sdkId: "S3", serviceShapeName: "AmazonS3" });
 const auth = T.AwsAuthSigv4({ name: "s3" });
@@ -8780,6 +8788,178 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type BucketName = string;
+export type ObjectKey = string;
+export type MultipartUploadId = string;
+export type AccountId = string;
+export type ChecksumCRC32 = string;
+export type ChecksumCRC32C = string;
+export type ChecksumCRC64NVME = string;
+export type ChecksumSHA1 = string;
+export type ChecksumSHA256 = string;
+export type MpuObjectSize = number;
+export type IfMatch = string;
+export type IfNoneMatch = string;
+export type SSECustomerAlgorithm = string;
+export type SSECustomerKey = string;
+export type SSECustomerKeyMD5 = string;
+export type CacheControl = string;
+export type ContentDisposition = string;
+export type ContentEncoding = string;
+export type ContentLanguage = string;
+export type ContentType = string;
+export type CopySource = string;
+export type CopySourceIfMatch = string;
+export type CopySourceIfNoneMatch = string;
+export type Expires = string;
+export type GrantFullControl = string;
+export type GrantRead = string;
+export type GrantReadACP = string;
+export type GrantWriteACP = string;
+export type WebsiteRedirectLocation = string;
+export type SSEKMSKeyId = string;
+export type SSEKMSEncryptionContext = string;
+export type CopySourceSSECustomerAlgorithm = string;
+export type CopySourceSSECustomerKey = string;
+export type CopySourceSSECustomerKeyMD5 = string;
+export type TaggingHeader = string;
+export type GrantWrite = string;
+export type ContentMD5 = string;
+export type AnalyticsId = string;
+export type IntelligentTieringId = string;
+export type InventoryId = string;
+export type MetricsId = string;
+export type MFA = string;
+export type ObjectVersionId = string;
+export type IfMatchSize = number;
+export type Range = string;
+export type ResponseCacheControl = string;
+export type ResponseContentDisposition = string;
+export type ResponseContentEncoding = string;
+export type ResponseContentLanguage = string;
+export type ResponseContentType = string;
+export type PartNumber = number;
+export type MaxParts = number;
+export type PartNumberMarker = string;
+export type Token = string;
+export type MaxBuckets = number;
+export type Prefix = string;
+export type BucketRegion = string;
+export type DirectoryBucketToken = string;
+export type MaxDirectoryBuckets = number;
+export type Delimiter = string;
+export type KeyMarker = string;
+export type MaxUploads = number;
+export type UploadIdMarker = string;
+export type Marker = string;
+export type MaxKeys = number;
+export type StartAfter = string;
+export type VersionIdMarker = string;
+export type Policy = string;
+export type ObjectLockToken = string;
+export type ContentLength = number;
+export type WriteOffsetBytes = number;
+export type RenameSource = string;
+export type RenameSourceIfMatch = string;
+export type RenameSourceIfNoneMatch = string;
+export type ClientToken = string;
+export type Expression = string;
+export type CopySourceRange = string;
+export type RequestRoute = string;
+export type RequestToken = string;
+export type GetObjectResponseStatusCode = number;
+export type ErrorCode = string;
+export type ErrorMessage = string;
+export type AcceptRanges = string;
+export type ContentRange = string;
+export type ETag = string;
+export type Expiration = string;
+export type MissingMeta = number;
+export type PartsCount = number;
+export type Restore = string;
+export type TagCount = number;
+export type MetadataKey = string;
+export type MetadataValue = string;
+export type Role = string;
+export type Days = number;
+export type Description = string;
+export type Start = number;
+export type End = number;
+export type AbortRuleId = string;
+export type ObjectSize = number;
+export type S3RegionalOrS3ExpressBucketArnString = string;
+export type BucketLocationName = string;
+export type Region = string;
+export type NextToken = string;
+export type NextKeyMarker = string;
+export type NextUploadIdMarker = string;
+export type NextMarker = string;
+export type KeyCount = number;
+export type NextVersionIdMarker = string;
+export type NextPartNumberMarker = string;
+export type Size = number;
+export type CopySourceVersionId = string;
+export type LocationNameAsString = string;
+export type Value = string;
+export type S3TablesBucketArn = string;
+export type S3TablesName = string;
+export type DisplayName = string;
+export type ID = string;
+export type AllowedHeader = string;
+export type AllowedMethod = string;
+export type AllowedOrigin = string;
+export type ExposeHeader = string;
+export type MaxAgeSeconds = number;
+export type IntelligentTieringDays = number;
+export type TargetBucket = string;
+export type TargetPrefix = string;
+export type AccessPointArn = string;
+export type NotificationId = string;
+export type TopicArn = string;
+export type QueueArn = string;
+export type LambdaFunctionArn = string;
+export type Priority = number;
+export type Suffix = string;
+export type HostName = string;
+export type Comments = string;
+export type QuoteEscapeCharacter = string;
+export type RecordDelimiter = string;
+export type FieldDelimiter = string;
+export type QuoteCharacter = string;
+export type KmsKeyArn = string;
+export type RecordExpirationDays = number;
+export type AccessKeyIdValue = string;
+export type SessionCredentialValue = string;
+export type MetadataTableStatus = string;
+export type EmailAddress = string;
+export type URI = string;
+export type ObjectSizeGreaterThanBytes = number;
+export type ObjectSizeLessThanBytes = number;
+export type VersionCount = number;
+export type DaysAfterInitiation = number;
+export type HttpErrorCodeReturnedEquals = string;
+export type KeyPrefixEquals = string;
+export type HttpRedirectCode = string;
+export type ReplaceKeyPrefixWith = string;
+export type ReplaceKeyWith = string;
+export type Years = number;
+export type LocationPrefix = string;
+export type ReplicaKmsKeyID = string;
+export type KMSContext = string;
+export type S3TablesNamespace = string;
+export type S3TablesArn = string;
+export type Location = string;
+export type FilterRuleValue = string;
+export type Minutes = number;
+export type DeleteMarkerVersionId = string;
+export type Code = string;
+export type Message = string;
+export type BytesScanned = number;
+export type BytesProcessed = number;
+export type BytesReturned = number;
+export type RestoreOutputPath = string;
+
 //# Schemas
 export type ObjectAttributesList = string[];
 export const ObjectAttributesList = S.Array(S.String);
@@ -11869,6 +12049,10 @@ export const AnalyticsAndOperator = S.suspend(() =>
 ).annotations({
   identifier: "AnalyticsAndOperator",
 }) as any as S.Schema<AnalyticsAndOperator>;
+export type AnalyticsFilter =
+  | { Prefix: string }
+  | { Tag: Tag }
+  | { And: AnalyticsAndOperator };
 export const AnalyticsFilter = S.Union(
   S.Struct({ Prefix: S.String }),
   S.Struct({ Tag: Tag }),
@@ -12096,6 +12280,11 @@ export const MetricsAndOperator = S.suspend(() =>
 ).annotations({
   identifier: "MetricsAndOperator",
 }) as any as S.Schema<MetricsAndOperator>;
+export type MetricsFilter =
+  | { Prefix: string }
+  | { Tag: Tag }
+  | { AccessPointArn: string }
+  | { And: MetricsAndOperator };
 export const MetricsFilter = S.Union(
   S.Struct({ Prefix: S.String }),
   S.Struct({ Tag: Tag }),
@@ -17088,7 +17277,13 @@ export class ObjectAlreadyInActiveTierError extends S.TaggedError<ObjectAlreadyI
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBucket: (
+  input: DeleteBucketRequest,
+) => Effect.Effect<
+  DeleteBucketResponse,
+  BucketNotEmpty | NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketRequest,
   output: DeleteBucketResponse,
   errors: [BucketNotEmpty, NoSuchBucket],
@@ -17117,12 +17312,17 @@ export const deleteBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteBucketAnalyticsConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteBucketAnalyticsConfigurationRequest,
-    output: DeleteBucketAnalyticsConfigurationResponse,
-    errors: [NoSuchBucket],
-  }));
+export const deleteBucketAnalyticsConfiguration: (
+  input: DeleteBucketAnalyticsConfigurationRequest,
+) => Effect.Effect<
+  DeleteBucketAnalyticsConfigurationResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBucketAnalyticsConfigurationRequest,
+  output: DeleteBucketAnalyticsConfigurationResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -17142,7 +17342,13 @@ export const deleteBucketAnalyticsConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteBucketCors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBucketCors: (
+  input: DeleteBucketCorsRequest,
+) => Effect.Effect<
+  DeleteBucketCorsResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketCorsRequest,
   output: DeleteBucketCorsResponse,
   errors: [NoSuchBucket],
@@ -17185,13 +17391,17 @@ export const deleteBucketCors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteBucketEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBucketEncryptionRequest,
-    output: DeleteBucketEncryptionResponse,
-    errors: [NoSuchBucket],
-  }),
-);
+export const deleteBucketEncryption: (
+  input: DeleteBucketEncryptionRequest,
+) => Effect.Effect<
+  DeleteBucketEncryptionResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBucketEncryptionRequest,
+  output: DeleteBucketEncryptionResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -17213,12 +17423,17 @@ export const deleteBucketEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteBucketIntelligentTieringConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteBucketIntelligentTieringConfigurationRequest,
-    output: DeleteBucketIntelligentTieringConfigurationResponse,
-    errors: [NoSuchBucket],
-  }));
+export const deleteBucketIntelligentTieringConfiguration: (
+  input: DeleteBucketIntelligentTieringConfigurationRequest,
+) => Effect.Effect<
+  DeleteBucketIntelligentTieringConfigurationResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBucketIntelligentTieringConfigurationRequest,
+  output: DeleteBucketIntelligentTieringConfigurationResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -17241,12 +17456,17 @@ export const deleteBucketIntelligentTieringConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteBucketInventoryConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteBucketInventoryConfigurationRequest,
-    output: DeleteBucketInventoryConfigurationResponse,
-    errors: [NoSuchBucket],
-  }));
+export const deleteBucketInventoryConfiguration: (
+  input: DeleteBucketInventoryConfigurationRequest,
+) => Effect.Effect<
+  DeleteBucketInventoryConfigurationResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBucketInventoryConfigurationRequest,
+  output: DeleteBucketInventoryConfigurationResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes all the lifecycle
  * configuration rules in the lifecycle subresource associated with the bucket. Your objects never expire,
@@ -17296,13 +17516,17 @@ export const deleteBucketInventoryConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteBucketLifecycle = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBucketLifecycleRequest,
-    output: DeleteBucketLifecycleResponse,
-    errors: [],
-  }),
-);
+export const deleteBucketLifecycle: (
+  input: DeleteBucketLifecycleRequest,
+) => Effect.Effect<
+  DeleteBucketLifecycleResponse,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBucketLifecycleRequest,
+  output: DeleteBucketLifecycleResponse,
+  errors: [],
+}));
 /**
  * Deletes an S3 Metadata configuration from a general purpose bucket. For more information, see
  * Accelerating
@@ -17334,12 +17558,17 @@ export const deleteBucketLifecycle = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteBucketMetadataConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteBucketMetadataConfigurationRequest,
-    output: DeleteBucketMetadataConfigurationResponse,
-    errors: [],
-  }));
+export const deleteBucketMetadataConfiguration: (
+  input: DeleteBucketMetadataConfigurationRequest,
+) => Effect.Effect<
+  DeleteBucketMetadataConfigurationResponse,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBucketMetadataConfigurationRequest,
+  output: DeleteBucketMetadataConfigurationResponse,
+  errors: [],
+}));
 /**
  * We recommend that you delete your S3 Metadata configurations by using the V2
  * DeleteBucketMetadataTableConfiguration API operation. We no longer recommend using
@@ -17377,12 +17606,17 @@ export const deleteBucketMetadataConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteBucketMetadataTableConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteBucketMetadataTableConfigurationRequest,
-    output: DeleteBucketMetadataTableConfigurationResponse,
-    errors: [],
-  }));
+export const deleteBucketMetadataTableConfiguration: (
+  input: DeleteBucketMetadataTableConfigurationRequest,
+) => Effect.Effect<
+  DeleteBucketMetadataTableConfigurationResponse,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBucketMetadataTableConfigurationRequest,
+  output: DeleteBucketMetadataTableConfigurationResponse,
+  errors: [],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -17409,12 +17643,17 @@ export const deleteBucketMetadataTableConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteBucketMetricsConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteBucketMetricsConfigurationRequest,
-    output: DeleteBucketMetricsConfigurationResponse,
-    errors: [NoSuchBucket],
-  }));
+export const deleteBucketMetricsConfiguration: (
+  input: DeleteBucketMetricsConfigurationRequest,
+) => Effect.Effect<
+  DeleteBucketMetricsConfigurationResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBucketMetricsConfigurationRequest,
+  output: DeleteBucketMetricsConfigurationResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -17433,12 +17672,17 @@ export const deleteBucketMetricsConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteBucketOwnershipControls =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteBucketOwnershipControlsRequest,
-    output: DeleteBucketOwnershipControlsResponse,
-    errors: [NoSuchBucket],
-  }));
+export const deleteBucketOwnershipControls: (
+  input: DeleteBucketOwnershipControlsRequest,
+) => Effect.Effect<
+  DeleteBucketOwnershipControlsResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBucketOwnershipControlsRequest,
+  output: DeleteBucketOwnershipControlsResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * Deletes the policy of a specified bucket.
  *
@@ -17488,7 +17732,13 @@ export const deleteBucketOwnershipControls =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBucketPolicy: (
+  input: DeleteBucketPolicyRequest,
+) => Effect.Effect<
+  DeleteBucketPolicyResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketPolicyRequest,
   output: DeleteBucketPolicyResponse,
   errors: [NoSuchBucket],
@@ -17516,13 +17766,17 @@ export const deleteBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteBucketReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBucketReplicationRequest,
-    output: DeleteBucketReplicationResponse,
-    errors: [NoSuchBucket],
-  }),
-);
+export const deleteBucketReplication: (
+  input: DeleteBucketReplicationRequest,
+) => Effect.Effect<
+  DeleteBucketReplicationResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBucketReplicationRequest,
+  output: DeleteBucketReplicationResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -17541,7 +17795,13 @@ export const deleteBucketReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteBucketTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBucketTagging: (
+  input: DeleteBucketTaggingRequest,
+) => Effect.Effect<
+  DeleteBucketTaggingResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketTaggingRequest,
   output: DeleteBucketTaggingResponse,
   errors: [NoSuchBucket],
@@ -17570,7 +17830,13 @@ export const deleteBucketTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteBucketWebsite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBucketWebsite: (
+  input: DeleteBucketWebsiteRequest,
+) => Effect.Effect<
+  DeleteBucketWebsiteResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketWebsiteRequest,
   output: DeleteBucketWebsiteResponse,
   errors: [NoSuchBucket],
@@ -17598,13 +17864,17 @@ export const deleteBucketWebsite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deletePublicAccessBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePublicAccessBlockRequest,
-    output: DeletePublicAccessBlockResponse,
-    errors: [NoSuchBucket],
-  }),
-);
+export const deletePublicAccessBlock: (
+  input: DeletePublicAccessBlockRequest,
+) => Effect.Effect<
+  DeletePublicAccessBlockResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePublicAccessBlockRequest,
+  output: DeletePublicAccessBlockResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -17634,12 +17904,17 @@ export const deletePublicAccessBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketNotificationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetBucketNotificationConfigurationRequest,
-    output: NotificationConfiguration,
-    errors: [NoSuchBucket],
-  }));
+export const getBucketNotificationConfiguration: (
+  input: GetBucketNotificationConfigurationRequest,
+) => Effect.Effect<
+  NotificationConfiguration,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketNotificationConfigurationRequest,
+  output: NotificationConfiguration,
+  errors: [NoSuchBucket],
+}));
 /**
  * Applies an Amazon S3 bucket policy to an Amazon S3 bucket.
  *
@@ -17697,7 +17972,13 @@ export const getBucketNotificationConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putBucketPolicy: (
+  input: PutBucketPolicyRequest,
+) => Effect.Effect<
+  PutBucketPolicyResponse,
+  AccessDenied | MalformedPolicy | NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBucketPolicyRequest,
   output: PutBucketPolicyResponse,
   errors: [AccessDenied, MalformedPolicy, NoSuchBucket],
@@ -17747,7 +18028,13 @@ export const putBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const renameObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const renameObject: (
+  input: RenameObjectRequest,
+) => Effect.Effect<
+  RenameObjectOutput,
+  IdempotencyParameterMismatch | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RenameObjectRequest,
   output: RenameObjectOutput,
   errors: [IdempotencyParameterMismatch],
@@ -17795,13 +18082,17 @@ export const renameObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const writeGetObjectResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: WriteGetObjectResponseRequest,
-    output: WriteGetObjectResponseResponse,
-    errors: [],
-  }),
-);
+export const writeGetObjectResponse: (
+  input: WriteGetObjectResponseRequest,
+) => Effect.Effect<
+  WriteGetObjectResponseResponse,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: WriteGetObjectResponseRequest,
+  output: WriteGetObjectResponseResponse,
+  errors: [],
+}));
 /**
  * This operation aborts a multipart upload. After a multipart upload is aborted, no additional parts
  * can be uploaded using that upload ID. The storage consumed by any previously uploaded parts will be
@@ -17856,13 +18147,17 @@ export const writeGetObjectResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const abortMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AbortMultipartUploadRequest,
-    output: AbortMultipartUploadOutput,
-    errors: [NoSuchUpload, NoSuchBucket],
-  }),
-);
+export const abortMultipartUpload: (
+  input: AbortMultipartUploadRequest,
+) => Effect.Effect<
+  AbortMultipartUploadOutput,
+  NoSuchUpload | NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AbortMultipartUploadRequest,
+  output: AbortMultipartUploadOutput,
+  errors: [NoSuchUpload, NoSuchBucket],
+}));
 /**
  * End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025,
  * the request will receive an `HTTP 405` (Method Not Allowed) error.
@@ -18037,13 +18332,17 @@ export const abortMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const createMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMultipartUploadRequest,
-    output: CreateMultipartUploadOutput,
-    errors: [NoSuchBucket],
-  }),
-);
+export const createMultipartUpload: (
+  input: CreateMultipartUploadRequest,
+) => Effect.Effect<
+  CreateMultipartUploadOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMultipartUploadRequest,
+  output: CreateMultipartUploadOutput,
+  errors: [NoSuchBucket],
+}));
 /**
  * Removes an object from a bucket. The behavior depends on the bucket's versioning state:
  *
@@ -18134,7 +18433,13 @@ export const createMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * The `If-Match` header is supported for both general purpose and directory buckets. `IfMatchLastModifiedTime` and `IfMatchSize` is only supported for directory buckets.
  */
-export const deleteObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteObject: (
+  input: DeleteObjectRequest,
+) => Effect.Effect<
+  DeleteObjectOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteObjectRequest,
   output: DeleteObjectOutput,
   errors: [NoSuchBucket],
@@ -18160,7 +18465,13 @@ export const deleteObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteObjectTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteObjectTagging: (
+  input: DeleteObjectTaggingRequest,
+) => Effect.Effect<
+  DeleteObjectTaggingOutput,
+  NoSuchKey | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteObjectTaggingRequest,
   output: DeleteObjectTaggingOutput,
   errors: [NoSuchKey],
@@ -18168,7 +18479,13 @@ export const deleteObjectTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the attribute-based access control (ABAC) property of the general purpose bucket. If ABAC is enabled on your bucket, you can use tags on the bucket for access control. For more information, see Enabling ABAC in general purpose buckets.
  */
-export const getBucketAbac = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBucketAbac: (
+  input: GetBucketAbacRequest,
+) => Effect.Effect<
+  GetBucketAbacOutput,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketAbacRequest,
   output: GetBucketAbacOutput,
   errors: [],
@@ -18202,12 +18519,17 @@ export const getBucketAbac = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketAccelerateConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetBucketAccelerateConfigurationRequest,
-    output: GetBucketAccelerateConfigurationOutput,
-    errors: [NoSuchBucket],
-  }));
+export const getBucketAccelerateConfiguration: (
+  input: GetBucketAccelerateConfigurationRequest,
+) => Effect.Effect<
+  GetBucketAccelerateConfigurationOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketAccelerateConfigurationRequest,
+  output: GetBucketAccelerateConfigurationOutput,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -18235,7 +18557,13 @@ export const getBucketAccelerateConfiguration =
  *
  * - ListObjects
  */
-export const getBucketAcl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBucketAcl: (
+  input: GetBucketAclRequest,
+) => Effect.Effect<
+  GetBucketAclOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketAclRequest,
   output: GetBucketAclOutput,
   errors: [NoSuchBucket],
@@ -18264,12 +18592,17 @@ export const getBucketAcl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketAnalyticsConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetBucketAnalyticsConfigurationRequest,
-    output: GetBucketAnalyticsConfigurationOutput,
-    errors: [NoSuchBucket, NoSuchConfiguration],
-  }));
+export const getBucketAnalyticsConfiguration: (
+  input: GetBucketAnalyticsConfigurationRequest,
+) => Effect.Effect<
+  GetBucketAnalyticsConfigurationOutput,
+  NoSuchBucket | NoSuchConfiguration | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketAnalyticsConfigurationRequest,
+  output: GetBucketAnalyticsConfigurationOutput,
+  errors: [NoSuchBucket, NoSuchConfiguration],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -18296,7 +18629,13 @@ export const getBucketAnalyticsConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketCors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBucketCors: (
+  input: GetBucketCorsRequest,
+) => Effect.Effect<
+  GetBucketCorsOutput,
+  NoSuchBucket | NoSuchCORSConfiguration | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketCorsRequest,
   output: GetBucketCorsOutput,
   errors: [NoSuchBucket, NoSuchCORSConfiguration],
@@ -18339,7 +18678,13 @@ export const getBucketCors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBucketEncryption: (
+  input: GetBucketEncryptionRequest,
+) => Effect.Effect<
+  GetBucketEncryptionOutput,
+  NoSuchBucket | ParseError | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketEncryptionRequest,
   output: GetBucketEncryptionOutput,
   errors: [NoSuchBucket, ParseError],
@@ -18365,12 +18710,17 @@ export const getBucketEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketIntelligentTieringConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetBucketIntelligentTieringConfigurationRequest,
-    output: GetBucketIntelligentTieringConfigurationOutput,
-    errors: [NoSuchBucket, NoSuchConfiguration],
-  }));
+export const getBucketIntelligentTieringConfiguration: (
+  input: GetBucketIntelligentTieringConfigurationRequest,
+) => Effect.Effect<
+  GetBucketIntelligentTieringConfigurationOutput,
+  NoSuchBucket | NoSuchConfiguration | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketIntelligentTieringConfigurationRequest,
+  output: GetBucketIntelligentTieringConfigurationOutput,
+  errors: [NoSuchBucket, NoSuchConfiguration],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -18394,12 +18744,17 @@ export const getBucketIntelligentTieringConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketInventoryConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetBucketInventoryConfigurationRequest,
-    output: GetBucketInventoryConfigurationOutput,
-    errors: [NoSuchBucket, NoSuchConfiguration],
-  }));
+export const getBucketInventoryConfiguration: (
+  input: GetBucketInventoryConfigurationRequest,
+) => Effect.Effect<
+  GetBucketInventoryConfigurationOutput,
+  NoSuchBucket | NoSuchConfiguration | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketInventoryConfigurationRequest,
+  output: GetBucketInventoryConfigurationOutput,
+  errors: [NoSuchBucket, NoSuchConfiguration],
+}));
 /**
  * Returns the lifecycle configuration information set on the bucket. For information about lifecycle
  * configuration, see Object Lifecycle Management.
@@ -18466,12 +18821,17 @@ export const getBucketInventoryConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketLifecycleConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetBucketLifecycleConfigurationRequest,
-    output: GetBucketLifecycleConfigurationOutput,
-    errors: [NoSuchBucket, NoSuchLifecycleConfiguration],
-  }));
+export const getBucketLifecycleConfiguration: (
+  input: GetBucketLifecycleConfigurationRequest,
+) => Effect.Effect<
+  GetBucketLifecycleConfigurationOutput,
+  NoSuchBucket | NoSuchLifecycleConfiguration | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketLifecycleConfigurationRequest,
+  output: GetBucketLifecycleConfigurationOutput,
+  errors: [NoSuchBucket, NoSuchLifecycleConfiguration],
+}));
 /**
  * Using the `GetBucketLocation` operation is no longer a best practice. To return the
  * Region that a bucket resides in, we recommend that you use the
@@ -18507,7 +18867,13 @@ export const getBucketLifecycleConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBucketLocation: (
+  input: GetBucketLocationRequest,
+) => Effect.Effect<
+  GetBucketLocationOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketLocationRequest,
   output: GetBucketLocationOutput,
   errors: [NoSuchBucket],
@@ -18526,7 +18892,13 @@ export const getBucketLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBucketLogging: (
+  input: GetBucketLoggingRequest,
+) => Effect.Effect<
+  GetBucketLoggingOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketLoggingRequest,
   output: GetBucketLoggingOutput,
   errors: [NoSuchBucket],
@@ -18558,12 +18930,17 @@ export const getBucketLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketMetricsConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetBucketMetricsConfigurationRequest,
-    output: GetBucketMetricsConfigurationOutput,
-    errors: [NoSuchBucket, NoSuchConfiguration],
-  }));
+export const getBucketMetricsConfiguration: (
+  input: GetBucketMetricsConfigurationRequest,
+) => Effect.Effect<
+  GetBucketMetricsConfigurationOutput,
+  NoSuchBucket | NoSuchConfiguration | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketMetricsConfigurationRequest,
+  output: GetBucketMetricsConfigurationOutput,
+  errors: [NoSuchBucket, NoSuchConfiguration],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -18592,13 +18969,17 @@ export const getBucketMetricsConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketOwnershipControls = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBucketOwnershipControlsRequest,
-    output: GetBucketOwnershipControlsOutput,
-    errors: [NoSuchBucket],
-  }),
-);
+export const getBucketOwnershipControls: (
+  input: GetBucketOwnershipControlsRequest,
+) => Effect.Effect<
+  GetBucketOwnershipControlsOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketOwnershipControlsRequest,
+  output: GetBucketOwnershipControlsOutput,
+  errors: [NoSuchBucket],
+}));
 /**
  * Returns the policy of a specified bucket.
  *
@@ -18654,7 +19035,13 @@ export const getBucketOwnershipControls = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBucketPolicy: (
+  input: GetBucketPolicyRequest,
+) => Effect.Effect<
+  GetBucketPolicyOutput,
+  NoSuchBucket | NoSuchBucketPolicy | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketPolicyRequest,
   output: GetBucketPolicyOutput,
   errors: [NoSuchBucket, NoSuchBucketPolicy],
@@ -18689,13 +19076,17 @@ export const getBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBucketReplicationRequest,
-    output: GetBucketReplicationOutput,
-    errors: [NoSuchBucket, ReplicationConfigurationNotFoundError],
-  }),
-);
+export const getBucketReplication: (
+  input: GetBucketReplicationRequest,
+) => Effect.Effect<
+  GetBucketReplicationOutput,
+  NoSuchBucket | ReplicationConfigurationNotFoundError | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketReplicationRequest,
+  output: GetBucketReplicationOutput,
+  errors: [NoSuchBucket, ReplicationConfigurationNotFoundError],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -18708,13 +19099,17 @@ export const getBucketReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketRequestPayment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBucketRequestPaymentRequest,
-    output: GetBucketRequestPaymentOutput,
-    errors: [NoSuchBucket],
-  }),
-);
+export const getBucketRequestPayment: (
+  input: GetBucketRequestPaymentRequest,
+) => Effect.Effect<
+  GetBucketRequestPaymentOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketRequestPaymentRequest,
+  output: GetBucketRequestPaymentOutput,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -18739,7 +19134,13 @@ export const getBucketRequestPayment = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBucketTagging: (
+  input: GetBucketTaggingRequest,
+) => Effect.Effect<
+  GetBucketTaggingOutput,
+  NoSuchBucket | NoSuchTagSet | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketTaggingRequest,
   output: GetBucketTaggingOutput,
   errors: [NoSuchBucket, NoSuchTagSet],
@@ -18765,7 +19166,13 @@ export const getBucketTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketVersioning = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBucketVersioning: (
+  input: GetBucketVersioningRequest,
+) => Effect.Effect<
+  GetBucketVersioningOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketVersioningRequest,
   output: GetBucketVersioningOutput,
   errors: [NoSuchBucket],
@@ -18789,7 +19196,13 @@ export const getBucketVersioning = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketWebsite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBucketWebsite: (
+  input: GetBucketWebsiteRequest,
+) => Effect.Effect<
+  GetBucketWebsiteOutput,
+  NoSuchBucket | NoSuchWebsiteConfiguration | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketWebsiteRequest,
   output: GetBucketWebsiteOutput,
   errors: [NoSuchBucket, NoSuchWebsiteConfiguration],
@@ -18824,7 +19237,13 @@ export const getBucketWebsite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getObjectAcl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getObjectAcl: (
+  input: GetObjectAclRequest,
+) => Effect.Effect<
+  GetObjectAclOutput,
+  NoSuchKey | NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetObjectAclRequest,
   output: GetObjectAclOutput,
   errors: [NoSuchKey, NoSuchBucket],
@@ -18842,7 +19261,13 @@ export const getObjectAcl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getObjectLegalHold = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getObjectLegalHold: (
+  input: GetObjectLegalHoldRequest,
+) => Effect.Effect<
+  GetObjectLegalHoldOutput,
+  InvalidRequest | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetObjectLegalHoldRequest,
   output: GetObjectLegalHoldOutput,
   errors: [InvalidRequest],
@@ -18860,13 +19285,17 @@ export const getObjectLegalHold = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getObjectLockConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetObjectLockConfigurationRequest,
-    output: GetObjectLockConfigurationOutput,
-    errors: [NoSuchBucket, ObjectLockConfigurationNotFoundError],
-  }),
-);
+export const getObjectLockConfiguration: (
+  input: GetObjectLockConfigurationRequest,
+) => Effect.Effect<
+  GetObjectLockConfigurationOutput,
+  NoSuchBucket | ObjectLockConfigurationNotFoundError | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetObjectLockConfigurationRequest,
+  output: GetObjectLockConfigurationOutput,
+  errors: [NoSuchBucket, ObjectLockConfigurationNotFoundError],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -18880,7 +19309,13 @@ export const getObjectLockConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getObjectRetention = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getObjectRetention: (
+  input: GetObjectRetentionRequest,
+) => Effect.Effect<
+  GetObjectRetentionOutput,
+  InvalidRequest | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetObjectRetentionRequest,
   output: GetObjectRetentionOutput,
   errors: [InvalidRequest],
@@ -18911,7 +19346,13 @@ export const getObjectRetention = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getObjectTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getObjectTagging: (
+  input: GetObjectTaggingRequest,
+) => Effect.Effect<
+  GetObjectTaggingOutput,
+  NoSuchBucket | NoSuchKey | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetObjectTaggingRequest,
   output: GetObjectTaggingOutput,
   errors: [NoSuchBucket, NoSuchKey],
@@ -18935,7 +19376,13 @@ export const getObjectTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getObjectTorrent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getObjectTorrent: (
+  input: GetObjectTorrentRequest,
+) => Effect.Effect<
+  GetObjectTorrentOutput,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetObjectTorrentRequest,
   output: GetObjectTorrentOutput,
   errors: [],
@@ -18973,13 +19420,17 @@ export const getObjectTorrent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getPublicAccessBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPublicAccessBlockRequest,
-    output: GetPublicAccessBlockOutput,
-    errors: [NoSuchBucket],
-  }),
-);
+export const getPublicAccessBlock: (
+  input: GetPublicAccessBlockRequest,
+) => Effect.Effect<
+  GetPublicAccessBlockOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPublicAccessBlockRequest,
+  output: GetPublicAccessBlockOutput,
+  errors: [NoSuchBucket],
+}));
 /**
  * You can use this operation to determine if a bucket exists and if you have permission to access it.
  * The action returns a `200 OK` HTTP status code if the bucket exists and you have
@@ -19042,7 +19493,13 @@ export const getPublicAccessBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const headBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const headBucket: (
+  input: HeadBucketRequest,
+) => Effect.Effect<
+  HeadBucketOutput,
+  NotFound | ParseError | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: HeadBucketRequest,
   output: HeadBucketOutput,
   errors: [NotFound, ParseError],
@@ -19155,7 +19612,13 @@ export const headBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const headObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const headObject: (
+  input: HeadObjectRequest,
+) => Effect.Effect<
+  HeadObjectOutput,
+  NotFound | ParseError | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: HeadObjectRequest,
   output: HeadObjectOutput,
   errors: [NotFound, ParseError],
@@ -19192,12 +19655,17 @@ export const headObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const listBucketAnalyticsConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListBucketAnalyticsConfigurationsRequest,
-    output: ListBucketAnalyticsConfigurationsOutput,
-    errors: [NoSuchBucket],
-  }));
+export const listBucketAnalyticsConfigurations: (
+  input: ListBucketAnalyticsConfigurationsRequest,
+) => Effect.Effect<
+  ListBucketAnalyticsConfigurationsOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBucketAnalyticsConfigurationsRequest,
+  output: ListBucketAnalyticsConfigurationsOutput,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -19219,12 +19687,17 @@ export const listBucketAnalyticsConfigurations =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const listBucketIntelligentTieringConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListBucketIntelligentTieringConfigurationsRequest,
-    output: ListBucketIntelligentTieringConfigurationsOutput,
-    errors: [NoSuchBucket],
-  }));
+export const listBucketIntelligentTieringConfigurations: (
+  input: ListBucketIntelligentTieringConfigurationsRequest,
+) => Effect.Effect<
+  ListBucketIntelligentTieringConfigurationsOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBucketIntelligentTieringConfigurationsRequest,
+  output: ListBucketIntelligentTieringConfigurationsOutput,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -19255,12 +19728,17 @@ export const listBucketIntelligentTieringConfigurations =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const listBucketInventoryConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListBucketInventoryConfigurationsRequest,
-    output: ListBucketInventoryConfigurationsOutput,
-    errors: [NoSuchBucket],
-  }));
+export const listBucketInventoryConfigurations: (
+  input: ListBucketInventoryConfigurationsRequest,
+) => Effect.Effect<
+  ListBucketInventoryConfigurationsOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBucketInventoryConfigurationsRequest,
+  output: ListBucketInventoryConfigurationsOutput,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -19293,12 +19771,17 @@ export const listBucketInventoryConfigurations =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const listBucketMetricsConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListBucketMetricsConfigurationsRequest,
-    output: ListBucketMetricsConfigurationsOutput,
-    errors: [NoSuchBucket],
-  }));
+export const listBucketMetricsConfigurations: (
+  input: ListBucketMetricsConfigurationsRequest,
+) => Effect.Effect<
+  ListBucketMetricsConfigurationsOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBucketMetricsConfigurationsRequest,
+  output: ListBucketMetricsConfigurationsOutput,
+  errors: [NoSuchBucket],
+}));
 /**
  * Returns a list of all Amazon S3 directory buckets owned by the authenticated sender of the request. For
  * more information about directory buckets, see Directory buckets in the
@@ -19326,18 +19809,39 @@ export const listBucketMetricsConfigurations =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const listDirectoryBuckets =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDirectoryBuckets: {
+  (
     input: ListDirectoryBucketsRequest,
-    output: ListDirectoryBucketsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "ContinuationToken",
-      outputToken: "ContinuationToken",
-      items: "Buckets",
-      pageSize: "MaxDirectoryBuckets",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDirectoryBucketsOutput,
+    Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDirectoryBucketsRequest,
+  ) => Stream.Stream<
+    ListDirectoryBucketsOutput,
+    Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDirectoryBucketsRequest,
+  ) => Stream.Stream<
+    Bucket,
+    Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDirectoryBucketsRequest,
+  output: ListDirectoryBucketsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "ContinuationToken",
+    outputToken: "ContinuationToken",
+    items: "Buckets",
+    pageSize: "MaxDirectoryBuckets",
+  } as const,
+}));
 /**
  * Returns some or all (up to 1,000) of the objects in a bucket with each request. You can use the
  * request parameters as selection criteria to return a subset of the objects in a bucket. A 200
@@ -19404,22 +19908,48 @@ export const listDirectoryBuckets =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const listObjectsV2 = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listObjectsV2: {
+  (
     input: ListObjectsV2Request,
-    output: ListObjectsV2Output,
-    errors: [NoSuchBucket],
-    pagination: {
-      inputToken: "ContinuationToken",
-      outputToken: "NextContinuationToken",
-      pageSize: "MaxKeys",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListObjectsV2Output,
+    NoSuchBucket | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListObjectsV2Request,
+  ) => Stream.Stream<
+    ListObjectsV2Output,
+    NoSuchBucket | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListObjectsV2Request,
+  ) => Stream.Stream<
+    unknown,
+    NoSuchBucket | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListObjectsV2Request,
+  output: ListObjectsV2Output,
+  errors: [NoSuchBucket],
+  pagination: {
+    inputToken: "ContinuationToken",
+    outputToken: "NextContinuationToken",
+    pageSize: "MaxKeys",
+  } as const,
+}));
 /**
  * Sets the attribute-based access control (ABAC) property of the general purpose bucket. You must have `s3:PutBucketABAC` permission to perform this action. When you enable ABAC, you can use tags for access control on your buckets. Additionally, when ABAC is enabled, you must use the TagResource and UntagResource actions to manage tags on your buckets. You can nolonger use the PutBucketTagging and DeleteBucketTagging actions to tag your bucket. For more information, see Enabling ABAC in general purpose buckets.
  */
-export const putBucketAbac = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putBucketAbac: (
+  input: PutBucketAbacRequest,
+) => Effect.Effect<
+  PutBucketAbacResponse,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBucketAbacRequest,
   output: PutBucketAbacResponse,
   errors: [],
@@ -19460,12 +19990,17 @@ export const putBucketAbac = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketAccelerateConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutBucketAccelerateConfigurationRequest,
-    output: PutBucketAccelerateConfigurationResponse,
-    errors: [NoSuchBucket],
-  }));
+export const putBucketAccelerateConfiguration: (
+  input: PutBucketAccelerateConfigurationRequest,
+) => Effect.Effect<
+  PutBucketAccelerateConfigurationResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutBucketAccelerateConfigurationRequest,
+  output: PutBucketAccelerateConfigurationResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -19482,13 +20017,17 @@ export const putBucketAccelerateConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketRequestPayment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutBucketRequestPaymentRequest,
-    output: PutBucketRequestPaymentResponse,
-    errors: [NoSuchBucket],
-  }),
-);
+export const putBucketRequestPayment: (
+  input: PutBucketRequestPaymentRequest,
+) => Effect.Effect<
+  PutBucketRequestPaymentResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutBucketRequestPaymentRequest,
+  output: PutBucketRequestPaymentResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -19531,7 +20070,13 @@ export const putBucketRequestPayment = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putBucketTagging: (
+  input: PutBucketTaggingRequest,
+) => Effect.Effect<
+  PutBucketTaggingResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBucketTaggingRequest,
   output: PutBucketTaggingResponse,
   errors: [NoSuchBucket],
@@ -19579,7 +20124,13 @@ export const putBucketTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketVersioning = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putBucketVersioning: (
+  input: PutBucketVersioningRequest,
+) => Effect.Effect<
+  PutBucketVersioningResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBucketVersioningRequest,
   output: PutBucketVersioningResponse,
   errors: [NoSuchBucket],
@@ -19695,7 +20246,18 @@ export const putBucketVersioning = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putObject: (
+  input: PutObjectRequest,
+) => Effect.Effect<
+  PutObjectOutput,
+  | EncryptionTypeMismatch
+  | InvalidRequest
+  | InvalidWriteOffset
+  | TooManyParts
+  | NoSuchBucket
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutObjectRequest,
   output: PutObjectOutput,
   errors: [
@@ -19849,7 +20411,13 @@ export const putObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putObjectAcl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putObjectAcl: (
+  input: PutObjectAclRequest,
+) => Effect.Effect<
+  PutObjectAclOutput,
+  NoSuchKey | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutObjectAclRequest,
   output: PutObjectAclOutput,
   errors: [NoSuchKey],
@@ -19894,7 +20462,13 @@ export const putObjectAcl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putObjectTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putObjectTagging: (
+  input: PutObjectTaggingRequest,
+) => Effect.Effect<
+  PutObjectTaggingOutput,
+  NoSuchKey | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutObjectTaggingRequest,
   output: PutObjectTaggingOutput,
   errors: [NoSuchKey],
@@ -19929,13 +20503,17 @@ export const putObjectTagging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putPublicAccessBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutPublicAccessBlockRequest,
-    output: PutPublicAccessBlockResponse,
-    errors: [NoSuchBucket],
-  }),
-);
+export const putPublicAccessBlock: (
+  input: PutPublicAccessBlockRequest,
+) => Effect.Effect<
+  PutPublicAccessBlockResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutPublicAccessBlockRequest,
+  output: PutPublicAccessBlockResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * Uploads a part in a multipart upload.
  *
@@ -20076,7 +20654,13 @@ export const putPublicAccessBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const uploadPart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const uploadPart: (
+  input: UploadPartRequest,
+) => Effect.Effect<
+  UploadPartOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadPartRequest,
   output: UploadPartOutput,
   errors: [NoSuchBucket],
@@ -20137,12 +20721,17 @@ export const uploadPart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const createBucketMetadataConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateBucketMetadataConfigurationRequest,
-    output: CreateBucketMetadataConfigurationResponse,
-    errors: [],
-  }));
+export const createBucketMetadataConfiguration: (
+  input: CreateBucketMetadataConfigurationRequest,
+) => Effect.Effect<
+  CreateBucketMetadataConfigurationResponse,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBucketMetadataConfigurationRequest,
+  output: CreateBucketMetadataConfigurationResponse,
+  errors: [],
+}));
 /**
  * We recommend that you create your S3 Metadata configurations by using the V2
  * CreateBucketMetadataConfiguration API operation. We no longer recommend using the V1
@@ -20191,12 +20780,17 @@ export const createBucketMetadataConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const createBucketMetadataTableConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateBucketMetadataTableConfigurationRequest,
-    output: CreateBucketMetadataTableConfigurationResponse,
-    errors: [],
-  }));
+export const createBucketMetadataTableConfiguration: (
+  input: CreateBucketMetadataTableConfigurationRequest,
+) => Effect.Effect<
+  CreateBucketMetadataTableConfigurationResponse,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBucketMetadataTableConfigurationRequest,
+  output: CreateBucketMetadataTableConfigurationResponse,
+  errors: [],
+}));
 /**
  * Creates a session that establishes temporary security credentials to support fast authentication and
  * authorization for the Zonal endpoint API operations on directory buckets. For more information about Zonal endpoint API operations that
@@ -20292,7 +20886,13 @@ export const createBucketMetadataTableConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const createSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSession: (
+  input: CreateSessionRequest,
+) => Effect.Effect<
+  CreateSessionOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSessionRequest,
   output: CreateSessionOutput,
   errors: [NoSuchBucket],
@@ -20319,13 +20919,17 @@ export const createSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketPolicyStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBucketPolicyStatusRequest,
-    output: GetBucketPolicyStatusOutput,
-    errors: [],
-  }),
-);
+export const getBucketPolicyStatus: (
+  input: GetBucketPolicyStatusRequest,
+) => Effect.Effect<
+  GetBucketPolicyStatusOutput,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketPolicyStatusRequest,
+  output: GetBucketPolicyStatusOutput,
+  errors: [],
+}));
 /**
  * Retrieves an object from Amazon S3.
  *
@@ -20458,7 +21062,13 @@ export const getBucketPolicyStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getObject: (
+  input: GetObjectRequest,
+) => Effect.Effect<
+  GetObjectOutput,
+  InvalidObjectState | NoSuchKey | NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetObjectRequest,
   output: GetObjectOutput,
   errors: [InvalidObjectState, NoSuchKey, NoSuchBucket],
@@ -20481,19 +21091,39 @@ export const getObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const listBuckets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBuckets: {
+  (
     input: ListBucketsRequest,
-    output: ListBucketsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "ContinuationToken",
-      outputToken: "ContinuationToken",
-      items: "Buckets",
-      pageSize: "MaxBuckets",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBucketsOutput,
+    Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBucketsRequest,
+  ) => Stream.Stream<
+    ListBucketsOutput,
+    Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBucketsRequest,
+  ) => Stream.Stream<
+    Bucket,
+    Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBucketsRequest,
+  output: ListBucketsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "ContinuationToken",
+    outputToken: "ContinuationToken",
+    items: "Buckets",
+    pageSize: "MaxBuckets",
+  } as const,
+}));
 /**
  * This operation lists in-progress multipart uploads in a bucket. An in-progress multipart upload is a
  * multipart upload that has been initiated by the `CreateMultipartUpload` request, but has not
@@ -20581,13 +21211,17 @@ export const listBuckets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const listMultipartUploads = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListMultipartUploadsRequest,
-    output: ListMultipartUploadsOutput,
-    errors: [NoSuchBucket],
-  }),
-);
+export const listMultipartUploads: (
+  input: ListMultipartUploadsRequest,
+) => Effect.Effect<
+  ListMultipartUploadsOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListMultipartUploadsRequest,
+  output: ListMultipartUploadsOutput,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -20614,7 +21248,13 @@ export const listMultipartUploads = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const listObjectVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listObjectVersions: (
+  input: ListObjectVersionsRequest,
+) => Effect.Effect<
+  ListObjectVersionsOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListObjectVersionsRequest,
   output: ListObjectVersionsOutput,
   errors: [NoSuchBucket],
@@ -20681,7 +21321,29 @@ export const listObjectVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const listParts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listParts: {
+  (
+    input: ListPartsRequest,
+  ): Effect.Effect<
+    ListPartsOutput,
+    NoSuchBucket | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPartsRequest,
+  ) => Stream.Stream<
+    ListPartsOutput,
+    NoSuchBucket | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPartsRequest,
+  ) => Stream.Stream<
+    Part,
+    NoSuchBucket | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPartsRequest,
   output: ListPartsOutput,
   errors: [NoSuchBucket],
@@ -20738,7 +21400,13 @@ export const listParts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketCors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putBucketCors: (
+  input: PutBucketCorsRequest,
+) => Effect.Effect<
+  PutBucketCorsResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBucketCorsRequest,
   output: PutBucketCorsResponse,
   errors: [NoSuchBucket],
@@ -20760,13 +21428,17 @@ export const putBucketCors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketOwnershipControls = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutBucketOwnershipControlsRequest,
-    output: PutBucketOwnershipControlsResponse,
-    errors: [NoSuchBucket],
-  }),
-);
+export const putBucketOwnershipControls: (
+  input: PutBucketOwnershipControlsRequest,
+) => Effect.Effect<
+  PutBucketOwnershipControlsResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutBucketOwnershipControlsRequest,
+  output: PutBucketOwnershipControlsResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -20776,7 +21448,13 @@ export const putBucketOwnershipControls = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putObjectLegalHold = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putObjectLegalHold: (
+  input: PutObjectLegalHoldRequest,
+) => Effect.Effect<
+  PutObjectLegalHoldOutput,
+  MalformedXML | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutObjectLegalHoldRequest,
   output: PutObjectLegalHoldOutput,
   errors: [MalformedXML],
@@ -20793,7 +21471,13 @@ export const putObjectLegalHold = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putObjectRetention = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putObjectRetention: (
+  input: PutObjectRetentionRequest,
+) => Effect.Effect<
+  PutObjectRetentionOutput,
+  InvalidRequest | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutObjectRetentionRequest,
   output: PutObjectRetentionOutput,
   errors: [InvalidRequest],
@@ -20844,12 +21528,17 @@ export const putObjectRetention = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const updateBucketMetadataInventoryTableConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateBucketMetadataInventoryTableConfigurationRequest,
-    output: UpdateBucketMetadataInventoryTableConfigurationResponse,
-    errors: [],
-  }));
+export const updateBucketMetadataInventoryTableConfiguration: (
+  input: UpdateBucketMetadataInventoryTableConfigurationRequest,
+) => Effect.Effect<
+  UpdateBucketMetadataInventoryTableConfigurationResponse,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBucketMetadataInventoryTableConfigurationRequest,
+  output: UpdateBucketMetadataInventoryTableConfigurationResponse,
+  errors: [],
+}));
 /**
  * Enables or disables journal table record expiration for an S3 Metadata configuration on a general
  * purpose bucket. For more information, see
@@ -20874,12 +21563,17 @@ export const updateBucketMetadataInventoryTableConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const updateBucketMetadataJournalTableConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateBucketMetadataJournalTableConfigurationRequest,
-    output: UpdateBucketMetadataJournalTableConfigurationResponse,
-    errors: [],
-  }));
+export const updateBucketMetadataJournalTableConfiguration: (
+  input: UpdateBucketMetadataJournalTableConfigurationRequest,
+) => Effect.Effect<
+  UpdateBucketMetadataJournalTableConfigurationResponse,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBucketMetadataJournalTableConfigurationRequest,
+  output: UpdateBucketMetadataJournalTableConfigurationResponse,
+  errors: [],
+}));
 /**
  * Uploads a part by copying data from an existing object as data source. To specify the data source,
  * you add the request header `x-amz-copy-source` in your request. To specify a byte range, you
@@ -21040,7 +21734,13 @@ export const updateBucketMetadataJournalTableConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const uploadPartCopy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const uploadPartCopy: (
+  input: UploadPartCopyRequest,
+) => Effect.Effect<
+  UploadPartCopyOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadPartCopyRequest,
   output: UploadPartCopyOutput,
   errors: [NoSuchBucket],
@@ -21158,13 +21858,17 @@ export const uploadPartCopy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const completeMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CompleteMultipartUploadRequest,
-    output: CompleteMultipartUploadOutput,
-    errors: [],
-  }),
-);
+export const completeMultipartUpload: (
+  input: CompleteMultipartUploadRequest,
+) => Effect.Effect<
+  CompleteMultipartUploadOutput,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CompleteMultipartUploadRequest,
+  output: CompleteMultipartUploadOutput,
+  errors: [],
+}));
 /**
  * Creates a copy of an object that is already stored in Amazon S3.
  *
@@ -21325,7 +22029,13 @@ export const completeMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const copyObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copyObject: (
+  input: CopyObjectRequest,
+) => Effect.Effect<
+  CopyObjectOutput,
+  ObjectNotInActiveTierError | NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyObjectRequest,
   output: CopyObjectOutput,
   errors: [ObjectNotInActiveTierError, NoSuchBucket],
@@ -21435,7 +22145,19 @@ export const copyObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const createBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBucket: (
+  input: CreateBucketRequest,
+) => Effect.Effect<
+  CreateBucketOutput,
+  | BucketAlreadyExists
+  | BucketAlreadyOwnedByYou
+  | IllegalLocationConstraintException
+  | InvalidArgument
+  | InvalidBucketName
+  | InvalidLocationConstraint
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBucketRequest,
   output: CreateBucketOutput,
   errors: [
@@ -21587,7 +22309,13 @@ export const createBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getObjectAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getObjectAttributes: (
+  input: GetObjectAttributesRequest,
+) => Effect.Effect<
+  GetObjectAttributesOutput,
+  NoSuchKey | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetObjectAttributesRequest,
   output: GetObjectAttributesOutput,
   errors: [NoSuchKey],
@@ -21618,7 +22346,13 @@ export const getObjectAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const listObjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listObjects: (
+  input: ListObjectsRequest,
+) => Effect.Effect<
+  ListObjectsOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListObjectsRequest,
   output: ListObjectsOutput,
   errors: [NoSuchBucket],
@@ -21768,7 +22502,13 @@ export const listObjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketAcl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putBucketAcl: (
+  input: PutBucketAclRequest,
+) => Effect.Effect<
+  PutBucketAclResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBucketAclRequest,
   output: PutBucketAclResponse,
   errors: [NoSuchBucket],
@@ -21858,7 +22598,13 @@ export const putBucketAcl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putBucketEncryption: (
+  input: PutBucketEncryptionRequest,
+) => Effect.Effect<
+  PutBucketEncryptionResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBucketEncryptionRequest,
   output: PutBucketEncryptionResponse,
   errors: [NoSuchBucket],
@@ -21910,12 +22656,17 @@ export const putBucketEncryption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketIntelligentTieringConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutBucketIntelligentTieringConfigurationRequest,
-    output: PutBucketIntelligentTieringConfigurationResponse,
-    errors: [NoSuchBucket],
-  }));
+export const putBucketIntelligentTieringConfiguration: (
+  input: PutBucketIntelligentTieringConfigurationRequest,
+) => Effect.Effect<
+  PutBucketIntelligentTieringConfigurationResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutBucketIntelligentTieringConfigurationRequest,
+  output: PutBucketIntelligentTieringConfigurationResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -21951,12 +22702,17 @@ export const putBucketIntelligentTieringConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketMetricsConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutBucketMetricsConfigurationRequest,
-    output: PutBucketMetricsConfigurationResponse,
-    errors: [NoSuchBucket],
-  }));
+export const putBucketMetricsConfiguration: (
+  input: PutBucketMetricsConfigurationRequest,
+) => Effect.Effect<
+  PutBucketMetricsConfigurationResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutBucketMetricsConfigurationRequest,
+  output: PutBucketMetricsConfigurationResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -22028,7 +22784,13 @@ export const putBucketMetricsConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketWebsite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putBucketWebsite: (
+  input: PutBucketWebsiteRequest,
+) => Effect.Effect<
+  PutBucketWebsiteResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBucketWebsiteRequest,
   output: PutBucketWebsiteResponse,
   errors: [NoSuchBucket],
@@ -22125,7 +22887,13 @@ export const putBucketWebsite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const deleteObjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteObjects: (
+  input: DeleteObjectsRequest,
+) => Effect.Effect<
+  DeleteObjectsOutput,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteObjectsRequest,
   output: DeleteObjectsOutput,
   errors: [NoSuchBucket],
@@ -22160,12 +22928,17 @@ export const deleteObjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketMetadataConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetBucketMetadataConfigurationRequest,
-    output: GetBucketMetadataConfigurationOutput,
-    errors: [],
-  }));
+export const getBucketMetadataConfiguration: (
+  input: GetBucketMetadataConfigurationRequest,
+) => Effect.Effect<
+  GetBucketMetadataConfigurationOutput,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketMetadataConfigurationRequest,
+  output: GetBucketMetadataConfigurationOutput,
+  errors: [],
+}));
 /**
  * We recommend that you retrieve your S3 Metadata configurations by using the V2
  * GetBucketMetadataTableConfiguration API operation. We no longer recommend using the V1
@@ -22202,12 +22975,17 @@ export const getBucketMetadataConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const getBucketMetadataTableConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetBucketMetadataTableConfigurationRequest,
-    output: GetBucketMetadataTableConfigurationOutput,
-    errors: [],
-  }));
+export const getBucketMetadataTableConfiguration: (
+  input: GetBucketMetadataTableConfigurationRequest,
+) => Effect.Effect<
+  GetBucketMetadataTableConfigurationOutput,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketMetadataTableConfigurationRequest,
+  output: GetBucketMetadataTableConfigurationOutput,
+  errors: [],
+}));
 /**
  * End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025,
  * the request will receive an `HTTP 405` (Method Not Allowed) error.
@@ -22276,7 +23054,13 @@ export const getBucketMetadataTableConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putBucketLogging: (
+  input: PutBucketLoggingRequest,
+) => Effect.Effect<
+  PutBucketLoggingResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBucketLoggingRequest,
   output: PutBucketLoggingResponse,
   errors: [NoSuchBucket],
@@ -22300,13 +23084,17 @@ export const putBucketLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putObjectLockConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutObjectLockConfigurationRequest,
-    output: PutObjectLockConfigurationOutput,
-    errors: [InvalidBucketState, NoSuchBucket],
-  }),
-);
+export const putObjectLockConfiguration: (
+  input: PutObjectLockConfigurationRequest,
+) => Effect.Effect<
+  PutObjectLockConfigurationOutput,
+  InvalidBucketState | NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutObjectLockConfigurationRequest,
+  output: PutObjectLockConfigurationOutput,
+  errors: [InvalidBucketState, NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -22370,12 +23158,17 @@ export const putObjectLockConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketAnalyticsConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutBucketAnalyticsConfigurationRequest,
-    output: PutBucketAnalyticsConfigurationResponse,
-    errors: [],
-  }));
+export const putBucketAnalyticsConfiguration: (
+  input: PutBucketAnalyticsConfigurationRequest,
+) => Effect.Effect<
+  PutBucketAnalyticsConfigurationResponse,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutBucketAnalyticsConfigurationRequest,
+  output: PutBucketAnalyticsConfigurationResponse,
+  errors: [],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -22448,12 +23241,17 @@ export const putBucketAnalyticsConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketInventoryConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutBucketInventoryConfigurationRequest,
-    output: PutBucketInventoryConfigurationResponse,
-    errors: [NoSuchBucket],
-  }));
+export const putBucketInventoryConfiguration: (
+  input: PutBucketInventoryConfigurationRequest,
+) => Effect.Effect<
+  PutBucketInventoryConfigurationResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutBucketInventoryConfigurationRequest,
+  output: PutBucketInventoryConfigurationResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle
  * configuration. Keep in mind that this will overwrite an existing lifecycle configuration, so if you want
@@ -22550,12 +23348,17 @@ export const putBucketInventoryConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketLifecycleConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutBucketLifecycleConfigurationRequest,
-    output: PutBucketLifecycleConfigurationOutput,
-    errors: [InvalidRequest, MalformedXML, NoSuchBucket],
-  }));
+export const putBucketLifecycleConfiguration: (
+  input: PutBucketLifecycleConfigurationRequest,
+) => Effect.Effect<
+  PutBucketLifecycleConfigurationOutput,
+  InvalidRequest | MalformedXML | NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutBucketLifecycleConfigurationRequest,
+  output: PutBucketLifecycleConfigurationOutput,
+  errors: [InvalidRequest, MalformedXML, NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -22609,12 +23412,17 @@ export const putBucketLifecycleConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketNotificationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutBucketNotificationConfigurationRequest,
-    output: PutBucketNotificationConfigurationResponse,
-    errors: [NoSuchBucket],
-  }));
+export const putBucketNotificationConfiguration: (
+  input: PutBucketNotificationConfigurationRequest,
+) => Effect.Effect<
+  PutBucketNotificationConfigurationResponse,
+  NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutBucketNotificationConfigurationRequest,
+  output: PutBucketNotificationConfigurationResponse,
+  errors: [NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -22676,13 +23484,17 @@ export const putBucketNotificationConfiguration =
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const putBucketReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutBucketReplicationRequest,
-    output: PutBucketReplicationResponse,
-    errors: [InvalidRequest, NoSuchBucket],
-  }),
-);
+export const putBucketReplication: (
+  input: PutBucketReplicationRequest,
+) => Effect.Effect<
+  PutBucketReplicationResponse,
+  InvalidRequest | NoSuchBucket | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutBucketReplicationRequest,
+  output: PutBucketReplicationResponse,
+  errors: [InvalidRequest, NoSuchBucket],
+}));
 /**
  * This operation is not supported for directory buckets.
  *
@@ -22823,7 +23635,13 @@ export const putBucketReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const restoreObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const restoreObject: (
+  input: RestoreObjectRequest,
+) => Effect.Effect<
+  RestoreObjectOutput,
+  ObjectAlreadyInActiveTierError | NoSuchKey | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreObjectRequest,
   output: RestoreObjectOutput,
   errors: [ObjectAlreadyInActiveTierError, NoSuchKey],
@@ -22919,7 +23737,13 @@ export const restoreObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
  */
-export const selectObjectContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const selectObjectContent: (
+  input: SelectObjectContentRequest,
+) => Effect.Effect<
+  SelectObjectContentOutput,
+  Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SelectObjectContentRequest,
   output: SelectObjectContentOutput,
   errors: [],

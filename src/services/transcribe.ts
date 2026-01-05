@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Transcribe",
   serviceShapeName: "Transcribe",
@@ -305,6 +313,39 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type CategoryName = string;
+export type ModelName = string;
+export type VocabularyName = string;
+export type Uri = string;
+export type Phrase = string;
+export type DataAccessRoleArn = string;
+export type VocabularyFilterName = string;
+export type Word = string;
+export type CallAnalyticsJobName = string;
+export type TranscriptionJobName = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type TranscribeArn = string;
+export type KMSKeyId = string;
+export type OutputBucketName = string;
+export type MedicalMediaSampleRateHertz = number;
+export type OutputKey = string;
+export type MediaSampleRateHertz = number;
+export type TagKey = string;
+export type TagValue = string;
+export type ChannelId = number;
+export type NonEmptyString = string;
+export type MaxSpeakers = number;
+export type MedicalScribeChannelId = number;
+export type MaxAlternatives = number;
+export type SubtitleOutputStartIndex = number;
+export type FailureReason = string;
+export type TimestampMilliseconds = number;
+export type IdentifiedLanguageScore = number;
+export type Percentage = number;
+export type DurationInSeconds = number;
 
 //# Schemas
 export type Phrases = string[];
@@ -1234,6 +1275,11 @@ export const SentimentFilter = S.suspend(() =>
 ).annotations({
   identifier: "SentimentFilter",
 }) as any as S.Schema<SentimentFilter>;
+export type Rule =
+  | { NonTalkTimeFilter: NonTalkTimeFilter }
+  | { InterruptionFilter: InterruptionFilter }
+  | { TranscriptFilter: TranscriptFilter }
+  | { SentimentFilter: SentimentFilter };
 export const Rule = S.Union(
   S.Struct({ NonTalkTimeFilter: NonTalkTimeFilter }),
   S.Struct({ InterruptionFilter: InterruptionFilter }),
@@ -2731,7 +2777,9 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },
@@ -2739,7 +2787,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { Message: S.optional(S.String) },
@@ -2791,18 +2841,26 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
  * can find your redacted media at the location specified in the
  * `RedactedMediaFileUri` field of your response.
  */
-export const startCallAnalyticsJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartCallAnalyticsJobRequest,
-    output: StartCallAnalyticsJobResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const startCallAnalyticsJob: (
+  input: StartCallAnalyticsJobRequest,
+) => Effect.Effect<
+  StartCallAnalyticsJobResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCallAnalyticsJobRequest,
+  output: StartCallAnalyticsJobResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Transcribes patient-clinician conversations and generates clinical notes.
  *
@@ -2837,18 +2895,26 @@ export const startCallAnalyticsJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - `ChannelDefinitions`: A `MedicalScribeChannelDefinitions` array should be set if and only if the `ChannelIdentification`
  * value of `Settings` is set to true.
  */
-export const startMedicalScribeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMedicalScribeJobRequest,
-    output: StartMedicalScribeJobResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const startMedicalScribeJob: (
+  input: StartMedicalScribeJobRequest,
+) => Effect.Effect<
+  StartMedicalScribeJobResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMedicalScribeJobRequest,
+  output: StartMedicalScribeJobResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Transcribes the audio from a media file and applies any additional Request Parameters
  * you choose to include in your request.
@@ -2879,231 +2945,523 @@ export const startMedicalScribeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `IdentifyMultipleLanguages` and let Amazon Transcribe identify
  * the languages for you.
  */
-export const startTranscriptionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartTranscriptionJobRequest,
-    output: StartTranscriptionJobResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const startTranscriptionJob: (
+  input: StartTranscriptionJobRequest,
+) => Effect.Effect<
+  StartTranscriptionJobResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartTranscriptionJobRequest,
+  output: StartTranscriptionJobResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Provides a list of Call Analytics jobs that match the specified criteria. If no
  * criteria are specified, all Call Analytics jobs are returned.
  *
  * To get detailed information about a specific Call Analytics job, use the operation.
  */
-export const listCallAnalyticsJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCallAnalyticsJobs: {
+  (
     input: ListCallAnalyticsJobsRequest,
-    output: ListCallAnalyticsJobsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCallAnalyticsJobsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCallAnalyticsJobsRequest,
+  ) => Stream.Stream<
+    ListCallAnalyticsJobsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCallAnalyticsJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCallAnalyticsJobsRequest,
+  output: ListCallAnalyticsJobsResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides a list of Medical Scribe jobs that match the specified criteria. If no
  * criteria are specified, all Medical Scribe jobs are returned.
  *
  * To get detailed information about a specific Medical Scribe job, use the operation.
  */
-export const listMedicalScribeJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMedicalScribeJobs: {
+  (
     input: ListMedicalScribeJobsRequest,
-    output: ListMedicalScribeJobsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMedicalScribeJobsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMedicalScribeJobsRequest,
+  ) => Stream.Stream<
+    ListMedicalScribeJobsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMedicalScribeJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMedicalScribeJobsRequest,
+  output: ListMedicalScribeJobsResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides a list of medical transcription jobs that match the specified criteria. If no
  * criteria are specified, all medical transcription jobs are returned.
  *
  * To get detailed information about a specific medical transcription job, use the operation.
  */
-export const listMedicalTranscriptionJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMedicalTranscriptionJobs: {
+  (
     input: ListMedicalTranscriptionJobsRequest,
-    output: ListMedicalTranscriptionJobsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMedicalTranscriptionJobsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMedicalTranscriptionJobsRequest,
+  ) => Stream.Stream<
+    ListMedicalTranscriptionJobsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMedicalTranscriptionJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMedicalTranscriptionJobsRequest,
+  output: ListMedicalTranscriptionJobsResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides a list of custom medical vocabularies that match the specified criteria. If
  * no criteria are specified, all custom medical vocabularies are returned.
  *
  * To get detailed information about a specific custom medical vocabulary, use the operation.
  */
-export const listMedicalVocabularies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMedicalVocabularies: {
+  (
     input: ListMedicalVocabulariesRequest,
-    output: ListMedicalVocabulariesResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMedicalVocabulariesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMedicalVocabulariesRequest,
+  ) => Stream.Stream<
+    ListMedicalVocabulariesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMedicalVocabulariesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMedicalVocabulariesRequest,
+  output: ListMedicalVocabulariesResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides a list of transcription jobs that match the specified criteria. If no
  * criteria are specified, all transcription jobs are returned.
  *
  * To get detailed information about a specific transcription job, use the operation.
  */
-export const listTranscriptionJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTranscriptionJobs: {
+  (
     input: ListTranscriptionJobsRequest,
-    output: ListTranscriptionJobsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTranscriptionJobsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTranscriptionJobsRequest,
+  ) => Stream.Stream<
+    ListTranscriptionJobsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTranscriptionJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTranscriptionJobsRequest,
+  output: ListTranscriptionJobsResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides a list of custom vocabulary filters that match the specified criteria. If no
  * criteria are specified, all custom vocabularies are returned.
  *
  * To get detailed information about a specific custom vocabulary filter, use the operation.
  */
-export const listVocabularyFilters =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listVocabularyFilters: {
+  (
     input: ListVocabularyFiltersRequest,
-    output: ListVocabularyFiltersResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListVocabularyFiltersResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVocabularyFiltersRequest,
+  ) => Stream.Stream<
+    ListVocabularyFiltersResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVocabularyFiltersRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVocabularyFiltersRequest,
+  output: ListVocabularyFiltersResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides a list of Call Analytics categories, including all rules that make up each
  * category.
  *
  * To get detailed information about a specific Call Analytics category, use the operation.
  */
-export const listCallAnalyticsCategories =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCallAnalyticsCategories: {
+  (
     input: ListCallAnalyticsCategoriesRequest,
-    output: ListCallAnalyticsCategoriesResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCallAnalyticsCategoriesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCallAnalyticsCategoriesRequest,
+  ) => Stream.Stream<
+    ListCallAnalyticsCategoriesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCallAnalyticsCategoriesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCallAnalyticsCategoriesRequest,
+  output: ListCallAnalyticsCategoriesResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides a list of custom language models that match the specified criteria. If no
  * criteria are specified, all custom language models are returned.
  *
  * To get detailed information about a specific custom language model, use the operation.
  */
-export const listLanguageModels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLanguageModels: {
+  (
     input: ListLanguageModelsRequest,
-    output: ListLanguageModelsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLanguageModelsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLanguageModelsRequest,
+  ) => Stream.Stream<
+    ListLanguageModelsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLanguageModelsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLanguageModelsRequest,
+  output: ListLanguageModelsResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides a list of custom vocabularies that match the specified criteria. If no
  * criteria are specified, all custom vocabularies are returned.
  *
  * To get detailed information about a specific custom vocabulary, use the operation.
  */
-export const listVocabularies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listVocabularies: {
+  (
     input: ListVocabulariesRequest,
-    output: ListVocabulariesResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListVocabulariesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVocabulariesRequest,
+  ) => Stream.Stream<
+    ListVocabulariesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVocabulariesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVocabulariesRequest,
+  output: ListVocabulariesResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes a Call Analytics job. To use this operation, specify the name of the job you
  * want to delete using `CallAnalyticsJobName`. Job names are case
  * sensitive.
  */
-export const deleteCallAnalyticsJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCallAnalyticsJobRequest,
-    output: DeleteCallAnalyticsJobResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const deleteCallAnalyticsJob: (
+  input: DeleteCallAnalyticsJobRequest,
+) => Effect.Effect<
+  DeleteCallAnalyticsJobResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCallAnalyticsJobRequest,
+  output: DeleteCallAnalyticsJobResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Deletes a custom language model. To use this operation, specify the name of the
  * language model you want to delete using `ModelName`. custom language model
  * names are case sensitive.
  */
-export const deleteLanguageModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLanguageModel: (
+  input: DeleteLanguageModelRequest,
+) => Effect.Effect<
+  DeleteLanguageModelResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLanguageModelRequest,
   output: DeleteLanguageModelResponse,
   errors: [
@@ -3117,48 +3475,70 @@ export const deleteLanguageModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * job you want to delete using `MedicalScribeJobName`. Job names are
  * case sensitive.
  */
-export const deleteMedicalScribeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMedicalScribeJobRequest,
-    output: DeleteMedicalScribeJobResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const deleteMedicalScribeJob: (
+  input: DeleteMedicalScribeJobRequest,
+) => Effect.Effect<
+  DeleteMedicalScribeJobResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMedicalScribeJobRequest,
+  output: DeleteMedicalScribeJobResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Deletes a medical transcription job. To use this operation, specify the name of the
  * job you want to delete using `MedicalTranscriptionJobName`. Job names are
  * case sensitive.
  */
-export const deleteMedicalTranscriptionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteMedicalTranscriptionJobRequest,
-    output: DeleteMedicalTranscriptionJobResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }));
+export const deleteMedicalTranscriptionJob: (
+  input: DeleteMedicalTranscriptionJobRequest,
+) => Effect.Effect<
+  DeleteMedicalTranscriptionJobResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMedicalTranscriptionJobRequest,
+  output: DeleteMedicalTranscriptionJobResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Deletes a transcription job. To use this operation, specify the name of the job you
  * want to delete using `TranscriptionJobName`. Job names are case
  * sensitive.
  */
-export const deleteTranscriptionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTranscriptionJobRequest,
-    output: DeleteTranscriptionJobResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const deleteTranscriptionJob: (
+  input: DeleteTranscriptionJobRequest,
+) => Effect.Effect<
+  DeleteTranscriptionJobResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTranscriptionJobRequest,
+  output: DeleteTranscriptionJobResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Creates a new custom medical vocabulary.
  *
@@ -3177,18 +3557,26 @@ export const deleteTranscriptionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Custom
  * vocabularies.
  */
-export const createMedicalVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMedicalVocabularyRequest,
-    output: CreateMedicalVocabularyResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const createMedicalVocabulary: (
+  input: CreateMedicalVocabularyRequest,
+) => Effect.Effect<
+  CreateMedicalVocabularyResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMedicalVocabularyRequest,
+  output: CreateMedicalVocabularyResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Creates a new custom vocabulary.
  *
@@ -3205,7 +3593,17 @@ export const createMedicalVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Custom
  * vocabularies.
  */
-export const createVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVocabulary: (
+  input: CreateVocabularyRequest,
+) => Effect.Effect<
+  CreateVocabularyResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVocabularyRequest,
   output: CreateVocabularyResponse,
   errors: [
@@ -3230,18 +3628,26 @@ export const createVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Vocabulary
  * filtering.
  */
-export const createVocabularyFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVocabularyFilterRequest,
-    output: CreateVocabularyFilterResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const createVocabularyFilter: (
+  input: CreateVocabularyFilterRequest,
+) => Effect.Effect<
+  CreateVocabularyFilterResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVocabularyFilterRequest,
+  output: CreateVocabularyFilterResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Creates a new custom language model.
  *
@@ -3256,7 +3662,17 @@ export const createVocabularyFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - A unique name for your model
  */
-export const createLanguageModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLanguageModel: (
+  input: CreateLanguageModelRequest,
+) => Effect.Effect<
+  CreateLanguageModelResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLanguageModelRequest,
   output: CreateLanguageModelResponse,
   errors: [
@@ -3304,17 +3720,26 @@ export const createLanguageModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - `Type`: Choose whether your audio is a conversation or a
  * dictation.
  */
-export const startMedicalTranscriptionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartMedicalTranscriptionJobRequest,
-    output: StartMedicalTranscriptionJobResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }));
+export const startMedicalTranscriptionJob: (
+  input: StartMedicalTranscriptionJobRequest,
+) => Effect.Effect<
+  StartMedicalTranscriptionJobResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMedicalTranscriptionJobRequest,
+  output: StartMedicalTranscriptionJobResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Creates a new Call Analytics category.
  *
@@ -3338,35 +3763,51 @@ export const startMedicalTranscriptionJob =
  * transcriptions and Creating categories for
  * real-time transcriptions.
  */
-export const createCallAnalyticsCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCallAnalyticsCategoryRequest,
-    output: CreateCallAnalyticsCategoryResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const createCallAnalyticsCategory: (
+  input: CreateCallAnalyticsCategoryRequest,
+) => Effect.Effect<
+  CreateCallAnalyticsCategoryResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCallAnalyticsCategoryRequest,
+  output: CreateCallAnalyticsCategoryResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Deletes a Call Analytics category. To use this operation, specify the name of the
  * category you want to delete using `CategoryName`. Category names are case
  * sensitive.
  */
-export const deleteCallAnalyticsCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCallAnalyticsCategoryRequest,
-    output: DeleteCallAnalyticsCategoryResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
+export const deleteCallAnalyticsCategory: (
+  input: DeleteCallAnalyticsCategoryRequest,
+) => Effect.Effect<
+  DeleteCallAnalyticsCategoryResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCallAnalyticsCategoryRequest,
+  output: DeleteCallAnalyticsCategoryResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
 /**
  * Provides information about the specified Call Analytics job.
  *
@@ -3385,7 +3826,17 @@ export const deleteCallAnalyticsCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To get a list of your Call Analytics jobs, use the operation.
  */
-export const getCallAnalyticsJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCallAnalyticsJob: (
+  input: GetCallAnalyticsJobRequest,
+) => Effect.Effect<
+  GetCallAnalyticsJobResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCallAnalyticsJobRequest,
   output: GetCallAnalyticsJobResponse,
   errors: [
@@ -3407,7 +3858,17 @@ export const getCallAnalyticsJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To get a list of your Medical Scribe jobs, use the operation.
  */
-export const getMedicalScribeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMedicalScribeJob: (
+  input: GetMedicalScribeJobRequest,
+) => Effect.Effect<
+  GetMedicalScribeJobResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMedicalScribeJobRequest,
   output: GetMedicalScribeJobResponse,
   errors: [
@@ -3429,18 +3890,26 @@ export const getMedicalScribeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To get a list of your medical transcription jobs, use the operation.
  */
-export const getMedicalTranscriptionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMedicalTranscriptionJobRequest,
-    output: GetMedicalTranscriptionJobResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
+export const getMedicalTranscriptionJob: (
+  input: GetMedicalTranscriptionJobRequest,
+) => Effect.Effect<
+  GetMedicalTranscriptionJobResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMedicalTranscriptionJobRequest,
+  output: GetMedicalTranscriptionJobResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
 /**
  * Provides information about the specified transcription job.
  *
@@ -3456,7 +3925,17 @@ export const getMedicalTranscriptionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To get a list of your transcription jobs, use the operation.
  */
-export const getTranscriptionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTranscriptionJob: (
+  input: GetTranscriptionJobRequest,
+) => Effect.Effect<
+  GetTranscriptionJobResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTranscriptionJobRequest,
   output: GetTranscriptionJobResponse,
   errors: [
@@ -3477,35 +3956,51 @@ export const getTranscriptionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * you can use `DescribeLanguageModel` to help identify the reason for this
  * failure.
  */
-export const describeLanguageModel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLanguageModelRequest,
-    output: DescribeLanguageModelResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
+export const describeLanguageModel: (
+  input: DescribeLanguageModelRequest,
+) => Effect.Effect<
+  DescribeLanguageModelResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLanguageModelRequest,
+  output: DescribeLanguageModelResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
 /**
  * Provides information about the specified Call Analytics category.
  *
  * To get a list of your Call Analytics categories, use the operation.
  */
-export const getCallAnalyticsCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCallAnalyticsCategoryRequest,
-    output: GetCallAnalyticsCategoryResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
+export const getCallAnalyticsCategory: (
+  input: GetCallAnalyticsCategoryRequest,
+) => Effect.Effect<
+  GetCallAnalyticsCategoryResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCallAnalyticsCategoryRequest,
+  output: GetCallAnalyticsCategoryResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
 /**
  * Updates the specified Call Analytics category with new rules. Note that the
  * `UpdateCallAnalyticsCategory` operation overwrites all existing rules
@@ -3514,19 +4009,28 @@ export const getCallAnalyticsCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To create a new category, see .
  */
-export const updateCallAnalyticsCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCallAnalyticsCategoryRequest,
-    output: UpdateCallAnalyticsCategoryResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
+export const updateCallAnalyticsCategory: (
+  input: UpdateCallAnalyticsCategoryRequest,
+) => Effect.Effect<
+  UpdateCallAnalyticsCategoryResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCallAnalyticsCategoryRequest,
+  output: UpdateCallAnalyticsCategoryResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
 /**
  * Provides information about the specified custom medical vocabulary.
  *
@@ -3537,18 +4041,26 @@ export const updateCallAnalyticsCategory = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To get a list of your custom medical vocabularies, use the operation.
  */
-export const getMedicalVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMedicalVocabularyRequest,
-    output: GetMedicalVocabularyResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
+export const getMedicalVocabulary: (
+  input: GetMedicalVocabularyRequest,
+) => Effect.Effect<
+  GetMedicalVocabularyResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMedicalVocabularyRequest,
+  output: GetMedicalVocabularyResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
 /**
  * Provides information about the specified custom vocabulary.
  *
@@ -3560,7 +4072,17 @@ export const getMedicalVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To get a list of your custom vocabularies, use the operation.
  */
-export const getVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVocabulary: (
+  input: GetVocabularyRequest,
+) => Effect.Effect<
+  GetVocabularyResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVocabularyRequest,
   output: GetVocabularyResponse,
   errors: [
@@ -3575,7 +4097,17 @@ export const getVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To get a list of your custom vocabulary filters, use the operation.
  */
-export const getVocabularyFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVocabularyFilter: (
+  input: GetVocabularyFilterRequest,
+) => Effect.Effect<
+  GetVocabularyFilterResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVocabularyFilterRequest,
   output: GetVocabularyFilterResponse,
   errors: [
@@ -3592,7 +4124,17 @@ export const getVocabularyFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To learn more about using tags with Amazon Transcribe, refer to Tagging
  * resources.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3607,41 +4149,67 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * you provide overwrites all previous entries; you cannot append new terms onto an
  * existing custom vocabulary filter.
  */
-export const updateVocabularyFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateVocabularyFilterRequest,
-    output: UpdateVocabularyFilterResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
+export const updateVocabularyFilter: (
+  input: UpdateVocabularyFilterRequest,
+) => Effect.Effect<
+  UpdateVocabularyFilterResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateVocabularyFilterRequest,
+  output: UpdateVocabularyFilterResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
 /**
  * Deletes a custom medical vocabulary. To use this operation, specify the name of the
  * custom vocabulary you want to delete using `VocabularyName`. Custom
  * vocabulary names are case sensitive.
  */
-export const deleteMedicalVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMedicalVocabularyRequest,
-    output: DeleteMedicalVocabularyResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
+export const deleteMedicalVocabulary: (
+  input: DeleteMedicalVocabularyRequest,
+) => Effect.Effect<
+  DeleteMedicalVocabularyResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMedicalVocabularyRequest,
+  output: DeleteMedicalVocabularyResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
 /**
  * Deletes a custom vocabulary. To use this operation, specify the name of the custom
  * vocabulary you want to delete using `VocabularyName`. Custom vocabulary names
  * are case sensitive.
  */
-export const deleteVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVocabulary: (
+  input: DeleteVocabularyRequest,
+) => Effect.Effect<
+  DeleteVocabularyResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVocabularyRequest,
   output: DeleteVocabularyResponse,
   errors: [
@@ -3656,42 +4224,70 @@ export const deleteVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * custom vocabulary filter you want to delete using `VocabularyFilterName`.
  * Custom vocabulary filter names are case sensitive.
  */
-export const deleteVocabularyFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVocabularyFilterRequest,
-    output: DeleteVocabularyFilterResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
+export const deleteVocabularyFilter: (
+  input: DeleteVocabularyFilterRequest,
+) => Effect.Effect<
+  DeleteVocabularyFilterResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVocabularyFilterRequest,
+  output: DeleteVocabularyFilterResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
 /**
  * Updates an existing custom medical vocabulary with new values. This operation
  * overwrites all existing information with your new values; you cannot append new terms
  * onto an existing custom vocabulary.
  */
-export const updateMedicalVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMedicalVocabularyRequest,
-    output: UpdateMedicalVocabularyResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
+export const updateMedicalVocabulary: (
+  input: UpdateMedicalVocabularyRequest,
+) => Effect.Effect<
+  UpdateMedicalVocabularyResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMedicalVocabularyRequest,
+  output: UpdateMedicalVocabularyResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
 /**
  * Updates an existing custom vocabulary with new values. This operation overwrites all
  * existing information with your new values; you cannot append new terms onto an existing
  * custom vocabulary.
  */
-export const updateVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVocabulary: (
+  input: UpdateVocabularyRequest,
+) => Effect.Effect<
+  UpdateVocabularyResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVocabularyRequest,
   output: UpdateVocabularyResponse,
   errors: [
@@ -3709,7 +4305,18 @@ export const updateVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To learn more about using tags with Amazon Transcribe, refer to Tagging
  * resources.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3726,7 +4333,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you include `UntagResource` in your request, you must also include
  * `ResourceArn` and `TagKeys`.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [

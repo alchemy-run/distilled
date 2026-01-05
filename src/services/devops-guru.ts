@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "DevOps Guru",
   serviceShapeName: "CapstoneControlPlaneService",
@@ -240,6 +248,99 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type InsightId = string;
+export type NumOpenReactiveInsights = number;
+export type NumOpenProactiveInsights = number;
+export type NumMetricsAnalyzed = number;
+export type ResourceHours = number;
+export type AnalyzedResourceCount = number;
+export type AnomalyId = string;
+export type AwsAccountId = string;
+export type OrganizationalUnitId = string;
+export type UuidNextToken = string;
+export type OrganizationResourceCollectionMaxResults = number;
+export type ListAnomaliesForInsightMaxResults = number;
+export type ListAnomalousLogGroupsMaxResults = number;
+export type ListEventsMaxResults = number;
+export type ListInsightsMaxResults = number;
+export type ListMonitoredResourcesMaxResults = number;
+export type NotificationChannelId = string;
+export type SearchInsightsMaxResults = number;
+export type SearchOrganizationInsightsMaxResults = number;
+export type ClientToken = string;
+export type EventSource = string;
+export type ErrorMessageString = string;
+export type NumReactiveInsights = number;
+export type NumProactiveInsights = number;
+export type MeanTimeToRecoverInMilliseconds = number;
+export type Cost = number;
+export type TopicArn = string;
+export type KMSKeyId = string;
+export type StackName = string;
+export type AppBoundaryKey = string;
+export type TagValue = string;
+export type AnomalyLimit = number;
+export type AnomalyDescription = string;
+export type AnomalyName = string;
+export type InsightName = string;
+export type SsmOpsItemId = string;
+export type InsightDescription = string;
+export type ResourceType = string;
+export type CostEstimationServiceResourceCount = number;
+export type LogGroupName = string;
+export type NumberOfLogLinesScanned = number;
+export type RecommendationDescription = string;
+export type RecommendationLink = string;
+export type RecommendationName = string;
+export type RecommendationReason = string;
+export type RecommendationCategory = string;
+export type ResourceIdString = string;
+export type ResourceIdType = string;
+export type RetryAfterSeconds = number;
+export type AnomalySource = string;
+export type ResourceName = string;
+export type RecommendationRelatedEventName = string;
+export type MonitoredResourceName = string;
+export type ResourceArn = string;
+export type CloudWatchMetricsMetricName = string;
+export type CloudWatchMetricsNamespace = string;
+export type CloudWatchMetricsUnit = string;
+export type CloudWatchMetricsPeriod = number;
+export type PerformanceInsightsMetricDisplayName = string;
+export type PerformanceInsightsMetricUnit = string;
+export type LogStreamName = string;
+export type LogAnomalyToken = string;
+export type LogEventId = string;
+export type Explanation = string;
+export type NumberOfLogLinesOccurrences = number;
+export type RecommendationRelatedEventResourceName = string;
+export type RecommendationRelatedEventResourceType = string;
+export type RecommendationRelatedAnomalyResourceName = string;
+export type RecommendationRelatedAnomalyResourceType = string;
+export type ErrorQuotaCodeString = string;
+export type ErrorServiceCodeString = string;
+export type CloudWatchMetricsDimensionName = string;
+export type CloudWatchMetricsDimensionValue = string;
+export type PerformanceInsightsMetricName = string;
+export type PerformanceInsightsReferenceName = string;
+export type PerformanceInsightsStatType = string;
+export type PerformanceInsightsValueDouble = number;
+export type RecommendationRelatedCloudWatchMetricsSourceMetricName = string;
+export type RecommendationRelatedCloudWatchMetricsSourceNamespace = string;
+export type MetricValue = number;
+export type PerformanceInsightsMetricGroup = string;
+export type PerformanceInsightsMetricDimension = string;
+export type PerformanceInsightsMetricLimitInteger = number;
+export type PerformanceInsightsMetricFilterKey = string;
+export type PerformanceInsightsMetricFilterValue = string;
+export type ErrorNameString = string;
+export type EventId = string;
+export type EventName = string;
+export type EventResourceType = string;
+export type EventResourceName = string;
+export type EventResourceArn = string;
 
 //# Schemas
 export interface DescribeAccountHealthRequest {}
@@ -2702,7 +2803,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     Message: S.String,
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   {
@@ -2711,7 +2814,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     ServiceCode: S.optional(S.String),
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -2735,112 +2840,267 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * created, the number of open proactive insights that were created, and the Mean Time to Recover (MTTR) for all
  * closed reactive insights.
  */
-export const describeAccountOverview = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccountOverviewRequest,
-    output: DescribeAccountOverviewResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeAccountOverview: (
+  input: DescribeAccountOverviewRequest,
+) => Effect.Effect<
+  DescribeAccountOverviewResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccountOverviewRequest,
+  output: DescribeAccountOverviewResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of a specified insight's recommendations. Each recommendation includes
  * a list of related metrics and a list of related events.
  */
-export const listRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecommendations: {
+  (
     input: ListRecommendationsRequest,
-    output: ListRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Recommendations",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecommendationsRequest,
+  ) => Stream.Stream<
+    ListRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommendationsRequest,
+  ) => Stream.Stream<
+    Recommendation,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommendationsRequest,
+  output: ListRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Recommendations",
+  } as const,
+}));
 /**
  * Provides an overview of your system's health. If additional member accounts are part
  * of your organization, you can filter those accounts using the `AccountIds`
  * field.
  */
-export const describeOrganizationResourceCollectionHealth =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeOrganizationResourceCollectionHealth: {
+  (
     input: DescribeOrganizationResourceCollectionHealthRequest,
-    output: DescribeOrganizationResourceCollectionHealthResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
-  }));
+  ): Effect.Effect<
+    DescribeOrganizationResourceCollectionHealthResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeOrganizationResourceCollectionHealthRequest,
+  ) => Stream.Stream<
+    DescribeOrganizationResourceCollectionHealthResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeOrganizationResourceCollectionHealthRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeOrganizationResourceCollectionHealthRequest,
+  output: DescribeOrganizationResourceCollectionHealthResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+}));
 /**
  * Returns the integration status of services that are integrated with DevOps Guru.
  * The one service that can be integrated with DevOps Guru
  * is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
  */
-export const describeServiceIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeServiceIntegrationRequest,
-    output: DescribeServiceIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeServiceIntegration: (
+  input: DescribeServiceIntegrationRequest,
+) => Effect.Effect<
+  DescribeServiceIntegrationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeServiceIntegrationRequest,
+  output: DescribeServiceIntegrationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns lists Amazon Web Services resources that are of the specified resource collection type.
  * The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and
  * Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze
  * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks.
  */
-export const getResourceCollection =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getResourceCollection: {
+  (
     input: GetResourceCollectionRequest,
-    output: GetResourceCollectionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
-  }));
+  ): Effect.Effect<
+    GetResourceCollectionResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetResourceCollectionRequest,
+  ) => Stream.Stream<
+    GetResourceCollectionResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetResourceCollectionRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetResourceCollectionRequest,
+  output: GetResourceCollectionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+}));
 /**
  * Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
  */
-export const listMonitoredResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMonitoredResources: {
+  (
     input: ListMonitoredResourcesRequest,
-    output: ListMonitoredResourcesResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMonitoredResourcesResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMonitoredResourcesRequest,
+  ) => Stream.Stream<
+    ListMonitoredResourcesResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMonitoredResourcesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMonitoredResourcesRequest,
+  output: ListMonitoredResourcesResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of insights in your Amazon Web Services account. You can specify which insights are
  * returned by their start time, one or more statuses (`ONGOING` or `CLOSED`), one or more severities
@@ -2851,82 +3111,188 @@ export const listMonitoredResources =
  * parameters. Use the `Type` parameter to specify `REACTIVE` or
  * `PROACTIVE` in your search.
  */
-export const searchInsights = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchInsights: {
+  (
     input: SearchInsightsRequest,
-    output: SearchInsightsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchInsightsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchInsightsRequest,
+  ) => Stream.Stream<
+    SearchInsightsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchInsightsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchInsightsRequest,
+  output: SearchInsightsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the integration status of services that are integrated with DevOps Guru as Consumer
  * via EventBridge. The one service that can be integrated with DevOps Guru is Amazon CodeGuru
  * Profiler, which can produce proactive recommendations which can be stored and viewed in
  * DevOps Guru.
  */
-export const describeEventSourcesConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEventSourcesConfigRequest,
-    output: DescribeEventSourcesConfigResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeEventSourcesConfig: (
+  input: DescribeEventSourcesConfigRequest,
+) => Effect.Effect<
+  DescribeEventSourcesConfigResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEventSourcesConfigRequest,
+  output: DescribeEventSourcesConfigResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of notification channels configured for DevOps Guru. Each notification
  * channel is used to notify you when DevOps Guru generates an insight that contains information
  * about how to improve your operations. The one
  * supported notification channel is Amazon Simple Notification Service (Amazon SNS).
  */
-export const listNotificationChannels =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listNotificationChannels: {
+  (
     input: ListNotificationChannelsRequest,
-    output: ListNotificationChannelsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Channels",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListNotificationChannelsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNotificationChannelsRequest,
+  ) => Stream.Stream<
+    ListNotificationChannelsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNotificationChannelsRequest,
+  ) => Stream.Stream<
+    NotificationChannel,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNotificationChannelsRequest,
+  output: ListNotificationChannelsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Channels",
+  } as const,
+}));
 /**
  * Returns a list of insights associated with the account or OU Id.
  */
-export const listOrganizationInsights =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOrganizationInsights: {
+  (
     input: ListOrganizationInsightsRequest,
-    output: ListOrganizationInsightsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOrganizationInsightsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOrganizationInsightsRequest,
+  ) => Stream.Stream<
+    ListOrganizationInsightsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOrganizationInsightsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOrganizationInsightsRequest,
+  output: ListOrganizationInsightsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of insights in your organization. You can specify which insights are
  * returned by their start time, one or more statuses (`ONGOING`,
@@ -2938,22 +3304,55 @@ export const listOrganizationInsights =
  * parameters. Use the `Type` parameter to specify `REACTIVE` or
  * `PROACTIVE` in your search.
  */
-export const searchOrganizationInsights =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchOrganizationInsights: {
+  (
     input: SearchOrganizationInsightsRequest,
-    output: SearchOrganizationInsightsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchOrganizationInsightsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchOrganizationInsightsRequest,
+  ) => Stream.Stream<
+    SearchOrganizationInsightsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchOrganizationInsightsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchOrganizationInsightsRequest,
+  output: SearchOrganizationInsightsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the collection of resources that DevOps Guru analyzes.
  * The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and
@@ -2961,68 +3360,103 @@ export const searchOrganizationInsights =
  * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks. This method also creates the IAM role required for
  * you to use DevOps Guru.
  */
-export const updateResourceCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateResourceCollectionRequest,
-    output: UpdateResourceCollectionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateResourceCollection: (
+  input: UpdateResourceCollectionRequest,
+) => Effect.Effect<
+  UpdateResourceCollectionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResourceCollectionRequest,
+  output: UpdateResourceCollectionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Enables or disables integration with a service that can be integrated with DevOps Guru. The
  * one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to create
  * an OpsItem for each generated insight.
  */
-export const updateServiceIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServiceIntegrationRequest,
-    output: UpdateServiceIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateServiceIntegration: (
+  input: UpdateServiceIntegrationRequest,
+) => Effect.Effect<
+  UpdateServiceIntegrationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceIntegrationRequest,
+  output: UpdateServiceIntegrationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns active insights, predictive insights, and resource hours analyzed in last
  * hour.
  */
-export const describeOrganizationHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeOrganizationHealthRequest,
-    output: DescribeOrganizationHealthResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeOrganizationHealth: (
+  input: DescribeOrganizationHealthRequest,
+) => Effect.Effect<
+  DescribeOrganizationHealthResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeOrganizationHealthRequest,
+  output: DescribeOrganizationHealthResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns an overview of your organization's history based on the specified time range.
  * The overview includes the total reactive and proactive insights.
  */
-export const describeOrganizationOverview =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeOrganizationOverviewRequest,
-    output: DescribeOrganizationOverviewResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeOrganizationOverview: (
+  input: DescribeOrganizationOverviewRequest,
+) => Effect.Effect<
+  DescribeOrganizationOverviewResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeOrganizationOverviewRequest,
+  output: DescribeOrganizationOverviewResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR)
  * for all closed insights in resource collections in your account. You specify the type of
@@ -3030,52 +3464,101 @@ export const describeOrganizationOverview =
  * Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze
  * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks.
  */
-export const describeResourceCollectionHealth =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeResourceCollectionHealth: {
+  (
     input: DescribeResourceCollectionHealthRequest,
-    output: DescribeResourceCollectionHealthResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
-  }));
+  ): Effect.Effect<
+    DescribeResourceCollectionHealthResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeResourceCollectionHealthRequest,
+  ) => Stream.Stream<
+    DescribeResourceCollectionHealthResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeResourceCollectionHealthRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeResourceCollectionHealthRequest,
+  output: DescribeResourceCollectionHealthResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+}));
 /**
  * Returns the number of open reactive insights, the number of open proactive insights,
  * and the number of metrics analyzed in your Amazon Web Services account. Use these numbers to gauge the
  * health of operations in your Amazon Web Services account.
  */
-export const describeAccountHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccountHealthRequest,
-    output: DescribeAccountHealthResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeAccountHealth: (
+  input: DescribeAccountHealthRequest,
+) => Effect.Effect<
+  DescribeAccountHealthResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccountHealthRequest,
+  output: DescribeAccountHealthResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Enables or disables integration with a service that can be integrated with DevOps Guru. The
  * one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which
  * can produce proactive recommendations which can be stored and viewed in DevOps Guru.
  */
-export const updateEventSourcesConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEventSourcesConfigRequest,
-    output: UpdateEventSourcesConfigResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateEventSourcesConfig: (
+  input: UpdateEventSourcesConfigRequest,
+) => Effect.Effect<
+  UpdateEventSourcesConfigResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEventSourcesConfigRequest,
+  output: UpdateEventSourcesConfigResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns an estimate of the monthly cost for DevOps Guru to analyze your Amazon Web Services resources.
  * For more information,
@@ -3083,25 +3566,72 @@ export const updateEventSourcesConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon DevOps Guru costs and
  * Amazon DevOps Guru pricing.
  */
-export const getCostEstimation = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getCostEstimation: {
+  (
     input: GetCostEstimationRequest,
-    output: GetCostEstimationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetCostEstimationResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCostEstimationRequest,
+  ) => Stream.Stream<
+    GetCostEstimationResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCostEstimationRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCostEstimationRequest,
+  output: GetCostEstimationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+}));
 /**
  * Starts the creation of an estimate of the monthly cost to analyze your Amazon Web Services
  * resources.
  */
-export const startCostEstimation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startCostEstimation: (
+  input: StartCostEstimationRequest,
+) => Effect.Effect<
+  StartCostEstimationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCostEstimationRequest,
   output: StartCostEstimationResponse,
   errors: [
@@ -3116,7 +3646,19 @@ export const startCostEstimation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Collects customer feedback about the specified insight.
  */
-export const putFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putFeedback: (
+  input: PutFeedbackRequest,
+) => Effect.Effect<
+  PutFeedbackResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutFeedbackRequest,
   output: PutFeedbackResponse,
   errors: [
@@ -3133,24 +3675,45 @@ export const putFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * you when DevOps Guru generates an insight that contains information about how to improve your
  * operations.
  */
-export const removeNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveNotificationChannelRequest,
-    output: RemoveNotificationChannelResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const removeNotificationChannel: (
+  input: RemoveNotificationChannelRequest,
+) => Effect.Effect<
+  RemoveNotificationChannelResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveNotificationChannelRequest,
+  output: RemoveNotificationChannelResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the most recent feedback submitted in the current Amazon Web Services account and Region.
  */
-export const describeFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeFeedback: (
+  input: DescribeFeedbackRequest,
+) => Effect.Effect<
+  DescribeFeedbackResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFeedbackRequest,
   output: DescribeFeedbackResponse,
   errors: [
@@ -3164,7 +3727,19 @@ export const describeFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the insight along with the associated anomalies, events and recommendations.
  */
-export const deleteInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteInsight: (
+  input: DeleteInsightRequest,
+) => Effect.Effect<
+  DeleteInsightResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInsightRequest,
   output: DeleteInsightResponse,
   errors: [
@@ -3179,7 +3754,18 @@ export const deleteInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns details about an insight that you specify using its ID.
  */
-export const describeInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeInsight: (
+  input: DescribeInsightRequest,
+) => Effect.Effect<
+  DescribeInsightResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInsightRequest,
   output: DescribeInsightResponse,
   errors: [
@@ -3194,65 +3780,169 @@ export const describeInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns a list of the anomalies that belong to an insight that you specify using its
  * ID.
  */
-export const listAnomaliesForInsight =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAnomaliesForInsight: {
+  (
     input: ListAnomaliesForInsightRequest,
-    output: ListAnomaliesForInsightResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAnomaliesForInsightResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAnomaliesForInsightRequest,
+  ) => Stream.Stream<
+    ListAnomaliesForInsightResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAnomaliesForInsightRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAnomaliesForInsightRequest,
+  output: ListAnomaliesForInsightResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the list of log groups that contain log anomalies.
  */
-export const listAnomalousLogGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAnomalousLogGroups: {
+  (
     input: ListAnomalousLogGroupsRequest,
-    output: ListAnomalousLogGroupsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAnomalousLogGroupsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAnomalousLogGroupsRequest,
+  ) => Stream.Stream<
+    ListAnomalousLogGroupsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAnomalousLogGroupsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAnomalousLogGroupsRequest,
+  output: ListAnomalousLogGroupsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of insights in your Amazon Web Services account. You can specify which insights are
  * returned by their start time and status (`ONGOING`, `CLOSED`, or
  * `ANY`).
  */
-export const listInsights = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listInsights: {
+  (
     input: ListInsightsRequest,
-    output: ListInsightsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListInsightsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInsightsRequest,
+  ) => Stream.Stream<
+    ListInsightsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInsightsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInsightsRequest,
+  output: ListInsightsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Adds a notification channel to DevOps Guru. A notification channel is used to notify you
  * about important DevOps Guru events, such as when an insight is generated.
@@ -3266,26 +3956,74 @@ export const listInsights = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * to the CMK. For more information, see Permissions for
  * Amazon Web Services KMS–encrypted Amazon SNS topics.
  */
-export const addNotificationChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddNotificationChannelRequest,
-    output: AddNotificationChannelResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const addNotificationChannel: (
+  input: AddNotificationChannelRequest,
+) => Effect.Effect<
+  AddNotificationChannelResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddNotificationChannelRequest,
+  output: AddNotificationChannelResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of the events emitted by the resources that are evaluated by DevOps Guru.
  * You can use filters to specify which events are returned.
  */
-export const listEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEvents: {
+  (
+    input: ListEventsRequest,
+  ): Effect.Effect<
+    ListEventsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEventsRequest,
+  ) => Stream.Stream<
+    ListEventsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEventsRequest,
+  ) => Stream.Stream<
+    Event,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListEventsRequest,
   output: ListEventsResponse,
   errors: [
@@ -3305,7 +4043,18 @@ export const listEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns details about an anomaly that you specify using its ID.
  */
-export const describeAnomaly = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAnomaly: (
+  input: DescribeAnomalyRequest,
+) => Effect.Effect<
+  DescribeAnomalyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAnomalyRequest,
   output: DescribeAnomalyResponse,
   errors: [

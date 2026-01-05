@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region as Rgn,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "Account", serviceShapeName: "Account" });
 const auth = T.AwsAuthSigv4({ name: "account" });
 const ver = T.ServiceVersion("2021-02-01");
@@ -302,6 +310,33 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AccountName = string;
+export type AccountId = string;
+export type Name = string;
+export type Title = string;
+export type EmailAddress = string;
+export type PhoneNumber = string;
+export type AlternateContactType = string;
+export type PrimaryEmailAddress = string;
+export type Otp = string;
+export type RegionName = string;
+export type RegionOptStatus = string;
+export type FullName = string;
+export type AddressLine = string;
+export type City = string;
+export type StateOrRegion = string;
+export type DistrictOrCounty = string;
+export type PostalCode = string;
+export type CountryCode = string;
+export type ContactInformationPhoneNumber = string;
+export type CompanyName = string;
+export type WebsiteUrl = string;
+export type AwsAccountState = string;
+export type PrimaryEmailUpdateStatus = string;
+export type SensitiveString = string;
+export type ValidationExceptionReason = string;
 
 //# Schemas
 export type RegionOptStatusList = string[];
@@ -806,7 +841,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     errorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -821,7 +858,9 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
     errorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
@@ -849,7 +888,17 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Updates the account name of the specified account. To use this API, IAM principals must have the `account:PutAccountName` IAM permission.
  */
-export const putAccountName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putAccountName: (
+  input: PutAccountNameRequest,
+) => Effect.Effect<
+  PutAccountNameResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountNameRequest,
   output: PutAccountNameResponse,
   errors: [
@@ -866,7 +915,18 @@ export const putAccountName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trusted access for Amazon Web Services Account Management.
  */
-export const getAlternateContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAlternateContact: (
+  input: GetAlternateContactRequest,
+) => Effect.Effect<
+  GetAlternateContactResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAlternateContactRequest,
   output: GetAlternateContactResponse,
   errors: [
@@ -880,60 +940,118 @@ export const getAlternateContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all the Regions for a given account and their respective opt-in statuses. Optionally, this list can be filtered by the `region-opt-status-contains` parameter.
  */
-export const listRegions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRegions: {
+  (
     input: ListRegionsRequest,
-    output: ListRegionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Regions",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRegionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | TooManyRequestsException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRegionsRequest,
+  ) => Stream.Stream<
+    ListRegionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | TooManyRequestsException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRegionsRequest,
+  ) => Stream.Stream<
+    Region,
+    | AccessDeniedException
+    | InternalServerException
+    | TooManyRequestsException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRegionsRequest,
+  output: ListRegionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Regions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves information about the specified account including its account name, account ID, and account creation date and time. To use this API, an IAM user or role must have the `account:GetAccountInformation` IAM permission.
  */
-export const getAccountInformation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAccountInformationRequest,
-    output: GetAccountInformationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAccountInformation: (
+  input: GetAccountInformationRequest,
+) => Effect.Effect<
+  GetAccountInformationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountInformationRequest,
+  output: GetAccountInformationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the primary contact information of an Amazon Web Services account.
  *
  * For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
  */
-export const putContactInformation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutContactInformationRequest,
-    output: PutContactInformationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
+export const putContactInformation: (
+  input: PutContactInformationRequest,
+) => Effect.Effect<
+  PutContactInformationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutContactInformationRequest,
+  output: PutContactInformationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the opt-in status of a particular Region.
  */
-export const getRegionOptStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRegionOptStatus: (
+  input: GetRegionOptStatusRequest,
+) => Effect.Effect<
+  GetRegionOptStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegionOptStatusRequest,
   output: GetRegionOptStatusResponse,
   errors: [
@@ -950,7 +1068,17 @@ export const getRegionOptStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trusted access for Amazon Web Services Account Management.
  */
-export const putAlternateContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putAlternateContact: (
+  input: PutAlternateContactRequest,
+) => Effect.Effect<
+  PutAlternateContactResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAlternateContactRequest,
   output: PutAlternateContactResponse,
   errors: [
@@ -965,7 +1093,18 @@ export const putAlternateContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The act of disabling a Region will remove all IAM access to any resources that reside in that Region.
  */
-export const disableRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableRegion: (
+  input: DisableRegionRequest,
+) => Effect.Effect<
+  DisableRegionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableRegionRequest,
   output: DisableRegionResponse,
   errors: [
@@ -979,7 +1118,18 @@ export const disableRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables (opts-in) a particular Region for an account.
  */
-export const enableRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableRegion: (
+  input: EnableRegionRequest,
+) => Effect.Effect<
+  EnableRegionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableRegionRequest,
   output: EnableRegionResponse,
   errors: [
@@ -993,42 +1143,72 @@ export const enableRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Accepts the request that originated from StartPrimaryEmailUpdate to update the primary email address (also known as the root user email address) for the specified account.
  */
-export const acceptPrimaryEmailUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptPrimaryEmailUpdateRequest,
-    output: AcceptPrimaryEmailUpdateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
+export const acceptPrimaryEmailUpdate: (
+  input: AcceptPrimaryEmailUpdateRequest,
+) => Effect.Effect<
+  AcceptPrimaryEmailUpdateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptPrimaryEmailUpdateRequest,
+  output: AcceptPrimaryEmailUpdateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the primary contact information of an Amazon Web Services account.
  *
  * For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
  */
-export const getContactInformation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetContactInformationRequest,
-    output: GetContactInformationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
+export const getContactInformation: (
+  input: GetContactInformationRequest,
+) => Effect.Effect<
+  GetContactInformationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContactInformationRequest,
+  output: GetContactInformationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the primary email address for the specified account.
  */
-export const getPrimaryEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPrimaryEmail: (
+  input: GetPrimaryEmailRequest,
+) => Effect.Effect<
+  GetPrimaryEmailResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPrimaryEmailRequest,
   output: GetPrimaryEmailResponse,
   errors: [
@@ -1046,49 +1226,79 @@ export const getPrimaryEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trusted access for Amazon Web Services Account Management.
  */
-export const deleteAlternateContact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAlternateContactRequest,
-    output: DeleteAlternateContactResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAlternateContact: (
+  input: DeleteAlternateContactRequest,
+) => Effect.Effect<
+  DeleteAlternateContactResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAlternateContactRequest,
+  output: DeleteAlternateContactResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
 /**
  * Starts the process to update the primary email address for the specified account.
  */
-export const startPrimaryEmailUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartPrimaryEmailUpdateRequest,
-    output: StartPrimaryEmailUpdateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }),
-);
+export const startPrimaryEmailUpdate: (
+  input: StartPrimaryEmailUpdateRequest,
+) => Effect.Effect<
+  StartPrimaryEmailUpdateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartPrimaryEmailUpdateRequest,
+  output: StartPrimaryEmailUpdateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about the GovCloud account linked to the specified standard account (if it exists) including the GovCloud account ID and state. To use this API, an IAM user or role must have the `account:GetGovCloudAccountInformation` IAM permission.
  */
-export const getGovCloudAccountInformation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetGovCloudAccountInformationRequest,
-    output: GetGovCloudAccountInformationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      TooManyRequestsException,
-      ValidationException,
-    ],
-  }));
+export const getGovCloudAccountInformation: (
+  input: GetGovCloudAccountInformationRequest,
+) => Effect.Effect<
+  GetGovCloudAccountInformationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGovCloudAccountInformationRequest,
+  output: GetGovCloudAccountInformationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));

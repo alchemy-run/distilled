@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "ConnectCases",
   serviceShapeName: "AmazonConnectCases",
@@ -293,6 +301,61 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type Arn = string;
+export type TagKey = string;
+export type DomainId = string;
+export type TemplateId = string;
+export type CaseId = string;
+export type NextToken = string;
+export type ContactArn = string;
+export type RelatedItemType = string;
+export type RelatedItemId = string;
+export type CaseRuleName = string;
+export type CaseRuleDescription = string;
+export type CaseRuleId = string;
+export type MaxResults = number;
+export type DomainName = string;
+export type FieldName = string;
+export type FieldType = string;
+export type FieldDescription = string;
+export type FieldId = string;
+export type Value = string;
+export type LayoutName = string;
+export type LayoutId = string;
+export type TemplateName = string;
+export type TemplateDescription = string;
+export type TemplateStatus = string;
+export type UserArn = string;
+export type CustomEntity = string;
+export type Order = string;
+export type SearchAllRelatedItemsSortProperty = string;
+export type FieldOptionName = string;
+export type FieldOptionValue = string;
+export type DomainArn = string;
+export type DomainStatus = string;
+export type FieldArn = string;
+export type LayoutArn = string;
+export type TemplateArn = string;
+export type CommentBody = string;
+export type CommentBodyTextType = string;
+export type FileArn = string;
+export type Channel = string;
+export type SlaName = string;
+export type SlaStatus = string;
+export type AuditEventId = string;
+export type AuditEventType = string;
+export type CaseRuleArn = string;
+export type RuleType = string;
+export type FieldNamespace = string;
+export type SlaType = string;
+export type TargetSlaMinutes = number;
+export type ParentChildFieldOptionValue = string;
+export type AuditEventFieldId = string;
+export type IamPrincipalArn = string;
+export type CaseArn = string;
+export type RelatedItemArn = string;
+
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
@@ -356,6 +419,12 @@ export interface EmptyFieldValue {}
 export const EmptyFieldValue = S.suspend(() => S.Struct({})).annotations({
   identifier: "EmptyFieldValue",
 }) as any as S.Schema<EmptyFieldValue>;
+export type FieldValueUnion =
+  | { stringValue: string }
+  | { doubleValue: number }
+  | { booleanValue: boolean }
+  | { emptyValue: EmptyFieldValue }
+  | { userArnValue: string };
 export const FieldValueUnion = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ doubleValue: S.Number }),
@@ -372,6 +441,7 @@ export const FieldValue = S.suspend(() =>
 ).annotations({ identifier: "FieldValue" }) as any as S.Schema<FieldValue>;
 export type FieldValueList = FieldValue[];
 export const FieldValueList = S.Array(FieldValue);
+export type UserUnion = { userArn: string } | { customEntity: string };
 export const UserUnion = S.Union(
   S.Struct({ userArn: S.String }),
   S.Struct({ customEntity: S.String }),
@@ -518,11 +588,17 @@ export const DeleteRelatedItemResponse = S.suspend(() =>
 ).annotations({
   identifier: "DeleteRelatedItemResponse",
 }) as any as S.Schema<DeleteRelatedItemResponse>;
+export type OperandOne = { fieldId: string };
 export const OperandOne = S.Union(S.Struct({ fieldId: S.String }));
 export interface EmptyOperandValue {}
 export const EmptyOperandValue = S.suspend(() => S.Struct({})).annotations({
   identifier: "EmptyOperandValue",
 }) as any as S.Schema<EmptyOperandValue>;
+export type OperandTwo =
+  | { stringValue: string }
+  | { booleanValue: boolean }
+  | { doubleValue: number }
+  | { emptyValue: EmptyOperandValue };
 export const OperandTwo = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ booleanValue: S.Boolean }),
@@ -543,6 +619,9 @@ export const BooleanOperands = S.suspend(() =>
 ).annotations({
   identifier: "BooleanOperands",
 }) as any as S.Schema<BooleanOperands>;
+export type BooleanCondition =
+  | { equalTo: BooleanOperands }
+  | { notEqualTo: BooleanOperands };
 export const BooleanCondition = S.Union(
   S.Struct({ equalTo: BooleanOperands }),
   S.Struct({ notEqualTo: BooleanOperands }),
@@ -600,6 +679,10 @@ export const HiddenCaseRule = S.suspend(() =>
 ).annotations({
   identifier: "HiddenCaseRule",
 }) as any as S.Schema<HiddenCaseRule>;
+export type CaseRuleDetails =
+  | { required: RequiredCaseRule }
+  | { fieldOptions: FieldOptionsCaseRule }
+  | { hidden: HiddenCaseRule };
 export const CaseRuleDetails = S.Union(
   S.Struct({ required: RequiredCaseRule }),
   S.Struct({ fieldOptions: FieldOptionsCaseRule }),
@@ -975,6 +1058,7 @@ export interface FieldGroup {
 export const FieldGroup = S.suspend(() =>
   S.Struct({ name: S.optional(S.String), fields: FieldList }),
 ).annotations({ identifier: "FieldGroup" }) as any as S.Schema<FieldGroup>;
+export type Section = { fieldGroup: FieldGroup };
 export const Section = S.Union(S.Struct({ fieldGroup: FieldGroup }));
 export type SectionsList = (typeof Section)["Type"][];
 export const SectionsList = S.Array(Section);
@@ -996,6 +1080,7 @@ export const BasicLayout = S.suspend(() =>
     moreInfo: S.optional(LayoutSections),
   }),
 ).annotations({ identifier: "BasicLayout" }) as any as S.Schema<BasicLayout>;
+export type LayoutContent = { basic: BasicLayout };
 export const LayoutContent = S.Union(S.Struct({ basic: BasicLayout }));
 export interface UpdateLayoutRequest {
   domainId: string;
@@ -1461,6 +1546,13 @@ export const ConnectCaseFilter = S.suspend(() =>
 ).annotations({
   identifier: "ConnectCaseFilter",
 }) as any as S.Schema<ConnectCaseFilter>;
+export type FieldFilter =
+  | { equalTo: FieldValue }
+  | { contains: FieldValue }
+  | { greaterThan: FieldValue }
+  | { greaterThanOrEqualTo: FieldValue }
+  | { lessThan: FieldValue }
+  | { lessThanOrEqualTo: FieldValue };
 export const FieldFilter = S.Union(
   S.Struct({ equalTo: FieldValue }),
   S.Struct({ contains: FieldValue }),
@@ -1498,6 +1590,13 @@ export interface CustomFilter {
 export const CustomFilter = S.suspend(() =>
   S.Struct({ fields: S.optional(CustomFieldsFilter) }),
 ).annotations({ identifier: "CustomFilter" }) as any as S.Schema<CustomFilter>;
+export type RelatedItemTypeFilter =
+  | { contact: ContactFilter }
+  | { comment: CommentFilter }
+  | { file: FileFilter }
+  | { sla: SlaFilter }
+  | { connectCase: ConnectCaseFilter }
+  | { custom: CustomFilter };
 export const RelatedItemTypeFilter = S.Union(
   S.Struct({ contact: ContactFilter }),
   S.Struct({ comment: CommentFilter }),
@@ -2043,9 +2142,17 @@ export const AuditEventPerformedBy = S.suspend(() =>
 ).annotations({
   identifier: "AuditEventPerformedBy",
 }) as any as S.Schema<AuditEventPerformedBy>;
+export type SlaInputContent = { slaInputConfiguration: SlaInputConfiguration };
 export const SlaInputContent = S.Union(
   S.Struct({ slaInputConfiguration: SlaInputConfiguration }),
 );
+export type RelatedItemInputContent =
+  | { contact: Contact }
+  | { comment: CommentContent }
+  | { file: FileContent }
+  | { sla: (typeof SlaInputContent)["Type"] }
+  | { connectCase: ConnectCaseInputContent }
+  | { custom: CustomInputContent };
 export const RelatedItemInputContent = S.Union(
   S.Struct({ contact: Contact }),
   S.Struct({ comment: CommentContent }),
@@ -2110,6 +2217,12 @@ export const FieldOptionError = S.suspend(() =>
 }) as any as S.Schema<FieldOptionError>;
 export type FieldOptionErrorList = FieldOptionError[];
 export const FieldOptionErrorList = S.Array(FieldOptionError);
+export type AuditEventFieldValueUnion =
+  | { stringValue: string }
+  | { doubleValue: number }
+  | { booleanValue: boolean }
+  | { emptyValue: EmptyFieldValue }
+  | { userArnValue: string };
 export const AuditEventFieldValueUnion = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ doubleValue: S.Number }),
@@ -2382,6 +2495,13 @@ export interface SlaContent {
 export const SlaContent = S.suspend(() =>
   S.Struct({ slaConfiguration: SlaConfiguration }),
 ).annotations({ identifier: "SlaContent" }) as any as S.Schema<SlaContent>;
+export type RelatedItemContent =
+  | { contact: ContactContent }
+  | { comment: CommentContent }
+  | { file: FileContent }
+  | { sla: SlaContent }
+  | { connectCase: ConnectCaseContent }
+  | { custom: CustomContent };
 export const RelatedItemContent = S.Union(
   S.Struct({ contact: ContactContent }),
   S.Struct({ comment: CommentContent }),
@@ -2545,7 +2665,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String },
@@ -2562,7 +2684,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String },
@@ -2572,7 +2696,18 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Deletes a case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
-export const deleteCaseRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCaseRule: (
+  input: DeleteCaseRuleRequest,
+) => Effect.Effect<
+  DeleteCaseRuleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCaseRuleRequest,
   output: DeleteCaseRuleResponse,
   errors: [
@@ -2586,61 +2721,150 @@ export const deleteCaseRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all cases domains in the Amazon Web Services account. Each list item is a condensed summary object of the domain.
  */
-export const listDomains = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDomains: {
+  (
     input: ListDomainsRequest,
-    output: ListDomainsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDomainsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDomainsRequest,
+  ) => Stream.Stream<
+    ListDomainsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDomainsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDomainsRequest,
+  output: ListDomainsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Adds case event publishing configuration. For a complete list of fields you can add to the event message, see Create case fields in the *Amazon Connect Administrator Guide*
  */
-export const putCaseEventConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutCaseEventConfigurationRequest,
-    output: PutCaseEventConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putCaseEventConfiguration: (
+  input: PutCaseEventConfigurationRequest,
+) => Effect.Effect<
+  PutCaseEventConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutCaseEventConfigurationRequest,
+  output: PutCaseEventConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates and updates a set of field options for a single select field in a Cases domain.
  */
-export const batchPutFieldOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchPutFieldOptionsRequest,
-    output: BatchPutFieldOptionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchPutFieldOptions: (
+  input: BatchPutFieldOptionsRequest,
+) => Effect.Effect<
+  BatchPutFieldOptionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchPutFieldOptionsRequest,
+  output: BatchPutFieldOptionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about a specific case if it exists.
  */
-export const getCase = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getCase: {
+  (
+    input: GetCaseRequest,
+  ): Effect.Effect<
+    GetCaseResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCaseRequest,
+  ) => Stream.Stream<
+    GetCaseResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCaseRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetCaseRequest,
   output: GetCaseResponse,
   errors: [
@@ -2655,49 +2879,157 @@ export const getCase = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists cases for a given contact.
  */
-export const listCasesForContact =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCasesForContact: {
+  (
     input: ListCasesForContactRequest,
-    output: ListCasesForContactResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCasesForContactResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCasesForContactRequest,
+  ) => Stream.Stream<
+    ListCasesForContactResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCasesForContactRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCasesForContactRequest,
+  output: ListCasesForContactResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
-export const listCaseRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCaseRules: {
+  (
     input: ListCaseRulesRequest,
-    output: ListCaseRulesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "caseRules",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCaseRulesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCaseRulesRequest,
+  ) => Stream.Stream<
+    ListCaseRulesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCaseRulesRequest,
+  ) => Stream.Stream<
+    CaseRuleSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCaseRulesRequest,
+  output: ListCaseRulesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "caseRules",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all fields in a Cases domain.
  */
-export const listFields = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFields: {
+  (
+    input: ListFieldsRequest,
+  ): Effect.Effect<
+    ListFieldsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFieldsRequest,
+  ) => Stream.Stream<
+    ListFieldsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFieldsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFieldsRequest,
   output: ListFieldsResponse,
   errors: [
@@ -2716,7 +3048,18 @@ export const listFields = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns the description for the list of fields in the request parameters.
  */
-export const batchGetField = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetField: (
+  input: BatchGetFieldRequest,
+) => Effect.Effect<
+  BatchGetFieldResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetFieldRequest,
   output: BatchGetFieldResponse,
   errors: [
@@ -2730,24 +3073,59 @@ export const batchGetField = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all layouts in the given cases domain. Each list item is a condensed summary object of the layout.
  */
-export const listLayouts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLayouts: {
+  (
     input: ListLayoutsRequest,
-    output: ListLayoutsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLayoutsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLayoutsRequest,
+  ) => Stream.Stream<
+    ListLayoutsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLayoutsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLayoutsRequest,
+  output: ListLayoutsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases.
  *
@@ -2761,7 +3139,20 @@ export const listLayouts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - UpdateTemplate
  */
-export const createTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTemplate: (
+  input: CreateTemplateRequest,
+) => Effect.Effect<
+  CreateTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTemplateRequest,
   output: CreateTemplateResponse,
   errors: [
@@ -2787,28 +3178,74 @@ export const createTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - UpdateTemplate
  */
-export const listTemplates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTemplates: {
+  (
     input: ListTemplatesRequest,
-    output: ListTemplatesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTemplatesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTemplatesRequest,
+  ) => Stream.Stream<
+    ListTemplatesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTemplatesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTemplatesRequest,
+  output: ListTemplatesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about a specific domain if it exists.
  */
-export const getDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDomain: (
+  input: GetDomainRequest,
+) => Effect.Effect<
+  GetDomainResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainRequest,
   output: GetDomainResponse,
   errors: [
@@ -2822,44 +3259,99 @@ export const getDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the case event publishing configuration.
  */
-export const getCaseEventConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCaseEventConfigurationRequest,
-    output: GetCaseEventConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getCaseEventConfiguration: (
+  input: GetCaseEventConfigurationRequest,
+) => Effect.Effect<
+  GetCaseEventConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCaseEventConfigurationRequest,
+  output: GetCaseEventConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all of the field options for a field identifier in the domain.
  */
-export const listFieldOptions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFieldOptions: {
+  (
     input: ListFieldOptionsRequest,
-    output: ListFieldOptionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFieldOptionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFieldOptionsRequest,
+  ) => Stream.Stream<
+    ListFieldOptionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFieldOptionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFieldOptionsRequest,
+  output: ListFieldOptionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns the details for the requested layout.
  */
-export const getLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLayout: (
+  input: GetLayoutRequest,
+) => Effect.Effect<
+  GetLayoutResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLayoutRequest,
   output: GetLayoutResponse,
   errors: [
@@ -2881,7 +3373,18 @@ export const getLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - UpdateTemplate
  */
-export const getTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTemplate: (
+  input: GetTemplateRequest,
+) => Effect.Effect<
+  GetTemplateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemplateRequest,
   output: GetTemplateResponse,
   errors: [
@@ -2899,7 +3402,18 @@ export const getTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
  */
-export const updateCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCase: (
+  input: UpdateCaseRequest,
+) => Effect.Effect<
+  UpdateCaseResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCaseRequest,
   output: UpdateCaseResponse,
   errors: [
@@ -2921,7 +3435,18 @@ export const updateCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This action is irreversible. After you delete a case, you cannot recover its data.
  */
-export const deleteCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCase: (
+  input: DeleteCaseRequest,
+) => Effect.Effect<
+  DeleteCaseResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCaseRequest,
   output: DeleteCaseResponse,
   errors: [
@@ -2937,7 +3462,18 @@ export const deleteCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API cannot be used on a FILE type related attachment. To delete this type of file, use the DeleteAttachedFile API
  */
-export const deleteRelatedItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRelatedItem: (
+  input: DeleteRelatedItemRequest,
+) => Effect.Effect<
+  DeleteRelatedItemResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRelatedItemRequest,
   output: DeleteRelatedItemResponse,
   errors: [
@@ -2951,7 +3487,18 @@ export const deleteRelatedItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists tags for a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2965,7 +3512,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds tags to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2979,7 +3537,20 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a field in the Cases domain. This field is used to define the case object model (that is, defines what data can be captured on cases) in a Cases domain.
  */
-export const createField = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createField: (
+  input: CreateFieldRequest,
+) => Effect.Effect<
+  CreateFieldResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFieldRequest,
   output: CreateFieldResponse,
   errors: [
@@ -2995,7 +3566,20 @@ export const createField = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
-export const updateCaseRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCaseRule: (
+  input: UpdateCaseRuleRequest,
+) => Effect.Effect<
+  UpdateCaseRuleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCaseRuleRequest,
   output: UpdateCaseRuleResponse,
   errors: [
@@ -3013,7 +3597,19 @@ export const updateCaseRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See DeleteIntegrationAssociation.
  */
-export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDomain: (
+  input: DeleteDomainRequest,
+) => Effect.Effect<
+  DeleteDomainResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainRequest,
   output: DeleteDomainResponse,
   errors: [
@@ -3028,7 +3624,19 @@ export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the properties of an existing field.
  */
-export const updateField = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateField: (
+  input: UpdateFieldRequest,
+) => Effect.Effect<
+  UpdateFieldResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFieldRequest,
   output: UpdateFieldResponse,
   errors: [
@@ -3069,7 +3677,20 @@ export const updateField = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Calling `GetCaseEventConfiguration` does not return field IDs for deleted fields.
  */
-export const deleteField = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteField: (
+  input: DeleteFieldRequest,
+) => Effect.Effect<
+  DeleteFieldResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFieldRequest,
   output: DeleteFieldResponse,
   errors: [
@@ -3091,7 +3712,20 @@ export const deleteField = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Title and Status fields cannot be part of layouts because they are not configurable.
  */
-export const updateLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLayout: (
+  input: UpdateLayoutRequest,
+) => Effect.Effect<
+  UpdateLayoutResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLayoutRequest,
   output: UpdateLayoutResponse,
   errors: [
@@ -3115,7 +3749,19 @@ export const updateLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Deleted layouts are not included in the `ListLayouts` response.
  */
-export const deleteLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLayout: (
+  input: DeleteLayoutRequest,
+) => Effect.Effect<
+  DeleteLayoutResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLayoutRequest,
   output: DeleteLayoutResponse,
   errors: [
@@ -3140,7 +3786,20 @@ export const deleteLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - ListTemplates
  */
-export const updateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTemplate: (
+  input: UpdateTemplateRequest,
+) => Effect.Effect<
+  UpdateTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTemplateRequest,
   output: UpdateTemplateResponse,
   errors: [
@@ -3166,7 +3825,19 @@ export const updateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Deleted templates are not included in the `ListTemplates` response.
  */
-export const deleteTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTemplate: (
+  input: DeleteTemplateRequest,
+) => Effect.Effect<
+  DeleteTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTemplateRequest,
   output: DeleteTemplateResponse,
   errors: [
@@ -3181,7 +3852,18 @@ export const deleteTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Untags a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3203,7 +3885,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `title`
  */
-export const createCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCase: (
+  input: CreateCaseRequest,
+) => Effect.Effect<
+  CreateCaseResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCaseRequest,
   output: CreateCaseResponse,
   errors: [
@@ -3218,7 +3912,18 @@ export const createCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
-export const batchGetCaseRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetCaseRule: (
+  input: BatchGetCaseRuleRequest,
+) => Effect.Effect<
+  BatchGetCaseRuleResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetCaseRuleRequest,
   output: BatchGetCaseRuleResponse,
   errors: [
@@ -3234,7 +3939,19 @@ export const batchGetCaseRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases.
  */
-export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDomain: (
+  input: CreateDomainRequest,
+) => Effect.Effect<
+  CreateDomainResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainRequest,
   output: CreateDomainResponse,
   errors: [
@@ -3249,48 +3966,118 @@ export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the audit history about a specific case if it exists.
  */
-export const getCaseAuditEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getCaseAuditEvents: {
+  (
     input: GetCaseAuditEventsRequest,
-    output: GetCaseAuditEventsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetCaseAuditEventsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCaseAuditEventsRequest,
+  ) => Stream.Stream<
+    GetCaseAuditEventsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCaseAuditEventsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCaseAuditEventsRequest,
+  output: GetCaseAuditEventsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents.
  *
  * For `customer_id` you must provide the full customer profile ARN in this format: ` arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID`.
  */
-export const searchCases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchCases: {
+  (
     input: SearchCasesRequest,
-    output: SearchCasesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "cases",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchCasesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchCasesRequest,
+  ) => Stream.Stream<
+    SearchCasesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchCasesRequest,
+  ) => Stream.Stream<
+    SearchCasesResponseItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchCasesRequest,
+  output: SearchCasesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "cases",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a related item (comments, tasks, and contacts) and associates it with a case.
  *
@@ -3324,7 +4111,19 @@ export const searchCases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const createRelatedItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRelatedItem: (
+  input: CreateRelatedItemRequest,
+) => Effect.Effect<
+  CreateRelatedItemResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRelatedItemRequest,
   output: CreateRelatedItemResponse,
   errors: [
@@ -3341,29 +4140,77 @@ export const createRelatedItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If no filters are provided, this returns all related items associated with a case.
  */
-export const searchRelatedItems = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchRelatedItems: {
+  (
     input: SearchRelatedItemsRequest,
-    output: SearchRelatedItemsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "relatedItems",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchRelatedItemsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchRelatedItemsRequest,
+  ) => Stream.Stream<
+    SearchRelatedItemsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchRelatedItemsRequest,
+  ) => Stream.Stream<
+    SearchRelatedItemsResponseItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchRelatedItemsRequest,
+  output: SearchRelatedItemsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "relatedItems",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a new case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
-export const createCaseRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCaseRule: (
+  input: CreateCaseRuleRequest,
+) => Effect.Effect<
+  CreateCaseRuleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCaseRuleRequest,
   output: CreateCaseRuleResponse,
   errors: [
@@ -3397,24 +4244,60 @@ export const createCaseRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const searchAllRelatedItems =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchAllRelatedItems: {
+  (
     input: SearchAllRelatedItemsRequest,
-    output: SearchAllRelatedItemsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "relatedItems",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchAllRelatedItemsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchAllRelatedItemsRequest,
+  ) => Stream.Stream<
+    SearchAllRelatedItemsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchAllRelatedItemsRequest,
+  ) => Stream.Stream<
+    SearchAllRelatedItemsResponseItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchAllRelatedItemsRequest,
+  output: SearchAllRelatedItemsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "relatedItems",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a layout in the Cases domain. Layouts define the following configuration in the top section and More Info tab of the Cases user interface:
  *
@@ -3424,7 +4307,20 @@ export const searchAllRelatedItems =
  *
  * Title and Status fields cannot be part of layouts since they are not configurable.
  */
-export const createLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLayout: (
+  input: CreateLayoutRequest,
+) => Effect.Effect<
+  CreateLayoutResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLayoutRequest,
   output: CreateLayoutResponse,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Chime SDK Messaging",
   serviceShapeName: "ChimeMessagingService",
@@ -240,6 +248,39 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ChimeArn = string;
+export type SubChannelId = string;
+export type CallbackIdType = string;
+export type NonEmptyResourceName = string;
+export type Metadata = string;
+export type ClientRequestToken = string;
+export type ChannelId = string;
+export type MessageId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type NonEmptyContent = string;
+export type ContentType = string;
+export type TagKey = string;
+export type TagValue = string;
+export type MaximumSubChannels = number;
+export type TargetMembershipsPerSubChannel = number;
+export type MinimumMembershipPercentage = number;
+export type ExpirationDays = number;
+export type ChannelFlowExecutionOrder = number;
+export type SearchFieldValue = string;
+export type PushNotificationTitle = string;
+export type PushNotificationBody = string;
+export type MessageAttributeName = string;
+export type FilterRule = string;
+export type MessageAttributeStringValue = string;
+export type ResourceName = string;
+export type Content = string;
+export type StatusDetail = string;
+export type UrlType = string;
+export type MembershipCount = number;
+export type LambdaFunctionArn = string;
 
 //# Schemas
 export type MemberArns = string[];
@@ -2671,7 +2712,9 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
   "ServiceFailureException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
@@ -2683,11 +2726,15 @@ export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitE
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
   "ThrottledClientException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
   "UnauthorizedClientException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
@@ -2705,19 +2752,30 @@ export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClien
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const getChannelMembershipPreferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetChannelMembershipPreferencesRequest,
-    output: GetChannelMembershipPreferencesResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
+export const getChannelMembershipPreferences: (
+  input: GetChannelMembershipPreferencesRequest,
+) => Effect.Effect<
+  GetChannelMembershipPreferencesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetChannelMembershipPreferencesRequest,
+  output: GetChannelMembershipPreferencesResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Gets the full details of a channel message.
  *
@@ -2725,7 +2783,20 @@ export const getChannelMembershipPreferences =
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const getChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getChannelMessage: (
+  input: GetChannelMessageRequest,
+) => Effect.Effect<
+  GetChannelMessageResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChannelMessageRequest,
   output: GetChannelMessageResponse,
   errors: [
@@ -2749,20 +2820,32 @@ export const getChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
  * header.
  */
-export const putChannelMembershipPreferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutChannelMembershipPreferencesRequest,
-    output: PutChannelMembershipPreferencesResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
+export const putChannelMembershipPreferences: (
+  input: PutChannelMembershipPreferencesRequest,
+) => Effect.Effect<
+  PutChannelMembershipPreferencesResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutChannelMembershipPreferencesRequest,
+  output: PutChannelMembershipPreferencesResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Sends a message to a particular channel that the member is a part of.
  *
@@ -2775,7 +2858,20 @@ export const putChannelMembershipPreferences =
  *
  * `CONTROL` messages are limited to 30 bytes and do not contain metadata.
  */
-export const sendChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendChannelMessage: (
+  input: SendChannelMessageRequest,
+) => Effect.Effect<
+  SendChannelMessageResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendChannelMessageRequest,
   output: SendChannelMessageResponse,
   errors: [
@@ -2805,22 +2901,34 @@ export const sendChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * ARN of the `AppInstanceUser` or `AppInstanceBot`of the user that makes the API call as the value in
  * the header.
  */
-export const createChannelModerator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateChannelModeratorRequest,
-    output: CreateChannelModeratorResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const createChannelModerator: (
+  input: CreateChannelModeratorRequest,
+) => Effect.Effect<
+  CreateChannelModeratorResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateChannelModeratorRequest,
+  output: CreateChannelModeratorResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    ResourceLimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Gets message status for a specified `messageId`. Use this API to determine the intermediate status of messages going through channel flow processing. The API provides an alternative to
  * retrieving message status if the event was not received because a client wasn't connected to a websocket.
@@ -2851,36 +2959,55 @@ export const createChannelModerator = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const getChannelMessageStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetChannelMessageStatusRequest,
-    output: GetChannelMessageStatusResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const getChannelMessageStatus: (
+  input: GetChannelMessageStatusRequest,
+) => Effect.Effect<
+  GetChannelMessageStatusResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetChannelMessageStatusRequest,
+  output: GetChannelMessageStatusResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * The details of the endpoint for the messaging session.
  */
-export const getMessagingSessionEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMessagingSessionEndpointRequest,
-    output: GetMessagingSessionEndpointResponse,
-    errors: [
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const getMessagingSessionEndpoint: (
+  input: GetMessagingSessionEndpointRequest,
+) => Effect.Effect<
+  GetMessagingSessionEndpointResponse,
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMessagingSessionEndpointRequest,
+  output: GetMessagingSessionEndpointResponse,
+  errors: [
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Lists all the users and bots banned from a particular channel.
  *
@@ -2888,47 +3015,123 @@ export const getMessagingSessionEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const listChannelBans = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listChannelBans: {
+  (
     input: ListChannelBansRequest,
-    output: ListChannelBansResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListChannelBansResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelBansRequest,
+  ) => Stream.Stream<
+    ListChannelBansResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelBansRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelBansRequest,
+  output: ListChannelBansResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a paginated lists of all the channel flows created under a single Chime. This is a developer API.
  */
-export const listChannelFlows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listChannelFlows: {
+  (
     input: ListChannelFlowsRequest,
-    output: ListChannelFlowsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListChannelFlowsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelFlowsRequest,
+  ) => Stream.Stream<
+    ListChannelFlowsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelFlowsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelFlowsRequest,
+  output: ListChannelFlowsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all channel memberships in a channel.
  *
@@ -2939,24 +3142,63 @@ export const listChannelFlows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * If you want to list the channels to which a specific app instance user belongs, see the
  * ListChannelMembershipsForAppInstanceUser API.
  */
-export const listChannelMemberships =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listChannelMemberships: {
+  (
     input: ListChannelMembershipsRequest,
-    output: ListChannelMembershipsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListChannelMembershipsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelMembershipsRequest,
+  ) => Stream.Stream<
+    ListChannelMembershipsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelMembershipsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelMembershipsRequest,
+  output: ListChannelMembershipsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List all the messages in a channel. Returns a paginated list of
  * `ChannelMessages`. By default, sorted by creation timestamp in descending
@@ -2970,24 +3212,63 @@ export const listChannelMemberships =
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const listChannelMessages =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listChannelMessages: {
+  (
     input: ListChannelMessagesRequest,
-    output: ListChannelMessagesResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListChannelMessagesResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelMessagesRequest,
+  ) => Stream.Stream<
+    ListChannelMessagesResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelMessagesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelMessagesRequest,
+  output: ListChannelMessagesResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the moderators for a channel.
  *
@@ -2995,24 +3276,63 @@ export const listChannelMessages =
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const listChannelModerators =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listChannelModerators: {
+  (
     input: ListChannelModeratorsRequest,
-    output: ListChannelModeratorsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListChannelModeratorsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelModeratorsRequest,
+  ) => Stream.Stream<
+    ListChannelModeratorsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelModeratorsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelModeratorsRequest,
+  output: ListChannelModeratorsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all Channels created under a single Chime App as a paginated list. You can specify
  * filters to narrow results.
@@ -3029,68 +3349,183 @@ export const listChannelModerators =
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const listChannels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listChannels: {
+  (
     input: ListChannelsRequest,
-    output: ListChannelsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListChannelsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelsRequest,
+  ) => Stream.Stream<
+    ListChannelsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelsRequest,
+  output: ListChannelsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all channels associated with a specified channel flow. You can associate a channel flow with multiple channels, but you can only associate a channel with one channel flow. This is a developer API.
  */
-export const listChannelsAssociatedWithChannelFlow =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listChannelsAssociatedWithChannelFlow: {
+  (
     input: ListChannelsAssociatedWithChannelFlowRequest,
-    output: ListChannelsAssociatedWithChannelFlowResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListChannelsAssociatedWithChannelFlowResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelsAssociatedWithChannelFlowRequest,
+  ) => Stream.Stream<
+    ListChannelsAssociatedWithChannelFlowResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelsAssociatedWithChannelFlowRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelsAssociatedWithChannelFlowRequest,
+  output: ListChannelsAssociatedWithChannelFlowResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the SubChannels in an elastic channel when given a channel ID. Available only to the app instance admins and channel moderators of elastic channels.
  */
-export const listSubChannels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSubChannels: {
+  (
     input: ListSubChannelsRequest,
-    output: ListSubChannelsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSubChannelsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSubChannelsRequest,
+  ) => Stream.Stream<
+    ListSubChannelsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSubChannelsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSubChannelsRequest,
+  output: ListSubChannelsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Allows the `ChimeBearer` to search channels by channel members. Users or bots can search
  * across the channels that they belong to. Users in the `AppInstanceAdmin` role can search across
@@ -3102,25 +3537,63 @@ export const listSubChannels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * This operation isn't supported for `AppInstanceUsers` with a large number of memberships.
  */
-export const searchChannels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchChannels: {
+  (
     input: SearchChannelsRequest,
-    output: SearchChannelsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchChannelsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchChannelsRequest,
+  ) => Stream.Stream<
+    SearchChannelsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchChannelsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchChannelsRequest,
+  output: SearchChannelsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Sets the number of days before the channel is automatically deleted.
  *
@@ -3134,20 +3607,32 @@ export const searchChannels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const putChannelExpirationSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutChannelExpirationSettingsRequest,
-    output: PutChannelExpirationSettingsResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
+export const putChannelExpirationSettings: (
+  input: PutChannelExpirationSettingsRequest,
+) => Effect.Effect<
+  PutChannelExpirationSettingsResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutChannelExpirationSettingsRequest,
+  output: PutChannelExpirationSettingsResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Redacts message content and metadata. The message exists in the back end, but the
  * action returns null content, and the state shows as redacted.
@@ -3156,21 +3641,32 @@ export const putChannelExpirationSettings =
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const redactChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RedactChannelMessageRequest,
-    output: RedactChannelMessageResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const redactChannelMessage: (
+  input: RedactChannelMessageRequest,
+) => Effect.Effect<
+  RedactChannelMessageResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RedactChannelMessageRequest,
+  output: RedactChannelMessageResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Update a channel's attributes.
  *
@@ -3180,7 +3676,20 @@ export const redactChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateChannel: (
+  input: UpdateChannelRequest,
+) => Effect.Effect<
+  UpdateChannelResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelRequest,
   output: UpdateChannelResponse,
   errors: [
@@ -3196,7 +3705,20 @@ export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates channel flow attributes. This is a developer API.
  */
-export const updateChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateChannelFlow: (
+  input: UpdateChannelFlowRequest,
+) => Effect.Effect<
+  UpdateChannelFlowResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelFlowRequest,
   output: UpdateChannelFlowResponse,
   errors: [
@@ -3216,21 +3738,32 @@ export const updateChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const updateChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateChannelMessageRequest,
-    output: UpdateChannelMessageResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const updateChannelMessage: (
+  input: UpdateChannelMessageRequest,
+) => Effect.Effect<
+  UpdateChannelMessageResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateChannelMessageRequest,
+  output: UpdateChannelMessageResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * The details of the time when a user last read messages in a channel.
  *
@@ -3238,21 +3771,32 @@ export const updateChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const updateChannelReadMarker = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateChannelReadMarkerRequest,
-    output: UpdateChannelReadMarkerResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const updateChannelReadMarker: (
+  input: UpdateChannelReadMarkerRequest,
+) => Effect.Effect<
+  UpdateChannelReadMarkerResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateChannelReadMarkerRequest,
+  output: UpdateChannelReadMarkerResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Immediately makes a channel and its memberships inaccessible and marks them for
  * deletion. This is an irreversible process.
@@ -3261,7 +3805,20 @@ export const updateChannelReadMarker = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * ARN of the `AppInstanceUserArn` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteChannel: (
+  input: DeleteChannelRequest,
+) => Effect.Effect<
+  DeleteChannelResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelRequest,
   output: DeleteChannelResponse,
   errors: [
@@ -3280,7 +3837,20 @@ export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This API works only when the channel flow is not associated with any channel. To get a list of all channels that a channel flow is associated with, use the
  * `ListChannelsAssociatedWithChannelFlow` API. Use the `DisassociateChannelFlow` API to disassociate a channel flow from all channels.
  */
-export const deleteChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteChannelFlow: (
+  input: DeleteChannelFlowRequest,
+) => Effect.Effect<
+  DeleteChannelFlowResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelFlowRequest,
   output: DeleteChannelFlowResponse,
   errors: [
@@ -3300,21 +3870,32 @@ export const deleteChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `AppInstanceUserArn` of the user that makes the API call as the value in
  * the header.
  */
-export const deleteChannelMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteChannelMembershipRequest,
-    output: DeleteChannelMembershipResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const deleteChannelMembership: (
+  input: DeleteChannelMembershipRequest,
+) => Effect.Effect<
+  DeleteChannelMembershipResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChannelMembershipRequest,
+  output: DeleteChannelMembershipResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Lists all channels that an `AppInstanceUser` or `AppInstanceBot` is a part of.
  * Only an `AppInstanceAdmin` can call the API with a user ARN that is not their own.
@@ -3323,24 +3904,63 @@ export const deleteChannelMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const listChannelMembershipsForAppInstanceUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listChannelMembershipsForAppInstanceUser: {
+  (
     input: ListChannelMembershipsForAppInstanceUserRequest,
-    output: ListChannelMembershipsForAppInstanceUserResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListChannelMembershipsForAppInstanceUserResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelMembershipsForAppInstanceUserRequest,
+  ) => Stream.Stream<
+    ListChannelMembershipsForAppInstanceUserResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelMembershipsForAppInstanceUserRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelMembershipsForAppInstanceUserRequest,
+  output: ListChannelMembershipsForAppInstanceUserResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * A list of the channels moderated by an `AppInstanceUser`.
  *
@@ -3348,28 +3968,79 @@ export const listChannelMembershipsForAppInstanceUser =
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const listChannelsModeratedByAppInstanceUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listChannelsModeratedByAppInstanceUser: {
+  (
     input: ListChannelsModeratedByAppInstanceUserRequest,
-    output: ListChannelsModeratedByAppInstanceUserResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListChannelsModeratedByAppInstanceUserResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelsModeratedByAppInstanceUserRequest,
+  ) => Stream.Stream<
+    ListChannelsModeratedByAppInstanceUserResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelsModeratedByAppInstanceUserRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelsModeratedByAppInstanceUserRequest,
+  output: ListChannelsModeratedByAppInstanceUserResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the tags applied to an Amazon Chime SDK messaging resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3388,7 +4059,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const deleteChannelBan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteChannelBan: (
+  input: DeleteChannelBanRequest,
+) => Effect.Effect<
+  DeleteChannelBanResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelBanRequest,
   output: DeleteChannelBanResponse,
   errors: [
@@ -3409,20 +4092,30 @@ export const deleteChannelBan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const deleteChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteChannelMessageRequest,
-    output: DeleteChannelMessageResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const deleteChannelMessage: (
+  input: DeleteChannelMessageRequest,
+) => Effect.Effect<
+  DeleteChannelMessageResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChannelMessageRequest,
+  output: DeleteChannelMessageResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Deletes a channel moderator.
  *
@@ -3430,41 +4123,74 @@ export const deleteChannelMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const deleteChannelModerator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteChannelModeratorRequest,
-    output: DeleteChannelModeratorResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const deleteChannelModerator: (
+  input: DeleteChannelModeratorRequest,
+) => Effect.Effect<
+  DeleteChannelModeratorResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChannelModeratorRequest,
+  output: DeleteChannelModeratorResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Deletes the streaming configurations for an `AppInstance`. For more information, see
  * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
-export const deleteMessagingStreamingConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteMessagingStreamingConfigurationsRequest,
-    output: DeleteMessagingStreamingConfigurationsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
+export const deleteMessagingStreamingConfigurations: (
+  input: DeleteMessagingStreamingConfigurationsRequest,
+) => Effect.Effect<
+  DeleteMessagingStreamingConfigurationsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMessagingStreamingConfigurationsRequest,
+  output: DeleteMessagingStreamingConfigurationsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Removes the specified tags from the specified Amazon Chime SDK messaging resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3487,7 +4213,20 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Make no changes to the message
  */
-export const channelFlowCallback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const channelFlowCallback: (
+  input: ChannelFlowCallbackRequest,
+) => Effect.Effect<
+  ChannelFlowCallbackResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChannelFlowCallbackRequest,
   output: ChannelFlowCallbackResponse,
   errors: [
@@ -3508,7 +4247,19 @@ export const channelFlowCallback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const describeChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeChannel: (
+  input: DescribeChannelRequest,
+) => Effect.Effect<
+  DescribeChannelResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeChannelRequest,
   output: DescribeChannelResponse,
   errors: [
@@ -3523,7 +4274,19 @@ export const describeChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the full details of a channel flow in an Amazon Chime `AppInstance`. This is a developer API.
  */
-export const describeChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeChannelFlow: (
+  input: DescribeChannelFlowRequest,
+) => Effect.Effect<
+  DescribeChannelFlowResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeChannelFlowRequest,
   output: DescribeChannelFlowResponse,
   errors: [
@@ -3543,19 +4306,30 @@ export const describeChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const describeChannelModeratedByAppInstanceUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeChannelModeratedByAppInstanceUserRequest,
-    output: DescribeChannelModeratedByAppInstanceUserResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
+export const describeChannelModeratedByAppInstanceUser: (
+  input: DescribeChannelModeratedByAppInstanceUserRequest,
+) => Effect.Effect<
+  DescribeChannelModeratedByAppInstanceUserResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeChannelModeratedByAppInstanceUserRequest,
+  output: DescribeChannelModeratedByAppInstanceUserResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Returns the details of a channel based on the membership of the specified
  * `AppInstanceUser` or `AppInstanceBot`.
@@ -3564,38 +4338,62 @@ export const describeChannelModeratedByAppInstanceUser =
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const describeChannelMembershipForAppInstanceUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeChannelMembershipForAppInstanceUserRequest,
-    output: DescribeChannelMembershipForAppInstanceUserResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
+export const describeChannelMembershipForAppInstanceUser: (
+  input: DescribeChannelMembershipForAppInstanceUserRequest,
+) => Effect.Effect<
+  DescribeChannelMembershipForAppInstanceUserResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeChannelMembershipForAppInstanceUserRequest,
+  output: DescribeChannelMembershipForAppInstanceUserResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Sets the data streaming configuration for an `AppInstance`. For more information, see
  * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
-export const putMessagingStreamingConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutMessagingStreamingConfigurationsRequest,
-    output: PutMessagingStreamingConfigurationsResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
+export const putMessagingStreamingConfigurations: (
+  input: PutMessagingStreamingConfigurationsRequest,
+) => Effect.Effect<
+  PutMessagingStreamingConfigurationsResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutMessagingStreamingConfigurationsRequest,
+  output: PutMessagingStreamingConfigurationsResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Adds a member to a channel. The `InvitedBy` field in `ChannelMembership`
  * is derived from the request header. A channel member can:
@@ -3621,23 +4419,36 @@ export const putMessagingStreamingConfigurations =
  * ARN of the `AppInstanceUserArn` or `AppInstanceBot` that makes the API call
  * as the value in the header.
  */
-export const createChannelMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateChannelMembershipRequest,
-    output: CreateChannelMembershipResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const createChannelMembership: (
+  input: CreateChannelMembershipRequest,
+) => Effect.Effect<
+  CreateChannelMembershipResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | NotFoundException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateChannelMembershipRequest,
+  output: CreateChannelMembershipResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    NotFoundException,
+    ResourceLimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Disassociates a channel flow from all its channels. Once disassociated, all messages to
  * that channel stop going through the channel flow processor.
@@ -3648,40 +4459,64 @@ export const createChannelMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const disassociateChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateChannelFlowRequest,
-    output: DisassociateChannelFlowResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const disassociateChannelFlow: (
+  input: DisassociateChannelFlowRequest,
+) => Effect.Effect<
+  DisassociateChannelFlowResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateChannelFlowRequest,
+  output: DisassociateChannelFlowResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Retrieves the data streaming configuration for an `AppInstance`. For more information, see
  * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
-export const getMessagingStreamingConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetMessagingStreamingConfigurationsRequest,
-    output: GetMessagingStreamingConfigurationsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
+export const getMessagingStreamingConfigurations: (
+  input: GetMessagingStreamingConfigurationsRequest,
+) => Effect.Effect<
+  GetMessagingStreamingConfigurationsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMessagingStreamingConfigurationsRequest,
+  output: GetMessagingStreamingConfigurationsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Associates a channel flow with a channel. Once associated, all messages to that channel go through channel flow processors. To stop processing, use the
  * `DisassociateChannelFlow` API.
@@ -3691,40 +4526,65 @@ export const getMessagingStreamingConfigurations =
  * `AppInstanceUser` or `AppInstanceBot`
  * that makes the API call as the value in the header.
  */
-export const associateChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateChannelFlowRequest,
-    output: AssociateChannelFlowResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const associateChannelFlow: (
+  input: AssociateChannelFlowRequest,
+) => Effect.Effect<
+  AssociateChannelFlowResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateChannelFlowRequest,
+  output: AssociateChannelFlowResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Adds a specified number of users and bots to a channel.
  */
-export const batchCreateChannelMembership =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchCreateChannelMembershipRequest,
-    output: BatchCreateChannelMembershipResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
+export const batchCreateChannelMembership: (
+  input: BatchCreateChannelMembershipRequest,
+) => Effect.Effect<
+  BatchCreateChannelMembershipResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCreateChannelMembershipRequest,
+  output: BatchCreateChannelMembershipResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ResourceLimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Returns the full details of a channel ban.
  *
@@ -3732,7 +4592,20 @@ export const batchCreateChannelMembership =
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const describeChannelBan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeChannelBan: (
+  input: DescribeChannelBanRequest,
+) => Effect.Effect<
+  DescribeChannelBanResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeChannelBanRequest,
   output: DescribeChannelBanResponse,
   errors: [
@@ -3752,21 +4625,32 @@ export const describeChannelBan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const describeChannelMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeChannelMembershipRequest,
-    output: DescribeChannelMembershipResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const describeChannelMembership: (
+  input: DescribeChannelMembershipRequest,
+) => Effect.Effect<
+  DescribeChannelMembershipResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeChannelMembershipRequest,
+  output: DescribeChannelMembershipResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Returns the full details of a single ChannelModerator.
  *
@@ -3774,25 +4658,49 @@ export const describeChannelMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `AppInstanceUserArn` of the user that makes the API call as the value in
  * the header.
  */
-export const describeChannelModerator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeChannelModeratorRequest,
-    output: DescribeChannelModeratorResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const describeChannelModerator: (
+  input: DescribeChannelModeratorRequest,
+) => Effect.Effect<
+  DescribeChannelModeratorResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeChannelModeratorRequest,
+  output: DescribeChannelModeratorResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Applies the specified tags to the specified Amazon Chime SDK messaging resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3815,7 +4723,21 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createChannel: (
+  input: CreateChannelRequest,
+) => Effect.Effect<
+  CreateChannelResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelRequest,
   output: CreateChannelResponse,
   errors: [
@@ -3842,7 +4764,21 @@ export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const createChannelBan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createChannelBan: (
+  input: CreateChannelBanRequest,
+) => Effect.Effect<
+  CreateChannelBanResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelBanRequest,
   output: CreateChannelBanResponse,
   errors: [
@@ -3873,7 +4809,21 @@ export const createChannelBan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Channel flows don't process Control or System messages. For more information about the message types provided by Chime SDK messaging, refer to
  * Message types in the *Amazon Chime developer guide*.
  */
-export const createChannelFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createChannelFlow: (
+  input: CreateChannelFlowRequest,
+) => Effect.Effect<
+  CreateChannelFlowResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelFlowRequest,
   output: CreateChannelFlowResponse,
   errors: [

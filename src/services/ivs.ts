@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Strm from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "ivs",
   serviceShapeName: "AmazonInteractiveVideoService",
@@ -240,6 +248,57 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ChannelArn = string;
+export type StreamKeyArn = string;
+export type ChannelName = string;
+export type ChannelLatencyMode = string;
+export type ChannelRecordingConfigurationArn = string;
+export type ChannelPlaybackRestrictionPolicyArn = string;
+export type ContainerFormat = string;
+export type PlaybackRestrictionPolicyAllowedCountry = string;
+export type PlaybackRestrictionPolicyAllowedOrigin = string;
+export type PlaybackRestrictionPolicyName = string;
+export type RecordingConfigurationName = string;
+export type RecordingReconnectWindowSeconds = number;
+export type PlaybackKeyPairArn = string;
+export type PlaybackRestrictionPolicyArn = string;
+export type RecordingConfigurationArn = string;
+export type StreamId = string;
+export type PlaybackPublicKeyMaterial = string;
+export type PlaybackKeyPairName = string;
+export type PaginationToken = string;
+export type MaxChannelResults = number;
+export type MaxPlaybackKeyPairResults = number;
+export type MaxPlaybackRestrictionPolicyResults = number;
+export type MaxRecordingConfigurationResults = number;
+export type MaxStreamKeyResults = number;
+export type MaxStreamResults = number;
+export type ResourceArn = string;
+export type StreamMetadata = string;
+export type ViewerId = string;
+export type ViewerSessionVersion = number;
+export type TagKey = string;
+export type TagValue = string;
+export type RecordingMode = string;
+export type TargetIntervalSeconds = number;
+export type ThumbnailConfigurationStorage = string;
+export type RenditionConfigurationRenditionSelection = string;
+export type StreamHealth = string;
+export type errorMessage = string;
+export type S3DestinationBucketName = string;
+export type IngestEndpoint = string;
+export type PlaybackURL = string;
+export type errorCode = string;
+export type StreamKeyValue = string;
+export type PlaybackKeyPairFingerprint = string;
+export type RecordingConfigurationState = string;
+export type StreamState = string;
+export type StreamViewerCount = number;
+export type SrtEndpoint = string;
+export type SrtPassphrase = string;
+export type Integer = number;
 
 //# Schemas
 export type ChannelArnList = string[];
@@ -1809,7 +1868,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { exceptionMessage: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { exceptionMessage: S.optional(S.String) },
@@ -1833,7 +1894,9 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { exceptionMessage: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { exceptionMessage: S.optional(S.String) },
@@ -1841,13 +1904,21 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class StreamUnavailable extends S.TaggedError<StreamUnavailable>()(
   "StreamUnavailable",
   { exceptionMessage: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 
 //# Operations
 /**
  * Performs GetStreamKey on multiple ARNs simultaneously.
  */
-export const batchGetStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetStreamKey: (
+  input: BatchGetStreamKeyRequest,
+) => Effect.Effect<
+  BatchGetStreamKeyResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetStreamKeyRequest,
   output: BatchGetStreamKeyResponse,
   errors: [],
@@ -1855,7 +1926,13 @@ export const batchGetStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Performs GetChannel on multiple ARNs simultaneously.
  */
-export const batchGetChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetChannel: (
+  input: BatchGetChannelRequest,
+) => Effect.Effect<
+  BatchGetChannelResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetChannelRequest,
   output: BatchGetChannelResponse,
   errors: [],
@@ -1863,7 +1940,16 @@ export const batchGetChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the channel configuration for the specified channel ARN. See also BatchGetChannel.
  */
-export const getChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getChannel: (
+  input: GetChannelRequest,
+) => Effect.Effect<
+  GetChannelResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChannelRequest,
   output: GetChannelResponse,
   errors: [
@@ -1876,18 +1962,38 @@ export const getChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets summary information about live streams in your account, in the Amazon Web Services
  * region where the API request is processed.
  */
-export const listStreams = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listStreams: {
+  (
     input: ListStreamsRequest,
-    output: ListStreamsResponse,
-    errors: [AccessDeniedException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListStreamsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStreamsRequest,
+  ) => Strm.Stream<
+    ListStreamsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStreamsRequest,
+  ) => Strm.Stream<
+    unknown,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStreamsRequest,
+  output: ListStreamsResponse,
+  errors: [AccessDeniedException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Inserts metadata into the active stream of the specified channel. At most 5 requests per
  * second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient
@@ -1895,7 +2001,18 @@ export const listStreams = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * requests per second per account are allowed. Also see Embedding Metadata within a Video Stream in
  * the *Amazon IVS User Guide*.
  */
-export const putMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putMetadata: (
+  input: PutMetadataRequest,
+) => Effect.Effect<
+  PutMetadataResponse,
+  | AccessDeniedException
+  | ChannelNotBroadcasting
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMetadataRequest,
   output: PutMetadataResponse,
   errors: [
@@ -1913,19 +2030,28 @@ export const putMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Setting Up
  * Private Channels in the *Amazon IVS User Guide*.
  */
-export const importPlaybackKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ImportPlaybackKeyPairRequest,
-    output: ImportPlaybackKeyPairResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      PendingVerification,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const importPlaybackKeyPair: (
+  input: ImportPlaybackKeyPairRequest,
+) => Effect.Effect<
+  ImportPlaybackKeyPairResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportPlaybackKeyPairRequest,
+  output: ImportPlaybackKeyPairResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    PendingVerification,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a specified playback authorization key pair and returns the `arn` and
  * `fingerprint`. The `privateKey` held by the caller can be used to
@@ -1933,7 +2059,16 @@ export const importPlaybackKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * information, see Setting Up Private Channels in the Amazon IVS User
  * Guide.
  */
-export const getPlaybackKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPlaybackKeyPair: (
+  input: GetPlaybackKeyPairRequest,
+) => Effect.Effect<
+  GetPlaybackKeyPairResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPlaybackKeyPairRequest,
   output: GetPlaybackKeyPairResponse,
   errors: [
@@ -1945,148 +2080,343 @@ export const getPlaybackKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the specified playback restriction policy.
  */
-export const getPlaybackRestrictionPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetPlaybackRestrictionPolicyRequest,
-    output: GetPlaybackRestrictionPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const getPlaybackRestrictionPolicy: (
+  input: GetPlaybackRestrictionPolicyRequest,
+) => Effect.Effect<
+  GetPlaybackRestrictionPolicyResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPlaybackRestrictionPolicyRequest,
+  output: GetPlaybackRestrictionPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the recording configuration for the specified ARN.
  */
-export const getRecordingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRecordingConfigurationRequest,
-    output: GetRecordingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getRecordingConfiguration: (
+  input: GetRecordingConfigurationRequest,
+) => Effect.Effect<
+  GetRecordingConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRecordingConfigurationRequest,
+  output: GetRecordingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets summary information about all channels in your account, in the Amazon Web Services
  * region where the API request is processed. This list can be filtered to match a specified name
  * or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If
  * you try to use both filters, you will get an error (409 ConflictException).
  */
-export const listChannels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listChannels: {
+  (
     input: ListChannelsRequest,
-    output: ListChannelsResponse,
-    errors: [AccessDeniedException, ConflictException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListChannelsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelsRequest,
+  ) => Strm.Stream<
+    ListChannelsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelsRequest,
+  ) => Strm.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelsRequest,
+  output: ListChannelsResponse,
+  errors: [AccessDeniedException, ConflictException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets summary information about playback key pairs. For more information, see Setting Up Private
  * Channels in the *Amazon IVS User Guide*.
  */
-export const listPlaybackKeyPairs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPlaybackKeyPairs: {
+  (
     input: ListPlaybackKeyPairsRequest,
-    output: ListPlaybackKeyPairsResponse,
-    errors: [AccessDeniedException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPlaybackKeyPairsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPlaybackKeyPairsRequest,
+  ) => Strm.Stream<
+    ListPlaybackKeyPairsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPlaybackKeyPairsRequest,
+  ) => Strm.Stream<
+    unknown,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPlaybackKeyPairsRequest,
+  output: ListPlaybackKeyPairsResponse,
+  errors: [AccessDeniedException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets summary information about playback restriction policies.
  */
-export const listPlaybackRestrictionPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPlaybackRestrictionPolicies: {
+  (
     input: ListPlaybackRestrictionPoliciesRequest,
-    output: ListPlaybackRestrictionPoliciesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      PendingVerification,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPlaybackRestrictionPoliciesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | PendingVerification
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPlaybackRestrictionPoliciesRequest,
+  ) => Strm.Stream<
+    ListPlaybackRestrictionPoliciesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | PendingVerification
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPlaybackRestrictionPoliciesRequest,
+  ) => Strm.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | PendingVerification
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPlaybackRestrictionPoliciesRequest,
+  output: ListPlaybackRestrictionPoliciesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    PendingVerification,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets summary information about all recording configurations in your account, in the
  * Amazon Web Services region where the API request is processed.
  */
-export const listRecordingConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecordingConfigurations: {
+  (
     input: ListRecordingConfigurationsRequest,
-    output: ListRecordingConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecordingConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecordingConfigurationsRequest,
+  ) => Strm.Stream<
+    ListRecordingConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecordingConfigurationsRequest,
+  ) => Strm.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecordingConfigurationsRequest,
+  output: ListRecordingConfigurationsResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets summary information about stream keys for the specified channel.
  */
-export const listStreamKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listStreamKeys: {
+  (
     input: ListStreamKeysRequest,
-    output: ListStreamKeysResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListStreamKeysResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStreamKeysRequest,
+  ) => Strm.Stream<
+    ListStreamKeysResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStreamKeysRequest,
+  ) => Strm.Stream<
+    unknown,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStreamKeysRequest,
+  output: ListStreamKeysResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a summary of current and previous streams for a specified channel in your account, in
  * the AWS region where the API request is processed.
  */
-export const listStreamSessions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listStreamSessions: {
+  (
     input: ListStreamSessionsRequest,
-    output: ListStreamSessionsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListStreamSessionsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStreamSessionsRequest,
+  ) => Strm.Stream<
+    ListStreamSessionsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStreamSessionsRequest,
+  ) => Strm.Stream<
+    unknown,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStreamSessionsRequest,
+  output: ListStreamSessionsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates a channel's configuration. Live channels cannot be updated. You must stop the
  * ongoing stream, update the channel, and restart the stream for the changes to take
  * effect.
  */
-export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateChannel: (
+  input: UpdateChannelRequest,
+) => Effect.Effect<
+  UpdateChannelResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelRequest,
   output: UpdateChannelResponse,
   errors: [
@@ -2100,33 +2430,53 @@ export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a specified playback restriction policy.
  */
-export const updatePlaybackRestrictionPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdatePlaybackRestrictionPolicyRequest,
-    output: UpdatePlaybackRestrictionPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const updatePlaybackRestrictionPolicy: (
+  input: UpdatePlaybackRestrictionPolicyRequest,
+) => Effect.Effect<
+  UpdatePlaybackRestrictionPolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePlaybackRestrictionPolicyRequest,
+  output: UpdatePlaybackRestrictionPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the specified playback restriction policy.
  */
-export const deletePlaybackRestrictionPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeletePlaybackRestrictionPolicyRequest,
-    output: DeletePlaybackRestrictionPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const deletePlaybackRestrictionPolicy: (
+  input: DeletePlaybackRestrictionPolicyRequest,
+) => Effect.Effect<
+  DeletePlaybackRestrictionPolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePlaybackRestrictionPolicyRequest,
+  output: DeletePlaybackRestrictionPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the recording configuration for the specified ARN.
  *
@@ -2136,22 +2486,41 @@ export const deletePlaybackRestrictionPolicy =
  * `recordingConfigurationArn` field to an empty string, then use
  * DeleteRecordingConfiguration.
  */
-export const deleteRecordingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRecordingConfigurationRequest,
-    output: DeleteRecordingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const deleteRecordingConfiguration: (
+  input: DeleteRecordingConfigurationRequest,
+) => Effect.Effect<
+  DeleteRecordingConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRecordingConfigurationRequest,
+  output: DeleteRecordingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets stream-key information for a specified ARN.
  */
-export const getStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStreamKey: (
+  input: GetStreamKeyRequest,
+) => Effect.Effect<
+  GetStreamKeyResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStreamKeyRequest,
   output: GetStreamKeyResponse,
   errors: [
@@ -2163,7 +2532,16 @@ export const getStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds or updates tags for the Amazon Web Services resource with the specified ARN.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2175,7 +2553,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from the resource with the specified ARN.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2187,7 +2574,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about Amazon Web Services tags for the specified ARN.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2201,23 +2597,41 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * generated using the key pair’s `privateKey`. For more information, see Setting Up Private
  * Channels in the *Amazon IVS User Guide*.
  */
-export const deletePlaybackKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePlaybackKeyPairRequest,
-    output: DeletePlaybackKeyPairResponse,
-    errors: [
-      AccessDeniedException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deletePlaybackKeyPair: (
+  input: DeletePlaybackKeyPairRequest,
+) => Effect.Effect<
+  DeletePlaybackKeyPairResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePlaybackKeyPairRequest,
+  output: DeletePlaybackKeyPairResponse,
+  errors: [
+    AccessDeniedException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the stream key for the specified ARN, so it can no longer be used to
  * stream.
  */
-export const deleteStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteStreamKey: (
+  input: DeleteStreamKeyRequest,
+) => Effect.Effect<
+  DeleteStreamKeyResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStreamKeyRequest,
   output: DeleteStreamKeyResponse,
   errors: [
@@ -2235,7 +2649,18 @@ export const deleteStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * EventBridge "Stream End" event (to verify that the stream's state is no longer Live), then
  * call DeleteChannel. (See Using EventBridge with Amazon IVS.)
  */
-export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteChannel: (
+  input: DeleteChannelRequest,
+) => Effect.Effect<
+  DeleteChannelResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelRequest,
   output: DeleteChannelResponse,
   errors: [
@@ -2249,7 +2674,17 @@ export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about the active (live) stream on a specified channel.
  */
-export const getStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStream: (
+  input: GetStreamRequest,
+) => Effect.Effect<
+  GetStreamResponse,
+  | AccessDeniedException
+  | ChannelNotBroadcasting
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStreamRequest,
   output: GetStreamResponse,
   errors: [
@@ -2268,7 +2703,18 @@ export const getStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * session, so to stop the stream permanently, you may want to first revoke the
  * `streamKey` attached to the channel.
  */
-export const stopStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopStream: (
+  input: StopStreamRequest,
+) => Effect.Effect<
+  StopStreamResponse,
+  | AccessDeniedException
+  | ChannelNotBroadcasting
+  | ResourceNotFoundException
+  | StreamUnavailable
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopStreamRequest,
   output: StopStreamResponse,
   errors: [
@@ -2286,34 +2732,54 @@ export const stopStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Setting Up
  * Private Channels.
  */
-export const startViewerSessionRevocation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartViewerSessionRevocationRequest,
-    output: StartViewerSessionRevocationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startViewerSessionRevocation: (
+  input: StartViewerSessionRevocationRequest,
+) => Effect.Effect<
+  StartViewerSessionRevocationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartViewerSessionRevocationRequest,
+  output: StartViewerSessionRevocationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Performs StartViewerSessionRevocation on multiple channel ARN and viewer
  * ID pairs simultaneously.
  */
-export const batchStartViewerSessionRevocation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchStartViewerSessionRevocationRequest,
-    output: BatchStartViewerSessionRevocationResponse,
-    errors: [
-      AccessDeniedException,
-      PendingVerification,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchStartViewerSessionRevocation: (
+  input: BatchStartViewerSessionRevocationRequest,
+) => Effect.Effect<
+  BatchStartViewerSessionRevocationResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchStartViewerSessionRevocationRequest,
+  output: BatchStartViewerSessionRevocationResponse,
+  errors: [
+    AccessDeniedException,
+    PendingVerification,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a stream key, used to initiate a stream, for the specified channel ARN.
  *
@@ -2321,7 +2787,18 @@ export const batchStartViewerSessionRevocation =
  * CreateStreamKey on the same channel, it will fail because a stream key already exists and
  * there is a limit of 1 stream key per channel. To reset the stream key on a channel, use DeleteStreamKey and then CreateStreamKey.
  */
-export const createStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createStreamKey: (
+  input: CreateStreamKeyRequest,
+) => Effect.Effect<
+  CreateStreamKeyResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStreamKeyRequest,
   output: CreateStreamKeyResponse,
   errors: [
@@ -2335,7 +2812,18 @@ export const createStreamKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new channel and an associated stream key to start streaming.
  */
-export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createChannel: (
+  input: CreateChannelRequest,
+) => Effect.Effect<
+  CreateChannelResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelRequest,
   output: CreateChannelResponse,
   errors: [
@@ -2350,18 +2838,28 @@ export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a new playback restriction policy, for constraining playback by countries and/or
  * origins.
  */
-export const createPlaybackRestrictionPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePlaybackRestrictionPolicyRequest,
-    output: CreatePlaybackRestrictionPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      PendingVerification,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createPlaybackRestrictionPolicy: (
+  input: CreatePlaybackRestrictionPolicyRequest,
+) => Effect.Effect<
+  CreatePlaybackRestrictionPolicyResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePlaybackRestrictionPolicyRequest,
+  output: CreatePlaybackRestrictionPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    PendingVerification,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new recording configuration, used to enable recording to Amazon S3.
  *
@@ -2376,23 +2874,43 @@ export const createPlaybackRestrictionPolicy =
  * region as your S3 bucket, delete that recording configuration and create a new one with an S3
  * bucket from the correct region.
  */
-export const createRecordingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRecordingConfigurationRequest,
-    output: CreateRecordingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      PendingVerification,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }));
+export const createRecordingConfiguration: (
+  input: CreateRecordingConfigurationRequest,
+) => Effect.Effect<
+  CreateRecordingConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | PendingVerification
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRecordingConfigurationRequest,
+  output: CreateRecordingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    PendingVerification,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets metadata on a specified stream.
  */
-export const getStreamSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStreamSession: (
+  input: GetStreamSessionRequest,
+) => Effect.Effect<
+  GetStreamSessionResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStreamSessionRequest,
   output: GetStreamSessionResponse,
   errors: [

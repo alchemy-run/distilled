@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "XRay", serviceShapeName: "AWSXRay" });
 const auth = T.AwsAuthSigv4({ name: "xray" });
 const ver = T.ServiceVersion("2016-04-12");
@@ -237,6 +245,65 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type TraceId = string;
+export type RetrievalToken = string;
+export type GroupName = string;
+export type FilterExpression = string;
+export type GroupARN = string;
+export type PolicyName = string;
+export type PolicyRevisionId = string;
+export type GetGroupsNextToken = string;
+export type InsightId = string;
+export type GetInsightEventsMaxResults = number;
+export type Token = string;
+export type GetInsightSummariesMaxResults = number;
+export type EntitySelectorExpression = string;
+export type NullableInteger = number;
+export type ResourcePolicyNextToken = string;
+export type AmazonResourceName = string;
+export type EncryptionKeyId = string;
+export type PolicyDocument = string;
+export type EC2InstanceId = string;
+export type Hostname = string;
+export type ResourceARN = string;
+export type TraceSegmentDocument = string;
+export type TagKey = string;
+export type TagValue = string;
+export type RuleName = string;
+export type Priority = number;
+export type FixedRate = number;
+export type ReservoirSize = number;
+export type ServiceName = string;
+export type ServiceType = string;
+export type Host = string;
+export type HTTPMethod = string;
+export type URLPath = string;
+export type Version = number;
+export type ClientID = string;
+export type RequestCount = number;
+export type SampledCount = number;
+export type BorrowCount = number;
+export type AnomalyCount = number;
+export type TotalCount = number;
+export type SampledAnomalyCount = number;
+export type NullableDouble = number;
+export type ErrorMessage = string;
+export type AttributeKey = string;
+export type AttributeValue = string;
+export type MaxRate = number;
+export type CooldownWindowMinutes = number;
+export type InsightSummaryText = string;
+export type EventSummaryText = string;
+export type Integer = number;
+export type NullableLong = number;
+export type SegmentId = string;
+export type SegmentDocument = string;
+export type Double = number;
+export type SpanId = string;
+export type SpanDocument = string;
+export type AnnotationKey = string;
 
 //# Schemas
 export interface GetEncryptionConfigRequest {}
@@ -1661,6 +1728,9 @@ export const UnprocessedTraceSegment = S.suspend(() =>
 }) as any as S.Schema<UnprocessedTraceSegment>;
 export type UnprocessedTraceSegmentList = UnprocessedTraceSegment[];
 export const UnprocessedTraceSegmentList = S.Array(UnprocessedTraceSegment);
+export type IndexingRuleValueUpdate = {
+  Probabilistic: ProbabilisticRuleValueUpdate;
+};
 export const IndexingRuleValueUpdate = S.Union(
   S.Struct({ Probabilistic: ProbabilisticRuleValueUpdate }),
 );
@@ -2136,6 +2206,7 @@ export const ListRetrievedTracesResult = S.suspend(() =>
 ).annotations({
   identifier: "ListRetrievedTracesResult",
 }) as any as S.Schema<ListRetrievedTracesResult>;
+export type IndexingRuleValue = { Probabilistic: ProbabilisticRuleValue };
 export const IndexingRuleValue = S.Union(
   S.Struct({ Probabilistic: ProbabilisticRuleValue }),
 );
@@ -2303,6 +2374,10 @@ export const GetServiceGraphResult = S.suspend(() =>
 ).annotations({
   identifier: "GetServiceGraphResult",
 }) as any as S.Schema<GetServiceGraphResult>;
+export type AnnotationValue =
+  | { NumberValue: number }
+  | { BooleanValue: boolean }
+  | { StringValue: string };
 export const AnnotationValue = S.Union(
   S.Struct({ NumberValue: S.Number }),
   S.Struct({ BooleanValue: S.Boolean }),
@@ -2585,7 +2660,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottledException extends S.TaggedError<ThrottledException>()(
   "ThrottledException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class LockoutPreventionException extends S.TaggedError<LockoutPreventionException>()(
   "LockoutPreventionException",
   { Message: S.optional(S.String) },
@@ -2615,21 +2692,34 @@ export class PolicySizeLimitExceededException extends S.TaggedError<PolicySizeLi
 /**
  * Deletes a resource policy from the target Amazon Web Services account.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResult,
-    errors: [
-      InvalidPolicyRevisionIdException,
-      InvalidRequestException,
-      ThrottledException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResult,
+  | InvalidPolicyRevisionIdException
+  | InvalidRequestException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResult,
+  errors: [
+    InvalidPolicyRevisionIdException,
+    InvalidRequestException,
+    ThrottledException,
+  ],
+}));
 /**
  * Deletes a sampling rule.
  */
-export const deleteSamplingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSamplingRule: (
+  input: DeleteSamplingRuleRequest,
+) => Effect.Effect<
+  DeleteSamplingRuleResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSamplingRuleRequest,
   output: DeleteSamplingRuleResult,
   errors: [InvalidRequestException, ThrottledException],
@@ -2637,7 +2727,13 @@ export const deleteSamplingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves group resource details.
  */
-export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGroup: (
+  input: GetGroupRequest,
+) => Effect.Effect<
+  GetGroupResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupRequest,
   output: GetGroupResult,
   errors: [InvalidRequestException, ThrottledException],
@@ -2645,7 +2741,29 @@ export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves all active group details.
  */
-export const getGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getGroups: {
+  (
+    input: GetGroupsRequest,
+  ): Effect.Effect<
+    GetGroupsResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetGroupsRequest,
+  ) => Stream.Stream<
+    GetGroupsResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetGroupsRequest,
+  ) => Stream.Stream<
+    GroupSummary,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetGroupsRequest,
   output: GetGroupsResult,
   errors: [InvalidRequestException, ThrottledException],
@@ -2660,64 +2778,153 @@ export const getGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * event. You can review an insight's events in the Impact Timeline on the Inspect page in the X-Ray
  * console.
  */
-export const getInsightEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getInsightEvents: {
+  (
     input: GetInsightEventsRequest,
-    output: GetInsightEventsResult,
-    errors: [InvalidRequestException, ThrottledException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetInsightEventsResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetInsightEventsRequest,
+  ) => Stream.Stream<
+    GetInsightEventsResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetInsightEventsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetInsightEventsRequest,
+  output: GetInsightEventsResult,
+  errors: [InvalidRequestException, ThrottledException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the summaries of all insights in the specified group matching the provided filter values.
  */
-export const getInsightSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getInsightSummaries: {
+  (
     input: GetInsightSummariesRequest,
-    output: GetInsightSummariesResult,
-    errors: [InvalidRequestException, ThrottledException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetInsightSummariesResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetInsightSummariesRequest,
+  ) => Stream.Stream<
+    GetInsightSummariesResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetInsightSummariesRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetInsightSummariesRequest,
+  output: GetInsightSummariesResult,
+  errors: [InvalidRequestException, ThrottledException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves information about recent sampling results for all sampling rules.
  */
-export const getSamplingStatisticSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getSamplingStatisticSummaries: {
+  (
     input: GetSamplingStatisticSummariesRequest,
-    output: GetSamplingStatisticSummariesResult,
-    errors: [InvalidRequestException, ThrottledException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SamplingStatisticSummaries",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetSamplingStatisticSummariesResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetSamplingStatisticSummariesRequest,
+  ) => Stream.Stream<
+    GetSamplingStatisticSummariesResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSamplingStatisticSummariesRequest,
+  ) => Stream.Stream<
+    SamplingStatisticSummary,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetSamplingStatisticSummariesRequest,
+  output: GetSamplingStatisticSummariesResult,
+  errors: [InvalidRequestException, ThrottledException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SamplingStatisticSummaries",
+  } as const,
+}));
 /**
  * Returns the list of resource policies in the target Amazon Web Services account.
  */
-export const listResourcePolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourcePolicies: {
+  (
     input: ListResourcePoliciesRequest,
-    output: ListResourcePoliciesResult,
-    errors: [InvalidRequestException, ThrottledException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ResourcePolicies",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourcePoliciesResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourcePoliciesRequest,
+  ) => Stream.Stream<
+    ListResourcePoliciesResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourcePoliciesRequest,
+  ) => Stream.Stream<
+    ResourcePolicy,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourcePoliciesRequest,
+  output: ListResourcePoliciesResult,
+  errors: [InvalidRequestException, ThrottledException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourcePolicies",
+  } as const,
+}));
 /**
  * Used by the Amazon Web Services X-Ray daemon to upload telemetry.
  */
-export const putTelemetryRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putTelemetryRecords: (
+  input: PutTelemetryRecordsRequest,
+) => Effect.Effect<
+  PutTelemetryRecordsResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTelemetryRecordsRequest,
   output: PutTelemetryRecordsResult,
   errors: [InvalidRequestException, ThrottledException],
@@ -2776,7 +2983,13 @@ export const putTelemetryRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `1-4efaaf4d-1e8720b39541901950019ee5` when sending to X-Ray. While X-Ray trace IDs include
  * the original request timestamp in Unix epoch time, this is not required or validated.
  */
-export const putTraceSegments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putTraceSegments: (
+  input: PutTraceSegmentsRequest,
+) => Effect.Effect<
+  PutTraceSegmentsResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTraceSegmentsRequest,
   output: PutTraceSegmentsResult,
   errors: [InvalidRequestException, ThrottledException],
@@ -2784,7 +2997,13 @@ export const putTraceSegments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies a sampling rule's configuration.
  */
-export const updateSamplingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSamplingRule: (
+  input: UpdateSamplingRuleRequest,
+) => Effect.Effect<
+  UpdateSamplingRuleResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSamplingRuleRequest,
   output: UpdateSamplingRuleResult,
   errors: [InvalidRequestException, ThrottledException],
@@ -2792,21 +3011,51 @@ export const updateSamplingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of tags that are applied to the specified Amazon Web Services X-Ray group or sampling rule.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceRequest,
-    output: ListTagsForResourceResponse,
-    errors: [
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottledException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Tags",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceResponse,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    ListTagsForResourceResponse,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    Tag,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottledException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottledException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Tags",
+  } as const,
+}));
 /**
  * Initiates a trace retrieval process using the specified time range and for the given trace IDs in the Transaction Search generated CloudWatch log group. For more information, see Transaction Search.
  *
@@ -2816,7 +3065,16 @@ export const listTagsForResource =
  *
  * For retrieving data from X-Ray directly as opposed to the Transaction-Search Log group, see BatchGetTraces.
  */
-export const startTraceRetrieval = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startTraceRetrieval: (
+  input: StartTraceRetrievalRequest,
+) => Effect.Effect<
+  StartTraceRetrievalResult,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTraceRetrievalRequest,
   output: StartTraceRetrievalResult,
   errors: [
@@ -2829,7 +3087,16 @@ export const startTraceRetrieval = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes tags from an Amazon Web Services X-Ray group or sampling rule. You cannot edit or delete system
  * tags (those with an `aws:` prefix).
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2841,7 +3108,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the current encryption configuration for X-Ray data.
  */
-export const getEncryptionConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEncryptionConfig: (
+  input: GetEncryptionConfigRequest,
+) => Effect.Effect<
+  GetEncryptionConfigResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEncryptionConfigRequest,
   output: GetEncryptionConfigResult,
   errors: [InvalidRequestException, ThrottledException],
@@ -2849,37 +3122,83 @@ export const getEncryptionConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves all sampling rules.
  */
-export const getSamplingRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getSamplingRules: {
+  (
     input: GetSamplingRulesRequest,
-    output: GetSamplingRulesResult,
-    errors: [InvalidRequestException, ThrottledException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SamplingRuleRecords",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetSamplingRulesResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetSamplingRulesRequest,
+  ) => Stream.Stream<
+    GetSamplingRulesResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSamplingRulesRequest,
+  ) => Stream.Stream<
+    SamplingRuleRecord,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetSamplingRulesRequest,
+  output: GetSamplingRulesResult,
+  errors: [InvalidRequestException, ThrottledException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SamplingRuleRecords",
+  } as const,
+}));
 /**
  * Retrieves a service graph for one or more specific trace IDs.
  */
-export const getTraceGraph = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getTraceGraph: {
+  (
     input: GetTraceGraphRequest,
-    output: GetTraceGraphResult,
-    errors: [InvalidRequestException, ThrottledException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Services",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetTraceGraphResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTraceGraphRequest,
+  ) => Stream.Stream<
+    GetTraceGraphResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTraceGraphRequest,
+  ) => Stream.Stream<
+    Service,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTraceGraphRequest,
+  output: GetTraceGraphResult,
+  errors: [InvalidRequestException, ThrottledException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Services",
+  } as const,
+}));
 /**
  * Updates the encryption configuration for X-Ray data.
  */
-export const putEncryptionConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putEncryptionConfig: (
+  input: PutEncryptionConfigRequest,
+) => Effect.Effect<
+  PutEncryptionConfigResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEncryptionConfigRequest,
   output: PutEncryptionConfigResult,
   errors: [InvalidRequestException, ThrottledException],
@@ -2887,7 +3206,13 @@ export const putEncryptionConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a group resource.
  */
-export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGroup: (
+  input: UpdateGroupRequest,
+) => Effect.Effect<
+  UpdateGroupResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupRequest,
   output: UpdateGroupResult,
   errors: [InvalidRequestException, ThrottledException],
@@ -2895,16 +3220,27 @@ export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies the destination of data sent to `PutTraceSegments`. The Transaction Search feature requires the CloudWatchLogs destination. For more information, see Transaction Search.
  */
-export const updateTraceSegmentDestination =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateTraceSegmentDestinationRequest,
-    output: UpdateTraceSegmentDestinationResult,
-    errors: [InvalidRequestException, ThrottledException],
-  }));
+export const updateTraceSegmentDestination: (
+  input: UpdateTraceSegmentDestinationRequest,
+) => Effect.Effect<
+  UpdateTraceSegmentDestinationResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTraceSegmentDestinationRequest,
+  output: UpdateTraceSegmentDestinationResult,
+  errors: [InvalidRequestException, ThrottledException],
+}));
 /**
  * Deletes a group resource.
  */
-export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGroup: (
+  input: DeleteGroupRequest,
+) => Effect.Effect<
+  DeleteGroupResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupRequest,
   output: DeleteGroupResult,
   errors: [InvalidRequestException, ThrottledException],
@@ -2912,31 +3248,48 @@ export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the current destination of data sent to `PutTraceSegments` and *OpenTelemetry protocol (OTLP)* endpoint. The Transaction Search feature requires a CloudWatchLogs destination. For more information, see Transaction Search and OpenTelemetry.
  */
-export const getTraceSegmentDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTraceSegmentDestinationRequest,
-    output: GetTraceSegmentDestinationResult,
-    errors: [InvalidRequestException, ThrottledException],
-  }),
-);
+export const getTraceSegmentDestination: (
+  input: GetTraceSegmentDestinationRequest,
+) => Effect.Effect<
+  GetTraceSegmentDestinationResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTraceSegmentDestinationRequest,
+  output: GetTraceSegmentDestinationResult,
+  errors: [InvalidRequestException, ThrottledException],
+}));
 /**
  * Cancels an ongoing trace retrieval job initiated by `StartTraceRetrieval` using the provided `RetrievalToken`. A successful cancellation will return an HTTP 200 response.
  */
-export const cancelTraceRetrieval = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelTraceRetrievalRequest,
-    output: CancelTraceRetrievalResult,
-    errors: [
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottledException,
-    ],
-  }),
-);
+export const cancelTraceRetrieval: (
+  input: CancelTraceRetrievalRequest,
+) => Effect.Effect<
+  CancelTraceRetrievalResult,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelTraceRetrievalRequest,
+  output: CancelTraceRetrievalResult,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottledException,
+  ],
+}));
 /**
  * Creates a group resource with a name and a filter expression.
  */
-export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGroup: (
+  input: CreateGroupRequest,
+) => Effect.Effect<
+  CreateGroupResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupRequest,
   output: CreateGroupResult,
   errors: [InvalidRequestException, ThrottledException],
@@ -2948,24 +3301,50 @@ export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * documents that originates from a single request. Use `GetTraceSummaries` to get a
  * list of trace IDs.
  */
-export const batchGetTraces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const batchGetTraces: {
+  (
     input: BatchGetTracesRequest,
-    output: BatchGetTracesResult,
-    errors: [InvalidRequestException, ThrottledException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Traces",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    BatchGetTracesResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: BatchGetTracesRequest,
+  ) => Stream.Stream<
+    BatchGetTracesResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: BatchGetTracesRequest,
+  ) => Stream.Stream<
+    Trace,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: BatchGetTracesRequest,
+  output: BatchGetTracesResult,
+  errors: [InvalidRequestException, ThrottledException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Traces",
+  } as const,
+}));
 /**
  * Retrieves the summary information of an insight. This includes impact to clients and
  * root cause services, the top anomalous services, the category, the state of the insight,
  * and the start and end time of the insight.
  */
-export const getInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInsight: (
+  input: GetInsightRequest,
+) => Effect.Effect<
+  GetInsightResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInsightRequest,
   output: GetInsightResult,
   errors: [InvalidRequestException, ThrottledException],
@@ -2974,13 +3353,17 @@ export const getInsight = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves a service graph structure filtered by the specified insight. The service graph is limited to only
  * structural information. For a complete service graph, use this API with the GetServiceGraph API.
  */
-export const getInsightImpactGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetInsightImpactGraphRequest,
-    output: GetInsightImpactGraphResult,
-    errors: [InvalidRequestException, ThrottledException],
-  }),
-);
+export const getInsightImpactGraph: (
+  input: GetInsightImpactGraphRequest,
+) => Effect.Effect<
+  GetInsightImpactGraphResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInsightImpactGraphRequest,
+  output: GetInsightImpactGraphResult,
+  errors: [InvalidRequestException, ThrottledException],
+}));
 /**
  * Retrieves a service graph for traces based on the specified `RetrievalToken` from the CloudWatch log group generated by Transaction Search. This API does not initiate a retrieval job. You must first execute `StartTraceRetrieval` to obtain the required `RetrievalToken`.
  *
@@ -2992,32 +3375,60 @@ export const getInsightImpactGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For retrieving graphs from X-Ray directly as opposed to the Transaction-Search Log group, see GetTraceGraph.
  */
-export const getRetrievedTracesGraph = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRetrievedTracesGraphRequest,
-    output: GetRetrievedTracesGraphResult,
-    errors: [
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottledException,
-    ],
-  }),
-);
+export const getRetrievedTracesGraph: (
+  input: GetRetrievedTracesGraphRequest,
+) => Effect.Effect<
+  GetRetrievedTracesGraphResult,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRetrievedTracesGraphRequest,
+  output: GetRetrievedTracesGraphResult,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottledException,
+  ],
+}));
 /**
  * Get an aggregation of service statistics defined by a specific time
  * range.
  */
-export const getTimeSeriesServiceStatistics =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getTimeSeriesServiceStatistics: {
+  (
     input: GetTimeSeriesServiceStatisticsRequest,
-    output: GetTimeSeriesServiceStatisticsResult,
-    errors: [InvalidRequestException, ThrottledException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TimeSeriesServiceStatistics",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetTimeSeriesServiceStatisticsResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTimeSeriesServiceStatisticsRequest,
+  ) => Stream.Stream<
+    GetTimeSeriesServiceStatisticsResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTimeSeriesServiceStatisticsRequest,
+  ) => Stream.Stream<
+    TimeSeriesServiceStatistics,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTimeSeriesServiceStatisticsRequest,
+  output: GetTimeSeriesServiceStatisticsResult,
+  errors: [InvalidRequestException, ThrottledException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TimeSeriesServiceStatistics",
+  } as const,
+}));
 /**
  * Retrieves a list of traces for a given `RetrievalToken` from the CloudWatch log group generated by Transaction Search. For information on what each trace returns, see BatchGetTraces.
  *
@@ -3029,7 +3440,16 @@ export const getTimeSeriesServiceStatistics =
  *
  * For retrieving data from X-Ray directly as opposed to the Transaction Search generated log group, see BatchGetTraces.
  */
-export const listRetrievedTraces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listRetrievedTraces: (
+  input: ListRetrievedTracesRequest,
+) => Effect.Effect<
+  ListRetrievedTracesResult,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRetrievedTracesRequest,
   output: ListRetrievedTracesResult,
   errors: [
@@ -3043,7 +3463,16 @@ export const listRetrievedTraces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Indexing rules are used for determining the sampling rate for spans indexed from CloudWatch Logs. For more information, see Transaction Search.
  */
-export const updateIndexingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateIndexingRule: (
+  input: UpdateIndexingRuleRequest,
+) => Effect.Effect<
+  UpdateIndexingRuleResult,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIndexingRuleRequest,
   output: UpdateIndexingRuleResult,
   errors: [
@@ -3055,7 +3484,17 @@ export const updateIndexingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Applies tags to an existing Amazon Web Services X-Ray group or sampling rule.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottledException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3074,7 +3513,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * each in-use rule. The updated rule contains a trace quota that the service can use instead
  * of borrowing from the reservoir.
  */
-export const createSamplingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSamplingRule: (
+  input: CreateSamplingRuleRequest,
+) => Effect.Effect<
+  CreateSamplingRuleResult,
+  | InvalidRequestException
+  | RuleLimitExceededException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSamplingRuleRequest,
   output: CreateSamplingRuleResult,
   errors: [
@@ -3088,7 +3536,13 @@ export const createSamplingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Indexing rules are used to determine the server-side sampling rate for spans ingested through the CloudWatchLogs destination and indexed by X-Ray. For more information, see Transaction Search.
  */
-export const getIndexingRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIndexingRules: (
+  input: GetIndexingRulesRequest,
+) => Effect.Effect<
+  GetIndexingRulesResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIndexingRulesRequest,
   output: GetIndexingRulesResult,
   errors: [InvalidRequestException, ThrottledException],
@@ -3096,7 +3550,13 @@ export const getIndexingRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Requests a sampling quota for rules that the service is using to sample requests.
  */
-export const getSamplingTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSamplingTargets: (
+  input: GetSamplingTargetsRequest,
+) => Effect.Effect<
+  GetSamplingTargetsResult,
+  InvalidRequestException | ThrottledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSamplingTargetsRequest,
   output: GetSamplingTargetsResult,
   errors: [InvalidRequestException, ThrottledException],
@@ -3108,25 +3568,57 @@ export const getSamplingTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Downstream services can be other applications, Amazon Web Services resources, HTTP web APIs, or SQL
  * databases.
  */
-export const getServiceGraph = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getServiceGraph: {
+  (
     input: GetServiceGraphRequest,
-    output: GetServiceGraphResult,
-    errors: [InvalidRequestException, ThrottledException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Services",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetServiceGraphResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetServiceGraphRequest,
+  ) => Stream.Stream<
+    GetServiceGraphResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetServiceGraphRequest,
+  ) => Stream.Stream<
+    Service,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetServiceGraphRequest,
+  output: GetServiceGraphResult,
+  errors: [InvalidRequestException, ThrottledException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Services",
+  } as const,
+}));
 /**
  * Sets the resource policy to grant one or more Amazon Web Services services and accounts permissions to
  * access X-Ray. Each resource policy will be associated with a specific Amazon Web Services account.
  * Each Amazon Web Services account can have a maximum of 5 resource policies, and each policy name must be
  * unique within that account. The maximum size of each resource policy is 5KB.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResult,
+  | InvalidPolicyRevisionIdException
+  | LockoutPreventionException
+  | MalformedPolicyDocumentException
+  | PolicyCountLimitExceededException
+  | PolicySizeLimitExceededException
+  | ThrottledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResult,
   errors: [
@@ -3158,15 +3650,35 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see Use filter
  * expressions in the *Amazon Web Services X-Ray Developer Guide*.
  */
-export const getTraceSummaries = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getTraceSummaries: {
+  (
     input: GetTraceSummariesRequest,
-    output: GetTraceSummariesResult,
-    errors: [InvalidRequestException, ThrottledException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TraceSummaries",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetTraceSummariesResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTraceSummariesRequest,
+  ) => Stream.Stream<
+    GetTraceSummariesResult,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTraceSummariesRequest,
+  ) => Stream.Stream<
+    TraceSummary,
+    InvalidRequestException | ThrottledException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTraceSummariesRequest,
+  output: GetTraceSummariesResult,
+  errors: [InvalidRequestException, ThrottledException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TraceSummaries",
+  } as const,
+}));

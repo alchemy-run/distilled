@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "Ssm Sap", serviceShapeName: "SsmSap" });
 const auth = T.AwsAuthSigv4({ name: "ssm-sap" });
 const ver = T.ServiceVersion("2018-05-10");
@@ -289,6 +297,34 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type ApplicationId = string;
+export type SsmSapArn = string;
+export type AppRegistryArn = string;
+export type ComponentId = string;
+export type OperationId = string;
+export type DatabaseId = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type SubCheckResultId = string;
+export type InstanceId = string;
+export type SAPInstanceNumber = string;
+export type SID = string;
+export type TagKey = string;
+export type FilterName = string;
+export type FilterValue = string;
+export type TagValue = string;
+export type DatabaseName = string;
+export type SecretId = string;
+export type OperationType = string;
+export type ResourceType = string;
+export type ResourceId = string;
+export type RuleResultId = string;
+export type OperationEventResourceType = string;
+export type RuleResultMetadataKey = string;
+export type RuleResultMetadataValue = string;
 
 //# Schemas
 export type InstanceList = string[];
@@ -1638,7 +1674,9 @@ export const GetComponentOutput = S.suspend(() =>
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },
@@ -1660,34 +1698,75 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Lists the operations performed by AWS Systems Manager for SAP.
  */
-export const listOperations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listOperations: {
+  (
     input: ListOperationsInput,
-    output: ListOperationsOutput,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Operations",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListOperationsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOperationsInput,
+  ) => Stream.Stream<
+    ListOperationsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOperationsInput,
+  ) => Stream.Stream<
+    Operation,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOperationsInput,
+  output: ListOperationsOutput,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Operations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the sub-check results of a specified configuration check operation.
  */
-export const listSubCheckResults =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSubCheckResults: {
+  (
     input: ListSubCheckResultsInput,
-    output: ListSubCheckResultsOutput,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SubCheckResults",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSubCheckResultsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSubCheckResultsInput,
+  ) => Stream.Stream<
+    ListSubCheckResultsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSubCheckResultsInput,
+  ) => Stream.Stream<
+    SubCheckResult,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSubCheckResultsInput,
+  output: ListSubCheckResultsOutput,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SubCheckResults",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Register an SAP application with AWS Systems Manager for SAP. You must meet the following requirements before registering.
  *
@@ -1697,7 +1776,17 @@ export const listSubCheckResults =
  *
  * Amazon EC2 instance(s) must have access to the secrets created in AWS Secrets Manager to manage SAP applications and components.
  */
-export const registerApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerApplication: (
+  input: RegisterApplicationInput,
+) => Effect.Effect<
+  RegisterApplicationOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterApplicationInput,
   output: RegisterApplicationOutput,
   errors: [
@@ -1710,56 +1799,111 @@ export const registerApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the settings of an application registered with AWS Systems Manager for SAP.
  */
-export const updateApplicationSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateApplicationSettingsInput,
-    output: UpdateApplicationSettingsOutput,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateApplicationSettings: (
+  input: UpdateApplicationSettingsInput,
+) => Effect.Effect<
+  UpdateApplicationSettingsOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationSettingsInput,
+  output: UpdateApplicationSettingsOutput,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the configuration check operations performed by AWS Systems Manager for SAP.
  */
-export const listConfigurationCheckOperations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConfigurationCheckOperations: {
+  (
     input: ListConfigurationCheckOperationsInput,
-    output: ListConfigurationCheckOperationsOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConfigurationCheckOperations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConfigurationCheckOperationsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfigurationCheckOperationsInput,
+  ) => Stream.Stream<
+    ListConfigurationCheckOperationsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfigurationCheckOperationsInput,
+  ) => Stream.Stream<
+    ConfigurationCheckOperation,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfigurationCheckOperationsInput,
+  output: ListConfigurationCheckOperationsOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConfigurationCheckOperations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Adds permissions to the target database.
  */
-export const putResourcePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutResourcePermissionInput,
-    output: PutResourcePermissionOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const putResourcePermission: (
+  input: PutResourcePermissionInput,
+) => Effect.Effect<
+  PutResourcePermissionOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourcePermissionInput,
+  output: PutResourcePermissionOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates tag for a resource by specifying the ARN.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -1767,21 +1911,37 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes permissions associated with the target database.
  */
-export const deleteResourcePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePermissionInput,
-    output: DeleteResourcePermissionOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResourcePermission: (
+  input: DeleteResourcePermissionInput,
+) => Effect.Effect<
+  DeleteResourcePermissionOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePermissionInput,
+  output: DeleteResourcePermissionOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Delete the tags for a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -1789,7 +1949,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all tags on an SAP HANA application and/or database registered with AWS Systems Manager for SAP.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -1799,7 +1968,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Parameter `ApplicationId` is required.
  */
-export const startApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startApplication: (
+  input: StartApplicationInput,
+) => Effect.Effect<
+  StartApplicationOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartApplicationInput,
   output: StartApplicationOutput,
   errors: [
@@ -1812,40 +1991,67 @@ export const startApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Refreshes a registered application.
  */
-export const startApplicationRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartApplicationRefreshInput,
-    output: StartApplicationRefreshOutput,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const startApplicationRefresh: (
+  input: StartApplicationRefreshInput,
+) => Effect.Effect<
+  StartApplicationRefreshOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartApplicationRefreshInput,
+  output: StartApplicationRefreshOutput,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Initiates configuration check operations against a specified application.
  */
-export const startConfigurationChecks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartConfigurationChecksInput,
-    output: StartConfigurationChecksOutput,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const startConfigurationChecks: (
+  input: StartConfigurationChecksInput,
+) => Effect.Effect<
+  StartConfigurationChecksOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartConfigurationChecksInput,
+  output: StartConfigurationChecksOutput,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Request is an operation to stop an application.
  *
  * Parameter `ApplicationId` is required. Parameters `StopConnectedEntity` and `IncludeEc2InstanceShutdown` are optional.
  */
-export const stopApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopApplication: (
+  input: StopApplicationInput,
+) => Effect.Effect<
+  StopApplicationOutput,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopApplicationInput,
   output: StopApplicationOutput,
   errors: [
@@ -1858,21 +2064,30 @@ export const stopApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deregister an SAP application with AWS Systems Manager for SAP. This action does not aﬀect the existing setup of your SAP workloads on Amazon EC2.
  */
-export const deregisterApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterApplicationInput,
-    output: DeregisterApplicationOutput,
-    errors: [
-      InternalServerException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const deregisterApplication: (
+  input: DeregisterApplicationInput,
+) => Effect.Effect<
+  DeregisterApplicationOutput,
+  | InternalServerException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterApplicationInput,
+  output: DeregisterApplicationOutput,
+  errors: [InternalServerException, UnauthorizedException, ValidationException],
+}));
 /**
  * Gets an application registered with AWS Systems Manager for SAP. It also returns the components of the application.
  */
-export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApplication: (
+  input: GetApplicationInput,
+) => Effect.Effect<
+  GetApplicationOutput,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationInput,
   output: GetApplicationOutput,
   errors: [InternalServerException, ValidationException],
@@ -1880,7 +2095,13 @@ export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the SAP HANA database of an application registered with AWS Systems Manager for SAP.
  */
-export const getDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDatabase: (
+  input: GetDatabaseInput,
+) => Effect.Effect<
+  GetDatabaseOutput,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDatabaseInput,
   output: GetDatabaseOutput,
   errors: [InternalServerException, ValidationException],
@@ -1888,86 +2109,186 @@ export const getDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets permissions associated with the target database.
  */
-export const getResourcePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResourcePermissionInput,
-    output: GetResourcePermissionOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getResourcePermission: (
+  input: GetResourcePermissionInput,
+) => Effect.Effect<
+  GetResourcePermissionOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePermissionInput,
+  output: GetResourcePermissionOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all the components registered with AWS Systems Manager for SAP.
  */
-export const listComponents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listComponents: {
+  (
     input: ListComponentsInput,
-    output: ListComponentsOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Components",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListComponentsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComponentsInput,
+  ) => Stream.Stream<
+    ListComponentsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComponentsInput,
+  ) => Stream.Stream<
+    ComponentSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComponentsInput,
+  output: ListComponentsOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Components",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all configuration check types supported by AWS Systems Manager for SAP.
  */
-export const listConfigurationCheckDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConfigurationCheckDefinitions: {
+  (
     input: ListConfigurationCheckDefinitionsInput,
-    output: ListConfigurationCheckDefinitionsOutput,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConfigurationChecks",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConfigurationCheckDefinitionsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfigurationCheckDefinitionsInput,
+  ) => Stream.Stream<
+    ListConfigurationCheckDefinitionsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfigurationCheckDefinitionsInput,
+  ) => Stream.Stream<
+    ConfigurationCheckDefinition,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfigurationCheckDefinitionsInput,
+  output: ListConfigurationCheckDefinitionsOutput,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConfigurationChecks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the SAP HANA databases of an application registered with AWS Systems Manager for SAP.
  */
-export const listDatabases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDatabases: {
+  (
     input: ListDatabasesInput,
-    output: ListDatabasesOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Databases",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDatabasesOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatabasesInput,
+  ) => Stream.Stream<
+    ListDatabasesOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatabasesInput,
+  ) => Stream.Stream<
+    DatabaseSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatabasesInput,
+  output: ListDatabasesOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Databases",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the details of a configuration check operation by specifying the operation ID.
  */
-export const getConfigurationCheckOperation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetConfigurationCheckOperationInput,
-    output: GetConfigurationCheckOperationOutput,
-    errors: [InternalServerException, ValidationException],
-  }));
+export const getConfigurationCheckOperation: (
+  input: GetConfigurationCheckOperationInput,
+) => Effect.Effect<
+  GetConfigurationCheckOperationOutput,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfigurationCheckOperationInput,
+  output: GetConfigurationCheckOperationOutput,
+  errors: [InternalServerException, ValidationException],
+}));
 /**
  * Gets the details of an operation by specifying the operation ID.
  */
-export const getOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getOperation: (
+  input: GetOperationInput,
+) => Effect.Effect<
+  GetOperationOutput,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationInput,
   output: GetOperationOutput,
   errors: [InternalServerException, ValidationException],
@@ -1975,59 +2296,139 @@ export const getOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all the applications registered with AWS Systems Manager for SAP.
  */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listApplications: {
+  (
     input: ListApplicationsInput,
-    output: ListApplicationsOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Applications",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListApplicationsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationsInput,
+  ) => Stream.Stream<
+    ListApplicationsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationsInput,
+  ) => Stream.Stream<
+    ApplicationSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsInput,
+  output: ListApplicationsOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Applications",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of operations events.
  *
  * Available parameters include `OperationID`, as well as optional parameters `MaxResults`, `NextToken`, and `Filters`.
  */
-export const listOperationEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOperationEvents: {
+  (
     input: ListOperationEventsInput,
-    output: ListOperationEventsOutput,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "OperationEvents",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOperationEventsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOperationEventsInput,
+  ) => Stream.Stream<
+    ListOperationEventsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOperationEventsInput,
+  ) => Stream.Stream<
+    OperationEvent,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOperationEventsInput,
+  output: ListOperationEventsOutput,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "OperationEvents",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the rules of a specified sub-check belonging to a configuration check operation.
  */
-export const listSubCheckRuleResults =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSubCheckRuleResults: {
+  (
     input: ListSubCheckRuleResultsInput,
-    output: ListSubCheckRuleResultsOutput,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RuleResults",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSubCheckRuleResultsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSubCheckRuleResultsInput,
+  ) => Stream.Stream<
+    ListSubCheckRuleResultsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSubCheckRuleResultsInput,
+  ) => Stream.Stream<
+    RuleResult,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSubCheckRuleResultsInput,
+  output: ListSubCheckRuleResultsOutput,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RuleResults",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the component of an application registered with AWS Systems Manager for SAP.
  */
-export const getComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getComponent: (
+  input: GetComponentInput,
+) => Effect.Effect<
+  GetComponentOutput,
+  | InternalServerException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComponentInput,
   output: GetComponentOutput,
   errors: [InternalServerException, UnauthorizedException, ValidationException],

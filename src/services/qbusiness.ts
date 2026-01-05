@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "QBusiness",
   serviceShapeName: "ExpertQ",
@@ -196,6 +204,140 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ApplicationId = string;
+export type StatementId = string;
+export type QIamAction = string;
+export type PrincipalRoleArn = string;
+export type IndexId = string;
+export type ExecutionId = string;
+export type RoleArn = string;
+export type SubscriptionId = string;
+export type UserId = string;
+export type ConversationId = string;
+export type MessageId = string;
+export type ClientToken = string;
+export type UserMessage = string;
+export type DocumentId = string;
+export type DataSourceId = string;
+export type WebExperienceId = string;
+export type SessionDurationInMinutes = number;
+export type DisplayName = string;
+export type AttachmentId = string;
+export type ChatResponseConfigurationId = string;
+export type GroupName = string;
+export type MaxResultsIntegerForGetTopicConfigurations = number;
+export type NextToken = string;
+export type MediaId = string;
+export type MaxResultsIntegerForListAttachments = number;
+export type Integer = number;
+export type MaxResultsIntegerForListConversations = number;
+export type MaxResultsIntegerForListDataSourcesSyncJobs = number;
+export type MaxResultsIntegerForListDocuments = number;
+export type MaxResultsIntegerForListGroupsRequest = number;
+export type MaxResultsIntegerForListMessages = number;
+export type PluginId = string;
+export type MaxResultsIntegerForListPluginActions = number;
+export type MaxResultsIntegerForListPluginTypeActions = number;
+export type MaxResultsIntegerForListPluginTypeMetadata = number;
+export type MaxResultsIntegerForListSubscriptions = number;
+export type AmazonResourceName = string;
+export type SystemMessageId = string;
+export type QueryText = string;
+export type MaxResults = number;
+export type TagKey = string;
+export type ApplicationName = string;
+export type IAMIdentityProviderArn = string;
+export type InstanceArn = string;
+export type ClientIdForOIDC = string;
+export type Description = string;
+export type MaxResultsIntegerForListApplications = number;
+export type DataAccessorName = string;
+export type DataAccessorId = string;
+export type NextToken1500 = string;
+export type MaxResultsIntegerForListDataAccessors = number;
+export type IndexName = string;
+export type MaxResultsIntegerForListIndices = number;
+export type DataSourceName = string;
+export type SyncSchedule = string;
+export type MaxResultsIntegerForListDataSources = number;
+export type PluginName = string;
+export type Url = string;
+export type MaxResultsIntegerForListPlugins = number;
+export type RetrieverName = string;
+export type RetrieverId = string;
+export type MaxResultsIntegerForListRetrieversRequest = number;
+export type WebExperienceTitle = string;
+export type WebExperienceSubtitle = string;
+export type WebExperienceWelcomeMessage = string;
+export type Origin = string;
+export type MaxResultsIntegerForListWebExperiencesRequest = number;
+export type PermissionConditionKey = string;
+export type PermissionConditionValue = string;
+export type Title = string;
+export type AttachmentName = string;
+export type ActionPayloadFieldNameSeparator = string;
+export type TagValue = string;
+export type UserIdentifier = string;
+export type GroupIdentifier = string;
+export type MessageUsefulnessComment = string;
+export type BlockedPhrase = string;
+export type SystemMessageOverride = string;
+export type TopicConfigurationName = string;
+export type TopicDescription = string;
+export type ExampleChatMessage = string;
+export type KmsKeyId = string;
+export type ClientNamespace = string;
+export type DataAccessorExternalId = string;
+export type IndexCapacityInteger = number;
+export type DocumentMetadataConfigurationName = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type PluginDescription = string;
+export type BrowserExtension = string;
+export type CustomCSSUrl = string;
+export type LogoUrl = string;
+export type FontUrl = string;
+export type FaviconUrl = string;
+export type SubscriptionArn = string;
+export type ErrorMessage = string;
+export type ChatResponseConfigurationArn = string;
+export type ApplicationArn = string;
+export type IdcApplicationArn = string;
+export type DataAccessorArn = string;
+export type IndexArn = string;
+export type DataSourceArn = string;
+export type PluginArn = string;
+export type RetrieverArn = string;
+export type WebExperienceArn = string;
+export type DocumentAttributeKey = string;
+export type ActionPayloadFieldKey = string;
+export type AuthResponseKey = string;
+export type AuthResponseValue = string;
+export type DataSourceUserId = string;
+export type S3BucketName = string;
+export type S3ObjectKey = string;
+export type LambdaArn = string;
+export type SecretArn = string;
+export type Payload = string;
+export type Long = number;
+export type KendraIndexId = string;
+export type SamlAuthenticationUrl = string;
+export type SamlMetadataXML = string;
+export type SamlAttribute = string;
+export type ResponseConfigurationSummary = string;
+export type ConversationTitle = string;
+export type MessageBody = string;
+export type DocumentAttributeStringValue = string;
+export type Instruction = string;
+export type IdcTrustedTokenIssuerArn = string;
+export type MetricValue = string;
+export type IndexedTextBytes = number;
+export type IndexedTextDocument = number;
+export type SourceAttributionMediaId = string;
+export type BoostingDurationInSeconds = number;
+export type SnippetExcerptText = string;
 
 //# Schemas
 export type QIamActions = string[];
@@ -1363,6 +1505,11 @@ export const GetDataAccessorRequest = S.suspend(() =>
 }) as any as S.Schema<GetDataAccessorRequest>;
 export type DocumentAttributeStringListValue = string[];
 export const DocumentAttributeStringListValue = S.Array(S.String);
+export type DocumentAttributeValue =
+  | { stringValue: string }
+  | { stringListValue: DocumentAttributeStringListValue }
+  | { longValue: number }
+  | { dateValue: Date };
 export const DocumentAttributeValue = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ stringListValue: DocumentAttributeStringListValue }),
@@ -1448,6 +1595,9 @@ export const DataAccessorIdcTrustedTokenIssuerConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "DataAccessorIdcTrustedTokenIssuerConfiguration",
 }) as any as S.Schema<DataAccessorIdcTrustedTokenIssuerConfiguration>;
+export type DataAccessorAuthenticationConfiguration = {
+  idcTrustedTokenIssuerConfiguration: DataAccessorIdcTrustedTokenIssuerConfiguration;
+};
 export const DataAccessorAuthenticationConfiguration = S.Union(
   S.Struct({
     idcTrustedTokenIssuerConfiguration:
@@ -1934,6 +2084,7 @@ export interface S3 {
 export const S3 = S.suspend(() =>
   S.Struct({ bucket: S.String, key: S.String }),
 ).annotations({ identifier: "S3" }) as any as S.Schema<S3>;
+export type APISchema = { payload: string } | { s3: S3 };
 export const APISchema = S.Union(
   S.Struct({ payload: S.String }),
   S.Struct({ s3: S3 }),
@@ -1990,6 +2141,11 @@ export const IdcAuthConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "IdcAuthConfiguration",
 }) as any as S.Schema<IdcAuthConfiguration>;
+export type PluginAuthConfiguration =
+  | { basicAuthConfiguration: BasicAuthConfiguration }
+  | { oAuth2ClientCredentialConfiguration: OAuth2ClientCredentialConfiguration }
+  | { noAuthConfiguration: NoAuthConfiguration }
+  | { idcAuthConfiguration: IdcAuthConfiguration };
 export const PluginAuthConfiguration = S.Union(
   S.Struct({ basicAuthConfiguration: BasicAuthConfiguration }),
   S.Struct({
@@ -2157,6 +2313,11 @@ export const StringListAttributeBoostingConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "StringListAttributeBoostingConfiguration",
 }) as any as S.Schema<StringListAttributeBoostingConfiguration>;
+export type DocumentAttributeBoostingConfiguration =
+  | { numberConfiguration: NumberAttributeBoostingConfiguration }
+  | { stringConfiguration: StringAttributeBoostingConfiguration }
+  | { dateConfiguration: DateAttributeBoostingConfiguration }
+  | { stringListConfiguration: StringListAttributeBoostingConfiguration };
 export const DocumentAttributeBoostingConfiguration = S.Union(
   S.Struct({ numberConfiguration: NumberAttributeBoostingConfiguration }),
   S.Struct({ stringConfiguration: StringAttributeBoostingConfiguration }),
@@ -2194,6 +2355,9 @@ export const KendraIndexConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "KendraIndexConfiguration",
 }) as any as S.Schema<KendraIndexConfiguration>;
+export type RetrieverConfiguration =
+  | { nativeIndexConfiguration: NativeIndexConfiguration }
+  | { kendraIndexConfiguration: KendraIndexConfiguration };
 export const RetrieverConfiguration = S.Union(
   S.Struct({ nativeIndexConfiguration: NativeIndexConfiguration }),
   S.Struct({ kendraIndexConfiguration: KendraIndexConfiguration }),
@@ -2414,6 +2578,7 @@ export const DeleteDocument = S.suspend(() =>
 }) as any as S.Schema<DeleteDocument>;
 export type DeleteDocuments = DeleteDocument[];
 export const DeleteDocuments = S.Array(DeleteDocument);
+export type SubscriptionPrincipal = { user: string } | { group: string };
 export const SubscriptionPrincipal = S.Union(
   S.Struct({ user: S.String }),
   S.Struct({ group: S.String }),
@@ -3178,6 +3343,9 @@ export const OpenIDConnectProviderConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "OpenIDConnectProviderConfiguration",
 }) as any as S.Schema<OpenIDConnectProviderConfiguration>;
+export type IdentityProviderConfiguration =
+  | { samlConfiguration: SamlProviderConfiguration }
+  | { openIDConnectConfiguration: OpenIDConnectProviderConfiguration };
 export const IdentityProviderConfiguration = S.Union(
   S.Struct({ samlConfiguration: SamlProviderConfiguration }),
   S.Struct({ openIDConnectConfiguration: OpenIDConnectProviderConfiguration }),
@@ -3198,6 +3366,9 @@ export const SamlConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "SamlConfiguration",
 }) as any as S.Schema<SamlConfiguration>;
+export type WebExperienceAuthConfiguration = {
+  samlConfiguration: SamlConfiguration;
+};
 export const WebExperienceAuthConfiguration = S.Union(
   S.Struct({ samlConfiguration: SamlConfiguration }),
 );
@@ -3245,6 +3416,7 @@ export const GetWebExperienceResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetWebExperienceResponse",
 }) as any as S.Schema<GetWebExperienceResponse>;
+export type DocumentContent = { blob: Uint8Array } | { s3: S3 };
 export const DocumentContent = S.Union(
   S.Struct({ blob: T.Blob }),
   S.Struct({ s3: S3 }),
@@ -3257,6 +3429,9 @@ export const PluginConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "PluginConfiguration",
 }) as any as S.Schema<PluginConfiguration>;
+export type ChatModeConfiguration = {
+  pluginConfiguration: PluginConfiguration;
+};
 export const ChatModeConfiguration = S.Union(
   S.Struct({ pluginConfiguration: PluginConfiguration }),
 );
@@ -3291,6 +3466,7 @@ export const ConversationSource = S.suspend(() =>
 ).annotations({
   identifier: "ConversationSource",
 }) as any as S.Schema<ConversationSource>;
+export type CopyFromSource = { conversation: ConversationSource };
 export const CopyFromSource = S.Union(
   S.Struct({ conversation: ConversationSource }),
 );
@@ -3614,6 +3790,7 @@ export const GroupMembers = S.suspend(() =>
     s3PathForGroupMembers: S.optional(S3),
   }),
 ).annotations({ identifier: "GroupMembers" }) as any as S.Schema<GroupMembers>;
+export type ContentSource = { retriever: RetrieverContentSource };
 export const ContentSource = S.Union(
   S.Struct({ retriever: RetrieverContentSource }),
 );
@@ -3883,6 +4060,9 @@ export const ContentRetrievalRule = S.suspend(() =>
 ).annotations({
   identifier: "ContentRetrievalRule",
 }) as any as S.Schema<ContentRetrievalRule>;
+export type RuleConfiguration =
+  | { contentBlockerRule: ContentBlockerRule }
+  | { contentRetrievalRule: ContentRetrievalRule };
 export const RuleConfiguration = S.Union(
   S.Struct({ contentBlockerRule: ContentBlockerRule }),
   S.Struct({ contentRetrievalRule: ContentRetrievalRule }),
@@ -4794,6 +4974,7 @@ export const CreateWebExperienceResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateWebExperienceResponse",
 }) as any as S.Schema<CreateWebExperienceResponse>;
+export type Principal = { user: PrincipalUser } | { group: PrincipalGroup };
 export const Principal = S.Union(
   S.Struct({ user: PrincipalUser }),
   S.Struct({ group: PrincipalGroup }),
@@ -4987,6 +5168,10 @@ export const TextOutputEvent = S.suspend(() =>
 ).annotations({
   identifier: "TextOutputEvent",
 }) as any as S.Schema<TextOutputEvent>;
+export type SourceDetails =
+  | { imageSourceDetails: ImageSourceDetails }
+  | { audioSourceDetails: AudioSourceDetails }
+  | { videoSourceDetails: VideoSourceDetails };
 export const SourceDetails = S.Union(
   S.Struct({ imageSourceDetails: ImageSourceDetails }),
   S.Struct({ audioSourceDetails: AudioSourceDetails }),
@@ -5489,7 +5674,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -5505,7 +5692,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -5531,66 +5720,161 @@ export class ExternalResourceException extends S.TaggedError<ExternalResourceExc
 /**
  * Lists metadata for all Amazon Q Business plugin types.
  */
-export const listPluginTypeMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPluginTypeMetadata: {
+  (
     input: ListPluginTypeMetadataRequest,
-    output: ListPluginTypeMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPluginTypeMetadataResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPluginTypeMetadataRequest,
+  ) => Stream.Stream<
+    ListPluginTypeMetadataResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPluginTypeMetadataRequest,
+  ) => Stream.Stream<
+    PluginTypeMetadataSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPluginTypeMetadataRequest,
+  output: ListPluginTypeMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Searches for relevant content in a Amazon Q Business application based on a query. This operation takes a search query text, the Amazon Q Business application identifier, and optional filters (such as content source and maximum results) as input. It returns a list of relevant content items, where each item includes the content text, the unique document identifier, the document title, the document URI, any relevant document attributes, and score attributes indicating the confidence level of the relevance.
  */
-export const searchRelevantContent =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchRelevantContent: {
+  (
     input: SearchRelevantContentRequest,
-    output: SearchRelevantContentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      LicenseNotFoundException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "relevantContent",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchRelevantContentResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | LicenseNotFoundException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchRelevantContentRequest,
+  ) => Stream.Stream<
+    SearchRelevantContentResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | LicenseNotFoundException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchRelevantContentRequest,
+  ) => Stream.Stream<
+    RelevantContent,
+    | AccessDeniedException
+    | InternalServerException
+    | LicenseNotFoundException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchRelevantContentRequest,
+  output: SearchRelevantContentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    LicenseNotFoundException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "relevantContent",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates a set of chat controls configured for an existing Amazon Q Business application.
  */
-export const updateChatControlsConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateChatControlsConfigurationRequest,
-    output: UpdateChatControlsConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateChatControlsConfiguration: (
+  input: UpdateChatControlsConfigurationRequest,
+) => Effect.Effect<
+  UpdateChatControlsConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateChatControlsConfigurationRequest,
+  output: UpdateChatControlsConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about an existing Amazon Q Business index.
  */
-export const getIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIndex: (
+  input: GetIndexRequest,
+) => Effect.Effect<
+  GetIndexResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIndexRequest,
   output: GetIndexResponse,
   errors: [
@@ -5604,53 +5888,142 @@ export const getIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a list of attachments associated with an Amazon Q Business web experience or a list of attachements associated with a specific Amazon Q Business conversation.
  */
-export const listAttachments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAttachments: {
+  (
     input: ListAttachmentsRequest,
-    output: ListAttachmentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      LicenseNotFoundException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "attachments",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAttachmentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | LicenseNotFoundException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttachmentsRequest,
+  ) => Stream.Stream<
+    ListAttachmentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | LicenseNotFoundException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttachmentsRequest,
+  ) => Stream.Stream<
+    Attachment,
+    | AccessDeniedException
+    | InternalServerException
+    | LicenseNotFoundException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttachmentsRequest,
+  output: ListAttachmentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    LicenseNotFoundException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "attachments",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists one or more Amazon Q Business conversations.
  */
-export const listConversations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listConversations: {
+  (
     input: ListConversationsRequest,
-    output: ListConversationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      LicenseNotFoundException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "conversations",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListConversationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | LicenseNotFoundException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConversationsRequest,
+  ) => Stream.Stream<
+    ListConversationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | LicenseNotFoundException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConversationsRequest,
+  ) => Stream.Stream<
+    Conversation,
+    | AccessDeniedException
+    | InternalServerException
+    | LicenseNotFoundException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConversationsRequest,
+  output: ListConversationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    LicenseNotFoundException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "conversations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes an Amazon Q Business web experience conversation.
  */
-export const deleteConversation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConversation: (
+  input: DeleteConversationRequest,
+) => Effect.Effect<
+  DeleteConversationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LicenseNotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConversationRequest,
   output: DeleteConversationResponse,
   errors: [
@@ -5666,22 +6039,44 @@ export const deleteConversation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a specific chat response configuration from an Amazon Q Business application. This operation returns the complete configuration settings and metadata.
  */
-export const getChatResponseConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetChatResponseConfigurationRequest,
-    output: GetChatResponseConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getChatResponseConfiguration: (
+  input: GetChatResponseConfigurationRequest,
+) => Effect.Effect<
+  GetChatResponseConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetChatResponseConfigurationRequest,
+  output: GetChatResponseConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes the universally unique identifier (UUID) associated with a local user in a data source.
  */
-export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUser: (
+  input: GetUserRequest,
+) => Effect.Effect<
+  GetUserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserRequest,
   output: GetUserResponse,
   errors: [
@@ -5696,50 +6091,161 @@ export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of all chat response configurations available in a specified Amazon Q Business application. This operation returns summary information about each configuration to help administrators manage and select appropriate response settings.
  */
-export const listChatResponseConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listChatResponseConfigurations: {
+  (
     input: ListChatResponseConfigurationsRequest,
-    output: ListChatResponseConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "chatResponseConfigurations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListChatResponseConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChatResponseConfigurationsRequest,
+  ) => Stream.Stream<
+    ListChatResponseConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChatResponseConfigurationsRequest,
+  ) => Stream.Stream<
+    ChatResponseConfiguration,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChatResponseConfigurationsRequest,
+  output: ListChatResponseConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "chatResponseConfigurations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * A list of documents attached to an index.
  */
-export const listDocuments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDocuments: {
+  (
     input: ListDocumentsRequest,
-    output: ListDocumentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "documentDetailList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDocumentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDocumentsRequest,
+  ) => Stream.Stream<
+    ListDocumentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDocumentsRequest,
+  ) => Stream.Stream<
+    DocumentDetails,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDocumentsRequest,
+  output: ListDocumentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "documentDetailList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Provides a list of groups that are mapped to users.
  */
-export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGroups: {
+  (
+    input: ListGroupsRequest,
+  ): Effect.Effect<
+    ListGroupsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupsRequest,
+  ) => Stream.Stream<
+    ListGroupsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupsRequest,
+  ) => Stream.Stream<
+    GroupSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGroupsRequest,
   output: ListGroupsResponse,
   errors: [
@@ -5760,52 +6266,136 @@ export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists configured Amazon Q Business actions for a specific plugin in an Amazon Q Business application.
  */
-export const listPluginActions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPluginActions: {
+  (
     input: ListPluginActionsRequest,
-    output: ListPluginActionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPluginActionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPluginActionsRequest,
+  ) => Stream.Stream<
+    ListPluginActionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPluginActionsRequest,
+  ) => Stream.Stream<
+    ActionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPluginActionsRequest,
+  output: ListPluginActionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all subscriptions created in an Amazon Q Business application.
  */
-export const listSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSubscriptions: {
+  (
     input: ListSubscriptionsRequest,
-    output: ListSubscriptionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "subscriptions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSubscriptionsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSubscriptionsRequest,
+  ) => Stream.Stream<
+    ListSubscriptionsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSubscriptionsRequest,
+  ) => Stream.Stream<
+    Subscription,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSubscriptionsRequest,
+  output: ListSubscriptionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "subscriptions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets information about an existing Amazon Q Business application.
  */
-export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApplication: (
+  input: GetApplicationRequest,
+) => Effect.Effect<
+  GetApplicationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
   output: GetApplicationResponse,
   errors: [
@@ -5819,117 +6409,304 @@ export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the data accessors for a Amazon Q Business application. This operation returns a paginated list of data accessor summaries, including the friendly name, unique identifier, ARN, associated IAM role, and creation/update timestamps for each data accessor.
  */
-export const listDataAccessors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDataAccessors: {
+  (
     input: ListDataAccessorsRequest,
-    output: ListDataAccessorsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dataAccessors",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDataAccessorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataAccessorsRequest,
+  ) => Stream.Stream<
+    ListDataAccessorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataAccessorsRequest,
+  ) => Stream.Stream<
+    DataAccessor,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataAccessorsRequest,
+  output: ListDataAccessorsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dataAccessors",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the Amazon Q Business indices you have created.
  */
-export const listIndices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listIndices: {
+  (
     input: ListIndicesRequest,
-    output: ListIndicesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "indices",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListIndicesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIndicesRequest,
+  ) => Stream.Stream<
+    ListIndicesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIndicesRequest,
+  ) => Stream.Stream<
+    Index,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIndicesRequest,
+  output: ListIndicesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "indices",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the Amazon Q Business data source connectors that you have created.
  */
-export const listDataSources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDataSources: {
+  (
     input: ListDataSourcesRequest,
-    output: ListDataSourcesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dataSources",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDataSourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataSourcesRequest,
+  ) => Stream.Stream<
+    ListDataSourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataSourcesRequest,
+  ) => Stream.Stream<
+    DataSource,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataSourcesRequest,
+  output: ListDataSourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dataSources",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists configured Amazon Q Business plugins.
  */
-export const listPlugins = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPlugins: {
+  (
     input: ListPluginsRequest,
-    output: ListPluginsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "plugins",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPluginsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPluginsRequest,
+  ) => Stream.Stream<
+    ListPluginsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPluginsRequest,
+  ) => Stream.Stream<
+    Plugin,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPluginsRequest,
+  output: ListPluginsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "plugins",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the retriever used by an Amazon Q Business application.
  */
-export const listRetrievers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRetrievers: {
+  (
     input: ListRetrieversRequest,
-    output: ListRetrieversResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "retrievers",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRetrieversResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRetrieversRequest,
+  ) => Stream.Stream<
+    ListRetrieversResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRetrieversRequest,
+  ) => Stream.Stream<
+    Retriever,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRetrieversRequest,
+  output: ListRetrieversResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "retrievers",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates an Amazon Q Business web experience.
  */
-export const updateWebExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWebExperience: (
+  input: UpdateWebExperienceRequest,
+) => Effect.Effect<
+  UpdateWebExperienceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWebExperienceRequest,
   output: UpdateWebExperienceResponse,
   errors: [
@@ -5944,29 +6721,75 @@ export const updateWebExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists one or more Amazon Q Business Web Experiences.
  */
-export const listWebExperiences = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWebExperiences: {
+  (
     input: ListWebExperiencesRequest,
-    output: ListWebExperiencesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "webExperiences",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWebExperiencesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWebExperiencesRequest,
+  ) => Stream.Stream<
+    ListWebExperiencesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWebExperiencesRequest,
+  ) => Stream.Stream<
+    WebExperience,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWebExperiencesRequest,
+  output: ListWebExperiencesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "webExperiences",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the content of a document that was ingested into Amazon Q Business. This API validates user authorization against document ACLs before returning a pre-signed URL for secure document access. You can download or view source documents referenced in chat responses through the URL.
  */
-export const getDocumentContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDocumentContent: (
+  input: GetDocumentContentRequest,
+) => Effect.Effect<
+  GetDocumentContentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDocumentContentRequest,
   output: GetDocumentContentResponse,
   errors: [
@@ -5980,7 +6803,18 @@ export const getDocumentContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the current permission policy for a Amazon Q Business application. The policy is returned as a JSON-formatted string and defines the IAM actions that are allowed or denied for the application's resources.
  */
-export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicy: (
+  input: GetPolicyRequest,
+) => Effect.Effect<
+  GetPolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyRequest,
   output: GetPolicyResponse,
   errors: [
@@ -5994,7 +6828,18 @@ export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a list of tags associated with a specified resource. Amazon Q Business applications and data sources can have tags associated with them.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -6008,7 +6853,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables your end user to provide feedback on their Amazon Q Business generated chat responses.
  */
-export const putFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putFeedback: (
+  input: PutFeedbackRequest,
+) => Effect.Effect<
+  PutFeedbackResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutFeedbackRequest,
   output: PutFeedbackResponse,
   errors: [
@@ -6022,7 +6878,18 @@ export const putFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a specified data accessor. This operation returns details about the data accessor, including its display name, unique identifier, Amazon Resource Name (ARN), the associated Amazon Q Business application and IAM Identity Center application, the IAM role for the ISV, the action configurations, and the timestamps for when the data accessor was created and last updated.
  */
-export const getDataAccessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDataAccessor: (
+  input: GetDataAccessorRequest,
+) => Effect.Effect<
+  GetDataAccessorResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataAccessorRequest,
   output: GetDataAccessorResponse,
   errors: [
@@ -6036,7 +6903,18 @@ export const getDataAccessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about an existing Amazon Q Business data source connector.
  */
-export const getDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDataSource: (
+  input: GetDataSourceRequest,
+) => Effect.Effect<
+  GetDataSourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSourceRequest,
   output: GetDataSourceResponse,
   errors: [
@@ -6050,7 +6928,18 @@ export const getDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about an existing Amazon Q Business plugin.
  */
-export const getPlugin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPlugin: (
+  input: GetPluginRequest,
+) => Effect.Effect<
+  GetPluginResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPluginRequest,
   output: GetPluginResponse,
   errors: [
@@ -6064,7 +6953,18 @@ export const getPlugin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about an existing retriever used by an Amazon Q Business application.
  */
-export const getRetriever = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRetriever: (
+  input: GetRetrieverRequest,
+) => Effect.Effect<
+  GetRetrieverResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRetrieverRequest,
   output: GetRetrieverResponse,
   errors: [
@@ -6078,7 +6978,18 @@ export const getRetriever = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about an existing Amazon Q Business web experience.
  */
-export const getWebExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWebExperience: (
+  input: GetWebExperienceRequest,
+) => Effect.Effect<
+  GetWebExperienceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWebExperienceRequest,
   output: GetWebExperienceResponse,
   errors: [
@@ -6092,22 +7003,43 @@ export const getWebExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes chat controls configured for an existing Amazon Q Business application.
  */
-export const deleteChatControlsConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteChatControlsConfigurationRequest,
-    output: DeleteChatControlsConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteChatControlsConfiguration: (
+  input: DeleteChatControlsConfigurationRequest,
+) => Effect.Effect<
+  DeleteChatControlsConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChatControlsConfigurationRequest,
+  output: DeleteChatControlsConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes a tag from an Amazon Q Business application or a data source.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -6121,7 +7053,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Unsubscribes a user or a group from their pricing tier in an Amazon Q Business application. An unsubscribed user or group loses all Amazon Q Business feature access at the start of next month.
  */
-export const cancelSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelSubscription: (
+  input: CancelSubscriptionRequest,
+) => Effect.Effect<
+  CancelSubscriptionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelSubscriptionRequest,
   output: CancelSubscriptionResponse,
   errors: [
@@ -6135,7 +7078,19 @@ export const cancelSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the pricing tier for an Amazon Q Business subscription. Upgrades are instant. Downgrades apply at the start of the next month. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing.
  */
-export const updateSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSubscription: (
+  input: UpdateSubscriptionRequest,
+) => Effect.Effect<
+  UpdateSubscriptionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSubscriptionRequest,
   output: UpdateSubscriptionResponse,
   errors: [
@@ -6154,7 +7109,19 @@ export const updateSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * An Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when `QAppsConfiguration` is enabled in the request. For more information, see Using service-linked roles for Q Apps.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApplication: (
+  input: UpdateApplicationRequest,
+) => Effect.Effect<
+  UpdateApplicationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
   output: UpdateApplicationResponse,
   errors: [
@@ -6169,25 +7136,48 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a specified chat response configuration from an Amazon Q Business application.
  */
-export const deleteChatResponseConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteChatResponseConfigurationRequest,
-    output: DeleteChatResponseConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteChatResponseConfiguration: (
+  input: DeleteChatResponseConfigurationRequest,
+) => Effect.Effect<
+  DeleteChatResponseConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChatResponseConfigurationRequest,
+  output: DeleteChatResponseConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a group so that all users and sub groups that belong to the group can no longer access documents only available to that group. For example, after deleting the group "Summer Interns", all interns who belonged to that group no longer see intern-only documents in their chat results.
  *
  * If you want to delete, update, or replace users or sub groups of a group, you need to use the `PutGroup` operation. For example, if a user in the group "Engineering" leaves the engineering team and another user takes their place, you provide an updated list of users or sub groups that belong to the "Engineering" group when calling `PutGroup`.
  */
-export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGroup: (
+  input: DeleteGroupRequest,
+) => Effect.Effect<
+  DeleteGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupRequest,
   output: DeleteGroupResponse,
   errors: [
@@ -6202,7 +7192,19 @@ export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a user by email id.
  */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUser: (
+  input: DeleteUserRequest,
+) => Effect.Effect<
+  DeleteUserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
   output: DeleteUserResponse,
   errors: [
@@ -6217,41 +7219,73 @@ export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a permission policy from a Amazon Q Business application, revoking the cross-account access that was previously granted to an ISV. This operation deletes the specified policy statement from the application's permission policy.
  */
-export const disassociatePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociatePermissionRequest,
-    output: DisassociatePermissionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociatePermission: (
+  input: DisassociatePermissionRequest,
+) => Effect.Effect<
+  DisassociatePermissionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociatePermissionRequest,
+  output: DisassociatePermissionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Stops an Amazon Q Business data source connector synchronization job already in progress.
  */
-export const stopDataSourceSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopDataSourceSyncJobRequest,
-    output: StopDataSourceSyncJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const stopDataSourceSyncJob: (
+  input: StopDataSourceSyncJobRequest,
+) => Effect.Effect<
+  StopDataSourceSyncJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopDataSourceSyncJobRequest,
+  output: StopDataSourceSyncJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds the specified tag to the specified Amazon Q Business application or data source resource. If the tag already exists, the existing value is replaced with the new value.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -6266,23 +7300,46 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing chat response configuration in an Amazon Q Business application. This operation allows administrators to modify configuration settings, display name, and response parameters to refine how the system generates responses.
  */
-export const updateChatResponseConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateChatResponseConfigurationRequest,
-    output: UpdateChatResponseConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateChatResponseConfiguration: (
+  input: UpdateChatResponseConfigurationRequest,
+) => Effect.Effect<
+  UpdateChatResponseConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateChatResponseConfigurationRequest,
+  output: UpdateChatResponseConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an Amazon Q Business application.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplication: (
+  input: DeleteApplicationRequest,
+) => Effect.Effect<
+  DeleteApplicationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResponse,
   errors: [
@@ -6297,7 +7354,19 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing data accessor. This operation allows modifying the action configurations (the allowed actions and associated filters) and the display name of the data accessor. It does not allow changing the IAM role associated with the data accessor or other core properties of the data accessor.
  */
-export const updateDataAccessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDataAccessor: (
+  input: UpdateDataAccessorRequest,
+) => Effect.Effect<
+  UpdateDataAccessorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataAccessorRequest,
   output: UpdateDataAccessorResponse,
   errors: [
@@ -6312,7 +7381,19 @@ export const updateDataAccessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a specified data accessor. This operation permanently removes the data accessor and its associated IAM Identity Center application. Any access granted to the ISV through this data accessor will be revoked.
  */
-export const deleteDataAccessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataAccessor: (
+  input: DeleteDataAccessorRequest,
+) => Effect.Effect<
+  DeleteDataAccessorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataAccessorRequest,
   output: DeleteDataAccessorResponse,
   errors: [
@@ -6327,7 +7408,19 @@ export const deleteDataAccessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Amazon Q Business index.
  */
-export const deleteIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIndex: (
+  input: DeleteIndexRequest,
+) => Effect.Effect<
+  DeleteIndexResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIndexRequest,
   output: DeleteIndexResponse,
   errors: [
@@ -6342,7 +7435,19 @@ export const deleteIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing Amazon Q Business data source connector.
  */
-export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDataSource: (
+  input: UpdateDataSourceRequest,
+) => Effect.Effect<
+  UpdateDataSourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataSourceRequest,
   output: UpdateDataSourceResponse,
   errors: [
@@ -6357,7 +7462,19 @@ export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Amazon Q Business data source connector. While the data source is being deleted, the `Status` field returned by a call to the `DescribeDataSource` API is set to `DELETING`.
  */
-export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataSource: (
+  input: DeleteDataSourceRequest,
+) => Effect.Effect<
+  DeleteDataSourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataSourceRequest,
   output: DeleteDataSourceResponse,
   errors: [
@@ -6372,7 +7489,19 @@ export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Amazon Q Business plugin.
  */
-export const deletePlugin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePlugin: (
+  input: DeletePluginRequest,
+) => Effect.Effect<
+  DeletePluginResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePluginRequest,
   output: DeletePluginResponse,
   errors: [
@@ -6387,7 +7516,19 @@ export const deletePlugin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the retriever used by an Amazon Q Business application.
  */
-export const deleteRetriever = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRetriever: (
+  input: DeleteRetrieverRequest,
+) => Effect.Effect<
+  DeleteRetrieverResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRetrieverRequest,
   output: DeleteRetrieverResponse,
   errors: [
@@ -6402,7 +7543,19 @@ export const deleteRetriever = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Amazon Q Business web experience.
  */
-export const deleteWebExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWebExperience: (
+  input: DeleteWebExperienceRequest,
+) => Effect.Effect<
+  DeleteWebExperienceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWebExperienceRequest,
   output: DeleteWebExperienceResponse,
   errors: [
@@ -6421,7 +7574,19 @@ export const deleteWebExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For an example IAM role policy for assigning subscriptions, see Set up required permissions in the Amazon Q Business User Guide.
  */
-export const createSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSubscription: (
+  input: CreateSubscriptionRequest,
+) => Effect.Effect<
+  CreateSubscriptionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubscriptionRequest,
   output: CreateSubscriptionResponse,
   errors: [
@@ -6436,7 +7601,19 @@ export const createSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes a group by group name.
  */
-export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGroup: (
+  input: GetGroupRequest,
+) => Effect.Effect<
+  GetGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupRequest,
   output: GetGroupResponse,
   errors: [
@@ -6453,7 +7630,19 @@ export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
  */
-export const batchDeleteDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchDeleteDocument: (
+  input: BatchDeleteDocumentRequest,
+) => Effect.Effect<
+  BatchDeleteDocumentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteDocumentRequest,
   output: BatchDeleteDocumentResponse,
   errors: [
@@ -6468,7 +7657,19 @@ export const batchDeleteDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an attachment associated with a specific Amazon Q Business conversation.
  */
-export const deleteAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAttachment: (
+  input: DeleteAttachmentRequest,
+) => Effect.Effect<
+  DeleteAttachmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | LicenseNotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAttachmentRequest,
   output: DeleteAttachmentResponse,
   errors: [
@@ -6485,91 +7686,244 @@ export const deleteAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see Cross region inference in Amazon Q Business.
  */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listApplications: {
+  (
     input: ListApplicationsRequest,
-    output: ListApplicationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "applications",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListApplicationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ListApplicationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    Application,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "applications",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists configured Amazon Q Business actions for any plugin type—both built-in and custom.
  */
-export const listPluginTypeActions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPluginTypeActions: {
+  (
     input: ListPluginTypeActionsRequest,
-    output: ListPluginTypeActionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPluginTypeActionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPluginTypeActionsRequest,
+  ) => Stream.Stream<
+    ListPluginTypeActionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPluginTypeActionsRequest,
+  ) => Stream.Stream<
+    ActionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPluginTypeActionsRequest,
+  output: ListPluginTypeActionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets information about chat controls configured for an existing Amazon Q Business application.
  */
-export const getChatControlsConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getChatControlsConfiguration: {
+  (
     input: GetChatControlsConfigurationRequest,
-    output: GetChatControlsConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "topicConfigurations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetChatControlsConfigurationResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetChatControlsConfigurationRequest,
+  ) => Stream.Stream<
+    GetChatControlsConfigurationResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetChatControlsConfigurationRequest,
+  ) => Stream.Stream<
+    TopicConfiguration,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetChatControlsConfigurationRequest,
+  output: GetChatControlsConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "topicConfigurations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Get information about an Amazon Q Business data source connector synchronization.
  */
-export const listDataSourceSyncJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataSourceSyncJobs: {
+  (
     input: ListDataSourceSyncJobsRequest,
-    output: ListDataSourceSyncJobsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "history",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataSourceSyncJobsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataSourceSyncJobsRequest,
+  ) => Stream.Stream<
+    ListDataSourceSyncJobsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataSourceSyncJobsRequest,
+  ) => Stream.Stream<
+    DataSourceSyncJob,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataSourceSyncJobsRequest,
+  output: ListDataSourceSyncJobsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "history",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates an Amazon Q Business plugin.
  */
-export const createPlugin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPlugin: (
+  input: CreatePluginRequest,
+) => Effect.Effect<
+  CreatePluginResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePluginRequest,
   output: CreatePluginResponse,
   errors: [
@@ -6587,7 +7941,20 @@ export const createPlugin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Extracting semantic meaning from images and visuals.
  */
-export const getMedia = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMedia: (
+  input: GetMediaRequest,
+) => Effect.Effect<
+  GetMediaResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | LicenseNotFoundException
+  | MediaTooLargeException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMediaRequest,
   output: GetMediaResponse,
   errors: [
@@ -6603,7 +7970,20 @@ export const getMedia = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon Q Business web experience.
  */
-export const createWebExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWebExperience: (
+  input: CreateWebExperienceRequest,
+) => Effect.Effect<
+  CreateWebExperienceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWebExperienceRequest,
   output: CreateWebExperienceResponse,
   errors: [
@@ -6623,7 +8003,20 @@ export const createWebExperience = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * There are two options for creating groups, either passing group members inline or using an S3 file via the S3PathForGroupMembers field. For inline groups, there is a limit of 1000 members per group and for provided S3 files there is a limit of 100 thousand members. When creating a group using an S3 file, you provide both an S3 file and a `RoleArn` for Amazon Q Buisness to access the file.
  */
-export const putGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putGroup: (
+  input: PutGroupRequest,
+) => Effect.Effect<
+  PutGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutGroupRequest,
   output: PutGroupResponse,
   errors: [
@@ -6645,7 +8038,20 @@ export const putGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you create an application, Amazon Q Business may securely transmit data for processing from your selected Amazon Web Services region, but within your geography. For more information, see Cross region inference in Amazon Q Business.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationRequest,
+) => Effect.Effect<
+  CreateApplicationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
   output: CreateApplicationResponse,
   errors: [
@@ -6665,7 +8071,20 @@ export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Once the index is active, you can index your documents using the `BatchPutDocument` API or the `CreateDataSource` API.
  */
-export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIndex: (
+  input: CreateIndexRequest,
+) => Effect.Effect<
+  CreateIndexResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIndexRequest,
   output: CreateIndexResponse,
   errors: [
@@ -6681,41 +8100,76 @@ export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a unique URL for anonymous Amazon Q Business web experience. This URL can only be used once and must be used within 5 minutes after it's generated.
  */
-export const createAnonymousWebExperienceUrl =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateAnonymousWebExperienceUrlRequest,
-    output: CreateAnonymousWebExperienceUrlResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createAnonymousWebExperienceUrl: (
+  input: CreateAnonymousWebExperienceUrlRequest,
+) => Effect.Effect<
+  CreateAnonymousWebExperienceUrlResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAnonymousWebExperienceUrlRequest,
+  output: CreateAnonymousWebExperienceUrlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Starts a data source connector synchronization job. If a synchronization job is already in progress, Amazon Q Business returns a `ConflictException`.
  */
-export const startDataSourceSyncJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDataSourceSyncJobRequest,
-    output: StartDataSourceSyncJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startDataSourceSyncJob: (
+  input: StartDataSourceSyncJobRequest,
+) => Effect.Effect<
+  StartDataSourceSyncJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDataSourceSyncJobRequest,
+  output: StartDataSourceSyncJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a information associated with a user id.
  */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUser: (
+  input: UpdateUserRequest,
+) => Effect.Effect<
+  UpdateUserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,
   output: UpdateUserResponse,
   errors: [
@@ -6731,7 +8185,20 @@ export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an Amazon Q Business index.
  */
-export const updateIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateIndex: (
+  input: UpdateIndexRequest,
+) => Effect.Effect<
+  UpdateIndexResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIndexRequest,
   output: UpdateIndexResponse,
   errors: [
@@ -6747,7 +8214,20 @@ export const updateIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an Amazon Q Business plugin.
  */
-export const updatePlugin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePlugin: (
+  input: UpdatePluginRequest,
+) => Effect.Effect<
+  UpdatePluginResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePluginRequest,
   output: UpdatePluginResponse,
   errors: [
@@ -6763,7 +8243,20 @@ export const updatePlugin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the retriever used for your Amazon Q Business application.
  */
-export const updateRetriever = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRetriever: (
+  input: UpdateRetrieverRequest,
+) => Effect.Effect<
+  UpdateRetrieverResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRetrieverRequest,
   output: UpdateRetrieverResponse,
   errors: [
@@ -6779,7 +8272,20 @@ export const updateRetriever = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a universally unique identifier (UUID) mapped to a list of local user ids within an application.
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUser: (
+  input: CreateUserRequest,
+) => Effect.Effect<
+  CreateUserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
   output: CreateUserResponse,
   errors: [
@@ -6795,7 +8301,20 @@ export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds or updates a permission policy for a Amazon Q Business application, allowing cross-account access for an ISV. This operation creates a new policy statement for the specified Amazon Q Business application. The policy statement defines the IAM actions that the ISV is allowed to perform on the Amazon Q Business application's resources.
  */
-export const associatePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associatePermission: (
+  input: AssociatePermissionRequest,
+) => Effect.Effect<
+  AssociatePermissionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociatePermissionRequest,
   output: AssociatePermissionResponse,
   errors: [
@@ -6811,24 +8330,49 @@ export const associatePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new chat response configuration for an Amazon Q Business application. This operation establishes a set of parameters that define how the system generates and formats responses to user queries in chat interactions.
  */
-export const createChatResponseConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateChatResponseConfigurationRequest,
-    output: CreateChatResponseConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createChatResponseConfiguration: (
+  input: CreateChatResponseConfigurationRequest,
+) => Effect.Effect<
+  CreateChatResponseConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateChatResponseConfigurationRequest,
+  output: CreateChatResponseConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new data accessor for an ISV to access data from a Amazon Q Business application. The data accessor is an entity that represents the ISV's access to the Amazon Q Business application's data. It includes the IAM role ARN for the ISV, a friendly name, and a set of action configurations that define the specific actions the ISV is allowed to perform and any associated data filters. When the data accessor is created, an IAM Identity Center application is also created to manage the ISV's identity and authentication for accessing the Amazon Q Business application.
  */
-export const createDataAccessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDataAccessor: (
+  input: CreateDataAccessorRequest,
+) => Effect.Effect<
+  CreateDataAccessorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataAccessorRequest,
   output: CreateDataAccessorResponse,
   errors: [
@@ -6846,7 +8390,20 @@ export const createDataAccessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * `CreateDataSource` is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
  */
-export const createDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDataSource: (
+  input: CreateDataSourceRequest,
+) => Effect.Effect<
+  CreateDataSourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataSourceRequest,
   output: CreateDataSourceResponse,
   errors: [
@@ -6862,7 +8419,18 @@ export const createDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Verifies if a user has access permissions for a specified document and returns the actual ACL attached to the document. Resolves user access on the document via user aliases and groups when verifying user access.
  */
-export const checkDocumentAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const checkDocumentAccess: (
+  input: CheckDocumentAccessRequest,
+) => Effect.Effect<
+  CheckDocumentAccessResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckDocumentAccessRequest,
   output: CheckDocumentAccessResponse,
   errors: [
@@ -6886,7 +8454,20 @@ export const checkDocumentAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
  */
-export const batchPutDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchPutDocument: (
+  input: BatchPutDocumentRequest,
+) => Effect.Effect<
+  BatchPutDocumentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutDocumentRequest,
   output: BatchPutDocumentResponse,
   errors: [
@@ -6902,7 +8483,21 @@ export const batchPutDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts or continues a streaming Amazon Q Business conversation.
  */
-export const chat = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const chat: (
+  input: ChatInput,
+) => Effect.Effect<
+  ChatOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ExternalResourceException
+  | InternalServerException
+  | LicenseNotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChatInput,
   output: ChatOutput,
   errors: [
@@ -6919,30 +8514,82 @@ export const chat = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a list of messages associated with an Amazon Q Business web experience.
  */
-export const listMessages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMessages: {
+  (
     input: ListMessagesRequest,
-    output: ListMessagesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      LicenseNotFoundException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "messages",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMessagesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | LicenseNotFoundException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMessagesRequest,
+  ) => Stream.Stream<
+    ListMessagesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | LicenseNotFoundException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMessagesRequest,
+  ) => Stream.Stream<
+    Message,
+    | AccessDeniedException
+    | InternalServerException
+    | LicenseNotFoundException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMessagesRequest,
+  output: ListMessagesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    LicenseNotFoundException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "messages",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Starts or continues a non-streaming Amazon Q Business conversation.
  */
-export const chatSync = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const chatSync: (
+  input: ChatSyncInput,
+) => Effect.Effect<
+  ChatSyncOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ExternalResourceException
+  | InternalServerException
+  | LicenseNotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChatSyncInput,
   output: ChatSyncOutput,
   errors: [
@@ -6959,7 +8606,20 @@ export const chatSync = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds a retriever to your Amazon Q Business application.
  */
-export const createRetriever = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRetriever: (
+  input: CreateRetrieverRequest,
+) => Effect.Effect<
+  CreateRetrieverResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRetrieverRequest,
   output: CreateRetrieverResponse,
   errors: [

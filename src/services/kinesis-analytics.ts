@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace(
   "http://analytics.kinesis.amazonaws.com/doc/2015-08-14",
 );
@@ -243,6 +251,36 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ApplicationName = string;
+export type ApplicationVersionId = number;
+export type Id = string;
+export type ApplicationDescription = string;
+export type ApplicationCode = string;
+export type ResourceARN = string;
+export type RoleARN = string;
+export type ListApplicationsInputLimit = number;
+export type KinesisAnalyticsARN = string;
+export type TagKey = string;
+export type LogStreamARN = string;
+export type InAppStreamName = string;
+export type InAppTableName = string;
+export type TagValue = string;
+export type BucketARN = string;
+export type FileKey = string;
+export type ErrorMessage = string;
+export type InputParallelismCount = number;
+export type RecordEncoding = string;
+export type RecordColumnName = string;
+export type RecordColumnMapping = string;
+export type RecordColumnSqlType = string;
+export type ParsedInputRecordField = string;
+export type ProcessedInputRecord = string;
+export type RawInputRecord = string;
+export type RecordRowPath = string;
+export type RecordRowDelimiter = string;
+export type RecordColumnDelimiter = string;
 
 //# Schemas
 export interface InputLambdaProcessor {
@@ -1633,7 +1671,9 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class UnableToDetectSchemaException extends S.TaggedError<UnableToDetectSchemaException>()(
   "UnableToDetectSchemaException",
   {
@@ -1663,7 +1703,13 @@ export class UnableToDetectSchemaException extends S.TaggedError<UnableToDetectS
  * This operation requires permissions to perform the
  * `kinesisanalytics:ListApplications` action.
  */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listApplications: (
+  input: ListApplicationsRequest,
+) => Effect.Effect<
+  ListApplicationsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListApplicationsRequest,
   output: ListApplicationsResponse,
   errors: [],
@@ -1671,7 +1717,16 @@ export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the list of key-value tags assigned to the application. For more information, see Using Tagging.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1693,7 +1748,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the
  * `kinesisanalytics:StopApplication` action.
  */
-export const stopApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopApplication: (
+  input: StopApplicationRequest,
+) => Effect.Effect<
+  StopApplicationResponse,
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopApplicationRequest,
   output: StopApplicationResponse,
   errors: [
@@ -1706,7 +1770,18 @@ export const stopApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
  * For more information, see Using Tagging.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1724,35 +1799,55 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * using CloudWatch log streams with Amazon Kinesis Analytics applications, see
  * Working with Amazon CloudWatch Logs.
  */
-export const deleteApplicationCloudWatchLoggingOption =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteApplicationCloudWatchLoggingOptionRequest,
-    output: DeleteApplicationCloudWatchLoggingOptionResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-  }));
+export const deleteApplicationCloudWatchLoggingOption: (
+  input: DeleteApplicationCloudWatchLoggingOptionRequest,
+) => Effect.Effect<
+  DeleteApplicationCloudWatchLoggingOptionResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationCloudWatchLoggingOptionRequest,
+  output: DeleteApplicationCloudWatchLoggingOptionResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
  * Deletes an InputProcessingConfiguration from an input.
  */
-export const deleteApplicationInputProcessingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteApplicationInputProcessingConfigurationRequest,
-    output: DeleteApplicationInputProcessingConfigurationResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-  }));
+export const deleteApplicationInputProcessingConfiguration: (
+  input: DeleteApplicationInputProcessingConfigurationRequest,
+) => Effect.Effect<
+  DeleteApplicationInputProcessingConfigurationResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationInputProcessingConfigurationRequest,
+  output: DeleteApplicationInputProcessingConfigurationResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1761,19 +1856,28 @@ export const deleteApplicationInputProcessingConfiguration =
  * This operation requires permissions to perform the
  * `kinesisanalytics:DeleteApplicationOutput` action.
  */
-export const deleteApplicationOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteApplicationOutputRequest,
-    output: DeleteApplicationOutputResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const deleteApplicationOutput: (
+  input: DeleteApplicationOutputRequest,
+) => Effect.Effect<
+  DeleteApplicationOutputResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationOutputRequest,
+  output: DeleteApplicationOutputResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1785,18 +1889,28 @@ export const deleteApplicationOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation requires permissions to perform the `kinesisanalytics.DeleteApplicationReferenceDataSource`
  * action.
  */
-export const deleteApplicationReferenceDataSource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteApplicationReferenceDataSourceRequest,
-    output: DeleteApplicationReferenceDataSourceResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-  }));
+export const deleteApplicationReferenceDataSource: (
+  input: DeleteApplicationReferenceDataSourceRequest,
+) => Effect.Effect<
+  DeleteApplicationReferenceDataSourceResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationReferenceDataSourceRequest,
+  output: DeleteApplicationReferenceDataSourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1805,18 +1919,28 @@ export const deleteApplicationReferenceDataSource =
  * applications, see Working with Amazon
  * CloudWatch Logs.
  */
-export const addApplicationCloudWatchLoggingOption =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AddApplicationCloudWatchLoggingOptionRequest,
-    output: AddApplicationCloudWatchLoggingOptionResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-  }));
+export const addApplicationCloudWatchLoggingOption: (
+  input: AddApplicationCloudWatchLoggingOptionRequest,
+) => Effect.Effect<
+  AddApplicationCloudWatchLoggingOptionResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddApplicationCloudWatchLoggingOptionRequest,
+  output: AddApplicationCloudWatchLoggingOptionResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1824,18 +1948,28 @@ export const addApplicationCloudWatchLoggingOption =
  * before the application's SQL code executes. Currently, the only input processor available is
  * AWS Lambda.
  */
-export const addApplicationInputProcessingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AddApplicationInputProcessingConfigurationRequest,
-    output: AddApplicationInputProcessingConfigurationResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-  }));
+export const addApplicationInputProcessingConfiguration: (
+  input: AddApplicationInputProcessingConfigurationRequest,
+) => Effect.Effect<
+  AddApplicationInputProcessingConfigurationResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddApplicationInputProcessingConfigurationRequest,
+  output: AddApplicationInputProcessingConfigurationResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1862,19 +1996,28 @@ export const addApplicationInputProcessingConfiguration =
  *
  * This operation requires permissions to perform the `kinesisanalytics:AddApplicationOutput` action.
  */
-export const addApplicationOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddApplicationOutputRequest,
-    output: AddApplicationOutputResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const addApplicationOutput: (
+  input: AddApplicationOutputRequest,
+) => Effect.Effect<
+  AddApplicationOutputResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddApplicationOutputRequest,
+  output: AddApplicationOutputResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1889,18 +2032,28 @@ export const addApplicationOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This operation requires permissions to perform the `kinesisanalytics:AddApplicationOutput` action.
  */
-export const addApplicationReferenceDataSource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AddApplicationReferenceDataSourceRequest,
-    output: AddApplicationReferenceDataSourceResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidArgumentException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      UnsupportedOperationException,
-    ],
-  }));
+export const addApplicationReferenceDataSource: (
+  input: AddApplicationReferenceDataSourceRequest,
+) => Effect.Effect<
+  AddApplicationReferenceDataSourceResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddApplicationReferenceDataSourceRequest,
+  output: AddApplicationReferenceDataSourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
  *
@@ -1908,7 +2061,17 @@ export const addApplicationReferenceDataSource =
  *
  * This operation requires permissions to perform the `kinesisanalytics:DeleteApplication` action.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplication: (
+  input: DeleteApplicationRequest,
+) => Effect.Effect<
+  DeleteApplicationResponse,
+  | ConcurrentModificationException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResponse,
   errors: [
@@ -1934,7 +2097,18 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the
  * `kinesisanalytics:StartApplication` action.
  */
-export const startApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startApplication: (
+  input: StartApplicationRequest,
+) => Effect.Effect<
+  StartApplicationResponse,
+  | InvalidApplicationConfigurationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartApplicationRequest,
   output: StartApplicationResponse,
   errors: [
@@ -1948,7 +2122,18 @@ export const startApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes one or more tags from a Kinesis Analytics application. For more information, see Using Tagging.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1984,7 +2169,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For introductory exercises to create an Amazon Kinesis Analytics application, see
  * Getting Started.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationRequest,
+) => Effect.Effect<
+  CreateApplicationResponse,
+  | CodeValidationException
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
   output: CreateApplicationResponse,
   errors: [
@@ -2009,7 +2206,19 @@ export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permission for the
  * `kinesisanalytics:UpdateApplication` action.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApplication: (
+  input: UpdateApplicationRequest,
+) => Effect.Effect<
+  UpdateApplicationResponse,
+  | CodeValidationException
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
   output: UpdateApplicationResponse,
   errors: [
@@ -2039,7 +2248,19 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the
  * `kinesisanalytics:AddApplicationInput` action.
  */
-export const addApplicationInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addApplicationInput: (
+  input: AddApplicationInputRequest,
+) => Effect.Effect<
+  AddApplicationInputResponse,
+  | CodeValidationException
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddApplicationInputRequest,
   output: AddApplicationInputResponse,
   errors: [
@@ -2063,7 +2284,15 @@ export const addApplicationInput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * action. You can use `DescribeApplication` to get the current application versionId, which you need to call other
  * operations such as `Update`.
  */
-export const describeApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeApplication: (
+  input: DescribeApplicationRequest,
+) => Effect.Effect<
+  DescribeApplicationResponse,
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeApplicationRequest,
   output: DescribeApplicationResponse,
   errors: [ResourceNotFoundException, UnsupportedOperationException],
@@ -2082,7 +2311,17 @@ export const describeApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the
  * `kinesisanalytics:DiscoverInputSchema` action.
  */
-export const discoverInputSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const discoverInputSchema: (
+  input: DiscoverInputSchemaRequest,
+) => Effect.Effect<
+  DiscoverInputSchemaResponse,
+  | InvalidArgumentException
+  | ResourceProvisionedThroughputExceededException
+  | ServiceUnavailableException
+  | UnableToDetectSchemaException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DiscoverInputSchemaRequest,
   output: DiscoverInputSchemaResponse,
   errors: [

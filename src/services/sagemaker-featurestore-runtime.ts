@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker FeatureStore Runtime",
   serviceShapeName: "AmazonSageMakerFeatureStoreRuntime",
@@ -241,6 +249,14 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type FeatureGroupNameOrArn = string;
+export type ValueAsString = string;
+export type FeatureName = string;
+export type TtlDurationValue = number;
+export type Message = string;
+export type ExpiresAt = string;
+
 //# Schemas
 export type TargetStores = string[];
 export const TargetStores = S.Array(S.String);
@@ -469,11 +485,15 @@ export class AccessForbidden extends S.TaggedError<AccessForbidden>()(
 export class InternalFailure extends S.TaggedError<InternalFailure>()(
   "InternalFailure",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ServiceUnavailable extends S.TaggedError<ServiceUnavailable>()(
   "ServiceUnavailable",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFound extends S.TaggedError<ResourceNotFound>()(
   "ResourceNotFound",
   { Message: S.optional(S.String) },
@@ -517,7 +537,17 @@ export class ValidationError extends S.TaggedError<ValidationError>()(
  * hard delete a record from the `OfflineStore` with the Iceberg table format
  * enabled, see Delete records from the offline store.
  */
-export const deleteRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRecord: (
+  input: DeleteRecordRequest,
+) => Effect.Effect<
+  DeleteRecordResponse,
+  | AccessForbidden
+  | InternalFailure
+  | ServiceUnavailable
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRecordRequest,
   output: DeleteRecordResponse,
   errors: [
@@ -532,7 +562,18 @@ export const deleteRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * latest records stored in the `OnlineStore` can be retrieved. If no Record with
  * `RecordIdentifierValue` is found, then an empty result is returned.
  */
-export const getRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRecord: (
+  input: GetRecordRequest,
+) => Effect.Effect<
+  GetRecordResponse,
+  | AccessForbidden
+  | InternalFailure
+  | ResourceNotFound
+  | ServiceUnavailable
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecordRequest,
   output: GetRecordResponse,
   errors: [
@@ -564,7 +605,17 @@ export const getRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * group level `TtlDuration`. A record level `TtlDuration` supersedes
  * the group level `TtlDuration`.
  */
-export const putRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putRecord: (
+  input: PutRecordRequest,
+) => Effect.Effect<
+  PutRecordResponse,
+  | AccessForbidden
+  | InternalFailure
+  | ServiceUnavailable
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRecordRequest,
   output: PutRecordResponse,
   errors: [
@@ -577,7 +628,17 @@ export const putRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a batch of `Records` from a `FeatureGroup`.
  */
-export const batchGetRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetRecord: (
+  input: BatchGetRecordRequest,
+) => Effect.Effect<
+  BatchGetRecordResponse,
+  | AccessForbidden
+  | InternalFailure
+  | ServiceUnavailable
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetRecordRequest,
   output: BatchGetRecordResponse,
   errors: [

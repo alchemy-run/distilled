@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock AgentCore",
   serviceShapeName: "AmazonBedrockAgentCore",
@@ -292,6 +300,59 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type RequestUri = string;
+export type WorkloadIdentityTokenType = string;
+export type CredentialProviderName = string;
+export type ScopeType = string;
+export type ResourceOauth2ReturnUrlType = string;
+export type State = string;
+export type WorkloadIdentityNameType = string;
+export type UserTokenType = string;
+export type UserIdType = string;
+export type CodeInterpreterSessionId = string;
+export type SessionType = string;
+export type MimeType = string;
+export type StringType = string;
+export type ClientToken = string;
+export type BrowserSessionId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type Name = string;
+export type BrowserSessionTimeout = number;
+export type CodeInterpreterSessionTimeout = number;
+export type EvaluatorId = string;
+export type MemoryId = string;
+export type ActorId = string;
+export type SessionId = string;
+export type EventId = string;
+export type MemoryRecordId = string;
+export type PaginationToken = string;
+export type Namespace = string;
+export type MemoryStrategyId = string;
+export type CustomRequestKeyType = string;
+export type CustomRequestValueType = string;
+export type MaxLenString = string;
+export type ViewPortWidth = number;
+export type ViewPortHeight = number;
+export type SpanId = string;
+export type TraceId = string;
+export type RequestIdentifier = string;
+export type BranchName = string;
+export type MetadataKey = string;
+export type SensitiveString = string;
+export type ApiKeyType = string;
+export type HttpResponseCode = number;
+export type NonBlankString = string;
+export type AuthorizationUrlType = string;
+export type AccessTokenType = string;
+export type BrowserStreamEndpoint = string;
+export type EvaluatorArn = string;
+export type EvaluatorName = string;
+export type EvaluationExplanation = string;
+export type EvaluationErrorMessage = string;
+export type EvaluationErrorCode = string;
 
 //# Schemas
 export type ScopesListType = string[];
@@ -884,6 +945,7 @@ export type TraceIds = string[];
 export const TraceIds = S.Array(S.String);
 export type NamespacesList = string[];
 export const NamespacesList = S.Array(S.String);
+export type UserIdentifier = { userToken: string } | { userId: string };
 export const UserIdentifier = S.Union(
   S.Struct({ userToken: S.String }),
   S.Struct({ userId: S.String }),
@@ -900,7 +962,9 @@ export interface ViewPort {
 export const ViewPort = S.suspend(() =>
   S.Struct({ width: S.Number, height: S.Number }),
 ).annotations({ identifier: "ViewPort" }) as any as S.Schema<ViewPort>;
+export type EvaluationInput = { sessionSpans: Spans };
 export const EvaluationInput = S.Union(S.Struct({ sessionSpans: Spans }));
+export type EvaluationTarget = { spanIds: SpanIds } | { traceIds: TraceIds };
 export const EvaluationTarget = S.Union(
   S.Struct({ spanIds: SpanIds }),
   S.Struct({ traceIds: TraceIds }),
@@ -915,6 +979,7 @@ export const MemoryRecordDeleteInput = S.suspend(() =>
 }) as any as S.Schema<MemoryRecordDeleteInput>;
 export type MemoryRecordsDeleteInputList = MemoryRecordDeleteInput[];
 export const MemoryRecordsDeleteInputList = S.Array(MemoryRecordDeleteInput);
+export type MemoryContent = { text: string };
 export const MemoryContent = S.Union(S.Struct({ text: S.String }));
 export interface MemoryRecordUpdateInput {
   memoryRecordId: string;
@@ -1378,6 +1443,7 @@ export const AutomationStreamUpdate = S.suspend(() =>
 ).annotations({
   identifier: "AutomationStreamUpdate",
 }) as any as S.Schema<AutomationStreamUpdate>;
+export type MetadataValue = { stringValue: string };
 export const MetadataValue = S.Union(S.Struct({ stringValue: S.String }));
 export interface BranchFilter {
   name: string;
@@ -1386,7 +1452,9 @@ export interface BranchFilter {
 export const BranchFilter = S.suspend(() =>
   S.Struct({ name: S.String, includeParentBranches: S.optional(S.Boolean) }),
 ).annotations({ identifier: "BranchFilter" }) as any as S.Schema<BranchFilter>;
+export type LeftExpression = { metadataKey: string };
 export const LeftExpression = S.Union(S.Struct({ metadataKey: S.String }));
+export type RightExpression = { metadataValue: (typeof MetadataValue)["Type"] };
 export const RightExpression = S.Union(
   S.Struct({ metadataValue: MetadataValue }),
 );
@@ -1454,6 +1522,7 @@ export const BrowserSessionSummary = S.suspend(() =>
 }) as any as S.Schema<BrowserSessionSummary>;
 export type BrowserSessionSummaries = BrowserSessionSummary[];
 export const BrowserSessionSummaries = S.Array(BrowserSessionSummary);
+export type StreamUpdate = { automationStreamUpdate: AutomationStreamUpdate };
 export const StreamUpdate = S.Union(
   S.Struct({ automationStreamUpdate: AutomationStreamUpdate }),
 );
@@ -1503,6 +1572,7 @@ export type MemoryRecordsCreateInputList = MemoryRecordCreateInput[];
 export const MemoryRecordsCreateInputList = S.Array(MemoryRecordCreateInput);
 export type MetadataMap = { [key: string]: (typeof MetadataValue)["Type"] };
 export const MetadataMap = S.Record({ key: S.String, value: MetadataValue });
+export type Content = { text: string };
 export const Content = S.Union(S.Struct({ text: S.String }));
 export interface Conversational {
   content: (typeof Content)["Type"];
@@ -1513,6 +1583,7 @@ export const Conversational = S.suspend(() =>
 ).annotations({
   identifier: "Conversational",
 }) as any as S.Schema<Conversational>;
+export type PayloadType = { conversational: Conversational } | { blob: any };
 export const PayloadType = S.Union(
   S.Struct({ conversational: Conversational }),
   S.Struct({ blob: S.Any }),
@@ -2141,7 +2212,9 @@ export const ListEventsOutput = S.suspend(() =>
 ).annotations({
   identifier: "ListEventsOutput",
 }) as any as S.Schema<ListEventsOutput>;
+export type Context = { spanContext: SpanContext };
 export const Context = S.Union(S.Struct({ spanContext: SpanContext }));
+export type ExtractionJobMessages = { messagesList: MessagesList };
 export const ExtractionJobMessages = S.Union(
   S.Struct({ messagesList: MessagesList }),
 );
@@ -2371,7 +2444,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String) },
@@ -2387,11 +2462,15 @@ export class InvalidInputException extends S.TaggedError<InvalidInputException>(
 export class ServiceException extends S.TaggedError<ServiceException>()(
   "ServiceException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class RuntimeClientError extends S.TaggedError<RuntimeClientError>()(
   "RuntimeClientError",
   { message: S.optional(S.String) },
@@ -2407,7 +2486,9 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
 export class ThrottledException extends S.TaggedError<ThrottledException>()(
   "ThrottledException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -2427,7 +2508,20 @@ export class DuplicateIdException extends S.TaggedError<DuplicateIdException>()(
  *
  * To use this operation, you must have the `bedrock-agentcore:GetEvent` permission.
  */
-export const getEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEvent: (
+  input: GetEventInput,
+) => Effect.Effect<
+  GetEventOutput,
+  | AccessDeniedException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventInput,
   output: GetEventOutput,
   errors: [
@@ -2443,7 +2537,19 @@ export const getEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the API key associated with an API key credential provider.
  */
-export const getResourceApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourceApiKey: (
+  input: GetResourceApiKeyRequest,
+) => Effect.Effect<
+  GetResourceApiKeyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceApiKeyRequest,
   output: GetResourceApiKeyResponse,
   errors: [
@@ -2458,73 +2564,130 @@ export const getResourceApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Obtains a workload access token for agentic workloads not acting on behalf of a user.
  */
-export const getWorkloadAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetWorkloadAccessTokenRequest,
-    output: GetWorkloadAccessTokenResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const getWorkloadAccessToken: (
+  input: GetWorkloadAccessTokenRequest,
+) => Effect.Effect<
+  GetWorkloadAccessTokenResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkloadAccessTokenRequest,
+  output: GetWorkloadAccessTokenResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Obtains a workload access token for agentic workloads acting on behalf of a user, using a JWT token.
  */
-export const getWorkloadAccessTokenForJWT =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetWorkloadAccessTokenForJWTRequest,
-    output: GetWorkloadAccessTokenForJWTResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }));
+export const getWorkloadAccessTokenForJWT: (
+  input: GetWorkloadAccessTokenForJWTRequest,
+) => Effect.Effect<
+  GetWorkloadAccessTokenForJWTResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkloadAccessTokenForJWTRequest,
+  output: GetWorkloadAccessTokenForJWTResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Obtains a workload access token for agentic workloads acting on behalf of a user, using the user's ID.
  */
-export const getWorkloadAccessTokenForUserId =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetWorkloadAccessTokenForUserIdRequest,
-    output: GetWorkloadAccessTokenForUserIdResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }));
+export const getWorkloadAccessTokenForUserId: (
+  input: GetWorkloadAccessTokenForUserIdRequest,
+) => Effect.Effect<
+  GetWorkloadAccessTokenForUserIdResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkloadAccessTokenForUserIdRequest,
+  output: GetWorkloadAccessTokenForUserIdResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Confirms the user authentication session for obtaining OAuth2.0 tokens for a resource.
  */
-export const completeResourceTokenAuth = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CompleteResourceTokenAuthRequest,
-    output: CompleteResourceTokenAuthResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const completeResourceTokenAuth: (
+  input: CompleteResourceTokenAuthRequest,
+) => Effect.Effect<
+  CompleteResourceTokenAuthResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CompleteResourceTokenAuthRequest,
+  output: CompleteResourceTokenAuthResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Stops a session that is running in an running AgentCore Runtime agent.
  */
-export const stopRuntimeSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopRuntimeSession: (
+  input: StopRuntimeSessionRequest,
+) => Effect.Effect<
+  StopRuntimeSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | RuntimeClientError
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopRuntimeSessionRequest,
   output: StopRuntimeSessionResponse,
   errors: [
@@ -2552,7 +2715,18 @@ export const stopRuntimeSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - GetBrowserSession
  */
-export const listBrowserSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listBrowserSessions: (
+  input: ListBrowserSessionsRequest,
+) => Effect.Effect<
+  ListBrowserSessionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListBrowserSessionsRequest,
   output: ListBrowserSessionsResponse,
   errors: [
@@ -2576,19 +2750,28 @@ export const listBrowserSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - GetCodeInterpreterSession
  */
-export const listCodeInterpreterSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListCodeInterpreterSessionsRequest,
-    output: ListCodeInterpreterSessionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const listCodeInterpreterSessions: (
+  input: ListCodeInterpreterSessionsRequest,
+) => Effect.Effect<
+  ListCodeInterpreterSessionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCodeInterpreterSessionsRequest,
+  output: ListCodeInterpreterSessionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves detailed information about a specific code interpreter session in Amazon Bedrock. This operation returns the session's configuration, current status, and metadata.
  *
@@ -2602,19 +2785,28 @@ export const listCodeInterpreterSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - StopCodeInterpreterSession
  */
-export const getCodeInterpreterSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCodeInterpreterSessionRequest,
-    output: GetCodeInterpreterSessionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getCodeInterpreterSession: (
+  input: GetCodeInterpreterSessionRequest,
+) => Effect.Effect<
+  GetCodeInterpreterSessionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCodeInterpreterSessionRequest,
+  output: GetCodeInterpreterSessionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves detailed information about a specific browser session in Amazon Bedrock. This operation returns the session's configuration, current status, associated streams, and metadata.
  *
@@ -2628,7 +2820,18 @@ export const getCodeInterpreterSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - StopBrowserSession
  */
-export const getBrowserSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBrowserSession: (
+  input: GetBrowserSessionRequest,
+) => Effect.Effect<
+  GetBrowserSessionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBrowserSessionRequest,
   output: GetBrowserSessionResponse,
   errors: [
@@ -2652,7 +2855,20 @@ export const getBrowserSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To use this operation, you must have the `bedrock-agentcore:InvokeAgentRuntime` permission. If you are making a call to `InvokeAgentRuntime` on behalf of a user ID with the `X-Amzn-Bedrock-AgentCore-Runtime-User-Id` header, You require permissions to both actions (`bedrock-agentcore:InvokeAgentRuntime` and `bedrock-agentcore:InvokeAgentRuntimeForUser`).
  */
-export const invokeAgentRuntime = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const invokeAgentRuntime: (
+  input: InvokeAgentRuntimeRequest,
+) => Effect.Effect<
+  InvokeAgentRuntimeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | RuntimeClientError
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeAgentRuntimeRequest,
   output: InvokeAgentRuntimeResponse,
   errors: [
@@ -2676,7 +2892,20 @@ export const invokeAgentRuntime = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - GetBrowserSession
  */
-export const stopBrowserSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopBrowserSession: (
+  input: StopBrowserSessionRequest,
+) => Effect.Effect<
+  StopBrowserSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopBrowserSessionRequest,
   output: StopBrowserSessionResponse,
   errors: [
@@ -2702,21 +2931,32 @@ export const stopBrowserSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - StopCodeInterpreterSession
  */
-export const startCodeInterpreterSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartCodeInterpreterSessionRequest,
-    output: StartCodeInterpreterSessionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startCodeInterpreterSession: (
+  input: StartCodeInterpreterSessionRequest,
+) => Effect.Effect<
+  StartCodeInterpreterSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCodeInterpreterSessionRequest,
+  output: StartCodeInterpreterSessionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Terminates an active code interpreter session in Amazon Bedrock. This operation stops the session, releases associated resources, and makes the session unavailable for further use.
  *
@@ -2728,21 +2968,32 @@ export const startCodeInterpreterSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - GetCodeInterpreterSession
  */
-export const stopCodeInterpreterSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopCodeInterpreterSessionRequest,
-    output: StopCodeInterpreterSessionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const stopCodeInterpreterSession: (
+  input: StopCodeInterpreterSessionRequest,
+) => Effect.Effect<
+  StopCodeInterpreterSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopCodeInterpreterSessionRequest,
+  output: StopCodeInterpreterSessionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates and initializes a browser session in Amazon Bedrock. The session enables agents to navigate and interact with web content, extract information from websites, and perform web-based tasks as part of their response generation.
  *
@@ -2756,7 +3007,20 @@ export const stopCodeInterpreterSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - StopBrowserSession
  */
-export const startBrowserSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startBrowserSession: (
+  input: StartBrowserSessionRequest,
+) => Effect.Effect<
+  StartBrowserSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartBrowserSessionRequest,
   output: StartBrowserSessionResponse,
   errors: [
@@ -2772,7 +3036,20 @@ export const startBrowserSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a browser stream. To use this operation, you must have permissions to perform the bedrock:UpdateBrowserStream action.
  */
-export const updateBrowserStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBrowserStream: (
+  input: UpdateBrowserStreamRequest,
+) => Effect.Effect<
+  UpdateBrowserStreamResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBrowserStreamRequest,
   output: UpdateBrowserStreamResponse,
   errors: [
@@ -2788,7 +3065,20 @@ export const updateBrowserStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the A2A agent card associated with an AgentCore Runtime agent.
  */
-export const getAgentCard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAgentCard: (
+  input: GetAgentCardRequest,
+) => Effect.Effect<
+  GetAgentCardResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | RuntimeClientError
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAgentCardRequest,
   output: GetAgentCardResponse,
   errors: [
@@ -2804,104 +3094,199 @@ export const getAgentCard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the OAuth 2.0 token of the provided resource.
  */
-export const getResourceOauth2Token = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResourceOauth2TokenRequest,
-    output: GetResourceOauth2TokenResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const getResourceOauth2Token: (
+  input: GetResourceOauth2TokenRequest,
+) => Effect.Effect<
+  GetResourceOauth2TokenResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceOauth2TokenRequest,
+  output: GetResourceOauth2TokenResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Searches for and retrieves memory records from an AgentCore Memory resource based on specified search criteria. We recommend using pagination to ensure that the operation returns quickly and successfully.
  *
  * To use this operation, you must have the `bedrock-agentcore:RetrieveMemoryRecords` permission.
  */
-export const retrieveMemoryRecords =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const retrieveMemoryRecords: {
+  (
     input: RetrieveMemoryRecordsInput,
-    output: RetrieveMemoryRecordsOutput,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceQuotaExceededException,
-      ThrottledException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "memoryRecordSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    RetrieveMemoryRecordsOutput,
+    | AccessDeniedException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: RetrieveMemoryRecordsInput,
+  ) => Stream.Stream<
+    RetrieveMemoryRecordsOutput,
+    | AccessDeniedException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: RetrieveMemoryRecordsInput,
+  ) => Stream.Stream<
+    MemoryRecordSummary,
+    | AccessDeniedException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: RetrieveMemoryRecordsInput,
+  output: RetrieveMemoryRecordsOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "memoryRecordSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Starts a memory extraction job that processes events that failed extraction previously in an AgentCore Memory resource and produces structured memory records. When earlier extraction attempts have left events unprocessed, this job will pick up and extract those as well.
  *
  * To use this operation, you must have the `bedrock-agentcore:StartMemoryExtractionJob` permission.
  */
-export const startMemoryExtractionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMemoryExtractionJobInput,
-    output: StartMemoryExtractionJobOutput,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceQuotaExceededException,
-      ThrottledException,
-      ValidationException,
-    ],
-  }),
-);
+export const startMemoryExtractionJob: (
+  input: StartMemoryExtractionJobInput,
+) => Effect.Effect<
+  StartMemoryExtractionJobOutput,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMemoryExtractionJobInput,
+  output: StartMemoryExtractionJobOutput,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates multiple memory records in a single batch operation for the specified memory with custom content.
  */
-export const batchCreateMemoryRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchCreateMemoryRecordsInput,
-    output: BatchCreateMemoryRecordsOutput,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceQuotaExceededException,
-      ThrottledException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchCreateMemoryRecords: (
+  input: BatchCreateMemoryRecordsInput,
+) => Effect.Effect<
+  BatchCreateMemoryRecordsOutput,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCreateMemoryRecordsInput,
+  output: BatchCreateMemoryRecordsOutput,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes multiple memory records in a single batch operation from the specified memory.
  */
-export const batchDeleteMemoryRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDeleteMemoryRecordsInput,
-    output: BatchDeleteMemoryRecordsOutput,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceQuotaExceededException,
-      ThrottledException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchDeleteMemoryRecords: (
+  input: BatchDeleteMemoryRecordsInput,
+) => Effect.Effect<
+  BatchDeleteMemoryRecordsOutput,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteMemoryRecordsInput,
+  output: BatchDeleteMemoryRecordsOutput,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a specific memory record from an AgentCore Memory resource.
  *
  * To use this operation, you must have the `bedrock-agentcore:GetMemoryRecord` permission.
  */
-export const getMemoryRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMemoryRecord: (
+  input: GetMemoryRecordInput,
+) => Effect.Effect<
+  GetMemoryRecordOutput,
+  | AccessDeniedException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMemoryRecordInput,
   output: GetMemoryRecordOutput,
   errors: [
@@ -2919,7 +3304,50 @@ export const getMemoryRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To use this operation, you must have the `bedrock-agentcore:ListActors` permission.
  */
-export const listActors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listActors: {
+  (
+    input: ListActorsInput,
+  ): Effect.Effect<
+    ListActorsOutput,
+    | AccessDeniedException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListActorsInput,
+  ) => Stream.Stream<
+    ListActorsOutput,
+    | AccessDeniedException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListActorsInput,
+  ) => Stream.Stream<
+    ActorSummary,
+    | AccessDeniedException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListActorsInput,
   output: ListActorsOutput,
   errors: [
@@ -2943,59 +3371,154 @@ export const listActors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * To use this operation, you must have the `bedrock-agentcore:ListMemoryRecords` permission.
  */
-export const listMemoryRecords = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMemoryRecords: {
+  (
     input: ListMemoryRecordsInput,
-    output: ListMemoryRecordsOutput,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceQuotaExceededException,
-      ThrottledException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "memoryRecordSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMemoryRecordsOutput,
+    | AccessDeniedException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMemoryRecordsInput,
+  ) => Stream.Stream<
+    ListMemoryRecordsOutput,
+    | AccessDeniedException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMemoryRecordsInput,
+  ) => Stream.Stream<
+    MemoryRecordSummary,
+    | AccessDeniedException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMemoryRecordsInput,
+  output: ListMemoryRecordsOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "memoryRecordSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists sessions in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully.
  *
  * To use this operation, you must have the `bedrock-agentcore:ListSessions` permission.
  */
-export const listSessions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSessions: {
+  (
     input: ListSessionsInput,
-    output: ListSessionsOutput,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceQuotaExceededException,
-      ThrottledException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "sessionSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSessionsOutput,
+    | AccessDeniedException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSessionsInput,
+  ) => Stream.Stream<
+    ListSessionsOutput,
+    | AccessDeniedException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSessionsInput,
+  ) => Stream.Stream<
+    SessionSummary,
+    | AccessDeniedException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSessionsInput,
+  output: ListSessionsOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sessionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes an event from an AgentCore Memory resource. When you delete an event, it is permanently removed.
  *
  * To use this operation, you must have the `bedrock-agentcore:DeleteEvent` permission.
  */
-export const deleteEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEvent: (
+  input: DeleteEventInput,
+) => Effect.Effect<
+  DeleteEventOutput,
+  | AccessDeniedException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventInput,
   output: DeleteEventOutput,
   errors: [
@@ -3013,7 +3536,20 @@ export const deleteEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To use this operation, you must have the `bedrock-agentcore:DeleteMemoryRecord` permission.
  */
-export const deleteMemoryRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMemoryRecord: (
+  input: DeleteMemoryRecordInput,
+) => Effect.Effect<
+  DeleteMemoryRecordOutput,
+  | AccessDeniedException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMemoryRecordInput,
   output: DeleteMemoryRecordOutput,
   errors: [
@@ -3029,20 +3565,30 @@ export const deleteMemoryRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates multiple memory records with custom content in a single batch operation within the specified memory.
  */
-export const batchUpdateMemoryRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchUpdateMemoryRecordsInput,
-    output: BatchUpdateMemoryRecordsOutput,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceQuotaExceededException,
-      ThrottledException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchUpdateMemoryRecords: (
+  input: BatchUpdateMemoryRecordsInput,
+) => Effect.Effect<
+  BatchUpdateMemoryRecordsOutput,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateMemoryRecordsInput,
+  output: BatchUpdateMemoryRecordsOutput,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an event in an AgentCore Memory resource. Events represent interactions or activities that occur within a session and are associated with specific actors.
  *
@@ -3050,7 +3596,20 @@ export const batchUpdateMemoryRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This operation is subject to request rate limiting.
  */
-export const createEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEvent: (
+  input: CreateEventInput,
+) => Effect.Effect<
+  CreateEventOutput,
+  | AccessDeniedException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventInput,
   output: CreateEventOutput,
   errors: [
@@ -3068,7 +3627,50 @@ export const createEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To use this operation, you must have the `bedrock-agentcore:ListEvents` permission.
  */
-export const listEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEvents: {
+  (
+    input: ListEventsInput,
+  ): Effect.Effect<
+    ListEventsOutput,
+    | AccessDeniedException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEventsInput,
+  ) => Stream.Stream<
+    ListEventsOutput,
+    | AccessDeniedException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEventsInput,
+  ) => Stream.Stream<
+    Event,
+    | AccessDeniedException
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListEventsInput,
   output: ListEventsOutput,
   errors: [
@@ -3092,29 +3694,83 @@ export const listEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * To use this operation, you must have the `bedrock-agentcore:ListMemoryExtractionJobs` permission.
  */
-export const listMemoryExtractionJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMemoryExtractionJobs: {
+  (
     input: ListMemoryExtractionJobsInput,
-    output: ListMemoryExtractionJobsOutput,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ServiceException,
-      ServiceQuotaExceededException,
-      ThrottledException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "jobs",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMemoryExtractionJobsOutput,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMemoryExtractionJobsInput,
+  ) => Stream.Stream<
+    ListMemoryExtractionJobsOutput,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMemoryExtractionJobsInput,
+  ) => Stream.Stream<
+    ExtractionJobMetadata,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ServiceException
+    | ServiceQuotaExceededException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMemoryExtractionJobsInput,
+  output: ListMemoryExtractionJobsOutput,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceException,
+    ServiceQuotaExceededException,
+    ThrottledException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Performs on-demand evaluation of agent traces using a specified evaluator. This synchronous API accepts traces in OpenTelemetry format and returns immediate scoring results with detailed explanations.
  */
-export const evaluate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const evaluate: (
+  input: EvaluateRequest,
+) => Effect.Effect<
+  EvaluateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DuplicateIdException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EvaluateRequest,
   output: EvaluateResponse,
   errors: [
@@ -3142,18 +3798,29 @@ export const evaluate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - GetCodeInterpreterSession
  */
-export const invokeCodeInterpreter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: InvokeCodeInterpreterRequest,
-    output: InvokeCodeInterpreterResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const invokeCodeInterpreter: (
+  input: InvokeCodeInterpreterRequest,
+) => Effect.Effect<
+  InvokeCodeInterpreterResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InvokeCodeInterpreterRequest,
+  output: InvokeCodeInterpreterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

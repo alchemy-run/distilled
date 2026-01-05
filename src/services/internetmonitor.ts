@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "InternetMonitor",
   serviceShapeName: "InternetMonitor20210603",
@@ -240,6 +248,34 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type MonitorArn = string;
+export type TagKey = string;
+export type InternetEventId = string;
+export type InternetEventMaxResults = number;
+export type ResourceName = string;
+export type Arn = string;
+export type MaxCityNetworksToMonitor = number;
+export type TrafficPercentageToMonitor = number;
+export type AccountId = string;
+export type MonitorConfigState = string;
+export type MaxResults = number;
+export type QueryMaxResults = number;
+export type QueryType = string;
+export type HealthEventName = string;
+export type HealthEventStatus = string;
+export type TagValue = string;
+export type Percentage = number;
+export type Operator = string;
+export type InternetEventType = string;
+export type InternetEventStatus = string;
+export type MonitorProcessingStatusCode = string;
+export type QueryStatus = string;
+export type HealthEventImpactType = string;
+export type LogDeliveryStatus = string;
+export type LocalHealthEventsConfigStatus = string;
+export type TriangulationEventType = string;
 
 //# Schemas
 export type TagKeys = string[];
@@ -1168,17 +1204,23 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.optional(S.String) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { message: S.optional(S.String) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { message: S.optional(S.String) },
@@ -1203,14 +1245,26 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
   "TooManyRequestsException",
   { message: S.optional(S.String) },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
  * Gets information about a monitor in Amazon CloudWatch Internet Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time,
  * modified time, resources included in the monitor, and status information.
  */
-export const getMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMonitor: (
+  input: GetMonitorInput,
+) => Effect.Effect<
+  GetMonitorOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMonitorInput,
   output: GetMonitorOutput,
   errors: [
@@ -1228,73 +1282,182 @@ export const getMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Using the Amazon CloudWatch Internet Monitor query interface
  * in the Amazon CloudWatch Internet Monitor User Guide.
  */
-export const getQueryResults = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getQueryResults: {
+  (
     input: GetQueryResultsInput,
-    output: GetQueryResultsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      LimitExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetQueryResultsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | LimitExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetQueryResultsInput,
+  ) => Stream.Stream<
+    GetQueryResultsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | LimitExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetQueryResultsInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | LimitExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetQueryResultsInput,
+  output: GetQueryResultsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    LimitExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all of your monitors for Amazon CloudWatch Internet Monitor and their statuses, along with the Amazon Resource Name (ARN) and name of each monitor.
  */
-export const listMonitors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMonitors: {
+  (
     input: ListMonitorsInput,
-    output: ListMonitorsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Monitors",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMonitorsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMonitorsInput,
+  ) => Stream.Stream<
+    ListMonitorsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMonitorsInput,
+  ) => Stream.Stream<
+    Monitor,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMonitorsInput,
+  output: ListMonitorsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Monitors",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end times, and
  * the status.
  *
  * Health events that have start times during the time frame that is requested are not included in the list of health events.
  */
-export const listHealthEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listHealthEvents: {
+  (
     input: ListHealthEventsInput,
-    output: ListHealthEventsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "HealthEvents",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListHealthEventsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListHealthEventsInput,
+  ) => Stream.Stream<
+    ListHealthEventsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListHealthEventsInput,
+  ) => Stream.Stream<
+    HealthEvent,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListHealthEventsInput,
+  output: ListHealthEventsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "HealthEvents",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes a monitor in Amazon CloudWatch Internet Monitor.
  */
-export const deleteMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMonitor: (
+  input: DeleteMonitorInput,
+) => Effect.Effect<
+  DeleteMonitorOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMonitorInput,
   output: DeleteMonitorOutput,
   errors: [
@@ -1313,7 +1476,17 @@ export const deleteMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * when the event started and (if the event is over) ended, the type of event (`PERFORMANCE` or `AVAILABILITY`),
  * and the status (`ACTIVE` or `RESOLVED`).
  */
-export const getInternetEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInternetEvent: (
+  input: GetInternetEventInput,
+) => Effect.Effect<
+  GetInternetEventOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInternetEventInput,
   output: GetInternetEventOutput,
   errors: [
@@ -1335,24 +1508,56 @@ export const getInternetEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can also limit the events returned to a specific status
  * (`ACTIVE` or `RESOLVED`) or type (`PERFORMANCE` or `AVAILABILITY`).
  */
-export const listInternetEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listInternetEvents: {
+  (
     input: ListInternetEventsInput,
-    output: ListInternetEventsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InternetEvents",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListInternetEventsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInternetEventsInput,
+  ) => Stream.Stream<
+    ListInternetEventsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInternetEventsInput,
+  ) => Stream.Stream<
+    InternetEventSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInternetEventsInput,
+  output: ListInternetEventsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InternetEvents",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Start a query to return data for a specific query type for the Amazon CloudWatch Internet Monitor query interface. Specify a time period
  * for the data that you want returned by using `StartTime` and `EndTime`. You filter the query
@@ -1362,7 +1567,18 @@ export const listInternetEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * Using the Amazon CloudWatch Internet Monitor query interface
  * in the Amazon CloudWatch Internet Monitor User Guide.
  */
-export const startQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startQuery: (
+  input: StartQueryInput,
+) => Effect.Effect<
+  StartQueryOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartQueryInput,
   output: StartQueryOutput,
   errors: [
@@ -1387,7 +1603,18 @@ export const startQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `CANCELED`: The query was canceled.
  */
-export const getQueryStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getQueryStatus: (
+  input: GetQueryStatusInput,
+) => Effect.Effect<
+  GetQueryStatusOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetQueryStatusInput,
   output: GetQueryStatusOutput,
   errors: [
@@ -1401,7 +1628,18 @@ export const getQueryStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stop a query that is progress for a specific monitor.
  */
-export const stopQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopQuery: (
+  input: StopQueryInput,
+) => Effect.Effect<
+  StopQueryOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopQueryInput,
   output: StopQueryOutput,
   errors: [
@@ -1424,7 +1662,19 @@ export const stopQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * maximum is the limit of city-networks, but you only pay for the number of city-networks that are actually monitored. You can update your monitor
  * at any time to change the percentage of traffic to monitor or the city-networks maximum. For more information, see Choosing a city-network maximum value in the *Amazon CloudWatch User Guide*.
  */
-export const createMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMonitor: (
+  input: CreateMonitorInput,
+) => Effect.Effect<
+  CreateMonitorOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMonitorInput,
   output: CreateMonitorOutput,
   errors: [
@@ -1443,7 +1693,19 @@ export const createMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The city-network maximum that you choose is the limit, but you only pay for the number of city-networks that are actually monitored.
  * For more information, see Choosing a city-network maximum value in the *Amazon CloudWatch User Guide*.
  */
-export const updateMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMonitor: (
+  input: UpdateMonitorInput,
+) => Effect.Effect<
+  UpdateMonitorOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMonitorInput,
   output: UpdateMonitorOutput,
   errors: [
@@ -1458,7 +1720,18 @@ export const updateMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -1478,7 +1751,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Information rolled up at the global traffic level is also returned, including the impact type and total traffic impact.
  */
-export const getHealthEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getHealthEvent: (
+  input: GetHealthEventInput,
+) => Effect.Effect<
+  GetHealthEventOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHealthEventInput,
   output: GetHealthEventOutput,
   errors: [
@@ -1491,7 +1774,18 @@ export const getHealthEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags for a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -1507,7 +1801,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A minimum of one tag is required for this call. It returns an error if you use the `TagResource` request with 0 tags.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [

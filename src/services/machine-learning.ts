@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace(
   "http://machinelearning.amazonaws.com/doc/2014-12-12/",
 );
@@ -243,6 +251,53 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type EntityId = string;
+export type EntityName = string;
+export type S3Url = string;
+export type RoleARN = string;
+export type Recipe = string;
+export type TagKey = string;
+export type ComparatorValue = string;
+export type StringType = string;
+export type PageLimit = number;
+export type VipURL = string;
+export type ScoreThreshold = number;
+export type TagValue = string;
+export type RDSSelectSqlQuery = string;
+export type DataRearrangement = string;
+export type DataSchema = string;
+export type EDPResourceRole = string;
+export type EDPServiceRole = string;
+export type EDPSubnetId = string;
+export type EDPSecurityGroupId = string;
+export type RedshiftSelectSqlQuery = string;
+export type VariableName = string;
+export type VariableValue = string;
+export type AwsUserArn = string;
+export type PresignedS3Url = string;
+export type Message = string;
+export type LongType = number;
+export type MLModelName = string;
+export type RDSInstanceIdentifier = string;
+export type RDSDatabaseName = string;
+export type RDSDatabaseUsername = string;
+export type RDSDatabasePassword = string;
+export type RedshiftDatabaseName = string;
+export type RedshiftClusterIdentifier = string;
+export type RedshiftDatabaseUsername = string;
+export type RedshiftDatabasePassword = string;
+export type IntegerType = number;
+export type EDPPipelineId = string;
+export type ErrorMessage = string;
+export type ErrorCode = number;
+export type PerformanceMetricsPropertyKey = string;
+export type PerformanceMetricsPropertyValue = string;
+export type Label = string;
+export type floatLabel = number;
+export type ScoreValue = number;
+export type DetailsValue = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -1709,7 +1764,9 @@ export class IdempotentParameterMismatchException extends S.TaggedError<Idempote
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String), code: S.optional(S.Number) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
   "InvalidInputException",
   { message: S.optional(S.String), code: S.optional(S.Number) },
@@ -1739,64 +1796,147 @@ export class PredictorNotMountedException extends S.TaggedError<PredictorNotMoun
 /**
  * Returns a list of `BatchPrediction` operations that match the search criteria in the request.
  */
-export const describeBatchPredictions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeBatchPredictions: {
+  (
     input: DescribeBatchPredictionsInput,
-    output: DescribeBatchPredictionsOutput,
-    errors: [InternalServerException, InvalidInputException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Results",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeBatchPredictionsOutput,
+    InternalServerException | InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeBatchPredictionsInput,
+  ) => Stream.Stream<
+    DescribeBatchPredictionsOutput,
+    InternalServerException | InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeBatchPredictionsInput,
+  ) => Stream.Stream<
+    BatchPrediction,
+    InternalServerException | InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeBatchPredictionsInput,
+  output: DescribeBatchPredictionsOutput,
+  errors: [InternalServerException, InvalidInputException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Results",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns a list of `DataSource` that match the search criteria in the request.
  */
-export const describeDataSources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDataSources: {
+  (
     input: DescribeDataSourcesInput,
-    output: DescribeDataSourcesOutput,
-    errors: [InternalServerException, InvalidInputException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Results",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeDataSourcesOutput,
+    InternalServerException | InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDataSourcesInput,
+  ) => Stream.Stream<
+    DescribeDataSourcesOutput,
+    InternalServerException | InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDataSourcesInput,
+  ) => Stream.Stream<
+    DataSource,
+    InternalServerException | InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDataSourcesInput,
+  output: DescribeDataSourcesOutput,
+  errors: [InternalServerException, InvalidInputException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Results",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns a list of `DescribeEvaluations` that match the search criteria in the request.
  */
-export const describeEvaluations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeEvaluations: {
+  (
     input: DescribeEvaluationsInput,
-    output: DescribeEvaluationsOutput,
-    errors: [InternalServerException, InvalidInputException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Results",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeEvaluationsOutput,
+    InternalServerException | InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEvaluationsInput,
+  ) => Stream.Stream<
+    DescribeEvaluationsOutput,
+    InternalServerException | InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEvaluationsInput,
+  ) => Stream.Stream<
+    Evaluation,
+    InternalServerException | InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEvaluationsInput,
+  output: DescribeEvaluationsOutput,
+  errors: [InternalServerException, InvalidInputException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Results",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Returns a list of `MLModel` that match the search criteria in the request.
  */
-export const describeMLModels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeMLModels: {
+  (
     input: DescribeMLModelsInput,
-    output: DescribeMLModelsOutput,
-    errors: [InternalServerException, InvalidInputException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Results",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeMLModelsOutput,
+    InternalServerException | InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeMLModelsInput,
+  ) => Stream.Stream<
+    DescribeMLModelsOutput,
+    InternalServerException | InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeMLModelsInput,
+  ) => Stream.Stream<
+    MLModel,
+    InternalServerException | InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeMLModelsInput,
+  output: DescribeMLModelsOutput,
+  errors: [InternalServerException, InvalidInputException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Results",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Creates a new `Evaluation` of an `MLModel`. An `MLModel` is evaluated on a set of observations associated to a `DataSource`. Like a `DataSource`
  * for an `MLModel`, the `DataSource` for an `Evaluation` contains values for the `Target Variable`. The `Evaluation` compares the predicted result for each observation to the actual outcome and provides a
@@ -1809,7 +1949,16 @@ export const describeMLModels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * You can use the `GetEvaluation` operation to check progress of the evaluation during the creation operation.
  */
-export const createEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEvaluation: (
+  input: CreateEvaluationInput,
+) => Effect.Effect<
+  CreateEvaluationOutput,
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEvaluationInput,
   output: CreateEvaluationOutput,
   errors: [
@@ -1830,17 +1979,24 @@ export const createEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can poll for status updates by using the GetBatchPrediction operation and checking the `Status` parameter of the result. After the `COMPLETED` status appears,
  * the results are available in the location specified by the `OutputUri` parameter.
  */
-export const createBatchPrediction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBatchPredictionInput,
-    output: CreateBatchPredictionOutput,
-    errors: [
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidInputException,
-    ],
-  }),
-);
+export const createBatchPrediction: (
+  input: CreateBatchPredictionInput,
+) => Effect.Effect<
+  CreateBatchPredictionOutput,
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBatchPredictionInput,
+  output: CreateBatchPredictionOutput,
+  errors: [
+    IdempotentParameterMismatchException,
+    InternalServerException,
+    InvalidInputException,
+  ],
+}));
 /**
  * Creates a `DataSource` object. A `DataSource` references data that
  * can be used to perform `CreateMLModel`, `CreateEvaluation`, or
@@ -1874,17 +2030,24 @@ export const createBatchPrediction = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * for example, will it be combined with another variable or will it be split apart into
  * word combinations? The recipe provides answers to these questions.
  */
-export const createDataSourceFromS3 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataSourceFromS3Input,
-    output: CreateDataSourceFromS3Output,
-    errors: [
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidInputException,
-    ],
-  }),
-);
+export const createDataSourceFromS3: (
+  input: CreateDataSourceFromS3Input,
+) => Effect.Effect<
+  CreateDataSourceFromS3Output,
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataSourceFromS3Input,
+  output: CreateDataSourceFromS3Output,
+  errors: [
+    IdempotentParameterMismatchException,
+    InternalServerException,
+    InvalidInputException,
+  ],
+}));
 /**
  * Creates a new `MLModel` using the `DataSource` and the recipe as
  * information sources.
@@ -1907,7 +2070,16 @@ export const createDataSourceFromS3 = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `CreateDataSourceFromRDS`, `CreateDataSourceFromS3`, or
  * `CreateDataSourceFromRedshift` operations.
  */
-export const createMLModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMLModel: (
+  input: CreateMLModelInput,
+) => Effect.Effect<
+  CreateMLModelOutput,
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMLModelInput,
   output: CreateMLModelOutput,
   errors: [
@@ -1927,17 +2099,24 @@ export const createMLModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If Amazon ML cannot accept the input source, it sets the `Status` parameter to `FAILED` and includes an error message in the `Message` attribute of the `GetDataSource` operation response.
  */
-export const createDataSourceFromRDS = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataSourceFromRDSInput,
-    output: CreateDataSourceFromRDSOutput,
-    errors: [
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidInputException,
-    ],
-  }),
-);
+export const createDataSourceFromRDS: (
+  input: CreateDataSourceFromRDSInput,
+) => Effect.Effect<
+  CreateDataSourceFromRDSOutput,
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataSourceFromRDSInput,
+  output: CreateDataSourceFromRDSOutput,
+  errors: [
+    IdempotentParameterMismatchException,
+    InternalServerException,
+    InvalidInputException,
+  ],
+}));
 /**
  * Creates a `DataSource` from a database hosted on an Amazon Redshift cluster. A
  * `DataSource` references data that can be used to perform either `CreateMLModel`, `CreateEvaluation`, or `CreateBatchPrediction`
@@ -1970,16 +2149,24 @@ export const createDataSourceFromRDS = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `CreateDataSource` call. Change the settings that you want to change and
  * make sure that all required fields have the appropriate values.
  */
-export const createDataSourceFromRedshift =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDataSourceFromRedshiftInput,
-    output: CreateDataSourceFromRedshiftOutput,
-    errors: [
-      IdempotentParameterMismatchException,
-      InternalServerException,
-      InvalidInputException,
-    ],
-  }));
+export const createDataSourceFromRedshift: (
+  input: CreateDataSourceFromRedshiftInput,
+) => Effect.Effect<
+  CreateDataSourceFromRedshiftOutput,
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidInputException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataSourceFromRedshiftInput,
+  output: CreateDataSourceFromRedshiftOutput,
+  errors: [
+    IdempotentParameterMismatchException,
+    InternalServerException,
+    InvalidInputException,
+  ],
+}));
 /**
  * Assigns the DELETED status to a `BatchPrediction`, rendering it unusable.
  *
@@ -1988,23 +2175,40 @@ export const createDataSourceFromRedshift =
  *
  * **Caution:** The result of the `DeleteBatchPrediction` operation is irreversible.
  */
-export const deleteBatchPrediction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBatchPredictionInput,
-    output: DeleteBatchPredictionOutput,
-    errors: [
-      InternalServerException,
-      InvalidInputException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteBatchPrediction: (
+  input: DeleteBatchPredictionInput,
+) => Effect.Effect<
+  DeleteBatchPredictionOutput,
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBatchPredictionInput,
+  output: DeleteBatchPredictionOutput,
+  errors: [
+    InternalServerException,
+    InvalidInputException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes the specified tags associated with an ML object. After this operation is complete, you can't recover deleted tags.
  *
  * If you specify a tag that doesn't exist, Amazon ML ignores it.
  */
-export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTags: (
+  input: DeleteTagsInput,
+) => Effect.Effect<
+  DeleteTagsOutput,
+  | InternalServerException
+  | InvalidInputException
+  | InvalidTagException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsInput,
   output: DeleteTagsOutput,
   errors: [
@@ -2017,7 +2221,16 @@ export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns an `Evaluation` that includes metadata as well as the current status of the `Evaluation`.
  */
-export const getEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEvaluation: (
+  input: GetEvaluationInput,
+) => Effect.Effect<
+  GetEvaluationOutput,
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEvaluationInput,
   output: GetEvaluationOutput,
   errors: [
@@ -2032,7 +2245,16 @@ export const getEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `GetDataSource` provides results in normal or verbose format. The verbose format
  * adds the schema description and the list of files pointed to by the DataSource to the normal format.
  */
-export const getDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDataSource: (
+  input: GetDataSourceInput,
+) => Effect.Effect<
+  GetDataSourceOutput,
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSourceInput,
   output: GetDataSourceOutput,
   errors: [
@@ -2048,7 +2270,16 @@ export const getDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Caution:** The results of the `DeleteDataSource` operation are irreversible.
  */
-export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataSource: (
+  input: DeleteDataSourceInput,
+) => Effect.Effect<
+  DeleteDataSourceOutput,
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataSourceInput,
   output: DeleteDataSourceOutput,
   errors: [
@@ -2065,7 +2296,16 @@ export const deleteDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Caution:** The results of the `DeleteEvaluation` operation are irreversible.
  */
-export const deleteEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEvaluation: (
+  input: DeleteEvaluationInput,
+) => Effect.Effect<
+  DeleteEvaluationOutput,
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEvaluationInput,
   output: DeleteEvaluationOutput,
   errors: [
@@ -2082,7 +2322,16 @@ export const deleteEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Caution:** The result of the `DeleteMLModel` operation is irreversible.
  */
-export const deleteMLModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMLModel: (
+  input: DeleteMLModelInput,
+) => Effect.Effect<
+  DeleteMLModelOutput,
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMLModelInput,
   output: DeleteMLModelOutput,
   errors: [
@@ -2094,21 +2343,37 @@ export const deleteMLModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a real time endpoint of an `MLModel`.
  */
-export const deleteRealtimeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRealtimeEndpointInput,
-    output: DeleteRealtimeEndpointOutput,
-    errors: [
-      InternalServerException,
-      InvalidInputException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteRealtimeEndpoint: (
+  input: DeleteRealtimeEndpointInput,
+) => Effect.Effect<
+  DeleteRealtimeEndpointOutput,
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRealtimeEndpointInput,
+  output: DeleteRealtimeEndpointOutput,
+  errors: [
+    InternalServerException,
+    InvalidInputException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Describes one or more of the tags for your Amazon ML object.
  */
-export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTags: (
+  input: DescribeTagsInput,
+) => Effect.Effect<
+  DescribeTagsOutput,
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTagsInput,
   output: DescribeTagsOutput,
   errors: [
@@ -2121,7 +2386,16 @@ export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns a `BatchPrediction` that includes detailed metadata, status, and data file information for a
  * `Batch Prediction` request.
  */
-export const getBatchPrediction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBatchPrediction: (
+  input: GetBatchPredictionInput,
+) => Effect.Effect<
+  GetBatchPredictionOutput,
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBatchPredictionInput,
   output: GetBatchPredictionOutput,
   errors: [
@@ -2135,7 +2409,16 @@ export const getBatchPrediction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * `GetMLModel` provides results in normal or verbose format.
  */
-export const getMLModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMLModel: (
+  input: GetMLModelInput,
+) => Effect.Effect<
+  GetMLModelOutput,
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMLModelInput,
   output: GetMLModelOutput,
   errors: [
@@ -2149,23 +2432,39 @@ export const getMLModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can use the `GetBatchPrediction` operation to view the contents of the updated data element.
  */
-export const updateBatchPrediction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateBatchPredictionInput,
-    output: UpdateBatchPredictionOutput,
-    errors: [
-      InternalServerException,
-      InvalidInputException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateBatchPrediction: (
+  input: UpdateBatchPredictionInput,
+) => Effect.Effect<
+  UpdateBatchPredictionOutput,
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBatchPredictionInput,
+  output: UpdateBatchPredictionOutput,
+  errors: [
+    InternalServerException,
+    InvalidInputException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Updates the `DataSourceName` of a `DataSource`.
  *
  * You can use the `GetDataSource` operation to view the contents of the updated data element.
  */
-export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDataSource: (
+  input: UpdateDataSourceInput,
+) => Effect.Effect<
+  UpdateDataSourceOutput,
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataSourceInput,
   output: UpdateDataSourceOutput,
   errors: [
@@ -2179,7 +2478,16 @@ export const updateDataSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can use the `GetEvaluation` operation to view the contents of the updated data element.
  */
-export const updateEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEvaluation: (
+  input: UpdateEvaluationInput,
+) => Effect.Effect<
+  UpdateEvaluationOutput,
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEvaluationInput,
   output: UpdateEvaluationOutput,
   errors: [
@@ -2193,7 +2501,16 @@ export const updateEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can use the `GetMLModel` operation to view the contents of the updated data element.
  */
-export const updateMLModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMLModel: (
+  input: UpdateMLModelInput,
+) => Effect.Effect<
+  UpdateMLModelOutput,
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMLModelInput,
   output: UpdateMLModelOutput,
   errors: [
@@ -2205,23 +2522,41 @@ export const updateMLModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a real-time endpoint for the `MLModel`. The endpoint contains the URI of the `MLModel`; that is, the location to send real-time prediction requests for the specified `MLModel`.
  */
-export const createRealtimeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRealtimeEndpointInput,
-    output: CreateRealtimeEndpointOutput,
-    errors: [
-      InternalServerException,
-      InvalidInputException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const createRealtimeEndpoint: (
+  input: CreateRealtimeEndpointInput,
+) => Effect.Effect<
+  CreateRealtimeEndpointOutput,
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRealtimeEndpointInput,
+  output: CreateRealtimeEndpointOutput,
+  errors: [
+    InternalServerException,
+    InvalidInputException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Adds one or more tags to an object, up to a limit of 10. Each tag consists of a key
  * and an optional value. If you add a tag using a key that is already associated with the ML object,
  * `AddTags` updates the tag's value.
  */
-export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addTags: (
+  input: AddTagsInput,
+) => Effect.Effect<
+  AddTagsOutput,
+  | InternalServerException
+  | InvalidInputException
+  | InvalidTagException
+  | ResourceNotFoundException
+  | TagLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsInput,
   output: AddTagsOutput,
   errors: [
@@ -2238,7 +2573,18 @@ export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **Note:** Not all response parameters will be populated. Whether a
  * response parameter is populated depends on the type of model requested.
  */
-export const predict = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const predict: (
+  input: PredictInput,
+) => Effect.Effect<
+  PredictOutput,
+  | InternalServerException
+  | InvalidInputException
+  | LimitExceededException
+  | PredictorNotMountedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PredictInput,
   output: PredictOutput,
   errors: [

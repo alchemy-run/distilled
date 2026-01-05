@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "LookoutEquipment",
   serviceShapeName: "AWSLookoutEquipmentFrontendService",
@@ -240,6 +248,60 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type DatasetName = string;
+export type NameOrArn = string;
+export type IdempotenceToken = string;
+export type ModelName = string;
+export type InferenceSchedulerName = string;
+export type DataDelayOffsetInMinutes = number;
+export type IamRoleArn = string;
+export type LabelGroupName = string;
+export type FaultCode = string;
+export type Comments = string;
+export type Equipment = string;
+export type DatasetIdentifier = string;
+export type OffCondition = string;
+export type RetrainingFrequency = string;
+export type LookbackWindow = string;
+export type InferenceSchedulerIdentifier = string;
+export type LabelId = string;
+export type ResourceArn = string;
+export type IngestionJobId = string;
+export type ModelVersion = number;
+export type DatasetArn = string;
+export type ModelVersionArn = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type AmazonResourceArn = string;
+export type Policy = string;
+export type PolicyRevisionId = string;
+export type TagKey = string;
+export type SynthesizedJsonInlineDataSchema = string;
+export type TagValue = string;
+export type TimeZoneOffset = string;
+export type LabelGroupArn = string;
+export type ModelArn = string;
+export type BoundedLengthString = string;
+export type DataSizeInBytes = number;
+export type KmsKeyArn = string;
+export type InferenceSchedulerArn = string;
+export type SynthesizedJsonModelMetrics = string;
+export type Integer = number;
+export type InlineDataSchema = string;
+export type ModelMetrics = string;
+export type AutoPromotionResultReason = string;
+export type S3Bucket = string;
+export type S3Prefix = string;
+export type FileNameTimestampFormat = string;
+export type ComponentTimestampDelimiter = string;
+export type KeyPattern = string;
+export type S3Key = string;
+export type EventDurationInSeconds = number;
+export type ComponentName = string;
+export type SensorName = string;
+export type Float = number;
 
 //# Schemas
 export type FaultCodes = string[];
@@ -2510,7 +2572,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String },
@@ -2518,7 +2582,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.String },
@@ -2533,48 +2599,129 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * Provides a list of all data ingestion jobs, including dataset name and ARN, S3 location
  * of the input data, status, and so on.
  */
-export const listDataIngestionJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataIngestionJobs: {
+  (
     input: ListDataIngestionJobsRequest,
-    output: ListDataIngestionJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataIngestionJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataIngestionJobsRequest,
+  ) => Stream.Stream<
+    ListDataIngestionJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataIngestionJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataIngestionJobsRequest,
+  output: ListDataIngestionJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists statistics about the data collected for each of the sensors that have been
  * successfully ingested in the particular dataset. Can also be used to retreive Sensor
  * Statistics for a previous ingestion job.
  */
-export const listSensorStatistics =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSensorStatistics: {
+  (
     input: ListSensorStatisticsRequest,
-    output: ListSensorStatisticsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSensorStatisticsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSensorStatisticsRequest,
+  ) => Stream.Stream<
+    ListSensorStatisticsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSensorStatisticsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSensorStatisticsRequest,
+  output: ListSensorStatisticsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a group of labels.
  */
-export const createLabelGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLabelGroup: (
+  input: CreateLabelGroupRequest,
+) => Effect.Effect<
+  CreateLabelGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLabelGroupRequest,
   output: CreateLabelGroupResponse,
   errors: [
@@ -2589,87 +2736,216 @@ export const createLabelGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a specific machine learning model version.
  */
-export const describeModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeModelVersionRequest,
-    output: DescribeModelVersionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeModelVersion: (
+  input: DescribeModelVersionRequest,
+) => Effect.Effect<
+  DescribeModelVersionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeModelVersionRequest,
+  output: DescribeModelVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all inference events that have been found for the specified inference scheduler.
  */
-export const listInferenceEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInferenceEvents: {
+  (
     input: ListInferenceEventsRequest,
-    output: ListInferenceEventsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInferenceEventsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInferenceEventsRequest,
+  ) => Stream.Stream<
+    ListInferenceEventsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInferenceEventsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInferenceEventsRequest,
+  output: ListInferenceEventsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all inference executions that have been performed by the specified inference
  * scheduler.
  */
-export const listInferenceExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInferenceExecutions: {
+  (
     input: ListInferenceExecutionsRequest,
-    output: ListInferenceExecutionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInferenceExecutionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInferenceExecutionsRequest,
+  ) => Stream.Stream<
+    ListInferenceExecutionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInferenceExecutionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInferenceExecutionsRequest,
+  output: ListInferenceExecutionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Generates a list of all model versions for a given model, including the model version,
  * model version ARN, and status. To list a subset of versions, use the
  * `MaxModelVersion` and `MinModelVersion` fields.
  */
-export const listModelVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listModelVersions: {
+  (
     input: ListModelVersionsRequest,
-    output: ListModelVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListModelVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListModelVersionsRequest,
+  ) => Stream.Stream<
+    ListModelVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListModelVersionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListModelVersionsRequest,
+  output: ListModelVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Imports a dataset.
  */
-export const importDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importDataset: (
+  input: ImportDatasetRequest,
+) => Effect.Effect<
+  ImportDatasetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportDatasetRequest,
   output: ImportDatasetResponse,
   errors: [
@@ -2685,7 +2961,20 @@ export const importDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Imports a model that has been trained successfully.
  */
-export const importModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importModelVersion: (
+  input: ImportModelVersionRequest,
+) => Effect.Effect<
+  ImportModelVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportModelVersionRequest,
   output: ImportModelVersionResponse,
   errors: [
@@ -2701,7 +2990,20 @@ export const importModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a resource control policy for a given resource.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [
@@ -2717,110 +3019,182 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts an inference scheduler.
  */
-export const startInferenceScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartInferenceSchedulerRequest,
-    output: StartInferenceSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startInferenceScheduler: (
+  input: StartInferenceSchedulerRequest,
+) => Effect.Effect<
+  StartInferenceSchedulerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartInferenceSchedulerRequest,
+  output: StartInferenceSchedulerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Starts a retraining scheduler.
  */
-export const startRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartRetrainingSchedulerRequest,
-    output: StartRetrainingSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startRetrainingScheduler: (
+  input: StartRetrainingSchedulerRequest,
+) => Effect.Effect<
+  StartRetrainingSchedulerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartRetrainingSchedulerRequest,
+  output: StartRetrainingSchedulerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Stops an inference scheduler.
  */
-export const stopInferenceScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopInferenceSchedulerRequest,
-    output: StopInferenceSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const stopInferenceScheduler: (
+  input: StopInferenceSchedulerRequest,
+) => Effect.Effect<
+  StopInferenceSchedulerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopInferenceSchedulerRequest,
+  output: StopInferenceSchedulerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Stops a retraining scheduler.
  */
-export const stopRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopRetrainingSchedulerRequest,
-    output: StopRetrainingSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const stopRetrainingScheduler: (
+  input: StopRetrainingSchedulerRequest,
+) => Effect.Effect<
+  StopRetrainingSchedulerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopRetrainingSchedulerRequest,
+  output: StopRetrainingSchedulerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Sets the active model version for a given machine learning model.
  */
-export const updateActiveModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateActiveModelVersionRequest,
-    output: UpdateActiveModelVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateActiveModelVersion: (
+  input: UpdateActiveModelVersionRequest,
+) => Effect.Effect<
+  UpdateActiveModelVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateActiveModelVersionRequest,
+  output: UpdateActiveModelVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an inference scheduler that has been set up. Prior inference results will not be
  * deleted.
  */
-export const deleteInferenceScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInferenceSchedulerRequest,
-    output: DeleteInferenceSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteInferenceScheduler: (
+  input: DeleteInferenceSchedulerRequest,
+) => Effect.Effect<
+  DeleteInferenceSchedulerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInferenceSchedulerRequest,
+  output: DeleteInferenceSchedulerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a label.
  */
-export const deleteLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLabel: (
+  input: DeleteLabelRequest,
+) => Effect.Effect<
+  DeleteLabelResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLabelRequest,
   output: DeleteLabelResponse,
   errors: [
@@ -2835,7 +3209,19 @@ export const deleteLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a group of labels.
  */
-export const deleteLabelGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLabelGroup: (
+  input: DeleteLabelGroupRequest,
+) => Effect.Effect<
+  DeleteLabelGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLabelGroupRequest,
   output: DeleteLabelGroupResponse,
   errors: [
@@ -2851,7 +3237,19 @@ export const deleteLabelGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes a machine learning model currently available for Amazon Lookout for Equipment. This will prevent it
  * from being used with an inference scheduler, even one that is already set up.
  */
-export const deleteModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteModel: (
+  input: DeleteModelRequest,
+) => Effect.Effect<
+  DeleteModelResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelRequest,
   output: DeleteModelResponse,
   errors: [
@@ -2866,59 +3264,101 @@ export const deleteModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the resource policy attached to the resource.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a retraining scheduler from a model. The retraining scheduler must be in the
  * `STOPPED` status.
  */
-export const deleteRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRetrainingSchedulerRequest,
-    output: DeleteRetrainingSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteRetrainingScheduler: (
+  input: DeleteRetrainingSchedulerRequest,
+) => Effect.Effect<
+  DeleteRetrainingSchedulerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRetrainingSchedulerRequest,
+  output: DeleteRetrainingSchedulerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an inference scheduler.
  */
-export const updateInferenceScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateInferenceSchedulerRequest,
-    output: UpdateInferenceSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateInferenceScheduler: (
+  input: UpdateInferenceSchedulerRequest,
+) => Effect.Effect<
+  UpdateInferenceSchedulerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInferenceSchedulerRequest,
+  output: UpdateInferenceSchedulerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the label group.
  */
-export const updateLabelGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLabelGroup: (
+  input: UpdateLabelGroupRequest,
+) => Effect.Effect<
+  UpdateLabelGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLabelGroupRequest,
   output: UpdateLabelGroupResponse,
   errors: [
@@ -2933,7 +3373,19 @@ export const updateLabelGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a model in the account.
  */
-export const updateModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateModel: (
+  input: UpdateModelRequest,
+) => Effect.Effect<
+  UpdateModelResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateModelRequest,
   output: UpdateModelResponse,
   errors: [
@@ -2948,24 +3400,47 @@ export const updateModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a retraining scheduler.
  */
-export const updateRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRetrainingSchedulerRequest,
-    output: UpdateRetrainingSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateRetrainingScheduler: (
+  input: UpdateRetrainingSchedulerRequest,
+) => Effect.Effect<
+  UpdateRetrainingSchedulerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRetrainingSchedulerRequest,
+  output: UpdateRetrainingSchedulerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a label for an event.
  */
-export const createLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLabel: (
+  input: CreateLabelRequest,
+) => Effect.Effect<
+  CreateLabelResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLabelRequest,
   output: CreateLabelResponse,
   errors: [
@@ -2981,41 +3456,71 @@ export const createLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a retraining scheduler on the specified model.
  */
-export const createRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRetrainingSchedulerRequest,
-    output: CreateRetrainingSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createRetrainingScheduler: (
+  input: CreateRetrainingSchedulerRequest,
+) => Effect.Effect<
+  CreateRetrainingSchedulerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRetrainingSchedulerRequest,
+  output: CreateRetrainingSchedulerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Specifies information about the inference scheduler being used, including name, model,
  * status, and associated metadata
  */
-export const describeInferenceScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInferenceSchedulerRequest,
-    output: DescribeInferenceSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeInferenceScheduler: (
+  input: DescribeInferenceSchedulerRequest,
+) => Effect.Effect<
+  DescribeInferenceSchedulerResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInferenceSchedulerRequest,
+  output: DescribeInferenceSchedulerResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the name of the label.
  */
-export const describeLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeLabel: (
+  input: DescribeLabelRequest,
+) => Effect.Effect<
+  DescribeLabelResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLabelRequest,
   output: DescribeLabelResponse,
   errors: [
@@ -3029,7 +3534,18 @@ export const describeLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the label group.
  */
-export const describeLabelGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeLabelGroup: (
+  input: DescribeLabelGroupRequest,
+) => Effect.Effect<
+  DescribeLabelGroupResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLabelGroupRequest,
   output: DescribeLabelGroupResponse,
   errors: [
@@ -3045,7 +3561,18 @@ export const describeLabelGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * model, including model name and ARN, dataset, training and evaluation information, status,
  * and so on.
  */
-export const describeModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeModel: (
+  input: DescribeModelRequest,
+) => Effect.Effect<
+  DescribeModelResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeModelRequest,
   output: DescribeModelResponse,
   errors: [
@@ -3059,40 +3586,69 @@ export const describeModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides the details of a resource policy attached to a resource.
  */
-export const describeResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeResourcePolicyRequest,
-    output: DescribeResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeResourcePolicy: (
+  input: DescribeResourcePolicyRequest,
+) => Effect.Effect<
+  DescribeResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeResourcePolicyRequest,
+  output: DescribeResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Provides a description of the retraining scheduler, including information such as the
  * model name and retraining parameters.
  */
-export const describeRetrainingScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRetrainingSchedulerRequest,
-    output: DescribeRetrainingSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeRetrainingScheduler: (
+  input: DescribeRetrainingSchedulerRequest,
+) => Effect.Effect<
+  DescribeRetrainingSchedulerResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRetrainingSchedulerRequest,
+  output: DescribeRetrainingSchedulerResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all the tags for a specified resource, including key and value.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3110,7 +3666,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * a resource, either when you create it, or later. Up to 50 tags can be associated with each
  * resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3125,7 +3693,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a specific tag from a given resource. The tag is specified by its key.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3143,7 +3722,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This does not affect any models that used this dataset for training and evaluation, but
  * does prevent it from being used in the future.
  */
-export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataset: (
+  input: DeleteDatasetRequest,
+) => Effect.Effect<
+  DeleteDatasetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetRequest,
   output: DeleteDatasetResponse,
   errors: [
@@ -3162,21 +3753,32 @@ export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * entries in the data, set an offset delay if desired, and set the frequency of inferencing.
  * You must also provide an S3 bucket location for the output data.
  */
-export const createInferenceScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateInferenceSchedulerRequest,
-    output: CreateInferenceSchedulerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createInferenceScheduler: (
+  input: CreateInferenceSchedulerRequest,
+) => Effect.Effect<
+  CreateInferenceSchedulerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInferenceSchedulerRequest,
+  output: CreateInferenceSchedulerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a machine learning model for data inference.
  *
@@ -3190,7 +3792,20 @@ export const createInferenceScheduler = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * to learn patterns of normal behavior and abnormal patterns that lead to equipment failure.
  * Another portion of the data is used to evaluate the model's accuracy.
  */
-export const createModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createModel: (
+  input: CreateModelRequest,
+) => Effect.Effect<
+  CreateModelResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelRequest,
   output: CreateModelResponse,
   errors: [
@@ -3206,66 +3821,197 @@ export const createModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all datasets currently available in your account, filtering on the dataset name.
  */
-export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDatasets: {
+  (
     input: ListDatasetsRequest,
-    output: ListDatasetsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDatasetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatasetsRequest,
+  ) => Stream.Stream<
+    ListDatasetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatasetsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatasetsRequest,
+  output: ListDatasetsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of all inference schedulers currently available for your account.
  */
-export const listInferenceSchedulers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInferenceSchedulers: {
+  (
     input: ListInferenceSchedulersRequest,
-    output: ListInferenceSchedulersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInferenceSchedulersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInferenceSchedulersRequest,
+  ) => Stream.Stream<
+    ListInferenceSchedulersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInferenceSchedulersRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInferenceSchedulersRequest,
+  output: ListInferenceSchedulersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of the label groups.
  */
-export const listLabelGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLabelGroups: {
+  (
     input: ListLabelGroupsRequest,
-    output: ListLabelGroupsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLabelGroupsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLabelGroupsRequest,
+  ) => Stream.Stream<
+    ListLabelGroupsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLabelGroupsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLabelGroupsRequest,
+  output: ListLabelGroupsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides a list of labels.
  */
-export const listLabels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLabels: {
+  (
+    input: ListLabelsRequest,
+  ): Effect.Effect<
+    ListLabelsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLabelsRequest,
+  ) => Stream.Stream<
+    ListLabelsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLabelsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLabelsRequest,
   output: ListLabelsResponse,
   errors: [
@@ -3284,7 +4030,41 @@ export const listLabels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Generates a list of all models in the account, including model name and ARN, dataset,
  * and status.
  */
-export const listModels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listModels: {
+  (
+    input: ListModelsRequest,
+  ): Effect.Effect<
+    ListModelsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListModelsRequest,
+  ) => Stream.Stream<
+    ListModelsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListModelsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListModelsRequest,
   output: ListModelsResponse,
   errors: [
@@ -3303,27 +4083,71 @@ export const listModels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Lists all retraining schedulers in your account, filtering by model name prefix and
  * status.
  */
-export const listRetrainingSchedulers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRetrainingSchedulers: {
+  (
     input: ListRetrainingSchedulersRequest,
-    output: ListRetrainingSchedulersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRetrainingSchedulersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRetrainingSchedulersRequest,
+  ) => Stream.Stream<
+    ListRetrainingSchedulersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRetrainingSchedulersRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRetrainingSchedulersRequest,
+  output: ListRetrainingSchedulersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides a JSON description of the data in each time series dataset, including names,
  * column names, and data types.
  */
-export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDataset: (
+  input: DescribeDatasetRequest,
+) => Effect.Effect<
+  DescribeDatasetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetRequest,
   output: DescribeDatasetResponse,
   errors: [
@@ -3340,7 +4164,19 @@ export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For example, it contains the location of the data source, the data schema, and other
  * information. A dataset also contains any tags associated with the ingested data.
  */
-export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDataset: (
+  input: CreateDatasetRequest,
+) => Effect.Effect<
+  CreateDatasetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetRequest,
   output: CreateDatasetResponse,
   errors: [
@@ -3355,35 +4191,55 @@ export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
  */
-export const startDataIngestionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDataIngestionJobRequest,
-    output: StartDataIngestionJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startDataIngestionJob: (
+  input: StartDataIngestionJobRequest,
+) => Effect.Effect<
+  StartDataIngestionJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDataIngestionJobRequest,
+  output: StartDataIngestionJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Provides information on a specific data ingestion job such as creation time, dataset
  * ARN, and status.
  */
-export const describeDataIngestionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDataIngestionJobRequest,
-    output: DescribeDataIngestionJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeDataIngestionJob: (
+  input: DescribeDataIngestionJobRequest,
+) => Effect.Effect<
+  DescribeDataIngestionJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDataIngestionJobRequest,
+  output: DescribeDataIngestionJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

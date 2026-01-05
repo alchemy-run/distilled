@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region as Rgn,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Lightsail",
   serviceShapeName: "Lightsail_20161128",
@@ -240,6 +248,51 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ResourceName = string;
+export type NonEmptyString = string;
+export type BucketName = string;
+export type CertificateName = string;
+export type DomainName = string;
+export type StringMax256 = string;
+export type ContainerServiceName = string;
+export type ContainerServiceScale = number;
+export type integer = number;
+export type Port = number;
+export type SensitiveString = string;
+export type AutoSnapshotDate = string;
+export type Base64 = string;
+export type MetricPeriod = number;
+export type SetupHistoryPageToken = string;
+export type double = number;
+export type ContainerLabel = string;
+export type EmailAddress = string;
+export type SetupDomainName = string;
+export type ResourceArn = string;
+export type TagKey = string;
+export type TagValue = string;
+export type ContainerName = string;
+export type long = number;
+export type DomainEntryType = string;
+export type float = number;
+export type BucketAccessLogPrefix = string;
+export type TimeOfDay = string;
+export type DomainEntryOptionsKeys = string;
+export type BucketCorsRuleId = string;
+export type BucketCorsAllowedMethod = string;
+export type IAMAccessKeyId = string;
+export type SensitiveNonEmptyString = string;
+export type IpAddress = string;
+export type Ipv6Address = string;
+export type SerialNumber = string;
+export type RequestFailureReason = string;
+export type InUseResourceCount = number;
+export type KeyAlgorithm = string;
+export type IssuerCA = string;
+export type EligibleToRenew = string;
+export type RevocationReason = string;
+export type RenewalStatusReason = string;
 
 //# Schemas
 export interface CreateContainerServiceRegistryLoginRequest {}
@@ -7869,7 +7922,9 @@ export class ServiceException extends S.TaggedError<ServiceException>()(
     message: S.optional(S.String),
     tip: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class OperationFailureException extends S.TaggedError<OperationFailureException>()(
   "OperationFailureException",
   {
@@ -7894,39 +7949,71 @@ export class UnauthenticatedException extends S.TaggedError<UnauthenticatedExcep
  * Returns information about Amazon Lightsail containers, such as the current version of the
  * Lightsail Control (lightsailctl) plugin.
  */
-export const getContainerAPIMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetContainerAPIMetadataRequest,
-    output: GetContainerAPIMetadataResult,
-    errors: [
-      AccessDeniedException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getContainerAPIMetadata: (
+  input: GetContainerAPIMetadataRequest,
+) => Effect.Effect<
+  GetContainerAPIMetadataResult,
+  | AccessDeniedException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContainerAPIMetadataRequest,
+  output: GetContainerAPIMetadataResult,
+  errors: [
+    AccessDeniedException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns information about one or more of your Amazon Lightsail container services.
  */
-export const getContainerServices = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetContainerServicesRequest,
-    output: ContainerServicesListResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getContainerServices: (
+  input: GetContainerServicesRequest,
+) => Effect.Effect<
+  ContainerServicesListResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContainerServicesRequest,
+  output: ContainerServicesListResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns information about a specific domain recordset.
  */
-export const getDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDomain: (
+  input: GetDomainRequest,
+) => Effect.Effect<
+  GetDomainResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainRequest,
   output: GetDomainResult,
   errors: [
@@ -7944,7 +8031,21 @@ export const getDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns information about a specific Amazon Lightsail instance, which is a virtual private
  * server.
  */
-export const getInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInstance: (
+  input: GetInstanceRequest,
+) => Effect.Effect<
+  GetInstanceResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceRequest,
   output: GetInstanceResult,
   errors: [
@@ -7967,26 +8068,52 @@ export const getInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can have a maximum of 2 certificates associated with a Lightsail load balancer. One
  * is active and the other is inactive.
  */
-export const getLoadBalancerTlsCertificates =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetLoadBalancerTlsCertificatesRequest,
-    output: GetLoadBalancerTlsCertificatesResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const getLoadBalancerTlsCertificates: (
+  input: GetLoadBalancerTlsCertificatesRequest,
+) => Effect.Effect<
+  GetLoadBalancerTlsCertificatesResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLoadBalancerTlsCertificatesRequest,
+  output: GetLoadBalancerTlsCertificatesResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns the available automatic snapshots for an instance or disk. For more information,
  * see the Amazon Lightsail Developer Guide.
  */
-export const getAutoSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAutoSnapshots: (
+  input: GetAutoSnapshotsRequest,
+) => Effect.Effect<
+  GetAutoSnapshotsResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutoSnapshotsRequest,
   output: GetAutoSnapshotsResult,
   errors: [
@@ -8006,25 +8133,52 @@ export const getAutoSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * An AWS CloudFormation stack is used to create a new Amazon EC2 instance from an exported Lightsail
  * snapshot.
  */
-export const getCloudFormationStackRecords =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCloudFormationStackRecordsRequest,
-    output: GetCloudFormationStackRecordsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const getCloudFormationStackRecords: (
+  input: GetCloudFormationStackRecordsRequest,
+) => Effect.Effect<
+  GetCloudFormationStackRecordsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCloudFormationStackRecordsRequest,
+  output: GetCloudFormationStackRecordsResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns information about a specific block storage disk.
  */
-export const getDisk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDisk: (
+  input: GetDiskRequest,
+) => Effect.Effect<
+  GetDiskResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDiskRequest,
   output: GetDiskResult,
   errors: [
@@ -8042,7 +8196,19 @@ export const getDisk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns information about one or more of your Amazon Lightsail content delivery network
  * (CDN) distributions.
  */
-export const getDistributions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDistributions: (
+  input: GetDistributionsRequest,
+) => Effect.Effect<
+  GetDistributionsResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDistributionsRequest,
   output: GetDistributionsResult,
   errors: [
@@ -8062,26 +8228,52 @@ export const getDistributions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * via resource tags applied to the resource identified by `instance name`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const getInstanceAccessDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetInstanceAccessDetailsRequest,
-    output: GetInstanceAccessDetailsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getInstanceAccessDetails: (
+  input: GetInstanceAccessDetailsRequest,
+) => Effect.Effect<
+  GetInstanceAccessDetailsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInstanceAccessDetailsRequest,
+  output: GetInstanceAccessDetailsResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns information about the specified Lightsail load balancer.
  */
-export const getLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLoadBalancer: (
+  input: GetLoadBalancerRequest,
+) => Effect.Effect<
+  GetLoadBalancerResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoadBalancerRequest,
   output: GetLoadBalancerResult,
   errors: [
@@ -8100,7 +8292,21 @@ export const getLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * availability zones parameter to also return the Availability Zones in a
  * region.
  */
-export const getRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRegions: (
+  input: GetRegionsRequest,
+) => Effect.Effect<
+  GetRegionsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegionsRequest,
   output: GetRegionsResult,
   errors: [
@@ -8117,22 +8323,34 @@ export const getRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a specific database in Amazon Lightsail.
  */
-export const getRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRelationalDatabaseRequest,
-    output: GetRelationalDatabaseResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getRelationalDatabase: (
+  input: GetRelationalDatabaseRequest,
+) => Effect.Effect<
+  GetRelationalDatabaseResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRelationalDatabaseRequest,
+  output: GetRelationalDatabaseResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Deletes the specified block storage disk. The disk must be in the `available`
  * state (not attached to a Lightsail instance).
@@ -8143,7 +8361,21 @@ export const getRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * applied to the resource identified by `disk name`. For more information, see the
  * Amazon Lightsail Developer Guide.
  */
-export const deleteDisk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDisk: (
+  input: DeleteDiskRequest,
+) => Effect.Effect<
+  DeleteDiskResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDiskRequest,
   output: DeleteDiskResult,
   errors: [
@@ -8168,7 +8400,21 @@ export const deleteDisk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * instances. Blueprints are marked inactive when they become outdated due to operating system
  * updates or new application releases.
  */
-export const getBlueprints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBlueprints: (
+  input: GetBlueprintsRequest,
+) => Effect.Effect<
+  GetBlueprintsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBlueprintsRequest,
   output: GetBlueprintsResult,
   errors: [
@@ -8193,7 +8439,21 @@ export const getBlueprints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Bundles are referred to as *instance plans* in the Lightsail
  * console.
  */
-export const getBundles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBundles: (
+  input: GetBundlesRequest,
+) => Effect.Effect<
+  GetBundlesResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBundlesRequest,
   output: GetBundlesResult,
   errors: [
@@ -8216,7 +8476,20 @@ export const getBundles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Regions, and SMS text messages cannot be sent to some countries/regions. For more information,
  * see Notifications in Amazon Lightsail.
  */
-export const getContactMethods = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getContactMethods: (
+  input: GetContactMethodsRequest,
+) => Effect.Effect<
+  GetContactMethodsResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContactMethodsRequest,
   output: GetContactMethodsResult,
   errors: [
@@ -8232,7 +8505,21 @@ export const getContactMethods = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a specific block storage disk snapshot.
  */
-export const getDiskSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDiskSnapshot: (
+  input: GetDiskSnapshotRequest,
+) => Effect.Effect<
+  GetDiskSnapshotResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDiskSnapshotRequest,
   output: GetDiskSnapshotResult,
   errors: [
@@ -8250,26 +8537,52 @@ export const getDiskSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns the firewall port states for a specific Amazon Lightsail instance, the IP addresses
  * allowed to connect to the instance through the ports, and the protocol.
  */
-export const getInstancePortStates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetInstancePortStatesRequest,
-    output: GetInstancePortStatesResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getInstancePortStates: (
+  input: GetInstancePortStatesRequest,
+) => Effect.Effect<
+  GetInstancePortStatesResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInstancePortStatesRequest,
+  output: GetInstancePortStatesResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns information about a specific instance snapshot.
  */
-export const getInstanceSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInstanceSnapshot: (
+  input: GetInstanceSnapshotRequest,
+) => Effect.Effect<
+  GetInstanceSnapshotResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceSnapshotRequest,
   output: GetInstanceSnapshotResult,
   errors: [
@@ -8286,7 +8599,21 @@ export const getInstanceSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the state of a specific instance. Works on one instance at a time.
  */
-export const getInstanceState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInstanceState: (
+  input: GetInstanceStateRequest,
+) => Effect.Effect<
+  GetInstanceStateResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceStateRequest,
   output: GetInstanceStateResult,
   errors: [
@@ -8307,21 +8634,34 @@ export const getInstanceState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can use a blueprint ID to create a new database that runs a specific database
  * engine.
  */
-export const getRelationalDatabaseBlueprints =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRelationalDatabaseBlueprintsRequest,
-    output: GetRelationalDatabaseBlueprintsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const getRelationalDatabaseBlueprints: (
+  input: GetRelationalDatabaseBlueprintsRequest,
+) => Effect.Effect<
+  GetRelationalDatabaseBlueprintsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRelationalDatabaseBlueprintsRequest,
+  output: GetRelationalDatabaseBlueprintsResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns the list of bundles that are available in Amazon Lightsail. A bundle describes the
  * performance specifications for a database.
@@ -8329,80 +8669,145 @@ export const getRelationalDatabaseBlueprints =
  * You can use a bundle ID to create a new database with explicit performance
  * specifications.
  */
-export const getRelationalDatabaseBundles =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRelationalDatabaseBundlesRequest,
-    output: GetRelationalDatabaseBundlesResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const getRelationalDatabaseBundles: (
+  input: GetRelationalDatabaseBundlesRequest,
+) => Effect.Effect<
+  GetRelationalDatabaseBundlesResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRelationalDatabaseBundlesRequest,
+  output: GetRelationalDatabaseBundlesResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns a list of events for a specific database in Amazon Lightsail.
  */
-export const getRelationalDatabaseEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRelationalDatabaseEventsRequest,
-    output: GetRelationalDatabaseEventsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getRelationalDatabaseEvents: (
+  input: GetRelationalDatabaseEventsRequest,
+) => Effect.Effect<
+  GetRelationalDatabaseEventsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRelationalDatabaseEventsRequest,
+  output: GetRelationalDatabaseEventsResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns a list of log events for a database in Amazon Lightsail.
  */
-export const getRelationalDatabaseLogEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRelationalDatabaseLogEventsRequest,
-    output: GetRelationalDatabaseLogEventsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const getRelationalDatabaseLogEvents: (
+  input: GetRelationalDatabaseLogEventsRequest,
+) => Effect.Effect<
+  GetRelationalDatabaseLogEventsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRelationalDatabaseLogEventsRequest,
+  output: GetRelationalDatabaseLogEventsResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns information about a specific database snapshot in Amazon Lightsail.
  */
-export const getRelationalDatabaseSnapshot =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRelationalDatabaseSnapshotRequest,
-    output: GetRelationalDatabaseSnapshotResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const getRelationalDatabaseSnapshot: (
+  input: GetRelationalDatabaseSnapshotRequest,
+) => Effect.Effect<
+  GetRelationalDatabaseSnapshotResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRelationalDatabaseSnapshotRequest,
+  output: GetRelationalDatabaseSnapshotResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns information about an Amazon Lightsail static IP.
  */
-export const getStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStaticIp: (
+  input: GetStaticIpRequest,
+) => Effect.Effect<
+  GetStaticIpResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStaticIpRequest,
   output: GetStaticIpResult,
   errors: [
@@ -8419,7 +8824,21 @@ export const getStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Peers the Lightsail VPC with the user's default VPC.
  */
-export const peerVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const peerVpc: (
+  input: PeerVpcRequest,
+) => Effect.Effect<
+  PeerVpcResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PeerVpcRequest,
   output: PeerVpcResult,
   errors: [
@@ -8447,25 +8866,50 @@ export const peerVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * control via resource tags applied to the resource identified by relationalDatabaseName. For
  * more information, see the Amazon Lightsail Developer Guide.
  */
-export const updateRelationalDatabaseParameters =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRelationalDatabaseParametersRequest,
-    output: UpdateRelationalDatabaseParametersResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const updateRelationalDatabaseParameters: (
+  input: UpdateRelationalDatabaseParametersRequest,
+) => Effect.Effect<
+  UpdateRelationalDatabaseParametersResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRelationalDatabaseParametersRequest,
+  output: UpdateRelationalDatabaseParametersResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Deletes your Amazon Lightsail content delivery network (CDN) distribution.
  */
-export const deleteDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDistribution: (
+  input: DeleteDistributionRequest,
+) => Effect.Effect<
+  DeleteDistributionResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDistributionRequest,
   output: DeleteDistributionResult,
   errors: [
@@ -8484,23 +8928,47 @@ export const deleteDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * After the certificate is detached, your distribution stops accepting traffic for all of
  * the domains that are associated with the certificate.
  */
-export const detachCertificateFromDistribution =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DetachCertificateFromDistributionRequest,
-    output: DetachCertificateFromDistributionResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const detachCertificateFromDistribution: (
+  input: DetachCertificateFromDistributionRequest,
+) => Effect.Effect<
+  DetachCertificateFromDistributionResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachCertificateFromDistributionRequest,
+  output: DetachCertificateFromDistributionResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Disables an add-on for an Amazon Lightsail resource. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const disableAddOn = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableAddOn: (
+  input: DisableAddOnRequest,
+) => Effect.Effect<
+  DisableAddOnResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableAddOnRequest,
   output: DisableAddOnResult,
   errors: [
@@ -8517,7 +8985,20 @@ export const disableAddOn = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see
  * the Amazon Lightsail Developer Guide.
  */
-export const enableAddOn = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableAddOn: (
+  input: EnableAddOnRequest,
+) => Effect.Effect<
+  EnableAddOnResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableAddOnRequest,
   output: EnableAddOnResult,
   errors: [
@@ -8537,37 +9018,58 @@ export const enableAddOn = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * A distribution bundle specifies the monthly network transfer quota and monthly cost of
  * your distribution.
  */
-export const getDistributionBundles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDistributionBundlesRequest,
-    output: GetDistributionBundlesResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getDistributionBundles: (
+  input: GetDistributionBundlesRequest,
+) => Effect.Effect<
+  GetDistributionBundlesResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDistributionBundlesRequest,
+  output: GetDistributionBundlesResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns the timestamp and status of the last cache reset of a specific Amazon Lightsail
  * content delivery network (CDN) distribution.
  */
-export const getDistributionLatestCacheReset =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDistributionLatestCacheResetRequest,
-    output: GetDistributionLatestCacheResetResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const getDistributionLatestCacheReset: (
+  input: GetDistributionLatestCacheResetRequest,
+) => Effect.Effect<
+  GetDistributionLatestCacheResetResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDistributionLatestCacheResetRequest,
+  output: GetDistributionLatestCacheResetResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns the data points of a specific metric for an Amazon Lightsail content delivery
  * network (CDN) distribution.
@@ -8576,20 +9078,30 @@ export const getDistributionLatestCacheReset =
  * Monitor and collect metric data regularly to maintain the reliability, availability, and
  * performance of your resources.
  */
-export const getDistributionMetricData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDistributionMetricDataRequest,
-    output: GetDistributionMetricDataResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getDistributionMetricData: (
+  input: GetDistributionMetricDataRequest,
+) => Effect.Effect<
+  GetDistributionMetricDataResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDistributionMetricDataRequest,
+  output: GetDistributionMetricDataResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Creates or updates an alarm, and associates it with the specified metric.
  *
@@ -8606,7 +9118,20 @@ export const getDistributionMetricData = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * overwrites the previous configuration of the alarm. The alarm is then evaluated with the
  * updated configuration.
  */
-export const putAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putAlarm: (
+  input: PutAlarmRequest,
+) => Effect.Effect<
+  PutAlarmResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAlarmRequest,
   output: PutAlarmResult,
   errors: [
@@ -8626,20 +9151,30 @@ export const putAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * After resetting the cache, the next time a content request is made, your distribution
  * pulls, serves, and caches it from the origin.
  */
-export const resetDistributionCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetDistributionCacheRequest,
-    output: ResetDistributionCacheResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const resetDistributionCache: (
+  input: ResetDistributionCacheRequest,
+) => Effect.Effect<
+  ResetDistributionCacheResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetDistributionCacheRequest,
+  output: ResetDistributionCacheResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Sends a verification request to an email contact method to ensure it's owned by the
  * requester. SMS contact methods don't need to be verified.
@@ -8656,20 +9191,32 @@ export const resetDistributionCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Notifications are not sent to an email contact method until after it is verified, and
  * confirmed as valid.
  */
-export const sendContactMethodVerification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SendContactMethodVerificationRequest,
-    output: SendContactMethodVerificationResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const sendContactMethodVerification: (
+  input: SendContactMethodVerificationRequest,
+) => Effect.Effect<
+  SendContactMethodVerificationResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendContactMethodVerificationRequest,
+  output: SendContactMethodVerificationResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Tests an alarm by displaying a banner on the Amazon Lightsail console. If a notification
  * trigger is configured for the specified alarm, the test also sends a notification to the
@@ -8681,7 +9228,20 @@ export const sendContactMethodVerification =
  * on the Amazon Lightsail console. For more information, see Alarms
  * in Amazon Lightsail.
  */
-export const testAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testAlarm: (
+  input: TestAlarmRequest,
+) => Effect.Effect<
+  TestAlarmResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestAlarmRequest,
   output: TestAlarmResult,
   errors: [
@@ -8699,7 +9259,19 @@ export const testAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Use this action to update the configuration of your existing distribution.
  */
-export const updateDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDistribution: (
+  input: UpdateDistributionRequest,
+) => Effect.Effect<
+  UpdateDistributionResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDistributionRequest,
   output: UpdateDistributionResult,
   errors: [
@@ -8725,20 +9297,30 @@ export const updateDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `GetDistributions` action. The `ableToUpdateBundle` parameter in the
  * result will indicate whether you can currently update your distribution's bundle.
  */
-export const updateDistributionBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDistributionBundleRequest,
-    output: UpdateDistributionBundleResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const updateDistributionBundle: (
+  input: UpdateDistributionBundleRequest,
+) => Effect.Effect<
+  UpdateDistributionBundleResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDistributionBundleRequest,
+  output: UpdateDistributionBundleResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Attaches an SSL/TLS certificate to your Amazon Lightsail content delivery network (CDN)
  * distribution.
@@ -8755,19 +9337,30 @@ export const updateDistributionBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Region, and distribute its content globally. However, all distributions are located in the
  * `us-east-1` Region.
  */
-export const attachCertificateToDistribution =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AttachCertificateToDistributionRequest,
-    output: AttachCertificateToDistributionResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const attachCertificateToDistribution: (
+  input: AttachCertificateToDistributionRequest,
+) => Effect.Effect<
+  AttachCertificateToDistributionResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachCertificateToDistributionRequest,
+  output: AttachCertificateToDistributionResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Creates an email or SMS text message contact method.
  *
@@ -8776,7 +9369,20 @@ export const attachCertificateToDistribution =
  * Regions, and SMS text messages cannot be sent to some countries/regions. For more information,
  * see Notifications in Amazon Lightsail.
  */
-export const createContactMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createContactMethod: (
+  input: CreateContactMethodRequest,
+) => Effect.Effect<
+  CreateContactMethodResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContactMethodRequest,
   output: CreateContactMethodResult,
   errors: [
@@ -8797,7 +9403,20 @@ export const createContactMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * on the Amazon Lightsail console. For more information, see Alarms
  * in Amazon Lightsail.
  */
-export const deleteAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAlarm: (
+  input: DeleteAlarmRequest,
+) => Effect.Effect<
+  DeleteAlarmResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAlarmRequest,
   output: DeleteAlarmResult,
   errors: [
@@ -8813,7 +9432,20 @@ export const deleteAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an automatic snapshot of an instance or disk. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteAutoSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAutoSnapshot: (
+  input: DeleteAutoSnapshotRequest,
+) => Effect.Effect<
+  DeleteAutoSnapshotResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAutoSnapshotRequest,
   output: DeleteAutoSnapshotResult,
   errors: [
@@ -8834,7 +9466,20 @@ export const deleteAutoSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Regions, and SMS text messages cannot be sent to some countries/regions. For more information,
  * see Notifications in Amazon Lightsail.
  */
-export const deleteContactMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteContactMethod: (
+  input: DeleteContactMethodRequest,
+) => Effect.Effect<
+  DeleteContactMethodResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContactMethodRequest,
   output: DeleteContactMethodResult,
   errors: [
@@ -8860,7 +9505,21 @@ export const deleteContactMethod = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resource tags applied to the resource identified by `disk snapshot name`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteDiskSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDiskSnapshot: (
+  input: DeleteDiskSnapshotRequest,
+) => Effect.Effect<
+  DeleteDiskSnapshotResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDiskSnapshotRequest,
   output: DeleteDiskSnapshotResult,
   errors: [
@@ -8881,7 +9540,21 @@ export const deleteDiskSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * tags applied to the resource identified by `domain name`. For more information, see
  * the Amazon Lightsail Developer Guide.
  */
-export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDomain: (
+  input: DeleteDomainRequest,
+) => Effect.Effect<
+  DeleteDomainResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainRequest,
   output: DeleteDomainResult,
   errors: [
@@ -8902,7 +9575,21 @@ export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resource tags applied to the resource identified by `domain name`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteDomainEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDomainEntry: (
+  input: DeleteDomainEntryRequest,
+) => Effect.Effect<
+  DeleteDomainEntryResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainEntryRequest,
   output: DeleteDomainEntryResult,
   errors: [
@@ -8923,7 +9610,21 @@ export const deleteDomainEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * tags applied to the resource identified by `instance name`. For more information,
  * see the Amazon Lightsail Developer Guide.
  */
-export const deleteInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteInstance: (
+  input: DeleteInstanceRequest,
+) => Effect.Effect<
+  DeleteInstanceResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInstanceRequest,
   output: DeleteInstanceResult,
   errors: [
@@ -8945,22 +9646,34 @@ export const deleteInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resource tags applied to the resource identified by `instance snapshot name`. For
  * more information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteInstanceSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInstanceSnapshotRequest,
-    output: DeleteInstanceSnapshotResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const deleteInstanceSnapshot: (
+  input: DeleteInstanceSnapshotRequest,
+) => Effect.Effect<
+  DeleteInstanceSnapshotResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInstanceSnapshotRequest,
+  output: DeleteInstanceSnapshotResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Deletes the specified key pair by removing the public key from Amazon Lightsail.
  *
@@ -8973,7 +9686,21 @@ export const deleteInstanceSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * tags applied to the resource identified by `key pair name`. For more information,
  * see the Amazon Lightsail Developer Guide.
  */
-export const deleteKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKeyPair: (
+  input: DeleteKeyPairRequest,
+) => Effect.Effect<
+  DeleteKeyPairResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeyPairRequest,
   output: DeleteKeyPairResult,
   errors: [
@@ -8997,7 +9724,21 @@ export const deleteKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * information, see Troubleshooting connection issues when using the Amazon Lightsail browser-based SSH or RDP
  * client.
  */
-export const deleteKnownHostKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKnownHostKeys: (
+  input: DeleteKnownHostKeysRequest,
+) => Effect.Effect<
+  DeleteKnownHostKeysResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKnownHostKeysRequest,
   output: DeleteKnownHostKeysResult,
   errors: [
@@ -9020,7 +9761,21 @@ export const deleteKnownHostKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resource tags applied to the resource identified by `load balancer name`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLoadBalancer: (
+  input: DeleteLoadBalancerRequest,
+) => Effect.Effect<
+  DeleteLoadBalancerResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLoadBalancerRequest,
   output: DeleteLoadBalancerResult,
   errors: [
@@ -9041,21 +9796,34 @@ export const deleteLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * control via resource tags applied to the resource identified by load balancer
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteLoadBalancerTlsCertificate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteLoadBalancerTlsCertificateRequest,
-    output: DeleteLoadBalancerTlsCertificateResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const deleteLoadBalancerTlsCertificate: (
+  input: DeleteLoadBalancerTlsCertificateRequest,
+) => Effect.Effect<
+  DeleteLoadBalancerTlsCertificateResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLoadBalancerTlsCertificateRequest,
+  output: DeleteLoadBalancerTlsCertificateResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Deletes a database in Amazon Lightsail.
  *
@@ -9063,22 +9831,34 @@ export const deleteLoadBalancerTlsCertificate =
  * via resource tags applied to the resource identified by relationalDatabaseName. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRelationalDatabaseRequest,
-    output: DeleteRelationalDatabaseResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const deleteRelationalDatabase: (
+  input: DeleteRelationalDatabaseRequest,
+) => Effect.Effect<
+  DeleteRelationalDatabaseResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRelationalDatabaseRequest,
+  output: DeleteRelationalDatabaseResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Deletes a database snapshot in Amazon Lightsail.
  *
@@ -9086,21 +9866,34 @@ export const deleteRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * control via resource tags applied to the resource identified by relationalDatabaseName. For
  * more information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteRelationalDatabaseSnapshot =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRelationalDatabaseSnapshotRequest,
-    output: DeleteRelationalDatabaseSnapshotResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const deleteRelationalDatabaseSnapshot: (
+  input: DeleteRelationalDatabaseSnapshotRequest,
+) => Effect.Effect<
+  DeleteRelationalDatabaseSnapshotResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRelationalDatabaseSnapshotRequest,
+  output: DeleteRelationalDatabaseSnapshotResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Detaches a stopped block storage disk from a Lightsail instance. Make sure to unmount
  * any file systems on the device within your operating system before stopping the instance and
@@ -9110,7 +9903,21 @@ export const deleteRelationalDatabaseSnapshot =
  * applied to the resource identified by `disk name`. For more information, see the
  * Amazon Lightsail Developer Guide.
  */
-export const detachDisk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detachDisk: (
+  input: DetachDiskRequest,
+) => Effect.Effect<
+  DetachDiskResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachDiskRequest,
   output: DetachDiskResult,
   errors: [
@@ -9134,25 +9941,52 @@ export const detachDisk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * control via resource tags applied to the resource identified by load balancer
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const detachInstancesFromLoadBalancer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DetachInstancesFromLoadBalancerRequest,
-    output: DetachInstancesFromLoadBalancerResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const detachInstancesFromLoadBalancer: (
+  input: DetachInstancesFromLoadBalancerRequest,
+) => Effect.Effect<
+  DetachInstancesFromLoadBalancerResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachInstancesFromLoadBalancerRequest,
+  output: DetachInstancesFromLoadBalancerResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Detaches a static IP from the Amazon Lightsail instance to which it is attached.
  */
-export const detachStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detachStaticIp: (
+  input: DetachStaticIpRequest,
+) => Effect.Effect<
+  DetachStaticIpResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachStaticIpRequest,
   output: DetachStaticIpResult,
   errors: [
@@ -9183,7 +10017,21 @@ export const detachStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Use the `get instance snapshots` or `get disk snapshots`
  * operations to get a list of snapshots that you can export to Amazon EC2.
  */
-export const exportSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const exportSnapshot: (
+  input: ExportSnapshotRequest,
+) => Effect.Effect<
+  ExportSnapshotResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportSnapshotRequest,
   output: ExportSnapshotResult,
   errors: [
@@ -9200,7 +10048,21 @@ export const exportSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the names of all active (not deleted) resources.
  */
-export const getActiveNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getActiveNames: (
+  input: GetActiveNamesRequest,
+) => Effect.Effect<
+  GetActiveNamesResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetActiveNamesRequest,
   output: GetActiveNamesResult,
   errors: [
@@ -9217,7 +10079,21 @@ export const getActiveNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about all block storage disks in your AWS account and region.
  */
-export const getDisks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDisks: (
+  input: GetDisksRequest,
+) => Effect.Effect<
+  GetDisksResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDisksRequest,
   output: GetDisksResult,
   errors: [
@@ -9235,7 +10111,21 @@ export const getDisks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns information about all block storage disk snapshots in your AWS account and
  * region.
  */
-export const getDiskSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDiskSnapshots: (
+  input: GetDiskSnapshotsRequest,
+) => Effect.Effect<
+  GetDiskSnapshotsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDiskSnapshotsRequest,
   output: GetDiskSnapshotsResult,
   errors: [
@@ -9252,7 +10142,21 @@ export const getDiskSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of all domains in the user's account.
  */
-export const getDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDomains: (
+  input: GetDomainsRequest,
+) => Effect.Effect<
+  GetDomainsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainsRequest,
   output: GetDomainsResult,
   errors: [
@@ -9274,27 +10178,53 @@ export const getDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Monitor and collect metric data regularly to maintain the reliability, availability, and
  * performance of your resources.
  */
-export const getInstanceMetricData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetInstanceMetricDataRequest,
-    output: GetInstanceMetricDataResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getInstanceMetricData: (
+  input: GetInstanceMetricDataRequest,
+) => Effect.Effect<
+  GetInstanceMetricDataResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInstanceMetricDataRequest,
+  output: GetInstanceMetricDataResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns information about all Amazon Lightsail virtual private servers, or
  * *instances*.
  */
-export const getInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInstances: (
+  input: GetInstancesRequest,
+) => Effect.Effect<
+  GetInstancesResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstancesRequest,
   output: GetInstancesResult,
   errors: [
@@ -9311,26 +10241,52 @@ export const getInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns all instance snapshots for the user's account.
  */
-export const getInstanceSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetInstanceSnapshotsRequest,
-    output: GetInstanceSnapshotsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getInstanceSnapshots: (
+  input: GetInstanceSnapshotsRequest,
+) => Effect.Effect<
+  GetInstanceSnapshotsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInstanceSnapshotsRequest,
+  output: GetInstanceSnapshotsResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns information about a specific key pair.
  */
-export const getKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKeyPair: (
+  input: GetKeyPairRequest,
+) => Effect.Effect<
+  GetKeyPairResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKeyPairRequest,
   output: GetKeyPairResult,
   errors: [
@@ -9347,7 +10303,21 @@ export const getKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about all key pairs in the user's account.
  */
-export const getKeyPairs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKeyPairs: (
+  input: GetKeyPairsRequest,
+) => Effect.Effect<
+  GetKeyPairsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKeyPairsRequest,
   output: GetKeyPairsResult,
   errors: [
@@ -9368,26 +10338,52 @@ export const getKeyPairs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Monitor and collect metric data regularly to maintain the reliability, availability, and
  * performance of your resources.
  */
-export const getLoadBalancerMetricData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLoadBalancerMetricDataRequest,
-    output: GetLoadBalancerMetricDataResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getLoadBalancerMetricData: (
+  input: GetLoadBalancerMetricDataRequest,
+) => Effect.Effect<
+  GetLoadBalancerMetricDataResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLoadBalancerMetricDataRequest,
+  output: GetLoadBalancerMetricDataResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns information about all load balancers in an account.
  */
-export const getLoadBalancers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLoadBalancers: (
+  input: GetLoadBalancersRequest,
+) => Effect.Effect<
+  GetLoadBalancersResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoadBalancersRequest,
   output: GetLoadBalancersResult,
   errors: [
@@ -9405,7 +10401,21 @@ export const getLoadBalancers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns information about a specific operation. Operations include events such as when you
  * create an instance, allocate a static IP, attach a static IP, and so on.
  */
-export const getOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getOperation: (
+  input: GetOperationRequest,
+) => Effect.Effect<
+  GetOperationResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationRequest,
   output: GetOperationResult,
   errors: [
@@ -9426,7 +10436,21 @@ export const getOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * by making each subsequent call to `GetOperations` use the maximum (last)
  * `statusChangedAt` value from the previous request.
  */
-export const getOperations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getOperations: (
+  input: GetOperationsRequest,
+) => Effect.Effect<
+  GetOperationsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResult,
   errors: [
@@ -9443,40 +10467,65 @@ export const getOperations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets operations for a specific resource (an instance or a static IP).
  */
-export const getOperationsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetOperationsForResourceRequest,
-    output: GetOperationsForResourceResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getOperationsForResource: (
+  input: GetOperationsForResourceRequest,
+) => Effect.Effect<
+  GetOperationsForResourceResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOperationsForResourceRequest,
+  output: GetOperationsForResourceResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns a list of available log streams for a specific database in Amazon Lightsail.
  */
-export const getRelationalDatabaseLogStreams =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRelationalDatabaseLogStreamsRequest,
-    output: GetRelationalDatabaseLogStreamsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const getRelationalDatabaseLogStreams: (
+  input: GetRelationalDatabaseLogStreamsRequest,
+) => Effect.Effect<
+  GetRelationalDatabaseLogStreamsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRelationalDatabaseLogStreamsRequest,
+  output: GetRelationalDatabaseLogStreamsResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns the current, previous, or pending versions of the master user password for a
  * Lightsail database.
@@ -9485,21 +10534,34 @@ export const getRelationalDatabaseLogStreams =
  * access control via resource tags applied to the resource identified by
  * relationalDatabaseName.
  */
-export const getRelationalDatabaseMasterUserPassword =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRelationalDatabaseMasterUserPasswordRequest,
-    output: GetRelationalDatabaseMasterUserPasswordResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const getRelationalDatabaseMasterUserPassword: (
+  input: GetRelationalDatabaseMasterUserPasswordRequest,
+) => Effect.Effect<
+  GetRelationalDatabaseMasterUserPasswordResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRelationalDatabaseMasterUserPasswordRequest,
+  output: GetRelationalDatabaseMasterUserPasswordResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns the data points of the specified metric for a database in Amazon Lightsail.
  *
@@ -9507,21 +10569,34 @@ export const getRelationalDatabaseMasterUserPassword =
  * Monitor and collect metric data regularly to maintain the reliability, availability, and
  * performance of your resources.
  */
-export const getRelationalDatabaseMetricData =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRelationalDatabaseMetricDataRequest,
-    output: GetRelationalDatabaseMetricDataResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const getRelationalDatabaseMetricData: (
+  input: GetRelationalDatabaseMetricDataRequest,
+) => Effect.Effect<
+  GetRelationalDatabaseMetricDataResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRelationalDatabaseMetricDataRequest,
+  output: GetRelationalDatabaseMetricDataResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns all of the runtime parameters offered by the underlying database software, or
  * engine, for a specific database in Amazon Lightsail.
@@ -9530,62 +10605,114 @@ export const getRelationalDatabaseMetricData =
  * about each parameter. This information includes whether changes require a reboot, whether the
  * parameter is modifiable, the allowed values, and the data types.
  */
-export const getRelationalDatabaseParameters =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRelationalDatabaseParametersRequest,
-    output: GetRelationalDatabaseParametersResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const getRelationalDatabaseParameters: (
+  input: GetRelationalDatabaseParametersRequest,
+) => Effect.Effect<
+  GetRelationalDatabaseParametersResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRelationalDatabaseParametersRequest,
+  output: GetRelationalDatabaseParametersResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns information about all of your databases in Amazon Lightsail.
  */
-export const getRelationalDatabases = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRelationalDatabasesRequest,
-    output: GetRelationalDatabasesResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getRelationalDatabases: (
+  input: GetRelationalDatabasesRequest,
+) => Effect.Effect<
+  GetRelationalDatabasesResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRelationalDatabasesRequest,
+  output: GetRelationalDatabasesResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns information about all of your database snapshots in Amazon Lightsail.
  */
-export const getRelationalDatabaseSnapshots =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRelationalDatabaseSnapshotsRequest,
-    output: GetRelationalDatabaseSnapshotsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const getRelationalDatabaseSnapshots: (
+  input: GetRelationalDatabaseSnapshotsRequest,
+) => Effect.Effect<
+  GetRelationalDatabaseSnapshotsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRelationalDatabaseSnapshotsRequest,
+  output: GetRelationalDatabaseSnapshotsResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns information about all static IPs in the user's account.
  */
-export const getStaticIps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStaticIps: (
+  input: GetStaticIpsRequest,
+) => Effect.Effect<
+  GetStaticIpsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStaticIpsRequest,
   output: GetStaticIpsResult,
   errors: [
@@ -9602,7 +10729,21 @@ export const getStaticIps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Imports a public SSH key from a specific key pair.
  */
-export const importKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importKeyPair: (
+  input: ImportKeyPairRequest,
+) => Effect.Effect<
+  ImportKeyPairResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportKeyPairRequest,
   output: ImportKeyPairResult,
   errors: [
@@ -9624,22 +10765,34 @@ export const importKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resource tags applied to the resource identified by `instanceName`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const openInstancePublicPorts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: OpenInstancePublicPortsRequest,
-    output: OpenInstancePublicPortsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const openInstancePublicPorts: (
+  input: OpenInstancePublicPortsRequest,
+) => Effect.Effect<
+  OpenInstancePublicPortsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: OpenInstancePublicPortsRequest,
+  output: OpenInstancePublicPortsResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses
  * allowed to connect to the instance through the ports, and the protocol. This action also
@@ -9652,22 +10805,34 @@ export const openInstancePublicPorts = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * resource tags applied to the resource identified by `instanceName`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const putInstancePublicPorts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutInstancePublicPortsRequest,
-    output: PutInstancePublicPortsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const putInstancePublicPorts: (
+  input: PutInstancePublicPortsRequest,
+) => Effect.Effect<
+  PutInstancePublicPortsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutInstancePublicPortsRequest,
+  output: PutInstancePublicPortsResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Restarts a specific instance.
  *
@@ -9675,7 +10840,21 @@ export const putInstancePublicPorts = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * tags applied to the resource identified by `instance name`. For more information,
  * see the Amazon Lightsail Developer Guide.
  */
-export const rebootInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rebootInstance: (
+  input: RebootInstanceRequest,
+) => Effect.Effect<
+  RebootInstanceResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootInstanceRequest,
   output: RebootInstanceResult,
   errors: [
@@ -9696,26 +10875,52 @@ export const rebootInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * via resource tags applied to the resource identified by relationalDatabaseName. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const rebootRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RebootRelationalDatabaseRequest,
-    output: RebootRelationalDatabaseResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const rebootRelationalDatabase: (
+  input: RebootRelationalDatabaseRequest,
+) => Effect.Effect<
+  RebootRelationalDatabaseResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RebootRelationalDatabaseRequest,
+  output: RebootRelationalDatabaseResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Deletes a specific static IP from your account.
  */
-export const releaseStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const releaseStaticIp: (
+  input: ReleaseStaticIpRequest,
+) => Effect.Effect<
+  ReleaseStaticIpResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReleaseStaticIpRequest,
   output: ReleaseStaticIpResult,
   errors: [
@@ -9736,7 +10941,21 @@ export const releaseStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * specified resource. Alternately, you can use this action to disable dual-stack, and enable
  * IPv4 only.
  */
-export const setIpAddressType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setIpAddressType: (
+  input: SetIpAddressTypeRequest,
+) => Effect.Effect<
+  SetIpAddressTypeResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIpAddressTypeRequest,
   output: SetIpAddressTypeResult,
   errors: [
@@ -9762,7 +10981,21 @@ export const setIpAddressType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * tags applied to the resource identified by `instance name`. For more information,
  * see the Amazon Lightsail Developer Guide.
  */
-export const startInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startInstance: (
+  input: StartInstanceRequest,
+) => Effect.Effect<
+  StartInstanceResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartInstanceRequest,
   output: StartInstanceResult,
   errors: [
@@ -9784,22 +11017,34 @@ export const startInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resource tags applied to the resource identified by relationalDatabaseName. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const startRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartRelationalDatabaseRequest,
-    output: StartRelationalDatabaseResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const startRelationalDatabase: (
+  input: StartRelationalDatabaseRequest,
+) => Effect.Effect<
+  StartRelationalDatabaseResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartRelationalDatabaseRequest,
+  output: StartRelationalDatabaseResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Stops a specific Amazon Lightsail instance that is currently running.
  *
@@ -9811,7 +11056,21 @@ export const startRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * tags applied to the resource identified by `instance name`. For more information,
  * see the Amazon Lightsail Developer Guide.
  */
-export const stopInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopInstance: (
+  input: StopInstanceRequest,
+) => Effect.Effect<
+  StopInstanceResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopInstanceRequest,
   output: StopInstanceResult,
   errors: [
@@ -9836,22 +11095,34 @@ export const stopInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resource tags applied to the resource identified by relationalDatabaseName. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const stopRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopRelationalDatabaseRequest,
-    output: StopRelationalDatabaseResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const stopRelationalDatabase: (
+  input: StopRelationalDatabaseRequest,
+) => Effect.Effect<
+  StopRelationalDatabaseResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopRelationalDatabaseRequest,
+  output: StopRelationalDatabaseResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Adds one or more tags to the specified Amazon Lightsail resource. Each resource can have a
  * maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique
@@ -9861,7 +11132,21 @@ export const stopRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * and resource tags applied to the resource identified by `resource name`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResult,
   errors: [
@@ -9883,7 +11168,21 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * tags and resource tags applied to the resource identified by `resource name`. For
  * more information, see the Amazon Lightsail Developer Guide.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResult,
   errors: [
@@ -9904,7 +11203,21 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resource tags applied to the resource identified by `domain name`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const updateDomainEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDomainEntry: (
+  input: UpdateDomainEntryRequest,
+) => Effect.Effect<
+  UpdateDomainEntryResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainEntryRequest,
   output: UpdateDomainEntryResult,
   errors: [
@@ -9926,21 +11239,34 @@ export const updateDomainEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * changes to `applied` in subsequent `GetInstance` or
  * `GetInstances` API calls. For more information, see Use IMDSv2 with an Amazon Lightsail instance in the *Amazon Lightsail Developer Guide*.
  */
-export const updateInstanceMetadataOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateInstanceMetadataOptionsRequest,
-    output: UpdateInstanceMetadataOptionsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const updateInstanceMetadataOptions: (
+  input: UpdateInstanceMetadataOptionsRequest,
+) => Effect.Effect<
+  UpdateInstanceMetadataOptionsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInstanceMetadataOptionsRequest,
+  output: UpdateInstanceMetadataOptionsResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Updates the specified attribute for a load balancer. You can only update one attribute at
  * a time.
@@ -9949,22 +11275,34 @@ export const updateInstanceMetadataOptions =
  * control via resource tags applied to the resource identified by load balancer
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const updateLoadBalancerAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLoadBalancerAttributeRequest,
-    output: UpdateLoadBalancerAttributeResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const updateLoadBalancerAttribute: (
+  input: UpdateLoadBalancerAttributeRequest,
+) => Effect.Effect<
+  UpdateLoadBalancerAttributeResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLoadBalancerAttributeRequest,
+  output: UpdateLoadBalancerAttributeResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Allows the update of one or more attributes of a database in Amazon Lightsail.
  *
@@ -9975,48 +11313,86 @@ export const updateLoadBalancerAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * via resource tags applied to the resource identified by relationalDatabaseName. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const updateRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRelationalDatabaseRequest,
-    output: UpdateRelationalDatabaseResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const updateRelationalDatabase: (
+  input: UpdateRelationalDatabaseRequest,
+) => Effect.Effect<
+  UpdateRelationalDatabaseResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRelationalDatabaseRequest,
+  output: UpdateRelationalDatabaseResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Downloads the regional Amazon Lightsail default key pair.
  *
  * This action also creates a Lightsail default key pair if a default key pair
  * does not currently exist in the Amazon Web Services Region.
  */
-export const downloadDefaultKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DownloadDefaultKeyPairRequest,
-    output: DownloadDefaultKeyPairResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const downloadDefaultKeyPair: (
+  input: DownloadDefaultKeyPairRequest,
+) => Effect.Effect<
+  DownloadDefaultKeyPairResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DownloadDefaultKeyPairRequest,
+  output: DownloadDefaultKeyPairResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns a Boolean value indicating whether your Lightsail VPC is peered.
  */
-export const isVpcPeered = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const isVpcPeered: (
+  input: IsVpcPeeredRequest,
+) => Effect.Effect<
+  IsVpcPeeredResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IsVpcPeeredRequest,
   output: IsVpcPeeredResult,
   errors: [
@@ -10033,7 +11409,21 @@ export const isVpcPeered = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Unpeers the Lightsail VPC from the user's default VPC.
  */
-export const unpeerVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const unpeerVpc: (
+  input: UnpeerVpcRequest,
+) => Effect.Effect<
+  UnpeerVpcResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnpeerVpcRequest,
   output: UnpeerVpcResult,
   errors: [
@@ -10050,7 +11440,21 @@ export const unpeerVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Allocates a static IP address.
  */
-export const allocateStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const allocateStaticIp: (
+  input: AllocateStaticIpRequest,
+) => Effect.Effect<
+  AllocateStaticIpResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AllocateStaticIpRequest,
   output: AllocateStaticIpResult,
   errors: [
@@ -10072,7 +11476,21 @@ export const allocateStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * applied to the resource identified by `disk name`. For more information, see the
  * Amazon Lightsail Developer Guide.
  */
-export const attachDisk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const attachDisk: (
+  input: AttachDiskRequest,
+) => Effect.Effect<
+  AttachDiskResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachDiskRequest,
   output: AttachDiskResult,
   errors: [
@@ -10096,21 +11514,34 @@ export const attachDisk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * control via resource tags applied to the resource identified by load balancer
  * name. For more information, see the Lightsail Developer Guide.
  */
-export const attachInstancesToLoadBalancer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AttachInstancesToLoadBalancerRequest,
-    output: AttachInstancesToLoadBalancerResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const attachInstancesToLoadBalancer: (
+  input: AttachInstancesToLoadBalancerRequest,
+) => Effect.Effect<
+  AttachInstancesToLoadBalancerResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachInstancesToLoadBalancerRequest,
+  output: AttachInstancesToLoadBalancerResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just
  * an updated, more secure version of Secure Socket Layer (SSL).
@@ -10124,25 +11555,52 @@ export const attachInstancesToLoadBalancer =
  * control via resource tags applied to the resource identified by load balancer
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const attachLoadBalancerTlsCertificate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AttachLoadBalancerTlsCertificateRequest,
-    output: AttachLoadBalancerTlsCertificateResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const attachLoadBalancerTlsCertificate: (
+  input: AttachLoadBalancerTlsCertificateRequest,
+) => Effect.Effect<
+  AttachLoadBalancerTlsCertificateResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachLoadBalancerTlsCertificateRequest,
+  output: AttachLoadBalancerTlsCertificateResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Attaches a static IP address to a specific Amazon Lightsail instance.
  */
-export const attachStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const attachStaticIp: (
+  input: AttachStaticIpRequest,
+) => Effect.Effect<
+  AttachStaticIpResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachStaticIpRequest,
   output: AttachStaticIpResult,
   errors: [
@@ -10170,7 +11628,21 @@ export const attachStaticIp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * name, and either the `restore date` or the use latest restorable
  * auto snapshot parameters.
  */
-export const copySnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copySnapshot: (
+  input: CopySnapshotRequest,
+) => Effect.Effect<
+  CopySnapshotResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopySnapshotRequest,
   output: CopySnapshotResult,
   errors: [
@@ -10193,22 +11665,34 @@ export const copySnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * request tags and resource tags applied to the resource identified by disk snapshot
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createDiskFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDiskFromSnapshotRequest,
-    output: CreateDiskFromSnapshotResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const createDiskFromSnapshot: (
+  input: CreateDiskFromSnapshotRequest,
+) => Effect.Effect<
+  CreateDiskFromSnapshotResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDiskFromSnapshotRequest,
+  output: CreateDiskFromSnapshotResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Creates a snapshot of a block storage disk. You can use snapshots for backups, to make
  * copies of disks, and to save data before shutting down a Lightsail instance.
@@ -10233,7 +11717,21 @@ export const createDiskFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * The `create disk snapshot` operation supports tag-based access control via
  * request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createDiskSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDiskSnapshot: (
+  input: CreateDiskSnapshotRequest,
+) => Effect.Effect<
+  CreateDiskSnapshotResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDiskSnapshotRequest,
   output: CreateDiskSnapshotResult,
   errors: [
@@ -10253,7 +11751,21 @@ export const createDiskSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The `create domain` operation supports tag-based access control via request
  * tags. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDomain: (
+  input: CreateDomainRequest,
+) => Effect.Effect<
+  CreateDomainResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainRequest,
   output: CreateDomainResult,
   errors: [
@@ -10273,7 +11785,21 @@ export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The `create instances` operation supports tag-based access control via request
  * tags. For more information, see the Lightsail Developer Guide.
  */
-export const createInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createInstances: (
+  input: CreateInstancesRequest,
+) => Effect.Effect<
+  CreateInstancesResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstancesRequest,
   output: CreateInstancesResult,
   errors: [
@@ -10294,22 +11820,34 @@ export const createInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The `create instance snapshot` operation supports tag-based access control via
  * request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createInstanceSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateInstanceSnapshotRequest,
-    output: CreateInstanceSnapshotResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const createInstanceSnapshot: (
+  input: CreateInstanceSnapshotRequest,
+) => Effect.Effect<
+  CreateInstanceSnapshotResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInstanceSnapshotRequest,
+  output: CreateInstanceSnapshotResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Creates a Lightsail load balancer. To learn more about deciding whether to load balance
  * your application, see Configure your Lightsail instances for load balancing. You can create up to 10
@@ -10322,7 +11860,21 @@ export const createInstanceSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * The `create load balancer` operation supports tag-based access control via
  * request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLoadBalancer: (
+  input: CreateLoadBalancerRequest,
+) => Effect.Effect<
+  CreateLoadBalancerResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLoadBalancerRequest,
   output: CreateLoadBalancerResult,
   errors: [
@@ -10345,43 +11897,68 @@ export const createLoadBalancer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * control via resource tags applied to the resource identified by load balancer
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createLoadBalancerTlsCertificate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLoadBalancerTlsCertificateRequest,
-    output: CreateLoadBalancerTlsCertificateResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const createLoadBalancerTlsCertificate: (
+  input: CreateLoadBalancerTlsCertificateRequest,
+) => Effect.Effect<
+  CreateLoadBalancerTlsCertificateResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLoadBalancerTlsCertificateRequest,
+  output: CreateLoadBalancerTlsCertificateResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Creates a new database in Amazon Lightsail.
  *
  * The `create relational database` operation supports tag-based access control
  * via request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRelationalDatabaseRequest,
-    output: CreateRelationalDatabaseResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const createRelationalDatabase: (
+  input: CreateRelationalDatabaseRequest,
+) => Effect.Effect<
+  CreateRelationalDatabaseResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRelationalDatabaseRequest,
+  output: CreateRelationalDatabaseResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Creates a new database from an existing database snapshot in Amazon Lightsail.
  *
@@ -10393,21 +11970,34 @@ export const createRelationalDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * access control via request tags and resource tags applied to the resource identified by
  * relationalDatabaseSnapshotName. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createRelationalDatabaseFromSnapshot =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRelationalDatabaseFromSnapshotRequest,
-    output: CreateRelationalDatabaseFromSnapshotResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const createRelationalDatabaseFromSnapshot: (
+  input: CreateRelationalDatabaseFromSnapshotRequest,
+) => Effect.Effect<
+  CreateRelationalDatabaseFromSnapshotResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRelationalDatabaseFromSnapshotRequest,
+  output: CreateRelationalDatabaseFromSnapshotResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for backups,
  * to make copies of a database, and to save data before deleting a database.
@@ -10415,21 +12005,34 @@ export const createRelationalDatabaseFromSnapshot =
  * The `create relational database snapshot` operation supports tag-based access
  * control via request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createRelationalDatabaseSnapshot =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRelationalDatabaseSnapshotRequest,
-    output: CreateRelationalDatabaseSnapshotResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const createRelationalDatabaseSnapshot: (
+  input: CreateRelationalDatabaseSnapshotRequest,
+) => Effect.Effect<
+  CreateRelationalDatabaseSnapshotResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRelationalDatabaseSnapshotRequest,
+  output: CreateRelationalDatabaseSnapshotResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Closes ports for a specific Amazon Lightsail instance.
  *
@@ -10437,22 +12040,34 @@ export const createRelationalDatabaseSnapshot =
  * resource tags applied to the resource identified by `instanceName`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const closeInstancePublicPorts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CloseInstancePublicPortsRequest,
-    output: CloseInstancePublicPortsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const closeInstancePublicPorts: (
+  input: CloseInstancePublicPortsRequest,
+) => Effect.Effect<
+  CloseInstancePublicPortsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CloseInstancePublicPortsRequest,
+  output: CloseInstancePublicPortsResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Creates an AWS CloudFormation stack, which creates a new Amazon EC2 instance from an exported
  * Amazon Lightsail snapshot. This operation results in a CloudFormation stack record that can be
@@ -10462,22 +12077,34 @@ export const closeInstancePublicPorts = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Wait until after your new Amazon EC2 instance is created before running the create
  * cloud formation stack operation again with the same export snapshot record.
  */
-export const createCloudFormationStack = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCloudFormationStackRequest,
-    output: CreateCloudFormationStackResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const createCloudFormationStack: (
+  input: CreateCloudFormationStackRequest,
+) => Effect.Effect<
+  CreateCloudFormationStackResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCloudFormationStackRequest,
+  output: CreateCloudFormationStackResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Creates a custom SSH key pair that you can use with an Amazon Lightsail
  * instance.
@@ -10489,7 +12116,21 @@ export const createCloudFormationStack = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * The `create key pair` operation supports tag-based access control via request
  * tags. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKeyPair: (
+  input: CreateKeyPairRequest,
+) => Effect.Effect<
+  CreateKeyPairResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKeyPairRequest,
   output: CreateKeyPairResult,
   errors: [
@@ -10510,7 +12151,21 @@ export const createKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The `create disk` operation supports tag-based access control via request tags.
  * For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createDisk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDisk: (
+  input: CreateDiskRequest,
+) => Effect.Effect<
+  CreateDiskResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDiskRequest,
   output: CreateDiskResult,
   errors: [
@@ -10531,7 +12186,19 @@ export const createDisk = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * performance of your website or web application hosted on a Lightsail instance. For more
  * information, see Content delivery networks in Amazon Lightsail.
  */
-export const createDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDistribution: (
+  input: CreateDistributionRequest,
+) => Effect.Effect<
+  CreateDistributionResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDistributionRequest,
   output: CreateDistributionResult,
   errors: [
@@ -10552,7 +12219,21 @@ export const createDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resource tags applied to the resource identified by `domain name`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const createDomainEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDomainEntry: (
+  input: CreateDomainEntryRequest,
+) => Effect.Effect<
+  CreateDomainEntryResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainEntryRequest,
   output: CreateDomainEntryResult,
   errors: [
@@ -10574,22 +12255,34 @@ export const createDomainEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * control via request tags and resource tags applied to the resource identified by
  * `instance snapshot name`. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createInstancesFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateInstancesFromSnapshotRequest,
-    output: CreateInstancesFromSnapshotResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const createInstancesFromSnapshot: (
+  input: CreateInstancesFromSnapshotRequest,
+) => Effect.Effect<
+  CreateInstancesFromSnapshotResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInstancesFromSnapshotRequest,
+  output: CreateInstancesFromSnapshotResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns the deployments for your Amazon Lightsail container service
  *
@@ -10604,24 +12297,47 @@ export const createInstancesFromSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * endpoints and quotas in the Amazon Web Services General
  * Reference.
  */
-export const getContainerServiceDeployments =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetContainerServiceDeploymentsRequest,
-    output: GetContainerServiceDeploymentsResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const getContainerServiceDeployments: (
+  input: GetContainerServiceDeploymentsRequest,
+) => Effect.Effect<
+  GetContainerServiceDeploymentsResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContainerServiceDeploymentsRequest,
+  output: GetContainerServiceDeploymentsResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns detailed information for five of the most recent `SetupInstanceHttps`
  * requests that were ran on the target instance.
  */
-export const getSetupHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSetupHistory: (
+  input: GetSetupHistoryRequest,
+) => Effect.Effect<
+  GetSetupHistoryResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSetupHistoryRequest,
   output: GetSetupHistoryResult,
   errors: [
@@ -10639,7 +12355,19 @@ export const getSetupHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Use this action to update the configuration of an existing bucket, such as versioning,
  * public accessibility, and the Amazon Web Services accounts that can access the bucket.
  */
-export const updateBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBucket: (
+  input: UpdateBucketRequest,
+) => Effect.Effect<
+  UpdateBucketResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBucketRequest,
   output: UpdateBucketResult,
   errors: [
@@ -10658,7 +12386,19 @@ export const updateBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * monitor the number of objects stored in a bucket (including object versions) and the storage
  * space used by those objects.
  */
-export const getBucketMetricData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBucketMetricData: (
+  input: GetBucketMetricDataRequest,
+) => Effect.Effect<
+  GetBucketMetricDataResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketMetricDataRequest,
   output: GetBucketMetricDataResult,
   errors: [
@@ -10678,7 +12418,19 @@ export const getBucketMetricData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * images from a public registry like Docker Hub, those images are not returned as part of this
  * action. Those images are not registered to your Lightsail container service.
  */
-export const getContainerImages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getContainerImages: (
+  input: GetContainerImagesRequest,
+) => Effect.Effect<
+  GetContainerImagesResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContainerImagesRequest,
   output: GetContainerImagesResult,
   errors: [
@@ -10702,7 +12454,19 @@ export const getContainerImages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * endpoints and quotas in the Amazon Web Services General
  * Reference.
  */
-export const getContainerLog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getContainerLog: (
+  input: GetContainerLogRequest,
+) => Effect.Effect<
+  GetContainerLogResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContainerLogRequest,
   output: GetContainerLogResult,
   errors: [
@@ -10721,7 +12485,19 @@ export const getContainerLog = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * secret access key only when you create it from the response of the CreateBucketAccessKey action. If you lose the secret access key, you must create
  * a new access key.
  */
-export const getBucketAccessKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBucketAccessKeys: (
+  input: GetBucketAccessKeysRequest,
+) => Effect.Effect<
+  GetBucketAccessKeysResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketAccessKeysRequest,
   output: GetBucketAccessKeysResult,
   errors: [
@@ -10740,7 +12516,19 @@ export const getBucketAccessKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * request. The response will include only the certificate Amazon Resource Name (ARN),
  * certificate name, domain name, and tags.
  */
-export const getCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCertificates: (
+  input: GetCertificatesRequest,
+) => Effect.Effect<
+  GetCertificatesResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCertificatesRequest,
   output: GetCertificatesResult,
   errors: [
@@ -10759,19 +12547,30 @@ export const getCertificates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Metrics report the utilization of your resources. Monitor and collect metric data
  * regularly to maintain the reliability, availability, and performance of your resources.
  */
-export const getContainerServiceMetricData =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetContainerServiceMetricDataRequest,
-    output: GetContainerServiceMetricDataResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const getContainerServiceMetricData: (
+  input: GetContainerServiceMetricDataRequest,
+) => Effect.Effect<
+  GetContainerServiceMetricDataResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContainerServiceMetricDataRequest,
+  output: GetContainerServiceMetricDataResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns the list of powers that can be specified for your Amazon Lightsail container
  * services.
@@ -10779,20 +12578,30 @@ export const getContainerServiceMetricData =
  * The power specifies the amount of memory, the number of vCPUs, and the base price of the
  * container service.
  */
-export const getContainerServicePowers = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetContainerServicePowersRequest,
-    output: GetContainerServicePowersResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getContainerServicePowers: (
+  input: GetContainerServicePowersRequest,
+) => Effect.Effect<
+  GetContainerServicePowersResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContainerServicePowersRequest,
+  output: GetContainerServicePowersResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Registers a container image to your Amazon Lightsail container service.
  *
@@ -10801,20 +12610,30 @@ export const getContainerServicePowers = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * more information, see Pushing and managing container images on your Amazon Lightsail container services
  * in the *Amazon Lightsail Developer Guide*.
  */
-export const registerContainerImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterContainerImageRequest,
-    output: RegisterContainerImageResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const registerContainerImage: (
+  input: RegisterContainerImageRequest,
+) => Effect.Effect<
+  RegisterContainerImageResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterContainerImageRequest,
+  output: RegisterContainerImageResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Sets the Amazon Lightsail resources that can access the specified Lightsail
  * bucket.
@@ -10822,20 +12641,30 @@ export const registerContainerImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Lightsail buckets currently support setting access for Lightsail instances in the same
  * Amazon Web Services Region.
  */
-export const setResourceAccessForBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetResourceAccessForBucketRequest,
-    output: SetResourceAccessForBucketResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const setResourceAccessForBucket: (
+  input: SetResourceAccessForBucketRequest,
+) => Effect.Effect<
+  SetResourceAccessForBucketResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetResourceAccessForBucketRequest,
+  output: SetResourceAccessForBucketResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Creates an SSL/TLS certificate that secures traffic for your website. After the
  * certificate is created, it is installed on the specified Lightsail instance.
@@ -10843,7 +12672,19 @@ export const setResourceAccessForBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * If you provide more than one domain name in the request, at least one name must be less
  * than or equal to 63 characters in length.
  */
-export const setupInstanceHttps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setupInstanceHttps: (
+  input: SetupInstanceHttpsRequest,
+) => Effect.Effect<
+  SetupInstanceHttpsResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetupInstanceHttpsRequest,
   output: SetupInstanceHttpsResult,
   errors: [
@@ -10860,7 +12701,19 @@ export const setupInstanceHttps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * computer’s operating system and application. The session will be active for 1 hour. Use this
  * action to resume the session after it expires.
  */
-export const startGUISession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startGUISession: (
+  input: StartGUISessionRequest,
+) => Effect.Effect<
+  StartGUISessionResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartGUISessionRequest,
   output: StartGUISessionResult,
   errors: [
@@ -10877,7 +12730,19 @@ export const startGUISession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * operating system or application. The session will close and any unsaved data will be
  * lost.
  */
-export const stopGUISession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopGUISession: (
+  input: StopGUISessionRequest,
+) => Effect.Effect<
+  StopGUISessionResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopGUISessionRequest,
   output: StopGUISessionResult,
   errors: [
@@ -10906,7 +12771,19 @@ export const stopGUISession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * that will provide the bucket with ample storage space and data transfer for a long time to
  * come.
  */
-export const updateBucketBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBucketBundle: (
+  input: UpdateBucketBundleRequest,
+) => Effect.Effect<
+  UpdateBucketBundleResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBucketBundleRequest,
   output: UpdateBucketBundleResult,
   errors: [
@@ -10922,37 +12799,57 @@ export const updateBucketBundle = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the configuration of your Amazon Lightsail container service, such as its power,
  * scale, and public domain names.
  */
-export const updateContainerService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContainerServiceRequest,
-    output: UpdateContainerServiceResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const updateContainerService: (
+  input: UpdateContainerServiceRequest,
+) => Effect.Effect<
+  UpdateContainerServiceResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContainerServiceRequest,
+  output: UpdateContainerServiceResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Deletes your Amazon Lightsail container service.
  */
-export const deleteContainerService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContainerServiceRequest,
-    output: DeleteContainerServiceResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const deleteContainerService: (
+  input: DeleteContainerServiceRequest,
+) => Effect.Effect<
+  DeleteContainerServiceResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContainerServiceRequest,
+  output: DeleteContainerServiceResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Creates a temporary set of log in credentials that you can use to log in to the Docker
  * process on your local machine. After you're logged in, you can use the native Docker commands
@@ -10974,26 +12871,49 @@ export const deleteContainerService = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * more information, see Pushing and managing container images on your Amazon Lightsail container services
  * in the *Amazon Lightsail Developer Guide*.
  */
-export const createContainerServiceRegistryLogin =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateContainerServiceRegistryLoginRequest,
-    output: CreateContainerServiceRegistryLoginResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const createContainerServiceRegistryLogin: (
+  input: CreateContainerServiceRegistryLoginRequest,
+) => Effect.Effect<
+  CreateContainerServiceRegistryLoginResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContainerServiceRegistryLoginRequest,
+  output: CreateContainerServiceRegistryLoginResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Deletes a Amazon Lightsail bucket.
  *
  * When you delete your bucket, the bucket name is released and can be reused for a new
  * bucket in your account or another Amazon Web Services account.
  */
-export const deleteBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBucket: (
+  input: DeleteBucketRequest,
+) => Effect.Effect<
+  DeleteBucketResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketRequest,
   output: DeleteBucketResult,
   errors: [
@@ -11013,20 +12933,30 @@ export const deleteBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about access keys, see Creating access keys for a bucket in Amazon Lightsail in the
  * *Amazon Lightsail Developer Guide*.
  */
-export const deleteBucketAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBucketAccessKeyRequest,
-    output: DeleteBucketAccessKeyResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const deleteBucketAccessKey: (
+  input: DeleteBucketAccessKeyRequest,
+) => Effect.Effect<
+  DeleteBucketAccessKeyResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBucketAccessKeyRequest,
+  output: DeleteBucketAccessKeyResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Deletes an SSL/TLS certificate for your Amazon Lightsail content delivery network (CDN)
  * distribution.
@@ -11035,7 +12965,19 @@ export const deleteBucketAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `DetachCertificateFromDistribution` action to detach a certificate from a
  * distribution.
  */
-export const deleteCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCertificate: (
+  input: DeleteCertificateRequest,
+) => Effect.Effect<
+  DeleteCertificateResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCertificateRequest,
   output: DeleteCertificateResult,
   errors: [
@@ -11055,19 +12997,30 @@ export const deleteCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Use `StartGUISession` to open the session.
  */
-export const createGUISessionAccessDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateGUISessionAccessDetailsRequest,
-    output: CreateGUISessionAccessDetailsResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const createGUISessionAccessDetails: (
+  input: CreateGUISessionAccessDetailsRequest,
+) => Effect.Effect<
+  CreateGUISessionAccessDetailsResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGUISessionAccessDetailsRequest,
+  output: CreateGUISessionAccessDetailsResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Creates a new access key for the specified Amazon Lightsail bucket. Access keys consist of
  * an access key ID and corresponding secret access key.
@@ -11082,20 +13035,30 @@ export const createGUISessionAccessDetails =
  * first create an access key; you cannot get the secret access key later. If you lose the
  * secret access key, you must create a new access key.
  */
-export const createBucketAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBucketAccessKeyRequest,
-    output: CreateBucketAccessKeyResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const createBucketAccessKey: (
+  input: CreateBucketAccessKeyRequest,
+) => Effect.Effect<
+  CreateBucketAccessKeyResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBucketAccessKeyRequest,
+  output: CreateBucketAccessKeyResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Creates an Amazon Lightsail container service.
  *
@@ -11103,20 +13066,30 @@ export const createBucketAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Container services in Amazon Lightsail in the Lightsail Dev
  * Guide.
  */
-export const createContainerService = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateContainerServiceRequest,
-    output: CreateContainerServiceResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const createContainerService: (
+  input: CreateContainerServiceRequest,
+) => Effect.Effect<
+  CreateContainerServiceResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContainerServiceRequest,
+  output: CreateContainerServiceResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns a list of TLS security policies that you can apply to Lightsail load
  * balancers.
@@ -11124,20 +13097,30 @@ export const createContainerService = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about load balancer TLS security policies, see Configuring TLS security policies on your Amazon Lightsail load
  * balancers in the *Amazon Lightsail Developer Guide*.
  */
-export const getLoadBalancerTlsPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLoadBalancerTlsPoliciesRequest,
-    output: GetLoadBalancerTlsPoliciesResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getLoadBalancerTlsPolicies: (
+  input: GetLoadBalancerTlsPoliciesRequest,
+) => Effect.Effect<
+  GetLoadBalancerTlsPoliciesResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLoadBalancerTlsPoliciesRequest,
+  output: GetLoadBalancerTlsPoliciesResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Creates an Amazon Lightsail bucket.
  *
@@ -11146,7 +13129,18 @@ export const getLoadBalancerTlsPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * about buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer
  * Guide.
  */
-export const createBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBucket: (
+  input: CreateBucketRequest,
+) => Effect.Effect<
+  CreateBucketResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBucketRequest,
   output: CreateBucketResult,
   errors: [
@@ -11166,7 +13160,18 @@ export const createBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Use the UpdateBucketBundle action to update the
  * bundle for a bucket.
  */
-export const getBucketBundles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBucketBundles: (
+  input: GetBucketBundlesRequest,
+) => Effect.Effect<
+  GetBucketBundlesResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketBundlesRequest,
   output: GetBucketBundlesResult,
   errors: [
@@ -11181,20 +13186,30 @@ export const getBucketBundles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes a container image that is registered to your Amazon Lightsail container
  * service.
  */
-export const deleteContainerImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContainerImageRequest,
-    output: DeleteContainerImageResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const deleteContainerImage: (
+  input: DeleteContainerImageRequest,
+) => Effect.Effect<
+  DeleteContainerImageResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContainerImageRequest,
+  output: DeleteContainerImageResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns information about one or more Amazon Lightsail buckets. The information returned
  * includes the synchronization status of the Amazon Simple Storage Service (Amazon S3)
@@ -11203,7 +13218,19 @@ export const deleteContainerImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer
  * Guide.
  */
-export const getBuckets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBuckets: (
+  input: GetBucketsRequest,
+) => Effect.Effect<
+  GetBucketsResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketsRequest,
   output: GetBucketsResult,
   errors: [
@@ -11229,19 +13256,30 @@ export const getBuckets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creating container images for your Amazon Lightsail container services in the
  * *Amazon Lightsail Developer Guide*.
  */
-export const createContainerServiceDeployment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateContainerServiceDeploymentRequest,
-    output: CreateContainerServiceDeploymentResult,
-    errors: [
-      AccessDeniedException,
-      InvalidInputException,
-      NotFoundException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }));
+export const createContainerServiceDeployment: (
+  input: CreateContainerServiceDeploymentRequest,
+) => Effect.Effect<
+  CreateContainerServiceDeploymentResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContainerServiceDeploymentRequest,
+  output: CreateContainerServiceDeploymentResult,
+  errors: [
+    AccessDeniedException,
+    InvalidInputException,
+    NotFoundException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));
 /**
  * Returns information about the configured alarms. Specify an alarm name in your request to
  * return information about a specific alarm, or specify a monitored resource name to return
@@ -11252,7 +13290,20 @@ export const createContainerServiceDeployment =
  * on the Amazon Lightsail console. For more information, see Alarms
  * in Amazon Lightsail.
  */
-export const getAlarms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAlarms: (
+  input: GetAlarmsRequest,
+) => Effect.Effect<
+  GetAlarmsResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAlarmsRequest,
   output: GetAlarmsResult,
   errors: [
@@ -11280,7 +13331,19 @@ export const getAlarms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Region, and distribute its content globally. However, all distributions are located in the
  * `us-east-1` Region.
  */
-export const createCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCertificate: (
+  input: CreateCertificateRequest,
+) => Effect.Effect<
+  CreateCertificateResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCertificateRequest,
   output: CreateCertificateResult,
   errors: [
@@ -11296,7 +13359,19 @@ export const createCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves information about the cost estimate for a specified resource. A cost estimate
  * will not generate for a resource that has been deleted.
  */
-export const getCostEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCostEstimate: (
+  input: GetCostEstimateRequest,
+) => Effect.Effect<
+  GetCostEstimateResult,
+  | AccessDeniedException
+  | InvalidInputException
+  | NotFoundException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCostEstimateRequest,
   output: GetCostEstimateResult,
   errors: [
@@ -11316,19 +13391,31 @@ export const getCostEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resources with the CreateCloudFormationStack
  * action.
  */
-export const getExportSnapshotRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetExportSnapshotRecordsRequest,
-    output: GetExportSnapshotRecordsResult,
-    errors: [
-      AccessDeniedException,
-      AccountSetupInProgressException,
-      InvalidInputException,
-      NotFoundException,
-      OperationFailureException,
-      RegionSetupInProgressException,
-      ServiceException,
-      UnauthenticatedException,
-    ],
-  }),
-);
+export const getExportSnapshotRecords: (
+  input: GetExportSnapshotRecordsRequest,
+) => Effect.Effect<
+  GetExportSnapshotRecordsResult,
+  | AccessDeniedException
+  | AccountSetupInProgressException
+  | InvalidInputException
+  | NotFoundException
+  | OperationFailureException
+  | RegionSetupInProgressException
+  | ServiceException
+  | UnauthenticatedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetExportSnapshotRecordsRequest,
+  output: GetExportSnapshotRecordsResult,
+  errors: [
+    AccessDeniedException,
+    AccountSetupInProgressException,
+    InvalidInputException,
+    NotFoundException,
+    OperationFailureException,
+    RegionSetupInProgressException,
+    ServiceException,
+    UnauthenticatedException,
+  ],
+}));

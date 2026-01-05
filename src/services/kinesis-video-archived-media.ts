@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Kinesis Video Archived Media",
   serviceShapeName: "AWSAcuityReader",
@@ -240,6 +248,27 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type StreamName = string;
+export type ResourceARN = string;
+export type Expires = number;
+export type DASHMaxResults = number;
+export type HLSMaxResults = number;
+export type SamplingInterval = number;
+export type WidthPixels = number;
+export type HeightPixels = number;
+export type GetImagesMaxResults = number;
+export type NextToken = string;
+export type FragmentNumberString = string;
+export type ListFragmentsMaxResults = number;
+export type FormatConfigValue = string;
+export type ContentType = string;
+export type ErrorMessage = string;
+export type ImageContent = string;
+export type DASHStreamingSessionURL = string;
+export type HLSStreamingSessionURL = string;
+export type Long = number;
 
 //# Schemas
 export type FragmentNumberList = string[];
@@ -686,18 +715,26 @@ export class UnsupportedStreamMediaTypeException extends S.TaggedError<Unsupport
  * For more information, see the **Errors** section at
  * the bottom of this topic, as well as Common Errors.
  */
-export const getMediaForFragmentList = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMediaForFragmentListInput,
-    output: GetMediaForFragmentListOutput,
-    errors: [
-      ClientLimitExceededException,
-      InvalidArgumentException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getMediaForFragmentList: (
+  input: GetMediaForFragmentListInput,
+) => Effect.Effect<
+  GetMediaForFragmentListOutput,
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMediaForFragmentListInput,
+  output: GetMediaForFragmentListOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns a list of Fragment objects from the specified stream and
  * timestamp range within the archived data.
@@ -730,29 +767,98 @@ export const getMediaForFragmentList = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see the **Errors** section at
  * the bottom of this topic, as well as Common Errors.
  */
-export const listFragments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFragments: {
+  (
     input: ListFragmentsInput,
-    output: ListFragmentsOutput,
-    errors: [
-      ClientLimitExceededException,
-      InvalidArgumentException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Fragments",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFragmentsOutput,
+    | ClientLimitExceededException
+    | InvalidArgumentException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFragmentsInput,
+  ) => Stream.Stream<
+    ListFragmentsOutput,
+    | ClientLimitExceededException
+    | InvalidArgumentException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFragmentsInput,
+  ) => Stream.Stream<
+    Fragment,
+    | ClientLimitExceededException
+    | InvalidArgumentException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFragmentsInput,
+  output: ListFragmentsOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Fragments",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of images corresponding to each timestamp for a given time range,
  * sampling interval, and image format configuration.
  */
-export const getImages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getImages: {
+  (
+    input: GetImagesInput,
+  ): Effect.Effect<
+    GetImagesOutput,
+    | ClientLimitExceededException
+    | InvalidArgumentException
+    | NoDataRetentionException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetImagesInput,
+  ) => Stream.Stream<
+    GetImagesOutput,
+    | ClientLimitExceededException
+    | InvalidArgumentException
+    | NoDataRetentionException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetImagesInput,
+  ) => Stream.Stream<
+    Image,
+    | ClientLimitExceededException
+    | InvalidArgumentException
+    | NoDataRetentionException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetImagesInput,
   output: GetImagesOutput,
   errors: [
@@ -894,22 +1000,34 @@ export const getImages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * For more information, see the **Errors** section at
  * the bottom of this topic, as well as Common Errors.
  */
-export const getDASHStreamingSessionURL = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDASHStreamingSessionURLInput,
-    output: GetDASHStreamingSessionURLOutput,
-    errors: [
-      ClientLimitExceededException,
-      InvalidArgumentException,
-      InvalidCodecPrivateDataException,
-      MissingCodecPrivateDataException,
-      NoDataRetentionException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      UnsupportedStreamMediaTypeException,
-    ],
-  }),
-);
+export const getDASHStreamingSessionURL: (
+  input: GetDASHStreamingSessionURLInput,
+) => Effect.Effect<
+  GetDASHStreamingSessionURLOutput,
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | InvalidCodecPrivateDataException
+  | MissingCodecPrivateDataException
+  | NoDataRetentionException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | UnsupportedStreamMediaTypeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDASHStreamingSessionURLInput,
+  output: GetDASHStreamingSessionURLOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    InvalidCodecPrivateDataException,
+    MissingCodecPrivateDataException,
+    NoDataRetentionException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    UnsupportedStreamMediaTypeException,
+  ],
+}));
 /**
  * Retrieves an HTTP Live Streaming (HLS) URL for the stream. You can then open the URL
  * in a browser or media player to view the stream contents.
@@ -1075,22 +1193,34 @@ export const getDASHStreamingSessionURL = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see the **Errors** section at
  * the bottom of this topic, as well as Common Errors.
  */
-export const getHLSStreamingSessionURL = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetHLSStreamingSessionURLInput,
-    output: GetHLSStreamingSessionURLOutput,
-    errors: [
-      ClientLimitExceededException,
-      InvalidArgumentException,
-      InvalidCodecPrivateDataException,
-      MissingCodecPrivateDataException,
-      NoDataRetentionException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      UnsupportedStreamMediaTypeException,
-    ],
-  }),
-);
+export const getHLSStreamingSessionURL: (
+  input: GetHLSStreamingSessionURLInput,
+) => Effect.Effect<
+  GetHLSStreamingSessionURLOutput,
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | InvalidCodecPrivateDataException
+  | MissingCodecPrivateDataException
+  | NoDataRetentionException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | UnsupportedStreamMediaTypeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetHLSStreamingSessionURLInput,
+  output: GetHLSStreamingSessionURLOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    InvalidCodecPrivateDataException,
+    MissingCodecPrivateDataException,
+    NoDataRetentionException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    UnsupportedStreamMediaTypeException,
+  ],
+}));
 /**
  * Downloads an MP4 file (clip) containing the archived, on-demand media from the
  * specified video stream over the specified time range.
@@ -1130,7 +1260,22 @@ export const getHLSStreamingSessionURL = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Streams Pricing and Amazon Web Services
  * Pricing. Charges for outgoing Amazon Web Services data apply.
  */
-export const getClip = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getClip: (
+  input: GetClipInput,
+) => Effect.Effect<
+  GetClipOutput,
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | InvalidCodecPrivateDataException
+  | InvalidMediaFrameException
+  | MissingCodecPrivateDataException
+  | NoDataRetentionException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | UnsupportedStreamMediaTypeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetClipInput,
   output: GetClipOutput,
   errors: [

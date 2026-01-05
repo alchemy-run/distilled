@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "RDS Data",
   serviceShapeName: "RdsDataService",
@@ -241,6 +249,27 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type Arn = string;
+export type SqlStatement = string;
+export type DbName = string;
+export type Id = string;
+export type RecordsFormatType = string;
+export type ParameterName = string;
+export type TypeHint = string;
+export type DecimalReturnType = string;
+export type LongReturnType = string;
+export type TransactionStatus = string;
+export type BoxedLong = number;
+export type BoxedDouble = number;
+export type RecordsUpdated = number;
+export type ErrorMessage = string;
+export type FormattedSqlRecords = string;
+export type Integer = number;
+export type Long = number;
+export type BoxedInteger = number;
+export type BoxedFloat = number;
+
 //# Schemas
 export interface BeginTransactionRequest {
   resourceArn: string;
@@ -393,6 +422,14 @@ export const ArrayValue = S.Union(
     }),
   }),
 ) as any as S.Schema<ArrayValue>;
+export type Field =
+  | { isNull: boolean }
+  | { booleanValue: boolean }
+  | { longValue: number }
+  | { doubleValue: number }
+  | { stringValue: string }
+  | { blobValue: Uint8Array }
+  | { arrayValue: ArrayValue };
 export const Field = S.Union(
   S.Struct({ isNull: S.Boolean }),
   S.Struct({ booleanValue: S.Boolean }),
@@ -700,7 +737,9 @@ export class DatabaseNotFoundException extends S.TaggedError<DatabaseNotFoundExc
 export class DatabaseUnavailableException extends S.TaggedError<DatabaseUnavailableException>()(
   "DatabaseUnavailableException",
   {},
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class DatabaseResumingException extends S.TaggedError<DatabaseResumingException>()(
   "DatabaseResumingException",
   { message: S.optional(S.String) },
@@ -712,11 +751,15 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   {},
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ServiceUnavailableError extends S.TaggedError<ServiceUnavailableError>()(
   "ServiceUnavailableError",
   {},
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class HttpEndpointNotEnabledException extends S.TaggedError<HttpEndpointNotEnabledException>()(
   "HttpEndpointNotEnabledException",
   { message: S.optional(S.String) },
@@ -758,7 +801,18 @@ export class UnsupportedResultException extends S.TaggedError<UnsupportedResultE
  * For Aurora Serverless v1 DB clusters, the operation is deprecated.
  * Use the `BatchExecuteStatement` or `ExecuteStatement` operation.
  */
-export const executeSql = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const executeSql: (
+  input: ExecuteSqlRequest,
+) => Effect.Effect<
+  ExecuteSqlResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteSqlRequest,
   output: ExecuteSqlResponse,
   errors: [
@@ -772,7 +826,28 @@ export const executeSql = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
  */
-export const rollbackTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rollbackTransaction: (
+  input: RollbackTransactionRequest,
+) => Effect.Effect<
+  RollbackTransactionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | DatabaseErrorException
+  | DatabaseNotFoundException
+  | DatabaseUnavailableException
+  | ForbiddenException
+  | HttpEndpointNotEnabledException
+  | InternalServerErrorException
+  | InvalidResourceStateException
+  | InvalidSecretException
+  | NotFoundException
+  | SecretsErrorException
+  | ServiceUnavailableError
+  | StatementTimeoutException
+  | TransactionNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RollbackTransactionRequest,
   output: RollbackTransactionResponse,
   errors: [
@@ -811,29 +886,48 @@ export const rollbackTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The response size limit is 1 MiB. If the call returns more than 1 MiB of response data, the call is terminated.
  */
-export const batchExecuteStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchExecuteStatementRequest,
-    output: BatchExecuteStatementResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      DatabaseErrorException,
-      DatabaseNotFoundException,
-      DatabaseResumingException,
-      DatabaseUnavailableException,
-      ForbiddenException,
-      HttpEndpointNotEnabledException,
-      InternalServerErrorException,
-      InvalidResourceStateException,
-      InvalidSecretException,
-      SecretsErrorException,
-      ServiceUnavailableError,
-      StatementTimeoutException,
-      TransactionNotFoundException,
-    ],
-  }),
-);
+export const batchExecuteStatement: (
+  input: BatchExecuteStatementRequest,
+) => Effect.Effect<
+  BatchExecuteStatementResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | DatabaseErrorException
+  | DatabaseNotFoundException
+  | DatabaseResumingException
+  | DatabaseUnavailableException
+  | ForbiddenException
+  | HttpEndpointNotEnabledException
+  | InternalServerErrorException
+  | InvalidResourceStateException
+  | InvalidSecretException
+  | SecretsErrorException
+  | ServiceUnavailableError
+  | StatementTimeoutException
+  | TransactionNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchExecuteStatementRequest,
+  output: BatchExecuteStatementResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    DatabaseErrorException,
+    DatabaseNotFoundException,
+    DatabaseResumingException,
+    DatabaseUnavailableException,
+    ForbiddenException,
+    HttpEndpointNotEnabledException,
+    InternalServerErrorException,
+    InvalidResourceStateException,
+    InvalidSecretException,
+    SecretsErrorException,
+    ServiceUnavailableError,
+    StatementTimeoutException,
+    TransactionNotFoundException,
+  ],
+}));
 /**
  * Starts a SQL transaction.
  *
@@ -846,7 +940,28 @@ export const batchExecuteStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For Aurora MySQL, DDL statements inside a transaction cause an implicit commit. We recommend that you run each MySQL DDL statement in a separate
  * `ExecuteStatement` call with `continueAfterTimeout` enabled.
  */
-export const beginTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const beginTransaction: (
+  input: BeginTransactionRequest,
+) => Effect.Effect<
+  BeginTransactionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | DatabaseErrorException
+  | DatabaseNotFoundException
+  | DatabaseResumingException
+  | DatabaseUnavailableException
+  | ForbiddenException
+  | HttpEndpointNotEnabledException
+  | InternalServerErrorException
+  | InvalidResourceStateException
+  | InvalidSecretException
+  | SecretsErrorException
+  | ServiceUnavailableError
+  | StatementTimeoutException
+  | TransactionNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BeginTransactionRequest,
   output: BeginTransactionResponse,
   errors: [
@@ -871,7 +986,28 @@ export const beginTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Ends a SQL transaction started with the `BeginTransaction` operation and
  * commits the changes.
  */
-export const commitTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const commitTransaction: (
+  input: CommitTransactionRequest,
+) => Effect.Effect<
+  CommitTransactionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | DatabaseErrorException
+  | DatabaseNotFoundException
+  | DatabaseUnavailableException
+  | ForbiddenException
+  | HttpEndpointNotEnabledException
+  | InternalServerErrorException
+  | InvalidResourceStateException
+  | InvalidSecretException
+  | NotFoundException
+  | SecretsErrorException
+  | ServiceUnavailableError
+  | StatementTimeoutException
+  | TransactionNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CommitTransactionRequest,
   output: CommitTransactionResponse,
   errors: [
@@ -901,7 +1037,29 @@ export const commitTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If the binary response data from the database is more than 1 MB, the call is terminated.
  */
-export const executeStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const executeStatement: (
+  input: ExecuteStatementRequest,
+) => Effect.Effect<
+  ExecuteStatementResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | DatabaseErrorException
+  | DatabaseNotFoundException
+  | DatabaseResumingException
+  | DatabaseUnavailableException
+  | ForbiddenException
+  | HttpEndpointNotEnabledException
+  | InternalServerErrorException
+  | InvalidResourceStateException
+  | InvalidSecretException
+  | SecretsErrorException
+  | ServiceUnavailableError
+  | StatementTimeoutException
+  | TransactionNotFoundException
+  | UnsupportedResultException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteStatementRequest,
   output: ExecuteStatementResponse,
   errors: [

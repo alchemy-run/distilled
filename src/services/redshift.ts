@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://redshift.amazonaws.com/doc/2012-12-01/");
 const svc = T.AwsApiService({
   sdkId: "Redshift",
@@ -261,6 +269,36 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type PartnerIntegrationAccountId = string;
+export type PartnerIntegrationClusterIdentifier = string;
+export type PartnerIntegrationDatabaseName = string;
+export type PartnerIntegrationPartnerName = string;
+export type IntegerOptional = number;
+export type AuthenticationProfileNameString = string;
+export type SensitiveString = string;
+export type CatalogNameString = string;
+export type CustomDomainNameString = string;
+export type CustomDomainCertificateArnString = string;
+export type SourceArn = string;
+export type TargetArn = string;
+export type IntegrationName = string;
+export type IntegrationDescription = string;
+export type RedshiftIdcApplicationName = string;
+export type IdentityNamespaceString = string;
+export type IdcDisplayNameString = string;
+export type Long = number;
+export type IntegrationArn = string;
+export type InboundIntegrationArn = string;
+export type Double = number;
+export type S3KeyPrefixValue = string;
+export type Integer = number;
+export type LongOptional = number;
+export type PartnerIntegrationStatusMessage = string;
+export type ExceptionMessage = string;
+export type DoubleOptional = number;
+export type Description = string;
 
 //# Schemas
 export interface DescribeStorageRequest {}
@@ -3132,6 +3170,9 @@ export const LakeFormationQuery = S.suspend(() =>
 ).annotations({
   identifier: "LakeFormationQuery",
 }) as any as S.Schema<LakeFormationQuery>;
+export type LakeFormationScopeUnion = {
+  LakeFormationQuery: LakeFormationQuery;
+};
 export const LakeFormationScopeUnion = S.Union(
   S.Struct({ LakeFormationQuery: LakeFormationQuery }),
 );
@@ -3148,6 +3189,7 @@ export const ReadWriteAccess = S.suspend(() =>
 ).annotations({
   identifier: "ReadWriteAccess",
 }) as any as S.Schema<ReadWriteAccess>;
+export type S3AccessGrantsScopeUnion = { ReadWriteAccess: ReadWriteAccess };
 export const S3AccessGrantsScopeUnion = S.Union(
   S.Struct({ ReadWriteAccess: ReadWriteAccess }),
 );
@@ -3162,9 +3204,14 @@ export interface Connect {
 export const Connect = S.suspend(() =>
   S.Struct({ Authorization: S.String }),
 ).annotations({ identifier: "Connect" }) as any as S.Schema<Connect>;
+export type RedshiftScopeUnion = { Connect: Connect };
 export const RedshiftScopeUnion = S.Union(S.Struct({ Connect: Connect }));
 export type RedshiftServiceIntegrations = (typeof RedshiftScopeUnion)["Type"][];
 export const RedshiftServiceIntegrations = S.Array(RedshiftScopeUnion);
+export type ServiceIntegrationsUnion =
+  | { LakeFormation: LakeFormationServiceIntegrations }
+  | { S3AccessGrants: S3AccessGrantsServiceIntegrations }
+  | { Redshift: RedshiftServiceIntegrations };
 export const ServiceIntegrationsUnion = S.Union(
   S.Struct({ LakeFormation: LakeFormationServiceIntegrations }),
   S.Struct({ S3AccessGrants: S3AccessGrantsServiceIntegrations }),
@@ -3465,6 +3512,9 @@ export const ProvisionedIdentifier = S.suspend(() =>
 ).annotations({
   identifier: "ProvisionedIdentifier",
 }) as any as S.Schema<ProvisionedIdentifier>;
+export type NamespaceIdentifierUnion =
+  | { ServerlessIdentifier: ServerlessIdentifier }
+  | { ProvisionedIdentifier: ProvisionedIdentifier };
 export const NamespaceIdentifierUnion = S.Union(
   S.Struct({ ServerlessIdentifier: ServerlessIdentifier }),
   S.Struct({ ProvisionedIdentifier: ProvisionedIdentifier }),
@@ -8150,7 +8200,13 @@ export class SubscriptionSeverityNotFoundFault extends S.TaggedError<Subscriptio
 /**
  * Returns account level backups storage size and provisional storage.
  */
-export const describeStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeStorage: (
+  input: DescribeStorageRequest,
+) => Effect.Effect<
+  CustomerStorageMessage,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStorageRequest,
   output: CustomerStorageMessage,
   errors: [],
@@ -8160,7 +8216,13 @@ export const describeStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * consumer accounts or managing entities. To authorize a datashare for a data consumer,
  * the producer account must have the correct access permissions.
  */
-export const authorizeDataShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const authorizeDataShare: (
+  input: AuthorizeDataShareMessage,
+) => Effect.Effect<
+  DataShare,
+  InvalidDataShareFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AuthorizeDataShareMessage,
   output: DataShare,
   errors: [InvalidDataShareFault],
@@ -8169,7 +8231,13 @@ export const authorizeDataShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes tags from a resource. You must provide the ARN of the resource
  * from which you want to delete the tag or tags.
  */
-export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTags: (
+  input: DeleteTagsMessage,
+) => Effect.Effect<
+  DeleteTagsResponse,
+  InvalidTagFault | ResourceNotFoundFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsMessage,
   output: DeleteTagsResponse,
   errors: [InvalidTagFault, ResourceNotFoundFault],
@@ -8195,18 +8263,39 @@ export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * returned regardless of whether they have tag keys or values associated with
  * them.
  */
-export const describeClusterParameterGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClusterParameterGroups: {
+  (
     input: DescribeClusterParameterGroupsMessage,
-    output: ClusterParameterGroupsMessage,
-    errors: [ClusterParameterGroupNotFoundFault, InvalidTagFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "ParameterGroups",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ClusterParameterGroupsMessage,
+    ClusterParameterGroupNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClusterParameterGroupsMessage,
+  ) => Stream.Stream<
+    ClusterParameterGroupsMessage,
+    ClusterParameterGroupNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClusterParameterGroupsMessage,
+  ) => Stream.Stream<
+    ClusterParameterGroup,
+    ClusterParameterGroupNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClusterParameterGroupsMessage,
+  output: ClusterParameterGroupsMessage,
+  errors: [ClusterParameterGroupNotFoundFault, InvalidTagFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "ParameterGroups",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns a detailed list of parameters contained within the specified Amazon Redshift
  * parameter group. For each parameter the response includes information such as parameter
@@ -8222,18 +8311,39 @@ export const describeClusterParameterGroups =
  * Amazon Redshift Parameter Groups
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const describeClusterParameters =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClusterParameters: {
+  (
     input: DescribeClusterParametersMessage,
-    output: ClusterParameterGroupDetails,
-    errors: [ClusterParameterGroupNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Parameters",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ClusterParameterGroupDetails,
+    ClusterParameterGroupNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClusterParametersMessage,
+  ) => Stream.Stream<
+    ClusterParameterGroupDetails,
+    ClusterParameterGroupNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClusterParametersMessage,
+  ) => Stream.Stream<
+    Parameter,
+    ClusterParameterGroupNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClusterParametersMessage,
+  output: ClusterParameterGroupDetails,
+  errors: [ClusterParameterGroupNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Parameters",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns properties of provisioned clusters including general cluster properties,
  * cluster database properties, maintenance and backup properties, and security and access
@@ -8251,19 +8361,39 @@ export const describeClusterParameters =
  * If both tag keys and values are omitted from the request, clusters are returned
  * regardless of whether they have tag keys or values associated with them.
  */
-export const describeClusters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeClusters: {
+  (
     input: DescribeClustersMessage,
-    output: ClustersMessage,
-    errors: [ClusterNotFoundFault, InvalidTagFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Clusters",
-      pageSize: "MaxRecords",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ClustersMessage,
+    ClusterNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClustersMessage,
+  ) => Stream.Stream<
+    ClustersMessage,
+    ClusterNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClustersMessage,
+  ) => Stream.Stream<
+    Cluster,
+    ClusterNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClustersMessage,
+  output: ClustersMessage,
+  errors: [ClusterNotFoundFault, InvalidTagFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Clusters",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns information about Amazon Redshift security groups. If the name of a security
  * group is specified, the response will contain only information about only that security
@@ -8283,18 +8413,39 @@ export const describeClusters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * returned regardless of whether they have tag keys or values associated with
  * them.
  */
-export const describeClusterSecurityGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClusterSecurityGroups: {
+  (
     input: DescribeClusterSecurityGroupsMessage,
-    output: ClusterSecurityGroupMessage,
-    errors: [ClusterSecurityGroupNotFoundFault, InvalidTagFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "ClusterSecurityGroups",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ClusterSecurityGroupMessage,
+    ClusterSecurityGroupNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClusterSecurityGroupsMessage,
+  ) => Stream.Stream<
+    ClusterSecurityGroupMessage,
+    ClusterSecurityGroupNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClusterSecurityGroupsMessage,
+  ) => Stream.Stream<
+    ClusterSecurityGroup,
+    ClusterSecurityGroupNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClusterSecurityGroupsMessage,
+  output: ClusterSecurityGroupMessage,
+  errors: [ClusterSecurityGroupNotFoundFault, InvalidTagFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "ClusterSecurityGroups",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns one or more cluster subnet group objects, which contain metadata about your
  * cluster subnet groups. By default, this operation returns information about all cluster
@@ -8310,50 +8461,112 @@ export const describeClusterSecurityGroups =
  * returned regardless of whether they have tag keys or values associated with
  * them.
  */
-export const describeClusterSubnetGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClusterSubnetGroups: {
+  (
     input: DescribeClusterSubnetGroupsMessage,
-    output: ClusterSubnetGroupMessage,
-    errors: [ClusterSubnetGroupNotFoundFault, InvalidTagFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "ClusterSubnetGroups",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ClusterSubnetGroupMessage,
+    ClusterSubnetGroupNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClusterSubnetGroupsMessage,
+  ) => Stream.Stream<
+    ClusterSubnetGroupMessage,
+    ClusterSubnetGroupNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClusterSubnetGroupsMessage,
+  ) => Stream.Stream<
+    ClusterSubnetGroup,
+    ClusterSubnetGroupNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClusterSubnetGroupsMessage,
+  output: ClusterSubnetGroupMessage,
+  errors: [ClusterSubnetGroupNotFoundFault, InvalidTagFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "ClusterSubnetGroups",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Shows the status of any inbound or outbound datashares available in the specified
  * account.
  */
-export const describeDataShares = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeDataShares: {
+  (
     input: DescribeDataSharesMessage,
-    output: DescribeDataSharesResult,
-    errors: [InvalidDataShareFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "DataShares",
-      pageSize: "MaxRecords",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeDataSharesResult,
+    InvalidDataShareFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDataSharesMessage,
+  ) => Stream.Stream<
+    DescribeDataSharesResult,
+    InvalidDataShareFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDataSharesMessage,
+  ) => Stream.Stream<
+    DataShare,
+    InvalidDataShareFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDataSharesMessage,
+  output: DescribeDataSharesResult,
+  errors: [InvalidDataShareFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "DataShares",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Describes an endpoint authorization.
  */
-export const describeEndpointAuthorization =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeEndpointAuthorization: {
+  (
     input: DescribeEndpointAuthorizationMessage,
-    output: EndpointAuthorizationList,
-    errors: [ClusterNotFoundFault, UnsupportedOperationFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "EndpointAuthorizationList",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    EndpointAuthorizationList,
+    ClusterNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEndpointAuthorizationMessage,
+  ) => Stream.Stream<
+    EndpointAuthorizationList,
+    ClusterNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEndpointAuthorizationMessage,
+  ) => Stream.Stream<
+    EndpointAuthorization,
+    ClusterNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEndpointAuthorizationMessage,
+  output: EndpointAuthorizationList,
+  errors: [ClusterNotFoundFault, UnsupportedOperationFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "EndpointAuthorizationList",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns information about the specified HSM client certificate. If no certificate
  * ID is specified, returns information about all the HSM certificates owned by your Amazon Web Services account.
@@ -8368,18 +8581,39 @@ export const describeEndpointAuthorization =
  * are returned regardless of whether they have tag keys or values associated with
  * them.
  */
-export const describeHsmClientCertificates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeHsmClientCertificates: {
+  (
     input: DescribeHsmClientCertificatesMessage,
-    output: HsmClientCertificateMessage,
-    errors: [HsmClientCertificateNotFoundFault, InvalidTagFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "HsmClientCertificates",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    HsmClientCertificateMessage,
+    HsmClientCertificateNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeHsmClientCertificatesMessage,
+  ) => Stream.Stream<
+    HsmClientCertificateMessage,
+    HsmClientCertificateNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeHsmClientCertificatesMessage,
+  ) => Stream.Stream<
+    HsmClientCertificate,
+    HsmClientCertificateNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeHsmClientCertificatesMessage,
+  output: HsmClientCertificateMessage,
+  errors: [HsmClientCertificateNotFoundFault, InvalidTagFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "HsmClientCertificates",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns information about the specified Amazon Redshift HSM configuration. If no
  * configuration ID is specified, returns information about all the HSM configurations
@@ -8395,44 +8629,90 @@ export const describeHsmClientCertificates =
  * returned regardless of whether they have tag keys or values associated with
  * them.
  */
-export const describeHsmConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeHsmConfigurations: {
+  (
     input: DescribeHsmConfigurationsMessage,
-    output: HsmConfigurationMessage,
-    errors: [HsmConfigurationNotFoundFault, InvalidTagFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "HsmConfigurations",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    HsmConfigurationMessage,
+    HsmConfigurationNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeHsmConfigurationsMessage,
+  ) => Stream.Stream<
+    HsmConfigurationMessage,
+    HsmConfigurationNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeHsmConfigurationsMessage,
+  ) => Stream.Stream<
+    HsmConfiguration,
+    HsmConfigurationNotFoundFault | InvalidTagFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeHsmConfigurationsMessage,
+  output: HsmConfigurationMessage,
+  errors: [HsmConfigurationNotFoundFault, InvalidTagFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "HsmConfigurations",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Describes whether information, such as queries and connection attempts, is being
  * logged for the specified Amazon Redshift cluster.
  */
-export const describeLoggingStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLoggingStatusMessage,
-    output: LoggingStatus,
-    errors: [ClusterNotFoundFault, UnsupportedOperationFault],
-  }),
-);
+export const describeLoggingStatus: (
+  input: DescribeLoggingStatusMessage,
+) => Effect.Effect<
+  LoggingStatus,
+  ClusterNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLoggingStatusMessage,
+  output: LoggingStatus,
+  errors: [ClusterNotFoundFault, UnsupportedOperationFault],
+}));
 /**
  * Returns a list of snapshot schedules.
  */
-export const describeSnapshotSchedules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeSnapshotSchedules: {
+  (
     input: DescribeSnapshotSchedulesMessage,
-    output: DescribeSnapshotSchedulesOutputMessage,
-    errors: [],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "SnapshotSchedules",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeSnapshotSchedulesOutputMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSnapshotSchedulesMessage,
+  ) => Stream.Stream<
+    DescribeSnapshotSchedulesOutputMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSnapshotSchedulesMessage,
+  ) => Stream.Stream<
+    SnapshotSchedule,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSnapshotSchedulesMessage,
+  output: DescribeSnapshotSchedulesOutputMessage,
+  errors: [],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "SnapshotSchedules",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Shows usage limits on a cluster.
  * Results are filtered based on the combination of input usage limit identifier, cluster identifier, and feature type parameters:
@@ -8449,18 +8729,39 @@ export const describeSnapshotSchedules =
  * - If cluster identifier and feature type are provided,
  * then all usage limit objects for the combination of cluster and feature are returned.
  */
-export const describeUsageLimits =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeUsageLimits: {
+  (
     input: DescribeUsageLimitsMessage,
-    output: UsageLimitList,
-    errors: [ClusterNotFoundFault, UnsupportedOperationFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "UsageLimits",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    UsageLimitList,
+    ClusterNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeUsageLimitsMessage,
+  ) => Stream.Stream<
+    UsageLimitList,
+    ClusterNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeUsageLimitsMessage,
+  ) => Stream.Stream<
+    UsageLimit,
+    ClusterNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeUsageLimitsMessage,
+  output: UsageLimitList,
+  errors: [ClusterNotFoundFault, UnsupportedOperationFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "UsageLimits",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns a database user name and temporary password with temporary authorization to
  * log on to an Amazon Redshift database. The action returns the database user name
@@ -8488,13 +8789,17 @@ export const describeUsageLimits =
  * If the `DbName` parameter is specified, the IAM policy must allow access
  * to the resource `dbname` for the specified database name.
  */
-export const getClusterCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetClusterCredentialsMessage,
-    output: ClusterCredentials,
-    errors: [ClusterNotFoundFault, UnsupportedOperationFault],
-  }),
-);
+export const getClusterCredentials: (
+  input: GetClusterCredentialsMessage,
+) => Effect.Effect<
+  ClusterCredentials,
+  ClusterNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetClusterCredentialsMessage,
+  output: ClusterCredentials,
+  errors: [ClusterNotFoundFault, UnsupportedOperationFault],
+}));
 /**
  * Returns a database user name and temporary password with temporary authorization to
  * log in to an Amazon Redshift database.
@@ -8508,12 +8813,17 @@ export const getClusterCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about permissions, see Using identity-based policies (IAM policies) in the
  * Amazon Redshift Cluster Management Guide.
  */
-export const getClusterCredentialsWithIAM =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetClusterCredentialsWithIAMMessage,
-    output: ClusterExtendedCredentials,
-    errors: [ClusterNotFoundFault, UnsupportedOperationFault],
-  }));
+export const getClusterCredentialsWithIAM: (
+  input: GetClusterCredentialsWithIAMMessage,
+) => Effect.Effect<
+  ClusterExtendedCredentials,
+  ClusterNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetClusterCredentialsWithIAMMessage,
+  output: ClusterExtendedCredentials,
+  errors: [ClusterNotFoundFault, UnsupportedOperationFault],
+}));
 /**
  * Modifies the list of Identity and Access Management (IAM) roles that can be
  * used by the cluster to access other Amazon Web Services services.
@@ -8522,27 +8832,44 @@ export const getClusterCredentialsWithIAM =
  * For more information, go to Quotas and limits
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const modifyClusterIamRoles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyClusterIamRolesMessage,
-    output: ModifyClusterIamRolesResult,
-    errors: [ClusterNotFoundFault, InvalidClusterStateFault],
-  }),
-);
+export const modifyClusterIamRoles: (
+  input: ModifyClusterIamRolesMessage,
+) => Effect.Effect<
+  ModifyClusterIamRolesResult,
+  ClusterNotFoundFault | InvalidClusterStateFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyClusterIamRolesMessage,
+  output: ModifyClusterIamRolesResult,
+  errors: [ClusterNotFoundFault, InvalidClusterStateFault],
+}));
 /**
  * Modifies the maintenance settings of a cluster.
  */
-export const modifyClusterMaintenance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyClusterMaintenanceMessage,
-    output: ModifyClusterMaintenanceResult,
-    errors: [ClusterNotFoundFault, InvalidClusterStateFault],
-  }),
-);
+export const modifyClusterMaintenance: (
+  input: ModifyClusterMaintenanceMessage,
+) => Effect.Effect<
+  ModifyClusterMaintenanceResult,
+  ClusterNotFoundFault | InvalidClusterStateFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyClusterMaintenanceMessage,
+  output: ModifyClusterMaintenanceResult,
+  errors: [ClusterNotFoundFault, InvalidClusterStateFault],
+}));
 /**
  * Pauses a cluster.
  */
-export const pauseCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const pauseCluster: (
+  input: PauseClusterMessage,
+) => Effect.Effect<
+  PauseClusterResult,
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PauseClusterMessage,
   output: PauseClusterResult,
   errors: [
@@ -8561,7 +8888,13 @@ export const pauseCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon Redshift Clusters
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const rebootCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rebootCluster: (
+  input: RebootClusterMessage,
+) => Effect.Effect<
+  RebootClusterResult,
+  ClusterNotFoundFault | InvalidClusterStateFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootClusterMessage,
   output: RebootClusterResult,
   errors: [ClusterNotFoundFault, InvalidClusterStateFault],
@@ -8570,7 +8903,16 @@ export const rebootCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Stops logging information, such as queries and connection attempts, for the
  * specified Amazon Redshift cluster.
  */
-export const disableLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableLogging: (
+  input: DisableLoggingMessage,
+) => Effect.Effect<
+  LoggingStatus,
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableLoggingMessage,
   output: LoggingStatus,
   errors: [
@@ -8582,17 +8924,27 @@ export const disableLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * From a datashare producer account, removes authorization from the specified datashare.
  */
-export const deauthorizeDataShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeauthorizeDataShareMessage,
-    output: DataShare,
-    errors: [InvalidDataShareFault],
-  }),
-);
+export const deauthorizeDataShare: (
+  input: DeauthorizeDataShareMessage,
+) => Effect.Effect<
+  DataShare,
+  InvalidDataShareFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeauthorizeDataShareMessage,
+  output: DataShare,
+  errors: [InvalidDataShareFault],
+}));
 /**
  * From a datashare consumer account, rejects the specified datashare.
  */
-export const rejectDataShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rejectDataShare: (
+  input: RejectDataShareMessage,
+) => Effect.Effect<
+  DataShare,
+  InvalidDataShareFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectDataShareMessage,
   output: DataShare,
   errors: [InvalidDataShareFault],
@@ -8600,43 +8952,61 @@ export const rejectDataShare = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the resource policy for a specified resource.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyMessage,
-    output: DeleteResourcePolicyResponse,
-    errors: [ResourceNotFoundFault, UnsupportedOperationFault],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyMessage,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  ResourceNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyMessage,
+  output: DeleteResourcePolicyResponse,
+  errors: [ResourceNotFoundFault, UnsupportedOperationFault],
+}));
 /**
  * Used to create a custom domain name for a cluster. Properties include the custom domain name, the
  * cluster the custom domain is associated with, and the certificate Amazon Resource Name (ARN).
  */
-export const createCustomDomainAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCustomDomainAssociationMessage,
-    output: CreateCustomDomainAssociationResult,
-    errors: [
-      ClusterNotFoundFault,
-      CustomCnameAssociationFault,
-      UnsupportedOperationFault,
-    ],
-  }));
+export const createCustomDomainAssociation: (
+  input: CreateCustomDomainAssociationMessage,
+) => Effect.Effect<
+  CreateCustomDomainAssociationResult,
+  | ClusterNotFoundFault
+  | CustomCnameAssociationFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomDomainAssociationMessage,
+  output: CreateCustomDomainAssociationResult,
+  errors: [
+    ClusterNotFoundFault,
+    CustomCnameAssociationFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Deletes a specified Amazon Redshift parameter group.
  *
  * You cannot delete a parameter group if it is associated with a
  * cluster.
  */
-export const deleteClusterParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteClusterParameterGroupMessage,
-    output: DeleteClusterParameterGroupResponse,
-    errors: [
-      ClusterParameterGroupNotFoundFault,
-      InvalidClusterParameterGroupStateFault,
-    ],
-  }),
-);
+export const deleteClusterParameterGroup: (
+  input: DeleteClusterParameterGroupMessage,
+) => Effect.Effect<
+  DeleteClusterParameterGroupResponse,
+  | ClusterParameterGroupNotFoundFault
+  | InvalidClusterParameterGroupStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClusterParameterGroupMessage,
+  output: DeleteClusterParameterGroupResponse,
+  errors: [
+    ClusterParameterGroupNotFoundFault,
+    InvalidClusterParameterGroupStateFault,
+  ],
+}));
 /**
  * Deletes an Amazon Redshift security group.
  *
@@ -8647,89 +9017,132 @@ export const deleteClusterParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon Redshift Cluster Security Groups in the
  * *Amazon Redshift Cluster Management Guide*.
  */
-export const deleteClusterSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteClusterSecurityGroupMessage,
-    output: DeleteClusterSecurityGroupResponse,
-    errors: [
-      ClusterSecurityGroupNotFoundFault,
-      InvalidClusterSecurityGroupStateFault,
-    ],
-  }),
-);
+export const deleteClusterSecurityGroup: (
+  input: DeleteClusterSecurityGroupMessage,
+) => Effect.Effect<
+  DeleteClusterSecurityGroupResponse,
+  | ClusterSecurityGroupNotFoundFault
+  | InvalidClusterSecurityGroupStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClusterSecurityGroupMessage,
+  output: DeleteClusterSecurityGroupResponse,
+  errors: [
+    ClusterSecurityGroupNotFoundFault,
+    InvalidClusterSecurityGroupStateFault,
+  ],
+}));
 /**
  * Deletes an Amazon Redshift event notification subscription.
  */
-export const deleteEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEventSubscriptionMessage,
-    output: DeleteEventSubscriptionResponse,
-    errors: [InvalidSubscriptionStateFault, SubscriptionNotFoundFault],
-  }),
-);
+export const deleteEventSubscription: (
+  input: DeleteEventSubscriptionMessage,
+) => Effect.Effect<
+  DeleteEventSubscriptionResponse,
+  | InvalidSubscriptionStateFault
+  | SubscriptionNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEventSubscriptionMessage,
+  output: DeleteEventSubscriptionResponse,
+  errors: [InvalidSubscriptionStateFault, SubscriptionNotFoundFault],
+}));
 /**
  * Deletes the specified HSM client certificate.
  */
-export const deleteHsmClientCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteHsmClientCertificateMessage,
-    output: DeleteHsmClientCertificateResponse,
-    errors: [
-      HsmClientCertificateNotFoundFault,
-      InvalidHsmClientCertificateStateFault,
-    ],
-  }),
-);
+export const deleteHsmClientCertificate: (
+  input: DeleteHsmClientCertificateMessage,
+) => Effect.Effect<
+  DeleteHsmClientCertificateResponse,
+  | HsmClientCertificateNotFoundFault
+  | InvalidHsmClientCertificateStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteHsmClientCertificateMessage,
+  output: DeleteHsmClientCertificateResponse,
+  errors: [
+    HsmClientCertificateNotFoundFault,
+    InvalidHsmClientCertificateStateFault,
+  ],
+}));
 /**
  * Deletes the specified Amazon Redshift HSM configuration.
  */
-export const deleteHsmConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteHsmConfigurationMessage,
-    output: DeleteHsmConfigurationResponse,
-    errors: [HsmConfigurationNotFoundFault, InvalidHsmConfigurationStateFault],
-  }),
-);
+export const deleteHsmConfiguration: (
+  input: DeleteHsmConfigurationMessage,
+) => Effect.Effect<
+  DeleteHsmConfigurationResponse,
+  | HsmConfigurationNotFoundFault
+  | InvalidHsmConfigurationStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteHsmConfigurationMessage,
+  output: DeleteHsmConfigurationResponse,
+  errors: [HsmConfigurationNotFoundFault, InvalidHsmConfigurationStateFault],
+}));
 /**
  * Deletes a scheduled action.
  */
-export const deleteScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteScheduledActionMessage,
-    output: DeleteScheduledActionResponse,
-    errors: [ScheduledActionNotFoundFault, UnauthorizedOperation],
-  }),
-);
+export const deleteScheduledAction: (
+  input: DeleteScheduledActionMessage,
+) => Effect.Effect<
+  DeleteScheduledActionResponse,
+  ScheduledActionNotFoundFault | UnauthorizedOperation | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteScheduledActionMessage,
+  output: DeleteScheduledActionResponse,
+  errors: [ScheduledActionNotFoundFault, UnauthorizedOperation],
+}));
 /**
  * Deletes the specified snapshot copy grant.
  */
-export const deleteSnapshotCopyGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSnapshotCopyGrantMessage,
-    output: DeleteSnapshotCopyGrantResponse,
-    errors: [
-      InvalidSnapshotCopyGrantStateFault,
-      SnapshotCopyGrantNotFoundFault,
-    ],
-  }),
-);
+export const deleteSnapshotCopyGrant: (
+  input: DeleteSnapshotCopyGrantMessage,
+) => Effect.Effect<
+  DeleteSnapshotCopyGrantResponse,
+  | InvalidSnapshotCopyGrantStateFault
+  | SnapshotCopyGrantNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSnapshotCopyGrantMessage,
+  output: DeleteSnapshotCopyGrantResponse,
+  errors: [InvalidSnapshotCopyGrantStateFault, SnapshotCopyGrantNotFoundFault],
+}));
 /**
  * Deletes a snapshot schedule.
  */
-export const deleteSnapshotSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSnapshotScheduleMessage,
-    output: DeleteSnapshotScheduleResponse,
-    errors: [
-      InvalidClusterSnapshotScheduleStateFault,
-      SnapshotScheduleNotFoundFault,
-    ],
-  }),
-);
+export const deleteSnapshotSchedule: (
+  input: DeleteSnapshotScheduleMessage,
+) => Effect.Effect<
+  DeleteSnapshotScheduleResponse,
+  | InvalidClusterSnapshotScheduleStateFault
+  | SnapshotScheduleNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSnapshotScheduleMessage,
+  output: DeleteSnapshotScheduleResponse,
+  errors: [
+    InvalidClusterSnapshotScheduleStateFault,
+    SnapshotScheduleNotFoundFault,
+  ],
+}));
 /**
  * Deletes a usage limit from a cluster.
  */
-export const deleteUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUsageLimit: (
+  input: DeleteUsageLimitMessage,
+) => Effect.Effect<
+  DeleteUsageLimitResponse,
+  UnsupportedOperationFault | UsageLimitNotFoundFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUsageLimitMessage,
   output: DeleteUsageLimitResponse,
   errors: [UnsupportedOperationFault, UsageLimitNotFoundFault],
@@ -8751,23 +9164,56 @@ export const deleteUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If both tag keys and values are omitted from the request, snapshots are returned
  * regardless of whether they have tag keys or values associated with them.
  */
-export const describeClusterSnapshots =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClusterSnapshots: {
+  (
     input: DescribeClusterSnapshotsMessage,
-    output: SnapshotMessage,
-    errors: [
-      ClusterNotFoundFault,
-      ClusterSnapshotNotFoundFault,
-      InvalidTagFault,
-      UnsupportedOperationFault,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Snapshots",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SnapshotMessage,
+    | ClusterNotFoundFault
+    | ClusterSnapshotNotFoundFault
+    | InvalidTagFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClusterSnapshotsMessage,
+  ) => Stream.Stream<
+    SnapshotMessage,
+    | ClusterNotFoundFault
+    | ClusterSnapshotNotFoundFault
+    | InvalidTagFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClusterSnapshotsMessage,
+  ) => Stream.Stream<
+    Snapshot,
+    | ClusterNotFoundFault
+    | ClusterSnapshotNotFoundFault
+    | InvalidTagFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClusterSnapshotsMessage,
+  output: SnapshotMessage,
+  errors: [
+    ClusterNotFoundFault,
+    ClusterSnapshotNotFoundFault,
+    InvalidTagFault,
+    UnsupportedOperationFault,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Snapshots",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns descriptions of the available Amazon Redshift cluster versions. You can call this
  * operation even before creating any clusters to learn more about the Amazon Redshift versions.
@@ -8776,33 +9222,75 @@ export const describeClusterSnapshots =
  * Amazon Redshift Clusters
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const describeClusterVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClusterVersions: {
+  (
     input: DescribeClusterVersionsMessage,
-    output: ClusterVersionsMessage,
-    errors: [],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "ClusterVersions",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ClusterVersionsMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClusterVersionsMessage,
+  ) => Stream.Stream<
+    ClusterVersionsMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClusterVersionsMessage,
+  ) => Stream.Stream<
+    ClusterVersion,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClusterVersionsMessage,
+  output: ClusterVersionsMessage,
+  errors: [],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "ClusterVersions",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns a list of datashares where the account identifier being called is a consumer account identifier.
  */
-export const describeDataSharesForConsumer =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDataSharesForConsumer: {
+  (
     input: DescribeDataSharesForConsumerMessage,
-    output: DescribeDataSharesForConsumerResult,
-    errors: [InvalidNamespaceFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "DataShares",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeDataSharesForConsumerResult,
+    InvalidNamespaceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDataSharesForConsumerMessage,
+  ) => Stream.Stream<
+    DescribeDataSharesForConsumerResult,
+    InvalidNamespaceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDataSharesForConsumerMessage,
+  ) => Stream.Stream<
+    DataShare,
+    InvalidNamespaceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDataSharesForConsumerMessage,
+  output: DescribeDataSharesForConsumerResult,
+  errors: [InvalidNamespaceFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "DataShares",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns a list of parameter settings for the specified parameter group
  * family.
@@ -8811,71 +9299,163 @@ export const describeDataSharesForConsumer =
  * Amazon Redshift Parameter Groups
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const describeDefaultClusterParameters =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDefaultClusterParameters: {
+  (
     input: DescribeDefaultClusterParametersMessage,
-    output: DescribeDefaultClusterParametersResult,
-    errors: [],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "DefaultClusterParameters.Marker",
-      items: "DefaultClusterParameters.Parameters",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeDefaultClusterParametersResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDefaultClusterParametersMessage,
+  ) => Stream.Stream<
+    DescribeDefaultClusterParametersResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDefaultClusterParametersMessage,
+  ) => Stream.Stream<
+    unknown,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDefaultClusterParametersMessage,
+  output: DescribeDefaultClusterParametersResult,
+  errors: [],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "DefaultClusterParameters.Marker",
+    items: "DefaultClusterParameters.Parameters",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Describes a Redshift-managed VPC endpoint.
  */
-export const describeEndpointAccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeEndpointAccess: {
+  (
     input: DescribeEndpointAccessMessage,
-    output: EndpointAccessList,
-    errors: [
-      ClusterNotFoundFault,
-      EndpointNotFoundFault,
-      InvalidClusterStateFault,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "EndpointAccessList",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    EndpointAccessList,
+    | ClusterNotFoundFault
+    | EndpointNotFoundFault
+    | InvalidClusterStateFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEndpointAccessMessage,
+  ) => Stream.Stream<
+    EndpointAccessList,
+    | ClusterNotFoundFault
+    | EndpointNotFoundFault
+    | InvalidClusterStateFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEndpointAccessMessage,
+  ) => Stream.Stream<
+    EndpointAccess,
+    | ClusterNotFoundFault
+    | EndpointNotFoundFault
+    | InvalidClusterStateFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEndpointAccessMessage,
+  output: EndpointAccessList,
+  errors: [
+    ClusterNotFoundFault,
+    EndpointNotFoundFault,
+    InvalidClusterStateFault,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "EndpointAccessList",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns events related to clusters, security groups, snapshots, and parameter
  * groups for the past 14 days. Events specific to a particular cluster, security group,
  * snapshot or parameter group can be obtained by providing the name as a parameter. By
  * default, the past hour of events are returned.
  */
-export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeEvents: {
+  (
     input: DescribeEventsMessage,
-    output: EventsMessage,
-    errors: [],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Events",
-      pageSize: "MaxRecords",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    EventsMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEventsMessage,
+  ) => Stream.Stream<
+    EventsMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEventsMessage,
+  ) => Stream.Stream<
+    Event,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEventsMessage,
+  output: EventsMessage,
+  errors: [],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Events",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Describes properties of scheduled actions.
  */
-export const describeScheduledActions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeScheduledActions: {
+  (
     input: DescribeScheduledActionsMessage,
-    output: ScheduledActionsMessage,
-    errors: [ScheduledActionNotFoundFault, UnauthorizedOperation],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "ScheduledActions",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ScheduledActionsMessage,
+    ScheduledActionNotFoundFault | UnauthorizedOperation | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeScheduledActionsMessage,
+  ) => Stream.Stream<
+    ScheduledActionsMessage,
+    ScheduledActionNotFoundFault | UnauthorizedOperation | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeScheduledActionsMessage,
+  ) => Stream.Stream<
+    ScheduledAction,
+    ScheduledActionNotFoundFault | UnauthorizedOperation | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeScheduledActionsMessage,
+  output: ScheduledActionsMessage,
+  errors: [ScheduledActionNotFoundFault, UnauthorizedOperation],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "ScheduledActions",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns a list of tags. You can return tags from a specific resource by specifying
  * an ARN, or you can return all tags for a given type of resource, such as clusters,
@@ -8901,19 +9481,39 @@ export const describeScheduledActions =
  * If both tag keys and values are omitted from the request, resources are returned
  * regardless of whether they have tag keys or values associated with them.
  */
-export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeTags: {
+  (
     input: DescribeTagsMessage,
-    output: TaggedResourceListMessage,
-    errors: [InvalidTagFault, ResourceNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "TaggedResources",
-      pageSize: "MaxRecords",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    TaggedResourceListMessage,
+    InvalidTagFault | ResourceNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTagsMessage,
+  ) => Stream.Stream<
+    TaggedResourceListMessage,
+    InvalidTagFault | ResourceNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTagsMessage,
+  ) => Stream.Stream<
+    TaggedResource,
+    InvalidTagFault | ResourceNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTagsMessage,
+  output: TaggedResourceListMessage,
+  errors: [InvalidTagFault, ResourceNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "TaggedResources",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Disables the automatic copying of snapshots from one region to another region for a
  * specified cluster.
@@ -8922,7 +9522,18 @@ export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * from Key Management Service, use DeleteSnapshotCopyGrant to delete the grant that
  * grants Amazon Redshift permission to the key in the destination region.
  */
-export const disableSnapshotCopy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableSnapshotCopy: (
+  input: DisableSnapshotCopyMessage,
+) => Effect.Effect<
+  DisableSnapshotCopyResult,
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | SnapshotCopyAlreadyDisabledFault
+  | UnauthorizedOperation
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableSnapshotCopyMessage,
   output: DisableSnapshotCopyResult,
   errors: [
@@ -8947,52 +9558,85 @@ export const disableSnapshotCopy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * caller is not using enhanced credentials with embedded Amazon Web Services IAM Identity Center identity, the API will
  * return an error.
  */
-export const getIdentityCenterAuthToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIdentityCenterAuthTokenRequest,
-    output: GetIdentityCenterAuthTokenResponse,
-    errors: [
-      ClusterNotFoundFault,
-      InvalidClusterStateFault,
-      RedshiftInvalidParameterFault,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
+export const getIdentityCenterAuthToken: (
+  input: GetIdentityCenterAuthTokenRequest,
+) => Effect.Effect<
+  GetIdentityCenterAuthTokenResponse,
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | RedshiftInvalidParameterFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdentityCenterAuthTokenRequest,
+  output: GetIdentityCenterAuthTokenResponse,
+  errors: [
+    ClusterNotFoundFault,
+    InvalidClusterStateFault,
+    RedshiftInvalidParameterFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * This operation is retired. Calling this operation does not change AQUA configuration. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
  */
-export const modifyAquaConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyAquaInputMessage,
-    output: ModifyAquaOutputMessage,
-    errors: [
-      ClusterNotFoundFault,
-      InvalidClusterStateFault,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
+export const modifyAquaConfiguration: (
+  input: ModifyAquaInputMessage,
+) => Effect.Effect<
+  ModifyAquaOutputMessage,
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyAquaInputMessage,
+  output: ModifyAquaOutputMessage,
+  errors: [
+    ClusterNotFoundFault,
+    InvalidClusterStateFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Modifies the database revision of a cluster. The database revision is a unique
  * revision of the database running in a cluster.
  */
-export const modifyClusterDbRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyClusterDbRevisionMessage,
-    output: ModifyClusterDbRevisionResult,
-    errors: [
-      ClusterNotFoundFault,
-      ClusterOnLatestRevisionFault,
-      InvalidClusterStateFault,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
+export const modifyClusterDbRevision: (
+  input: ModifyClusterDbRevisionMessage,
+) => Effect.Effect<
+  ModifyClusterDbRevisionResult,
+  | ClusterNotFoundFault
+  | ClusterOnLatestRevisionFault
+  | InvalidClusterStateFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyClusterDbRevisionMessage,
+  output: ModifyClusterDbRevisionResult,
+  errors: [
+    ClusterNotFoundFault,
+    ClusterOnLatestRevisionFault,
+    InvalidClusterStateFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Resumes a paused cluster.
  */
-export const resumeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resumeCluster: (
+  input: ResumeClusterMessage,
+) => Effect.Effect<
+  ResumeClusterResult,
+  | ClusterNotFoundFault
+  | InsufficientClusterCapacityFault
+  | InvalidClusterStateFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeClusterMessage,
   output: ResumeClusterResult,
   errors: [
@@ -9009,20 +9653,38 @@ export const resumeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon Redshift Cluster Security Groups in the
  * *Amazon Redshift Cluster Management Guide*.
  */
-export const revokeClusterSecurityGroupIngress =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RevokeClusterSecurityGroupIngressMessage,
-    output: RevokeClusterSecurityGroupIngressResult,
-    errors: [
-      AuthorizationNotFoundFault,
-      ClusterSecurityGroupNotFoundFault,
-      InvalidClusterSecurityGroupStateFault,
-    ],
-  }));
+export const revokeClusterSecurityGroupIngress: (
+  input: RevokeClusterSecurityGroupIngressMessage,
+) => Effect.Effect<
+  RevokeClusterSecurityGroupIngressResult,
+  | AuthorizationNotFoundFault
+  | ClusterSecurityGroupNotFoundFault
+  | InvalidClusterSecurityGroupStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeClusterSecurityGroupIngressMessage,
+  output: RevokeClusterSecurityGroupIngressResult,
+  errors: [
+    AuthorizationNotFoundFault,
+    ClusterSecurityGroupNotFoundFault,
+    InvalidClusterSecurityGroupStateFault,
+  ],
+}));
 /**
  * Rotates the encryption keys for a cluster.
  */
-export const rotateEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rotateEncryptionKey: (
+  input: RotateEncryptionKeyMessage,
+) => Effect.Effect<
+  RotateEncryptionKeyResult,
+  | ClusterNotFoundFault
+  | DependentServiceRequestThrottlingFault
+  | InvalidClusterStateFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RotateEncryptionKeyMessage,
   output: RotateEncryptionKeyResult,
   errors: [
@@ -9041,7 +9703,16 @@ export const rotateEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * A resize operation can be requested using ModifyCluster and
  * specifying a different number or type of nodes for the cluster.
  */
-export const describeResize = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeResize: (
+  input: DescribeResizeMessage,
+) => Effect.Effect<
+  ResizeProgressMessage,
+  | ClusterNotFoundFault
+  | ResizeNotFoundFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeResizeMessage,
   output: ResizeProgressMessage,
   errors: [
@@ -9057,32 +9728,44 @@ export const describeResize = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon Redshift Parameter Groups
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const modifyClusterParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyClusterParameterGroupMessage,
-    output: ClusterParameterGroupNameMessage,
-    errors: [
-      ClusterParameterGroupNotFoundFault,
-      InvalidClusterParameterGroupStateFault,
-    ],
-  }),
-);
+export const modifyClusterParameterGroup: (
+  input: ModifyClusterParameterGroupMessage,
+) => Effect.Effect<
+  ClusterParameterGroupNameMessage,
+  | ClusterParameterGroupNotFoundFault
+  | InvalidClusterParameterGroupStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyClusterParameterGroupMessage,
+  output: ClusterParameterGroupNameMessage,
+  errors: [
+    ClusterParameterGroupNotFoundFault,
+    InvalidClusterParameterGroupStateFault,
+  ],
+}));
 /**
  * Sets one or more parameters of the specified parameter group to their default
  * values and sets the source values of the parameters to "engine-default". To reset the
  * entire parameter group specify the *ResetAllParameters* parameter.
  * For parameter changes to take effect you must reboot any associated clusters.
  */
-export const resetClusterParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetClusterParameterGroupMessage,
-    output: ClusterParameterGroupNameMessage,
-    errors: [
-      ClusterParameterGroupNotFoundFault,
-      InvalidClusterParameterGroupStateFault,
-    ],
-  }),
-);
+export const resetClusterParameterGroup: (
+  input: ResetClusterParameterGroupMessage,
+) => Effect.Effect<
+  ClusterParameterGroupNameMessage,
+  | ClusterParameterGroupNotFoundFault
+  | InvalidClusterParameterGroupStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetClusterParameterGroupMessage,
+  output: ClusterParameterGroupNameMessage,
+  errors: [
+    ClusterParameterGroupNotFoundFault,
+    InvalidClusterParameterGroupStateFault,
+  ],
+}));
 /**
  * Lists descriptions of all the Amazon Redshift event notification subscriptions for a
  * customer account. If you specify a subscription name, lists the description for that
@@ -9098,33 +9781,62 @@ export const resetClusterParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * returned regardless of whether they have tag keys or values associated with
  * them.
  */
-export const describeEventSubscriptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeEventSubscriptions: {
+  (
     input: DescribeEventSubscriptionsMessage,
-    output: EventSubscriptionsMessage,
-    errors: [InvalidTagFault, SubscriptionNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "EventSubscriptionsList",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    EventSubscriptionsMessage,
+    InvalidTagFault | SubscriptionNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEventSubscriptionsMessage,
+  ) => Stream.Stream<
+    EventSubscriptionsMessage,
+    InvalidTagFault | SubscriptionNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEventSubscriptionsMessage,
+  ) => Stream.Stream<
+    EventSubscription,
+    InvalidTagFault | SubscriptionNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEventSubscriptionsMessage,
+  output: EventSubscriptionsMessage,
+  errors: [InvalidTagFault, SubscriptionNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "EventSubscriptionsList",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Fails over the primary compute unit of the specified Multi-AZ cluster to another Availability Zone.
  */
-export const failoverPrimaryCompute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: FailoverPrimaryComputeInputMessage,
-    output: FailoverPrimaryComputeResult,
-    errors: [
-      ClusterNotFoundFault,
-      InvalidClusterStateFault,
-      UnauthorizedOperation,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
+export const failoverPrimaryCompute: (
+  input: FailoverPrimaryComputeInputMessage,
+) => Effect.Effect<
+  FailoverPrimaryComputeResult,
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | UnauthorizedOperation
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: FailoverPrimaryComputeInputMessage,
+  output: FailoverPrimaryComputeResult,
+  errors: [
+    ClusterNotFoundFault,
+    InvalidClusterStateFault,
+    UnauthorizedOperation,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Returns a list of snapshot copy grants owned by the Amazon Web Services account in the destination
  * region.
@@ -9133,31 +9845,60 @@ export const failoverPrimaryCompute = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon Redshift Database Encryption
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const describeSnapshotCopyGrants =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeSnapshotCopyGrants: {
+  (
     input: DescribeSnapshotCopyGrantsMessage,
-    output: SnapshotCopyGrantMessage,
-    errors: [InvalidTagFault, SnapshotCopyGrantNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "SnapshotCopyGrants",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SnapshotCopyGrantMessage,
+    InvalidTagFault | SnapshotCopyGrantNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSnapshotCopyGrantsMessage,
+  ) => Stream.Stream<
+    SnapshotCopyGrantMessage,
+    InvalidTagFault | SnapshotCopyGrantNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSnapshotCopyGrantsMessage,
+  ) => Stream.Stream<
+    SnapshotCopyGrant,
+    InvalidTagFault | SnapshotCopyGrantNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSnapshotCopyGrantsMessage,
+  output: SnapshotCopyGrantMessage,
+  errors: [InvalidTagFault, SnapshotCopyGrantNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "SnapshotCopyGrants",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Modifies a snapshot schedule for a cluster.
  */
-export const modifyClusterSnapshotSchedule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyClusterSnapshotScheduleMessage,
-    output: ModifyClusterSnapshotScheduleResponse,
-    errors: [
-      ClusterNotFoundFault,
-      InvalidClusterSnapshotScheduleStateFault,
-      SnapshotScheduleNotFoundFault,
-    ],
-  }));
+export const modifyClusterSnapshotSchedule: (
+  input: ModifyClusterSnapshotScheduleMessage,
+) => Effect.Effect<
+  ModifyClusterSnapshotScheduleResponse,
+  | ClusterNotFoundFault
+  | InvalidClusterSnapshotScheduleStateFault
+  | SnapshotScheduleNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyClusterSnapshotScheduleMessage,
+  output: ModifyClusterSnapshotScheduleResponse,
+  errors: [
+    ClusterNotFoundFault,
+    InvalidClusterSnapshotScheduleStateFault,
+    SnapshotScheduleNotFoundFault,
+  ],
+}));
 /**
  * Adds tags to a cluster.
  *
@@ -9167,7 +9908,17 @@ export const modifyClusterSnapshotSchedule =
  * If you specify a key that already exists for the resource, the value for that key
  * will be updated with the new value.
  */
-export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTags: (
+  input: CreateTagsMessage,
+) => Effect.Effect<
+  CreateTagsResponse,
+  | InvalidClusterStateFault
+  | InvalidTagFault
+  | ResourceNotFoundFault
+  | TagLimitExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagsMessage,
   output: CreateTagsResponse,
   errors: [
@@ -9181,7 +9932,16 @@ export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Modifies a usage limit in a cluster.
  * You can't modify the feature type or period of a usage limit.
  */
-export const modifyUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyUsageLimit: (
+  input: ModifyUsageLimitMessage,
+) => Effect.Effect<
+  UsageLimit,
+  | InvalidUsageLimitFault
+  | UnsupportedOperationFault
+  | UsageLimitNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyUsageLimitMessage,
   output: UsageLimit,
   errors: [
@@ -9193,22 +9953,52 @@ export const modifyUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of datashares when the account identifier being called is a producer account identifier.
  */
-export const describeDataSharesForProducer =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDataSharesForProducer: {
+  (
     input: DescribeDataSharesForProducerMessage,
-    output: DescribeDataSharesForProducerResult,
-    errors: [InvalidNamespaceFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "DataShares",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeDataSharesForProducerResult,
+    InvalidNamespaceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDataSharesForProducerMessage,
+  ) => Stream.Stream<
+    DescribeDataSharesForProducerResult,
+    InvalidNamespaceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDataSharesForProducerMessage,
+  ) => Stream.Stream<
+    DataShare,
+    InvalidNamespaceFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDataSharesForProducerMessage,
+  output: DescribeDataSharesForProducerResult,
+  errors: [InvalidNamespaceFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "DataShares",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Registers a cluster or serverless namespace to the Amazon Web Services Glue Data Catalog.
  */
-export const registerNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerNamespace: (
+  input: RegisterNamespaceInputMessage,
+) => Effect.Effect<
+  RegisterNamespaceOutputMessage,
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | InvalidNamespaceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterNamespaceInputMessage,
   output: RegisterNamespaceOutputMessage,
   errors: [
@@ -9220,37 +10010,52 @@ export const registerNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * From a datashare consumer account, remove association for the specified datashare.
  */
-export const disassociateDataShareConsumer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateDataShareConsumerMessage,
-    output: DataShare,
-    errors: [InvalidDataShareFault, InvalidNamespaceFault],
-  }));
+export const disassociateDataShareConsumer: (
+  input: DisassociateDataShareConsumerMessage,
+) => Effect.Effect<
+  DataShare,
+  InvalidDataShareFault | InvalidNamespaceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateDataShareConsumerMessage,
+  output: DataShare,
+  errors: [InvalidDataShareFault, InvalidNamespaceFault],
+}));
 /**
  * From a datashare consumer account, associates a datashare with the
  * account (AssociateEntireAccount) or the specified namespace (ConsumerArn). If you make this association, the consumer
  * can consume the datashare.
  */
-export const associateDataShareConsumer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateDataShareConsumerMessage,
-    output: DataShare,
-    errors: [InvalidDataShareFault, InvalidNamespaceFault],
-  }),
-);
+export const associateDataShareConsumer: (
+  input: AssociateDataShareConsumerMessage,
+) => Effect.Effect<
+  DataShare,
+  InvalidDataShareFault | InvalidNamespaceFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateDataShareConsumerMessage,
+  output: DataShare,
+  errors: [InvalidDataShareFault, InvalidNamespaceFault],
+}));
 /**
  * Modifies the settings for a set of cluster snapshots.
  */
-export const batchModifyClusterSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchModifyClusterSnapshotsMessage,
-    output: BatchModifyClusterSnapshotsOutputMessage,
-    errors: [
-      BatchModifyClusterSnapshotsLimitExceededFault,
-      InvalidRetentionPeriodFault,
-    ],
-  }),
-);
+export const batchModifyClusterSnapshots: (
+  input: BatchModifyClusterSnapshotsMessage,
+) => Effect.Effect<
+  BatchModifyClusterSnapshotsOutputMessage,
+  | BatchModifyClusterSnapshotsLimitExceededFault
+  | InvalidRetentionPeriodFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchModifyClusterSnapshotsMessage,
+  output: BatchModifyClusterSnapshotsOutputMessage,
+  errors: [
+    BatchModifyClusterSnapshotsLimitExceededFault,
+    InvalidRetentionPeriodFault,
+  ],
+}));
 /**
  * Removes the ability of the specified Amazon Web Services account to restore the specified
  * snapshot. If the account is currently restoring the snapshot, the restore will run to
@@ -9260,22 +10065,40 @@ export const batchModifyClusterSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon Redshift Snapshots
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const revokeSnapshotAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RevokeSnapshotAccessMessage,
-    output: RevokeSnapshotAccessResult,
-    errors: [
-      AccessToSnapshotDeniedFault,
-      AuthorizationNotFoundFault,
-      ClusterSnapshotNotFoundFault,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
+export const revokeSnapshotAccess: (
+  input: RevokeSnapshotAccessMessage,
+) => Effect.Effect<
+  RevokeSnapshotAccessResult,
+  | AccessToSnapshotDeniedFault
+  | AuthorizationNotFoundFault
+  | ClusterSnapshotNotFoundFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeSnapshotAccessMessage,
+  output: RevokeSnapshotAccessResult,
+  errors: [
+    AccessToSnapshotDeniedFault,
+    AuthorizationNotFoundFault,
+    ClusterSnapshotNotFoundFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Cancels a resize operation for a cluster.
  */
-export const cancelResize = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelResize: (
+  input: CancelResizeMessage,
+) => Effect.Effect<
+  ResizeProgressMessage,
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | ResizeNotFoundFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelResizeMessage,
   output: ResizeProgressMessage,
   errors: [
@@ -9290,7 +10113,17 @@ export const cancelResize = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation authorizes a partner to push status updates for the specified database.
  * To complete the integration, you also set up the integration on the partner website.
  */
-export const addPartner = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addPartner: (
+  input: PartnerIntegrationInputMessage,
+) => Effect.Effect<
+  PartnerIntegrationOutputMessage,
+  | ClusterNotFoundFault
+  | PartnerNotFoundFault
+  | UnauthorizedPartnerIntegrationFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PartnerIntegrationInputMessage,
   output: PartnerIntegrationOutputMessage,
   errors: [
@@ -9303,13 +10136,17 @@ export const addPartner = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a set of cluster snapshots.
  */
-export const batchDeleteClusterSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDeleteClusterSnapshotsRequest,
-    output: BatchDeleteClusterSnapshotsResult,
-    errors: [BatchDeleteRequestSizeExceededFault],
-  }),
-);
+export const batchDeleteClusterSnapshots: (
+  input: BatchDeleteClusterSnapshotsRequest,
+) => Effect.Effect<
+  BatchDeleteClusterSnapshotsResult,
+  BatchDeleteRequestSizeExceededFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteClusterSnapshotsRequest,
+  output: BatchDeleteClusterSnapshotsResult,
+  errors: [BatchDeleteRequestSizeExceededFault],
+}));
 /**
  * Creates a new Amazon Redshift security group. You use security groups to control access
  * to non-VPC clusters.
@@ -9318,31 +10155,45 @@ export const batchDeleteClusterSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon Redshift Cluster Security Groups in the
  * *Amazon Redshift Cluster Management Guide*.
  */
-export const createClusterSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateClusterSecurityGroupMessage,
-    output: CreateClusterSecurityGroupResult,
-    errors: [
-      ClusterSecurityGroupAlreadyExistsFault,
-      ClusterSecurityGroupQuotaExceededFault,
-      InvalidTagFault,
-      TagLimitExceededFault,
-    ],
-  }),
-);
+export const createClusterSecurityGroup: (
+  input: CreateClusterSecurityGroupMessage,
+) => Effect.Effect<
+  CreateClusterSecurityGroupResult,
+  | ClusterSecurityGroupAlreadyExistsFault
+  | ClusterSecurityGroupQuotaExceededFault
+  | InvalidTagFault
+  | TagLimitExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateClusterSecurityGroupMessage,
+  output: CreateClusterSecurityGroupResult,
+  errors: [
+    ClusterSecurityGroupAlreadyExistsFault,
+    ClusterSecurityGroupQuotaExceededFault,
+    InvalidTagFault,
+    TagLimitExceededFault,
+  ],
+}));
 /**
  * Deletes an authentication profile.
  */
-export const deleteAuthenticationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAuthenticationProfileMessage,
-    output: DeleteAuthenticationProfileResult,
-    errors: [
-      AuthenticationProfileNotFoundFault,
-      InvalidAuthenticationProfileRequestFault,
-    ],
-  }),
-);
+export const deleteAuthenticationProfile: (
+  input: DeleteAuthenticationProfileMessage,
+) => Effect.Effect<
+  DeleteAuthenticationProfileResult,
+  | AuthenticationProfileNotFoundFault
+  | InvalidAuthenticationProfileRequestFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAuthenticationProfileMessage,
+  output: DeleteAuthenticationProfileResult,
+  errors: [
+    AuthenticationProfileNotFoundFault,
+    InvalidAuthenticationProfileRequestFault,
+  ],
+}));
 /**
  * Deletes the specified manual snapshot. The snapshot must be in the
  * `available` state, with no other users authorized to access the snapshot.
@@ -9353,45 +10204,76 @@ export const deleteAuthenticationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * the snapshot, you must revoke all of the authorizations before you can delete the
  * snapshot.
  */
-export const deleteClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteClusterSnapshotMessage,
-    output: DeleteClusterSnapshotResult,
-    errors: [ClusterSnapshotNotFoundFault, InvalidClusterSnapshotStateFault],
-  }),
-);
+export const deleteClusterSnapshot: (
+  input: DeleteClusterSnapshotMessage,
+) => Effect.Effect<
+  DeleteClusterSnapshotResult,
+  | ClusterSnapshotNotFoundFault
+  | InvalidClusterSnapshotStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClusterSnapshotMessage,
+  output: DeleteClusterSnapshotResult,
+  errors: [ClusterSnapshotNotFoundFault, InvalidClusterSnapshotStateFault],
+}));
 /**
  * Deletes the specified cluster subnet group.
  */
-export const deleteClusterSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteClusterSubnetGroupMessage,
-    output: DeleteClusterSubnetGroupResponse,
-    errors: [
-      ClusterSubnetGroupNotFoundFault,
-      InvalidClusterSubnetGroupStateFault,
-      InvalidClusterSubnetStateFault,
-    ],
-  }),
-);
+export const deleteClusterSubnetGroup: (
+  input: DeleteClusterSubnetGroupMessage,
+) => Effect.Effect<
+  DeleteClusterSubnetGroupResponse,
+  | ClusterSubnetGroupNotFoundFault
+  | InvalidClusterSubnetGroupStateFault
+  | InvalidClusterSubnetStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClusterSubnetGroupMessage,
+  output: DeleteClusterSubnetGroupResponse,
+  errors: [
+    ClusterSubnetGroupNotFoundFault,
+    InvalidClusterSubnetGroupStateFault,
+    InvalidClusterSubnetStateFault,
+  ],
+}));
 /**
  * Deletes an Amazon Redshift IAM Identity Center application.
  */
-export const deleteRedshiftIdcApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRedshiftIdcApplicationMessage,
-    output: DeleteRedshiftIdcApplicationResponse,
-    errors: [
-      DependentServiceAccessDeniedFault,
-      DependentServiceUnavailableFault,
-      RedshiftIdcApplicationNotExistsFault,
-      UnsupportedOperationFault,
-    ],
-  }));
+export const deleteRedshiftIdcApplication: (
+  input: DeleteRedshiftIdcApplicationMessage,
+) => Effect.Effect<
+  DeleteRedshiftIdcApplicationResponse,
+  | DependentServiceAccessDeniedFault
+  | DependentServiceUnavailableFault
+  | RedshiftIdcApplicationNotExistsFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRedshiftIdcApplicationMessage,
+  output: DeleteRedshiftIdcApplicationResponse,
+  errors: [
+    DependentServiceAccessDeniedFault,
+    DependentServiceUnavailableFault,
+    RedshiftIdcApplicationNotExistsFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Deregisters a cluster or serverless namespace from the Amazon Web Services Glue Data Catalog.
  */
-export const deregisterNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deregisterNamespace: (
+  input: DeregisterNamespaceInputMessage,
+) => Effect.Effect<
+  DeregisterNamespaceOutputMessage,
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | InvalidNamespaceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterNamespaceInputMessage,
   output: DeregisterNamespaceOutputMessage,
   errors: [
@@ -9403,81 +10285,176 @@ export const deregisterNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of attributes attached to an account
  */
-export const describeAccountAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccountAttributesMessage,
-    output: AccountAttributeList,
-    errors: [],
-  }),
-);
+export const describeAccountAttributes: (
+  input: DescribeAccountAttributesMessage,
+) => Effect.Effect<
+  AccountAttributeList,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccountAttributesMessage,
+  output: AccountAttributeList,
+  errors: [],
+}));
 /**
  * Returns an array of `ClusterDbRevision` objects.
  */
-export const describeClusterDbRevisions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClusterDbRevisions: {
+  (
     input: DescribeClusterDbRevisionsMessage,
-    output: ClusterDbRevisionsMessage,
-    errors: [ClusterNotFoundFault, InvalidClusterStateFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "ClusterDbRevisions",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ClusterDbRevisionsMessage,
+    ClusterNotFoundFault | InvalidClusterStateFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClusterDbRevisionsMessage,
+  ) => Stream.Stream<
+    ClusterDbRevisionsMessage,
+    ClusterNotFoundFault | InvalidClusterStateFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClusterDbRevisionsMessage,
+  ) => Stream.Stream<
+    ClusterDbRevision,
+    ClusterNotFoundFault | InvalidClusterStateFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClusterDbRevisionsMessage,
+  output: ClusterDbRevisionsMessage,
+  errors: [ClusterNotFoundFault, InvalidClusterStateFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "ClusterDbRevisions",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Displays a list of event categories for all event source types, or for a specified
  * source type. For a list of the event categories and source types, go to Amazon Redshift Event
  * Notifications.
  */
-export const describeEventCategories = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEventCategoriesMessage,
-    output: EventCategoriesMessage,
-    errors: [],
-  }),
-);
+export const describeEventCategories: (
+  input: DescribeEventCategoriesMessage,
+) => Effect.Effect<
+  EventCategoriesMessage,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEventCategoriesMessage,
+  output: EventCategoriesMessage,
+  errors: [],
+}));
 /**
  * Returns a list of inbound integrations.
  */
-export const describeInboundIntegrations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeInboundIntegrations: {
+  (
     input: DescribeInboundIntegrationsMessage,
-    output: InboundIntegrationsMessage,
-    errors: [
-      IntegrationNotFoundFault,
-      InvalidNamespaceFault,
-      UnsupportedOperationFault,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "InboundIntegrations",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    InboundIntegrationsMessage,
+    | IntegrationNotFoundFault
+    | InvalidNamespaceFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeInboundIntegrationsMessage,
+  ) => Stream.Stream<
+    InboundIntegrationsMessage,
+    | IntegrationNotFoundFault
+    | InvalidNamespaceFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeInboundIntegrationsMessage,
+  ) => Stream.Stream<
+    InboundIntegration,
+    | IntegrationNotFoundFault
+    | InvalidNamespaceFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeInboundIntegrationsMessage,
+  output: InboundIntegrationsMessage,
+  errors: [
+    IntegrationNotFoundFault,
+    InvalidNamespaceFault,
+    UnsupportedOperationFault,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "InboundIntegrations",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns properties of possible node configurations such as node type, number of nodes, and
  * disk usage for the specified action type.
  */
-export const describeNodeConfigurationOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeNodeConfigurationOptions: {
+  (
     input: DescribeNodeConfigurationOptionsMessage,
-    output: NodeConfigurationOptionsMessage,
-    errors: [
-      AccessToSnapshotDeniedFault,
-      ClusterNotFoundFault,
-      ClusterSnapshotNotFoundFault,
-      InvalidClusterSnapshotStateFault,
-      UnsupportedOperationFault,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "NodeConfigurationOptionList",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    NodeConfigurationOptionsMessage,
+    | AccessToSnapshotDeniedFault
+    | ClusterNotFoundFault
+    | ClusterSnapshotNotFoundFault
+    | InvalidClusterSnapshotStateFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeNodeConfigurationOptionsMessage,
+  ) => Stream.Stream<
+    NodeConfigurationOptionsMessage,
+    | AccessToSnapshotDeniedFault
+    | ClusterNotFoundFault
+    | ClusterSnapshotNotFoundFault
+    | InvalidClusterSnapshotStateFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeNodeConfigurationOptionsMessage,
+  ) => Stream.Stream<
+    NodeConfigurationOption,
+    | AccessToSnapshotDeniedFault
+    | ClusterNotFoundFault
+    | ClusterSnapshotNotFoundFault
+    | InvalidClusterSnapshotStateFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeNodeConfigurationOptionsMessage,
+  output: NodeConfigurationOptionsMessage,
+  errors: [
+    AccessToSnapshotDeniedFault,
+    ClusterNotFoundFault,
+    ClusterSnapshotNotFoundFault,
+    InvalidClusterSnapshotStateFault,
+    UnsupportedOperationFault,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "NodeConfigurationOptionList",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns a list of the available reserved node offerings by Amazon Redshift with their
  * descriptions including the node type, the fixed and recurring costs of reserving the
@@ -9490,22 +10467,52 @@ export const describeNodeConfigurationOptions =
  * Purchasing Reserved Nodes
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const describeReservedNodeOfferings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeReservedNodeOfferings: {
+  (
     input: DescribeReservedNodeOfferingsMessage,
-    output: ReservedNodeOfferingsMessage,
-    errors: [
-      DependentServiceUnavailableFault,
-      ReservedNodeOfferingNotFoundFault,
-      UnsupportedOperationFault,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "ReservedNodeOfferings",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ReservedNodeOfferingsMessage,
+    | DependentServiceUnavailableFault
+    | ReservedNodeOfferingNotFoundFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeReservedNodeOfferingsMessage,
+  ) => Stream.Stream<
+    ReservedNodeOfferingsMessage,
+    | DependentServiceUnavailableFault
+    | ReservedNodeOfferingNotFoundFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeReservedNodeOfferingsMessage,
+  ) => Stream.Stream<
+    ReservedNodeOffering,
+    | DependentServiceUnavailableFault
+    | ReservedNodeOfferingNotFoundFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeReservedNodeOfferingsMessage,
+  output: ReservedNodeOfferingsMessage,
+  errors: [
+    DependentServiceUnavailableFault,
+    ReservedNodeOfferingNotFoundFault,
+    UnsupportedOperationFault,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "ReservedNodeOfferings",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Lists the status of one or more table restore requests made using the RestoreTableFromClusterSnapshot API action. If you don't specify a value
  * for the `TableRestoreRequestId` parameter, then
@@ -9514,22 +10521,52 @@ export const describeReservedNodeOfferings =
  * `DescribeTableRestoreStatus` returns the status of the table specified by
  * `TableRestoreRequestId`.
  */
-export const describeTableRestoreStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTableRestoreStatus: {
+  (
     input: DescribeTableRestoreStatusMessage,
-    output: TableRestoreStatusMessage,
-    errors: [ClusterNotFoundFault, TableRestoreNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "TableRestoreStatusDetails",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    TableRestoreStatusMessage,
+    ClusterNotFoundFault | TableRestoreNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTableRestoreStatusMessage,
+  ) => Stream.Stream<
+    TableRestoreStatusMessage,
+    ClusterNotFoundFault | TableRestoreNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTableRestoreStatusMessage,
+  ) => Stream.Stream<
+    TableRestoreStatus,
+    ClusterNotFoundFault | TableRestoreNotFoundFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTableRestoreStatusMessage,
+  output: TableRestoreStatusMessage,
+  errors: [ClusterNotFoundFault, TableRestoreNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "TableRestoreStatusDetails",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Get the resource policy for a specified resource.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyMessage,
+) => Effect.Effect<
+  GetResourcePolicyResult,
+  | InvalidPolicyFault
+  | ResourceNotFoundFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyMessage,
   output: GetResourcePolicyResult,
   errors: [
@@ -9541,22 +10578,54 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List the Amazon Redshift Advisor recommendations for one or multiple Amazon Redshift clusters in an Amazon Web Services account.
  */
-export const listRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecommendations: {
+  (
     input: ListRecommendationsMessage,
-    output: ListRecommendationsResult,
-    errors: [ClusterNotFoundFault, UnsupportedOperationFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Recommendations",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecommendationsResult,
+    ClusterNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecommendationsMessage,
+  ) => Stream.Stream<
+    ListRecommendationsResult,
+    ClusterNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommendationsMessage,
+  ) => Stream.Stream<
+    Recommendation,
+    ClusterNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommendationsMessage,
+  output: ListRecommendationsResult,
+  errors: [ClusterNotFoundFault, UnsupportedOperationFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Recommendations",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Modifies a zero-ETL integration or S3 event integration with Amazon Redshift.
  */
-export const modifyIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyIntegration: (
+  input: ModifyIntegrationMessage,
+) => Effect.Effect<
+  Integration,
+  | IntegrationAlreadyExistsFault
+  | IntegrationConflictOperationFault
+  | IntegrationConflictStateFault
+  | IntegrationNotFoundFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyIntegrationMessage,
   output: Integration,
   errors: [
@@ -9576,22 +10645,41 @@ export const modifyIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you set this option, only newly copied manual snapshots have the new retention
  * period.
  */
-export const modifySnapshotCopyRetentionPeriod =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifySnapshotCopyRetentionPeriodMessage,
-    output: ModifySnapshotCopyRetentionPeriodResult,
-    errors: [
-      ClusterNotFoundFault,
-      InvalidClusterStateFault,
-      InvalidRetentionPeriodFault,
-      SnapshotCopyDisabledFault,
-      UnauthorizedOperation,
-    ],
-  }));
+export const modifySnapshotCopyRetentionPeriod: (
+  input: ModifySnapshotCopyRetentionPeriodMessage,
+) => Effect.Effect<
+  ModifySnapshotCopyRetentionPeriodResult,
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | InvalidRetentionPeriodFault
+  | SnapshotCopyDisabledFault
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifySnapshotCopyRetentionPeriodMessage,
+  output: ModifySnapshotCopyRetentionPeriodResult,
+  errors: [
+    ClusterNotFoundFault,
+    InvalidClusterStateFault,
+    InvalidRetentionPeriodFault,
+    SnapshotCopyDisabledFault,
+    UnauthorizedOperation,
+  ],
+}));
 /**
  * Returns information about the partner integrations defined for a cluster.
  */
-export const describePartners = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describePartners: (
+  input: DescribePartnersInputMessage,
+) => Effect.Effect<
+  DescribePartnersOutputMessage,
+  | ClusterNotFoundFault
+  | UnauthorizedPartnerIntegrationFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePartnersInputMessage,
   output: DescribePartnersOutputMessage,
   errors: [
@@ -9603,7 +10691,17 @@ export const describePartners = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a partner integration from a cluster. Data can still flow to the cluster until the integration is deleted at the partner's website.
  */
-export const deletePartner = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePartner: (
+  input: PartnerIntegrationInputMessage,
+) => Effect.Effect<
+  PartnerIntegrationOutputMessage,
+  | ClusterNotFoundFault
+  | PartnerNotFoundFault
+  | UnauthorizedPartnerIntegrationFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PartnerIntegrationInputMessage,
   output: PartnerIntegrationOutputMessage,
   errors: [
@@ -9616,7 +10714,17 @@ export const deletePartner = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the status of a partner integration.
  */
-export const updatePartnerStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePartnerStatus: (
+  input: UpdatePartnerStatusInputMessage,
+) => Effect.Effect<
+  PartnerIntegrationOutputMessage,
+  | ClusterNotFoundFault
+  | PartnerNotFoundFault
+  | UnauthorizedPartnerIntegrationFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePartnerStatusInputMessage,
   output: PartnerIntegrationOutputMessage,
   errors: [
@@ -9634,225 +10742,412 @@ export const updatePartnerStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon Redshift Snapshots
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const createClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateClusterSnapshotMessage,
-    output: CreateClusterSnapshotResult,
-    errors: [
-      ClusterNotFoundFault,
-      ClusterSnapshotAlreadyExistsFault,
-      ClusterSnapshotQuotaExceededFault,
-      InvalidClusterStateFault,
-      InvalidRetentionPeriodFault,
-      InvalidTagFault,
-      TagLimitExceededFault,
-    ],
-  }),
-);
+export const createClusterSnapshot: (
+  input: CreateClusterSnapshotMessage,
+) => Effect.Effect<
+  CreateClusterSnapshotResult,
+  | ClusterNotFoundFault
+  | ClusterSnapshotAlreadyExistsFault
+  | ClusterSnapshotQuotaExceededFault
+  | InvalidClusterStateFault
+  | InvalidRetentionPeriodFault
+  | InvalidTagFault
+  | TagLimitExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateClusterSnapshotMessage,
+  output: CreateClusterSnapshotResult,
+  errors: [
+    ClusterNotFoundFault,
+    ClusterSnapshotAlreadyExistsFault,
+    ClusterSnapshotQuotaExceededFault,
+    InvalidClusterStateFault,
+    InvalidRetentionPeriodFault,
+    InvalidTagFault,
+    TagLimitExceededFault,
+  ],
+}));
 /**
  * Modifies an authentication profile.
  */
-export const modifyAuthenticationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyAuthenticationProfileMessage,
-    output: ModifyAuthenticationProfileResult,
-    errors: [
-      AuthenticationProfileNotFoundFault,
-      AuthenticationProfileQuotaExceededFault,
-      InvalidAuthenticationProfileRequestFault,
-    ],
-  }),
-);
+export const modifyAuthenticationProfile: (
+  input: ModifyAuthenticationProfileMessage,
+) => Effect.Effect<
+  ModifyAuthenticationProfileResult,
+  | AuthenticationProfileNotFoundFault
+  | AuthenticationProfileQuotaExceededFault
+  | InvalidAuthenticationProfileRequestFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyAuthenticationProfileMessage,
+  output: ModifyAuthenticationProfileResult,
+  errors: [
+    AuthenticationProfileNotFoundFault,
+    AuthenticationProfileQuotaExceededFault,
+    InvalidAuthenticationProfileRequestFault,
+  ],
+}));
 /**
  * Contains information for changing a custom domain association.
  */
-export const modifyCustomDomainAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyCustomDomainAssociationMessage,
-    output: ModifyCustomDomainAssociationResult,
-    errors: [
-      ClusterNotFoundFault,
-      CustomCnameAssociationFault,
-      CustomDomainAssociationNotFoundFault,
-      UnsupportedOperationFault,
-    ],
-  }));
+export const modifyCustomDomainAssociation: (
+  input: ModifyCustomDomainAssociationMessage,
+) => Effect.Effect<
+  ModifyCustomDomainAssociationResult,
+  | ClusterNotFoundFault
+  | CustomCnameAssociationFault
+  | CustomDomainAssociationNotFoundFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyCustomDomainAssociationMessage,
+  output: ModifyCustomDomainAssociationResult,
+  errors: [
+    ClusterNotFoundFault,
+    CustomCnameAssociationFault,
+    CustomDomainAssociationNotFoundFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Modifies a scheduled action.
  */
-export const modifyScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyScheduledActionMessage,
-    output: ScheduledAction,
-    errors: [
-      ClusterNotFoundFault,
-      InvalidScheduledActionFault,
-      InvalidScheduleFault,
-      ScheduledActionNotFoundFault,
-      ScheduledActionTypeUnsupportedFault,
-      UnauthorizedOperation,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
+export const modifyScheduledAction: (
+  input: ModifyScheduledActionMessage,
+) => Effect.Effect<
+  ScheduledAction,
+  | ClusterNotFoundFault
+  | InvalidScheduledActionFault
+  | InvalidScheduleFault
+  | ScheduledActionNotFoundFault
+  | ScheduledActionTypeUnsupportedFault
+  | UnauthorizedOperation
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyScheduledActionMessage,
+  output: ScheduledAction,
+  errors: [
+    ClusterNotFoundFault,
+    InvalidScheduledActionFault,
+    InvalidScheduleFault,
+    ScheduledActionNotFoundFault,
+    ScheduledActionTypeUnsupportedFault,
+    UnauthorizedOperation,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Describes an authentication profile.
  */
-export const describeAuthenticationProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAuthenticationProfilesMessage,
-    output: DescribeAuthenticationProfilesResult,
-    errors: [
-      AuthenticationProfileNotFoundFault,
-      InvalidAuthenticationProfileRequestFault,
-    ],
-  }));
+export const describeAuthenticationProfiles: (
+  input: DescribeAuthenticationProfilesMessage,
+) => Effect.Effect<
+  DescribeAuthenticationProfilesResult,
+  | AuthenticationProfileNotFoundFault
+  | InvalidAuthenticationProfileRequestFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAuthenticationProfilesMessage,
+  output: DescribeAuthenticationProfilesResult,
+  errors: [
+    AuthenticationProfileNotFoundFault,
+    InvalidAuthenticationProfileRequestFault,
+  ],
+}));
 /**
  * Creates an authentication profile with the specified parameters.
  */
-export const createAuthenticationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAuthenticationProfileMessage,
-    output: CreateAuthenticationProfileResult,
-    errors: [
-      AuthenticationProfileAlreadyExistsFault,
-      AuthenticationProfileQuotaExceededFault,
-      InvalidAuthenticationProfileRequestFault,
-    ],
-  }),
-);
+export const createAuthenticationProfile: (
+  input: CreateAuthenticationProfileMessage,
+) => Effect.Effect<
+  CreateAuthenticationProfileResult,
+  | AuthenticationProfileAlreadyExistsFault
+  | AuthenticationProfileQuotaExceededFault
+  | InvalidAuthenticationProfileRequestFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAuthenticationProfileMessage,
+  output: CreateAuthenticationProfileResult,
+  errors: [
+    AuthenticationProfileAlreadyExistsFault,
+    AuthenticationProfileQuotaExceededFault,
+    InvalidAuthenticationProfileRequestFault,
+  ],
+}));
 /**
  * Modifies the settings for a snapshot.
  *
  * This exanmple modifies the manual retention period setting for a cluster snapshot.
  */
-export const modifyClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyClusterSnapshotMessage,
-    output: ModifyClusterSnapshotResult,
-    errors: [
-      ClusterSnapshotNotFoundFault,
-      InvalidClusterSnapshotStateFault,
-      InvalidRetentionPeriodFault,
-    ],
-  }),
-);
+export const modifyClusterSnapshot: (
+  input: ModifyClusterSnapshotMessage,
+) => Effect.Effect<
+  ModifyClusterSnapshotResult,
+  | ClusterSnapshotNotFoundFault
+  | InvalidClusterSnapshotStateFault
+  | InvalidRetentionPeriodFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyClusterSnapshotMessage,
+  output: ModifyClusterSnapshotResult,
+  errors: [
+    ClusterSnapshotNotFoundFault,
+    InvalidClusterSnapshotStateFault,
+    InvalidRetentionPeriodFault,
+  ],
+}));
 /**
  * Returns the descriptions of the reserved nodes.
  */
-export const describeReservedNodes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeReservedNodes: {
+  (
     input: DescribeReservedNodesMessage,
-    output: ReservedNodesMessage,
-    errors: [DependentServiceUnavailableFault, ReservedNodeNotFoundFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "ReservedNodes",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ReservedNodesMessage,
+    | DependentServiceUnavailableFault
+    | ReservedNodeNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeReservedNodesMessage,
+  ) => Stream.Stream<
+    ReservedNodesMessage,
+    | DependentServiceUnavailableFault
+    | ReservedNodeNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeReservedNodesMessage,
+  ) => Stream.Stream<
+    ReservedNode,
+    | DependentServiceUnavailableFault
+    | ReservedNodeNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeReservedNodesMessage,
+  output: ReservedNodesMessage,
+  errors: [DependentServiceUnavailableFault, ReservedNodeNotFoundFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "ReservedNodes",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Lists the Amazon Redshift IAM Identity Center applications.
  */
-export const describeRedshiftIdcApplications =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRedshiftIdcApplications: {
+  (
     input: DescribeRedshiftIdcApplicationsMessage,
-    output: DescribeRedshiftIdcApplicationsResult,
-    errors: [
-      DependentServiceAccessDeniedFault,
-      DependentServiceUnavailableFault,
-      RedshiftIdcApplicationNotExistsFault,
-      UnsupportedOperationFault,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "RedshiftIdcApplications",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRedshiftIdcApplicationsResult,
+    | DependentServiceAccessDeniedFault
+    | DependentServiceUnavailableFault
+    | RedshiftIdcApplicationNotExistsFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRedshiftIdcApplicationsMessage,
+  ) => Stream.Stream<
+    DescribeRedshiftIdcApplicationsResult,
+    | DependentServiceAccessDeniedFault
+    | DependentServiceUnavailableFault
+    | RedshiftIdcApplicationNotExistsFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRedshiftIdcApplicationsMessage,
+  ) => Stream.Stream<
+    RedshiftIdcApplication,
+    | DependentServiceAccessDeniedFault
+    | DependentServiceUnavailableFault
+    | RedshiftIdcApplicationNotExistsFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRedshiftIdcApplicationsMessage,
+  output: DescribeRedshiftIdcApplicationsResult,
+  errors: [
+    DependentServiceAccessDeniedFault,
+    DependentServiceUnavailableFault,
+    RedshiftIdcApplicationNotExistsFault,
+    UnsupportedOperationFault,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "RedshiftIdcApplications",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Modifies the lakehouse configuration for a cluster. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
  */
-export const modifyLakehouseConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyLakehouseConfigurationMessage,
-    output: LakehouseConfiguration,
-    errors: [
-      ClusterNotFoundFault,
-      DependentServiceAccessDeniedFault,
-      DependentServiceUnavailableFault,
-      InvalidClusterStateFault,
-      RedshiftIdcApplicationNotExistsFault,
-      UnauthorizedOperation,
-      UnsupportedOperationFault,
-    ],
-  }));
+export const modifyLakehouseConfiguration: (
+  input: ModifyLakehouseConfigurationMessage,
+) => Effect.Effect<
+  LakehouseConfiguration,
+  | ClusterNotFoundFault
+  | DependentServiceAccessDeniedFault
+  | DependentServiceUnavailableFault
+  | InvalidClusterStateFault
+  | RedshiftIdcApplicationNotExistsFault
+  | UnauthorizedOperation
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyLakehouseConfigurationMessage,
+  output: LakehouseConfiguration,
+  errors: [
+    ClusterNotFoundFault,
+    DependentServiceAccessDeniedFault,
+    DependentServiceUnavailableFault,
+    InvalidClusterStateFault,
+    RedshiftIdcApplicationNotExistsFault,
+    UnauthorizedOperation,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Changes an existing Amazon Redshift IAM Identity Center application.
  */
-export const modifyRedshiftIdcApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyRedshiftIdcApplicationMessage,
-    output: ModifyRedshiftIdcApplicationResult,
-    errors: [
-      DependentServiceAccessDeniedFault,
-      DependentServiceUnavailableFault,
-      RedshiftIdcApplicationNotExistsFault,
-      UnsupportedOperationFault,
-    ],
-  }));
+export const modifyRedshiftIdcApplication: (
+  input: ModifyRedshiftIdcApplicationMessage,
+) => Effect.Effect<
+  ModifyRedshiftIdcApplicationResult,
+  | DependentServiceAccessDeniedFault
+  | DependentServiceUnavailableFault
+  | RedshiftIdcApplicationNotExistsFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyRedshiftIdcApplicationMessage,
+  output: ModifyRedshiftIdcApplicationResult,
+  errors: [
+    DependentServiceAccessDeniedFault,
+    DependentServiceUnavailableFault,
+    RedshiftIdcApplicationNotExistsFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Modifies a snapshot schedule. Any schedule associated with a cluster is modified
  * asynchronously.
  */
-export const modifySnapshotSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifySnapshotScheduleMessage,
-    output: SnapshotSchedule,
-    errors: [
-      InvalidScheduleFault,
-      SnapshotScheduleNotFoundFault,
-      SnapshotScheduleUpdateInProgressFault,
-    ],
-  }),
-);
+export const modifySnapshotSchedule: (
+  input: ModifySnapshotScheduleMessage,
+) => Effect.Effect<
+  SnapshotSchedule,
+  | InvalidScheduleFault
+  | SnapshotScheduleNotFoundFault
+  | SnapshotScheduleUpdateInProgressFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifySnapshotScheduleMessage,
+  output: SnapshotSchedule,
+  errors: [
+    InvalidScheduleFault,
+    SnapshotScheduleNotFoundFault,
+    SnapshotScheduleUpdateInProgressFault,
+  ],
+}));
 /**
  * Deletes a Redshift-managed VPC endpoint.
  */
-export const deleteEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEndpointAccessMessage,
-    output: EndpointAccess,
-    errors: [
-      ClusterNotFoundFault,
-      EndpointNotFoundFault,
-      InvalidClusterSecurityGroupStateFault,
-      InvalidClusterStateFault,
-      InvalidEndpointStateFault,
-    ],
-  }),
-);
+export const deleteEndpointAccess: (
+  input: DeleteEndpointAccessMessage,
+) => Effect.Effect<
+  EndpointAccess,
+  | ClusterNotFoundFault
+  | EndpointNotFoundFault
+  | InvalidClusterSecurityGroupStateFault
+  | InvalidClusterStateFault
+  | InvalidEndpointStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEndpointAccessMessage,
+  output: EndpointAccess,
+  errors: [
+    ClusterNotFoundFault,
+    EndpointNotFoundFault,
+    InvalidClusterSecurityGroupStateFault,
+    InvalidClusterStateFault,
+    InvalidEndpointStateFault,
+  ],
+}));
 /**
  * Describes one or more zero-ETL or S3 event integrations with Amazon Redshift.
  */
-export const describeIntegrations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeIntegrations: {
+  (
     input: DescribeIntegrationsMessage,
-    output: IntegrationsMessage,
-    errors: [IntegrationNotFoundFault, UnsupportedOperationFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Integrations",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    IntegrationsMessage,
+    IntegrationNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeIntegrationsMessage,
+  ) => Stream.Stream<
+    IntegrationsMessage,
+    IntegrationNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeIntegrationsMessage,
+  ) => Stream.Stream<
+    Integration,
+    IntegrationNotFoundFault | UnsupportedOperationFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeIntegrationsMessage,
+  output: IntegrationsMessage,
+  errors: [IntegrationNotFoundFault, UnsupportedOperationFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Integrations",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Updates the resource policy for a specified resource.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyMessage,
+) => Effect.Effect<
+  PutResourcePolicyResult,
+  | ConflictPolicyUpdateFault
+  | InvalidPolicyFault
+  | ResourceNotFoundFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyMessage,
   output: PutResourcePolicyResult,
   errors: [
@@ -9865,7 +11160,17 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a zero-ETL integration or S3 event integration with Amazon Redshift.
  */
-export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIntegration: (
+  input: DeleteIntegrationMessage,
+) => Effect.Effect<
+  Integration,
+  | IntegrationConflictOperationFault
+  | IntegrationConflictStateFault
+  | IntegrationNotFoundFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntegrationMessage,
   output: Integration,
   errors: [
@@ -9879,7 +11184,20 @@ export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a usage limit for a specified Amazon Redshift feature on a cluster.
  * The usage limit is identified by the returned usage limit identifier.
  */
-export const createUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUsageLimit: (
+  input: CreateUsageLimitMessage,
+) => Effect.Effect<
+  UsageLimit,
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | InvalidUsageLimitFault
+  | LimitExceededFault
+  | TagLimitExceededFault
+  | UnsupportedOperationFault
+  | UsageLimitAlreadyExistsFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUsageLimitMessage,
   output: UsageLimit,
   errors: [
@@ -9895,20 +11213,30 @@ export const createUsageLimit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Grants access to a cluster.
  */
-export const authorizeEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AuthorizeEndpointAccessMessage,
-    output: EndpointAuthorization,
-    errors: [
-      ClusterNotFoundFault,
-      EndpointAuthorizationAlreadyExistsFault,
-      EndpointAuthorizationsPerClusterLimitExceededFault,
-      InvalidAuthorizationStateFault,
-      InvalidClusterStateFault,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
+export const authorizeEndpointAccess: (
+  input: AuthorizeEndpointAccessMessage,
+) => Effect.Effect<
+  EndpointAuthorization,
+  | ClusterNotFoundFault
+  | EndpointAuthorizationAlreadyExistsFault
+  | EndpointAuthorizationsPerClusterLimitExceededFault
+  | InvalidAuthorizationStateFault
+  | InvalidClusterStateFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AuthorizeEndpointAccessMessage,
+  output: EndpointAuthorization,
+  errors: [
+    ClusterNotFoundFault,
+    EndpointAuthorizationAlreadyExistsFault,
+    EndpointAuthorizationsPerClusterLimitExceededFault,
+    InvalidAuthorizationStateFault,
+    InvalidClusterStateFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Copies the specified automated cluster snapshot to a new manual cluster snapshot.
  * The source must be an automated snapshot and it must be in the available
@@ -9924,7 +11252,19 @@ export const authorizeEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon Redshift Snapshots
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const copyClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copyClusterSnapshot: (
+  input: CopyClusterSnapshotMessage,
+) => Effect.Effect<
+  CopyClusterSnapshotResult,
+  | ClusterNotFoundFault
+  | ClusterSnapshotAlreadyExistsFault
+  | ClusterSnapshotNotFoundFault
+  | ClusterSnapshotQuotaExceededFault
+  | InvalidClusterSnapshotStateFault
+  | InvalidRetentionPeriodFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyClusterSnapshotMessage,
   output: CopyClusterSnapshotResult,
   errors: [
@@ -9939,87 +11279,174 @@ export const copyClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Contains information about deleting a custom domain association for a cluster.
  */
-export const deleteCustomDomainAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCustomDomainAssociationMessage,
-    output: DeleteCustomDomainAssociationResponse,
-    errors: [
-      ClusterNotFoundFault,
-      CustomCnameAssociationFault,
-      CustomDomainAssociationNotFoundFault,
-      UnsupportedOperationFault,
-    ],
-  }));
+export const deleteCustomDomainAssociation: (
+  input: DeleteCustomDomainAssociationMessage,
+) => Effect.Effect<
+  DeleteCustomDomainAssociationResponse,
+  | ClusterNotFoundFault
+  | CustomCnameAssociationFault
+  | CustomDomainAssociationNotFoundFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomDomainAssociationMessage,
+  output: DeleteCustomDomainAssociationResponse,
+  errors: [
+    ClusterNotFoundFault,
+    CustomCnameAssociationFault,
+    CustomDomainAssociationNotFoundFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Contains information about custom domain associations for a cluster.
  */
-export const describeCustomDomainAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCustomDomainAssociations: {
+  (
     input: DescribeCustomDomainAssociationsMessage,
-    output: CustomDomainAssociationsMessage,
-    errors: [CustomDomainAssociationNotFoundFault, UnsupportedOperationFault],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Associations",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    CustomDomainAssociationsMessage,
+    | CustomDomainAssociationNotFoundFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCustomDomainAssociationsMessage,
+  ) => Stream.Stream<
+    CustomDomainAssociationsMessage,
+    | CustomDomainAssociationNotFoundFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCustomDomainAssociationsMessage,
+  ) => Stream.Stream<
+    Association,
+    | CustomDomainAssociationNotFoundFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCustomDomainAssociationsMessage,
+  output: CustomDomainAssociationsMessage,
+  errors: [CustomDomainAssociationNotFoundFault, UnsupportedOperationFault],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Associations",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns exchange status details and associated metadata for a reserved-node
  * exchange. Statuses include such values as in progress and requested.
  */
-export const describeReservedNodeExchangeStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeReservedNodeExchangeStatus: {
+  (
     input: DescribeReservedNodeExchangeStatusInputMessage,
-    output: DescribeReservedNodeExchangeStatusOutputMessage,
-    errors: [
-      ReservedNodeExchangeNotFoundFault,
-      ReservedNodeNotFoundFault,
-      UnsupportedOperationFault,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "ReservedNodeExchangeStatusDetails",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeReservedNodeExchangeStatusOutputMessage,
+    | ReservedNodeExchangeNotFoundFault
+    | ReservedNodeNotFoundFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeReservedNodeExchangeStatusInputMessage,
+  ) => Stream.Stream<
+    DescribeReservedNodeExchangeStatusOutputMessage,
+    | ReservedNodeExchangeNotFoundFault
+    | ReservedNodeNotFoundFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeReservedNodeExchangeStatusInputMessage,
+  ) => Stream.Stream<
+    ReservedNodeExchangeStatus,
+    | ReservedNodeExchangeNotFoundFault
+    | ReservedNodeNotFoundFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeReservedNodeExchangeStatusInputMessage,
+  output: DescribeReservedNodeExchangeStatusOutputMessage,
+  errors: [
+    ReservedNodeExchangeNotFoundFault,
+    ReservedNodeNotFoundFault,
+    UnsupportedOperationFault,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "ReservedNodeExchangeStatusDetails",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Modifies a Redshift-managed VPC endpoint.
  */
-export const modifyEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyEndpointAccessMessage,
-    output: EndpointAccess,
-    errors: [
-      ClusterNotFoundFault,
-      EndpointNotFoundFault,
-      InvalidClusterSecurityGroupStateFault,
-      InvalidClusterStateFault,
-      InvalidEndpointStateFault,
-      UnauthorizedOperation,
-    ],
-  }),
-);
+export const modifyEndpointAccess: (
+  input: ModifyEndpointAccessMessage,
+) => Effect.Effect<
+  EndpointAccess,
+  | ClusterNotFoundFault
+  | EndpointNotFoundFault
+  | InvalidClusterSecurityGroupStateFault
+  | InvalidClusterStateFault
+  | InvalidEndpointStateFault
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyEndpointAccessMessage,
+  output: EndpointAccess,
+  errors: [
+    ClusterNotFoundFault,
+    EndpointNotFoundFault,
+    InvalidClusterSecurityGroupStateFault,
+    InvalidClusterStateFault,
+    InvalidEndpointStateFault,
+    UnauthorizedOperation,
+  ],
+}));
 /**
  * Revokes access to a cluster.
  */
-export const revokeEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RevokeEndpointAccessMessage,
-    output: EndpointAuthorization,
-    errors: [
-      ClusterNotFoundFault,
-      EndpointAuthorizationNotFoundFault,
-      EndpointNotFoundFault,
-      InvalidAuthorizationStateFault,
-      InvalidClusterSecurityGroupStateFault,
-      InvalidClusterStateFault,
-      InvalidEndpointStateFault,
-    ],
-  }),
-);
+export const revokeEndpointAccess: (
+  input: RevokeEndpointAccessMessage,
+) => Effect.Effect<
+  EndpointAuthorization,
+  | ClusterNotFoundFault
+  | EndpointAuthorizationNotFoundFault
+  | EndpointNotFoundFault
+  | InvalidAuthorizationStateFault
+  | InvalidClusterSecurityGroupStateFault
+  | InvalidClusterStateFault
+  | InvalidEndpointStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeEndpointAccessMessage,
+  output: EndpointAuthorization,
+  errors: [
+    ClusterNotFoundFault,
+    EndpointAuthorizationNotFoundFault,
+    EndpointNotFoundFault,
+    InvalidAuthorizationStateFault,
+    InvalidClusterSecurityGroupStateFault,
+    InvalidClusterStateFault,
+    InvalidEndpointStateFault,
+  ],
+}));
 /**
  * Creates an Amazon Redshift parameter group.
  *
@@ -10033,18 +11460,26 @@ export const revokeEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon Redshift Parameter Groups
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const createClusterParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateClusterParameterGroupMessage,
-    output: CreateClusterParameterGroupResult,
-    errors: [
-      ClusterParameterGroupAlreadyExistsFault,
-      ClusterParameterGroupQuotaExceededFault,
-      InvalidTagFault,
-      TagLimitExceededFault,
-    ],
-  }),
-);
+export const createClusterParameterGroup: (
+  input: CreateClusterParameterGroupMessage,
+) => Effect.Effect<
+  CreateClusterParameterGroupResult,
+  | ClusterParameterGroupAlreadyExistsFault
+  | ClusterParameterGroupQuotaExceededFault
+  | InvalidTagFault
+  | TagLimitExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateClusterParameterGroupMessage,
+  output: CreateClusterParameterGroupResult,
+  errors: [
+    ClusterParameterGroupAlreadyExistsFault,
+    ClusterParameterGroupQuotaExceededFault,
+    InvalidTagFault,
+    TagLimitExceededFault,
+  ],
+}));
 /**
  * Creates an HSM client certificate that an Amazon Redshift cluster will use to connect to
  * the client's HSM in order to store and retrieve the keys used to encrypt the cluster
@@ -10056,18 +11491,26 @@ export const createClusterParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, go to Hardware Security Modules
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const createHsmClientCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateHsmClientCertificateMessage,
-    output: CreateHsmClientCertificateResult,
-    errors: [
-      HsmClientCertificateAlreadyExistsFault,
-      HsmClientCertificateQuotaExceededFault,
-      InvalidTagFault,
-      TagLimitExceededFault,
-    ],
-  }),
-);
+export const createHsmClientCertificate: (
+  input: CreateHsmClientCertificateMessage,
+) => Effect.Effect<
+  CreateHsmClientCertificateResult,
+  | HsmClientCertificateAlreadyExistsFault
+  | HsmClientCertificateQuotaExceededFault
+  | InvalidTagFault
+  | TagLimitExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateHsmClientCertificateMessage,
+  output: CreateHsmClientCertificateResult,
+  errors: [
+    HsmClientCertificateAlreadyExistsFault,
+    HsmClientCertificateQuotaExceededFault,
+    InvalidTagFault,
+    TagLimitExceededFault,
+  ],
+}));
 /**
  * Creates an HSM configuration that contains the information required by an Amazon Redshift
  * cluster to store and use database encryption keys in a Hardware Security Module (HSM).
@@ -10078,38 +11521,58 @@ export const createHsmClientCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * certificate. For more information, go to Hardware Security Modules
  * in the Amazon Redshift Cluster Management Guide.
  */
-export const createHsmConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateHsmConfigurationMessage,
-    output: CreateHsmConfigurationResult,
-    errors: [
-      HsmConfigurationAlreadyExistsFault,
-      HsmConfigurationQuotaExceededFault,
-      InvalidTagFault,
-      TagLimitExceededFault,
-    ],
-  }),
-);
+export const createHsmConfiguration: (
+  input: CreateHsmConfigurationMessage,
+) => Effect.Effect<
+  CreateHsmConfigurationResult,
+  | HsmConfigurationAlreadyExistsFault
+  | HsmConfigurationQuotaExceededFault
+  | InvalidTagFault
+  | TagLimitExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateHsmConfigurationMessage,
+  output: CreateHsmConfigurationResult,
+  errors: [
+    HsmConfigurationAlreadyExistsFault,
+    HsmConfigurationQuotaExceededFault,
+    InvalidTagFault,
+    TagLimitExceededFault,
+  ],
+}));
 /**
  * Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action.
  * For example, you can create a schedule of when to run the `ResizeCluster` API operation.
  */
-export const createScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateScheduledActionMessage,
-    output: ScheduledAction,
-    errors: [
-      ClusterNotFoundFault,
-      InvalidScheduledActionFault,
-      InvalidScheduleFault,
-      ScheduledActionAlreadyExistsFault,
-      ScheduledActionQuotaExceededFault,
-      ScheduledActionTypeUnsupportedFault,
-      UnauthorizedOperation,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
+export const createScheduledAction: (
+  input: CreateScheduledActionMessage,
+) => Effect.Effect<
+  ScheduledAction,
+  | ClusterNotFoundFault
+  | InvalidScheduledActionFault
+  | InvalidScheduleFault
+  | ScheduledActionAlreadyExistsFault
+  | ScheduledActionQuotaExceededFault
+  | ScheduledActionTypeUnsupportedFault
+  | UnauthorizedOperation
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateScheduledActionMessage,
+  output: ScheduledAction,
+  errors: [
+    ClusterNotFoundFault,
+    InvalidScheduledActionFault,
+    InvalidScheduleFault,
+    ScheduledActionAlreadyExistsFault,
+    ScheduledActionQuotaExceededFault,
+    ScheduledActionTypeUnsupportedFault,
+    UnauthorizedOperation,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Deletes a previously provisioned cluster without its final snapshot being created. A successful response from the web
  * service indicates that the request was received correctly. Use DescribeClusters to monitor the status of the deletion. The delete
@@ -10129,7 +11592,18 @@ export const createScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon Redshift Clusters
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCluster: (
+  input: DeleteClusterMessage,
+) => Effect.Effect<
+  DeleteClusterResult,
+  | ClusterNotFoundFault
+  | ClusterSnapshotAlreadyExistsFault
+  | ClusterSnapshotQuotaExceededFault
+  | InvalidClusterStateFault
+  | InvalidRetentionPeriodFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterMessage,
   output: DeleteClusterResult,
   errors: [
@@ -10143,18 +11617,39 @@ export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of all the available maintenance tracks.
  */
-export const describeClusterTracks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClusterTracks: {
+  (
     input: DescribeClusterTracksMessage,
-    output: TrackListMessage,
-    errors: [InvalidClusterTrackFault, UnauthorizedOperation],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "MaintenanceTracks",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    TrackListMessage,
+    InvalidClusterTrackFault | UnauthorizedOperation | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClusterTracksMessage,
+  ) => Stream.Stream<
+    TrackListMessage,
+    InvalidClusterTrackFault | UnauthorizedOperation | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClusterTracksMessage,
+  ) => Stream.Stream<
+    MaintenanceTrack,
+    InvalidClusterTrackFault | UnauthorizedOperation | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClusterTracksMessage,
+  output: TrackListMessage,
+  errors: [InvalidClusterTrackFault, UnauthorizedOperation],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "MaintenanceTracks",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Returns a list of orderable cluster options. Before you create a new cluster you
  * can use this operation to find what options are available, such as the EC2 Availability
@@ -10166,23 +11661,57 @@ export const describeClusterTracks =
  * Amazon Redshift Clusters
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const describeOrderableClusterOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeOrderableClusterOptions: {
+  (
     input: DescribeOrderableClusterOptionsMessage,
-    output: OrderableClusterOptionsMessage,
-    errors: [],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "OrderableClusterOptions",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    OrderableClusterOptionsMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeOrderableClusterOptionsMessage,
+  ) => Stream.Stream<
+    OrderableClusterOptionsMessage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeOrderableClusterOptionsMessage,
+  ) => Stream.Stream<
+    OrderableClusterOption,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeOrderableClusterOptionsMessage,
+  output: OrderableClusterOptionsMessage,
+  errors: [],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "OrderableClusterOptions",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Starts logging information, such as queries and connection attempts, for the
  * specified Amazon Redshift cluster.
  */
-export const enableLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableLogging: (
+  input: EnableLoggingMessage,
+) => Effect.Effect<
+  LoggingStatus,
+  | BucketNotFoundFault
+  | ClusterNotFoundFault
+  | InsufficientS3BucketPolicyFault
+  | InvalidClusterStateFault
+  | InvalidS3BucketNameFault
+  | InvalidS3KeyPrefixFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableLoggingMessage,
   output: LoggingStatus,
   errors: [
@@ -10200,27 +11729,72 @@ export const enableLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * include information about the source reserved node and target reserved node offering.
  * Details include the node type, the price, the node count, and the offering type.
  */
-export const getReservedNodeExchangeConfigurationOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getReservedNodeExchangeConfigurationOptions: {
+  (
     input: GetReservedNodeExchangeConfigurationOptionsInputMessage,
-    output: GetReservedNodeExchangeConfigurationOptionsOutputMessage,
-    errors: [
-      ClusterNotFoundFault,
-      ClusterSnapshotNotFoundFault,
-      DependentServiceUnavailableFault,
-      InvalidReservedNodeStateFault,
-      ReservedNodeAlreadyMigratedFault,
-      ReservedNodeNotFoundFault,
-      ReservedNodeOfferingNotFoundFault,
-      UnsupportedOperationFault,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "ReservedNodeConfigurationOptionList",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetReservedNodeExchangeConfigurationOptionsOutputMessage,
+    | ClusterNotFoundFault
+    | ClusterSnapshotNotFoundFault
+    | DependentServiceUnavailableFault
+    | InvalidReservedNodeStateFault
+    | ReservedNodeAlreadyMigratedFault
+    | ReservedNodeNotFoundFault
+    | ReservedNodeOfferingNotFoundFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetReservedNodeExchangeConfigurationOptionsInputMessage,
+  ) => Stream.Stream<
+    GetReservedNodeExchangeConfigurationOptionsOutputMessage,
+    | ClusterNotFoundFault
+    | ClusterSnapshotNotFoundFault
+    | DependentServiceUnavailableFault
+    | InvalidReservedNodeStateFault
+    | ReservedNodeAlreadyMigratedFault
+    | ReservedNodeNotFoundFault
+    | ReservedNodeOfferingNotFoundFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetReservedNodeExchangeConfigurationOptionsInputMessage,
+  ) => Stream.Stream<
+    ReservedNodeConfigurationOption,
+    | ClusterNotFoundFault
+    | ClusterSnapshotNotFoundFault
+    | DependentServiceUnavailableFault
+    | InvalidReservedNodeStateFault
+    | ReservedNodeAlreadyMigratedFault
+    | ReservedNodeNotFoundFault
+    | ReservedNodeOfferingNotFoundFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetReservedNodeExchangeConfigurationOptionsInputMessage,
+  output: GetReservedNodeExchangeConfigurationOptionsOutputMessage,
+  errors: [
+    ClusterNotFoundFault,
+    ClusterSnapshotNotFoundFault,
+    DependentServiceUnavailableFault,
+    InvalidReservedNodeStateFault,
+    ReservedNodeAlreadyMigratedFault,
+    ReservedNodeNotFoundFault,
+    ReservedNodeOfferingNotFoundFault,
+    UnsupportedOperationFault,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "ReservedNodeConfigurationOptionList",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Creates a new table from a table in an Amazon Redshift cluster snapshot. You must
  * create the new table within the Amazon Redshift cluster that the snapshot was taken
@@ -10239,20 +11813,32 @@ export const getReservedNodeExchangeConfigurationOptions =
  * You can't use this operation to restore tables with
  * interleaved sort keys.
  */
-export const restoreTableFromClusterSnapshot =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RestoreTableFromClusterSnapshotMessage,
-    output: RestoreTableFromClusterSnapshotResult,
-    errors: [
-      ClusterNotFoundFault,
-      ClusterSnapshotNotFoundFault,
-      InProgressTableRestoreQuotaExceededFault,
-      InvalidClusterSnapshotStateFault,
-      InvalidClusterStateFault,
-      InvalidTableRestoreArgumentFault,
-      UnsupportedOperationFault,
-    ],
-  }));
+export const restoreTableFromClusterSnapshot: (
+  input: RestoreTableFromClusterSnapshotMessage,
+) => Effect.Effect<
+  RestoreTableFromClusterSnapshotResult,
+  | ClusterNotFoundFault
+  | ClusterSnapshotNotFoundFault
+  | InProgressTableRestoreQuotaExceededFault
+  | InvalidClusterSnapshotStateFault
+  | InvalidClusterStateFault
+  | InvalidTableRestoreArgumentFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreTableFromClusterSnapshotMessage,
+  output: RestoreTableFromClusterSnapshotResult,
+  errors: [
+    ClusterNotFoundFault,
+    ClusterSnapshotNotFoundFault,
+    InProgressTableRestoreQuotaExceededFault,
+    InvalidClusterSnapshotStateFault,
+    InvalidClusterStateFault,
+    InvalidTableRestoreArgumentFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Allows you to purchase reserved nodes. Amazon Redshift offers a predefined set of
  * reserved node offerings. You can purchase one or more of the offerings. You can call the
@@ -10264,59 +11850,118 @@ export const restoreTableFromClusterSnapshot =
  * Purchasing Reserved Nodes
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const purchaseReservedNodeOffering =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PurchaseReservedNodeOfferingMessage,
-    output: PurchaseReservedNodeOfferingResult,
-    errors: [
-      ReservedNodeAlreadyExistsFault,
-      ReservedNodeOfferingNotFoundFault,
-      ReservedNodeQuotaExceededFault,
-      UnsupportedOperationFault,
-    ],
-  }));
+export const purchaseReservedNodeOffering: (
+  input: PurchaseReservedNodeOfferingMessage,
+) => Effect.Effect<
+  PurchaseReservedNodeOfferingResult,
+  | ReservedNodeAlreadyExistsFault
+  | ReservedNodeOfferingNotFoundFault
+  | ReservedNodeQuotaExceededFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PurchaseReservedNodeOfferingMessage,
+  output: PurchaseReservedNodeOfferingResult,
+  errors: [
+    ReservedNodeAlreadyExistsFault,
+    ReservedNodeOfferingNotFoundFault,
+    ReservedNodeQuotaExceededFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term,
  * and usage price of the given DC1 reserved node.
  */
-export const getReservedNodeExchangeOfferings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getReservedNodeExchangeOfferings: {
+  (
     input: GetReservedNodeExchangeOfferingsInputMessage,
-    output: GetReservedNodeExchangeOfferingsOutputMessage,
-    errors: [
-      DependentServiceUnavailableFault,
-      InvalidReservedNodeStateFault,
-      ReservedNodeAlreadyMigratedFault,
-      ReservedNodeNotFoundFault,
-      ReservedNodeOfferingNotFoundFault,
-      UnsupportedOperationFault,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "ReservedNodeOfferings",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetReservedNodeExchangeOfferingsOutputMessage,
+    | DependentServiceUnavailableFault
+    | InvalidReservedNodeStateFault
+    | ReservedNodeAlreadyMigratedFault
+    | ReservedNodeNotFoundFault
+    | ReservedNodeOfferingNotFoundFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetReservedNodeExchangeOfferingsInputMessage,
+  ) => Stream.Stream<
+    GetReservedNodeExchangeOfferingsOutputMessage,
+    | DependentServiceUnavailableFault
+    | InvalidReservedNodeStateFault
+    | ReservedNodeAlreadyMigratedFault
+    | ReservedNodeNotFoundFault
+    | ReservedNodeOfferingNotFoundFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetReservedNodeExchangeOfferingsInputMessage,
+  ) => Stream.Stream<
+    ReservedNodeOffering,
+    | DependentServiceUnavailableFault
+    | InvalidReservedNodeStateFault
+    | ReservedNodeAlreadyMigratedFault
+    | ReservedNodeNotFoundFault
+    | ReservedNodeOfferingNotFoundFault
+    | UnsupportedOperationFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetReservedNodeExchangeOfferingsInputMessage,
+  output: GetReservedNodeExchangeOfferingsOutputMessage,
+  errors: [
+    DependentServiceUnavailableFault,
+    InvalidReservedNodeStateFault,
+    ReservedNodeAlreadyMigratedFault,
+    ReservedNodeNotFoundFault,
+    ReservedNodeOfferingNotFoundFault,
+    UnsupportedOperationFault,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "ReservedNodeOfferings",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the
  * configuration (term, payment type, or number of nodes) and no additional costs.
  */
-export const acceptReservedNodeExchange = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptReservedNodeExchangeInputMessage,
-    output: AcceptReservedNodeExchangeOutputMessage,
-    errors: [
-      DependentServiceUnavailableFault,
-      InvalidReservedNodeStateFault,
-      ReservedNodeAlreadyExistsFault,
-      ReservedNodeAlreadyMigratedFault,
-      ReservedNodeNotFoundFault,
-      ReservedNodeOfferingNotFoundFault,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
+export const acceptReservedNodeExchange: (
+  input: AcceptReservedNodeExchangeInputMessage,
+) => Effect.Effect<
+  AcceptReservedNodeExchangeOutputMessage,
+  | DependentServiceUnavailableFault
+  | InvalidReservedNodeStateFault
+  | ReservedNodeAlreadyExistsFault
+  | ReservedNodeAlreadyMigratedFault
+  | ReservedNodeNotFoundFault
+  | ReservedNodeOfferingNotFoundFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptReservedNodeExchangeInputMessage,
+  output: AcceptReservedNodeExchangeOutputMessage,
+  errors: [
+    DependentServiceUnavailableFault,
+    InvalidReservedNodeStateFault,
+    ReservedNodeAlreadyExistsFault,
+    ReservedNodeAlreadyMigratedFault,
+    ReservedNodeNotFoundFault,
+    ReservedNodeOfferingNotFoundFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Creates a snapshot copy grant that permits Amazon Redshift to use an encrypted symmetric key
  * from Key Management Service (KMS) to encrypt copied snapshots in a
@@ -10326,20 +11971,30 @@ export const acceptReservedNodeExchange = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon Redshift Database Encryption
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const createSnapshotCopyGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSnapshotCopyGrantMessage,
-    output: CreateSnapshotCopyGrantResult,
-    errors: [
-      DependentServiceRequestThrottlingFault,
-      InvalidTagFault,
-      LimitExceededFault,
-      SnapshotCopyGrantAlreadyExistsFault,
-      SnapshotCopyGrantQuotaExceededFault,
-      TagLimitExceededFault,
-    ],
-  }),
-);
+export const createSnapshotCopyGrant: (
+  input: CreateSnapshotCopyGrantMessage,
+) => Effect.Effect<
+  CreateSnapshotCopyGrantResult,
+  | DependentServiceRequestThrottlingFault
+  | InvalidTagFault
+  | LimitExceededFault
+  | SnapshotCopyGrantAlreadyExistsFault
+  | SnapshotCopyGrantQuotaExceededFault
+  | TagLimitExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSnapshotCopyGrantMessage,
+  output: CreateSnapshotCopyGrantResult,
+  errors: [
+    DependentServiceRequestThrottlingFault,
+    InvalidTagFault,
+    LimitExceededFault,
+    SnapshotCopyGrantAlreadyExistsFault,
+    SnapshotCopyGrantQuotaExceededFault,
+    TagLimitExceededFault,
+  ],
+}));
 /**
  * Modifies a cluster subnet group to include the specified list of VPC subnets. The
  * operation replaces the existing list of subnets with the new list of subnets.
@@ -10362,20 +12017,30 @@ export const createSnapshotCopyGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about VPC BPA, see Block public access to VPCs and
  * subnets in the *Amazon VPC User Guide*.
  */
-export const modifyClusterSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyClusterSubnetGroupMessage,
-    output: ModifyClusterSubnetGroupResult,
-    errors: [
-      ClusterSubnetGroupNotFoundFault,
-      ClusterSubnetQuotaExceededFault,
-      DependentServiceRequestThrottlingFault,
-      InvalidSubnet,
-      SubnetAlreadyInUse,
-      UnauthorizedOperation,
-    ],
-  }),
-);
+export const modifyClusterSubnetGroup: (
+  input: ModifyClusterSubnetGroupMessage,
+) => Effect.Effect<
+  ModifyClusterSubnetGroupResult,
+  | ClusterSubnetGroupNotFoundFault
+  | ClusterSubnetQuotaExceededFault
+  | DependentServiceRequestThrottlingFault
+  | InvalidSubnet
+  | SubnetAlreadyInUse
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyClusterSubnetGroupMessage,
+  output: ModifyClusterSubnetGroupResult,
+  errors: [
+    ClusterSubnetGroupNotFoundFault,
+    ClusterSubnetQuotaExceededFault,
+    DependentServiceRequestThrottlingFault,
+    InvalidSubnet,
+    SubnetAlreadyInUse,
+    UnauthorizedOperation,
+  ],
+}));
 /**
  * Adds an inbound (ingress) rule to an Amazon Redshift security group. Depending on whether
  * the application accessing your cluster is running on the Internet or an Amazon EC2
@@ -10397,17 +12062,26 @@ export const modifyClusterSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * information about managing security groups, go to Working with Security
  * Groups in the *Amazon Redshift Cluster Management Guide*.
  */
-export const authorizeClusterSecurityGroupIngress =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AuthorizeClusterSecurityGroupIngressMessage,
-    output: AuthorizeClusterSecurityGroupIngressResult,
-    errors: [
-      AuthorizationAlreadyExistsFault,
-      AuthorizationQuotaExceededFault,
-      ClusterSecurityGroupNotFoundFault,
-      InvalidClusterSecurityGroupStateFault,
-    ],
-  }));
+export const authorizeClusterSecurityGroupIngress: (
+  input: AuthorizeClusterSecurityGroupIngressMessage,
+) => Effect.Effect<
+  AuthorizeClusterSecurityGroupIngressResult,
+  | AuthorizationAlreadyExistsFault
+  | AuthorizationQuotaExceededFault
+  | ClusterSecurityGroupNotFoundFault
+  | InvalidClusterSecurityGroupStateFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AuthorizeClusterSecurityGroupIngressMessage,
+  output: AuthorizeClusterSecurityGroupIngressResult,
+  errors: [
+    AuthorizationAlreadyExistsFault,
+    AuthorizationQuotaExceededFault,
+    ClusterSecurityGroupNotFoundFault,
+    InvalidClusterSecurityGroupStateFault,
+  ],
+}));
 /**
  * Creates a new Amazon Redshift subnet group. You must provide a list of one or more
  * subnets in your existing Amazon Virtual Private Cloud (Amazon VPC) when creating
@@ -10417,39 +12091,61 @@ export const authorizeClusterSecurityGroupIngress =
  * Amazon Redshift Cluster Subnet Groups in the
  * *Amazon Redshift Cluster Management Guide*.
  */
-export const createClusterSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateClusterSubnetGroupMessage,
-    output: CreateClusterSubnetGroupResult,
-    errors: [
-      ClusterSubnetGroupAlreadyExistsFault,
-      ClusterSubnetGroupQuotaExceededFault,
-      ClusterSubnetQuotaExceededFault,
-      DependentServiceRequestThrottlingFault,
-      InvalidSubnet,
-      InvalidTagFault,
-      TagLimitExceededFault,
-      UnauthorizedOperation,
-    ],
-  }),
-);
+export const createClusterSubnetGroup: (
+  input: CreateClusterSubnetGroupMessage,
+) => Effect.Effect<
+  CreateClusterSubnetGroupResult,
+  | ClusterSubnetGroupAlreadyExistsFault
+  | ClusterSubnetGroupQuotaExceededFault
+  | ClusterSubnetQuotaExceededFault
+  | DependentServiceRequestThrottlingFault
+  | InvalidSubnet
+  | InvalidTagFault
+  | TagLimitExceededFault
+  | UnauthorizedOperation
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateClusterSubnetGroupMessage,
+  output: CreateClusterSubnetGroupResult,
+  errors: [
+    ClusterSubnetGroupAlreadyExistsFault,
+    ClusterSubnetGroupQuotaExceededFault,
+    ClusterSubnetQuotaExceededFault,
+    DependentServiceRequestThrottlingFault,
+    InvalidSubnet,
+    InvalidTagFault,
+    TagLimitExceededFault,
+    UnauthorizedOperation,
+  ],
+}));
 /**
  * Create a snapshot schedule that can be associated to a cluster and which overrides the default system backup schedule.
  */
-export const createSnapshotSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSnapshotScheduleMessage,
-    output: SnapshotSchedule,
-    errors: [
-      InvalidScheduleFault,
-      InvalidTagFault,
-      ScheduleDefinitionTypeUnsupportedFault,
-      SnapshotScheduleAlreadyExistsFault,
-      SnapshotScheduleQuotaExceededFault,
-      TagLimitExceededFault,
-    ],
-  }),
-);
+export const createSnapshotSchedule: (
+  input: CreateSnapshotScheduleMessage,
+) => Effect.Effect<
+  SnapshotSchedule,
+  | InvalidScheduleFault
+  | InvalidTagFault
+  | ScheduleDefinitionTypeUnsupportedFault
+  | SnapshotScheduleAlreadyExistsFault
+  | SnapshotScheduleQuotaExceededFault
+  | TagLimitExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSnapshotScheduleMessage,
+  output: SnapshotSchedule,
+  errors: [
+    InvalidScheduleFault,
+    InvalidTagFault,
+    ScheduleDefinitionTypeUnsupportedFault,
+    SnapshotScheduleAlreadyExistsFault,
+    SnapshotScheduleQuotaExceededFault,
+    TagLimitExceededFault,
+  ],
+}));
 /**
  * Authorizes the specified Amazon Web Services account to restore the specified
  * snapshot.
@@ -10458,25 +12154,51 @@ export const createSnapshotSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon Redshift Snapshots
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const authorizeSnapshotAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AuthorizeSnapshotAccessMessage,
-    output: AuthorizeSnapshotAccessResult,
-    errors: [
-      AuthorizationAlreadyExistsFault,
-      AuthorizationQuotaExceededFault,
-      ClusterSnapshotNotFoundFault,
-      DependentServiceRequestThrottlingFault,
-      InvalidClusterSnapshotStateFault,
-      LimitExceededFault,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
+export const authorizeSnapshotAccess: (
+  input: AuthorizeSnapshotAccessMessage,
+) => Effect.Effect<
+  AuthorizeSnapshotAccessResult,
+  | AuthorizationAlreadyExistsFault
+  | AuthorizationQuotaExceededFault
+  | ClusterSnapshotNotFoundFault
+  | DependentServiceRequestThrottlingFault
+  | InvalidClusterSnapshotStateFault
+  | LimitExceededFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AuthorizeSnapshotAccessMessage,
+  output: AuthorizeSnapshotAccessResult,
+  errors: [
+    AuthorizationAlreadyExistsFault,
+    AuthorizationQuotaExceededFault,
+    ClusterSnapshotNotFoundFault,
+    DependentServiceRequestThrottlingFault,
+    InvalidClusterSnapshotStateFault,
+    LimitExceededFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Creates a zero-ETL integration or S3 event integration with Amazon Redshift.
  */
-export const createIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIntegration: (
+  input: CreateIntegrationMessage,
+) => Effect.Effect<
+  Integration,
+  | IntegrationAlreadyExistsFault
+  | IntegrationConflictOperationFault
+  | IntegrationQuotaExceededFault
+  | IntegrationSourceNotFoundFault
+  | IntegrationTargetNotFoundFault
+  | InvalidClusterStateFault
+  | InvalidTagFault
+  | TagLimitExceededFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIntegrationMessage,
   output: Integration,
   errors: [
@@ -10495,7 +12217,24 @@ export const createIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Enables the automatic copy of snapshots from one region to another region for a
  * specified cluster.
  */
-export const enableSnapshotCopy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableSnapshotCopy: (
+  input: EnableSnapshotCopyMessage,
+) => Effect.Effect<
+  EnableSnapshotCopyResult,
+  | ClusterNotFoundFault
+  | CopyToRegionDisabledFault
+  | DependentServiceRequestThrottlingFault
+  | IncompatibleOrderableOptions
+  | InvalidClusterStateFault
+  | InvalidRetentionPeriodFault
+  | LimitExceededFault
+  | SnapshotCopyAlreadyEnabledFault
+  | SnapshotCopyGrantNotFoundFault
+  | UnauthorizedOperation
+  | UnknownSnapshotCopyRegionFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableSnapshotCopyMessage,
   output: EnableSnapshotCopyResult,
   errors: [
@@ -10540,7 +12279,40 @@ export const enableSnapshotCopy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about VPC BPA, see Block public access to VPCs and
  * subnets in the *Amazon VPC User Guide*.
  */
-export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCluster: (
+  input: CreateClusterMessage,
+) => Effect.Effect<
+  CreateClusterResult,
+  | ClusterAlreadyExistsFault
+  | ClusterParameterGroupNotFoundFault
+  | ClusterQuotaExceededFault
+  | ClusterSecurityGroupNotFoundFault
+  | ClusterSubnetGroupNotFoundFault
+  | DependentServiceAccessDeniedFault
+  | DependentServiceRequestThrottlingFault
+  | DependentServiceUnavailableFault
+  | HsmClientCertificateNotFoundFault
+  | HsmConfigurationNotFoundFault
+  | InsufficientClusterCapacityFault
+  | InvalidClusterSubnetGroupStateFault
+  | InvalidClusterTrackFault
+  | InvalidElasticIpFault
+  | InvalidRetentionPeriodFault
+  | InvalidSubnet
+  | InvalidTagFault
+  | InvalidVPCNetworkStateFault
+  | Ipv6CidrBlockNotFoundFault
+  | LimitExceededFault
+  | NumberOfNodesPerClusterLimitExceededFault
+  | NumberOfNodesQuotaExceededFault
+  | RedshiftIdcApplicationNotExistsFault
+  | SnapshotScheduleNotFoundFault
+  | TagLimitExceededFault
+  | UnauthorizedOperation
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterMessage,
   output: CreateClusterResult,
   errors: [
@@ -10606,66 +12378,117 @@ export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon Redshift Snapshots
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const restoreFromClusterSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RestoreFromClusterSnapshotMessage,
-    output: RestoreFromClusterSnapshotResult,
-    errors: [
-      AccessToSnapshotDeniedFault,
-      ClusterAlreadyExistsFault,
-      ClusterParameterGroupNotFoundFault,
-      ClusterQuotaExceededFault,
-      ClusterSecurityGroupNotFoundFault,
-      ClusterSnapshotNotFoundFault,
-      ClusterSubnetGroupNotFoundFault,
-      DependentServiceAccessDeniedFault,
-      DependentServiceRequestThrottlingFault,
-      DependentServiceUnavailableFault,
-      HsmClientCertificateNotFoundFault,
-      HsmConfigurationNotFoundFault,
-      InsufficientClusterCapacityFault,
-      InvalidClusterSnapshotStateFault,
-      InvalidClusterSubnetGroupStateFault,
-      InvalidClusterTrackFault,
-      InvalidElasticIpFault,
-      InvalidReservedNodeStateFault,
-      InvalidRestoreFault,
-      InvalidSubnet,
-      InvalidTagFault,
-      InvalidVPCNetworkStateFault,
-      Ipv6CidrBlockNotFoundFault,
-      LimitExceededFault,
-      NumberOfNodesPerClusterLimitExceededFault,
-      NumberOfNodesQuotaExceededFault,
-      RedshiftIdcApplicationNotExistsFault,
-      ReservedNodeAlreadyExistsFault,
-      ReservedNodeAlreadyMigratedFault,
-      ReservedNodeNotFoundFault,
-      ReservedNodeOfferingNotFoundFault,
-      SnapshotScheduleNotFoundFault,
-      TagLimitExceededFault,
-      UnauthorizedOperation,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
+export const restoreFromClusterSnapshot: (
+  input: RestoreFromClusterSnapshotMessage,
+) => Effect.Effect<
+  RestoreFromClusterSnapshotResult,
+  | AccessToSnapshotDeniedFault
+  | ClusterAlreadyExistsFault
+  | ClusterParameterGroupNotFoundFault
+  | ClusterQuotaExceededFault
+  | ClusterSecurityGroupNotFoundFault
+  | ClusterSnapshotNotFoundFault
+  | ClusterSubnetGroupNotFoundFault
+  | DependentServiceAccessDeniedFault
+  | DependentServiceRequestThrottlingFault
+  | DependentServiceUnavailableFault
+  | HsmClientCertificateNotFoundFault
+  | HsmConfigurationNotFoundFault
+  | InsufficientClusterCapacityFault
+  | InvalidClusterSnapshotStateFault
+  | InvalidClusterSubnetGroupStateFault
+  | InvalidClusterTrackFault
+  | InvalidElasticIpFault
+  | InvalidReservedNodeStateFault
+  | InvalidRestoreFault
+  | InvalidSubnet
+  | InvalidTagFault
+  | InvalidVPCNetworkStateFault
+  | Ipv6CidrBlockNotFoundFault
+  | LimitExceededFault
+  | NumberOfNodesPerClusterLimitExceededFault
+  | NumberOfNodesQuotaExceededFault
+  | RedshiftIdcApplicationNotExistsFault
+  | ReservedNodeAlreadyExistsFault
+  | ReservedNodeAlreadyMigratedFault
+  | ReservedNodeNotFoundFault
+  | ReservedNodeOfferingNotFoundFault
+  | SnapshotScheduleNotFoundFault
+  | TagLimitExceededFault
+  | UnauthorizedOperation
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreFromClusterSnapshotMessage,
+  output: RestoreFromClusterSnapshotResult,
+  errors: [
+    AccessToSnapshotDeniedFault,
+    ClusterAlreadyExistsFault,
+    ClusterParameterGroupNotFoundFault,
+    ClusterQuotaExceededFault,
+    ClusterSecurityGroupNotFoundFault,
+    ClusterSnapshotNotFoundFault,
+    ClusterSubnetGroupNotFoundFault,
+    DependentServiceAccessDeniedFault,
+    DependentServiceRequestThrottlingFault,
+    DependentServiceUnavailableFault,
+    HsmClientCertificateNotFoundFault,
+    HsmConfigurationNotFoundFault,
+    InsufficientClusterCapacityFault,
+    InvalidClusterSnapshotStateFault,
+    InvalidClusterSubnetGroupStateFault,
+    InvalidClusterTrackFault,
+    InvalidElasticIpFault,
+    InvalidReservedNodeStateFault,
+    InvalidRestoreFault,
+    InvalidSubnet,
+    InvalidTagFault,
+    InvalidVPCNetworkStateFault,
+    Ipv6CidrBlockNotFoundFault,
+    LimitExceededFault,
+    NumberOfNodesPerClusterLimitExceededFault,
+    NumberOfNodesQuotaExceededFault,
+    RedshiftIdcApplicationNotExistsFault,
+    ReservedNodeAlreadyExistsFault,
+    ReservedNodeAlreadyMigratedFault,
+    ReservedNodeNotFoundFault,
+    ReservedNodeOfferingNotFoundFault,
+    SnapshotScheduleNotFoundFault,
+    TagLimitExceededFault,
+    UnauthorizedOperation,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Creates an Amazon Redshift application for use with IAM Identity Center.
  */
-export const createRedshiftIdcApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRedshiftIdcApplicationMessage,
-    output: CreateRedshiftIdcApplicationResult,
-    errors: [
-      DependentServiceAccessDeniedFault,
-      DependentServiceUnavailableFault,
-      InvalidTagFault,
-      RedshiftIdcApplicationAlreadyExistsFault,
-      RedshiftIdcApplicationQuotaExceededFault,
-      TagLimitExceededFault,
-      UnsupportedOperationFault,
-    ],
-  }));
+export const createRedshiftIdcApplication: (
+  input: CreateRedshiftIdcApplicationMessage,
+) => Effect.Effect<
+  CreateRedshiftIdcApplicationResult,
+  | DependentServiceAccessDeniedFault
+  | DependentServiceUnavailableFault
+  | InvalidTagFault
+  | RedshiftIdcApplicationAlreadyExistsFault
+  | RedshiftIdcApplicationQuotaExceededFault
+  | TagLimitExceededFault
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRedshiftIdcApplicationMessage,
+  output: CreateRedshiftIdcApplicationResult,
+  errors: [
+    DependentServiceAccessDeniedFault,
+    DependentServiceUnavailableFault,
+    InvalidTagFault,
+    RedshiftIdcApplicationAlreadyExistsFault,
+    RedshiftIdcApplicationQuotaExceededFault,
+    TagLimitExceededFault,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Changes the size of the cluster. You can change the cluster's type, or change the
  * number or type of nodes. The default behavior is to use the elastic resize method. With
@@ -10691,7 +12514,28 @@ export const createRedshiftIdcApplication =
  * - The type of nodes that you add must match the node type for the
  * cluster.
  */
-export const resizeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resizeCluster: (
+  input: ResizeClusterMessage,
+) => Effect.Effect<
+  ResizeClusterResult,
+  | ClusterNotFoundFault
+  | DependentServiceUnavailableFault
+  | InsufficientClusterCapacityFault
+  | InvalidClusterStateFault
+  | InvalidReservedNodeStateFault
+  | LimitExceededFault
+  | NumberOfNodesPerClusterLimitExceededFault
+  | NumberOfNodesQuotaExceededFault
+  | ReservedNodeAlreadyExistsFault
+  | ReservedNodeAlreadyMigratedFault
+  | ReservedNodeNotFoundFault
+  | ReservedNodeOfferingNotFoundFault
+  | UnauthorizedOperation
+  | UnsupportedOperationFault
+  | UnsupportedOptionFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResizeClusterMessage,
   output: ResizeClusterResult,
   errors: [
@@ -10743,7 +12587,35 @@ export const resizeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about VPC BPA, see Block public access to VPCs and
  * subnets in the *Amazon VPC User Guide*.
  */
-export const modifyCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyCluster: (
+  input: ModifyClusterMessage,
+) => Effect.Effect<
+  ModifyClusterResult,
+  | ClusterAlreadyExistsFault
+  | ClusterNotFoundFault
+  | ClusterParameterGroupNotFoundFault
+  | ClusterSecurityGroupNotFoundFault
+  | CustomCnameAssociationFault
+  | DependentServiceRequestThrottlingFault
+  | HsmClientCertificateNotFoundFault
+  | HsmConfigurationNotFoundFault
+  | InsufficientClusterCapacityFault
+  | InvalidClusterSecurityGroupStateFault
+  | InvalidClusterStateFault
+  | InvalidClusterTrackFault
+  | InvalidElasticIpFault
+  | InvalidRetentionPeriodFault
+  | Ipv6CidrBlockNotFoundFault
+  | LimitExceededFault
+  | NumberOfNodesPerClusterLimitExceededFault
+  | NumberOfNodesQuotaExceededFault
+  | TableLimitExceededFault
+  | UnauthorizedOperation
+  | UnsupportedOperationFault
+  | UnsupportedOptionFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyClusterMessage,
   output: ModifyClusterResult,
   errors: [
@@ -10774,44 +12646,71 @@ export const modifyCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a Redshift-managed VPC endpoint.
  */
-export const createEndpointAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEndpointAccessMessage,
-    output: EndpointAccess,
-    errors: [
-      AccessToClusterDeniedFault,
-      ClusterNotFoundFault,
-      ClusterSubnetGroupNotFoundFault,
-      EndpointAlreadyExistsFault,
-      EndpointsPerAuthorizationLimitExceededFault,
-      EndpointsPerClusterLimitExceededFault,
-      InvalidClusterSecurityGroupStateFault,
-      InvalidClusterStateFault,
-      UnauthorizedOperation,
-      UnsupportedOperationFault,
-    ],
-  }),
-);
+export const createEndpointAccess: (
+  input: CreateEndpointAccessMessage,
+) => Effect.Effect<
+  EndpointAccess,
+  | AccessToClusterDeniedFault
+  | ClusterNotFoundFault
+  | ClusterSubnetGroupNotFoundFault
+  | EndpointAlreadyExistsFault
+  | EndpointsPerAuthorizationLimitExceededFault
+  | EndpointsPerClusterLimitExceededFault
+  | InvalidClusterSecurityGroupStateFault
+  | InvalidClusterStateFault
+  | UnauthorizedOperation
+  | UnsupportedOperationFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEndpointAccessMessage,
+  output: EndpointAccess,
+  errors: [
+    AccessToClusterDeniedFault,
+    ClusterNotFoundFault,
+    ClusterSubnetGroupNotFoundFault,
+    EndpointAlreadyExistsFault,
+    EndpointsPerAuthorizationLimitExceededFault,
+    EndpointsPerClusterLimitExceededFault,
+    InvalidClusterSecurityGroupStateFault,
+    InvalidClusterStateFault,
+    UnauthorizedOperation,
+    UnsupportedOperationFault,
+  ],
+}));
 /**
  * Modifies an existing Amazon Redshift event notification subscription.
  */
-export const modifyEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyEventSubscriptionMessage,
-    output: ModifyEventSubscriptionResult,
-    errors: [
-      InvalidSubscriptionStateFault,
-      SNSInvalidTopicFault,
-      SNSNoAuthorizationFault,
-      SNSTopicArnNotFoundFault,
-      SourceNotFoundFault,
-      SubscriptionCategoryNotFoundFault,
-      SubscriptionEventIdNotFoundFault,
-      SubscriptionNotFoundFault,
-      SubscriptionSeverityNotFoundFault,
-    ],
-  }),
-);
+export const modifyEventSubscription: (
+  input: ModifyEventSubscriptionMessage,
+) => Effect.Effect<
+  ModifyEventSubscriptionResult,
+  | InvalidSubscriptionStateFault
+  | SNSInvalidTopicFault
+  | SNSNoAuthorizationFault
+  | SNSTopicArnNotFoundFault
+  | SourceNotFoundFault
+  | SubscriptionCategoryNotFoundFault
+  | SubscriptionEventIdNotFoundFault
+  | SubscriptionNotFoundFault
+  | SubscriptionSeverityNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyEventSubscriptionMessage,
+  output: ModifyEventSubscriptionResult,
+  errors: [
+    InvalidSubscriptionStateFault,
+    SNSInvalidTopicFault,
+    SNSNoAuthorizationFault,
+    SNSTopicArnNotFoundFault,
+    SourceNotFoundFault,
+    SubscriptionCategoryNotFoundFault,
+    SubscriptionEventIdNotFoundFault,
+    SubscriptionNotFoundFault,
+    SubscriptionSeverityNotFoundFault,
+  ],
+}));
 /**
  * Creates an Amazon Redshift event notification subscription. This action requires an ARN
  * (Amazon Resource Name) of an Amazon SNS topic created by either the Amazon Redshift console,
@@ -10833,22 +12732,37 @@ export const modifyEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon Web Services account. If you do not specify either the SourceType nor the SourceIdentifier, you
  * will be notified of events generated from all Amazon Redshift sources belonging to your Amazon Web Services account. You must specify a source type if you specify a source ID.
  */
-export const createEventSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEventSubscriptionMessage,
-    output: CreateEventSubscriptionResult,
-    errors: [
-      EventSubscriptionQuotaExceededFault,
-      InvalidTagFault,
-      SNSInvalidTopicFault,
-      SNSNoAuthorizationFault,
-      SNSTopicArnNotFoundFault,
-      SourceNotFoundFault,
-      SubscriptionAlreadyExistFault,
-      SubscriptionCategoryNotFoundFault,
-      SubscriptionEventIdNotFoundFault,
-      SubscriptionSeverityNotFoundFault,
-      TagLimitExceededFault,
-    ],
-  }),
-);
+export const createEventSubscription: (
+  input: CreateEventSubscriptionMessage,
+) => Effect.Effect<
+  CreateEventSubscriptionResult,
+  | EventSubscriptionQuotaExceededFault
+  | InvalidTagFault
+  | SNSInvalidTopicFault
+  | SNSNoAuthorizationFault
+  | SNSTopicArnNotFoundFault
+  | SourceNotFoundFault
+  | SubscriptionAlreadyExistFault
+  | SubscriptionCategoryNotFoundFault
+  | SubscriptionEventIdNotFoundFault
+  | SubscriptionSeverityNotFoundFault
+  | TagLimitExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEventSubscriptionMessage,
+  output: CreateEventSubscriptionResult,
+  errors: [
+    EventSubscriptionQuotaExceededFault,
+    InvalidTagFault,
+    SNSInvalidTopicFault,
+    SNSNoAuthorizationFault,
+    SNSTopicArnNotFoundFault,
+    SourceNotFoundFault,
+    SubscriptionAlreadyExistFault,
+    SubscriptionCategoryNotFoundFault,
+    SubscriptionEventIdNotFoundFault,
+    SubscriptionSeverityNotFoundFault,
+    TagLimitExceededFault,
+  ],
+}));

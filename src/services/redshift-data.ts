@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Redshift Data",
   serviceShapeName: "RedshiftData",
@@ -240,6 +248,27 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type StatementString = string;
+export type ClusterIdentifierString = string;
+export type SecretArn = string;
+export type StatementNameString = string;
+export type WorkgroupNameString = string;
+export type ClientToken = string;
+export type ResultFormatString = string;
+export type SessionAliveSeconds = number;
+export type UUID = string;
+export type PageSize = number;
+export type ListStatementsLimit = number;
+export type StatusString = string;
+export type ParameterName = string;
+export type ParameterValue = string;
+export type Long = number;
+export type StatementStatusString = string;
+export type Integer = number;
+export type BoxedLong = number;
+export type BoxedDouble = number;
 
 //# Schemas
 export type SqlList = string[];
@@ -639,6 +668,13 @@ export type SubStatementList = SubStatementData[];
 export const SubStatementList = S.Array(SubStatementData);
 export type ColumnList = ColumnMetadata[];
 export const ColumnList = S.Array(ColumnMetadata);
+export type Field =
+  | { isNull: boolean }
+  | { booleanValue: boolean }
+  | { longValue: number }
+  | { doubleValue: number }
+  | { stringValue: string }
+  | { blobValue: Uint8Array };
 export const Field = S.Union(
   S.Struct({ isNull: S.Boolean }),
   S.Struct({ booleanValue: S.Boolean }),
@@ -651,6 +687,7 @@ export type FieldList = (typeof Field)["Type"][];
 export const FieldList = S.Array(Field);
 export type SqlRecords = FieldList[];
 export const SqlRecords = S.Array(FieldList);
+export type QueryRecords = { CSVRecords: string };
 export const QueryRecords = S.Union(S.Struct({ CSVRecords: S.String }));
 export type FormattedSqlRecords = (typeof QueryRecords)["Type"][];
 export const FormattedSqlRecords = S.Array(QueryRecords);
@@ -853,7 +890,9 @@ export class ActiveSessionsExceededException extends S.TaggedError<ActiveSession
 export class DatabaseConnectionException extends S.TaggedError<DatabaseConnectionException>()(
   "DatabaseConnectionException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ActiveStatementsExceededException extends S.TaggedError<ActiveStatementsExceededException>()(
   "ActiveStatementsExceededException",
   { Message: S.optional(S.String) },
@@ -861,11 +900,15 @@ export class ActiveStatementsExceededException extends S.TaggedError<ActiveState
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class BatchExecuteStatementException extends S.TaggedError<BatchExecuteStatementException>()(
   "BatchExecuteStatementException",
   { Message: S.String, StatementId: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class QueryTimeoutException extends S.TaggedError<QueryTimeoutException>()(
   "QueryTimeoutException",
   { Message: S.optional(S.String) },
@@ -873,7 +916,9 @@ export class QueryTimeoutException extends S.TaggedError<QueryTimeoutException>(
 export class ExecuteStatementException extends S.TaggedError<ExecuteStatementException>()(
   "ExecuteStatementException",
   { Message: S.String, StatementId: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String, ResourceId: S.String },
@@ -889,7 +934,16 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const describeStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeStatement: (
+  input: DescribeStatementRequest,
+) => Effect.Effect<
+  DescribeStatementResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStatementRequest,
   output: DescribeStatementResponse,
   errors: [
@@ -913,25 +967,60 @@ export const describeStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const describeTable = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeTable: {
+  (
     input: DescribeTableRequest,
-    output: DescribeTableResponse,
-    errors: [
-      DatabaseConnectionException,
-      InternalServerException,
-      QueryTimeoutException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ColumnList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeTableResponse,
+    | DatabaseConnectionException
+    | InternalServerException
+    | QueryTimeoutException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTableRequest,
+  ) => Stream.Stream<
+    DescribeTableResponse,
+    | DatabaseConnectionException
+    | InternalServerException
+    | QueryTimeoutException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTableRequest,
+  ) => Stream.Stream<
+    ColumnMetadata,
+    | DatabaseConnectionException
+    | InternalServerException
+    | QueryTimeoutException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTableRequest,
+  output: DescribeTableResponse,
+  errors: [
+    DatabaseConnectionException,
+    InternalServerException,
+    QueryTimeoutException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ColumnList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the tables in a database. If neither `SchemaPattern` nor `TablePattern` are specified, then all tables in the database are returned. A token is returned to page through the table list. Depending on the authorization method, use one of the following combinations of request parameters:
  *
@@ -947,7 +1036,44 @@ export const describeTable = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTables: {
+  (
+    input: ListTablesRequest,
+  ): Effect.Effect<
+    ListTablesResponse,
+    | DatabaseConnectionException
+    | InternalServerException
+    | QueryTimeoutException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTablesRequest,
+  ) => Stream.Stream<
+    ListTablesResponse,
+    | DatabaseConnectionException
+    | InternalServerException
+    | QueryTimeoutException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTablesRequest,
+  ) => Stream.Stream<
+    TableMember,
+    | DatabaseConnectionException
+    | InternalServerException
+    | QueryTimeoutException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTablesRequest,
   output: ListTablesResponse,
   errors: [
@@ -979,25 +1105,60 @@ export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const listDatabases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDatabases: {
+  (
     input: ListDatabasesRequest,
-    output: ListDatabasesResponse,
-    errors: [
-      DatabaseConnectionException,
-      InternalServerException,
-      QueryTimeoutException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Databases",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDatabasesResponse,
+    | DatabaseConnectionException
+    | InternalServerException
+    | QueryTimeoutException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatabasesRequest,
+  ) => Stream.Stream<
+    ListDatabasesResponse,
+    | DatabaseConnectionException
+    | InternalServerException
+    | QueryTimeoutException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatabasesRequest,
+  ) => Stream.Stream<
+    String,
+    | DatabaseConnectionException
+    | InternalServerException
+    | QueryTimeoutException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatabasesRequest,
+  output: ListDatabasesResponse,
+  errors: [
+    DatabaseConnectionException,
+    InternalServerException,
+    QueryTimeoutException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Databases",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the schemas in a database. A token is returned to page through the schema list. Depending on the authorization method, use one of the following combinations of request parameters:
  *
@@ -1013,66 +1174,160 @@ export const listDatabases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const listSchemas = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSchemas: {
+  (
     input: ListSchemasRequest,
-    output: ListSchemasResponse,
-    errors: [
-      DatabaseConnectionException,
-      InternalServerException,
-      QueryTimeoutException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Schemas",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSchemasResponse,
+    | DatabaseConnectionException
+    | InternalServerException
+    | QueryTimeoutException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSchemasRequest,
+  ) => Stream.Stream<
+    ListSchemasResponse,
+    | DatabaseConnectionException
+    | InternalServerException
+    | QueryTimeoutException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSchemasRequest,
+  ) => Stream.Stream<
+    String,
+    | DatabaseConnectionException
+    | InternalServerException
+    | QueryTimeoutException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSchemasRequest,
+  output: ListSchemasResponse,
+  errors: [
+    DatabaseConnectionException,
+    InternalServerException,
+    QueryTimeoutException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Schemas",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Fetches the temporarily cached result of an SQL statement in JSON format. The `ExecuteStatement` or `BatchExecuteStatement` operation that ran the SQL statement must have specified `ResultFormat` as `JSON` , or let the format default to JSON. A token is returned to page through the statement results.
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const getStatementResult = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getStatementResult: {
+  (
     input: GetStatementResultRequest,
-    output: GetStatementResultResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Records",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetStatementResultResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetStatementResultRequest,
+  ) => Stream.Stream<
+    GetStatementResultResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetStatementResultRequest,
+  ) => Stream.Stream<
+    S.Schema.Type<typeof FieldList>,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetStatementResultRequest,
+  output: GetStatementResultResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Records",
+  } as const,
+}));
 /**
  * Fetches the temporarily cached result of an SQL statement in CSV format. The `ExecuteStatement` or `BatchExecuteStatement` operation that ran the SQL statement must have specified `ResultFormat` as `CSV`. A token is returned to page through the statement results.
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const getStatementResultV2 =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getStatementResultV2: {
+  (
     input: GetStatementResultV2Request,
-    output: GetStatementResultV2Response,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Records",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetStatementResultV2Response,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetStatementResultV2Request,
+  ) => Stream.Stream<
+    GetStatementResultV2Response,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetStatementResultV2Request,
+  ) => Stream.Stream<
+    QueryRecords,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetStatementResultV2Request,
+  output: GetStatementResultV2Response,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Records",
+  } as const,
+}));
 /**
  * List of SQL statements. By default, only finished statements are shown. A token is returned to page through the statement list.
  *
@@ -1080,23 +1335,52 @@ export const getStatementResultV2 =
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const listStatements = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listStatements: {
+  (
     input: ListStatementsRequest,
-    output: ListStatementsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Statements",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListStatementsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStatementsRequest,
+  ) => Stream.Stream<
+    ListStatementsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStatementsRequest,
+  ) => Stream.Stream<
+    StatementData,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStatementsRequest,
+  output: ListStatementsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Statements",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Runs one or more SQL statements, which can be data manipulation language (DML) or data definition language (DDL). Depending on the authorization method, use one of the following combinations of request parameters:
  *
@@ -1112,26 +1396,47 @@ export const listStatements = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const batchExecuteStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchExecuteStatementInput,
-    output: BatchExecuteStatementOutput,
-    errors: [
-      ActiveSessionsExceededException,
-      ActiveStatementsExceededException,
-      BatchExecuteStatementException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchExecuteStatement: (
+  input: BatchExecuteStatementInput,
+) => Effect.Effect<
+  BatchExecuteStatementOutput,
+  | ActiveSessionsExceededException
+  | ActiveStatementsExceededException
+  | BatchExecuteStatementException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchExecuteStatementInput,
+  output: BatchExecuteStatementOutput,
+  errors: [
+    ActiveSessionsExceededException,
+    ActiveStatementsExceededException,
+    BatchExecuteStatementException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Cancels a running query. To be canceled, a query must be running.
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const cancelStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelStatement: (
+  input: CancelStatementRequest,
+) => Effect.Effect<
+  CancelStatementResponse,
+  | DatabaseConnectionException
+  | InternalServerException
+  | QueryTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelStatementRequest,
   output: CancelStatementResponse,
   errors: [
@@ -1157,7 +1462,19 @@ export const cancelStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const executeStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const executeStatement: (
+  input: ExecuteStatementInput,
+) => Effect.Effect<
+  ExecuteStatementOutput,
+  | ActiveSessionsExceededException
+  | ActiveStatementsExceededException
+  | ExecuteStatementException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteStatementInput,
   output: ExecuteStatementOutput,
   errors: [

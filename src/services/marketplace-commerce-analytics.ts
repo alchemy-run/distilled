@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Marketplace Commerce Analytics",
   serviceShapeName: "MarketplaceCommerceAnalytics20150701",
@@ -241,6 +249,16 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type RoleNameArn = string;
+export type DestinationS3BucketName = string;
+export type DestinationS3Prefix = string;
+export type SnsTopicArn = string;
+export type OptionalKey = string;
+export type OptionalValue = string;
+export type DataSetRequestId = string;
+export type ExceptionMessage = string;
+
 //# Schemas
 export type CustomerDefinedValues = { [key: string]: string };
 export const CustomerDefinedValues = S.Record({
@@ -329,13 +347,17 @@ export class MarketplaceCommerceAnalyticsException extends S.TaggedError<Marketp
  * Requires a Role with an attached permissions policy providing Allow permissions for the following actions:
  * s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
  */
-export const startSupportDataExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartSupportDataExportRequest,
-    output: StartSupportDataExportResult,
-    errors: [MarketplaceCommerceAnalyticsException],
-  }),
-);
+export const startSupportDataExport: (
+  input: StartSupportDataExportRequest,
+) => Effect.Effect<
+  StartSupportDataExportResult,
+  MarketplaceCommerceAnalyticsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSupportDataExportRequest,
+  output: StartSupportDataExportResult,
+  errors: [MarketplaceCommerceAnalyticsException],
+}));
 /**
  * Given a data set type and data set publication date, asynchronously publishes the requested data set to the specified
  * S3 bucket and notifies the specified SNS topic once the data is available. Returns a unique request identifier that
@@ -346,7 +368,13 @@ export const startSupportDataExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Requires a Role with an attached permissions policy providing Allow permissions for the following actions:
  * s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
  */
-export const generateDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const generateDataSet: (
+  input: GenerateDataSetRequest,
+) => Effect.Effect<
+  GenerateDataSetResult,
+  MarketplaceCommerceAnalyticsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateDataSetRequest,
   output: GenerateDataSetResult,
   errors: [MarketplaceCommerceAnalyticsException],

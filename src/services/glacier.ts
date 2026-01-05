@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://glacier.amazonaws.com/doc/2012-06-01/");
 const svc = T.AwsApiService({ sdkId: "Glacier", serviceShapeName: "Glacier" });
 const auth = T.AwsAuthSigv4({ name: "glacier" });
@@ -258,6 +266,15 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type TagKey = string;
+export type TagValue = string;
+export type Size = number;
+export type long = number;
+export type httpstatus = number;
+export type NullableLong = number;
+export type DateTime = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -1849,7 +1866,9 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
     code: S.optional(S.String),
     message: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class RequestTimeoutException extends S.TaggedError<RequestTimeoutException>()(
   "RequestTimeoutException",
   {
@@ -1880,18 +1899,26 @@ export class PolicyEnforcedException extends S.TaggedError<PolicyEnforcedExcepti
  * This operation lists the provisioned capacity units for the specified AWS
  * account.
  */
-export const listProvisionedCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListProvisionedCapacityInput,
-    output: ListProvisionedCapacityOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const listProvisionedCapacity: (
+  input: ListProvisionedCapacityInput,
+) => Effect.Effect<
+  ListProvisionedCapacityOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProvisionedCapacityInput,
+  output: ListProvisionedCapacityOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This operation uploads a part of an archive. You can upload archive parts in any
  * order. You can also upload them in parallel. You can upload up to 10,000 parts for a
@@ -1936,7 +1963,19 @@ export const listProvisionedCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Parts (Multipart Upload) and Upload Part in the
  * *Amazon Glacier Developer Guide*.
  */
-export const uploadMultipartPart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const uploadMultipartPart: (
+  input: UploadMultipartPartInput,
+) => Effect.Effect<
+  UploadMultipartPartOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadMultipartPartInput,
   output: UploadMultipartPartOutput,
   errors: [
@@ -1955,7 +1994,19 @@ export const uploadMultipartPart = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * error. If a tag already exists on the vault under a specified key, the existing key value
  * will be overwritten. For more information about tags, see Tagging Amazon Glacier Resources.
  */
-export const addTagsToVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addTagsToVault: (
+  input: AddTagsToVaultInput,
+) => Effect.Effect<
+  AddTagsToVaultResponse,
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsToVaultInput,
   output: AddTagsToVaultResponse,
   errors: [
@@ -1991,7 +2042,18 @@ export const addTagsToVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see the documentation for the underlying REST API Describe Job
  * in the *Amazon Glacier Developer Guide*.
  */
-export const describeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeJob: (
+  input: DescribeJobInput,
+) => Effect.Effect<
+  GlacierJobDescription,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobInput,
   output: GlacierJobDescription,
   errors: [
@@ -2036,7 +2098,18 @@ export const describeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * lock is in the `InProgress` state you must call AbortVaultLock
  * before you can initiate a new vault lock policy.
  */
-export const initiateVaultLock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const initiateVaultLock: (
+  input: InitiateVaultLockInput,
+) => Effect.Effect<
+  InitiateVaultLockOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitiateVaultLockInput,
   output: InitiateVaultLockOutput,
   errors: [
@@ -2075,24 +2148,60 @@ export const initiateVaultLock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * with Archives in Amazon Glacier and List Multipart Uploads
  * in the *Amazon Glacier Developer Guide*.
  */
-export const listMultipartUploads =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMultipartUploads: {
+  (
     input: ListMultipartUploadsInput,
-    output: ListMultipartUploadsOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "Marker",
-      items: "UploadsList",
-      pageSize: "limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMultipartUploadsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMultipartUploadsInput,
+  ) => Stream.Stream<
+    ListMultipartUploadsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMultipartUploadsInput,
+  ) => Stream.Stream<
+    UploadListElement,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMultipartUploadsInput,
+  output: ListMultipartUploadsOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "Marker",
+    items: "UploadsList",
+    pageSize: "limit",
+  } as const,
+}));
 /**
  * This operation lists the parts of an archive that have been uploaded in a specific
  * multipart upload. You can make this request at any time during an in-progress multipart
@@ -2118,7 +2227,44 @@ export const listMultipartUploads =
  * with Archives in Amazon Glacier and List Parts in the
  * *Amazon Glacier Developer Guide*.
  */
-export const listParts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listParts: {
+  (
+    input: ListPartsInput,
+  ): Effect.Effect<
+    ListPartsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPartsInput,
+  ) => Stream.Stream<
+    ListPartsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPartsInput,
+  ) => Stream.Stream<
+    PartListElement,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPartsInput,
   output: ListPartsOutput,
   errors: [
@@ -2176,19 +2322,28 @@ export const listParts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Parts (Multipart Upload) and Complete Multipart
  * Upload in the *Amazon Glacier Developer Guide*.
  */
-export const completeMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CompleteMultipartUploadInput,
-    output: ArchiveCreationOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const completeMultipartUpload: (
+  input: CompleteMultipartUploadInput,
+) => Effect.Effect<
+  ArchiveCreationOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CompleteMultipartUploadInput,
+  output: ArchiveCreationOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This operation returns information about a vault, including the vault's Amazon
  * Resource Name (ARN), the date the vault was created, the number of archives it contains,
@@ -2210,7 +2365,18 @@ export const completeMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon Glacier and Describe Vault in the
  * *Amazon Glacier Developer Guide*.
  */
-export const describeVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeVault: (
+  input: DescribeVaultInput,
+) => Effect.Effect<
+  DescribeVaultOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVaultInput,
   output: DescribeVaultOutput,
   errors: [
@@ -2263,7 +2429,18 @@ export const describeVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Vault Inventory, Downloading an
  * Archive, and Get Job Output
  */
-export const getJobOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJobOutput: (
+  input: GetJobOutputInput,
+) => Effect.Effect<
+  GetJobOutputOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobOutputInput,
   output: GetJobOutputOutput,
   errors: [
@@ -2282,19 +2459,28 @@ export const getJobOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * access policies, see Amazon Glacier Access Control
  * with Vault Access Policies.
  */
-export const getVaultAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetVaultAccessPolicyInput,
-    output: GetVaultAccessPolicyOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const getVaultAccessPolicy: (
+  input: GetVaultAccessPolicyInput,
+) => Effect.Effect<
+  GetVaultAccessPolicyOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVaultAccessPolicyInput,
+  output: GetVaultAccessPolicyOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This operation retrieves the following attributes from the `lock-policy`
  * subresource set on the specified vault:
@@ -2320,7 +2506,18 @@ export const getVaultAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Not found error. For more information about vault lock policies, Amazon
  * Glacier Access Control with Vault Lock Policies.
  */
-export const getVaultLock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVaultLock: (
+  input: GetVaultLockInput,
+) => Effect.Effect<
+  GetVaultLockOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVaultLockInput,
   output: GetVaultLockOutput,
   errors: [
@@ -2350,19 +2547,28 @@ export const getVaultLock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Notifications in Amazon Glacier and Get Vault Notification
  * Configuration in the *Amazon Glacier Developer Guide*.
  */
-export const getVaultNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetVaultNotificationsInput,
-    output: GetVaultNotificationsOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const getVaultNotifications: (
+  input: GetVaultNotificationsInput,
+) => Effect.Effect<
+  GetVaultNotificationsOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVaultNotificationsInput,
+  output: GetVaultNotificationsOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This operation initiates a multipart upload. Amazon Glacier creates a multipart
  * upload resource and returns its ID in the response. The multipart upload ID is used in
@@ -2398,19 +2604,28 @@ export const getVaultNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Parts (Multipart Upload) and Initiate Multipart
  * Upload in the *Amazon Glacier Developer Guide*.
  */
-export const initiateMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: InitiateMultipartUploadInput,
-    output: InitiateMultipartUploadOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const initiateMultipartUpload: (
+  input: InitiateMultipartUploadInput,
+) => Effect.Effect<
+  InitiateMultipartUploadOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InitiateMultipartUploadInput,
+  output: InitiateMultipartUploadOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This operation lists jobs for a vault, including jobs that are in-progress and jobs
  * that have recently finished. The List Job operation returns a list of these jobs sorted by job initiation
@@ -2447,7 +2662,44 @@ export const initiateMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about using this operation,
  * see the documentation for the underlying REST API List Jobs.
  */
-export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listJobs: {
+  (
+    input: ListJobsInput,
+  ): Effect.Effect<
+    ListJobsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobsInput,
+  ) => Stream.Stream<
+    ListJobsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobsInput,
+  ) => Stream.Stream<
+    GlacierJobDescription,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListJobsInput,
   output: ListJobsOutput,
   errors: [
@@ -2469,7 +2721,18 @@ export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * map if there are no tags. For more information about tags, see Tagging Amazon Glacier
  * Resources.
  */
-export const listTagsForVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForVault: (
+  input: ListTagsForVaultInput,
+) => Effect.Effect<
+  ListTagsForVaultOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForVaultInput,
   output: ListTagsForVaultOutput,
   errors: [
@@ -2502,7 +2765,44 @@ export const listTagsForVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon Glacier and List Vaults in the
  * *Amazon Glacier Developer Guide*.
  */
-export const listVaults = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listVaults: {
+  (
+    input: ListVaultsInput,
+  ): Effect.Effect<
+    ListVaultsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVaultsInput,
+  ) => Stream.Stream<
+    ListVaultsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVaultsInput,
+  ) => Stream.Stream<
+    DescribeVaultOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListVaultsInput,
   output: ListVaultsOutput,
   errors: [
@@ -2527,19 +2827,28 @@ export const listVaults = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * the policy can be up to 20 KB in size. For more information about vault access policies,
  * see Amazon Glacier Access Control with Vault Access Policies.
  */
-export const setVaultAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetVaultAccessPolicyInput,
-    output: SetVaultAccessPolicyResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const setVaultAccessPolicy: (
+  input: SetVaultAccessPolicyInput,
+) => Effect.Effect<
+  SetVaultAccessPolicyResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetVaultAccessPolicyInput,
+  output: SetVaultAccessPolicyResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This operation configures notifications that will be sent when specific events happen
  * to a vault. By default, you don't get any notifications.
@@ -2573,19 +2882,28 @@ export const setVaultAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Notifications in Amazon Glacier and Set Vault Notification
  * Configuration in the *Amazon Glacier Developer Guide*.
  */
-export const setVaultNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetVaultNotificationsInput,
-    output: SetVaultNotificationsResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const setVaultNotifications: (
+  input: SetVaultNotificationsInput,
+) => Effect.Effect<
+  SetVaultNotificationsResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetVaultNotificationsInput,
+  output: SetVaultNotificationsResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This operation aborts the vault locking process if the vault lock is not in the
  * `Locked` state. If the vault lock is in the `Locked` state when
@@ -2604,7 +2922,18 @@ export const setVaultNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * times, if the vault lock is in the `InProgress` state or if there is no policy
  * associated with the vault.
  */
-export const abortVaultLock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const abortVaultLock: (
+  input: AbortVaultLockInput,
+) => Effect.Effect<
+  AbortVaultLockResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AbortVaultLockInput,
   output: AbortVaultLockResponse,
   errors: [
@@ -2633,7 +2962,18 @@ export const abortVaultLock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `InProgress` state, the operation throws an `InvalidParameter`
  * error.
  */
-export const completeVaultLock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const completeVaultLock: (
+  input: CompleteVaultLockInput,
+) => Effect.Effect<
+  CompleteVaultLockResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteVaultLockInput,
   output: CompleteVaultLockResponse,
   errors: [
@@ -2670,7 +3010,18 @@ export const completeVaultLock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Glacier and Delete Archive in the
  * *Amazon Glacier Developer Guide*.
  */
-export const deleteArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteArchive: (
+  input: DeleteArchiveInput,
+) => Effect.Effect<
+  DeleteArchiveResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteArchiveInput,
   output: DeleteArchiveResponse,
   errors: [
@@ -2704,7 +3055,18 @@ export const deleteArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Glacier and Delete Vault in the
  * *Amazon Glacier Developer Guide*.
  */
-export const deleteVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVault: (
+  input: DeleteVaultInput,
+) => Effect.Effect<
+  DeleteVaultResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVaultInput,
   output: DeleteVaultResponse,
   errors: [
@@ -2725,19 +3087,28 @@ export const deleteVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * no policy associated with the vault. For more information about vault access policies, see
  * Amazon Glacier Access Control with Vault Access Policies.
  */
-export const deleteVaultAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVaultAccessPolicyInput,
-    output: DeleteVaultAccessPolicyResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const deleteVaultAccessPolicy: (
+  input: DeleteVaultAccessPolicyInput,
+) => Effect.Effect<
+  DeleteVaultAccessPolicyResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVaultAccessPolicyInput,
+  output: DeleteVaultAccessPolicyResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This operation deletes the notification configuration set for a vault. The operation
  * is eventually consistent; that is, it might take some time for Amazon Glacier to completely
@@ -2754,26 +3125,46 @@ export const deleteVaultAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Notifications in Amazon Glacier and Delete Vault
  * Notification Configuration in the Amazon Glacier Developer Guide.
  */
-export const deleteVaultNotifications = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVaultNotificationsInput,
-    output: DeleteVaultNotificationsResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const deleteVaultNotifications: (
+  input: DeleteVaultNotificationsInput,
+) => Effect.Effect<
+  DeleteVaultNotificationsResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVaultNotificationsInput,
+  output: DeleteVaultNotificationsResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This operation removes one or more tags from the set of tags attached to a vault. For
  * more information about tags, see Tagging Amazon Glacier Resources.
  * This operation is idempotent. The operation will be successful, even if there are no tags
  * attached to the vault.
  */
-export const removeTagsFromVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removeTagsFromVault: (
+  input: RemoveTagsFromVaultInput,
+) => Effect.Effect<
+  RemoveTagsFromVaultResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTagsFromVaultInput,
   output: RemoveTagsFromVaultResponse,
   errors: [
@@ -2793,35 +3184,51 @@ export const removeTagsFromVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the policy was enacted. For more information about data retrieval policies, see Amazon
  * Glacier Data Retrieval Policies.
  */
-export const setDataRetrievalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetDataRetrievalPolicyInput,
-    output: SetDataRetrievalPolicyResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const setDataRetrievalPolicy: (
+  input: SetDataRetrievalPolicyInput,
+) => Effect.Effect<
+  SetDataRetrievalPolicyResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetDataRetrievalPolicyInput,
+  output: SetDataRetrievalPolicyResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This operation returns the current data retrieval policy for the account and region
  * specified in the GET request. For more information about data retrieval policies, see
  * Amazon Glacier Data Retrieval Policies.
  */
-export const getDataRetrievalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDataRetrievalPolicyInput,
-    output: GetDataRetrievalPolicyOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const getDataRetrievalPolicy: (
+  input: GetDataRetrievalPolicyInput,
+) => Effect.Effect<
+  GetDataRetrievalPolicyOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataRetrievalPolicyInput,
+  output: GetDataRetrievalPolicyOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This operation creates a new vault with the specified name. The name of the vault
  * must be unique within a region for an AWS account. You can create up to 1,000 vaults per
@@ -2846,7 +3253,18 @@ export const getDataRetrievalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Glacier and Create Vault in the
  * *Amazon Glacier Developer Guide*.
  */
-export const createVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVault: (
+  input: CreateVaultInput,
+) => Effect.Effect<
+  CreateVaultOutput,
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVaultInput,
   output: CreateVaultOutput,
   errors: [
@@ -2860,19 +3278,28 @@ export const createVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This operation purchases a provisioned capacity unit for an AWS account.
  */
-export const purchaseProvisionedCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PurchaseProvisionedCapacityInput,
-    output: PurchaseProvisionedCapacityOutput,
-    errors: [
-      InvalidParameterValueException,
-      LimitExceededException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const purchaseProvisionedCapacity: (
+  input: PurchaseProvisionedCapacityInput,
+) => Effect.Effect<
+  PurchaseProvisionedCapacityOutput,
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PurchaseProvisionedCapacityInput,
+  output: PurchaseProvisionedCapacityOutput,
+  errors: [
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This operation aborts a multipart upload identified by the upload ID.
  *
@@ -2893,19 +3320,28 @@ export const purchaseProvisionedCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon Glacier and Abort Multipart
  * Upload in the *Amazon Glacier Developer Guide*.
  */
-export const abortMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AbortMultipartUploadInput,
-    output: AbortMultipartUploadResponse,
-    errors: [
-      InvalidParameterValueException,
-      MissingParameterValueException,
-      NoLongerSupportedException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const abortMultipartUpload: (
+  input: AbortMultipartUploadInput,
+) => Effect.Effect<
+  AbortMultipartUploadResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AbortMultipartUploadInput,
+  output: AbortMultipartUploadResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * This operation adds an archive to a vault. This is a synchronous operation, and for a
  * successful upload, your data is durably persisted. Amazon Glacier returns the archive ID in
@@ -2941,7 +3377,19 @@ export const abortMultipartUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Glacier and Upload Archive in the
  * *Amazon Glacier Developer Guide*.
  */
-export const uploadArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const uploadArchive: (
+  input: UploadArchiveInput,
+) => Effect.Effect<
+  ArchiveCreationOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadArchiveInput,
   output: ArchiveCreationOutput,
   errors: [
@@ -2959,7 +3407,20 @@ export const uploadArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see the documentation for the underlying REST API Initiate
  * a Job.
  */
-export const initiateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const initiateJob: (
+  input: InitiateJobInput,
+) => Effect.Effect<
+  InitiateJobOutput,
+  | InsufficientCapacityException
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | PolicyEnforcedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitiateJobInput,
   output: InitiateJobOutput,
   errors: [

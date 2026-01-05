@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "S3Vectors",
   serviceShapeName: "S3Vectors",
@@ -104,6 +112,32 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ResourceARN = string;
+export type TagKey = string;
+export type VectorBucketName = string;
+export type VectorBucketArn = string;
+export type ListVectorBucketsMaxResults = number;
+export type ListVectorBucketsNextToken = string;
+export type ListVectorBucketsPrefix = string;
+export type VectorBucketPolicy = string;
+export type IndexName = string;
+export type Dimension = number;
+export type IndexArn = string;
+export type ListIndexesMaxResults = number;
+export type ListIndexesNextToken = string;
+export type ListIndexesPrefix = string;
+export type VectorKey = string;
+export type ListVectorsMaxResults = number;
+export type ListVectorsNextToken = string;
+export type ListVectorsSegmentCount = number;
+export type ListVectorsSegmentIndex = number;
+export type TopK = number;
+export type TagValue = string;
+export type KmsKeyArn = string;
+export type MetadataKey = string;
+export type ExceptionMessage = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -495,6 +529,7 @@ export const MetadataConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "MetadataConfiguration",
 }) as any as S.Schema<MetadataConfiguration>;
+export type VectorData = { float32: Float32VectorData };
 export const VectorData = S.Union(S.Struct({ float32: Float32VectorData }));
 export interface PutInputVector {
   key: string;
@@ -884,7 +919,9 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
   "ServiceUnavailableException",
   { message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class KmsDisabledException extends S.TaggedError<KmsDisabledException>()(
   "KmsDisabledException",
   { message: S.String },
@@ -914,13 +951,17 @@ export class KmsNotFoundException extends S.TaggedError<KmsNotFoundException>()(
  *
  * You must have the `s3vectors:DeleteVectorBucketPolicy` permission to use this operation.
  */
-export const deleteVectorBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVectorBucketPolicyInput,
-    output: DeleteVectorBucketPolicyOutput,
-    errors: [NotFoundException, ServiceUnavailableException],
-  }),
-);
+export const deleteVectorBucketPolicy: (
+  input: DeleteVectorBucketPolicyInput,
+) => Effect.Effect<
+  DeleteVectorBucketPolicyOutput,
+  NotFoundException | ServiceUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVectorBucketPolicyInput,
+  output: DeleteVectorBucketPolicyOutput,
+  errors: [NotFoundException, ServiceUnavailableException],
+}));
 /**
  * Returns vector bucket attributes. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
  *
@@ -928,7 +969,13 @@ export const deleteVectorBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must have the `s3vectors:GetVectorBucket` permission to use this operation.
  */
-export const getVectorBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVectorBucket: (
+  input: GetVectorBucketInput,
+) => Effect.Effect<
+  GetVectorBucketOutput,
+  NotFoundException | ServiceUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVectorBucketInput,
   output: GetVectorBucketOutput,
   errors: [NotFoundException, ServiceUnavailableException],
@@ -940,19 +987,39 @@ export const getVectorBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3vectors:ListVectorBuckets` permission to use this operation.
  */
-export const listVectorBuckets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listVectorBuckets: {
+  (
     input: ListVectorBucketsInput,
-    output: ListVectorBucketsOutput,
-    errors: [ServiceUnavailableException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "vectorBuckets",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListVectorBucketsOutput,
+    ServiceUnavailableException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVectorBucketsInput,
+  ) => Stream.Stream<
+    ListVectorBucketsOutput,
+    ServiceUnavailableException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVectorBucketsInput,
+  ) => Stream.Stream<
+    VectorBucketSummary,
+    ServiceUnavailableException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVectorBucketsInput,
+  output: ListVectorBucketsOutput,
+  errors: [ServiceUnavailableException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "vectorBuckets",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns vector index attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).
  *
@@ -960,7 +1027,13 @@ export const listVectorBuckets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * You must have the `s3vectors:GetIndex` permission to use this operation.
  */
-export const getIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIndex: (
+  input: GetIndexInput,
+) => Effect.Effect<
+  GetIndexOutput,
+  NotFoundException | ServiceUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIndexInput,
   output: GetIndexOutput,
   errors: [NotFoundException, ServiceUnavailableException],
@@ -972,19 +1045,39 @@ export const getIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3vectors:ListIndexes` permission to use this operation.
  */
-export const listIndexes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listIndexes: {
+  (
     input: ListIndexesInput,
-    output: ListIndexesOutput,
-    errors: [NotFoundException, ServiceUnavailableException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "indexes",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListIndexesOutput,
+    NotFoundException | ServiceUnavailableException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIndexesInput,
+  ) => Stream.Stream<
+    ListIndexesOutput,
+    NotFoundException | ServiceUnavailableException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIndexesInput,
+  ) => Stream.Stream<
+    IndexSummary,
+    NotFoundException | ServiceUnavailableException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIndexesInput,
+  output: ListIndexesOutput,
+  errors: [NotFoundException, ServiceUnavailableException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "indexes",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List vectors in the specified vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).
  *
@@ -998,23 +1091,52 @@ export const listIndexes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - If you set `returnData` or `returnMetadata` to true, you must have both `s3vectors:ListVectors` and `s3vectors:GetVectors` permissions. The request fails with a `403 Forbidden` error if you request vector data or metadata without the `s3vectors:GetVectors` permission.
  */
-export const listVectors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listVectors: {
+  (
     input: ListVectorsInput,
-    output: ListVectorsOutput,
-    errors: [
-      AccessDeniedException,
-      NotFoundException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "vectors",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListVectorsOutput,
+    | AccessDeniedException
+    | NotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVectorsInput,
+  ) => Stream.Stream<
+    ListVectorsOutput,
+    | AccessDeniedException
+    | NotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVectorsInput,
+  ) => Stream.Stream<
+    ListOutputVector,
+    | AccessDeniedException
+    | NotFoundException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVectorsInput,
+  output: ListVectorsOutput,
+  errors: [
+    AccessDeniedException,
+    NotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "vectors",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
  *
@@ -1022,13 +1144,17 @@ export const listVectors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * You must have the `s3vectors:GetVectorBucketPolicy` permission to use this operation.
  */
-export const getVectorBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetVectorBucketPolicyInput,
-    output: GetVectorBucketPolicyOutput,
-    errors: [NotFoundException, ServiceUnavailableException],
-  }),
-);
+export const getVectorBucketPolicy: (
+  input: GetVectorBucketPolicyInput,
+) => Effect.Effect<
+  GetVectorBucketPolicyOutput,
+  NotFoundException | ServiceUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVectorBucketPolicyInput,
+  output: GetVectorBucketPolicyOutput,
+  errors: [NotFoundException, ServiceUnavailableException],
+}));
 /**
  * Deletes a vector bucket. All vector indexes in the vector bucket must be deleted before the vector bucket can be deleted. To perform this operation, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
  *
@@ -1036,7 +1162,16 @@ export const getVectorBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must have the `s3vectors:DeleteVectorBucket` permission to use this operation.
  */
-export const deleteVectorBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVectorBucket: (
+  input: DeleteVectorBucketInput,
+) => Effect.Effect<
+  DeleteVectorBucketOutput,
+  | ConflictException
+  | NotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVectorBucketInput,
   output: DeleteVectorBucketOutput,
   errors: [ConflictException, NotFoundException, ServiceUnavailableException],
@@ -1050,7 +1185,16 @@ export const deleteVectorBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For vector buckets and vector indexes, you must have the `s3vectors:TagResource` permission to use this operation.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | ConflictException
+  | NotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [ConflictException, NotFoundException, ServiceUnavailableException],
@@ -1062,13 +1206,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3vectors:PutVectorBucketPolicy` permission to use this operation.
  */
-export const putVectorBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutVectorBucketPolicyInput,
-    output: PutVectorBucketPolicyOutput,
-    errors: [NotFoundException, ServiceUnavailableException],
-  }),
-);
+export const putVectorBucketPolicy: (
+  input: PutVectorBucketPolicyInput,
+) => Effect.Effect<
+  PutVectorBucketPolicyOutput,
+  NotFoundException | ServiceUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutVectorBucketPolicyInput,
+  output: PutVectorBucketPolicyOutput,
+  errors: [NotFoundException, ServiceUnavailableException],
+}));
 /**
  * Deletes a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN).
  *
@@ -1076,7 +1224,13 @@ export const putVectorBucketPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must have the `s3vectors:DeleteIndex` permission to use this operation.
  */
-export const deleteIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIndex: (
+  input: DeleteIndexInput,
+) => Effect.Effect<
+  DeleteIndexOutput,
+  NotFoundException | ServiceUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIndexInput,
   output: DeleteIndexOutput,
   errors: [NotFoundException, ServiceUnavailableException],
@@ -1090,7 +1244,13 @@ export const deleteIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For vector buckets and vector indexes, you must have the `s3vectors:ListTagsForResource` permission to use this operation.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  NotFoundException | ServiceUnavailableException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [NotFoundException, ServiceUnavailableException],
@@ -1104,7 +1264,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For vector buckets and vector indexes, you must have the `s3vectors:UntagResource` permission to use this operation.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | ConflictException
+  | NotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [ConflictException, NotFoundException, ServiceUnavailableException],
@@ -1118,7 +1287,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3vectors:TagResource` permission in addition to `s3vectors:CreateVectorBucket` permission to create a vector bucket with tags.
  */
-export const createVectorBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVectorBucket: (
+  input: CreateVectorBucketInput,
+) => Effect.Effect<
+  CreateVectorBucketOutput,
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVectorBucketInput,
   output: CreateVectorBucketOutput,
   errors: [
@@ -1136,7 +1314,17 @@ export const createVectorBucket = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3vectors:TagResource` permission in addition to `s3vectors:CreateIndex` permission to create a vector index with tags.
  */
-export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIndex: (
+  input: CreateIndexInput,
+) => Effect.Effect<
+  CreateIndexOutput,
+  | ConflictException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIndexInput,
   output: CreateIndexOutput,
   errors: [
@@ -1153,7 +1341,20 @@ export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3vectors:DeleteVectors` permission to use this operation.
  */
-export const deleteVectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVectors: (
+  input: DeleteVectorsInput,
+) => Effect.Effect<
+  DeleteVectorsOutput,
+  | AccessDeniedException
+  | KmsDisabledException
+  | KmsInvalidKeyUsageException
+  | KmsInvalidStateException
+  | KmsNotFoundException
+  | NotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVectorsInput,
   output: DeleteVectorsOutput,
   errors: [
@@ -1179,7 +1380,19 @@ export const deleteVectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - If you specify a metadata filter or set `returnMetadata` to true, you must have both `s3vectors:QueryVectors` and `s3vectors:GetVectors` permissions. The request fails with a `403 Forbidden error` if you request metadata filtering, vector data, or metadata without the `s3vectors:GetVectors` permission.
  */
-export const queryVectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const queryVectors: (
+  input: QueryVectorsInput,
+) => Effect.Effect<
+  QueryVectorsOutput,
+  | KmsDisabledException
+  | KmsInvalidKeyUsageException
+  | KmsInvalidStateException
+  | KmsNotFoundException
+  | NotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryVectorsInput,
   output: QueryVectorsOutput,
   errors: [
@@ -1198,7 +1411,19 @@ export const queryVectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3vectors:GetVectors` permission to use this operation.
  */
-export const getVectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVectors: (
+  input: GetVectorsInput,
+) => Effect.Effect<
+  GetVectorsOutput,
+  | KmsDisabledException
+  | KmsInvalidKeyUsageException
+  | KmsInvalidStateException
+  | KmsNotFoundException
+  | NotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVectorsInput,
   output: GetVectorsOutput,
   errors: [
@@ -1221,7 +1446,21 @@ export const getVectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must have the `s3vectors:PutVectors` permission to use this operation.
  */
-export const putVectors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putVectors: (
+  input: PutVectorsInput,
+) => Effect.Effect<
+  PutVectorsOutput,
+  | AccessDeniedException
+  | KmsDisabledException
+  | KmsInvalidKeyUsageException
+  | KmsInvalidStateException
+  | KmsNotFoundException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutVectorsInput,
   output: PutVectorsOutput,
   errors: [

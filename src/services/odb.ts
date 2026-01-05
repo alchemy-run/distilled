@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "odb", serviceShapeName: "Odb" });
 const auth = T.AwsAuthSigv4({ name: "odb" });
 const ver = T.ServiceVersion("2024-08-20");
@@ -289,6 +297,20 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type RoleArn = string;
+export type Arn = string;
+export type ResourceArn = string;
+export type TagKey = string;
+export type ResourceIdOrArn = string;
+export type ResourceDisplayName = string;
+export type GeneralInputString = string;
+export type ResourceId = string;
+export type PolicyDocument = string;
+export type PeeredCidr = string;
+export type TagValue = string;
+export type SensitiveString = string;
 
 //# Schemas
 export interface GetOciOnboardingStatusInput {}
@@ -2976,7 +2998,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -2992,7 +3016,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -3006,7 +3032,13 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Removes tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException],
@@ -3014,7 +3046,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the tags applied to this resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException],
@@ -3022,7 +3060,15 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Applies tags to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ResourceNotFoundException, ServiceQuotaExceededException],
@@ -3030,85 +3076,145 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Autonomous VM cluster.
  */
-export const deleteCloudAutonomousVmCluster =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCloudAutonomousVmClusterInput,
-    output: DeleteCloudAutonomousVmClusterOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const deleteCloudAutonomousVmCluster: (
+  input: DeleteCloudAutonomousVmClusterInput,
+) => Effect.Effect<
+  DeleteCloudAutonomousVmClusterOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCloudAutonomousVmClusterInput,
+  output: DeleteCloudAutonomousVmClusterOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the specified VM cluster.
  */
-export const deleteCloudVmCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCloudVmClusterInput,
-    output: DeleteCloudVmClusterOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteCloudVmCluster: (
+  input: DeleteCloudVmClusterInput,
+) => Effect.Effect<
+  DeleteCloudVmClusterOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCloudVmClusterInput,
+  output: DeleteCloudVmClusterOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the tenancy activation link and onboarding status for your Amazon Web Services account.
  */
-export const getOciOnboardingStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetOciOnboardingStatusInput,
-    output: GetOciOnboardingStatusOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getOciOnboardingStatus: (
+  input: GetOciOnboardingStatusInput,
+) => Effect.Effect<
+  GetOciOnboardingStatusOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOciOnboardingStatusInput,
+  output: GetOciOnboardingStatusOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new Autonomous VM cluster in the specified Exadata infrastructure.
  */
-export const createCloudAutonomousVmCluster =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCloudAutonomousVmClusterInput,
-    output: CreateCloudAutonomousVmClusterOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createCloudAutonomousVmCluster: (
+  input: CreateCloudAutonomousVmClusterInput,
+) => Effect.Effect<
+  CreateCloudAutonomousVmClusterOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCloudAutonomousVmClusterInput,
+  output: CreateCloudAutonomousVmClusterOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about unallocated resources in a specified Cloud Exadata Infrastructure.
  */
-export const getCloudExadataInfrastructureUnallocatedResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCloudExadataInfrastructureUnallocatedResourcesInput,
-    output: GetCloudExadataInfrastructureUnallocatedResourcesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getCloudExadataInfrastructureUnallocatedResources: (
+  input: GetCloudExadataInfrastructureUnallocatedResourcesInput,
+) => Effect.Effect<
+  GetCloudExadataInfrastructureUnallocatedResourcesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCloudExadataInfrastructureUnallocatedResourcesInput,
+  output: GetCloudExadataInfrastructureUnallocatedResourcesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about the specified database server.
  */
-export const getDbServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDbServer: (
+  input: GetDbServerInput,
+) => Effect.Effect<
+  GetDbServerOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDbServerInput,
   output: GetDbServerOutput,
   errors: [
@@ -3122,207 +3228,512 @@ export const getDbServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the shapes that are available for an Exadata infrastructure.
  */
-export const listDbSystemShapes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDbSystemShapes: {
+  (
     input: ListDbSystemShapesInput,
-    output: ListDbSystemShapesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dbSystemShapes",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDbSystemShapesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDbSystemShapesInput,
+  ) => Stream.Stream<
+    ListDbSystemShapesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDbSystemShapesInput,
+  ) => Stream.Stream<
+    DbSystemShapeSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDbSystemShapesInput,
+  output: ListDbSystemShapesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dbSystemShapes",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about Oracle Grid Infrastructure (GI) software versions that are available for a VM cluster for the specified shape.
  */
-export const listGiVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listGiVersions: {
+  (
     input: ListGiVersionsInput,
-    output: ListGiVersionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "giVersions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListGiVersionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGiVersionsInput,
+  ) => Stream.Stream<
+    ListGiVersionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGiVersionsInput,
+  ) => Stream.Stream<
+    GiVersionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGiVersionsInput,
+  output: ListGiVersionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "giVersions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about the system versions that are available for a VM cluster for the specified `giVersion` and `shape`.
  */
-export const listSystemVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSystemVersions: {
+  (
     input: ListSystemVersionsInput,
-    output: ListSystemVersionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "systemVersions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSystemVersionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSystemVersionsInput,
+  ) => Stream.Stream<
+    ListSystemVersionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSystemVersionsInput,
+  ) => Stream.Stream<
+    SystemVersionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSystemVersionsInput,
+  output: ListSystemVersionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "systemVersions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets information about a specific Autonomous VM cluster.
  */
-export const getCloudAutonomousVmCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCloudAutonomousVmClusterInput,
-    output: GetCloudAutonomousVmClusterOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getCloudAutonomousVmCluster: (
+  input: GetCloudAutonomousVmClusterInput,
+) => Effect.Effect<
+  GetCloudAutonomousVmClusterOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCloudAutonomousVmClusterInput,
+  output: GetCloudAutonomousVmClusterOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all Autonomous VM clusters in a specified Cloud Exadata infrastructure.
  */
-export const listCloudAutonomousVmClusters =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCloudAutonomousVmClusters: {
+  (
     input: ListCloudAutonomousVmClustersInput,
-    output: ListCloudAutonomousVmClustersOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "cloudAutonomousVmClusters",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCloudAutonomousVmClustersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCloudAutonomousVmClustersInput,
+  ) => Stream.Stream<
+    ListCloudAutonomousVmClustersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCloudAutonomousVmClustersInput,
+  ) => Stream.Stream<
+    CloudAutonomousVmClusterSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCloudAutonomousVmClustersInput,
+  output: ListCloudAutonomousVmClustersOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "cloudAutonomousVmClusters",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all Autonomous VMs in an Autonomous VM cluster.
  */
-export const listAutonomousVirtualMachines =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAutonomousVirtualMachines: {
+  (
     input: ListAutonomousVirtualMachinesInput,
-    output: ListAutonomousVirtualMachinesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "autonomousVirtualMachines",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAutonomousVirtualMachinesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAutonomousVirtualMachinesInput,
+  ) => Stream.Stream<
+    ListAutonomousVirtualMachinesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAutonomousVirtualMachinesInput,
+  ) => Stream.Stream<
+    AutonomousVirtualMachineSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAutonomousVirtualMachinesInput,
+  output: ListAutonomousVirtualMachinesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "autonomousVirtualMachines",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about the specified Exadata infrastructure.
  */
-export const getCloudExadataInfrastructure =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCloudExadataInfrastructureInput,
-    output: GetCloudExadataInfrastructureOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getCloudExadataInfrastructure: (
+  input: GetCloudExadataInfrastructureInput,
+) => Effect.Effect<
+  GetCloudExadataInfrastructureOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCloudExadataInfrastructureInput,
+  output: GetCloudExadataInfrastructureOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about the Exadata infrastructures owned by your Amazon Web Services account.
  */
-export const listCloudExadataInfrastructures =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCloudExadataInfrastructures: {
+  (
     input: ListCloudExadataInfrastructuresInput,
-    output: ListCloudExadataInfrastructuresOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "cloudExadataInfrastructures",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCloudExadataInfrastructuresOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCloudExadataInfrastructuresInput,
+  ) => Stream.Stream<
+    ListCloudExadataInfrastructuresOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCloudExadataInfrastructuresInput,
+  ) => Stream.Stream<
+    CloudExadataInfrastructureSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCloudExadataInfrastructuresInput,
+  output: ListCloudExadataInfrastructuresOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "cloudExadataInfrastructures",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about the database servers that belong to the specified Exadata infrastructure.
  */
-export const listDbServers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDbServers: {
+  (
     input: ListDbServersInput,
-    output: ListDbServersOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dbServers",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDbServersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDbServersInput,
+  ) => Stream.Stream<
+    ListDbServersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDbServersInput,
+  ) => Stream.Stream<
+    DbServerSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDbServersInput,
+  output: ListDbServersOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dbServers",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about the VM clusters owned by your Amazon Web Services account or only the ones on the specified Exadata infrastructure.
  */
-export const listCloudVmClusters =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCloudVmClusters: {
+  (
     input: ListCloudVmClustersInput,
-    output: ListCloudVmClustersOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "cloudVmClusters",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCloudVmClustersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCloudVmClustersInput,
+  ) => Stream.Stream<
+    ListCloudVmClustersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCloudVmClustersInput,
+  ) => Stream.Stream<
+    CloudVmClusterSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCloudVmClustersInput,
+  output: ListCloudVmClustersOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "cloudVmClusters",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about the specified DB node.
  */
-export const getDbNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDbNode: (
+  input: GetDbNodeInput,
+) => Effect.Effect<
+  GetDbNodeOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDbNodeInput,
   output: GetDbNodeOutput,
   errors: [
@@ -3336,103 +3747,238 @@ export const getDbNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the DB nodes for the specified VM cluster.
  */
-export const listDbNodes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDbNodes: {
+  (
     input: ListDbNodesInput,
-    output: ListDbNodesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dbNodes",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDbNodesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDbNodesInput,
+  ) => Stream.Stream<
+    ListDbNodesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDbNodesInput,
+  ) => Stream.Stream<
+    DbNodeSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDbNodesInput,
+  output: ListDbNodesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dbNodes",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about the ODB networks owned by your Amazon Web Services account.
  */
-export const listOdbNetworks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listOdbNetworks: {
+  (
     input: ListOdbNetworksInput,
-    output: ListOdbNetworksOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "odbNetworks",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListOdbNetworksOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOdbNetworksInput,
+  ) => Stream.Stream<
+    ListOdbNetworksOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOdbNetworksInput,
+  ) => Stream.Stream<
+    OdbNetworkSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOdbNetworksInput,
+  output: ListOdbNetworksOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "odbNetworks",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information about an ODB peering connection.
  */
-export const getOdbPeeringConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetOdbPeeringConnectionInput,
-    output: GetOdbPeeringConnectionOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getOdbPeeringConnection: (
+  input: GetOdbPeeringConnectionInput,
+) => Effect.Effect<
+  GetOdbPeeringConnectionOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOdbPeeringConnectionInput,
+  output: GetOdbPeeringConnectionOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all ODB peering connections or those associated with a specific ODB network.
  */
-export const listOdbPeeringConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOdbPeeringConnections: {
+  (
     input: ListOdbPeeringConnectionsInput,
-    output: ListOdbPeeringConnectionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "odbPeeringConnections",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOdbPeeringConnectionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOdbPeeringConnectionsInput,
+  ) => Stream.Stream<
+    ListOdbPeeringConnectionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOdbPeeringConnectionsInput,
+  ) => Stream.Stream<
+    OdbPeeringConnectionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOdbPeeringConnectionsInput,
+  output: ListOdbPeeringConnectionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "odbPeeringConnections",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates the properties of an Exadata infrastructure resource.
  */
-export const updateCloudExadataInfrastructure =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCloudExadataInfrastructureInput,
-    output: UpdateCloudExadataInfrastructureOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateCloudExadataInfrastructure: (
+  input: UpdateCloudExadataInfrastructureInput,
+) => Effect.Effect<
+  UpdateCloudExadataInfrastructureOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCloudExadataInfrastructureInput,
+  output: UpdateCloudExadataInfrastructureOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates properties of a specified ODB network.
  */
-export const updateOdbNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateOdbNetwork: (
+  input: UpdateOdbNetworkInput,
+) => Effect.Effect<
+  UpdateOdbNetworkOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOdbNetworkInput,
   output: UpdateOdbNetworkOutput,
   errors: [
@@ -3449,90 +3995,153 @@ export const updateOdbNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A peering connection enables private connectivity between the networks for application-tier communication.
  */
-export const createOdbPeeringConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateOdbPeeringConnectionInput,
-    output: CreateOdbPeeringConnectionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createOdbPeeringConnection: (
+  input: CreateOdbPeeringConnectionInput,
+) => Effect.Effect<
+  CreateOdbPeeringConnectionOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOdbPeeringConnectionInput,
+  output: CreateOdbPeeringConnectionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Modifies the settings of an Oracle Database@Amazon Web Services peering connection. You can update the display name and add or remove CIDR blocks from the peering connection.
  */
-export const updateOdbPeeringConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateOdbPeeringConnectionInput,
-    output: UpdateOdbPeeringConnectionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateOdbPeeringConnection: (
+  input: UpdateOdbPeeringConnectionInput,
+) => Effect.Effect<
+  UpdateOdbPeeringConnectionOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOdbPeeringConnectionInput,
+  output: UpdateOdbPeeringConnectionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates an Amazon Web Services Identity and Access Management (IAM) service role with a specified resource to enable Amazon Web Services service integration.
  */
-export const associateIamRoleToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateIamRoleToResourceInput,
-    output: AssociateIamRoleToResourceOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateIamRoleToResource: (
+  input: AssociateIamRoleToResourceInput,
+) => Effect.Effect<
+  AssociateIamRoleToResourceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateIamRoleToResourceInput,
+  output: AssociateIamRoleToResourceOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates an Amazon Web Services Identity and Access Management (IAM) service role from a specified resource to disable Amazon Web Services service integration.
  */
-export const disassociateIamRoleFromResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateIamRoleFromResourceInput,
-    output: DisassociateIamRoleFromResourceOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateIamRoleFromResource: (
+  input: DisassociateIamRoleFromResourceInput,
+) => Effect.Effect<
+  DisassociateIamRoleFromResourceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateIamRoleFromResourceInput,
+  output: DisassociateIamRoleFromResourceOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the specified Exadata infrastructure. Before you use this operation, make sure to delete all of the VM clusters that are hosted on this Exadata infrastructure.
  */
-export const deleteCloudExadataInfrastructure =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCloudExadataInfrastructureInput,
-    output: DeleteCloudExadataInfrastructureOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteCloudExadataInfrastructure: (
+  input: DeleteCloudExadataInfrastructureInput,
+) => Effect.Effect<
+  DeleteCloudExadataInfrastructureOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCloudExadataInfrastructureInput,
+  output: DeleteCloudExadataInfrastructureOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Reboots the specified DB node in a VM cluster.
  */
-export const rebootDbNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rebootDbNode: (
+  input: RebootDbNodeInput,
+) => Effect.Effect<
+  RebootDbNodeOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootDbNodeInput,
   output: RebootDbNodeOutput,
   errors: [
@@ -3546,7 +4155,18 @@ export const rebootDbNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts the specified DB node in a VM cluster.
  */
-export const startDbNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startDbNode: (
+  input: StartDbNodeInput,
+) => Effect.Effect<
+  StartDbNodeOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDbNodeInput,
   output: StartDbNodeOutput,
   errors: [
@@ -3560,7 +4180,18 @@ export const startDbNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops the specified DB node in a VM cluster.
  */
-export const stopDbNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopDbNode: (
+  input: StopDbNodeInput,
+) => Effect.Effect<
+  StopDbNodeOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDbNodeInput,
   output: StopDbNodeOutput,
   errors: [
@@ -3574,7 +4205,17 @@ export const stopDbNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Initializes the ODB service for the first time in an account.
  */
-export const initializeService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const initializeService: (
+  input: InitializeServiceInput,
+) => Effect.Effect<
+  InitializeServiceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitializeServiceInput,
   output: InitializeServiceOutput,
   errors: [
@@ -3587,7 +4228,18 @@ export const initializeService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified ODB network.
  */
-export const deleteOdbNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteOdbNetwork: (
+  input: DeleteOdbNetworkInput,
+) => Effect.Effect<
+  DeleteOdbNetworkOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOdbNetworkInput,
   output: DeleteOdbNetworkOutput,
   errors: [
@@ -3603,72 +4255,125 @@ export const deleteOdbNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you delete an ODB peering connection, the underlying VPC peering connection is also deleted.
  */
-export const deleteOdbPeeringConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOdbPeeringConnectionInput,
-    output: DeleteOdbPeeringConnectionOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteOdbPeeringConnection: (
+  input: DeleteOdbPeeringConnectionInput,
+) => Effect.Effect<
+  DeleteOdbPeeringConnectionOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOdbPeeringConnectionInput,
+  output: DeleteOdbPeeringConnectionOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Registers the Amazon Web Services Marketplace token for your Amazon Web Services account to activate your Oracle Database@Amazon Web Services subscription.
  */
-export const acceptMarketplaceRegistration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AcceptMarketplaceRegistrationInput,
-    output: AcceptMarketplaceRegistrationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const acceptMarketplaceRegistration: (
+  input: AcceptMarketplaceRegistrationInput,
+) => Effect.Effect<
+  AcceptMarketplaceRegistrationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptMarketplaceRegistrationInput,
+  output: AcceptMarketplaceRegistrationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an Exadata infrastructure.
  */
-export const createCloudExadataInfrastructure =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCloudExadataInfrastructureInput,
-    output: CreateCloudExadataInfrastructureOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createCloudExadataInfrastructure: (
+  input: CreateCloudExadataInfrastructureInput,
+) => Effect.Effect<
+  CreateCloudExadataInfrastructureOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCloudExadataInfrastructureInput,
+  output: CreateCloudExadataInfrastructureOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a VM cluster on the specified Exadata infrastructure.
  */
-export const createCloudVmCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCloudVmClusterInput,
-    output: CreateCloudVmClusterOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createCloudVmCluster: (
+  input: CreateCloudVmClusterInput,
+) => Effect.Effect<
+  CreateCloudVmClusterOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCloudVmClusterInput,
+  output: CreateCloudVmClusterOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an ODB network.
  */
-export const createOdbNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createOdbNetwork: (
+  input: CreateOdbNetworkInput,
+) => Effect.Effect<
+  CreateOdbNetworkOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOdbNetworkInput,
   output: CreateOdbNetworkOutput,
   errors: [
@@ -3683,7 +4388,18 @@ export const createOdbNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the specified VM cluster.
  */
-export const getCloudVmCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCloudVmCluster: (
+  input: GetCloudVmClusterInput,
+) => Effect.Effect<
+  GetCloudVmClusterOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCloudVmClusterInput,
   output: GetCloudVmClusterOutput,
   errors: [
@@ -3697,7 +4413,18 @@ export const getCloudVmCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the specified ODB network.
  */
-export const getOdbNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getOdbNetwork: (
+  input: GetOdbNetworkInput,
+) => Effect.Effect<
+  GetOdbNetworkOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOdbNetworkInput,
   output: GetOdbNetworkOutput,
   errors: [

@@ -260,3 +260,10 @@ export type CommonAwsError =
   | ValidationError
   | ValidationException
   | OperationAborted;
+
+/** All error types that can be returned by AWS operations */
+export type CommonErrors =
+  | UnknownAwsError
+  | CommonAwsError
+  | EndpointError
+  | NoMatchingRuleError;

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Evidently",
   serviceShapeName: "Evidently",
@@ -240,6 +248,70 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type SegmentPattern = string;
+export type JsonValue = string;
+export type TagKey = string;
+export type ProjectName = string;
+export type Description = string;
+export type ProjectRef = string;
+export type MaxProjects = number;
+export type NextToken = string;
+export type FeatureName = string;
+export type EntityId = string;
+export type ExperimentName = string;
+export type RandomizationSalt = string;
+export type SplitWeight = number;
+export type SegmentRef = string;
+export type MaxExperiments = number;
+export type ExperimentStatus = string;
+export type CwDimensionSafeName = string;
+export type TreatmentName = string;
+export type ExperimentBaseStat = string;
+export type ExperimentResultRequestType = string;
+export type ExperimentReportName = string;
+export type ResultsPeriod = number;
+export type ExperimentStopDesiredState = string;
+export type FeatureEvaluationStrategy = string;
+export type VariationName = string;
+export type MaxFeatures = number;
+export type LaunchName = string;
+export type MaxLaunches = number;
+export type LaunchStatus = string;
+export type LaunchStopDesiredState = string;
+export type SegmentName = string;
+export type MaxSegments = number;
+export type MaxReferences = number;
+export type SegmentReferenceResourceType = string;
+export type TagValue = string;
+export type AppConfigResourceId = string;
+export type EventType = string;
+export type S3BucketSafeName = string;
+export type S3PrefixSafeName = string;
+export type CwLogGroupSafeName = string;
+export type ChangeDirectionEnum = string;
+export type GroupName = string;
+export type JsonPath = string;
+export type MetricUnitLabel = string;
+export type ProjectArn = string;
+export type ProjectStatus = string;
+export type ExperimentArn = string;
+export type SegmentArn = string;
+export type ExperimentType = string;
+export type ExperimentResultResponseType = string;
+export type FeatureArn = string;
+export type FeatureStatus = string;
+export type VariationValueType = string;
+export type LaunchArn = string;
+export type LaunchType = string;
+export type RuleName = string;
+export type RuleType = string;
+export type Uuid = string;
+export type ErrorCodeEnum = string;
+export type ErrorMessage = string;
+export type ValidationExceptionReason = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -737,6 +809,11 @@ export const GetFeatureRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetFeatureRequest",
 }) as any as S.Schema<GetFeatureRequest>;
+export type VariableValue =
+  | { boolValue: boolean }
+  | { stringValue: string }
+  | { longValue: number }
+  | { doubleValue: number };
 export const VariableValue = S.Union(
   S.Struct({ boolValue: S.Boolean }),
   S.Struct({ stringValue: S.String }),
@@ -2352,11 +2429,15 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     serviceCode: S.optional(S.String),
     quotaCode: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -2370,7 +2451,9 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -2384,7 +2467,16 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -2393,7 +2485,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns the details about one launch. You must already know the
  * project name. To retrieve a list of projects in your account, use ListProjects.
  */
-export const getProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getProject: (
+  input: GetProjectRequest,
+) => Effect.Effect<
+  GetProjectResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectRequest,
   output: GetProjectResponse,
   errors: [
@@ -2407,7 +2509,17 @@ export const getProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns the details about one experiment. You must already know the
  * experiment name. To retrieve a list of experiments in your account, use ListExperiments.
  */
-export const getExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getExperiment: (
+  input: GetExperimentRequest,
+) => Effect.Effect<
+  GetExperimentResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExperimentRequest,
   output: GetExperimentResponse,
   errors: [
@@ -2429,7 +2541,18 @@ export const getExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Don't use this operation to update an existing launch. Instead, use
  * UpdateLaunch.
  */
-export const createLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLaunch: (
+  input: CreateLaunchRequest,
+) => Effect.Effect<
+  CreateLaunchResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLaunchRequest,
   output: CreateLaunchResponse,
   errors: [
@@ -2444,7 +2567,17 @@ export const createLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns the details about one launch. You must already know the
  * launch name. To retrieve a list of launches in your account, use ListLaunches.
  */
-export const getLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLaunch: (
+  input: GetLaunchRequest,
+) => Effect.Effect<
+  GetLaunchResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLaunchRequest,
   output: GetLaunchResponse,
   errors: [
@@ -2457,44 +2590,117 @@ export const getLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns configuration details about all the launches in the specified project.
  */
-export const listLaunches = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLaunches: {
+  (
     input: ListLaunchesRequest,
-    output: ListLaunchesResponse,
-    errors: [AccessDeniedException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "launches",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLaunchesResponse,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLaunchesRequest,
+  ) => Stream.Stream<
+    ListLaunchesResponse,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLaunchesRequest,
+  ) => Stream.Stream<
+    Launch,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLaunchesRequest,
+  output: ListLaunchesResponse,
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "launches",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Use this operation to find which experiments or launches are using a specified segment.
  */
-export const listSegmentReferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSegmentReferences: {
+  (
     input: ListSegmentReferencesRequest,
-    output: ListSegmentReferencesResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "referencedBy",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSegmentReferencesResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSegmentReferencesRequest,
+  ) => Stream.Stream<
+    ListSegmentReferencesResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSegmentReferencesRequest,
+  ) => Stream.Stream<
+    RefResource,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSegmentReferencesRequest,
+  output: ListSegmentReferencesResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "referencedBy",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes an Evidently project. Before you can delete a project, you must delete all the
  * features that the project contains. To delete a feature, use DeleteFeature.
  */
-export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProject: (
+  input: DeleteProjectRequest,
+) => Effect.Effect<
+  DeleteProjectResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectRequest,
   output: DeleteProjectResponse,
   errors: [
@@ -2539,7 +2745,17 @@ export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If the user is not assigned to a launch or experiment, they are served the default variation.
  */
-export const evaluateFeature = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const evaluateFeature: (
+  input: EvaluateFeatureRequest,
+) => Effect.Effect<
+  EvaluateFeatureResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EvaluateFeatureRequest,
   output: EvaluateFeatureResponse,
   errors: [
@@ -2555,7 +2771,17 @@ export const evaluateFeature = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Don't use this operation to update an experiment's tag. Instead, use
  * TagResource.
  */
-export const updateExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateExperiment: (
+  input: UpdateExperimentRequest,
+) => Effect.Effect<
+  UpdateExperimentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateExperimentRequest,
   output: UpdateExperimentResponse,
   errors: [
@@ -2568,30 +2794,69 @@ export const updateExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns configuration details about all the experiments in the specified project.
  */
-export const listExperiments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listExperiments: {
+  (
     input: ListExperimentsRequest,
-    output: ListExperimentsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "experiments",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListExperimentsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExperimentsRequest,
+  ) => Stream.Stream<
+    ListExperimentsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExperimentsRequest,
+  ) => Stream.Stream<
+    Experiment,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExperimentsRequest,
+  output: ListExperimentsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "experiments",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates a launch of a given feature.
  *
  * Don't use this operation to update the tags of an existing launch. Instead, use
  * TagResource.
  */
-export const updateLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLaunch: (
+  input: UpdateLaunchRequest,
+) => Effect.Effect<
+  UpdateLaunchResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLaunchRequest,
   output: UpdateLaunchResponse,
   errors: [
@@ -2608,7 +2873,17 @@ export const updateLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * will instead be available to the feature's experiment, if there is one. Otherwise, all traffic
  * will be served the default variation after the launch is stopped.
  */
-export const stopLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopLaunch: (
+  input: StopLaunchRequest,
+) => Effect.Effect<
+  StopLaunchResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopLaunchRequest,
   output: StopLaunchResponse,
   errors: [
@@ -2622,7 +2897,17 @@ export const stopLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns information about the specified segment. Specify the segment you want to view
  * by specifying its ARN.
  */
-export const getSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSegment: (
+  input: GetSegmentRequest,
+) => Effect.Effect<
+  GetSegmentResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSegmentRequest,
   output: GetSegmentResponse,
   errors: [
@@ -2635,7 +2920,16 @@ export const getSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Displays the tags associated with an Evidently resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -2660,7 +2954,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Tagging Amazon Web Services resources.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -2668,7 +2971,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Evidently feature.
  */
-export const deleteFeature = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFeature: (
+  input: DeleteFeatureRequest,
+) => Effect.Effect<
+  DeleteFeatureResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFeatureRequest,
   output: DeleteFeatureResponse,
   errors: [
@@ -2684,7 +2998,18 @@ export const deleteFeature = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To stop a launch without deleting it, use StopLaunch.
  */
-export const deleteLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLaunch: (
+  input: DeleteLaunchRequest,
+) => Effect.Effect<
+  DeleteLaunchResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLaunchRequest,
   output: DeleteLaunchResponse,
   errors: [
@@ -2699,7 +3024,18 @@ export const deleteLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes a segment. You can't delete a segment that is being used in a launch or experiment, even if that
  * launch or experiment is not currently running.
  */
-export const deleteSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSegment: (
+  input: DeleteSegmentRequest,
+) => Effect.Effect<
+  DeleteSegmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSegmentRequest,
   output: DeleteSegmentResponse,
   errors: [
@@ -2713,24 +3049,62 @@ export const deleteSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of audience segments that you have created in your account in this Region.
  */
-export const listSegments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSegments: {
+  (
     input: ListSegmentsRequest,
-    output: ListSegmentsResponse,
-    errors: [AccessDeniedException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "segments",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSegmentsResponse,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSegmentsRequest,
+  ) => Stream.Stream<
+    ListSegmentsResponse,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSegmentsRequest,
+  ) => Stream.Stream<
+    Segment,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSegmentsRequest,
+  output: ListSegmentsResponse,
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "segments",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Use this operation to test a rules pattern that you plan to use to create an audience segment.
  * For more information about segments, see CreateSegment.
  */
-export const testSegmentPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testSegmentPattern: (
+  input: TestSegmentPatternRequest,
+) => Effect.Effect<
+  TestSegmentPatternResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestSegmentPatternRequest,
   output: TestSegmentPatternResponse,
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
@@ -2739,19 +3113,48 @@ export const testSegmentPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns configuration details about all the projects in the current Region in your
  * account.
  */
-export const listProjects = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProjects: {
+  (
     input: ListProjectsRequest,
-    output: ListProjectsResponse,
-    errors: [AccessDeniedException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "projects",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProjectsResponse,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProjectsRequest,
+  ) => Stream.Stream<
+    ListProjectsResponse,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProjectsRequest,
+  ) => Stream.Stream<
+    ProjectSummary,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsRequest,
+  output: ListProjectsResponse,
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "projects",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the results of a running or completed experiment. No results are available until
  * there have been 100 events for each variation and at least 10 minutes have passed since the start of the experiment.
@@ -2763,47 +3166,98 @@ export const listProjects = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * results are available up to 63 days after the start of the experiment. They are not available after that because
  * of CloudWatch data retention policies.
  */
-export const getExperimentResults = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetExperimentResultsRequest,
-    output: GetExperimentResultsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getExperimentResults: (
+  input: GetExperimentResultsRequest,
+) => Effect.Effect<
+  GetExperimentResultsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetExperimentResultsRequest,
+  output: GetExperimentResultsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns configuration details about all the features in the specified project.
  */
-export const listFeatures = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFeatures: {
+  (
     input: ListFeaturesRequest,
-    output: ListFeaturesResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "features",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFeaturesResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFeaturesRequest,
+  ) => Stream.Stream<
+    ListFeaturesResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFeaturesRequest,
+  ) => Stream.Stream<
+    FeatureSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFeaturesRequest,
+  output: ListFeaturesResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "features",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a project, which is the logical object in Evidently that can contain features, launches, and
  * experiments. Use projects to group similar features together.
  *
  * To update an existing project, use UpdateProject.
  */
-export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProject: (
+  input: CreateProjectRequest,
+) => Effect.Effect<
+  CreateProjectResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectRequest,
   output: CreateProjectResponse,
   errors: [
@@ -2834,23 +3288,41 @@ export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If the user is not assigned to a launch or experiment, they are served the default variation.
  */
-export const batchEvaluateFeature = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchEvaluateFeatureRequest,
-    output: BatchEvaluateFeatureResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchEvaluateFeature: (
+  input: BatchEvaluateFeatureRequest,
+) => Effect.Effect<
+  BatchEvaluateFeatureResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchEvaluateFeatureRequest,
+  output: BatchEvaluateFeatureResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Sends performance events to Evidently. These events can be used to evaluate a launch or
  * an experiment.
  */
-export const putProjectEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putProjectEvents: (
+  input: PutProjectEventsRequest,
+) => Effect.Effect<
+  PutProjectEventsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutProjectEventsRequest,
   output: PutProjectEventsResponse,
   errors: [
@@ -2875,7 +3347,18 @@ export const putProjectEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Don't use this operation to update an existing experiment. Instead, use
  * UpdateExperiment.
  */
-export const createExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createExperiment: (
+  input: CreateExperimentRequest,
+) => Effect.Effect<
+  CreateExperimentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExperimentRequest,
   output: CreateExperimentResponse,
   errors: [
@@ -2894,7 +3377,18 @@ export const createExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Don't use this operation to update an existing feature. Instead, use
  * UpdateFeature.
  */
-export const createFeature = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFeature: (
+  input: CreateFeatureRequest,
+) => Effect.Effect<
+  CreateFeatureResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFeatureRequest,
   output: CreateFeatureResponse,
   errors: [
@@ -2909,7 +3403,17 @@ export const createFeature = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns the details about one feature. You must already know the feature name. To
  * retrieve a list of features in your account, use ListFeatures.
  */
-export const getFeature = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFeature: (
+  input: GetFeatureRequest,
+) => Effect.Effect<
+  GetFeatureResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFeatureRequest,
   output: GetFeatureResponse,
   errors: [
@@ -2927,19 +3431,28 @@ export const getFeature = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can't specify both `cloudWatchLogs` and `s3Destination` in the same operation.
  */
-export const updateProjectDataDelivery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateProjectDataDeliveryRequest,
-    output: UpdateProjectDataDeliveryResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateProjectDataDelivery: (
+  input: UpdateProjectDataDeliveryRequest,
+) => Effect.Effect<
+  UpdateProjectDataDeliveryResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProjectDataDeliveryRequest,
+  output: UpdateProjectDataDeliveryResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Use this operation to define a *segment* of your audience. A segment
  * is a portion of your audience that share one or more characteristics. Examples could be Chrome browser users,
@@ -2958,7 +3471,17 @@ export const updateProjectDataDelivery = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * is passed into Evidently in the EvaluateFeature operation,
  * when Evidently assigns a feature variation to a user.
  */
-export const createSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSegment: (
+  input: CreateSegmentRequest,
+) => Effect.Effect<
+  CreateSegmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSegmentRequest,
   output: CreateSegmentResponse,
   errors: [
@@ -2979,7 +3502,18 @@ export const createSegment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Don't use this operation to update the tags of a project. Instead, use
  * TagResource.
  */
-export const updateProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProject: (
+  input: UpdateProjectRequest,
+) => Effect.Effect<
+  UpdateProjectResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProjectRequest,
   output: UpdateProjectResponse,
   errors: [
@@ -2994,7 +3528,19 @@ export const updateProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Starts an existing experiment. To create an experiment,
  * use CreateExperiment.
  */
-export const startExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startExperiment: (
+  input: StartExperimentRequest,
+) => Effect.Effect<
+  StartExperimentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartExperimentRequest,
   output: StartExperimentResponse,
   errors: [
@@ -3010,7 +3556,19 @@ export const startExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Stops an experiment that is currently running. If you stop an experiment, you can't
  * resume it or restart it.
  */
-export const stopExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopExperiment: (
+  input: StopExperimentRequest,
+) => Effect.Effect<
+  StopExperimentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopExperimentRequest,
   output: StopExperimentResponse,
   errors: [
@@ -3028,7 +3586,18 @@ export const stopExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can't use this operation to update the tags of an existing feature. Instead, use
  * TagResource.
  */
-export const updateFeature = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFeature: (
+  input: UpdateFeatureRequest,
+) => Effect.Effect<
+  UpdateFeatureResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFeatureRequest,
   output: UpdateFeatureResponse,
   errors: [
@@ -3043,7 +3612,19 @@ export const updateFeature = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Starts an existing launch. To create a launch,
  * use CreateLaunch.
  */
-export const startLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startLaunch: (
+  input: StartLaunchRequest,
+) => Effect.Effect<
+  StartLaunchResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartLaunchRequest,
   output: StartLaunchResponse,
   errors: [
@@ -3060,7 +3641,19 @@ export const startLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To stop an experiment without deleting it, use StopExperiment.
  */
-export const deleteExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteExperiment: (
+  input: DeleteExperimentRequest,
+) => Effect.Effect<
+  DeleteExperimentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExperimentRequest,
   output: DeleteExperimentResponse,
   errors: [

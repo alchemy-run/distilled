@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "IotDeviceAdvisor",
   serviceShapeName: "IotSenateService",
@@ -240,6 +248,30 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ClientToken = string;
+export type UUID = string;
+export type AmazonResourceName = string;
+export type SuiteDefinitionVersion = string;
+export type MaxResults = number;
+export type Token = string;
+export type String128 = string;
+export type SuiteDefinitionName = string;
+export type RootGroup = string;
+export type String256 = string;
+export type Message = string;
+export type Endpoint = string;
+export type ErrorReason = string;
+export type QualificationReportDownloadUrl = string;
+export type SuiteRunResultCount = number;
+export type GroupName = string;
+export type TestCaseDefinitionName = string;
+export type LogUrl = string;
+export type Warnings = string;
+export type Failure = string;
+export type TestCaseScenarioId = string;
+export type SystemMessage = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -926,7 +958,9 @@ export const GetSuiteRunResponse = S.suspend(() =>
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },
@@ -946,17 +980,30 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
  *
  * Requires permission to access the DeleteSuiteDefinition action.
  */
-export const deleteSuiteDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSuiteDefinitionRequest,
-    output: DeleteSuiteDefinitionResponse,
-    errors: [InternalServerException, ValidationException],
-  }),
-);
+export const deleteSuiteDefinition: (
+  input: DeleteSuiteDefinitionRequest,
+) => Effect.Effect<
+  DeleteSuiteDefinitionResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSuiteDefinitionRequest,
+  output: DeleteSuiteDefinitionResponse,
+  errors: [InternalServerException, ValidationException],
+}));
 /**
  * Gets information about an Device Advisor endpoint.
  */
-export const getEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEndpoint: (
+  input: GetEndpointRequest,
+) => Effect.Effect<
+  GetEndpointResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEndpointRequest,
   output: GetEndpointResponse,
   errors: [
@@ -970,53 +1017,107 @@ export const getEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the ListSuiteDefinitions action.
  */
-export const listSuiteDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSuiteDefinitions: {
+  (
     input: ListSuiteDefinitionsRequest,
-    output: ListSuiteDefinitionsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSuiteDefinitionsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSuiteDefinitionsRequest,
+  ) => Stream.Stream<
+    ListSuiteDefinitionsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSuiteDefinitionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSuiteDefinitionsRequest,
+  output: ListSuiteDefinitionsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists runs of the specified Device Advisor test suite. You can list all runs of the test
  * suite, or the runs of a specific version of the test suite.
  *
  * Requires permission to access the ListSuiteRuns action.
  */
-export const listSuiteRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSuiteRuns: {
+  (
     input: ListSuiteRunsRequest,
-    output: ListSuiteRunsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSuiteRunsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSuiteRunsRequest,
+  ) => Stream.Stream<
+    ListSuiteRunsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSuiteRunsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSuiteRunsRequest,
+  output: ListSuiteRunsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates a Device Advisor test suite.
  *
  * Requires permission to access the UpdateSuiteDefinition action.
  */
-export const updateSuiteDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSuiteDefinitionRequest,
-    output: UpdateSuiteDefinitionResponse,
-    errors: [InternalServerException, ValidationException],
-  }),
-);
+export const updateSuiteDefinition: (
+  input: UpdateSuiteDefinitionRequest,
+) => Effect.Effect<
+  UpdateSuiteDefinitionResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSuiteDefinitionRequest,
+  output: UpdateSuiteDefinitionResponse,
+  errors: [InternalServerException, ValidationException],
+}));
 /**
  * Gets information about a Device Advisor test suite.
  *
  * Requires permission to access the GetSuiteDefinition action.
  */
-export const getSuiteDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSuiteDefinition: (
+  input: GetSuiteDefinitionRequest,
+) => Effect.Effect<
+  GetSuiteDefinitionResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSuiteDefinitionRequest,
   output: GetSuiteDefinitionResponse,
   errors: [
@@ -1030,7 +1131,16 @@ export const getSuiteDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetSuiteRunReport action.
  */
-export const getSuiteRunReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSuiteRunReport: (
+  input: GetSuiteRunReportRequest,
+) => Effect.Effect<
+  GetSuiteRunReportResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSuiteRunReportRequest,
   output: GetSuiteRunReportResponse,
   errors: [
@@ -1044,7 +1154,16 @@ export const getSuiteRunReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the ListTagsForResource action.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1058,7 +1177,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the StopSuiteRun action.
  */
-export const stopSuiteRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopSuiteRun: (
+  input: StopSuiteRunRequest,
+) => Effect.Effect<
+  StopSuiteRunResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopSuiteRunRequest,
   output: StopSuiteRunResponse,
   errors: [
@@ -1072,7 +1200,16 @@ export const stopSuiteRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the TagResource action.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1086,7 +1223,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the UntagResource action.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1100,19 +1246,32 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CreateSuiteDefinition action.
  */
-export const createSuiteDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSuiteDefinitionRequest,
-    output: CreateSuiteDefinitionResponse,
-    errors: [InternalServerException, ValidationException],
-  }),
-);
+export const createSuiteDefinition: (
+  input: CreateSuiteDefinitionRequest,
+) => Effect.Effect<
+  CreateSuiteDefinitionResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSuiteDefinitionRequest,
+  output: CreateSuiteDefinitionResponse,
+  errors: [InternalServerException, ValidationException],
+}));
 /**
  * Starts a Device Advisor test suite run.
  *
  * Requires permission to access the StartSuiteRun action.
  */
-export const startSuiteRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startSuiteRun: (
+  input: StartSuiteRunRequest,
+) => Effect.Effect<
+  StartSuiteRunResponse,
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSuiteRunRequest,
   output: StartSuiteRunResponse,
   errors: [ConflictException, InternalServerException, ValidationException],
@@ -1122,7 +1281,16 @@ export const startSuiteRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetSuiteRun action.
  */
-export const getSuiteRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSuiteRun: (
+  input: GetSuiteRunRequest,
+) => Effect.Effect<
+  GetSuiteRunResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSuiteRunRequest,
   output: GetSuiteRunResponse,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "PartnerCentral Benefits",
   serviceShapeName: "PartnerCentralBenefitsService",
@@ -104,6 +112,30 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type CatalogName = string;
+export type BenefitApplicationIdentifier = string;
+export type Arn = string;
+export type BenefitApplicationName = string;
+export type BenefitApplicationDescription = string;
+export type BenefitAllocationIdentifier = string;
+export type BenefitId = string;
+export type Program = string;
+export type BenefitApplicationStage = string;
+export type TaggableResourceArn = string;
+export type TagKey = string;
+export type TagValue = string;
+export type ContactEmail = string;
+export type ContactFirstName = string;
+export type ContactLastName = string;
+export type ContactPhone = string;
+export type FileURI = string;
+export type BenefitApplicationId = string;
+export type BenefitAllocationId = string;
+export type BenefitAllocationArn = string;
+export type StatusReasonCode = string;
+export type BenefitAllocationName = string;
 
 //# Schemas
 export type FulfillmentTypes = string[];
@@ -988,6 +1020,11 @@ export const CreditDetails = S.suspend(() =>
 }) as any as S.Schema<CreditDetails>;
 export type Attributes = { [key: string]: string };
 export const Attributes = S.Record({ key: S.String, value: S.String });
+export type FulfillmentDetails =
+  | { DisbursementDetails: DisbursementDetails }
+  | { ConsumableDetails: ConsumableDetails }
+  | { CreditDetails: CreditDetails }
+  | { AccessDetails: AccessDetails };
 export const FulfillmentDetails = S.Union(
   S.Struct({ DisbursementDetails: DisbursementDetails }),
   S.Struct({ ConsumableDetails: ConsumableDetails }),
@@ -1107,7 +1144,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String },
@@ -1115,7 +1154,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -1139,7 +1180,18 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Retrieves detailed information about a specific benefit available in the partner catalog.
  */
-export const getBenefit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBenefit: (
+  input: GetBenefitInput,
+) => Effect.Effect<
+  GetBenefitOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBenefitInput,
   output: GetBenefitOutput,
   errors: [
@@ -1153,44 +1205,102 @@ export const getBenefit = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a specific benefit allocation that has been granted to a partner.
  */
-export const getBenefitAllocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBenefitAllocationInput,
-    output: GetBenefitAllocationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getBenefitAllocation: (
+  input: GetBenefitAllocationInput,
+) => Effect.Effect<
+  GetBenefitAllocationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBenefitAllocationInput,
+  output: GetBenefitAllocationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a paginated list of benefit applications based on specified filter criteria.
  */
-export const listBenefitApplications =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBenefitApplications: {
+  (
     input: ListBenefitApplicationsInput,
-    output: ListBenefitApplicationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "BenefitApplicationSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBenefitApplicationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBenefitApplicationsInput,
+  ) => Stream.Stream<
+    ListBenefitApplicationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBenefitApplicationsInput,
+  ) => Stream.Stream<
+    BenefitApplicationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBenefitApplicationsInput,
+  output: ListBenefitApplicationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BenefitApplicationSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Adds or updates tags for a specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1206,167 +1316,321 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a specific benefit application.
  */
-export const getBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBenefitApplicationInput,
-    output: GetBenefitApplicationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getBenefitApplication: (
+  input: GetBenefitApplicationInput,
+) => Effect.Effect<
+  GetBenefitApplicationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBenefitApplicationInput,
+  output: GetBenefitApplicationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a paginated list of benefit allocations based on specified filter criteria.
  */
-export const listBenefitAllocations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBenefitAllocations: {
+  (
     input: ListBenefitAllocationsInput,
-    output: ListBenefitAllocationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "BenefitAllocationSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBenefitAllocationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBenefitAllocationsInput,
+  ) => Stream.Stream<
+    ListBenefitAllocationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBenefitAllocationsInput,
+  ) => Stream.Stream<
+    BenefitAllocationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBenefitAllocationsInput,
+  output: ListBenefitAllocationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BenefitAllocationSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a paginated list of available benefits based on specified filter criteria.
  */
-export const listBenefits = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBenefits: {
+  (
     input: ListBenefitsInput,
-    output: ListBenefitsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "BenefitSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBenefitsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBenefitsInput,
+  ) => Stream.Stream<
+    ListBenefitsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBenefitsInput,
+  ) => Stream.Stream<
+    BenefitSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBenefitsInput,
+  output: ListBenefitsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BenefitSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Removes the association between an AWS resource and a benefit application.
  */
-export const disassociateBenefitApplicationResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateBenefitApplicationResourceInput,
-    output: DisassociateBenefitApplicationResourceOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateBenefitApplicationResource: (
+  input: DisassociateBenefitApplicationResourceInput,
+) => Effect.Effect<
+  DisassociateBenefitApplicationResourceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateBenefitApplicationResourceInput,
+  output: DisassociateBenefitApplicationResourceOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an existing benefit application with new information while maintaining revision control.
  */
-export const updateBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateBenefitApplicationInput,
-    output: UpdateBenefitApplicationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateBenefitApplication: (
+  input: UpdateBenefitApplicationInput,
+) => Effect.Effect<
+  UpdateBenefitApplicationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBenefitApplicationInput,
+  output: UpdateBenefitApplicationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Recalls a submitted benefit application, returning it to draft status for further modifications.
  */
-export const recallBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RecallBenefitApplicationInput,
-    output: RecallBenefitApplicationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const recallBenefitApplication: (
+  input: RecallBenefitApplicationInput,
+) => Effect.Effect<
+  RecallBenefitApplicationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RecallBenefitApplicationInput,
+  output: RecallBenefitApplicationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Submits a benefit application for review and processing by AWS.
  */
-export const submitBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SubmitBenefitApplicationInput,
-    output: SubmitBenefitApplicationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const submitBenefitApplication: (
+  input: SubmitBenefitApplicationInput,
+) => Effect.Effect<
+  SubmitBenefitApplicationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SubmitBenefitApplicationInput,
+  output: SubmitBenefitApplicationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Modifies an existing benefit application by applying amendments to specific fields while maintaining revision control.
  */
-export const amendBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AmendBenefitApplicationInput,
-    output: AmendBenefitApplicationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const amendBenefitApplication: (
+  input: AmendBenefitApplicationInput,
+) => Effect.Effect<
+  AmendBenefitApplicationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AmendBenefitApplicationInput,
+  output: AmendBenefitApplicationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Links an AWS resource to an existing benefit application for tracking and management purposes.
  */
-export const associateBenefitApplicationResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateBenefitApplicationResourceInput,
-    output: AssociateBenefitApplicationResourceOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const associateBenefitApplicationResource: (
+  input: AssociateBenefitApplicationResourceInput,
+) => Effect.Effect<
+  AssociateBenefitApplicationResourceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateBenefitApplicationResourceInput,
+  output: AssociateBenefitApplicationResourceOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves all tags associated with a specific resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1380,41 +1644,74 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels a benefit application that is currently in progress, preventing further processing.
  */
-export const cancelBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelBenefitApplicationInput,
-    output: CancelBenefitApplicationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelBenefitApplication: (
+  input: CancelBenefitApplicationInput,
+) => Effect.Effect<
+  CancelBenefitApplicationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelBenefitApplicationInput,
+  output: CancelBenefitApplicationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new benefit application for a partner to request access to AWS benefits and programs.
  */
-export const createBenefitApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBenefitApplicationInput,
-    output: CreateBenefitApplicationOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createBenefitApplication: (
+  input: CreateBenefitApplicationInput,
+) => Effect.Effect<
+  CreateBenefitApplicationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBenefitApplicationInput,
+  output: CreateBenefitApplicationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes specified tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [

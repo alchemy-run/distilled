@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Geo Maps",
   serviceShapeName: "MapsService",
@@ -474,6 +482,33 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type MapStyle = string;
+export type ColorScheme = string;
+export type Variant = string;
+export type PositionListString = string;
+export type PositionString = string;
+export type CompactOverlay = string;
+export type GeoJsonOverlay = string;
+export type SensitiveInteger = number;
+export type ApiKey = string;
+export type LabelSize = string;
+export type LanguageTag = string;
+export type CountryCode = string;
+export type MapFeatureMode = string;
+export type DistanceMeters = number;
+export type ScaleBarUnit = string;
+export type StaticMapStyle = string;
+export type SensitiveFloat = number;
+export type Terrain = string;
+export type ContourDensity = string;
+export type Traffic = string;
+export type TravelMode = string;
+export type TileAdditionalFeature = string;
+export type Tileset = string;
+export type SensitiveString = string;
+export type ValidationExceptionReason = string;
+
 //# Schemas
 export type TravelModeList = string[];
 export const TravelModeList = S.Array(S.String);
@@ -759,12 +794,16 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { Message: S.String.pipe(T.JsonName("message")) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String.pipe(T.JsonName("message")) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String.pipe(T.JsonName("message")) },
@@ -784,7 +823,13 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  *
  * For more information, see Style labels with glyphs in the *Amazon Location Service Developer Guide*.
  */
-export const getGlyphs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGlyphs: (
+  input: GetGlyphsRequest,
+) => Effect.Effect<
+  GetGlyphsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGlyphsRequest,
   output: GetGlyphsResponse,
   errors: [],
@@ -794,7 +839,13 @@ export const getGlyphs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Style iconography with sprites in the *Amazon Location Service Developer Guide*.
  */
-export const getSprites = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSprites: (
+  input: GetSpritesRequest,
+) => Effect.Effect<
+  GetSpritesResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpritesRequest,
   output: GetSpritesResponse,
   errors: [],
@@ -804,7 +855,13 @@ export const getSprites = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Style dynamic maps in the *Amazon Location Service Developer Guide*.
  */
-export const getStyleDescriptor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStyleDescriptor: (
+  input: GetStyleDescriptorRequest,
+) => Effect.Effect<
+  GetStyleDescriptorResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStyleDescriptorRequest,
   output: GetStyleDescriptorResponse,
   errors: [],
@@ -820,7 +877,17 @@ export const getStyleDescriptor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Overlay on the static map
  */
-export const getStaticMap = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStaticMap: (
+  input: GetStaticMapRequest,
+) => Effect.Effect<
+  GetStaticMapResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStaticMapRequest,
   output: GetStaticMapResponse,
   errors: [
@@ -835,7 +902,18 @@ export const getStaticMap = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Tiles in the *Amazon Location Service Developer Guide*.
  */
-export const getTile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTile: (
+  input: GetTileRequest,
+) => Effect.Effect<
+  GetTileResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTileRequest,
   output: GetTileResponse,
   errors: [

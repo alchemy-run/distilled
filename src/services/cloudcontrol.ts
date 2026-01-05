@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "CloudControl",
   serviceShapeName: "CloudApiService",
@@ -240,6 +248,28 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type RequestToken = string;
+export type TypeName = string;
+export type TypeVersionId = string;
+export type RoleArn = string;
+export type ClientToken = string;
+export type Properties = string;
+export type Identifier = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type HandlerNextToken = string;
+export type PatchDocument = string;
+export type Operation = string;
+export type OperationStatus = string;
+export type StatusMessage = string;
+export type HandlerErrorCode = string;
+export type HookTypeArn = string;
+export type HookInvocationPoint = string;
+export type HookStatus = string;
+export type HookFailureMode = string;
+export type ErrorMessage = string;
 
 //# Schemas
 export interface CancelResourceRequestInput {
@@ -564,7 +594,9 @@ export class ConcurrentModificationException extends S.TaggedError<ConcurrentMod
     code: "ConcurrentModificationException",
     httpResponseCode: 500,
   }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ClientTokenConflictException extends S.TaggedError<ClientTokenConflictException>()(
   "ClientTokenConflictException",
   { Message: S.optional(S.String) },
@@ -598,7 +630,9 @@ export class HandlerFailureException extends S.TaggedError<HandlerFailureExcepti
   "HandlerFailureException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "HandlerFailureException", httpResponseCode: 502 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class HandlerInternalFailureException extends S.TaggedError<HandlerInternalFailureException>()(
   "HandlerInternalFailureException",
   { Message: S.optional(S.String) },
@@ -606,7 +640,9 @@ export class HandlerInternalFailureException extends S.TaggedError<HandlerIntern
     code: "HandlerInternalFailureException",
     httpResponseCode: 502,
   }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidCredentialsException extends S.TaggedError<InvalidCredentialsException>()(
   "InvalidCredentialsException",
   { Message: S.optional(S.String) },
@@ -624,7 +660,9 @@ export class NetworkFailureException extends S.TaggedError<NetworkFailureExcepti
   "NetworkFailureException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "NetworkFailureException", httpResponseCode: 502 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class NotStabilizedException extends S.TaggedError<NotStabilizedException>()(
   "NotStabilizedException",
   { Message: S.optional(S.String) },
@@ -657,7 +695,9 @@ export class ServiceInternalErrorException extends S.TaggedError<ServiceInternal
     code: "ServiceInternalErrorException",
     httpResponseCode: 502,
   }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExceededException>()(
   "ServiceLimitExceededException",
   { Message: S.optional(S.String) },
@@ -670,7 +710,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class TypeNotFoundException extends S.TaggedError<TypeNotFoundException>()(
   "TypeNotFoundException",
   { Message: S.optional(S.String) },
@@ -693,30 +735,55 @@ export class UnsupportedActionException extends S.TaggedError<UnsupportedActionE
  *
  * Resource operation requests expire after 7 days.
  */
-export const listResourceRequests =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourceRequests: {
+  (
     input: ListResourceRequestsInput,
-    output: ListResourceRequestsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ResourceRequestStatusSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourceRequestsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceRequestsInput,
+  ) => Stream.Stream<
+    ListResourceRequestsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceRequestsInput,
+  ) => Stream.Stream<
+    ProgressEvent,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceRequestsInput,
+  output: ListResourceRequestsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourceRequestStatusSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the current status of a resource operation request. For more information, see
  * Tracking the progress of resource operation requests in the
  * *Amazon Web Services Cloud Control API User Guide*.
  */
-export const getResourceRequestStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResourceRequestStatusInput,
-    output: GetResourceRequestStatusOutput,
-    errors: [RequestTokenNotFoundException],
-  }),
-);
+export const getResourceRequestStatus: (
+  input: GetResourceRequestStatusInput,
+) => Effect.Effect<
+  GetResourceRequestStatusOutput,
+  RequestTokenNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceRequestStatusInput,
+  output: GetResourceRequestStatusOutput,
+  errors: [RequestTokenNotFoundException],
+}));
 /**
  * Cancels the specified resource operation request. For more information, see Canceling resource operation requests in the
  * *Amazon Web Services Cloud Control API User Guide*.
@@ -724,13 +791,19 @@ export const getResourceRequestStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Only resource operations requests with a status of `PENDING` or
  * `IN_PROGRESS` can be canceled.
  */
-export const cancelResourceRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelResourceRequestInput,
-    output: CancelResourceRequestOutput,
-    errors: [ConcurrentModificationException, RequestTokenNotFoundException],
-  }),
-);
+export const cancelResourceRequest: (
+  input: CancelResourceRequestInput,
+) => Effect.Effect<
+  CancelResourceRequestOutput,
+  | ConcurrentModificationException
+  | RequestTokenNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelResourceRequestInput,
+  output: CancelResourceRequestOutput,
+  errors: [ConcurrentModificationException, RequestTokenNotFoundException],
+}));
 /**
  * Returns information about the current state of the specified resource. For details, see
  * Reading a resource's current state.
@@ -738,7 +811,30 @@ export const cancelResourceRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can use this action to return information about an existing resource in your account
  * and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
  */
-export const getResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResource: (
+  input: GetResourceInput,
+) => Effect.Effect<
+  GetResourceOutput,
+  | AlreadyExistsException
+  | GeneralServiceException
+  | HandlerFailureException
+  | HandlerInternalFailureException
+  | InvalidCredentialsException
+  | InvalidRequestException
+  | NetworkFailureException
+  | NotStabilizedException
+  | NotUpdatableException
+  | PrivateTypeException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceInternalErrorException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | TypeNotFoundException
+  | UnsupportedActionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceInput,
   output: GetResourceOutput,
   errors: [
@@ -769,7 +865,32 @@ export const getResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * request by calling GetResourceRequestStatus using the `RequestToken` of the
  * `ProgressEvent` returned by `DeleteResource`.
  */
-export const deleteResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteResource: (
+  input: DeleteResourceInput,
+) => Effect.Effect<
+  DeleteResourceOutput,
+  | AlreadyExistsException
+  | ClientTokenConflictException
+  | ConcurrentOperationException
+  | GeneralServiceException
+  | HandlerFailureException
+  | HandlerInternalFailureException
+  | InvalidCredentialsException
+  | InvalidRequestException
+  | NetworkFailureException
+  | NotStabilizedException
+  | NotUpdatableException
+  | PrivateTypeException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceInternalErrorException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | TypeNotFoundException
+  | UnsupportedActionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourceInput,
   output: DeleteResourceOutput,
   errors: [
@@ -812,7 +933,32 @@ export const deleteResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about the properties of a specific resource, refer to the related
  * topic for the resource in the Resource and property types reference in the *CloudFormation Users Guide*.
  */
-export const updateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateResource: (
+  input: UpdateResourceInput,
+) => Effect.Effect<
+  UpdateResourceOutput,
+  | AlreadyExistsException
+  | ClientTokenConflictException
+  | ConcurrentOperationException
+  | GeneralServiceException
+  | HandlerFailureException
+  | HandlerInternalFailureException
+  | InvalidCredentialsException
+  | InvalidRequestException
+  | NetworkFailureException
+  | NotStabilizedException
+  | NotUpdatableException
+  | PrivateTypeException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceInternalErrorException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | TypeNotFoundException
+  | UnsupportedActionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResourceInput,
   output: UpdateResourceOutput,
   errors: [
@@ -843,37 +989,108 @@ export const updateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can use this action to return information about existing resources in your account and
  * Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
  */
-export const listResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listResources: {
+  (
     input: ListResourcesInput,
-    output: ListResourcesOutput,
-    errors: [
-      AlreadyExistsException,
-      GeneralServiceException,
-      HandlerFailureException,
-      HandlerInternalFailureException,
-      InvalidCredentialsException,
-      InvalidRequestException,
-      NetworkFailureException,
-      NotStabilizedException,
-      NotUpdatableException,
-      PrivateTypeException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ServiceInternalErrorException,
-      ServiceLimitExceededException,
-      ThrottlingException,
-      TypeNotFoundException,
-      UnsupportedActionException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ResourceDescriptions",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListResourcesOutput,
+    | AlreadyExistsException
+    | GeneralServiceException
+    | HandlerFailureException
+    | HandlerInternalFailureException
+    | InvalidCredentialsException
+    | InvalidRequestException
+    | NetworkFailureException
+    | NotStabilizedException
+    | NotUpdatableException
+    | PrivateTypeException
+    | ResourceConflictException
+    | ResourceNotFoundException
+    | ServiceInternalErrorException
+    | ServiceLimitExceededException
+    | ThrottlingException
+    | TypeNotFoundException
+    | UnsupportedActionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourcesInput,
+  ) => Stream.Stream<
+    ListResourcesOutput,
+    | AlreadyExistsException
+    | GeneralServiceException
+    | HandlerFailureException
+    | HandlerInternalFailureException
+    | InvalidCredentialsException
+    | InvalidRequestException
+    | NetworkFailureException
+    | NotStabilizedException
+    | NotUpdatableException
+    | PrivateTypeException
+    | ResourceConflictException
+    | ResourceNotFoundException
+    | ServiceInternalErrorException
+    | ServiceLimitExceededException
+    | ThrottlingException
+    | TypeNotFoundException
+    | UnsupportedActionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourcesInput,
+  ) => Stream.Stream<
+    ResourceDescription,
+    | AlreadyExistsException
+    | GeneralServiceException
+    | HandlerFailureException
+    | HandlerInternalFailureException
+    | InvalidCredentialsException
+    | InvalidRequestException
+    | NetworkFailureException
+    | NotStabilizedException
+    | NotUpdatableException
+    | PrivateTypeException
+    | ResourceConflictException
+    | ResourceNotFoundException
+    | ServiceInternalErrorException
+    | ServiceLimitExceededException
+    | ThrottlingException
+    | TypeNotFoundException
+    | UnsupportedActionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourcesInput,
+  output: ListResourcesOutput,
+  errors: [
+    AlreadyExistsException,
+    GeneralServiceException,
+    HandlerFailureException,
+    HandlerInternalFailureException,
+    InvalidCredentialsException,
+    InvalidRequestException,
+    NetworkFailureException,
+    NotStabilizedException,
+    NotUpdatableException,
+    PrivateTypeException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceInternalErrorException,
+    ServiceLimitExceededException,
+    ThrottlingException,
+    TypeNotFoundException,
+    UnsupportedActionException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourceDescriptions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates the specified resource. For more information, see Creating a
  * resource in the *Amazon Web Services Cloud Control API User Guide*.
@@ -882,7 +1099,32 @@ export const listResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * request by calling GetResourceRequestStatus using the `RequestToken` of the
  * `ProgressEvent` type returned by `CreateResource`.
  */
-export const createResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createResource: (
+  input: CreateResourceInput,
+) => Effect.Effect<
+  CreateResourceOutput,
+  | AlreadyExistsException
+  | ClientTokenConflictException
+  | ConcurrentOperationException
+  | GeneralServiceException
+  | HandlerFailureException
+  | HandlerInternalFailureException
+  | InvalidCredentialsException
+  | InvalidRequestException
+  | NetworkFailureException
+  | NotStabilizedException
+  | NotUpdatableException
+  | PrivateTypeException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceInternalErrorException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | TypeNotFoundException
+  | UnsupportedActionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceInput,
   output: CreateResourceOutput,
   errors: [

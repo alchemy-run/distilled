@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Customer Profiles",
   serviceShapeName: "CustomerProfiles_20200815",
@@ -240,6 +248,89 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type uuid = string;
+export type name = string;
+export type string1To255 = string;
+export type typeName = string;
+export type displayName = string;
+export type sensitiveText = string;
+export type expirationDaysInteger = number;
+export type encryptionKey = string;
+export type sqsQueueUrl = string;
+export type sensitiveString1To2000000 = string;
+export type RoleArn = string;
+export type sensitiveString1To255 = string;
+export type sensitiveString1To1000 = string;
+export type sensitiveString1To4000 = string;
+export type sensitiveString1To50000 = string;
+export type text = string;
+export type stringifiedJson = string;
+export type Double0To1 = number;
+export type token = string;
+export type maxSize100 = number;
+export type string1To1000 = string;
+export type MaxSize10 = number;
+export type GetRecommenderRequestTrainingMetricsCountInteger = number;
+export type ListRecommenderRecipesRequestMaxResultsInteger = number;
+export type ListRecommendersRequestMaxResultsInteger = number;
+export type MaxSize500 = number;
+export type TagArn = string;
+export type sensitiveString1To10000 = string;
+export type minSize1 = number;
+export type TagKey = string;
+export type sensitiveString0To1000 = string;
+export type sensitiveString0To255 = string;
+export type ObjectCount = number;
+export type TagValue = string;
+export type MaxAllowedRuleLevelForMerging = number;
+export type MaxAllowedRuleLevelForMatching = number;
+export type optionalLong = number;
+export type RecommenderConfigTrainingFrequencyInteger = number;
+export type fieldName = string;
+export type ContextKey = string;
+export type DomainObjectTypeFieldName = string;
+export type FlowDescription = string;
+export type FlowName = string;
+export type KmsArn = string;
+export type string0To255 = string;
+export type message = string;
+export type stringTo2048 = string;
+export type matchesNumber = number;
+export type minSize0 = number;
+export type SegmentDefinitionArn = string;
+export type StatusCode = number;
+export type RuleLevel = number;
+export type Double = number;
+export type Start = number;
+export type End = number;
+export type attributeName = string;
+export type Value = number;
+export type JobScheduleTime = string;
+export type maxSize24 = number;
+export type maxSize1000 = number;
+export type ConnectorProfileName = string;
+export type DestinationField = string;
+export type percentageInteger = number;
+export type long = number;
+export type ProfileId = string;
+export type GetSegmentMembershipMessage = string;
+export type GetSegmentMembershipStatus = number;
+export type ValueRangeStart = number;
+export type ValueRangeEnd = number;
+export type s3BucketName = string;
+export type s3KeyNameCustomerOutputConfig = string;
+export type EventParametersEventTypeString = string;
+export type DatetimeTypeFieldName = string;
+export type Property = string;
+export type s3KeyName = string;
+export type BucketName = string;
+export type BucketPrefix = string;
+export type ScheduleExpression = string;
+export type Timezone = string;
+export type ScheduleOffset = number;
+export type Arn = string;
 
 //# Schemas
 export type requestValueList = string[];
@@ -2870,6 +2961,9 @@ export const CalculatedCustomAttributes = S.Record({
   key: S.String,
   value: CalculatedAttributeDimension,
 });
+export type Dimension =
+  | { ProfileAttributes: ProfileAttributes }
+  | { CalculatedAttributes: CalculatedCustomAttributes };
 export const Dimension = S.Union(
   S.Struct({
     ProfileAttributes: ProfileAttributes.pipe(
@@ -6590,7 +6684,9 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -6598,7 +6694,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
@@ -6618,7 +6716,16 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
  *
  * You can associate as many as 50 tags with a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -6630,23 +6737,56 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of available recommender recipes that can be used to create recommenders.
  */
-export const listRecommenderRecipes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecommenderRecipes: {
+  (
     input: ListRecommenderRecipesRequest,
-    output: ListRecommenderRecipesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RecommenderRecipes",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecommenderRecipesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecommenderRecipesRequest,
+  ) => Stream.Stream<
+    ListRecommenderRecipesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommenderRecipesRequest,
+  ) => Stream.Stream<
+    RecommenderRecipe,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommenderRecipesRequest,
+  output: ListRecommenderRecipesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RecommenderRecipes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the properties of a profile. The ProfileId is required for updating a customer
  * profile.
@@ -6655,7 +6795,18 @@ export const listRecommenderRecipes =
  * existing value will be removed. Not specifying a string value means that any value already
  * there will be kept.
  */
-export const updateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProfile: (
+  input: UpdateProfileRequest,
+) => Effect.Effect<
+  UpdateProfileResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProfileRequest,
   output: UpdateProfileResponse,
   errors: [
@@ -6671,18 +6822,28 @@ export const updateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * that increasing the date range of a calculated attribute will not trigger inclusion of
  * historical data greater than the current date range.
  */
-export const updateCalculatedAttributeDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCalculatedAttributeDefinitionRequest,
-    output: UpdateCalculatedAttributeDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateCalculatedAttributeDefinition: (
+  input: UpdateCalculatedAttributeDefinitionRequest,
+) => Effect.Effect<
+  UpdateCalculatedAttributeDefinitionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCalculatedAttributeDefinitionRequest,
+  output: UpdateCalculatedAttributeDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the properties of a domain, including creating or selecting a dead letter queue
  * or an encryption key.
@@ -6698,7 +6859,18 @@ export const updateCalculatedAttributeDefinition =
  *
  * To add or remove tags on an existing Domain, see TagResource/UntagResource.
  */
-export const updateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDomain: (
+  input: UpdateDomainRequest,
+) => Effect.Effect<
+  UpdateDomainResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainRequest,
   output: UpdateDomainResponse,
   errors: [
@@ -6713,7 +6885,18 @@ export const updateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the layout used to view data for a specific domain. This API can only be invoked
  * from the Amazon Connect admin website.
  */
-export const updateDomainLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDomainLayout: (
+  input: UpdateDomainLayoutRequest,
+) => Effect.Effect<
+  UpdateDomainLayoutResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainLayoutRequest,
   output: UpdateDomainLayoutResponse,
   errors: [
@@ -6727,7 +6910,18 @@ export const updateDomainLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update the properties of an Event Trigger.
  */
-export const updateEventTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEventTrigger: (
+  input: UpdateEventTriggerRequest,
+) => Effect.Effect<
+  UpdateEventTriggerResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventTriggerRequest,
   output: UpdateEventTriggerResponse,
   errors: [
@@ -6741,7 +6935,18 @@ export const updateEventTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the properties of an existing recommender, allowing you to modify its configuration and description.
  */
-export const updateRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRecommender: (
+  input: UpdateRecommenderRequest,
+) => Effect.Effect<
+  UpdateRecommenderResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRecommenderRequest,
   output: UpdateRecommenderResponse,
   errors: [
@@ -6755,23 +6960,43 @@ export const updateRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete a DomainObjectType for the given Domain and ObjectType name.
  */
-export const deleteDomainObjectType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDomainObjectTypeRequest,
-    output: DeleteDomainObjectTypeResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteDomainObjectType: (
+  input: DeleteDomainObjectTypeRequest,
+) => Effect.Effect<
+  DeleteDomainObjectTypeResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDomainObjectTypeRequest,
+  output: DeleteDomainObjectTypeResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Disables and deletes the specified event stream.
  */
-export const deleteEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEventStream: (
+  input: DeleteEventStreamRequest,
+) => Effect.Effect<
+  DeleteEventStreamResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventStreamRequest,
   output: DeleteEventStreamResponse,
   errors: [
@@ -6785,7 +7010,18 @@ export const deleteEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a recommender.
  */
-export const deleteRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRecommender: (
+  input: DeleteRecommenderRequest,
+) => Effect.Effect<
+  DeleteRecommenderResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRecommenderRequest,
   output: DeleteRecommenderResponse,
   errors: [
@@ -6800,7 +7036,18 @@ export const deleteRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes the specified workflow and all its corresponding resources. This is an async
  * process.
  */
-export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkflow: (
+  input: DeleteWorkflowRequest,
+) => Effect.Effect<
+  DeleteWorkflowResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkflowRequest,
   output: DeleteWorkflowResponse,
   errors: [
@@ -6814,7 +7061,18 @@ export const deleteWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a recommender that was previously stopped. Starting a recommender resumes its ability to generate recommendations.
  */
-export const startRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startRecommender: (
+  input: StartRecommenderRequest,
+) => Effect.Effect<
+  StartRecommenderResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRecommenderRequest,
   output: StartRecommenderResponse,
   errors: [
@@ -6828,7 +7086,18 @@ export const startRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This API starts the processing of an upload job to ingest profile data.
  */
-export const startUploadJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startUploadJob: (
+  input: StartUploadJobRequest,
+) => Effect.Effect<
+  StartUploadJobResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartUploadJobRequest,
   output: StartUploadJobResponse,
   errors: [
@@ -6842,7 +7111,18 @@ export const startUploadJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a recommender, suspending its ability to generate recommendations. The recommender can be restarted later using StartRecommender.
  */
-export const stopRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopRecommender: (
+  input: StopRecommenderRequest,
+) => Effect.Effect<
+  StopRecommenderResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopRecommenderRequest,
   output: StopRecommenderResponse,
   errors: [
@@ -6856,7 +7136,18 @@ export const stopRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This API stops the processing of an upload job.
  */
-export const stopUploadJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopUploadJob: (
+  input: StopUploadJobRequest,
+) => Effect.Effect<
+  StopUploadJobResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopUploadJobRequest,
   output: StopUploadJobResponse,
   errors: [
@@ -6874,7 +7165,18 @@ export const stopUploadJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * A profile object can have a single unique key and any number of additional keys that can
  * be used to identify the profile that it belongs to.
  */
-export const addProfileKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addProfileKey: (
+  input: AddProfileKeyRequest,
+) => Effect.Effect<
+  AddProfileKeyResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddProfileKeyRequest,
   output: AddProfileKeyResponse,
   errors: [
@@ -6889,7 +7191,18 @@ export const addProfileKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates the layout to view data for a specific domain. This API can only be invoked from
  * the Amazon Connect admin website.
  */
-export const createDomainLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDomainLayout: (
+  input: CreateDomainLayoutRequest,
+) => Effect.Effect<
+  CreateDomainLayoutResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainLayoutRequest,
   output: CreateDomainLayoutResponse,
   errors: [
@@ -6907,7 +7220,18 @@ export const createDomainLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Each event stream can be associated with only one Kinesis Data Stream destination in the
  * same region and Amazon Web Services account as the customer profiles domain
  */
-export const createEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEventStream: (
+  input: CreateEventStreamRequest,
+) => Effect.Effect<
+  CreateEventStreamResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventStreamRequest,
   output: CreateEventStreamResponse,
   errors: [
@@ -6921,24 +7245,42 @@ export const createEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Triggers a job to export a segment to a specified destination.
  */
-export const createSegmentSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSegmentSnapshotRequest,
-    output: CreateSegmentSnapshotResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createSegmentSnapshot: (
+  input: CreateSegmentSnapshotRequest,
+) => Effect.Effect<
+  CreateSegmentSnapshotResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSegmentSnapshotRequest,
+  output: CreateSegmentSnapshotResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect
  * Customer Profiles, domains, profile object types, and integrations can be tagged.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -6953,23 +7295,44 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * action and will need to recreate it on your own using the
  * CreateCalculatedAttributeDefinition API if you want it back.
  */
-export const deleteCalculatedAttributeDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCalculatedAttributeDefinitionRequest,
-    output: DeleteCalculatedAttributeDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteCalculatedAttributeDefinition: (
+  input: DeleteCalculatedAttributeDefinitionRequest,
+) => Effect.Effect<
+  DeleteCalculatedAttributeDefinitionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCalculatedAttributeDefinitionRequest,
+  output: DeleteCalculatedAttributeDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a specific domain and all of its customer data, such as customer profile
  * attributes and their related objects.
  */
-export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDomain: (
+  input: DeleteDomainRequest,
+) => Effect.Effect<
+  DeleteDomainResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainRequest,
   output: DeleteDomainResponse,
   errors: [
@@ -6984,7 +7347,18 @@ export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes the layout used to view data for a specific domain. This API can only be invoked
  * from the Amazon Connect admin website.
  */
-export const deleteDomainLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDomainLayout: (
+  input: DeleteDomainLayoutRequest,
+) => Effect.Effect<
+  DeleteDomainLayoutResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainLayoutRequest,
   output: DeleteDomainLayoutResponse,
   errors: [
@@ -7000,7 +7374,18 @@ export const deleteDomainLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You cannot delete an Event Trigger with an active Integration associated.
  */
-export const deleteEventTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEventTrigger: (
+  input: DeleteEventTriggerRequest,
+) => Effect.Effect<
+  DeleteEventTriggerResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventTriggerRequest,
   output: DeleteEventTriggerResponse,
   errors: [
@@ -7014,7 +7399,18 @@ export const deleteEventTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes an integration from a specific domain.
  */
-export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIntegration: (
+  input: DeleteIntegrationRequest,
+) => Effect.Effect<
+  DeleteIntegrationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntegrationRequest,
   output: DeleteIntegrationResponse,
   errors: [
@@ -7028,7 +7424,18 @@ export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the standard customer profile and all data pertaining to the profile.
  */
-export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProfile: (
+  input: DeleteProfileRequest,
+) => Effect.Effect<
+  DeleteProfileResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProfileRequest,
   output: DeleteProfileResponse,
   errors: [
@@ -7042,7 +7449,18 @@ export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a searchable key from a customer profile.
  */
-export const deleteProfileKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProfileKey: (
+  input: DeleteProfileKeyRequest,
+) => Effect.Effect<
+  DeleteProfileKeyResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProfileKeyRequest,
   output: DeleteProfileKeyResponse,
   errors: [
@@ -7056,7 +7474,18 @@ export const deleteProfileKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes an object associated with a profile of a given ProfileObjectType.
  */
-export const deleteProfileObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProfileObject: (
+  input: DeleteProfileObjectRequest,
+) => Effect.Effect<
+  DeleteProfileObjectResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProfileObjectRequest,
   output: DeleteProfileObjectResponse,
   errors: [
@@ -7073,55 +7502,94 @@ export const deleteProfileObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * ProfileObjectType. In addition, it scrubs all of the fields of the standard profile that
  * were populated from this ProfileObjectType.
  */
-export const deleteProfileObjectType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteProfileObjectTypeRequest,
-    output: DeleteProfileObjectTypeResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteProfileObjectType: (
+  input: DeleteProfileObjectTypeRequest,
+) => Effect.Effect<
+  DeleteProfileObjectTypeResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProfileObjectTypeRequest,
+  output: DeleteProfileObjectTypeResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a segment definition from the domain.
  */
-export const deleteSegmentDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSegmentDefinitionRequest,
-    output: DeleteSegmentDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteSegmentDefinition: (
+  input: DeleteSegmentDefinitionRequest,
+) => Effect.Effect<
+  DeleteSegmentDefinitionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSegmentDefinitionRequest,
+  output: DeleteSegmentDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieve a calculated attribute for a customer profile.
  */
-export const getCalculatedAttributeForProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCalculatedAttributeForProfileRequest,
-    output: GetCalculatedAttributeForProfileResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const getCalculatedAttributeForProfile: (
+  input: GetCalculatedAttributeForProfileRequest,
+) => Effect.Effect<
+  GetCalculatedAttributeForProfileResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCalculatedAttributeForProfileRequest,
+  output: GetCalculatedAttributeForProfileResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets the layout to view data for a specific domain. This API can only be invoked from
  * the Amazon Connect admin website.
  */
-export const getDomainLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDomainLayout: (
+  input: GetDomainLayoutRequest,
+) => Effect.Effect<
+  GetDomainLayoutResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainLayoutRequest,
   output: GetDomainLayoutResponse,
   errors: [
@@ -7135,7 +7603,18 @@ export const getDomainLayout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Return a DomainObjectType for the input Domain and ObjectType names.
  */
-export const getDomainObjectType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDomainObjectType: (
+  input: GetDomainObjectTypeRequest,
+) => Effect.Effect<
+  GetDomainObjectTypeResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainObjectTypeRequest,
   output: GetDomainObjectTypeResponse,
   errors: [
@@ -7149,7 +7628,18 @@ export const getDomainObjectType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get a specific Event Trigger from the domain.
  */
-export const getEventTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEventTrigger: (
+  input: GetEventTriggerRequest,
+) => Effect.Effect<
+  GetEventTriggerResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventTriggerRequest,
   output: GetEventTriggerResponse,
   errors: [
@@ -7163,7 +7653,18 @@ export const getEventTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns an integration for a domain.
  */
-export const getIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIntegration: (
+  input: GetIntegrationRequest,
+) => Effect.Effect<
+  GetIntegrationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIntegrationRequest,
   output: GetIntegrationResponse,
   errors: [
@@ -7177,35 +7678,53 @@ export const getIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a history record for a specific profile, for a specific domain.
  */
-export const getProfileHistoryRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetProfileHistoryRecordRequest,
-    output: GetProfileHistoryRecordResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getProfileHistoryRecord: (
+  input: GetProfileHistoryRecordRequest,
+) => Effect.Effect<
+  GetProfileHistoryRecordResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProfileHistoryRecordRequest,
+  output: GetProfileHistoryRecordResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the object types for a specific domain.
  */
-export const getProfileObjectType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetProfileObjectTypeRequest,
-    output: GetProfileObjectTypeResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getProfileObjectType: (
+  input: GetProfileObjectTypeRequest,
+) => Effect.Effect<
+  GetProfileObjectTypeResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProfileObjectTypeRequest,
+  output: GetProfileObjectTypeResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the template information for a specific object type.
  *
@@ -7214,38 +7733,68 @@ export const getProfileObjectType = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the
  * template.
  */
-export const getProfileObjectTypeTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetProfileObjectTypeTemplateRequest,
-    output: GetProfileObjectTypeTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const getProfileObjectTypeTemplate: (
+  input: GetProfileObjectTypeTemplateRequest,
+) => Effect.Effect<
+  GetProfileObjectTypeTemplateResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProfileObjectTypeTemplateRequest,
+  output: GetProfileObjectTypeTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets a segment definition from the domain.
  */
-export const getSegmentDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSegmentDefinitionRequest,
-    output: GetSegmentDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getSegmentDefinition: (
+  input: GetSegmentDefinitionRequest,
+) => Effect.Effect<
+  GetSegmentDefinitionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSegmentDefinitionRequest,
+  output: GetSegmentDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets the result of a segment estimate query.
  */
-export const getSegmentEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSegmentEstimate: (
+  input: GetSegmentEstimateRequest,
+) => Effect.Effect<
+  GetSegmentEstimateResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSegmentEstimateRequest,
   output: GetSegmentEstimateResponse,
   errors: [
@@ -7259,7 +7808,18 @@ export const getSegmentEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve the latest status of a segment snapshot.
  */
-export const getSegmentSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSegmentSnapshot: (
+  input: GetSegmentSnapshotRequest,
+) => Effect.Effect<
+  GetSegmentSnapshotResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSegmentSnapshotRequest,
   output: GetSegmentSnapshotResponse,
   errors: [
@@ -7276,30 +7836,76 @@ export const getSegmentSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * matching that you want for finding similar profiles using either
  * `RULE_BASED_MATCHING` or `ML_BASED_MATCHING`.
  */
-export const getSimilarProfiles = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getSimilarProfiles: {
+  (
     input: GetSimilarProfilesRequest,
-    output: GetSimilarProfilesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProfileIds",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetSimilarProfilesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetSimilarProfilesRequest,
+  ) => Stream.Stream<
+    GetSimilarProfilesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSimilarProfilesRequest,
+  ) => Stream.Stream<
+    uuid,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetSimilarProfilesRequest,
+  output: GetSimilarProfilesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProfileIds",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This API retrieves the pre-signed URL and client token for uploading the file associated
  * with the upload job.
  */
-export const getUploadJobPath = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUploadJobPath: (
+  input: GetUploadJobPathRequest,
+) => Effect.Effect<
+  GetUploadJobPathResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUploadJobPathRequest,
   output: GetUploadJobPathResponse,
   errors: [
@@ -7313,7 +7919,18 @@ export const getUploadJobPath = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all of the integrations in your domain.
  */
-export const listIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listIntegrations: (
+  input: ListIntegrationsRequest,
+) => Effect.Effect<
+  ListIntegrationsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListIntegrationsRequest,
   output: ListIntegrationsResponse,
   errors: [
@@ -7327,29 +7944,74 @@ export const listIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a set of `MatchIds` that belong to the given domain.
  */
-export const listRuleBasedMatches =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRuleBasedMatches: {
+  (
     input: ListRuleBasedMatchesRequest,
-    output: ListRuleBasedMatchesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MatchIds",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRuleBasedMatchesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRuleBasedMatchesRequest,
+  ) => Stream.Stream<
+    ListRuleBasedMatchesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRuleBasedMatchesRequest,
+  ) => Stream.Stream<
+    string1To255,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRuleBasedMatchesRequest,
+  output: ListRuleBasedMatchesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MatchIds",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect
  * Customer Profiles, domains, profile object types, and integrations can be tagged.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -7373,7 +8035,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * PutProfileObject needs an ObjectType, which can be created using
  * PutProfileObjectType.
  */
-export const putProfileObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putProfileObject: (
+  input: PutProfileObjectRequest,
+) => Effect.Effect<
+  PutProfileObjectResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutProfileObjectRequest,
   output: PutProfileObjectResponse,
   errors: [
@@ -7387,35 +8060,53 @@ export const putProfileObject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a segment estimate query.
  */
-export const createSegmentEstimate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSegmentEstimateRequest,
-    output: CreateSegmentEstimateResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createSegmentEstimate: (
+  input: CreateSegmentEstimateRequest,
+) => Effect.Effect<
+  CreateSegmentEstimateResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSegmentEstimateRequest,
+  output: CreateSegmentEstimateResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * The process of detecting profile object type mapping by using given objects.
  */
-export const detectProfileObjectType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetectProfileObjectTypeRequest,
-    output: DetectProfileObjectTypeResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const detectProfileObjectType: (
+  input: DetectProfileObjectTypeRequest,
+) => Effect.Effect<
+  DetectProfileObjectTypeResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectProfileObjectTypeRequest,
+  output: DetectProfileObjectTypeResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly
  * selects a sample of matching groups from the existing matching results, and applies the
@@ -7431,39 +8122,69 @@ export const detectProfileObjectType = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `FirstName` or only `LastName`), there may be a large number of
  * matches. This increases the chances of erroneous merges.
  */
-export const getAutoMergingPreview = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAutoMergingPreviewRequest,
-    output: GetAutoMergingPreviewResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getAutoMergingPreview: (
+  input: GetAutoMergingPreviewRequest,
+) => Effect.Effect<
+  GetAutoMergingPreviewResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAutoMergingPreviewRequest,
+  output: GetAutoMergingPreviewResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Provides more information on a calculated attribute definition for Customer
  * Profiles.
  */
-export const getCalculatedAttributeDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCalculatedAttributeDefinitionRequest,
-    output: GetCalculatedAttributeDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const getCalculatedAttributeDefinition: (
+  input: GetCalculatedAttributeDefinitionRequest,
+) => Effect.Effect<
+  GetCalculatedAttributeDefinitionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCalculatedAttributeDefinitionRequest,
+  output: GetCalculatedAttributeDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns information about a specific domain.
  */
-export const getDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDomain: (
+  input: GetDomainRequest,
+) => Effect.Effect<
+  GetDomainResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainRequest,
   output: GetDomainResponse,
   errors: [
@@ -7477,7 +8198,18 @@ export const getDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the specified event stream in a specific domain.
  */
-export const getEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEventStream: (
+  input: GetEventStreamRequest,
+) => Effect.Effect<
+  GetEventStreamResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventStreamRequest,
   output: GetEventStreamResponse,
   errors: [
@@ -7528,7 +8260,18 @@ export const getEventStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * **johndoe@anycompany.com**, or different phone number
  * formats such as **555-010-0000** and **+1-555-010-0000**—can be detected as belonging to the same customer **John Doe** and merged into a unified profile.
  */
-export const getMatches = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMatches: (
+  input: GetMatchesRequest,
+) => Effect.Effect<
+  GetMatchesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMatchesRequest,
   output: GetMatchesResponse,
   errors: [
@@ -7542,23 +8285,43 @@ export const getMatches = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Determines if the given profiles are within a segment.
  */
-export const getSegmentMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSegmentMembershipRequest,
-    output: GetSegmentMembershipResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getSegmentMembership: (
+  input: GetSegmentMembershipRequest,
+) => Effect.Effect<
+  GetSegmentMembershipResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSegmentMembershipRequest,
+  output: GetSegmentMembershipResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API retrieves the details of a specific upload job.
  */
-export const getUploadJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUploadJob: (
+  input: GetUploadJobRequest,
+) => Effect.Effect<
+  GetUploadJobResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUploadJobRequest,
   output: GetUploadJobResponse,
   errors: [
@@ -7572,97 +8335,208 @@ export const getUploadJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all of the integrations associated to a specific URI in the AWS account.
  */
-export const listAccountIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAccountIntegrationsRequest,
-    output: ListAccountIntegrationsResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const listAccountIntegrations: (
+  input: ListAccountIntegrationsRequest,
+) => Effect.Effect<
+  ListAccountIntegrationsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAccountIntegrationsRequest,
+  output: ListAccountIntegrationsResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists calculated attribute definitions for Customer Profiles
  */
-export const listCalculatedAttributeDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCalculatedAttributeDefinitionsRequest,
-    output: ListCalculatedAttributeDefinitionsResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const listCalculatedAttributeDefinitions: (
+  input: ListCalculatedAttributeDefinitionsRequest,
+) => Effect.Effect<
+  ListCalculatedAttributeDefinitionsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCalculatedAttributeDefinitionsRequest,
+  output: ListCalculatedAttributeDefinitionsResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieve a list of calculated attributes for a customer profile.
  */
-export const listCalculatedAttributesForProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCalculatedAttributesForProfileRequest,
-    output: ListCalculatedAttributesForProfileResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const listCalculatedAttributesForProfile: (
+  input: ListCalculatedAttributesForProfileRequest,
+) => Effect.Effect<
+  ListCalculatedAttributesForProfileResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCalculatedAttributesForProfileRequest,
+  output: ListCalculatedAttributesForProfileResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists the existing layouts that can be used to view data for a specific domain. This API
  * can only be invoked from the Amazon Connect admin website.
  */
-export const listDomainLayouts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDomainLayouts: {
+  (
     input: ListDomainLayoutsRequest,
-    output: ListDomainLayoutsResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDomainLayoutsResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDomainLayoutsRequest,
+  ) => Stream.Stream<
+    ListDomainLayoutsResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDomainLayoutsRequest,
+  ) => Stream.Stream<
+    LayoutItem,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDomainLayoutsRequest,
+  output: ListDomainLayoutsResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List all DomainObjectType(s) in a Customer Profiles domain.
  */
-export const listDomainObjectTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDomainObjectTypes: {
+  (
     input: ListDomainObjectTypesRequest,
-    output: ListDomainObjectTypesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDomainObjectTypesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDomainObjectTypesRequest,
+  ) => Stream.Stream<
+    ListDomainObjectTypesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDomainObjectTypesRequest,
+  ) => Stream.Stream<
+    DomainObjectTypesListItem,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDomainObjectTypesRequest,
+  output: ListDomainObjectTypesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of all the domains for an AWS account that have been created.
  */
-export const listDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listDomains: (
+  input: ListDomainsRequest,
+) => Effect.Effect<
+  ListDomainsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDomainsRequest,
   output: ListDomainsResponse,
   errors: [
@@ -7676,210 +8550,454 @@ export const listDomains = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List all Event Triggers under a domain.
  */
-export const listEventTriggers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEventTriggers: {
+  (
     input: ListEventTriggersRequest,
-    output: ListEventTriggersResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEventTriggersResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEventTriggersRequest,
+  ) => Stream.Stream<
+    ListEventTriggersResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEventTriggersRequest,
+  ) => Stream.Stream<
+    EventTriggerSummaryItem,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEventTriggersRequest,
+  output: ListEventTriggersResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all of the Identity Resolution Jobs in your domain. The response sorts the list by
  * `JobStartTime`.
  */
-export const listIdentityResolutionJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListIdentityResolutionJobsRequest,
-    output: ListIdentityResolutionJobsResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const listIdentityResolutionJobs: (
+  input: ListIdentityResolutionJobsRequest,
+) => Effect.Effect<
+  ListIdentityResolutionJobsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIdentityResolutionJobsRequest,
+  output: ListIdentityResolutionJobsResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Fetch the possible attribute values given the attribute name.
  */
-export const listObjectTypeAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listObjectTypeAttributes: {
+  (
     input: ListObjectTypeAttributesRequest,
-    output: ListObjectTypeAttributesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListObjectTypeAttributesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListObjectTypeAttributesRequest,
+  ) => Stream.Stream<
+    ListObjectTypeAttributesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListObjectTypeAttributesRequest,
+  ) => Stream.Stream<
+    ListObjectTypeAttributeItem,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListObjectTypeAttributesRequest,
+  output: ListObjectTypeAttributesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * The ListObjectTypeAttributeValues API provides access to the most recent distinct values for any specified attribute, making it valuable for real-time data validation and consistency checks within your object types. This API works across domain, supporting both custom and standard object types. The API accepts the object type name, attribute name, and domain name as input parameters and returns values up to the storage limit of approximately 350KB.
  */
-export const listObjectTypeAttributeValues =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListObjectTypeAttributeValuesRequest,
-    output: ListObjectTypeAttributeValuesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const listObjectTypeAttributeValues: (
+  input: ListObjectTypeAttributeValuesRequest,
+) => Effect.Effect<
+  ListObjectTypeAttributeValuesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListObjectTypeAttributeValuesRequest,
+  output: ListObjectTypeAttributeValuesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Fetch the possible attribute values given the attribute name.
  */
-export const listProfileAttributeValues = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ProfileAttributeValuesRequest,
-    output: ProfileAttributeValuesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const listProfileAttributeValues: (
+  input: ProfileAttributeValuesRequest,
+) => Effect.Effect<
+  ProfileAttributeValuesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ProfileAttributeValuesRequest,
+  output: ProfileAttributeValuesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns a list of history records for a specific profile, for a specific domain.
  */
-export const listProfileHistoryRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListProfileHistoryRecordsRequest,
-    output: ListProfileHistoryRecordsResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const listProfileHistoryRecords: (
+  input: ListProfileHistoryRecordsRequest,
+) => Effect.Effect<
+  ListProfileHistoryRecordsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProfileHistoryRecordsRequest,
+  output: ListProfileHistoryRecordsResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists all of the templates available within the service.
  */
-export const listProfileObjectTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListProfileObjectTypesRequest,
-    output: ListProfileObjectTypesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const listProfileObjectTypes: (
+  input: ListProfileObjectTypesRequest,
+) => Effect.Effect<
+  ListProfileObjectTypesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProfileObjectTypesRequest,
+  output: ListProfileObjectTypesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists all of the template information for object types.
  */
-export const listProfileObjectTypeTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListProfileObjectTypeTemplatesRequest,
-    output: ListProfileObjectTypeTemplatesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const listProfileObjectTypeTemplates: (
+  input: ListProfileObjectTypeTemplatesRequest,
+) => Effect.Effect<
+  ListProfileObjectTypeTemplatesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProfileObjectTypeTemplatesRequest,
+  output: ListProfileObjectTypeTemplatesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns a list of recommenders in the specified domain.
  */
-export const listRecommenders = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRecommenders: {
+  (
     input: ListRecommendersRequest,
-    output: ListRecommendersResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Recommenders",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRecommendersResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecommendersRequest,
+  ) => Stream.Stream<
+    ListRecommendersResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommendersRequest,
+  ) => Stream.Stream<
+    RecommenderSummary,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommendersRequest,
+  output: ListRecommendersResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Recommenders",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all segment definitions under a domain.
  */
-export const listSegmentDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSegmentDefinitions: {
+  (
     input: ListSegmentDefinitionsRequest,
-    output: ListSegmentDefinitionsResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSegmentDefinitionsResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSegmentDefinitionsRequest,
+  ) => Stream.Stream<
+    ListSegmentDefinitionsResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSegmentDefinitionsRequest,
+  ) => Stream.Stream<
+    SegmentDefinitionItem,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSegmentDefinitionsRequest,
+  output: ListSegmentDefinitionsResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This API retrieves a list of upload jobs for the specified domain.
  */
-export const listUploadJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listUploadJobs: {
+  (
     input: ListUploadJobsRequest,
-    output: ListUploadJobsResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListUploadJobsResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUploadJobsRequest,
+  ) => Stream.Stream<
+    ListUploadJobsResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUploadJobsRequest,
+  ) => Stream.Stream<
+    UploadJobItem,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUploadJobsRequest,
+  output: ListUploadJobsResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Query to list all workflows.
  */
-export const listWorkflows = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listWorkflows: (
+  input: ListWorkflowsRequest,
+) => Effect.Effect<
+  ListWorkflowsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListWorkflowsRequest,
   output: ListWorkflowsResponse,
   errors: [
@@ -7899,7 +9017,18 @@ export const listWorkflows = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation supports searching for profiles with a minimum of 1 key-value(s) pair and
  * up to 5 key-value(s) pairs using either `AND` or `OR` logic.
  */
-export const searchProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const searchProfiles: (
+  input: SearchProfilesRequest,
+) => Effect.Effect<
+  SearchProfilesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchProfilesRequest,
   output: SearchProfilesResponse,
   errors: [
@@ -7913,7 +9042,18 @@ export const searchProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get a batch of profiles.
  */
-export const batchGetProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetProfile: (
+  input: BatchGetProfileRequest,
+) => Effect.Effect<
+  BatchGetProfileResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetProfileRequest,
   output: BatchGetProfileResponse,
   errors: [
@@ -7930,7 +9070,18 @@ export const batchGetProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * A standard profile represents the following attributes for a customer profile in a
  * domain.
  */
-export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProfile: (
+  input: CreateProfileRequest,
+) => Effect.Effect<
+  CreateProfileResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProfileRequest,
   output: CreateProfileResponse,
   errors: [
@@ -7945,7 +9096,18 @@ export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates an Upload job to ingest data for segment imports. The metadata is created for
  * the job with the provided field mapping and unique key.
  */
-export const createUploadJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUploadJob: (
+  input: CreateUploadJobRequest,
+) => Effect.Effect<
+  CreateUploadJobResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUploadJobRequest,
   output: CreateUploadJobResponse,
   errors: [
@@ -7962,19 +9124,28 @@ export const createUploadJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Identity Resolution Jobs are set up using the Amazon Connect admin console. For more information, see Use
  * Identity Resolution to consolidate similar profiles.
  */
-export const getIdentityResolutionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIdentityResolutionJobRequest,
-    output: GetIdentityResolutionJobResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getIdentityResolutionJob: (
+  input: GetIdentityResolutionJobRequest,
+) => Effect.Effect<
+  GetIdentityResolutionJobResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdentityResolutionJobRequest,
+  output: GetIdentityResolutionJobResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * The GetObjectTypeAttributeValues API delivers statistical insights about attributes within a specific object type, but is exclusively available for domains with data store enabled. This API performs daily calculations to provide statistical information about your attribute values, helping you understand patterns and trends in your data. The statistical calculations are performed once per day, providing a consistent snapshot of your attribute data characteristics.
  *
@@ -7984,22 +9155,43 @@ export const getIdentityResolutionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For attributes that don't contain numeric values.
  */
-export const getObjectTypeAttributeStatistics =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetObjectTypeAttributeStatisticsRequest,
-    output: GetObjectTypeAttributeStatisticsResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const getObjectTypeAttributeStatistics: (
+  input: GetObjectTypeAttributeStatisticsRequest,
+) => Effect.Effect<
+  GetObjectTypeAttributeStatisticsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetObjectTypeAttributeStatisticsRequest,
+  output: GetObjectTypeAttributeStatisticsResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves a recommender.
  */
-export const getRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRecommender: (
+  input: GetRecommenderRequest,
+) => Effect.Effect<
+  GetRecommenderResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecommenderRequest,
   output: GetRecommenderResponse,
   errors: [
@@ -8013,7 +9205,18 @@ export const getRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get details of specified workflow.
  */
-export const getWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkflow: (
+  input: GetWorkflowRequest,
+) => Effect.Effect<
+  GetWorkflowResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowRequest,
   output: GetWorkflowResponse,
   errors: [
@@ -8027,7 +9230,18 @@ export const getWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get granular list of steps in workflow.
  */
-export const getWorkflowSteps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkflowSteps: (
+  input: GetWorkflowStepsRequest,
+) => Effect.Effect<
+  GetWorkflowStepsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowStepsRequest,
   output: GetWorkflowStepsResponse,
   errors: [
@@ -8041,29 +9255,75 @@ export const getWorkflowSteps = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of all the event streams in a specific domain.
  */
-export const listEventStreams = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEventStreams: {
+  (
     input: ListEventStreamsRequest,
-    output: ListEventStreamsResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEventStreamsResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEventStreamsRequest,
+  ) => Stream.Stream<
+    ListEventStreamsResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEventStreamsRequest,
+  ) => Stream.Stream<
+    EventStreamSummary,
+    | AccessDeniedException
+    | BadRequestException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEventStreamsRequest,
+  output: ListEventStreamsResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of objects associated with a profile of a given ProfileObjectType.
  */
-export const listProfileObjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listProfileObjects: (
+  input: ListProfileObjectsRequest,
+) => Effect.Effect<
+  ListProfileObjectsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProfileObjectsRequest,
   output: ListProfileObjectsResponse,
   errors: [
@@ -8105,7 +9365,17 @@ export const listProfileObjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * returns potentially matching profiles, or use it with the results of another matching
  * system. After profiles have been merged, they cannot be separated (unmerged).
  */
-export const mergeProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const mergeProfiles: (
+  input: MergeProfilesRequest,
+) => Effect.Effect<
+  MergeProfilesResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MergeProfilesRequest,
   output: MergeProfilesResponse,
   errors: [
@@ -8118,7 +9388,18 @@ export const mergeProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create/Update a DomainObjectType in a Customer Profiles domain. To create a new DomainObjectType, Data Store needs to be enabled on the Domain.
  */
-export const putDomainObjectType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putDomainObjectType: (
+  input: PutDomainObjectTypeRequest,
+) => Effect.Effect<
+  PutDomainObjectTypeResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDomainObjectTypeRequest,
   output: PutDomainObjectTypeResponse,
   errors: [
@@ -8135,34 +9416,53 @@ export const putDomainObjectType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To add or remove tags on an existing ObjectType, see
  * TagResource/UntagResource.
  */
-export const putProfileObjectType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutProfileObjectTypeRequest,
-    output: PutProfileObjectTypeResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const putProfileObjectType: (
+  input: PutProfileObjectTypeRequest,
+) => Effect.Effect<
+  PutProfileObjectTypeResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutProfileObjectTypeRequest,
+  output: PutProfileObjectTypeResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Fetch the possible attribute values given the attribute name.
  */
-export const batchGetCalculatedAttributeForProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetCalculatedAttributeForProfileRequest,
-    output: BatchGetCalculatedAttributeForProfileResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const batchGetCalculatedAttributeForProfile: (
+  input: BatchGetCalculatedAttributeForProfileRequest,
+) => Effect.Effect<
+  BatchGetCalculatedAttributeForProfileResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetCalculatedAttributeForProfileRequest,
+  output: BatchGetCalculatedAttributeForProfileResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a domain, which is a container for all customer data, such as customer profile
  * attributes, object types, profile keys, and encryption keys. You can create multiple
@@ -8185,7 +9485,18 @@ export const batchGetCalculatedAttributeForProfile =
  * Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances
  * can be associated with one domain.
  */
-export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDomain: (
+  input: CreateDomainRequest,
+) => Effect.Effect<
+  CreateDomainResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainRequest,
   output: CreateDomainResponse,
   errors: [
@@ -8203,7 +9514,18 @@ export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Each event stream can be associated with only one integration in the same region and AWS
  * account as the event stream.
  */
-export const createEventTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEventTrigger: (
+  input: CreateEventTriggerRequest,
+) => Effect.Effect<
+  CreateEventTriggerResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventTriggerRequest,
   output: CreateEventTriggerResponse,
   errors: [
@@ -8218,23 +9540,43 @@ export const createEventTrigger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates an integration workflow. An integration workflow is an async process which
  * ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo.
  */
-export const createIntegrationWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIntegrationWorkflowRequest,
-    output: CreateIntegrationWorkflowResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createIntegrationWorkflow: (
+  input: CreateIntegrationWorkflowRequest,
+) => Effect.Effect<
+  CreateIntegrationWorkflowResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIntegrationWorkflowRequest,
+  output: CreateIntegrationWorkflowResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a recommender
  */
-export const createRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRecommender: (
+  input: CreateRecommenderRequest,
+) => Effect.Effect<
+  CreateRecommenderResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRecommenderRequest,
   output: CreateRecommenderResponse,
   errors: [
@@ -8248,19 +9590,28 @@ export const createRecommender = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Fetches the recommendations for a profile in the input Customer Profiles domain. Fetches all the profile recommendations
  */
-export const getProfileRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetProfileRecommendationsRequest,
-    output: GetProfileRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getProfileRecommendations: (
+  input: GetProfileRecommendationsRequest,
+) => Effect.Effect<
+  GetProfileRecommendationsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProfileRecommendationsRequest,
+  output: GetProfileRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Adds an integration between the service and a third-party service, which includes
  * Amazon AppFlow and Amazon Connect.
@@ -8271,7 +9622,18 @@ export const getProfileRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * /
  * UntagResource.
  */
-export const putIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putIntegration: (
+  input: PutIntegrationRequest,
+) => Effect.Effect<
+  PutIntegrationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutIntegrationRequest,
   output: PutIntegrationResponse,
   errors: [
@@ -8290,31 +9652,50 @@ export const putIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * one `ObjectType` and at most, two fields from that
  * `ObjectType`.
  */
-export const createCalculatedAttributeDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCalculatedAttributeDefinitionRequest,
-    output: CreateCalculatedAttributeDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const createCalculatedAttributeDefinition: (
+  input: CreateCalculatedAttributeDefinitionRequest,
+) => Effect.Effect<
+  CreateCalculatedAttributeDefinitionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCalculatedAttributeDefinitionRequest,
+  output: CreateCalculatedAttributeDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a segment definition associated to the given domain.
  */
-export const createSegmentDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSegmentDefinitionRequest,
-    output: CreateSegmentDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createSegmentDefinition: (
+  input: CreateSegmentDefinitionRequest,
+) => Effect.Effect<
+  CreateSegmentDefinitionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSegmentDefinitionRequest,
+  output: CreateSegmentDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));

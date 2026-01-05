@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "IoTAnalytics",
   serviceShapeName: "AWSIoTAnalytics",
@@ -240,6 +248,67 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ChannelName = string;
+export type PipelineName = string;
+export type ReprocessingId = string;
+export type DatasetName = string;
+export type DatasetContentVersion = string;
+export type DatastoreName = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type ResourceArn = string;
+export type MaxMessages = number;
+export type TagKey = string;
+export type MessageId = string;
+export type RetentionPeriodInDays = number;
+export type TagValue = string;
+export type DatasetActionName = string;
+export type EntryName = string;
+export type MaxVersions = number;
+export type LateDataRuleName = string;
+export type RoleArn = string;
+export type S3PathChannelMessage = string;
+export type ErrorMessage = string;
+export type LogResult = string;
+export type BucketName = string;
+export type S3KeyPrefix = string;
+export type SqlQuery = string;
+export type Image = string;
+export type ScheduleExpression = string;
+export type ActivityName = string;
+export type LambdaName = string;
+export type ActivityBatchSize = number;
+export type AttributeName = string;
+export type FilterExpression = string;
+export type MathExpression = string;
+export type ChannelArn = string;
+export type DatasetArn = string;
+export type DatastoreArn = string;
+export type PipelineArn = string;
+export type PresignedURI = string;
+export type Reason = string;
+export type VolumeSizeInGB = number;
+export type VariableName = string;
+export type StringValue = string;
+export type DoubleValue = number;
+export type IotEventsInputName = string;
+export type BucketKeyExpression = string;
+export type SessionTimeoutInMinutes = number;
+export type PartitionAttributeName = string;
+export type TimestampFormat = string;
+export type SizeInBytes = number;
+export type OffsetSeconds = number;
+export type TimeExpression = string;
+export type OutputFileName = string;
+export type GlueTableName = string;
+export type GlueDatabaseName = string;
+export type ColumnName = string;
+export type ColumnDataType = string;
+export type ErrorCode = string;
+export type resourceId = string;
+export type ResourceArn2 = string;
 
 //# Schemas
 export interface DescribeLoggingOptionsRequest {}
@@ -1354,6 +1423,10 @@ export const DatastoreIotSiteWiseMultiLayerStorage = S.suspend(() =>
 ).annotations({
   identifier: "DatastoreIotSiteWiseMultiLayerStorage",
 }) as any as S.Schema<DatastoreIotSiteWiseMultiLayerStorage>;
+export type DatastoreStorage =
+  | { serviceManagedS3: ServiceManagedDatastoreS3Storage }
+  | { customerManagedS3: CustomerManagedDatastoreS3Storage }
+  | { iotSiteWiseMultiLayerStorage: DatastoreIotSiteWiseMultiLayerStorage };
 export const DatastoreStorage = S.Union(
   S.Struct({ serviceManagedS3: ServiceManagedDatastoreS3Storage }),
   S.Struct({ customerManagedS3: CustomerManagedDatastoreS3Storage }),
@@ -2296,7 +2369,9 @@ export const ListDatastoresResponse = S.suspend(() =>
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { message: S.optional(S.String) },
@@ -2308,7 +2383,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
   {
@@ -2324,50 +2401,106 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
  * Retrieves a list of pipelines.
  */
-export const listPipelines = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPipelines: {
+  (
     input: ListPipelinesRequest,
-    output: ListPipelinesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPipelinesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPipelinesRequest,
+  ) => Stream.Stream<
+    ListPipelinesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPipelinesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPipelinesRequest,
+  output: ListPipelinesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Starts the reprocessing of raw message data through the pipeline.
  */
-export const startPipelineReprocessing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartPipelineReprocessingRequest,
-    output: StartPipelineReprocessingResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const startPipelineReprocessing: (
+  input: StartPipelineReprocessingRequest,
+) => Effect.Effect<
+  StartPipelineReprocessingResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartPipelineReprocessingRequest,
+  output: StartPipelineReprocessingResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists the tags (metadata) that you have assigned to the resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2382,7 +2515,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a dataset.
  */
-export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDataset: (
+  input: DescribeDatasetRequest,
+) => Effect.Effect<
+  DescribeDatasetResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetRequest,
   output: DescribeDatasetResponse,
   errors: [
@@ -2396,7 +2540,18 @@ export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a data store.
  */
-export const describeDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDatastore: (
+  input: DescribeDatastoreRequest,
+) => Effect.Effect<
+  DescribeDatastoreResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatastoreRequest,
   output: DescribeDatastoreResponse,
   errors: [
@@ -2410,7 +2565,18 @@ export const describeDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the contents of a dataset as presigned URIs.
  */
-export const getDatasetContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDatasetContent: (
+  input: GetDatasetContentRequest,
+) => Effect.Effect<
+  GetDatasetContentResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDatasetContentRequest,
   output: GetDatasetContentResponse,
   errors: [
@@ -2424,61 +2590,126 @@ export const getDatasetContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists information about dataset contents that have been created.
  */
-export const listDatasetContents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDatasetContents: {
+  (
     input: ListDatasetContentsRequest,
-    output: ListDatasetContentsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDatasetContentsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatasetContentsRequest,
+  ) => Stream.Stream<
+    ListDatasetContentsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatasetContentsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatasetContentsRequest,
+  output: ListDatasetContentsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates the content of a dataset by applying a `queryAction` (a SQL query) or a
  * `containerAction` (executing a containerized application).
  */
-export const createDatasetContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDatasetContentRequest,
-    output: CreateDatasetContentResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createDatasetContent: (
+  input: CreateDatasetContentRequest,
+) => Effect.Effect<
+  CreateDatasetContentResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDatasetContentRequest,
+  output: CreateDatasetContentResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves the current settings of the IoT Analytics logging options.
  */
-export const describeLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLoggingOptionsRequest,
-    output: DescribeLoggingOptionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeLoggingOptions: (
+  input: DescribeLoggingOptionsRequest,
+) => Effect.Effect<
+  DescribeLoggingOptionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLoggingOptionsRequest,
+  output: DescribeLoggingOptionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves a sample of messages from the specified channel ingested during the specified
  * timeframe. Up to 10 messages can be retrieved.
  */
-export const sampleChannelData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sampleChannelData: (
+  input: SampleChannelDataRequest,
+) => Effect.Effect<
+  SampleChannelDataResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SampleChannelDataRequest,
   output: SampleChannelDataResponse,
   errors: [
@@ -2492,7 +2723,18 @@ export const sampleChannelData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified channel.
  */
-export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteChannel: (
+  input: DeleteChannelRequest,
+) => Effect.Effect<
+  DeleteChannelResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelRequest,
   output: DeleteChannelResponse,
   errors: [
@@ -2509,7 +2751,18 @@ export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You do not have to delete the content of the dataset before you perform this
  * operation.
  */
-export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataset: (
+  input: DeleteDatasetRequest,
+) => Effect.Effect<
+  DeleteDatasetResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetRequest,
   output: DeleteDatasetResponse,
   errors: [
@@ -2523,23 +2776,43 @@ export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the content of the specified dataset.
  */
-export const deleteDatasetContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDatasetContentRequest,
-    output: DeleteDatasetContentResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteDatasetContent: (
+  input: DeleteDatasetContentRequest,
+) => Effect.Effect<
+  DeleteDatasetContentResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDatasetContentRequest,
+  output: DeleteDatasetContentResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes the specified data store.
  */
-export const deleteDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDatastore: (
+  input: DeleteDatastoreRequest,
+) => Effect.Effect<
+  DeleteDatastoreResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatastoreRequest,
   output: DeleteDatastoreResponse,
   errors: [
@@ -2553,7 +2826,18 @@ export const deleteDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified pipeline.
  */
-export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePipeline: (
+  input: DeletePipelineRequest,
+) => Effect.Effect<
+  DeletePipelineResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePipelineRequest,
   output: DeletePipelineResponse,
   errors: [
@@ -2567,7 +2851,18 @@ export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Used to update the settings of a channel.
  */
-export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateChannel: (
+  input: UpdateChannelRequest,
+) => Effect.Effect<
+  UpdateChannelResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelRequest,
   output: UpdateChannelResponse,
   errors: [
@@ -2581,7 +2876,18 @@ export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the settings of a dataset.
  */
-export const updateDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDataset: (
+  input: UpdateDatasetRequest,
+) => Effect.Effect<
+  UpdateDatasetResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDatasetRequest,
   output: UpdateDatasetResponse,
   errors: [
@@ -2595,7 +2901,18 @@ export const updateDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Used to update the settings of a data store.
  */
-export const updateDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDatastore: (
+  input: UpdateDatastoreRequest,
+) => Effect.Effect<
+  UpdateDatastoreResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDatastoreRequest,
   output: UpdateDatastoreResponse,
   errors: [
@@ -2609,7 +2926,18 @@ export const updateDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Sends messages to a channel.
  */
-export const batchPutMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchPutMessage: (
+  input: BatchPutMessageRequest,
+) => Effect.Effect<
+  BatchPutMessageResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutMessageRequest,
   output: BatchPutMessageResponse,
   errors: [
@@ -2623,7 +2951,17 @@ export const batchPutMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Simulates the results of running a pipeline activity on a message payload.
  */
-export const runPipelineActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const runPipelineActivity: (
+  input: RunPipelineActivityRequest,
+) => Effect.Effect<
+  RunPipelineActivityResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunPipelineActivityRequest,
   output: RunPipelineActivityResponse,
   errors: [
@@ -2641,7 +2979,17 @@ export const runPipelineActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * specified in the `roleArn` field (for example, to correct an invalid policy), it
  * takes up to five minutes for that change to take effect.
  */
-export const putLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putLoggingOptions: (
+  input: PutLoggingOptionsRequest,
+) => Effect.Effect<
+  PutLoggingOptionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLoggingOptionsRequest,
   output: PutLoggingOptionsResponse,
   errors: [
@@ -2654,23 +3002,43 @@ export const putLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels the reprocessing of data through the pipeline.
  */
-export const cancelPipelineReprocessing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelPipelineReprocessingRequest,
-    output: CancelPipelineReprocessingResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const cancelPipelineReprocessing: (
+  input: CancelPipelineReprocessingRequest,
+) => Effect.Effect<
+  CancelPipelineReprocessingResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelPipelineReprocessingRequest,
+  output: CancelPipelineReprocessingResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves information about a channel.
  */
-export const describeChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeChannel: (
+  input: DescribeChannelRequest,
+) => Effect.Effect<
+  DescribeChannelResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeChannelRequest,
   output: DescribeChannelResponse,
   errors: [
@@ -2684,7 +3052,18 @@ export const describeChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a pipeline.
  */
-export const describePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describePipeline: (
+  input: DescribePipelineRequest,
+) => Effect.Effect<
+  DescribePipelineResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePipelineRequest,
   output: DescribePipelineResponse,
   errors: [
@@ -2698,28 +3077,72 @@ export const describePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about datasets.
  */
-export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDatasets: {
+  (
     input: ListDatasetsRequest,
-    output: ListDatasetsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDatasetsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatasetsRequest,
+  ) => Stream.Stream<
+    ListDatasetsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatasetsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatasetsRequest,
+  output: ListDatasetsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Adds to or modifies the tags of the given resource. Tags are metadata that can be used to
  * manage a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2734,7 +3157,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the given tags (metadata) from the resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2751,7 +3186,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `datastore` activity and, optionally, as many as 23 additional activities in the
  * `pipelineActivities` array.
  */
-export const updatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePipeline: (
+  input: UpdatePipelineRequest,
+) => Effect.Effect<
+  UpdatePipelineResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePipelineRequest,
   output: UpdatePipelineResponse,
   errors: [
@@ -2767,7 +3214,19 @@ export const updatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Used to create a channel. A channel collects data from an MQTT topic and archives the raw,
  * unprocessed messages before publishing the data to a pipeline.
  */
-export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createChannel: (
+  input: CreateChannelRequest,
+) => Effect.Effect<
+  CreateChannelResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelRequest,
   output: CreateChannelResponse,
   errors: [
@@ -2785,7 +3244,19 @@ export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * and a `datastore` activity and, optionally, as many as 23 additional activities in
  * the `pipelineActivities` array.
  */
-export const createPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPipeline: (
+  input: CreatePipelineRequest,
+) => Effect.Effect<
+  CreatePipelineResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePipelineRequest,
   output: CreatePipelineResponse,
   errors: [
@@ -2800,23 +3271,55 @@ export const createPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of channels.
  */
-export const listChannels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listChannels: {
+  (
     input: ListChannelsRequest,
-    output: ListChannelsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListChannelsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelsRequest,
+  ) => Stream.Stream<
+    ListChannelsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelsRequest,
+  output: ListChannelsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Used to create a dataset. A dataset stores data retrieved from a data store by applying a
  * `queryAction` (a SQL query) or a `containerAction` (executing a
@@ -2824,7 +3327,19 @@ export const listChannels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * be populated manually by calling `CreateDatasetContent` or automatically according
  * to a trigger you specify.
  */
-export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDataset: (
+  input: CreateDatasetRequest,
+) => Effect.Effect<
+  CreateDatasetResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetRequest,
   output: CreateDatasetResponse,
   errors: [
@@ -2839,7 +3354,19 @@ export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a data store, which is a repository for messages.
  */
-export const createDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDatastore: (
+  input: CreateDatastoreRequest,
+) => Effect.Effect<
+  CreateDatastoreResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatastoreRequest,
   output: CreateDatastoreResponse,
   errors: [
@@ -2854,20 +3381,52 @@ export const createDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of data stores.
  */
-export const listDatastores = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDatastores: {
+  (
     input: ListDatastoresRequest,
-    output: ListDatastoresResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDatastoresResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatastoresRequest,
+  ) => Stream.Stream<
+    ListDatastoresResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatastoresRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatastoresRequest,
+  output: ListDatastoresResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));

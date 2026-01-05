@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("https://aws.amazon.com/api/v1/");
 const svc = T.AwsApiService({
   sdkId: "WorkDocs",
@@ -241,6 +249,50 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AuthenticationHeaderType = string;
+export type ResourceIdType = string;
+export type DocumentVersionIdType = string;
+export type IdType = string;
+export type CommentIdType = string;
+export type CommentTextType = string;
+export type ResourceNameType = string;
+export type SharedLabel = string;
+export type SubscriptionEndPointType = string;
+export type UsernameType = string;
+export type EmailAddressType = string;
+export type UserAttributeValueType = string;
+export type PasswordType = string;
+export type TimeZoneIdType = string;
+export type CustomMetadataKeyType = string;
+export type ActivityNamesFilterType = string;
+export type LimitType = number;
+export type SearchMarkerType = string;
+export type MarkerType = string;
+export type PageMarkerType = string;
+export type FieldNamesType = string;
+export type SearchQueryType = string;
+export type PositiveIntegerType = number;
+export type UserIdsType = string;
+export type DocumentContentType = string;
+export type SizeType = number;
+export type SearchResultsLimitType = number;
+export type NextMarkerType = string;
+export type MessageType = string;
+export type CustomMetadataValueType = string;
+export type PositiveSizeType = number;
+export type SearchLabel = string;
+export type SearchAncestorId = string;
+export type ErrorMessageType = string;
+export type LongType = number;
+export type HashType = string;
+export type GroupNameType = string;
+export type UrlType = string;
+export type ExceptionCodeType = string;
+export type HeaderNameType = string;
+export type HeaderValueType = string;
+export type ResponseItemWebUrl = string;
 
 //# Schemas
 export type SharedLabels = string[];
@@ -2541,11 +2593,15 @@ export class FailedDependencyException extends S.TaggedError<FailedDependencyExc
 export class CustomMetadataLimitExceededException extends S.TaggedError<CustomMetadataLimitExceededException>()(
   "CustomMetadataLimitExceededException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class DeactivatingLastSystemUserException extends S.TaggedError<DeactivatingLastSystemUserException>()(
   "DeactivatingLastSystemUserException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
@@ -2593,7 +2649,9 @@ export class UnauthorizedOperationException extends S.TaggedError<UnauthorizedOp
 export class TooManyLabelsException extends S.TaggedError<TooManyLabelsException>()(
   "TooManyLabelsException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class RequestedEntityTooLargeException extends S.TaggedError<RequestedEntityTooLargeException>()(
   "RequestedEntityTooLargeException",
   { Message: S.optional(S.String) },
@@ -2601,7 +2659,9 @@ export class RequestedEntityTooLargeException extends S.TaggedError<RequestedEnt
 export class TooManySubscriptionsException extends S.TaggedError<TooManySubscriptionsException>()(
   "TooManySubscriptionsException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class DraftUploadOutOfSyncException extends S.TaggedError<DraftUploadOutOfSyncException>()(
   "DraftUploadOutOfSyncException",
   { Message: S.optional(S.String) },
@@ -2623,44 +2683,96 @@ export class StorageLimitWillExceedException extends S.TaggedError<StorageLimitW
 /**
  * Lists the specified notification subscriptions.
  */
-export const describeNotificationSubscriptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeNotificationSubscriptions: {
+  (
     input: DescribeNotificationSubscriptionsRequest,
-    output: DescribeNotificationSubscriptionsResponse,
-    errors: [
-      EntityNotExistsException,
-      ServiceUnavailableException,
-      UnauthorizedResourceAccessException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Subscriptions",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeNotificationSubscriptionsResponse,
+    | EntityNotExistsException
+    | ServiceUnavailableException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeNotificationSubscriptionsRequest,
+  ) => Stream.Stream<
+    DescribeNotificationSubscriptionsResponse,
+    | EntityNotExistsException
+    | ServiceUnavailableException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeNotificationSubscriptionsRequest,
+  ) => Stream.Stream<
+    Subscription,
+    | EntityNotExistsException
+    | ServiceUnavailableException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeNotificationSubscriptionsRequest,
+  output: DescribeNotificationSubscriptionsResponse,
+  errors: [
+    EntityNotExistsException,
+    ServiceUnavailableException,
+    UnauthorizedResourceAccessException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Subscriptions",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Deletes custom metadata from the specified resource.
  */
-export const deleteCustomMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCustomMetadataRequest,
-    output: DeleteCustomMetadataResponse,
-    errors: [
-      EntityNotExistsException,
-      FailedDependencyException,
-      ProhibitedStateException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-  }),
-);
+export const deleteCustomMetadata: (
+  input: DeleteCustomMetadataRequest,
+) => Effect.Effect<
+  DeleteCustomMetadataResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomMetadataRequest,
+  output: DeleteCustomMetadataResponse,
+  errors: [
+    EntityNotExistsException,
+    FailedDependencyException,
+    ProhibitedStateException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
 /**
  * Adds the specified list of labels to the given resource (a document or
  * folder)
  */
-export const createLabels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLabels: (
+  input: CreateLabelsRequest,
+) => Effect.Effect<
+  CreateLabelsResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | ServiceUnavailableException
+  | TooManyLabelsException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLabelsRequest,
   output: CreateLabelsResponse,
   errors: [
@@ -2675,17 +2787,26 @@ export const createLabels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified subscription from the specified organization.
  */
-export const deleteNotificationSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteNotificationSubscriptionRequest,
-    output: DeleteNotificationSubscriptionResponse,
-    errors: [
-      EntityNotExistsException,
-      ProhibitedStateException,
-      ServiceUnavailableException,
-      UnauthorizedResourceAccessException,
-    ],
-  }));
+export const deleteNotificationSubscription: (
+  input: DeleteNotificationSubscriptionRequest,
+) => Effect.Effect<
+  DeleteNotificationSubscriptionResponse,
+  | EntityNotExistsException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNotificationSubscriptionRequest,
+  output: DeleteNotificationSubscriptionResponse,
+  errors: [
+    EntityNotExistsException,
+    ProhibitedStateException,
+    ServiceUnavailableException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
 /**
  * Describes the contents of the specified folder, including its documents and
  * subfolders.
@@ -2695,43 +2816,102 @@ export const deleteNotificationSubscription =
  * use to request the next set of results. You can also request initialized
  * documents.
  */
-export const describeFolderContents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeFolderContents: {
+  (
     input: DescribeFolderContentsRequest,
-    output: DescribeFolderContentsResponse,
-    errors: [
-      EntityNotExistsException,
-      FailedDependencyException,
-      InvalidArgumentException,
-      ProhibitedStateException,
-      ServiceUnavailableException,
-      UnauthorizedResourceAccessException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeFolderContentsResponse,
+    | EntityNotExistsException
+    | FailedDependencyException
+    | InvalidArgumentException
+    | ProhibitedStateException
+    | ServiceUnavailableException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFolderContentsRequest,
+  ) => Stream.Stream<
+    DescribeFolderContentsResponse,
+    | EntityNotExistsException
+    | FailedDependencyException
+    | InvalidArgumentException
+    | ProhibitedStateException
+    | ServiceUnavailableException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFolderContentsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | EntityNotExistsException
+    | FailedDependencyException
+    | InvalidArgumentException
+    | ProhibitedStateException
+    | ServiceUnavailableException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFolderContentsRequest,
+  output: DescribeFolderContentsResponse,
+  errors: [
+    EntityNotExistsException,
+    FailedDependencyException,
+    InvalidArgumentException,
+    ProhibitedStateException,
+    ServiceUnavailableException,
+    UnauthorizedResourceAccessException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Removes all the permissions from the specified resource.
  */
-export const removeAllResourcePermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveAllResourcePermissionsRequest,
-    output: RemoveAllResourcePermissionsResponse,
-    errors: [
-      FailedDependencyException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-  }));
+export const removeAllResourcePermissions: (
+  input: RemoveAllResourcePermissionsRequest,
+) => Effect.Effect<
+  RemoveAllResourcePermissionsResponse,
+  | FailedDependencyException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveAllResourcePermissionsRequest,
+  output: RemoveAllResourcePermissionsResponse,
+  errors: [
+    FailedDependencyException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
 /**
  * Deactivates the specified user, which revokes the user's access to Amazon
  * WorkDocs.
  */
-export const deactivateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deactivateUser: (
+  input: DeactivateUserRequest,
+) => Effect.Effect<
+  DeactivateUserResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivateUserRequest,
   output: DeactivateUserResponse,
   errors: [
@@ -2747,7 +2927,18 @@ export const deactivateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
  */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUser: (
+  input: DeleteUserRequest,
+) => Effect.Effect<
+  DeleteUserResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
   output: DeleteUserResponse,
   errors: [
@@ -2762,18 +2953,26 @@ export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes the permission for the specified principal from the specified
  * resource.
  */
-export const removeResourcePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveResourcePermissionRequest,
-    output: RemoveResourcePermissionResponse,
-    errors: [
-      FailedDependencyException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-  }),
-);
+export const removeResourcePermission: (
+  input: RemoveResourcePermissionRequest,
+) => Effect.Effect<
+  RemoveResourcePermissionResponse,
+  | FailedDependencyException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveResourcePermissionRequest,
+  output: RemoveResourcePermissionResponse,
+  errors: [
+    FailedDependencyException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
 /**
  * Retrieves details of the current user for whom the authentication token was
  * generated. This is not a valid action for SigV4 (administrative API) clients.
@@ -2784,7 +2983,18 @@ export const removeResourcePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon
  * WorkDocs Developer Guide.
  */
-export const getCurrentUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCurrentUser: (
+  input: GetCurrentUserRequest,
+) => Effect.Effect<
+  GetCurrentUserResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCurrentUserRequest,
   output: GetCurrentUserResponse,
   errors: [
@@ -2804,7 +3014,18 @@ export const getCurrentUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * limit the maximum number of levels. You can also request the parent folder
  * names.
  */
-export const getFolderPath = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFolderPath: (
+  input: GetFolderPathRequest,
+) => Effect.Effect<
+  GetFolderPathResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFolderPathRequest,
   output: GetFolderPathResponse,
   errors: [
@@ -2819,24 +3040,56 @@ export const getFolderPath = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Describes the groups specified by the query. Groups are defined by the underlying
  * Active Directory.
  */
-export const describeGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeGroups: {
+  (
     input: DescribeGroupsRequest,
-    output: DescribeGroupsResponse,
-    errors: [
-      FailedDependencyException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Groups",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeGroupsResponse,
+    | FailedDependencyException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeGroupsRequest,
+  ) => Stream.Stream<
+    DescribeGroupsResponse,
+    | FailedDependencyException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeGroupsRequest,
+  ) => Stream.Stream<
+    GroupMetadata,
+    | FailedDependencyException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeGroupsRequest,
+  output: DescribeGroupsResponse,
+  errors: [
+    FailedDependencyException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Groups",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Describes the current user's special folders; the `RootFolder` and the
  * `RecycleBin`. `RootFolder` is the root of user's files and
@@ -2849,28 +3102,77 @@ export const describeGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * Amazon
  * WorkDocs Developer Guide.
  */
-export const describeRootFolders =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRootFolders: {
+  (
     input: DescribeRootFoldersRequest,
-    output: DescribeRootFoldersResponse,
-    errors: [
-      FailedDependencyException,
-      InvalidArgumentException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Folders",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRootFoldersResponse,
+    | FailedDependencyException
+    | InvalidArgumentException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRootFoldersRequest,
+  ) => Stream.Stream<
+    DescribeRootFoldersResponse,
+    | FailedDependencyException
+    | InvalidArgumentException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRootFoldersRequest,
+  ) => Stream.Stream<
+    FolderMetadata,
+    | FailedDependencyException
+    | InvalidArgumentException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRootFoldersRequest,
+  output: DescribeRootFoldersResponse,
+  errors: [
+    FailedDependencyException,
+    InvalidArgumentException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Folders",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Retrieves version metadata for the specified document.
  */
-export const getDocumentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDocumentVersion: (
+  input: GetDocumentVersionRequest,
+) => Effect.Effect<
+  GetDocumentVersionResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | InvalidPasswordException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDocumentVersionRequest,
   output: GetDocumentVersionResponse,
   errors: [
@@ -2886,7 +3188,22 @@ export const getDocumentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Permanently deletes the specified folder and its contents.
  */
-export const deleteFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFolder: (
+  input: DeleteFolderRequest,
+) => Effect.Effect<
+  DeleteFolderResponse,
+  | ConcurrentModificationException
+  | ConflictingOperationException
+  | EntityNotExistsException
+  | FailedDependencyException
+  | LimitExceededException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFolderRequest,
   output: DeleteFolderResponse,
   errors: [
@@ -2904,22 +3221,34 @@ export const deleteFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Recovers a deleted version of an Amazon WorkDocs document.
  */
-export const restoreDocumentVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RestoreDocumentVersionsRequest,
-    output: RestoreDocumentVersionsResponse,
-    errors: [
-      ConcurrentModificationException,
-      ConflictingOperationException,
-      EntityNotExistsException,
-      FailedDependencyException,
-      InvalidOperationException,
-      ProhibitedStateException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-  }),
-);
+export const restoreDocumentVersions: (
+  input: RestoreDocumentVersionsRequest,
+) => Effect.Effect<
+  RestoreDocumentVersionsResponse,
+  | ConcurrentModificationException
+  | ConflictingOperationException
+  | EntityNotExistsException
+  | FailedDependencyException
+  | InvalidOperationException
+  | ProhibitedStateException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreDocumentVersionsRequest,
+  output: RestoreDocumentVersionsResponse,
+  errors: [
+    ConcurrentModificationException,
+    ConflictingOperationException,
+    EntityNotExistsException,
+    FailedDependencyException,
+    InvalidOperationException,
+    ProhibitedStateException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
 /**
  * Changes the status of the document version to ACTIVE.
  *
@@ -2927,27 +3256,55 @@ export const restoreDocumentVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * in a document upload, after the client uploads the document to an S3-presigned URL
  * returned by InitiateDocumentVersionUpload.
  */
-export const updateDocumentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDocumentVersionRequest,
-    output: UpdateDocumentVersionResponse,
-    errors: [
-      ConcurrentModificationException,
-      EntityNotExistsException,
-      FailedDependencyException,
-      InvalidOperationException,
-      ProhibitedStateException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-  }),
-);
+export const updateDocumentVersion: (
+  input: UpdateDocumentVersionRequest,
+) => Effect.Effect<
+  UpdateDocumentVersionResponse,
+  | ConcurrentModificationException
+  | EntityNotExistsException
+  | FailedDependencyException
+  | InvalidOperationException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDocumentVersionRequest,
+  output: UpdateDocumentVersionResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityNotExistsException,
+    FailedDependencyException,
+    InvalidOperationException,
+    ProhibitedStateException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
 /**
  * Updates the specified attributes of the specified folder. The user must have access
  * to both the folder and its parent folder, if applicable.
  */
-export const updateFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFolder: (
+  input: UpdateFolderRequest,
+) => Effect.Effect<
+  UpdateFolderResponse,
+  | ConcurrentModificationException
+  | ConflictingOperationException
+  | EntityAlreadyExistsException
+  | EntityNotExistsException
+  | FailedDependencyException
+  | LimitExceededException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFolderRequest,
   output: UpdateFolderResponse,
   errors: [
@@ -2966,7 +3323,23 @@ export const updateFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a folder with the specified name and parent folder.
  */
-export const createFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFolder: (
+  input: CreateFolderRequest,
+) => Effect.Effect<
+  CreateFolderResponse,
+  | ConcurrentModificationException
+  | ConflictingOperationException
+  | EntityAlreadyExistsException
+  | EntityNotExistsException
+  | FailedDependencyException
+  | LimitExceededException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFolderRequest,
   output: CreateFolderResponse,
   errors: [
@@ -2986,7 +3359,18 @@ export const createFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a user in a Simple AD or Microsoft AD directory. The status of a newly
  * created user is "ACTIVE". New users can access Amazon WorkDocs.
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUser: (
+  input: CreateUserRequest,
+) => Effect.Effect<
+  CreateUserResponse,
+  | EntityAlreadyExistsException
+  | FailedDependencyException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
   output: CreateUserResponse,
   errors: [
@@ -3000,7 +3384,19 @@ export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified list of labels from a resource.
  */
-export const deleteLabels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLabels: (
+  input: DeleteLabelsRequest,
+) => Effect.Effect<
+  DeleteLabelsResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLabelsRequest,
   output: DeleteLabelsResponse,
   errors: [
@@ -3018,25 +3414,49 @@ export const deleteLabels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * only when it no longer intends to upload the document version, or fails to do
  * so.
  */
-export const abortDocumentVersionUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AbortDocumentVersionUploadRequest,
-    output: AbortDocumentVersionUploadResponse,
-    errors: [
-      ConcurrentModificationException,
-      EntityNotExistsException,
-      FailedDependencyException,
-      ProhibitedStateException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-  }),
-);
+export const abortDocumentVersionUpload: (
+  input: AbortDocumentVersionUploadRequest,
+) => Effect.Effect<
+  AbortDocumentVersionUploadResponse,
+  | ConcurrentModificationException
+  | EntityNotExistsException
+  | FailedDependencyException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AbortDocumentVersionUploadRequest,
+  output: AbortDocumentVersionUploadResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityNotExistsException,
+    FailedDependencyException,
+    ProhibitedStateException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
 /**
  * Deletes the specified comment from the document version.
  */
-export const deleteComment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteComment: (
+  input: DeleteCommentRequest,
+) => Effect.Effect<
+  DeleteCommentResponse,
+  | DocumentLockedForCommentsException
+  | EntityNotExistsException
+  | FailedDependencyException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCommentRequest,
   output: DeleteCommentResponse,
   errors: [
@@ -3052,67 +3472,142 @@ export const deleteComment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the contents of the specified folder.
  */
-export const deleteFolderContents = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFolderContentsRequest,
-    output: DeleteFolderContentsResponse,
-    errors: [
-      ConflictingOperationException,
-      EntityNotExistsException,
-      FailedDependencyException,
-      ProhibitedStateException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-  }),
-);
+export const deleteFolderContents: (
+  input: DeleteFolderContentsRequest,
+) => Effect.Effect<
+  DeleteFolderContentsResponse,
+  | ConflictingOperationException
+  | EntityNotExistsException
+  | FailedDependencyException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFolderContentsRequest,
+  output: DeleteFolderContentsResponse,
+  errors: [
+    ConflictingOperationException,
+    EntityNotExistsException,
+    FailedDependencyException,
+    ProhibitedStateException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
 /**
  * List all the comments for the specified document version.
  */
-export const describeComments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeComments: {
+  (
     input: DescribeCommentsRequest,
-    output: DescribeCommentsResponse,
-    errors: [
-      EntityNotExistsException,
-      FailedDependencyException,
-      ProhibitedStateException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Comments",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeCommentsResponse,
+    | EntityNotExistsException
+    | FailedDependencyException
+    | ProhibitedStateException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCommentsRequest,
+  ) => Stream.Stream<
+    DescribeCommentsResponse,
+    | EntityNotExistsException
+    | FailedDependencyException
+    | ProhibitedStateException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCommentsRequest,
+  ) => Stream.Stream<
+    Comment,
+    | EntityNotExistsException
+    | FailedDependencyException
+    | ProhibitedStateException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCommentsRequest,
+  output: DescribeCommentsResponse,
+  errors: [
+    EntityNotExistsException,
+    FailedDependencyException,
+    ProhibitedStateException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Comments",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Adds one or more custom properties to the specified resource (a folder, document,
  * or version).
  */
-export const createCustomMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCustomMetadataRequest,
-    output: CreateCustomMetadataResponse,
-    errors: [
-      CustomMetadataLimitExceededException,
-      EntityNotExistsException,
-      FailedDependencyException,
-      ProhibitedStateException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-  }),
-);
+export const createCustomMetadata: (
+  input: CreateCustomMetadataRequest,
+) => Effect.Effect<
+  CreateCustomMetadataResponse,
+  | CustomMetadataLimitExceededException
+  | EntityNotExistsException
+  | FailedDependencyException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomMetadataRequest,
+  output: CreateCustomMetadataResponse,
+  errors: [
+    CustomMetadataLimitExceededException,
+    EntityNotExistsException,
+    FailedDependencyException,
+    ProhibitedStateException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
 /**
  * Permanently deletes the specified document and its associated metadata.
  */
-export const deleteDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDocument: (
+  input: DeleteDocumentRequest,
+) => Effect.Effect<
+  DeleteDocumentResponse,
+  | ConcurrentModificationException
+  | ConflictingOperationException
+  | EntityNotExistsException
+  | FailedDependencyException
+  | LimitExceededException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDocumentRequest,
   output: DeleteDocumentResponse,
   errors: [
@@ -3130,27 +3625,55 @@ export const deleteDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a specific version of a document.
  */
-export const deleteDocumentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDocumentVersionRequest,
-    output: DeleteDocumentVersionResponse,
-    errors: [
-      ConcurrentModificationException,
-      ConflictingOperationException,
-      EntityNotExistsException,
-      FailedDependencyException,
-      InvalidOperationException,
-      ProhibitedStateException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-  }),
-);
+export const deleteDocumentVersion: (
+  input: DeleteDocumentVersionRequest,
+) => Effect.Effect<
+  DeleteDocumentVersionResponse,
+  | ConcurrentModificationException
+  | ConflictingOperationException
+  | EntityNotExistsException
+  | FailedDependencyException
+  | InvalidOperationException
+  | ProhibitedStateException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDocumentVersionRequest,
+  output: DeleteDocumentVersionResponse,
+  errors: [
+    ConcurrentModificationException,
+    ConflictingOperationException,
+    EntityNotExistsException,
+    FailedDependencyException,
+    InvalidOperationException,
+    ProhibitedStateException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
 /**
  * Updates the specified attributes of a document. The user must have access to both
  * the document and its parent folder, if applicable.
  */
-export const updateDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDocument: (
+  input: UpdateDocumentRequest,
+) => Effect.Effect<
+  UpdateDocumentResponse,
+  | ConcurrentModificationException
+  | ConflictingOperationException
+  | EntityAlreadyExistsException
+  | EntityNotExistsException
+  | FailedDependencyException
+  | LimitExceededException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDocumentRequest,
   output: UpdateDocumentResponse,
   errors: [
@@ -3169,7 +3692,20 @@ export const updateDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details of a document.
  */
-export const getDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDocument: (
+  input: GetDocumentRequest,
+) => Effect.Effect<
+  GetDocumentResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | InvalidArgumentException
+  | InvalidPasswordException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDocumentRequest,
   output: GetDocumentResponse,
   errors: [
@@ -3185,7 +3721,20 @@ export const getDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the metadata of the specified folder.
  */
-export const getFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFolder: (
+  input: GetFolderRequest,
+) => Effect.Effect<
+  GetFolderResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | InvalidArgumentException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFolderRequest,
   output: GetFolderResponse,
   errors: [
@@ -3202,7 +3751,18 @@ export const getFolder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves a collection of resources, including folders and documents. The only
  * `CollectionType` supported is `SHARED_WITH_ME`.
  */
-export const getResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResources: (
+  input: GetResourcesRequest,
+) => Effect.Effect<
+  GetResourcesResponse,
+  | FailedDependencyException
+  | InvalidArgumentException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcesRequest,
   output: GetResourcesResponse,
   errors: [
@@ -3217,7 +3777,18 @@ export const getResources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Activates the specified user. Only active users can access Amazon
  * WorkDocs.
  */
-export const activateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const activateUser: (
+  input: ActivateUserRequest,
+) => Effect.Effect<
+  ActivateUserResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateUserRequest,
   output: ActivateUserResponse,
   errors: [
@@ -3233,23 +3804,46 @@ export const activateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * permissions are overwritten if the principals already have different
  * permissions.
  */
-export const addResourcePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddResourcePermissionsRequest,
-    output: AddResourcePermissionsResponse,
-    errors: [
-      FailedDependencyException,
-      ProhibitedStateException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-  }),
-);
+export const addResourcePermissions: (
+  input: AddResourcePermissionsRequest,
+) => Effect.Effect<
+  AddResourcePermissionsResponse,
+  | FailedDependencyException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddResourcePermissionsRequest,
+  output: AddResourcePermissionsResponse,
+  errors: [
+    FailedDependencyException,
+    ProhibitedStateException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
 /**
  * Adds a new comment to the specified document version.
  */
-export const createComment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createComment: (
+  input: CreateCommentRequest,
+) => Effect.Effect<
+  CreateCommentResponse,
+  | DocumentLockedForCommentsException
+  | EntityNotExistsException
+  | FailedDependencyException
+  | InvalidCommentOperationException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCommentRequest,
   output: CreateCommentResponse,
   errors: [
@@ -3266,72 +3860,188 @@ export const createComment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the user activities in a specified time period.
  */
-export const describeActivities = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeActivities: {
+  (
     input: DescribeActivitiesRequest,
-    output: DescribeActivitiesResponse,
-    errors: [
-      FailedDependencyException,
-      InvalidArgumentException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "UserActivities",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeActivitiesResponse,
+    | FailedDependencyException
+    | InvalidArgumentException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeActivitiesRequest,
+  ) => Stream.Stream<
+    DescribeActivitiesResponse,
+    | FailedDependencyException
+    | InvalidArgumentException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeActivitiesRequest,
+  ) => Stream.Stream<
+    Activity,
+    | FailedDependencyException
+    | InvalidArgumentException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeActivitiesRequest,
+  output: DescribeActivitiesResponse,
+  errors: [
+    FailedDependencyException,
+    InvalidArgumentException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "UserActivities",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Retrieves the document versions for the specified document.
  *
  * By default, only active versions are returned.
  */
-export const describeDocumentVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDocumentVersions: {
+  (
     input: DescribeDocumentVersionsRequest,
-    output: DescribeDocumentVersionsResponse,
-    errors: [
-      EntityNotExistsException,
-      FailedDependencyException,
-      InvalidArgumentException,
-      InvalidPasswordException,
-      ProhibitedStateException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "DocumentVersions",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeDocumentVersionsResponse,
+    | EntityNotExistsException
+    | FailedDependencyException
+    | InvalidArgumentException
+    | InvalidPasswordException
+    | ProhibitedStateException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDocumentVersionsRequest,
+  ) => Stream.Stream<
+    DescribeDocumentVersionsResponse,
+    | EntityNotExistsException
+    | FailedDependencyException
+    | InvalidArgumentException
+    | InvalidPasswordException
+    | ProhibitedStateException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDocumentVersionsRequest,
+  ) => Stream.Stream<
+    DocumentVersionMetadata,
+    | EntityNotExistsException
+    | FailedDependencyException
+    | InvalidArgumentException
+    | InvalidPasswordException
+    | ProhibitedStateException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDocumentVersionsRequest,
+  output: DescribeDocumentVersionsResponse,
+  errors: [
+    EntityNotExistsException,
+    FailedDependencyException,
+    InvalidArgumentException,
+    InvalidPasswordException,
+    ProhibitedStateException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "DocumentVersions",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Describes the permissions of a specified resource.
  */
-export const describeResourcePermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeResourcePermissions: {
+  (
     input: DescribeResourcePermissionsRequest,
-    output: DescribeResourcePermissionsResponse,
-    errors: [
-      FailedDependencyException,
-      InvalidArgumentException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Principals",
-      pageSize: "Limit",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeResourcePermissionsResponse,
+    | FailedDependencyException
+    | InvalidArgumentException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeResourcePermissionsRequest,
+  ) => Stream.Stream<
+    DescribeResourcePermissionsResponse,
+    | FailedDependencyException
+    | InvalidArgumentException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeResourcePermissionsRequest,
+  ) => Stream.Stream<
+    Principal,
+    | FailedDependencyException
+    | InvalidArgumentException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeResourcePermissionsRequest,
+  output: DescribeResourcePermissionsResponse,
+  errors: [
+    FailedDependencyException,
+    InvalidArgumentException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Principals",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Retrieves the path information (the hierarchy from the root folder) for the
  * requested document.
@@ -3341,7 +4051,18 @@ export const describeResourcePermissions =
  * limit the maximum number of levels. You can also request the names of the parent
  * folders.
  */
-export const getDocumentPath = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDocumentPath: (
+  input: GetDocumentPathRequest,
+) => Effect.Effect<
+  GetDocumentPathResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDocumentPathRequest,
   output: GetDocumentPathResponse,
   errors: [
@@ -3356,7 +4077,22 @@ export const getDocumentPath = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the specified attributes of the specified user, and grants or revokes
  * administrative privileges to the Amazon WorkDocs site.
  */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUser: (
+  input: UpdateUserRequest,
+) => Effect.Effect<
+  UpdateUserResponse,
+  | DeactivatingLastSystemUserException
+  | EntityNotExistsException
+  | FailedDependencyException
+  | IllegalUserStateException
+  | InvalidArgumentException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,
   output: UpdateUserResponse,
   errors: [
@@ -3379,27 +4115,68 @@ export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * are more results, the response includes a marker that you can use to request the next
  * set of results.
  */
-export const describeUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeUsers: {
+  (
     input: DescribeUsersRequest,
-    output: DescribeUsersResponse,
-    errors: [
-      EntityNotExistsException,
-      FailedDependencyException,
-      InvalidArgumentException,
-      RequestedEntityTooLargeException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Users",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeUsersResponse,
+    | EntityNotExistsException
+    | FailedDependencyException
+    | InvalidArgumentException
+    | RequestedEntityTooLargeException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeUsersRequest,
+  ) => Stream.Stream<
+    DescribeUsersResponse,
+    | EntityNotExistsException
+    | FailedDependencyException
+    | InvalidArgumentException
+    | RequestedEntityTooLargeException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeUsersRequest,
+  ) => Stream.Stream<
+    User,
+    | EntityNotExistsException
+    | FailedDependencyException
+    | InvalidArgumentException
+    | RequestedEntityTooLargeException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeUsersRequest,
+  output: DescribeUsersResponse,
+  errors: [
+    EntityNotExistsException,
+    FailedDependencyException,
+    InvalidArgumentException,
+    RequestedEntityTooLargeException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Users",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a
  * confirmation message, and must confirm the subscription.
@@ -3407,38 +4184,79 @@ export const describeUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * For more information, see Setting up notifications for an IAM user or role in the Amazon WorkDocs Developer
  * Guide.
  */
-export const createNotificationSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateNotificationSubscriptionRequest,
-    output: CreateNotificationSubscriptionResponse,
-    errors: [
-      InvalidArgumentException,
-      ServiceUnavailableException,
-      TooManySubscriptionsException,
-      UnauthorizedResourceAccessException,
-    ],
-  }));
+export const createNotificationSubscription: (
+  input: CreateNotificationSubscriptionRequest,
+) => Effect.Effect<
+  CreateNotificationSubscriptionResponse,
+  | InvalidArgumentException
+  | ServiceUnavailableException
+  | TooManySubscriptionsException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNotificationSubscriptionRequest,
+  output: CreateNotificationSubscriptionResponse,
+  errors: [
+    InvalidArgumentException,
+    ServiceUnavailableException,
+    TooManySubscriptionsException,
+    UnauthorizedResourceAccessException,
+  ],
+}));
 /**
  * Searches metadata and the content of folders, documents, document versions, and comments.
  */
-export const searchResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchResources: {
+  (
     input: SearchResourcesRequest,
-    output: SearchResourcesResponse,
-    errors: [
-      InvalidArgumentException,
-      ServiceUnavailableException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Items",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchResourcesResponse,
+    | InvalidArgumentException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchResourcesRequest,
+  ) => Stream.Stream<
+    SearchResourcesResponse,
+    | InvalidArgumentException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchResourcesRequest,
+  ) => Stream.Stream<
+    ResponseItem,
+    | InvalidArgumentException
+    | ServiceUnavailableException
+    | UnauthorizedOperationException
+    | UnauthorizedResourceAccessException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchResourcesRequest,
+  output: SearchResourcesResponse,
+  errors: [
+    InvalidArgumentException,
+    ServiceUnavailableException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Items",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Creates a new document object and version object.
  *
@@ -3449,24 +4267,43 @@ export const searchResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * To cancel the document upload, call AbortDocumentVersionUpload.
  */
-export const initiateDocumentVersionUpload =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: InitiateDocumentVersionUploadRequest,
-    output: InitiateDocumentVersionUploadResponse,
-    errors: [
-      DraftUploadOutOfSyncException,
-      EntityAlreadyExistsException,
-      EntityNotExistsException,
-      FailedDependencyException,
-      InvalidArgumentException,
-      InvalidPasswordException,
-      LimitExceededException,
-      ProhibitedStateException,
-      ResourceAlreadyCheckedOutException,
-      ServiceUnavailableException,
-      StorageLimitExceededException,
-      StorageLimitWillExceedException,
-      UnauthorizedOperationException,
-      UnauthorizedResourceAccessException,
-    ],
-  }));
+export const initiateDocumentVersionUpload: (
+  input: InitiateDocumentVersionUploadRequest,
+) => Effect.Effect<
+  InitiateDocumentVersionUploadResponse,
+  | DraftUploadOutOfSyncException
+  | EntityAlreadyExistsException
+  | EntityNotExistsException
+  | FailedDependencyException
+  | InvalidArgumentException
+  | InvalidPasswordException
+  | LimitExceededException
+  | ProhibitedStateException
+  | ResourceAlreadyCheckedOutException
+  | ServiceUnavailableException
+  | StorageLimitExceededException
+  | StorageLimitWillExceedException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InitiateDocumentVersionUploadRequest,
+  output: InitiateDocumentVersionUploadResponse,
+  errors: [
+    DraftUploadOutOfSyncException,
+    EntityAlreadyExistsException,
+    EntityNotExistsException,
+    FailedDependencyException,
+    InvalidArgumentException,
+    InvalidPasswordException,
+    LimitExceededException,
+    ProhibitedStateException,
+    ResourceAlreadyCheckedOutException,
+    ServiceUnavailableException,
+    StorageLimitExceededException,
+    StorageLimitWillExceedException,
+    UnauthorizedOperationException,
+    UnauthorizedResourceAccessException,
+  ],
+}));

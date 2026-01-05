@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://amplify.amazonaws.com");
 const svc = T.AwsApiService({ sdkId: "Amplify", serviceShapeName: "Amplify" });
 const auth = T.AwsAuthSigv4({ name: "amplify" });
@@ -238,6 +246,84 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Name = string;
+export type Description = string;
+export type Repository = string;
+export type ComputeRoleArn = string;
+export type ServiceRoleArn = string;
+export type OauthToken = string;
+export type AccessToken = string;
+export type BasicAuthCredentials = string;
+export type BuildSpec = string;
+export type CustomHeaders = string;
+export type AutoBranchCreationPattern = string;
+export type AppId = string;
+export type EnvironmentName = string;
+export type StackName = string;
+export type DeploymentArtifacts = string;
+export type BranchName = string;
+export type Framework = string;
+export type TTL = string;
+export type DisplayName = string;
+export type PullRequestEnvironmentName = string;
+export type BackendEnvironmentArn = string;
+export type DomainName = string;
+export type AutoSubDomainCreationPattern = string;
+export type AutoSubDomainIAMRole = string;
+export type JobId = string;
+export type WebhookId = string;
+export type ArtifactId = string;
+export type NextToken = string;
+export type MaxResultsForListApps = number;
+export type MaxResults = number;
+export type ResourceArn = string;
+export type SourceUrl = string;
+export type JobReason = string;
+export type CommitId = string;
+export type CommitMessage = string;
+export type TagKey = string;
+export type EnvKey = string;
+export type EnvValue = string;
+export type Source = string;
+export type Target = string;
+export type Status = string;
+export type Condition = string;
+export type TagValue = string;
+export type StackArn = string;
+export type FileName = string;
+export type MD5Hash = string;
+export type DomainPrefix = string;
+export type CertificateArn = string;
+export type LogUrl = string;
+export type ArtifactUrl = string;
+export type ErrorMessage = string;
+export type WebhookArn = string;
+export type WebhookUrl = string;
+export type AppArn = string;
+export type DefaultDomain = string;
+export type BranchArn = string;
+export type CustomDomain = string;
+export type ActiveJobId = string;
+export type TotalNumberOfJobs = string;
+export type ThumbnailUrl = string;
+export type AssociatedResource = string;
+export type DomainAssociationArn = string;
+export type StatusReason = string;
+export type CertificateVerificationDNSRecord = string;
+export type JobArn = string;
+export type ArtifactFileName = string;
+export type UploadUrl = string;
+export type WebAclArn = string;
+export type DNSRecord = string;
+export type StepName = string;
+export type ArtifactsUrl = string;
+export type TestArtifactsUrl = string;
+export type TestConfigUrl = string;
+export type Context = string;
+export type ThumbnailName = string;
+export type Code = string;
 
 //# Schemas
 export type AutoBranchCreationPatterns = string[];
@@ -2063,11 +2149,15 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class DependentServiceFailureException extends S.TaggedError<DependentServiceFailureException>()(
   "DependentServiceFailureException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { code: S.String, message: S.String },
@@ -2079,7 +2169,9 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
   { message: S.optional(S.String) },
@@ -2089,7 +2181,16 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
 /**
  * Tags the resource with a tag key and value.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | InternalFailureException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2101,7 +2202,38 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the existing Amplify apps.
  */
-export const listApps = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApps: {
+  (
+    input: ListAppsRequest,
+  ): Effect.Effect<
+    ListAppsResult,
+    | BadRequestException
+    | InternalFailureException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppsRequest,
+  ) => Stream.Stream<
+    ListAppsResult,
+    | BadRequestException
+    | InternalFailureException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppsRequest,
+  ) => Stream.Stream<
+    App,
+    | BadRequestException
+    | InternalFailureException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAppsRequest,
   output: ListAppsResult,
   errors: [
@@ -2119,7 +2251,16 @@ export const listApps = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Untags a resource with a specified Amazon Resource Name (ARN).
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | InternalFailureException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2131,7 +2272,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of tags for a specified Amazon Resource Name (ARN).
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | BadRequestException
+  | InternalFailureException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2143,7 +2293,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing Amplify app.
  */
-export const updateApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApp: (
+  input: UpdateAppRequest,
+) => Effect.Effect<
+  UpdateAppResult,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAppRequest,
   output: UpdateAppResult,
   errors: [
@@ -2156,7 +2316,17 @@ export const updateApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the website access logs for a specific time range using a presigned URL.
  */
-export const generateAccessLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const generateAccessLogs: (
+  input: GenerateAccessLogsRequest,
+) => Effect.Effect<
+  GenerateAccessLogsResult,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateAccessLogsRequest,
   output: GenerateAccessLogsResult,
   errors: [
@@ -2169,7 +2339,17 @@ export const generateAccessLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns an existing Amplify app specified by an app ID.
  */
-export const getApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApp: (
+  input: GetAppRequest,
+) => Effect.Effect<
+  GetAppResult,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppRequest,
   output: GetAppResult,
   errors: [
@@ -2188,22 +2368,40 @@ export const getApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * applications. When you deploy an application with Amplify Gen 2, you provision the app's
  * backend infrastructure using Typescript code.
  */
-export const getBackendEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBackendEnvironmentRequest,
-    output: GetBackendEnvironmentResult,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getBackendEnvironment: (
+  input: GetBackendEnvironmentRequest,
+) => Effect.Effect<
+  GetBackendEnvironmentResult,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBackendEnvironmentRequest,
+  output: GetBackendEnvironmentResult,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Returns a branch for an Amplify app.
  */
-export const getBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBranch: (
+  input: GetBranchRequest,
+) => Effect.Effect<
+  GetBranchResult,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBranchRequest,
   output: GetBranchResult,
   errors: [
@@ -2216,38 +2414,66 @@ export const getBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the domain information for an Amplify app.
  */
-export const getDomainAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDomainAssociationRequest,
-    output: GetDomainAssociationResult,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getDomainAssociation: (
+  input: GetDomainAssociationRequest,
+) => Effect.Effect<
+  GetDomainAssociationResult,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDomainAssociationRequest,
+  output: GetDomainAssociationResult,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a new domain association for an Amplify app.
  */
-export const updateDomainAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDomainAssociationRequest,
-    output: UpdateDomainAssociationResult,
-    errors: [
-      BadRequestException,
-      DependentServiceFailureException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateDomainAssociation: (
+  input: UpdateDomainAssociationRequest,
+) => Effect.Effect<
+  UpdateDomainAssociationResult,
+  | BadRequestException
+  | DependentServiceFailureException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDomainAssociationRequest,
+  output: UpdateDomainAssociationResult,
+  errors: [
+    BadRequestException,
+    DependentServiceFailureException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates a webhook.
  */
-export const updateWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWebhook: (
+  input: UpdateWebhookRequest,
+) => Effect.Effect<
+  UpdateWebhookResult,
+  | BadRequestException
+  | DependentServiceFailureException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWebhookRequest,
   output: UpdateWebhookResult,
   errors: [
@@ -2267,23 +2493,43 @@ export const updateWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * applications. When you deploy an application with Amplify Gen 2, you provision the app's
  * backend infrastructure using Typescript code.
  */
-export const deleteBackendEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBackendEnvironmentRequest,
-    output: DeleteBackendEnvironmentResult,
-    errors: [
-      BadRequestException,
-      DependentServiceFailureException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteBackendEnvironment: (
+  input: DeleteBackendEnvironmentRequest,
+) => Effect.Effect<
+  DeleteBackendEnvironmentResult,
+  | BadRequestException
+  | DependentServiceFailureException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBackendEnvironmentRequest,
+  output: DeleteBackendEnvironmentResult,
+  errors: [
+    BadRequestException,
+    DependentServiceFailureException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes a branch for an Amplify app.
  */
-export const deleteBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBranch: (
+  input: DeleteBranchRequest,
+) => Effect.Effect<
+  DeleteBranchResult,
+  | BadRequestException
+  | DependentServiceFailureException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBranchRequest,
   output: DeleteBranchResult,
   errors: [
@@ -2297,7 +2543,18 @@ export const deleteBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing Amplify app specified by an app ID.
  */
-export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApp: (
+  input: DeleteAppRequest,
+) => Effect.Effect<
+  DeleteAppResult,
+  | BadRequestException
+  | DependentServiceFailureException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppRequest,
   output: DeleteAppResult,
   errors: [
@@ -2311,23 +2568,43 @@ export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a domain association for an Amplify app.
  */
-export const deleteDomainAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDomainAssociationRequest,
-    output: DeleteDomainAssociationResult,
-    errors: [
-      BadRequestException,
-      DependentServiceFailureException,
-      InternalFailureException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteDomainAssociation: (
+  input: DeleteDomainAssociationRequest,
+) => Effect.Effect<
+  DeleteDomainAssociationResult,
+  | BadRequestException
+  | DependentServiceFailureException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDomainAssociationRequest,
+  output: DeleteDomainAssociationResult,
+  errors: [
+    BadRequestException,
+    DependentServiceFailureException,
+    InternalFailureException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Returns the artifact info that corresponds to an artifact id.
  */
-export const getArtifactUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getArtifactUrl: (
+  input: GetArtifactUrlRequest,
+) => Effect.Effect<
+  GetArtifactUrlResult,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetArtifactUrlRequest,
   output: GetArtifactUrlResult,
   errors: [
@@ -2341,7 +2618,18 @@ export const getArtifactUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the webhook information that corresponds to a specified webhook ID.
  */
-export const getWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWebhook: (
+  input: GetWebhookRequest,
+) => Effect.Effect<
+  GetWebhookResult,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWebhookRequest,
   output: GetWebhookResult,
   errors: [
@@ -2355,7 +2643,41 @@ export const getWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the jobs for a branch of an Amplify app.
  */
-export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listJobs: {
+  (
+    input: ListJobsRequest,
+  ): Effect.Effect<
+    ListJobsResult,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobsRequest,
+  ) => Stream.Stream<
+    ListJobsResult,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobsRequest,
+  ) => Stream.Stream<
+    JobSummary,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListJobsRequest,
   output: ListJobsResult,
   errors: [
@@ -2374,7 +2696,17 @@ export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns a list of webhooks for an Amplify app.
  */
-export const listWebhooks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listWebhooks: (
+  input: ListWebhooksRequest,
+) => Effect.Effect<
+  ListWebhooksResult,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListWebhooksRequest,
   output: ListWebhooksResult,
   errors: [
@@ -2393,7 +2725,18 @@ export const listWebhooks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * hours, the `StartDeployment` call and the associated `Job` will
  * fail.
  */
-export const startDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startDeployment: (
+  input: StartDeploymentRequest,
+) => Effect.Effect<
+  StartDeploymentResult,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDeploymentRequest,
   output: StartDeploymentResult,
   errors: [
@@ -2407,7 +2750,18 @@ export const startDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a new job for a branch of an Amplify app.
  */
-export const startJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startJob: (
+  input: StartJobRequest,
+) => Effect.Effect<
+  StartJobResult,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartJobRequest,
   output: StartJobResult,
   errors: [
@@ -2421,7 +2775,18 @@ export const startJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a job that is in progress for a branch of an Amplify app.
  */
-export const stopJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopJob: (
+  input: StopJobRequest,
+) => Effect.Effect<
+  StopJobResult,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopJobRequest,
   output: StopJobResult,
   errors: [
@@ -2441,23 +2806,43 @@ export const stopJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * applications. When you deploy an application with Amplify Gen 2, you provision the app's
  * backend infrastructure using Typescript code.
  */
-export const createBackendEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBackendEnvironmentRequest,
-    output: CreateBackendEnvironmentResult,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createBackendEnvironment: (
+  input: CreateBackendEnvironmentRequest,
+) => Effect.Effect<
+  CreateBackendEnvironmentResult,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBackendEnvironmentRequest,
+  output: CreateBackendEnvironmentResult,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes a job for a branch of an Amplify app.
  */
-export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteJob: (
+  input: DeleteJobRequest,
+) => Effect.Effect<
+  DeleteJobResult,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobRequest,
   output: DeleteJobResult,
   errors: [
@@ -2478,7 +2863,17 @@ export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * end-to-end Cypress tests for your Amplify application in the
  * *Amplify Hosting User Guide*.
  */
-export const listArtifacts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listArtifacts: (
+  input: ListArtifactsRequest,
+) => Effect.Effect<
+  ListArtifactsResult,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListArtifactsRequest,
   output: ListArtifactsResult,
   errors: [
@@ -2491,7 +2886,18 @@ export const listArtifacts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new Amplify app.
  */
-export const createApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApp: (
+  input: CreateAppRequest,
+) => Effect.Effect<
+  CreateAppResult,
+  | BadRequestException
+  | DependentServiceFailureException
+  | InternalFailureException
+  | LimitExceededException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppRequest,
   output: CreateAppResult,
   errors: [
@@ -2505,7 +2911,19 @@ export const createApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new branch for an Amplify app.
  */
-export const createBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBranch: (
+  input: CreateBranchRequest,
+) => Effect.Effect<
+  CreateBranchResult,
+  | BadRequestException
+  | DependentServiceFailureException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBranchRequest,
   output: CreateBranchResult,
   errors: [
@@ -2521,24 +2939,46 @@ export const createBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a new domain association for an Amplify app. This action associates a custom
  * domain with the Amplify app
  */
-export const createDomainAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDomainAssociationRequest,
-    output: CreateDomainAssociationResult,
-    errors: [
-      BadRequestException,
-      DependentServiceFailureException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createDomainAssociation: (
+  input: CreateDomainAssociationRequest,
+) => Effect.Effect<
+  CreateDomainAssociationResult,
+  | BadRequestException
+  | DependentServiceFailureException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDomainAssociationRequest,
+  output: CreateDomainAssociationResult,
+  errors: [
+    BadRequestException,
+    DependentServiceFailureException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a new webhook on an Amplify app.
  */
-export const createWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWebhook: (
+  input: CreateWebhookRequest,
+) => Effect.Effect<
+  CreateWebhookResult,
+  | BadRequestException
+  | DependentServiceFailureException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWebhookRequest,
   output: CreateWebhookResult,
   errors: [
@@ -2559,7 +2999,17 @@ export const createWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * hours, the `StartDeployment` call and the associated `Job` will
  * fail.
  */
-export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDeployment: (
+  input: CreateDeploymentRequest,
+) => Effect.Effect<
+  CreateDeploymentResult,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentRequest,
   output: CreateDeploymentResult,
   errors: [
@@ -2578,60 +3028,137 @@ export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * applications. When you deploy an application with Amplify Gen 2, you provision the app's
  * backend infrastructure using Typescript code.
  */
-export const listBackendEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListBackendEnvironmentsRequest,
-    output: ListBackendEnvironmentsResult,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const listBackendEnvironments: (
+  input: ListBackendEnvironmentsRequest,
+) => Effect.Effect<
+  ListBackendEnvironmentsResult,
+  | BadRequestException
+  | InternalFailureException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBackendEnvironmentsRequest,
+  output: ListBackendEnvironmentsResult,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Lists the branches of an Amplify app.
  */
-export const listBranches = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBranches: {
+  (
     input: ListBranchesRequest,
-    output: ListBranchesResult,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "branches",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBranchesResult,
+    | BadRequestException
+    | InternalFailureException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBranchesRequest,
+  ) => Stream.Stream<
+    ListBranchesResult,
+    | BadRequestException
+    | InternalFailureException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBranchesRequest,
+  ) => Stream.Stream<
+    Branch,
+    | BadRequestException
+    | InternalFailureException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBranchesRequest,
+  output: ListBranchesResult,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "branches",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns the domain associations for an Amplify app.
  */
-export const listDomainAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDomainAssociations: {
+  (
     input: ListDomainAssociationsRequest,
-    output: ListDomainAssociationsResult,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "domainAssociations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDomainAssociationsResult,
+    | BadRequestException
+    | InternalFailureException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDomainAssociationsRequest,
+  ) => Stream.Stream<
+    ListDomainAssociationsResult,
+    | BadRequestException
+    | InternalFailureException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDomainAssociationsRequest,
+  ) => Stream.Stream<
+    DomainAssociation,
+    | BadRequestException
+    | InternalFailureException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDomainAssociationsRequest,
+  output: ListDomainAssociationsResult,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "domainAssociations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates a branch for an Amplify app.
  */
-export const updateBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBranch: (
+  input: UpdateBranchRequest,
+) => Effect.Effect<
+  UpdateBranchResult,
+  | BadRequestException
+  | DependentServiceFailureException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBranchRequest,
   output: UpdateBranchResult,
   errors: [
@@ -2645,7 +3172,18 @@ export const updateBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a webhook.
  */
-export const deleteWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWebhook: (
+  input: DeleteWebhookRequest,
+) => Effect.Effect<
+  DeleteWebhookResult,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWebhookRequest,
   output: DeleteWebhookResult,
   errors: [
@@ -2659,7 +3197,18 @@ export const deleteWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a job for a branch of an Amplify app.
  */
-export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJob: (
+  input: GetJobRequest,
+) => Effect.Effect<
+  GetJobResult,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRequest,
   output: GetJobResult,
   errors: [

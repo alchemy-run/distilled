@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Cost Optimization Hub",
   serviceShapeName: "CostOptimizationHubService",
@@ -292,6 +300,10 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type MaxResults = number;
+export type AccountId = string;
 
 //# Schemas
 export interface GetPreferencesRequest {}
@@ -1523,6 +1535,26 @@ export const ValidationExceptionDetail = S.suspend(() =>
 }) as any as S.Schema<ValidationExceptionDetail>;
 export type ValidationExceptionDetails = ValidationExceptionDetail[];
 export const ValidationExceptionDetails = S.Array(ValidationExceptionDetail);
+export type ResourceDetails =
+  | { lambdaFunction: LambdaFunction }
+  | { ecsService: EcsService }
+  | { ec2Instance: Ec2Instance }
+  | { ebsVolume: EbsVolume }
+  | { ec2AutoScalingGroup: Ec2AutoScalingGroup }
+  | { ec2ReservedInstances: Ec2ReservedInstances }
+  | { rdsReservedInstances: RdsReservedInstances }
+  | { elastiCacheReservedInstances: ElastiCacheReservedInstances }
+  | { openSearchReservedInstances: OpenSearchReservedInstances }
+  | { redshiftReservedInstances: RedshiftReservedInstances }
+  | { ec2InstanceSavingsPlans: Ec2InstanceSavingsPlans }
+  | { computeSavingsPlans: ComputeSavingsPlans }
+  | { sageMakerSavingsPlans: SageMakerSavingsPlans }
+  | { rdsDbInstance: RdsDbInstance }
+  | { rdsDbInstanceStorage: RdsDbInstanceStorage }
+  | { auroraDbClusterStorage: AuroraDbClusterStorage }
+  | { dynamoDbReservedCapacity: DynamoDbReservedCapacity }
+  | { memoryDbReservedInstances: MemoryDbReservedInstances }
+  | { natGateway: NatGateway };
 export const ResourceDetails = S.Union(
   S.Struct({ lambdaFunction: LambdaFunction }),
   S.Struct({ ecsService: EcsService }),
@@ -1609,11 +1641,15 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -1631,7 +1667,17 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 /**
  * Returns a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented—estimated savings after discounts or estimated savings before discounts, for example.
  */
-export const getPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPreferences: (
+  input: GetPreferencesRequest,
+) => Effect.Effect<
+  GetPreferencesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPreferencesRequest,
   output: GetPreferencesResponse,
   errors: [
@@ -1646,85 +1692,217 @@ export const getPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The operation supports both daily and monthly time granularities and allows grouping results by account ID, Amazon Web Services Region. Results are returned as time-series data, enabling you to analyze trends in your cost optimization performance over the specified time period.
  */
-export const listEfficiencyMetrics =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEfficiencyMetrics: {
+  (
     input: ListEfficiencyMetricsRequest,
-    output: ListEfficiencyMetricsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "efficiencyMetricsByGroup",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEfficiencyMetricsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEfficiencyMetricsRequest,
+  ) => Stream.Stream<
+    ListEfficiencyMetricsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEfficiencyMetricsRequest,
+  ) => Stream.Stream<
+    EfficiencyMetricsByGroup,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEfficiencyMetricsRequest,
+  output: ListEfficiencyMetricsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "efficiencyMetricsByGroup",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of recommendations.
  */
-export const listRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecommendations: {
+  (
     input: ListRecommendationsRequest,
-    output: ListRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecommendationsRequest,
+  ) => Stream.Stream<
+    ListRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommendationsRequest,
+  ) => Stream.Stream<
+    Recommendation,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommendationsRequest,
+  output: ListRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the enrollment status for an account. It can also return the list of accounts that are enrolled under the organization.
  */
-export const listEnrollmentStatuses =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEnrollmentStatuses: {
+  (
     input: ListEnrollmentStatusesRequest,
-    output: ListEnrollmentStatusesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEnrollmentStatusesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnrollmentStatusesRequest,
+  ) => Stream.Stream<
+    ListEnrollmentStatusesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnrollmentStatusesRequest,
+  ) => Stream.Stream<
+    AccountEnrollmentStatus,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnrollmentStatusesRequest,
+  output: ListEnrollmentStatusesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a concise representation of savings estimates for resources. Also returns de-duped savings across different types of recommendations.
  *
  * The following filters are not supported for this API: `recommendationIds`, `resourceArns`, and `resourceIds`.
  */
-export const listRecommendationSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecommendationSummaries: {
+  (
     input: ListRecommendationSummariesRequest,
-    output: ListRecommendationSummariesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecommendationSummariesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecommendationSummariesRequest,
+  ) => Stream.Stream<
+    ListRecommendationSummariesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommendationSummariesRequest,
+  ) => Stream.Stream<
+    RecommendationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommendationSummariesRequest,
+  output: ListRecommendationSummariesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service.
  *
@@ -1732,22 +1910,40 @@ export const listRecommendationSummaries =
  *
  * You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data.
  */
-export const updateEnrollmentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEnrollmentStatusRequest,
-    output: UpdateEnrollmentStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateEnrollmentStatus: (
+  input: UpdateEnrollmentStatusRequest,
+) => Effect.Effect<
+  UpdateEnrollmentStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEnrollmentStatusRequest,
+  output: UpdateEnrollmentStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented.
  */
-export const updatePreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePreferences: (
+  input: UpdatePreferencesRequest,
+) => Effect.Effect<
+  UpdatePreferencesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePreferencesRequest,
   output: UpdatePreferencesResponse,
   errors: [
@@ -1762,7 +1958,18 @@ export const updatePreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The `recommendationId` is only valid for up to a maximum of 24 hours as recommendations are refreshed daily. To retrieve the `recommendationId`, use the `ListRecommendations` API.
  */
-export const getRecommendation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRecommendation: (
+  input: GetRecommendationRequest,
+) => Effect.Effect<
+  GetRecommendationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecommendationRequest,
   output: GetRecommendationResponse,
   errors: [

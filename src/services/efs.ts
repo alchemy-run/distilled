@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "EFS",
   serviceShapeName: "MagnolioAPIService_v20150201",
@@ -423,6 +431,49 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ClientToken = string;
+export type FileSystemId = string;
+export type CreationToken = string;
+export type KmsKeyId = string;
+export type ProvisionedThroughputInMibps = number;
+export type AvailabilityZoneName = string;
+export type SubnetId = string;
+export type IpAddress = string;
+export type Ipv6Address = string;
+export type SecurityGroup = string;
+export type AccessPointId = string;
+export type MountTargetId = string;
+export type TagKey = string;
+export type MaxResults = number;
+export type Token = string;
+export type MaxItems = number;
+export type Marker = string;
+export type ResourceId = string;
+export type Policy = string;
+export type TagValue = string;
+export type Uid = number;
+export type Gid = number;
+export type Path = string;
+export type RegionName = string;
+export type RoleArn = string;
+export type AwsAccountId = string;
+export type FileSystemArn = string;
+export type MountTargetCount = number;
+export type AvailabilityZoneId = string;
+export type NetworkInterfaceId = string;
+export type VpcId = string;
+export type ErrorCode = string;
+export type ErrorMessage = string;
+export type OwnerUid = number;
+export type OwnerGid = number;
+export type Permissions = string;
+export type FileSystemSizeValue = number;
+export type FileSystemNullableSizeValue = number;
+export type Name = string;
+export type AccessPointArn = string;
+export type StatusMessage = string;
 
 //# Schemas
 export type SecurityGroups = string[];
@@ -1635,7 +1686,9 @@ export class FileSystemNotFound extends S.TaggedError<FileSystemNotFound>()(
 export class InternalServerError extends S.TaggedError<InternalServerError>()(
   "InternalServerError",
   { ErrorCode: S.String, Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class IncorrectMountTargetState extends S.TaggedError<IncorrectMountTargetState>()(
   "IncorrectMountTargetState",
   { ErrorCode: S.String, Message: S.optional(S.String) },
@@ -1647,7 +1700,9 @@ export class FileSystemInUse extends S.TaggedError<FileSystemInUse>()(
 export class DependencyTimeout extends S.TaggedError<DependencyTimeout>()(
   "DependencyTimeout",
   { ErrorCode: S.String, Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
@@ -1703,7 +1758,9 @@ export class SecurityGroupLimitExceeded extends S.TaggedError<SecurityGroupLimit
 export class InsufficientThroughputCapacity extends S.TaggedError<InsufficientThroughputCapacity>()(
   "InsufficientThroughputCapacity",
   { ErrorCode: S.String, Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidPolicyException extends S.TaggedError<InvalidPolicyException>()(
   "InvalidPolicyException",
   { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
@@ -1715,7 +1772,9 @@ export class IpAddressInUse extends S.TaggedError<IpAddressInUse>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class SecurityGroupNotFound extends S.TaggedError<SecurityGroupNotFound>()(
   "SecurityGroupNotFound",
   { ErrorCode: S.String, Message: S.optional(S.String) },
@@ -1743,7 +1802,9 @@ export class NetworkInterfaceLimitExceeded extends S.TaggedError<NetworkInterfac
 export class TooManyRequests extends S.TaggedError<TooManyRequests>()(
   "TooManyRequests",
   { ErrorCode: S.String, Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class NoFreeAddressesInSubnet extends S.TaggedError<NoFreeAddressesInSubnet>()(
   "NoFreeAddressesInSubnet",
   { ErrorCode: S.String, Message: S.optional(S.String) },
@@ -1761,7 +1822,13 @@ export class SubnetNotFound extends S.TaggedError<SubnetNotFound>()(
  *
  * This operation requires permissions for the `elasticfilesystem:DeleteAccessPoint` action.
  */
-export const deleteAccessPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAccessPoint: (
+  input: DeleteAccessPointRequest,
+) => Effect.Effect<
+  DeleteAccessPointResponse,
+  AccessPointNotFound | BadRequest | InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessPointRequest,
   output: DeleteAccessPointResponse,
   errors: [AccessPointNotFound, BadRequest, InternalServerError],
@@ -1775,33 +1842,70 @@ export const deleteAccessPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation requires permissions for the `elasticfilesystem:DescribeAccessPoints` action.
  */
-export const describeAccessPoints =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAccessPoints: {
+  (
     input: DescribeAccessPointsRequest,
-    output: DescribeAccessPointsResponse,
-    errors: [
-      AccessPointNotFound,
-      BadRequest,
-      FileSystemNotFound,
-      InternalServerError,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AccessPoints",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAccessPointsResponse,
+    | AccessPointNotFound
+    | BadRequest
+    | FileSystemNotFound
+    | InternalServerError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAccessPointsRequest,
+  ) => Stream.Stream<
+    DescribeAccessPointsResponse,
+    | AccessPointNotFound
+    | BadRequest
+    | FileSystemNotFound
+    | InternalServerError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAccessPointsRequest,
+  ) => Stream.Stream<
+    AccessPointDescription,
+    | AccessPointNotFound
+    | BadRequest
+    | FileSystemNotFound
+    | InternalServerError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAccessPointsRequest,
+  output: DescribeAccessPointsResponse,
+  errors: [
+    AccessPointNotFound,
+    BadRequest,
+    FileSystemNotFound,
+    InternalServerError,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AccessPoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the account preferences settings for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region.
  */
-export const describeAccountPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccountPreferencesRequest,
-    output: DescribeAccountPreferencesResponse,
-    errors: [InternalServerError],
-  }),
-);
+export const describeAccountPreferences: (
+  input: DescribeAccountPreferencesRequest,
+) => Effect.Effect<
+  DescribeAccountPreferencesResponse,
+  InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccountPreferencesRequest,
+  output: DescribeAccountPreferencesResponse,
+  errors: [InternalServerError],
+}));
 /**
  * Deletes a file system, permanently severing access to its contents. Upon return, the
  * file system no longer exists and you can't access any contents of the deleted file
@@ -1825,7 +1929,17 @@ export const describeAccountPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation requires permissions for the
  * `elasticfilesystem:DeleteFileSystem` action.
  */
-export const deleteFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFileSystem: (
+  input: DeleteFileSystemRequest,
+) => Effect.Effect<
+  DeleteFileSystemResponse,
+  | BadRequest
+  | FileSystemInUse
+  | FileSystemNotFound
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFileSystemRequest,
   output: DeleteFileSystemResponse,
   errors: [
@@ -1861,18 +1975,39 @@ export const deleteFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `elasticfilesystem:DescribeFileSystems` action.
  */
-export const describeFileSystems =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeFileSystems: {
+  (
     input: DescribeFileSystemsRequest,
-    output: DescribeFileSystemsResponse,
-    errors: [BadRequest, FileSystemNotFound, InternalServerError],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "FileSystems",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeFileSystemsResponse,
+    BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFileSystemsRequest,
+  ) => Stream.Stream<
+    DescribeFileSystemsResponse,
+    BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFileSystemsRequest,
+  ) => Stream.Stream<
+    FileSystemDescription,
+    BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFileSystemsRequest,
+  output: DescribeFileSystemsResponse,
+  errors: [BadRequest, FileSystemNotFound, InternalServerError],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "FileSystems",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Returns the current `LifecycleConfiguration` object for the specified
  * EFS file system. Lifecycle management uses the `LifecycleConfiguration`
@@ -1883,12 +2018,17 @@ export const describeFileSystems =
  * This operation requires permissions for the
  * `elasticfilesystem:DescribeLifecycleConfiguration` operation.
  */
-export const describeLifecycleConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeLifecycleConfigurationRequest,
-    output: LifecycleConfigurationDescription,
-    errors: [BadRequest, FileSystemNotFound, InternalServerError],
-  }));
+export const describeLifecycleConfiguration: (
+  input: DescribeLifecycleConfigurationRequest,
+) => Effect.Effect<
+  LifecycleConfigurationDescription,
+  BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLifecycleConfigurationRequest,
+  output: LifecycleConfigurationDescription,
+  errors: [BadRequest, FileSystemNotFound, InternalServerError],
+}));
 /**
  * DEPRECATED - The `DescribeTags` action is deprecated and not maintained. To view
  * tags associated with EFS resources, use the `ListTagsForResource` API
@@ -1901,41 +2041,94 @@ export const describeLifecycleConfiguration =
  * This operation requires permissions for the
  * `elasticfilesystem:DescribeTags` action.
  */
-export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeTags: {
+  (
     input: DescribeTagsRequest,
-    output: DescribeTagsResponse,
-    errors: [BadRequest, FileSystemNotFound, InternalServerError],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "Tags",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeTagsResponse,
+    BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTagsRequest,
+  ) => Stream.Stream<
+    DescribeTagsResponse,
+    BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTagsRequest,
+  ) => Stream.Stream<
+    Tag,
+    BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTagsRequest,
+  output: DescribeTagsResponse,
+  errors: [BadRequest, FileSystemNotFound, InternalServerError],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "Tags",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists all tags for a top-level EFS resource. You must provide the ID of the
  * resource that you want to retrieve the tags for.
  *
  * This operation requires permissions for the `elasticfilesystem:DescribeAccessPoints` action.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceRequest,
-    output: ListTagsForResourceResponse,
-    errors: [
-      AccessPointNotFound,
-      BadRequest,
-      FileSystemNotFound,
-      InternalServerError,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceResponse,
+    | AccessPointNotFound
+    | BadRequest
+    | FileSystemNotFound
+    | InternalServerError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    ListTagsForResourceResponse,
+    | AccessPointNotFound
+    | BadRequest
+    | FileSystemNotFound
+    | InternalServerError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessPointNotFound
+    | BadRequest
+    | FileSystemNotFound
+    | InternalServerError
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessPointNotFound,
+    BadRequest,
+    FileSystemNotFound,
+    InternalServerError,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * DEPRECATED - `DeleteTags` is deprecated and not maintained. To remove tags from EFS
  * resources, use the API action.
@@ -1948,7 +2141,13 @@ export const listTagsForResource =
  * This operation requires permissions for the `elasticfilesystem:DeleteTags`
  * action.
  */
-export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTags: (
+  input: DeleteTagsRequest,
+) => Effect.Effect<
+  DeleteTagsResponse,
+  BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsRequest,
   output: DeleteTagsResponse,
   errors: [BadRequest, FileSystemNotFound, InternalServerError],
@@ -1959,7 +2158,17 @@ export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation requires permissions for the `elasticfilesystem:TagResource` action.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessPointNotFound
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1975,7 +2184,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation requires permissions for the `elasticfilesystem:UntagResource` action.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessPointNotFound
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1996,13 +2215,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * to use the short 8 character format resource ID. Contact Amazon Web Services support if you
  * receive an error and must use short IDs for file system and mount target resources.
  */
-export const putAccountPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutAccountPreferencesRequest,
-    output: PutAccountPreferencesResponse,
-    errors: [BadRequest, InternalServerError],
-  }),
-);
+export const putAccountPreferences: (
+  input: PutAccountPreferencesRequest,
+) => Effect.Effect<
+  PutAccountPreferencesResponse,
+  BadRequest | InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAccountPreferencesRequest,
+  output: PutAccountPreferencesResponse,
+  errors: [BadRequest, InternalServerError],
+}));
 /**
  * DEPRECATED - `CreateTags` is deprecated and not maintained. To create tags for EFS
  * resources, use the API action.
@@ -2015,7 +2238,13 @@ export const putAccountPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation requires permission for the `elasticfilesystem:CreateTags`
  * action.
  */
-export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTags: (
+  input: CreateTagsRequest,
+) => Effect.Effect<
+  CreateTagsResponse,
+  BadRequest | FileSystemNotFound | InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagsRequest,
   output: CreateTagsResponse,
   errors: [BadRequest, FileSystemNotFound, InternalServerError],
@@ -2033,17 +2262,26 @@ export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - `ec2:DescribeNetworkInterfaceAttribute` action on the mount target's
  * network interface.
  */
-export const describeMountTargetSecurityGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeMountTargetSecurityGroupsRequest,
-    output: DescribeMountTargetSecurityGroupsResponse,
-    errors: [
-      BadRequest,
-      IncorrectMountTargetState,
-      InternalServerError,
-      MountTargetNotFound,
-    ],
-  }));
+export const describeMountTargetSecurityGroups: (
+  input: DescribeMountTargetSecurityGroupsRequest,
+) => Effect.Effect<
+  DescribeMountTargetSecurityGroupsResponse,
+  | BadRequest
+  | IncorrectMountTargetState
+  | InternalServerError
+  | MountTargetNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeMountTargetSecurityGroupsRequest,
+  output: DescribeMountTargetSecurityGroupsResponse,
+  errors: [
+    BadRequest,
+    IncorrectMountTargetState,
+    InternalServerError,
+    MountTargetNotFound,
+  ],
+}));
 /**
  * Deletes a replication configuration. Deleting a replication configuration ends the
  * replication process. After a replication configuration is deleted, the destination file system
@@ -2053,17 +2291,26 @@ export const describeMountTargetSecurityGroups =
  * This operation requires permissions for the
  * `elasticfilesystem:DeleteReplicationConfiguration` action.
  */
-export const deleteReplicationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteReplicationConfigurationRequest,
-    output: DeleteReplicationConfigurationResponse,
-    errors: [
-      BadRequest,
-      FileSystemNotFound,
-      InternalServerError,
-      ReplicationNotFound,
-    ],
-  }));
+export const deleteReplicationConfiguration: (
+  input: DeleteReplicationConfigurationRequest,
+) => Effect.Effect<
+  DeleteReplicationConfigurationResponse,
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | ReplicationNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReplicationConfigurationRequest,
+  output: DeleteReplicationConfigurationResponse,
+  errors: [
+    BadRequest,
+    FileSystemNotFound,
+    InternalServerError,
+    ReplicationNotFound,
+  ],
+}));
 /**
  * Deletes the specified mount target.
  *
@@ -2089,7 +2336,17 @@ export const deleteReplicationConfiguration =
  *
  * - `ec2:DeleteNetworkInterface`
  */
-export const deleteMountTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMountTarget: (
+  input: DeleteMountTargetRequest,
+) => Effect.Effect<
+  DeleteMountTargetResponse,
+  | BadRequest
+  | DependencyTimeout
+  | InternalServerError
+  | MountTargetNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMountTargetRequest,
   output: DeleteMountTargetResponse,
   errors: [
@@ -2109,42 +2366,81 @@ export const deleteMountTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * that you specify in `FileSystemId`, or on the file system of the mount target that
  * you specify in `MountTargetId`.
  */
-export const describeMountTargets =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeMountTargets: {
+  (
     input: DescribeMountTargetsRequest,
-    output: DescribeMountTargetsResponse,
-    errors: [
-      AccessPointNotFound,
-      BadRequest,
-      FileSystemNotFound,
-      InternalServerError,
-      MountTargetNotFound,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "NextMarker",
-      items: "MountTargets",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeMountTargetsResponse,
+    | AccessPointNotFound
+    | BadRequest
+    | FileSystemNotFound
+    | InternalServerError
+    | MountTargetNotFound
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeMountTargetsRequest,
+  ) => Stream.Stream<
+    DescribeMountTargetsResponse,
+    | AccessPointNotFound
+    | BadRequest
+    | FileSystemNotFound
+    | InternalServerError
+    | MountTargetNotFound
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeMountTargetsRequest,
+  ) => Stream.Stream<
+    MountTargetDescription,
+    | AccessPointNotFound
+    | BadRequest
+    | FileSystemNotFound
+    | InternalServerError
+    | MountTargetNotFound
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeMountTargetsRequest,
+  output: DescribeMountTargetsResponse,
+  errors: [
+    AccessPointNotFound,
+    BadRequest,
+    FileSystemNotFound,
+    InternalServerError,
+    MountTargetNotFound,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "MountTargets",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Returns the `FileSystemPolicy` for the specified EFS file
  * system.
  *
  * This operation requires permissions for the `elasticfilesystem:DescribeFileSystemPolicy` action.
  */
-export const describeFileSystemPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFileSystemPolicyRequest,
-    output: FileSystemPolicyDescription,
-    errors: [
-      BadRequest,
-      FileSystemNotFound,
-      InternalServerError,
-      PolicyNotFound,
-    ],
-  }),
-);
+export const describeFileSystemPolicy: (
+  input: DescribeFileSystemPolicyRequest,
+) => Effect.Effect<
+  FileSystemPolicyDescription,
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | PolicyNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFileSystemPolicyRequest,
+  output: FileSystemPolicyDescription,
+  errors: [BadRequest, FileSystemNotFound, InternalServerError, PolicyNotFound],
+}));
 /**
  * Use this action to manage storage for your file system. A
  * `LifecycleConfiguration` consists of one or more `LifecyclePolicy`
@@ -2200,18 +2496,26 @@ export const describeFileSystemPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To apply a `LifecycleConfiguration` object to an encrypted file system, you
  * need the same Key Management Service permissions as when you created the encrypted file system.
  */
-export const putLifecycleConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutLifecycleConfigurationRequest,
-    output: LifecycleConfigurationDescription,
-    errors: [
-      BadRequest,
-      FileSystemNotFound,
-      IncorrectFileSystemLifeCycleState,
-      InternalServerError,
-    ],
-  }),
-);
+export const putLifecycleConfiguration: (
+  input: PutLifecycleConfigurationRequest,
+) => Effect.Effect<
+  LifecycleConfigurationDescription,
+  | BadRequest
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutLifecycleConfigurationRequest,
+  output: LifecycleConfigurationDescription,
+  errors: [
+    BadRequest,
+    FileSystemNotFound,
+    IncorrectFileSystemLifeCycleState,
+    InternalServerError,
+  ],
+}));
 /**
  * Deletes the `FileSystemPolicy` for the specified file system.
  * The default `FileSystemPolicy` goes into effect once the existing policy is deleted.
@@ -2219,38 +2523,66 @@ export const putLifecycleConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This operation requires permissions for the `elasticfilesystem:DeleteFileSystemPolicy` action.
  */
-export const deleteFileSystemPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFileSystemPolicyRequest,
-    output: DeleteFileSystemPolicyResponse,
-    errors: [
-      BadRequest,
-      FileSystemNotFound,
-      IncorrectFileSystemLifeCycleState,
-      InternalServerError,
-    ],
-  }),
-);
+export const deleteFileSystemPolicy: (
+  input: DeleteFileSystemPolicyRequest,
+) => Effect.Effect<
+  DeleteFileSystemPolicyResponse,
+  | BadRequest
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFileSystemPolicyRequest,
+  output: DeleteFileSystemPolicyResponse,
+  errors: [
+    BadRequest,
+    FileSystemNotFound,
+    IncorrectFileSystemLifeCycleState,
+    InternalServerError,
+  ],
+}));
 /**
  * Returns the backup policy for the specified EFS file system.
  */
-export const describeBackupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeBackupPolicyRequest,
-    output: BackupPolicyDescription,
-    errors: [
-      BadRequest,
-      FileSystemNotFound,
-      InternalServerError,
-      PolicyNotFound,
-      ValidationException,
-    ],
-  }),
-);
+export const describeBackupPolicy: (
+  input: DescribeBackupPolicyRequest,
+) => Effect.Effect<
+  BackupPolicyDescription,
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | PolicyNotFound
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBackupPolicyRequest,
+  output: BackupPolicyDescription,
+  errors: [
+    BadRequest,
+    FileSystemNotFound,
+    InternalServerError,
+    PolicyNotFound,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the file system's backup policy. Use this action to start or stop automatic backups of the file system.
  */
-export const putBackupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putBackupPolicy: (
+  input: PutBackupPolicyRequest,
+) => Effect.Effect<
+  BackupPolicyDescription,
+  | BadRequest
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InternalServerError
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBackupPolicyRequest,
   output: BackupPolicyDescription,
   errors: [
@@ -2266,24 +2598,60 @@ export const putBackupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * not specified, all of the replication configurations for the Amazon Web Services account in an
  * Amazon Web Services Region are retrieved.
  */
-export const describeReplicationConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeReplicationConfigurations: {
+  (
     input: DescribeReplicationConfigurationsRequest,
-    output: DescribeReplicationConfigurationsResponse,
-    errors: [
-      BadRequest,
-      FileSystemNotFound,
-      InternalServerError,
-      ReplicationNotFound,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Replications",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeReplicationConfigurationsResponse,
+    | BadRequest
+    | FileSystemNotFound
+    | InternalServerError
+    | ReplicationNotFound
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeReplicationConfigurationsRequest,
+  ) => Stream.Stream<
+    DescribeReplicationConfigurationsResponse,
+    | BadRequest
+    | FileSystemNotFound
+    | InternalServerError
+    | ReplicationNotFound
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeReplicationConfigurationsRequest,
+  ) => Stream.Stream<
+    ReplicationConfigurationDescription,
+    | BadRequest
+    | FileSystemNotFound
+    | InternalServerError
+    | ReplicationNotFound
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeReplicationConfigurationsRequest,
+  output: DescribeReplicationConfigurationsResponse,
+  errors: [
+    BadRequest,
+    FileSystemNotFound,
+    InternalServerError,
+    ReplicationNotFound,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Replications",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Applies an Amazon EFS
  * `FileSystemPolicy` to an Amazon EFS file system. A file system policy is an
@@ -2298,7 +2666,18 @@ export const describeReplicationConfigurations =
  *
  * This operation requires permissions for the `elasticfilesystem:PutFileSystemPolicy` action.
  */
-export const putFileSystemPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putFileSystemPolicy: (
+  input: PutFileSystemPolicyRequest,
+) => Effect.Effect<
+  FileSystemPolicyDescription,
+  | BadRequest
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InternalServerError
+  | InvalidPolicyException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutFileSystemPolicyRequest,
   output: FileSystemPolicyDescription,
   errors: [
@@ -2334,7 +2713,20 @@ export const putFileSystemPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * information, see Granting
  * permissions to tag resources during creation.
  */
-export const createAccessPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAccessPoint: (
+  input: CreateAccessPointRequest,
+) => Effect.Effect<
+  AccessPointDescription,
+  | AccessPointAlreadyExists
+  | AccessPointLimitExceeded
+  | BadRequest
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InternalServerError
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessPointRequest,
   output: AccessPointDescription,
   errors: [
@@ -2365,19 +2757,30 @@ export const createAccessPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - `ec2:ModifyNetworkInterfaceAttribute` action on the mount target's network
  * interface.
  */
-export const modifyMountTargetSecurityGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyMountTargetSecurityGroupsRequest,
-    output: ModifyMountTargetSecurityGroupsResponse,
-    errors: [
-      BadRequest,
-      IncorrectMountTargetState,
-      InternalServerError,
-      MountTargetNotFound,
-      SecurityGroupLimitExceeded,
-      SecurityGroupNotFound,
-    ],
-  }));
+export const modifyMountTargetSecurityGroups: (
+  input: ModifyMountTargetSecurityGroupsRequest,
+) => Effect.Effect<
+  ModifyMountTargetSecurityGroupsResponse,
+  | BadRequest
+  | IncorrectMountTargetState
+  | InternalServerError
+  | MountTargetNotFound
+  | SecurityGroupLimitExceeded
+  | SecurityGroupNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyMountTargetSecurityGroupsRequest,
+  output: ModifyMountTargetSecurityGroupsResponse,
+  errors: [
+    BadRequest,
+    IncorrectMountTargetState,
+    InternalServerError,
+    MountTargetNotFound,
+    SecurityGroupLimitExceeded,
+    SecurityGroupNotFound,
+  ],
+}));
 /**
  * Creates a new, empty file system. The operation requires a creation token in the
  * request that Amazon EFS uses to ensure idempotent creation (calling the operation with same
@@ -2441,7 +2844,20 @@ export const modifyMountTargetSecurityGroups =
  * permissions to use the `elasticfilesystem:TagResource` action. For more
  * information, see Granting permissions to tag resources during creation.
  */
-export const createFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFileSystem: (
+  input: CreateFileSystemRequest,
+) => Effect.Effect<
+  FileSystemDescription,
+  | BadRequest
+  | FileSystemAlreadyExists
+  | FileSystemLimitExceeded
+  | InsufficientThroughputCapacity
+  | InternalServerError
+  | ThroughputLimitExceeded
+  | UnsupportedAvailabilityZone
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFileSystemRequest,
   output: FileSystemDescription,
   errors: [
@@ -2460,22 +2876,34 @@ export const createFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `elasticfilesystem:UpdateFileSystemProtection` action.
  */
-export const updateFileSystemProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFileSystemProtectionRequest,
-    output: FileSystemProtectionDescription,
-    errors: [
-      BadRequest,
-      FileSystemNotFound,
-      IncorrectFileSystemLifeCycleState,
-      InsufficientThroughputCapacity,
-      InternalServerError,
-      ReplicationAlreadyExists,
-      ThroughputLimitExceeded,
-      TooManyRequests,
-    ],
-  }),
-);
+export const updateFileSystemProtection: (
+  input: UpdateFileSystemProtectionRequest,
+) => Effect.Effect<
+  FileSystemProtectionDescription,
+  | BadRequest
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InsufficientThroughputCapacity
+  | InternalServerError
+  | ReplicationAlreadyExists
+  | ThroughputLimitExceeded
+  | TooManyRequests
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFileSystemProtectionRequest,
+  output: FileSystemProtectionDescription,
+  errors: [
+    BadRequest,
+    FileSystemNotFound,
+    IncorrectFileSystemLifeCycleState,
+    InsufficientThroughputCapacity,
+    InternalServerError,
+    ReplicationAlreadyExists,
+    ThroughputLimitExceeded,
+    TooManyRequests,
+  ],
+}));
 /**
  * Creates a replication conﬁguration to either a new or existing EFS file system.
  * For more information, see Amazon EFS replication in the Amazon EFS User
@@ -2500,29 +2928,58 @@ export const updateFileSystemProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * in the Amazon EFS User
  * Guide.
  */
-export const createReplicationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateReplicationConfigurationRequest,
-    output: ReplicationConfigurationDescription,
-    errors: [
-      BadRequest,
-      ConflictException,
-      FileSystemLimitExceeded,
-      FileSystemNotFound,
-      IncorrectFileSystemLifeCycleState,
-      InsufficientThroughputCapacity,
-      InternalServerError,
-      ReplicationNotFound,
-      ThroughputLimitExceeded,
-      UnsupportedAvailabilityZone,
-      ValidationException,
-    ],
-  }));
+export const createReplicationConfiguration: (
+  input: CreateReplicationConfigurationRequest,
+) => Effect.Effect<
+  ReplicationConfigurationDescription,
+  | BadRequest
+  | ConflictException
+  | FileSystemLimitExceeded
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InsufficientThroughputCapacity
+  | InternalServerError
+  | ReplicationNotFound
+  | ThroughputLimitExceeded
+  | UnsupportedAvailabilityZone
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateReplicationConfigurationRequest,
+  output: ReplicationConfigurationDescription,
+  errors: [
+    BadRequest,
+    ConflictException,
+    FileSystemLimitExceeded,
+    FileSystemNotFound,
+    IncorrectFileSystemLifeCycleState,
+    InsufficientThroughputCapacity,
+    InternalServerError,
+    ReplicationNotFound,
+    ThroughputLimitExceeded,
+    UnsupportedAvailabilityZone,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the throughput mode or the amount of provisioned throughput of an existing file
  * system.
  */
-export const updateFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFileSystem: (
+  input: UpdateFileSystemRequest,
+) => Effect.Effect<
+  FileSystemDescription,
+  | BadRequest
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InsufficientThroughputCapacity
+  | InternalServerError
+  | ThroughputLimitExceeded
+  | TooManyRequests
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFileSystemRequest,
   output: FileSystemDescription,
   errors: [
@@ -2649,7 +3106,26 @@ export const updateFileSystem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `ec2:CreateNetworkInterface`
  */
-export const createMountTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMountTarget: (
+  input: CreateMountTargetRequest,
+) => Effect.Effect<
+  MountTargetDescription,
+  | AvailabilityZonesMismatch
+  | BadRequest
+  | FileSystemNotFound
+  | IncorrectFileSystemLifeCycleState
+  | InternalServerError
+  | IpAddressInUse
+  | MountTargetConflict
+  | NetworkInterfaceLimitExceeded
+  | NoFreeAddressesInSubnet
+  | SecurityGroupLimitExceeded
+  | SecurityGroupNotFound
+  | SubnetNotFound
+  | UnsupportedAvailabilityZone
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMountTargetRequest,
   output: MountTargetDescription,
   errors: [

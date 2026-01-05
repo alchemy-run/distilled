@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "WorkMailMessageFlow",
   serviceShapeName: "GiraffeMessageInTransitService",
@@ -241,6 +249,13 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type messageIdType = string;
+export type s3BucketIdType = string;
+export type s3KeyIdType = string;
+export type s3VersionType = string;
+export type errorMessage = string;
+
 //# Schemas
 export interface GetRawMessageContentRequest {
   messageId: string;
@@ -337,13 +352,17 @@ export class MessageRejected extends S.TaggedError<MessageRejected>()(
 /**
  * Retrieves the raw content of an in-transit email message, in MIME format.
  */
-export const getRawMessageContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRawMessageContentRequest,
-    output: GetRawMessageContentResponse,
-    errors: [ResourceNotFoundException],
-  }),
-);
+export const getRawMessageContent: (
+  input: GetRawMessageContentRequest,
+) => Effect.Effect<
+  GetRawMessageContentResponse,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRawMessageContentRequest,
+  output: GetRawMessageContentResponse,
+  errors: [ResourceNotFoundException],
+}));
 /**
  * Updates the raw content of an in-transit email message, in MIME format.
  *
@@ -357,15 +376,23 @@ export const getRawMessageContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * even though GetRawMessageContent returns an updated
  * message.
  */
-export const putRawMessageContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRawMessageContentRequest,
-    output: PutRawMessageContentResponse,
-    errors: [
-      InvalidContentLocation,
-      MessageFrozen,
-      MessageRejected,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const putRawMessageContent: (
+  input: PutRawMessageContentRequest,
+) => Effect.Effect<
+  PutRawMessageContentResponse,
+  | InvalidContentLocation
+  | MessageFrozen
+  | MessageRejected
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRawMessageContentRequest,
+  output: PutRawMessageContentResponse,
+  errors: [
+    InvalidContentLocation,
+    MessageFrozen,
+    MessageRejected,
+    ResourceNotFoundException,
+  ],
+}));

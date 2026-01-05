@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "KafkaConnect",
   serviceShapeName: "KafkaConnect",
@@ -323,6 +331,31 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type __stringMax1024 = string;
+export type __stringMin1Max128 = string;
+export type __string = string;
+export type NetworkType = string;
+export type CustomPluginContentType = string;
+export type __sensitiveString = string;
+export type MaxResults = number;
+export type TagKey = string;
+export type KafkaClusterClientAuthenticationType = string;
+export type KafkaClusterEncryptionInTransitType = string;
+export type __longMin1 = number;
+export type TagValue = string;
+export type WorkerConfigurationState = string;
+export type ConnectorState = string;
+export type CustomPluginState = string;
+export type ConnectorOperationState = string;
+export type ConnectorOperationType = string;
+export type __integer = number;
+export type __integerMin1Max8 = number;
+export type __long = number;
+export type ConnectorOperationStepType = string;
+export type ConnectorOperationStepState = string;
+export type __integerMin1Max100 = number;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -1729,7 +1762,9 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { message: S.optional(S.String) },
@@ -1737,11 +1772,15 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
   { message: S.optional(S.String) },
@@ -1751,7 +1790,20 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
 /**
  * Removes tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1767,26 +1819,51 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a worker configuration using the specified properties.
  */
-export const createWorkerConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWorkerConfigurationRequest,
-    output: CreateWorkerConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createWorkerConfiguration: (
+  input: CreateWorkerConfigurationRequest,
+) => Effect.Effect<
+  CreateWorkerConfigurationResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWorkerConfigurationRequest,
+  output: CreateWorkerConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes the specified connector.
  */
-export const deleteConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConnector: (
+  input: DeleteConnectorRequest,
+) => Effect.Effect<
+  DeleteConnectorResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectorRequest,
   output: DeleteConnectorResponse,
   errors: [
@@ -1802,7 +1879,20 @@ export const deleteConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a custom plugin.
  */
-export const deleteCustomPlugin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCustomPlugin: (
+  input: DeleteCustomPluginRequest,
+) => Effect.Effect<
+  DeleteCustomPluginResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomPluginRequest,
   output: DeleteCustomPluginResponse,
   errors: [
@@ -1818,25 +1908,49 @@ export const deleteCustomPlugin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified worker configuration.
  */
-export const deleteWorkerConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWorkerConfigurationRequest,
-    output: DeleteWorkerConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteWorkerConfiguration: (
+  input: DeleteWorkerConfigurationRequest,
+) => Effect.Effect<
+  DeleteWorkerConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkerConfigurationRequest,
+  output: DeleteWorkerConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Lists all the tags attached to the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1852,137 +1966,339 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the specified connector's operations.
  */
-export const describeConnectorOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConnectorOperationRequest,
-    output: DescribeConnectorOperationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const describeConnectorOperation: (
+  input: DescribeConnectorOperationRequest,
+) => Effect.Effect<
+  DescribeConnectorOperationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConnectorOperationRequest,
+  output: DescribeConnectorOperationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Returns information about a worker configuration.
  */
-export const describeWorkerConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeWorkerConfigurationRequest,
-    output: DescribeWorkerConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const describeWorkerConfiguration: (
+  input: DescribeWorkerConfigurationRequest,
+) => Effect.Effect<
+  DescribeWorkerConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeWorkerConfigurationRequest,
+  output: DescribeWorkerConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Lists information about a connector's operation(s).
  */
-export const listConnectorOperations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConnectorOperations: {
+  (
     input: ListConnectorOperationsRequest,
-    output: ListConnectorOperationsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "connectorOperations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConnectorOperationsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectorOperationsRequest,
+  ) => Stream.Stream<
+    ListConnectorOperationsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectorOperationsRequest,
+  ) => Stream.Stream<
+    ConnectorOperationSummary,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectorOperationsRequest,
+  output: ListConnectorOperationsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "connectorOperations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of all the connectors in this account and Region. The list is limited to connectors whose name starts with the specified prefix. The response also includes a description of each of the listed connectors.
  */
-export const listConnectors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listConnectors: {
+  (
     input: ListConnectorsRequest,
-    output: ListConnectorsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "connectors",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListConnectorsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectorsRequest,
+  ) => Stream.Stream<
+    ListConnectorsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectorsRequest,
+  ) => Stream.Stream<
+    ConnectorSummary,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectorsRequest,
+  output: ListConnectorsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "connectors",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of all of the custom plugins in this account and Region.
  */
-export const listCustomPlugins = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCustomPlugins: {
+  (
     input: ListCustomPluginsRequest,
-    output: ListCustomPluginsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "customPlugins",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCustomPluginsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCustomPluginsRequest,
+  ) => Stream.Stream<
+    ListCustomPluginsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCustomPluginsRequest,
+  ) => Stream.Stream<
+    CustomPluginSummary,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCustomPluginsRequest,
+  output: ListCustomPluginsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "customPlugins",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of all of the worker configurations in this account and Region.
  */
-export const listWorkerConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWorkerConfigurations: {
+  (
     input: ListWorkerConfigurationsRequest,
-    output: ListWorkerConfigurationsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "workerConfigurations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWorkerConfigurationsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkerConfigurationsRequest,
+  ) => Stream.Stream<
+    ListWorkerConfigurationsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkerConfigurationsRequest,
+  ) => Stream.Stream<
+    WorkerConfigurationSummary,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkerConfigurationsRequest,
+  output: ListWorkerConfigurationsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workerConfigurations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Attaches tags to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1999,7 +2315,21 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a custom plugin using the specified properties.
  */
-export const createCustomPlugin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCustomPlugin: (
+  input: CreateCustomPluginRequest,
+) => Effect.Effect<
+  CreateCustomPluginResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomPluginRequest,
   output: CreateCustomPluginResponse,
   errors: [
@@ -2016,7 +2346,21 @@ export const createCustomPlugin = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a connector using the specified properties.
  */
-export const createConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConnector: (
+  input: CreateConnectorRequest,
+) => Effect.Effect<
+  CreateConnectorResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectorRequest,
   output: CreateConnectorResponse,
   errors: [
@@ -2033,7 +2377,20 @@ export const createConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns summary information about the connector.
  */
-export const describeConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeConnector: (
+  input: DescribeConnectorRequest,
+) => Effect.Effect<
+  DescribeConnectorResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConnectorRequest,
   output: DescribeConnectorResponse,
   errors: [
@@ -2049,25 +2406,49 @@ export const describeConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * A summary description of the custom plugin.
  */
-export const describeCustomPlugin = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCustomPluginRequest,
-    output: DescribeCustomPluginResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const describeCustomPlugin: (
+  input: DescribeCustomPluginRequest,
+) => Effect.Effect<
+  DescribeCustomPluginResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCustomPluginRequest,
+  output: DescribeCustomPluginResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates the specified connector. For request body, specify only one parameter: either `capacity` or `connectorConfiguration`.
  */
-export const updateConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateConnector: (
+  input: UpdateConnectorRequest,
+) => Effect.Effect<
+  UpdateConnectorResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectorRequest,
   output: UpdateConnectorResponse,
   errors: [

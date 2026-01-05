@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Outposts",
   serviceShapeName: "OutpostsOlafService",
@@ -260,6 +268,75 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type CapacityTaskId = string;
+export type OutpostIdentifier = string;
+export type OrderId = string;
+export type OutpostName = string;
+export type OutpostDescription = string;
+export type SiteId = string;
+export type AvailabilityZone = string;
+export type AvailabilityZoneId = string;
+export type SiteName = string;
+export type SiteDescription = string;
+export type SiteNotes = string;
+export type OutpostId = string;
+export type SkuCode = string;
+export type ConnectionId = string;
+export type Token = string;
+export type MaxResults1000 = number;
+export type AssetIdInput = string;
+export type AssetId = string;
+export type OutpostInstanceType = string;
+export type AccountId = string;
+export type HostId = string;
+export type Family = string;
+export type LifeCycleStatus = string;
+export type CountryCode = string;
+export type StateOrRegion = string;
+export type City = string;
+export type Arn = string;
+export type DeviceSerialNumber = string;
+export type WireGuardPublicKey = string;
+export type NetworkInterfaceDeviceIndex = number;
+export type TagKey = string;
+export type LineItemQuantity = number;
+export type TagValue = string;
+export type ContactName = string;
+export type ContactPhoneNumber = string;
+export type AddressLine1 = string;
+export type AddressLine2 = string;
+export type AddressLine3 = string;
+export type DistrictOrCounty = string;
+export type PostalCode = string;
+export type Municipality = string;
+export type InstanceTypeName = string;
+export type InstanceTypeCount = number;
+export type InstanceId = string;
+export type ErrorMessage = string;
+export type OutpostArn = string;
+export type UnderlayIpAddress = string;
+export type CapacityTaskStatusReason = string;
+export type CatalogItemPowerKva = number;
+export type CatalogItemWeightLbs = number;
+export type SupportedUplinkGbps = number;
+export type ServerEndpoint = string;
+export type CIDR = string;
+export type OutpostIdOnly = string;
+export type OwnerId = string;
+export type SiteArn = string;
+export type NullableDouble = number;
+export type InstanceType = string;
+export type VCPUCount = number;
+export type RackId = string;
+export type MaxSize = string;
+export type Quantity = string;
+export type LineItemId = string;
+export type InstanceFamilyName = string;
+export type RackElevation = number;
+export type TrackingId = string;
+export type MacAddress = string;
 
 //# Schemas
 export type AssetIdList = string[];
@@ -2056,7 +2133,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -2086,27 +2165,61 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  * all of the specified filters. For a filter where you can specify multiple values, the results include
  * items that match any of the values that you specify for the filter.
  */
-export const listOutposts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listOutposts: {
+  (
     input: ListOutpostsInput,
-    output: ListOutpostsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Outposts",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListOutpostsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOutpostsInput,
+  ) => Stream.Stream<
+    ListOutpostsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOutpostsInput,
+  ) => Stream.Stream<
+    Outpost,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOutpostsInput,
+  output: ListOutpostsOutput,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Outposts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Removes tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [InternalServerException, NotFoundException, ValidationException],
@@ -2116,27 +2229,70 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This will generally include instance types that are not currently configured and therefore
  * cannot be launched with the current Outpost capacity configuration.
  */
-export const getOutpostSupportedInstanceTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getOutpostSupportedInstanceTypes: {
+  (
     input: GetOutpostSupportedInstanceTypesInput,
-    output: GetOutpostSupportedInstanceTypesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      NotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InstanceTypes",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetOutpostSupportedInstanceTypesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetOutpostSupportedInstanceTypesInput,
+  ) => Stream.Stream<
+    GetOutpostSupportedInstanceTypesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetOutpostSupportedInstanceTypesInput,
+  ) => Stream.Stream<
+    InstanceTypeItem,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetOutpostSupportedInstanceTypesInput,
+  output: GetOutpostSupportedInstanceTypesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    NotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InstanceTypes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the site address of the specified site.
  */
-export const getSiteAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSiteAddress: (
+  input: GetSiteAddressInput,
+) => Effect.Effect<
+  GetSiteAddressOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSiteAddressInput,
   output: GetSiteAddressOutput,
   errors: [
@@ -2153,28 +2309,69 @@ export const getSiteAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * all of the specified filters. For a filter where you can specify multiple values, the results include
  * items that match any of the values that you specify for the filter.
  */
-export const listCatalogItems = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCatalogItems: {
+  (
     input: ListCatalogItemsInput,
-    output: ListCatalogItemsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      NotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CatalogItems",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCatalogItemsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCatalogItemsInput,
+  ) => Stream.Stream<
+    ListCatalogItemsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCatalogItemsInput,
+  ) => Stream.Stream<
+    CatalogItem,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCatalogItemsInput,
+  output: ListCatalogItemsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    NotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CatalogItems",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [InternalServerException, NotFoundException, ValidationException],
@@ -2189,7 +2386,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon Web Services managed policies for Amazon Web Services Outposts and
  * Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the *Amazon Web Services Outposts User Guide*.
  */
-export const startConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startConnection: (
+  input: StartConnectionRequest,
+) => Effect.Effect<
+  StartConnectionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartConnectionRequest,
   output: StartConnectionResponse,
   errors: [
@@ -2202,7 +2409,18 @@ export const startConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels the capacity task.
  */
-export const cancelCapacityTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelCapacityTask: (
+  input: CancelCapacityTaskInput,
+) => Effect.Effect<
+  CancelCapacityTaskOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelCapacityTaskInput,
   output: CancelCapacityTaskOutput,
   errors: [
@@ -2216,7 +2434,17 @@ export const cancelCapacityTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets details of the specified capacity task.
  */
-export const getCapacityTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCapacityTask: (
+  input: GetCapacityTaskInput,
+) => Effect.Effect<
+  GetCapacityTaskOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCapacityTaskInput,
   output: GetCapacityTaskOutput,
   errors: [
@@ -2236,7 +2464,17 @@ export const getCapacityTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon Web Services managed policies for Amazon Web Services Outposts and
  * Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the *Amazon Web Services Outposts User Guide*.
  */
-export const getConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConnection: (
+  input: GetConnectionRequest,
+) => Effect.Effect<
+  GetConnectionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionRequest,
   output: GetConnectionResponse,
   errors: [
@@ -2249,7 +2487,17 @@ export const getConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about the specified Outpost.
  */
-export const getOutpost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getOutpost: (
+  input: GetOutpostInput,
+) => Effect.Effect<
+  GetOutpostOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOutpostInput,
   output: GetOutpostOutput,
   errors: [
@@ -2262,42 +2510,115 @@ export const getOutpost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets current and historical billing information about the specified Outpost.
  */
-export const getOutpostBillingInformation =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getOutpostBillingInformation: {
+  (
     input: GetOutpostBillingInformationInput,
-    output: GetOutpostBillingInformationOutput,
-    errors: [AccessDeniedException, InternalServerException, NotFoundException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Subscriptions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetOutpostBillingInformationOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetOutpostBillingInformationInput,
+  ) => Stream.Stream<
+    GetOutpostBillingInformationOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetOutpostBillingInformationInput,
+  ) => Stream.Stream<
+    Subscription,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetOutpostBillingInformationInput,
+  output: GetOutpostBillingInformationOutput,
+  errors: [AccessDeniedException, InternalServerException, NotFoundException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Subscriptions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the instance types for the specified Outpost.
  */
-export const getOutpostInstanceTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getOutpostInstanceTypes: {
+  (
     input: GetOutpostInstanceTypesInput,
-    output: GetOutpostInstanceTypesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      NotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InstanceTypes",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetOutpostInstanceTypesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetOutpostInstanceTypesInput,
+  ) => Stream.Stream<
+    GetOutpostInstanceTypesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetOutpostInstanceTypesInput,
+  ) => Stream.Stream<
+    InstanceTypeItem,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetOutpostInstanceTypesInput,
+  output: GetOutpostInstanceTypesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    NotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InstanceTypes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets information about the specified Outpost site.
  */
-export const getSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSite: (
+  input: GetSiteInput,
+) => Effect.Effect<
+  GetSiteOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSiteInput,
   output: GetSiteOutput,
   errors: [
@@ -2311,46 +2632,111 @@ export const getSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * A list of Amazon EC2 instances, belonging to all accounts, running on the specified Outpost.
  * Does not include Amazon EBS or Amazon S3 instances.
  */
-export const listAssetInstances = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAssetInstances: {
+  (
     input: ListAssetInstancesInput,
-    output: ListAssetInstancesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      NotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AssetInstances",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAssetInstancesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssetInstancesInput,
+  ) => Stream.Stream<
+    ListAssetInstancesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssetInstancesInput,
+  ) => Stream.Stream<
+    AssetInstance,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssetInstancesInput,
+  output: ListAssetInstancesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    NotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AssetInstances",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * A list of Amazon EC2 instances running on the Outpost and belonging to the account that
  * initiated the capacity task. Use this list to specify the instances you cannot stop to free up
  * capacity to run the capacity task.
  */
-export const listBlockingInstancesForCapacityTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBlockingInstancesForCapacityTask: {
+  (
     input: ListBlockingInstancesForCapacityTaskInput,
-    output: ListBlockingInstancesForCapacityTaskOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      NotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "BlockingInstances",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBlockingInstancesForCapacityTaskOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBlockingInstancesForCapacityTaskInput,
+  ) => Stream.Stream<
+    ListBlockingInstancesForCapacityTaskOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBlockingInstancesForCapacityTaskInput,
+  ) => Stream.Stream<
+    BlockingInstance,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBlockingInstancesForCapacityTaskInput,
+  output: ListBlockingInstancesForCapacityTaskOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    NotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BlockingInstances",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the capacity tasks for your Amazon Web Services account.
  *
@@ -2358,29 +2744,72 @@ export const listBlockingInstancesForCapacityTask =
  * all of the specified filters. For a filter where you can specify multiple values, the results include
  * items that match any of the values that you specify for the filter.
  */
-export const listCapacityTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCapacityTasks: {
+  (
     input: ListCapacityTasksInput,
-    output: ListCapacityTasksOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      NotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CapacityTasks",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCapacityTasksOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCapacityTasksInput,
+  ) => Stream.Stream<
+    ListCapacityTasksOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCapacityTasksInput,
+  ) => Stream.Stream<
+    CapacityTaskSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCapacityTasksInput,
+  output: ListCapacityTasksOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    NotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CapacityTasks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Starts the specified capacity task. You can have one active capacity task for each order
  * and each Outpost.
  */
-export const startCapacityTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startCapacityTask: (
+  input: StartCapacityTaskInput,
+) => Effect.Effect<
+  StartCapacityTaskOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCapacityTaskInput,
   output: StartCapacityTaskOutput,
   errors: [
@@ -2399,7 +2828,38 @@ export const startCapacityTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * all of the specified filters. For a filter where you can specify multiple values, the results include
  * items that match any of the values that you specify for the filter.
  */
-export const listSites = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSites: {
+  (
+    input: ListSitesInput,
+  ): Effect.Effect<
+    ListSitesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSitesInput,
+  ) => Stream.Stream<
+    ListSitesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSitesInput,
+  ) => Stream.Stream<
+    Site,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSitesInput,
   output: ListSitesOutput,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
@@ -2413,7 +2873,16 @@ export const listSites = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Adds tags to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [InternalServerException, NotFoundException, ValidationException],
@@ -2421,23 +2890,43 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts the decommission process to return the Outposts racks or servers.
  */
-export const startOutpostDecommission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartOutpostDecommissionInput,
-    output: StartOutpostDecommissionOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      NotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const startOutpostDecommission: (
+  input: StartOutpostDecommissionInput,
+) => Effect.Effect<
+  StartOutpostDecommissionOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartOutpostDecommissionInput,
+  output: StartOutpostDecommissionOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    NotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an Outpost.
  */
-export const updateOutpost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateOutpost: (
+  input: UpdateOutpostInput,
+) => Effect.Effect<
+  UpdateOutpostOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOutpostInput,
   output: UpdateOutpostOutput,
   errors: [
@@ -2451,7 +2940,18 @@ export const updateOutpost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified site.
  */
-export const updateSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSite: (
+  input: UpdateSiteInput,
+) => Effect.Effect<
+  UpdateSiteOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSiteInput,
   output: UpdateSiteOutput,
   errors: [
@@ -2471,7 +2971,18 @@ export const updateSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can update the operating address before you place an order at the site, or after all
  * Outposts that belong to the site have been deactivated.
  */
-export const updateSiteAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSiteAddress: (
+  input: UpdateSiteAddressInput,
+) => Effect.Effect<
+  UpdateSiteAddressOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSiteAddressInput,
   output: UpdateSiteAddressOutput,
   errors: [
@@ -2490,22 +3001,43 @@ export const updateSiteAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To update a rack at a site with an order of `IN_PROGRESS`, you must wait for
  * the order to complete or cancel the order.
  */
-export const updateSiteRackPhysicalProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSiteRackPhysicalPropertiesInput,
-    output: UpdateSiteRackPhysicalPropertiesOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      NotFoundException,
-      ValidationException,
-    ],
-  }));
+export const updateSiteRackPhysicalProperties: (
+  input: UpdateSiteRackPhysicalPropertiesInput,
+) => Effect.Effect<
+  UpdateSiteRackPhysicalPropertiesOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSiteRackPhysicalPropertiesInput,
+  output: UpdateSiteRackPhysicalPropertiesOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    NotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Cancels the specified order for an Outpost.
  */
-export const cancelOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelOrder: (
+  input: CancelOrderInput,
+) => Effect.Effect<
+  CancelOrderOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelOrderInput,
   output: CancelOrderOutput,
   errors: [
@@ -2519,7 +3051,18 @@ export const cancelOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified Outpost.
  */
-export const deleteOutpost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteOutpost: (
+  input: DeleteOutpostInput,
+) => Effect.Effect<
+  DeleteOutpostOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOutpostInput,
   output: DeleteOutpostOutput,
   errors: [
@@ -2533,7 +3076,18 @@ export const deleteOutpost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified site.
  */
-export const deleteSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSite: (
+  input: DeleteSiteInput,
+) => Effect.Effect<
+  DeleteSiteOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSiteInput,
   output: DeleteSiteOutput,
   errors: [
@@ -2547,7 +3101,18 @@ export const deleteSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a site for an Outpost.
  */
-export const createSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSite: (
+  input: CreateSiteInput,
+) => Effect.Effect<
+  CreateSiteOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSiteInput,
   output: CreateSiteOutput,
   errors: [
@@ -2561,7 +3126,17 @@ export const createSite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about the specified catalog item.
  */
-export const getCatalogItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCatalogItem: (
+  input: GetCatalogItemInput,
+) => Effect.Effect<
+  GetCatalogItemOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCatalogItemInput,
   output: GetCatalogItemOutput,
   errors: [
@@ -2574,7 +3149,41 @@ export const getCatalogItem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the Outpost orders for your Amazon Web Services account.
  */
-export const listOrders = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOrders: {
+  (
+    input: ListOrdersInput,
+  ): Effect.Effect<
+    ListOrdersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOrdersInput,
+  ) => Stream.Stream<
+    ListOrdersOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOrdersInput,
+  ) => Stream.Stream<
+    OrderSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrdersInput,
   output: ListOrdersOutput,
   errors: [
@@ -2593,7 +3202,19 @@ export const listOrders = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Creates an order for an Outpost.
  */
-export const createOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createOrder: (
+  input: CreateOrderInput,
+) => Effect.Effect<
+  CreateOrderOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrderInput,
   output: CreateOrderOutput,
   errors: [
@@ -2610,7 +3231,19 @@ export const createOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can specify either an Availability one or an AZ ID.
  */
-export const createOutpost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createOutpost: (
+  input: CreateOutpostInput,
+) => Effect.Effect<
+  CreateOutpostOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOutpostInput,
   output: CreateOutpostOutput,
   errors: [
@@ -2625,7 +3258,16 @@ export const createOutpost = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about the specified order.
  */
-export const getOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getOrder: (
+  input: GetOrderInput,
+) => Effect.Effect<
+  GetOrderOutput,
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrderInput,
   output: GetOrderOutput,
   errors: [InternalServerException, NotFoundException, ValidationException],
@@ -2637,7 +3279,41 @@ export const getOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * all of the specified filters. For a filter where you can specify multiple values, the results include
  * items that match any of the values that you specify for the filter.
  */
-export const listAssets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssets: {
+  (
+    input: ListAssetsInput,
+  ): Effect.Effect<
+    ListAssetsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssetsInput,
+  ) => Stream.Stream<
+    ListAssetsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssetsInput,
+  ) => Stream.Stream<
+    AssetInfo,
+    | AccessDeniedException
+    | InternalServerException
+    | NotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAssetsInput,
   output: ListAssetsOutput,
   errors: [

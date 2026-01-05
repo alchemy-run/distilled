@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Kinesis Video WebRTC Storage",
   serviceShapeName: "AWSAcuityRoutingServiceLambda",
@@ -293,6 +301,10 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type ChannelArn = string;
+export type ClientId = string;
+
 //# Schemas
 export interface JoinStorageSessionInput {
   channelArn: string;
@@ -406,7 +418,17 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
  *
  * - **Concurrent calls** - Concurrent calls are allowed. An offer is sent once per each call.
  */
-export const joinStorageSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const joinStorageSession: (
+  input: JoinStorageSessionInput,
+) => Effect.Effect<
+  JoinStorageSessionResponse,
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: JoinStorageSessionInput,
   output: JoinStorageSessionResponse,
   errors: [
@@ -435,15 +457,23 @@ export const joinStorageSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * with ingested WebRTC media. If there’s an existing session with the same
  * `clientId` that's found in the join session request, the new request takes precedence.
  */
-export const joinStorageSessionAsViewer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: JoinStorageSessionAsViewerInput,
-    output: JoinStorageSessionAsViewerResponse,
-    errors: [
-      AccessDeniedException,
-      ClientLimitExceededException,
-      InvalidArgumentException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const joinStorageSessionAsViewer: (
+  input: JoinStorageSessionAsViewerInput,
+) => Effect.Effect<
+  JoinStorageSessionAsViewerResponse,
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: JoinStorageSessionAsViewerInput,
+  output: JoinStorageSessionAsViewerResponse,
+  errors: [
+    AccessDeniedException,
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+  ],
+}));

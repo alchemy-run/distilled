@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace(
   "http://cloudformation.amazonaws.com/doc/2010-05-15/",
 );
@@ -263,6 +271,182 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ErrorMessage = string;
+export type ThirdPartyTypeArn = string;
+export type PublisherId = string;
+export type TypeName = string;
+export type RoleARN2 = string;
+export type MajorVersion = number;
+export type StackName = string;
+export type ClientRequestToken = string;
+export type StackNameOrId = string;
+export type RoleARN = string;
+export type ResourceToSkip = string;
+export type TemplateBody = string;
+export type TemplateURL = string;
+export type ResourceType = string;
+export type NotificationARN = string;
+export type ChangeSetName = string;
+export type ClientToken = string;
+export type Description = string;
+export type GeneratedTemplateName = string;
+export type TimeoutMinutes = number;
+export type StackPolicyBody = string;
+export type StackPolicyURL = string;
+export type StackSetName = string;
+export type Account = string;
+export type Region = string;
+export type StackId = string;
+export type ExecutionRoleName = string;
+export type PrivateTypeArn = string;
+export type ChangeSetNameOrId = string;
+export type LogicalResourceId = string;
+export type TypeVersionId = string;
+export type NextToken = string;
+export type OperationId = string;
+export type ResourceScanId = string;
+export type StackDriftDetectionId = string;
+export type StackRefactorId = string;
+export type BoxedMaxResults = number;
+export type PhysicalResourceId = string;
+export type TypeArn = string;
+export type PublicVersionNumber = string;
+export type RegistrationToken = string;
+export type StackSetNameOrId = string;
+export type HookInvocationId = string;
+export type StackIdsUrl = string;
+export type OrganizationalUnitId = string;
+export type MaxResults = number;
+export type HookResultId = string;
+export type HookTypeArn = string;
+export type ExportName = string;
+export type ResourceIdentifier = string;
+export type ResourceTypePrefix = string;
+export type TagKey = string;
+export type TagValue = string;
+export type ResourceScannerMaxResults = number;
+export type StatusMessage = string;
+export type ResourceModel = string;
+export type ConnectionArn = string;
+export type S3Url = string;
+export type RequestToken = string;
+export type TypeConfiguration = string;
+export type TypeConfigurationAlias = string;
+export type ResourceSignalUniqueId = string;
+export type S3Bucket = string;
+export type StackPolicyDuringUpdateBody = string;
+export type StackPolicyDuringUpdateURL = string;
+export type LogGroupName = string;
+export type TypeConfigurationArn = string;
+export type ParameterKey = string;
+export type ParameterValue = string;
+export type MonitoringTimeInMinutes = number;
+export type AccountsUrl = string;
+export type FailureToleranceCount = number;
+export type FailureTolerancePercentage = number;
+export type MaxConcurrentCount = number;
+export type MaxConcurrentPercentage = number;
+export type StackSetARN = string;
+export type StackInstanceFilterValues = string;
+export type OperationResultFilterValues = string;
+export type TypeNamePrefix = string;
+export type ResourceTypeFilter = string;
+export type ChangeSetId = string;
+export type ChangeSetStatusReason = string;
+export type GeneratedTemplateId = string;
+export type TemplateStatusReason = string;
+export type TotalWarnings = number;
+export type PublisherProfile = string;
+export type ResourceScanStatusReason = string;
+export type PercentageCompleted = number;
+export type ResourcesScanned = number;
+export type ResourcesRead = number;
+export type StackDriftDetectionStatusReason = string;
+export type BoxedInteger = number;
+export type ExecutionStatusReason = string;
+export type StackRefactorStatusReason = string;
+export type TypeTestsStatusDescription = string;
+export type TypeSchema = string;
+export type OptionalSecureUrl = string;
+export type ConfigurationSchema = string;
+export type Url = string;
+export type HookTypeName = string;
+export type HookTypeVersionId = string;
+export type HookTypeConfigurationVersionId = string;
+export type HookStatusReason = string;
+export type CapabilitiesReason = string;
+export type TransformName = string;
+export type Arn = string;
+export type Type = string;
+export type ResourceIdentifierPropertyKey = string;
+export type ResourceIdentifierPropertyValue = string;
+export type JazzResourceIdentifierPropertyKey = string;
+export type JazzResourceIdentifierPropertyValue = string;
+export type LimitName = string;
+export type LimitValue = number;
+export type HookInvocationCount = number;
+export type ResourceStatusReason = string;
+export type ResourcesSucceeded = number;
+export type ResourcesFailed = number;
+export type ResourcesProcessing = number;
+export type ResourcesPending = number;
+export type EventId = string;
+export type ResourceProperties = string;
+export type HookType = string;
+export type StackSetId = string;
+export type Reason = string;
+export type Metadata = string;
+export type Properties = string;
+export type StackResourceDriftStatusReason = string;
+export type StackStatusReason = string;
+export type StackSetOperationStatusReason = string;
+export type SupportedMajorVersion = number;
+export type HookTargetTypeName = string;
+export type HookTargetId = string;
+export type AnnotationName = string;
+export type RemediationMessageStatusMessage = string;
+export type RemediationMessageRemediationMessage = string;
+export type AnnotationRemediationLink = string;
+export type ExportValue = string;
+export type NumberOfResources = number;
+export type StackRefactorResourceIdentifier = string;
+export type DetectionReason = string;
+export type TemplateDescription = string;
+export type Version = string;
+export type BeforeContext = string;
+export type AfterContext = string;
+export type PreviousDeploymentContext = string;
+export type TypeHierarchy = string;
+export type LogicalIdHierarchy = string;
+export type Key = string;
+export type Value = string;
+export type PropertyPath = string;
+export type PropertyValue = string;
+export type OutputKey = string;
+export type OutputValue = string;
+export type TotalStackInstancesCount = number;
+export type DriftedStackInstancesCount = number;
+export type InSyncStackInstancesCount = number;
+export type InProgressStackInstancesCount = number;
+export type FailedStackInstancesCount = number;
+export type ErrorCode = string;
+export type ValidationName = string;
+export type ValidationStatusReason = string;
+export type ValidationPath = string;
+export type ParameterType = string;
+export type PublisherName = string;
+export type ResourcePropertyPath = string;
+export type CausingEntity = string;
+export type PropertyDescription = string;
+export type AllowedValue = string;
+export type AccountGateStatusReason = string;
+export type PropertyName = string;
+export type BeforeValue = string;
+export type AfterValue = string;
+export type ResourceDriftPreviousValue = string;
+export type ResourceDriftActualValue = string;
 
 //# Schemas
 export interface ActivateOrganizationsAccessInput {}
@@ -5536,7 +5720,9 @@ export class ConcurrentResourcesLimitExceededException extends S.TaggedError<Con
     code: "ConcurrentResourcesLimitExceeded",
     httpResponseCode: 429,
   }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class OperationInProgressException extends S.TaggedError<OperationInProgressException>()(
   "OperationInProgressException",
   { Message: S.optional(S.String) },
@@ -5681,17 +5867,27 @@ export class ResourceScanLimitExceededException extends S.TaggedError<ResourceSc
 /**
  * Executes the stack refactor operation.
  */
-export const executeStackRefactor = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExecuteStackRefactorInput,
-    output: ExecuteStackRefactorResponse,
-    errors: [],
-  }),
-);
+export const executeStackRefactor: (
+  input: ExecuteStackRefactorInput,
+) => Effect.Effect<
+  ExecuteStackRefactorResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecuteStackRefactorInput,
+  output: ExecuteStackRefactorResponse,
+  errors: [],
+}));
 /**
  * Sets a stack policy for a specified stack.
  */
-export const setStackPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setStackPolicy: (
+  input: SetStackPolicyInput,
+) => Effect.Effect<
+  SetStackPolicyResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetStackPolicyInput,
   output: SetStackPolicyResponse,
   errors: [],
@@ -5704,7 +5900,13 @@ export const setStackPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * operation is useful in cases where you want to send signals from anywhere other than an Amazon EC2
  * instance.
  */
-export const signalResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const signalResource: (
+  input: SignalResourceInput,
+) => Effect.Effect<
+  SignalResourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignalResourceInput,
   output: SignalResourceResponse,
   errors: [],
@@ -5714,20 +5916,30 @@ export const signalResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * and Organizations activated, the management account has permissions to create
  * and manage StackSets for your organization.
  */
-export const activateOrganizationsAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ActivateOrganizationsAccessInput,
-    output: ActivateOrganizationsAccessOutput,
-    errors: [InvalidOperationException, OperationNotFoundException],
-  }),
-);
+export const activateOrganizationsAccess: (
+  input: ActivateOrganizationsAccessInput,
+) => Effect.Effect<
+  ActivateOrganizationsAccessOutput,
+  InvalidOperationException | OperationNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ActivateOrganizationsAccessInput,
+  output: ActivateOrganizationsAccessOutput,
+  errors: [InvalidOperationException, OperationNotFoundException],
+}));
 /**
  * Cancels an update on the specified stack. If the call completes successfully, the stack
  * rolls back the update and reverts to the previous stack configuration.
  *
  * You can cancel only stacks that are in the `UPDATE_IN_PROGRESS` state.
  */
-export const cancelUpdateStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelUpdateStack: (
+  input: CancelUpdateStackInput,
+) => Effect.Effect<
+  CancelUpdateStackResponse,
+  TokenAlreadyExistsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelUpdateStackInput,
   output: CancelUpdateStackResponse,
   errors: [TokenAlreadyExistsException],
@@ -5743,7 +5955,13 @@ export const cancelUpdateStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * to the stacks hierarchy and will also delete all change sets for nested stacks with the status
  * of `REVIEW_IN_PROGRESS`.
  */
-export const deleteChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteChangeSet: (
+  input: DeleteChangeSetInput,
+) => Effect.Effect<
+  DeleteChangeSetOutput,
+  InvalidChangeSetStatusException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChangeSetInput,
   output: DeleteChangeSetOutput,
   errors: [InvalidChangeSetStatusException],
@@ -5754,13 +5972,17 @@ export const deleteChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `CallAs` parameter. This API can also be called without the `CallAs`
  * parameter by the management account.
  */
-export const describeOrganizationsAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeOrganizationsAccessInput,
-    output: DescribeOrganizationsAccessOutput,
-    errors: [InvalidOperationException, OperationNotFoundException],
-  }),
-);
+export const describeOrganizationsAccess: (
+  input: DescribeOrganizationsAccessInput,
+) => Effect.Effect<
+  DescribeOrganizationsAccessOutput,
+  InvalidOperationException | OperationNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeOrganizationsAccessInput,
+  output: DescribeOrganizationsAccessOutput,
+  errors: [InvalidOperationException, OperationNotFoundException],
+}));
 /**
  * Returns information about a CloudFormation extension publisher.
  *
@@ -5776,7 +5998,13 @@ export const describeOrganizationsAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * to make them available for public use in the
  * *CloudFormation Command Line Interface (CLI) User Guide*
  */
-export const describePublisher = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describePublisher: (
+  input: DescribePublisherInput,
+) => Effect.Effect<
+  DescribePublisherOutput,
+  CFNRegistryException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePublisherInput,
   output: DescribePublisherOutput,
   errors: [CFNRegistryException],
@@ -5796,12 +6024,17 @@ export const describePublisher = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Once the drift detection operation has completed, use DescribeStackResourceDrifts to return drift information about the stack and its
  * resources.
  */
-export const describeStackDriftDetectionStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeStackDriftDetectionStatusInput,
-    output: DescribeStackDriftDetectionStatusOutput,
-    errors: [],
-  }));
+export const describeStackDriftDetectionStatus: (
+  input: DescribeStackDriftDetectionStatusInput,
+) => Effect.Effect<
+  DescribeStackDriftDetectionStatusOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeStackDriftDetectionStatusInput,
+  output: DescribeStackDriftDetectionStatusOutput,
+  errors: [],
+}));
 /**
  * Returns information about an extension's registration, including its current status and
  * type and version identifiers.
@@ -5813,13 +6046,17 @@ export const describeStackDriftDetectionStatus =
  * Once the registration request has completed, use DescribeType to return
  * detailed information about an extension.
  */
-export const describeTypeRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTypeRegistrationInput,
-    output: DescribeTypeRegistrationOutput,
-    errors: [CFNRegistryException],
-  }),
-);
+export const describeTypeRegistration: (
+  input: DescribeTypeRegistrationInput,
+) => Effect.Effect<
+  DescribeTypeRegistrationOutput,
+  CFNRegistryException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTypeRegistrationInput,
+  output: DescribeTypeRegistrationOutput,
+  errors: [CFNRegistryException],
+}));
 /**
  * Detects whether a stack's actual configuration differs, or has
  * *drifted*, from its expected configuration, as defined in the stack
@@ -5847,7 +6084,13 @@ export const describeTypeRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * belonging to that stack. Perform `DetectStackDrift` directly on the nested stack
  * itself.
  */
-export const detectStackDrift = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detectStackDrift: (
+  input: DetectStackDriftInput,
+) => Effect.Effect<
+  DetectStackDriftOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectStackDriftInput,
   output: DetectStackDriftOutput,
   errors: [],
@@ -5869,30 +6112,44 @@ export const detectStackDrift = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resources that support drift detection, see Resource
  * type support for imports and drift detection.
  */
-export const detectStackResourceDrift = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetectStackResourceDriftInput,
-    output: DetectStackResourceDriftOutput,
-    errors: [],
-  }),
-);
+export const detectStackResourceDrift: (
+  input: DetectStackResourceDriftInput,
+) => Effect.Effect<
+  DetectStackResourceDriftOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectStackResourceDriftInput,
+  output: DetectStackResourceDriftOutput,
+  errors: [],
+}));
 /**
  * Returns the estimated monthly cost of a template. The return value is an Amazon Web Services Simple
  * Monthly Calculator URL with a query string that describes the resources required to run the
  * template.
  */
-export const estimateTemplateCost = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EstimateTemplateCostInput,
-    output: EstimateTemplateCostOutput,
-    errors: [],
-  }),
-);
+export const estimateTemplateCost: (
+  input: EstimateTemplateCostInput,
+) => Effect.Effect<
+  EstimateTemplateCostOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EstimateTemplateCostInput,
+  output: EstimateTemplateCostOutput,
+  errors: [],
+}));
 /**
  * Returns the stack policy for a specified stack. If a stack doesn't have a policy, a null
  * value is returned.
  */
-export const getStackPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStackPolicy: (
+  input: GetStackPolicyInput,
+) => Effect.Effect<
+  GetStackPolicyOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStackPolicyInput,
   output: GetStackPolicyOutput,
   errors: [],
@@ -5906,7 +6163,13 @@ export const getStackPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If the template doesn't exist, a `ValidationError` is returned.
  */
-export const getTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTemplate: (
+  input: GetTemplateInput,
+) => Effect.Effect<
+  GetTemplateOutput,
+  ChangeSetNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemplateInput,
   output: GetTemplateOutput,
   errors: [ChangeSetNotFoundException],
@@ -5918,32 +6181,73 @@ export const getTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about importing an exported output value, see the Fn::ImportValue function.
  */
-export const listImports = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listImports: {
+  (
     input: ListImportsInput,
-    output: ListImportsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Imports",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListImportsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImportsInput,
+  ) => Stream.Stream<
+    ListImportsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImportsInput,
+  ) => Stream.Stream<
+    StackName,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImportsInput,
+  output: ListImportsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Imports",
+  } as const,
+}));
 /**
  * Returns a list of registration tokens for the specified extension(s).
  */
-export const listTypeRegistrations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTypeRegistrations: {
+  (
     input: ListTypeRegistrationsInput,
-    output: ListTypeRegistrationsOutput,
-    errors: [CFNRegistryException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTypeRegistrationsOutput,
+    CFNRegistryException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTypeRegistrationsInput,
+  ) => Stream.Stream<
+    ListTypeRegistrationsOutput,
+    CFNRegistryException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTypeRegistrationsInput,
+  ) => Stream.Stream<
+    unknown,
+    CFNRegistryException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTypeRegistrationsInput,
+  output: ListTypeRegistrationsOutput,
+  errors: [CFNRegistryException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Registers your account as a publisher of public extensions in the CloudFormation registry.
  * Public extensions are available for use by all CloudFormation users. This publisher ID applies to
@@ -5953,7 +6257,13 @@ export const listTypeRegistrations =
  * Prerequisite: Registering your account to publish CloudFormation extensions in the
  * *CloudFormation Command Line Interface (CLI) User Guide*.
  */
-export const registerPublisher = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerPublisher: (
+  input: RegisterPublisherInput,
+) => Effect.Effect<
+  RegisterPublisherOutput,
+  CFNRegistryException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterPublisherInput,
   output: RegisterPublisherOutput,
   errors: [CFNRegistryException],
@@ -5985,7 +6295,13 @@ export const registerPublisher = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * data for extensions in your account in the
  * *CloudFormation User Guide*.
  */
-export const registerType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerType: (
+  input: RegisterTypeInput,
+) => Effect.Effect<
+  RegisterTypeOutput,
+  CFNRegistryException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterTypeInput,
   output: RegisterTypeOutput,
   errors: [CFNRegistryException],
@@ -6012,7 +6328,13 @@ export const registerType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `IMPORT_ROLLBACK_COMPLETE`
  */
-export const rollbackStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rollbackStack: (
+  input: RollbackStackInput,
+) => Effect.Effect<
+  RollbackStackOutput,
+  TokenAlreadyExistsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RollbackStackInput,
   output: RollbackStackOutput,
   errors: [TokenAlreadyExistsException],
@@ -6027,24 +6349,33 @@ export const rollbackStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * termination protection is set on the root stack and can't be changed directly on the nested
  * stack.
  */
-export const updateTerminationProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTerminationProtectionInput,
-    output: UpdateTerminationProtectionOutput,
-    errors: [],
-  }),
-);
+export const updateTerminationProtection: (
+  input: UpdateTerminationProtectionInput,
+) => Effect.Effect<
+  UpdateTerminationProtectionOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTerminationProtectionInput,
+  output: UpdateTerminationProtectionOutput,
+  errors: [],
+}));
 /**
  * Deactivates trusted access with Organizations. If trusted access is deactivated,
  * the management account does not have permissions to create and manage
  * service-managed StackSets for your organization.
  */
-export const deactivateOrganizationsAccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeactivateOrganizationsAccessInput,
-    output: DeactivateOrganizationsAccessOutput,
-    errors: [InvalidOperationException, OperationNotFoundException],
-  }));
+export const deactivateOrganizationsAccess: (
+  input: DeactivateOrganizationsAccessInput,
+) => Effect.Effect<
+  DeactivateOrganizationsAccessOutput,
+  InvalidOperationException | OperationNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeactivateOrganizationsAccessInput,
+  output: DeactivateOrganizationsAccessOutput,
+  errors: [InvalidOperationException, OperationNotFoundException],
+}));
 /**
  * Continues rolling back a stack from `UPDATE_ROLLBACK_FAILED` to
  * `UPDATE_ROLLBACK_COMPLETE` state. Depending on the cause of the failure, you can
@@ -6061,13 +6392,17 @@ export const deactivateOrganizationsAccess =
  * For more information, see Continue rolling back an update in the *CloudFormation User Guide*. For
  * information for troubleshooting a failed update rollback, see Update rollback failed.
  */
-export const continueUpdateRollback = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ContinueUpdateRollbackInput,
-    output: ContinueUpdateRollbackOutput,
-    errors: [TokenAlreadyExistsException],
-  }),
-);
+export const continueUpdateRollback: (
+  input: ContinueUpdateRollbackInput,
+) => Effect.Effect<
+  ContinueUpdateRollbackOutput,
+  TokenAlreadyExistsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ContinueUpdateRollbackInput,
+  output: ContinueUpdateRollbackOutput,
+  errors: [TokenAlreadyExistsException],
+}));
 /**
  * Deletes a specified stack. Once the call completes successfully, stack deletion starts.
  * Deleted stacks don't show up in the DescribeStacks operation if the deletion
@@ -6076,7 +6411,13 @@ export const continueUpdateRollback = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about deleting a stack, see Delete a stack from
  * the CloudFormation console in the *CloudFormation User Guide*.
  */
-export const deleteStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteStack: (
+  input: DeleteStackInput,
+) => Effect.Effect<
+  DeleteStackResponse,
+  TokenAlreadyExistsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStackInput,
   output: DeleteStackResponse,
   errors: [TokenAlreadyExistsException],
@@ -6095,7 +6436,13 @@ export const deleteStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To see which extensions are currently activated, use ListTypes.
  */
-export const deactivateType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deactivateType: (
+  input: DeactivateTypeInput,
+) => Effect.Effect<
+  DeactivateTypeOutput,
+  CFNRegistryException | TypeNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivateTypeInput,
   output: DeactivateTypeOutput,
   errors: [CFNRegistryException, TypeNotFoundException],
@@ -6103,21 +6450,35 @@ export const deactivateType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deleted a generated template.
  */
-export const deleteGeneratedTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteGeneratedTemplateInput,
-    output: DeleteGeneratedTemplateResponse,
-    errors: [
-      ConcurrentResourcesLimitExceededException,
-      GeneratedTemplateNotFoundException,
-    ],
-  }),
-);
+export const deleteGeneratedTemplate: (
+  input: DeleteGeneratedTemplateInput,
+) => Effect.Effect<
+  DeleteGeneratedTemplateResponse,
+  | ConcurrentResourcesLimitExceededException
+  | GeneratedTemplateNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGeneratedTemplateInput,
+  output: DeleteGeneratedTemplateResponse,
+  errors: [
+    ConcurrentResourcesLimitExceededException,
+    GeneratedTemplateNotFoundException,
+  ],
+}));
 /**
  * Deletes a StackSet. Before you can delete a StackSet, all its member stack instances must
  * be deleted. For more information about how to complete this, see DeleteStackInstances.
  */
-export const deleteStackSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteStackSet: (
+  input: DeleteStackSetInput,
+) => Effect.Effect<
+  DeleteStackSetOutput,
+  | OperationInProgressException
+  | StackSetNotEmptyException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStackSetInput,
   output: DeleteStackSetOutput,
   errors: [OperationInProgressException, StackSetNotEmptyException],
@@ -6126,27 +6487,52 @@ export const deleteStackSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves your account's CloudFormation limits, such as the maximum number of stacks that you
  * can create in your account. For more information about account limits, see Understand CloudFormation quotas in the *CloudFormation User Guide*.
  */
-export const describeAccountLimits =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAccountLimits: {
+  (
     input: DescribeAccountLimitsInput,
-    output: DescribeAccountLimitsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AccountLimits",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAccountLimitsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAccountLimitsInput,
+  ) => Stream.Stream<
+    DescribeAccountLimitsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAccountLimitsInput,
+  ) => Stream.Stream<
+    AccountLimit,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAccountLimitsInput,
+  output: DescribeAccountLimitsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AccountLimits",
+  } as const,
+}));
 /**
  * Describes details of a resource scan.
  */
-export const describeResourceScan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeResourceScanInput,
-    output: DescribeResourceScanOutput,
-    errors: [ResourceScanNotFoundException],
-  }),
-);
+export const describeResourceScan: (
+  input: DescribeResourceScanInput,
+) => Effect.Effect<
+  DescribeResourceScanOutput,
+  ResourceScanNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeResourceScanInput,
+  output: DescribeResourceScanOutput,
+  errors: [ResourceScanNotFoundException],
+}));
 /**
  * Returns all stack related events for a specified stack in reverse chronological order. For
  * more information about a stack's event history, see Understand CloudFormation stack creation events in the
@@ -6155,27 +6541,52 @@ export const describeResourceScan = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can list events for stacks that have failed to create or have been deleted by
  * specifying the unique stack identifier (stack ID).
  */
-export const describeStackEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeStackEvents: {
+  (
     input: DescribeStackEventsInput,
-    output: DescribeStackEventsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "StackEvents",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeStackEventsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeStackEventsInput,
+  ) => Stream.Stream<
+    DescribeStackEventsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeStackEventsInput,
+  ) => Stream.Stream<
+    StackEvent,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeStackEventsInput,
+  output: DescribeStackEventsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "StackEvents",
+  } as const,
+}));
 /**
  * Describes the stack refactor status.
  */
-export const describeStackRefactor = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeStackRefactorInput,
-    output: DescribeStackRefactorOutput,
-    errors: [StackRefactorNotFoundException],
-  }),
-);
+export const describeStackRefactor: (
+  input: DescribeStackRefactorInput,
+) => Effect.Effect<
+  DescribeStackRefactorOutput,
+  StackRefactorNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeStackRefactorInput,
+  output: DescribeStackRefactorOutput,
+  errors: [StackRefactorNotFoundException],
+}));
 /**
  * Returns Amazon Web Services resource descriptions for running and deleted stacks. If
  * `StackName` is specified, all the associated resources that are part of the stack
@@ -6196,13 +6607,17 @@ export const describeStackRefactor = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * A `ValidationError` is returned if you specify both `StackName`
  * and `PhysicalResourceId` in the same request.
  */
-export const describeStackResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeStackResourcesInput,
-    output: DescribeStackResourcesOutput,
-    errors: [],
-  }),
-);
+export const describeStackResources: (
+  input: DescribeStackResourcesInput,
+) => Effect.Effect<
+  DescribeStackResourcesOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeStackResourcesInput,
+  output: DescribeStackResourcesOutput,
+  errors: [],
+}));
 /**
  * Returns detailed information about an extension from the CloudFormation registry in your
  * current account and Region.
@@ -6215,7 +6630,13 @@ export const describeStackResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * data for extensions in your account in the
  * *CloudFormation User Guide*.
  */
-export const describeType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeType: (
+  input: DescribeTypeInput,
+) => Effect.Effect<
+  DescribeTypeOutput,
+  CFNRegistryException | TypeNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTypeInput,
   output: DescribeTypeOutput,
   errors: [CFNRegistryException, TypeNotFoundException],
@@ -6252,7 +6673,16 @@ export const describeType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To stop a drift detection StackSet operation, use StopStackSetOperation.
  */
-export const detectStackSetDrift = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detectStackSetDrift: (
+  input: DetectStackSetDriftInput,
+) => Effect.Effect<
+  DetectStackSetDriftOutput,
+  | InvalidOperationException
+  | OperationInProgressException
+  | StackSetNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectStackSetDriftInput,
   output: DetectStackSetDriftOutput,
   errors: [
@@ -6275,7 +6705,17 @@ export const detectStackSetDrift = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To create a change set for the entire stack hierarchy, `IncludeNestedStacks`
  * must have been set to `True`.
  */
-export const executeChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const executeChangeSet: (
+  input: ExecuteChangeSetInput,
+) => Effect.Effect<
+  ExecuteChangeSetOutput,
+  | ChangeSetNotFoundException
+  | InsufficientCapabilitiesException
+  | InvalidChangeSetStatusException
+  | TokenAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteChangeSetInput,
   output: ExecuteChangeSetOutput,
   errors: [
@@ -6290,18 +6730,38 @@ export const executeChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * lists change sets that are in the `CREATE_IN_PROGRESS` or
  * `CREATE_PENDING` state.
  */
-export const listChangeSets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listChangeSets: {
+  (
     input: ListChangeSetsInput,
-    output: ListChangeSetsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Summaries",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListChangeSetsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChangeSetsInput,
+  ) => Stream.Stream<
+    ListChangeSetsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChangeSetsInput,
+  ) => Stream.Stream<
+    ChangeSetSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChangeSetsInput,
+  output: ListChangeSetsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Summaries",
+  } as const,
+}));
 /**
  * Lists all exported output values in the account and Region in which you call this action.
  * Use this action to see the exported output values that you can import into other stacks. To
@@ -6310,108 +6770,236 @@ export const listChangeSets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * For more information, see Get exported outputs
  * from a deployed CloudFormation stack.
  */
-export const listExports = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listExports: {
+  (
     input: ListExportsInput,
-    output: ListExportsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Exports",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListExportsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExportsInput,
+  ) => Stream.Stream<
+    ListExportsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExportsInput,
+  ) => Stream.Stream<
+    Export,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExportsInput,
+  output: ListExportsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Exports",
+  } as const,
+}));
 /**
  * Lists your generated templates in this Region.
  */
-export const listGeneratedTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGeneratedTemplates: {
+  (
     input: ListGeneratedTemplatesInput,
-    output: ListGeneratedTemplatesOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Summaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListGeneratedTemplatesOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGeneratedTemplatesInput,
+  ) => Stream.Stream<
+    ListGeneratedTemplatesOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGeneratedTemplatesInput,
+  ) => Stream.Stream<
+    TemplateSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGeneratedTemplatesInput,
+  output: ListGeneratedTemplatesOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Summaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the resource scans from newest to oldest. By default it will return up to 10 resource
  * scans.
  */
-export const listResourceScans = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listResourceScans: {
+  (
     input: ListResourceScansInput,
-    output: ListResourceScansOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ResourceScanSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListResourceScansOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceScansInput,
+  ) => Stream.Stream<
+    ListResourceScansOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceScansInput,
+  ) => Stream.Stream<
+    ResourceScanSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceScansInput,
+  output: ListResourceScansOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourceScanSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the stack refactor actions that will be taken after calling the ExecuteStackRefactor action.
  */
-export const listStackRefactorActions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listStackRefactorActions: {
+  (
     input: ListStackRefactorActionsInput,
-    output: ListStackRefactorActionsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "StackRefactorActions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListStackRefactorActionsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStackRefactorActionsInput,
+  ) => Stream.Stream<
+    ListStackRefactorActionsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStackRefactorActionsInput,
+  ) => Stream.Stream<
+    StackRefactorAction,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStackRefactorActionsInput,
+  output: ListStackRefactorActionsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "StackRefactorActions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all account stack refactor operations and their statuses.
  */
-export const listStackRefactors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listStackRefactors: {
+  (
     input: ListStackRefactorsInput,
-    output: ListStackRefactorsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "StackRefactorSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListStackRefactorsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStackRefactorsInput,
+  ) => Stream.Stream<
+    ListStackRefactorsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStackRefactorsInput,
+  ) => Stream.Stream<
+    StackRefactorSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStackRefactorsInput,
+  output: ListStackRefactorsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "StackRefactorSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns summary information about deployment targets for a StackSet.
  */
-export const listStackSetAutoDeploymentTargets =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListStackSetAutoDeploymentTargetsInput,
-    output: ListStackSetAutoDeploymentTargetsOutput,
-    errors: [StackSetNotFoundException],
-  }));
+export const listStackSetAutoDeploymentTargets: (
+  input: ListStackSetAutoDeploymentTargetsInput,
+) => Effect.Effect<
+  ListStackSetAutoDeploymentTargetsOutput,
+  StackSetNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStackSetAutoDeploymentTargetsInput,
+  output: ListStackSetAutoDeploymentTargetsOutput,
+  errors: [StackSetNotFoundException],
+}));
 /**
  * Returns summary information about operations performed on a StackSet.
  *
  * This API provides *eventually consistent* reads meaning it may take
  * some time but will eventually return the most up-to-date data.
  */
-export const listStackSetOperations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listStackSetOperations: {
+  (
     input: ListStackSetOperationsInput,
-    output: ListStackSetOperationsOutput,
-    errors: [StackSetNotFoundException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Summaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListStackSetOperationsOutput,
+    StackSetNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStackSetOperationsInput,
+  ) => Stream.Stream<
+    ListStackSetOperationsOutput,
+    StackSetNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStackSetOperationsInput,
+  ) => Stream.Stream<
+    StackSetOperationSummary,
+    StackSetNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStackSetOperationsInput,
+  output: ListStackSetOperationsOutput,
+  errors: [StackSetNotFoundException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Summaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns summary information about StackSets that are associated with the user.
  *
@@ -6431,56 +7019,108 @@ export const listStackSetOperations =
  * `ListStackSets` returns all StackSets with service-managed permissions in the
  * management account.
  */
-export const listStackSets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listStackSets: {
+  (
     input: ListStackSetsInput,
-    output: ListStackSetsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Summaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListStackSetsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStackSetsInput,
+  ) => Stream.Stream<
+    ListStackSetsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStackSetsInput,
+  ) => Stream.Stream<
+    StackSetSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStackSetsInput,
+  output: ListStackSetsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Summaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns summary information about the versions of an extension.
  */
-export const listTypeVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTypeVersions: {
+  (
     input: ListTypeVersionsInput,
-    output: ListTypeVersionsOutput,
-    errors: [CFNRegistryException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTypeVersionsOutput,
+    CFNRegistryException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTypeVersionsInput,
+  ) => Stream.Stream<
+    ListTypeVersionsOutput,
+    CFNRegistryException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTypeVersionsInput,
+  ) => Stream.Stream<
+    unknown,
+    CFNRegistryException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTypeVersionsInput,
+  output: ListTypeVersionsOutput,
+  errors: [CFNRegistryException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Reports progress of a resource handler to CloudFormation.
  *
  * Reserved for use by the CloudFormation
  * CLI. Don't use this API in your code.
  */
-export const recordHandlerProgress = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RecordHandlerProgressInput,
-    output: RecordHandlerProgressOutput,
-    errors: [
-      InvalidStateTransitionException,
-      OperationStatusCheckFailedException,
-    ],
-  }),
-);
+export const recordHandlerProgress: (
+  input: RecordHandlerProgressInput,
+) => Effect.Effect<
+  RecordHandlerProgressOutput,
+  | InvalidStateTransitionException
+  | OperationStatusCheckFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RecordHandlerProgressInput,
+  output: RecordHandlerProgressOutput,
+  errors: [
+    InvalidStateTransitionException,
+    OperationStatusCheckFailedException,
+  ],
+}));
 /**
  * Validates a specified template. CloudFormation first checks if the template is valid JSON. If
  * it isn't, CloudFormation checks if the template is valid YAML. If both these checks fail,
  * CloudFormation returns a template validation error.
  */
-export const validateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const validateTemplate: (
+  input: ValidateTemplateInput,
+) => Effect.Effect<
+  ValidateTemplateOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateTemplateInput,
   output: ValidateTemplateOutput,
   errors: [],
@@ -6491,33 +7131,47 @@ export const validateTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `UpdateReplacePolicy` settings. You can check the status of the update to the
  * generated template using the `DescribeGeneratedTemplate` API action.
  */
-export const updateGeneratedTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateGeneratedTemplateInput,
-    output: UpdateGeneratedTemplateOutput,
-    errors: [
-      AlreadyExistsException,
-      GeneratedTemplateNotFoundException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const updateGeneratedTemplate: (
+  input: UpdateGeneratedTemplateInput,
+) => Effect.Effect<
+  UpdateGeneratedTemplateOutput,
+  | AlreadyExistsException
+  | GeneratedTemplateNotFoundException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGeneratedTemplateInput,
+  output: UpdateGeneratedTemplateOutput,
+  errors: [
+    AlreadyExistsException,
+    GeneratedTemplateNotFoundException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Creates a template from existing resources that are not already managed with CloudFormation.
  * You can check the status of the template generation using the
  * `DescribeGeneratedTemplate` API action.
  */
-export const createGeneratedTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateGeneratedTemplateInput,
-    output: CreateGeneratedTemplateOutput,
-    errors: [
-      AlreadyExistsException,
-      ConcurrentResourcesLimitExceededException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const createGeneratedTemplate: (
+  input: CreateGeneratedTemplateInput,
+) => Effect.Effect<
+  CreateGeneratedTemplateOutput,
+  | AlreadyExistsException
+  | ConcurrentResourcesLimitExceededException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGeneratedTemplateInput,
+  output: CreateGeneratedTemplateOutput,
+  errors: [
+    AlreadyExistsException,
+    ConcurrentResourcesLimitExceededException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Publishes the specified extension to the CloudFormation registry as a public extension in this
  * Region. Public extensions are available for use by all CloudFormation users. For more information
@@ -6528,7 +7182,13 @@ export const createGeneratedTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To publish an extension, you must be registered as a publisher with CloudFormation. For more
  * information, see RegisterPublisher.
  */
-export const publishType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const publishType: (
+  input: PublishTypeInput,
+) => Effect.Effect<
+  PublishTypeOutput,
+  CFNRegistryException | TypeNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishTypeInput,
   output: PublishTypeOutput,
   errors: [CFNRegistryException, TypeNotFoundException],
@@ -6552,13 +7212,17 @@ export const publishType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * *CloudFormation Command Line Interface (CLI) User Guide*. For more information about setting the configuration
  * data for Hooks, see the CloudFormation Hooks User Guide.
  */
-export const setTypeConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetTypeConfigurationInput,
-    output: SetTypeConfigurationOutput,
-    errors: [CFNRegistryException, TypeNotFoundException],
-  }),
-);
+export const setTypeConfiguration: (
+  input: SetTypeConfigurationInput,
+) => Effect.Effect<
+  SetTypeConfigurationOutput,
+  CFNRegistryException | TypeNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetTypeConfigurationInput,
+  output: SetTypeConfigurationOutput,
+  errors: [CFNRegistryException, TypeNotFoundException],
+}));
 /**
  * Tests a registered extension to make sure it meets all necessary requirements for being
  * published in the CloudFormation registry.
@@ -6587,7 +7251,13 @@ export const setTypeConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * to make them available for public use in the
  * *CloudFormation Command Line Interface (CLI) User Guide*.
  */
-export const testType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testType: (
+  input: TestTypeInput,
+) => Effect.Effect<
+  TestTypeOutput,
+  CFNRegistryException | TypeNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestTypeInput,
   output: TestTypeOutput,
   errors: [CFNRegistryException, TypeNotFoundException],
@@ -6612,7 +7282,13 @@ export const testType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * third-party private extensions from your account in the
  * *CloudFormation User Guide*.
  */
-export const deregisterType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deregisterType: (
+  input: DeregisterTypeInput,
+) => Effect.Effect<
+  DeregisterTypeOutput,
+  CFNRegistryException | TypeNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterTypeInput,
   output: DeregisterTypeOutput,
   errors: [CFNRegistryException, TypeNotFoundException],
@@ -6621,13 +7297,17 @@ export const deregisterType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Specify the default version of an extension. The default version of an extension will be
  * used in CloudFormation operations.
  */
-export const setTypeDefaultVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetTypeDefaultVersionInput,
-    output: SetTypeDefaultVersionOutput,
-    errors: [CFNRegistryException, TypeNotFoundException],
-  }),
-);
+export const setTypeDefaultVersion: (
+  input: SetTypeDefaultVersionInput,
+) => Effect.Effect<
+  SetTypeDefaultVersionOutput,
+  CFNRegistryException | TypeNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetTypeDefaultVersionInput,
+  output: SetTypeDefaultVersionOutput,
+  errors: [CFNRegistryException, TypeNotFoundException],
+}));
 /**
  * Activates a public third-party extension, such as a resource or module, to make it
  * available for use in stack templates in your current account and Region. It can also create
@@ -6644,7 +7324,13 @@ export const setTypeDefaultVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * *CloudFormation User Guide*. For information about creating Hooks, see the
  * CloudFormation Hooks User Guide.
  */
-export const activateType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const activateType: (
+  input: ActivateTypeInput,
+) => Effect.Effect<
+  ActivateTypeOutput,
+  CFNRegistryException | TypeNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateTypeInput,
   output: ActivateTypeOutput,
   errors: [CFNRegistryException, TypeNotFoundException],
@@ -6655,29 +7341,40 @@ export const activateType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * template was last in a `Complete` status. If the template has not yet been in a
  * `Complete` status then an empty template will be returned.
  */
-export const getGeneratedTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetGeneratedTemplateInput,
-    output: GetGeneratedTemplateOutput,
-    errors: [GeneratedTemplateNotFoundException],
-  }),
-);
+export const getGeneratedTemplate: (
+  input: GetGeneratedTemplateInput,
+) => Effect.Effect<
+  GetGeneratedTemplateOutput,
+  GeneratedTemplateNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGeneratedTemplateInput,
+  output: GetGeneratedTemplateOutput,
+  errors: [GeneratedTemplateNotFoundException],
+}));
 /**
  * Stops an in-progress operation on a StackSet and its associated stack instances. StackSets
  * will cancel all the unstarted stack instance deployments and wait for those are in-progress to
  * complete.
  */
-export const stopStackSetOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopStackSetOperationInput,
-    output: StopStackSetOperationOutput,
-    errors: [
-      InvalidOperationException,
-      OperationNotFoundException,
-      StackSetNotFoundException,
-    ],
-  }),
-);
+export const stopStackSetOperation: (
+  input: StopStackSetOperationInput,
+) => Effect.Effect<
+  StopStackSetOperationOutput,
+  | InvalidOperationException
+  | OperationNotFoundException
+  | StackSetNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopStackSetOperationInput,
+  output: StopStackSetOperationOutput,
+  errors: [
+    InvalidOperationException,
+    OperationNotFoundException,
+    StackSetNotFoundException,
+  ],
+}));
 /**
  * Updates a stack as specified in the template. After the call completes successfully, the
  * stack update starts. You can check the status of the stack through the DescribeStacks action.
@@ -6689,7 +7386,15 @@ export const stopStackSetOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon Web Services resources as a single unit with CloudFormation stacks in the
  * *CloudFormation User Guide*.
  */
-export const updateStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateStack: (
+  input: UpdateStackInput,
+) => Effect.Effect<
+  UpdateStackOutput,
+  | InsufficientCapabilitiesException
+  | TokenAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStackInput,
   output: UpdateStackOutput,
   errors: [InsufficientCapabilitiesException, TokenAlreadyExistsException],
@@ -6702,7 +7407,17 @@ export const updateStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resources as a single unit with CloudFormation stacks in the
  * *CloudFormation User Guide*.
  */
-export const createStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createStack: (
+  input: CreateStackInput,
+) => Effect.Effect<
+  CreateStackOutput,
+  | AlreadyExistsException
+  | InsufficientCapabilitiesException
+  | LimitExceededException
+  | TokenAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStackInput,
   output: CreateStackOutput,
   errors: [
@@ -6736,7 +7451,16 @@ export const createStack = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To create a change set for the entire stack hierarchy, set
  * `IncludeNestedStacks` to `True`.
  */
-export const createChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createChangeSet: (
+  input: CreateChangeSetInput,
+) => Effect.Effect<
+  CreateChangeSetOutput,
+  | AlreadyExistsException
+  | InsufficientCapabilitiesException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChangeSetInput,
   output: CreateChangeSetOutput,
   errors: [
@@ -6749,7 +7473,13 @@ export const createChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a refactor across multiple stacks, with the list of stacks and resources that are
  * affected.
  */
-export const createStackRefactor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createStackRefactor: (
+  input: CreateStackRefactorInput,
+) => Effect.Effect<
+  CreateStackRefactorOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStackRefactorInput,
   output: CreateStackRefactorOutput,
   errors: [],
@@ -6780,31 +7510,55 @@ export const createStackRefactor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * One of `ChangeSetName`, `OperationId` or `StackName`
  * must be specified as input.
  */
-export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeEvents: {
+  (
     input: DescribeEventsInput,
-    output: DescribeEventsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "OperationEvents",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeEventsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEventsInput,
+  ) => Stream.Stream<
+    DescribeEventsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEventsInput,
+  ) => Stream.Stream<
+    OperationEvent,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEventsInput,
+  output: DescribeEventsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "OperationEvents",
+  } as const,
+}));
 /**
  * Returns a description of the specified resource in the specified stack.
  *
  * For deleted stacks, DescribeStackResource returns resource information for up to 90 days
  * after the stack has been deleted.
  */
-export const describeStackResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeStackResourceInput,
-    output: DescribeStackResourceOutput,
-    errors: [],
-  }),
-);
+export const describeStackResource: (
+  input: DescribeStackResourceInput,
+) => Effect.Effect<
+  DescribeStackResourceOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeStackResourceInput,
+  output: DescribeStackResourceOutput,
+  errors: [],
+}));
 /**
  * Returns drift information for the resources that have been checked for drift in the
  * specified stack. This includes actual and expected configuration values for resources where
@@ -6820,17 +7574,38 @@ export const describeStackResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * DetectStackDrift to detect drift on all supported resources for a given
  * stack.
  */
-export const describeStackResourceDrifts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeStackResourceDrifts: {
+  (
     input: DescribeStackResourceDriftsInput,
-    output: DescribeStackResourceDriftsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeStackResourceDriftsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeStackResourceDriftsInput,
+  ) => Stream.Stream<
+    DescribeStackResourceDriftsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeStackResourceDriftsInput,
+  ) => Stream.Stream<
+    unknown,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeStackResourceDriftsInput,
+  output: DescribeStackResourceDriftsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the description for the specified stack; if no stack name was specified, then it
  * returns the description for all the stacks created. For more information about a stack's event
@@ -6839,25 +7614,51 @@ export const describeStackResourceDrifts =
  *
  * If the stack doesn't exist, a `ValidationError` is returned.
  */
-export const describeStacks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeStacks: {
+  (
     input: DescribeStacksInput,
-    output: DescribeStacksOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Stacks",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeStacksOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeStacksInput,
+  ) => Stream.Stream<
+    DescribeStacksOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeStacksInput,
+  ) => Stream.Stream<
+    Stack,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeStacksInput,
+  output: DescribeStacksOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Stacks",
+  } as const,
+}));
 /**
  * Returns the description of the specified StackSet.
  *
  * This API provides *strongly consistent* reads meaning it will always
  * return the most up-to-date data.
  */
-export const describeStackSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeStackSet: (
+  input: DescribeStackSetInput,
+) => Effect.Effect<
+  DescribeStackSetOutput,
+  StackSetNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStackSetInput,
   output: DescribeStackSetOutput,
   errors: [StackSetNotFoundException],
@@ -6868,13 +7669,17 @@ export const describeStackSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This API provides *strongly consistent* reads meaning it will always
  * return the most up-to-date data.
  */
-export const describeStackSetOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeStackSetOperationInput,
-    output: DescribeStackSetOperationOutput,
-    errors: [OperationNotFoundException, StackSetNotFoundException],
-  }),
-);
+export const describeStackSetOperation: (
+  input: DescribeStackSetOperationInput,
+) => Effect.Effect<
+  DescribeStackSetOperationOutput,
+  OperationNotFoundException | StackSetNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeStackSetOperationInput,
+  output: DescribeStackSetOperationOutput,
+  errors: [OperationNotFoundException, StackSetNotFoundException],
+}));
 /**
  * Retrieves detailed information and remediation guidance for a Hook invocation
  * result.
@@ -6885,7 +7690,13 @@ export const describeStackSetOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * and permissions for encrypting CloudFormation Hooks results at rest in the
  * *CloudFormation Hooks User Guide*.
  */
-export const getHookResult = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getHookResult: (
+  input: GetHookResultInput,
+) => Effect.Effect<
+  GetHookResultOutput,
+  HookResultNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHookResultInput,
   output: GetHookResultOutput,
   errors: [HookResultNotFoundException],
@@ -6896,18 +7707,45 @@ export const getHookResult = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * specified filters are returned. The response indicates whether each returned resource is
  * already managed by CloudFormation.
  */
-export const listResourceScanResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourceScanResources: {
+  (
     input: ListResourceScanResourcesInput,
-    output: ListResourceScanResourcesOutput,
-    errors: [ResourceScanInProgressException, ResourceScanNotFoundException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Resources",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourceScanResourcesOutput,
+    | ResourceScanInProgressException
+    | ResourceScanNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceScanResourcesInput,
+  ) => Stream.Stream<
+    ListResourceScanResourcesOutput,
+    | ResourceScanInProgressException
+    | ResourceScanNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceScanResourcesInput,
+  ) => Stream.Stream<
+    ScannedResource,
+    | ResourceScanInProgressException
+    | ResourceScanNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceScanResourcesInput,
+  output: ListResourceScanResourcesOutput,
+  errors: [ResourceScanInProgressException, ResourceScanNotFoundException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Resources",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns drift information for resources in a stack instance.
  *
@@ -6915,52 +7753,100 @@ export const listResourceScanResources =
  * recent drift detection operation. If an operation is in progress, it may only return partial
  * results.
  */
-export const listStackInstanceResourceDrifts =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListStackInstanceResourceDriftsInput,
-    output: ListStackInstanceResourceDriftsOutput,
-    errors: [
-      OperationNotFoundException,
-      StackInstanceNotFoundException,
-      StackSetNotFoundException,
-    ],
-  }));
+export const listStackInstanceResourceDrifts: (
+  input: ListStackInstanceResourceDriftsInput,
+) => Effect.Effect<
+  ListStackInstanceResourceDriftsOutput,
+  | OperationNotFoundException
+  | StackInstanceNotFoundException
+  | StackSetNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStackInstanceResourceDriftsInput,
+  output: ListStackInstanceResourceDriftsOutput,
+  errors: [
+    OperationNotFoundException,
+    StackInstanceNotFoundException,
+    StackSetNotFoundException,
+  ],
+}));
 /**
  * Returns summary information about stack instances that are associated with the specified
  * StackSet. You can filter for stack instances that are associated with a specific Amazon Web Services account
  * name or Region, or that have a specific status.
  */
-export const listStackInstances = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listStackInstances: {
+  (
     input: ListStackInstancesInput,
-    output: ListStackInstancesOutput,
-    errors: [StackSetNotFoundException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Summaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListStackInstancesOutput,
+    StackSetNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStackInstancesInput,
+  ) => Stream.Stream<
+    ListStackInstancesOutput,
+    StackSetNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStackInstancesInput,
+  ) => Stream.Stream<
+    StackInstanceSummary,
+    StackSetNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStackInstancesInput,
+  output: ListStackInstancesOutput,
+  errors: [StackSetNotFoundException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Summaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns descriptions of all resources of the specified stack.
  *
  * For deleted stacks, ListStackResources returns resource information for up to 90 days
  * after the stack has been deleted.
  */
-export const listStackResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listStackResources: {
+  (
     input: ListStackResourcesInput,
-    output: ListStackResourcesOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "StackResourceSummaries",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListStackResourcesOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStackResourcesInput,
+  ) => Stream.Stream<
+    ListStackResourcesOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStackResourcesInput,
+  ) => Stream.Stream<
+    StackResourceSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStackResourcesInput,
+  output: ListStackResourcesOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "StackResourceSummaries",
+  } as const,
+}));
 /**
  * Returns the summary information for stacks whose status matches the specified
  * `StackStatusFilter`. Summary information for stacks that have been deleted is
@@ -6968,7 +7854,29 @@ export const listStackResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * specified, summary information for all stacks is returned (including existing stacks and
  * stacks that have been deleted).
  */
-export const listStacks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listStacks: {
+  (
+    input: ListStacksInput,
+  ): Effect.Effect<
+    ListStacksOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStacksInput,
+  ) => Stream.Stream<
+    ListStacksOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStacksInput,
+  ) => Stream.Stream<
+    StackSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListStacksInput,
   output: ListStacksOutput,
   errors: [],
@@ -6983,7 +7891,29 @@ export const listStacks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * modules, and Hooks as well as all public extensions from Amazon Web Services and third-party
  * publishers.
  */
-export const listTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTypes: {
+  (
+    input: ListTypesInput,
+  ): Effect.Effect<
+    ListTypesOutput,
+    CFNRegistryException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTypesInput,
+  ) => Stream.Stream<
+    ListTypesOutput,
+    CFNRegistryException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTypesInput,
+  ) => Stream.Stream<
+    TypeSummary,
+    CFNRegistryException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTypesInput,
   output: ListTypesOutput,
   errors: [CFNRegistryException],
@@ -7009,19 +7939,28 @@ export const listTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * - *Parent OU strategy:* If you don't mind exposing the OU
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
-export const deleteStackInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStackInstancesInput,
-    output: DeleteStackInstancesOutput,
-    errors: [
-      InvalidOperationException,
-      OperationIdAlreadyExistsException,
-      OperationInProgressException,
-      StackSetNotFoundException,
-      StaleRequestException,
-    ],
-  }),
-);
+export const deleteStackInstances: (
+  input: DeleteStackInstancesInput,
+) => Effect.Effect<
+  DeleteStackInstancesOutput,
+  | InvalidOperationException
+  | OperationIdAlreadyExistsException
+  | OperationInProgressException
+  | StackSetNotFoundException
+  | StaleRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStackInstancesInput,
+  output: DeleteStackInstancesOutput,
+  errors: [
+    InvalidOperationException,
+    OperationIdAlreadyExistsException,
+    OperationInProgressException,
+    StackSetNotFoundException,
+    StaleRequestException,
+  ],
+}));
 /**
  * Returns summaries of invoked Hooks. For more information, see View invocation
  * summaries for CloudFormation Hooks in the *CloudFormation Hooks User Guide*.
@@ -7038,7 +7977,13 @@ export const deleteStackInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - `TargetId` and `TargetType`: Returns summaries for a specific
  * Hook invocation target.
  */
-export const listHookResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listHookResults: (
+  input: ListHookResultsInput,
+) => Effect.Effect<
+  ListHookResultsOutput,
+  HookResultNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListHookResultsInput,
   output: ListHookResultsOutput,
   errors: [HookResultNotFoundException],
@@ -7047,18 +7992,45 @@ export const listHookResults = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists the related resources for a list of resources from a resource scan. The response
  * indicates whether each returned resource is already managed by CloudFormation.
  */
-export const listResourceScanRelatedResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourceScanRelatedResources: {
+  (
     input: ListResourceScanRelatedResourcesInput,
-    output: ListResourceScanRelatedResourcesOutput,
-    errors: [ResourceScanInProgressException, ResourceScanNotFoundException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RelatedResources",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourceScanRelatedResourcesOutput,
+    | ResourceScanInProgressException
+    | ResourceScanNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceScanRelatedResourcesInput,
+  ) => Stream.Stream<
+    ListResourceScanRelatedResourcesOutput,
+    | ResourceScanInProgressException
+    | ResourceScanNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceScanRelatedResourcesInput,
+  ) => Stream.Stream<
+    ScannedResource,
+    | ResourceScanInProgressException
+    | ResourceScanNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceScanRelatedResourcesInput,
+  output: ListResourceScanRelatedResourcesOutput,
+  errors: [ResourceScanInProgressException, ResourceScanNotFoundException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RelatedResources",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the parameter values for stack instances for the specified accounts, within the
  * specified Amazon Web Services Regions. A stack instance refers to a stack in a specific account and
@@ -7090,20 +8062,30 @@ export const listResourceScanRelatedResources =
  * - *Parent OU strategy:* If you don't mind exposing the OU
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
-export const updateStackInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateStackInstancesInput,
-    output: UpdateStackInstancesOutput,
-    errors: [
-      InvalidOperationException,
-      OperationIdAlreadyExistsException,
-      OperationInProgressException,
-      StackInstanceNotFoundException,
-      StackSetNotFoundException,
-      StaleRequestException,
-    ],
-  }),
-);
+export const updateStackInstances: (
+  input: UpdateStackInstancesInput,
+) => Effect.Effect<
+  UpdateStackInstancesOutput,
+  | InvalidOperationException
+  | OperationIdAlreadyExistsException
+  | OperationInProgressException
+  | StackInstanceNotFoundException
+  | StackSetNotFoundException
+  | StaleRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStackInstancesInput,
+  output: UpdateStackInstancesOutput,
+  errors: [
+    InvalidOperationException,
+    OperationIdAlreadyExistsException,
+    OperationInProgressException,
+    StackInstanceNotFoundException,
+    StackSetNotFoundException,
+    StaleRequestException,
+  ],
+}));
 /**
  * Updates the StackSet and associated stack instances in the specified accounts and
  * Amazon Web Services Regions.
@@ -7125,7 +8107,19 @@ export const updateStackInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - *Parent OU strategy:* If you don't mind exposing the OU
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
-export const updateStackSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateStackSet: (
+  input: UpdateStackSetInput,
+) => Effect.Effect<
+  UpdateStackSetOutput,
+  | InvalidOperationException
+  | OperationIdAlreadyExistsException
+  | OperationInProgressException
+  | StackInstanceNotFoundException
+  | StackSetNotFoundException
+  | StaleRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStackSetInput,
   output: UpdateStackSetOutput,
   errors: [
@@ -7143,13 +8137,19 @@ export const updateStackSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For a list of stack instances that are associated with a specific StackSet, use ListStackInstances.
  */
-export const describeStackInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeStackInstanceInput,
-    output: DescribeStackInstanceOutput,
-    errors: [StackInstanceNotFoundException, StackSetNotFoundException],
-  }),
-);
+export const describeStackInstance: (
+  input: DescribeStackInstanceInput,
+) => Effect.Effect<
+  DescribeStackInstanceOutput,
+  | StackInstanceNotFoundException
+  | StackSetNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeStackInstanceInput,
+  output: DescribeStackInstanceOutput,
+  errors: [StackInstanceNotFoundException, StackSetNotFoundException],
+}));
 /**
  * Creates stack instances for the specified accounts, within the specified Amazon Web Services Regions. A
  * stack instance refers to a stack in a specific account and Region. You must specify at least
@@ -7168,41 +8168,62 @@ export const describeStackInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - *Parent OU strategy:* If you don't mind exposing the OU
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
-export const createStackInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateStackInstancesInput,
-    output: CreateStackInstancesOutput,
-    errors: [
-      InvalidOperationException,
-      LimitExceededException,
-      OperationIdAlreadyExistsException,
-      OperationInProgressException,
-      StackSetNotFoundException,
-      StaleRequestException,
-    ],
-  }),
-);
+export const createStackInstances: (
+  input: CreateStackInstancesInput,
+) => Effect.Effect<
+  CreateStackInstancesOutput,
+  | InvalidOperationException
+  | LimitExceededException
+  | OperationIdAlreadyExistsException
+  | OperationInProgressException
+  | StackSetNotFoundException
+  | StaleRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStackInstancesInput,
+  output: CreateStackInstancesOutput,
+  errors: [
+    InvalidOperationException,
+    LimitExceededException,
+    OperationIdAlreadyExistsException,
+    OperationInProgressException,
+    StackSetNotFoundException,
+    StaleRequestException,
+  ],
+}));
 /**
  * Import existing stacks into a new StackSets. Use the stack import operation to import up
  * to 10 stacks into a new StackSet in the same account as the source stack or in a different
  * administrator account and Region, by specifying the stack ID of the stack you intend to
  * import.
  */
-export const importStacksToStackSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ImportStacksToStackSetInput,
-    output: ImportStacksToStackSetOutput,
-    errors: [
-      InvalidOperationException,
-      LimitExceededException,
-      OperationIdAlreadyExistsException,
-      OperationInProgressException,
-      StackNotFoundException,
-      StackSetNotFoundException,
-      StaleRequestException,
-    ],
-  }),
-);
+export const importStacksToStackSet: (
+  input: ImportStacksToStackSetInput,
+) => Effect.Effect<
+  ImportStacksToStackSetOutput,
+  | InvalidOperationException
+  | LimitExceededException
+  | OperationIdAlreadyExistsException
+  | OperationInProgressException
+  | StackNotFoundException
+  | StackSetNotFoundException
+  | StaleRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportStacksToStackSetInput,
+  output: ImportStacksToStackSetOutput,
+  errors: [
+    InvalidOperationException,
+    LimitExceededException,
+    OperationIdAlreadyExistsException,
+    OperationInProgressException,
+    StackNotFoundException,
+    StackSetNotFoundException,
+    StaleRequestException,
+  ],
+}));
 /**
  * Returns configuration data for the specified CloudFormation extensions, from the CloudFormation
  * registry in your current account and Region.
@@ -7211,16 +8232,32 @@ export const importStacksToStackSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * data for extensions in your account in the
  * *CloudFormation User Guide*.
  */
-export const batchDescribeTypeConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDescribeTypeConfigurationsInput,
-    output: BatchDescribeTypeConfigurationsOutput,
-    errors: [CFNRegistryException, TypeConfigurationNotFoundException],
-  }));
+export const batchDescribeTypeConfigurations: (
+  input: BatchDescribeTypeConfigurationsInput,
+) => Effect.Effect<
+  BatchDescribeTypeConfigurationsOutput,
+  | CFNRegistryException
+  | TypeConfigurationNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDescribeTypeConfigurationsInput,
+  output: BatchDescribeTypeConfigurationsOutput,
+  errors: [CFNRegistryException, TypeConfigurationNotFoundException],
+}));
 /**
  * Creates a StackSet.
  */
-export const createStackSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createStackSet: (
+  input: CreateStackSetInput,
+) => Effect.Effect<
+  CreateStackSetOutput,
+  | CreatedButModifiedException
+  | LimitExceededException
+  | NameAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStackSetInput,
   output: CreateStackSetOutput,
   errors: [
@@ -7233,26 +8270,34 @@ export const createStackSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns Hook-related information for the change set and a list of changes that
  * CloudFormation makes when you run the change set.
  */
-export const describeChangeSetHooks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeChangeSetHooksInput,
-    output: DescribeChangeSetHooksOutput,
-    errors: [ChangeSetNotFoundException],
-  }),
-);
+export const describeChangeSetHooks: (
+  input: DescribeChangeSetHooksInput,
+) => Effect.Effect<
+  DescribeChangeSetHooksOutput,
+  ChangeSetNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeChangeSetHooksInput,
+  output: DescribeChangeSetHooksOutput,
+  errors: [ChangeSetNotFoundException],
+}));
 /**
  * Describes a generated template. The output includes details about the progress of the
  * creation of a generated template started by a `CreateGeneratedTemplate` API action
  * or the update of a generated template started with an `UpdateGeneratedTemplate` API
  * action.
  */
-export const describeGeneratedTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeGeneratedTemplateInput,
-    output: DescribeGeneratedTemplateOutput,
-    errors: [GeneratedTemplateNotFoundException],
-  }),
-);
+export const describeGeneratedTemplate: (
+  input: DescribeGeneratedTemplateInput,
+) => Effect.Effect<
+  DescribeGeneratedTemplateOutput,
+  GeneratedTemplateNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeGeneratedTemplateInput,
+  output: DescribeGeneratedTemplateOutput,
+  errors: [GeneratedTemplateNotFoundException],
+}));
 /**
  * Returns information about a new or existing template. The `GetTemplateSummary`
  * action is useful for viewing parameter information, such as default parameter values and
@@ -7265,7 +8310,13 @@ export const describeGeneratedTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * up to 90 days after the stack has been deleted. If the template doesn't exist, a
  * `ValidationError` is returned.
  */
-export const getTemplateSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTemplateSummary: (
+  input: GetTemplateSummaryInput,
+) => Effect.Effect<
+  GetTemplateSummaryOutput,
+  StackSetNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTemplateSummaryInput,
   output: GetTemplateSummaryOutput,
   errors: [StackSetNotFoundException],
@@ -7276,23 +8327,58 @@ export const getTemplateSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This API provides *eventually consistent* reads meaning it may take
  * some time but will eventually return the most up-to-date data.
  */
-export const listStackSetOperationResults =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listStackSetOperationResults: {
+  (
     input: ListStackSetOperationResultsInput,
-    output: ListStackSetOperationResultsOutput,
-    errors: [OperationNotFoundException, StackSetNotFoundException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Summaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListStackSetOperationResultsOutput,
+    | OperationNotFoundException
+    | StackSetNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStackSetOperationResultsInput,
+  ) => Stream.Stream<
+    ListStackSetOperationResultsOutput,
+    | OperationNotFoundException
+    | StackSetNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStackSetOperationResultsInput,
+  ) => Stream.Stream<
+    StackSetOperationResultSummary,
+    | OperationNotFoundException
+    | StackSetNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStackSetOperationResultsInput,
+  output: ListStackSetOperationResultsOutput,
+  errors: [OperationNotFoundException, StackSetNotFoundException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Summaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Starts a scan of the resources in this account in this Region. You can the status of a
  * scan using the `ListResourceScans` API action.
  */
-export const startResourceScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startResourceScan: (
+  input: StartResourceScanInput,
+) => Effect.Effect<
+  StartResourceScanOutput,
+  | ResourceScanInProgressException
+  | ResourceScanLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartResourceScanInput,
   output: StartResourceScanOutput,
   errors: [ResourceScanInProgressException, ResourceScanLimitExceededException],
@@ -7303,15 +8389,35 @@ export const startResourceScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * CloudFormation stacks using change sets in the
  * *CloudFormation User Guide*.
  */
-export const describeChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeChangeSet: {
+  (
     input: DescribeChangeSetInput,
-    output: DescribeChangeSetOutput,
-    errors: [ChangeSetNotFoundException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Changes",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeChangeSetOutput,
+    ChangeSetNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeChangeSetInput,
+  ) => Stream.Stream<
+    DescribeChangeSetOutput,
+    ChangeSetNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeChangeSetInput,
+  ) => Stream.Stream<
+    Change,
+    ChangeSetNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeChangeSetInput,
+  output: DescribeChangeSetOutput,
+  errors: [ChangeSetNotFoundException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Changes",
+  } as const,
+}));

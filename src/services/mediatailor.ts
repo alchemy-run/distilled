@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "MediaTailor",
   serviceShapeName: "MediaTailor",
@@ -240,6 +248,14 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type __integer = number;
+export type __string = string;
+export type MaxResults = number;
+export type __integerMin1 = number;
+export type __integerMin1Max100 = number;
+export type __long = number;
 
 //# Schemas
 export type __listOfLoggingStrategies = string[];
@@ -3062,7 +3078,13 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 /**
  * Deletes a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
-export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteChannel: (
+  input: DeleteChannelRequest,
+) => Effect.Effect<
+  DeleteChannelResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelRequest,
   output: DeleteChannelResponse,
   errors: [],
@@ -3070,7 +3092,13 @@ export const deleteChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
-export const startChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startChannel: (
+  input: StartChannelRequest,
+) => Effect.Effect<
+  StartChannelResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartChannelRequest,
   output: StartChannelResponse,
   errors: [],
@@ -3078,7 +3106,13 @@ export const startChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
-export const stopChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopChannel: (
+  input: StopChannelRequest,
+) => Effect.Effect<
+  StopChannelResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopChannelRequest,
   output: StopChannelResponse,
   errors: [],
@@ -3086,7 +3120,13 @@ export const stopChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an IAM policy for the channel. IAM policies are used to control access to your channel.
  */
-export const putChannelPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putChannelPolicy: (
+  input: PutChannelPolicyRequest,
+) => Effect.Effect<
+  PutChannelPolicyResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutChannelPolicyRequest,
   output: PutChannelPolicyResponse,
   errors: [],
@@ -3094,7 +3134,13 @@ export const putChannelPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The channel policy to delete.
  */
-export const deleteChannelPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteChannelPolicy: (
+  input: DeleteChannelPolicyRequest,
+) => Effect.Effect<
+  DeleteChannelPolicyResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChannelPolicyRequest,
   output: DeleteChannelPolicyResponse,
   errors: [],
@@ -3102,7 +3148,13 @@ export const deleteChannelPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
-export const deleteProgram = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProgram: (
+  input: DeleteProgramRequest,
+) => Effect.Effect<
+  DeleteProgramResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProgramRequest,
   output: DeleteProgramResponse,
   errors: [],
@@ -3110,7 +3162,13 @@ export const deleteProgram = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The live source to delete.
  */
-export const deleteLiveSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLiveSource: (
+  input: DeleteLiveSourceRequest,
+) => Effect.Effect<
+  DeleteLiveSourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLiveSourceRequest,
   output: DeleteLiveSourceResponse,
   errors: [],
@@ -3118,37 +3176,55 @@ export const deleteLiveSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
-export const deletePlaybackConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePlaybackConfigurationRequest,
-    output: DeletePlaybackConfigurationResponse,
-    errors: [],
-  }),
-);
+export const deletePlaybackConfiguration: (
+  input: DeletePlaybackConfigurationRequest,
+) => Effect.Effect<
+  DeletePlaybackConfigurationResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePlaybackConfigurationRequest,
+  output: DeletePlaybackConfigurationResponse,
+  errors: [],
+}));
 /**
  * Deletes a prefetch schedule for a specific playback configuration. If you call `DeletePrefetchSchedule` on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code. For more information about ad prefetching, see Using ad prefetching in the *MediaTailor User Guide*.
  */
-export const deletePrefetchSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePrefetchScheduleRequest,
-    output: DeletePrefetchScheduleResponse,
-    errors: [],
-  }),
-);
+export const deletePrefetchSchedule: (
+  input: DeletePrefetchScheduleRequest,
+) => Effect.Effect<
+  DeletePrefetchScheduleResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePrefetchScheduleRequest,
+  output: DeletePrefetchScheduleResponse,
+  errors: [],
+}));
 /**
  * Deletes a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
-export const deleteSourceLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSourceLocationRequest,
-    output: DeleteSourceLocationResponse,
-    errors: [],
-  }),
-);
+export const deleteSourceLocation: (
+  input: DeleteSourceLocationRequest,
+) => Effect.Effect<
+  DeleteSourceLocationResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSourceLocationRequest,
+  output: DeleteSourceLocationResponse,
+  errors: [],
+}));
 /**
  * The video on demand (VOD) source to delete.
  */
-export const deleteVodSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVodSource: (
+  input: DeleteVodSourceRequest,
+) => Effect.Effect<
+  DeleteVodSourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVodSourceRequest,
   output: DeleteVodSourceResponse,
   errors: [],
@@ -3156,7 +3232,13 @@ export const deleteVodSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The resource to untag.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  BadRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [BadRequestException],
@@ -3164,7 +3246,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
-export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateChannel: (
+  input: UpdateChannelRequest,
+) => Effect.Effect<
+  UpdateChannelResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChannelRequest,
   output: UpdateChannelResponse,
   errors: [],
@@ -3172,17 +3260,27 @@ export const updateChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Configures Amazon CloudWatch log settings for a channel.
  */
-export const configureLogsForChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ConfigureLogsForChannelRequest,
-    output: ConfigureLogsForChannelResponse,
-    errors: [],
-  }),
-);
+export const configureLogsForChannel: (
+  input: ConfigureLogsForChannelRequest,
+) => Effect.Effect<
+  ConfigureLogsForChannelResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ConfigureLogsForChannelRequest,
+  output: ConfigureLogsForChannelResponse,
+  errors: [],
+}));
 /**
  * Returns the channel's IAM policy. IAM policies are used to control access to your channel.
  */
-export const getChannelPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getChannelPolicy: (
+  input: GetChannelPolicyRequest,
+) => Effect.Effect<
+  GetChannelPolicyResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChannelPolicyRequest,
   output: GetChannelPolicyResponse,
   errors: [],
@@ -3190,7 +3288,13 @@ export const getChannelPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
-export const describeProgram = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeProgram: (
+  input: DescribeProgramRequest,
+) => Effect.Effect<
+  DescribeProgramResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProgramRequest,
   output: DescribeProgramResponse,
   errors: [],
@@ -3198,7 +3302,13 @@ export const describeProgram = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The live source to describe.
  */
-export const describeLiveSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeLiveSource: (
+  input: DescribeLiveSourceRequest,
+) => Effect.Effect<
+  DescribeLiveSourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLiveSourceRequest,
   output: DescribeLiveSourceResponse,
   errors: [],
@@ -3206,7 +3316,13 @@ export const describeLiveSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a live source's configuration.
  */
-export const updateLiveSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLiveSource: (
+  input: UpdateLiveSourceRequest,
+) => Effect.Effect<
+  UpdateLiveSourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLiveSourceRequest,
   output: UpdateLiveSourceResponse,
   errors: [],
@@ -3214,7 +3330,13 @@ export const updateLiveSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the *MediaTailor User Guide*.
  */
-export const getPrefetchSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPrefetchSchedule: (
+  input: GetPrefetchScheduleRequest,
+) => Effect.Effect<
+  GetPrefetchScheduleResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPrefetchScheduleRequest,
   output: GetPrefetchScheduleResponse,
   errors: [],
@@ -3222,27 +3344,41 @@ export const getPrefetchSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
-export const describeSourceLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSourceLocationRequest,
-    output: DescribeSourceLocationResponse,
-    errors: [],
-  }),
-);
+export const describeSourceLocation: (
+  input: DescribeSourceLocationRequest,
+) => Effect.Effect<
+  DescribeSourceLocationResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSourceLocationRequest,
+  output: DescribeSourceLocationResponse,
+  errors: [],
+}));
 /**
  * Updates a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
-export const updateSourceLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSourceLocationRequest,
-    output: UpdateSourceLocationResponse,
-    errors: [],
-  }),
-);
+export const updateSourceLocation: (
+  input: UpdateSourceLocationRequest,
+) => Effect.Effect<
+  UpdateSourceLocationResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSourceLocationRequest,
+  output: UpdateSourceLocationResponse,
+  errors: [],
+}));
 /**
  * The VOD source configuration parameters.
  */
-export const createVodSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVodSource: (
+  input: CreateVodSourceRequest,
+) => Effect.Effect<
+  CreateVodSourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVodSourceRequest,
   output: CreateVodSourceResponse,
   errors: [],
@@ -3250,7 +3386,13 @@ export const createVodSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a VOD source's configuration.
  */
-export const updateVodSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVodSource: (
+  input: UpdateVodSourceRequest,
+) => Effect.Effect<
+  UpdateVodSourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVodSourceRequest,
   output: UpdateVodSourceResponse,
   errors: [],
@@ -3258,7 +3400,13 @@ export const updateVodSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * A list of tags that are associated with this resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  BadRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [BadRequestException],
@@ -3266,7 +3414,13 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The resource to tag. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  BadRequestException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [BadRequestException],
@@ -3274,16 +3428,43 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
  */
-export const configureLogsForPlaybackConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ConfigureLogsForPlaybackConfigurationRequest,
-    output: ConfigureLogsForPlaybackConfigurationResponse,
-    errors: [],
-  }));
+export const configureLogsForPlaybackConfiguration: (
+  input: ConfigureLogsForPlaybackConfigurationRequest,
+) => Effect.Effect<
+  ConfigureLogsForPlaybackConfigurationResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ConfigureLogsForPlaybackConfigurationRequest,
+  output: ConfigureLogsForPlaybackConfigurationResponse,
+  errors: [],
+}));
 /**
  * Lists the alerts that are associated with a MediaTailor channel assembly resource.
  */
-export const listAlerts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAlerts: {
+  (
+    input: ListAlertsRequest,
+  ): Effect.Effect<
+    ListAlertsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAlertsRequest,
+  ) => Stream.Stream<
+    ListAlertsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAlertsRequest,
+  ) => Stream.Stream<
+    Alert,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAlertsRequest,
   output: ListAlertsResponse,
   errors: [],
@@ -3297,7 +3478,13 @@ export const listAlerts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Describes a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
-export const describeChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeChannel: (
+  input: DescribeChannelRequest,
+) => Effect.Effect<
+  DescribeChannelResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeChannelRequest,
   output: DescribeChannelResponse,
   errors: [],
@@ -3305,23 +3492,49 @@ export const describeChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the channels that are associated with the current AWS account.
  */
-export const listChannels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listChannels: {
+  (
     input: ListChannelsRequest,
-    output: ListChannelsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListChannelsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelsRequest,
+  ) => Stream.Stream<
+    ListChannelsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelsRequest,
+  ) => Stream.Stream<
+    Channel,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelsRequest,
+  output: ListChannelsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * The live source configuration.
  */
-export const createLiveSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLiveSource: (
+  input: CreateLiveSourceRequest,
+) => Effect.Effect<
+  CreateLiveSourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLiveSourceRequest,
   output: CreateLiveSourceResponse,
   errors: [],
@@ -3329,78 +3542,171 @@ export const createLiveSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the live sources contained in a source location. A source represents a piece of content.
  */
-export const listLiveSources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLiveSources: {
+  (
     input: ListLiveSourcesRequest,
-    output: ListLiveSourcesResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLiveSourcesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLiveSourcesRequest,
+  ) => Stream.Stream<
+    ListLiveSourcesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLiveSourcesRequest,
+  ) => Stream.Stream<
+    LiveSource,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLiveSourcesRequest,
+  output: ListLiveSourcesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
-export const getPlaybackConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPlaybackConfigurationRequest,
-    output: GetPlaybackConfigurationResponse,
-    errors: [],
-  }),
-);
+export const getPlaybackConfiguration: (
+  input: GetPlaybackConfigurationRequest,
+) => Effect.Effect<
+  GetPlaybackConfigurationResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPlaybackConfigurationRequest,
+  output: GetPlaybackConfigurationResponse,
+  errors: [],
+}));
 /**
  * Retrieves existing playback configurations. For information about MediaTailor configurations, see Working with Configurations in AWS Elemental MediaTailor.
  */
-export const listPlaybackConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPlaybackConfigurations: {
+  (
     input: ListPlaybackConfigurationsRequest,
-    output: ListPlaybackConfigurationsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPlaybackConfigurationsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPlaybackConfigurationsRequest,
+  ) => Stream.Stream<
+    ListPlaybackConfigurationsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPlaybackConfigurationsRequest,
+  ) => Stream.Stream<
+    PlaybackConfiguration,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPlaybackConfigurationsRequest,
+  output: ListPlaybackConfigurationsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the prefetch schedules for a playback configuration.
  */
-export const listPrefetchSchedules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPrefetchSchedules: {
+  (
     input: ListPrefetchSchedulesRequest,
-    output: ListPrefetchSchedulesResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPrefetchSchedulesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPrefetchSchedulesRequest,
+  ) => Stream.Stream<
+    ListPrefetchSchedulesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPrefetchSchedulesRequest,
+  ) => Stream.Stream<
+    PrefetchSchedule,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPrefetchSchedulesRequest,
+  output: ListPrefetchSchedulesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the source locations for a channel. A source location defines the host server URL, and contains a list of sources.
  */
-export const listSourceLocations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSourceLocations: {
+  (
     input: ListSourceLocationsRequest,
-    output: ListSourceLocationsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSourceLocationsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSourceLocationsRequest,
+  ) => Stream.Stream<
+    ListSourceLocationsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSourceLocationsRequest,
+  ) => Stream.Stream<
+    SourceLocation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSourceLocationsRequest,
+  output: ListSourceLocationsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides details about a specific video on demand (VOD) source in a specific source location.
  */
-export const describeVodSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeVodSource: (
+  input: DescribeVodSourceRequest,
+) => Effect.Effect<
+  DescribeVodSourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVodSourceRequest,
   output: DescribeVodSourceResponse,
   errors: [],
@@ -3408,23 +3714,49 @@ export const describeVodSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the VOD sources contained in a source location. A source represents a piece of content.
  */
-export const listVodSources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listVodSources: {
+  (
     input: ListVodSourcesRequest,
-    output: ListVodSourcesResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListVodSourcesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVodSourcesRequest,
+  ) => Stream.Stream<
+    ListVodSourcesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVodSourcesRequest,
+  ) => Stream.Stream<
+    VodSource,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVodSourcesRequest,
+  output: ListVodSourcesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
-export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createChannel: (
+  input: CreateChannelRequest,
+) => Effect.Effect<
+  CreateChannelResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChannelRequest,
   output: CreateChannelResponse,
   errors: [],
@@ -3432,23 +3764,49 @@ export const createChannel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about your channel's schedule.
  */
-export const getChannelSchedule = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getChannelSchedule: {
+  (
     input: GetChannelScheduleRequest,
-    output: GetChannelScheduleResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Items",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetChannelScheduleResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetChannelScheduleRequest,
+  ) => Stream.Stream<
+    GetChannelScheduleResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetChannelScheduleRequest,
+  ) => Stream.Stream<
+    ScheduleEntry,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetChannelScheduleRequest,
+  output: GetChannelScheduleResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates a program within a channel.
  */
-export const updateProgram = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProgram: (
+  input: UpdateProgramRequest,
+) => Effect.Effect<
+  UpdateProgramResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProgramRequest,
   output: UpdateProgramResponse,
   errors: [],
@@ -3456,27 +3814,41 @@ export const updateProgram = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the *MediaTailor User Guide*.
  */
-export const createPrefetchSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePrefetchScheduleRequest,
-    output: CreatePrefetchScheduleResponse,
-    errors: [],
-  }),
-);
+export const createPrefetchSchedule: (
+  input: CreatePrefetchScheduleRequest,
+) => Effect.Effect<
+  CreatePrefetchScheduleResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePrefetchScheduleRequest,
+  output: CreatePrefetchScheduleResponse,
+  errors: [],
+}));
 /**
  * Creates a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
-export const createSourceLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSourceLocationRequest,
-    output: CreateSourceLocationResponse,
-    errors: [],
-  }),
-);
+export const createSourceLocation: (
+  input: CreateSourceLocationRequest,
+) => Effect.Effect<
+  CreateSourceLocationResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSourceLocationRequest,
+  output: CreateSourceLocationResponse,
+  errors: [],
+}));
 /**
  * Creates a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
-export const createProgram = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProgram: (
+  input: CreateProgramRequest,
+) => Effect.Effect<
+  CreateProgramResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProgramRequest,
   output: CreateProgramResponse,
   errors: [],
@@ -3484,10 +3856,14 @@ export const createProgram = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
-export const putPlaybackConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutPlaybackConfigurationRequest,
-    output: PutPlaybackConfigurationResponse,
-    errors: [],
-  }),
-);
+export const putPlaybackConfiguration: (
+  input: PutPlaybackConfigurationRequest,
+) => Effect.Effect<
+  PutPlaybackConfigurationResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutPlaybackConfigurationRequest,
+  output: PutPlaybackConfigurationResponse,
+  errors: [],
+}));

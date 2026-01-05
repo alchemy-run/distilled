@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Lex Model Building Service",
   serviceShapeName: "AWSDeepSenseModelBuildingService",
@@ -320,6 +328,60 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type BotName = string;
+export type IntentName = string;
+export type SlotTypeName = string;
+export type AliasName = string;
+export type BotChannelName = string;
+export type NumericalVersion = string;
+export type UserId = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type AliasNameOrListAll = string;
+export type BuiltinIntentSignature = string;
+export type Name = string;
+export type Version = string;
+export type MigrationId = string;
+export type AmazonResourceName = string;
+export type Description = string;
+export type ConfidenceThreshold = number;
+export type SessionTTL = number;
+export type Utterance = string;
+export type CustomOrBuiltinSlotTypeName = string;
+export type V2BotName = string;
+export type IamRoleArn = string;
+export type TagKey = string;
+export type PromptMaxAttempts = number;
+export type ResponseCard = string;
+export type TagValue = string;
+export type SlotName = string;
+export type Priority = number;
+export type LambdaARN = string;
+export type MessageVersion = string;
+export type KendraIndexArn = string;
+export type QueryFilterString = string;
+export type roleArn = string;
+export type InputContextName = string;
+export type OutputContextName = string;
+export type ContextTimeToLiveInSeconds = number;
+export type ContextTurnsToLive = number;
+export type Value = string;
+export type V2BotId = string;
+export type ContentString = string;
+export type GroupNumber = number;
+export type KmsKeyArn = string;
+export type ResourceArn = string;
+export type RegexPattern = string;
+export type BuiltinSlotTypeSignature = string;
+export type MigrationAlertMessage = string;
+export type MigrationAlertDetail = string;
+export type MigrationAlertReferenceURL = string;
+export type SlotDefaultValueString = string;
+export type ResourcePrefix = string;
+export type UtteranceString = string;
+export type Count = number;
 
 //# Schemas
 export type BotVersions = string[];
@@ -2667,7 +2729,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
@@ -2678,7 +2742,9 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
     retryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
     message: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { message: S.optional(S.String) },
@@ -2727,7 +2793,16 @@ export class ResourceInUseException extends S.TaggedError<ResourceInUseException
  * This operation requires permissions for the
  * `lex:GetUtterancesView` action.
  */
-export const getUtterancesView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUtterancesView: (
+  input: GetUtterancesViewRequest,
+) => Effect.Effect<
+  GetUtterancesViewResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUtterancesViewRequest,
   output: GetUtterancesViewResponse,
   errors: [
@@ -2742,22 +2817,51 @@ export const getUtterancesView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `lex:GetBotAliases` action.
  */
-export const getBotAliases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getBotAliases: {
+  (
     input: GetBotAliasesRequest,
-    output: GetBotAliasesResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetBotAliasesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetBotAliasesRequest,
+  ) => Stream.Stream<
+    GetBotAliasesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetBotAliasesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetBotAliasesRequest,
+  output: GetBotAliasesResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of all of the channels associated with the
  * specified bot.
@@ -2766,21 +2870,51 @@ export const getBotAliases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * permissions for the `lex:GetBotChannelAssociations`
  * action.
  */
-export const getBotChannelAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getBotChannelAssociations: {
+  (
     input: GetBotChannelAssociationsRequest,
-    output: GetBotChannelAssociationsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetBotChannelAssociationsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetBotChannelAssociationsRequest,
+  ) => Stream.Stream<
+    GetBotChannelAssociationsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetBotChannelAssociationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetBotChannelAssociationsRequest,
+  output: GetBotChannelAssociationsResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of built-in intents that meet the specified
  * criteria.
@@ -2788,22 +2922,51 @@ export const getBotChannelAssociations =
  * This operation requires permission for the
  * `lex:GetBuiltinIntents` action.
  */
-export const getBuiltinIntents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getBuiltinIntents: {
+  (
     input: GetBuiltinIntentsRequest,
-    output: GetBuiltinIntentsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetBuiltinIntentsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetBuiltinIntentsRequest,
+  ) => Stream.Stream<
+    GetBuiltinIntentsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetBuiltinIntentsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetBuiltinIntentsRequest,
+  output: GetBuiltinIntentsResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of built-in slot types that meet the specified
  * criteria.
@@ -2814,44 +2977,112 @@ export const getBuiltinIntents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * This operation requires permission for the
  * `lex:GetBuiltInSlotTypes` action.
  */
-export const getBuiltinSlotTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getBuiltinSlotTypes: {
+  (
     input: GetBuiltinSlotTypesRequest,
-    output: GetBuiltinSlotTypesResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetBuiltinSlotTypesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetBuiltinSlotTypesRequest,
+  ) => Stream.Stream<
+    GetBuiltinSlotTypesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetBuiltinSlotTypesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetBuiltinSlotTypesRequest,
+  output: GetBuiltinSlotTypesResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of migrations between Amazon Lex V1 and Amazon Lex V2.
  */
-export const getMigrations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getMigrations: {
+  (
     input: GetMigrationsRequest,
-    output: GetMigrationsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetMigrationsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetMigrationsRequest,
+  ) => Stream.Stream<
+    GetMigrationsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetMigrationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetMigrationsRequest,
+  output: GetMigrationsResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Starts a job to import a resource to Amazon Lex.
  */
-export const startImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startImport: (
+  input: StartImportRequest,
+) => Effect.Effect<
+  StartImportResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImportRequest,
   output: StartImportResponse,
   errors: [
@@ -2867,7 +3098,17 @@ export const startImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `lex:GetBot` action.
  */
-export const getBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBot: (
+  input: GetBotRequest,
+) => Effect.Effect<
+  GetBotResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBotRequest,
   output: GetBotResponse,
   errors: [
@@ -2898,7 +3139,18 @@ export const getBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the `lex:PutBot`
  * action. For more information, see security-iam.
  */
-export const putBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putBot: (
+  input: PutBotRequest,
+) => Effect.Effect<
+  PutBotResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | PreconditionFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBotRequest,
   output: PutBotResponse,
   errors: [
@@ -2963,7 +3215,18 @@ export const putBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `lex:PutIntent` action.
  */
-export const putIntent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putIntent: (
+  input: PutIntentRequest,
+) => Effect.Effect<
+  PutIntentResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | PreconditionFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutIntentRequest,
   output: PutIntentResponse,
   errors: [
@@ -2981,7 +3244,17 @@ export const putIntent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `lex:GetBotAlias` action.
  */
-export const getBotAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBotAlias: (
+  input: GetBotAliasRequest,
+) => Effect.Effect<
+  GetBotAliasResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBotAliasRequest,
   output: GetBotAliasResponse,
   errors: [
@@ -2998,18 +3271,26 @@ export const getBotAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `lex:GetBotChannelAssociation` action.
  */
-export const getBotChannelAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBotChannelAssociationRequest,
-    output: GetBotChannelAssociationResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
+export const getBotChannelAssociation: (
+  input: GetBotChannelAssociationRequest,
+) => Effect.Effect<
+  GetBotChannelAssociationResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBotChannelAssociationRequest,
+  output: GetBotChannelAssociationResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
 /**
  * Returns bot information as follows:
  *
@@ -3024,7 +3305,41 @@ export const getBotChannelAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation requires permission for the `lex:GetBots`
  * action.
  */
-export const getBots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getBots: {
+  (
+    input: GetBotsRequest,
+  ): Effect.Effect<
+    GetBotsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetBotsRequest,
+  ) => Stream.Stream<
+    GetBotsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetBotsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetBotsRequest,
   output: GetBotsResponse,
   errors: [
@@ -3045,7 +3360,17 @@ export const getBots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * This operation requires permission for the
  * `lex:GetBuiltinIntent` action.
  */
-export const getBuiltinIntent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBuiltinIntent: (
+  input: GetBuiltinIntentRequest,
+) => Effect.Effect<
+  GetBuiltinIntentResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBuiltinIntentRequest,
   output: GetBuiltinIntentResponse,
   errors: [
@@ -3069,7 +3394,41 @@ export const getBuiltinIntent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The operation requires permission for the
  * `lex:GetIntents` action.
  */
-export const getIntents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getIntents: {
+  (
+    input: GetIntentsRequest,
+  ): Effect.Effect<
+    GetIntentsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetIntentsRequest,
+  ) => Stream.Stream<
+    GetIntentsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetIntentsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetIntentsRequest,
   output: GetIntentsResponse,
   errors: [
@@ -3089,7 +3448,17 @@ export const getIntents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Amazon Lex V1 bot to an Amazon Lex V2 bot. Use this operation to view the migration
  * alerts and warnings related to the migration.
  */
-export const getMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMigration: (
+  input: GetMigrationRequest,
+) => Effect.Effect<
+  GetMigrationResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMigrationRequest,
   output: GetMigrationResponse,
   errors: [
@@ -3113,23 +3482,55 @@ export const getMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The operation requires permission for the
  * `lex:GetSlotTypes` action.
  */
-export const getSlotTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getSlotTypes: {
+  (
     input: GetSlotTypesRequest,
-    output: GetSlotTypesResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetSlotTypesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetSlotTypesRequest,
+  ) => Stream.Stream<
+    GetSlotTypesResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSlotTypesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetSlotTypesRequest,
+  output: GetSlotTypesResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Starts migrating a bot from Amazon Lex V1 to Amazon Lex V2. Migrate your bot when
  * you want to take advantage of the new features of Amazon Lex V2.
@@ -3137,7 +3538,18 @@ export const getSlotTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * For more information, see Migrating a bot in the Amazon Lex
  * developer guide.
  */
-export const startMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startMigration: (
+  input: StartMigrationRequest,
+) => Effect.Effect<
+  StartMigrationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMigrationRequest,
   output: StartMigrationResponse,
   errors: [
@@ -3155,24 +3567,44 @@ export const startMigration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permission for the
  * `lex:DeleteBotChannelAssociation` action.
  */
-export const deleteBotChannelAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBotChannelAssociationRequest,
-    output: DeleteBotChannelAssociationResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
+export const deleteBotChannelAssociation: (
+  input: DeleteBotChannelAssociationRequest,
+) => Effect.Effect<
+  DeleteBotChannelAssociationResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBotChannelAssociationRequest,
+  output: DeleteBotChannelAssociationResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
 /**
  * Adds the specified tags to the specified resource. If a tag key
  * already exists, the existing value is replaced with the new value.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3186,7 +3618,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from a bot, bot alias or bot channel.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3213,7 +3656,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permission for the
  * `lex:CreateBotVersion` action.
  */
-export const createBotVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBotVersion: (
+  input: CreateBotVersionRequest,
+) => Effect.Effect<
+  CreateBotVersionResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | PreconditionFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBotVersionRequest,
   output: CreateBotVersionResponse,
   errors: [
@@ -3242,7 +3697,19 @@ export const createBotVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the
  * `lex:CreateIntentVersion` action.
  */
-export const createIntentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIntentVersion: (
+  input: CreateIntentVersionRequest,
+) => Effect.Effect<
+  CreateIntentVersionResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | PreconditionFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIntentVersionRequest,
   output: CreateIntentVersionResponse,
   errors: [
@@ -3271,20 +3738,30 @@ export const createIntentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `lex:CreateSlotTypeVersion` action.
  */
-export const createSlotTypeVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSlotTypeVersionRequest,
-    output: CreateSlotTypeVersionResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-      PreconditionFailedException,
-    ],
-  }),
-);
+export const createSlotTypeVersion: (
+  input: CreateSlotTypeVersionRequest,
+) => Effect.Effect<
+  CreateSlotTypeVersionResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | PreconditionFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSlotTypeVersionRequest,
+  output: CreateSlotTypeVersionResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+    PreconditionFailedException,
+  ],
+}));
 /**
  * Gets information about all of the versions of a bot.
  *
@@ -3301,27 +3778,69 @@ export const createSlotTypeVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation requires permissions for the
  * `lex:GetBotVersions` action.
  */
-export const getBotVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getBotVersions: {
+  (
     input: GetBotVersionsRequest,
-    output: GetBotVersionsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetBotVersionsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetBotVersionsRequest,
+  ) => Stream.Stream<
+    GetBotVersionsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetBotVersionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetBotVersionsRequest,
+  output: GetBotVersionsResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Exports the contents of a Amazon Lex resource in a specified format.
  */
-export const getExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getExport: (
+  input: GetExportRequest,
+) => Effect.Effect<
+  GetExportResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExportRequest,
   output: GetExportResponse,
   errors: [
@@ -3335,7 +3854,17 @@ export const getExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets information about an import job started with the
  * `StartImport` operation.
  */
-export const getImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getImport: (
+  input: GetImportRequest,
+) => Effect.Effect<
+  GetImportResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImportRequest,
   output: GetImportResponse,
   errors: [
@@ -3352,7 +3881,17 @@ export const getImport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the
  * `lex:GetIntent` action.
  */
-export const getIntent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIntent: (
+  input: GetIntentRequest,
+) => Effect.Effect<
+  GetIntentResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIntentRequest,
   output: GetIntentResponse,
   errors: [
@@ -3378,23 +3917,55 @@ export const getIntent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `lex:GetIntentVersions` action.
  */
-export const getIntentVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getIntentVersions: {
+  (
     input: GetIntentVersionsRequest,
-    output: GetIntentVersionsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetIntentVersionsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetIntentVersionsRequest,
+  ) => Stream.Stream<
+    GetIntentVersionsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetIntentVersionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetIntentVersionsRequest,
+  output: GetIntentVersionsResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about a specific version of a slot type. In
  * addition to specifying the slot type name, you must specify the slot type
@@ -3403,7 +3974,17 @@ export const getIntentVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * This operation requires permissions for the
  * `lex:GetSlotType` action.
  */
-export const getSlotType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSlotType: (
+  input: GetSlotTypeRequest,
+) => Effect.Effect<
+  GetSlotTypeResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSlotTypeRequest,
   output: GetSlotTypeResponse,
   errors: [
@@ -3429,27 +4010,70 @@ export const getSlotType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `lex:GetSlotTypeVersions` action.
  */
-export const getSlotTypeVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getSlotTypeVersions: {
+  (
     input: GetSlotTypeVersionsRequest,
-    output: GetSlotTypeVersionsResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetSlotTypeVersionsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetSlotTypeVersionsRequest,
+  ) => Stream.Stream<
+    GetSlotTypeVersionsResponse,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSlotTypeVersionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | InternalFailureException
+    | LimitExceededException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetSlotTypeVersionsRequest,
+  output: GetSlotTypeVersionsResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of tags associated with the specified resource. Only bots,
  * bot aliases, and bot channels can have tags associated with them.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3476,7 +4100,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `lex:DeleteUtterances` action.
  */
-export const deleteUtterances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUtterances: (
+  input: DeleteUtterancesRequest,
+) => Effect.Effect<
+  DeleteUtterancesResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUtterancesRequest,
   output: DeleteUtterancesResponse,
   errors: [
@@ -3495,7 +4129,18 @@ export const deleteUtterances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `lex:PutBotAlias` action.
  */
-export const putBotAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putBotAlias: (
+  input: PutBotAliasRequest,
+) => Effect.Effect<
+  PutBotAliasResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | PreconditionFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutBotAliasRequest,
   output: PutBotAliasResponse,
   errors: [
@@ -3526,7 +4171,18 @@ export const putBotAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `lex:PutSlotType` action.
  */
-export const putSlotType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putSlotType: (
+  input: PutSlotTypeRequest,
+) => Effect.Effect<
+  PutSlotTypeResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | PreconditionFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSlotTypeRequest,
   output: PutSlotTypeResponse,
   errors: [
@@ -3549,7 +4205,19 @@ export const putSlotType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * same exception again, delete the referring association until the
  * `DeleteBotAlias` operation is successful.
  */
-export const deleteBotAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBotAlias: (
+  input: DeleteBotAliasRequest,
+) => Effect.Effect<
+  DeleteBotAliasResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBotAliasRequest,
   output: DeleteBotAliasResponse,
   errors: [
@@ -3568,7 +4236,19 @@ export const deleteBotAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `lex:DeleteBotVersion` action.
  */
-export const deleteBotVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBotVersion: (
+  input: DeleteBotVersionRequest,
+) => Effect.Effect<
+  DeleteBotVersionResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBotVersionRequest,
   output: DeleteBotVersionResponse,
   errors: [
@@ -3600,7 +4280,19 @@ export const deleteBotVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permission for the
  * `lex:DeleteIntent` action.
  */
-export const deleteIntent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIntent: (
+  input: DeleteIntentRequest,
+) => Effect.Effect<
+  DeleteIntentResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntentRequest,
   output: DeleteIntentResponse,
   errors: [
@@ -3619,7 +4311,19 @@ export const deleteIntent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `lex:DeleteIntentVersion` action.
  */
-export const deleteIntentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIntentVersion: (
+  input: DeleteIntentVersionRequest,
+) => Effect.Effect<
+  DeleteIntentVersionResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntentVersionRequest,
   output: DeleteIntentVersionResponse,
   errors: [
@@ -3651,7 +4355,19 @@ export const deleteIntentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permission for the
  * `lex:DeleteSlotType` action.
  */
-export const deleteSlotType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSlotType: (
+  input: DeleteSlotTypeRequest,
+) => Effect.Effect<
+  DeleteSlotTypeResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSlotTypeRequest,
   output: DeleteSlotTypeResponse,
   errors: [
@@ -3670,20 +4386,30 @@ export const deleteSlotType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions for the
  * `lex:DeleteSlotTypeVersion` action.
  */
-export const deleteSlotTypeVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSlotTypeVersionRequest,
-    output: DeleteSlotTypeVersionResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-      NotFoundException,
-      ResourceInUseException,
-    ],
-  }),
-);
+export const deleteSlotTypeVersion: (
+  input: DeleteSlotTypeVersionRequest,
+) => Effect.Effect<
+  DeleteSlotTypeVersionResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSlotTypeVersionRequest,
+  output: DeleteSlotTypeVersionResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+    NotFoundException,
+    ResourceInUseException,
+  ],
+}));
 /**
  * Deletes all versions of the bot, including the `$LATEST`
  * version. To delete a specific version of the bot, use the DeleteBotVersion operation. The `DeleteBot`
@@ -3705,7 +4431,19 @@ export const deleteSlotTypeVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation requires permissions for the
  * `lex:DeleteBot` action.
  */
-export const deleteBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBot: (
+  input: DeleteBotRequest,
+) => Effect.Effect<
+  DeleteBotResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | ResourceInUseException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBotRequest,
   output: DeleteBotResponse,
   errors: [

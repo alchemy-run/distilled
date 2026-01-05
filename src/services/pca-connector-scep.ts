@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Pca Connector Scep",
   serviceShapeName: "PcaConnectorScep",
@@ -292,6 +300,17 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ConnectorArn = string;
+export type ClientToken = string;
+export type ChallengeArn = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type CertificateAuthorityArn = string;
+export type SensitiveString = string;
+export type AzureApplicationId = string;
+export type AzureDomain = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -604,6 +623,7 @@ export const ChallengeMetadataSummary = S.suspend(() =>
 }) as any as S.Schema<ChallengeMetadataSummary>;
 export type ChallengeMetadataList = ChallengeMetadataSummary[];
 export const ChallengeMetadataList = S.Array(ChallengeMetadataSummary);
+export type MobileDeviceManagement = { Intune: IntuneConfiguration };
 export const MobileDeviceManagement = S.Union(
   S.Struct({ Intune: IntuneConfiguration }),
 );
@@ -768,7 +788,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { Message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -785,7 +807,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -804,28 +828,73 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Lists the connectors belonging to your Amazon Web Services account.
  */
-export const listConnectors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listConnectors: {
+  (
     input: ListConnectorsRequest,
-    output: ListConnectorsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Connectors",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListConnectorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectorsRequest,
+  ) => Stream.Stream<
+    ListConnectorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectorsRequest,
+  ) => Stream.Stream<
+    ConnectorSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectorsRequest,
+  output: ListConnectorsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Connectors",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Certificate Authority to your SCEP-compatible devices and mobile device management (MDM) systems. Before you create a connector, you must complete a set of prerequisites, including creation of a private certificate authority (CA) to use with this connector. For more information, see Connector for SCEP prerequisites.
  */
-export const createConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConnector: (
+  input: CreateConnectorRequest,
+) => Effect.Effect<
+  CreateConnectorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectorRequest,
   output: CreateConnectorResponse,
   errors: [
@@ -841,44 +910,101 @@ export const createConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the metadata for the specified Challenge.
  */
-export const getChallengeMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetChallengeMetadataRequest,
-    output: GetChallengeMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getChallengeMetadata: (
+  input: GetChallengeMetadataRequest,
+) => Effect.Effect<
+  GetChallengeMetadataResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetChallengeMetadataRequest,
+  output: GetChallengeMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the challenge metadata for the specified ARN.
  */
-export const listChallengeMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listChallengeMetadata: {
+  (
     input: ListChallengeMetadataRequest,
-    output: ListChallengeMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Challenges",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListChallengeMetadataResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChallengeMetadataRequest,
+  ) => Stream.Stream<
+    ListChallengeMetadataResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChallengeMetadataRequest,
+  ) => Stream.Stream<
+    ChallengeMetadataSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChallengeMetadataRequest,
+  output: ListChallengeMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Challenges",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes the specified Challenge.
  */
-export const deleteChallenge = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteChallenge: (
+  input: DeleteChallengeRequest,
+) => Effect.Effect<
+  DeleteChallengeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChallengeRequest,
   output: DeleteChallengeResponse,
   errors: [
@@ -893,19 +1019,28 @@ export const deleteChallenge = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the challenge password for the specified Challenge.
  */
-export const getChallengePassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetChallengePasswordRequest,
-    output: GetChallengePasswordResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getChallengePassword: (
+  input: GetChallengePasswordRequest,
+) => Effect.Effect<
+  GetChallengePasswordResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetChallengePasswordRequest,
+  output: GetChallengePasswordResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the tags associated with the specified resource. Tags are key-value pairs that
  * you can use to categorize and manage your resources, for purposes like billing. For
@@ -913,7 +1048,18 @@ export const getChallengePassword = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a
  * resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -927,7 +1073,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds one or more tags to your resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -941,7 +1098,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified Connector. This operation also deletes any challenges associated with the connector.
  */
-export const deleteConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConnector: (
+  input: DeleteConnectorRequest,
+) => Effect.Effect<
+  DeleteConnectorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectorRequest,
   output: DeleteConnectorResponse,
   errors: [
@@ -956,7 +1125,18 @@ export const deleteConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes one or more tags from your resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -970,7 +1150,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details about the specified Connector. Calling this action returns important details about the connector, such as the public SCEP URL where your clients can request certificates.
  */
-export const getConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConnector: (
+  input: GetConnectorRequest,
+) => Effect.Effect<
+  GetConnectorResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectorRequest,
   output: GetConnectorResponse,
   errors: [
@@ -986,7 +1177,21 @@ export const getConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To create additional challenge passwords for the connector, call `CreateChallenge` again. We recommend frequently rotating your challenge passwords.
  */
-export const createChallenge = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createChallenge: (
+  input: CreateChallengeRequest,
+) => Effect.Effect<
+  CreateChallengeResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChallengeRequest,
   output: CreateChallengeResponse,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "rbin",
   serviceShapeName: "AmazonRecycleBin",
@@ -240,6 +248,20 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Description = string;
+export type RuleIdentifier = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type RuleArn = string;
+export type TagKey = string;
+export type RetentionPeriodValue = number;
+export type TagValue = string;
+export type ResourceTagKey = string;
+export type ResourceTagValue = string;
+export type ErrorMessage = string;
+export type UnlockDelayValue = number;
 
 //# Schemas
 export interface ResourceTag {
@@ -716,7 +738,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String), Reason: S.optional(S.String) },
@@ -734,7 +758,29 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Lists the Recycle Bin retention rules in the Region.
  */
-export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRules: {
+  (
+    input: ListRulesRequest,
+  ): Effect.Effect<
+    ListRulesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRulesRequest,
+  ) => Stream.Stream<
+    ListRulesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRulesRequest,
+  ) => Stream.Stream<
+    RuleSummary,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRulesRequest,
   output: ListRulesResponse,
   errors: [InternalServerException, ValidationException],
@@ -748,7 +794,17 @@ export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Assigns tags to the specified retention rule.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -762,7 +818,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Unlocks a retention rule. After a retention rule is unlocked, it can be modified or deleted
  * only after the unlock delay period expires.
  */
-export const unlockRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const unlockRule: (
+  input: UnlockRuleRequest,
+) => Effect.Effect<
+  UnlockRuleResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnlockRuleRequest,
   output: UnlockRuleResponse,
   errors: [
@@ -775,7 +841,16 @@ export const unlockRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Unassigns a tag from a retention rule.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -788,7 +863,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes a Recycle Bin retention rule. For more information, see
  * Delete Recycle Bin retention rules in the *Amazon Elastic Compute Cloud User Guide*.
  */
-export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRule: (
+  input: DeleteRuleRequest,
+) => Effect.Effect<
+  DeleteRuleResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleRequest,
   output: DeleteRuleResponse,
   errors: [
@@ -801,7 +886,16 @@ export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a Recycle Bin retention rule.
  */
-export const getRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRule: (
+  input: GetRuleRequest,
+) => Effect.Effect<
+  GetRuleResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRuleRequest,
   output: GetRuleResponse,
   errors: [
@@ -813,7 +907,16 @@ export const getRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags assigned to a retention rule.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -829,7 +932,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can't lock tag-level retention rules, or Region-level retention rules that
  * have exclusion tags.
  */
-export const lockRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const lockRule: (
+  input: LockRuleRequest,
+) => Effect.Effect<
+  LockRuleResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LockRuleRequest,
   output: LockRuleResponse,
   errors: [
@@ -845,7 +958,18 @@ export const lockRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resource type after creation. For more information, see
  * Update Recycle Bin retention rules in the *Amazon Elastic Compute Cloud User Guide*.
  */
-export const updateRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRule: (
+  input: UpdateRuleRequest,
+) => Effect.Effect<
+  UpdateRuleResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleRequest,
   output: UpdateRuleResponse,
   errors: [
@@ -874,7 +998,16 @@ export const updateRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see
  * Create Recycle Bin retention rules in the *Amazon EBS User Guide*.
  */
-export const createRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRule: (
+  input: CreateRuleRequest,
+) => Effect.Effect<
+  CreateRuleResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleRequest,
   output: CreateRuleResponse,
   errors: [

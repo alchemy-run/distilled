@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Appflow",
   serviceShapeName: "SandstoneConfigurationServiceLambda",
@@ -240,6 +248,118 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type FlowName = string;
+export type ExecutionId = string;
+export type ConnectorProfileName = string;
+export type KMSArn = string;
+export type ConnectorLabel = string;
+export type ClientToken = string;
+export type FlowDescription = string;
+export type EntityName = string;
+export type ApiVersion = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type EntitiesPath = string;
+export type ListEntitiesMaxResults = number;
+export type ARN = string;
+export type Description = string;
+export type TagKey = string;
+export type DestinationField = string;
+export type TagValue = string;
+export type ErrorMessage = string;
+export type FlowArn = string;
+export type FlowStatusMessage = string;
+export type CreatedBy = string;
+export type UpdatedBy = string;
+export type Long = number;
+export type ConnectorProfileArn = string;
+export type DatetimeTypeFieldName = string;
+export type Property = string;
+export type GlueDataCatalogIAMRole = string;
+export type GlueDataCatalogDatabaseName = string;
+export type GlueDataCatalogTablePrefix = string;
+export type ConnectorDescription = string;
+export type ConnectorOwner = string;
+export type ConnectorName = string;
+export type ConnectorVersion = string;
+export type ConnectorMode = string;
+export type SupportedApiVersion = string;
+export type LogoURL = string;
+export type RegisteredBy = string;
+export type Identifier = string;
+export type Label = string;
+export type ApplicationType = string;
+export type MostRecentExecutionMessage = string;
+export type Group = string;
+export type InstanceUrl = string;
+export type DatabaseUrl = string;
+export type BucketName = string;
+export type BucketPrefix = string;
+export type RoleArn = string;
+export type DataApiRoleArn = string;
+export type ClusterIdentifier = string;
+export type WorkgroupName = string;
+export type DatabaseName = string;
+export type Warehouse = string;
+export type Stage = string;
+export type PrivateLinkServiceName = string;
+export type AccountName = string;
+export type Region = string;
+export type ApplicationHostUrl = string;
+export type ApplicationServicePath = string;
+export type PortNumber = number;
+export type ClientNumber = string;
+export type LogonLanguage = string;
+export type BusinessUnitId = string;
+export type ApiKey = string;
+export type SecretKey = string;
+export type ApplicationKey = string;
+export type ApiToken = string;
+export type ClientId = string;
+export type ClientSecret = string;
+export type AccessToken = string;
+export type RefreshToken = string;
+export type AccessKeyId = string;
+export type Username = string;
+export type Key = string;
+export type Password = string;
+export type ClientCredentialsArn = string;
+export type JwtToken = string;
+export type ApiSecretKey = string;
+export type ScheduleExpression = string;
+export type Timezone = string;
+export type ScheduleOffset = number;
+export type FlowErrorDeactivationThreshold = number;
+export type DocumentType = string;
+export type Name = string;
+export type UpsolverBucketName = string;
+export type DomainName = string;
+export type ObjectTypeName = string;
+export type ConnectorRuntimeSettingDataType = string;
+export type ConnectorRuntimeSettingScope = string;
+export type ConnectorSuppliedValue = string;
+export type DataTransferApiTypeName = string;
+export type CustomPropertyKey = string;
+export type CustomPropertyValue = string;
+export type PrivateConnectionProvisioningFailureMessage = string;
+export type TokenUrl = string;
+export type AuthCodeUrl = string;
+export type OAuthScope = string;
+export type ProfilePropertyKey = string;
+export type ProfilePropertyValue = string;
+export type AuthCode = string;
+export type RedirectUri = string;
+export type CustomAuthenticationType = string;
+export type SAPODataMaxParallelism = number;
+export type SAPODataMaxPageSize = number;
+export type FieldType = string;
+export type Value = string;
+export type ExecutionMessage = string;
+export type CredentialsMapKey = string;
+export type CredentialsMapValue = string;
+export type Double = number;
 
 //# Schemas
 export type ExecutionIds = string[];
@@ -3266,7 +3386,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
@@ -3298,7 +3420,9 @@ export class UnsupportedOperationException extends S.TaggedError<UnsupportedOper
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
@@ -3306,23 +3430,52 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
  * This API lists only custom connectors registered in this account, not the Amazon Web Services
  * authored connectors.
  */
-export const listConnectors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listConnectors: {
+  (
     input: ListConnectorsRequest,
-    output: ListConnectorsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListConnectorsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectorsRequest,
+  ) => Stream.Stream<
+    ListConnectorsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectorsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectorsRequest,
+  output: ListConnectorsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Enables your application to delete an existing flow. Before deleting the flow, Amazon AppFlow validates the request by checking the flow configuration and status. You can
  * delete flows one at a time.
  */
-export const deleteFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFlow: (
+  input: DeleteFlowRequest,
+) => Effect.Effect<
+  DeleteFlowResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFlowRequest,
   output: DeleteFlowResponse,
   errors: [
@@ -3341,23 +3494,40 @@ export const deleteFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the source application. Amazon AppFlow automatically resets the cache once every hour,
  * but you can use this action when you want to get the latest metadata right away.
  */
-export const resetConnectorMetadataCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetConnectorMetadataCacheRequest,
-    output: ResetConnectorMetadataCacheResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const resetConnectorMetadataCache: (
+  input: ResetConnectorMetadataCacheRequest,
+) => Effect.Effect<
+  ResetConnectorMetadataCacheResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetConnectorMetadataCacheRequest,
+  output: ResetConnectorMetadataCacheResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Unregisters the custom connector registered in your account that matches the connector
  * label provided in the request.
  */
-export const unregisterConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const unregisterConnector: (
+  input: UnregisterConnectorRequest,
+) => Effect.Effect<
+  UnregisterConnectorResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnregisterConnectorRequest,
   output: UnregisterConnectorResponse,
   errors: [
@@ -3369,7 +3539,16 @@ export const unregisterConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag from the specified flow.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3381,21 +3560,37 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables you to delete an existing connector profile.
  */
-export const deleteConnectorProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteConnectorProfileRequest,
-    output: DeleteConnectorProfileResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteConnectorProfile: (
+  input: DeleteConnectorProfileRequest,
+) => Effect.Effect<
+  DeleteConnectorProfileResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectorProfileRequest,
+  output: DeleteConnectorProfileResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Retrieves the tags that are associated with a specified flow.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3410,22 +3605,64 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * contains a `nextToken` object, which can be be passed in to the next call to the
  * `DescribeConnectors` API operation to retrieve the next page.
  */
-export const describeConnectors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeConnectors: {
+  (
     input: DescribeConnectorsRequest,
-    output: DescribeConnectorsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeConnectorsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeConnectorsRequest,
+  ) => Stream.Stream<
+    DescribeConnectorsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeConnectorsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeConnectorsRequest,
+  output: DescribeConnectorsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all of the flows associated with your account.
  */
-export const listFlows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFlows: {
+  (
+    input: ListFlowsRequest,
+  ): Effect.Effect<
+    ListFlowsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFlowsRequest,
+  ) => Stream.Stream<
+    ListFlowsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFlowsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFlowsRequest,
   output: ListFlowsResponse,
   errors: [InternalServerException, ValidationException],
@@ -3438,7 +3675,16 @@ export const listFlows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Applies a tag to the specified flow.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3450,19 +3696,28 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a given connector profile associated with your account.
  */
-export const updateConnectorProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConnectorProfileRequest,
-    output: UpdateConnectorProfileResponse,
-    errors: [
-      ConflictException,
-      ConnectorAuthenticationException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateConnectorProfile: (
+  input: UpdateConnectorProfileRequest,
+) => Effect.Effect<
+  UpdateConnectorProfileResponse,
+  | ConflictException
+  | ConnectorAuthenticationException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConnectorProfileRequest,
+  output: UpdateConnectorProfileResponse,
+  errors: [
+    ConflictException,
+    ConnectorAuthenticationException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of `connector-profile` details matching the provided
  * `connector-profile` names and `connector-types`. Both input lists are
@@ -3471,21 +3726,48 @@ export const updateConnectorProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * If no names or `connector-types` are provided, returns all connector profiles
  * in a paginated form. If there is no match, this operation returns an empty list.
  */
-export const describeConnectorProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeConnectorProfiles: {
+  (
     input: DescribeConnectorProfilesRequest,
-    output: DescribeConnectorProfilesResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeConnectorProfilesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeConnectorProfilesRequest,
+  ) => Stream.Stream<
+    DescribeConnectorProfilesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeConnectorProfilesRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeConnectorProfilesRequest,
+  output: DescribeConnectorProfilesResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Provides a description of the specified flow.
  */
-export const describeFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeFlow: (
+  input: DescribeFlowRequest,
+) => Effect.Effect<
+  DescribeFlowResponse,
+  InternalServerException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFlowRequest,
   output: DescribeFlowResponse,
   errors: [InternalServerException, ResourceNotFoundException],
@@ -3494,7 +3776,17 @@ export const describeFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Activates an existing flow. For on-demand flows, this operation runs the flow
  * immediately. For schedule and event-triggered flows, this operation activates the flow.
  */
-export const startFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startFlow: (
+  input: StartFlowRequest,
+) => Effect.Effect<
+  StartFlowResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFlowRequest,
   output: StartFlowResponse,
   errors: [
@@ -3509,7 +3801,17 @@ export const startFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `unsupportedOperationException` error message. For schedule and event-triggered
  * flows, this operation deactivates the flow.
  */
-export const stopFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopFlow: (
+  input: StopFlowRequest,
+) => Effect.Effect<
+  StopFlowResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopFlowRequest,
   output: StopFlowResponse,
   errors: [
@@ -3542,23 +3844,46 @@ export const stopFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * its entire batch of data after the cancellation. For these operations, the data processing
  * charges for Amazon AppFlow apply. For the pricing information, see Amazon AppFlow pricing.
  */
-export const cancelFlowExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelFlowExecutionsRequest,
-    output: CancelFlowExecutionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelFlowExecutions: (
+  input: CancelFlowExecutionsRequest,
+) => Effect.Effect<
+  CancelFlowExecutionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelFlowExecutionsRequest,
+  output: CancelFlowExecutionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an existing flow.
  */
-export const updateFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFlow: (
+  input: UpdateFlowRequest,
+) => Effect.Effect<
+  UpdateFlowResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ConnectorAuthenticationException
+  | ConnectorServerException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlowRequest,
   output: UpdateFlowResponse,
   errors: [
@@ -3578,25 +3903,49 @@ export const updateFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * *Opportunity* entities, or query ServiceNow for the
  * *Incident* entity.
  */
-export const listConnectorEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListConnectorEntitiesRequest,
-    output: ListConnectorEntitiesResponse,
-    errors: [
-      ConnectorAuthenticationException,
-      ConnectorServerException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const listConnectorEntities: (
+  input: ListConnectorEntitiesRequest,
+) => Effect.Effect<
+  ListConnectorEntitiesResponse,
+  | ConnectorAuthenticationException
+  | ConnectorServerException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListConnectorEntitiesRequest,
+  output: ListConnectorEntitiesResponse,
+  errors: [
+    ConnectorAuthenticationException,
+    ConnectorServerException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Registers a new custom connector with your Amazon Web Services account. Before you can
  * register the connector, you must deploy the associated AWS lambda function in your
  * account.
  */
-export const registerConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerConnector: (
+  input: RegisterConnectorRequest,
+) => Effect.Effect<
+  RegisterConnectorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ConnectorAuthenticationException
+  | ConnectorServerException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterConnectorRequest,
   output: RegisterConnectorResponse,
   errors: [
@@ -3619,47 +3968,99 @@ export const registerConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - A new AWS Lambda function that you specify
  */
-export const updateConnectorRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConnectorRegistrationRequest,
-    output: UpdateConnectorRegistrationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ConnectorAuthenticationException,
-      ConnectorServerException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateConnectorRegistration: (
+  input: UpdateConnectorRegistrationRequest,
+) => Effect.Effect<
+  UpdateConnectorRegistrationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ConnectorAuthenticationException
+  | ConnectorServerException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConnectorRegistrationRequest,
+  output: UpdateConnectorRegistrationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ConnectorAuthenticationException,
+    ConnectorServerException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Fetches the execution history of the flow.
  */
-export const describeFlowExecutionRecords =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeFlowExecutionRecords: {
+  (
     input: DescribeFlowExecutionRecordsRequest,
-    output: DescribeFlowExecutionRecordsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeFlowExecutionRecordsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFlowExecutionRecordsRequest,
+  ) => Stream.Stream<
+    DescribeFlowExecutionRecordsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFlowExecutionRecordsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFlowExecutionRecordsRequest,
+  output: DescribeFlowExecutionRecordsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Describes the given custom connector registered in your Amazon Web Services account. This
  * API can be used for custom connectors that are registered in your account and also for Amazon
  * authored connectors.
  */
-export const describeConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeConnector: (
+  input: DescribeConnectorRequest,
+) => Effect.Effect<
+  DescribeConnectorResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConnectorRequest,
   output: DescribeConnectorResponse,
   errors: [
@@ -3672,19 +4073,28 @@ export const describeConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Provides details regarding the entity used with the connector, with a description of the
  * data model for each field in that entity.
  */
-export const describeConnectorEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConnectorEntityRequest,
-    output: DescribeConnectorEntityResponse,
-    errors: [
-      ConnectorAuthenticationException,
-      ConnectorServerException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeConnectorEntity: (
+  input: DescribeConnectorEntityRequest,
+) => Effect.Effect<
+  DescribeConnectorEntityResponse,
+  | ConnectorAuthenticationException
+  | ConnectorServerException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConnectorEntityRequest,
+  output: DescribeConnectorEntityResponse,
+  errors: [
+    ConnectorAuthenticationException,
+    ConnectorServerException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new connector profile associated with your Amazon Web Services account. There is
  * a soft quota of 100 connector profiles per Amazon Web Services account. If you need more
@@ -3692,19 +4102,28 @@ export const describeConnectorEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * team through the Amazon AppFlow support channel. In each connector profile that you
  * create, you can provide the credentials and properties for only one connector.
  */
-export const createConnectorProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateConnectorProfileRequest,
-    output: CreateConnectorProfileResponse,
-    errors: [
-      ConflictException,
-      ConnectorAuthenticationException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createConnectorProfile: (
+  input: CreateConnectorProfileRequest,
+) => Effect.Effect<
+  CreateConnectorProfileResponse,
+  | ConflictException
+  | ConnectorAuthenticationException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConnectorProfileRequest,
+  output: CreateConnectorProfileResponse,
+  errors: [
+    ConflictException,
+    ConnectorAuthenticationException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Enables your application to create a new flow using Amazon AppFlow. You must create
  * a connector profile before calling this API. Please note that the Request Syntax below shows
@@ -3712,7 +4131,21 @@ export const createConnectorProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * at a time. Amazon AppFlow does not currently support flows to multiple destinations at
  * once.
  */
-export const createFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFlow: (
+  input: CreateFlowRequest,
+) => Effect.Effect<
+  CreateFlowResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ConnectorAuthenticationException
+  | ConnectorServerException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFlowRequest,
   output: CreateFlowResponse,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Kinesis Video Media",
   serviceShapeName: "AWSAcuityInletService",
@@ -241,6 +249,14 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type StreamName = string;
+export type ResourceARN = string;
+export type FragmentNumberString = string;
+export type ContinuationToken = string;
+export type ContentType = string;
+export type ErrorMessage = string;
+
 //# Schemas
 export interface StartSelector {
   StartSelectorType: string;
@@ -358,7 +374,19 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
  * For more information, see the **Errors** section at the
  * bottom of this topic, as well as Common Errors.
  */
-export const getMedia = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMedia: (
+  input: GetMediaInput,
+) => Effect.Effect<
+  GetMediaOutput,
+  | ClientLimitExceededException
+  | ConnectionLimitExceededException
+  | InvalidArgumentException
+  | InvalidEndpointException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMediaInput,
   output: GetMediaOutput,
   errors: [

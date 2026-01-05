@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Comprehend",
   serviceShapeName: "Comprehend_20171127",
@@ -240,6 +248,50 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type CustomerInputString = string;
+export type DocumentClassifierEndpointArn = string;
+export type ComprehendFlywheelArn = string;
+export type ComprehendArnName = string;
+export type Description = string;
+export type ClientRequestTokenString = string;
+export type VersionName = string;
+export type IamRoleArn = string;
+export type KmsKeyId = string;
+export type Policy = string;
+export type ComprehendEndpointName = string;
+export type ComprehendModelArn = string;
+export type InferenceUnitsInteger = number;
+export type FlywheelS3Uri = string;
+export type DocumentClassifierArn = string;
+export type ComprehendEndpointArn = string;
+export type EntityRecognizerArn = string;
+export type PolicyRevisionId = string;
+export type ComprehendDatasetArn = string;
+export type JobId = string;
+export type FlywheelIterationId = string;
+export type EntityRecognizerEndpointArn = string;
+export type MaxResultsInteger = number;
+export type ComprehendArn = string;
+export type JobName = string;
+export type EventTypeString = string;
+export type NumberOfTopicsInteger = number;
+export type TagKey = string;
+export type TagValue = string;
+export type S3Uri = string;
+export type LabelDelimiter = string;
+export type SecurityGroupId = string;
+export type SubnetId = string;
+export type MaskCharacter = string;
+export type AttributeNamesListItem = string;
+export type EntityTypeName = string;
+export type LabelListItem = string;
+export type Integer = number;
+export type Float = number;
+export type AnyLengthString = string;
+export type NumberOfDocuments = number;
+export type Double = number;
 
 //# Schemas
 export type CustomerInputStringList = string[];
@@ -4437,7 +4489,9 @@ export const DescribeEntityRecognizerResponse = S.suspend(() =>
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
   { Message: S.optional(S.String) },
@@ -4477,7 +4531,9 @@ export class TextSizeLimitExceededException extends S.TaggedError<TextSizeLimitE
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class KmsKeyValidationException extends S.TaggedError<KmsKeyValidationException>()(
   "KmsKeyValidationException",
   { Message: S.optional(S.String) },
@@ -4507,23 +4563,55 @@ export class TooManyTagKeysException extends S.TaggedError<TooManyTagKeysExcepti
 /**
  * Gets a list of the flywheels that you have created.
  */
-export const listFlywheels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFlywheels: {
+  (
     input: ListFlywheelsRequest,
-    output: ListFlywheelsResponse,
-    errors: [
-      InternalServerException,
-      InvalidFilterException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFlywheelsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFlywheelsRequest,
+  ) => Stream.Stream<
+    ListFlywheelsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFlywheelsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFlywheelsRequest,
+  output: ListFlywheelsResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a classification request to analyze a single document in real-time. `ClassifyDocument`
  * supports the following model types:
@@ -4547,7 +4635,17 @@ export const listFlywheels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * Errors in semi-structured documents in the Comprehend Developer Guide.
  */
-export const classifyDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const classifyDocument: (
+  input: ClassifyDocumentRequest,
+) => Effect.Effect<
+  ClassifyDocumentResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceUnavailableException
+  | TextSizeLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClassifyDocumentRequest,
   output: ClassifyDocumentResponse,
   errors: [
@@ -4562,25 +4660,45 @@ export const classifyDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about flywheels, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const startFlywheelIteration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartFlywheelIterationRequest,
-    output: StartFlywheelIterationResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const startFlywheelIteration: (
+  input: StartFlywheelIterationRequest,
+) => Effect.Effect<
+  StartFlywheelIterationResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartFlywheelIterationRequest,
+  output: StartFlywheelIterationResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes a model-specific endpoint for a previously-trained custom model. All endpoints
  * must be deleted in order for the model to be deleted.
  * For information about endpoints, see Managing endpoints.
  */
-export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEndpoint: (
+  input: DeleteEndpointRequest,
+) => Effect.Effect<
+  DeleteEndpointResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEndpointRequest,
   output: DeleteEndpointResponse,
   errors: [
@@ -4602,20 +4720,30 @@ export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * then removed by a background job. Once removed, the recognizer disappears from your account
  * and is no longer available for use.
  */
-export const deleteEntityRecognizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEntityRecognizerRequest,
-    output: DeleteEntityRecognizerResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const deleteEntityRecognizer: (
+  input: DeleteEntityRecognizerRequest,
+) => Effect.Effect<
+  DeleteEntityRecognizerResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEntityRecognizerRequest,
+  output: DeleteEntityRecognizerResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes a flywheel. When you delete the flywheel, Amazon Comprehend
  * does not delete the data lake or the model associated with the flywheel.
@@ -4623,7 +4751,19 @@ export const deleteEntityRecognizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about flywheels, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const deleteFlywheel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFlywheel: (
+  input: DeleteFlywheelRequest,
+) => Effect.Effect<
+  DeleteFlywheelResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFlywheelRequest,
   output: DeleteFlywheelResponse,
   errors: [
@@ -4639,43 +4779,94 @@ export const deleteFlywheel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * List the datasets that you have configured in this Region. For more information about datasets, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDatasets: {
+  (
     input: ListDatasetsRequest,
-    output: ListDatasetsResponse,
-    errors: [
-      InternalServerException,
-      InvalidFilterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDatasetsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatasetsRequest,
+  ) => Stream.Stream<
+    ListDatasetsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatasetsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatasetsRequest,
+  output: ListDatasetsResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the details of a resource-based policy that is attached to a custom model, including
  * the JSON body of the policy.
  */
-export const describeResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeResourcePolicyRequest,
-    output: DescribeResourcePolicyResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const describeResourcePolicy: (
+  input: DescribeResourcePolicyRequest,
+) => Effect.Effect<
+  DescribeResourcePolicyResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeResourcePolicyRequest,
+  output: DescribeResourcePolicyResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Lists all tags associated with a given Amazon Comprehend resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -4689,7 +4880,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * an entity in another Amazon Web Services account to import the custom model, which replicates it in Amazon
  * Comprehend in their account.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [
@@ -4701,17 +4901,24 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a resource-based policy that is attached to a custom model.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Stops a document classifier training job while in progress.
  *
@@ -4721,17 +4928,26 @@ export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * put into the `STOPPED` state and the service sends back an HTTP 200 response with
  * an empty HTTP body.
  */
-export const stopTrainingDocumentClassifier =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopTrainingDocumentClassifierRequest,
-    output: StopTrainingDocumentClassifierResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const stopTrainingDocumentClassifier: (
+  input: StopTrainingDocumentClassifierRequest,
+) => Effect.Effect<
+  StopTrainingDocumentClassifierResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopTrainingDocumentClassifierRequest,
+  output: StopTrainingDocumentClassifierResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Stops an entity recognizer training job while in progress.
  *
@@ -4741,23 +4957,42 @@ export const stopTrainingDocumentClassifier =
  * putted into the `STOPPED` state and the service sends back an HTTP 200 response
  * with an empty HTTP body.
  */
-export const stopTrainingEntityRecognizer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopTrainingEntityRecognizerRequest,
-    output: StopTrainingEntityRecognizerResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const stopTrainingEntityRecognizer: (
+  input: StopTrainingEntityRecognizerRequest,
+) => Effect.Effect<
+  StopTrainingEntityRecognizerResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopTrainingEntityRecognizerRequest,
+  output: StopTrainingEntityRecognizerResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Returns information about the dataset that you specify.
  * For more information about datasets, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDataset: (
+  input: DescribeDatasetRequest,
+) => Effect.Effect<
+  DescribeDatasetResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetRequest,
   output: DescribeDatasetResponse,
   errors: [
@@ -4772,7 +5007,17 @@ export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * status of an endpoint.
  * For information about endpoints, see Managing endpoints.
  */
-export const describeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeEndpoint: (
+  input: DescribeEndpointRequest,
+) => Effect.Effect<
+  DescribeEndpointResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEndpointRequest,
   output: DescribeEndpointResponse,
   errors: [
@@ -4786,7 +5031,17 @@ export const describeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Provides configuration information about the flywheel. For more information about flywheels, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const describeFlywheel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeFlywheel: (
+  input: DescribeFlywheelRequest,
+) => Effect.Effect<
+  DescribeFlywheelResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFlywheelRequest,
   output: DescribeFlywheelResponse,
   errors: [
@@ -4801,23 +5056,59 @@ export const describeFlywheel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about flywheels, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const listFlywheelIterationHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFlywheelIterationHistory: {
+  (
     input: ListFlywheelIterationHistoryRequest,
-    output: ListFlywheelIterationHistoryResponse,
-    errors: [
-      InternalServerException,
-      InvalidFilterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFlywheelIterationHistoryResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFlywheelIterationHistoryRequest,
+  ) => Stream.Stream<
+    ListFlywheelIterationHistoryResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFlywheelIterationHistoryRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFlywheelIterationHistoryRequest,
+  output: ListFlywheelIterationHistoryResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes a previously created document classifier
  *
@@ -4829,35 +5120,53 @@ export const listFlywheelIterationHistory =
  * then removed by a background job. Once removed, the classifier disappears from your account
  * and is no longer available for use.
  */
-export const deleteDocumentClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDocumentClassifierRequest,
-    output: DeleteDocumentClassifierResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const deleteDocumentClassifier: (
+  input: DeleteDocumentClassifierRequest,
+) => Effect.Effect<
+  DeleteDocumentClassifierResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDocumentClassifierRequest,
+  output: DeleteDocumentClassifierResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets the properties associated with a document classifier.
  */
-export const describeDocumentClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDocumentClassifierRequest,
-    output: DescribeDocumentClassifierResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeDocumentClassifier: (
+  input: DescribeDocumentClassifierRequest,
+) => Effect.Effect<
+  DescribeDocumentClassifierResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDocumentClassifierRequest,
+  output: DescribeDocumentClassifierResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Stops a dominant language detection job in progress.
  *
@@ -4873,16 +5182,24 @@ export const describeDocumentClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * When a job is stopped, any documents already processed are written to the output
  * location.
  */
-export const stopDominantLanguageDetectionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopDominantLanguageDetectionJobRequest,
-    output: StopDominantLanguageDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-    ],
-  }));
+export const stopDominantLanguageDetectionJob: (
+  input: StopDominantLanguageDetectionJobRequest,
+) => Effect.Effect<
+  StopDominantLanguageDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopDominantLanguageDetectionJobRequest,
+  output: StopDominantLanguageDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+  ],
+}));
 /**
  * Stops an entities detection job in progress.
  *
@@ -4898,31 +5215,45 @@ export const stopDominantLanguageDetectionJob =
  * When a job is stopped, any documents already processed are written to the output
  * location.
  */
-export const stopEntitiesDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopEntitiesDetectionJobRequest,
-    output: StopEntitiesDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-    ],
-  }),
-);
+export const stopEntitiesDetectionJob: (
+  input: StopEntitiesDetectionJobRequest,
+) => Effect.Effect<
+  StopEntitiesDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopEntitiesDetectionJobRequest,
+  output: StopEntitiesDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+  ],
+}));
 /**
  * Stops an events detection job in progress.
  */
-export const stopEventsDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopEventsDetectionJobRequest,
-    output: StopEventsDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-    ],
-  }),
-);
+export const stopEventsDetectionJob: (
+  input: StopEventsDetectionJobRequest,
+) => Effect.Effect<
+  StopEventsDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopEventsDetectionJobRequest,
+  output: StopEventsDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+  ],
+}));
 /**
  * Stops a key phrases detection job in progress.
  *
@@ -4938,31 +5269,45 @@ export const stopEventsDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * When a job is stopped, any documents already processed are written to the output
  * location.
  */
-export const stopKeyPhrasesDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopKeyPhrasesDetectionJobRequest,
-    output: StopKeyPhrasesDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-    ],
-  }),
-);
+export const stopKeyPhrasesDetectionJob: (
+  input: StopKeyPhrasesDetectionJobRequest,
+) => Effect.Effect<
+  StopKeyPhrasesDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopKeyPhrasesDetectionJobRequest,
+  output: StopKeyPhrasesDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+  ],
+}));
 /**
  * Stops a PII entities detection job in progress.
  */
-export const stopPiiEntitiesDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopPiiEntitiesDetectionJobRequest,
-    output: StopPiiEntitiesDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-    ],
-  }),
-);
+export const stopPiiEntitiesDetectionJob: (
+  input: StopPiiEntitiesDetectionJobRequest,
+) => Effect.Effect<
+  StopPiiEntitiesDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopPiiEntitiesDetectionJobRequest,
+  output: StopPiiEntitiesDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+  ],
+}));
 /**
  * Stops a sentiment detection job in progress.
  *
@@ -4978,17 +5323,24 @@ export const stopPiiEntitiesDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * When a job is stopped, any documents already processed are written to the output
  * location.
  */
-export const stopSentimentDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopSentimentDetectionJobRequest,
-    output: StopSentimentDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-    ],
-  }),
-);
+export const stopSentimentDetectionJob: (
+  input: StopSentimentDetectionJobRequest,
+) => Effect.Effect<
+  StopSentimentDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopSentimentDetectionJobRequest,
+  output: StopSentimentDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+  ],
+}));
 /**
  * Stops a targeted sentiment detection job in progress.
  *
@@ -5004,301 +5356,615 @@ export const stopSentimentDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * When a job is stopped, any documents already processed are written to the output
  * location.
  */
-export const stopTargetedSentimentDetectionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopTargetedSentimentDetectionJobRequest,
-    output: StopTargetedSentimentDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-    ],
-  }));
+export const stopTargetedSentimentDetectionJob: (
+  input: StopTargetedSentimentDetectionJobRequest,
+) => Effect.Effect<
+  StopTargetedSentimentDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopTargetedSentimentDetectionJobRequest,
+  output: StopTargetedSentimentDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+  ],
+}));
 /**
  * Gets the properties associated with a document classification job. Use this operation to
  * get the status of a classification job.
  */
-export const describeDocumentClassificationJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDocumentClassificationJobRequest,
-    output: DescribeDocumentClassificationJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const describeDocumentClassificationJob: (
+  input: DescribeDocumentClassificationJobRequest,
+) => Effect.Effect<
+  DescribeDocumentClassificationJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDocumentClassificationJobRequest,
+  output: DescribeDocumentClassificationJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets the properties associated with a dominant language detection job. Use this operation
  * to get the status of a detection job.
  */
-export const describeDominantLanguageDetectionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDominantLanguageDetectionJobRequest,
-    output: DescribeDominantLanguageDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const describeDominantLanguageDetectionJob: (
+  input: DescribeDominantLanguageDetectionJobRequest,
+) => Effect.Effect<
+  DescribeDominantLanguageDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDominantLanguageDetectionJobRequest,
+  output: DescribeDominantLanguageDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets the properties associated with an entities detection job. Use this operation to get
  * the status of a detection job.
  */
-export const describeEntitiesDetectionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeEntitiesDetectionJobRequest,
-    output: DescribeEntitiesDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const describeEntitiesDetectionJob: (
+  input: DescribeEntitiesDetectionJobRequest,
+) => Effect.Effect<
+  DescribeEntitiesDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEntitiesDetectionJobRequest,
+  output: DescribeEntitiesDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets the status and details of an events detection job.
  */
-export const describeEventsDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEventsDetectionJobRequest,
-    output: DescribeEventsDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeEventsDetectionJob: (
+  input: DescribeEventsDetectionJobRequest,
+) => Effect.Effect<
+  DescribeEventsDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEventsDetectionJobRequest,
+  output: DescribeEventsDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets the properties associated with a key phrases detection job. Use this operation to get
  * the status of a detection job.
  */
-export const describeKeyPhrasesDetectionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeKeyPhrasesDetectionJobRequest,
-    output: DescribeKeyPhrasesDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const describeKeyPhrasesDetectionJob: (
+  input: DescribeKeyPhrasesDetectionJobRequest,
+) => Effect.Effect<
+  DescribeKeyPhrasesDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeKeyPhrasesDetectionJobRequest,
+  output: DescribeKeyPhrasesDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets the properties associated with a sentiment detection job. Use this operation to get
  * the status of a detection job.
  */
-export const describeSentimentDetectionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeSentimentDetectionJobRequest,
-    output: DescribeSentimentDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const describeSentimentDetectionJob: (
+  input: DescribeSentimentDetectionJobRequest,
+) => Effect.Effect<
+  DescribeSentimentDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSentimentDetectionJobRequest,
+  output: DescribeSentimentDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets the properties associated with a targeted sentiment detection job. Use this operation
  * to get the status of the job.
  */
-export const describeTargetedSentimentDetectionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTargetedSentimentDetectionJobRequest,
-    output: DescribeTargetedSentimentDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const describeTargetedSentimentDetectionJob: (
+  input: DescribeTargetedSentimentDetectionJobRequest,
+) => Effect.Effect<
+  DescribeTargetedSentimentDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTargetedSentimentDetectionJobRequest,
+  output: DescribeTargetedSentimentDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets the properties associated with a topic detection job. Use this operation to get
  * the status of a detection job.
  */
-export const describeTopicsDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTopicsDetectionJobRequest,
-    output: DescribeTopicsDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeTopicsDetectionJob: (
+  input: DescribeTopicsDetectionJobRequest,
+) => Effect.Effect<
+  DescribeTopicsDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTopicsDetectionJobRequest,
+  output: DescribeTopicsDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Determines the dominant language of the input text. For a list of languages that Amazon
  * Comprehend can detect, see Amazon Comprehend Supported Languages.
  */
-export const detectDominantLanguage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetectDominantLanguageRequest,
-    output: DetectDominantLanguageResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      TextSizeLimitExceededException,
-    ],
-  }),
-);
+export const detectDominantLanguage: (
+  input: DetectDominantLanguageRequest,
+) => Effect.Effect<
+  DetectDominantLanguageResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectDominantLanguageRequest,
+  output: DetectDominantLanguageResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TextSizeLimitExceededException,
+  ],
+}));
 /**
  * Determines the dominant language of the input text for a batch of documents. For a list
  * of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages.
  */
-export const batchDetectDominantLanguage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDetectDominantLanguageRequest,
-    output: BatchDetectDominantLanguageResponse,
-    errors: [
-      BatchSizeLimitExceededException,
-      InternalServerException,
-      InvalidRequestException,
-      TextSizeLimitExceededException,
-    ],
-  }),
-);
+export const batchDetectDominantLanguage: (
+  input: BatchDetectDominantLanguageRequest,
+) => Effect.Effect<
+  BatchDetectDominantLanguageResponse,
+  | BatchSizeLimitExceededException
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDetectDominantLanguageRequest,
+  output: BatchDetectDominantLanguageResponse,
+  errors: [
+    BatchSizeLimitExceededException,
+    InternalServerException,
+    InvalidRequestException,
+    TextSizeLimitExceededException,
+  ],
+}));
 /**
  * Gets a list of summaries of the document classifiers that you have created
  */
-export const listDocumentClassifierSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDocumentClassifierSummaries: {
+  (
     input: ListDocumentClassifierSummariesRequest,
-    output: ListDocumentClassifierSummariesResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDocumentClassifierSummariesResponse,
+    | InternalServerException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDocumentClassifierSummariesRequest,
+  ) => Stream.Stream<
+    ListDocumentClassifierSummariesResponse,
+    | InternalServerException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDocumentClassifierSummariesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDocumentClassifierSummariesRequest,
+  output: ListDocumentClassifierSummariesResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of all existing endpoints that you've created.
  * For information about endpoints, see Managing endpoints.
  */
-export const listEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEndpoints: {
+  (
     input: ListEndpointsRequest,
-    output: ListEndpointsResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EndpointPropertiesList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEndpointsResponse,
+    | InternalServerException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEndpointsRequest,
+  ) => Stream.Stream<
+    ListEndpointsResponse,
+    | InternalServerException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEndpointsRequest,
+  ) => Stream.Stream<
+    EndpointProperties,
+    | InternalServerException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEndpointsRequest,
+  output: ListEndpointsResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EndpointPropertiesList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of summaries for the entity recognizers that you have created.
  */
-export const listEntityRecognizerSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEntityRecognizerSummaries: {
+  (
     input: ListEntityRecognizerSummariesRequest,
-    output: ListEntityRecognizerSummariesResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEntityRecognizerSummariesResponse,
+    | InternalServerException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEntityRecognizerSummariesRequest,
+  ) => Stream.Stream<
+    ListEntityRecognizerSummariesResponse,
+    | InternalServerException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEntityRecognizerSummariesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEntityRecognizerSummariesRequest,
+  output: ListEntityRecognizerSummariesResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of the documentation classification jobs that you have submitted.
  */
-export const listDocumentClassificationJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDocumentClassificationJobs: {
+  (
     input: ListDocumentClassificationJobsRequest,
-    output: ListDocumentClassificationJobsResponse,
-    errors: [
-      InternalServerException,
-      InvalidFilterException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDocumentClassificationJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDocumentClassificationJobsRequest,
+  ) => Stream.Stream<
+    ListDocumentClassificationJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDocumentClassificationJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDocumentClassificationJobsRequest,
+  output: ListDocumentClassificationJobsResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of the document classifiers that you have created.
  */
-export const listDocumentClassifiers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDocumentClassifiers: {
+  (
     input: ListDocumentClassifiersRequest,
-    output: ListDocumentClassifiersResponse,
-    errors: [
-      InternalServerException,
-      InvalidFilterException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDocumentClassifiersResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDocumentClassifiersRequest,
+  ) => Stream.Stream<
+    ListDocumentClassifiersResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDocumentClassifiersRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDocumentClassifiersRequest,
+  output: ListDocumentClassifiersResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of the dominant language detection jobs that you have submitted.
  */
-export const listDominantLanguageDetectionJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDominantLanguageDetectionJobs: {
+  (
     input: ListDominantLanguageDetectionJobsRequest,
-    output: ListDominantLanguageDetectionJobsResponse,
-    errors: [
-      InternalServerException,
-      InvalidFilterException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDominantLanguageDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDominantLanguageDetectionJobsRequest,
+  ) => Stream.Stream<
+    ListDominantLanguageDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDominantLanguageDetectionJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDominantLanguageDetectionJobsRequest,
+  output: ListDominantLanguageDetectionJobsResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of the entity detection jobs that you have submitted.
  */
-export const listEntitiesDetectionJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEntitiesDetectionJobs: {
+  (
     input: ListEntitiesDetectionJobsRequest,
-    output: ListEntitiesDetectionJobsResponse,
-    errors: [
-      InternalServerException,
-      InvalidFilterException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEntitiesDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEntitiesDetectionJobsRequest,
+  ) => Stream.Stream<
+    ListEntitiesDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEntitiesDetectionJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEntitiesDetectionJobsRequest,
+  output: ListEntitiesDetectionJobsResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of the properties of all entity recognizers that you created, including
  * recognizers currently in training. Allows you to filter the list of recognizers based on
@@ -5308,173 +5974,432 @@ export const listEntitiesDetectionJobs =
  * The results of this list are not in any particular order. Please get the list and sort
  * locally if needed.
  */
-export const listEntityRecognizers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEntityRecognizers: {
+  (
     input: ListEntityRecognizersRequest,
-    output: ListEntityRecognizersResponse,
-    errors: [
-      InternalServerException,
-      InvalidFilterException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEntityRecognizersResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEntityRecognizersRequest,
+  ) => Stream.Stream<
+    ListEntityRecognizersResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEntityRecognizersRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEntityRecognizersRequest,
+  output: ListEntityRecognizersResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of the events detection jobs that you have submitted.
  */
-export const listEventsDetectionJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEventsDetectionJobs: {
+  (
     input: ListEventsDetectionJobsRequest,
-    output: ListEventsDetectionJobsResponse,
-    errors: [
-      InternalServerException,
-      InvalidFilterException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEventsDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEventsDetectionJobsRequest,
+  ) => Stream.Stream<
+    ListEventsDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEventsDetectionJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEventsDetectionJobsRequest,
+  output: ListEventsDetectionJobsResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Get a list of key phrase detection jobs that you have submitted.
  */
-export const listKeyPhrasesDetectionJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listKeyPhrasesDetectionJobs: {
+  (
     input: ListKeyPhrasesDetectionJobsRequest,
-    output: ListKeyPhrasesDetectionJobsResponse,
-    errors: [
-      InternalServerException,
-      InvalidFilterException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListKeyPhrasesDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKeyPhrasesDetectionJobsRequest,
+  ) => Stream.Stream<
+    ListKeyPhrasesDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKeyPhrasesDetectionJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKeyPhrasesDetectionJobsRequest,
+  output: ListKeyPhrasesDetectionJobsResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of the PII entity detection jobs that you have submitted.
  */
-export const listPiiEntitiesDetectionJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPiiEntitiesDetectionJobs: {
+  (
     input: ListPiiEntitiesDetectionJobsRequest,
-    output: ListPiiEntitiesDetectionJobsResponse,
-    errors: [
-      InternalServerException,
-      InvalidFilterException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PiiEntitiesDetectionJobPropertiesList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPiiEntitiesDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPiiEntitiesDetectionJobsRequest,
+  ) => Stream.Stream<
+    ListPiiEntitiesDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPiiEntitiesDetectionJobsRequest,
+  ) => Stream.Stream<
+    PiiEntitiesDetectionJobProperties,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPiiEntitiesDetectionJobsRequest,
+  output: ListPiiEntitiesDetectionJobsResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PiiEntitiesDetectionJobPropertiesList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of sentiment detection jobs that you have submitted.
  */
-export const listSentimentDetectionJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSentimentDetectionJobs: {
+  (
     input: ListSentimentDetectionJobsRequest,
-    output: ListSentimentDetectionJobsResponse,
-    errors: [
-      InternalServerException,
-      InvalidFilterException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSentimentDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSentimentDetectionJobsRequest,
+  ) => Stream.Stream<
+    ListSentimentDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSentimentDetectionJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSentimentDetectionJobsRequest,
+  output: ListSentimentDetectionJobsResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of targeted sentiment detection jobs that you have submitted.
  */
-export const listTargetedSentimentDetectionJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTargetedSentimentDetectionJobs: {
+  (
     input: ListTargetedSentimentDetectionJobsRequest,
-    output: ListTargetedSentimentDetectionJobsResponse,
-    errors: [
-      InternalServerException,
-      InvalidFilterException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTargetedSentimentDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTargetedSentimentDetectionJobsRequest,
+  ) => Stream.Stream<
+    ListTargetedSentimentDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTargetedSentimentDetectionJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTargetedSentimentDetectionJobsRequest,
+  output: ListTargetedSentimentDetectionJobsResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of the topic detection jobs that you have submitted.
  */
-export const listTopicsDetectionJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTopicsDetectionJobs: {
+  (
     input: ListTopicsDetectionJobsRequest,
-    output: ListTopicsDetectionJobsResponse,
-    errors: [
-      InternalServerException,
-      InvalidFilterException,
-      InvalidRequestException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTopicsDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTopicsDetectionJobsRequest,
+  ) => Stream.Stream<
+    ListTopicsDetectionJobsResponse,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTopicsDetectionJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | InvalidFilterException
+    | InvalidRequestException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTopicsDetectionJobsRequest,
+  output: ListTopicsDetectionJobsResponse,
+  errors: [
+    InternalServerException,
+    InvalidFilterException,
+    InvalidRequestException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieve the configuration properties of a flywheel iteration.
  * For more information about flywheels, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const describeFlywheelIteration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFlywheelIterationRequest,
-    output: DescribeFlywheelIterationResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeFlywheelIteration: (
+  input: DescribeFlywheelIterationRequest,
+) => Effect.Effect<
+  DescribeFlywheelIterationResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFlywheelIterationRequest,
+  output: DescribeFlywheelIterationResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets the properties associated with a PII entities detection job. For example, you can use
  * this operation to get the job status.
  */
-export const describePiiEntitiesDetectionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribePiiEntitiesDetectionJobRequest,
-    output: DescribePiiEntitiesDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      JobNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const describePiiEntitiesDetectionJob: (
+  input: DescribePiiEntitiesDetectionJobRequest,
+) => Effect.Effect<
+  DescribePiiEntitiesDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | JobNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePiiEntitiesDetectionJobRequest,
+  output: DescribePiiEntitiesDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    JobNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Update the configuration information for an existing flywheel.
  */
-export const updateFlywheel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFlywheel: (
+  input: UpdateFlywheelRequest,
+) => Effect.Effect<
+  UpdateFlywheelResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlywheelRequest,
   output: UpdateFlywheelResponse,
   errors: [
@@ -5489,24 +6414,42 @@ export const updateFlywheel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Provides details about an entity recognizer including status, S3 buckets containing
  * training data, recognizer metadata, metrics, and so on.
  */
-export const describeEntityRecognizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEntityRecognizerRequest,
-    output: DescribeEntityRecognizerResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeEntityRecognizer: (
+  input: DescribeEntityRecognizerRequest,
+) => Effect.Effect<
+  DescribeEntityRecognizerResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEntityRecognizerRequest,
+  output: DescribeEntityRecognizerResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Inspects text for syntax and the part of speech of words in the document. For more
  * information, see
  * Syntax in the Comprehend Developer Guide.
  */
-export const detectSyntax = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detectSyntax: (
+  input: DetectSyntaxRequest,
+) => Effect.Effect<
+  DetectSyntaxResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectSyntaxRequest,
   output: DetectSyntaxResponse,
   errors: [
@@ -5521,7 +6464,18 @@ export const detectSyntax = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with
  * "Sales" as the key might be added to a resource to indicate its use by the sales department.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ConcurrentModificationException
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -5535,7 +6489,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a specific tag associated with an Amazon Comprehend resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | ConcurrentModificationException
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyTagKeysException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -5551,24 +6516,42 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about targeted sentiment, see Targeted sentiment in the *Amazon Comprehend Developer Guide*.
  */
-export const detectTargetedSentiment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetectTargetedSentimentRequest,
-    output: DetectTargetedSentimentResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      TextSizeLimitExceededException,
-      UnsupportedLanguageException,
-    ],
-  }),
-);
+export const detectTargetedSentiment: (
+  input: DetectTargetedSentimentRequest,
+) => Effect.Effect<
+  DetectTargetedSentimentResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectTargetedSentimentRequest,
+  output: DetectTargetedSentimentResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    TextSizeLimitExceededException,
+    UnsupportedLanguageException,
+  ],
+}));
 /**
  * Performs toxicity analysis on the list of text strings that you provide as input.
  * The API response contains a results list that matches the size of the input list.
  * For more information about toxicity detection, see Toxicity detection in the *Amazon Comprehend Developer Guide*.
  */
-export const detectToxicContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detectToxicContent: (
+  input: DetectToxicContentRequest,
+) => Effect.Effect<
+  DetectToxicContentResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectToxicContentRequest,
   output: DetectToxicContentResponse,
   errors: [
@@ -5583,7 +6566,18 @@ export const detectToxicContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * about them. For more information about named entities, see
  * Entities in the Comprehend Developer Guide.
  */
-export const batchDetectEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchDetectEntities: (
+  input: BatchDetectEntitiesRequest,
+) => Effect.Effect<
+  BatchDetectEntitiesResponse,
+  | BatchSizeLimitExceededException
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDetectEntitiesRequest,
   output: BatchDetectEntitiesResponse,
   errors: [
@@ -5597,43 +6591,72 @@ export const batchDetectEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Detects the key noun phrases found in a batch of documents.
  */
-export const batchDetectKeyPhrases = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDetectKeyPhrasesRequest,
-    output: BatchDetectKeyPhrasesResponse,
-    errors: [
-      BatchSizeLimitExceededException,
-      InternalServerException,
-      InvalidRequestException,
-      TextSizeLimitExceededException,
-      UnsupportedLanguageException,
-    ],
-  }),
-);
+export const batchDetectKeyPhrases: (
+  input: BatchDetectKeyPhrasesRequest,
+) => Effect.Effect<
+  BatchDetectKeyPhrasesResponse,
+  | BatchSizeLimitExceededException
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDetectKeyPhrasesRequest,
+  output: BatchDetectKeyPhrasesResponse,
+  errors: [
+    BatchSizeLimitExceededException,
+    InternalServerException,
+    InvalidRequestException,
+    TextSizeLimitExceededException,
+    UnsupportedLanguageException,
+  ],
+}));
 /**
  * Inspects a batch of documents and returns an inference of the prevailing sentiment,
  * `POSITIVE`, `NEUTRAL`, `MIXED`, or `NEGATIVE`,
  * in each one.
  */
-export const batchDetectSentiment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDetectSentimentRequest,
-    output: BatchDetectSentimentResponse,
-    errors: [
-      BatchSizeLimitExceededException,
-      InternalServerException,
-      InvalidRequestException,
-      TextSizeLimitExceededException,
-      UnsupportedLanguageException,
-    ],
-  }),
-);
+export const batchDetectSentiment: (
+  input: BatchDetectSentimentRequest,
+) => Effect.Effect<
+  BatchDetectSentimentResponse,
+  | BatchSizeLimitExceededException
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDetectSentimentRequest,
+  output: BatchDetectSentimentResponse,
+  errors: [
+    BatchSizeLimitExceededException,
+    InternalServerException,
+    InvalidRequestException,
+    TextSizeLimitExceededException,
+    UnsupportedLanguageException,
+  ],
+}));
 /**
  * Inspects the text of a batch of documents for the syntax and part of speech of the words
  * in the document and returns information about them. For more information, see
  * Syntax in the Comprehend Developer Guide.
  */
-export const batchDetectSyntax = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchDetectSyntax: (
+  input: BatchDetectSyntaxRequest,
+) => Effect.Effect<
+  BatchDetectSyntaxResponse,
+  | BatchSizeLimitExceededException
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDetectSyntaxRequest,
   output: BatchDetectSyntaxResponse,
   errors: [
@@ -5650,24 +6673,44 @@ export const batchDetectSyntax = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about targeted sentiment, see Targeted sentiment in the *Amazon Comprehend Developer Guide*.
  */
-export const batchDetectTargetedSentiment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDetectTargetedSentimentRequest,
-    output: BatchDetectTargetedSentimentResponse,
-    errors: [
-      BatchSizeLimitExceededException,
-      InternalServerException,
-      InvalidRequestException,
-      TextSizeLimitExceededException,
-      UnsupportedLanguageException,
-    ],
-  }));
+export const batchDetectTargetedSentiment: (
+  input: BatchDetectTargetedSentimentRequest,
+) => Effect.Effect<
+  BatchDetectTargetedSentimentResponse,
+  | BatchSizeLimitExceededException
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDetectTargetedSentimentRequest,
+  output: BatchDetectTargetedSentimentResponse,
+  errors: [
+    BatchSizeLimitExceededException,
+    InternalServerException,
+    InvalidRequestException,
+    TextSizeLimitExceededException,
+    UnsupportedLanguageException,
+  ],
+}));
 /**
  * Analyzes input text for the presence of personally identifiable information (PII) and
  * returns the labels of identified PII entity types such as name, address, bank account number,
  * or phone number.
  */
-export const containsPiiEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const containsPiiEntities: (
+  input: ContainsPiiEntitiesRequest,
+) => Effect.Effect<
+  ContainsPiiEntitiesResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ContainsPiiEntitiesRequest,
   output: ContainsPiiEntitiesResponse,
   errors: [
@@ -5680,7 +6723,17 @@ export const containsPiiEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Detects the key noun phrases found in the text.
  */
-export const detectKeyPhrases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detectKeyPhrases: (
+  input: DetectKeyPhrasesRequest,
+) => Effect.Effect<
+  DetectKeyPhrasesResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectKeyPhrasesRequest,
   output: DetectKeyPhrasesResponse,
   errors: [
@@ -5694,7 +6747,17 @@ export const detectKeyPhrases = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Inspects the input text for entities that contain personally identifiable information
  * (PII) and returns information about them.
  */
-export const detectPiiEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detectPiiEntities: (
+  input: DetectPiiEntitiesRequest,
+) => Effect.Effect<
+  DetectPiiEntitiesResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectPiiEntitiesRequest,
   output: DetectPiiEntitiesResponse,
   errors: [
@@ -5708,7 +6771,17 @@ export const detectPiiEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Inspects text and returns an inference of the prevailing sentiment
  * (`POSITIVE`, `NEUTRAL`, `MIXED`, or `NEGATIVE`).
  */
-export const detectSentiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detectSentiment: (
+  input: DetectSentimentRequest,
+) => Effect.Effect<
+  DetectSentimentResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectSentimentRequest,
   output: DetectSentimentResponse,
   errors: [
@@ -5738,7 +6811,18 @@ export const detectSentiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Errors in semi-structured documents in the Comprehend Developer Guide.
  */
-export const detectEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detectEntities: (
+  input: DetectEntitiesRequest,
+) => Effect.Effect<
+  DetectEntitiesResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceUnavailableException
+  | TextSizeLimitExceededException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectEntitiesRequest,
   output: DetectEntitiesResponse,
   errors: [
@@ -5753,7 +6837,20 @@ export const detectEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates information about the specified endpoint.
  * For information about endpoints, see Managing endpoints.
  */
-export const updateEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEndpoint: (
+  input: UpdateEndpointRequest,
+) => Effect.Effect<
+  UpdateEndpointResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEndpointRequest,
   output: UpdateEndpointResponse,
   errors: [
@@ -5771,7 +6868,21 @@ export const updateEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * custom model
  * For information about endpoints, see Managing endpoints.
  */
-export const createEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEndpoint: (
+  input: CreateEndpointRequest,
+) => Effect.Effect<
+  CreateEndpointResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEndpointRequest,
   output: CreateEndpointResponse,
   errors: [
@@ -5790,7 +6901,20 @@ export const createEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about datasets, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDataset: (
+  input: CreateDatasetRequest,
+) => Effect.Effect<
+  CreateDatasetResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetRequest,
   output: CreateDatasetResponse,
   errors: [
@@ -5810,43 +6934,67 @@ export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Training classifier models
  * in the Comprehend Developer Guide.
  */
-export const createDocumentClassifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDocumentClassifierRequest,
-    output: CreateDocumentClassifierResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      ResourceLimitExceededException,
-      TooManyRequestsException,
-      TooManyTagsException,
-      UnsupportedLanguageException,
-    ],
-  }),
-);
+export const createDocumentClassifier: (
+  input: CreateDocumentClassifierRequest,
+) => Effect.Effect<
+  CreateDocumentClassifierResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDocumentClassifierRequest,
+  output: CreateDocumentClassifierResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    KmsKeyValidationException,
+    ResourceInUseException,
+    ResourceLimitExceededException,
+    TooManyRequestsException,
+    TooManyTagsException,
+    UnsupportedLanguageException,
+  ],
+}));
 /**
  * Creates an entity recognizer using submitted files. After your
  * `CreateEntityRecognizer` request is submitted, you can check job status using the
  * `DescribeEntityRecognizer` API.
  */
-export const createEntityRecognizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEntityRecognizerRequest,
-    output: CreateEntityRecognizerResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      ResourceLimitExceededException,
-      TooManyRequestsException,
-      TooManyTagsException,
-      UnsupportedLanguageException,
-    ],
-  }),
-);
+export const createEntityRecognizer: (
+  input: CreateEntityRecognizerRequest,
+) => Effect.Effect<
+  CreateEntityRecognizerResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEntityRecognizerRequest,
+  output: CreateEntityRecognizerResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    KmsKeyValidationException,
+    ResourceInUseException,
+    ResourceLimitExceededException,
+    TooManyRequestsException,
+    TooManyTagsException,
+    UnsupportedLanguageException,
+  ],
+}));
 /**
  * A flywheel is an Amazon Web Services resource that orchestrates the ongoing training of a model for custom classification
  * or custom entity recognition. You can create a flywheel to start with an existing trained model, or
@@ -5864,7 +7012,23 @@ export const createEntityRecognizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about flywheels, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const createFlywheel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFlywheel: (
+  input: CreateFlywheelRequest,
+) => Effect.Effect<
+  CreateFlywheelResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | UnsupportedLanguageException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFlywheelRequest,
   output: CreateFlywheelResponse,
   errors: [
@@ -5885,19 +7049,30 @@ export const createFlywheel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the operation to track the status
  * of a job.
  */
-export const startDominantLanguageDetectionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDominantLanguageDetectionJobRequest,
-    output: StartDominantLanguageDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      TooManyRequestsException,
-      TooManyTagsException,
-    ],
-  }));
+export const startDominantLanguageDetectionJob: (
+  input: StartDominantLanguageDetectionJobRequest,
+) => Effect.Effect<
+  StartDominantLanguageDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDominantLanguageDetectionJobRequest,
+  output: StartDominantLanguageDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    KmsKeyValidationException,
+    ResourceInUseException,
+    TooManyRequestsException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Starts an asynchronous entity detection job for a collection of documents. Use the operation to track the status of a job.
  *
@@ -5906,149 +7081,236 @@ export const startDominantLanguageDetectionJob =
  * must be used in order to provide access to the recognizer being used to detect the custom
  * entity.
  */
-export const startEntitiesDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartEntitiesDetectionJobRequest,
-    output: StartEntitiesDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      TooManyRequestsException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const startEntitiesDetectionJob: (
+  input: StartEntitiesDetectionJobRequest,
+) => Effect.Effect<
+  StartEntitiesDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartEntitiesDetectionJobRequest,
+  output: StartEntitiesDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    KmsKeyValidationException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    TooManyRequestsException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Starts an asynchronous event detection job for a collection of documents.
  */
-export const startEventsDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartEventsDetectionJobRequest,
-    output: StartEventsDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      TooManyRequestsException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const startEventsDetectionJob: (
+  input: StartEventsDetectionJobRequest,
+) => Effect.Effect<
+  StartEventsDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartEventsDetectionJobRequest,
+  output: StartEventsDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    KmsKeyValidationException,
+    ResourceInUseException,
+    TooManyRequestsException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Starts an asynchronous key phrase detection job for a collection of documents. Use the
  * operation to track the status of a
  * job.
  */
-export const startKeyPhrasesDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartKeyPhrasesDetectionJobRequest,
-    output: StartKeyPhrasesDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      TooManyRequestsException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const startKeyPhrasesDetectionJob: (
+  input: StartKeyPhrasesDetectionJobRequest,
+) => Effect.Effect<
+  StartKeyPhrasesDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartKeyPhrasesDetectionJobRequest,
+  output: StartKeyPhrasesDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    KmsKeyValidationException,
+    ResourceInUseException,
+    TooManyRequestsException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Starts an asynchronous sentiment detection job for a collection of documents. Use the
  * operation to track the status of a
  * job.
  */
-export const startSentimentDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartSentimentDetectionJobRequest,
-    output: StartSentimentDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      TooManyRequestsException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const startSentimentDetectionJob: (
+  input: StartSentimentDetectionJobRequest,
+) => Effect.Effect<
+  StartSentimentDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSentimentDetectionJobRequest,
+  output: StartSentimentDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    KmsKeyValidationException,
+    ResourceInUseException,
+    TooManyRequestsException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Starts an asynchronous targeted sentiment detection job for a collection of documents. Use the
  * `DescribeTargetedSentimentDetectionJob` operation to track the status of a
  * job.
  */
-export const startTargetedSentimentDetectionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartTargetedSentimentDetectionJobRequest,
-    output: StartTargetedSentimentDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      TooManyRequestsException,
-      TooManyTagsException,
-    ],
-  }));
+export const startTargetedSentimentDetectionJob: (
+  input: StartTargetedSentimentDetectionJobRequest,
+) => Effect.Effect<
+  StartTargetedSentimentDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartTargetedSentimentDetectionJobRequest,
+  output: StartTargetedSentimentDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    KmsKeyValidationException,
+    ResourceInUseException,
+    TooManyRequestsException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Starts an asynchronous topic detection job. Use the
  * `DescribeTopicDetectionJob` operation to track the status of a job.
  */
-export const startTopicsDetectionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartTopicsDetectionJobRequest,
-    output: StartTopicsDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      TooManyRequestsException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const startTopicsDetectionJob: (
+  input: StartTopicsDetectionJobRequest,
+) => Effect.Effect<
+  StartTopicsDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartTopicsDetectionJobRequest,
+  output: StartTopicsDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    KmsKeyValidationException,
+    ResourceInUseException,
+    TooManyRequestsException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Starts an asynchronous document classification job using a custom classification model. Use the
  * `DescribeDocumentClassificationJob`
  * operation to track the progress of the job.
  */
-export const startDocumentClassificationJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDocumentClassificationJobRequest,
-    output: StartDocumentClassificationJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ResourceUnavailableException,
-      TooManyRequestsException,
-      TooManyTagsException,
-    ],
-  }));
+export const startDocumentClassificationJob: (
+  input: StartDocumentClassificationJobRequest,
+) => Effect.Effect<
+  StartDocumentClassificationJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDocumentClassificationJobRequest,
+  output: StartDocumentClassificationJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    KmsKeyValidationException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    TooManyRequestsException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Starts an asynchronous PII entity detection job for a collection of documents.
  */
-export const startPiiEntitiesDetectionJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartPiiEntitiesDetectionJobRequest,
-    output: StartPiiEntitiesDetectionJobResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      KmsKeyValidationException,
-      ResourceInUseException,
-      TooManyRequestsException,
-      TooManyTagsException,
-    ],
-  }));
+export const startPiiEntitiesDetectionJob: (
+  input: StartPiiEntitiesDetectionJobRequest,
+) => Effect.Effect<
+  StartPiiEntitiesDetectionJobResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartPiiEntitiesDetectionJobRequest,
+  output: StartPiiEntitiesDetectionJobResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    KmsKeyValidationException,
+    ResourceInUseException,
+    TooManyRequestsException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Creates a new custom model that replicates a source custom model that you import. The
  * source model can be in your Amazon Web Services account or another one.
@@ -6059,7 +7321,22 @@ export const startPiiEntitiesDetectionJob =
  * The source model must be in the same Amazon Web Services Region that you're using when you import. You
  * can't import a model that's in a different Region.
  */
-export const importModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importModel: (
+  input: ImportModelRequest,
+) => Effect.Effect<
+  ImportModelResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | KmsKeyValidationException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportModelRequest,
   output: ImportModelResponse,
   errors: [

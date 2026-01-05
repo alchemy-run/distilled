@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://monitoring.amazonaws.com/doc/2010-08-01/");
 const svc = T.AwsApiService({
   sdkId: "CloudWatch",
@@ -324,6 +332,95 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AlarmName = string;
+export type Namespace = string;
+export type MetricName = string;
+export type AnomalyDetectorMetricStat = string;
+export type DashboardName = string;
+export type InsightRuleName = string;
+export type MetricStreamName = string;
+export type NextToken = string;
+export type ContributorId = string;
+export type MaxRecords = number;
+export type AlarmNamePrefix = string;
+export type ActionPrefix = string;
+export type ExtendedStatistic = string;
+export type Period = number;
+export type MaxReturnedResultsCount = number;
+export type InsightRuleMaxResults = number;
+export type InsightRuleUnboundInteger = number;
+export type InsightRuleMetricName = string;
+export type InsightRuleOrderBy = string;
+export type GetMetricDataMaxDatapoints = number;
+export type MetricWidget = string;
+export type OutputFormat = string;
+export type DashboardNamePrefix = string;
+export type AmazonResourceName = string;
+export type AccountId = string;
+export type ListMetricStreamsMaxResults = number;
+export type ResourceName = string;
+export type AlarmDescription = string;
+export type AlarmRule = string;
+export type AlarmArn = string;
+export type SuppressorPeriod = number;
+export type DashboardBody = string;
+export type InsightRuleState = string;
+export type InsightRuleDefinition = string;
+export type EvaluationPeriods = number;
+export type DatapointsToAlarm = number;
+export type Threshold = number;
+export type TreatMissingData = string;
+export type EvaluateLowSampleCountPercentile = string;
+export type MetricId = string;
+export type StateReason = string;
+export type StateReasonData = string;
+export type TagKey = string;
+export type DimensionName = string;
+export type DimensionValue = string;
+export type MetricExpression = string;
+export type MetricLabel = string;
+export type GetMetricDataLabelTimezone = string;
+export type AnomalyDetectorMetricTimezone = string;
+export type TagValue = string;
+export type TemplateName = string;
+export type DatapointValue = number;
+export type StorageResolution = number;
+export type MetricStreamStatistic = string;
+export type ErrorMessage = string;
+export type FaultDescription = string;
+export type DashboardArn = string;
+export type InsightRuleContributorKeyLabel = string;
+export type InsightRuleAggregationStatistic = string;
+export type InsightRuleUnboundDouble = number;
+export type InsightRuleUnboundLong = number;
+export type MetricStreamState = string;
+export type AwsQueryErrorMessage = string;
+export type Stat = string;
+export type FailureResource = string;
+export type ExceptionType = string;
+export type FailureCode = string;
+export type FailureDescription = string;
+export type HistorySummary = string;
+export type HistoryData = string;
+export type ActionsSuppressedReason = string;
+export type InsightRuleSchema = string;
+export type InsightRuleContributorKey = string;
+export type Size = number;
+export type DataPath = string;
+export type Message = string;
+export type EntityKeyAttributesMapKeyString = string;
+export type EntityKeyAttributesMapValueString = string;
+export type EntityAttributesMapKeyString = string;
+export type EntityAttributesMapValueString = string;
+export type DashboardErrorMessage = string;
+export type ResourceType = string;
+export type ResourceId = string;
+export type AttributeName = string;
+export type AttributeValue = string;
+export type MessageDataCode = string;
+export type MessageDataValue = string;
 
 //# Schemas
 export type AlarmNames = string[];
@@ -2451,7 +2548,9 @@ export class InternalServiceFault extends S.TaggedError<InternalServiceFault>()(
   "InternalServiceFault",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalServiceError", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
   "InvalidParameterValueException",
   { message: S.optional(S.String) },
@@ -2474,7 +2573,9 @@ export class ConcurrentModificationException extends S.TaggedError<ConcurrentMod
     code: "ConcurrentModificationException",
     httpResponseCode: 429,
   }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class DashboardNotFoundError extends S.TaggedError<DashboardNotFoundError>()(
   "DashboardNotFoundError",
   { message: S.optional(S.String) },
@@ -2526,7 +2627,13 @@ export class DashboardInvalidInputError extends S.TaggedError<DashboardInvalidIn
  * Disables the actions for the specified alarms. When an alarm's actions are
  * disabled, the alarm actions do not execute when the alarm state changes.
  */
-export const disableAlarmActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableAlarmActions: (
+  input: DisableAlarmActionsInput,
+) => Effect.Effect<
+  DisableAlarmActionsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableAlarmActionsInput,
   output: DisableAlarmActionsResponse,
   errors: [],
@@ -2534,7 +2641,13 @@ export const disableAlarmActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables the actions for the specified alarms.
  */
-export const enableAlarmActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableAlarmActions: (
+  input: EnableAlarmActionsInput,
+) => Effect.Effect<
+  EnableAlarmActionsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableAlarmActionsInput,
   output: EnableAlarmActionsResponse,
   errors: [],
@@ -2563,7 +2676,13 @@ export const enableAlarmActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Additionally, the evaluation of composite alarms stops if CloudWatch
  * detects a cycle in the evaluation path.
  */
-export const deleteAlarms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAlarms: (
+  input: DeleteAlarmsInput,
+) => Effect.Effect<
+  DeleteAlarmsResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAlarmsInput,
   output: DeleteAlarmsResponse,
   errors: [ResourceNotFound],
@@ -2576,13 +2695,17 @@ export const deleteAlarms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * metric. It does not return alarms based on math expressions that use the specified
  * metric, or composite alarms that use the specified metric.
  */
-export const describeAlarmsForMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAlarmsForMetricInput,
-    output: DescribeAlarmsForMetricOutput,
-    errors: [],
-  }),
-);
+export const describeAlarmsForMetric: (
+  input: DescribeAlarmsForMetricInput,
+) => Effect.Effect<
+  DescribeAlarmsForMetricOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAlarmsForMetricInput,
+  output: DescribeAlarmsForMetricOutput,
+  errors: [],
+}));
 /**
  * You can use the `GetMetricWidgetImage` API to retrieve a snapshot graph
  * of one or more Amazon CloudWatch metrics as a bitmap image. You can then embed this
@@ -2600,13 +2723,17 @@ export const describeAlarmsForMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Up to 100 KB uncompressed payload.
  */
-export const getMetricWidgetImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMetricWidgetImageInput,
-    output: GetMetricWidgetImageOutput,
-    errors: [],
-  }),
-);
+export const getMetricWidgetImage: (
+  input: GetMetricWidgetImageInput,
+) => Effect.Effect<
+  GetMetricWidgetImageOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMetricWidgetImageInput,
+  output: GetMetricWidgetImageOutput,
+  errors: [],
+}));
 /**
  * Creates or updates an alarm and associates it with the specified metric, metric
  * math expression, anomaly detection model, or Metrics Insights query. For more
@@ -2657,7 +2784,13 @@ export const getMetricWidgetImage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * CloudWatch to assume the sharing role in the sharing account. If it
  * does not, you must create it following the directions in **Set up a monitoring account** in Cross-account cross-Region CloudWatch console.
  */
-export const putMetricAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putMetricAlarm: (
+  input: PutMetricAlarmInput,
+) => Effect.Effect<
+  PutMetricAlarmResponse,
+  LimitExceededFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMetricAlarmInput,
   output: PutMetricAlarmResponse,
   errors: [LimitExceededFault],
@@ -2683,7 +2816,13 @@ export const putMetricAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * policies, you must include information in the `StateReasonData` parameter to
  * enable the policy to take the correct action.
  */
-export const setAlarmState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setAlarmState: (
+  input: SetAlarmStateInput,
+) => Effect.Effect<
+  SetAlarmStateResponse,
+  InvalidFormatFault | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetAlarmStateInput,
   output: SetAlarmStateResponse,
   errors: [InvalidFormatFault, ResourceNotFound],
@@ -2746,7 +2885,13 @@ export const setAlarmState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `iam:CreateServiceLinkedRole` to create a composite alarm that has
  * Systems Manager OpsItem actions.
  */
-export const putCompositeAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putCompositeAlarm: (
+  input: PutCompositeAlarmInput,
+) => Effect.Effect<
+  PutCompositeAlarmResponse,
+  LimitExceededFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutCompositeAlarmInput,
   output: PutCompositeAlarmResponse,
   errors: [LimitExceededFault],
@@ -2755,7 +2900,17 @@ export const putCompositeAlarm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes all dashboards that you specify. You can specify up to 100 dashboards to
  * delete. If there is an error during this call, no dashboards are deleted.
  */
-export const deleteDashboards = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDashboards: (
+  input: DeleteDashboardsInput,
+) => Effect.Effect<
+  DeleteDashboardsOutput,
+  | ConflictException
+  | DashboardNotFoundError
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDashboardsInput,
   output: DeleteDashboardsOutput,
   errors: [
@@ -2775,18 +2930,38 @@ export const deleteDashboards = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the value you received for `NextToken` in the first call, to receive the next
  * 1000 results.
  */
-export const listDashboards = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDashboards: {
+  (
     input: ListDashboardsInput,
-    output: ListDashboardsOutput,
-    errors: [InternalServiceFault, InvalidParameterValueException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DashboardEntries",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDashboardsOutput,
+    InternalServiceFault | InvalidParameterValueException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDashboardsInput,
+  ) => Stream.Stream<
+    ListDashboardsOutput,
+    InternalServiceFault | InvalidParameterValueException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDashboardsInput,
+  ) => Stream.Stream<
+    DashboardEntry,
+    InternalServiceFault | InvalidParameterValueException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDashboardsInput,
+  output: ListDashboardsOutput,
+  errors: [InternalServiceFault, InvalidParameterValueException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DashboardEntries",
+  } as const,
+}));
 /**
  * List the specified metrics. You can use the returned metrics with GetMetricData or GetMetricStatistics to get statistical data.
  *
@@ -2803,14 +2978,34 @@ export const listDashboards = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * `ListMetrics` doesn't return information about metrics if those metrics
  * haven't reported data in the past two weeks. To retrieve those metrics, use GetMetricData or GetMetricStatistics.
  */
-export const listMetrics = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMetrics: {
+  (
     input: ListMetricsInput,
-    output: ListMetricsOutput,
-    errors: [InternalServiceFault, InvalidParameterValueException],
-    pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMetricsOutput,
+    InternalServiceFault | InvalidParameterValueException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMetricsInput,
+  ) => Stream.Stream<
+    ListMetricsOutput,
+    InternalServiceFault | InvalidParameterValueException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMetricsInput,
+  ) => Stream.Stream<
+    unknown,
+    InternalServiceFault | InvalidParameterValueException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMetricsInput,
+  output: ListMetricsOutput,
+  errors: [InternalServiceFault, InvalidParameterValueException],
+  pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+}));
 /**
  * Assigns one or more tags (key-value pairs) to the specified CloudWatch resource.
  * Currently, the only CloudWatch resources that can be tagged are alarms and Contributor
@@ -2831,7 +3026,18 @@ export const listMetrics = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * You can associate as many as 50 tags with a CloudWatch resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | ConcurrentModificationException
+  | ConflictException
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -2849,7 +3055,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * returned within `DashboardBody` as the template for the new dashboard when
  * you call `PutDashboard` to create the copy.
  */
-export const getDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDashboard: (
+  input: GetDashboardInput,
+) => Effect.Effect<
+  GetDashboardOutput,
+  | DashboardNotFoundError
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDashboardInput,
   output: GetDashboardOutput,
   errors: [
@@ -2861,7 +3076,16 @@ export const getDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts the streaming of metrics for one or more of your metric streams.
  */
-export const startMetricStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startMetricStreams: (
+  input: StartMetricStreamsInput,
+) => Effect.Effect<
+  StartMetricStreamsOutput,
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMetricStreamsInput,
   output: StartMetricStreamsOutput,
   errors: [
@@ -2875,24 +3099,42 @@ export const startMetricStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * about how to delete an anomaly detection model, see Deleting an anomaly detection model in the CloudWatch User
  * Guide.
  */
-export const deleteAnomalyDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAnomalyDetectorInput,
-    output: DeleteAnomalyDetectorOutput,
-    errors: [
-      InternalServiceFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      MissingRequiredParameterException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteAnomalyDetector: (
+  input: DeleteAnomalyDetectorInput,
+) => Effect.Effect<
+  DeleteAnomalyDetectorOutput,
+  | InternalServiceFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAnomalyDetectorInput,
+  output: DeleteAnomalyDetectorOutput,
+  errors: [
+    InternalServiceFault,
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    MissingRequiredParameterException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Enables the specified Contributor Insights rules. When rules are enabled, they
  * immediately begin analyzing log data.
  */
-export const enableInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableInsightRules: (
+  input: EnableInsightRulesInput,
+) => Effect.Effect<
+  EnableInsightRulesOutput,
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingRequiredParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableInsightRulesInput,
   output: EnableInsightRulesOutput,
   errors: [
@@ -2912,7 +3154,18 @@ export const enableInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see CloudWatch Anomaly Detection.
  */
-export const putAnomalyDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putAnomalyDetector: (
+  input: PutAnomalyDetectorInput,
+) => Effect.Effect<
+  PutAnomalyDetectorOutput,
+  | InternalServiceFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingRequiredParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAnomalyDetectorInput,
   output: PutAnomalyDetectorOutput,
   errors: [
@@ -2927,7 +3180,16 @@ export const putAnomalyDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Displays the tags associated with a CloudWatch resource. Currently, alarms and
  * Contributor Insights rules support tagging.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -2939,7 +3201,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | ConcurrentModificationException
+  | ConflictException
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -2953,7 +3226,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops the streaming of metrics for one or more of your metric streams.
  */
-export const stopMetricStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopMetricStreams: (
+  input: StopMetricStreamsInput,
+) => Effect.Effect<
+  StopMetricStreamsOutput,
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopMetricStreamsInput,
   output: StopMetricStreamsOutput,
   errors: [
@@ -2965,7 +3247,16 @@ export const stopMetricStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Permanently deletes the metric stream that you specify.
  */
-export const deleteMetricStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMetricStream: (
+  input: DeleteMetricStreamInput,
+) => Effect.Effect<
+  DeleteMetricStreamOutput,
+  | InternalServiceFault
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMetricStreamInput,
   output: DeleteMetricStreamOutput,
   errors: [
@@ -2978,7 +3269,15 @@ export const deleteMetricStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Disables the specified Contributor Insights rules. When rules are disabled, they do
  * not analyze log groups and do not incur costs.
  */
-export const disableInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableInsightRules: (
+  input: DisableInsightRulesInput,
+) => Effect.Effect<
+  DisableInsightRulesOutput,
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableInsightRulesInput,
   output: DisableInsightRulesOutput,
   errors: [InvalidParameterValueException, MissingRequiredParameterException],
@@ -2989,7 +3288,15 @@ export const disableInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you create a rule, delete it, and then re-create it with the same name, historical
  * data from the first time the rule was created might not be available.
  */
-export const deleteInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteInsightRules: (
+  input: DeleteInsightRulesInput,
+) => Effect.Effect<
+  DeleteInsightRulesOutput,
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInsightRulesInput,
   output: DeleteInsightRulesOutput,
   errors: [InvalidParameterValueException, MissingRequiredParameterException],
@@ -2997,7 +3304,18 @@ export const deleteInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the metric stream that you specify.
  */
-export const getMetricStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMetricStream: (
+  input: GetMetricStreamInput,
+) => Effect.Effect<
+  GetMetricStreamOutput,
+  | InternalServiceFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetricStreamInput,
   output: GetMetricStreamOutput,
   errors: [
@@ -3017,7 +3335,16 @@ export const getMetricStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you create a rule, delete it, and then re-create it with the same name, historical
  * data from the first time the rule was created might not be available.
  */
-export const putInsightRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putInsightRule: (
+  input: PutInsightRuleInput,
+) => Effect.Effect<
+  PutInsightRuleOutput,
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingRequiredParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutInsightRuleInput,
   output: PutInsightRuleOutput,
   errors: [
@@ -3036,13 +3363,19 @@ export const putInsightRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * disabled, a subsequent call to this API will re-enable it. Use
  * `ListManagedInsightRules` to describe all available rules.
  */
-export const putManagedInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutManagedInsightRulesInput,
-    output: PutManagedInsightRulesOutput,
-    errors: [InvalidParameterValueException, MissingRequiredParameterException],
-  }),
-);
+export const putManagedInsightRules: (
+  input: PutManagedInsightRulesInput,
+) => Effect.Effect<
+  PutManagedInsightRulesOutput,
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutManagedInsightRulesInput,
+  output: PutManagedInsightRulesOutput,
+  errors: [InvalidParameterValueException, MissingRequiredParameterException],
+}));
 /**
  * Retrieves the history for the specified alarm. You can filter the results by date
  * range or item type. If an alarm name is not specified, the histories for either all
@@ -3055,18 +3388,39 @@ export const putManagedInsightRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * scoped to `*`. You can't return information about composite alarms if your
  * `cloudwatch:DescribeAlarmHistory` permission has a narrower scope.
  */
-export const describeAlarmHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAlarmHistory: {
+  (
     input: DescribeAlarmHistoryInput,
-    output: DescribeAlarmHistoryOutput,
-    errors: [InvalidNextToken],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AlarmHistoryItems",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAlarmHistoryOutput,
+    InvalidNextToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAlarmHistoryInput,
+  ) => Stream.Stream<
+    DescribeAlarmHistoryOutput,
+    InvalidNextToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAlarmHistoryInput,
+  ) => Stream.Stream<
+    AlarmHistoryItem,
+    InvalidNextToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAlarmHistoryInput,
+  output: DescribeAlarmHistoryOutput,
+  errors: [InvalidNextToken],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AlarmHistoryItems",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * This operation returns the time series data collected by a Contributor Insights rule.
  * The data includes the identity and number of contributors to the log group.
@@ -3101,17 +3455,24 @@ export const describeAlarmHistory =
  * - `Average` -- the average value from all contributors during the
  * time period represented by that data point.
  */
-export const getInsightRuleReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetInsightRuleReportInput,
-    output: GetInsightRuleReportOutput,
-    errors: [
-      InvalidParameterValueException,
-      MissingRequiredParameterException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getInsightRuleReport: (
+  input: GetInsightRuleReportInput,
+) => Effect.Effect<
+  GetInsightRuleReportOutput,
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInsightRuleReportInput,
+  output: GetInsightRuleReportOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingRequiredParameterException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Gets statistics for the specified metric.
  *
@@ -3169,7 +3530,17 @@ export const getInsightRuleReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Metrics and Dimensions Reference in the Amazon CloudWatch User
  * Guide.
  */
-export const getMetricStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMetricStatistics: (
+  input: GetMetricStatisticsInput,
+) => Effect.Effect<
+  GetMetricStatisticsOutput,
+  | InternalServiceFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetricStatisticsInput,
   output: GetMetricStatisticsOutput,
   errors: [
@@ -3183,21 +3554,51 @@ export const getMetricStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns a list that contains the number of managed Contributor Insights rules in your
  * account.
  */
-export const listManagedInsightRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listManagedInsightRules: {
+  (
     input: ListManagedInsightRulesInput,
-    output: ListManagedInsightRulesOutput,
-    errors: [
-      InvalidNextToken,
-      InvalidParameterValueException,
-      MissingRequiredParameterException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListManagedInsightRulesOutput,
+    | InvalidNextToken
+    | InvalidParameterValueException
+    | MissingRequiredParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListManagedInsightRulesInput,
+  ) => Stream.Stream<
+    ListManagedInsightRulesOutput,
+    | InvalidNextToken
+    | InvalidParameterValueException
+    | MissingRequiredParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListManagedInsightRulesInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidNextToken
+    | InvalidParameterValueException
+    | MissingRequiredParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListManagedInsightRulesInput,
+  output: ListManagedInsightRulesOutput,
+  errors: [
+    InvalidNextToken,
+    InvalidParameterValueException,
+    MissingRequiredParameterException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a dashboard if it does not already exist, or updates an existing dashboard.
  * If you update a dashboard, the entire contents are replaced with what you specify
@@ -3219,7 +3620,16 @@ export const listManagedInsightRules =
  * point console users to the location of the `DashboardBody` script or the
  * CloudFormation template used to create the dashboard.
  */
-export const putDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putDashboard: (
+  input: PutDashboardInput,
+) => Effect.Effect<
+  PutDashboardOutput,
+  | ConflictException
+  | DashboardInvalidInputError
+  | InternalServiceFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDashboardInput,
   output: PutDashboardOutput,
   errors: [ConflictException, DashboardInvalidInputError, InternalServiceFault],
@@ -3279,7 +3689,17 @@ export const putDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - The `Min` and `Max` are equal, and `Sum`
  * is equal to `Min` multiplied by `SampleCount`.
  */
-export const putMetricData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putMetricData: (
+  input: PutMetricDataInput,
+) => Effect.Effect<
+  PutMetricDataResponse,
+  | InternalServiceFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMetricDataInput,
   output: PutMetricDataResponse,
   errors: [
@@ -3326,7 +3746,18 @@ export const putMetricData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * stream in a monitoring account, you can choose whether to include metrics from source
  * accounts in the stream. For more information, see CloudWatch cross-account observability.
  */
-export const putMetricStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putMetricStream: (
+  input: PutMetricStreamInput,
+) => Effect.Effect<
+  PutMetricStreamOutput,
+  | ConcurrentModificationException
+  | InternalServiceFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMetricStreamInput,
   output: PutMetricStreamOutput,
   errors: [
@@ -3346,18 +3777,38 @@ export const putMetricStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `*`. You can't return information about composite alarms if your
  * `cloudwatch:DescribeAlarms` permission has a narrower scope.
  */
-export const describeAlarms = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeAlarms: {
+  (
     input: DescribeAlarmsInput,
-    output: DescribeAlarmsOutput,
-    errors: [InvalidNextToken],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxRecords",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeAlarmsOutput,
+    InvalidNextToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAlarmsInput,
+  ) => Stream.Stream<
+    DescribeAlarmsOutput,
+    InvalidNextToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAlarmsInput,
+  ) => Stream.Stream<
+    unknown,
+    InvalidNextToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAlarmsInput,
+  output: DescribeAlarmsOutput,
+  errors: [InvalidNextToken],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Lists the anomaly detection models that you have created in your account. For single
  * metric anomaly detectors, you can list all of the models in your account or filter the
@@ -3366,70 +3817,160 @@ export const describeAlarms = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * `METRIC_MATH` to the `AnomalyDetectorTypes` array. This will
  * return all metric math anomaly detectors in your account.
  */
-export const describeAnomalyDetectors =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAnomalyDetectors: {
+  (
     input: DescribeAnomalyDetectorsInput,
-    output: DescribeAnomalyDetectorsOutput,
-    errors: [
-      InternalServiceFault,
-      InvalidNextToken,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AnomalyDetectors",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAnomalyDetectorsOutput,
+    | InternalServiceFault
+    | InvalidNextToken
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAnomalyDetectorsInput,
+  ) => Stream.Stream<
+    DescribeAnomalyDetectorsOutput,
+    | InternalServiceFault
+    | InvalidNextToken
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAnomalyDetectorsInput,
+  ) => Stream.Stream<
+    AnomalyDetector,
+    | InternalServiceFault
+    | InvalidNextToken
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAnomalyDetectorsInput,
+  output: DescribeAnomalyDetectorsOutput,
+  errors: [
+    InternalServiceFault,
+    InvalidNextToken,
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AnomalyDetectors",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of all the Contributor Insights rules in your account.
  *
  * For more information about Contributor Insights, see Using Contributor
  * Insights to Analyze High-Cardinality Data.
  */
-export const describeInsightRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeInsightRules: {
+  (
     input: DescribeInsightRulesInput,
-    output: DescribeInsightRulesOutput,
-    errors: [InvalidNextToken],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeInsightRulesOutput,
+    InvalidNextToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeInsightRulesInput,
+  ) => Stream.Stream<
+    DescribeInsightRulesOutput,
+    InvalidNextToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeInsightRulesInput,
+  ) => Stream.Stream<
+    unknown,
+    InvalidNextToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeInsightRulesInput,
+  output: DescribeInsightRulesOutput,
+  errors: [InvalidNextToken],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of metric streams in this account.
  */
-export const listMetricStreams = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMetricStreams: {
+  (
     input: ListMetricStreamsInput,
-    output: ListMetricStreamsOutput,
-    errors: [
-      InternalServiceFault,
-      InvalidNextToken,
-      InvalidParameterValueException,
-      MissingRequiredParameterException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMetricStreamsOutput,
+    | InternalServiceFault
+    | InvalidNextToken
+    | InvalidParameterValueException
+    | MissingRequiredParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMetricStreamsInput,
+  ) => Stream.Stream<
+    ListMetricStreamsOutput,
+    | InternalServiceFault
+    | InvalidNextToken
+    | InvalidParameterValueException
+    | MissingRequiredParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMetricStreamsInput,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceFault
+    | InvalidNextToken
+    | InvalidParameterValueException
+    | MissingRequiredParameterException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMetricStreamsInput,
+  output: ListMetricStreamsOutput,
+  errors: [
+    InternalServiceFault,
+    InvalidNextToken,
+    InvalidParameterValueException,
+    MissingRequiredParameterException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the information of the current alarm contributors that are in `ALARM` state. This operation returns details about the individual time series that contribute to the alarm's state.
  */
-export const describeAlarmContributors = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAlarmContributorsInput,
-    output: DescribeAlarmContributorsOutput,
-    errors: [InvalidNextToken, ResourceNotFoundException],
-  }),
-);
+export const describeAlarmContributors: (
+  input: DescribeAlarmContributorsInput,
+) => Effect.Effect<
+  DescribeAlarmContributorsOutput,
+  InvalidNextToken | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAlarmContributorsInput,
+  output: DescribeAlarmContributorsOutput,
+  errors: [InvalidNextToken, ResourceNotFoundException],
+}));
 /**
  * You can use the `GetMetricData` API to retrieve CloudWatch metric
  * values. The operation can also include a CloudWatch Metrics Insights query, and
@@ -3496,15 +4037,35 @@ export const describeAlarmContributors = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * (TS[]), and can be used as input for a metric math expression that expects an array of
  * time series.
  */
-export const getMetricData = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getMetricData: {
+  (
     input: GetMetricDataInput,
-    output: GetMetricDataOutput,
-    errors: [InvalidNextToken],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxDatapoints",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetMetricDataOutput,
+    InvalidNextToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetMetricDataInput,
+  ) => Stream.Stream<
+    GetMetricDataOutput,
+    InvalidNextToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetMetricDataInput,
+  ) => Stream.Stream<
+    unknown,
+    InvalidNextToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetMetricDataInput,
+  output: GetMetricDataOutput,
+  errors: [InvalidNextToken],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxDatapoints",
+  } as const,
+}));

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://apprunner.amazonaws.com/doc/2020-05-15/");
 const svc = T.AwsApiService({
   sdkId: "AppRunner",
@@ -241,6 +249,52 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AppRunnerResourceArn = string;
+export type DomainName = string;
+export type AutoScalingConfigurationName = string;
+export type ASConfigMaxConcurrency = number;
+export type ASConfigMinSize = number;
+export type ASConfigMaxSize = number;
+export type ConnectionName = string;
+export type ObservabilityConfigurationName = string;
+export type ServiceName = string;
+export type VpcConnectorName = string;
+export type VpcIngressConnectionName = string;
+export type DescribeCustomDomainsMaxResults = number;
+export type MaxResults = number;
+export type NextToken = string;
+export type ListOperationsMaxResults = number;
+export type ServiceMaxResults = number;
+export type TagKey = string;
+export type TagValue = string;
+export type Cpu = string;
+export type Memory = string;
+export type RoleArn = string;
+export type KmsKeyArn = string;
+export type HealthCheckPath = string;
+export type HealthCheckInterval = number;
+export type HealthCheckTimeout = number;
+export type HealthCheckHealthyThreshold = number;
+export type HealthCheckUnhealthyThreshold = number;
+export type UUID = string;
+export type ErrorMessage = string;
+export type SourceDirectory = string;
+export type ImageIdentifier = string;
+export type Integer = number;
+export type AutoScalingConfigurationRevision = number;
+export type MaxConcurrency = number;
+export type MinSize = number;
+export type MaxSize = number;
+export type ServiceId = string;
+export type CustomerAccountId = string;
+export type StartCommand = string;
+export type BuildCommand = string;
+export type RuntimeEnvironmentVariablesKey = string;
+export type RuntimeEnvironmentVariablesValue = string;
+export type RuntimeEnvironmentSecretsName = string;
+export type RuntimeEnvironmentSecretsValue = string;
 
 //# Schemas
 export type StringList = string[];
@@ -2010,7 +2064,9 @@ export class InternalServiceErrorException extends S.TaggedError<InternalService
   "InternalServiceErrorException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalServiceError", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { Message: S.optional(S.String) },
@@ -2036,18 +2092,44 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Returns a list of App Runner VPC connectors in your Amazon Web Services account.
  */
-export const listVpcConnectors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listVpcConnectors: {
+  (
     input: ListVpcConnectorsRequest,
-    output: ListVpcConnectorsResponse,
-    errors: [InternalServiceErrorException, InvalidRequestException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListVpcConnectorsResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVpcConnectorsRequest,
+  ) => Stream.Stream<
+    ListVpcConnectorsResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVpcConnectorsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVpcConnectorsRequest,
+  output: ListVpcConnectorsResponse,
+  errors: [InternalServiceErrorException, InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of active App Runner automatic scaling configurations in your Amazon Web Services account. You can query the revisions for a specific
  * configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested
@@ -2056,32 +2138,85 @@ export const listVpcConnectors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * To retrieve a full description of a particular configuration revision, call and provide one of
  * the ARNs returned by `ListAutoScalingConfigurations`.
  */
-export const listAutoScalingConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAutoScalingConfigurations: {
+  (
     input: ListAutoScalingConfigurationsRequest,
-    output: ListAutoScalingConfigurationsResponse,
-    errors: [InternalServiceErrorException, InvalidRequestException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAutoScalingConfigurationsResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAutoScalingConfigurationsRequest,
+  ) => Stream.Stream<
+    ListAutoScalingConfigurationsResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAutoScalingConfigurationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAutoScalingConfigurationsRequest,
+  output: ListAutoScalingConfigurationsResponse,
+  errors: [InternalServiceErrorException, InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of App Runner connections that are associated with your Amazon Web Services account.
  */
-export const listConnections = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listConnections: {
+  (
     input: ListConnectionsRequest,
-    output: ListConnectionsResponse,
-    errors: [InternalServiceErrorException, InvalidRequestException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListConnectionsResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectionsRequest,
+  ) => Stream.Stream<
+    ListConnectionsResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectionsRequest,
+  output: ListConnectionsResponse,
+  errors: [InternalServiceErrorException, InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of active App Runner observability configurations in your Amazon Web Services account. You can query the revisions for a specific
  * configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested
@@ -2090,60 +2225,148 @@ export const listConnections = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * To retrieve a full description of a particular configuration revision, call and provide one
  * of the ARNs returned by `ListObservabilityConfigurations`.
  */
-export const listObservabilityConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listObservabilityConfigurations: {
+  (
     input: ListObservabilityConfigurationsRequest,
-    output: ListObservabilityConfigurationsResponse,
-    errors: [InternalServiceErrorException, InvalidRequestException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListObservabilityConfigurationsResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListObservabilityConfigurationsRequest,
+  ) => Stream.Stream<
+    ListObservabilityConfigurationsResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListObservabilityConfigurationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListObservabilityConfigurationsRequest,
+  output: ListObservabilityConfigurationsResponse,
+  errors: [InternalServiceErrorException, InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of running App Runner services in your Amazon Web Services account.
  */
-export const listServices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listServices: {
+  (
     input: ListServicesRequest,
-    output: ListServicesResponse,
-    errors: [InternalServiceErrorException, InvalidRequestException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListServicesResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServicesRequest,
+  ) => Stream.Stream<
+    ListServicesResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServicesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServicesRequest,
+  output: ListServicesResponse,
+  errors: [InternalServiceErrorException, InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
  */
-export const listVpcIngressConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listVpcIngressConnections: {
+  (
     input: ListVpcIngressConnectionsRequest,
-    output: ListVpcIngressConnectionsResponse,
-    errors: [InternalServiceErrorException, InvalidRequestException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListVpcIngressConnectionsResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVpcIngressConnectionsRequest,
+  ) => Stream.Stream<
+    ListVpcIngressConnectionsResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVpcIngressConnectionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVpcIngressConnectionsRequest,
+  output: ListVpcIngressConnectionsResponse,
+  errors: [InternalServiceErrorException, InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Update an auto scaling configuration to be the default. The existing default auto scaling configuration will be set to non-default
  * automatically.
  */
-export const updateDefaultAutoScalingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDefaultAutoScalingConfigurationRequest,
-    output: UpdateDefaultAutoScalingConfigurationResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const updateDefaultAutoScalingConfiguration: (
+  input: UpdateDefaultAutoScalingConfigurationRequest,
+) => Effect.Effect<
+  UpdateDefaultAutoScalingConfigurationResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDefaultAutoScalingConfigurationRequest,
+  output: UpdateDefaultAutoScalingConfigurationResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Create an App Runner automatic scaling configuration resource. App Runner requires this resource when you create or update App Runner services and you require
  * non-default auto scaling settings. You can share an auto scaling configuration across multiple services.
@@ -2158,16 +2381,24 @@ export const updateDefaultAutoScalingConfiguration =
  *
  * Configure a lower `MaxSize` to control your cost. The tradeoff is lower responsiveness during peak demand.
  */
-export const createAutoScalingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateAutoScalingConfigurationRequest,
-    output: CreateAutoScalingConfigurationResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ServiceQuotaExceededException,
-    ],
-  }));
+export const createAutoScalingConfiguration: (
+  input: CreateAutoScalingConfigurationRequest,
+) => Effect.Effect<
+  CreateAutoScalingConfigurationResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAutoScalingConfigurationRequest,
+  output: CreateAutoScalingConfigurationResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Update an App Runner service. You can update the source configuration and instance configuration of the service. You can also update the ARN of the auto
  * scaling configuration resource that's associated with the service. However, you can't change the name or the encryption configuration of the service.
@@ -2178,7 +2409,17 @@ export const createAutoScalingConfiguration =
  * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
  * call to track the operation's progress.
  */
-export const updateService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateService: (
+  input: UpdateServiceRequest,
+) => Effect.Effect<
+  UpdateServiceResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceRequest,
   output: UpdateServiceResponse,
   errors: [
@@ -2197,22 +2438,40 @@ export const updateService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - FAILED_UPDATE
  */
-export const updateVpcIngressConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateVpcIngressConnectionRequest,
-    output: UpdateVpcIngressConnectionResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateVpcIngressConnection: (
+  input: UpdateVpcIngressConnectionRequest,
+) => Effect.Effect<
+  UpdateVpcIngressConnectionResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateVpcIngressConnectionRequest,
+  output: UpdateVpcIngressConnectionResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Remove tags from an App Runner resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2229,22 +2488,40 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Certificate Manager (ACM). These certificates aren't deleted as part of this action. App Runner delays certificate deletion for
  * 30 days after a domain is disassociated from your service.
  */
-export const disassociateCustomDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateCustomDomainRequest,
-    output: DisassociateCustomDomainResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const disassociateCustomDomain: (
+  input: DisassociateCustomDomainRequest,
+) => Effect.Effect<
+  DisassociateCustomDomainResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateCustomDomainRequest,
+  output: DisassociateCustomDomainResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * List tags that are associated with for an App Runner resource. The response contains a list of tag key-value pairs.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2261,7 +2538,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
  * call to track the operation's progress.
  */
-export const pauseService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const pauseService: (
+  input: PauseServiceRequest,
+) => Effect.Effect<
+  PauseServiceResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PauseServiceRequest,
   output: PauseServiceResponse,
   errors: [
@@ -2277,7 +2564,17 @@ export const pauseService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
  * call to track the operation's progress.
  */
-export const resumeService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resumeService: (
+  input: ResumeServiceRequest,
+) => Effect.Effect<
+  ResumeServiceResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeServiceRequest,
   output: ResumeServiceResponse,
   errors: [
@@ -2290,18 +2587,26 @@ export const resumeService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create an App Runner VPC Ingress Connection resource. App Runner requires this resource when you want to associate your App Runner service with an Amazon VPC endpoint.
  */
-export const createVpcIngressConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVpcIngressConnectionRequest,
-    output: CreateVpcIngressConnectionResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      InvalidStateException,
-      ServiceQuotaExceededException,
-    ],
-  }),
-);
+export const createVpcIngressConnection: (
+  input: CreateVpcIngressConnectionRequest,
+) => Effect.Effect<
+  CreateVpcIngressConnectionResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVpcIngressConnectionRequest,
+  output: CreateVpcIngressConnectionResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    InvalidStateException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Delete an App Runner service.
  *
@@ -2310,7 +2615,17 @@ export const createVpcIngressConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Make sure that you don't have any active VPCIngressConnections associated with the service you want to delete.
  */
-export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteService: (
+  input: DeleteServiceRequest,
+) => Effect.Effect<
+  DeleteServiceResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceRequest,
   output: DeleteServiceResponse,
   errors: [
@@ -2331,18 +2646,26 @@ export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `FAILED_DELETION`
  */
-export const deleteVpcIngressConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVpcIngressConnectionRequest,
-    output: DeleteVpcIngressConnectionResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteVpcIngressConnection: (
+  input: DeleteVpcIngressConnectionRequest,
+) => Effect.Effect<
+  DeleteVpcIngressConnectionResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpcIngressConnectionRequest,
+  output: DeleteVpcIngressConnectionResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Associate your own domain name with the App Runner subdomain URL of your App Runner service.
  *
@@ -2351,22 +2674,38 @@ export const deleteVpcIngressConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * more certificate validation records. App Runner then performs DNS validation to verify that you own or control the domain name that you associated. App Runner tracks
  * domain validity in a certificate stored in AWS Certificate Manager (ACM).
  */
-export const associateCustomDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateCustomDomainRequest,
-    output: AssociateCustomDomainResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      InvalidStateException,
-    ],
-  }),
-);
+export const associateCustomDomain: (
+  input: AssociateCustomDomainRequest,
+) => Effect.Effect<
+  AssociateCustomDomainResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateCustomDomainRequest,
+  output: AssociateCustomDomainResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    InvalidStateException,
+  ],
+}));
 /**
  * Delete an App Runner connection. You must first ensure that there are no running App Runner services that use this connection. If there are any, the
  * `DeleteConnection` action fails.
  */
-export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConnection: (
+  input: DeleteConnectionRequest,
+) => Effect.Effect<
+  DeleteConnectionResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionRequest,
   output: DeleteConnectionResponse,
   errors: [
@@ -2379,7 +2718,16 @@ export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Delete an App Runner VPC connector resource. You can't delete a
  * connector that's used by one or more App Runner services.
  */
-export const deleteVpcConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVpcConnector: (
+  input: DeleteVpcConnectorRequest,
+) => Effect.Effect<
+  DeleteVpcConnectorResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpcConnectorRequest,
   output: DeleteVpcConnectorResponse,
   errors: [
@@ -2391,51 +2739,106 @@ export const deleteVpcConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Return a full description of an App Runner automatic scaling configuration resource.
  */
-export const describeAutoScalingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAutoScalingConfigurationRequest,
-    output: DescribeAutoScalingConfigurationResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const describeAutoScalingConfiguration: (
+  input: DescribeAutoScalingConfigurationRequest,
+) => Effect.Effect<
+  DescribeAutoScalingConfigurationResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAutoScalingConfigurationRequest,
+  output: DescribeAutoScalingConfigurationResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Return a description of custom domain names that are associated with an App Runner service.
  */
-export const describeCustomDomains =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCustomDomains: {
+  (
     input: DescribeCustomDomainsRequest,
-    output: DescribeCustomDomainsResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeCustomDomainsResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCustomDomainsRequest,
+  ) => Stream.Stream<
+    DescribeCustomDomainsResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCustomDomainsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCustomDomainsRequest,
+  output: DescribeCustomDomainsResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Return a full description of an App Runner observability configuration resource.
  */
-export const describeObservabilityConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeObservabilityConfigurationRequest,
-    output: DescribeObservabilityConfigurationResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const describeObservabilityConfiguration: (
+  input: DescribeObservabilityConfigurationRequest,
+) => Effect.Effect<
+  DescribeObservabilityConfigurationResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeObservabilityConfigurationRequest,
+  output: DescribeObservabilityConfigurationResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Return a full description of an App Runner service.
  */
-export const describeService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeService: (
+  input: DescribeServiceRequest,
+) => Effect.Effect<
+  DescribeServiceResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeServiceRequest,
   output: DescribeServiceResponse,
   errors: [
@@ -2447,48 +2850,93 @@ export const describeService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Return a description of an App Runner VPC connector resource.
  */
-export const describeVpcConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVpcConnectorRequest,
-    output: DescribeVpcConnectorResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const describeVpcConnector: (
+  input: DescribeVpcConnectorRequest,
+) => Effect.Effect<
+  DescribeVpcConnectorResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVpcConnectorRequest,
+  output: DescribeVpcConnectorResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Return a full description of an App Runner VPC Ingress Connection resource.
  */
-export const describeVpcIngressConnection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeVpcIngressConnectionRequest,
-    output: DescribeVpcIngressConnectionResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const describeVpcIngressConnection: (
+  input: DescribeVpcIngressConnectionRequest,
+) => Effect.Effect<
+  DescribeVpcIngressConnectionResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVpcIngressConnectionRequest,
+  output: DescribeVpcIngressConnectionResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns a list of the associated App Runner services using an auto scaling configuration.
  */
-export const listServicesForAutoScalingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServicesForAutoScalingConfiguration: {
+  (
     input: ListServicesForAutoScalingConfigurationRequest,
-    output: ListServicesForAutoScalingConfigurationResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServicesForAutoScalingConfigurationResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServicesForAutoScalingConfigurationRequest,
+  ) => Stream.Stream<
+    ListServicesForAutoScalingConfigurationResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServicesForAutoScalingConfigurationRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServicesForAutoScalingConfigurationRequest,
+  output: ListServicesForAutoScalingConfigurationResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Initiate a manual deployment of the latest commit in a source code repository or the latest image in a source image repository to an App Runner
  * service.
@@ -2499,7 +2947,16 @@ export const listServicesForAutoScalingConfiguration =
  * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
  * call to track the operation's progress.
  */
-export const startDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startDeployment: (
+  input: StartDeploymentRequest,
+) => Effect.Effect<
+  StartDeploymentResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDeploymentRequest,
   output: StartDeploymentResponse,
   errors: [
@@ -2513,56 +2970,111 @@ export const startDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * revisions associated with the top level configuration. You can't delete the default auto scaling configuration or a configuration that's used by one or
  * more App Runner services.
  */
-export const deleteAutoScalingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAutoScalingConfigurationRequest,
-    output: DeleteAutoScalingConfigurationResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const deleteAutoScalingConfiguration: (
+  input: DeleteAutoScalingConfigurationRequest,
+) => Effect.Effect<
+  DeleteAutoScalingConfigurationResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAutoScalingConfigurationRequest,
+  output: DeleteAutoScalingConfigurationResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Delete an App Runner observability configuration resource. You can delete a specific revision or the latest active revision. You can't delete a
  * configuration that's used by one or more App Runner services.
  */
-export const deleteObservabilityConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteObservabilityConfigurationRequest,
-    output: DeleteObservabilityConfigurationResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const deleteObservabilityConfiguration: (
+  input: DeleteObservabilityConfigurationRequest,
+) => Effect.Effect<
+  DeleteObservabilityConfigurationResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteObservabilityConfigurationRequest,
+  output: DeleteObservabilityConfigurationResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Return a list of operations that occurred on an App Runner service.
  *
  * The resulting list of OperationSummary objects is sorted in reverse chronological order. The first object on the list represents the
  * last started operation.
  */
-export const listOperations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listOperations: {
+  (
     input: ListOperationsRequest,
-    output: ListOperationsResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListOperationsResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOperationsRequest,
+  ) => Stream.Stream<
+    ListOperationsResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOperationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOperationsRequest,
+  output: ListOperationsResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Add tags to, or update the tag values of, an App Runner resource. A tag is a key-value pair.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2580,7 +3092,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * a user interface approval process through the App Runner console before you can use the
  * connection.
  */
-export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConnection: (
+  input: CreateConnectionRequest,
+) => Effect.Effect<
+  CreateConnectionResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectionRequest,
   output: CreateConnectionResponse,
   errors: [
@@ -2602,21 +3123,38 @@ export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * parameters that describe the configuration of these features (currently one parameter, `TraceConfiguration`). If you don't specify a feature
  * parameter, App Runner doesn't enable the feature.
  */
-export const createObservabilityConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateObservabilityConfigurationRequest,
-    output: CreateObservabilityConfigurationResponse,
-    errors: [
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ServiceQuotaExceededException,
-    ],
-  }));
+export const createObservabilityConfiguration: (
+  input: CreateObservabilityConfigurationRequest,
+) => Effect.Effect<
+  CreateObservabilityConfigurationResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateObservabilityConfigurationRequest,
+  output: CreateObservabilityConfigurationResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Create an App Runner VPC connector resource. App Runner requires this resource when you want to associate your App Runner service to a custom Amazon Virtual Private Cloud
  * (Amazon VPC).
  */
-export const createVpcConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVpcConnector: (
+  input: CreateVpcConnectorRequest,
+) => Effect.Effect<
+  CreateVpcConnectorResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcConnectorRequest,
   output: CreateVpcConnectorResponse,
   errors: [
@@ -2630,7 +3168,16 @@ export const createVpcConnector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations call to track the operation's progress.
  */
-export const createService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createService: (
+  input: CreateServiceRequest,
+) => Effect.Effect<
+  CreateServiceResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceRequest,
   output: CreateServiceResponse,
   errors: [

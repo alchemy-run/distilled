@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://swf.amazonaws.com/doc/2015-07-20/");
 const svc = T.AwsApiService({
   sdkId: "SFN",
@@ -255,6 +263,69 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Name = string;
+export type Definition = string;
+export type Arn = string;
+export type VersionDescription = string;
+export type AliasDescription = string;
+export type CharacterRestrictedName = string;
+export type LongArn = string;
+export type PageSize = number;
+export type PageToken = string;
+export type ListExecutionsPageToken = string;
+export type RevisionId = string;
+export type ClientToken = string;
+export type TaskToken = string;
+export type SensitiveError = string;
+export type SensitiveCause = string;
+export type SensitiveData = string;
+export type TraceHeader = string;
+export type TestStateStateName = string;
+export type TagKey = string;
+export type MaxConcurrency = number;
+export type ToleratedFailurePercentage = number;
+export type ToleratedFailureCount = number;
+export type ValidateStateMachineDefinitionMaxResult = number;
+export type TagValue = string;
+export type KmsKeyId = string;
+export type KmsDataKeyReusePeriodSeconds = number;
+export type VersionWeight = number;
+export type RetrierRetryCount = number;
+export type MapIterationFailureCount = number;
+export type ErrorMessage = string;
+export type RedriveCount = number;
+export type MapRunLabel = string;
+export type SensitiveDataJobInput = string;
+export type UnsignedLong = number;
+export type LongObject = number;
+export type StateName = string;
+export type VariableName = string;
+export type EventId = number;
+export type UnsignedInteger = number;
+export type BilledMemoryUsed = number;
+export type BilledDuration = number;
+export type ValidateStateMachineDefinitionCode = string;
+export type ValidateStateMachineDefinitionMessage = string;
+export type ValidateStateMachineDefinitionLocation = string;
+export type TimeoutInSeconds = number;
+export type Identity = string;
+export type ConnectorParameters = string;
+export type EvaluationFailureLocation = string;
+export type VariableValue = string;
+export type InspectionToleratedFailureCount = number;
+export type InspectionToleratedFailurePercentage = number;
+export type InspectionMaxConcurrency = number;
+export type HTTPProtocol = string;
+export type HTTPMethod = string;
+export type URL = string;
+export type HTTPHeaders = string;
+export type HTTPBody = string;
+export type HTTPStatusCode = string;
+export type HTTPStatusMessage = string;
+export type ExceptionHandlerIndex = number;
+export type RetryBackoffIntervalSeconds = number;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -2737,7 +2808,13 @@ export class StateMachineLimitExceeded extends S.TaggedError<StateMachineLimitEx
 /**
  * Deletes an activity.
  */
-export const deleteActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteActivity: (
+  input: DeleteActivityInput,
+) => Effect.Effect<
+  DeleteActivityOutput,
+  InvalidArn | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteActivityInput,
   output: DeleteActivityOutput,
   errors: [InvalidArn],
@@ -2747,7 +2824,13 @@ export const deleteActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
-export const describeActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeActivity: (
+  input: DescribeActivityInput,
+) => Effect.Effect<
+  DescribeActivityOutput,
+  ActivityDoesNotExist | InvalidArn | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeActivityInput,
   output: DescribeActivityOutput,
   errors: [ActivityDoesNotExist, InvalidArn],
@@ -2755,7 +2838,13 @@ export const describeActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides information about a Map Run's configuration, progress, and results. If you've redriven a Map Run, this API action also returns information about the redrives of that Map Run. For more information, see Examining Map Run in the *Step Functions Developer Guide*.
  */
-export const describeMapRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeMapRun: (
+  input: DescribeMapRunInput,
+) => Effect.Effect<
+  DescribeMapRunOutput,
+  InvalidArn | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMapRunInput,
   output: DescribeMapRunOutput,
   errors: [InvalidArn, ResourceNotFound],
@@ -2768,35 +2857,75 @@ export const describeMapRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
-export const listActivities = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listActivities: {
+  (
     input: ListActivitiesInput,
-    output: ListActivitiesOutput,
-    errors: [InvalidToken],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "activities",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListActivitiesOutput,
+    InvalidToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListActivitiesInput,
+  ) => Stream.Stream<
+    ListActivitiesOutput,
+    InvalidToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListActivitiesInput,
+  ) => Stream.Stream<
+    ActivityListItem,
+    InvalidToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListActivitiesInput,
+  output: ListActivitiesOutput,
+  errors: [InvalidToken],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "activities",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all Map Runs that were started by a given state machine execution. Use this API action to obtain Map Run ARNs, and then call `DescribeMapRun` to obtain more information, if needed.
  */
-export const listMapRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMapRuns: {
+  (
     input: ListMapRunsInput,
-    output: ListMapRunsOutput,
-    errors: [ExecutionDoesNotExist, InvalidArn, InvalidToken],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "mapRuns",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMapRunsOutput,
+    ExecutionDoesNotExist | InvalidArn | InvalidToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMapRunsInput,
+  ) => Stream.Stream<
+    ListMapRunsOutput,
+    ExecutionDoesNotExist | InvalidArn | InvalidToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMapRunsInput,
+  ) => Stream.Stream<
+    MapRunListItem,
+    ExecutionDoesNotExist | InvalidArn | InvalidToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMapRunsInput,
+  output: ListMapRunsOutput,
+  errors: [ExecutionDoesNotExist, InvalidArn, InvalidToken],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "mapRuns",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the existing state machines.
  *
@@ -2805,19 +2934,39 @@ export const listMapRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
-export const listStateMachines = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listStateMachines: {
+  (
     input: ListStateMachinesInput,
-    output: ListStateMachinesOutput,
-    errors: [InvalidToken],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "stateMachines",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListStateMachinesOutput,
+    InvalidToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStateMachinesInput,
+  ) => Stream.Stream<
+    ListStateMachinesOutput,
+    InvalidToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStateMachinesInput,
+  ) => Stream.Stream<
+    StateMachineListItem,
+    InvalidToken | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStateMachinesInput,
+  output: ListStateMachinesOutput,
+  errors: [InvalidToken],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "stateMachines",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes a state machine. This is an asynchronous operation. It sets the state machine's
  * status to `DELETING` and begins the deletion process. A state machine is deleted only when all its executions are completed. On the next state transition, the state machine's executions are terminated.
@@ -2842,7 +2991,13 @@ export const listStateMachines = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * less than a minute). Running executions may emit logs after `DeleteStateMachine`
  * API is called.
  */
-export const deleteStateMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteStateMachine: (
+  input: DeleteStateMachineInput,
+) => Effect.Effect<
+  DeleteStateMachineOutput,
+  InvalidArn | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStateMachineInput,
   output: DeleteStateMachineOutput,
   errors: [InvalidArn, ValidationException],
@@ -2860,19 +3015,29 @@ export const deleteStateMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - DeleteStateMachineAlias
  */
-export const describeStateMachineAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeStateMachineAliasInput,
-    output: DescribeStateMachineAliasOutput,
-    errors: [InvalidArn, ResourceNotFound, ValidationException],
-  }),
-);
+export const describeStateMachineAlias: (
+  input: DescribeStateMachineAliasInput,
+) => Effect.Effect<
+  DescribeStateMachineAliasOutput,
+  InvalidArn | ResourceNotFound | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeStateMachineAliasInput,
+  output: DescribeStateMachineAliasOutput,
+  errors: [InvalidArn, ResourceNotFound, ValidationException],
+}));
 /**
  * List tags for a given resource.
  *
  * Tags may only contain Unicode letters, digits, white space, or these symbols: `_ . : / = + - @`.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  InvalidArn | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [InvalidArn, ResourceNotFound],
@@ -2880,7 +3045,13 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Remove a tag from a Step Functions resource
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  InvalidArn | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [InvalidArn, ResourceNotFound],
@@ -2888,7 +3059,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an in-progress Map Run's configuration to include changes to the settings that control maximum concurrency and Map Run failure.
  */
-export const updateMapRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMapRun: (
+  input: UpdateMapRunInput,
+) => Effect.Effect<
+  UpdateMapRunOutput,
+  InvalidArn | ResourceNotFound | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMapRunInput,
   output: UpdateMapRunOutput,
   errors: [InvalidArn, ResourceNotFound, ValidationException],
@@ -2908,13 +3085,17 @@ export const updateMapRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - ListStateMachineVersions
  */
-export const deleteStateMachineVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStateMachineVersionInput,
-    output: DeleteStateMachineVersionOutput,
-    errors: [ConflictException, InvalidArn, ValidationException],
-  }),
-);
+export const deleteStateMachineVersion: (
+  input: DeleteStateMachineVersionInput,
+) => Effect.Effect<
+  DeleteStateMachineVersionOutput,
+  ConflictException | InvalidArn | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStateMachineVersionInput,
+  output: DeleteStateMachineVersionOutput,
+  errors: [ConflictException, InvalidArn, ValidationException],
+}));
 /**
  * Deletes a state machine alias.
  *
@@ -2932,18 +3113,26 @@ export const deleteStateMachineVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - UpdateStateMachineAlias
  */
-export const deleteStateMachineAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStateMachineAliasInput,
-    output: DeleteStateMachineAliasOutput,
-    errors: [
-      ConflictException,
-      InvalidArn,
-      ResourceNotFound,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteStateMachineAlias: (
+  input: DeleteStateMachineAliasInput,
+) => Effect.Effect<
+  DeleteStateMachineAliasOutput,
+  | ConflictException
+  | InvalidArn
+  | ResourceNotFound
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStateMachineAliasInput,
+  output: DeleteStateMachineAliasOutput,
+  errors: [
+    ConflictException,
+    InvalidArn,
+    ResourceNotFound,
+    ValidationException,
+  ],
+}));
 /**
  * Lists versions for the specified state machine Amazon Resource Name (ARN).
  *
@@ -2958,13 +3147,17 @@ export const deleteStateMachineAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - DeleteStateMachineVersion
  */
-export const listStateMachineVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListStateMachineVersionsInput,
-    output: ListStateMachineVersionsOutput,
-    errors: [InvalidArn, InvalidToken, ValidationException],
-  }),
-);
+export const listStateMachineVersions: (
+  input: ListStateMachineVersionsInput,
+) => Effect.Effect<
+  ListStateMachineVersionsOutput,
+  InvalidArn | InvalidToken | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStateMachineVersionsInput,
+  output: ListStateMachineVersionsOutput,
+  errors: [InvalidArn, InvalidToken, ValidationException],
+}));
 /**
  * Validates the syntax of a state machine definition specified in Amazon States Language (ASL), a
  * JSON-based, structured language.
@@ -2999,12 +3192,17 @@ export const listStateMachineVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * wording. Your automated processes should only rely on the value of the **result** field value (OK, FAIL). Do **not** rely on the exact order, count, or
  * wording of diagnostic messages.
  */
-export const validateStateMachineDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ValidateStateMachineDefinitionInput,
-    output: ValidateStateMachineDefinitionOutput,
-    errors: [ValidationException],
-  }));
+export const validateStateMachineDefinition: (
+  input: ValidateStateMachineDefinitionInput,
+) => Effect.Effect<
+  ValidateStateMachineDefinitionOutput,
+  ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ValidateStateMachineDefinitionInput,
+  output: ValidateStateMachineDefinitionOutput,
+  errors: [ValidationException],
+}));
 /**
  * Lists aliases for a specified state machine ARN. Results are sorted by time, with the most recently created aliases listed first.
  *
@@ -3023,19 +3221,28 @@ export const validateStateMachineDefinition =
  *
  * - DeleteStateMachineAlias
  */
-export const listStateMachineAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListStateMachineAliasesInput,
-    output: ListStateMachineAliasesOutput,
-    errors: [
-      InvalidArn,
-      InvalidToken,
-      ResourceNotFound,
-      StateMachineDeleting,
-      StateMachineDoesNotExist,
-    ],
-  }),
-);
+export const listStateMachineAliases: (
+  input: ListStateMachineAliasesInput,
+) => Effect.Effect<
+  ListStateMachineAliasesOutput,
+  | InvalidArn
+  | InvalidToken
+  | ResourceNotFound
+  | StateMachineDeleting
+  | StateMachineDoesNotExist
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStateMachineAliasesInput,
+  output: ListStateMachineAliasesOutput,
+  errors: [
+    InvalidArn,
+    InvalidToken,
+    ResourceNotFound,
+    StateMachineDeleting,
+    StateMachineDoesNotExist,
+  ],
+}));
 /**
  * Add a tag to a Step Functions resource.
  *
@@ -3046,7 +3253,13 @@ export const listStateMachineAliases = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Tags may only contain Unicode letters, digits, white space, or these symbols: `_ . : / = + - @`.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  InvalidArn | ResourceNotFound | TooManyTags | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [InvalidArn, ResourceNotFound, TooManyTags],
@@ -3072,20 +3285,30 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - ListStateMachineVersions
  */
-export const publishStateMachineVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PublishStateMachineVersionInput,
-    output: PublishStateMachineVersionOutput,
-    errors: [
-      ConflictException,
-      InvalidArn,
-      ServiceQuotaExceededException,
-      StateMachineDeleting,
-      StateMachineDoesNotExist,
-      ValidationException,
-    ],
-  }),
-);
+export const publishStateMachineVersion: (
+  input: PublishStateMachineVersionInput,
+) => Effect.Effect<
+  PublishStateMachineVersionOutput,
+  | ConflictException
+  | InvalidArn
+  | ServiceQuotaExceededException
+  | StateMachineDeleting
+  | StateMachineDoesNotExist
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PublishStateMachineVersionInput,
+  output: PublishStateMachineVersionOutput,
+  errors: [
+    ConflictException,
+    InvalidArn,
+    ServiceQuotaExceededException,
+    StateMachineDeleting,
+    StateMachineDoesNotExist,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the configuration of an existing state machine alias by modifying its `description` or `routingConfiguration`.
  *
@@ -3111,19 +3334,28 @@ export const publishStateMachineVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - DeleteStateMachineAlias
  */
-export const updateStateMachineAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateStateMachineAliasInput,
-    output: UpdateStateMachineAliasOutput,
-    errors: [
-      ConflictException,
-      InvalidArn,
-      ResourceNotFound,
-      StateMachineDeleting,
-      ValidationException,
-    ],
-  }),
-);
+export const updateStateMachineAlias: (
+  input: UpdateStateMachineAliasInput,
+) => Effect.Effect<
+  UpdateStateMachineAliasOutput,
+  | ConflictException
+  | InvalidArn
+  | ResourceNotFound
+  | StateMachineDeleting
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStateMachineAliasInput,
+  output: UpdateStateMachineAliasOutput,
+  errors: [
+    ConflictException,
+    InvalidArn,
+    ResourceNotFound,
+    StateMachineDeleting,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an alias for a state machine that points to one or two versions of the same state machine. You can set your application to call StartExecution with an alias and update the version the alias uses without changing the client's code.
  *
@@ -3155,21 +3387,32 @@ export const updateStateMachineAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - DeleteStateMachineAlias
  */
-export const createStateMachineAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateStateMachineAliasInput,
-    output: CreateStateMachineAliasOutput,
-    errors: [
-      ConflictException,
-      InvalidArn,
-      InvalidName,
-      ResourceNotFound,
-      ServiceQuotaExceededException,
-      StateMachineDeleting,
-      ValidationException,
-    ],
-  }),
-);
+export const createStateMachineAlias: (
+  input: CreateStateMachineAliasInput,
+) => Effect.Effect<
+  CreateStateMachineAliasOutput,
+  | ConflictException
+  | InvalidArn
+  | InvalidName
+  | ResourceNotFound
+  | ServiceQuotaExceededException
+  | StateMachineDeleting
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStateMachineAliasInput,
+  output: CreateStateMachineAliasOutput,
+  errors: [
+    ConflictException,
+    InvalidArn,
+    InvalidName,
+    ResourceNotFound,
+    ServiceQuotaExceededException,
+    StateMachineDeleting,
+    ValidationException,
+  ],
+}));
 /**
  * Used by activity workers and Task states using the callback
  * pattern, and optionally Task states using the job run pattern to report to Step Functions that the task represented by the specified
@@ -3186,7 +3429,13 @@ export const createStateMachineAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * its maximum allowed duration, regardless of the number of SendTaskHeartbeat requests received. Use `HeartbeatSeconds` to configure the timeout interval
  * for heartbeats.
  */
-export const sendTaskHeartbeat = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendTaskHeartbeat: (
+  input: SendTaskHeartbeatInput,
+) => Effect.Effect<
+  SendTaskHeartbeatOutput,
+  InvalidToken | TaskDoesNotExist | TaskTimedOut | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendTaskHeartbeatInput,
   output: SendTaskHeartbeatOutput,
   errors: [InvalidToken, TaskDoesNotExist, TaskTimedOut],
@@ -3206,26 +3455,64 @@ export const sendTaskHeartbeat = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API action is not supported by `EXPRESS` state machines.
  */
-export const listExecutions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listExecutions: {
+  (
     input: ListExecutionsInput,
-    output: ListExecutionsOutput,
-    errors: [
-      InvalidArn,
-      InvalidToken,
-      ResourceNotFound,
-      StateMachineDoesNotExist,
-      StateMachineTypeNotSupported,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "executions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListExecutionsOutput,
+    | InvalidArn
+    | InvalidToken
+    | ResourceNotFound
+    | StateMachineDoesNotExist
+    | StateMachineTypeNotSupported
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExecutionsInput,
+  ) => Stream.Stream<
+    ListExecutionsOutput,
+    | InvalidArn
+    | InvalidToken
+    | ResourceNotFound
+    | StateMachineDoesNotExist
+    | StateMachineTypeNotSupported
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExecutionsInput,
+  ) => Stream.Stream<
+    ExecutionListItem,
+    | InvalidArn
+    | InvalidToken
+    | ResourceNotFound
+    | StateMachineDoesNotExist
+    | StateMachineTypeNotSupported
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExecutionsInput,
+  output: ListExecutionsOutput,
+  errors: [
+    InvalidArn,
+    InvalidToken,
+    ResourceNotFound,
+    StateMachineDoesNotExist,
+    StateMachineTypeNotSupported,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "executions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Used by activity workers, Task states using the callback
  * pattern, and optionally Task states using the job run pattern to report that the task identified by the `taskToken` failed.
@@ -3234,7 +3521,19 @@ export const listExecutions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * A caller can mark a task as fail without using any KMS permissions in the execution role if the caller provides a null value for both `error` and `cause` fields because no data needs to be encrypted.
  */
-export const sendTaskFailure = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendTaskFailure: (
+  input: SendTaskFailureInput,
+) => Effect.Effect<
+  SendTaskFailureOutput,
+  | InvalidToken
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | TaskDoesNotExist
+  | TaskTimedOut
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendTaskFailureInput,
   output: SendTaskFailureOutput,
   errors: [
@@ -3258,7 +3557,22 @@ export const sendTaskFailure = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API action isn't logged in CloudTrail.
  */
-export const startSyncExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startSyncExecution: (
+  input: StartSyncExecutionInput,
+) => Effect.Effect<
+  StartSyncExecutionOutput,
+  | InvalidArn
+  | InvalidExecutionInput
+  | InvalidName
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | StateMachineDeleting
+  | StateMachineDoesNotExist
+  | StateMachineTypeNotSupported
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSyncExecutionInput,
   output: StartSyncExecutionOutput,
   errors: [
@@ -3290,7 +3604,19 @@ export const startSyncExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Avoid
  * Latency When Polling for Activity Tasks in the Step Functions Developer Guide.
  */
-export const getActivityTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getActivityTask: (
+  input: GetActivityTaskInput,
+) => Effect.Effect<
+  GetActivityTaskOutput,
+  | ActivityDoesNotExist
+  | ActivityWorkerLimitExceeded
+  | InvalidArn
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetActivityTaskInput,
   output: GetActivityTaskOutput,
   errors: [
@@ -3311,7 +3637,19 @@ export const getActivityTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A caller can stop an execution without using any KMS permissions in the execution role if the caller provides a null value for both `error` and `cause` fields because no data needs to be encrypted.
  */
-export const stopExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopExecution: (
+  input: StopExecutionInput,
+) => Effect.Effect<
+  StopExecutionOutput,
+  | ExecutionDoesNotExist
+  | InvalidArn
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopExecutionInput,
   output: StopExecutionOutput,
   errors: [
@@ -3333,7 +3671,18 @@ export const stopExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Executions of an `EXPRESS` state machine aren't supported by `DescribeExecution` unless a Map Run dispatched them.
  */
-export const describeExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeExecution: (
+  input: DescribeExecutionInput,
+) => Effect.Effect<
+  DescribeExecutionOutput,
+  | ExecutionDoesNotExist
+  | InvalidArn
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExecutionInput,
   output: DescribeExecutionOutput,
   errors: [
@@ -3349,7 +3698,20 @@ export const describeExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * pattern, and optionally Task states using the job run pattern to report that the task identified by the `taskToken` completed
  * successfully.
  */
-export const sendTaskSuccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendTaskSuccess: (
+  input: SendTaskSuccessInput,
+) => Effect.Effect<
+  SendTaskSuccessOutput,
+  | InvalidOutput
+  | InvalidToken
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | TaskDoesNotExist
+  | TaskTimedOut
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendTaskSuccessInput,
   output: SendTaskSuccessOutput,
   errors: [
@@ -3390,19 +3752,28 @@ export const sendTaskSuccess = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
-export const describeStateMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeStateMachineInput,
-    output: DescribeStateMachineOutput,
-    errors: [
-      InvalidArn,
-      KmsAccessDeniedException,
-      KmsInvalidStateException,
-      KmsThrottlingException,
-      StateMachineDoesNotExist,
-    ],
-  }),
-);
+export const describeStateMachine: (
+  input: DescribeStateMachineInput,
+) => Effect.Effect<
+  DescribeStateMachineOutput,
+  | InvalidArn
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | StateMachineDoesNotExist
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeStateMachineInput,
+  output: DescribeStateMachineOutput,
+  errors: [
+    InvalidArn,
+    KmsAccessDeniedException,
+    KmsInvalidStateException,
+    KmsThrottlingException,
+    StateMachineDoesNotExist,
+  ],
+}));
 /**
  * Provides information about a state machine's definition, its execution role ARN, and
  * configuration. If a Map Run dispatched the execution, this action returns the Map Run
@@ -3413,18 +3784,28 @@ export const describeStateMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This API action is not supported by `EXPRESS` state machines.
  */
-export const describeStateMachineForExecution =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeStateMachineForExecutionInput,
-    output: DescribeStateMachineForExecutionOutput,
-    errors: [
-      ExecutionDoesNotExist,
-      InvalidArn,
-      KmsAccessDeniedException,
-      KmsInvalidStateException,
-      KmsThrottlingException,
-    ],
-  }));
+export const describeStateMachineForExecution: (
+  input: DescribeStateMachineForExecutionInput,
+) => Effect.Effect<
+  DescribeStateMachineForExecutionOutput,
+  | ExecutionDoesNotExist
+  | InvalidArn
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeStateMachineForExecutionInput,
+  output: DescribeStateMachineForExecutionOutput,
+  errors: [
+    ExecutionDoesNotExist,
+    InvalidArn,
+    KmsAccessDeniedException,
+    KmsInvalidStateException,
+    KmsThrottlingException,
+  ],
+}));
 /**
  * Starts a state machine execution.
  *
@@ -3461,7 +3842,24 @@ export const describeStateMachineForExecution =
  *
  * `StartExecution` isn't idempotent for `EXPRESS` workflows.
  */
-export const startExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startExecution: (
+  input: StartExecutionInput,
+) => Effect.Effect<
+  StartExecutionOutput,
+  | ExecutionAlreadyExists
+  | ExecutionLimitExceeded
+  | InvalidArn
+  | InvalidExecutionInput
+  | InvalidName
+  | KmsAccessDeniedException
+  | KmsInvalidStateException
+  | KmsThrottlingException
+  | StateMachineDeleting
+  | StateMachineDoesNotExist
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartExecutionInput,
   output: StartExecutionOutput,
   errors: [
@@ -3494,7 +3892,20 @@ export const startExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * idempotent request of the previous. In this case, `tags` will not be updated,
  * even if they are different.
  */
-export const createActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createActivity: (
+  input: CreateActivityInput,
+) => Effect.Effect<
+  CreateActivityOutput,
+  | ActivityAlreadyExists
+  | ActivityLimitExceeded
+  | InvalidEncryptionConfiguration
+  | InvalidName
+  | KmsAccessDeniedException
+  | KmsThrottlingException
+  | TooManyTags
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateActivityInput,
   output: CreateActivityOutput,
   errors: [
@@ -3517,25 +3928,64 @@ export const createActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API action is not supported by `EXPRESS` state machines.
  */
-export const getExecutionHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getExecutionHistory: {
+  (
     input: GetExecutionHistoryInput,
-    output: GetExecutionHistoryOutput,
-    errors: [
-      ExecutionDoesNotExist,
-      InvalidArn,
-      InvalidToken,
-      KmsAccessDeniedException,
-      KmsInvalidStateException,
-      KmsThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "events",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetExecutionHistoryOutput,
+    | ExecutionDoesNotExist
+    | InvalidArn
+    | InvalidToken
+    | KmsAccessDeniedException
+    | KmsInvalidStateException
+    | KmsThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetExecutionHistoryInput,
+  ) => Stream.Stream<
+    GetExecutionHistoryOutput,
+    | ExecutionDoesNotExist
+    | InvalidArn
+    | InvalidToken
+    | KmsAccessDeniedException
+    | KmsInvalidStateException
+    | KmsThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetExecutionHistoryInput,
+  ) => Stream.Stream<
+    HistoryEvent,
+    | ExecutionDoesNotExist
+    | InvalidArn
+    | InvalidToken
+    | KmsAccessDeniedException
+    | KmsInvalidStateException
+    | KmsThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetExecutionHistoryInput,
+  output: GetExecutionHistoryOutput,
+  errors: [
+    ExecutionDoesNotExist,
+    InvalidArn,
+    InvalidToken,
+    KmsAccessDeniedException,
+    KmsInvalidStateException,
+    KmsThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "events",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Restarts unsuccessful executions of Standard workflows that didn't complete successfully in the last 14 days. These include failed, aborted, or timed out executions. When you redrive an execution, it continues the failed execution from the unsuccessful step and uses the same input. Step Functions preserves the results and execution history of the successful steps, and doesn't rerun these steps when you redrive an execution. Redriven executions use the same state machine definition and execution ARN as the original execution attempt.
  *
@@ -3557,7 +4007,18 @@ export const getExecutionHistory =
  *
  * - The execution event history count is less than 24,999. Redriven executions append their event history to the existing event history. Make sure your workflow execution contains less than 24,999 events to accommodate the `ExecutionRedriven` history event and at least one other history event.
  */
-export const redriveExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const redriveExecution: (
+  input: RedriveExecutionInput,
+) => Effect.Effect<
+  RedriveExecutionOutput,
+  | ExecutionDoesNotExist
+  | ExecutionLimitExceeded
+  | ExecutionNotRedrivable
+  | InvalidArn
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RedriveExecutionInput,
   output: RedriveExecutionOutput,
   errors: [
@@ -3598,7 +4059,17 @@ export const redriveExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `TestState` only supports the following when a mock is specified: Activity tasks, `.sync` or `.waitForTaskToken`
  * service integration patterns, Parallel, or Map states.
  */
-export const testState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testState: (
+  input: TestStateInput,
+) => Effect.Effect<
+  TestStateOutput,
+  | InvalidArn
+  | InvalidDefinition
+  | InvalidExecutionInput
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestStateInput,
   output: TestStateOutput,
   errors: [
@@ -3648,7 +4119,26 @@ export const testState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * call `UpdateStateMachine` may use the previous state machine
  * `definition` and `roleArn`.
  */
-export const updateStateMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateStateMachine: (
+  input: UpdateStateMachineInput,
+) => Effect.Effect<
+  UpdateStateMachineOutput,
+  | ConflictException
+  | InvalidArn
+  | InvalidDefinition
+  | InvalidEncryptionConfiguration
+  | InvalidLoggingConfiguration
+  | InvalidTracingConfiguration
+  | KmsAccessDeniedException
+  | KmsThrottlingException
+  | MissingRequiredParameter
+  | ServiceQuotaExceededException
+  | StateMachineDeleting
+  | StateMachineDoesNotExist
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStateMachineInput,
   output: UpdateStateMachineOutput,
   errors: [
@@ -3691,7 +4181,28 @@ export const updateStateMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * it as an idempotent request of the previous. In this case, `roleArn` and
  * `tags` will not be updated, even if they are different.
  */
-export const createStateMachine = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createStateMachine: (
+  input: CreateStateMachineInput,
+) => Effect.Effect<
+  CreateStateMachineOutput,
+  | ConflictException
+  | InvalidArn
+  | InvalidDefinition
+  | InvalidEncryptionConfiguration
+  | InvalidLoggingConfiguration
+  | InvalidName
+  | InvalidTracingConfiguration
+  | KmsAccessDeniedException
+  | KmsThrottlingException
+  | StateMachineAlreadyExists
+  | StateMachineDeleting
+  | StateMachineLimitExceeded
+  | StateMachineTypeNotSupported
+  | TooManyTags
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStateMachineInput,
   output: CreateStateMachineOutput,
   errors: [

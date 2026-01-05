@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Medical Imaging",
   serviceShapeName: "AHIGatewayService",
@@ -292,6 +300,43 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type DatastoreId = string;
+export type ImageSetId = string;
+export type JobId = string;
+export type ImageSetExternalVersionId = string;
+export type NextToken = string;
+export type Arn = string;
+export type JobName = string;
+export type RoleArn = string;
+export type ClientToken = string;
+export type S3Uri = string;
+export type AwsAccountId = string;
+export type TagKey = string;
+export type DatastoreName = string;
+export type KmsKeyArn = string;
+export type LambdaArn = string;
+export type ImageFrameId = string;
+export type TagValue = string;
+export type Message = string;
+export type CopiableAttributes = string;
+export type DICOMPatientId = string;
+export type DICOMAccessionNumber = string;
+export type DICOMStudyId = string;
+export type DICOMStudyInstanceUID = string;
+export type DICOMSeriesInstanceUID = string;
+export type DICOMStudyDate = string;
+export type DICOMStudyTime = string;
+export type DICOMPatientName = string;
+export type DICOMPatientBirthDate = string;
+export type DICOMPatientSex = string;
+export type DICOMStudyDescription = string;
+export type DICOMNumberOfStudyRelatedSeries = number;
+export type DICOMNumberOfStudyRelatedInstances = number;
+export type DICOMSeriesModality = string;
+export type DICOMSeriesBodyPart = string;
+export type DICOMSeriesNumber = number;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -867,6 +912,9 @@ export const ImageSetProperties = S.suspend(() =>
 }) as any as S.Schema<ImageSetProperties>;
 export type ImageSetPropertiesList = ImageSetProperties[];
 export const ImageSetPropertiesList = S.Array(ImageSetProperties);
+export type MetadataUpdates =
+  | { DICOMUpdates: DICOMUpdates }
+  | { revertToVersionId: string };
 export const MetadataUpdates = S.Union(
   S.Struct({ DICOMUpdates: DICOMUpdates }),
   S.Struct({ revertToVersionId: S.String }),
@@ -1090,6 +1138,16 @@ export const CopyImageSetInformation = S.suspend(() =>
 ).annotations({
   identifier: "CopyImageSetInformation",
 }) as any as S.Schema<CopyImageSetInformation>;
+export type SearchByAttributeValue =
+  | { DICOMPatientId: string }
+  | { DICOMAccessionNumber: string }
+  | { DICOMStudyId: string }
+  | { DICOMStudyInstanceUID: string }
+  | { DICOMSeriesInstanceUID: string }
+  | { createdAt: Date }
+  | { updatedAt: Date }
+  | { DICOMStudyDateAndTime: DICOMStudyDateAndTime }
+  | { isPrimary: boolean };
 export const SearchByAttributeValue = S.Union(
   S.Struct({ DICOMPatientId: S.String }),
   S.Struct({ DICOMAccessionNumber: S.String }),
@@ -1354,7 +1412,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String },
@@ -1366,7 +1426,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },
@@ -1380,28 +1442,73 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * List data stores.
  */
-export const listDatastores = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDatastores: {
+  (
     input: ListDatastoresRequest,
-    output: ListDatastoresResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "datastoreSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDatastoresResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatastoresRequest,
+  ) => Stream.Stream<
+    ListDatastoresResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatastoresRequest,
+  ) => Stream.Stream<
+    DatastoreSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatastoresRequest,
+  output: ListDatastoresResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "datastoreSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Create a data store.
  */
-export const createDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDatastore: (
+  input: CreateDatastoreRequest,
+) => Effect.Effect<
+  CreateDatastoreResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatastoreRequest,
   output: CreateDatastoreResponse,
   errors: [
@@ -1417,7 +1524,20 @@ export const createDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Start importing bulk data into an `ACTIVE` data store. The import job imports DICOM P10 files found in the S3 prefix specified by the `inputS3Uri` parameter. The import job stores processing results in the file specified by the `outputS3Uri` parameter.
  */
-export const startDICOMImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startDICOMImportJob: (
+  input: StartDICOMImportJobRequest,
+) => Effect.Effect<
+  StartDICOMImportJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDICOMImportJobRequest,
   output: StartDICOMImportJobResponse,
   errors: [
@@ -1433,7 +1553,18 @@ export const startDICOMImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get data store properties.
  */
-export const getDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDatastore: (
+  input: GetDatastoreRequest,
+) => Effect.Effect<
+  GetDatastoreResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDatastoreRequest,
   output: GetDatastoreResponse,
   errors: [
@@ -1447,7 +1578,18 @@ export const getDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all tags associated with a medical imaging resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1461,7 +1603,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds a user-specifed key and value tag to a medical imaging resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1477,7 +1630,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Before a data store can be deleted, you must first delete all image sets within it.
  */
-export const deleteDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDatastore: (
+  input: DeleteDatastoreRequest,
+) => Effect.Effect<
+  DeleteDatastoreResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatastoreRequest,
   output: DeleteDatastoreResponse,
   errors: [
@@ -1492,7 +1657,19 @@ export const deleteDatastore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete an image set.
  */
-export const deleteImageSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteImageSet: (
+  input: DeleteImageSetRequest,
+) => Effect.Effect<
+  DeleteImageSetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImageSetRequest,
   output: DeleteImageSetResponse,
   errors: [
@@ -1507,7 +1684,19 @@ export const deleteImageSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get metadata attributes for an image set.
  */
-export const getImageSetMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getImageSetMetadata: (
+  input: GetImageSetMetadataRequest,
+) => Effect.Effect<
+  GetImageSetMetadataResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImageSetMetadataRequest,
   output: GetImageSetMetadataResponse,
   errors: [
@@ -1524,7 +1713,19 @@ export const getImageSetMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The `jobStatus` refers to the execution of the import job. Therefore, an import job can return a `jobStatus` as `COMPLETED` even if validation issues are discovered during the import process. If a `jobStatus` returns as `COMPLETED`, we still recommend you review the output manifests written to S3, as they provide details on the success or failure of individual P10 object imports.
  */
-export const getDICOMImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDICOMImportJob: (
+  input: GetDICOMImportJobRequest,
+) => Effect.Effect<
+  GetDICOMImportJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDICOMImportJobRequest,
   output: GetDICOMImportJobResponse,
   errors: [
@@ -1539,7 +1740,19 @@ export const getDICOMImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get an image frame (pixel data) for an image set.
  */
-export const getImageFrame = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getImageFrame: (
+  input: GetImageFrameRequest,
+) => Effect.Effect<
+  GetImageFrameResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImageFrameRequest,
   output: GetImageFrameResponse,
   errors: [
@@ -1554,7 +1767,19 @@ export const getImageFrame = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get image set properties.
  */
-export const getImageSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getImageSet: (
+  input: GetImageSetRequest,
+) => Effect.Effect<
+  GetImageSetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImageSetRequest,
   output: GetImageSetResponse,
   errors: [
@@ -1569,51 +1794,140 @@ export const getImageSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List import jobs created for a specific data store.
  */
-export const listDICOMImportJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDICOMImportJobs: {
+  (
     input: ListDICOMImportJobsRequest,
-    output: ListDICOMImportJobsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "jobSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDICOMImportJobsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDICOMImportJobsRequest,
+  ) => Stream.Stream<
+    ListDICOMImportJobsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDICOMImportJobsRequest,
+  ) => Stream.Stream<
+    DICOMImportJobSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDICOMImportJobsRequest,
+  output: ListDICOMImportJobsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List image set versions.
  */
-export const listImageSetVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listImageSetVersions: {
+  (
     input: ListImageSetVersionsRequest,
-    output: ListImageSetVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "imageSetPropertiesList",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListImageSetVersionsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImageSetVersionsRequest,
+  ) => Stream.Stream<
+    ListImageSetVersionsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImageSetVersionsRequest,
+  ) => Stream.Stream<
+    ImageSetProperties,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImageSetVersionsRequest,
+  output: ListImageSetVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "imageSetPropertiesList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Removes tags from a medical imaging resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1627,25 +1941,49 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update image set metadata attributes.
  */
-export const updateImageSetMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateImageSetMetadataRequest,
-    output: UpdateImageSetMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateImageSetMetadata: (
+  input: UpdateImageSetMetadataRequest,
+) => Effect.Effect<
+  UpdateImageSetMetadataResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateImageSetMetadataRequest,
+  output: UpdateImageSetMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Copy an image set.
  */
-export const copyImageSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copyImageSet: (
+  input: CopyImageSetRequest,
+) => Effect.Effect<
+  CopyImageSetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyImageSetRequest,
   output: CopyImageSetResponse,
   errors: [
@@ -1665,23 +2003,61 @@ export const copyImageSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * By default, `SearchImageSets` uses the `updatedAt` field for sorting in descending order from newest to oldest.
  */
-export const searchImageSets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchImageSets: {
+  (
     input: SearchImageSetsRequest,
-    output: SearchImageSetsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "imageSetsMetadataSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchImageSetsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchImageSetsRequest,
+  ) => Stream.Stream<
+    SearchImageSetsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchImageSetsRequest,
+  ) => Stream.Stream<
+    ImageSetsMetadataSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchImageSetsRequest,
+  output: SearchImageSetsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "imageSetsMetadataSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));

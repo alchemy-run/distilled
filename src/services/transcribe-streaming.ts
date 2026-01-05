@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Transcribe Streaming",
   serviceShapeName: "Transcribe",
@@ -240,6 +248,31 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type SessionId = string;
+export type MediaSampleRateHertz = number;
+export type VocabularyName = string;
+export type VocabularyFilterName = string;
+export type ModelName = string;
+export type LanguageOptions = string;
+export type VocabularyNames = string;
+export type VocabularyFilterNames = string;
+export type PiiEntityTypes = string;
+export type MedicalScribeMediaSampleRateHertz = number;
+export type NumberOfChannels = number;
+export type RequestId = string;
+export type IamRoleArn = string;
+export type ChannelId = number;
+export type MedicalScribeChannelId = number;
+export type KMSKeyId = string;
+export type NonEmptyString = string;
+export type BucketName = string;
+export type Uri = string;
+export type Double = number;
+export type Confidence = number;
+export type Long = number;
+export type Integer = number;
 
 //# Schemas
 export interface GetMedicalScribeStreamRequest {
@@ -1603,11 +1636,15 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -1619,7 +1656,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 
 //# Operations
 /**
@@ -1627,18 +1666,26 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
  * To view the status of the streaming session, check the `StreamStatus` field in the response. To get the
  * details of post-stream analytics, including its status, check the `PostStreamAnalyticsResult` field in the response.
  */
-export const getMedicalScribeStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMedicalScribeStreamRequest,
-    output: GetMedicalScribeStreamResponse,
-    errors: [
-      BadRequestException,
-      InternalFailureException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getMedicalScribeStream: (
+  input: GetMedicalScribeStreamRequest,
+) => Effect.Effect<
+  GetMedicalScribeStreamResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMedicalScribeStreamRequest,
+  output: GetMedicalScribeStreamResponse,
+  errors: [
+    BadRequestException,
+    InternalFailureException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to
  * Amazon Transcribe Medical and the transcription results are streamed to your
@@ -1656,18 +1703,28 @@ export const getMedicalScribeStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Transcribing
  * streaming audio.
  */
-export const startMedicalStreamTranscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartMedicalStreamTranscriptionRequest,
-    output: StartMedicalStreamTranscriptionResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const startMedicalStreamTranscription: (
+  input: StartMedicalStreamTranscriptionRequest,
+) => Effect.Effect<
+  StartMedicalStreamTranscriptionResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMedicalStreamTranscriptionRequest,
+  output: StartMedicalStreamTranscriptionResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to
  * Amazon Transcribe and the transcription results are streamed to your application.
@@ -1682,19 +1739,28 @@ export const startMedicalStreamTranscription =
  *
  * For more information on streaming with Amazon Transcribe, see Transcribing streaming audio.
  */
-export const startStreamTranscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartStreamTranscriptionRequest,
-    output: StartStreamTranscriptionResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const startStreamTranscription: (
+  input: StartStreamTranscriptionRequest,
+) => Effect.Effect<
+  StartStreamTranscriptionResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartStreamTranscriptionRequest,
+  output: StartStreamTranscriptionResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to
  * Amazon Transcribe and the transcription results are streamed to your application. Use this operation
@@ -1710,18 +1776,28 @@ export const startStreamTranscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information on streaming with Amazon Transcribe, see Transcribing streaming audio.
  */
-export const startCallAnalyticsStreamTranscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartCallAnalyticsStreamTranscriptionRequest,
-    output: StartCallAnalyticsStreamTranscriptionResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-      ServiceUnavailableException,
-    ],
-  }));
+export const startCallAnalyticsStreamTranscription: (
+  input: StartCallAnalyticsStreamTranscriptionRequest,
+) => Effect.Effect<
+  StartCallAnalyticsStreamTranscriptionResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCallAnalyticsStreamTranscriptionRequest,
+  output: StartCallAnalyticsStreamTranscriptionResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Starts a bidirectional HTTP/2 stream, where audio is streamed to
  * Amazon Web Services HealthScribe
@@ -1753,16 +1829,25 @@ export const startCallAnalyticsStreamTranscription =
  * Amazon Web Services HealthScribe,
  * see Amazon Web Services HealthScribe.
  */
-export const startMedicalScribeStream = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMedicalScribeStreamRequest,
-    output: StartMedicalScribeStreamResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      InternalFailureException,
-      LimitExceededException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const startMedicalScribeStream: (
+  input: StartMedicalScribeStreamRequest,
+) => Effect.Effect<
+  StartMedicalScribeStreamResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalFailureException
+  | LimitExceededException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMedicalScribeStreamRequest,
+  output: StartMedicalScribeStreamResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    InternalFailureException,
+    LimitExceededException,
+    ServiceUnavailableException,
+  ],
+}));

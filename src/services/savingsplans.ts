@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "savingsplans",
   serviceShapeName: "AWSSavingsPlan",
@@ -372,6 +380,31 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type SavingsPlanOfferingId = string;
+export type Amount = string;
+export type ClientToken = string;
+export type SavingsPlanId = string;
+export type PaginationToken = string;
+export type MaxResults = number;
+export type SavingsPlanArn = string;
+export type UUID = string;
+export type SavingsPlanRateUsageType = string;
+export type SavingsPlanRateOperation = string;
+export type PageSize = number;
+export type SavingsPlansDuration = number;
+export type SavingsPlanDescription = string;
+export type SavingsPlanServiceCode = string;
+export type SavingsPlanUsageType = string;
+export type SavingsPlanOperation = string;
+export type TagKey = string;
+export type TagValue = string;
+export type JsonSafeFilterValueString = string;
+export type Region = string;
+export type EC2InstanceFamily = string;
+export type TermDurationInSeconds = number;
+export type SavingsPlanRatePricePerUnit = string;
 
 //# Schemas
 export type SavingsPlanArnList = string[];
@@ -1002,7 +1035,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.String },
   T.AwsQueryError({ code: "InternalServerException", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -1026,7 +1061,16 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1038,7 +1082,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the specified Savings Plan.
  */
-export const returnSavingsPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const returnSavingsPlan: (
+  input: ReturnSavingsPlanRequest,
+) => Effect.Effect<
+  ReturnSavingsPlanResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReturnSavingsPlanRequest,
   output: ReturnSavingsPlanResponse,
   errors: [
@@ -1051,7 +1105,17 @@ export const returnSavingsPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds the specified tags to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1064,7 +1128,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a Savings Plan.
  */
-export const createSavingsPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSavingsPlan: (
+  input: CreateSavingsPlanRequest,
+) => Effect.Effect<
+  CreateSavingsPlanResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSavingsPlanRequest,
   output: CreateSavingsPlanResponse,
   errors: [
@@ -1077,7 +1151,16 @@ export const createSavingsPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1089,57 +1172,86 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the queued purchase for the specified Savings Plan.
  */
-export const deleteQueuedSavingsPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteQueuedSavingsPlanRequest,
-    output: DeleteQueuedSavingsPlanResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteQueuedSavingsPlan: (
+  input: DeleteQueuedSavingsPlanRequest,
+) => Effect.Effect<
+  DeleteQueuedSavingsPlanResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteQueuedSavingsPlanRequest,
+  output: DeleteQueuedSavingsPlanResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes the specified Savings Plans.
  */
-export const describeSavingsPlans = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSavingsPlansRequest,
-    output: DescribeSavingsPlansResponse,
-    errors: [InternalServerException, ValidationException],
-  }),
-);
+export const describeSavingsPlans: (
+  input: DescribeSavingsPlansRequest,
+) => Effect.Effect<
+  DescribeSavingsPlansResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSavingsPlansRequest,
+  output: DescribeSavingsPlansResponse,
+  errors: [InternalServerException, ValidationException],
+}));
 /**
  * Describes the rates for a specific, existing Savings Plan.
  */
-export const describeSavingsPlanRates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSavingsPlanRatesRequest,
-    output: DescribeSavingsPlanRatesResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeSavingsPlanRates: (
+  input: DescribeSavingsPlanRatesRequest,
+) => Effect.Effect<
+  DescribeSavingsPlanRatesResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSavingsPlanRatesRequest,
+  output: DescribeSavingsPlanRatesResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes the offering rates for Savings Plans you might want to purchase.
  */
-export const describeSavingsPlansOfferingRates =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeSavingsPlansOfferingRatesRequest,
-    output: DescribeSavingsPlansOfferingRatesResponse,
-    errors: [InternalServerException, ValidationException],
-  }));
+export const describeSavingsPlansOfferingRates: (
+  input: DescribeSavingsPlansOfferingRatesRequest,
+) => Effect.Effect<
+  DescribeSavingsPlansOfferingRatesResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSavingsPlansOfferingRatesRequest,
+  output: DescribeSavingsPlansOfferingRatesResponse,
+  errors: [InternalServerException, ValidationException],
+}));
 /**
  * Describes the offerings for the specified Savings Plans.
  */
-export const describeSavingsPlansOfferings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeSavingsPlansOfferingsRequest,
-    output: DescribeSavingsPlansOfferingsResponse,
-    errors: [InternalServerException, ValidationException],
-  }));
+export const describeSavingsPlansOfferings: (
+  input: DescribeSavingsPlansOfferingsRequest,
+) => Effect.Effect<
+  DescribeSavingsPlansOfferingsResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSavingsPlansOfferingsRequest,
+  output: DescribeSavingsPlansOfferingsResponse,
+  errors: [InternalServerException, ValidationException],
+}));

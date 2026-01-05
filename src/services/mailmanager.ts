@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "MailManager",
   serviceShapeName: "MailManagerSvc",
@@ -293,6 +301,83 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type IdempotencyToken = string;
+export type AddressListId = string;
+export type JobName = string;
+export type Address = string;
+export type JobId = string;
+export type ExportId = string;
+export type ArchivedMessageId = string;
+export type SearchId = string;
+export type PaginationToken = string;
+export type PageSize = number;
+export type ArchiveId = string;
+export type AddressPageSize = number;
+export type TaggableResourceArn = string;
+export type ExportMaxResults = number;
+export type SearchMaxResults = number;
+export type TagKey = string;
+export type AddonSubscriptionId = string;
+export type AddonInstanceId = string;
+export type AddonName = string;
+export type AddressListName = string;
+export type ArchiveNameString = string;
+export type KmsKeyArn = string;
+export type ArchiveIdString = string;
+export type IngressPointName = string;
+export type RuleSetId = string;
+export type TrafficPolicyId = string;
+export type IngressPointId = string;
+export type RelayName = string;
+export type RelayServerName = string;
+export type RelayServerPort = number;
+export type RelayId = string;
+export type RuleSetName = string;
+export type TrafficPolicyName = string;
+export type MaxMessageSizeBytes = number;
+export type AddressPrefix = string;
+export type TagValue = string;
+export type SmtpPassword = string;
+export type SecretArn = string;
+export type RuleName = string;
+export type ErrorMessage = string;
+export type PreSignedUrl = string;
+export type JobItemsCount = number;
+export type S3PresignedURL = string;
+export type AddonInstanceArn = string;
+export type AddonSubscriptionArn = string;
+export type AddressListArn = string;
+export type ArchiveArn = string;
+export type IngressPointArn = string;
+export type IngressPointARecord = string;
+export type RelayArn = string;
+export type RuleSetArn = string;
+export type TrafficPolicyArn = string;
+export type S3Location = string;
+export type VpcEndpointId = string;
+export type SenderIpAddress = string;
+export type StringValue = string;
+export type RuleStringValue = string;
+export type RuleIpStringValue = string;
+export type IdOrArn = string;
+export type NameOrArn = string;
+export type IamRoleArn = string;
+export type S3Bucket = string;
+export type S3Prefix = string;
+export type KmsKeyId = string;
+export type HeaderName = string;
+export type HeaderValue = string;
+export type EmailAddress = string;
+export type QBusinessApplicationId = string;
+export type QBusinessIndexId = string;
+export type SnsTopicArn = string;
+export type Ipv4Cidr = string;
+export type Ipv6Cidr = string;
+export type MimeHeaderAttribute = string;
+export type AnalyzerArn = string;
+export type ResultField = string;
+
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
@@ -475,6 +560,7 @@ export const StartAddressListImportJobResponse = S.suspend(() =>
 ).annotations({
   identifier: "StartAddressListImportJobResponse",
 }) as any as S.Schema<StartAddressListImportJobResponse>;
+export type ArchiveStringToEvaluate = { Attribute: string };
 export const ArchiveStringToEvaluate = S.Union(
   S.Struct({ Attribute: S.String }),
 );
@@ -494,6 +580,7 @@ export const ArchiveStringExpression = S.suspend(() =>
 ).annotations({
   identifier: "ArchiveStringExpression",
 }) as any as S.Schema<ArchiveStringExpression>;
+export type ArchiveBooleanToEvaluate = { Attribute: string };
 export const ArchiveBooleanToEvaluate = S.Union(
   S.Struct({ Attribute: S.String }),
 );
@@ -506,6 +593,9 @@ export const ArchiveBooleanExpression = S.suspend(() =>
 ).annotations({
   identifier: "ArchiveBooleanExpression",
 }) as any as S.Schema<ArchiveBooleanExpression>;
+export type ArchiveFilterCondition =
+  | { StringExpression: ArchiveStringExpression }
+  | { BooleanExpression: ArchiveBooleanExpression };
 export const ArchiveFilterCondition = S.Union(
   S.Struct({ StringExpression: ArchiveStringExpression }),
   S.Struct({ BooleanExpression: ArchiveBooleanExpression }),
@@ -794,6 +884,7 @@ export const GetArchiveRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetArchiveRequest",
 }) as any as S.Schema<GetArchiveRequest>;
+export type ArchiveRetention = { RetentionPeriod: string };
 export const ArchiveRetention = S.Union(
   S.Struct({ RetentionPeriod: S.String }),
 );
@@ -855,6 +946,9 @@ export const GetIngressPointRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetIngressPointRequest",
 }) as any as S.Schema<GetIngressPointRequest>;
+export type IngressPointConfiguration =
+  | { SmtpPassword: string }
+  | { SecretArn: string };
 export const IngressPointConfiguration = S.Union(
   S.Struct({ SmtpPassword: S.String }),
   S.Struct({ SecretArn: S.String }),
@@ -931,6 +1025,9 @@ export interface NoAuthentication {}
 export const NoAuthentication = S.suspend(() => S.Struct({})).annotations({
   identifier: "NoAuthentication",
 }) as any as S.Schema<NoAuthentication>;
+export type RelayAuthentication =
+  | { SecretArn: string }
+  | { NoAuthentication: NoAuthentication };
 export const RelayAuthentication = S.Union(
   S.Struct({ SecretArn: S.String }),
   S.Struct({ NoAuthentication: NoAuthentication }),
@@ -1015,6 +1112,10 @@ export const RuleIsInAddressList = S.suspend(() =>
 ).annotations({
   identifier: "RuleIsInAddressList",
 }) as any as S.Schema<RuleIsInAddressList>;
+export type RuleBooleanToEvaluate =
+  | { Attribute: string }
+  | { Analysis: Analysis }
+  | { IsInAddressList: RuleIsInAddressList };
 export const RuleBooleanToEvaluate = S.Union(
   S.Struct({ Attribute: S.String }),
   S.Struct({ Analysis: Analysis }),
@@ -1029,6 +1130,10 @@ export const RuleBooleanExpression = S.suspend(() =>
 ).annotations({
   identifier: "RuleBooleanExpression",
 }) as any as S.Schema<RuleBooleanExpression>;
+export type RuleStringToEvaluate =
+  | { Attribute: string }
+  | { MimeHeaderAttribute: string }
+  | { Analysis: Analysis };
 export const RuleStringToEvaluate = S.Union(
   S.Struct({ Attribute: S.String }),
   S.Struct({ MimeHeaderAttribute: S.String }),
@@ -1050,6 +1155,7 @@ export const RuleStringExpression = S.suspend(() =>
 ).annotations({
   identifier: "RuleStringExpression",
 }) as any as S.Schema<RuleStringExpression>;
+export type RuleNumberToEvaluate = { Attribute: string };
 export const RuleNumberToEvaluate = S.Union(S.Struct({ Attribute: S.String }));
 export interface RuleNumberExpression {
   Evaluate: (typeof RuleNumberToEvaluate)["Type"];
@@ -1065,6 +1171,7 @@ export const RuleNumberExpression = S.suspend(() =>
 ).annotations({
   identifier: "RuleNumberExpression",
 }) as any as S.Schema<RuleNumberExpression>;
+export type RuleIpToEvaluate = { Attribute: string };
 export const RuleIpToEvaluate = S.Union(S.Struct({ Attribute: S.String }));
 export type RuleIpValueList = string[];
 export const RuleIpValueList = S.Array(S.String);
@@ -1082,6 +1189,9 @@ export const RuleIpExpression = S.suspend(() =>
 ).annotations({
   identifier: "RuleIpExpression",
 }) as any as S.Schema<RuleIpExpression>;
+export type RuleVerdictToEvaluate =
+  | { Attribute: string }
+  | { Analysis: Analysis };
 export const RuleVerdictToEvaluate = S.Union(
   S.Struct({ Attribute: S.String }),
   S.Struct({ Analysis: Analysis }),
@@ -1113,6 +1223,13 @@ export const RuleDmarcExpression = S.suspend(() =>
 ).annotations({
   identifier: "RuleDmarcExpression",
 }) as any as S.Schema<RuleDmarcExpression>;
+export type RuleCondition =
+  | { BooleanExpression: RuleBooleanExpression }
+  | { StringExpression: RuleStringExpression }
+  | { NumberExpression: RuleNumberExpression }
+  | { IpExpression: RuleIpExpression }
+  | { VerdictExpression: RuleVerdictExpression }
+  | { DmarcExpression: RuleDmarcExpression };
 export const RuleCondition = S.Union(
   S.Struct({ BooleanExpression: RuleBooleanExpression }),
   S.Struct({ StringExpression: RuleStringExpression }),
@@ -1239,6 +1356,17 @@ export const SnsAction = S.suspend(() =>
     PayloadType: S.optional(S.String),
   }),
 ).annotations({ identifier: "SnsAction" }) as any as S.Schema<SnsAction>;
+export type RuleAction =
+  | { Drop: DropAction }
+  | { Relay: RelayAction }
+  | { Archive: ArchiveAction }
+  | { WriteToS3: S3Action }
+  | { Send: SendAction }
+  | { AddHeader: AddHeaderAction }
+  | { ReplaceRecipient: ReplaceRecipientAction }
+  | { DeliverToMailbox: DeliverToMailboxAction }
+  | { DeliverToQBusiness: DeliverToQBusinessAction }
+  | { PublishToSns: SnsAction };
 export const RuleAction = S.Union(
   S.Struct({ Drop: DropAction }),
   S.Struct({ Relay: RelayAction }),
@@ -1336,6 +1464,9 @@ export const IngressAnalysis = S.suspend(() =>
 ).annotations({
   identifier: "IngressAnalysis",
 }) as any as S.Schema<IngressAnalysis>;
+export type IngressStringToEvaluate =
+  | { Attribute: string }
+  | { Analysis: IngressAnalysis };
 export const IngressStringToEvaluate = S.Union(
   S.Struct({ Attribute: S.String }),
   S.Struct({ Analysis: IngressAnalysis }),
@@ -1356,6 +1487,7 @@ export const IngressStringExpression = S.suspend(() =>
 ).annotations({
   identifier: "IngressStringExpression",
 }) as any as S.Schema<IngressStringExpression>;
+export type IngressIpToEvaluate = { Attribute: string };
 export const IngressIpToEvaluate = S.Union(S.Struct({ Attribute: S.String }));
 export type Ipv4Cidrs = string[];
 export const Ipv4Cidrs = S.Array(S.String);
@@ -1373,6 +1505,7 @@ export const IngressIpv4Expression = S.suspend(() =>
 ).annotations({
   identifier: "IngressIpv4Expression",
 }) as any as S.Schema<IngressIpv4Expression>;
+export type IngressIpv6ToEvaluate = { Attribute: string };
 export const IngressIpv6ToEvaluate = S.Union(S.Struct({ Attribute: S.String }));
 export type Ipv6Cidrs = string[];
 export const Ipv6Cidrs = S.Array(S.String);
@@ -1390,6 +1523,7 @@ export const IngressIpv6Expression = S.suspend(() =>
 ).annotations({
   identifier: "IngressIpv6Expression",
 }) as any as S.Schema<IngressIpv6Expression>;
+export type IngressTlsProtocolToEvaluate = { Attribute: string };
 export const IngressTlsProtocolToEvaluate = S.Union(
   S.Struct({ Attribute: S.String }),
 );
@@ -1418,6 +1552,9 @@ export const IngressIsInAddressList = S.suspend(() =>
 ).annotations({
   identifier: "IngressIsInAddressList",
 }) as any as S.Schema<IngressIsInAddressList>;
+export type IngressBooleanToEvaluate =
+  | { Analysis: IngressAnalysis }
+  | { IsInAddressList: IngressIsInAddressList };
 export const IngressBooleanToEvaluate = S.Union(
   S.Struct({ Analysis: IngressAnalysis }),
   S.Struct({ IsInAddressList: IngressIsInAddressList }),
@@ -1431,6 +1568,12 @@ export const IngressBooleanExpression = S.suspend(() =>
 ).annotations({
   identifier: "IngressBooleanExpression",
 }) as any as S.Schema<IngressBooleanExpression>;
+export type PolicyCondition =
+  | { StringExpression: IngressStringExpression }
+  | { IpExpression: IngressIpv4Expression }
+  | { Ipv6Expression: IngressIpv6Expression }
+  | { TlsExpression: IngressTlsProtocolExpression }
+  | { BooleanExpression: IngressBooleanExpression };
 export const PolicyCondition = S.Union(
   S.Struct({ StringExpression: IngressStringExpression }),
   S.Struct({ IpExpression: IngressIpv4Expression }),
@@ -2086,6 +2229,9 @@ export const SearchSummary = S.suspend(() =>
 }) as any as S.Schema<SearchSummary>;
 export type SearchSummaryList = SearchSummary[];
 export const SearchSummaryList = S.Array(SearchSummary);
+export type ExportDestinationConfiguration = {
+  S3: S3ExportDestinationConfiguration;
+};
 export const ExportDestinationConfiguration = S.Union(
   S.Struct({ S3: S3ExportDestinationConfiguration }),
 );
@@ -2167,6 +2313,9 @@ export const Archive = S.suspend(() =>
 ).annotations({ identifier: "Archive" }) as any as S.Schema<Archive>;
 export type ArchivesList = Archive[];
 export const ArchivesList = S.Array(Archive);
+export type NetworkConfiguration =
+  | { PublicNetworkConfiguration: PublicNetworkConfiguration }
+  | { PrivateNetworkConfiguration: PrivateNetworkConfiguration };
 export const NetworkConfiguration = S.Union(
   S.Struct({ PublicNetworkConfiguration: PublicNetworkConfiguration }),
   S.Struct({ PrivateNetworkConfiguration: PrivateNetworkConfiguration }),
@@ -2681,7 +2830,9 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String) },
@@ -2691,7 +2842,13 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Deletes an Add On instance.
  */
-export const deleteAddonInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAddonInstance: (
+  input: DeleteAddonInstanceRequest,
+) => Effect.Effect<
+  DeleteAddonInstanceResponse,
+  ConflictException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAddonInstanceRequest,
   output: DeleteAddonInstanceResponse,
   errors: [ConflictException, ValidationException],
@@ -2699,7 +2856,18 @@ export const deleteAddonInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new address list.
  */
-export const createAddressList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAddressList: (
+  input: CreateAddressListRequest,
+) => Effect.Effect<
+  CreateAddressListResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAddressListRequest,
   output: CreateAddressListResponse,
   errors: [
@@ -2713,7 +2881,16 @@ export const createAddressList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops an in-progress archive search job.
  */
-export const stopArchiveSearch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopArchiveSearch: (
+  input: StopArchiveSearchRequest,
+) => Effect.Effect<
+  StopArchiveSearchResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopArchiveSearchRequest,
   output: StopArchiveSearchResponse,
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
@@ -2721,7 +2898,16 @@ export const stopArchiveSearch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an address list.
  */
-export const deleteAddressList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAddressList: (
+  input: DeleteAddressListRequest,
+) => Effect.Effect<
+  DeleteAddressListResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAddressListRequest,
   output: DeleteAddressListResponse,
   errors: [AccessDeniedException, ConflictException, ThrottlingException],
@@ -2729,7 +2915,17 @@ export const deleteAddressList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Initiates deletion of an email archive. This changes the archive state to pending deletion. In this state, no new emails can be added, and existing archived emails become inaccessible (search, export, download). The archive and all of its contents will be permanently deleted 30 days after entering the pending deletion state, regardless of the configured retention period.
  */
-export const deleteArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteArchive: (
+  input: DeleteArchiveRequest,
+) => Effect.Effect<
+  DeleteArchiveResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteArchiveRequest,
   output: DeleteArchiveResponse,
   errors: [
@@ -2742,21 +2938,39 @@ export const deleteArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a member from an address list.
  */
-export const deregisterMemberFromAddressList =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterMemberFromAddressListRequest,
-    output: DeregisterMemberFromAddressListResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deregisterMemberFromAddressList: (
+  input: DeregisterMemberFromAddressListRequest,
+) => Effect.Effect<
+  DeregisterMemberFromAddressListResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterMemberFromAddressListRequest,
+  output: DeregisterMemberFromAddressListResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the details and current status of a specific email archive export job.
  */
-export const getArchiveExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getArchiveExport: (
+  input: GetArchiveExportRequest,
+) => Effect.Effect<
+  GetArchiveExportResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetArchiveExportRequest,
   output: GetArchiveExportResponse,
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
@@ -2764,7 +2978,16 @@ export const getArchiveExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a pre-signed URL that provides temporary download access to the specific email message stored in the archive.
  */
-export const getArchiveMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getArchiveMessage: (
+  input: GetArchiveMessageRequest,
+) => Effect.Effect<
+  GetArchiveMessageResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetArchiveMessageRequest,
   output: GetArchiveMessageResponse,
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
@@ -2772,17 +2995,33 @@ export const getArchiveMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the textual content of a specific email message stored in the archive. Attachments are not included.
  */
-export const getArchiveMessageContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetArchiveMessageContentRequest,
-    output: GetArchiveMessageContentResponse,
-    errors: [AccessDeniedException, ThrottlingException, ValidationException],
-  }),
-);
+export const getArchiveMessageContent: (
+  input: GetArchiveMessageContentRequest,
+) => Effect.Effect<
+  GetArchiveMessageContentResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetArchiveMessageContentRequest,
+  output: GetArchiveMessageContentResponse,
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
+}));
 /**
  * Retrieves the details and current status of a specific email archive search job.
  */
-export const getArchiveSearch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getArchiveSearch: (
+  input: GetArchiveSearchRequest,
+) => Effect.Effect<
+  GetArchiveSearchResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetArchiveSearchRequest,
   output: GetArchiveSearchResponse,
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
@@ -2790,99 +3029,245 @@ export const getArchiveSearch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the results of a completed email archive search job.
  */
-export const getArchiveSearchResults = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetArchiveSearchResultsRequest,
-    output: GetArchiveSearchResultsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getArchiveSearchResults: (
+  input: GetArchiveSearchResultsRequest,
+) => Effect.Effect<
+  GetArchiveSearchResultsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetArchiveSearchResultsRequest,
+  output: GetArchiveSearchResultsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists jobs for an address list.
  */
-export const listAddressListImportJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAddressListImportJobs: {
+  (
     input: ListAddressListImportJobsRequest,
-    output: ListAddressListImportJobsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ImportJobs",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAddressListImportJobsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAddressListImportJobsRequest,
+  ) => Stream.Stream<
+    ListAddressListImportJobsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAddressListImportJobsRequest,
+  ) => Stream.Stream<
+    ImportJob,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAddressListImportJobsRequest,
+  output: ListAddressListImportJobsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ImportJobs",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Returns a list of email archive export jobs.
  */
-export const listArchiveExports = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listArchiveExports: {
+  (
     input: ListArchiveExportsRequest,
-    output: ListArchiveExportsResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Exports",
-      pageSize: "PageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListArchiveExportsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListArchiveExportsRequest,
+  ) => Stream.Stream<
+    ListArchiveExportsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListArchiveExportsRequest,
+  ) => Stream.Stream<
+    ExportSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListArchiveExportsRequest,
+  output: ListArchiveExportsResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Exports",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Returns a list of email archive search jobs.
  */
-export const listArchiveSearches =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listArchiveSearches: {
+  (
     input: ListArchiveSearchesRequest,
-    output: ListArchiveSearchesResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Searches",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListArchiveSearchesResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListArchiveSearchesRequest,
+  ) => Stream.Stream<
+    ListArchiveSearchesResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListArchiveSearchesRequest,
+  ) => Stream.Stream<
+    SearchSummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListArchiveSearchesRequest,
+  output: ListArchiveSearchesResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Searches",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Lists address lists for this account.
  */
-export const listAddressLists = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAddressLists: {
+  (
     input: ListAddressListsRequest,
-    output: ListAddressListsResponse,
-    errors: [AccessDeniedException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AddressLists",
-      pageSize: "PageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAddressListsResponse,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAddressListsRequest,
+  ) => Stream.Stream<
+    ListAddressListsResponse,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAddressListsRequest,
+  ) => Stream.Stream<
+    AddressList,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAddressListsRequest,
+  output: ListAddressListsResponse,
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AddressLists",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Creates a new email archive resource for storing and retaining emails.
  */
-export const createArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createArchive: (
+  input: CreateArchiveRequest,
+) => Effect.Effect<
+  CreateArchiveResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateArchiveRequest,
   output: CreateArchiveResponse,
   errors: [
@@ -2896,33 +3281,72 @@ export const createArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of all email archives in your account.
  */
-export const listArchives = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listArchives: {
+  (
     input: ListArchivesRequest,
-    output: ListArchivesResponse,
-    errors: [AccessDeniedException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Archives",
-      pageSize: "PageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListArchivesResponse,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListArchivesRequest,
+  ) => Stream.Stream<
+    ListArchivesResponse,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListArchivesRequest,
+  ) => Stream.Stream<
+    Archive,
+    | AccessDeniedException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListArchivesRequest,
+  output: ListArchivesResponse,
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Archives",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Deletes an Add On subscription.
  */
-export const deleteAddonSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAddonSubscriptionRequest,
-    output: DeleteAddonSubscriptionResponse,
-    errors: [ConflictException, ValidationException],
-  }),
-);
+export const deleteAddonSubscription: (
+  input: DeleteAddonSubscriptionRequest,
+) => Effect.Effect<
+  DeleteAddonSubscriptionResponse,
+  ConflictException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAddonSubscriptionRequest,
+  output: DeleteAddonSubscriptionResponse,
+  errors: [ConflictException, ValidationException],
+}));
 /**
  * Delete a rule set.
  */
-export const deleteRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRuleSet: (
+  input: DeleteRuleSetRequest,
+) => Effect.Effect<
+  DeleteRuleSetResponse,
+  ConflictException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleSetRequest,
   output: DeleteRuleSetResponse,
   errors: [ConflictException, ValidationException],
@@ -2930,68 +3354,145 @@ export const deleteRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all Add On instances in your account.
  */
-export const listAddonInstances = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAddonInstances: {
+  (
     input: ListAddonInstancesRequest,
-    output: ListAddonInstancesResponse,
-    errors: [ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AddonInstances",
-      pageSize: "PageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAddonInstancesResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAddonInstancesRequest,
+  ) => Stream.Stream<
+    ListAddonInstancesResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAddonInstancesRequest,
+  ) => Stream.Stream<
+    AddonInstance,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAddonInstancesRequest,
+  output: ListAddonInstancesResponse,
+  errors: [ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AddonInstances",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Creates a subscription for an Add On representing the acceptance of its terms of use and additional pricing. The subscription can then be used to create an instance for use in rule sets or traffic policies.
  */
-export const createAddonSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAddonSubscriptionRequest,
-    output: CreateAddonSubscriptionResponse,
-    errors: [
-      ConflictException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAddonSubscription: (
+  input: CreateAddonSubscriptionRequest,
+) => Effect.Effect<
+  CreateAddonSubscriptionResponse,
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAddonSubscriptionRequest,
+  output: CreateAddonSubscriptionResponse,
+  errors: [
+    ConflictException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all Add On subscriptions in your account.
  */
-export const listAddonSubscriptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAddonSubscriptions: {
+  (
     input: ListAddonSubscriptionsRequest,
-    output: ListAddonSubscriptionsResponse,
-    errors: [ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AddonSubscriptions",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAddonSubscriptionsResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAddonSubscriptionsRequest,
+  ) => Stream.Stream<
+    ListAddonSubscriptionsResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAddonSubscriptionsRequest,
+  ) => Stream.Stream<
+    AddonSubscription,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAddonSubscriptionsRequest,
+  output: ListAddonSubscriptionsResponse,
+  errors: [ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AddonSubscriptions",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * List all ingress endpoint resources.
  */
-export const listIngressPoints = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listIngressPoints: {
+  (
     input: ListIngressPointsRequest,
-    output: ListIngressPointsResponse,
-    errors: [ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IngressPoints",
-      pageSize: "PageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListIngressPointsResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIngressPointsRequest,
+  ) => Stream.Stream<
+    ListIngressPointsResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIngressPointsRequest,
+  ) => Stream.Stream<
+    IngressPoint,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIngressPointsRequest,
+  output: ListIngressPointsResponse,
+  errors: [ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IngressPoints",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Creates a relay resource which can be used in rules to relay incoming emails to defined relay destinations.
  */
-export const createRelay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRelay: (
+  input: CreateRelayRequest,
+) => Effect.Effect<
+  CreateRelayResponse,
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRelayRequest,
   output: CreateRelayResponse,
   errors: [
@@ -3003,7 +3504,29 @@ export const createRelay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all the existing relay resources.
  */
-export const listRelays = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRelays: {
+  (
+    input: ListRelaysRequest,
+  ): Effect.Effect<
+    ListRelaysResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRelaysRequest,
+  ) => Stream.Stream<
+    ListRelaysResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRelaysRequest,
+  ) => Stream.Stream<
+    Relay,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRelaysRequest,
   output: ListRelaysResponse,
   errors: [ValidationException],
@@ -3017,38 +3540,88 @@ export const listRelays = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * List rule sets for this account.
  */
-export const listRuleSets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRuleSets: {
+  (
     input: ListRuleSetsRequest,
-    output: ListRuleSetsResponse,
-    errors: [ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RuleSets",
-      pageSize: "PageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRuleSetsResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRuleSetsRequest,
+  ) => Stream.Stream<
+    ListRuleSetsResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRuleSetsRequest,
+  ) => Stream.Stream<
+    RuleSet,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRuleSetsRequest,
+  output: ListRuleSetsResponse,
+  errors: [ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RuleSets",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * List traffic policy resources.
  */
-export const listTrafficPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTrafficPolicies: {
+  (
     input: ListTrafficPoliciesRequest,
-    output: ListTrafficPoliciesResponse,
-    errors: [ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TrafficPolicies",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTrafficPoliciesResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTrafficPoliciesRequest,
+  ) => Stream.Stream<
+    ListTrafficPoliciesResponse,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTrafficPoliciesRequest,
+  ) => Stream.Stream<
+    TrafficPolicy,
+    ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTrafficPoliciesRequest,
+  output: ListTrafficPoliciesResponse,
+  errors: [ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TrafficPolicies",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Stops an in-progress export of emails from an archive.
  */
-export const stopArchiveExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopArchiveExport: (
+  input: StopArchiveExportRequest,
+) => Effect.Effect<
+  StopArchiveExportResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopArchiveExportRequest,
   output: StopArchiveExportResponse,
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
@@ -3056,37 +3629,59 @@ export const stopArchiveExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Fetch attributes of an import job.
  */
-export const getAddressListImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAddressListImportJobRequest,
-    output: GetAddressListImportJobResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAddressListImportJob: (
+  input: GetAddressListImportJobRequest,
+) => Effect.Effect<
+  GetAddressListImportJobResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAddressListImportJobRequest,
+  output: GetAddressListImportJobResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Fetch attributes of a member in an address list.
  */
-export const getMemberOfAddressList = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetMemberOfAddressListRequest,
-    output: GetMemberOfAddressListResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getMemberOfAddressList: (
+  input: GetMemberOfAddressListRequest,
+) => Effect.Effect<
+  GetMemberOfAddressListResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMemberOfAddressListRequest,
+  output: GetMemberOfAddressListResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the list of tags (keys and values) assigned to the resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -3094,7 +3689,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Remove one or more tags (keys and values) from a specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -3102,7 +3706,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Add On instance for the subscription indicated in the request. The resulting Amazon Resource Name (ARN) can be used in a conditional statement for a rule set or traffic policy.
  */
-export const createAddonInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAddonInstance: (
+  input: CreateAddonInstanceRequest,
+) => Effect.Effect<
+  CreateAddonInstanceResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAddonInstanceRequest,
   output: CreateAddonInstanceResponse,
   errors: [
@@ -3115,7 +3729,13 @@ export const createAddonInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets detailed information about an Add On instance.
  */
-export const getAddonInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAddonInstance: (
+  input: GetAddonInstanceRequest,
+) => Effect.Effect<
+  GetAddonInstanceResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAddonInstanceRequest,
   output: GetAddonInstanceResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -3123,17 +3743,31 @@ export const getAddonInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets detailed information about an Add On subscription.
  */
-export const getAddonSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAddonSubscriptionRequest,
-    output: GetAddonSubscriptionResponse,
-    errors: [ResourceNotFoundException, ValidationException],
-  }),
-);
+export const getAddonSubscription: (
+  input: GetAddonSubscriptionRequest,
+) => Effect.Effect<
+  GetAddonSubscriptionResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAddonSubscriptionRequest,
+  output: GetAddonSubscriptionResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
 /**
  * Fetch attributes of an address list.
  */
-export const getAddressList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAddressList: (
+  input: GetAddressListRequest,
+) => Effect.Effect<
+  GetAddressListResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAddressListRequest,
   output: GetAddressListResponse,
   errors: [
@@ -3146,7 +3780,17 @@ export const getAddressList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the full details and current state of a specified email archive.
  */
-export const getArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getArchive: (
+  input: GetArchiveRequest,
+) => Effect.Effect<
+  GetArchiveResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetArchiveRequest,
   output: GetArchiveResponse,
   errors: [
@@ -3159,7 +3803,13 @@ export const getArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Fetch the relay resource and it's attributes.
  */
-export const getRelay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRelay: (
+  input: GetRelayRequest,
+) => Effect.Effect<
+  GetRelayResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRelayRequest,
   output: GetRelayResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -3167,7 +3817,13 @@ export const getRelay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Fetch attributes of a rule set.
  */
-export const getRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRuleSet: (
+  input: GetRuleSetRequest,
+) => Effect.Effect<
+  GetRuleSetResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRuleSetRequest,
   output: GetRuleSetResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -3175,7 +3831,13 @@ export const getRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Fetch attributes of a traffic policy resource.
  */
-export const getTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTrafficPolicy: (
+  input: GetTrafficPolicyRequest,
+) => Effect.Effect<
+  GetTrafficPolicyResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrafficPolicyRequest,
   output: GetTrafficPolicyResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -3183,56 +3845,96 @@ export const getTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds a member to an address list.
  */
-export const registerMemberToAddressList = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterMemberToAddressListRequest,
-    output: RegisterMemberToAddressListResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const registerMemberToAddressList: (
+  input: RegisterMemberToAddressListRequest,
+) => Effect.Effect<
+  RegisterMemberToAddressListResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterMemberToAddressListRequest,
+  output: RegisterMemberToAddressListResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Starts an import job for an address list.
  */
-export const startAddressListImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartAddressListImportJobRequest,
-    output: StartAddressListImportJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startAddressListImportJob: (
+  input: StartAddressListImportJobRequest,
+) => Effect.Effect<
+  StartAddressListImportJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAddressListImportJobRequest,
+  output: StartAddressListImportJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Stops an ongoing import job for an address list.
  */
-export const stopAddressListImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopAddressListImportJobRequest,
-    output: StopAddressListImportJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const stopAddressListImportJob: (
+  input: StopAddressListImportJobRequest,
+) => Effect.Effect<
+  StopAddressListImportJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopAddressListImportJobRequest,
+  output: StopAddressListImportJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the attributes of an existing email archive.
  */
-export const updateArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateArchive: (
+  input: UpdateArchiveRequest,
+) => Effect.Effect<
+  UpdateArchiveResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateArchiveRequest,
   output: UpdateArchiveResponse,
   errors: [
@@ -3247,7 +3949,16 @@ export const updateArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update attributes of a provisioned ingress endpoint resource.
  */
-export const updateIngressPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateIngressPoint: (
+  input: UpdateIngressPointRequest,
+) => Effect.Effect<
+  UpdateIngressPointResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIngressPointRequest,
   output: UpdateIngressPointResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -3255,7 +3966,16 @@ export const updateIngressPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete an ingress endpoint resource.
  */
-export const deleteIngressPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIngressPoint: (
+  input: DeleteIngressPointRequest,
+) => Effect.Effect<
+  DeleteIngressPointResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIngressPointRequest,
   output: DeleteIngressPointResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -3263,7 +3983,16 @@ export const deleteIngressPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the attributes of an existing relay resource.
  */
-export const updateRelay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRelay: (
+  input: UpdateRelayRequest,
+) => Effect.Effect<
+  UpdateRelayResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRelayRequest,
   output: UpdateRelayResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -3271,7 +4000,16 @@ export const updateRelay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing relay resource.
  */
-export const deleteRelay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRelay: (
+  input: DeleteRelayRequest,
+) => Effect.Effect<
+  DeleteRelayResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRelayRequest,
   output: DeleteRelayResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -3279,7 +4017,16 @@ export const deleteRelay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update attributes of an already provisioned rule set.
  */
-export const updateRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRuleSet: (
+  input: UpdateRuleSetRequest,
+) => Effect.Effect<
+  UpdateRuleSetResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleSetRequest,
   output: UpdateRuleSetResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -3287,7 +4034,16 @@ export const updateRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update attributes of an already provisioned traffic policy resource.
  */
-export const updateTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTrafficPolicy: (
+  input: UpdateTrafficPolicyRequest,
+) => Effect.Effect<
+  UpdateTrafficPolicyResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrafficPolicyRequest,
   output: UpdateTrafficPolicyResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -3295,7 +4051,16 @@ export const updateTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete a traffic policy resource.
  */
-export const deleteTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTrafficPolicy: (
+  input: DeleteTrafficPolicyRequest,
+) => Effect.Effect<
+  DeleteTrafficPolicyResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrafficPolicyRequest,
   output: DeleteTrafficPolicyResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -3303,7 +4068,19 @@ export const deleteTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Initiates a search across emails in the specified archive.
  */
-export const startArchiveSearch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startArchiveSearch: (
+  input: StartArchiveSearchRequest,
+) => Effect.Effect<
+  StartArchiveSearchResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartArchiveSearchRequest,
   output: StartArchiveSearchResponse,
   errors: [
@@ -3318,7 +4095,17 @@ export const startArchiveSearch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds one or more tags (keys and values) to a specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3331,42 +4118,92 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an import job for an address list.
  */
-export const createAddressListImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAddressListImportJobRequest,
-    output: CreateAddressListImportJobResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAddressListImportJob: (
+  input: CreateAddressListImportJobRequest,
+) => Effect.Effect<
+  CreateAddressListImportJobResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAddressListImportJobRequest,
+  output: CreateAddressListImportJobResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists members of an address list.
  */
-export const listMembersOfAddressList =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMembersOfAddressList: {
+  (
     input: ListMembersOfAddressListRequest,
-    output: ListMembersOfAddressListResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Addresses",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMembersOfAddressListResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMembersOfAddressListRequest,
+  ) => Stream.Stream<
+    ListMembersOfAddressListResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMembersOfAddressListRequest,
+  ) => Stream.Stream<
+    SavedAddress,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMembersOfAddressListRequest,
+  output: ListMembersOfAddressListResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Addresses",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Provision a new ingress endpoint resource.
  */
-export const createIngressPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIngressPoint: (
+  input: CreateIngressPointRequest,
+) => Effect.Effect<
+  CreateIngressPointResponse,
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIngressPointRequest,
   output: CreateIngressPointResponse,
   errors: [
@@ -3378,7 +4215,13 @@ export const createIngressPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Fetch ingress endpoint resource attributes.
  */
-export const getIngressPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIngressPoint: (
+  input: GetIngressPointRequest,
+) => Effect.Effect<
+  GetIngressPointResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIngressPointRequest,
   output: GetIngressPointResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -3386,7 +4229,18 @@ export const getIngressPoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Initiates an export of emails from the specified archive.
  */
-export const startArchiveExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startArchiveExport: (
+  input: StartArchiveExportRequest,
+) => Effect.Effect<
+  StartArchiveExportResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartArchiveExportRequest,
   output: StartArchiveExportResponse,
   errors: [
@@ -3400,7 +4254,16 @@ export const startArchiveExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provision a new rule set.
  */
-export const createRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRuleSet: (
+  input: CreateRuleSetRequest,
+) => Effect.Effect<
+  CreateRuleSetResponse,
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleSetRequest,
   output: CreateRuleSetResponse,
   errors: [
@@ -3412,7 +4275,16 @@ export const createRuleSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provision a new traffic policy resource.
  */
-export const createTrafficPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTrafficPolicy: (
+  input: CreateTrafficPolicyRequest,
+) => Effect.Effect<
+  CreateTrafficPolicyResponse,
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrafficPolicyRequest,
   output: CreateTrafficPolicyResponse,
   errors: [

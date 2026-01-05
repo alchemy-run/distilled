@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Route53 Recovery Readiness",
   serviceShapeName: "Route53RecoveryReadiness",
@@ -240,6 +248,15 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type __string = string;
+export type CrossAccountAuthorization = string;
+export type __stringPatternAWSAZaZ09AZaZ09 = string;
+export type MaxResults = number;
+export type __stringMax256 = string;
+export type __stringMax64PatternAAZAZ09Z = string;
+export type __stringMax64 = string;
 
 //# Schemas
 export type __listOf__string = string[];
@@ -1637,7 +1654,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
@@ -1645,7 +1664,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
@@ -1659,7 +1680,16 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Adds a tag to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1671,36 +1701,66 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes cross account readiness authorization.
  */
-export const deleteCrossAccountAuthorization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCrossAccountAuthorizationRequest,
-    output: DeleteCrossAccountAuthorizationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteCrossAccountAuthorization: (
+  input: DeleteCrossAccountAuthorizationRequest,
+) => Effect.Effect<
+  DeleteCrossAccountAuthorizationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCrossAccountAuthorizationRequest,
+  output: DeleteCrossAccountAuthorizationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a cross-account readiness authorization. This lets you authorize another account to work with Route 53 Application Recovery Controller, for example, to check the readiness status of resources in a separate account.
  */
-export const createCrossAccountAuthorization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCrossAccountAuthorizationRequest,
-    output: CreateCrossAccountAuthorizationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createCrossAccountAuthorization: (
+  input: CreateCrossAccountAuthorizationRequest,
+) => Effect.Effect<
+  CreateCrossAccountAuthorizationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCrossAccountAuthorizationRequest,
+  output: CreateCrossAccountAuthorizationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a cell to replace the list of nested cells with a new list of nested cells.
  */
-export const updateCell = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCell: (
+  input: UpdateCellRequest,
+) => Effect.Effect<
+  UpdateCellResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCellRequest,
   output: UpdateCellResponse,
   errors: [
@@ -1714,23 +1774,43 @@ export const updateCell = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a readiness check.
  */
-export const updateReadinessCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateReadinessCheckRequest,
-    output: UpdateReadinessCheckResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateReadinessCheck: (
+  input: UpdateReadinessCheckRequest,
+) => Effect.Effect<
+  UpdateReadinessCheckResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateReadinessCheckRequest,
+  output: UpdateReadinessCheckResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a recovery group.
  */
-export const updateRecoveryGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRecoveryGroup: (
+  input: UpdateRecoveryGroupRequest,
+) => Effect.Effect<
+  UpdateRecoveryGroupResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRecoveryGroupRequest,
   output: UpdateRecoveryGroupResponse,
   errors: [
@@ -1744,7 +1824,18 @@ export const updateRecoveryGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a resource set.
  */
-export const updateResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateResourceSet: (
+  input: UpdateResourceSetRequest,
+) => Effect.Effect<
+  UpdateResourceSetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResourceSetRequest,
   output: UpdateResourceSetResponse,
   errors: [
@@ -1758,23 +1849,43 @@ export const updateResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a readiness check.
  */
-export const deleteReadinessCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteReadinessCheckRequest,
-    output: DeleteReadinessCheckResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteReadinessCheck: (
+  input: DeleteReadinessCheckRequest,
+) => Effect.Effect<
+  DeleteReadinessCheckResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReadinessCheckRequest,
+  output: DeleteReadinessCheckResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a recovery group.
  */
-export const deleteRecoveryGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRecoveryGroup: (
+  input: DeleteRecoveryGroupRequest,
+) => Effect.Effect<
+  DeleteRecoveryGroupResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRecoveryGroupRequest,
   output: DeleteRecoveryGroupResponse,
   errors: [
@@ -1788,7 +1899,18 @@ export const deleteRecoveryGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a resource set.
  */
-export const deleteResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteResourceSet: (
+  input: DeleteResourceSetRequest,
+) => Effect.Effect<
+  DeleteResourceSetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResourceSetRequest,
   output: DeleteResourceSetResponse,
   errors: [
@@ -1802,7 +1924,16 @@ export const deleteResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1814,7 +1945,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete a cell. When successful, the response code is 204, with no response body.
  */
-export const deleteCell = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCell: (
+  input: DeleteCellRequest,
+) => Effect.Effect<
+  DeleteCellResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCellRequest,
   output: DeleteCellResponse,
   errors: [
@@ -1828,7 +1970,18 @@ export const deleteCell = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a cell including cell name, cell Amazon Resource Name (ARN), ARNs of nested cells for this cell, and a list of those cell ARNs with their associated recovery group ARNs.
  */
-export const getCell = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCell: (
+  input: GetCellRequest,
+) => Effect.Effect<
+  GetCellResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCellRequest,
   output: GetCellResponse,
   errors: [
@@ -1842,7 +1995,18 @@ export const getCell = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets details about a readiness check.
  */
-export const getReadinessCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getReadinessCheck: (
+  input: GetReadinessCheckRequest,
+) => Effect.Effect<
+  GetReadinessCheckResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReadinessCheckRequest,
   output: GetReadinessCheckResponse,
   errors: [
@@ -1856,7 +2020,18 @@ export const getReadinessCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets details about a recovery group, including a list of the cells that are included in it.
  */
-export const getRecoveryGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRecoveryGroup: (
+  input: GetRecoveryGroupRequest,
+) => Effect.Effect<
+  GetRecoveryGroupResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecoveryGroupRequest,
   output: GetRecoveryGroupResponse,
   errors: [
@@ -1870,28 +2045,75 @@ export const getRecoveryGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one.
  */
-export const getRecoveryGroupReadinessSummary =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getRecoveryGroupReadinessSummary: {
+  (
     input: GetRecoveryGroupReadinessSummaryRequest,
-    output: GetRecoveryGroupReadinessSummaryResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ReadinessChecks",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetRecoveryGroupReadinessSummaryResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetRecoveryGroupReadinessSummaryRequest,
+  ) => Stream.Stream<
+    GetRecoveryGroupReadinessSummaryResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetRecoveryGroupReadinessSummaryRequest,
+  ) => Stream.Stream<
+    ReadinessCheckSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetRecoveryGroupReadinessSummaryRequest,
+  output: GetRecoveryGroupReadinessSummaryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ReadinessChecks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Displays the details about a resource set, including a list of the resources in the set.
  */
-export const getResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourceSet: (
+  input: GetResourceSetRequest,
+) => Effect.Effect<
+  GetResourceSetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceSetRequest,
   output: GetResourceSetResponse,
   errors: [
@@ -1905,119 +2127,311 @@ export const getResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags for a resource.
  */
-export const listTagsForResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTagsForResourcesRequest,
-    output: ListTagsForResourcesResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const listTagsForResources: (
+  input: ListTagsForResourcesRequest,
+) => Effect.Effect<
+  ListTagsForResourcesResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourcesRequest,
+  output: ListTagsForResourcesResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets recommendations about architecture designs for improving resiliency for an application, based on a recovery group.
  */
-export const getArchitectureRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetArchitectureRecommendationsRequest,
-    output: GetArchitectureRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getArchitectureRecommendations: (
+  input: GetArchitectureRecommendationsRequest,
+) => Effect.Effect<
+  GetArchitectureRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetArchitectureRecommendationsRequest,
+  output: GetArchitectureRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets readiness for a cell. Aggregates the readiness of all the resources that are associated with the cell into a single value.
  */
-export const getCellReadinessSummary =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getCellReadinessSummary: {
+  (
     input: GetCellReadinessSummaryRequest,
-    output: GetCellReadinessSummaryResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ReadinessChecks",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetCellReadinessSummaryResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCellReadinessSummaryRequest,
+  ) => Stream.Stream<
+    GetCellReadinessSummaryResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCellReadinessSummaryRequest,
+  ) => Stream.Stream<
+    ReadinessCheckSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCellReadinessSummaryRequest,
+  output: GetCellReadinessSummaryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ReadinessChecks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary.
  */
-export const getReadinessCheckResourceStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getReadinessCheckResourceStatus: {
+  (
     input: GetReadinessCheckResourceStatusRequest,
-    output: GetReadinessCheckResourceStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Rules",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetReadinessCheckResourceStatusResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetReadinessCheckResourceStatusRequest,
+  ) => Stream.Stream<
+    GetReadinessCheckResourceStatusResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetReadinessCheckResourceStatusRequest,
+  ) => Stream.Stream<
+    RuleResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetReadinessCheckResourceStatusRequest,
+  output: GetReadinessCheckResourceStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Rules",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the readiness status for an individual readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in a recovery group, use GetRecoveryGroupReadinessSummary.
  */
-export const getReadinessCheckStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getReadinessCheckStatus: {
+  (
     input: GetReadinessCheckStatusRequest,
-    output: GetReadinessCheckStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Resources",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetReadinessCheckStatusResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetReadinessCheckStatusRequest,
+  ) => Stream.Stream<
+    GetReadinessCheckStatusResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetReadinessCheckStatusRequest,
+  ) => Stream.Stream<
+    ResourceResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetReadinessCheckStatusRequest,
+  output: GetReadinessCheckStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Resources",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the cross-account readiness authorizations that are in place for an account.
  */
-export const listCrossAccountAuthorizations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCrossAccountAuthorizations: {
+  (
     input: ListCrossAccountAuthorizationsRequest,
-    output: ListCrossAccountAuthorizationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CrossAccountAuthorizations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCrossAccountAuthorizationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCrossAccountAuthorizationsRequest,
+  ) => Stream.Stream<
+    ListCrossAccountAuthorizationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCrossAccountAuthorizationsRequest,
+  ) => Stream.Stream<
+    CrossAccountAuthorization,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCrossAccountAuthorizationsRequest,
+  output: ListCrossAccountAuthorizationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CrossAccountAuthorizations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the cells for an account.
  */
-export const listCells = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCells: {
+  (
+    input: ListCellsRequest,
+  ): Effect.Effect<
+    ListCellsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCellsRequest,
+  ) => Stream.Stream<
+    ListCellsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCellsRequest,
+  ) => Stream.Stream<
+    CellOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCellsRequest,
   output: ListCellsResponse,
   errors: [
@@ -2036,69 +2450,200 @@ export const listCells = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists the readiness checks for an account.
  */
-export const listReadinessChecks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listReadinessChecks: {
+  (
     input: ListReadinessChecksRequest,
-    output: ListReadinessChecksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ReadinessChecks",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListReadinessChecksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReadinessChecksRequest,
+  ) => Stream.Stream<
+    ListReadinessChecksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReadinessChecksRequest,
+  ) => Stream.Stream<
+    ReadinessCheckOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReadinessChecksRequest,
+  output: ListReadinessChecksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ReadinessChecks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the recovery groups in an account.
  */
-export const listRecoveryGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRecoveryGroups: {
+  (
     input: ListRecoveryGroupsRequest,
-    output: ListRecoveryGroupsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RecoveryGroups",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRecoveryGroupsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecoveryGroupsRequest,
+  ) => Stream.Stream<
+    ListRecoveryGroupsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecoveryGroupsRequest,
+  ) => Stream.Stream<
+    RecoveryGroupOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecoveryGroupsRequest,
+  output: ListRecoveryGroupsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RecoveryGroups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the resource sets in an account.
  */
-export const listResourceSets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listResourceSets: {
+  (
     input: ListResourceSetsRequest,
-    output: ListResourceSetsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ResourceSets",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListResourceSetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceSetsRequest,
+  ) => Stream.Stream<
+    ListResourceSetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceSetsRequest,
+  ) => Stream.Stream<
+    ResourceSetOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceSetsRequest,
+  output: ListResourceSetsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourceSets",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all readiness rules, or lists the readiness rules for a specific resource type.
  */
-export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRules: {
+  (
+    input: ListRulesRequest,
+  ): Effect.Effect<
+    ListRulesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRulesRequest,
+  ) => Stream.Stream<
+    ListRulesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRulesRequest,
+  ) => Stream.Stream<
+    ListRulesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRulesRequest,
   output: ListRulesResponse,
   errors: [
@@ -2117,23 +2662,43 @@ export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora instances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check.
  */
-export const createReadinessCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateReadinessCheckRequest,
-    output: CreateReadinessCheckResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createReadinessCheck: (
+  input: CreateReadinessCheckRequest,
+) => Effect.Effect<
+  CreateReadinessCheckResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateReadinessCheckRequest,
+  output: CreateReadinessCheckResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the application.
  */
-export const createRecoveryGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRecoveryGroup: (
+  input: CreateRecoveryGroupRequest,
+) => Effect.Effect<
+  CreateRecoveryGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRecoveryGroupRequest,
   output: CreateRecoveryGroupResponse,
   errors: [
@@ -2147,7 +2712,18 @@ export const createRecoveryGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a cell in an account.
  */
-export const createCell = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCell: (
+  input: CreateCellRequest,
+) => Effect.Effect<
+  CreateCellResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCellRequest,
   output: CreateCellResponse,
   errors: [
@@ -2161,7 +2737,18 @@ export const createCell = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a resource set. A resource set is a set of resources of one type that span multiple cells. You can associate a resource set with a readiness check to monitor the resources for failover readiness.
  */
-export const createResourceSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createResourceSet: (
+  input: CreateResourceSetRequest,
+) => Effect.Effect<
+  CreateResourceSetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceSetRequest,
   output: CreateResourceSetResponse,
   errors: [

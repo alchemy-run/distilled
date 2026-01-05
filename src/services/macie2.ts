@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "Macie2", serviceShapeName: "Macie2" });
 const auth = T.AwsAuthSigv4({ name: "macie2" });
 const ver = T.ServiceVersion("2020-01-01");
@@ -237,6 +245,28 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type __string = string;
+export type __stringMin1Max512PatternSS = string;
+export type __stringMin1Max128Pattern = string;
+export type __integer = number;
+export type ClassificationScopeId = string;
+export type SensitivityInspectionTemplateId = string;
+export type __long = number;
+export type MaxResults = number;
+export type __stringMin1Max2048 = string;
+export type __stringMin1Max64PatternW = string;
+export type __stringMin71Max89PatternArnAwsAwsCnAwsUsGovMacie2AZ19920D12AllowListAZ0922 =
+  string;
+export type __stringMin22Max22PatternAZ0922 = string;
+export type ClassificationScopeName = string;
+export type NextToken = string;
+export type __stringMin3Max255PatternAZaZ093255 = string;
+export type __stringMin1Max1024PatternSS = string;
+export type S3BucketName = string;
+export type __double = number;
+export type __stringMin1Max128 = string;
 
 //# Schemas
 export interface DescribeOrganizationConfigurationRequest {}
@@ -5539,11 +5569,15 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String).pipe(T.JsonName("message")) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String).pipe(T.JsonName("message")) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String).pipe(T.JsonName("message")) },
@@ -5565,7 +5599,13 @@ export class UnprocessableEntityException extends S.TaggedError<UnprocessableEnt
 /**
  * Adds or updates one or more tags (keys and values) that are associated with an Amazon Macie resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [],
@@ -5573,7 +5613,13 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes one or more tags (keys and values) from an Amazon Macie resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [],
@@ -5581,7 +5627,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the tags (keys and values) that are associated with an Amazon Macie resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [],
@@ -5589,257 +5641,519 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
  */
-export const listManagedDataIdentifiers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listManagedDataIdentifiers: {
+  (
     input: ListManagedDataIdentifiersRequest,
-    output: ListManagedDataIdentifiersResponse,
-    errors: [],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListManagedDataIdentifiersResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListManagedDataIdentifiersRequest,
+  ) => Stream.Stream<
+    ListManagedDataIdentifiersResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListManagedDataIdentifiersRequest,
+  ) => Stream.Stream<
+    ManagedDataIdentifierSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListManagedDataIdentifiersRequest,
+  output: ListManagedDataIdentifiersResponse,
+  errors: [],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+  } as const,
+}));
 /**
  * Checks whether occurrences of sensitive data can be retrieved for a finding.
  */
-export const getSensitiveDataOccurrencesAvailability =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSensitiveDataOccurrencesAvailabilityRequest,
-    output: GetSensitiveDataOccurrencesAvailabilityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const getSensitiveDataOccurrencesAvailability: (
+  input: GetSensitiveDataOccurrencesAvailabilityRequest,
+) => Effect.Effect<
+  GetSensitiveDataOccurrencesAvailabilityResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSensitiveDataOccurrencesAvailabilityRequest,
+  output: GetSensitiveDataOccurrencesAvailabilityResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
  */
-export const getAutomatedDiscoveryConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetAutomatedDiscoveryConfigurationRequest,
-    output: GetAutomatedDiscoveryConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getAutomatedDiscoveryConfiguration: (
+  input: GetAutomatedDiscoveryConfigurationRequest,
+) => Effect.Effect<
+  GetAutomatedDiscoveryConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAutomatedDiscoveryConfigurationRequest,
+  output: GetAutomatedDiscoveryConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the classification scope settings for an account.
  */
-export const getClassificationScope = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetClassificationScopeRequest,
-    output: GetClassificationScopeResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getClassificationScope: (
+  input: GetClassificationScopeRequest,
+) => Effect.Effect<
+  GetClassificationScopeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetClassificationScopeRequest,
+  output: GetClassificationScopeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the criteria and other settings for a custom data identifier.
  */
-export const getCustomDataIdentifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCustomDataIdentifierRequest,
-    output: GetCustomDataIdentifierResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getCustomDataIdentifier: (
+  input: GetCustomDataIdentifierRequest,
+) => Effect.Effect<
+  GetCustomDataIdentifierResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCustomDataIdentifierRequest,
+  output: GetCustomDataIdentifierResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves (queries) aggregated statistical data about findings.
  */
-export const getFindingStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetFindingStatisticsRequest,
-    output: GetFindingStatisticsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getFindingStatistics: (
+  input: GetFindingStatisticsRequest,
+) => Effect.Effect<
+  GetFindingStatisticsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFindingStatisticsRequest,
+  output: GetFindingStatisticsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a subset of information about all the allow lists for an account.
  */
-export const listAllowLists = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAllowLists: {
+  (
     input: ListAllowListsRequest,
-    output: ListAllowListsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "allowLists",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAllowListsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAllowListsRequest,
+  ) => Stream.Stream<
+    ListAllowListsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAllowListsRequest,
+  ) => Stream.Stream<
+    AllowListSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAllowListsRequest,
+  output: ListAllowListsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "allowLists",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the status of automated sensitive data discovery for one or more accounts.
  */
-export const listAutomatedDiscoveryAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAutomatedDiscoveryAccounts: {
+  (
     input: ListAutomatedDiscoveryAccountsRequest,
-    output: ListAutomatedDiscoveryAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAutomatedDiscoveryAccountsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAutomatedDiscoveryAccountsRequest,
+  ) => Stream.Stream<
+    ListAutomatedDiscoveryAccountsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAutomatedDiscoveryAccountsRequest,
+  ) => Stream.Stream<
+    AutomatedDiscoveryAccount,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAutomatedDiscoveryAccountsRequest,
+  output: ListAutomatedDiscoveryAccountsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a subset of information about the classification scope for an account.
  */
-export const listClassificationScopes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listClassificationScopes: {
+  (
     input: ListClassificationScopesRequest,
-    output: ListClassificationScopesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "classificationScopes",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListClassificationScopesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClassificationScopesRequest,
+  ) => Stream.Stream<
+    ListClassificationScopesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClassificationScopesRequest,
+  ) => Stream.Stream<
+    ClassificationScopeSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClassificationScopesRequest,
+  output: ListClassificationScopesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "classificationScopes",
+  } as const,
+}));
 /**
  * Retrieves information about objects that Amazon Macie selected from an S3 bucket for automated sensitive data discovery.
  */
-export const listResourceProfileArtifacts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourceProfileArtifacts: {
+  (
     input: ListResourceProfileArtifactsRequest,
-    output: ListResourceProfileArtifactsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "artifacts",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourceProfileArtifactsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceProfileArtifactsRequest,
+  ) => Stream.Stream<
+    ListResourceProfileArtifactsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceProfileArtifactsRequest,
+  ) => Stream.Stream<
+    ResourceProfileArtifact,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceProfileArtifactsRequest,
+  output: ListResourceProfileArtifactsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "artifacts",
+  } as const,
+}));
 /**
  * Updates the classification scope settings for an account.
  */
-export const updateClassificationScope = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateClassificationScopeRequest,
-    output: UpdateClassificationScopeResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateClassificationScope: (
+  input: UpdateClassificationScopeRequest,
+) => Effect.Effect<
+  UpdateClassificationScopeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateClassificationScopeRequest,
+  output: UpdateClassificationScopeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
  */
-export const updateRevealConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRevealConfigurationRequest,
-    output: UpdateRevealConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateRevealConfiguration: (
+  input: UpdateRevealConfigurationRequest,
+) => Effect.Effect<
+  UpdateRevealConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRevealConfigurationRequest,
+  output: UpdateRevealConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
  */
-export const getRevealConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRevealConfigurationRequest,
-    output: GetRevealConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getRevealConfiguration: (
+  input: GetRevealConfigurationRequest,
+) => Effect.Effect<
+  GetRevealConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRevealConfigurationRequest,
+  output: GetRevealConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Changes the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
  */
-export const updateAutomatedDiscoveryConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAutomatedDiscoveryConfigurationRequest,
-    output: UpdateAutomatedDiscoveryConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateAutomatedDiscoveryConfiguration: (
+  input: UpdateAutomatedDiscoveryConfigurationRequest,
+) => Effect.Effect<
+  UpdateAutomatedDiscoveryConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAutomatedDiscoveryConfigurationRequest,
+  output: UpdateAutomatedDiscoveryConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the settings for the sensitivity inspection template for an account.
  */
-export const getSensitivityInspectionTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSensitivityInspectionTemplateRequest,
-    output: GetSensitivityInspectionTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getSensitivityInspectionTemplate: (
+  input: GetSensitivityInspectionTemplateRequest,
+) => Effect.Effect<
+  GetSensitivityInspectionTemplateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSensitivityInspectionTemplateRequest,
+  output: GetSensitivityInspectionTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the settings for an allow list.
  */
-export const updateAllowList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAllowList: (
+  input: UpdateAllowListRequest,
+) => Effect.Effect<
+  UpdateAllowListResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAllowListRequest,
   output: UpdateAllowListResponse,
   errors: [
@@ -5853,22 +6167,43 @@ export const updateAllowList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the settings for the sensitivity inspection template for an account.
  */
-export const updateSensitivityInspectionTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSensitivityInspectionTemplateRequest,
-    output: UpdateSensitivityInspectionTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateSensitivityInspectionTemplate: (
+  input: UpdateSensitivityInspectionTemplateRequest,
+) => Effect.Effect<
+  UpdateSensitivityInspectionTemplateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSensitivityInspectionTemplateRequest,
+  output: UpdateSensitivityInspectionTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an allow list.
  */
-export const deleteAllowList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAllowList: (
+  input: DeleteAllowListRequest,
+) => Effect.Effect<
+  DeleteAllowListResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAllowListRequest,
   output: DeleteAllowListResponse,
   errors: [
@@ -5882,7 +6217,18 @@ export const deleteAllowList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the settings and status of an allow list.
  */
-export const getAllowList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAllowList: (
+  input: GetAllowListRequest,
+) => Effect.Effect<
+  GetAllowListResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAllowListRequest,
   output: GetAllowListResponse,
   errors: [
@@ -5896,22 +6242,44 @@ export const getAllowList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Changes the status of automated sensitive data discovery for one or more accounts.
  */
-export const batchUpdateAutomatedDiscoveryAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchUpdateAutomatedDiscoveryAccountsRequest,
-    output: BatchUpdateAutomatedDiscoveryAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchUpdateAutomatedDiscoveryAccounts: (
+  input: BatchUpdateAutomatedDiscoveryAccountsRequest,
+) => Effect.Effect<
+  BatchUpdateAutomatedDiscoveryAccountsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateAutomatedDiscoveryAccountsRequest,
+  output: BatchUpdateAutomatedDiscoveryAccountsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket.
  */
-export const getResourceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourceProfile: (
+  input: GetResourceProfileRequest,
+) => Effect.Effect<
+  GetResourceProfileResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceProfileRequest,
   output: GetResourceProfileResponse,
   errors: [
@@ -5926,7 +6294,20 @@ export const getResourceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves (queries) aggregated usage data for an account.
  */
-export const getUsageTotals = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUsageTotals: (
+  input: GetUsageTotalsRequest,
+) => Effect.Effect<
+  GetUsageTotalsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsageTotalsRequest,
   output: GetUsageTotalsResponse,
   errors: [
@@ -5942,143 +6323,398 @@ export const getUsageTotals = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a subset of information about the custom data identifiers for an account.
  */
-export const listCustomDataIdentifiers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCustomDataIdentifiers: {
+  (
     input: ListCustomDataIdentifiersRequest,
-    output: ListCustomDataIdentifiersResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCustomDataIdentifiersResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCustomDataIdentifiersRequest,
+  ) => Stream.Stream<
+    ListCustomDataIdentifiersResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCustomDataIdentifiersRequest,
+  ) => Stream.Stream<
+    CustomDataIdentifierSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCustomDataIdentifiersRequest,
+  output: ListCustomDataIdentifiersResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a subset of information about all the findings filters for an account.
  */
-export const listFindingsFilters =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFindingsFilters: {
+  (
     input: ListFindingsFiltersRequest,
-    output: ListFindingsFiltersResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "findingsFilterListItems",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFindingsFiltersResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFindingsFiltersRequest,
+  ) => Stream.Stream<
+    ListFindingsFiltersResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFindingsFiltersRequest,
+  ) => Stream.Stream<
+    FindingsFilterListItem,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFindingsFiltersRequest,
+  output: ListFindingsFiltersResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "findingsFilterListItems",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
  */
-export const listMembers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMembers: {
+  (
     input: ListMembersRequest,
-    output: ListMembersResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "members",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMembersResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMembersRequest,
+  ) => Stream.Stream<
+    ListMembersResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMembersRequest,
+  ) => Stream.Stream<
+    Member,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMembersRequest,
+  output: ListMembersResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "members",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
  */
-export const listOrganizationAdminAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOrganizationAdminAccounts: {
+  (
     input: ListOrganizationAdminAccountsRequest,
-    output: ListOrganizationAdminAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "adminAccounts",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOrganizationAdminAccountsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOrganizationAdminAccountsRequest,
+  ) => Stream.Stream<
+    ListOrganizationAdminAccountsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOrganizationAdminAccountsRequest,
+  ) => Stream.Stream<
+    AdminAccount,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOrganizationAdminAccountsRequest,
+  output: ListOrganizationAdminAccountsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "adminAccounts",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
  */
-export const listResourceProfileDetections =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourceProfileDetections: {
+  (
     input: ListResourceProfileDetectionsRequest,
-    output: ListResourceProfileDetectionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "detections",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourceProfileDetectionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceProfileDetectionsRequest,
+  ) => Stream.Stream<
+    ListResourceProfileDetectionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceProfileDetectionsRequest,
+  ) => Stream.Stream<
+    Detection,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceProfileDetectionsRequest,
+  output: ListResourceProfileDetectionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "detections",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a subset of information about the sensitivity inspection template for an account.
  */
-export const listSensitivityInspectionTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSensitivityInspectionTemplates: {
+  (
     input: ListSensitivityInspectionTemplatesRequest,
-    output: ListSensitivityInspectionTemplatesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "sensitivityInspectionTemplates",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSensitivityInspectionTemplatesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSensitivityInspectionTemplatesRequest,
+  ) => Stream.Stream<
+    ListSensitivityInspectionTemplatesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSensitivityInspectionTemplatesRequest,
+  ) => Stream.Stream<
+    SensitivityInspectionTemplatesEntry,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSensitivityInspectionTemplatesRequest,
+  output: ListSensitivityInspectionTemplatesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sensitivityInspectionTemplates",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the criteria and other settings for a findings filter.
  */
-export const getFindingsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFindingsFilter: (
+  input: GetFindingsFilterRequest,
+) => Effect.Effect<
+  GetFindingsFilterResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFindingsFilterRequest,
   output: GetFindingsFilterResponse,
   errors: [
@@ -6094,24 +6730,49 @@ export const getFindingsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the configuration settings for publishing findings to Security Hub.
  */
-export const getFindingsPublicationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetFindingsPublicationConfigurationRequest,
-    output: GetFindingsPublicationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getFindingsPublicationConfiguration: (
+  input: GetFindingsPublicationConfigurationRequest,
+) => Effect.Effect<
+  GetFindingsPublicationConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFindingsPublicationConfigurationRequest,
+  output: GetFindingsPublicationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about an account that's associated with an Amazon Macie administrator account.
  */
-export const getMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMember: (
+  input: GetMemberRequest,
+) => Effect.Effect<
+  GetMemberResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMemberRequest,
   output: GetMemberResponse,
   errors: [
@@ -6127,141 +6788,293 @@ export const getMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a subset of information about one or more findings.
  */
-export const listFindings = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFindings: {
+  (
     input: ListFindingsRequest,
-    output: ListFindingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "findingIds",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFindingsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFindingsRequest,
+  ) => Stream.Stream<
+    ListFindingsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFindingsRequest,
+  ) => Stream.Stream<
+    __string,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFindingsRequest,
+  output: ListFindingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "findingIds",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information about Amazon Macie membership invitations that were received by an account.
  */
-export const listInvitations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listInvitations: {
+  (
     input: ListInvitationsRequest,
-    output: ListInvitationsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "invitations",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListInvitationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInvitationsRequest,
+  ) => Stream.Stream<
+    ListInvitationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInvitationsRequest,
+  ) => Stream.Stream<
+    Invitation,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInvitationsRequest,
+  output: ListInvitationsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "invitations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Adds or updates the configuration settings for storing data classification results.
  */
-export const putClassificationExportConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutClassificationExportConfigurationRequest,
-    output: PutClassificationExportConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const putClassificationExportConfiguration: (
+  input: PutClassificationExportConfigurationRequest,
+) => Effect.Effect<
+  PutClassificationExportConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutClassificationExportConfigurationRequest,
+  output: PutClassificationExportConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Tests criteria for a custom data identifier.
  */
-export const testCustomDataIdentifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TestCustomDataIdentifierRequest,
-    output: TestCustomDataIdentifierResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const testCustomDataIdentifier: (
+  input: TestCustomDataIdentifierRequest,
+) => Effect.Effect<
+  TestCustomDataIdentifierResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestCustomDataIdentifierRequest,
+  output: TestCustomDataIdentifierResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the criteria and other settings for a findings filter.
  */
-export const updateFindingsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFindingsFilterRequest,
-    output: UpdateFindingsFilterResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateFindingsFilter: (
+  input: UpdateFindingsFilterRequest,
+) => Effect.Effect<
+  UpdateFindingsFilterResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFindingsFilterRequest,
+  output: UpdateFindingsFilterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the sensitivity scoring settings for an S3 bucket.
  */
-export const updateResourceProfileDetections =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateResourceProfileDetectionsRequest,
-    output: UpdateResourceProfileDetectionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateResourceProfileDetections: (
+  input: UpdateResourceProfileDetectionsRequest,
+) => Effect.Effect<
+  UpdateResourceProfileDetectionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResourceProfileDetectionsRequest,
+  output: UpdateResourceProfileDetectionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disables an account as the delegated Amazon Macie administrator account for an organization in Organizations.
  */
-export const disableOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableOrganizationAdminAccountRequest,
-    output: DisableOrganizationAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disableOrganizationAdminAccount: (
+  input: DisableOrganizationAdminAccountRequest,
+) => Effect.Effect<
+  DisableOrganizationAdminAccountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableOrganizationAdminAccountRequest,
+  output: DisableOrganizationAdminAccountResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates an Amazon Macie administrator account from a member account.
  */
-export const disassociateMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateMember: (
+  input: DisassociateMemberRequest,
+) => Effect.Effect<
+  DisassociateMemberResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateMemberRequest,
   output: DisassociateMemberResponse,
   errors: [
@@ -6277,7 +7090,20 @@ export const disassociateMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables Amazon Macie and specifies the configuration settings for a Macie account.
  */
-export const enableMacie = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableMacie: (
+  input: EnableMacieRequest,
+) => Effect.Effect<
+  EnableMacieResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableMacieRequest,
   output: EnableMacieResponse,
   errors: [
@@ -6293,24 +7119,49 @@ export const enableMacie = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Designates an account as the delegated Amazon Macie administrator account for an organization in Organizations.
  */
-export const enableOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableOrganizationAdminAccountRequest,
-    output: EnableOrganizationAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const enableOrganizationAdminAccount: (
+  input: EnableOrganizationAdminAccountRequest,
+) => Effect.Effect<
+  EnableOrganizationAdminAccountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableOrganizationAdminAccountRequest,
+  output: EnableOrganizationAdminAccountResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the count of Amazon Macie membership invitations that were received by an account.
  */
-export const getInvitationsCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInvitationsCount: (
+  input: GetInvitationsCountRequest,
+) => Effect.Effect<
+  GetInvitationsCountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInvitationsCountRequest,
   output: GetInvitationsCountResponse,
   errors: [
@@ -6326,7 +7177,20 @@ export const getInvitationsCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the status and configuration settings for an Amazon Macie account.
  */
-export const getMacieSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMacieSession: (
+  input: GetMacieSessionRequest,
+) => Effect.Effect<
+  GetMacieSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMacieSessionRequest,
   output: GetMacieSessionResponse,
   errors: [
@@ -6342,7 +7206,20 @@ export const getMacieSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAdministratorAccount operation.
  */
-export const getMasterAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMasterAccount: (
+  input: GetMasterAccountRequest,
+) => Effect.Effect<
+  GetMasterAccountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMasterAccountRequest,
   output: GetMasterAccountResponse,
   errors: [
@@ -6358,42 +7235,78 @@ export const getMasterAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the configuration settings for publishing findings to Security Hub.
  */
-export const putFindingsPublicationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutFindingsPublicationConfigurationRequest,
-    output: PutFindingsPublicationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const putFindingsPublicationConfiguration: (
+  input: PutFindingsPublicationConfigurationRequest,
+) => Effect.Effect<
+  PutFindingsPublicationConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutFindingsPublicationConfigurationRequest,
+  output: PutFindingsPublicationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Changes the status of a classification job.
  */
-export const updateClassificationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateClassificationJobRequest,
-    output: UpdateClassificationJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateClassificationJob: (
+  input: UpdateClassificationJobRequest,
+) => Effect.Effect<
+  UpdateClassificationJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateClassificationJobRequest,
+  output: UpdateClassificationJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Suspends or re-enables Amazon Macie, or updates the configuration settings for a Macie account.
  */
-export const updateMacieSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMacieSession: (
+  input: UpdateMacieSessionRequest,
+) => Effect.Effect<
+  UpdateMacieSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMacieSessionRequest,
   output: UpdateMacieSessionResponse,
   errors: [
@@ -6409,7 +7322,20 @@ export const updateMacieSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables an Amazon Macie administrator to suspend or re-enable Macie for a member account.
  */
-export const updateMemberSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMemberSession: (
+  input: UpdateMemberSessionRequest,
+) => Effect.Effect<
+  UpdateMemberSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMemberSessionRequest,
   output: UpdateMemberSessionResponse,
   errors: [
@@ -6425,58 +7351,107 @@ export const updateMemberSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the Amazon Macie configuration settings for an organization in Organizations.
  */
-export const updateOrganizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateOrganizationConfigurationRequest,
-    output: UpdateOrganizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateOrganizationConfiguration: (
+  input: UpdateOrganizationConfigurationRequest,
+) => Effect.Effect<
+  UpdateOrganizationConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOrganizationConfigurationRequest,
+  output: UpdateOrganizationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates a member account from its Amazon Macie administrator account.
  */
-export const disassociateFromAdministratorAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateFromAdministratorAccountRequest,
-    output: DisassociateFromAdministratorAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateFromAdministratorAccount: (
+  input: DisassociateFromAdministratorAccountRequest,
+) => Effect.Effect<
+  DisassociateFromAdministratorAccountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateFromAdministratorAccountRequest,
+  output: DisassociateFromAdministratorAccountResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccount operation.
  */
-export const disassociateFromMasterAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateFromMasterAccountRequest,
-    output: DisassociateFromMasterAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateFromMasterAccount: (
+  input: DisassociateFromMasterAccountRequest,
+) => Effect.Effect<
+  DisassociateFromMasterAccountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateFromMasterAccountRequest,
+  output: DisassociateFromMasterAccountResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Accepts an Amazon Macie membership invitation that was received from a specific account.
  */
-export const acceptInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const acceptInvitation: (
+  input: AcceptInvitationRequest,
+) => Effect.Effect<
+  AcceptInvitationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptInvitationRequest,
   output: AcceptInvitationResponse,
   errors: [
@@ -6492,61 +7467,107 @@ export const acceptInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates sample findings.
  */
-export const createSampleFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSampleFindingsRequest,
-    output: CreateSampleFindingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createSampleFindings: (
+  input: CreateSampleFindingsRequest,
+) => Effect.Effect<
+  CreateSampleFindingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSampleFindingsRequest,
+  output: CreateSampleFindingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Soft deletes a custom data identifier.
  */
-export const deleteCustomDataIdentifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCustomDataIdentifierRequest,
-    output: DeleteCustomDataIdentifierResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteCustomDataIdentifier: (
+  input: DeleteCustomDataIdentifierRequest,
+) => Effect.Effect<
+  DeleteCustomDataIdentifierResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomDataIdentifierRequest,
+  output: DeleteCustomDataIdentifierResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a findings filter.
  */
-export const deleteFindingsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFindingsFilterRequest,
-    output: DeleteFindingsFilterResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteFindingsFilter: (
+  input: DeleteFindingsFilterRequest,
+) => Effect.Effect<
+  DeleteFindingsFilterResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFindingsFilterRequest,
+  output: DeleteFindingsFilterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the association between an Amazon Macie administrator account and an account.
  */
-export const deleteMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMember: (
+  input: DeleteMemberRequest,
+) => Effect.Effect<
+  DeleteMemberResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMemberRequest,
   output: DeleteMemberResponse,
   errors: [
@@ -6562,24 +7583,49 @@ export const deleteMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the Amazon Macie configuration settings for an organization in Organizations.
  */
-export const describeOrganizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeOrganizationConfigurationRequest,
-    output: DescribeOrganizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeOrganizationConfiguration: (
+  input: DescribeOrganizationConfigurationRequest,
+) => Effect.Effect<
+  DescribeOrganizationConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeOrganizationConfigurationRequest,
+  output: DescribeOrganizationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Declines Amazon Macie membership invitations that were received from specific accounts.
  */
-export const declineInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const declineInvitations: (
+  input: DeclineInvitationsRequest,
+) => Effect.Effect<
+  DeclineInvitationsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeclineInvitationsRequest,
   output: DeclineInvitationsResponse,
   errors: [
@@ -6595,7 +7641,20 @@ export const declineInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes Amazon Macie membership invitations that were received from specific accounts.
  */
-export const deleteInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteInvitations: (
+  input: DeleteInvitationsRequest,
+) => Effect.Effect<
+  DeleteInvitationsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInvitationsRequest,
   output: DeleteInvitationsResponse,
   errors: [
@@ -6611,24 +7670,47 @@ export const deleteInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the sensitivity score for an S3 bucket.
  */
-export const updateResourceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateResourceProfileRequest,
-    output: UpdateResourceProfileResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateResourceProfile: (
+  input: UpdateResourceProfileRequest,
+) => Effect.Effect<
+  UpdateResourceProfileResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResourceProfileRequest,
+  output: UpdateResourceProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disables Amazon Macie and deletes all settings and resources for a Macie account.
  */
-export const disableMacie = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableMacie: (
+  input: DisableMacieRequest,
+) => Effect.Effect<
+  DisableMacieResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableMacieRequest,
   output: DisableMacieResponse,
   errors: [
@@ -6644,60 +7726,107 @@ export const disableMacie = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the Amazon Macie administrator account for an account.
  */
-export const getAdministratorAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAdministratorAccountRequest,
-    output: GetAdministratorAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAdministratorAccount: (
+  input: GetAdministratorAccountRequest,
+) => Effect.Effect<
+  GetAdministratorAccountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAdministratorAccountRequest,
+  output: GetAdministratorAccountResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about one or more custom data identifiers.
  */
-export const batchGetCustomDataIdentifiers =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetCustomDataIdentifiersRequest,
-    output: BatchGetCustomDataIdentifiersResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchGetCustomDataIdentifiers: (
+  input: BatchGetCustomDataIdentifiersRequest,
+) => Effect.Effect<
+  BatchGetCustomDataIdentifiersResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetCustomDataIdentifiersRequest,
+  output: BatchGetCustomDataIdentifiersResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates and defines the criteria and other settings for a custom data identifier.
  */
-export const createCustomDataIdentifier = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCustomDataIdentifierRequest,
-    output: CreateCustomDataIdentifierResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createCustomDataIdentifier: (
+  input: CreateCustomDataIdentifierRequest,
+) => Effect.Effect<
+  CreateCustomDataIdentifierResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomDataIdentifierRequest,
+  output: CreateCustomDataIdentifierResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Sends an Amazon Macie membership invitation to one or more accounts.
  */
-export const createInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createInvitations: (
+  input: CreateInvitationsRequest,
+) => Effect.Effect<
+  CreateInvitationsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInvitationsRequest,
   output: CreateInvitationsResponse,
   errors: [
@@ -6713,7 +7842,20 @@ export const createInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates an account with an Amazon Macie administrator account.
  */
-export const createMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMember: (
+  input: CreateMemberRequest,
+) => Effect.Effect<
+  CreateMemberResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMemberRequest,
   output: CreateMemberResponse,
   errors: [
@@ -6729,42 +7871,78 @@ export const createMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the status and settings for a classification job.
  */
-export const describeClassificationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeClassificationJobRequest,
-    output: DescribeClassificationJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeClassificationJob: (
+  input: DescribeClassificationJobRequest,
+) => Effect.Effect<
+  DescribeClassificationJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeClassificationJobRequest,
+  output: DescribeClassificationJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the configuration settings for storing data classification results.
  */
-export const getClassificationExportConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetClassificationExportConfigurationRequest,
-    output: GetClassificationExportConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getClassificationExportConfiguration: (
+  input: GetClassificationExportConfigurationRequest,
+) => Effect.Effect<
+  GetClassificationExportConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetClassificationExportConfigurationRequest,
+  output: GetClassificationExportConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates and defines the settings for an allow list.
  */
-export const createAllowList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAllowList: (
+  input: CreateAllowListRequest,
+) => Effect.Effect<
+  CreateAllowListResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAllowListRequest,
   output: CreateAllowListResponse,
   errors: [
@@ -6780,7 +7958,20 @@ export const createAllowList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves (queries) aggregated statistical data about all the S3 buckets that Amazon Macie monitors and analyzes for an account.
  */
-export const getBucketStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBucketStatistics: (
+  input: GetBucketStatisticsRequest,
+) => Effect.Effect<
+  GetBucketStatisticsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketStatisticsRequest,
   output: GetBucketStatisticsResponse,
   errors: [
@@ -6796,155 +7987,365 @@ export const getBucketStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates and defines the criteria and other settings for a findings filter.
  */
-export const createFindingsFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateFindingsFilterRequest,
-    output: CreateFindingsFilterResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createFindingsFilter: (
+  input: CreateFindingsFilterRequest,
+) => Effect.Effect<
+  CreateFindingsFilterResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFindingsFilterRequest,
+  output: CreateFindingsFilterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves occurrences of sensitive data reported by a finding.
  */
-export const getSensitiveDataOccurrences = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSensitiveDataOccurrencesRequest,
-    output: GetSensitiveDataOccurrencesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
+export const getSensitiveDataOccurrences: (
+  input: GetSensitiveDataOccurrencesRequest,
+) => Effect.Effect<
+  GetSensitiveDataOccurrencesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSensitiveDataOccurrencesRequest,
+  output: GetSensitiveDataOccurrencesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnprocessableEntityException,
+  ],
+}));
 /**
  * Retrieves a subset of information about one or more classification jobs.
  */
-export const listClassificationJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listClassificationJobs: {
+  (
     input: ListClassificationJobsRequest,
-    output: ListClassificationJobsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListClassificationJobsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClassificationJobsRequest,
+  ) => Stream.Stream<
+    ListClassificationJobsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClassificationJobsRequest,
+  ) => Stream.Stream<
+    JobSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClassificationJobsRequest,
+  output: ListClassificationJobsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves (queries) quotas and aggregated usage data for one or more accounts.
  */
-export const getUsageStatistics = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getUsageStatistics: {
+  (
     input: GetUsageStatisticsRequest,
-    output: GetUsageStatisticsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "records",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetUsageStatisticsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetUsageStatisticsRequest,
+  ) => Stream.Stream<
+    GetUsageStatisticsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetUsageStatisticsRequest,
+  ) => Stream.Stream<
+    UsageRecord,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetUsageStatisticsRequest,
+  output: GetUsageStatisticsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "records",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates and defines the settings for a classification job.
  */
-export const createClassificationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateClassificationJobRequest,
-    output: CreateClassificationJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createClassificationJob: (
+  input: CreateClassificationJobRequest,
+) => Effect.Effect<
+  CreateClassificationJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateClassificationJobRequest,
+  output: CreateClassificationJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account.
  */
-export const describeBuckets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeBuckets: {
+  (
     input: DescribeBucketsRequest,
-    output: DescribeBucketsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "buckets",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeBucketsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeBucketsRequest,
+  ) => Stream.Stream<
+    DescribeBucketsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeBucketsRequest,
+  ) => Stream.Stream<
+    BucketMetadata,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeBucketsRequest,
+  output: DescribeBucketsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "buckets",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes for an account.
  */
-export const searchResources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchResources: {
+  (
     input: SearchResourcesRequest,
-    output: SearchResourcesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "matchingResources",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchResourcesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchResourcesRequest,
+  ) => Stream.Stream<
+    SearchResourcesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchResourcesRequest,
+  ) => Stream.Stream<
+    MatchingResource,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchResourcesRequest,
+  output: SearchResourcesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "matchingResources",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the details of one or more findings.
  */
-export const getFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFindings: (
+  input: GetFindingsRequest,
+) => Effect.Effect<
+  GetFindingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFindingsRequest,
   output: GetFindingsResponse,
   errors: [

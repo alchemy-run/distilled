@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "ApiGatewayV2",
   serviceShapeName: "ApiGatewayV2",
@@ -240,6 +248,51 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type SelectionExpression = string;
+export type Arn = string;
+export type StringWithLengthBetween0And1024 = string;
+export type StringWithLengthBetween1And128 = string;
+export type SelectionKey = string;
+export type UriWithLengthBetween1And2048 = string;
+export type StringWithLengthBetween1And64 = string;
+export type Id = string;
+export type __string = string;
+export type IntegerWithLengthBetween0And3600 = number;
+export type StringWithLengthBetween1And512 = string;
+export type StringWithLengthBetween1And1024 = string;
+export type IntegerWithLengthBetween50And30000 = number;
+export type StringWithLengthBetween1And256 = string;
+export type StringWithLengthBetween0And32K = string;
+export type __stringMin20Max2048 = string;
+export type __stringMin0Max1092 = string;
+export type __stringMin0Max255 = string;
+export type __stringMin0Max1024 = string;
+export type __stringMin1Max255 = string;
+export type RoutingRulePriority = number;
+export type MaxResults = number;
+export type __stringMin1Max307200 = string;
+export type IntegerWithLengthBetweenMinus1And86400 = number;
+export type StringWithLengthBetween1And1600 = string;
+export type __stringMin3Max255 = string;
+export type __stringMin1Max32768 = string;
+export type __integer = number;
+export type __double = number;
+export type StringWithLengthBetween0And2048 = string;
+export type __stringMin10Max30PatternAZ09 = string;
+export type NextToken = string;
+export type __stringMin1Max2048 = string;
+export type __stringMin1Max256 = string;
+export type __stringMin10Max2048 = string;
+export type __stringMin3Max256 = string;
+export type __stringMin1Max1024 = string;
+export type __stringMin1Max20 = string;
+export type __stringMin1Max4096 = string;
+export type __stringMin1Max50 = string;
+export type __stringMin1Max128 = string;
+export type __stringMin1Max64 = string;
+export type __stringMin1Max16 = string;
 
 //# Schemas
 export type IdentitySourceList = string[];
@@ -6653,7 +6706,9 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
     LimitType: S.optional(S.String).pipe(T.JsonName("limitType")),
     Message: S.optional(S.String).pipe(T.JsonName("message")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
@@ -6663,17 +6718,30 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 /**
  * Deletes the AccessLogSettings for a Stage. To disable access logging for a Stage, delete its AccessLogSettings.
  */
-export const deleteAccessLogSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAccessLogSettingsRequest,
-    output: DeleteAccessLogSettingsResponse,
-    errors: [NotFoundException, TooManyRequestsException],
-  }),
-);
+export const deleteAccessLogSettings: (
+  input: DeleteAccessLogSettingsRequest,
+) => Effect.Effect<
+  DeleteAccessLogSettingsResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccessLogSettingsRequest,
+  output: DeleteAccessLogSettingsResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
 /**
  * Gets API mappings.
  */
-export const getApiMappings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApiMappings: (
+  input: GetApiMappingsRequest,
+) => Effect.Effect<
+  GetApiMappingsResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApiMappingsRequest,
   output: GetApiMappingsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -6681,7 +6749,16 @@ export const getApiMappings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a collection of Api resources.
  */
-export const getApis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApis: (
+  input: GetApisRequest,
+) => Effect.Effect<
+  GetApisResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApisRequest,
   output: GetApisResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -6689,7 +6766,16 @@ export const getApis = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the Authorizers for an API.
  */
-export const getAuthorizers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAuthorizers: (
+  input: GetAuthorizersRequest,
+) => Effect.Effect<
+  GetAuthorizersResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAuthorizersRequest,
   output: GetAuthorizersResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -6697,7 +6783,16 @@ export const getAuthorizers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the Deployments for an API.
  */
-export const getDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeployments: (
+  input: GetDeploymentsRequest,
+) => Effect.Effect<
+  GetDeploymentsResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentsRequest,
   output: GetDeploymentsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -6705,7 +6800,13 @@ export const getDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a domain name.
  */
-export const getDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDomainName: (
+  input: GetDomainNameRequest,
+) => Effect.Effect<
+  GetDomainNameResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainNameRequest,
   output: GetDomainNameResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -6713,7 +6814,16 @@ export const getDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the domain names for an AWS account.
  */
-export const getDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDomainNames: (
+  input: GetDomainNamesRequest,
+) => Effect.Effect<
+  GetDomainNamesResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainNamesRequest,
   output: GetDomainNamesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -6721,7 +6831,13 @@ export const getDomainNames = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets an Integration.
  */
-export const getIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIntegration: (
+  input: GetIntegrationRequest,
+) => Effect.Effect<
+  GetIntegrationResult,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIntegrationRequest,
   output: GetIntegrationResult,
   errors: [NotFoundException, TooManyRequestsException],
@@ -6729,17 +6845,33 @@ export const getIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the IntegrationResponses for an Integration.
  */
-export const getIntegrationResponses = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIntegrationResponsesRequest,
-    output: GetIntegrationResponsesResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-  }),
-);
+export const getIntegrationResponses: (
+  input: GetIntegrationResponsesRequest,
+) => Effect.Effect<
+  GetIntegrationResponsesResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIntegrationResponsesRequest,
+  output: GetIntegrationResponsesResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+}));
 /**
  * Gets the Integrations for an API.
  */
-export const getIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIntegrations: (
+  input: GetIntegrationsRequest,
+) => Effect.Effect<
+  GetIntegrationsResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIntegrationsRequest,
   output: GetIntegrationsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -6747,7 +6879,16 @@ export const getIntegrations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the Models for an API.
  */
-export const getModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getModels: (
+  input: GetModelsRequest,
+) => Effect.Effect<
+  GetModelsResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelsRequest,
   output: GetModelsResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -6755,7 +6896,17 @@ export const getModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a portal.
  */
-export const getPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPortal: (
+  input: GetPortalRequest,
+) => Effect.Effect<
+  GetPortalResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPortalRequest,
   output: GetPortalResponse,
   errors: [
@@ -6768,22 +6919,39 @@ export const getPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a product REST endpoint page.
  */
-export const getProductRestEndpointPage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetProductRestEndpointPageRequest,
-    output: GetProductRestEndpointPageResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getProductRestEndpointPage: (
+  input: GetProductRestEndpointPageRequest,
+) => Effect.Effect<
+  GetProductRestEndpointPageResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProductRestEndpointPageRequest,
+  output: GetProductRestEndpointPageResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets the RouteResponses for a Route.
  */
-export const getRouteResponses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRouteResponses: (
+  input: GetRouteResponsesRequest,
+) => Effect.Effect<
+  GetRouteResponsesResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouteResponsesRequest,
   output: GetRouteResponsesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -6791,7 +6959,16 @@ export const getRouteResponses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the Routes for an API.
  */
-export const getRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRoutes: (
+  input: GetRoutesRequest,
+) => Effect.Effect<
+  GetRoutesResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRoutesRequest,
   output: GetRoutesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -6799,7 +6976,16 @@ export const getRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the Stages for an API.
  */
-export const getStages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStages: (
+  input: GetStagesRequest,
+) => Effect.Effect<
+  GetStagesResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStagesRequest,
   output: GetStagesResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -6807,7 +6993,17 @@ export const getStages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a collection of Tag resources.
  */
-export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTags: (
+  input: GetTagsRequest,
+) => Effect.Effect<
+  GetTagsResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTagsRequest,
   output: GetTagsResponse,
   errors: [
@@ -6820,7 +7016,13 @@ export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a collection of VPC links.
  */
-export const getVpcLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVpcLinks: (
+  input: GetVpcLinksRequest,
+) => Effect.Effect<
+  GetVpcLinksResponse,
+  BadRequestException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVpcLinksRequest,
   output: GetVpcLinksResponse,
   errors: [BadRequestException, TooManyRequestsException],
@@ -6828,7 +7030,16 @@ export const getVpcLinks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists portal products.
  */
-export const listPortalProducts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listPortalProducts: (
+  input: ListPortalProductsRequest,
+) => Effect.Effect<
+  ListPortalProductsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPortalProductsRequest,
   output: ListPortalProductsResponse,
   errors: [
@@ -6840,7 +7051,16 @@ export const listPortalProducts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists portals.
  */
-export const listPortals = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listPortals: (
+  input: ListPortalsRequest,
+) => Effect.Effect<
+  ListPortalsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPortalsRequest,
   output: ListPortalsResponse,
   errors: [
@@ -6852,7 +7072,17 @@ export const listPortals = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the product pages for a portal product.
  */
-export const listProductPages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listProductPages: (
+  input: ListProductPagesRequest,
+) => Effect.Effect<
+  ListProductPagesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProductPagesRequest,
   output: ListProductPagesResponse,
   errors: [
@@ -6865,37 +7095,84 @@ export const listProductPages = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the product REST endpoint pages of a portal product.
  */
-export const listProductRestEndpointPages =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListProductRestEndpointPagesRequest,
-    output: ListProductRestEndpointPagesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const listProductRestEndpointPages: (
+  input: ListProductRestEndpointPagesRequest,
+) => Effect.Effect<
+  ListProductRestEndpointPagesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProductRestEndpointPagesRequest,
+  output: ListProductRestEndpointPagesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Lists routing rules.
  */
-export const listRoutingRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRoutingRules: {
+  (
     input: ListRoutingRulesRequest,
-    output: ListRoutingRulesResponse,
-    errors: [BadRequestException, NotFoundException, TooManyRequestsException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RoutingRules",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRoutingRulesResponse,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRoutingRulesRequest,
+  ) => Stream.Stream<
+    ListRoutingRulesResponse,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoutingRulesRequest,
+  ) => Stream.Stream<
+    RoutingRule,
+    | BadRequestException
+    | NotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRoutingRulesRequest,
+  output: ListRoutingRulesResponse,
+  errors: [BadRequestException, NotFoundException, TooManyRequestsException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RoutingRules",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes an API mapping.
  */
-export const deleteApiMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApiMapping: (
+  input: DeleteApiMappingRequest,
+) => Effect.Effect<
+  DeleteApiMappingResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApiMappingRequest,
   output: DeleteApiMappingResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -6903,7 +7180,16 @@ export const deleteApiMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a portal.
  */
-export const deletePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePortal: (
+  input: DeletePortalRequest,
+) => Effect.Effect<
+  DeletePortalResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePortalRequest,
   output: DeletePortalResponse,
   errors: [
@@ -6915,7 +7201,16 @@ export const deletePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  *
  */
-export const exportApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const exportApi: (
+  input: ExportApiRequest,
+) => Effect.Effect<
+  ExportApiResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportApiRequest,
   output: ExportApiResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -6923,7 +7218,13 @@ export const exportApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets an Api resource.
  */
-export const getApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApi: (
+  input: GetApiRequest,
+) => Effect.Effect<
+  GetApiResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApiRequest,
   output: GetApiResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -6931,7 +7232,16 @@ export const getApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets an API mapping.
  */
-export const getApiMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApiMapping: (
+  input: GetApiMappingRequest,
+) => Effect.Effect<
+  GetApiMappingResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApiMappingRequest,
   output: GetApiMappingResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -6939,7 +7249,13 @@ export const getApiMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets an Authorizer.
  */
-export const getAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAuthorizer: (
+  input: GetAuthorizerRequest,
+) => Effect.Effect<
+  GetAuthorizerResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAuthorizerRequest,
   output: GetAuthorizerResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -6947,7 +7263,13 @@ export const getAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a Deployment.
  */
-export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeployment: (
+  input: GetDeploymentRequest,
+) => Effect.Effect<
+  GetDeploymentResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentRequest,
   output: GetDeploymentResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -6955,17 +7277,27 @@ export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets an IntegrationResponses.
  */
-export const getIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIntegrationResponseRequest,
-    output: GetIntegrationResponseResponse,
-    errors: [NotFoundException, TooManyRequestsException],
-  }),
-);
+export const getIntegrationResponse: (
+  input: GetIntegrationResponseRequest,
+) => Effect.Effect<
+  GetIntegrationResponseResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIntegrationResponseRequest,
+  output: GetIntegrationResponseResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
 /**
  * Gets a Model.
  */
-export const getModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getModel: (
+  input: GetModelRequest,
+) => Effect.Effect<
+  GetModelResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelRequest,
   output: GetModelResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -6973,7 +7305,13 @@ export const getModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a model template.
  */
-export const getModelTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getModelTemplate: (
+  input: GetModelTemplateRequest,
+) => Effect.Effect<
+  GetModelTemplateResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelTemplateRequest,
   output: GetModelTemplateResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -6981,7 +7319,17 @@ export const getModelTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a portal product.
  */
-export const getPortalProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPortalProduct: (
+  input: GetPortalProductRequest,
+) => Effect.Effect<
+  GetPortalProductResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPortalProductRequest,
   output: GetPortalProductResponse,
   errors: [
@@ -6994,21 +7342,40 @@ export const getPortalProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the sharing policy for a portal product.
  */
-export const getPortalProductSharingPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetPortalProductSharingPolicyRequest,
-    output: GetPortalProductSharingPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getPortalProductSharingPolicy: (
+  input: GetPortalProductSharingPolicyRequest,
+) => Effect.Effect<
+  GetPortalProductSharingPolicyResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPortalProductSharingPolicyRequest,
+  output: GetPortalProductSharingPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets a product page of a portal product.
  */
-export const getProductPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getProductPage: (
+  input: GetProductPageRequest,
+) => Effect.Effect<
+  GetProductPageResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProductPageRequest,
   output: GetProductPageResponse,
   errors: [
@@ -7021,7 +7388,13 @@ export const getProductPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a Route.
  */
-export const getRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRoute: (
+  input: GetRouteRequest,
+) => Effect.Effect<
+  GetRouteResult,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouteRequest,
   output: GetRouteResult,
   errors: [NotFoundException, TooManyRequestsException],
@@ -7029,7 +7402,13 @@ export const getRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a RouteResponse.
  */
-export const getRouteResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRouteResponse: (
+  input: GetRouteResponseRequest,
+) => Effect.Effect<
+  GetRouteResponseResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRouteResponseRequest,
   output: GetRouteResponseResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -7037,7 +7416,16 @@ export const getRouteResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a routing rule.
  */
-export const getRoutingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRoutingRule: (
+  input: GetRoutingRuleRequest,
+) => Effect.Effect<
+  GetRoutingRuleResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRoutingRuleRequest,
   output: GetRoutingRuleResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -7045,7 +7433,13 @@ export const getRoutingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a Stage.
  */
-export const getStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStage: (
+  input: GetStageRequest,
+) => Effect.Effect<
+  GetStageResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStageRequest,
   output: GetStageResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -7053,7 +7447,13 @@ export const getStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a VPC link.
  */
-export const getVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getVpcLink: (
+  input: GetVpcLinkRequest,
+) => Effect.Effect<
+  GetVpcLinkResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVpcLinkRequest,
   output: GetVpcLinkResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -7061,7 +7461,17 @@ export const getVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a product page of a portal product.
  */
-export const updateProductPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProductPage: (
+  input: UpdateProductPageRequest,
+) => Effect.Effect<
+  UpdateProductPageResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProductPageRequest,
   output: UpdateProductPageResponse,
   errors: [
@@ -7074,21 +7484,39 @@ export const updateProductPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a product REST endpoint page.
  */
-export const updateProductRestEndpointPage =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateProductRestEndpointPageRequest,
-    output: UpdateProductRestEndpointPageResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const updateProductRestEndpointPage: (
+  input: UpdateProductRestEndpointPageRequest,
+) => Effect.Effect<
+  UpdateProductRestEndpointPageResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProductRestEndpointPageRequest,
+  output: UpdateProductRestEndpointPageResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Updates a VPC link.
  */
-export const updateVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVpcLink: (
+  input: UpdateVpcLinkRequest,
+) => Effect.Effect<
+  UpdateVpcLinkResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVpcLinkRequest,
   output: UpdateVpcLinkResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -7096,7 +7524,13 @@ export const updateVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Api resource.
  */
-export const deleteApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApi: (
+  input: DeleteApiRequest,
+) => Effect.Effect<
+  DeleteApiResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApiRequest,
   output: DeleteApiResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -7104,7 +7538,13 @@ export const deleteApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Authorizer.
  */
-export const deleteAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAuthorizer: (
+  input: DeleteAuthorizerRequest,
+) => Effect.Effect<
+  DeleteAuthorizerResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAuthorizerRequest,
   output: DeleteAuthorizerResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -7112,17 +7552,27 @@ export const deleteAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a CORS configuration.
  */
-export const deleteCorsConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCorsConfigurationRequest,
-    output: DeleteCorsConfigurationResponse,
-    errors: [NotFoundException, TooManyRequestsException],
-  }),
-);
+export const deleteCorsConfiguration: (
+  input: DeleteCorsConfigurationRequest,
+) => Effect.Effect<
+  DeleteCorsConfigurationResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCorsConfigurationRequest,
+  output: DeleteCorsConfigurationResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
 /**
  * Deletes a Deployment.
  */
-export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDeployment: (
+  input: DeleteDeploymentRequest,
+) => Effect.Effect<
+  DeleteDeploymentResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeploymentRequest,
   output: DeleteDeploymentResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -7130,7 +7580,13 @@ export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a domain name.
  */
-export const deleteDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDomainName: (
+  input: DeleteDomainNameRequest,
+) => Effect.Effect<
+  DeleteDomainNameResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainNameRequest,
   output: DeleteDomainNameResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -7138,7 +7594,13 @@ export const deleteDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Integration.
  */
-export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIntegration: (
+  input: DeleteIntegrationRequest,
+) => Effect.Effect<
+  DeleteIntegrationResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIntegrationRequest,
   output: DeleteIntegrationResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -7146,17 +7608,27 @@ export const deleteIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an IntegrationResponses.
  */
-export const deleteIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIntegrationResponseRequest,
-    output: DeleteIntegrationResponseResponse,
-    errors: [NotFoundException, TooManyRequestsException],
-  }),
-);
+export const deleteIntegrationResponse: (
+  input: DeleteIntegrationResponseRequest,
+) => Effect.Effect<
+  DeleteIntegrationResponseResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIntegrationResponseRequest,
+  output: DeleteIntegrationResponseResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
 /**
  * Deletes a Model.
  */
-export const deleteModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteModel: (
+  input: DeleteModelRequest,
+) => Effect.Effect<
+  DeleteModelResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelRequest,
   output: DeleteModelResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -7164,7 +7636,13 @@ export const deleteModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a Route.
  */
-export const deleteRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRoute: (
+  input: DeleteRouteRequest,
+) => Effect.Effect<
+  DeleteRouteResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouteRequest,
   output: DeleteRouteResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -7172,17 +7650,27 @@ export const deleteRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a route request parameter. Supported only for WebSocket APIs.
  */
-export const deleteRouteRequestParameter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRouteRequestParameterRequest,
-    output: DeleteRouteRequestParameterResponse,
-    errors: [NotFoundException, TooManyRequestsException],
-  }),
-);
+export const deleteRouteRequestParameter: (
+  input: DeleteRouteRequestParameterRequest,
+) => Effect.Effect<
+  DeleteRouteRequestParameterResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRouteRequestParameterRequest,
+  output: DeleteRouteRequestParameterResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
 /**
  * Deletes a RouteResponse.
  */
-export const deleteRouteResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRouteResponse: (
+  input: DeleteRouteResponseRequest,
+) => Effect.Effect<
+  DeleteRouteResponseResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouteResponseRequest,
   output: DeleteRouteResponseResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -7190,7 +7678,13 @@ export const deleteRouteResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the RouteSettings for a stage.
  */
-export const deleteRouteSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRouteSettings: (
+  input: DeleteRouteSettingsRequest,
+) => Effect.Effect<
+  DeleteRouteSettingsResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouteSettingsRequest,
   output: DeleteRouteSettingsResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -7198,7 +7692,13 @@ export const deleteRouteSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a Stage.
  */
-export const deleteStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteStage: (
+  input: DeleteStageRequest,
+) => Effect.Effect<
+  DeleteStageResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStageRequest,
   output: DeleteStageResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -7206,7 +7706,13 @@ export const deleteStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a VPC link.
  */
-export const deleteVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVpcLink: (
+  input: DeleteVpcLinkRequest,
+) => Effect.Effect<
+  DeleteVpcLinkResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpcLinkRequest,
   output: DeleteVpcLinkResponse,
   errors: [NotFoundException, TooManyRequestsException],
@@ -7214,17 +7720,30 @@ export const deleteVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
  */
-export const resetAuthorizersCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetAuthorizersCacheRequest,
-    output: ResetAuthorizersCacheResponse,
-    errors: [NotFoundException, TooManyRequestsException],
-  }),
-);
+export const resetAuthorizersCache: (
+  input: ResetAuthorizersCacheRequest,
+) => Effect.Effect<
+  ResetAuthorizersCacheResponse,
+  NotFoundException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetAuthorizersCacheRequest,
+  output: ResetAuthorizersCacheResponse,
+  errors: [NotFoundException, TooManyRequestsException],
+}));
 /**
  * Deletes a routing rule.
  */
-export const deleteRoutingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRoutingRule: (
+  input: DeleteRoutingRuleRequest,
+) => Effect.Effect<
+  DeleteRoutingRuleResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRoutingRuleRequest,
   output: DeleteRoutingRuleResponse,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException],
@@ -7232,7 +7751,13 @@ export const deleteRoutingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a VPC link.
  */
-export const createVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVpcLink: (
+  input: CreateVpcLinkRequest,
+) => Effect.Effect<
+  CreateVpcLinkResponse,
+  BadRequestException | TooManyRequestsException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcLinkRequest,
   output: CreateVpcLinkResponse,
   errors: [BadRequestException, TooManyRequestsException],
@@ -7240,7 +7765,17 @@ export const createVpcLink = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a portal product.
  */
-export const deletePortalProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePortalProduct: (
+  input: DeletePortalProductRequest,
+) => Effect.Effect<
+  DeletePortalProductResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePortalProductRequest,
   output: DeletePortalProductResponse,
   errors: [
@@ -7253,21 +7788,40 @@ export const deletePortalProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the sharing policy for a portal product.
  */
-export const deletePortalProductSharingPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeletePortalProductSharingPolicyRequest,
-    output: DeletePortalProductSharingPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const deletePortalProductSharingPolicy: (
+  input: DeletePortalProductSharingPolicyRequest,
+) => Effect.Effect<
+  DeletePortalProductSharingPolicyResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePortalProductSharingPolicyRequest,
+  output: DeletePortalProductSharingPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes a product page of a portal product.
  */
-export const deleteProductPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProductPage: (
+  input: DeleteProductPageRequest,
+) => Effect.Effect<
+  DeleteProductPageResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProductPageRequest,
   output: DeleteProductPageResponse,
   errors: [
@@ -7280,35 +7834,62 @@ export const deleteProductPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a product REST endpoint page.
  */
-export const deleteProductRestEndpointPage =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteProductRestEndpointPageRequest,
-    output: DeleteProductRestEndpointPageResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const deleteProductRestEndpointPage: (
+  input: DeleteProductRestEndpointPageRequest,
+) => Effect.Effect<
+  DeleteProductRestEndpointPageResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProductRestEndpointPageRequest,
+  output: DeleteProductRestEndpointPageResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Updates the sharing policy for a portal product.
  */
-export const putPortalProductSharingPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutPortalProductSharingPolicyRequest,
-    output: PutPortalProductSharingPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const putPortalProductSharingPolicy: (
+  input: PutPortalProductSharingPolicyRequest,
+) => Effect.Effect<
+  PutPortalProductSharingPolicyResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutPortalProductSharingPolicyRequest,
+  output: PutPortalProductSharingPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates a new portal product.
  */
-export const createPortalProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPortalProduct: (
+  input: CreatePortalProductRequest,
+) => Effect.Effect<
+  CreatePortalProductResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePortalProductRequest,
   output: CreatePortalProductResponse,
   errors: [
@@ -7320,7 +7901,17 @@ export const createPortalProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new product page for a portal product.
  */
-export const createProductPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProductPage: (
+  input: CreateProductPageRequest,
+) => Effect.Effect<
+  CreateProductPageResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProductPageRequest,
   output: CreateProductPageResponse,
   errors: [
@@ -7333,7 +7924,17 @@ export const createProductPage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Imports an API.
  */
-export const importApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importApi: (
+  input: ImportApiRequest,
+) => Effect.Effect<
+  ImportApiResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportApiRequest,
   output: ImportApiResponse,
   errors: [
@@ -7346,7 +7947,17 @@ export const importApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a routing rule.
  */
-export const putRoutingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putRoutingRule: (
+  input: PutRoutingRuleRequest,
+) => Effect.Effect<
+  PutRoutingRuleResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRoutingRuleRequest,
   output: PutRoutingRuleResponse,
   errors: [
@@ -7359,7 +7970,17 @@ export const putRoutingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Puts an Api resource.
  */
-export const reimportApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const reimportApi: (
+  input: ReimportApiRequest,
+) => Effect.Effect<
+  ReimportApiResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReimportApiRequest,
   output: ReimportApiResponse,
   errors: [
@@ -7372,7 +7993,17 @@ export const reimportApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an Api resource.
  */
-export const updateApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApi: (
+  input: UpdateApiRequest,
+) => Effect.Effect<
+  UpdateApiResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApiRequest,
   output: UpdateApiResponse,
   errors: [
@@ -7385,7 +8016,17 @@ export const updateApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The API mapping.
  */
-export const updateApiMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApiMapping: (
+  input: UpdateApiMappingRequest,
+) => Effect.Effect<
+  UpdateApiMappingResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApiMappingRequest,
   output: UpdateApiMappingResponse,
   errors: [
@@ -7398,7 +8039,17 @@ export const updateApiMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an Authorizer.
  */
-export const updateAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAuthorizer: (
+  input: UpdateAuthorizerRequest,
+) => Effect.Effect<
+  UpdateAuthorizerResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAuthorizerRequest,
   output: UpdateAuthorizerResponse,
   errors: [
@@ -7411,7 +8062,17 @@ export const updateAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a Deployment.
  */
-export const updateDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDeployment: (
+  input: UpdateDeploymentRequest,
+) => Effect.Effect<
+  UpdateDeploymentResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeploymentRequest,
   output: UpdateDeploymentResponse,
   errors: [
@@ -7424,7 +8085,17 @@ export const updateDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a domain name.
  */
-export const updateDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDomainName: (
+  input: UpdateDomainNameRequest,
+) => Effect.Effect<
+  UpdateDomainNameResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainNameRequest,
   output: UpdateDomainNameResponse,
   errors: [
@@ -7437,7 +8108,17 @@ export const updateDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an Integration.
  */
-export const updateIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateIntegration: (
+  input: UpdateIntegrationRequest,
+) => Effect.Effect<
+  UpdateIntegrationResult,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIntegrationRequest,
   output: UpdateIntegrationResult,
   errors: [
@@ -7450,22 +8131,40 @@ export const updateIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an IntegrationResponses.
  */
-export const updateIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIntegrationResponseRequest,
-    output: UpdateIntegrationResponseResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateIntegrationResponse: (
+  input: UpdateIntegrationResponseRequest,
+) => Effect.Effect<
+  UpdateIntegrationResponseResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIntegrationResponseRequest,
+  output: UpdateIntegrationResponseResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Updates a Model.
  */
-export const updateModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateModel: (
+  input: UpdateModelRequest,
+) => Effect.Effect<
+  UpdateModelResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateModelRequest,
   output: UpdateModelResponse,
   errors: [
@@ -7478,7 +8177,18 @@ export const updateModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a portal.
  */
-export const updatePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePortal: (
+  input: UpdatePortalRequest,
+) => Effect.Effect<
+  UpdatePortalResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePortalRequest,
   output: UpdatePortalResponse,
   errors: [
@@ -7492,7 +8202,17 @@ export const updatePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a Route.
  */
-export const updateRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRoute: (
+  input: UpdateRouteRequest,
+) => Effect.Effect<
+  UpdateRouteResult,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRouteRequest,
   output: UpdateRouteResult,
   errors: [
@@ -7505,7 +8225,17 @@ export const updateRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a RouteResponse.
  */
-export const updateRouteResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRouteResponse: (
+  input: UpdateRouteResponseRequest,
+) => Effect.Effect<
+  UpdateRouteResponseResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRouteResponseRequest,
   output: UpdateRouteResponseResponse,
   errors: [
@@ -7518,7 +8248,17 @@ export const updateRouteResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a Stage.
  */
-export const updateStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateStage: (
+  input: UpdateStageRequest,
+) => Effect.Effect<
+  UpdateStageResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStageRequest,
   output: UpdateStageResponse,
   errors: [
@@ -7531,7 +8271,17 @@ export const updateStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new Tag resource to represent a tag.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -7544,7 +8294,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a Tag.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -7557,7 +8317,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an API mapping.
  */
-export const createApiMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApiMapping: (
+  input: CreateApiMappingRequest,
+) => Effect.Effect<
+  CreateApiMappingResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApiMappingRequest,
   output: CreateApiMappingResponse,
   errors: [
@@ -7570,7 +8340,17 @@ export const createApiMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a Deployment for an API.
  */
-export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDeployment: (
+  input: CreateDeploymentRequest,
+) => Effect.Effect<
+  CreateDeploymentResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentRequest,
   output: CreateDeploymentResponse,
   errors: [
@@ -7583,22 +8363,40 @@ export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an IntegrationResponses.
  */
-export const createIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIntegrationResponseRequest,
-    output: CreateIntegrationResponseResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const createIntegrationResponse: (
+  input: CreateIntegrationResponseRequest,
+) => Effect.Effect<
+  CreateIntegrationResponseResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIntegrationResponseRequest,
+  output: CreateIntegrationResponseResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates a Model for an API.
  */
-export const createModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createModel: (
+  input: CreateModelRequest,
+) => Effect.Effect<
+  CreateModelResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelRequest,
   output: CreateModelResponse,
   errors: [
@@ -7611,7 +8409,17 @@ export const createModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a RouteResponse for a Route.
  */
-export const createRouteResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRouteResponse: (
+  input: CreateRouteResponseRequest,
+) => Effect.Effect<
+  CreateRouteResponseResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouteResponseRequest,
   output: CreateRouteResponseResponse,
   errors: [
@@ -7624,7 +8432,18 @@ export const createRouteResponse = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the publication of a portal portal.
  */
-export const disablePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disablePortal: (
+  input: DisablePortalRequest,
+) => Effect.Effect<
+  DisablePortalResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisablePortalRequest,
   output: DisablePortalResponse,
   errors: [
@@ -7638,7 +8457,18 @@ export const disablePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a portal preview.
  */
-export const previewPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const previewPortal: (
+  input: PreviewPortalRequest,
+) => Effect.Effect<
+  PreviewPortalResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PreviewPortalRequest,
   output: PreviewPortalResponse,
   errors: [
@@ -7652,7 +8482,18 @@ export const previewPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Publishes a portal.
  */
-export const publishPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const publishPortal: (
+  input: PublishPortalRequest,
+) => Effect.Effect<
+  PublishPortalResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishPortalRequest,
   output: PublishPortalResponse,
   errors: [
@@ -7666,7 +8507,17 @@ export const publishPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Api resource.
  */
-export const createApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApi: (
+  input: CreateApiRequest,
+) => Effect.Effect<
+  CreateApiResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApiRequest,
   output: CreateApiResponse,
   errors: [
@@ -7679,7 +8530,17 @@ export const createApi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Authorizer for an API.
  */
-export const createAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAuthorizer: (
+  input: CreateAuthorizerRequest,
+) => Effect.Effect<
+  CreateAuthorizerResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAuthorizerRequest,
   output: CreateAuthorizerResponse,
   errors: [
@@ -7692,7 +8553,18 @@ export const createAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a domain name.
  */
-export const createDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDomainName: (
+  input: CreateDomainNameRequest,
+) => Effect.Effect<
+  CreateDomainNameResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainNameRequest,
   output: CreateDomainNameResponse,
   errors: [
@@ -7706,7 +8578,17 @@ export const createDomainName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Integration.
  */
-export const createIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIntegration: (
+  input: CreateIntegrationRequest,
+) => Effect.Effect<
+  CreateIntegrationResult,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIntegrationRequest,
   output: CreateIntegrationResult,
   errors: [
@@ -7719,7 +8601,17 @@ export const createIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a Stage for an API.
  */
-export const createStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createStage: (
+  input: CreateStageRequest,
+) => Effect.Effect<
+  CreateStageResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStageRequest,
   output: CreateStageResponse,
   errors: [
@@ -7732,21 +8624,40 @@ export const createStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a product REST endpoint page for a portal product.
  */
-export const createProductRestEndpointPage =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateProductRestEndpointPageRequest,
-    output: CreateProductRestEndpointPageResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      NotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const createProductRestEndpointPage: (
+  input: CreateProductRestEndpointPageRequest,
+) => Effect.Effect<
+  CreateProductRestEndpointPageResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProductRestEndpointPageRequest,
+  output: CreateProductRestEndpointPageResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    NotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates a Route for an API.
  */
-export const createRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRoute: (
+  input: CreateRouteRequest,
+) => Effect.Effect<
+  CreateRouteResult,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouteRequest,
   output: CreateRouteResult,
   errors: [
@@ -7759,7 +8670,17 @@ export const createRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the portal product.
  */
-export const updatePortalProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePortalProduct: (
+  input: UpdatePortalProductRequest,
+) => Effect.Effect<
+  UpdatePortalProductResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePortalProductRequest,
   output: UpdatePortalProductResponse,
   errors: [
@@ -7772,7 +8693,16 @@ export const updatePortalProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a portal.
  */
-export const createPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPortal: (
+  input: CreatePortalRequest,
+) => Effect.Effect<
+  CreatePortalResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePortalRequest,
   output: CreatePortalResponse,
   errors: [
@@ -7784,7 +8714,17 @@ export const createPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a RoutingRule.
  */
-export const createRoutingRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRoutingRule: (
+  input: CreateRoutingRuleRequest,
+) => Effect.Effect<
+  CreateRoutingRuleResponse,
+  | BadRequestException
+  | ConflictException
+  | NotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRoutingRuleRequest,
   output: CreateRoutingRuleResponse,
   errors: [

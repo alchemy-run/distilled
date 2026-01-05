@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://organizations.amazonaws.com/doc/2016-11-28/");
 const svc = T.AwsApiService({
   sdkId: "Organizations",
@@ -481,6 +489,56 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type HandshakeId = string;
+export type PolicyId = string;
+export type PolicyTargetId = string;
+export type AccountId = string;
+export type Email = string;
+export type CreateAccountName = string;
+export type RoleName = string;
+export type ParentId = string;
+export type OrganizationalUnitName = string;
+export type PolicyContent = string;
+export type PolicyDescription = string;
+export type PolicyName = string;
+export type ExceptionMessage = string;
+export type OrganizationalUnitId = string;
+export type ServicePrincipal = string;
+export type CreateAccountRequestId = string;
+export type ResponsibilityTransferId = string;
+export type RootId = string;
+export type HandshakeNotes = string;
+export type ResponsibilityTransferName = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type ChildId = string;
+export type TaggableResourceId = string;
+export type ResourcePolicyContent = string;
+export type TagKey = string;
+export type TagValue = string;
+export type OrganizationId = string;
+export type OrganizationArn = string;
+export type AccountArn = string;
+export type HandshakeArn = string;
+export type HandshakePartyId = string;
+export type Path = string;
+export type ResourcePolicyId = string;
+export type ResourcePolicyArn = string;
+export type HandshakeResourceValue = string;
+export type OrganizationalUnitArn = string;
+export type AccountName = string;
+export type ResponsibilityTransferArn = string;
+export type RootArn = string;
+export type RootName = string;
+export type ErrorCode = string;
+export type ErrorMessage = string;
+export type PathToError = string;
+export type PolicyArn = string;
+export type GenericArn = string;
+export type TargetName = string;
+export type ExceptionType = string;
 
 //# Schemas
 export interface DeleteOrganizationRequest {}
@@ -2865,7 +2923,9 @@ export class HandshakeAlreadyInStateException extends S.TaggedError<HandshakeAlr
 export class ServiceException extends S.TaggedError<ServiceException>()(
   "ServiceException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class OrganizationalUnitNotFoundException extends S.TaggedError<OrganizationalUnitNotFoundException>()(
   "OrganizationalUnitNotFoundException",
   { Message: S.optional(S.String) },
@@ -2965,7 +3025,9 @@ export class HandshakeConstraintViolationException extends S.TaggedError<Handsha
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class PolicyTypeAlreadyEnabledException extends S.TaggedError<PolicyTypeAlreadyEnabledException>()(
   "PolicyTypeAlreadyEnabledException",
   { Message: S.optional(S.String) },
@@ -3026,19 +3088,28 @@ export class RootNotFoundException extends S.TaggedError<RootNotFoundException>(
  * it separately at the root level with DisablePolicyType. Use ListRoots to see the status of policy types for a specified
  * root.
  */
-export const describeOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeOrganizationRequest,
-    output: DescribeOrganizationResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConcurrentModificationException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeOrganization: (
+  input: DescribeOrganizationRequest,
+) => Effect.Effect<
+  DescribeOrganizationResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeOrganizationRequest,
+  output: DescribeOrganizationResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConcurrentModificationException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Declines a Handshake.
  *
@@ -3048,7 +3119,21 @@ export const describeOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can view canceled handshakes in API responses for 30 days before they are
  * deleted.
  */
-export const declineHandshake = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const declineHandshake: (
+  input: DeclineHandshakeRequest,
+) => Effect.Effect<
+  DeclineHandshakeResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | HandshakeAlreadyInStateException
+  | HandshakeNotFoundException
+  | InvalidHandshakeTransitionException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeclineHandshakeRequest,
   output: DeclineHandshakeResponse,
   errors: [
@@ -3077,7 +3162,21 @@ export const declineHandshake = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TargetNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3096,20 +3195,30 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const describeOrganizationalUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeOrganizationalUnitRequest,
-    output: DescribeOrganizationalUnitResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      InvalidInputException,
-      OrganizationalUnitNotFoundException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeOrganizationalUnit: (
+  input: DescribeOrganizationalUnitRequest,
+) => Effect.Effect<
+  DescribeOrganizationalUnitResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | InvalidInputException
+  | OrganizationalUnitNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeOrganizationalUnitRequest,
+  output: DescribeOrganizationalUnitResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    InvalidInputException,
+    OrganizationalUnitNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Lists all of the organizational units (OUs) or accounts that are contained in the
  * specified parent OU or root. This operation, along with ListParents
@@ -3121,25 +3230,63 @@ export const describeOrganizationalUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listChildren = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listChildren: {
+  (
     input: ListChildrenRequest,
-    output: ListChildrenResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      InvalidInputException,
-      ParentNotFoundException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListChildrenResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ParentNotFoundException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChildrenRequest,
+  ) => Stream.Stream<
+    ListChildrenResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ParentNotFoundException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChildrenRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ParentNotFoundException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChildrenRequest,
+  output: ListChildrenResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    InvalidInputException,
+    ParentNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the root or organizational units (OUs) that serve as the immediate parent of the
  * specified child OU or account. This operation, along with ListChildren
@@ -3153,25 +3300,63 @@ export const listChildren = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * In the current release, a child can have only a single parent.
  */
-export const listParents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listParents: {
+  (
     input: ListParentsRequest,
-    output: ListParentsResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ChildNotFoundException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListParentsResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | ChildNotFoundException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListParentsRequest,
+  ) => Stream.Stream<
+    ListParentsResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | ChildNotFoundException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListParentsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | ChildNotFoundException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListParentsRequest,
+  output: ListParentsResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ChildNotFoundException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates an Amazon Web Services organization. The account whose user is calling the
  * `CreateOrganization` operation automatically becomes the management account of the new organization.
@@ -3187,7 +3372,21 @@ export const listParents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * parameter to `CONSOLIDATED_BILLING`, no policy types are enabled by default
  * and you can't use organization policies.
  */
-export const createOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createOrganization: (
+  input: CreateOrganizationRequest,
+) => Effect.Effect<
+  CreateOrganizationResponse,
+  | AccessDeniedException
+  | AccessDeniedForDependencyException
+  | AlreadyInOrganizationException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationRequest,
   output: CreateOrganizationResponse,
   errors: [
@@ -3205,7 +3404,21 @@ export const createOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes the organization. You can delete an organization only by using credentials
  * from the management account. The organization must be empty of member accounts.
  */
-export const deleteOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteOrganization: (
+  input: DeleteOrganizationRequest,
+) => Effect.Effect<
+  DeleteOrganizationResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InvalidInputException
+  | OrganizationNotEmptyException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationRequest,
   output: DeleteOrganizationResponse,
   errors: [
@@ -3228,7 +3441,19 @@ export const deleteOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can call this operation from any account in a organization.
  */
-export const describeHandshake = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeHandshake: (
+  input: DescribeHandshakeRequest,
+) => Effect.Effect<
+  DescribeHandshakeResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | HandshakeNotFoundException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHandshakeRequest,
   output: DescribeHandshakeResponse,
   errors: [
@@ -3247,44 +3472,68 @@ export const describeHandshake = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account.
  */
-export const updateOrganizationalUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateOrganizationalUnitRequest,
-    output: UpdateOrganizationalUnitResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConcurrentModificationException,
-      DuplicateOrganizationalUnitException,
-      InvalidInputException,
-      OrganizationalUnitNotFoundException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateOrganizationalUnit: (
+  input: UpdateOrganizationalUnitRequest,
+) => Effect.Effect<
+  UpdateOrganizationalUnitResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | DuplicateOrganizationalUnitException
+  | InvalidInputException
+  | OrganizationalUnitNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOrganizationalUnitRequest,
+  output: UpdateOrganizationalUnitResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConcurrentModificationException,
+    DuplicateOrganizationalUnitException,
+    InvalidInputException,
+    OrganizationalUnitNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes an organizational unit (OU) from a root or another OU. You must first remove
  * all accounts and child OUs from the OU that you want to delete.
  *
  * You can only call this operation from the management account.
  */
-export const deleteOrganizationalUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOrganizationalUnitRequest,
-    output: DeleteOrganizationalUnitResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConcurrentModificationException,
-      InvalidInputException,
-      OrganizationalUnitNotEmptyException,
-      OrganizationalUnitNotFoundException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const deleteOrganizationalUnit: (
+  input: DeleteOrganizationalUnitRequest,
+) => Effect.Effect<
+  DeleteOrganizationalUnitResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | InvalidInputException
+  | OrganizationalUnitNotEmptyException
+  | OrganizationalUnitNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOrganizationalUnitRequest,
+  output: DeleteOrganizationalUnitResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConcurrentModificationException,
+    InvalidInputException,
+    OrganizationalUnitNotEmptyException,
+    OrganizationalUnitNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Removes the specified account from the organization.
  *
@@ -3313,22 +3562,36 @@ export const deleteOrganizationalUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * the account object in the organization are deleted. Amazon Web Services accounts outside
  * of an organization do not support tags.
  */
-export const removeAccountFromOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveAccountFromOrganizationRequest,
-    output: RemoveAccountFromOrganizationResponse,
-    errors: [
-      AccessDeniedException,
-      AccountNotFoundException,
-      AWSOrganizationsNotInUseException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      InvalidInputException,
-      MasterCannotLeaveOrganizationException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }));
+export const removeAccountFromOrganization: (
+  input: RemoveAccountFromOrganizationRequest,
+) => Effect.Effect<
+  RemoveAccountFromOrganizationResponse,
+  | AccessDeniedException
+  | AccountNotFoundException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InvalidInputException
+  | MasterCannotLeaveOrganizationException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveAccountFromOrganizationRequest,
+  output: RemoveAccountFromOrganizationResponse,
+  errors: [
+    AccessDeniedException,
+    AccountNotFoundException,
+    AWSOrganizationsNotInUseException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    InvalidInputException,
+    MasterCannotLeaveOrganizationException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Lists the recent handshakes that you have received.
  *
@@ -3342,23 +3605,59 @@ export const removeAccountFromOrganization =
  * These operations can occasionally return an empty set of results even when more results are available.
  * Continue making requests until `NextToken` returns null. A null `NextToken` value indicates that you have retrieved all available results.
  */
-export const listHandshakesForAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listHandshakesForAccount: {
+  (
     input: ListHandshakesForAccountRequest,
-    output: ListHandshakesForAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConcurrentModificationException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListHandshakesForAccountResponse,
+    | AccessDeniedException
+    | ConcurrentModificationException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListHandshakesForAccountRequest,
+  ) => Stream.Stream<
+    ListHandshakesForAccountResponse,
+    | AccessDeniedException
+    | ConcurrentModificationException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListHandshakesForAccountRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConcurrentModificationException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListHandshakesForAccountRequest,
+  output: ListHandshakesForAccountResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the recent handshakes that you have sent.
  *
@@ -3372,24 +3671,63 @@ export const listHandshakesForAccount =
  * These operations can occasionally return an empty set of results even when more results are available.
  * Continue making requests until `NextToken` returns null. A null `NextToken` value indicates that you have retrieved all available results.
  */
-export const listHandshakesForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listHandshakesForOrganization: {
+  (
     input: ListHandshakesForOrganizationRequest,
-    output: ListHandshakesForOrganizationResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConcurrentModificationException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListHandshakesForOrganizationResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | ConcurrentModificationException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListHandshakesForOrganizationRequest,
+  ) => Stream.Stream<
+    ListHandshakesForOrganizationResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | ConcurrentModificationException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListHandshakesForOrganizationRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | ConcurrentModificationException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListHandshakesForOrganizationRequest,
+  output: ListHandshakesForOrganizationResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConcurrentModificationException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the accounts in the organization. To request only the accounts in a
  * specified root or organizational unit (OU), use the ListAccountsForParent operation instead.
@@ -3400,24 +3738,59 @@ export const listHandshakesForOrganization =
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listAccounts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAccounts: {
+  (
     input: ListAccountsRequest,
-    output: ListAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAccountsResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccountsRequest,
+  ) => Stream.Stream<
+    ListAccountsResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccountsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsRequest,
+  output: ListAccountsResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the roots that are defined in the current organization.
  *
@@ -3433,7 +3806,44 @@ export const listAccounts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * enabled and disabled in a root. To see the availability of a policy type in an
  * organization, use DescribeOrganization.
  */
-export const listRoots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRoots: {
+  (
+    input: ListRootsRequest,
+  ): Effect.Effect<
+    ListRootsResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRootsRequest,
+  ) => Stream.Stream<
+    ListRootsResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRootsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRootsRequest,
   output: ListRootsResponse,
   errors: [
@@ -3454,7 +3864,19 @@ export const listRoots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const describeAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAccount: (
+  input: DescribeAccountRequest,
+) => Effect.Effect<
+  DescribeAccountResponse,
+  | AccessDeniedException
+  | AccountNotFoundException
+  | AWSOrganizationsNotInUseException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAccountRequest,
   output: DescribeAccountResponse,
   errors: [
@@ -3496,7 +3918,21 @@ export const describeAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account.
  */
-export const enableAllFeatures = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableAllFeatures: (
+  input: EnableAllFeaturesRequest,
+) => Effect.Effect<
+  EnableAllFeaturesResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | HandshakeConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableAllFeaturesRequest,
   output: EnableAllFeaturesResponse,
   errors: [
@@ -3523,24 +3959,63 @@ export const enableAllFeatures = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listAccountsForParent =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAccountsForParent: {
+  (
     input: ListAccountsForParentRequest,
-    output: ListAccountsForParentResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      InvalidInputException,
-      ParentNotFoundException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAccountsForParentResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ParentNotFoundException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccountsForParentRequest,
+  ) => Stream.Stream<
+    ListAccountsForParentResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ParentNotFoundException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccountsForParentRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ParentNotFoundException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsForParentRequest,
+  output: ListAccountsForParentResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    InvalidInputException,
+    ParentNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the organizational units (OUs) in a parent organizational unit or root.
  *
@@ -3550,24 +4025,63 @@ export const listAccountsForParent =
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listOrganizationalUnitsForParent =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOrganizationalUnitsForParent: {
+  (
     input: ListOrganizationalUnitsForParentRequest,
-    output: ListOrganizationalUnitsForParentResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      InvalidInputException,
-      ParentNotFoundException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOrganizationalUnitsForParentResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ParentNotFoundException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOrganizationalUnitsForParentRequest,
+  ) => Stream.Stream<
+    ListOrganizationalUnitsForParentResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ParentNotFoundException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOrganizationalUnitsForParentRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ParentNotFoundException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOrganizationalUnitsForParentRequest,
+  output: ListOrganizationalUnitsForParentResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    InvalidInputException,
+    ParentNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Sends an invitation to another account to join your organization as a member account.
  * Organizations sends email on your behalf to the email address that is associated with the
@@ -3585,25 +4099,40 @@ export const listOrganizationalUnitsForParent =
  *
  * You can only call this operation from the management account.
  */
-export const inviteAccountToOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: InviteAccountToOrganizationRequest,
-    output: InviteAccountToOrganizationResponse,
-    errors: [
-      AccessDeniedException,
-      AccountOwnerNotVerifiedException,
-      AWSOrganizationsNotInUseException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      DuplicateHandshakeException,
-      FinalizingOrganizationException,
-      HandshakeConstraintViolationException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const inviteAccountToOrganization: (
+  input: InviteAccountToOrganizationRequest,
+) => Effect.Effect<
+  InviteAccountToOrganizationResponse,
+  | AccessDeniedException
+  | AccountOwnerNotVerifiedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | DuplicateHandshakeException
+  | FinalizingOrganizationException
+  | HandshakeConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InviteAccountToOrganizationRequest,
+  output: InviteAccountToOrganizationResponse,
+  errors: [
+    AccessDeniedException,
+    AccountOwnerNotVerifiedException,
+    AWSOrganizationsNotInUseException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    DuplicateHandshakeException,
+    FinalizingOrganizationException,
+    HandshakeConstraintViolationException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Creates an organizational unit (OU) within a root or parent OU. An OU is a container
  * for accounts that enables you to organize your accounts to apply policies according to
@@ -3619,23 +4148,36 @@ export const inviteAccountToOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can only call this operation from the management account.
  */
-export const createOrganizationalUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateOrganizationalUnitRequest,
-    output: CreateOrganizationalUnitResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      DuplicateOrganizationalUnitException,
-      InvalidInputException,
-      ParentNotFoundException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const createOrganizationalUnit: (
+  input: CreateOrganizationalUnitRequest,
+) => Effect.Effect<
+  CreateOrganizationalUnitResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | DuplicateOrganizationalUnitException
+  | InvalidInputException
+  | ParentNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOrganizationalUnitRequest,
+  output: CreateOrganizationalUnitResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    DuplicateOrganizationalUnitException,
+    InvalidInputException,
+    ParentNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Removes a member account from its parent organization. This version of the operation
  * is performed by the account that wants to leave. To remove a member account as a user in
@@ -3687,7 +4229,22 @@ export const createOrganizationalUnit = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `LeaveOrganization` across multiple accounts, you can only do
  * this up to 5 accounts per second in a single organization.
  */
-export const leaveOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const leaveOrganization: (
+  input: LeaveOrganizationRequest,
+) => Effect.Effect<
+  LeaveOrganizationResponse,
+  | AccessDeniedException
+  | AccountNotFoundException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InvalidInputException
+  | MasterCannotLeaveOrganizationException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LeaveOrganizationRequest,
   output: LeaveOrganizationResponse,
   errors: [
@@ -3711,7 +4268,21 @@ export const leaveOrganization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can view canceled handshakes in API responses for 30 days before they are
  * deleted.
  */
-export const cancelHandshake = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelHandshake: (
+  input: CancelHandshakeRequest,
+) => Effect.Effect<
+  CancelHandshakeResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | HandshakeAlreadyInStateException
+  | HandshakeNotFoundException
+  | InvalidHandshakeTransitionException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelHandshakeRequest,
   output: CancelHandshakeResponse,
   errors: [
@@ -3750,7 +4321,26 @@ export const cancelHandshake = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Responding to invitations and Enabling all features in the *Organizations User Guide*.
  */
-export const acceptHandshake = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const acceptHandshake: (
+  input: AcceptHandshakeRequest,
+) => Effect.Effect<
+  AcceptHandshakeResponse,
+  | AccessDeniedException
+  | AccessDeniedForDependencyException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | HandshakeAlreadyInStateException
+  | HandshakeConstraintViolationException
+  | HandshakeNotFoundException
+  | InvalidHandshakeTransitionException
+  | InvalidInputException
+  | MasterCannotLeaveOrganizationException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptHandshakeRequest,
   output: AcceptHandshakeResponse,
   errors: [
@@ -3784,7 +4374,21 @@ export const acceptHandshake = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TargetNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3813,54 +4417,125 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceRequest,
-    output: ListTagsForResourceResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      InvalidInputException,
-      ServiceException,
-      TargetNotFoundException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Tags",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TargetNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    ListTagsForResourceResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TargetNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    Tag,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TargetNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    InvalidInputException,
+    ServiceException,
+    TargetNotFoundException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Tags",
+  } as const,
+}));
 /**
  * Ends a transfer. A *transfer* is an arrangement between two
  * management accounts where one account designates the other with specified
  * responsibilities for their organization.
  */
-export const terminateResponsibilityTransfer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: TerminateResponsibilityTransferRequest,
-    output: TerminateResponsibilityTransferResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      InvalidInputException,
-      InvalidResponsibilityTransferTransitionException,
-      ResponsibilityTransferAlreadyInStatusException,
-      ResponsibilityTransferNotFoundException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-  }));
+export const terminateResponsibilityTransfer: (
+  input: TerminateResponsibilityTransferRequest,
+) => Effect.Effect<
+  TerminateResponsibilityTransferResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InvalidInputException
+  | InvalidResponsibilityTransferTransitionException
+  | ResponsibilityTransferAlreadyInStatusException
+  | ResponsibilityTransferNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TerminateResponsibilityTransferRequest,
+  output: TerminateResponsibilityTransferResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    InvalidInputException,
+    InvalidResponsibilityTransferTransitionException,
+    ResponsibilityTransferAlreadyInStatusException,
+    ResponsibilityTransferNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+}));
 /**
  * Moves an account from its current source parent root or organizational unit (OU) to
  * the specified destination parent root or OU.
  *
  * You can only call this operation from the management account.
  */
-export const moveAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const moveAccount: (
+  input: MoveAccountRequest,
+) => Effect.Effect<
+  MoveAccountResponse,
+  | AccessDeniedException
+  | AccountNotFoundException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | DestinationParentNotFoundException
+  | DuplicateAccountException
+  | InvalidInputException
+  | ServiceException
+  | SourceParentNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MoveAccountRequest,
   output: MoveAccountResponse,
   errors: [
@@ -3888,7 +4563,24 @@ export const moveAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const createPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPolicy: (
+  input: CreatePolicyRequest,
+) => Effect.Effect<
+  CreatePolicyResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | DuplicatePolicyException
+  | InvalidInputException
+  | MalformedPolicyDocumentException
+  | PolicyTypeNotAvailableForOrganizationException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePolicyRequest,
   output: CreatePolicyResponse,
   errors: [
@@ -3912,7 +4604,25 @@ export const createPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const updatePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePolicy: (
+  input: UpdatePolicyRequest,
+) => Effect.Effect<
+  UpdatePolicyResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | DuplicatePolicyException
+  | InvalidInputException
+  | MalformedPolicyDocumentException
+  | PolicyChangesInProgressException
+  | PolicyNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePolicyRequest,
   output: UpdatePolicyResponse,
   errors: [
@@ -3938,27 +4648,72 @@ export const updatePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listAccountsWithInvalidEffectivePolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAccountsWithInvalidEffectivePolicy: {
+  (
     input: ListAccountsWithInvalidEffectivePolicyRequest,
-    output: ListAccountsWithInvalidEffectivePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConstraintViolationException,
-      EffectivePolicyNotFoundException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Accounts",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAccountsWithInvalidEffectivePolicyResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | ConstraintViolationException
+    | EffectivePolicyNotFoundException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccountsWithInvalidEffectivePolicyRequest,
+  ) => Stream.Stream<
+    ListAccountsWithInvalidEffectivePolicyResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | ConstraintViolationException
+    | EffectivePolicyNotFoundException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccountsWithInvalidEffectivePolicyRequest,
+  ) => Stream.Stream<
+    Account,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | ConstraintViolationException
+    | EffectivePolicyNotFoundException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsWithInvalidEffectivePolicyRequest,
+  output: ListAccountsWithInvalidEffectivePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConstraintViolationException,
+    EffectivePolicyNotFoundException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Accounts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the roots, organizational units (OUs), and accounts that the specified
  * policy is attached to.
@@ -3969,25 +4724,67 @@ export const listAccountsWithInvalidEffectivePolicy =
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listTargetsForPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTargetsForPolicy: {
+  (
     input: ListTargetsForPolicyRequest,
-    output: ListTargetsForPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      InvalidInputException,
-      PolicyNotFoundException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTargetsForPolicyResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | PolicyNotFoundException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTargetsForPolicyRequest,
+  ) => Stream.Stream<
+    ListTargetsForPolicyResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | PolicyNotFoundException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTargetsForPolicyRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | PolicyNotFoundException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTargetsForPolicyRequest,
+  output: ListTargetsForPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    InvalidInputException,
+    PolicyNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Closes an Amazon Web Services member account within an organization. You can close an account when
  * all
@@ -4027,7 +4824,24 @@ export const listTargetsForPolicy =
  * Closing an Amazon Web Services GovCloud (US) account in the
  * Amazon Web Services GovCloud User Guide.
  */
-export const closeAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const closeAccount: (
+  input: CloseAccountRequest,
+) => Effect.Effect<
+  CloseAccountResponse,
+  | AccessDeniedException
+  | AccountAlreadyClosedException
+  | AccountNotFoundException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConflictException
+  | ConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CloseAccountRequest,
   output: CloseAccountResponse,
   errors: [
@@ -4051,7 +4865,22 @@ export const closeAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePolicy: (
+  input: DeletePolicyRequest,
+) => Effect.Effect<
+  DeletePolicyResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | InvalidInputException
+  | PolicyInUseException
+  | PolicyNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyRequest,
   output: DeletePolicyResponse,
   errors: [
@@ -4071,22 +4900,34 @@ export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      ResourcePolicyNotFoundException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | ResourcePolicyNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    ResourcePolicyNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+}));
 /**
  * Returns a list of the Amazon Web Services services that you enabled to integrate with your
  * organization. After a service on this list creates the resources that it requires for
@@ -4098,79 +4939,211 @@ export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listAWSServiceAccessForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAWSServiceAccessForOrganization: {
+  (
     input: ListAWSServiceAccessForOrganizationRequest,
-    output: ListAWSServiceAccessForOrganizationResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConstraintViolationException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAWSServiceAccessForOrganizationResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | ConstraintViolationException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAWSServiceAccessForOrganizationRequest,
+  ) => Stream.Stream<
+    ListAWSServiceAccessForOrganizationResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | ConstraintViolationException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAWSServiceAccessForOrganizationRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | ConstraintViolationException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAWSServiceAccessForOrganizationRequest,
+  output: ListAWSServiceAccessForOrganizationResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConstraintViolationException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the Amazon Web Services accounts that are designated as delegated administrators in this
  * organization.
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listDelegatedAdministrators =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDelegatedAdministrators: {
+  (
     input: ListDelegatedAdministratorsRequest,
-    output: ListDelegatedAdministratorsResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConstraintViolationException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DelegatedAdministrators",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDelegatedAdministratorsResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | ConstraintViolationException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDelegatedAdministratorsRequest,
+  ) => Stream.Stream<
+    ListDelegatedAdministratorsResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | ConstraintViolationException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDelegatedAdministratorsRequest,
+  ) => Stream.Stream<
+    DelegatedAdministrator,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | ConstraintViolationException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDelegatedAdministratorsRequest,
+  output: ListDelegatedAdministratorsResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConstraintViolationException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DelegatedAdministrators",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the Amazon Web Services services for which the specified account is a delegated
  * administrator.
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listDelegatedServicesForAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDelegatedServicesForAccount: {
+  (
     input: ListDelegatedServicesForAccountRequest,
-    output: ListDelegatedServicesForAccountResponse,
-    errors: [
-      AccessDeniedException,
-      AccountNotFoundException,
-      AccountNotRegisteredException,
-      AWSOrganizationsNotInUseException,
-      ConstraintViolationException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DelegatedServices",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDelegatedServicesForAccountResponse,
+    | AccessDeniedException
+    | AccountNotFoundException
+    | AccountNotRegisteredException
+    | AWSOrganizationsNotInUseException
+    | ConstraintViolationException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDelegatedServicesForAccountRequest,
+  ) => Stream.Stream<
+    ListDelegatedServicesForAccountResponse,
+    | AccessDeniedException
+    | AccountNotFoundException
+    | AccountNotRegisteredException
+    | AWSOrganizationsNotInUseException
+    | ConstraintViolationException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDelegatedServicesForAccountRequest,
+  ) => Stream.Stream<
+    DelegatedService,
+    | AccessDeniedException
+    | AccountNotFoundException
+    | AccountNotRegisteredException
+    | AWSOrganizationsNotInUseException
+    | ConstraintViolationException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDelegatedServicesForAccountRequest,
+  output: ListDelegatedServicesForAccountResponse,
+  errors: [
+    AccessDeniedException,
+    AccountNotFoundException,
+    AccountNotRegisteredException,
+    AWSOrganizationsNotInUseException,
+    ConstraintViolationException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DelegatedServices",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the list of all policies in an organization of a specified type.
  *
@@ -4180,31 +5153,83 @@ export const listDelegatedServicesForAccount =
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPolicies: {
+  (
     input: ListPoliciesRequest,
-    output: ListPoliciesResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPoliciesResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPoliciesRequest,
+  ) => Stream.Stream<
+    ListPoliciesResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPoliciesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPoliciesRequest,
+  output: ListPoliciesResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates or updates a resource policy.
  *
  * You can only call this operation from the management account..
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [
@@ -4230,23 +5255,38 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account.
  */
-export const registerDelegatedAdministrator =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterDelegatedAdministratorRequest,
-    output: RegisterDelegatedAdministratorResponse,
-    errors: [
-      AccessDeniedException,
-      AccountAlreadyRegisteredException,
-      AccountNotFoundException,
-      AWSOrganizationsNotInUseException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-  }));
+export const registerDelegatedAdministrator: (
+  input: RegisterDelegatedAdministratorRequest,
+) => Effect.Effect<
+  RegisterDelegatedAdministratorResponse,
+  | AccessDeniedException
+  | AccountAlreadyRegisteredException
+  | AccountNotFoundException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterDelegatedAdministratorRequest,
+  output: RegisterDelegatedAdministratorResponse,
+  errors: [
+    AccessDeniedException,
+    AccountAlreadyRegisteredException,
+    AccountNotFoundException,
+    AWSOrganizationsNotInUseException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+}));
 /**
  * Disables the integration of an Amazon Web Services service (the service that is specified by
  * `ServicePrincipal`) with Organizations. When you disable integration, the
@@ -4304,22 +5344,34 @@ export const registerDelegatedAdministrator =
  *
  * You can only call this operation from the management account.
  */
-export const disableAWSServiceAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableAWSServiceAccessRequest,
-    output: DisableAWSServiceAccessResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-  }),
-);
+export const disableAWSServiceAccess: (
+  input: DisableAWSServiceAccessRequest,
+) => Effect.Effect<
+  DisableAWSServiceAccessResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableAWSServiceAccessRequest,
+  output: DisableAWSServiceAccessResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+}));
 /**
  * Provides an Amazon Web Services service (the service that is specified by
  * `ServicePrincipal`) with permissions to view the structure of an
@@ -4341,22 +5393,34 @@ export const disableAWSServiceAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can only call this operation from the management account.
  */
-export const enableAWSServiceAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableAWSServiceAccessRequest,
-    output: EnableAWSServiceAccessResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-  }),
-);
+export const enableAWSServiceAccess: (
+  input: EnableAWSServiceAccessRequest,
+) => Effect.Effect<
+  EnableAWSServiceAccessResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableAWSServiceAccessRequest,
+  output: EnableAWSServiceAccessResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+}));
 /**
  * Lists the account creation requests that match the specified status that is currently
  * being tracked for the organization.
@@ -4367,44 +5431,94 @@ export const enableAWSServiceAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listCreateAccountStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCreateAccountStatus: {
+  (
     input: ListCreateAccountStatusRequest,
-    output: ListCreateAccountStatusResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCreateAccountStatusResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCreateAccountStatusRequest,
+  ) => Stream.Stream<
+    ListCreateAccountStatusResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCreateAccountStatusRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCreateAccountStatusRequest,
+  output: ListCreateAccountStatusResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the current status of an asynchronous request to create an account.
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const describeCreateAccountStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCreateAccountStatusRequest,
-    output: DescribeCreateAccountStatusResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      CreateAccountStatusNotFoundException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-  }),
-);
+export const describeCreateAccountStatus: (
+  input: DescribeCreateAccountStatusRequest,
+) => Effect.Effect<
+  DescribeCreateAccountStatusResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | CreateAccountStatusNotFoundException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCreateAccountStatusRequest,
+  output: DescribeCreateAccountStatusResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    CreateAccountStatusNotFoundException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+}));
 /**
  * Lists transfers that allow an account outside your organization to manage the
  * specified responsibilities for your organization. This operation returns both transfer
@@ -4414,20 +5528,32 @@ export const describeCreateAccountStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * These operations can occasionally return an empty set of results even when more results are available.
  * Continue making requests until `NextToken` returns null. A null `NextToken` value indicates that you have retrieved all available results.
  */
-export const listOutboundResponsibilityTransfers =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListOutboundResponsibilityTransfersRequest,
-    output: ListOutboundResponsibilityTransfersResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConstraintViolationException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-  }));
+export const listOutboundResponsibilityTransfers: (
+  input: ListOutboundResponsibilityTransfersRequest,
+) => Effect.Effect<
+  ListOutboundResponsibilityTransfersResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListOutboundResponsibilityTransfersRequest,
+  output: ListOutboundResponsibilityTransfersResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConstraintViolationException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+}));
 /**
  * Removes the specified member Amazon Web Services account as a delegated administrator for the
  * specified Amazon Web Services service.
@@ -4444,23 +5570,38 @@ export const listOutboundResponsibilityTransfers =
  *
  * You can only call this operation from the management account.
  */
-export const deregisterDelegatedAdministrator =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterDelegatedAdministratorRequest,
-    output: DeregisterDelegatedAdministratorResponse,
-    errors: [
-      AccessDeniedException,
-      AccountNotFoundException,
-      AccountNotRegisteredException,
-      AWSOrganizationsNotInUseException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-  }));
+export const deregisterDelegatedAdministrator: (
+  input: DeregisterDelegatedAdministratorRequest,
+) => Effect.Effect<
+  DeregisterDelegatedAdministratorResponse,
+  | AccessDeniedException
+  | AccountNotFoundException
+  | AccountNotRegisteredException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterDelegatedAdministratorRequest,
+  output: DeregisterDelegatedAdministratorResponse,
+  errors: [
+    AccessDeniedException,
+    AccountNotFoundException,
+    AccountNotRegisteredException,
+    AWSOrganizationsNotInUseException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+}));
 /**
  * Lists transfers that allow you to manage the specified responsibilities for another
  * organization. This operation returns both transfer invitations and transfers.
@@ -4469,21 +5610,34 @@ export const deregisterDelegatedAdministrator =
  * These operations can occasionally return an empty set of results even when more results are available.
  * Continue making requests until `NextToken` returns null. A null `NextToken` value indicates that you have retrieved all available results.
  */
-export const listInboundResponsibilityTransfers =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListInboundResponsibilityTransfersRequest,
-    output: ListInboundResponsibilityTransfersResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConstraintViolationException,
-      InvalidInputException,
-      ResponsibilityTransferNotFoundException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-  }));
+export const listInboundResponsibilityTransfers: (
+  input: ListInboundResponsibilityTransfersRequest,
+) => Effect.Effect<
+  ListInboundResponsibilityTransfersResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConstraintViolationException
+  | InvalidInputException
+  | ResponsibilityTransferNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListInboundResponsibilityTransfersRequest,
+  output: ListInboundResponsibilityTransfersResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConstraintViolationException,
+    InvalidInputException,
+    ResponsibilityTransferNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+}));
 /**
  * Creates an Amazon Web Services account that is automatically a member of the organization whose
  * credentials made the request. This is an asynchronous request that Amazon Web Services performs in the
@@ -4551,7 +5705,22 @@ export const listInboundResponsibilityTransfers =
  * Granting access to
  * your billing information and tools.
  */
-export const createAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAccount: (
+  input: CreateAccountRequest,
+) => Effect.Effect<
+  CreateAccountResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | FinalizingOrganizationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountRequest,
   output: CreateAccountResponse,
   errors: [
@@ -4572,34 +5741,95 @@ export const createAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listEffectivePolicyValidationErrors =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEffectivePolicyValidationErrors: {
+  (
     input: ListEffectivePolicyValidationErrorsRequest,
-    output: ListEffectivePolicyValidationErrorsResponse,
-    errors: [
-      AccessDeniedException,
-      AccountNotFoundException,
-      AWSOrganizationsNotInUseException,
-      ConstraintViolationException,
-      EffectivePolicyNotFoundException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EffectivePolicyValidationErrors",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEffectivePolicyValidationErrorsResponse,
+    | AccessDeniedException
+    | AccountNotFoundException
+    | AWSOrganizationsNotInUseException
+    | ConstraintViolationException
+    | EffectivePolicyNotFoundException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEffectivePolicyValidationErrorsRequest,
+  ) => Stream.Stream<
+    ListEffectivePolicyValidationErrorsResponse,
+    | AccessDeniedException
+    | AccountNotFoundException
+    | AWSOrganizationsNotInUseException
+    | ConstraintViolationException
+    | EffectivePolicyNotFoundException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEffectivePolicyValidationErrorsRequest,
+  ) => Stream.Stream<
+    EffectivePolicyValidationError,
+    | AccessDeniedException
+    | AccountNotFoundException
+    | AWSOrganizationsNotInUseException
+    | ConstraintViolationException
+    | EffectivePolicyNotFoundException
+    | InvalidInputException
+    | ServiceException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEffectivePolicyValidationErrorsRequest,
+  output: ListEffectivePolicyValidationErrorsResponse,
+  errors: [
+    AccessDeniedException,
+    AccountNotFoundException,
+    AWSOrganizationsNotInUseException,
+    ConstraintViolationException,
+    EffectivePolicyNotFoundException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EffectivePolicyValidationErrors",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves information about a policy.
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const describePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describePolicy: (
+  input: DescribePolicyRequest,
+) => Effect.Effect<
+  DescribePolicyResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | InvalidInputException
+  | PolicyNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePolicyRequest,
   output: DescribePolicyResponse,
   errors: [
@@ -4617,21 +5847,32 @@ export const describePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const describeResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeResourcePolicyRequest,
-    output: DescribeResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConstraintViolationException,
-      ResourcePolicyNotFoundException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-  }),
-);
+export const describeResourcePolicy: (
+  input: DescribeResourcePolicyRequest,
+) => Effect.Effect<
+  DescribeResourcePolicyResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConstraintViolationException
+  | ResourcePolicyNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeResourcePolicyRequest,
+  output: DescribeResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConstraintViolationException,
+    ResourcePolicyNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+}));
 /**
  * Updates a transfer. A *transfer* is the arrangement between two
  * management accounts where one account designates the other with specified
@@ -4639,40 +5880,65 @@ export const describeResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can update the name assigned to a transfer.
  */
-export const updateResponsibilityTransfer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateResponsibilityTransferRequest,
-    output: UpdateResponsibilityTransferResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConstraintViolationException,
-      InvalidInputException,
-      ResponsibilityTransferNotFoundException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-  }));
+export const updateResponsibilityTransfer: (
+  input: UpdateResponsibilityTransferRequest,
+) => Effect.Effect<
+  UpdateResponsibilityTransferResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConstraintViolationException
+  | InvalidInputException
+  | ResponsibilityTransferNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResponsibilityTransferRequest,
+  output: UpdateResponsibilityTransferResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConstraintViolationException,
+    InvalidInputException,
+    ResponsibilityTransferNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+}));
 /**
  * Returns details for a transfer. A *transfer* is an arrangement
  * between two management accounts where one account designates the other with specified
  * responsibilities for their organization.
  */
-export const describeResponsibilityTransfer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeResponsibilityTransferRequest,
-    output: DescribeResponsibilityTransferResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      InvalidInputException,
-      ResponsibilityTransferNotFoundException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-  }));
+export const describeResponsibilityTransfer: (
+  input: DescribeResponsibilityTransferRequest,
+) => Effect.Effect<
+  DescribeResponsibilityTransferResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | InvalidInputException
+  | ResponsibilityTransferNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeResponsibilityTransferRequest,
+  output: DescribeResponsibilityTransferResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    InvalidInputException,
+    ResponsibilityTransferNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+}));
 /**
  * This action is available if all of the following are true:
  *
@@ -4783,23 +6049,36 @@ export const describeResponsibilityTransfer =
  * Granting
  * access to your billing information and tools.
  */
-export const createGovCloudAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateGovCloudAccountRequest,
-    output: CreateGovCloudAccountResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      FinalizingOrganizationException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-  }),
-);
+export const createGovCloudAccount: (
+  input: CreateGovCloudAccountRequest,
+) => Effect.Effect<
+  CreateGovCloudAccountResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | FinalizingOrganizationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGovCloudAccountRequest,
+  output: CreateGovCloudAccountResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    FinalizingOrganizationException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+}));
 /**
  * Sends an invitation to another organization's management account to designate your
  * account with the specified responsibilities for their organization. The invitation is
@@ -4807,23 +6086,38 @@ export const createGovCloudAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can only call this operation from the management account.
  */
-export const inviteOrganizationToTransferResponsibility =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: InviteOrganizationToTransferResponsibilityRequest,
-    output: InviteOrganizationToTransferResponsibilityResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConcurrentModificationException,
-      ConstraintViolationException,
-      DuplicateHandshakeException,
-      HandshakeConstraintViolationException,
-      InvalidInputException,
-      ServiceException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-  }));
+export const inviteOrganizationToTransferResponsibility: (
+  input: InviteOrganizationToTransferResponsibilityRequest,
+) => Effect.Effect<
+  InviteOrganizationToTransferResponsibilityResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | DuplicateHandshakeException
+  | HandshakeConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InviteOrganizationToTransferResponsibilityRequest,
+  output: InviteOrganizationToTransferResponsibilityResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConcurrentModificationException,
+    ConstraintViolationException,
+    DuplicateHandshakeException,
+    HandshakeConstraintViolationException,
+    InvalidInputException,
+    ServiceException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+}));
 /**
  * Detaches a policy from a target root, organizational unit (OU), or account.
  *
@@ -4842,7 +6136,25 @@ export const inviteOrganizationToTransferResponsibility =
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const detachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detachPolicy: (
+  input: DetachPolicyRequest,
+) => Effect.Effect<
+  DetachPolicyResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InvalidInputException
+  | PolicyChangesInProgressException
+  | PolicyNotAttachedException
+  | PolicyNotFoundException
+  | ServiceException
+  | TargetNotFoundException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachPolicyRequest,
   output: DetachPolicyResponse,
   errors: [
@@ -4871,25 +6183,67 @@ export const detachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listPoliciesForTarget =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPoliciesForTarget: {
+  (
     input: ListPoliciesForTargetRequest,
-    output: ListPoliciesForTargetResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      InvalidInputException,
-      ServiceException,
-      TargetNotFoundException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPoliciesForTargetResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TargetNotFoundException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPoliciesForTargetRequest,
+  ) => Stream.Stream<
+    ListPoliciesForTargetResponse,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TargetNotFoundException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPoliciesForTargetRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | AWSOrganizationsNotInUseException
+    | InvalidInputException
+    | ServiceException
+    | TargetNotFoundException
+    | TooManyRequestsException
+    | UnsupportedAPIEndpointException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPoliciesForTargetRequest,
+  output: ListPoliciesForTargetResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    InvalidInputException,
+    ServiceException,
+    TargetNotFoundException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the contents of the effective policy for specified policy type and account.
  * The effective policy is the aggregation of any policies of the specified type that the
@@ -4905,23 +6259,36 @@ export const listPoliciesForTarget =
  *
  * You can call this operation from any account in a organization.
  */
-export const describeEffectivePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEffectivePolicyRequest,
-    output: DescribeEffectivePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      AWSOrganizationsNotInUseException,
-      ConstraintViolationException,
-      EffectivePolicyNotFoundException,
-      InvalidInputException,
-      ServiceException,
-      TargetNotFoundException,
-      TooManyRequestsException,
-      UnsupportedAPIEndpointException,
-    ],
-  }),
-);
+export const describeEffectivePolicy: (
+  input: DescribeEffectivePolicyRequest,
+) => Effect.Effect<
+  DescribeEffectivePolicyResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConstraintViolationException
+  | EffectivePolicyNotFoundException
+  | InvalidInputException
+  | ServiceException
+  | TargetNotFoundException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEffectivePolicyRequest,
+  output: DescribeEffectivePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    AWSOrganizationsNotInUseException,
+    ConstraintViolationException,
+    EffectivePolicyNotFoundException,
+    InvalidInputException,
+    ServiceException,
+    TargetNotFoundException,
+    TooManyRequestsException,
+    UnsupportedAPIEndpointException,
+  ],
+}));
 /**
  * Attaches a policy to a root, an organizational unit (OU), or an individual account.
  * How the policy affects accounts depends on the type of policy. Refer to the
@@ -4955,7 +6322,26 @@ export const describeEffectivePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const attachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const attachPolicy: (
+  input: AttachPolicyRequest,
+) => Effect.Effect<
+  AttachPolicyResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | DuplicatePolicyAttachmentException
+  | InvalidInputException
+  | PolicyChangesInProgressException
+  | PolicyNotFoundException
+  | PolicyTypeNotEnabledException
+  | ServiceException
+  | TargetNotFoundException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachPolicyRequest,
   output: AttachPolicyResponse,
   errors: [
@@ -4990,7 +6376,24 @@ export const attachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To view the status of available policy types in the organization, use ListRoots.
  */
-export const disablePolicyType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disablePolicyType: (
+  input: DisablePolicyTypeRequest,
+) => Effect.Effect<
+  DisablePolicyTypeResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InvalidInputException
+  | PolicyChangesInProgressException
+  | PolicyTypeNotEnabledException
+  | RootNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisablePolicyTypeRequest,
   output: DisablePolicyTypeResponse,
   errors: [
@@ -5023,7 +6426,25 @@ export const disablePolicyType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * organization. To view the status of available policy types in the organization, use
  * ListRoots.
  */
-export const enablePolicyType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enablePolicyType: (
+  input: EnablePolicyTypeRequest,
+) => Effect.Effect<
+  EnablePolicyTypeResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | ConstraintViolationException
+  | InvalidInputException
+  | PolicyChangesInProgressException
+  | PolicyTypeAlreadyEnabledException
+  | PolicyTypeNotAvailableForOrganizationException
+  | RootNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnablePolicyTypeRequest,
   output: EnablePolicyTypeResponse,
   errors: [

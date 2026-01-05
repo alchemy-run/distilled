@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://hawksnest.amazonaws.com/doc/2019-11-15");
 const svc = T.AwsApiService({
   sdkId: "FraudDetector",
@@ -241,6 +249,56 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type identifier = string;
+export type s3BucketLocation = string;
+export type iamRoleArn = string;
+export type wholeNumberVersionString = string;
+export type description = string;
+export type noDashIdentifier = string;
+export type Elements = string;
+export type variableType = string;
+export type modelIdentifier = string;
+export type ruleExpression = string;
+export type sageMakerEndpointIdentifier = string;
+export type floatVersionString = string;
+export type DetectorVersionMaxResults = number;
+export type modelsMaxPageSize = number;
+export type batchImportsMaxPageSize = number;
+export type batchPredictionsMaxPageSize = number;
+export type DetectorsMaxResults = number;
+export type entityTypesMaxResults = number;
+export type utcTimestampISO8601 = string;
+export type time = string;
+export type eventTypesMaxResults = number;
+export type ExternalModelsMaxResults = number;
+export type labelsMaxResults = number;
+export type nextToken = string;
+export type ListsElementsMaxResults = number;
+export type ListsMetadataMaxResults = number;
+export type OutcomesMaxResults = number;
+export type RulesMaxResults = number;
+export type VariablesMaxResults = number;
+export type EventPredictionsMaxResults = number;
+export type fraudDetectorArn = string;
+export type TagsMaxResults = number;
+export type KmsEncryptionKeyArn = string;
+export type tagKey = string;
+export type tagValue = string;
+export type entityRestrictedString = string;
+export type variableName = string;
+export type variableValue = string;
+export type filterString = string;
+export type modelInputTemplate = string;
+export type contentType = string;
+export type Integer2 = number;
+export type Integer = number;
+export type sensitiveString = string;
+export type attributeKey = string;
+export type attributeValue = string;
+export type Long = number;
+export type float = number;
 
 //# Schemas
 export interface GetKMSEncryptionKeyRequest {}
@@ -3867,7 +3925,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -3875,7 +3935,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String },
@@ -3889,7 +3951,17 @@ export class ResourceUnavailableException extends S.TaggedError<ResourceUnavaila
 /**
  * Gets the encryption key if a KMS key has been specified to be used to encrypt content in Amazon Fraud Detector.
  */
-export const getKMSEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKMSEncryptionKey: (
+  input: GetKMSEncryptionKeyRequest,
+) => Effect.Effect<
+  GetKMSEncryptionKeyResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKMSEncryptionKeyRequest,
   output: GetKMSEncryptionKeyResult,
   errors: [
@@ -3904,26 +3976,70 @@ export const getKMSEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * response as part of your request. A null pagination token
  * fetches the records from the beginning.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceRequest,
-    output: ListTagsForResourceResult,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceResult,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    ListTagsForResourceResult,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResult,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, including the IAM role and/or the mapped variables.
  */
-export const putExternalModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putExternalModel: (
+  input: PutExternalModelRequest,
+) => Effect.Effect<
+  PutExternalModelResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutExternalModelRequest,
   output: PutExternalModelResult,
   errors: [
@@ -3937,7 +4053,17 @@ export const putExternalModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a rule for use with the specified detector.
  */
-export const createRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRule: (
+  input: CreateRuleRequest,
+) => Effect.Effect<
+  CreateRuleResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleRequest,
   output: CreateRuleResult,
   errors: [
@@ -3956,7 +4082,17 @@ export const createRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you delete a label, Amazon Fraud Detector permanently deletes that label and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLabel: (
+  input: DeleteLabelRequest,
+) => Effect.Effect<
+  DeleteLabelResult,
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLabelRequest,
   output: DeleteLabelResult,
   errors: [
@@ -3969,22 +4105,43 @@ export const deleteLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the status of a `DeleteEventsByEventType` action.
  */
-export const getDeleteEventsByEventTypeStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDeleteEventsByEventTypeStatusRequest,
-    output: GetDeleteEventsByEventTypeStatusResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getDeleteEventsByEventTypeStatus: (
+  input: GetDeleteEventsByEventTypeStatusRequest,
+) => Effect.Effect<
+  GetDeleteEventsByEventTypeStatusResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDeleteEventsByEventTypeStatusRequest,
+  output: GetDeleteEventsByEventTypeStatusResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a particular detector version.
  */
-export const getDetectorVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDetectorVersion: (
+  input: GetDetectorVersionRequest,
+) => Effect.Effect<
+  GetDetectorVersionResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDetectorVersionRequest,
   output: GetDetectorVersionResult,
   errors: [
@@ -3998,28 +4155,74 @@ export const getDetectorVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets all the elements in the specified list.
  */
-export const getListElements = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getListElements: {
+  (
     input: GetListElementsRequest,
-    output: GetListElementsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetListElementsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetListElementsRequest,
+  ) => Stream.Stream<
+    GetListElementsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetListElementsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetListElementsRequest,
+  output: GetListElementsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets the details of the specified model version.
  */
-export const getModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getModelVersion: (
+  input: GetModelVersionRequest,
+) => Effect.Effect<
+  GetModelVersionResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelVersionRequest,
   output: GetModelVersionResult,
   errors: [
@@ -4038,28 +4241,74 @@ export const getModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `GetVariablesResult` as part of your request. Null pagination token
  * fetches the records from the beginning.
  */
-export const getVariables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getVariables: {
+  (
     input: GetVariablesRequest,
-    output: GetVariablesResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetVariablesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetVariablesRequest,
+  ) => Stream.Stream<
+    GetVariablesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetVariablesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetVariablesRequest,
+  output: GetVariablesResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authentications.
  */
-export const putEventType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putEventType: (
+  input: PutEventTypeRequest,
+) => Effect.Effect<
+  PutEventTypeResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEventTypeRequest,
   output: PutEventTypeResult,
   errors: [
@@ -4073,7 +4322,19 @@ export const putEventType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.
  */
-export const updateModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateModelVersion: (
+  input: UpdateModelVersionRequest,
+) => Effect.Effect<
+  UpdateModelVersionResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateModelVersionRequest,
   output: UpdateModelVersionResult,
   errors: [
@@ -4088,7 +4349,19 @@ export const updateModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a rule version resulting in a new rule version. Updates a rule version resulting in a new rule version (version 1, 2, 3 ...).
  */
-export const updateRuleVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRuleVersion: (
+  input: UpdateRuleVersionRequest,
+) => Effect.Effect<
+  UpdateRuleVersionResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleVersionRequest,
   output: UpdateRuleVersionResult,
   errors: [
@@ -4103,58 +4376,95 @@ export const updateRuleVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels the specified batch prediction job.
  */
-export const cancelBatchPredictionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelBatchPredictionJobRequest,
-    output: CancelBatchPredictionJobResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelBatchPredictionJob: (
+  input: CancelBatchPredictionJobRequest,
+) => Effect.Effect<
+  CancelBatchPredictionJobResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelBatchPredictionJobRequest,
+  output: CancelBatchPredictionJobResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a batch import job.
  */
-export const createBatchImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBatchImportJobRequest,
-    output: CreateBatchImportJobResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createBatchImportJob: (
+  input: CreateBatchImportJobRequest,
+) => Effect.Effect<
+  CreateBatchImportJobResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBatchImportJobRequest,
+  output: CreateBatchImportJobResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a batch prediction job.
  */
-export const createBatchPredictionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBatchPredictionJobRequest,
-    output: CreateBatchPredictionJobResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createBatchPredictionJob: (
+  input: CreateBatchPredictionJobRequest,
+) => Effect.Effect<
+  CreateBatchPredictionJobResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBatchPredictionJobRequest,
+  output: CreateBatchPredictionJobResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a list.
  *
  * List is a set of input data for a variable in your event dataset. You use the input data in a rule that's associated with your detector.
  * For more information, see Lists.
  */
-export const createList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createList: (
+  input: CreateListRequest,
+) => Effect.Effect<
+  CreateListResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateListRequest,
   output: CreateListResult,
   errors: [
@@ -4167,7 +4477,17 @@ export const createList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a model using the specified model type.
  */
-export const createModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createModel: (
+  input: CreateModelRequest,
+) => Effect.Effect<
+  CreateModelResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelRequest,
   output: CreateModelResult,
   errors: [
@@ -4180,7 +4500,17 @@ export const createModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a variable.
  */
-export const createVariable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVariable: (
+  input: CreateVariableRequest,
+) => Effect.Effect<
+  CreateVariableResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVariableRequest,
   output: CreateVariableResult,
   errors: [
@@ -4193,39 +4523,66 @@ export const createVariable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified batch import job ID record. This action does not delete the data that was batch imported.
  */
-export const deleteBatchImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBatchImportJobRequest,
-    output: DeleteBatchImportJobResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteBatchImportJob: (
+  input: DeleteBatchImportJobRequest,
+) => Effect.Effect<
+  DeleteBatchImportJobResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBatchImportJobRequest,
+  output: DeleteBatchImportJobResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a batch prediction job.
  */
-export const deleteBatchPredictionJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBatchPredictionJobRequest,
-    output: DeleteBatchPredictionJobResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteBatchPredictionJob: (
+  input: DeleteBatchPredictionJobRequest,
+) => Effect.Effect<
+  DeleteBatchPredictionJobResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBatchPredictionJobRequest,
+  output: DeleteBatchPredictionJobResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the detector. Before deleting a detector, you must first delete all detector versions and rule versions associated with the detector.
  *
  * When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDetector: (
+  input: DeleteDetectorRequest,
+) => Effect.Effect<
+  DeleteDetectorResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDetectorRequest,
   output: DeleteDetectorResult,
   errors: [
@@ -4241,20 +4598,30 @@ export const deleteDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you delete a detector version, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteDetectorVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDetectorVersionRequest,
-    output: DeleteDetectorVersionResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteDetectorVersion: (
+  input: DeleteDetectorVersionRequest,
+) => Effect.Effect<
+  DeleteDetectorVersionResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDetectorVersionRequest,
+  output: DeleteDetectorVersionResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an entity type.
  *
@@ -4262,7 +4629,18 @@ export const deleteDetectorVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteEntityType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEntityType: (
+  input: DeleteEntityTypeRequest,
+) => Effect.Effect<
+  DeleteEntityTypeResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEntityTypeRequest,
   output: DeleteEntityTypeResult,
   errors: [
@@ -4279,7 +4657,17 @@ export const deleteEntityType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud Detector.
  * If `deleteAuditHistory` is `True`, event data is available through search for up to 30 seconds after the delete operation is completed.
  */
-export const deleteEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEvent: (
+  input: DeleteEventRequest,
+) => Effect.Effect<
+  DeleteEventResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventRequest,
   output: DeleteEventResult,
   errors: [
@@ -4296,7 +4684,18 @@ export const deleteEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you delete an event type, Amazon Fraud Detector permanently deletes that event type and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteEventType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEventType: (
+  input: DeleteEventTypeRequest,
+) => Effect.Effect<
+  DeleteEventTypeResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventTypeRequest,
   output: DeleteEventTypeResult,
   errors: [
@@ -4312,7 +4711,18 @@ export const deleteEventType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can remove an Amazon SageMaker model if it is not associated with a detector version. Removing a SageMaker model disconnects it from Amazon Fraud Detector, but the model remains available in SageMaker.
  */
-export const deleteExternalModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteExternalModel: (
+  input: DeleteExternalModelRequest,
+) => Effect.Effect<
+  DeleteExternalModelResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExternalModelRequest,
   output: DeleteExternalModelResult,
   errors: [
@@ -4328,7 +4738,18 @@ export const deleteExternalModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you delete a list, Amazon Fraud Detector permanently deletes that list and the elements in the list.
  */
-export const deleteList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteList: (
+  input: DeleteListRequest,
+) => Effect.Effect<
+  DeleteListResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteListRequest,
   output: DeleteListResult,
   errors: [
@@ -4346,7 +4767,18 @@ export const deleteList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteModel: (
+  input: DeleteModelRequest,
+) => Effect.Effect<
+  DeleteModelResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelRequest,
   output: DeleteModelResult,
   errors: [
@@ -4364,7 +4796,18 @@ export const deleteModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you delete a model version, Amazon Fraud Detector permanently deletes that model version and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteModelVersion: (
+  input: DeleteModelVersionRequest,
+) => Effect.Effect<
+  DeleteModelVersionResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelVersionRequest,
   output: DeleteModelVersionResult,
   errors: [
@@ -4382,7 +4825,18 @@ export const deleteModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you delete an outcome, Amazon Fraud Detector permanently deletes that outcome and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteOutcome = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteOutcome: (
+  input: DeleteOutcomeRequest,
+) => Effect.Effect<
+  DeleteOutcomeResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOutcomeRequest,
   output: DeleteOutcomeResult,
   errors: [
@@ -4398,7 +4852,18 @@ export const deleteOutcome = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you delete a rule, Amazon Fraud Detector permanently deletes that rule and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRule: (
+  input: DeleteRuleRequest,
+) => Effect.Effect<
+  DeleteRuleResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleRequest,
   output: DeleteRuleResult,
   errors: [
@@ -4418,7 +4883,18 @@ export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you delete a variable, Amazon Fraud Detector permanently deletes that variable and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteVariable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVariable: (
+  input: DeleteVariableRequest,
+) => Effect.Effect<
+  DeleteVariableResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVariableRequest,
   output: DeleteVariableResult,
   errors: [
@@ -4432,7 +4908,18 @@ export const deleteVariable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates or updates a detector.
  */
-export const putDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putDetector: (
+  input: PutDetectorRequest,
+) => Effect.Effect<
+  PutDetectorResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDetectorRequest,
   output: PutDetectorResult,
   errors: [
@@ -4446,7 +4933,18 @@ export const putDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates or updates an entity type. An entity represents who is performing the event. As part of a fraud prediction, you pass the entity ID to indicate the specific entity who performed the event. An entity type classifies the entity. Example classifications include customer, merchant, or account.
  */
-export const putEntityType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putEntityType: (
+  input: PutEntityTypeRequest,
+) => Effect.Effect<
+  PutEntityTypeResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEntityTypeRequest,
   output: PutEntityTypeResult,
   errors: [
@@ -4460,7 +4958,19 @@ export const putEntityType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
  */
-export const putKMSEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putKMSEncryptionKey: (
+  input: PutKMSEncryptionKeyRequest,
+) => Effect.Effect<
+  PutKMSEncryptionKeyResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutKMSEncryptionKeyRequest,
   output: PutKMSEncryptionKeyResult,
   errors: [
@@ -4475,7 +4985,18 @@ export const putKMSEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates or updates label. A label classifies an event as fraudulent or legitimate. Labels are associated with event types and used to train supervised machine learning models in Amazon Fraud Detector.
  */
-export const putLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putLabel: (
+  input: PutLabelRequest,
+) => Effect.Effect<
+  PutLabelResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLabelRequest,
   output: PutLabelResult,
   errors: [
@@ -4489,7 +5010,18 @@ export const putLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates or updates an outcome.
  */
-export const putOutcome = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putOutcome: (
+  input: PutOutcomeRequest,
+) => Effect.Effect<
+  PutOutcomeResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutOutcomeRequest,
   output: PutOutcomeResult,
   errors: [
@@ -4503,7 +5035,19 @@ export const putOutcome = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stores events in Amazon Fraud Detector without generating fraud predictions for those events. For example, you can use `SendEvent` to upload a historical dataset, which you can then later use to train a model.
  */
-export const sendEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendEvent: (
+  input: SendEventRequest,
+) => Effect.Effect<
+  SendEventResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendEventRequest,
   output: SendEventResult,
   errors: [
@@ -4518,58 +5062,100 @@ export const sendEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execution mode, and description. You can only update a `DRAFT` detector version.
  */
-export const updateDetectorVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDetectorVersionRequest,
-    output: UpdateDetectorVersionResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateDetectorVersion: (
+  input: UpdateDetectorVersionRequest,
+) => Effect.Effect<
+  UpdateDetectorVersionResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDetectorVersionRequest,
+  output: UpdateDetectorVersionResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the detector version's description. You can update the metadata for any detector version (`DRAFT, ACTIVE,` or
  * `INACTIVE`).
  */
-export const updateDetectorVersionMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDetectorVersionMetadataRequest,
-    output: UpdateDetectorVersionMetadataResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateDetectorVersionMetadata: (
+  input: UpdateDetectorVersionMetadataRequest,
+) => Effect.Effect<
+  UpdateDetectorVersionMetadataResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDetectorVersionMetadataRequest,
+  output: UpdateDetectorVersionMetadataResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the detector version’s status. You can perform the following promotions or
  * demotions using `UpdateDetectorVersionStatus`: `DRAFT` to `ACTIVE`, `ACTIVE` to `INACTIVE`, and `INACTIVE` to `ACTIVE`.
  */
-export const updateDetectorVersionStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDetectorVersionStatusRequest,
-    output: UpdateDetectorVersionStatusResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateDetectorVersionStatus: (
+  input: UpdateDetectorVersionStatusRequest,
+) => Effect.Effect<
+  UpdateDetectorVersionStatusResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDetectorVersionStatusRequest,
+  output: UpdateDetectorVersionStatusResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the specified event with a new label.
  */
-export const updateEventLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEventLabel: (
+  input: UpdateEventLabelRequest,
+) => Effect.Effect<
+  UpdateEventLabelResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventLabelRequest,
   output: UpdateEventLabelResult,
   errors: [
@@ -4584,7 +5170,19 @@ export const updateEventLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a list.
  */
-export const updateList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateList: (
+  input: UpdateListRequest,
+) => Effect.Effect<
+  UpdateListResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateListRequest,
   output: UpdateListResult,
   errors: [
@@ -4599,7 +5197,19 @@ export const updateList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates model description.
  */
-export const updateModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateModel: (
+  input: UpdateModelRequest,
+) => Effect.Effect<
+  UpdateModelResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateModelRequest,
   output: UpdateModelResult,
   errors: [
@@ -4622,24 +5232,46 @@ export const updateModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Change `ACTIVE` to `INACTIVE`.
  */
-export const updateModelVersionStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateModelVersionStatusRequest,
-    output: UpdateModelVersionStatusResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateModelVersionStatus: (
+  input: UpdateModelVersionStatusRequest,
+) => Effect.Effect<
+  UpdateModelVersionStatusResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateModelVersionStatusRequest,
+  output: UpdateModelVersionStatusResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a rule's metadata. The description attribute can be updated.
  */
-export const updateRuleMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRuleMetadata: (
+  input: UpdateRuleMetadataRequest,
+) => Effect.Effect<
+  UpdateRuleMetadataResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleMetadataRequest,
   output: UpdateRuleMetadataResult,
   errors: [
@@ -4654,7 +5286,19 @@ export const updateRuleMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a variable.
  */
-export const updateVariable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVariable: (
+  input: UpdateVariableRequest,
+) => Effect.Effect<
+  UpdateVariableResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVariableRequest,
   output: UpdateVariableResult,
   errors: [
@@ -4669,24 +5313,44 @@ export const updateVariable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes all events of a particular event type.
  */
-export const deleteEventsByEventType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEventsByEventTypeRequest,
-    output: DeleteEventsByEventTypeResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteEventsByEventType: (
+  input: DeleteEventsByEventTypeRequest,
+) => Effect.Effect<
+  DeleteEventsByEventTypeResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEventsByEventTypeRequest,
+  output: DeleteEventsByEventTypeResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a batch of variables.
  */
-export const batchGetVariable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetVariable: (
+  input: BatchGetVariableRequest,
+) => Effect.Effect<
+  BatchGetVariableResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetVariableRequest,
   output: BatchGetVariableResult,
   errors: [
@@ -4699,7 +5363,17 @@ export const batchGetVariable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Assigns tags to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResult,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResult,
   errors: [
@@ -4712,7 +5386,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResult,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResult,
   errors: [
@@ -4725,39 +5409,68 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels an in-progress batch import job.
  */
-export const cancelBatchImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelBatchImportJobRequest,
-    output: CancelBatchImportJobResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelBatchImportJob: (
+  input: CancelBatchImportJobRequest,
+) => Effect.Effect<
+  CancelBatchImportJobResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelBatchImportJobRequest,
+  output: CancelBatchImportJobResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a detector version. The detector version starts in a `DRAFT` status.
  */
-export const createDetectorVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDetectorVersionRequest,
-    output: CreateDetectorVersionResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createDetectorVersion: (
+  input: CreateDetectorVersionRequest,
+) => Effect.Effect<
+  CreateDetectorVersionResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDetectorVersionRequest,
+  output: CreateDetectorVersionResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets all versions for a specified detector.
  */
-export const describeDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDetector: (
+  input: DescribeDetectorRequest,
+) => Effect.Effect<
+  DescribeDetectorResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDetectorRequest,
   output: DescribeDetectorResult,
   errors: [
@@ -4774,44 +5487,115 @@ export const describeDetector = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To get the next page results, provide the pagination token from the `GetBatchImportJobsResponse` as part of your request.
  * A null pagination token fetches the records from the beginning.
  */
-export const getBatchImportJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getBatchImportJobs: {
+  (
     input: GetBatchImportJobsRequest,
-    output: GetBatchImportJobsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetBatchImportJobsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetBatchImportJobsRequest,
+  ) => Stream.Stream<
+    GetBatchImportJobsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetBatchImportJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetBatchImportJobsRequest,
+  output: GetBatchImportJobsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
  */
-export const getBatchPredictionJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getBatchPredictionJobs: {
+  (
     input: GetBatchPredictionJobsRequest,
-    output: GetBatchPredictionJobsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetBatchPredictionJobsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetBatchPredictionJobsRequest,
+  ) => Stream.Stream<
+    GetBatchPredictionJobsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetBatchPredictionJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetBatchPredictionJobsRequest,
+  output: GetBatchPredictionJobsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets all detectors or a single detector if a `detectorId` is specified. This is a paginated API. If you
  * provide a null `maxResults`, this action retrieves a maximum of 10 records
@@ -4820,24 +5604,59 @@ export const getBatchPredictionJobs =
  * `GetDetectorsResponse` as part of your request. A null pagination token
  * fetches the records from the beginning.
  */
-export const getDetectors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getDetectors: {
+  (
     input: GetDetectorsRequest,
-    output: GetDetectorsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetDetectorsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetDetectorsRequest,
+  ) => Stream.Stream<
+    GetDetectorsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetDetectorsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetDetectorsRequest,
+  output: GetDetectorsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets all entity types or a specific entity type if a name is specified. This is a paginated API. If you
  * provide a null `maxResults`, this action retrieves a maximum of 10 records
@@ -4846,24 +5665,59 @@ export const getDetectors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * `GetEntityTypesResponse` as part of your request. A null pagination token
  * fetches the records from the beginning.
  */
-export const getEntityTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getEntityTypes: {
+  (
     input: GetEntityTypesRequest,
-    output: GetEntityTypesResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetEntityTypesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetEntityTypesRequest,
+  ) => Stream.Stream<
+    GetEntityTypesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetEntityTypesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetEntityTypesRequest,
+  output: GetEntityTypesResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets the details for one or more Amazon SageMaker models that have been imported into the
  * service. This is a paginated API. If you provide a null `maxResults`, this
@@ -4872,24 +5726,59 @@ export const getEntityTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * results, provide the pagination token from the `GetExternalModelsResult` as part
  * of your request. A null pagination token fetches the records from the beginning.
  */
-export const getExternalModels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getExternalModels: {
+  (
     input: GetExternalModelsRequest,
-    output: GetExternalModelsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetExternalModelsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetExternalModelsRequest,
+  ) => Stream.Stream<
+    GetExternalModelsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetExternalModelsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetExternalModelsRequest,
+  output: GetExternalModelsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets all labels or a specific label if name is provided. This is a paginated API. If you
  * provide a null `maxResults`, this action retrieves a maximum of 50 records
@@ -4898,7 +5787,44 @@ export const getExternalModels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * `GetGetLabelsResponse` as part of your request. A null pagination token
  * fetches the records from the beginning.
  */
-export const getLabels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getLabels: {
+  (
+    input: GetLabelsRequest,
+  ): Effect.Effect<
+    GetLabelsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetLabelsRequest,
+  ) => Stream.Stream<
+    GetLabelsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetLabelsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetLabelsRequest,
   output: GetLabelsResult,
   errors: [
@@ -4917,24 +5843,59 @@ export const getLabels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Gets the metadata of either all the lists under the account or the specified list.
  */
-export const getListsMetadata = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getListsMetadata: {
+  (
     input: GetListsMetadataRequest,
-    output: GetListsMetadataResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetListsMetadataResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetListsMetadataRequest,
+  ) => Stream.Stream<
+    GetListsMetadataResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetListsMetadataRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetListsMetadataRequest,
+  output: GetListsMetadataResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets one or more models. Gets all models for the Amazon Web Services account if no model type and no model id provided. Gets all models for the Amazon Web Services account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified.
  *
@@ -4945,7 +5906,44 @@ export const getListsMetadata = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * response as part of your request. A null pagination token
  * fetches the records from the beginning.
  */
-export const getModels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getModels: {
+  (
+    input: GetModelsRequest,
+  ): Effect.Effect<
+    GetModelsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetModelsRequest,
+  ) => Stream.Stream<
+    GetModelsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetModelsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetModelsRequest,
   output: GetModelsResult,
   errors: [
@@ -4969,30 +5967,102 @@ export const getModels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * `GetOutcomesResult` as part of your request. A null pagination token
  * fetches the records from the beginning.
  */
-export const getOutcomes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getOutcomes: {
+  (
     input: GetOutcomesRequest,
-    output: GetOutcomesResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetOutcomesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetOutcomesRequest,
+  ) => Stream.Stream<
+    GetOutcomesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetOutcomesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetOutcomesRequest,
+  output: GetOutcomesResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Get all rules for a detector (paginated) if `ruleId` and `ruleVersion` are not specified. Gets all rules for the detector and the `ruleId` if present (paginated). Gets a specific rule if both the `ruleId` and the `ruleVersion` are specified.
  *
  * This is a paginated API. Providing null maxResults results in retrieving maximum of 100 records per page. If you provide maxResults the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetRulesResult as part of your request. Null pagination token fetches the records from the beginning.
  */
-export const getRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getRules: {
+  (
+    input: GetRulesRequest,
+  ): Effect.Effect<
+    GetRulesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetRulesRequest,
+  ) => Stream.Stream<
+    GetRulesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetRulesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetRulesRequest,
   output: GetRulesResult,
   errors: [
@@ -5011,7 +6081,17 @@ export const getRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Creates a batch of variables.
  */
-export const batchCreateVariable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchCreateVariable: (
+  input: BatchCreateVariableRequest,
+) => Effect.Effect<
+  BatchCreateVariableResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateVariableRequest,
   output: BatchCreateVariableResult,
   errors: [
@@ -5024,7 +6104,18 @@ export const batchCreateVariable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details of events stored with Amazon Fraud Detector. This action does not retrieve prediction results.
  */
-export const getEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEvent: (
+  input: GetEventRequest,
+) => Effect.Effect<
+  GetEventResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventRequest,
   output: GetEventResult,
   errors: [
@@ -5043,24 +6134,59 @@ export const getEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `GetEventTypesResponse` as part of your request. A null pagination token
  * fetches the records from the beginning.
  */
-export const getEventTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getEventTypes: {
+  (
     input: GetEventTypesRequest,
-    output: GetEventTypesResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetEventTypesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetEventTypesRequest,
+  ) => Stream.Stream<
+    GetEventTypesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetEventTypesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetEventTypesRequest,
+  output: GetEventTypesResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of past predictions. The list can be filtered by detector ID, detector version ID, event ID, event type, or by specifying a time period.
  * If filter is not specified, the most recent prediction is returned.
@@ -5075,26 +6201,70 @@ export const getEventTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * If you provide a `maxResults`, the value must be between 50 and 100. To get the next page results, provide
  * the `nextToken` from the response as part of your request. A null `nextToken` fetches the records from the beginning.
  */
-export const listEventPredictions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEventPredictions: {
+  (
     input: ListEventPredictionsRequest,
-    output: ListEventPredictionsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEventPredictionsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEventPredictionsRequest,
+  ) => Stream.Stream<
+    ListEventPredictionsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEventPredictionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEventPredictionsRequest,
+  output: ListEventPredictionsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a version of the model using the specified model type and model id.
  */
-export const createModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createModelVersion: (
+  input: CreateModelVersionRequest,
+) => Effect.Effect<
+  CreateModelVersionResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelVersionRequest,
   output: CreateModelVersionResult,
   errors: [
@@ -5108,23 +6278,45 @@ export const createModelVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets details of the past fraud predictions for the specified event ID, event type, detector ID, and detector version ID that was generated in the specified time period.
  */
-export const getEventPredictionMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEventPredictionMetadataRequest,
-    output: GetEventPredictionMetadataResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getEventPredictionMetadata: (
+  input: GetEventPredictionMetadataRequest,
+) => Effect.Effect<
+  GetEventPredictionMetadataResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEventPredictionMetadataRequest,
+  output: GetEventPredictionMetadataResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Evaluates an event against a detector version. If a version ID is not provided, the detector’s (`ACTIVE`) version is used.
  */
-export const getEventPrediction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEventPrediction: (
+  input: GetEventPredictionRequest,
+) => Effect.Effect<
+  GetEventPredictionResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventPredictionRequest,
   output: GetEventPredictionResult,
   errors: [
@@ -5140,20 +6332,56 @@ export const getEventPrediction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version.
  */
-export const describeModelVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeModelVersions: {
+  (
     input: DescribeModelVersionsRequest,
-    output: DescribeModelVersionsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeModelVersionsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeModelVersionsRequest,
+  ) => Stream.Stream<
+    DescribeModelVersionsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeModelVersionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeModelVersionsRequest,
+  output: DescribeModelVersionsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "grafana",
   serviceShapeName: "AWSGrafanaControlPlane",
@@ -240,6 +248,51 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type PaginationToken = string;
+export type WorkspaceId = string;
+export type TagKey = string;
+export type ApiKeyName = string;
+export type AuthenticationProviderTypes = string;
+export type OverridableConfigurationJson = string;
+export type GrafanaVersion = string;
+export type LicenseType = string;
+export type GrafanaToken = string;
+export type UserType = string;
+export type SsoId = string;
+export type ServiceAccountName = string;
+export type Role = string;
+export type ServiceAccountTokenName = string;
+export type AccountAccessType = string;
+export type ClientToken = string;
+export type OrganizationRoleName = string;
+export type PermissionType = string;
+export type StackSetName = string;
+export type DataSourceType = string;
+export type Description = string;
+export type WorkspaceName = string;
+export type NotificationDestinationType = string;
+export type OrganizationalUnit = string;
+export type IamRoleArn = string;
+export type TagValue = string;
+export type AllowedOrganization = string;
+export type LoginValidityDuration = number;
+export type UpdateAction = string;
+export type SecurityGroupId = string;
+export type SubnetId = string;
+export type PrefixListId = string;
+export type VpceId = string;
+export type ApiKeyToken = string;
+export type IdpMetadataUrl = string;
+export type AssertionAttribute = string;
+export type RoleValue = string;
+export type Endpoint = string;
+export type WorkspaceStatus = string;
+export type ServiceAccountTokenKey = string;
+export type SamlConfigurationStatus = string;
+export type SSOClientId = string;
+export type ValidationExceptionReason = string;
 
 //# Schemas
 export type TagKeys = string[];
@@ -1074,6 +1127,7 @@ export const DeleteWorkspaceResponse = S.suspend(() =>
 ).annotations({
   identifier: "DeleteWorkspaceResponse",
 }) as any as S.Schema<DeleteWorkspaceResponse>;
+export type IdpMetadata = { url: string } | { xml: string };
 export const IdpMetadata = S.Union(
   S.Struct({ url: S.String }),
   S.Struct({ xml: S.String }),
@@ -1459,7 +1513,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -1487,7 +1543,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -1502,37 +1560,71 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * Returns a list of Amazon Managed Grafana workspaces in the account, with some information
  * about each workspace. For more complete information about one workspace, use DescribeWorkspace.
  */
-export const listWorkspaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkspaces: {
+  (
     input: ListWorkspacesRequest,
-    output: ListWorkspacesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "workspaces",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkspacesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkspacesRequest,
+  ) => Stream.Stream<
+    ListWorkspacesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkspacesRequest,
+  ) => Stream.Stream<
+    WorkspaceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkspacesRequest,
+  output: ListWorkspacesResponse,
+  errors: [AccessDeniedException, InternalServerException, ThrottlingException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workspaces",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets the current configuration string for the given workspace.
  */
-export const describeWorkspaceConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeWorkspaceConfigurationRequest,
-    output: DescribeWorkspaceConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeWorkspaceConfiguration: (
+  input: DescribeWorkspaceConfigurationRequest,
+) => Effect.Effect<
+  DescribeWorkspaceConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeWorkspaceConfigurationRequest,
+  output: DescribeWorkspaceConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a Grafana API key for the workspace. This key can be used to authenticate
  * requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html
@@ -1541,21 +1633,32 @@ export const describeWorkspaceConfiguration =
  * In workspaces compatible with Grafana version 9 or above, use workspace service
  * accounts instead of API keys. API keys will be removed in a future release.
  */
-export const createWorkspaceApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWorkspaceApiKeyRequest,
-    output: CreateWorkspaceApiKeyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createWorkspaceApiKey: (
+  input: CreateWorkspaceApiKeyRequest,
+) => Effect.Effect<
+  CreateWorkspaceApiKeyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWorkspaceApiKeyRequest,
+  output: CreateWorkspaceApiKeyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the users and groups who have the Grafana `Admin` and
  * `Editor` roles in this workspace. If you use this operation without
@@ -1564,50 +1667,124 @@ export const createWorkspaceApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * only the roles for that user or group are returned. If you do this, you can specify only
  * one `userId` or one `groupId`.
  */
-export const listPermissions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPermissions: {
+  (
     input: ListPermissionsRequest,
-    output: ListPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "permissions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPermissionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPermissionsRequest,
+  ) => Stream.Stream<
+    ListPermissionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPermissionsRequest,
+  ) => Stream.Stream<
+    PermissionEntry,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPermissionsRequest,
+  output: ListPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "permissions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of service accounts for a workspace.
  *
  * Service accounts are only available for workspaces that are compatible with Grafana
  * version 9 and above.
  */
-export const listWorkspaceServiceAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWorkspaceServiceAccounts: {
+  (
     input: ListWorkspaceServiceAccountsRequest,
-    output: ListWorkspaceServiceAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "serviceAccounts",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWorkspaceServiceAccountsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkspaceServiceAccountsRequest,
+  ) => Stream.Stream<
+    ListWorkspaceServiceAccountsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkspaceServiceAccountsRequest,
+  ) => Stream.Stream<
+    ServiceAccountSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkspaceServiceAccountsRequest,
+  output: ListWorkspaceServiceAccountsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "serviceAccounts",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a token that can be used to authenticate and authorize Grafana HTTP API
  * operations for the given workspace service
@@ -1624,20 +1801,32 @@ export const listWorkspaceServiceAccounts =
  * Service accounts are only available for workspaces that are compatible with Grafana
  * version 9 and above.
  */
-export const createWorkspaceServiceAccountToken =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateWorkspaceServiceAccountTokenRequest,
-    output: CreateWorkspaceServiceAccountTokenResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createWorkspaceServiceAccountToken: (
+  input: CreateWorkspaceServiceAccountTokenRequest,
+) => Effect.Effect<
+  CreateWorkspaceServiceAccountTokenResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWorkspaceServiceAccountTokenRequest,
+  output: CreateWorkspaceServiceAccountTokenResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of tokens for a workspace service account.
  *
@@ -1647,29 +1836,79 @@ export const createWorkspaceServiceAccountToken =
  * Service accounts are only available for workspaces that are compatible with Grafana
  * version 9 and above.
  */
-export const listWorkspaceServiceAccountTokens =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWorkspaceServiceAccountTokens: {
+  (
     input: ListWorkspaceServiceAccountTokensRequest,
-    output: ListWorkspaceServiceAccountTokensResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "serviceAccountTokens",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWorkspaceServiceAccountTokensResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkspaceServiceAccountTokensRequest,
+  ) => Stream.Stream<
+    ListWorkspaceServiceAccountTokensResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkspaceServiceAccountTokensRequest,
+  ) => Stream.Stream<
+    ServiceAccountTokenSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkspaceServiceAccountTokensRequest,
+  output: ListWorkspaceServiceAccountTokensResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "serviceAccountTokens",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Removes the Grafana Enterprise license from a workspace.
  */
-export const disassociateLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateLicense: (
+  input: DisassociateLicenseRequest,
+) => Effect.Effect<
+  DisassociateLicenseResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateLicenseRequest,
   output: DisassociateLicenseResponse,
   errors: [
@@ -1683,7 +1922,18 @@ export const disassociateLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Displays information about one Amazon Managed Grafana workspace.
  */
-export const describeWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeWorkspace: (
+  input: DescribeWorkspaceRequest,
+) => Effect.Effect<
+  DescribeWorkspaceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkspaceRequest,
   output: DescribeWorkspaceResponse,
   errors: [
@@ -1700,7 +1950,18 @@ export const describeWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `resourceArn`. Currently, the only resource that can be tagged is a
  * workspace.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1716,25 +1977,60 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `CreateWorkspace`. Optionally, include a workspace to list the versions
  * to which it can be upgraded.
  */
-export const listVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listVersions: {
+  (
     input: ListVersionsRequest,
-    output: ListVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "grafanaVersions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVersionsRequest,
+  ) => Stream.Stream<
+    ListVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVersionsRequest,
+  ) => Stream.Stream<
+    GrafanaVersion,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVersionsRequest,
+  output: ListVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "grafanaVersions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * The `TagResource` operation associates tags with an Amazon Managed Grafana
  * resource. Currently, the only resource that can be tagged is workspaces.
@@ -1744,7 +2040,18 @@ export const listVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * with the resource, the new tag value that you specify replaces the previous value for
  * that tag.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1761,20 +2068,30 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * In workspaces compatible with Grafana version 9 or above, use workspace service
  * accounts instead of API keys. API keys will be removed in a future release.
  */
-export const deleteWorkspaceApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWorkspaceApiKeyRequest,
-    output: DeleteWorkspaceApiKeyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteWorkspaceApiKey: (
+  input: DeleteWorkspaceApiKeyRequest,
+) => Effect.Effect<
+  DeleteWorkspaceApiKeyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkspaceApiKeyRequest,
+  output: DeleteWorkspaceApiKeyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a service account for the workspace. A service account can be used to call
  * Grafana HTTP APIs, and run automated workloads. After creating the service account with
@@ -1791,20 +2108,32 @@ export const deleteWorkspaceApiKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about the Grafana HTTP APIs, see Using Grafana HTTP
  * APIs in the *Amazon Managed Grafana User Guide*.
  */
-export const createWorkspaceServiceAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateWorkspaceServiceAccountRequest,
-    output: CreateWorkspaceServiceAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createWorkspaceServiceAccount: (
+  input: CreateWorkspaceServiceAccountRequest,
+) => Effect.Effect<
+  CreateWorkspaceServiceAccountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWorkspaceServiceAccountRequest,
+  output: CreateWorkspaceServiceAccountResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a workspace service account from the workspace.
  *
@@ -1815,19 +2144,30 @@ export const createWorkspaceServiceAccount =
  * Service accounts are only available for workspaces that are compatible with Grafana
  * version 9 and above.
  */
-export const deleteWorkspaceServiceAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteWorkspaceServiceAccountRequest,
-    output: DeleteWorkspaceServiceAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteWorkspaceServiceAccount: (
+  input: DeleteWorkspaceServiceAccountRequest,
+) => Effect.Effect<
+  DeleteWorkspaceServiceAccountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkspaceServiceAccountRequest,
+  output: DeleteWorkspaceServiceAccountResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a token for the workspace service account.
  *
@@ -1838,19 +2178,30 @@ export const deleteWorkspaceServiceAccount =
  * Service accounts are only available for workspaces that are compatible with Grafana
  * version 9 and above.
  */
-export const deleteWorkspaceServiceAccountToken =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteWorkspaceServiceAccountTokenRequest,
-    output: DeleteWorkspaceServiceAccountTokenResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteWorkspaceServiceAccountToken: (
+  input: DeleteWorkspaceServiceAccountTokenRequest,
+) => Effect.Effect<
+  DeleteWorkspaceServiceAccountTokenResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkspaceServiceAccountTokenRequest,
+  output: DeleteWorkspaceServiceAccountTokenResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Modifies an existing Amazon Managed Grafana workspace. If you use this operation and omit
  * any optional parameters, the existing values of those parameters are not changed.
@@ -1861,7 +2212,19 @@ export const deleteWorkspaceServiceAccountToken =
  * To modify which users in the workspace have the `Admin` and
  * `Editor` Grafana roles, use UpdatePermissions.
  */
-export const updateWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWorkspace: (
+  input: UpdateWorkspaceRequest,
+) => Effect.Effect<
+  UpdateWorkspaceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkspaceRequest,
   output: UpdateWorkspaceResponse,
   errors: [
@@ -1876,7 +2239,19 @@ export const updateWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Amazon Managed Grafana workspace.
  */
-export const deleteWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkspace: (
+  input: DeleteWorkspaceRequest,
+) => Effect.Effect<
+  DeleteWorkspaceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkspaceRequest,
   output: DeleteWorkspaceResponse,
   errors: [
@@ -1891,24 +2266,46 @@ export const deleteWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the configuration string for the given workspace
  */
-export const updateWorkspaceConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateWorkspaceConfigurationRequest,
-    output: UpdateWorkspaceConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateWorkspaceConfiguration: (
+  input: UpdateWorkspaceConfigurationRequest,
+) => Effect.Effect<
+  UpdateWorkspaceConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkspaceConfigurationRequest,
+  output: UpdateWorkspaceConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * The `UntagResource` operation removes the association of the tag with the
  * Amazon Managed Grafana resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1923,19 +2320,30 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Displays information about the authentication methods used in one Amazon Managed Grafana
  * workspace.
  */
-export const describeWorkspaceAuthentication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeWorkspaceAuthenticationRequest,
-    output: DescribeWorkspaceAuthenticationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeWorkspaceAuthentication: (
+  input: DescribeWorkspaceAuthenticationRequest,
+) => Effect.Effect<
+  DescribeWorkspaceAuthenticationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeWorkspaceAuthenticationRequest,
+  output: DescribeWorkspaceAuthenticationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Use this operation to define the identity provider (IdP) that this workspace
  * authenticates users from, using SAML. You can also map SAML assertion attributes to
@@ -1945,19 +2353,30 @@ export const describeWorkspaceAuthentication =
  * Changes to the authentication method for a workspace may take a few minutes to
  * take effect.
  */
-export const updateWorkspaceAuthentication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateWorkspaceAuthenticationRequest,
-    output: UpdateWorkspaceAuthenticationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateWorkspaceAuthentication: (
+  input: UpdateWorkspaceAuthenticationRequest,
+) => Effect.Effect<
+  UpdateWorkspaceAuthenticationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkspaceAuthenticationRequest,
+  output: UpdateWorkspaceAuthenticationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use
  * `ENTERPRISE` for the `licenseType`, and pass in a valid
@@ -1965,7 +2384,18 @@ export const updateWorkspaceAuthentication =
  * incurs additional fees. For more information, see Upgrade a
  * workspace to Grafana Enterprise.
  */
-export const associateLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateLicense: (
+  input: AssociateLicenseRequest,
+) => Effect.Effect<
+  AssociateLicenseResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateLicenseRequest,
   output: AssociateLicenseResponse,
   errors: [
@@ -1984,7 +2414,19 @@ export const associateLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Don't use `CreateWorkspace` to modify an existing workspace. Instead, use
  * UpdateWorkspace.
  */
-export const createWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkspace: (
+  input: CreateWorkspaceRequest,
+) => Effect.Effect<
+  CreateWorkspaceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkspaceRequest,
   output: CreateWorkspaceResponse,
   errors: [
@@ -2000,7 +2442,18 @@ export const createWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates which users in a workspace have the Grafana `Admin` or
  * `Editor` roles.
  */
-export const updatePermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePermissions: (
+  input: UpdatePermissionsRequest,
+) => Effect.Effect<
+  UpdatePermissionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePermissionsRequest,
   output: UpdatePermissionsResponse,
   errors: [

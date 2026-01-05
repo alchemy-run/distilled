@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "EBS", serviceShapeName: "Ebs" });
 const auth = T.AwsAuthSigv4({ name: "ebs" });
 const ver = T.ServiceVersion("2019-11-02");
@@ -237,6 +245,27 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type SnapshotId = string;
+export type ChangedBlocksCount = number;
+export type Checksum = string;
+export type BlockIndex = number;
+export type BlockToken = string;
+export type PageToken = string;
+export type MaxResults = number;
+export type DataLength = number;
+export type Progress = number;
+export type VolumeSize = number;
+export type Description = string;
+export type IdempotencyToken = string;
+export type KmsKeyArn = string;
+export type Timeout = number;
+export type TagKey = string;
+export type TagValue = string;
+export type BlockSize = number;
+export type ErrorMessage = string;
+export type OwnerId = string;
 
 //# Schemas
 export interface CompleteSnapshotRequest {
@@ -572,7 +601,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConcurrentLimitExceededException extends S.TaggedError<ConcurrentLimitExceededException>()(
   "ConcurrentLimitExceededException",
   { Message: S.optional(S.String) },
@@ -609,7 +640,19 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * client error responses. For more information see Error retries in the
  * *Amazon Elastic Compute Cloud User Guide*.
  */
-export const completeSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const completeSnapshot: (
+  input: CompleteSnapshotRequest,
+) => Effect.Effect<
+  CompleteSnapshotResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestThrottledException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteSnapshotRequest,
   output: CompleteSnapshotResponse,
   errors: [
@@ -633,7 +676,21 @@ export const completeSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * client error responses. For more information see Error retries in the
  * *Amazon Elastic Compute Cloud User Guide*.
  */
-export const startSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startSnapshot: (
+  input: StartSnapshotRequest,
+) => Effect.Effect<
+  StartSnapshotResponse,
+  | AccessDeniedException
+  | ConcurrentLimitExceededException
+  | ConflictException
+  | InternalServerException
+  | RequestThrottledException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSnapshotRequest,
   output: StartSnapshotResponse,
   errors: [
@@ -656,25 +713,63 @@ export const startSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * client error responses. For more information see Error retries in the
  * *Amazon Elastic Compute Cloud User Guide*.
  */
-export const listChangedBlocks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listChangedBlocks: {
+  (
     input: ListChangedBlocksRequest,
-    output: ListChangedBlocksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestThrottledException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListChangedBlocksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestThrottledException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChangedBlocksRequest,
+  ) => Stream.Stream<
+    ListChangedBlocksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestThrottledException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChangedBlocksRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestThrottledException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChangedBlocksRequest,
+  output: ListChangedBlocksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestThrottledException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about the blocks in an Amazon Elastic Block Store snapshot.
  *
@@ -683,25 +778,63 @@ export const listChangedBlocks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * client error responses. For more information see Error retries in the
  * *Amazon Elastic Compute Cloud User Guide*.
  */
-export const listSnapshotBlocks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSnapshotBlocks: {
+  (
     input: ListSnapshotBlocksRequest,
-    output: ListSnapshotBlocksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      RequestThrottledException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSnapshotBlocksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestThrottledException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSnapshotBlocksRequest,
+  ) => Stream.Stream<
+    ListSnapshotBlocksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestThrottledException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSnapshotBlocksRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | RequestThrottledException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSnapshotBlocksRequest,
+  output: ListSnapshotBlocksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    RequestThrottledException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the data in a block in an Amazon Elastic Block Store snapshot.
  *
@@ -710,7 +843,19 @@ export const listSnapshotBlocks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * client error responses. For more information see Error retries in the
  * *Amazon Elastic Compute Cloud User Guide*.
  */
-export const getSnapshotBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSnapshotBlock: (
+  input: GetSnapshotBlockRequest,
+) => Effect.Effect<
+  GetSnapshotBlockResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestThrottledException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSnapshotBlockRequest,
   output: GetSnapshotBlockResponse,
   errors: [
@@ -734,7 +879,19 @@ export const getSnapshotBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * client error responses. For more information see Error retries in the
  * *Amazon Elastic Compute Cloud User Guide*.
  */
-export const putSnapshotBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putSnapshotBlock: (
+  input: PutSnapshotBlockRequest,
+) => Effect.Effect<
+  PutSnapshotBlockResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestThrottledException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSnapshotBlockRequest,
   output: PutSnapshotBlockResponse,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://devicefarm.amazonaws.com/doc/2015-06-23/");
 const svc = T.AwsApiService({
   sdkId: "Device Farm",
@@ -241,6 +249,48 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AmazonResourceName = string;
+export type Name = string;
+export type Message = string;
+export type Integer = number;
+export type Long = number;
+export type PercentInteger = number;
+export type JobTimeoutMinutes = number;
+export type AmazonRoleResourceName = string;
+export type ResourceName = string;
+export type ResourceDescription = string;
+export type DeviceFarmArn = string;
+export type TestGridUrlExpiresInSecondsInput = number;
+export type ContentType = string;
+export type VPCEConfigurationName = string;
+export type VPCEServiceName = string;
+export type ServiceDnsName = string;
+export type VPCEConfigurationDescription = string;
+export type PaginationToken = string;
+export type ResourceId = string;
+export type MaxPageSize = number;
+export type OfferingIdentifier = string;
+export type OfferingPromotionIdentifier = string;
+export type TagKey = string;
+export type SecurityGroupId = string;
+export type SubnetId = string;
+export type NonEmptyString = string;
+export type EnvironmentVariableName = string;
+export type EnvironmentVariableValue = string;
+export type AWSAccountNumber = string;
+export type Filter = string;
+export type TagValue = string;
+export type SensitiveString = string;
+export type DeviceProxyHost = string;
+export type DeviceProxyPort = number;
+export type Double = number;
+export type SensitiveURL = string;
+export type Metadata = string;
+export type URL = string;
+export type TransactionIdentifier = string;
+export type ExceptionMessage = string;
 
 //# Schemas
 export interface GetAccountSettingsRequest {}
@@ -3733,7 +3783,9 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ServiceAccountException extends S.TaggedError<ServiceAccountException>()(
   "ServiceAccountException",
   { message: S.optional(S.String) },
@@ -3771,92 +3823,203 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 /**
  * Gets a list of all Selenium testing projects in your account.
  */
-export const listTestGridProjects =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTestGridProjects: {
+  (
     input: ListTestGridProjectsRequest,
-    output: ListTestGridProjectsResult,
-    errors: [ArgumentException, InternalServiceException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResult",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTestGridProjectsResult,
+    ArgumentException | InternalServiceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTestGridProjectsRequest,
+  ) => Stream.Stream<
+    ListTestGridProjectsResult,
+    ArgumentException | InternalServiceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTestGridProjectsRequest,
+  ) => Stream.Stream<
+    unknown,
+    ArgumentException | InternalServiceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTestGridProjectsRequest,
+  output: ListTestGridProjectsResult,
+  errors: [ArgumentException, InternalServiceException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResult",
+  } as const,
+}));
 /**
  * Returns a list of the actions taken in a TestGridSession.
  */
-export const listTestGridSessionActions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTestGridSessionActions: {
+  (
     input: ListTestGridSessionActionsRequest,
-    output: ListTestGridSessionActionsResult,
-    errors: [ArgumentException, InternalServiceException, NotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResult",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTestGridSessionActionsResult,
+    | ArgumentException
+    | InternalServiceException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTestGridSessionActionsRequest,
+  ) => Stream.Stream<
+    ListTestGridSessionActionsResult,
+    | ArgumentException
+    | InternalServiceException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTestGridSessionActionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | ArgumentException
+    | InternalServiceException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTestGridSessionActionsRequest,
+  output: ListTestGridSessionActionsResult,
+  errors: [ArgumentException, InternalServiceException, NotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResult",
+  } as const,
+}));
 /**
  * Retrieves a list of artifacts created during the session.
  */
-export const listTestGridSessionArtifacts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTestGridSessionArtifacts: {
+  (
     input: ListTestGridSessionArtifactsRequest,
-    output: ListTestGridSessionArtifactsResult,
-    errors: [ArgumentException, InternalServiceException, NotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResult",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTestGridSessionArtifactsResult,
+    | ArgumentException
+    | InternalServiceException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTestGridSessionArtifactsRequest,
+  ) => Stream.Stream<
+    ListTestGridSessionArtifactsResult,
+    | ArgumentException
+    | InternalServiceException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTestGridSessionArtifactsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | ArgumentException
+    | InternalServiceException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTestGridSessionArtifactsRequest,
+  output: ListTestGridSessionArtifactsResult,
+  errors: [ArgumentException, InternalServiceException, NotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResult",
+  } as const,
+}));
 /**
  * Returns information about all Amazon Virtual Private Cloud (VPC) endpoint
  * configurations in the AWS account.
  */
-export const listVPCEConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListVPCEConfigurationsRequest,
-    output: ListVPCEConfigurationsResult,
-    errors: [ArgumentException, ServiceAccountException],
-  }),
-);
+export const listVPCEConfigurations: (
+  input: ListVPCEConfigurationsRequest,
+) => Effect.Effect<
+  ListVPCEConfigurationsResult,
+  ArgumentException | ServiceAccountException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListVPCEConfigurationsRequest,
+  output: ListVPCEConfigurationsResult,
+  errors: [ArgumentException, ServiceAccountException],
+}));
 /**
  * Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
  */
-export const updateVPCEConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateVPCEConfigurationRequest,
-    output: UpdateVPCEConfigurationResult,
-    errors: [
-      ArgumentException,
-      InvalidOperationException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const updateVPCEConfiguration: (
+  input: UpdateVPCEConfigurationRequest,
+) => Effect.Effect<
+  UpdateVPCEConfigurationResult,
+  | ArgumentException
+  | InvalidOperationException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateVPCEConfigurationRequest,
+  output: UpdateVPCEConfigurationResult,
+  errors: [
+    ArgumentException,
+    InvalidOperationException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Deletes a Selenium testing project and all content generated under it. You cannot delete a project if it has active sessions.
  *
  * You cannot undo this operation.
  */
-export const deleteTestGridProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTestGridProjectRequest,
-    output: DeleteTestGridProjectResult,
-    errors: [
-      ArgumentException,
-      CannotDeleteException,
-      InternalServiceException,
-      NotFoundException,
-    ],
-  }),
-);
+export const deleteTestGridProject: (
+  input: DeleteTestGridProjectRequest,
+) => Effect.Effect<
+  DeleteTestGridProjectResult,
+  | ArgumentException
+  | CannotDeleteException
+  | InternalServiceException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTestGridProjectRequest,
+  output: DeleteTestGridProjectResult,
+  errors: [
+    ArgumentException,
+    CannotDeleteException,
+    InternalServiceException,
+    NotFoundException,
+  ],
+}));
 /**
  * Returns information about the specified instance profile.
  */
-export const getInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInstanceProfile: (
+  input: GetInstanceProfileRequest,
+) => Effect.Effect<
+  GetInstanceProfileResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceProfileRequest,
   output: GetInstanceProfileResult,
   errors: [
@@ -3869,7 +4032,17 @@ export const getInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a network profile.
  */
-export const getNetworkProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getNetworkProfile: (
+  input: GetNetworkProfileRequest,
+) => Effect.Effect<
+  GetNetworkProfileResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNetworkProfileRequest,
   output: GetNetworkProfileResult,
   errors: [
@@ -3882,7 +4055,17 @@ export const getNetworkProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about an upload.
  */
-export const getUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUpload: (
+  input: GetUploadRequest,
+) => Effect.Effect<
+  GetUploadResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUploadRequest,
   output: GetUploadResult,
   errors: [
@@ -3897,22 +4080,41 @@ export const getUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * applications, the file must be in .apk format. For iOS applications, the file must be in
  * .ipa format.
  */
-export const installToRemoteAccessSession =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: InstallToRemoteAccessSessionRequest,
-    output: InstallToRemoteAccessSessionResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }));
+export const installToRemoteAccessSession: (
+  input: InstallToRemoteAccessSessionRequest,
+) => Effect.Effect<
+  InstallToRemoteAccessSessionResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InstallToRemoteAccessSessionRequest,
+  output: InstallToRemoteAccessSessionResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Returns information about the private device instances associated with one or more AWS
  * accounts.
  */
-export const listDeviceInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listDeviceInstances: (
+  input: ListDeviceInstancesRequest,
+) => Effect.Effect<
+  ListDeviceInstancesResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDeviceInstancesRequest,
   output: ListDeviceInstancesResult,
   errors: [
@@ -3925,42 +4127,116 @@ export const listDeviceInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about device pools.
  */
-export const listDevicePools = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDevicePools: {
+  (
     input: ListDevicePoolsRequest,
-    output: ListDevicePoolsResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "devicePools",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDevicePoolsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDevicePoolsRequest,
+  ) => Stream.Stream<
+    ListDevicePoolsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDevicePoolsRequest,
+  ) => Stream.Stream<
+    DevicePool,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDevicePoolsRequest,
+  output: ListDevicePoolsResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "devicePools",
+  } as const,
+}));
 /**
  * Returns information about all the instance profiles in an AWS account.
  */
-export const listInstanceProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListInstanceProfilesRequest,
-    output: ListInstanceProfilesResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const listInstanceProfiles: (
+  input: ListInstanceProfilesRequest,
+) => Effect.Effect<
+  ListInstanceProfilesResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListInstanceProfilesRequest,
+  output: ListInstanceProfilesResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Gets information about jobs for a given test run.
  */
-export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listJobs: {
+  (
+    input: ListJobsRequest,
+  ): Effect.Effect<
+    ListJobsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobsRequest,
+  ) => Stream.Stream<
+    ListJobsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobsRequest,
+  ) => Stream.Stream<
+    Job,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListJobsRequest,
   output: ListJobsResult,
   errors: [
@@ -3978,7 +4254,17 @@ export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns the list of available network profiles.
  */
-export const listNetworkProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listNetworkProfiles: (
+  input: ListNetworkProfilesRequest,
+) => Effect.Effect<
+  ListNetworkProfilesResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListNetworkProfilesRequest,
   output: ListNetworkProfilesResult,
   errors: [
@@ -3991,42 +4277,116 @@ export const listNetworkProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about projects.
  */
-export const listProjects = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProjects: {
+  (
     input: ListProjectsRequest,
-    output: ListProjectsResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "projects",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProjectsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProjectsRequest,
+  ) => Stream.Stream<
+    ListProjectsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProjectsRequest,
+  ) => Stream.Stream<
+    Project,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsRequest,
+  output: ListProjectsResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "projects",
+  } as const,
+}));
 /**
  * Returns a list of all currently running remote access sessions.
  */
-export const listRemoteAccessSessions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListRemoteAccessSessionsRequest,
-    output: ListRemoteAccessSessionsResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const listRemoteAccessSessions: (
+  input: ListRemoteAccessSessionsRequest,
+) => Effect.Effect<
+  ListRemoteAccessSessionsResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRemoteAccessSessionsRequest,
+  output: ListRemoteAccessSessionsResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Gets information about runs, given an AWS Device Farm project ARN.
  */
-export const listRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRuns: {
+  (
+    input: ListRunsRequest,
+  ): Effect.Effect<
+    ListRunsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRunsRequest,
+  ) => Stream.Stream<
+    ListRunsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRunsRequest,
+  ) => Stream.Stream<
+    Run,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRunsRequest,
   output: ListRunsResult,
   errors: [
@@ -4044,7 +4404,41 @@ export const listRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Gets information about test suites for a given job.
  */
-export const listSuites = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSuites: {
+  (
+    input: ListSuitesRequest,
+  ): Effect.Effect<
+    ListSuitesResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSuitesRequest,
+  ) => Stream.Stream<
+    ListSuitesResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSuitesRequest,
+  ) => Stream.Stream<
+    Suite,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSuitesRequest,
   output: ListSuitesResult,
   errors: [
@@ -4062,7 +4456,41 @@ export const listSuites = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Gets information about tests in a given test suite.
  */
-export const listTests = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTests: {
+  (
+    input: ListTestsRequest,
+  ): Effect.Effect<
+    ListTestsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTestsRequest,
+  ) => Stream.Stream<
+    ListTestsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTestsRequest,
+  ) => Stream.Stream<
+    Test,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTestsRequest,
   output: ListTestsResult,
   errors: [
@@ -4080,30 +4508,72 @@ export const listTests = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Gets information about uploads, given an AWS Device Farm project ARN.
  */
-export const listUploads = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listUploads: {
+  (
     input: ListUploadsRequest,
-    output: ListUploadsResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "uploads",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListUploadsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUploadsRequest,
+  ) => Stream.Stream<
+    ListUploadsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUploadsRequest,
+  ) => Stream.Stream<
+    Upload,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUploadsRequest,
+  output: ListUploadsResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "uploads",
+  } as const,
+}));
 /**
  * Initiates a stop request for the current job. AWS Device Farm immediately stops the job on the device
  * where tests have not started. You are not billed for this device. On the device where tests have started,
  * setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown,
  * and any tests that were in progress or already completed.
  */
-export const stopJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopJob: (
+  input: StopJobRequest,
+) => Effect.Effect<
+  StopJobResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopJobRequest,
   output: StopJobResult,
   errors: [
@@ -4116,25 +4586,43 @@ export const stopJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Ends a specified remote access session.
  */
-export const stopRemoteAccessSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopRemoteAccessSessionRequest,
-    output: StopRemoteAccessSessionResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const stopRemoteAccessSession: (
+  input: StopRemoteAccessSessionRequest,
+) => Effect.Effect<
+  StopRemoteAccessSessionResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopRemoteAccessSessionRequest,
+  output: StopRemoteAccessSessionResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Initiates a stop request for the current test run. AWS Device Farm immediately stops the run on devices
  * where tests have not started. You are not billed for these devices. On devices where tests have started
  * executing, setup suite and teardown suite tests run to completion on those devices. You are billed for
  * setup, teardown, and any tests that were in progress or already completed.
  */
-export const stopRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopRun: (
+  input: StopRunRequest,
+) => Effect.Effect<
+  StopRunResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopRunRequest,
   output: StopRunResult,
   errors: [
@@ -4147,24 +4635,42 @@ export const stopRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates information about a private device instance.
  */
-export const updateDeviceInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDeviceInstanceRequest,
-    output: UpdateDeviceInstanceResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const updateDeviceInstance: (
+  input: UpdateDeviceInstanceRequest,
+) => Effect.Effect<
+  UpdateDeviceInstanceResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDeviceInstanceRequest,
+  output: UpdateDeviceInstanceResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Modifies the name, description, and rules in a device pool given the attributes and
  * the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a
  * whole (or not at all).
  */
-export const updateDevicePool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDevicePool: (
+  input: UpdateDevicePoolRequest,
+) => Effect.Effect<
+  UpdateDevicePoolResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDevicePoolRequest,
   output: UpdateDevicePoolResult,
   errors: [
@@ -4177,38 +4683,64 @@ export const updateDevicePool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates information about an existing private device instance profile.
  */
-export const updateInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateInstanceProfileRequest,
-    output: UpdateInstanceProfileResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const updateInstanceProfile: (
+  input: UpdateInstanceProfileRequest,
+) => Effect.Effect<
+  UpdateInstanceProfileResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInstanceProfileRequest,
+  output: UpdateInstanceProfileResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Updates the network profile.
  */
-export const updateNetworkProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateNetworkProfileRequest,
-    output: UpdateNetworkProfileResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const updateNetworkProfile: (
+  input: UpdateNetworkProfileRequest,
+) => Effect.Effect<
+  UpdateNetworkProfileResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNetworkProfileRequest,
+  output: UpdateNetworkProfileResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Modifies the specified project name, given the project ARN and a new
  * name.
  */
-export const updateProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProject: (
+  input: UpdateProjectRequest,
+) => Effect.Effect<
+  UpdateProjectResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProjectRequest,
   output: UpdateProjectResult,
   errors: [
@@ -4221,7 +4753,17 @@ export const updateProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an uploaded test spec.
  */
-export const updateUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUpload: (
+  input: UpdateUploadRequest,
+) => Effect.Effect<
+  UpdateUploadResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUploadRequest,
   output: UpdateUploadResult,
   errors: [
@@ -4234,39 +4776,65 @@ export const updateUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a profile that can be applied to one or more private device instances.
  */
-export const deleteInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInstanceProfileRequest,
-    output: DeleteInstanceProfileResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const deleteInstanceProfile: (
+  input: DeleteInstanceProfileRequest,
+) => Effect.Effect<
+  DeleteInstanceProfileResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInstanceProfileRequest,
+  output: DeleteInstanceProfileResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Deletes a network profile.
  */
-export const deleteNetworkProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteNetworkProfileRequest,
-    output: DeleteNetworkProfileResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const deleteNetworkProfile: (
+  input: DeleteNetworkProfileRequest,
+) => Effect.Effect<
+  DeleteNetworkProfileResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNetworkProfileRequest,
+  output: DeleteNetworkProfileResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Deletes an AWS Device Farm project, given the project ARN. You cannot delete a project if it has an active run or session.
  *
  * You cannot undo this operation.
  */
-export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProject: (
+  input: DeleteProjectRequest,
+) => Effect.Effect<
+  DeleteProjectResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectRequest,
   output: DeleteProjectResult,
   errors: [
@@ -4281,24 +4849,42 @@ export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You cannot undo this operation.
  */
-export const deleteRemoteAccessSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRemoteAccessSessionRequest,
-    output: DeleteRemoteAccessSessionResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const deleteRemoteAccessSession: (
+  input: DeleteRemoteAccessSessionRequest,
+) => Effect.Effect<
+  DeleteRemoteAccessSessionResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRemoteAccessSessionRequest,
+  output: DeleteRemoteAccessSessionResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Deletes the run, given the run ARN. You cannot delete a run if it is still active.
  *
  * You cannot undo this operation.
  */
-export const deleteRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRun: (
+  input: DeleteRunRequest,
+) => Effect.Effect<
+  DeleteRunResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRunRequest,
   output: DeleteRunResult,
   errors: [
@@ -4311,7 +4897,17 @@ export const deleteRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an upload given the upload ARN.
  */
-export const deleteUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUpload: (
+  input: DeleteUploadRequest,
+) => Effect.Effect<
+  DeleteUploadResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUploadRequest,
   output: DeleteUploadResult,
   errors: [
@@ -4324,7 +4920,17 @@ export const deleteUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a device pool.
  */
-export const createDevicePool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDevicePool: (
+  input: CreateDevicePoolRequest,
+) => Effect.Effect<
+  CreateDevicePoolResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDevicePoolRequest,
   output: CreateDevicePoolResult,
   errors: [
@@ -4338,37 +4944,63 @@ export const createDevicePool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a profile that can be applied to one or more private fleet device
  * instances.
  */
-export const createInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateInstanceProfileRequest,
-    output: CreateInstanceProfileResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const createInstanceProfile: (
+  input: CreateInstanceProfileRequest,
+) => Effect.Effect<
+  CreateInstanceProfileResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInstanceProfileRequest,
+  output: CreateInstanceProfileResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Creates a network profile.
  */
-export const createNetworkProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateNetworkProfileRequest,
-    output: CreateNetworkProfileResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const createNetworkProfile: (
+  input: CreateNetworkProfileRequest,
+) => Effect.Effect<
+  CreateNetworkProfileResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNetworkProfileRequest,
+  output: CreateNetworkProfileResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Uploads an app or test scripts.
  */
-export const createUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUpload: (
+  input: CreateUploadRequest,
+) => Effect.Effect<
+  CreateUploadResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUploadRequest,
   output: CreateUploadResult,
   errors: [
@@ -4382,22 +5014,35 @@ export const createUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud
  * (VPC) endpoint.
  */
-export const createVPCEConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVPCEConfigurationRequest,
-    output: CreateVPCEConfigurationResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const createVPCEConfiguration: (
+  input: CreateVPCEConfigurationRequest,
+) => Effect.Effect<
+  CreateVPCEConfigurationResult,
+  | ArgumentException
+  | LimitExceededException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVPCEConfigurationRequest,
+  output: CreateVPCEConfigurationResult,
+  errors: [ArgumentException, LimitExceededException, ServiceAccountException],
+}));
 /**
  * Deletes a device pool given the pool ARN. Does not allow deletion of curated pools
  * owned by the system.
  */
-export const deleteDevicePool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDevicePool: (
+  input: DeleteDevicePoolRequest,
+) => Effect.Effect<
+  DeleteDevicePoolResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDevicePoolRequest,
   output: DeleteDevicePoolResult,
   errors: [
@@ -4411,7 +5056,17 @@ export const deleteDevicePool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the
  * account.
  */
-export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccountSettings: (
+  input: GetAccountSettingsRequest,
+) => Effect.Effect<
+  GetAccountSettingsResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountSettingsRequest,
   output: GetAccountSettingsResult,
   errors: [
@@ -4424,7 +5079,17 @@ export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a device instance that belongs to a private device fleet.
  */
-export const getDeviceInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeviceInstance: (
+  input: GetDeviceInstanceRequest,
+) => Effect.Effect<
+  GetDeviceInstanceResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeviceInstanceRequest,
   output: GetDeviceInstanceResult,
   errors: [
@@ -4437,7 +5102,17 @@ export const getDeviceInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a device pool.
  */
-export const getDevicePool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDevicePool: (
+  input: GetDevicePoolRequest,
+) => Effect.Effect<
+  GetDevicePoolResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDevicePoolRequest,
   output: GetDevicePoolResult,
   errors: [
@@ -4450,7 +5125,17 @@ export const getDevicePool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a project.
  */
-export const getProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getProject: (
+  input: GetProjectRequest,
+) => Effect.Effect<
+  GetProjectResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectRequest,
   output: GetProjectResult,
   errors: [
@@ -4463,7 +5148,17 @@ export const getProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a suite.
  */
-export const getSuite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSuite: (
+  input: GetSuiteRequest,
+) => Effect.Effect<
+  GetSuiteResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSuiteRequest,
   output: GetSuiteResult,
   errors: [
@@ -4476,7 +5171,17 @@ export const getSuite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a test.
  */
-export const getTest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTest: (
+  input: GetTestRequest,
+) => Effect.Effect<
+  GetTestResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTestRequest,
   output: GetTestResult,
   errors: [
@@ -4489,37 +5194,84 @@ export const getTest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of sessions for a TestGridProject.
  */
-export const listTestGridSessions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTestGridSessions: {
+  (
     input: ListTestGridSessionsRequest,
-    output: ListTestGridSessionsResult,
-    errors: [ArgumentException, InternalServiceException, NotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResult",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTestGridSessionsResult,
+    | ArgumentException
+    | InternalServiceException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTestGridSessionsRequest,
+  ) => Stream.Stream<
+    ListTestGridSessionsResult,
+    | ArgumentException
+    | InternalServiceException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTestGridSessionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | ArgumentException
+    | InternalServiceException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTestGridSessionsRequest,
+  output: ListTestGridSessionsResult,
+  errors: [ArgumentException, InternalServiceException, NotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResult",
+  } as const,
+}));
 /**
  * Change details of a project.
  */
-export const updateTestGridProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTestGridProjectRequest,
-    output: UpdateTestGridProjectResult,
-    errors: [
-      ArgumentException,
-      InternalServiceException,
-      LimitExceededException,
-      NotFoundException,
-    ],
-  }),
-);
+export const updateTestGridProject: (
+  input: UpdateTestGridProjectRequest,
+) => Effect.Effect<
+  UpdateTestGridProjectResult,
+  | ArgumentException
+  | InternalServiceException
+  | LimitExceededException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTestGridProjectRequest,
+  output: UpdateTestGridProjectResult,
+  errors: [
+    ArgumentException,
+    InternalServiceException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
 /**
  * Creates a signed, short-term URL that can be passed to a Selenium `RemoteWebDriver`
  * constructor.
  */
-export const createTestGridUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTestGridUrl: (
+  input: CreateTestGridUrlRequest,
+) => Effect.Effect<
+  CreateTestGridUrlResult,
+  | ArgumentException
+  | InternalServiceException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTestGridUrlRequest,
   output: CreateTestGridUrlResult,
   errors: [ArgumentException, InternalServiceException, NotFoundException],
@@ -4528,21 +5280,33 @@ export const createTestGridUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a Selenium testing project. Projects are used to track TestGridSession
  * instances.
  */
-export const createTestGridProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTestGridProjectRequest,
-    output: CreateTestGridProjectResult,
-    errors: [
-      ArgumentException,
-      InternalServiceException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const createTestGridProject: (
+  input: CreateTestGridProjectRequest,
+) => Effect.Effect<
+  CreateTestGridProjectResult,
+  | ArgumentException
+  | InternalServiceException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTestGridProjectRequest,
+  output: CreateTestGridProjectResult,
+  errors: [ArgumentException, InternalServiceException, LimitExceededException],
+}));
 /**
  * Retrieves information about a Selenium testing project.
  */
-export const getTestGridProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTestGridProject: (
+  input: GetTestGridProjectRequest,
+) => Effect.Effect<
+  GetTestGridProjectResult,
+  | ArgumentException
+  | InternalServiceException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTestGridProjectRequest,
   output: GetTestGridProjectResult,
   errors: [ArgumentException, InternalServiceException, NotFoundException],
@@ -4554,7 +5318,16 @@ export const getTestGridProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - The project ARN and a session ID (GetTestGridSessionRequest$projectArn and GetTestGridSessionRequest$sessionId).
  */
-export const getTestGridSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTestGridSession: (
+  input: GetTestGridSessionRequest,
+) => Effect.Effect<
+  GetTestGridSessionResult,
+  | ArgumentException
+  | InternalServiceException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTestGridSessionRequest,
   output: GetTestGridSessionResult,
   errors: [ArgumentException, InternalServiceException, NotFoundException],
@@ -4563,107 +5336,236 @@ export const getTestGridSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns information about the configuration settings for your Amazon Virtual Private
  * Cloud (VPC) endpoint.
  */
-export const getVPCEConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetVPCEConfigurationRequest,
-    output: GetVPCEConfigurationResult,
-    errors: [ArgumentException, NotFoundException, ServiceAccountException],
-  }),
-);
+export const getVPCEConfiguration: (
+  input: GetVPCEConfigurationRequest,
+) => Effect.Effect<
+  GetVPCEConfigurationResult,
+  | ArgumentException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVPCEConfigurationRequest,
+  output: GetVPCEConfigurationResult,
+  errors: [ArgumentException, NotFoundException, ServiceAccountException],
+}));
 /**
  * Gets information about artifacts.
  */
-export const listArtifacts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listArtifacts: {
+  (
     input: ListArtifactsRequest,
-    output: ListArtifactsResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "artifacts",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListArtifactsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListArtifactsRequest,
+  ) => Stream.Stream<
+    ListArtifactsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListArtifactsRequest,
+  ) => Stream.Stream<
+    Artifact,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListArtifactsRequest,
+  output: ListArtifactsResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "artifacts",
+  } as const,
+}));
 /**
  * Gets information about unique device types.
  */
-export const listDevices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDevices: {
+  (
     input: ListDevicesRequest,
-    output: ListDevicesResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "devices",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDevicesResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDevicesRequest,
+  ) => Stream.Stream<
+    ListDevicesResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDevicesRequest,
+  ) => Stream.Stream<
+    Device,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDevicesRequest,
+  output: ListDevicesResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "devices",
+  } as const,
+}));
 /**
  * Gets information about samples, given an AWS Device Farm job ARN.
  */
-export const listSamples = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSamples: {
+  (
     input: ListSamplesRequest,
-    output: ListSamplesResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "samples",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSamplesResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSamplesRequest,
+  ) => Stream.Stream<
+    ListSamplesResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSamplesRequest,
+  ) => Stream.Stream<
+    Sample,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSamplesRequest,
+  output: ListSamplesResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "samples",
+  } as const,
+}));
 /**
  * Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
  */
-export const deleteVPCEConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVPCEConfigurationRequest,
-    output: DeleteVPCEConfigurationResult,
-    errors: [
-      ArgumentException,
-      InvalidOperationException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const deleteVPCEConfiguration: (
+  input: DeleteVPCEConfigurationRequest,
+) => Effect.Effect<
+  DeleteVPCEConfigurationResult,
+  | ArgumentException
+  | InvalidOperationException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVPCEConfigurationRequest,
+  output: DeleteVPCEConfigurationResult,
+  errors: [
+    ArgumentException,
+    InvalidOperationException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Specifies and starts a remote access session.
  */
-export const createRemoteAccessSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRemoteAccessSessionRequest,
-    output: CreateRemoteAccessSessionResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const createRemoteAccessSession: (
+  input: CreateRemoteAccessSessionRequest,
+) => Effect.Effect<
+  CreateRemoteAccessSessionResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRemoteAccessSessionRequest,
+  output: CreateRemoteAccessSessionResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Gets information about a unique device type.
  */
-export const getDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDevice: (
+  input: GetDeviceRequest,
+) => Effect.Effect<
+  GetDeviceResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeviceRequest,
   output: GetDeviceResult,
   errors: [
@@ -4676,7 +5578,17 @@ export const getDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a job.
  */
-export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJob: (
+  input: GetJobRequest,
+) => Effect.Effect<
+  GetJobResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRequest,
   output: GetJobResult,
   errors: [
@@ -4689,22 +5601,40 @@ export const getJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a link to a currently running remote access session.
  */
-export const getRemoteAccessSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRemoteAccessSessionRequest,
-    output: GetRemoteAccessSessionResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const getRemoteAccessSession: (
+  input: GetRemoteAccessSessionRequest,
+) => Effect.Effect<
+  GetRemoteAccessSessionResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRemoteAccessSessionRequest,
+  output: GetRemoteAccessSessionResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Gets information about a run.
  */
-export const getRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRun: (
+  input: GetRunRequest,
+) => Effect.Effect<
+  GetRunResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRunRequest,
   output: GetRunResult,
   errors: [
@@ -4719,70 +5649,161 @@ export const getRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * of the promotion. The API returns a `NotEligible` error if the caller is not permitted to invoke
  * the operation. Contact aws-devicefarm-support@amazon.com if you must be able to invoke this operation.
  */
-export const listOfferingPromotions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListOfferingPromotionsRequest,
-    output: ListOfferingPromotionsResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotEligibleException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const listOfferingPromotions: (
+  input: ListOfferingPromotionsRequest,
+) => Effect.Effect<
+  ListOfferingPromotionsResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotEligibleException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListOfferingPromotionsRequest,
+  output: ListOfferingPromotionsResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotEligibleException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Returns a list of products or offerings that the user can manage through the API. Each offering record
  * indicates the recurring price per unit and the frequency for that offering. The API returns a
  * `NotEligible` error if the user is not permitted to invoke the operation. If you must be
  * able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
-export const listOfferings = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listOfferings: {
+  (
     input: ListOfferingsRequest,
-    output: ListOfferingsResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotEligibleException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "offerings",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListOfferingsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotEligibleException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOfferingsRequest,
+  ) => Stream.Stream<
+    ListOfferingsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotEligibleException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOfferingsRequest,
+  ) => Stream.Stream<
+    Offering,
+    | ArgumentException
+    | LimitExceededException
+    | NotEligibleException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOfferingsRequest,
+  output: ListOfferingsResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotEligibleException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "offerings",
+  } as const,
+}));
 /**
  * Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS
  * account. The list is paginated and ordered by a descending timestamp (most recent transactions are first).
  * The API returns a `NotEligible` error if the user is not permitted to invoke the operation. If
  * you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
-export const listOfferingTransactions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOfferingTransactions: {
+  (
     input: ListOfferingTransactionsRequest,
-    output: ListOfferingTransactionsResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotEligibleException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "offeringTransactions",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOfferingTransactionsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotEligibleException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOfferingTransactionsRequest,
+  ) => Stream.Stream<
+    ListOfferingTransactionsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotEligibleException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOfferingTransactionsRequest,
+  ) => Stream.Stream<
+    OfferingTransaction,
+    | ArgumentException
+    | LimitExceededException
+    | NotEligibleException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOfferingTransactionsRequest,
+  output: ListOfferingTransactionsResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotEligibleException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "offeringTransactions",
+  } as const,
+}));
 /**
  * Schedules a run.
  */
-export const scheduleRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const scheduleRun: (
+  input: ScheduleRunRequest,
+) => Effect.Effect<
+  ScheduleRunResult,
+  | ArgumentException
+  | IdempotencyException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScheduleRunRequest,
   output: ScheduleRunResult,
   errors: [
@@ -4796,7 +5817,18 @@ export const scheduleRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a project.
  */
-export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProject: (
+  input: CreateProjectRequest,
+) => Effect.Effect<
+  CreateProjectResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | TagOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectRequest,
   output: CreateProjectResult,
   errors: [
@@ -4813,7 +5845,18 @@ export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * error if the user is not permitted to invoke the operation. If you must be able to invoke this operation,
  * contact aws-devicefarm-support@amazon.com.
  */
-export const purchaseOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const purchaseOffering: (
+  input: PurchaseOfferingRequest,
+) => Effect.Effect<
+  PurchaseOfferingResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotEligibleException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurchaseOfferingRequest,
   output: PurchaseOfferingResult,
   errors: [
@@ -4829,7 +5872,18 @@ export const purchaseOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `effectiveDate` of the next period. The API returns a `NotEligible` error if the
  * user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
-export const renewOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const renewOffering: (
+  input: RenewOfferingRequest,
+) => Effect.Effect<
+  RenewOfferingResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotEligibleException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RenewOfferingRequest,
   output: RenewOfferingResult,
   errors: [
@@ -4846,24 +5900,68 @@ export const renewOffering = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * period. The API returns a `NotEligible` error if the user is not permitted to invoke the
  * operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
-export const getOfferingStatus = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getOfferingStatus: {
+  (
     input: GetOfferingStatusRequest,
-    output: GetOfferingStatusResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotEligibleException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-    pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetOfferingStatusResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotEligibleException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetOfferingStatusRequest,
+  ) => Stream.Stream<
+    GetOfferingStatusResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotEligibleException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetOfferingStatusRequest,
+  ) => Stream.Stream<
+    unknown,
+    | ArgumentException
+    | LimitExceededException
+    | NotEligibleException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetOfferingStatusRequest,
+  output: GetOfferingStatusResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotEligibleException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+  pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+}));
 /**
  * List the tags for an AWS Device Farm resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | ArgumentException
+  | NotFoundException
+  | TagOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ArgumentException, NotFoundException, TagOperationException],
@@ -4871,7 +5969,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | ArgumentException
+  | NotFoundException
+  | TagOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ArgumentException, NotFoundException, TagOperationException],
@@ -4879,18 +5986,26 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about compatibility with a device pool.
  */
-export const getDevicePoolCompatibility = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDevicePoolCompatibilityRequest,
-    output: GetDevicePoolCompatibilityResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-  }),
-);
+export const getDevicePoolCompatibility: (
+  input: GetDevicePoolCompatibilityRequest,
+) => Effect.Effect<
+  GetDevicePoolCompatibilityResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDevicePoolCompatibilityRequest,
+  output: GetDevicePoolCompatibilityResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+}));
 /**
  * Gets information about unique problems, such as exceptions or crashes.
  *
@@ -4899,29 +6014,72 @@ export const getDevicePoolCompatibility = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * MyActivity.java:386), `ListUniqueProblems` returns a single entry instead of many
  * individual entries for that exception.
  */
-export const listUniqueProblems = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listUniqueProblems: {
+  (
     input: ListUniqueProblemsRequest,
-    output: ListUniqueProblemsResult,
-    errors: [
-      ArgumentException,
-      LimitExceededException,
-      NotFoundException,
-      ServiceAccountException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "uniqueProblems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListUniqueProblemsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUniqueProblemsRequest,
+  ) => Stream.Stream<
+    ListUniqueProblemsResult,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUniqueProblemsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | ArgumentException
+    | LimitExceededException
+    | NotFoundException
+    | ServiceAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUniqueProblemsRequest,
+  output: ListUniqueProblemsResult,
+  errors: [
+    ArgumentException,
+    LimitExceededException,
+    NotFoundException,
+    ServiceAccountException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "uniqueProblems",
+  } as const,
+}));
 /**
  * Associates the specified tags to a resource with the specified `resourceArn`. If existing tags
  * on a resource are not specified in the request parameters, they are not changed. When a resource is deleted,
  * the tags associated with that resource are also deleted.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ArgumentException
+  | NotFoundException
+  | TagOperationException
+  | TagPolicyException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "MigrationHub Config",
   serviceShapeName: "AWSMigrationHubMultiAccountService",
@@ -241,6 +249,15 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type HomeRegion = string;
+export type ControlId = string;
+export type DescribeHomeRegionControlsMaxResults = number;
+export type Token = string;
+export type TargetId = string;
+export type ErrorMessage = string;
+export type RetryAfterSeconds = number;
+
 //# Schemas
 export interface GetHomeRegionRequest {}
 export const GetHomeRegionRequest = S.suspend(() =>
@@ -383,46 +400,93 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     Message: S.String,
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
  * This operation deletes the home region configuration for the calling account. The operation does not delete discovery or migration tracking data in the home region.
  */
-export const deleteHomeRegionControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteHomeRegionControlRequest,
-    output: DeleteHomeRegionControlResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidInputException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteHomeRegionControl: (
+  input: DeleteHomeRegionControlRequest,
+) => Effect.Effect<
+  DeleteHomeRegionControlResult,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidInputException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteHomeRegionControlRequest,
+  output: DeleteHomeRegionControlResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidInputException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API permits filtering on the `ControlId` and `HomeRegion`
  * fields.
  */
-export const describeHomeRegionControls =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeHomeRegionControls: {
+  (
     input: DescribeHomeRegionControlsRequest,
-    output: DescribeHomeRegionControlsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidInputException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeHomeRegionControlsResult,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidInputException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeHomeRegionControlsRequest,
+  ) => Stream.Stream<
+    DescribeHomeRegionControlsResult,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidInputException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeHomeRegionControlsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidInputException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeHomeRegionControlsRequest,
+  output: DescribeHomeRegionControlsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidInputException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the calling account’s home region, if configured. This API is used by other AWS
  * services to determine the regional endpoint for calling AWS Application Discovery Service and
@@ -430,7 +494,18 @@ export const describeHomeRegionControls =
  * other AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's
  * Migration Hub home region.
  */
-export const getHomeRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getHomeRegion: (
+  input: GetHomeRegionRequest,
+) => Effect.Effect<
+  GetHomeRegionResult,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidInputException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHomeRegionRequest,
   output: GetHomeRegionResult,
   errors: [
@@ -444,17 +519,27 @@ export const getHomeRegion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This API sets up the home region for the calling account only.
  */
-export const createHomeRegionControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateHomeRegionControlRequest,
-    output: CreateHomeRegionControlResult,
-    errors: [
-      AccessDeniedException,
-      DryRunOperation,
-      InternalServerError,
-      InvalidInputException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createHomeRegionControl: (
+  input: CreateHomeRegionControlRequest,
+) => Effect.Effect<
+  CreateHomeRegionControlResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | InternalServerError
+  | InvalidInputException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateHomeRegionControlRequest,
+  output: CreateHomeRegionControlResult,
+  errors: [
+    AccessDeniedException,
+    DryRunOperation,
+    InternalServerError,
+    InvalidInputException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));

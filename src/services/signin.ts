@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "Signin", serviceShapeName: "Signin" });
 const auth = T.AwsAuthSigv4({ name: "signin" });
 const ver = T.ServiceVersion("2023-01-01");
@@ -346,6 +354,17 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type ClientId = string;
+export type GrantType = string;
+export type AuthorizationCode = string;
+export type RedirectUri = string;
+export type CodeVerifier = string;
+export type RefreshToken = string;
+export type TokenType = string;
+export type ExpiresIn = number;
+export type IdToken = string;
+
 //# Schemas
 export interface CreateOAuth2TokenRequestBody {
   clientId: string;
@@ -441,11 +460,15 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { error: S.String, message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class TooManyRequestsError extends S.TaggedError<TooManyRequestsError>()(
   "TooManyRequestsError",
   { error: S.String, message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { error: S.String, message: S.String },
@@ -482,7 +505,17 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * Note: This operation cannot be marked as @idempotent because it handles both idempotent
  * (token refresh) and non-idempotent (auth code redemption) flows in a single endpoint.
  */
-export const createOAuth2Token = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createOAuth2Token: (
+  input: CreateOAuth2TokenRequest,
+) => Effect.Effect<
+  CreateOAuth2TokenResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsError
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOAuth2TokenRequest,
   output: CreateOAuth2TokenResponse,
   errors: [

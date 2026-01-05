@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "tnb", serviceShapeName: "TNB" });
 const auth = T.AwsAuthSigv4({ name: "tnb" });
 const ver = T.ServiceVersion("2008-10-21");
@@ -289,6 +297,26 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type NsLcmOpOccId = string;
+export type NsdInfoId = string;
+export type VnfPkgId = string;
+export type NsInstanceId = string;
+export type VnfInstanceId = string;
+export type PaginationToken = string;
+export type TNBResourceArn = string;
+export type TagKey = string;
+export type TagValue = string;
+export type NsInstanceArn = string;
+export type NsdInfoArn = string;
+export type VnfInstanceArn = string;
+export type VnfdId = string;
+export type VnfPkgArn = string;
+export type NsdId = string;
+export type NsLcmOpOccArn = string;
+export type ErrorCause = string;
+export type ErrorDetails = string;
 
 //# Schemas
 export type TagKeys = string[];
@@ -1997,7 +2025,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -2009,7 +2039,9 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String },
@@ -2021,57 +2053,84 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  *
  * A network operation is any operation that is done to your network, such as network instance instantiation or termination.
  */
-export const cancelSolNetworkOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelSolNetworkOperationInput,
-    output: CancelSolNetworkOperationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelSolNetworkOperation: (
+  input: CancelSolNetworkOperationInput,
+) => Effect.Effect<
+  CancelSolNetworkOperationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelSolNetworkOperationInput,
+  output: CancelSolNetworkOperationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the details of a network function instance, including the instantiation state and
  * metadata from the function package descriptor in the network function package.
  *
  * A network function instance is a function in a function package .
  */
-export const getSolFunctionInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSolFunctionInstanceInput,
-    output: GetSolFunctionInstanceOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getSolFunctionInstance: (
+  input: GetSolFunctionInstanceInput,
+) => Effect.Effect<
+  GetSolFunctionInstanceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSolFunctionInstanceInput,
+  output: GetSolFunctionInstanceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the details of an individual function package, such as the operational state and
  * whether the package is in use.
  *
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network..
  */
-export const getSolFunctionPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSolFunctionPackageInput,
-    output: GetSolFunctionPackageOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getSolFunctionPackage: (
+  input: GetSolFunctionPackageInput,
+) => Effect.Effect<
+  GetSolFunctionPackageOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSolFunctionPackageInput,
+  output: GetSolFunctionPackageOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a function package.
  *
@@ -2082,220 +2141,440 @@ export const getSolFunctionPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * request creates an empty container with an ID. The next step is to upload the actual CSAR
  * zip file into that empty container. To upload function package content, see PutSolFunctionPackageContent.
  */
-export const createSolFunctionPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSolFunctionPackageInput,
-    output: CreateSolFunctionPackageOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createSolFunctionPackage: (
+  input: CreateSolFunctionPackageInput,
+) => Effect.Effect<
+  CreateSolFunctionPackageOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSolFunctionPackageInput,
+  output: CreateSolFunctionPackageOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the details of a network operation, including the tasks involved in the network
  * operation and the status of the tasks.
  *
  * A network operation is any operation that is done to your network, such as network instance instantiation or termination.
  */
-export const getSolNetworkOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSolNetworkOperationInput,
-    output: GetSolNetworkOperationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getSolNetworkOperation: (
+  input: GetSolNetworkOperationInput,
+) => Effect.Effect<
+  GetSolNetworkOperationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSolNetworkOperationInput,
+  output: GetSolNetworkOperationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the details of a network package.
  *
  * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
  */
-export const getSolNetworkPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSolNetworkPackageInput,
-    output: GetSolNetworkPackageOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getSolNetworkPackage: (
+  input: GetSolNetworkPackageInput,
+) => Effect.Effect<
+  GetSolNetworkPackageOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSolNetworkPackageInput,
+  output: GetSolNetworkPackageOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists network function instances.
  *
  * A network function instance is a function in a function package .
  */
-export const listSolFunctionInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSolFunctionInstances: {
+  (
     input: ListSolFunctionInstancesInput,
-    output: ListSolFunctionInstancesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "functionInstances",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSolFunctionInstancesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSolFunctionInstancesInput,
+  ) => Stream.Stream<
+    ListSolFunctionInstancesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSolFunctionInstancesInput,
+  ) => Stream.Stream<
+    ListSolFunctionInstanceInfo,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSolFunctionInstancesInput,
+  output: ListSolFunctionInstancesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "functionInstances",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists information about function packages.
  *
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
-export const listSolFunctionPackages =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSolFunctionPackages: {
+  (
     input: ListSolFunctionPackagesInput,
-    output: ListSolFunctionPackagesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "functionPackages",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSolFunctionPackagesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSolFunctionPackagesInput,
+  ) => Stream.Stream<
+    ListSolFunctionPackagesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSolFunctionPackagesInput,
+  ) => Stream.Stream<
+    ListSolFunctionPackageInfo,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSolFunctionPackagesInput,
+  output: ListSolFunctionPackagesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "functionPackages",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists your network instances.
  *
  * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
  */
-export const listSolNetworkInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSolNetworkInstances: {
+  (
     input: ListSolNetworkInstancesInput,
-    output: ListSolNetworkInstancesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "networkInstances",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSolNetworkInstancesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSolNetworkInstancesInput,
+  ) => Stream.Stream<
+    ListSolNetworkInstancesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSolNetworkInstancesInput,
+  ) => Stream.Stream<
+    ListSolNetworkInstanceInfo,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSolNetworkInstancesInput,
+  output: ListSolNetworkInstancesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "networkInstances",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists details for a network operation, including when the operation started and the
  * status of the operation.
  *
  * A network operation is any operation that is done to your network, such as network instance instantiation or termination.
  */
-export const listSolNetworkOperations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSolNetworkOperations: {
+  (
     input: ListSolNetworkOperationsInput,
-    output: ListSolNetworkOperationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "networkOperations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSolNetworkOperationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSolNetworkOperationsInput,
+  ) => Stream.Stream<
+    ListSolNetworkOperationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSolNetworkOperationsInput,
+  ) => Stream.Stream<
+    ListSolNetworkOperationsInfo,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSolNetworkOperationsInput,
+  output: ListSolNetworkOperationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "networkOperations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists network packages.
  *
  * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
  */
-export const listSolNetworkPackages =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSolNetworkPackages: {
+  (
     input: ListSolNetworkPackagesInput,
-    output: ListSolNetworkPackagesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "networkPackages",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSolNetworkPackagesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSolNetworkPackagesInput,
+  ) => Stream.Stream<
+    ListSolNetworkPackagesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSolNetworkPackagesInput,
+  ) => Stream.Stream<
+    ListSolNetworkPackageInfo,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSolNetworkPackagesInput,
+  output: ListSolNetworkPackagesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "networkPackages",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets the details of the network instance.
  *
  * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
  */
-export const getSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSolNetworkInstanceInput,
-    output: GetSolNetworkInstanceOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getSolNetworkInstance: (
+  input: GetSolNetworkInstanceInput,
+) => Effect.Effect<
+  GetSolNetworkInstanceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSolNetworkInstanceInput,
+  output: GetSolNetworkInstanceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Uploads the contents of a function package.
  *
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
-export const putSolFunctionPackageContent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutSolFunctionPackageContentInput,
-    output: PutSolFunctionPackageContentOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const putSolFunctionPackageContent: (
+  input: PutSolFunctionPackageContentInput,
+) => Effect.Effect<
+  PutSolFunctionPackageContentOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutSolFunctionPackageContentInput,
+  output: PutSolFunctionPackageContentOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Uploads the contents of a network package.
  *
  * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
  */
-export const putSolNetworkPackageContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutSolNetworkPackageContentInput,
-    output: PutSolNetworkPackageContentOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putSolNetworkPackageContent: (
+  input: PutSolNetworkPackageContentInput,
+) => Effect.Effect<
+  PutSolNetworkPackageContentOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutSolNetworkPackageContentInput,
+  output: PutSolNetworkPackageContentOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update a network instance.
  *
@@ -2303,56 +2582,86 @@ export const putSolNetworkPackageContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Choose the *updateType* parameter to target the necessary update of the network instance.
  */
-export const updateSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSolNetworkInstanceInput,
-    output: UpdateSolNetworkInstanceOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateSolNetworkInstance: (
+  input: UpdateSolNetworkInstanceInput,
+) => Effect.Effect<
+  UpdateSolNetworkInstanceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSolNetworkInstanceInput,
+  output: UpdateSolNetworkInstanceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Validates function package content. This can be used as a dry run before uploading
  * function package content with PutSolFunctionPackageContent.
  *
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
-export const validateSolFunctionPackageContent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ValidateSolFunctionPackageContentInput,
-    output: ValidateSolFunctionPackageContentOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const validateSolFunctionPackageContent: (
+  input: ValidateSolFunctionPackageContentInput,
+) => Effect.Effect<
+  ValidateSolFunctionPackageContentOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ValidateSolFunctionPackageContentInput,
+  output: ValidateSolFunctionPackageContentOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Validates network package content. This can be used as a dry run before uploading
  * network package content with PutSolNetworkPackageContent.
  *
  * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
  */
-export const validateSolNetworkPackageContent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ValidateSolNetworkPackageContentInput,
-    output: ValidateSolNetworkPackageContentOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const validateSolNetworkPackageContent: (
+  input: ValidateSolNetworkPackageContentInput,
+) => Effect.Effect<
+  ValidateSolNetworkPackageContentOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ValidateSolNetworkPackageContentInput,
+  output: ValidateSolNetworkPackageContentOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a network instance.
  *
@@ -2363,37 +2672,57 @@ export const validateSolNetworkPackageContent =
  * Once you create a network instance, you can instantiate it. To instantiate a network,
  * see InstantiateSolNetworkInstance.
  */
-export const createSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSolNetworkInstanceInput,
-    output: CreateSolNetworkInstanceOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createSolNetworkInstance: (
+  input: CreateSolNetworkInstanceInput,
+) => Effect.Effect<
+  CreateSolNetworkInstanceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSolNetworkInstanceInput,
+  output: CreateSolNetworkInstanceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the contents of a function package.
  *
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
-export const getSolFunctionPackageContent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSolFunctionPackageContentInput,
-    output: GetSolFunctionPackageContentOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getSolFunctionPackageContent: (
+  input: GetSolFunctionPackageContentInput,
+) => Effect.Effect<
+  GetSolFunctionPackageContentOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSolFunctionPackageContentInput,
+  output: GetSolFunctionPackageContentOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a function package descriptor in a function package.
  *
@@ -2401,53 +2730,82 @@ export const getSolFunctionPackageContent =
  *
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
-export const getSolFunctionPackageDescriptor =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSolFunctionPackageDescriptorInput,
-    output: GetSolFunctionPackageDescriptorOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getSolFunctionPackageDescriptor: (
+  input: GetSolFunctionPackageDescriptorInput,
+) => Effect.Effect<
+  GetSolFunctionPackageDescriptorOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSolFunctionPackageDescriptorInput,
+  output: GetSolFunctionPackageDescriptorOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the contents of a network package.
  *
  * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
  */
-export const getSolNetworkPackageContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSolNetworkPackageContentInput,
-    output: GetSolNetworkPackageContentOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getSolNetworkPackageContent: (
+  input: GetSolNetworkPackageContentInput,
+) => Effect.Effect<
+  GetSolNetworkPackageContentOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSolNetworkPackageContentInput,
+  output: GetSolNetworkPackageContentOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the content of the network service descriptor.
  *
  * A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
  */
-export const getSolNetworkPackageDescriptor =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSolNetworkPackageDescriptorInput,
-    output: GetSolNetworkPackageDescriptorOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getSolNetworkPackageDescriptor: (
+  input: GetSolNetworkPackageDescriptorInput,
+) => Effect.Effect<
+  GetSolNetworkPackageDescriptorOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSolNetworkPackageDescriptorInput,
+  output: GetSolNetworkPackageDescriptorOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Instantiates a network instance.
  *
@@ -2456,23 +2814,45 @@ export const getSolNetworkPackageDescriptor =
  * Before you can instantiate a network instance, you have to create a network instance.
  * For more information, see CreateSolNetworkInstance.
  */
-export const instantiateSolNetworkInstance =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: InstantiateSolNetworkInstanceInput,
-    output: InstantiateSolNetworkInstanceOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const instantiateSolNetworkInstance: (
+  input: InstantiateSolNetworkInstanceInput,
+) => Effect.Effect<
+  InstantiateSolNetworkInstanceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InstantiateSolNetworkInstanceInput,
+  output: InstantiateSolNetworkInstanceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists tags for AWS TNB resources.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -2490,38 +2870,57 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must terminate a network instance before you can delete it.
  */
-export const terminateSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TerminateSolNetworkInstanceInput,
-    output: TerminateSolNetworkInstanceOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const terminateSolNetworkInstance: (
+  input: TerminateSolNetworkInstanceInput,
+) => Effect.Effect<
+  TerminateSolNetworkInstanceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TerminateSolNetworkInstanceInput,
+  output: TerminateSolNetworkInstanceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the operational state of function package.
  *
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
-export const updateSolFunctionPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSolFunctionPackageInput,
-    output: UpdateSolFunctionPackageOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateSolFunctionPackage: (
+  input: UpdateSolFunctionPackageInput,
+) => Effect.Effect<
+  UpdateSolFunctionPackageOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSolFunctionPackageInput,
+  output: UpdateSolFunctionPackageOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the operational state of a network package.
  *
@@ -2529,19 +2928,28 @@ export const updateSolFunctionPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
  */
-export const updateSolNetworkPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSolNetworkPackageInput,
-    output: UpdateSolNetworkPackageOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateSolNetworkPackage: (
+  input: UpdateSolNetworkPackageInput,
+) => Effect.Effect<
+  UpdateSolNetworkPackageOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSolNetworkPackageInput,
+  output: UpdateSolNetworkPackageOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a function package.
  *
@@ -2550,19 +2958,28 @@ export const updateSolNetworkPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To delete a function package, the package must be in a disabled state. To disable a
  * function package, see UpdateSolFunctionPackage.
  */
-export const deleteSolFunctionPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSolFunctionPackageInput,
-    output: DeleteSolFunctionPackageResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteSolFunctionPackage: (
+  input: DeleteSolFunctionPackageInput,
+) => Effect.Effect<
+  DeleteSolFunctionPackageResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSolFunctionPackageInput,
+  output: DeleteSolFunctionPackageResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a network instance.
  *
@@ -2571,19 +2988,28 @@ export const deleteSolFunctionPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To delete a network instance, the instance must be in a stopped or terminated state. To
  * terminate a network instance, see TerminateSolNetworkInstance.
  */
-export const deleteSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSolNetworkInstanceInput,
-    output: DeleteSolNetworkInstanceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteSolNetworkInstance: (
+  input: DeleteSolNetworkInstanceInput,
+) => Effect.Effect<
+  DeleteSolNetworkInstanceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSolNetworkInstanceInput,
+  output: DeleteSolNetworkInstanceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes network package.
  *
@@ -2592,25 +3018,45 @@ export const deleteSolNetworkInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To delete a network package, the package must be in a disable state. To disable a
  * network package, see UpdateSolNetworkPackage.
  */
-export const deleteSolNetworkPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSolNetworkPackageInput,
-    output: DeleteSolNetworkPackageResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteSolNetworkPackage: (
+  input: DeleteSolNetworkPackageInput,
+) => Effect.Effect<
+  DeleteSolNetworkPackageResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSolNetworkPackageInput,
+  output: DeleteSolNetworkPackageResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Tags an AWS TNB resource.
  *
  * A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -2626,7 +3072,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -2651,16 +3108,25 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This request creates an empty network package container with an ID. Once you create a
  * network package, you can upload the network package content using PutSolNetworkPackageContent.
  */
-export const createSolNetworkPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSolNetworkPackageInput,
-    output: CreateSolNetworkPackageOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createSolNetworkPackage: (
+  input: CreateSolNetworkPackageInput,
+) => Effect.Effect<
+  CreateSolNetworkPackageOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSolNetworkPackageInput,
+  output: CreateSolNetworkPackageOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

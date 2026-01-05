@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Snow Device Management",
   serviceShapeName: "SnowDeviceManagement",
@@ -240,6 +248,23 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ManagedDeviceId = string;
+export type JobId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type TaskDescriptionString = string;
+export type IdempotencyToken = string;
+export type TaskId = string;
+export type TaskState = string;
+export type ExecutionState = string;
+export type UnlockState = string;
+export type ExecutionId = string;
+export type PhysicalConnectorType = string;
+export type IpAddressAssignment = string;
+export type InstanceStateName = string;
+export type AttachmentStatus = string;
 
 //# Schemas
 export type TagKeys = string[];
@@ -503,6 +528,7 @@ export const Reboot = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<Reboot>;
 export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
+export type Command = { unlock: Unlock } | { reboot: Reboot };
 export const Command = S.Union(
   S.Struct({ unlock: Unlock }),
   S.Struct({ reboot: Reboot }),
@@ -956,7 +982,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -973,7 +1001,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },
@@ -983,7 +1013,16 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Removes a tag from a device or task.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceResponse,
   errors: [
@@ -995,7 +1034,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Checks the metadata for a given task on a device.
  */
-export const describeTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTask: (
+  input: DescribeTaskInput,
+) => Effect.Effect<
+  DescribeTaskOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTaskInput,
   output: DescribeTaskOutput,
   errors: [
@@ -1009,7 +1059,16 @@ export const describeTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of tags for a managed device or task.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -1021,7 +1080,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds or replaces tags on a device or task.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceResponse,
   errors: [
@@ -1033,7 +1101,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Instructs one or more devices to start a task, such as unlocking or rebooting.
  */
-export const createTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTask: (
+  input: CreateTaskInput,
+) => Effect.Effect<
+  CreateTaskOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTaskInput,
   output: CreateTaskOutput,
   errors: [
@@ -1048,7 +1128,41 @@ export const createTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of tasks that can be filtered by state.
  */
-export const listTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTasks: {
+  (
+    input: ListTasksInput,
+  ): Effect.Effect<
+    ListTasksOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTasksInput,
+  ) => Stream.Stream<
+    ListTasksOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTasksInput,
+  ) => Stream.Stream<
+    TaskSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTasksInput,
   output: ListTasksOutput,
   errors: [
@@ -1067,25 +1181,60 @@ export const listTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns the status of tasks for one or more target devices.
  */
-export const listExecutions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listExecutions: {
+  (
     input: ListExecutionsInput,
-    output: ListExecutionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "executions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListExecutionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExecutionsInput,
+  ) => Stream.Stream<
+    ListExecutionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExecutionsInput,
+  ) => Stream.Stream<
+    ExecutionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExecutionsInput,
+  output: ListExecutionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "executions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Sends a cancel request for a specified task. You can cancel a task only if it's still in a
  * `QUEUED` state. Tasks that are already running can't be cancelled.
@@ -1093,7 +1242,18 @@ export const listExecutions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * A task might still run if it's processed from the queue before the
  * `CancelTask` operation changes the task's state.
  */
-export const cancelTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelTask: (
+  input: CancelTaskInput,
+) => Effect.Effect<
+  CancelTaskOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelTaskInput,
   output: CancelTaskOutput,
   errors: [
@@ -1107,7 +1267,18 @@ export const cancelTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Checks the status of a remote task running on one or more target devices.
  */
-export const describeExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeExecution: (
+  input: DescribeExecutionInput,
+) => Effect.Effect<
+  DescribeExecutionOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExecutionInput,
   output: DescribeExecutionOutput,
   errors: [
@@ -1122,7 +1293,18 @@ export const describeExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Checks device-specific information, such as the device type, software version, IP
  * addresses, and lock status.
  */
-export const describeDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDevice: (
+  input: DescribeDeviceInput,
+) => Effect.Effect<
+  DescribeDeviceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDeviceInput,
   output: DescribeDeviceOutput,
   errors: [
@@ -1137,60 +1319,137 @@ export const describeDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns a list of all devices on your Amazon Web Services account that have Amazon Web Services Snow Device Management
  * enabled in the Amazon Web Services Region where the command is run.
  */
-export const listDevices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDevices: {
+  (
     input: ListDevicesInput,
-    output: ListDevicesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "devices",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDevicesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDevicesInput,
+  ) => Stream.Stream<
+    ListDevicesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDevicesInput,
+  ) => Stream.Stream<
+    DeviceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDevicesInput,
+  output: ListDevicesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "devices",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of the Amazon Web Services resources available for a device. Currently, Amazon EC2 instances are the only supported resource type.
  */
-export const listDeviceResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDeviceResources: {
+  (
     input: ListDeviceResourcesInput,
-    output: ListDeviceResourcesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "resources",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDeviceResourcesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeviceResourcesInput,
+  ) => Stream.Stream<
+    ListDeviceResourcesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeviceResourcesInput,
+  ) => Stream.Stream<
+    ResourceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeviceResourcesInput,
+  output: ListDeviceResourcesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "resources",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Checks the current state of the Amazon EC2 instances. The output is similar to
  * `describeDevice`, but the results are sourced from the device cache in the
  * Amazon Web Services Cloud and include a subset of the available fields.
  */
-export const describeDeviceEc2Instances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDeviceEc2Input,
-    output: DescribeDeviceEc2Output,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeDeviceEc2Instances: (
+  input: DescribeDeviceEc2Input,
+) => Effect.Effect<
+  DescribeDeviceEc2Output,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDeviceEc2Input,
+  output: DescribeDeviceEc2Output,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

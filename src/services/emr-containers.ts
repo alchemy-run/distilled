@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials as Creds,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "EMR containers",
   serviceShapeName: "AwsChicagoWebService",
@@ -269,6 +277,50 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type ResourceIdString = string;
+export type ResourceNameString = string;
+export type ClientToken = string;
+export type KmsKeyArn = string;
+export type EndpointType = string;
+export type ReleaseLabel = string;
+export type IAMRoleArn = string;
+export type ACMCertArn = string;
+export type String2048 = string;
+export type CredentialType = string;
+export type JavaInteger = number;
+export type LogContext = string;
+export type NextToken = string;
+export type RsiArn = string;
+export type String1024 = string;
+export type String128 = string;
+export type ParametricIAMRoleArn = string;
+export type ParametricReleaseLabel = string;
+export type StringEmpty256 = string;
+export type ClusterId = string;
+export type TemplateParameterName = string;
+export type VirtualClusterArn = string;
+export type EntryPointPath = string;
+export type EntryPointArgument = string;
+export type SparkSubmitParameters = string;
+export type SparkSqlParameters = string;
+export type JobArn = string;
+export type RequestIdentityUserArn = string;
+export type String256 = string;
+export type JobTemplateArn = string;
+export type EndpointArn = string;
+export type UriString = string;
+export type SecurityConfigurationArn = string;
+export type Token = string;
+export type TemplateParameter = string;
+export type LogGroupName = string;
+export type RotationSize = string;
+export type MaxFilesToKeep = number;
+export type KubernetesNamespace = string;
+export type SessionTagValue = string;
+export type Base64Encoded = string;
+export type SecretsManagerArn = string;
+
 //# Schemas
 export type JobRunStates = string[];
 export const JobRunStates = S.Array(S.String);
@@ -314,6 +366,7 @@ export const EksInfo = S.suspend(() =>
     nodeLabel: S.optional(S.String),
   }),
 ).annotations({ identifier: "EksInfo" }) as any as S.Schema<EksInfo>;
+export type ContainerInfo = { eksInfo: EksInfo };
 export const ContainerInfo = S.Union(S.Struct({ eksInfo: EksInfo }));
 export interface ContainerProvider {
   type: string;
@@ -1392,6 +1445,7 @@ export const ListVirtualClustersResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListVirtualClustersResponse",
 }) as any as S.Schema<ListVirtualClustersResponse>;
+export type Credentials = { token: string };
 export const Credentials = S.Union(S.Struct({ token: S.String }));
 export type SensitivePropertiesMap = { [key: string]: string };
 export const SensitivePropertiesMap = S.Record({
@@ -1671,11 +1725,15 @@ export const CreateSecurityConfigurationResponse = S.suspend(() =>
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class EKSRequestThrottledException extends S.TaggedError<EKSRequestThrottledException>()(
   "EKSRequestThrottledException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -1694,7 +1752,13 @@ export class RequestThrottledException extends S.TaggedError<RequestThrottledExc
  * Cancels a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or
  * SparkSQL query, that you submit to Amazon EMR on EKS.
  */
-export const cancelJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelJobRun: (
+  input: CancelJobRunRequest,
+) => Effect.Effect<
+  CancelJobRunResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobRunRequest,
   output: CancelJobRunResponse,
   errors: [InternalServerException, ValidationException],
@@ -1702,7 +1766,16 @@ export const cancelJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from resources.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1714,7 +1787,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags assigned to the resources.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1729,25 +1811,42 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * namespace. Given this relationship, you can model virtual clusters the same way you model
  * Kubernetes namespaces to meet your requirements.
  */
-export const createVirtualCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVirtualClusterRequest,
-    output: CreateVirtualClusterResponse,
-    errors: [
-      EKSRequestThrottledException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const createVirtualCluster: (
+  input: CreateVirtualClusterRequest,
+) => Effect.Effect<
+  CreateVirtualClusterResponse,
+  | EKSRequestThrottledException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVirtualClusterRequest,
+  output: CreateVirtualClusterResponse,
+  errors: [
+    EKSRequestThrottledException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Displays detailed information about a specified job template. Job template stores values
  * of StartJobRun API request in a template and can be used to start a job run. Job template
  * allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing
  * certain values in StartJobRun API request.
  */
-export const describeJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeJobTemplate: (
+  input: DescribeJobTemplateRequest,
+) => Effect.Effect<
+  DescribeJobTemplateResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobTemplateRequest,
   output: DescribeJobTemplateResponse,
   errors: [
@@ -1763,16 +1862,24 @@ export const describeJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can also create a security configuration to re-use a security setup each time you
  * create a virtual cluster.
  */
-export const describeSecurityConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeSecurityConfigurationRequest,
-    output: DescribeSecurityConfigurationResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const describeSecurityConfiguration: (
+  input: DescribeSecurityConfigurationRequest,
+) => Effect.Effect<
+  DescribeSecurityConfigurationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSecurityConfigurationRequest,
+  output: DescribeSecurityConfigurationResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Displays detailed information about a specified virtual cluster. Virtual cluster is a
  * managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual
@@ -1781,24 +1888,37 @@ export const describeSecurityConfiguration =
  * virtual clusters the same way you model Kubernetes namespaces to meet your
  * requirements.
  */
-export const describeVirtualCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVirtualClusterRequest,
-    output: DescribeVirtualClusterResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeVirtualCluster: (
+  input: DescribeVirtualClusterRequest,
+) => Effect.Effect<
+  DescribeVirtualClusterResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVirtualClusterRequest,
+  output: DescribeVirtualClusterResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a job template. Job template stores values of StartJobRun API request in a
  * template and can be used to start a job run. Job template allows two use cases: avoid
  * repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun
  * API request.
  */
-export const deleteJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteJobTemplate: (
+  input: DeleteJobTemplateRequest,
+) => Effect.Effect<
+  DeleteJobTemplateResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobTemplateRequest,
   output: DeleteJobTemplateResponse,
   errors: [InternalServerException, ValidationException],
@@ -1807,78 +1927,147 @@ export const deleteJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can
  * communicate with your virtual cluster.
  */
-export const deleteManagedEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteManagedEndpointRequest,
-    output: DeleteManagedEndpointResponse,
-    errors: [InternalServerException, ValidationException],
-  }),
-);
+export const deleteManagedEndpoint: (
+  input: DeleteManagedEndpointRequest,
+) => Effect.Effect<
+  DeleteManagedEndpointResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteManagedEndpointRequest,
+  output: DeleteManagedEndpointResponse,
+  errors: [InternalServerException, ValidationException],
+}));
 /**
  * Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any
  * additional resource in your system. A single virtual cluster maps to a single Kubernetes
  * namespace. Given this relationship, you can model virtual clusters the same way you model
  * Kubernetes namespaces to meet your requirements.
  */
-export const deleteVirtualCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVirtualClusterRequest,
-    output: DeleteVirtualClusterResponse,
-    errors: [InternalServerException, ValidationException],
-  }),
-);
+export const deleteVirtualCluster: (
+  input: DeleteVirtualClusterRequest,
+) => Effect.Effect<
+  DeleteVirtualClusterResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVirtualClusterRequest,
+  output: DeleteVirtualClusterResponse,
+  errors: [InternalServerException, ValidationException],
+}));
 /**
  * Lists job runs based on a set of parameters. A job run is a unit of work, such as a
  * Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
  */
-export const listJobRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listJobRuns: {
+  (
     input: ListJobRunsRequest,
-    output: ListJobRunsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "jobRuns",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListJobRunsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobRunsRequest,
+  ) => Stream.Stream<
+    ListJobRunsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobRunsRequest,
+  ) => Stream.Stream<
+    JobRun,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListJobRunsRequest,
+  output: ListJobRunsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobRuns",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists job templates based on a set of parameters. Job template stores values of
  * StartJobRun API request in a template and can be used to start a job run. Job template
  * allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing
  * certain values in StartJobRun API request.
  */
-export const listJobTemplates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listJobTemplates: {
+  (
     input: ListJobTemplatesRequest,
-    output: ListJobTemplatesResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "templates",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListJobTemplatesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobTemplatesRequest,
+  ) => Stream.Stream<
+    ListJobTemplatesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobTemplatesRequest,
+  ) => Stream.Stream<
+    JobTemplate,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListJobTemplatesRequest,
+  output: ListJobTemplatesResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "templates",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists managed endpoints based on a set of parameters. A managed endpoint is a gateway
  * that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
  */
-export const listManagedEndpoints =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listManagedEndpoints: {
+  (
     input: ListManagedEndpointsRequest,
-    output: ListManagedEndpointsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "endpoints",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListManagedEndpointsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListManagedEndpointsRequest,
+  ) => Stream.Stream<
+    ListManagedEndpointsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListManagedEndpointsRequest,
+  ) => Stream.Stream<
+    Endpoint,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListManagedEndpointsRequest,
+  output: ListManagedEndpointsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "endpoints",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists security configurations based on a set of parameters. Security configurations in
  * Amazon EMR on EKS are templates for different security setups. You can use security
@@ -1886,18 +2075,39 @@ export const listManagedEndpoints =
  * create a security configuration to re-use a security setup each time you create a virtual
  * cluster.
  */
-export const listSecurityConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSecurityConfigurations: {
+  (
     input: ListSecurityConfigurationsRequest,
-    output: ListSecurityConfigurationsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "securityConfigurations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSecurityConfigurationsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecurityConfigurationsRequest,
+  ) => Stream.Stream<
+    ListSecurityConfigurationsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecurityConfigurationsRequest,
+  ) => Stream.Stream<
+    SecurityConfiguration,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecurityConfigurationsRequest,
+  output: ListSecurityConfigurationsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "securityConfigurations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists information about the specified virtual cluster. Virtual cluster is a managed
  * entity on Amazon EMR on EKS. You can create, describe, list and delete virtual
@@ -1906,18 +2116,39 @@ export const listSecurityConfigurations =
  * virtual clusters the same way you model Kubernetes namespaces to meet your
  * requirements.
  */
-export const listVirtualClusters =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listVirtualClusters: {
+  (
     input: ListVirtualClustersRequest,
-    output: ListVirtualClustersResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "virtualClusters",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListVirtualClustersResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVirtualClustersRequest,
+  ) => Stream.Stream<
+    ListVirtualClustersResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVirtualClustersRequest,
+  ) => Stream.Stream<
+    VirtualCluster,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVirtualClustersRequest,
+  output: ListVirtualClustersResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "virtualClusters",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services
  * resource. Each tag consists of a key and an optional value, both of which you define. Tags
@@ -1929,7 +2160,16 @@ export const listVirtualClusters =
  * for each resource type. You can then search and filter the resources based on the tags that
  * you add.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1942,7 +2182,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Displays detailed information about a job run. A job run is a unit of work, such as a
  * Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
  */
-export const describeJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeJobRun: (
+  input: DescribeJobRunRequest,
+) => Effect.Effect<
+  DescribeJobRunResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobRunRequest,
   output: DescribeJobRunResponse,
   errors: [
@@ -1955,36 +2204,61 @@ export const describeJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Displays detailed information about a managed endpoint. A managed endpoint is a gateway
  * that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
  */
-export const describeManagedEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeManagedEndpointRequest,
-    output: DescribeManagedEndpointResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeManagedEndpoint: (
+  input: DescribeManagedEndpointRequest,
+) => Effect.Effect<
+  DescribeManagedEndpointResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeManagedEndpointRequest,
+  output: DescribeManagedEndpointResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Generate a session token to connect to a managed endpoint.
  */
-export const getManagedEndpointSessionCredentials =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetManagedEndpointSessionCredentialsRequest,
-    output: GetManagedEndpointSessionCredentialsResponse,
-    errors: [
-      InternalServerException,
-      RequestThrottledException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const getManagedEndpointSessionCredentials: (
+  input: GetManagedEndpointSessionCredentialsRequest,
+) => Effect.Effect<
+  GetManagedEndpointSessionCredentialsResponse,
+  | InternalServerException
+  | RequestThrottledException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetManagedEndpointSessionCredentialsRequest,
+  output: GetManagedEndpointSessionCredentialsResponse,
+  errors: [
+    InternalServerException,
+    RequestThrottledException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Starts a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or
  * SparkSQL query, that you submit to Amazon EMR on EKS.
  */
-export const startJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startJobRun: (
+  input: StartJobRunRequest,
+) => Effect.Effect<
+  StartJobRunResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartJobRunRequest,
   output: StartJobRunResponse,
   errors: [
@@ -1997,24 +2271,40 @@ export const startJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can
  * communicate with your virtual cluster.
  */
-export const createManagedEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateManagedEndpointRequest,
-    output: CreateManagedEndpointResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const createManagedEndpoint: (
+  input: CreateManagedEndpointRequest,
+) => Effect.Effect<
+  CreateManagedEndpointResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateManagedEndpointRequest,
+  output: CreateManagedEndpointResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a job template. Job template stores values of StartJobRun API request in a
  * template and can be used to start a job run. Job template allows two use cases: avoid
  * repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun
  * API request.
  */
-export const createJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createJobTemplate: (
+  input: CreateJobTemplateRequest,
+) => Effect.Effect<
+  CreateJobTemplateResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobTemplateRequest,
   output: CreateJobTemplateResponse,
   errors: [
@@ -2029,10 +2319,14 @@ export const createJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the Lake Formation integration setup. You can also create a security configuration
  * to re-use a security setup each time you create a virtual cluster.
  */
-export const createSecurityConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSecurityConfigurationRequest,
-    output: CreateSecurityConfigurationResponse,
-    errors: [InternalServerException, ValidationException],
-  }),
-);
+export const createSecurityConfiguration: (
+  input: CreateSecurityConfigurationRequest,
+) => Effect.Effect<
+  CreateSecurityConfigurationResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSecurityConfigurationRequest,
+  output: CreateSecurityConfigurationResponse,
+  errors: [InternalServerException, ValidationException],
+}));

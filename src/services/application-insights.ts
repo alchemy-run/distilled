@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Application Insights",
   serviceShapeName: "EC2WindowsBarleyService",
@@ -240,6 +248,83 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ResourceGroupName = string;
+export type ComponentName = string;
+export type OpsItemSNSTopicArn = string;
+export type SNSNotificationArn = string;
+export type CustomComponentName = string;
+export type ResourceARN = string;
+export type LogPatternSetName = string;
+export type LogPatternName = string;
+export type LogPatternRegex = string;
+export type LogPatternRank = number;
+export type AccountId = string;
+export type WorkloadName = string;
+export type ObservationId = string;
+export type ProblemId = string;
+export type WorkloadId = string;
+export type MaxEntities = number;
+export type PaginationToken = string;
+export type AmazonResourceName = string;
+export type TagKey = string;
+export type ComponentConfiguration = string;
+export type TagValue = string;
+export type ErrorMsg = string;
+export type Remarks = string;
+export type LifeCycle = string;
+export type ResourceType = string;
+export type SourceType = string;
+export type SourceARN = string;
+export type LogGroup = string;
+export type LogText = string;
+export type MetricNamespace = string;
+export type MetricName = string;
+export type Unit = string;
+export type Value = number;
+export type CloudWatchEventId = string;
+export type CloudWatchEventDetailType = string;
+export type HealthEventArn = string;
+export type HealthService = string;
+export type HealthEventTypeCode = string;
+export type HealthEventTypeCategory = string;
+export type HealthEventDescription = string;
+export type CodeDeployDeploymentId = string;
+export type CodeDeployDeploymentGroup = string;
+export type CodeDeployState = string;
+export type CodeDeployApplication = string;
+export type CodeDeployInstanceGroupId = string;
+export type Ec2State = string;
+export type RdsEventCategories = string;
+export type RdsEventMessage = string;
+export type S3EventName = string;
+export type StatesExecutionArn = string;
+export type StatesArn = string;
+export type StatesStatus = string;
+export type StatesInput = string;
+export type EbsEvent = string;
+export type EbsResult = string;
+export type EbsCause = string;
+export type EbsRequestId = string;
+export type XRayFaultPercent = number;
+export type XRayThrottlePercent = number;
+export type XRayErrorPercent = number;
+export type XRayRequestCount = number;
+export type XRayRequestAverageLatency = number;
+export type XRayNodeName = string;
+export type XRayNodeType = string;
+export type Title = string;
+export type ShortName = string;
+export type Insights = string;
+export type AffectedResource = string;
+export type RecurringCount = number;
+export type ConfigurationEventMonitoredResourceARN = string;
+export type ConfigurationEventDetail = string;
+export type ConfigurationEventResourceName = string;
+export type ExceptionMessage = string;
+export type MetaDataKey = string;
+export type MetaDataValue = string;
 
 //# Schemas
 export type ResourceList = string[];
@@ -1435,7 +1520,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalServerException", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
   { Message: S.optional(S.String) },
@@ -1474,18 +1561,38 @@ export class TagsAlreadyExistException extends S.TaggedError<TagsAlreadyExistExc
 /**
  * Lists the IDs of the applications that you are monitoring.
  */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listApplications: {
+  (
     input: ListApplicationsRequest,
-    output: ListApplicationsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListApplicationsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ListApplicationsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by
  * Application Insights. Examples of events represented are:
@@ -1497,40 +1604,99 @@ export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - ERROR: alarm not created due to permission errors or exceeding quotas.
  */
-export const listConfigurationHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConfigurationHistory: {
+  (
     input: ListConfigurationHistoryRequest,
-    output: ListConfigurationHistoryResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConfigurationHistoryResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfigurationHistoryRequest,
+  ) => Stream.Stream<
+    ListConfigurationHistoryResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfigurationHistoryRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfigurationHistoryRequest,
+  output: ListConfigurationHistoryResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the workloads that are configured on a given component.
  */
-export const listWorkloads = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkloads: {
+  (
     input: ListWorkloadsRequest,
-    output: ListWorkloadsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkloadsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkloadsRequest,
+  ) => Stream.Stream<
+    ListWorkloadsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkloadsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkloadsRequest,
+  output: ListWorkloadsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Add one or more tags (keys and values) to a specified application. A
  * *tag* is a label that you optionally define and associate with an
@@ -1542,7 +1708,16 @@ export const listWorkloads = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * that acts as a category for more specific tag values. A tag value acts as a descriptor
  * within a tag key.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1554,7 +1729,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds a log pattern to a `LogPatternSet`.
  */
-export const updateLogPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLogPattern: (
+  input: UpdateLogPatternRequest,
+) => Effect.Effect<
+  UpdateLogPatternResponse,
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLogPatternRequest,
   output: UpdateLogPatternResponse,
   errors: [
@@ -1568,7 +1753,17 @@ export const updateLogPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the custom component name and/or the list of resources that make up the
  * component.
  */
-export const updateComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateComponent: (
+  input: UpdateComponentRequest,
+) => Effect.Effect<
+  UpdateComponentResponse,
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateComponentRequest,
   output: UpdateComponentResponse,
   errors: [
@@ -1583,21 +1778,40 @@ export const updateComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * parameter is an escaped JSON of the configuration and should match the schema of what is
  * returned by `DescribeComponentConfigurationRecommendation`.
  */
-export const updateComponentConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateComponentConfigurationRequest,
-    output: UpdateComponentConfigurationResponse,
-    errors: [
-      InternalServerException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const updateComponentConfiguration: (
+  input: UpdateComponentConfigurationRequest,
+) => Effect.Effect<
+  UpdateComponentConfigurationResponse,
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateComponentConfigurationRequest,
+  output: UpdateComponentConfigurationResponse,
+  errors: [
+    InternalServerException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds a workload to a component. Each component can have at most five workloads.
  */
-export const addWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addWorkload: (
+  input: AddWorkloadRequest,
+) => Effect.Effect<
+  AddWorkloadResponse,
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddWorkloadRequest,
   output: AddWorkloadResponse,
   errors: [
@@ -1610,7 +1824,16 @@ export const addWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the application.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApplication: (
+  input: UpdateApplicationRequest,
+) => Effect.Effect<
+  UpdateApplicationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
   output: UpdateApplicationResponse,
   errors: [
@@ -1622,7 +1845,16 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds a workload to a component. Each component can have at most five workloads.
  */
-export const updateWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWorkload: (
+  input: UpdateWorkloadRequest,
+) => Effect.Effect<
+  UpdateWorkloadResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkloadRequest,
   output: UpdateWorkloadResponse,
   errors: [
@@ -1636,7 +1868,16 @@ export const updateWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * that are set up for the component are removed and the instances revert to their standalone
  * status.
  */
-export const deleteComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteComponent: (
+  input: DeleteComponentRequest,
+) => Effect.Effect<
+  DeleteComponentResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteComponentRequest,
   output: DeleteComponentResponse,
   errors: [
@@ -1648,7 +1889,16 @@ export const deleteComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Remove workload from a component.
  */
-export const removeWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removeWorkload: (
+  input: RemoveWorkloadRequest,
+) => Effect.Effect<
+  RemoveWorkloadResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveWorkloadRequest,
   output: RemoveWorkloadResponse,
   errors: [
@@ -1661,7 +1911,16 @@ export const removeWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the visibility of the problem or specifies the problem as
  * `RESOLVED`.
  */
-export const updateProblem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProblem: (
+  input: UpdateProblemRequest,
+) => Effect.Effect<
+  UpdateProblemResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProblemRequest,
   output: UpdateProblemResponse,
   errors: [
@@ -1673,7 +1932,17 @@ export const updateProblem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the specified log pattern from a `LogPatternSet`.
  */
-export const deleteLogPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLogPattern: (
+  input: DeleteLogPatternRequest,
+) => Effect.Effect<
+  DeleteLogPatternResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLogPatternRequest,
   output: DeleteLogPatternResponse,
   errors: [
@@ -1686,7 +1955,13 @@ export const deleteLogPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Remove one or more tags (keys and values) from a specified application.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -1695,7 +1970,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes the specified application from monitoring. Does not delete the
  * application.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplication: (
+  input: DeleteApplicationRequest,
+) => Effect.Effect<
+  DeleteApplicationResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResponse,
   errors: [
@@ -1708,33 +1993,58 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the monitoring configuration of the component.
  */
-export const describeComponentConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeComponentConfigurationRequest,
-    output: DescribeComponentConfigurationResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const describeComponentConfiguration: (
+  input: DescribeComponentConfigurationRequest,
+) => Effect.Effect<
+  DescribeComponentConfigurationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeComponentConfigurationRequest,
+  output: DescribeComponentConfigurationResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes the recommended monitoring configuration of the component.
  */
-export const describeComponentConfigurationRecommendation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeComponentConfigurationRecommendationRequest,
-    output: DescribeComponentConfigurationRecommendationResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const describeComponentConfigurationRecommendation: (
+  input: DescribeComponentConfigurationRecommendationRequest,
+) => Effect.Effect<
+  DescribeComponentConfigurationRecommendationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeComponentConfigurationRecommendationRequest,
+  output: DescribeComponentConfigurationRecommendationResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Describe a specific log pattern from a `LogPatternSet`.
  */
-export const describeLogPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeLogPattern: (
+  input: DescribeLogPatternRequest,
+) => Effect.Effect<
+  DescribeLogPatternResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLogPatternRequest,
   output: DescribeLogPatternResponse,
   errors: [
@@ -1746,7 +2056,16 @@ export const describeLogPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes a workload and its configuration.
  */
-export const describeWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeWorkload: (
+  input: DescribeWorkloadRequest,
+) => Effect.Effect<
+  DescribeWorkloadResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkloadRequest,
   output: DescribeWorkloadResponse,
   errors: [
@@ -1758,79 +2077,195 @@ export const describeWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the auto-grouped, standalone, and custom components of the application.
  */
-export const listComponents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listComponents: {
+  (
     input: ListComponentsRequest,
-    output: ListComponentsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListComponentsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComponentsRequest,
+  ) => Stream.Stream<
+    ListComponentsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComponentsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComponentsRequest,
+  output: ListComponentsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the log patterns in the specific log `LogPatternSet`.
  */
-export const listLogPatterns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLogPatterns: {
+  (
     input: ListLogPatternsRequest,
-    output: ListLogPatternsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLogPatternsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLogPatternsRequest,
+  ) => Stream.Stream<
+    ListLogPatternsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLogPatternsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLogPatternsRequest,
+  output: ListLogPatternsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the log pattern sets in the specific application.
  */
-export const listLogPatternSets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLogPatternSets: {
+  (
     input: ListLogPatternSetsRequest,
-    output: ListLogPatternSetsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLogPatternSetsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLogPatternSetsRequest,
+  ) => Stream.Stream<
+    ListLogPatternSetsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLogPatternSetsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLogPatternSetsRequest,
+  output: ListLogPatternSetsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the problems with your application.
  */
-export const listProblems = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProblems: {
+  (
     input: ListProblemsRequest,
-    output: ListProblemsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProblemsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProblemsRequest,
+  ) => Stream.Stream<
+    ListProblemsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProblemsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProblemsRequest,
+  output: ListProblemsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieve a list of the tags (keys and values) that are associated with a specified
  * application. A *tag* is a label that you optionally define and associate
@@ -1839,7 +2274,13 @@ export const listProblems = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * as a category for more specific tag values. A tag value acts as a descriptor within a tag
  * key.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -1847,7 +2288,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a custom component by grouping similar standalone instances to monitor.
  */
-export const createComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createComponent: (
+  input: CreateComponentRequest,
+) => Effect.Effect<
+  CreateComponentResponse,
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComponentRequest,
   output: CreateComponentResponse,
   errors: [
@@ -1860,7 +2311,17 @@ export const createComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds an log pattern to a `LogPatternSet`.
  */
-export const createLogPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLogPattern: (
+  input: CreateLogPatternRequest,
+) => Effect.Effect<
+  CreateLogPatternResponse,
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLogPatternRequest,
   output: CreateLogPatternResponse,
   errors: [
@@ -1873,7 +2334,16 @@ export const createLogPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the application.
  */
-export const describeApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeApplication: (
+  input: DescribeApplicationRequest,
+) => Effect.Effect<
+  DescribeApplicationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeApplicationRequest,
   output: DescribeApplicationResponse,
   errors: [
@@ -1885,7 +2355,16 @@ export const describeApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes an anomaly or error with the application.
  */
-export const describeObservation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeObservation: (
+  input: DescribeObservationRequest,
+) => Effect.Effect<
+  DescribeObservationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeObservationRequest,
   output: DescribeObservationResponse,
   errors: [
@@ -1897,21 +2376,37 @@ export const describeObservation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the anomalies or errors associated with the problem.
  */
-export const describeProblemObservations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeProblemObservationsRequest,
-    output: DescribeProblemObservationsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeProblemObservations: (
+  input: DescribeProblemObservationsRequest,
+) => Effect.Effect<
+  DescribeProblemObservationsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeProblemObservationsRequest,
+  output: DescribeProblemObservationsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes an application problem.
  */
-export const describeProblem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeProblem: (
+  input: DescribeProblemRequest,
+) => Effect.Effect<
+  DescribeProblemResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProblemRequest,
   output: DescribeProblemResponse,
   errors: [
@@ -1923,7 +2418,19 @@ export const describeProblem = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds an application that is created from a resource group.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationRequest,
+) => Effect.Effect<
+  CreateApplicationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TagsAlreadyExistException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
   output: CreateApplicationResponse,
   errors: [
@@ -1939,7 +2446,16 @@ export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Describes a component and lists the resources that are grouped together in a
  * component.
  */
-export const describeComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeComponent: (
+  input: DescribeComponentRequest,
+) => Effect.Effect<
+  DescribeComponentResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeComponentRequest,
   output: DescribeComponentResponse,
   errors: [

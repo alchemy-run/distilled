@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Marketplace Reporting",
   serviceShapeName: "AWSMarketplaceReporting",
@@ -293,6 +301,10 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type DashboardIdentifier = string;
+export type EmbeddingDomain = string;
+
 //# Schemas
 export type EmbeddingDomains = string[];
 export const EmbeddingDomains = S.Array(S.String);
@@ -344,7 +356,9 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
   { message: S.optional(S.String) },
@@ -364,7 +378,17 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
  *
  * - It has a session lifetime of one hour. The 5-minute validity period runs separately from the session lifetime.
  */
-export const getBuyerDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBuyerDashboard: (
+  input: GetBuyerDashboardInput,
+) => Effect.Effect<
+  GetBuyerDashboardOutput,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBuyerDashboardInput,
   output: GetBuyerDashboardOutput,
   errors: [

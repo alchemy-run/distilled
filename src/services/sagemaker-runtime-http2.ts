@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker Runtime HTTP2",
   serviceShapeName: "AmazonSageMakerRuntimeHttp2",
@@ -1084,7 +1092,9 @@ export class InputValidationError extends S.TaggedError<InputValidationError>()(
 export class InternalServerError extends S.TaggedError<InternalServerError>()(
   "InternalServerError",
   { Message: S.optional(S.String), ErrorCode: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InternalStreamFailure extends S.TaggedError<InternalStreamFailure>()(
   "InternalStreamFailure",
   { Message: S.optional(S.String) },
@@ -1103,7 +1113,9 @@ export class ModelStreamError extends S.TaggedError<ModelStreamError>()(
 export class ServiceUnavailableError extends S.TaggedError<ServiceUnavailableError>()(
   "ServiceUnavailableError",
   { Message: S.optional(S.String), ErrorCode: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 
 //# Operations
 /**
@@ -1121,16 +1133,27 @@ export class ServiceUnavailableError extends S.TaggedError<ServiceUnavailableErr
  *
  * Endpoints are scoped to an individual account, and are not public. The URL does not contain the account ID, but Amazon SageMaker AI determines the account ID from the authentication token that is supplied by the caller.
  */
-export const invokeEndpointWithBidirectionalStream =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: InvokeEndpointWithBidirectionalStreamInput,
-    output: InvokeEndpointWithBidirectionalStreamOutput,
-    errors: [
-      InputValidationError,
-      InternalServerError,
-      InternalStreamFailure,
-      ModelError,
-      ModelStreamError,
-      ServiceUnavailableError,
-    ],
-  }));
+export const invokeEndpointWithBidirectionalStream: (
+  input: InvokeEndpointWithBidirectionalStreamInput,
+) => Effect.Effect<
+  InvokeEndpointWithBidirectionalStreamOutput,
+  | InputValidationError
+  | InternalServerError
+  | InternalStreamFailure
+  | ModelError
+  | ModelStreamError
+  | ServiceUnavailableError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InvokeEndpointWithBidirectionalStreamInput,
+  output: InvokeEndpointWithBidirectionalStreamOutput,
+  errors: [
+    InputValidationError,
+    InternalServerError,
+    InternalStreamFailure,
+    ModelError,
+    ModelStreamError,
+    ServiceUnavailableError,
+  ],
+}));

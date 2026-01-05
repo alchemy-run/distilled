@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "PartnerCentral Selling",
   serviceShapeName: "AWSPartnerCentralSelling",
@@ -104,6 +112,73 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type CatalogIdentifier = string;
+export type EngagementArnOrIdentifier = string;
+export type ClientToken = string;
+export type TaggableResourceArn = string;
+export type ResourceSnapshotJobRoleIdentifier = string;
+export type TagKey = string;
+export type EngagementContextIdentifier = string;
+export type EngagementTitle = string;
+export type EngagementDescription = string;
+export type AwsAccount = string;
+export type EngagementPageSize = number;
+export type MemberPageSize = number;
+export type EngagementInvitationArnOrIdentifier = string;
+export type OpportunityIdentifier = string;
+export type TaskArnOrIdentifier = string;
+export type EngagementIdentifier = string;
+export type PageSize = number;
+export type RejectionReasonString = string;
+export type ContextIdentifier = string;
+export type ResourceIdentifier = string;
+export type ResourceTemplateName = string;
+export type ResourceSnapshotRevision = number;
+export type ResourceSnapshotJobIdentifier = string;
+export type SolutionIdentifier = string;
+export type TagValue = string;
+export type InvitationMessage = string;
+export type PiiString = string;
+export type Email = string;
+export type Name = string;
+export type JobTitle = string;
+export type PhoneNumber = string;
+export type ResourceSnapshotJobRoleArn = string;
+export type EngagementArn = string;
+export type TaskIdentifier = string;
+export type TaskArn = string;
+export type EngagementInvitationIdentifier = string;
+export type OpportunityArn = string;
+export type ResourceArn = string;
+export type ResourceSnapshotJobArn = string;
+export type LeadQualificationStatus = string;
+export type WebsiteUrl = string;
+export type DunsNumber = string;
+export type Amount = string;
+export type EstimationUrl = string;
+export type MemberCompanyName = string;
+export type AwsMarketplaceOfferIdentifier = string;
+export type AwsMarketplaceOfferSetIdentifier = string;
+export type AwsProductIdentifier = string;
+export type ResourceSnapshotArn = string;
+export type CompanyName = string;
+export type CompanyWebsiteUrl = string;
+export type EngagementCustomerProjectTitle = string;
+export type EngagementCustomerBusinessProblem = string;
+export type AwsMaturity = string;
+export type LeadSourceType = string;
+export type LeadSourceId = string;
+export type LeadSourceName = string;
+export type EngagementUseCase = string;
+export type CustomerAction = string;
+export type Alias = string;
+export type AddressPart = string;
+export type SenderContactEmail = string;
+export type SolutionArn = string;
+export type MonetaryAmount = string;
+export type EngagementInvitationArn = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -1222,6 +1297,9 @@ export const LeadContext = S.suspend(() =>
     Interactions: LeadInteractionList,
   }),
 ).annotations({ identifier: "LeadContext" }) as any as S.Schema<LeadContext>;
+export type EngagementContextPayload =
+  | { CustomerProject: CustomerProjectsContext }
+  | { Lead: LeadContext };
 export const EngagementContextPayload = S.Union(
   S.Struct({ CustomerProject: CustomerProjectsContext }),
   S.Struct({ Lead: LeadContext }),
@@ -1834,6 +1912,9 @@ export type AwsProductIdentifiers = string[];
 export const AwsProductIdentifiers = S.Array(S.String);
 export type ReceiverResponsibilityList = string[];
 export const ReceiverResponsibilityList = S.Array(S.String);
+export type UpdateEngagementContextPayload =
+  | { Lead: UpdateLeadContext }
+  | { CustomerProject: CustomerProjectsContext };
 export const UpdateEngagementContextPayload = S.Union(
   S.Struct({ Lead: UpdateLeadContext }),
   S.Struct({ CustomerProject: CustomerProjectsContext }),
@@ -2149,6 +2230,7 @@ export const ListEngagementFromOpportunityTasksResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListEngagementFromOpportunityTasksResponse",
 }) as any as S.Schema<ListEngagementFromOpportunityTasksResponse>;
+export type Receiver = { Account: AccountReceiver };
 export const Receiver = S.Union(S.Struct({ Account: AccountReceiver }));
 export interface SenderContact {
   Email: string;
@@ -2252,6 +2334,9 @@ export const LeadInvitationPayload = S.suspend(() =>
 ).annotations({
   identifier: "LeadInvitationPayload",
 }) as any as S.Schema<LeadInvitationPayload>;
+export type Payload =
+  | { OpportunityInvitation: OpportunityInvitationPayload }
+  | { LeadInvitation: LeadInvitationPayload };
 export const Payload = S.Union(
   S.Struct({ OpportunityInvitation: OpportunityInvitationPayload }),
   S.Struct({ LeadInvitation: LeadInvitationPayload }),
@@ -2765,6 +2850,9 @@ export interface Invitation {
 export const Invitation = S.suspend(() =>
   S.Struct({ Message: S.String, Receiver: Receiver, Payload: Payload }),
 ).annotations({ identifier: "Invitation" }) as any as S.Schema<Invitation>;
+export type ResourceSnapshotPayload = {
+  OpportunitySummary: OpportunitySummaryView;
+};
 export const ResourceSnapshotPayload = S.Union(
   S.Struct({ OpportunitySummary: OpportunitySummaryView }),
 );
@@ -3103,7 +3191,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -3111,7 +3201,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },
@@ -3129,7 +3221,18 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Use this action to retrieve the engagement record for a given `EngagementIdentifier`.
  */
-export const getEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEngagement: (
+  input: GetEngagementRequest,
+) => Effect.Effect<
+  GetEngagementResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEngagementRequest,
   output: GetEngagementResponse,
   errors: [
@@ -3143,19 +3246,28 @@ export const getEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a summary of an AWS Opportunity. This summary includes high-level details about the opportunity sourced from AWS, such as lifecycle information, customer details, and involvement type. It is useful for tracking updates on the AWS opportunity corresponding to an opportunity in the partner's account.
  */
-export const getAwsOpportunitySummary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAwsOpportunitySummaryRequest,
-    output: GetAwsOpportunitySummaryResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAwsOpportunitySummary: (
+  input: GetAwsOpportunitySummaryRequest,
+) => Effect.Effect<
+  GetAwsOpportunitySummaryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAwsOpportunitySummaryRequest,
+  output: GetAwsOpportunitySummaryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an `Opportunity` record in Partner Central. Use this operation to create a potential business opportunity for submission to Amazon Web Services. Creating an opportunity sets `Lifecycle.ReviewStatus` to `Pending Submission`.
  *
@@ -3171,7 +3283,19 @@ export const getAwsOpportunitySummary = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * There's a set of mandatory fields to create opportunities, but consider providing optional fields to enrich the opportunity record.
  */
-export const createOpportunity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createOpportunity: (
+  input: CreateOpportunityRequest,
+) => Effect.Effect<
+  CreateOpportunityResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOpportunityRequest,
   output: CreateOpportunityResponse,
   errors: [
@@ -3186,7 +3310,18 @@ export const createOpportunity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Use this action to retrieve a specific snapshot record.
  */
-export const getResourceSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourceSnapshot: (
+  input: GetResourceSnapshotRequest,
+) => Effect.Effect<
+  GetResourceSnapshotResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceSnapshotRequest,
   output: GetResourceSnapshotResponse,
   errors: [
@@ -3200,191 +3335,473 @@ export const getResourceSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Similar to `StartEngagementByAcceptingInvitationTask`, this action is asynchronous and performs multiple steps before completion. This action orchestrates a comprehensive workflow that combines multiple API operations into a single task to create and initiate an engagement from an existing opportunity. It automatically executes a sequence of operations including `GetOpportunity`, `CreateEngagement` (if it doesn't exist), `CreateResourceSnapshot`, `CreateResourceSnapshotJob`, `CreateEngagementInvitation` (if not already invited/accepted), and `SubmitOpportunity`.
  */
-export const startEngagementFromOpportunityTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartEngagementFromOpportunityTaskRequest,
-    output: StartEngagementFromOpportunityTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startEngagementFromOpportunityTask: (
+  input: StartEngagementFromOpportunityTaskRequest,
+) => Effect.Effect<
+  StartEngagementFromOpportunityTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartEngagementFromOpportunityTaskRequest,
+  output: StartEngagementFromOpportunityTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * This action allows users to retrieve a list of Engagement records from Partner Central. This action can be used to manage and track various engagements across different stages of the partner selling process.
  */
-export const listEngagements = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEngagements: {
+  (
     input: ListEngagementsRequest,
-    output: ListEngagementsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EngagementSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEngagementsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEngagementsRequest,
+  ) => Stream.Stream<
+    ListEngagementsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEngagementsRequest,
+  ) => Stream.Stream<
+    EngagementSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEngagementsRequest,
+  output: ListEngagementsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EngagementSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all in-progress, completed, or failed StartEngagementByAcceptingInvitationTask tasks that were initiated by the caller's account.
  */
-export const listEngagementByAcceptingInvitationTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEngagementByAcceptingInvitationTasks: {
+  (
     input: ListEngagementByAcceptingInvitationTasksRequest,
-    output: ListEngagementByAcceptingInvitationTasksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TaskSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEngagementByAcceptingInvitationTasksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEngagementByAcceptingInvitationTasksRequest,
+  ) => Stream.Stream<
+    ListEngagementByAcceptingInvitationTasksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEngagementByAcceptingInvitationTasksRequest,
+  ) => Stream.Stream<
+    ListEngagementByAcceptingInvitationTaskSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEngagementByAcceptingInvitationTasksRequest,
+  output: ListEngagementByAcceptingInvitationTasksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TaskSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS.
  */
-export const listEngagementInvitations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEngagementInvitations: {
+  (
     input: ListEngagementInvitationsRequest,
-    output: ListEngagementInvitationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EngagementInvitationSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEngagementInvitationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEngagementInvitationsRequest,
+  ) => Stream.Stream<
+    ListEngagementInvitationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEngagementInvitationsRequest,
+  ) => Stream.Stream<
+    EngagementInvitationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEngagementInvitationsRequest,
+  output: ListEngagementInvitationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EngagementInvitationSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters.
  */
-export const listResourceSnapshotJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourceSnapshotJobs: {
+  (
     input: ListResourceSnapshotJobsRequest,
-    output: ListResourceSnapshotJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ResourceSnapshotJobSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourceSnapshotJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceSnapshotJobsRequest,
+  ) => Stream.Stream<
+    ListResourceSnapshotJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceSnapshotJobsRequest,
+  ) => Stream.Stream<
+    ResourceSnapshotJobSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceSnapshotJobsRequest,
+  output: ListResourceSnapshotJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourceSnapshotJobSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity.
  */
-export const listSolutions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSolutions: {
+  (
     input: ListSolutionsRequest,
-    output: ListSolutionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SolutionSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSolutionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSolutionsRequest,
+  ) => Stream.Stream<
+    ListSolutionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSolutionsRequest,
+  ) => Stream.Stream<
+    SolutionBase,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSolutionsRequest,
+  output: ListSolutionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SolutionSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the details of member partners in an Engagement. This operation can only be invoked by members of the Engagement. The `ListEngagementMembers` operation allows you to fetch information about the members of a specific Engagement. This action is restricted to members of the Engagement being queried.
  */
-export const listEngagementMembers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEngagementMembers: {
+  (
     input: ListEngagementMembersRequest,
-    output: ListEngagementMembersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EngagementMemberList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEngagementMembersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEngagementMembersRequest,
+  ) => Stream.Stream<
+    ListEngagementMembersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEngagementMembersRequest,
+  ) => Stream.Stream<
+    EngagementMember,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEngagementMembersRequest,
+  output: ListEngagementMembersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EngagementMemberList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all in-progress, completed, or failed `EngagementFromOpportunity` tasks that were initiated by the caller's account.
  */
-export const listEngagementFromOpportunityTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEngagementFromOpportunityTasks: {
+  (
     input: ListEngagementFromOpportunityTasksRequest,
-    output: ListEngagementFromOpportunityTasksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TaskSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEngagementFromOpportunityTasksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEngagementFromOpportunityTasksRequest,
+  ) => Stream.Stream<
+    ListEngagementFromOpportunityTasksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEngagementFromOpportunityTasksRequest,
+  ) => Stream.Stream<
+    ListEngagementFromOpportunityTaskSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEngagementFromOpportunityTasksRequest,
+  output: ListEngagementFromOpportunityTasksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TaskSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the details of an engagement invitation shared by AWS with a partner. The information includes aspects such as customer, project details, and lifecycle information. To connect an engagement invitation with an opportunity, match the invitation’s `Payload.Project.Title` with opportunity `Project.Title`.
  */
-export const getEngagementInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEngagementInvitationRequest,
-    output: GetEngagementInvitationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getEngagementInvitation: (
+  input: GetEngagementInvitationRequest,
+) => Effect.Effect<
+  GetEngagementInvitationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEngagementInvitationRequest,
+  output: GetEngagementInvitationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Fetches the `Opportunity` record from Partner Central by a given `Identifier`.
  *
  * Use the `ListOpportunities` action or the event notification (from Amazon EventBridge) to obtain this identifier.
  */
-export const getOpportunity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getOpportunity: (
+  input: GetOpportunityRequest,
+) => Effect.Effect<
+  GetOpportunityResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOpportunityRequest,
   output: GetOpportunityResponse,
   errors: [
@@ -3398,45 +3815,117 @@ export const getOpportunity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all in-progress, completed, or failed opportunity creation tasks from engagements that were initiated by the caller's account.
  */
-export const listOpportunityFromEngagementTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOpportunityFromEngagementTasks: {
+  (
     input: ListOpportunityFromEngagementTasksRequest,
-    output: ListOpportunityFromEngagementTasksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TaskSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOpportunityFromEngagementTasksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOpportunityFromEngagementTasksRequest,
+  ) => Stream.Stream<
+    ListOpportunityFromEngagementTasksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOpportunityFromEngagementTasksRequest,
+  ) => Stream.Stream<
+    ListOpportunityFromEngagementTaskSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOpportunityFromEngagementTasksRequest,
+  output: ListOpportunityFromEngagementTasksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TaskSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement.
  */
-export const listEngagementResourceAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEngagementResourceAssociations: {
+  (
     input: ListEngagementResourceAssociationsRequest,
-    output: ListEngagementResourceAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EngagementResourceAssociationSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEngagementResourceAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEngagementResourceAssociationsRequest,
+  ) => Stream.Stream<
+    ListEngagementResourceAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEngagementResourceAssociationsRequest,
+  ) => Stream.Stream<
+    EngagementResourceAssociationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEngagementResourceAssociationsRequest,
+  output: ListEngagementResourceAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EngagementResourceAssociationSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of resource view snapshots based on specified criteria. This operation supports various use cases, including:
  *
@@ -3450,30 +3939,78 @@ export const listEngagementResourceAssociations =
  *
  * - Filtering snapshots by resource owner.
  */
-export const listResourceSnapshots =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourceSnapshots: {
+  (
     input: ListResourceSnapshotsRequest,
-    output: ListResourceSnapshotsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ResourceSnapshotSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourceSnapshotsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceSnapshotsRequest,
+  ) => Stream.Stream<
+    ListResourceSnapshotsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceSnapshotsRequest,
+  ) => Stream.Stream<
+    ResourceSnapshotSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceSnapshotsRequest,
+  output: ListResourceSnapshotsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourceSnapshotSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the `Opportunity` record identified by a given `Identifier`. This operation allows you to modify the details of an existing opportunity to reflect the latest information and progress. Use this action to keep the opportunity record up-to-date and accurate.
  *
  * When you perform updates, include the entire payload with each request. If any field is omitted, the API assumes that the field is set to `null`. The best practice is to always perform a `GetOpportunity` to retrieve the latest values, then send the complete payload with the updated values to be changed.
  */
-export const updateOpportunity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateOpportunity: (
+  input: UpdateOpportunityRequest,
+) => Effect.Effect<
+  UpdateOpportunityResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOpportunityRequest,
   output: UpdateOpportunityResponse,
   errors: [
@@ -3488,58 +4025,100 @@ export const updateOpportunity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Use the `AcceptEngagementInvitation` action to accept an engagement invitation shared by AWS. Accepting the invitation indicates your willingness to participate in the engagement, granting you access to all engagement-related data.
  */
-export const acceptEngagementInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptEngagementInvitationRequest,
-    output: AcceptEngagementInvitationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const acceptEngagementInvitation: (
+  input: AcceptEngagementInvitationRequest,
+) => Effect.Effect<
+  AcceptEngagementInvitationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptEngagementInvitationRequest,
+  output: AcceptEngagementInvitationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * This action rejects an `EngagementInvitation` that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the opportunity, and all related data will become inaccessible thereafter.
  */
-export const rejectEngagementInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectEngagementInvitationRequest,
-    output: RejectEngagementInvitationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const rejectEngagementInvitation: (
+  input: RejectEngagementInvitationRequest,
+) => Effect.Effect<
+  RejectEngagementInvitationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectEngagementInvitationRequest,
+  output: RejectEngagementInvitationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Use this action to deletes a previously created resource snapshot job. The job must be in a stopped state before it can be deleted.
  */
-export const deleteResourceSnapshotJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourceSnapshotJobRequest,
-    output: DeleteResourceSnapshotJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResourceSnapshotJob: (
+  input: DeleteResourceSnapshotJobRequest,
+) => Effect.Effect<
+  DeleteResourceSnapshotJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourceSnapshotJobRequest,
+  output: DeleteResourceSnapshotJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Assigns one or more tags (key-value pairs) to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3556,7 +4135,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This is useful for distributing opportunities to the appropriate team members or departments within your organization, ensuring that each opportunity is handled by the right person. By default, the opportunity owner is the one who creates it. Currently, there's no API to enumerate the list of available users.
  */
-export const assignOpportunity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const assignOpportunity: (
+  input: AssignOpportunityRequest,
+) => Effect.Effect<
+  AssignOpportunityResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssignOpportunityRequest,
   output: AssignOpportunityResponse,
   errors: [
@@ -3570,19 +4160,28 @@ export const assignOpportunity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Use this action to retrieves information about a specific resource snapshot job.
  */
-export const getResourceSnapshotJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResourceSnapshotJobRequest,
-    output: GetResourceSnapshotJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getResourceSnapshotJob: (
+  input: GetResourceSnapshotJobRequest,
+) => Effect.Effect<
+  GetResourceSnapshotJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceSnapshotJobRequest,
+  output: GetResourceSnapshotJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Enables you to create a formal association between an `Opportunity` and various related entities, enriching the context and details of the opportunity for better collaboration and decision making. You can associate an opportunity with the following entity types:
  *
@@ -3600,41 +4199,70 @@ export const getResourceSnapshotJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Amazon Web Services Marketplace private offer: Use the Using the Amazon Web Services Marketplace Catalog API to list entities. Specifically, use the `ListEntities` operation to retrieve a list of private offers. The request returns the details of available private offers. For more information, see ListEntities.
  */
-export const associateOpportunity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateOpportunityRequest,
-    output: AssociateOpportunityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateOpportunity: (
+  input: AssociateOpportunityRequest,
+) => Effect.Effect<
+  AssociateOpportunityResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateOpportunityRequest,
+  output: AssociateOpportunityResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Allows you to remove an existing association between an `Opportunity` and related entities, such as a Partner Solution, Amazon Web Services product, or an Amazon Web Services Marketplace offer. This operation is the counterpart to `AssociateOpportunity`, and it provides flexibility to manage associations as business needs change.
  *
  * Use this operation to update the associations of an `Opportunity` due to changes in the related entities, or if an association was made in error. Ensuring accurate associations helps maintain clarity and accuracy to track and manage business opportunities. When you replace an entity, first attach the new entity and then disassociate the one to be removed, especially if it's the last remaining entity that's required.
  */
-export const disassociateOpportunity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateOpportunityRequest,
-    output: DisassociateOpportunityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateOpportunity: (
+  input: DisassociateOpportunityRequest,
+) => Effect.Effect<
+  DisassociateOpportunityResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateOpportunityRequest,
+  output: DisassociateOpportunityResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Use this action to submit an Opportunity that was previously created by partner for AWS review. After you perform this action, the Opportunity becomes non-editable until it is reviewed by AWS and has ` LifeCycle.ReviewStatus ` as either `Approved` or `Action Required`.
  */
-export const submitOpportunity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const submitOpportunity: (
+  input: SubmitOpportunityRequest,
+) => Effect.Effect<
+  SubmitOpportunityResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitOpportunityRequest,
   output: SubmitOpportunityResponse,
   errors: [
@@ -3648,55 +4276,93 @@ export const submitOpportunity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a resource snapshot job that has been previously created.
  */
-export const startResourceSnapshotJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartResourceSnapshotJobRequest,
-    output: StartResourceSnapshotJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startResourceSnapshotJob: (
+  input: StartResourceSnapshotJobRequest,
+) => Effect.Effect<
+  StartResourceSnapshotJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartResourceSnapshotJobRequest,
+  output: StartResourceSnapshotJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Stops a resource snapshot job. The job must be started prior to being stopped.
  */
-export const stopResourceSnapshotJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopResourceSnapshotJobRequest,
-    output: StopResourceSnapshotJobResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const stopResourceSnapshotJob: (
+  input: StopResourceSnapshotJobRequest,
+) => Effect.Effect<
+  StopResourceSnapshotJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopResourceSnapshotJobRequest,
+  output: StopResourceSnapshotJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the currently set system settings, which include the IAM Role used for resource snapshot jobs.
  */
-export const getSellingSystemSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSellingSystemSettingsRequest,
-    output: GetSellingSystemSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getSellingSystemSettings: (
+  input: GetSellingSystemSettingsRequest,
+) => Effect.Effect<
+  GetSellingSystemSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSellingSystemSettingsRequest,
+  output: GetSellingSystemSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of tags for a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3710,23 +4376,44 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the currently set system settings, which include the IAM Role used for resource snapshot jobs.
  */
-export const putSellingSystemSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutSellingSystemSettingsRequest,
-    output: PutSellingSystemSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putSellingSystemSettings: (
+  input: PutSellingSystemSettingsRequest,
+) => Effect.Effect<
+  PutSellingSystemSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutSellingSystemSettingsRequest,
+  output: PutSellingSystemSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes a tag or tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3741,77 +4428,136 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * This action starts the engagement by accepting an `EngagementInvitation`. The task is asynchronous and involves the following steps: accepting the invitation, creating an opportunity in the partner’s account from the AWS opportunity, and copying details for tracking. When completed, an `Opportunity Created` event is generated, indicating that the opportunity has been successfully created in the partner's account.
  */
-export const startEngagementByAcceptingInvitationTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartEngagementByAcceptingInvitationTaskRequest,
-    output: StartEngagementByAcceptingInvitationTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startEngagementByAcceptingInvitationTask: (
+  input: StartEngagementByAcceptingInvitationTaskRequest,
+) => Effect.Effect<
+  StartEngagementByAcceptingInvitationTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartEngagementByAcceptingInvitationTaskRequest,
+  output: StartEngagementByAcceptingInvitationTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * This action creates an opportunity from an existing engagement context. The task is asynchronous and orchestrates the process of converting engagement contextual information into a structured opportunity record within the partner's account.
  */
-export const startOpportunityFromEngagementTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartOpportunityFromEngagementTaskRequest,
-    output: StartOpportunityFromEngagementTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startOpportunityFromEngagementTask: (
+  input: StartOpportunityFromEngagementTaskRequest,
+) => Effect.Effect<
+  StartOpportunityFromEngagementTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartOpportunityFromEngagementTaskRequest,
+  output: StartOpportunityFromEngagementTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * This action allows you to create an immutable snapshot of a specific resource, such as an opportunity, within the context of an engagement. The snapshot captures a subset of the resource's data based on the schema defined by the provided template.
  */
-export const createResourceSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateResourceSnapshotRequest,
-    output: CreateResourceSnapshotResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createResourceSnapshot: (
+  input: CreateResourceSnapshotRequest,
+) => Effect.Effect<
+  CreateResourceSnapshotResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateResourceSnapshotRequest,
+  output: CreateResourceSnapshotResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and immutability rules as direct snapshot creation.
  */
-export const createResourceSnapshotJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateResourceSnapshotJobRequest,
-    output: CreateResourceSnapshotJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createResourceSnapshotJob: (
+  input: CreateResourceSnapshotJobRequest,
+) => Effect.Effect<
+  CreateResourceSnapshotJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateResourceSnapshotJobRequest,
+  output: CreateResourceSnapshotJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * The `CreateEngagement` action allows you to create an `Engagement`, which serves as a collaborative space between different parties such as AWS Partners and AWS Sellers. This action automatically adds the caller's AWS account as an active member of the newly created `Engagement`.
  */
-export const createEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEngagement: (
+  input: CreateEngagementRequest,
+) => Effect.Effect<
+  CreateEngagementResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEngagementRequest,
   output: CreateEngagementResponse,
   errors: [
@@ -3827,57 +4573,90 @@ export const createEngagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the context information for an existing engagement with new or modified data.
  */
-export const updateEngagementContext = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEngagementContextRequest,
-    output: UpdateEngagementContextResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateEngagementContext: (
+  input: UpdateEngagementContextRequest,
+) => Effect.Effect<
+  UpdateEngagementContextResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEngagementContextRequest,
+  output: UpdateEngagementContextResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new context within an existing engagement. This action allows you to add contextual information such as customer projects or documents to an engagement, providing additional details that help facilitate collaboration between engagement members.
  */
-export const createEngagementContext = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEngagementContextRequest,
-    output: CreateEngagementContextResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createEngagementContext: (
+  input: CreateEngagementContextRequest,
+) => Effect.Effect<
+  CreateEngagementContextResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEngagementContextRequest,
+  output: CreateEngagementContextResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * This action creates an invitation from a sender to a single receiver to join an engagement.
  */
-export const createEngagementInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEngagementInvitationRequest,
-    output: CreateEngagementInvitationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createEngagementInvitation: (
+  input: CreateEngagementInvitationRequest,
+) => Effect.Effect<
+  CreateEngagementInvitationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEngagementInvitationRequest,
+  output: CreateEngagementInvitationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * This request accepts a list of filters that retrieve opportunity subsets as well as sort options. This feature is available to partners from Partner Central using the `ListOpportunities` API action.
  *
@@ -3891,22 +4670,57 @@ export const createEngagementInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Amazon Web Services only returns opportunities created or updated on or after that date and time. Use `NextToken` to iterate over all pages.
  */
-export const listOpportunities = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listOpportunities: {
+  (
     input: ListOpportunitiesRequest,
-    output: ListOpportunitiesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "OpportunitySummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListOpportunitiesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOpportunitiesRequest,
+  ) => Stream.Stream<
+    ListOpportunitiesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOpportunitiesRequest,
+  ) => Stream.Stream<
+    OpportunitySummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOpportunitiesRequest,
+  output: ListOpportunitiesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "OpportunitySummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));

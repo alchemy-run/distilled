@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "CodeBuild",
   serviceShapeName: "CodeBuild_20161006",
@@ -240,6 +248,27 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type NonEmptyString = string;
+export type FleetName = string;
+export type FleetCapacity = number;
+export type ProjectName = string;
+export type ProjectDescription = string;
+export type BuildTimeOut = number;
+export type TimeOut = number;
+export type WrapperInt = number;
+export type ReportGroupName = string;
+export type PageSize = number;
+export type Percentage = number;
+export type SensitiveNonEmptyString = string;
+export type SensitiveString = string;
+export type GitCloneDepth = number;
+export type WrapperLong = number;
+export type KeyInput = string;
+export type ValueInput = string;
+export type WrapperDouble = number;
+export type NonNegativeInt = number;
 
 //# Schemas
 export interface ListCuratedEnvironmentImagesInput {}
@@ -3308,7 +3337,13 @@ export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlread
 /**
  * Deletes a compute fleet. When you delete a compute fleet, its builds are not deleted.
  */
-export const deleteFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFleet: (
+  input: DeleteFleetInput,
+) => Effect.Effect<
+  DeleteFleetOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFleetInput,
   output: DeleteFleetOutput,
   errors: [InvalidInputException],
@@ -3316,7 +3351,29 @@ export const deleteFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a list of build IDs, with each build ID representing a single build.
  */
-export const listBuilds = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBuilds: {
+  (
+    input: ListBuildsInput,
+  ): Effect.Effect<
+    ListBuildsOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBuildsInput,
+  ) => Stream.Stream<
+    ListBuildsOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBuildsInput,
+  ) => Stream.Stream<
+    NonEmptyString,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuildsInput,
   output: ListBuildsOutput,
   errors: [InvalidInputException],
@@ -3329,7 +3386,29 @@ export const listBuilds = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Gets a list of compute fleet names with each compute fleet name representing a single compute fleet.
  */
-export const listFleets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFleets: {
+  (
+    input: ListFleetsInput,
+  ): Effect.Effect<
+    ListFleetsOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFleetsInput,
+  ) => Stream.Stream<
+    ListFleetsOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFleetsInput,
+  ) => Stream.Stream<
+    unknown,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFleetsInput,
   output: ListFleetsOutput,
   errors: [InvalidInputException],
@@ -3343,95 +3422,206 @@ export const listFleets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Gets a list of build project names, with each build project name representing a single
  * build project.
  */
-export const listProjects = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProjects: {
+  (
     input: ListProjectsInput,
-    output: ListProjectsOutput,
-    errors: [InvalidInputException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "projects",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProjectsOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProjectsInput,
+  ) => Stream.Stream<
+    ListProjectsOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProjectsInput,
+  ) => Stream.Stream<
+    NonEmptyString,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsInput,
+  output: ListProjectsOutput,
+  errors: [InvalidInputException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "projects",
+  } as const,
+}));
 /**
  * Gets a list ARNs for the report groups in the current Amazon Web Services account.
  */
-export const listReportGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listReportGroups: {
+  (
     input: ListReportGroupsInput,
-    output: ListReportGroupsOutput,
-    errors: [InvalidInputException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "reportGroups",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListReportGroupsOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReportGroupsInput,
+  ) => Stream.Stream<
+    ListReportGroupsOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReportGroupsInput,
+  ) => Stream.Stream<
+    NonEmptyString,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReportGroupsInput,
+  output: ListReportGroupsOutput,
+  errors: [InvalidInputException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "reportGroups",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of sandboxes.
  */
-export const listSandboxes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSandboxes: {
+  (
     input: ListSandboxesInput,
-    output: ListSandboxesOutput,
-    errors: [InvalidInputException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "ids",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSandboxesOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSandboxesInput,
+  ) => Stream.Stream<
+    ListSandboxesOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSandboxesInput,
+  ) => Stream.Stream<
+    NonEmptyString,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSandboxesInput,
+  output: ListSandboxesOutput,
+  errors: [InvalidInputException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ids",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of projects that are shared with other Amazon Web Services accounts or users.
  */
-export const listSharedProjects = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSharedProjects: {
+  (
     input: ListSharedProjectsInput,
-    output: ListSharedProjectsOutput,
-    errors: [InvalidInputException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "projects",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSharedProjectsOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSharedProjectsInput,
+  ) => Stream.Stream<
+    ListSharedProjectsOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSharedProjectsInput,
+  ) => Stream.Stream<
+    NonEmptyString,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSharedProjectsInput,
+  output: ListSharedProjectsOutput,
+  errors: [InvalidInputException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "projects",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of report groups that are shared with other Amazon Web Services accounts or users.
  */
-export const listSharedReportGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSharedReportGroups: {
+  (
     input: ListSharedReportGroupsInput,
-    output: ListSharedReportGroupsOutput,
-    errors: [InvalidInputException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "reportGroups",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSharedReportGroupsOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSharedReportGroupsInput,
+  ) => Stream.Stream<
+    ListSharedReportGroupsOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSharedReportGroupsInput,
+  ) => Stream.Stream<
+    NonEmptyString,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSharedReportGroupsInput,
+  output: ListSharedReportGroupsOutput,
+  errors: [InvalidInputException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "reportGroups",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of `SourceCredentialsInfo` objects.
  */
-export const listSourceCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListSourceCredentialsInput,
-    output: ListSourceCredentialsOutput,
-    errors: [InvalidInputException],
-  }),
-);
+export const listSourceCredentials: (
+  input: ListSourceCredentialsInput,
+) => Effect.Effect<
+  ListSourceCredentialsOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSourceCredentialsInput,
+  output: ListSourceCredentialsOutput,
+  errors: [InvalidInputException],
+}));
 /**
  * Deletes a build project. When you delete a project, its builds are not deleted.
  */
-export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProject: (
+  input: DeleteProjectInput,
+) => Effect.Effect<
+  DeleteProjectOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectInput,
   output: DeleteProjectOutput,
   errors: [InvalidInputException],
@@ -3439,7 +3629,13 @@ export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a report.
  */
-export const deleteReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteReport: (
+  input: DeleteReportInput,
+) => Effect.Effect<
+  DeleteReportOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReportInput,
   output: DeleteReportOutput,
   errors: [InvalidInputException],
@@ -3447,7 +3643,13 @@ export const deleteReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a report group. Before you delete a report group, you must delete its reports.
  */
-export const deleteReportGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteReportGroup: (
+  input: DeleteReportGroupInput,
+) => Effect.Effect<
+  DeleteReportGroupOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReportGroupInput,
   output: DeleteReportGroupOutput,
   errors: [InvalidInputException],
@@ -3455,17 +3657,27 @@ export const deleteReportGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a resource policy that is identified by its resource ARN.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyInput,
-    output: DeleteResourcePolicyOutput,
-    errors: [InvalidInputException],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyInput,
+) => Effect.Effect<
+  DeleteResourcePolicyOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyInput,
+  output: DeleteResourcePolicyOutput,
+  errors: [InvalidInputException],
+}));
 /**
  * Deletes a batch build.
  */
-export const deleteBuildBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBuildBatch: (
+  input: DeleteBuildBatchInput,
+) => Effect.Effect<
+  DeleteBuildBatchOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBuildBatchInput,
   output: DeleteBuildBatchOutput,
   errors: [InvalidInputException],
@@ -3473,7 +3685,13 @@ export const deleteBuildBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes one or more builds.
  */
-export const batchDeleteBuilds = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchDeleteBuilds: (
+  input: BatchDeleteBuildsInput,
+) => Effect.Effect<
+  BatchDeleteBuildsOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteBuildsInput,
   output: BatchDeleteBuildsOutput,
   errors: [InvalidInputException],
@@ -3481,52 +3699,91 @@ export const batchDeleteBuilds = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about the command executions.
  */
-export const batchGetCommandExecutions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetCommandExecutionsInput,
-    output: BatchGetCommandExecutionsOutput,
-    errors: [InvalidInputException],
-  }),
-);
+export const batchGetCommandExecutions: (
+  input: BatchGetCommandExecutionsInput,
+) => Effect.Effect<
+  BatchGetCommandExecutionsOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetCommandExecutionsInput,
+  output: BatchGetCommandExecutionsOutput,
+  errors: [InvalidInputException],
+}));
 /**
  * Returns an array of report groups.
  */
-export const batchGetReportGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetReportGroupsInput,
-    output: BatchGetReportGroupsOutput,
-    errors: [InvalidInputException],
-  }),
-);
+export const batchGetReportGroups: (
+  input: BatchGetReportGroupsInput,
+) => Effect.Effect<
+  BatchGetReportGroupsOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetReportGroupsInput,
+  output: BatchGetReportGroupsOutput,
+  errors: [InvalidInputException],
+}));
 /**
  * Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
  */
-export const deleteSourceCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSourceCredentialsInput,
-    output: DeleteSourceCredentialsOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const deleteSourceCredentials: (
+  input: DeleteSourceCredentialsInput,
+) => Effect.Effect<
+  DeleteSourceCredentialsOutput,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSourceCredentialsInput,
+  output: DeleteSourceCredentialsOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * Retrieves one or more code coverage reports.
  */
-export const describeCodeCoverages =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCodeCoverages: {
+  (
     input: DescribeCodeCoveragesInput,
-    output: DescribeCodeCoveragesOutput,
-    errors: [InvalidInputException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "codeCoverages",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeCodeCoveragesOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCodeCoveragesInput,
+  ) => Stream.Stream<
+    DescribeCodeCoveragesOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCodeCoveragesInput,
+  ) => Stream.Stream<
+    CodeCoverage,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCodeCoveragesInput,
+  output: DescribeCodeCoveragesOutput,
+  errors: [InvalidInputException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "codeCoverages",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Analyzes and accumulates test report values for the specified test reports.
  */
-export const getReportGroupTrend = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getReportGroupTrend: (
+  input: GetReportGroupTrendInput,
+) => Effect.Effect<
+  GetReportGroupTrendOutput,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReportGroupTrendInput,
   output: GetReportGroupTrendOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -3534,35 +3791,75 @@ export const getReportGroupTrend = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the identifiers of your build batches in the current region.
  */
-export const listBuildBatches = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBuildBatches: {
+  (
     input: ListBuildBatchesInput,
-    output: ListBuildBatchesOutput,
-    errors: [InvalidInputException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "ids",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBuildBatchesOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBuildBatchesInput,
+  ) => Stream.Stream<
+    ListBuildBatchesOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBuildBatchesInput,
+  ) => Stream.Stream<
+    NonEmptyString,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBuildBatchesInput,
+  output: ListBuildBatchesOutput,
+  errors: [InvalidInputException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ids",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of ARNs for the reports in the current Amazon Web Services account.
  */
-export const listReports = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listReports: {
+  (
     input: ListReportsInput,
-    output: ListReportsOutput,
-    errors: [InvalidInputException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "reports",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListReportsOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReportsInput,
+  ) => Stream.Stream<
+    ListReportsOutput,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReportsInput,
+  ) => Stream.Stream<
+    NonEmptyString,
+    InvalidInputException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReportsInput,
+  output: ListReportsOutput,
+  errors: [InvalidInputException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "reports",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Starts running a build with the settings defined in the project. These setting include: how to run a build,
  * where to get the source code, which build environment to use, which build commands to run, and where to store the build output.
@@ -3570,7 +3867,16 @@ export const listReports = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * You can also start a build run by overriding some of the build settings in the project. The overrides only apply for that
  * specific start build request. The settings in the project are unaltered.
  */
-export const startBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startBuild: (
+  input: StartBuildInput,
+) => Effect.Effect<
+  StartBuildOutput,
+  | AccountLimitExceededException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartBuildInput,
   output: StartBuildOutput,
   errors: [
@@ -3582,7 +3888,16 @@ export const startBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a sandbox.
  */
-export const startSandbox = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startSandbox: (
+  input: StartSandboxInput,
+) => Effect.Effect<
+  StartSandboxOutput,
+  | AccountSuspendedException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSandboxInput,
   output: StartSandboxOutput,
   errors: [
@@ -3594,19 +3909,32 @@ export const startSandbox = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a sandbox connection.
  */
-export const startSandboxConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartSandboxConnectionInput,
-    output: StartSandboxConnectionOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const startSandboxConnection: (
+  input: StartSandboxConnectionInput,
+) => Effect.Effect<
+  StartSandboxConnectionOutput,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSandboxConnectionInput,
+  output: StartSandboxConnectionOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * For an existing CodeBuild build project that has its source code stored in a GitHub or
  * Bitbucket repository, stops CodeBuild from rebuilding the source code every time a code
  * change is pushed to the repository.
  */
-export const deleteWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWebhook: (
+  input: DeleteWebhookInput,
+) => Effect.Effect<
+  DeleteWebhookOutput,
+  | InvalidInputException
+  | OAuthProviderException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWebhookInput,
   output: DeleteWebhookOutput,
   errors: [
@@ -3618,7 +3946,13 @@ export const deleteWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a resource policy that is identified by its resource ARN.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyInput,
+) => Effect.Effect<
+  GetResourcePolicyOutput,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyInput,
   output: GetResourcePolicyOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -3626,83 +3960,194 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the identifiers of the build batches for a specific project.
  */
-export const listBuildBatchesForProject =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBuildBatchesForProject: {
+  (
     input: ListBuildBatchesForProjectInput,
-    output: ListBuildBatchesForProjectOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "ids",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBuildBatchesForProjectOutput,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBuildBatchesForProjectInput,
+  ) => Stream.Stream<
+    ListBuildBatchesForProjectOutput,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBuildBatchesForProjectInput,
+  ) => Stream.Stream<
+    NonEmptyString,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBuildBatchesForProjectInput,
+  output: ListBuildBatchesForProjectOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ids",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of build identifiers for the specified build project, with each build
  * identifier representing a single build.
  */
-export const listBuildsForProject =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBuildsForProject: {
+  (
     input: ListBuildsForProjectInput,
-    output: ListBuildsForProjectOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "ids",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBuildsForProjectOutput,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBuildsForProjectInput,
+  ) => Stream.Stream<
+    ListBuildsForProjectOutput,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBuildsForProjectInput,
+  ) => Stream.Stream<
+    NonEmptyString,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBuildsForProjectInput,
+  output: ListBuildsForProjectOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ids",
+  } as const,
+}));
 /**
  * Gets a list of command executions for a sandbox.
  */
-export const listCommandExecutionsForSandbox =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCommandExecutionsForSandbox: {
+  (
     input: ListCommandExecutionsForSandboxInput,
-    output: ListCommandExecutionsForSandboxOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "commandExecutions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCommandExecutionsForSandboxOutput,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCommandExecutionsForSandboxInput,
+  ) => Stream.Stream<
+    ListCommandExecutionsForSandboxOutput,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCommandExecutionsForSandboxInput,
+  ) => Stream.Stream<
+    CommandExecution,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCommandExecutionsForSandboxInput,
+  output: ListCommandExecutionsForSandboxOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "commandExecutions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of ARNs for the reports that belong to a `ReportGroup`.
  */
-export const listReportsForReportGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listReportsForReportGroup: {
+  (
     input: ListReportsForReportGroupInput,
-    output: ListReportsForReportGroupOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "reports",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListReportsForReportGroupOutput,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReportsForReportGroupInput,
+  ) => Stream.Stream<
+    ListReportsForReportGroupOutput,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReportsForReportGroupInput,
+  ) => Stream.Stream<
+    NonEmptyString,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReportsForReportGroupInput,
+  output: ListReportsForReportGroupOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "reports",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of sandboxes for a given project.
  */
-export const listSandboxesForProject =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSandboxesForProject: {
+  (
     input: ListSandboxesForProjectInput,
-    output: ListSandboxesForProjectOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "ids",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSandboxesForProjectOutput,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSandboxesForProjectInput,
+  ) => Stream.Stream<
+    ListSandboxesForProjectOutput,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSandboxesForProjectInput,
+  ) => Stream.Stream<
+    NonEmptyString,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSandboxesForProjectInput,
+  output: ListSandboxesForProjectOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ids",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Stores a resource policy for the ARN of a `Project` or
  * `ReportGroup` object.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyInput,
+) => Effect.Effect<
+  PutResourcePolicyOutput,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyInput,
   output: PutResourcePolicyOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -3710,7 +4155,13 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Restarts a failed batch build. Only batch builds that have failed can be retried.
  */
-export const retryBuildBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const retryBuildBatch: (
+  input: RetryBuildBatchInput,
+) => Effect.Effect<
+  RetryBuildBatchOutput,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetryBuildBatchInput,
   output: RetryBuildBatchOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -3718,7 +4169,13 @@ export const retryBuildBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a batch build for a project.
  */
-export const startBuildBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startBuildBatch: (
+  input: StartBuildBatchInput,
+) => Effect.Effect<
+  StartBuildBatchOutput,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartBuildBatchInput,
   output: StartBuildBatchOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -3726,17 +4183,27 @@ export const startBuildBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a command execution.
  */
-export const startCommandExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartCommandExecutionInput,
-    output: StartCommandExecutionOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const startCommandExecution: (
+  input: StartCommandExecutionInput,
+) => Effect.Effect<
+  StartCommandExecutionOutput,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCommandExecutionInput,
+  output: StartCommandExecutionOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * Attempts to stop running a build.
  */
-export const stopBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopBuild: (
+  input: StopBuildInput,
+) => Effect.Effect<
+  StopBuildOutput,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopBuildInput,
   output: StopBuildOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -3744,7 +4211,13 @@ export const stopBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a running batch build.
  */
-export const stopBuildBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopBuildBatch: (
+  input: StopBuildBatchInput,
+) => Effect.Effect<
+  StopBuildBatchOutput,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopBuildBatchInput,
   output: StopBuildBatchOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -3752,7 +4225,13 @@ export const stopBuildBatch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a sandbox.
  */
-export const stopSandbox = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopSandbox: (
+  input: StopSandboxInput,
+) => Effect.Effect<
+  StopSandboxOutput,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopSandboxInput,
   output: StopSandboxOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -3760,7 +4239,13 @@ export const stopSandbox = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Changes the settings of a build project.
  */
-export const updateProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProject: (
+  input: UpdateProjectInput,
+) => Effect.Effect<
+  UpdateProjectOutput,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProjectInput,
   output: UpdateProjectOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -3794,17 +4279,27 @@ export const updateProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * also recommend that you validate any artifacts with their checksums to make sure that the
  * correct artifacts are being downloaded.
  */
-export const updateProjectVisibility = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateProjectVisibilityInput,
-    output: UpdateProjectVisibilityOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const updateProjectVisibility: (
+  input: UpdateProjectVisibilityInput,
+) => Effect.Effect<
+  UpdateProjectVisibilityOutput,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProjectVisibilityInput,
+  output: UpdateProjectVisibilityOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * Updates a report group.
  */
-export const updateReportGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateReportGroup: (
+  input: UpdateReportGroupInput,
+) => Effect.Effect<
+  UpdateReportGroupOutput,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateReportGroupInput,
   output: UpdateReportGroupOutput,
   errors: [InvalidInputException, ResourceNotFoundException],
@@ -3812,17 +4307,30 @@ export const updateReportGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Resets the cache for a project.
  */
-export const invalidateProjectCache = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: InvalidateProjectCacheInput,
-    output: InvalidateProjectCacheOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-  }),
-);
+export const invalidateProjectCache: (
+  input: InvalidateProjectCacheInput,
+) => Effect.Effect<
+  InvalidateProjectCacheOutput,
+  InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InvalidateProjectCacheInput,
+  output: InvalidateProjectCacheOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
 /**
  * Restarts a build.
  */
-export const retryBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const retryBuild: (
+  input: RetryBuildInput,
+) => Effect.Effect<
+  RetryBuildOutput,
+  | AccountLimitExceededException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetryBuildInput,
   output: RetryBuildOutput,
   errors: [
@@ -3834,7 +4342,16 @@ export const retryBuild = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a compute fleet.
  */
-export const updateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFleet: (
+  input: UpdateFleetInput,
+) => Effect.Effect<
+  UpdateFleetOutput,
+  | AccountLimitExceededException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFleetInput,
   output: UpdateFleetOutput,
   errors: [
@@ -3848,7 +4365,16 @@ export const updateFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you use Bitbucket for your repository, `rotateSecret` is ignored.
  */
-export const updateWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWebhook: (
+  input: UpdateWebhookInput,
+) => Effect.Effect<
+  UpdateWebhookOutput,
+  | InvalidInputException
+  | OAuthProviderException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWebhookInput,
   output: UpdateWebhookOutput,
   errors: [
@@ -3860,7 +4386,13 @@ export const updateWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about one or more builds.
  */
-export const batchGetBuilds = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetBuilds: (
+  input: BatchGetBuildsInput,
+) => Effect.Effect<
+  BatchGetBuildsOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetBuildsInput,
   output: BatchGetBuildsOutput,
   errors: [InvalidInputException],
@@ -3868,7 +4400,13 @@ export const batchGetBuilds = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about one or more compute fleets.
  */
-export const batchGetFleets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetFleets: (
+  input: BatchGetFleetsInput,
+) => Effect.Effect<
+  BatchGetFleetsOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetFleetsInput,
   output: BatchGetFleetsOutput,
   errors: [InvalidInputException],
@@ -3876,7 +4414,13 @@ export const batchGetFleets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about one or more build projects.
  */
-export const batchGetProjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetProjects: (
+  input: BatchGetProjectsInput,
+) => Effect.Effect<
+  BatchGetProjectsOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetProjectsInput,
   output: BatchGetProjectsOutput,
   errors: [InvalidInputException],
@@ -3884,43 +4428,75 @@ export const batchGetProjects = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of details about test cases for a report.
  */
-export const describeTestCases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeTestCases: {
+  (
     input: DescribeTestCasesInput,
-    output: DescribeTestCasesOutput,
-    errors: [InvalidInputException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "testCases",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeTestCasesOutput,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTestCasesInput,
+  ) => Stream.Stream<
+    DescribeTestCasesOutput,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTestCasesInput,
+  ) => Stream.Stream<
+    TestCase,
+    InvalidInputException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTestCasesInput,
+  output: DescribeTestCasesOutput,
+  errors: [InvalidInputException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "testCases",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Imports the source repository credentials for an CodeBuild project that has its
  * source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
  */
-export const importSourceCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ImportSourceCredentialsInput,
-    output: ImportSourceCredentialsOutput,
-    errors: [
-      AccountLimitExceededException,
-      InvalidInputException,
-      ResourceAlreadyExistsException,
-    ],
-  }),
-);
+export const importSourceCredentials: (
+  input: ImportSourceCredentialsInput,
+) => Effect.Effect<
+  ImportSourceCredentialsOutput,
+  | AccountLimitExceededException
+  | InvalidInputException
+  | ResourceAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportSourceCredentialsInput,
+  output: ImportSourceCredentialsOutput,
+  errors: [
+    AccountLimitExceededException,
+    InvalidInputException,
+    ResourceAlreadyExistsException,
+  ],
+}));
 /**
  * Gets information about Docker images that are managed by CodeBuild.
  */
-export const listCuratedEnvironmentImages =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCuratedEnvironmentImagesInput,
-    output: ListCuratedEnvironmentImagesOutput,
-    errors: [],
-  }));
+export const listCuratedEnvironmentImages: (
+  input: ListCuratedEnvironmentImagesInput,
+) => Effect.Effect<
+  ListCuratedEnvironmentImagesOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCuratedEnvironmentImagesInput,
+  output: ListCuratedEnvironmentImagesOutput,
+  errors: [],
+}));
 /**
  * For an existing CodeBuild build project that has its source code stored in a GitHub or
  * Bitbucket repository, enables CodeBuild to start rebuilding the source code every time a
@@ -3933,7 +4509,17 @@ export const listCuratedEnvironmentImages =
  * recommend that you disable webhooks in CodeBuild. In the CodeBuild console, clear the
  * Webhook box. For more information, see step 5 in Change a Build Project's Settings.
  */
-export const createWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWebhook: (
+  input: CreateWebhookInput,
+) => Effect.Effect<
+  CreateWebhookOutput,
+  | InvalidInputException
+  | OAuthProviderException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWebhookInput,
   output: CreateWebhookOutput,
   errors: [
@@ -3946,7 +4532,16 @@ export const createWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a compute fleet.
  */
-export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFleet: (
+  input: CreateFleetInput,
+) => Effect.Effect<
+  CreateFleetOutput,
+  | AccountLimitExceededException
+  | InvalidInputException
+  | ResourceAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFleetInput,
   output: CreateFleetOutput,
   errors: [
@@ -3958,7 +4553,16 @@ export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a report group. A report group contains a collection of reports.
  */
-export const createReportGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createReportGroup: (
+  input: CreateReportGroupInput,
+) => Effect.Effect<
+  CreateReportGroupOutput,
+  | AccountLimitExceededException
+  | InvalidInputException
+  | ResourceAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReportGroupInput,
   output: CreateReportGroupOutput,
   errors: [
@@ -3970,7 +4574,13 @@ export const createReportGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns an array of reports.
  */
-export const batchGetReports = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetReports: (
+  input: BatchGetReportsInput,
+) => Effect.Effect<
+  BatchGetReportsOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetReportsInput,
   output: BatchGetReportsOutput,
   errors: [InvalidInputException],
@@ -3978,7 +4588,13 @@ export const batchGetReports = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about the sandbox status.
  */
-export const batchGetSandboxes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetSandboxes: (
+  input: BatchGetSandboxesInput,
+) => Effect.Effect<
+  BatchGetSandboxesOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetSandboxesInput,
   output: BatchGetSandboxesOutput,
   errors: [InvalidInputException],
@@ -3986,7 +4602,16 @@ export const batchGetSandboxes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a build project.
  */
-export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProject: (
+  input: CreateProjectInput,
+) => Effect.Effect<
+  CreateProjectOutput,
+  | AccountLimitExceededException
+  | InvalidInputException
+  | ResourceAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectInput,
   output: CreateProjectOutput,
   errors: [
@@ -3998,10 +4623,14 @@ export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about one or more batch builds.
  */
-export const batchGetBuildBatches = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetBuildBatchesInput,
-    output: BatchGetBuildBatchesOutput,
-    errors: [InvalidInputException],
-  }),
-);
+export const batchGetBuildBatches: (
+  input: BatchGetBuildBatchesInput,
+) => Effect.Effect<
+  BatchGetBuildBatchesOutput,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetBuildBatchesInput,
+  output: BatchGetBuildBatchesOutput,
+  errors: [InvalidInputException],
+}));

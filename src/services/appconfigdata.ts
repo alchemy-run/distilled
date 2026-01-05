@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "AppConfigData",
   serviceShapeName: "AppConfigData",
@@ -261,6 +269,15 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type Token = string;
+export type Identifier = string;
+export type OptionalPollSeconds = number;
+export type Integer = number;
+export type BadRequestReason = string;
+export type InvalidParameterProblem = string;
+export type ResourceType = string;
+
 //# Schemas
 export interface GetLatestConfigurationRequest {
   ConfigurationToken: string;
@@ -349,6 +366,7 @@ export const InvalidParameterMap = S.Record({
   key: S.String,
   value: InvalidParameterDetail,
 });
+export type BadRequestDetails = { InvalidParameters: InvalidParameterMap };
 export const BadRequestDetails = S.Union(
   S.Struct({ InvalidParameters: InvalidParameterMap }),
 );
@@ -367,7 +385,9 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
@@ -379,7 +399,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
@@ -399,33 +421,49 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
  * - `GetLatestConfiguration` is a priced call. For more information, see
  * Pricing.
  */
-export const getLatestConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLatestConfigurationRequest,
-    output: GetLatestConfigurationResponse,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getLatestConfiguration: (
+  input: GetLatestConfigurationRequest,
+) => Effect.Effect<
+  GetLatestConfigurationResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLatestConfigurationRequest,
+  output: GetLatestConfigurationResponse,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Starts a configuration session used to retrieve a deployed configuration. For more
  * information about this API action and to view example CLI commands that show how to use
  * it with the GetLatestConfiguration API action, see Retrieving the
  * configuration in the *AppConfig User Guide*.
  */
-export const startConfigurationSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartConfigurationSessionRequest,
-    output: StartConfigurationSessionResponse,
-    errors: [
-      BadRequestException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const startConfigurationSession: (
+  input: StartConfigurationSessionRequest,
+) => Effect.Effect<
+  StartConfigurationSessionResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartConfigurationSessionRequest,
+  output: StartConfigurationSessionResponse,
+  errors: [
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));

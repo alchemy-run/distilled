@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "SSO",
   serviceShapeName: "SWBPortalService",
@@ -261,6 +269,20 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type RoleNameType = string;
+export type AccountIdType = string;
+export type AccessTokenType = string;
+export type NextTokenType = string;
+export type MaxResultType = number;
+export type ErrorDescription = string;
+export type AccessKeyType = string;
+export type SecretAccessKeyType = string;
+export type SessionTokenType = string;
+export type ExpirationTimestampType = number;
+export type AccountNameType = string;
+export type EmailAddressType = string;
+
 //# Schemas
 export interface GetRoleCredentialsRequest {
   roleName: string;
@@ -436,7 +458,9 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -463,7 +487,16 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
  * authentications in the IAM Identity Center User
  * Guide.
  */
-export const logout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const logout: (
+  input: LogoutRequest,
+) => Effect.Effect<
+  LogoutResponse,
+  | InvalidRequestException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LogoutRequest,
   output: LogoutResponse,
   errors: [
@@ -475,52 +508,126 @@ export const logout = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all roles that are assigned to the user for a given AWS account.
  */
-export const listAccountRoles = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAccountRoles: {
+  (
     input: ListAccountRolesRequest,
-    output: ListAccountRolesResponse,
-    errors: [
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "roleList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAccountRolesResponse,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccountRolesRequest,
+  ) => Stream.Stream<
+    ListAccountRolesResponse,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccountRolesRequest,
+  ) => Stream.Stream<
+    RoleInfo,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountRolesRequest,
+  output: ListAccountRolesResponse,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "roleList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the
  * administrator of the account. For more information, see Assign User Access in the *IAM Identity Center User Guide*. This operation
  * returns a paginated response.
  */
-export const listAccounts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAccounts: {
+  (
     input: ListAccountsRequest,
-    output: ListAccountsResponse,
-    errors: [
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "accountList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAccountsResponse,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccountsRequest,
+  ) => Stream.Stream<
+    ListAccountsResponse,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccountsRequest,
+  ) => Stream.Stream<
+    AccountInfo,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsRequest,
+  output: ListAccountsResponse,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "accountList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns the STS short-term credentials for a given role name that is assigned to the
  * user.
  */
-export const getRoleCredentials = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRoleCredentials: (
+  input: GetRoleCredentialsRequest,
+) => Effect.Effect<
+  GetRoleCredentialsResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRoleCredentialsRequest,
   output: GetRoleCredentialsResponse,
   errors: [

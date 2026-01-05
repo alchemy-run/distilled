@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Kendra Ranking",
   serviceShapeName: "AWSKendraRerankingFrontendService",
@@ -196,6 +204,28 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type RescoreExecutionPlanName = string;
+export type Description = string;
+export type ClientTokenName = string;
+export type RescoreExecutionPlanId = string;
+export type NextToken = string;
+export type MaxResultsIntegerForListRescoreExecutionPlansRequest = number;
+export type AmazonResourceName = string;
+export type SearchQuery = string;
+export type TagKey = string;
+export type RescoreCapacityUnit = number;
+export type TagValue = string;
+export type DocumentId = string;
+export type GroupId = string;
+export type DocumentTitle = string;
+export type DocumentBody = string;
+export type Tokens = string;
+export type Float = number;
+export type ErrorMessage = string;
+export type RescoreExecutionPlanArn = string;
+export type RescoreId = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -543,7 +573,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -551,7 +583,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },
@@ -571,29 +605,74 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * is an Amazon Kendra Intelligent Ranking resource used for
  * provisioning the `Rescore` API.
  */
-export const listRescoreExecutionPlans =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRescoreExecutionPlans: {
+  (
     input: ListRescoreExecutionPlansRequest,
-    output: ListRescoreExecutionPlansResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRescoreExecutionPlansResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRescoreExecutionPlansRequest,
+  ) => Stream.Stream<
+    ListRescoreExecutionPlansResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRescoreExecutionPlansRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRescoreExecutionPlansRequest,
+  output: ListRescoreExecutionPlansResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Rescores or re-ranks search results from a search service
  * such as OpenSearch (self managed). You use the semantic search
  * capabilities of Amazon Kendra Intelligent Ranking to
  * improve the search service's results.
  */
-export const rescore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rescore: (
+  input: RescoreRequest,
+) => Effect.Effect<
+  RescoreResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RescoreRequest,
   output: RescoreResult,
   errors: [
@@ -618,26 +697,47 @@ export const rescore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the Python and Java SDKs, see Semantically
  * ranking a search service's results.
  */
-export const createRescoreExecutionPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRescoreExecutionPlanRequest,
-    output: CreateRescoreExecutionPlanResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createRescoreExecutionPlan: (
+  input: CreateRescoreExecutionPlanRequest,
+) => Effect.Effect<
+  CreateRescoreExecutionPlanResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRescoreExecutionPlanRequest,
+  output: CreateRescoreExecutionPlanResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a list of tags associated with a specified resource.
  * A rescore execution plan is an example of a resource that
  * can have tags associated with it.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -656,57 +756,88 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Intelligent Ranking to rescore or re-rank a search service's
  * results.
  */
-export const updateRescoreExecutionPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRescoreExecutionPlanRequest,
-    output: UpdateRescoreExecutionPlanResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateRescoreExecutionPlan: (
+  input: UpdateRescoreExecutionPlanRequest,
+) => Effect.Effect<
+  UpdateRescoreExecutionPlanResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRescoreExecutionPlanRequest,
+  output: UpdateRescoreExecutionPlanResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a rescore execution plan. A rescore execution
  * plan is an Amazon Kendra Intelligent Ranking resource
  * used for provisioning the `Rescore` API.
  */
-export const deleteRescoreExecutionPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRescoreExecutionPlanRequest,
-    output: DeleteRescoreExecutionPlanResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteRescoreExecutionPlan: (
+  input: DeleteRescoreExecutionPlanRequest,
+) => Effect.Effect<
+  DeleteRescoreExecutionPlanResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRescoreExecutionPlanRequest,
+  output: DeleteRescoreExecutionPlanResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about a rescore execution plan. A rescore
  * execution plan is an Amazon Kendra Intelligent Ranking
  * resource used for provisioning the `Rescore` API.
  */
-export const describeRescoreExecutionPlan =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeRescoreExecutionPlanRequest,
-    output: DescribeRescoreExecutionPlanResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeRescoreExecutionPlan: (
+  input: DescribeRescoreExecutionPlanRequest,
+) => Effect.Effect<
+  DescribeRescoreExecutionPlanResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRescoreExecutionPlanRequest,
+  output: DescribeRescoreExecutionPlanResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds a specified tag to a specified rescore execution
  * plan. A rescore execution plan is an Amazon Kendra
@@ -714,7 +845,18 @@ export const describeRescoreExecutionPlan =
  * `Rescore` API. If the tag already exists,
  * the existing value is replaced with the new value.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -731,7 +873,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Ranking resource used for provisioning the
  * `Rescore` operation.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [

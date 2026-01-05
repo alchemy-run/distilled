@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "AmplifyUIBuilder",
   serviceShapeName: "AmplifyUIBuilder",
@@ -240,6 +248,23 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type TokenProviders = string;
+export type TagKey = string;
+export type AppId = string;
+export type Uuid = string;
+export type ListCodegenJobsLimit = number;
+export type ListEntityLimit = number;
+export type SensitiveString = string;
+export type TagValue = string;
+export type ComponentName = string;
+export type ComponentType = string;
+export type FormName = string;
+export type LabelDecorator = string;
+export type ThemeName = string;
+export type FormDataSourceType = string;
+export type OperandType = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -1094,6 +1119,10 @@ export const FormDataTypeConfig = S.suspend(() =>
 ).annotations({
   identifier: "FormDataTypeConfig",
 }) as any as S.Schema<FormDataTypeConfig>;
+export type FieldPosition =
+  | { fixed: string }
+  | { rightOf: string }
+  | { below: string };
 export const FieldPosition = S.Union(
   S.Struct({ fixed: S.String }),
   S.Struct({ rightOf: S.String }),
@@ -1277,6 +1306,7 @@ export const FieldConfig = S.suspend(() =>
 ).annotations({ identifier: "FieldConfig" }) as any as S.Schema<FieldConfig>;
 export type FieldsMap = { [key: string]: FieldConfig };
 export const FieldsMap = S.Record({ key: S.String, value: FieldConfig });
+export type FormStyleConfig = { tokenReference: string } | { value: string };
 export const FormStyleConfig = S.Union(
   S.Struct({ tokenReference: S.String }),
   S.Struct({ value: S.String }),
@@ -2079,6 +2109,10 @@ export const GraphQLRenderConfig = S.suspend(() =>
 ).annotations({
   identifier: "GraphQLRenderConfig",
 }) as any as S.Schema<GraphQLRenderConfig>;
+export type ApiConfiguration =
+  | { graphQLConfig: GraphQLRenderConfig }
+  | { dataStoreConfig: DataStoreRenderConfig }
+  | { noApiConfig: NoApiRenderConfig };
 export const ApiConfiguration = S.Union(
   S.Struct({ graphQLConfig: GraphQLRenderConfig }),
   S.Struct({ dataStoreConfig: DataStoreRenderConfig }),
@@ -2106,6 +2140,7 @@ export const ReactStartCodegenJobData = S.suspend(() =>
 ).annotations({
   identifier: "ReactStartCodegenJobData",
 }) as any as S.Schema<ReactStartCodegenJobData>;
+export type CodegenJobRenderConfig = { react: ReactStartCodegenJobData };
 export const CodegenJobRenderConfig = S.Union(
   S.Struct({ react: ReactStartCodegenJobData }),
 );
@@ -2549,7 +2584,9 @@ export const CreateFormResponse = S.suspend(() =>
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
   { message: S.optional(S.String) },
@@ -2561,7 +2598,9 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -2581,7 +2620,13 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  *
  * Amplify uses this action to refresh a previously issued access token that might have expired.
  */
-export const refreshToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const refreshToken: (
+  input: RefreshTokenRequest,
+) => Effect.Effect<
+  RefreshTokenResponse,
+  InvalidParameterException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RefreshTokenRequest,
   output: RefreshTokenResponse,
   errors: [InvalidParameterException],
@@ -2590,23 +2635,65 @@ export const refreshToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves a list of components for a specified Amplify app and backend
  * environment.
  */
-export const listComponents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listComponents: {
+  (
     input: ListComponentsRequest,
-    output: ListComponentsResponse,
-    errors: [InternalServerException, InvalidParameterException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "entities",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListComponentsResponse,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComponentsRequest,
+  ) => Stream.Stream<
+    ListComponentsResponse,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComponentsRequest,
+  ) => Stream.Stream<
+    ComponentSummary,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComponentsRequest,
+  output: ListComponentsResponse,
+  errors: [InternalServerException, InvalidParameterException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "entities",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of forms for a specified Amplify app and backend environment.
  */
-export const listForms = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listForms: {
+  (
+    input: ListFormsRequest,
+  ): Effect.Effect<
+    ListFormsResponse,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFormsRequest,
+  ) => Stream.Stream<
+    ListFormsResponse,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFormsRequest,
+  ) => Stream.Stream<
+    FormSummary,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFormsRequest,
   output: ListFormsResponse,
   errors: [InternalServerException, InvalidParameterException],
@@ -2621,7 +2708,29 @@ export const listForms = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Retrieves a list of themes for a specified Amplify app and backend
  * environment.
  */
-export const listThemes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listThemes: {
+  (
+    input: ListThemesRequest,
+  ): Effect.Effect<
+    ListThemesResponse,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListThemesRequest,
+  ) => Stream.Stream<
+    ListThemesResponse,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListThemesRequest,
+  ) => Stream.Stream<
+    ThemeSummary,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListThemesRequest,
   output: ListThemesResponse,
   errors: [InternalServerException, InvalidParameterException],
@@ -2635,64 +2744,134 @@ export const listThemes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Exports component configurations to code that is ready to integrate into an Amplify app.
  */
-export const exportComponents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const exportComponents: {
+  (
     input: ExportComponentsRequest,
-    output: ExportComponentsResponse,
-    errors: [InternalServerException, InvalidParameterException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "entities",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ExportComponentsResponse,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ExportComponentsRequest,
+  ) => Stream.Stream<
+    ExportComponentsResponse,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ExportComponentsRequest,
+  ) => Stream.Stream<
+    Component,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ExportComponentsRequest,
+  output: ExportComponentsResponse,
+  errors: [InternalServerException, InvalidParameterException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "entities",
+  } as const,
+}));
 /**
  * Exports form configurations to code that is ready to integrate into an Amplify app.
  */
-export const exportForms = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const exportForms: {
+  (
     input: ExportFormsRequest,
-    output: ExportFormsResponse,
-    errors: [InternalServerException, InvalidParameterException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "entities",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ExportFormsResponse,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ExportFormsRequest,
+  ) => Stream.Stream<
+    ExportFormsResponse,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ExportFormsRequest,
+  ) => Stream.Stream<
+    Form,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ExportFormsRequest,
+  output: ExportFormsResponse,
+  errors: [InternalServerException, InvalidParameterException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "entities",
+  } as const,
+}));
 /**
  * Exports theme configurations to code that is ready to integrate into an Amplify app.
  */
-export const exportThemes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const exportThemes: {
+  (
     input: ExportThemesRequest,
-    output: ExportThemesResponse,
-    errors: [InternalServerException, InvalidParameterException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "entities",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ExportThemesResponse,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ExportThemesRequest,
+  ) => Stream.Stream<
+    ExportThemesResponse,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ExportThemesRequest,
+  ) => Stream.Stream<
+    Theme,
+    InternalServerException | InvalidParameterException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ExportThemesRequest,
+  output: ExportThemesResponse,
+  errors: [InternalServerException, InvalidParameterException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "entities",
+  } as const,
+}));
 /**
  * This is for internal use.
  *
  * Amplify uses this action to exchange an access code for a token.
  */
-export const exchangeCodeForToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExchangeCodeForTokenRequest,
-    output: ExchangeCodeForTokenResponse,
-    errors: [InvalidParameterException],
-  }),
-);
+export const exchangeCodeForToken: (
+  input: ExchangeCodeForTokenRequest,
+) => Effect.Effect<
+  ExchangeCodeForTokenResponse,
+  InvalidParameterException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExchangeCodeForTokenRequest,
+  output: ExchangeCodeForTokenResponse,
+  errors: [InvalidParameterException],
+}));
 /**
  * Stores the metadata information about a feature on a form.
  */
-export const putMetadataFlag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putMetadataFlag: (
+  input: PutMetadataFlagRequest,
+) => Effect.Effect<
+  PutMetadataFlagResponse,
+  InvalidParameterException | UnauthorizedException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMetadataFlagRequest,
   output: PutMetadataFlagResponse,
   errors: [InvalidParameterException, UnauthorizedException],
@@ -2700,27 +2879,65 @@ export const putMetadataFlag = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of code generation jobs for a specified Amplify app and backend environment.
  */
-export const listCodegenJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCodegenJobs: {
+  (
     input: ListCodegenJobsRequest,
-    output: ListCodegenJobsResponse,
-    errors: [
-      InternalServerException,
-      InvalidParameterException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "entities",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCodegenJobsResponse,
+    | InternalServerException
+    | InvalidParameterException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCodegenJobsRequest,
+  ) => Stream.Stream<
+    ListCodegenJobsResponse,
+    | InternalServerException
+    | InvalidParameterException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCodegenJobsRequest,
+  ) => Stream.Stream<
+    CodegenJobSummary,
+    | InternalServerException
+    | InvalidParameterException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCodegenJobsRequest,
+  output: ListCodegenJobsResponse,
+  errors: [
+    InternalServerException,
+    InvalidParameterException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "entities",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns an existing component for an Amplify app.
  */
-export const getComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getComponent: (
+  input: GetComponentRequest,
+) => Effect.Effect<
+  GetComponentResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComponentRequest,
   output: GetComponentResponse,
   errors: [
@@ -2732,7 +2949,16 @@ export const getComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing component.
  */
-export const updateComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateComponent: (
+  input: UpdateComponentRequest,
+) => Effect.Effect<
+  UpdateComponentResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateComponentRequest,
   output: UpdateComponentResponse,
   errors: [
@@ -2744,7 +2970,13 @@ export const updateComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns existing metadata for an Amplify app.
  */
-export const getMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMetadata: (
+  input: GetMetadataRequest,
+) => Effect.Effect<
+  GetMetadataResponse,
+  InvalidParameterException | UnauthorizedException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetadataRequest,
   output: GetMetadataResponse,
   errors: [InvalidParameterException, UnauthorizedException],
@@ -2752,7 +2984,16 @@ export const getMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns an existing form for an Amplify app.
  */
-export const getForm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getForm: (
+  input: GetFormRequest,
+) => Effect.Effect<
+  GetFormResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFormRequest,
   output: GetFormResponse,
   errors: [
@@ -2764,7 +3005,16 @@ export const getForm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns an existing theme for an Amplify app.
  */
-export const getTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTheme: (
+  input: GetThemeRequest,
+) => Effect.Effect<
+  GetThemeResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetThemeRequest,
   output: GetThemeResponse,
   errors: [
@@ -2776,7 +3026,18 @@ export const getTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Untags a resource with a specified Amazon Resource Name (ARN).
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2790,7 +3051,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a component from an Amplify app.
  */
-export const deleteComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteComponent: (
+  input: DeleteComponentRequest,
+) => Effect.Effect<
+  DeleteComponentResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteComponentRequest,
   output: DeleteComponentResponse,
   errors: [
@@ -2802,7 +3072,16 @@ export const deleteComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a form from an Amplify app.
  */
-export const deleteForm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteForm: (
+  input: DeleteFormRequest,
+) => Effect.Effect<
+  DeleteFormResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFormRequest,
   output: DeleteFormResponse,
   errors: [
@@ -2814,7 +3093,16 @@ export const deleteForm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a theme from an Amplify app.
  */
-export const deleteTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTheme: (
+  input: DeleteThemeRequest,
+) => Effect.Effect<
+  DeleteThemeResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThemeRequest,
   output: DeleteThemeResponse,
   errors: [
@@ -2826,7 +3114,18 @@ export const deleteTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of tags for a specified Amazon Resource Name (ARN).
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2840,7 +3139,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Tags the resource with a tag key and value.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2854,7 +3164,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns an existing code generation job.
  */
-export const getCodegenJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCodegenJob: (
+  input: GetCodegenJobRequest,
+) => Effect.Effect<
+  GetCodegenJobResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCodegenJobRequest,
   output: GetCodegenJobResponse,
   errors: [
@@ -2867,7 +3187,16 @@ export const getCodegenJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing form.
  */
-export const updateForm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateForm: (
+  input: UpdateFormRequest,
+) => Effect.Effect<
+  UpdateFormResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFormRequest,
   output: UpdateFormResponse,
   errors: [
@@ -2879,7 +3208,16 @@ export const updateForm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing theme.
  */
-export const updateTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTheme: (
+  input: UpdateThemeRequest,
+) => Effect.Effect<
+  UpdateThemeResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThemeRequest,
   output: UpdateThemeResponse,
   errors: [
@@ -2891,7 +3229,17 @@ export const updateTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a theme to apply to the components in an Amplify app.
  */
-export const createTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTheme: (
+  input: CreateThemeRequest,
+) => Effect.Effect<
+  CreateThemeResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateThemeRequest,
   output: CreateThemeResponse,
   errors: [
@@ -2904,7 +3252,17 @@ export const createTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new component for an Amplify app.
  */
-export const createComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createComponent: (
+  input: CreateComponentRequest,
+) => Effect.Effect<
+  CreateComponentResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComponentRequest,
   output: CreateComponentResponse,
   errors: [
@@ -2917,7 +3275,16 @@ export const createComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a code generation job for a specified Amplify app and backend environment.
  */
-export const startCodegenJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startCodegenJob: (
+  input: StartCodegenJobRequest,
+) => Effect.Effect<
+  StartCodegenJobResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCodegenJobRequest,
   output: StartCodegenJobResponse,
   errors: [
@@ -2929,7 +3296,17 @@ export const startCodegenJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new form for an Amplify app.
  */
-export const createForm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createForm: (
+  input: CreateFormRequest,
+) => Effect.Effect<
+  CreateFormResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFormRequest,
   output: CreateFormResponse,
   errors: [

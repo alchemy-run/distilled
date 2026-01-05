@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Rekognition",
   serviceShapeName: "RekognitionService",
@@ -240,6 +248,93 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type CollectionId = string;
+export type UserId = string;
+export type FaceId = string;
+export type Percent = number;
+export type ClientRequestToken = string;
+export type ProjectArn = string;
+export type ProjectVersionArn = string;
+export type VersionName = string;
+export type KmsKeyId = string;
+export type ProjectName = string;
+export type VersionDescription = string;
+export type StreamProcessorName = string;
+export type RoleArn = string;
+export type DatasetArn = string;
+export type ProjectPolicyName = string;
+export type ProjectPolicyRevisionId = string;
+export type ExtendedPaginationToken = string;
+export type ProjectsPageSize = number;
+export type ProjectVersionsPageSize = number;
+export type UInteger = number;
+export type ProjectVersionId = string;
+export type RekognitionUniqueId = string;
+export type JobId = string;
+export type MaxResults = number;
+export type PaginationToken = string;
+export type LivenessSessionId = string;
+export type MediaAnalysisJobId = string;
+export type ExternalImageId = string;
+export type MaxFacesToIndex = number;
+export type PageSize = number;
+export type DatasetLabel = string;
+export type QueryString = string;
+export type ListDatasetEntriesPageSize = number;
+export type ListDatasetLabelsPageSize = number;
+export type ListMediaAnalysisJobsPageSize = number;
+export type ListProjectPoliciesPageSize = number;
+export type ResourceArn = string;
+export type MaxUserResults = number;
+export type ProjectPolicyDocument = string;
+export type MaxFaces = number;
+export type JobTag = string;
+export type MediaAnalysisJobName = string;
+export type InferenceUnits = number;
+export type TagKey = string;
+export type S3Bucket = string;
+export type S3KeyPrefix = string;
+export type TagValue = string;
+export type AuditImagesLimit = number;
+export type SNSTopicArn = string;
+export type HumanLoopName = string;
+export type FlowDefinitionArn = string;
+export type MediaAnalysisS3KeyPrefix = string;
+export type MaxDurationInSecondsULong = number;
+export type ULong = number;
+export type StreamProcessorArn = string;
+export type Url = string;
+export type StatusMessage = string;
+export type DatasetEntry = string;
+export type S3ObjectName = string;
+export type S3ObjectVersion = string;
+export type LivenessS3KeyPrefix = string;
+export type KinesisVideoArn = string;
+export type KinesisDataArn = string;
+export type ConnectedHomeLabel = string;
+export type Float = number;
+export type GeneralLabelsFilterValue = string;
+export type DetectLabelsMaxDominantColors = number;
+export type BoundingBoxHeight = number;
+export type BoundingBoxWidth = number;
+export type SegmentConfidence = number;
+export type KinesisVideoStreamFragmentNumber = string;
+export type Timestamp = number;
+export type Version = string;
+export type Timecode = string;
+export type ImageId = string;
+export type IndexFacesModelVersion = string;
+export type MaxPixelThreshold = number;
+export type MinCoveragePercentage = number;
+export type Degree = number;
+export type PersonIndex = number;
+export type StartStreamProcessorSessionId = string;
+export type HumanLoopArn = string;
+export type HumanLoopActivationReason = string;
+export type SynthesizedJsonHumanLoopActivationConditionsEvaluationResults =
+  string;
 
 //# Schemas
 export type UserFaceIdList = string[];
@@ -4550,24 +4645,63 @@ export class VideoTooLargeException extends S.TaggedError<VideoTooLargeException
 /**
  * Returns a list of media analysis jobs. Results are sorted by `CreationTimestamp` in descending order.
  */
-export const listMediaAnalysisJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMediaAnalysisJobs: {
+  (
     input: ListMediaAnalysisJobsRequest,
-    output: ListMediaAnalysisJobsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMediaAnalysisJobsResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMediaAnalysisJobsRequest,
+  ) => Stream.Stream<
+    ListMediaAnalysisJobsResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMediaAnalysisJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMediaAnalysisJobsRequest,
+  output: ListMediaAnalysisJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists and describes the versions of an Amazon Rekognition project. You can specify up to 10 model or
  * adapter versions in `ProjectVersionArns`. If you don't specify a value,
@@ -4576,26 +4710,68 @@ export const listMediaAnalysisJobs =
  * This operation requires permissions to perform the `rekognition:DescribeProjectVersions`
  * action.
  */
-export const describeProjectVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeProjectVersions: {
+  (
     input: DescribeProjectVersionsRequest,
-    output: DescribeProjectVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProjectVersionDescriptions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeProjectVersionsResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeProjectVersionsRequest,
+  ) => Stream.Stream<
+    DescribeProjectVersionsResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeProjectVersionsRequest,
+  ) => Stream.Stream<
+    ProjectVersionDescription,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeProjectVersionsRequest,
+  output: DescribeProjectVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProjectVersionDescriptions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * For a given input image, first detects the largest face in the image, and then searches
  * the specified collection for matching faces. The operation compares the features of the input
@@ -4640,7 +4816,22 @@ export const describeProjectVersions =
  * This operation requires permissions to perform the
  * `rekognition:SearchFacesByImage` action.
  */
-export const searchFacesByImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const searchFacesByImage: (
+  input: SearchFacesByImageRequest,
+) => Effect.Effect<
+  SearchFacesByImageResponse,
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchFacesByImageRequest,
   output: SearchFacesByImageResponse,
   errors: [
@@ -4663,7 +4854,19 @@ export const searchFacesByImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation requires permissions to perform the `rekognition:DescribeDataset` action.
  */
-export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDataset: (
+  input: DescribeDatasetRequest,
+) => Effect.Effect<
+  DescribeDatasetResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatasetRequest,
   output: DescribeDatasetResponse,
   errors: [
@@ -4695,26 +4898,67 @@ export const describeDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Note that for the `GetFaceDetection` operation, the returned values for
  * `FaceOccluded` and `EyeDirection` will always be "null".
  */
-export const getFaceDetection = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getFaceDetection: {
+  (
     input: GetFaceDetectionRequest,
-    output: GetFaceDetectionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetFaceDetectionResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetFaceDetectionRequest,
+  ) => Stream.Stream<
+    GetFaceDetectionResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetFaceDetectionRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetFaceDetectionRequest,
+  output: GetFaceDetectionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the face search results for Amazon Rekognition Video face search started by
  * StartFaceSearch. The search returns faces in a collection that match the faces
@@ -4748,31 +4992,84 @@ export const getFaceDetection = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * You can also sort by persons by specifying `INDEX` for the `SORTBY` input
  * parameter.
  */
-export const getFaceSearch = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getFaceSearch: {
+  (
     input: GetFaceSearchRequest,
-    output: GetFaceSearchResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetFaceSearchResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetFaceSearchRequest,
+  ) => Stream.Stream<
+    GetFaceSearchResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetFaceSearchRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetFaceSearchRequest,
+  output: GetFaceSearchResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the results for a given media analysis job.
  * Takes a `JobId` returned by StartMediaAnalysisJob.
  */
-export const getMediaAnalysisJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMediaAnalysisJob: (
+  input: GetMediaAnalysisJobRequest,
+) => Effect.Effect<
+  GetMediaAnalysisJobResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMediaAnalysisJobRequest,
   output: GetMediaAnalysisJobResponse,
   errors: [
@@ -4812,25 +5109,67 @@ export const getMediaAnalysisJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Detecting video segments in stored video in the Amazon Rekognition Developer Guide.
  */
-export const getSegmentDetection =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getSegmentDetection: {
+  (
     input: GetSegmentDetectionRequest,
-    output: GetSegmentDetectionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetSegmentDetectionResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetSegmentDetectionRequest,
+  ) => Stream.Stream<
+    GetSegmentDetectionResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSegmentDetectionRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetSegmentDetectionRequest,
+  output: GetSegmentDetectionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the text detection results of a Amazon Rekognition Video analysis started by StartTextDetection.
  *
@@ -4855,26 +5194,67 @@ export const getSegmentDetection =
  * and populate the `NextToken` request parameter with the token value returned from the previous
  * call to `GetTextDetection`.
  */
-export const getTextDetection = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getTextDetection: {
+  (
     input: GetTextDetectionRequest,
-    output: GetTextDetectionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetTextDetectionResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTextDetectionRequest,
+  ) => Stream.Stream<
+    GetTextDetectionResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTextDetectionRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTextDetectionRequest,
+  output: GetTextDetectionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches for UserIDs within a collection based on a `FaceId` or
  * `UserId`. This API can be used to find the closest UserID (with a highest
@@ -4883,7 +5263,19 @@ export const getTextDetection = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * `FaceId` or `UserId`, ordered by similarity score with the highest
  * similarity first.
  */
-export const searchUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const searchUsers: (
+  input: SearchUsersRequest,
+) => Effect.Effect<
+  SearchUsersResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchUsersRequest,
   output: SearchUsersResponse,
   errors: [
@@ -4902,7 +5294,19 @@ export const searchUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the `rekognition:DeleteFaces`
  * action.
  */
-export const deleteFaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFaces: (
+  input: DeleteFacesRequest,
+) => Effect.Effect<
+  DeleteFacesResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFacesRequest,
   output: DeleteFacesResponse,
   errors: [
@@ -4925,7 +5329,19 @@ export const deleteFaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the
  * `rekognition:GetCelebrityInfo` action.
  */
-export const getCelebrityInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCelebrityInfo: (
+  input: GetCelebrityInfoRequest,
+) => Effect.Effect<
+  GetCelebrityInfoResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCelebrityInfoRequest,
   output: GetCelebrityInfoResponse,
   errors: [
@@ -4957,7 +5373,19 @@ export const getCelebrityInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the `rekognition:SearchFaces`
  * action.
  */
-export const searchFaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const searchFaces: (
+  input: SearchFacesRequest,
+) => Effect.Effect<
+  SearchFacesResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchFacesRequest,
   output: SearchFacesResponse,
   errors: [
@@ -4976,7 +5404,21 @@ export const searchFaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `ResourceNotFoundException` will be thrown. If the action is successful with a
  * 200 response, an empty HTTP body is returned.
  */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUser: (
+  input: DeleteUserRequest,
+) => Effect.Effect<
+  DeleteUserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
   output: DeleteUserResponse,
   errors: [
@@ -4998,7 +5440,19 @@ export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Describing a Collection in the
  * Amazon Rekognition Developer Guide.
  */
-export const describeCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCollection: (
+  input: DescribeCollectionRequest,
+) => Effect.Effect<
+  DescribeCollectionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCollectionRequest,
   output: DescribeCollectionResponse,
   errors: [
@@ -5014,20 +5468,30 @@ export const describeCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Provides information about a stream processor created by CreateStreamProcessor. You can get information about the input and output streams, the input parameters for the face recognition being performed,
  * and the current status of the stream processor.
  */
-export const describeStreamProcessor = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeStreamProcessorRequest,
-    output: DescribeStreamProcessorResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeStreamProcessor: (
+  input: DescribeStreamProcessorRequest,
+) => Effect.Effect<
+  DescribeStreamProcessorResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeStreamProcessorRequest,
+  output: DescribeStreamProcessorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns a list of tags in an Amazon Rekognition collection, stream processor, or Custom Labels
  * model.
@@ -5035,7 +5499,19 @@ export const describeStreamProcessor = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation requires permissions to perform the
  * `rekognition:ListTagsForResource` action.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -5054,7 +5530,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the
  * `rekognition:UntagResource` action.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -5076,7 +5564,21 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * part of `UnsuccessfulDisassociations`. You can remove 1 - 100 face IDs from a user
  * at one time.
  */
-export const disassociateFaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateFaces: (
+  input: DisassociateFacesRequest,
+) => Effect.Effect<
+  DisassociateFacesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateFacesRequest,
   output: DisassociateFacesResponse,
   errors: [
@@ -5125,26 +5627,67 @@ export const disassociateFaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * of results. To get the next page of results, call `GetPersonTracking` and populate the `NextToken` request parameter with the token
  * value returned from the previous call to `GetPersonTracking`.
  */
-export const getPersonTracking = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getPersonTracking: {
+  (
     input: GetPersonTrackingRequest,
-    output: GetPersonTrackingResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetPersonTrackingResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetPersonTrackingRequest,
+  ) => Stream.Stream<
+    GetPersonTrackingResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetPersonTrackingRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetPersonTrackingRequest,
+  output: GetPersonTrackingResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns metadata for faces in the specified collection. This metadata
  * includes information such as the bounding box coordinates, the confidence (that the bounding
@@ -5154,7 +5697,50 @@ export const getPersonTracking = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * This operation requires permissions to perform the `rekognition:ListFaces`
  * action.
  */
-export const listFaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFaces: {
+  (
+    input: ListFacesRequest,
+  ): Effect.Effect<
+    ListFacesResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFacesRequest,
+  ) => Stream.Stream<
+    ListFacesResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFacesRequest,
+  ) => Stream.Stream<
+    Face,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFacesRequest,
   output: ListFacesResponse,
   errors: [
@@ -5182,26 +5768,68 @@ export const listFaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * This operation requires permissions to perform the `rekognition:ListProjectPolicies` action.
  */
-export const listProjectPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProjectPolicies: {
+  (
     input: ListProjectPoliciesRequest,
-    output: ListProjectPoliciesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProjectPolicies",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProjectPoliciesResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProjectPoliciesRequest,
+  ) => Stream.Stream<
+    ListProjectPoliciesResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProjectPoliciesRequest,
+  ) => Stream.Stream<
+    ProjectPolicy,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectPoliciesRequest,
+  output: ListProjectPoliciesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProjectPolicies",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns metadata of the User such as `UserID` in the specified collection.
  * Anonymous User (to reserve faces without any identity) is not returned as part of this
@@ -5209,7 +5837,50 @@ export const listProjectPolicies =
  * truncated, `NextToken` is returned in the response that can be used in the
  * subsequent request to retrieve the next set of identities.
  */
-export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUsers: {
+  (
+    input: ListUsersRequest,
+  ): Effect.Effect<
+    ListUsersResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    ListUsersResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    User,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse,
   errors: [
@@ -5239,27 +5910,68 @@ export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * This operation requires permissions to perform the
  * `rekognition:ListCollections` action.
  */
-export const listCollections = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCollections: {
+  (
     input: ListCollectionsRequest,
-    output: ListCollectionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CollectionIds",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCollectionsResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCollectionsRequest,
+  ) => Stream.Stream<
+    ListCollectionsResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCollectionsRequest,
+  ) => Stream.Stream<
+    CollectionId,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCollectionsRequest,
+  output: ListCollectionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CollectionIds",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the celebrity recognition results for a Amazon Rekognition Video analysis started by
  * StartCelebrityRecognition.
@@ -5306,25 +6018,67 @@ export const listCollections = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * and populate the `NextToken` request parameter with the token
  * value returned from the previous call to `GetCelebrityRecognition`.
  */
-export const getCelebrityRecognition =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getCelebrityRecognition: {
+  (
     input: GetCelebrityRecognitionRequest,
-    output: GetCelebrityRecognitionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetCelebrityRecognitionResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCelebrityRecognitionRequest,
+  ) => Stream.Stream<
+    GetCelebrityRecognitionResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCelebrityRecognitionRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCelebrityRecognitionRequest,
+  output: GetCelebrityRecognitionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the inappropriate, unwanted, or offensive content analysis results for a Amazon Rekognition Video analysis started by
  * StartContentModeration. For a list of moderation labels in Amazon Rekognition, see
@@ -5358,25 +6112,67 @@ export const getCelebrityRecognition =
  *
  * For more information, see moderating content in the Amazon Rekognition Developer Guide.
  */
-export const getContentModeration =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getContentModeration: {
+  (
     input: GetContentModerationRequest,
-    output: GetContentModerationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetContentModerationResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetContentModerationRequest,
+  ) => Stream.Stream<
+    GetContentModerationResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetContentModerationRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetContentModerationRequest,
+  output: GetContentModerationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches for UserIDs using a supplied image. It first detects the largest face in the
  * image, and then searches a specified collection for matching UserIDs.
@@ -5390,7 +6186,22 @@ export const getContentModeration =
  * the image, the response will contain an empty `UserMatches` list and no
  * `SearchedFace` object.
  */
-export const searchUsersByImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const searchUsersByImage: (
+  input: SearchUsersByImageRequest,
+) => Effect.Effect<
+  SearchUsersByImageResponse,
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchUsersByImageRequest,
   output: SearchUsersByImageResponse,
   errors: [
@@ -5414,7 +6225,20 @@ export const searchUsersByImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation requires permissions to perform the `rekognition:DeleteProjectPolicy` action.
  */
-export const deleteProjectPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProjectPolicy: (
+  input: DeleteProjectPolicyRequest,
+) => Effect.Effect<
+  DeleteProjectPolicyResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidPolicyRevisionIdException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectPolicyRequest,
   output: DeleteProjectPolicyResponse,
   errors: [
@@ -5434,39 +6258,61 @@ export const deleteProjectPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you are using a label detection stream processor to detect labels, you need to provide a `Start selector` and a `Stop selector` to determine the length of the stream processing time.
  */
-export const startStreamProcessor = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartStreamProcessorRequest,
-    output: StartStreamProcessorResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const startStreamProcessor: (
+  input: StartStreamProcessorRequest,
+) => Effect.Effect<
+  StartStreamProcessorResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartStreamProcessorRequest,
+  output: StartStreamProcessorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters.
  */
-export const updateStreamProcessor = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateStreamProcessorRequest,
-    output: UpdateStreamProcessorResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateStreamProcessor: (
+  input: UpdateStreamProcessorRequest,
+) => Effect.Effect<
+  UpdateStreamProcessorResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateStreamProcessorRequest,
+  output: UpdateStreamProcessorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a Amazon Rekognition project. To delete a project you must first delete all models or
  * adapters associated with the project. To delete a model or adapter, see DeleteProjectVersion.
@@ -5479,7 +6325,20 @@ export const updateStreamProcessor = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation requires permissions to perform the
  * `rekognition:DeleteProject` action.
  */
-export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProject: (
+  input: DeleteProjectRequest,
+) => Effect.Effect<
+  DeleteProjectResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectRequest,
   output: DeleteProjectResponse,
   errors: [
@@ -5503,21 +6362,32 @@ export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the
  * `rekognition:DeleteProjectVersion` action.
  */
-export const deleteProjectVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteProjectVersionRequest,
-    output: DeleteProjectVersionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteProjectVersion: (
+  input: DeleteProjectVersionRequest,
+) => Effect.Effect<
+  DeleteProjectVersionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectVersionRequest,
+  output: DeleteProjectVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -5527,7 +6397,20 @@ export const deleteProjectVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This operation requires permissions to perform the `rekognition:StopProjectVersion` action.
  */
-export const stopProjectVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopProjectVersion: (
+  input: StopProjectVersionRequest,
+) => Effect.Effect<
+  StopProjectVersionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopProjectVersionRequest,
   output: StopProjectVersionResponse,
   errors: [
@@ -5544,25 +6427,49 @@ export const stopProjectVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes the stream processor identified by `Name`. You assign the value for `Name` when you create the stream processor with
  * CreateStreamProcessor. You might not be able to use the same name for a stream processor for a few seconds after calling `DeleteStreamProcessor`.
  */
-export const deleteStreamProcessor = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStreamProcessorRequest,
-    output: DeleteStreamProcessorResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteStreamProcessor: (
+  input: DeleteStreamProcessorRequest,
+) => Effect.Effect<
+  DeleteStreamProcessorResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStreamProcessorRequest,
+  output: DeleteStreamProcessorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Stops a running stream processor that was created by CreateStreamProcessor.
  */
-export const stopStreamProcessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopStreamProcessor: (
+  input: StopStreamProcessorRequest,
+) => Effect.Effect<
+  StopStreamProcessorResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopStreamProcessorRequest,
   output: StopStreamProcessorResponse,
   errors: [
@@ -5604,22 +6511,34 @@ export const stopStreamProcessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation requires permissions to perform the `rekognition:UpdateDatasetEntries` action.
  */
-export const updateDatasetEntries = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDatasetEntriesRequest,
-    output: UpdateDatasetEntriesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidParameterException,
-      LimitExceededException,
-      ProvisionedThroughputExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateDatasetEntries: (
+  input: UpdateDatasetEntriesRequest,
+) => Effect.Effect<
+  UpdateDatasetEntriesResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDatasetEntriesRequest,
+  output: UpdateDatasetEntriesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -5634,7 +6553,21 @@ export const updateDatasetEntries = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This operation requires permissions to perform the `rekognition:DeleteDataset` action.
  */
-export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataset: (
+  input: DeleteDatasetRequest,
+) => Effect.Effect<
+  DeleteDatasetResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetRequest,
   output: DeleteDatasetResponse,
   errors: [
@@ -5656,7 +6589,20 @@ export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * auto update by using the AutoUpdate argument. This operation requires permissions to
  * perform the `rekognition:CreateProject` action.
  */
-export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProject: (
+  input: CreateProjectRequest,
+) => Effect.Effect<
+  CreateProjectResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectRequest,
   output: CreateProjectResponse,
   errors: [
@@ -5695,7 +6641,22 @@ export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the `rekognition:CreateDataset` action.
  * If you want to copy an existing dataset, you also require permission to perform the `rekognition:ListDatasetEntries` action.
  */
-export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDataset: (
+  input: CreateDatasetRequest,
+) => Effect.Effect<
+  CreateDatasetResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetRequest,
   output: CreateDatasetResponse,
   errors: [
@@ -5713,49 +6674,126 @@ export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a list of stream processors that you have created with CreateStreamProcessor.
  */
-export const listStreamProcessors =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listStreamProcessors: {
+  (
     input: ListStreamProcessorsRequest,
-    output: ListStreamProcessorsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListStreamProcessorsResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStreamProcessorsRequest,
+  ) => Stream.Stream<
+    ListStreamProcessorsResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStreamProcessorsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStreamProcessorsRequest,
+  output: ListStreamProcessorsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets information about your Rekognition projects.
  *
  * This operation requires permissions to perform the `rekognition:DescribeProjects` action.
  */
-export const describeProjects = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeProjects: {
+  (
     input: DescribeProjectsRequest,
-    output: DescribeProjectsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProjectDescriptions",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeProjectsResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeProjectsRequest,
+  ) => Stream.Stream<
+    DescribeProjectsResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeProjectsRequest,
+  ) => Stream.Stream<
+    ProjectDescription,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeProjectsRequest,
+  output: DescribeProjectsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProjectDescriptions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This API operation initiates a Face Liveness session. It returns a `SessionId`,
  * which you can use to start streaming Face Liveness video and get the results for a Face
@@ -5770,19 +6808,28 @@ export const describeProjects = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * default, it is set to 0. The limit is best effort and based on the duration of the
  * selfie-video.
  */
-export const createFaceLivenessSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateFaceLivenessSessionRequest,
-    output: CreateFaceLivenessSessionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createFaceLivenessSession: (
+  input: CreateFaceLivenessSessionRequest,
+) => Effect.Effect<
+  CreateFaceLivenessSessionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFaceLivenessSessionRequest,
+  output: CreateFaceLivenessSessionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns an array of celebrities recognized in the input image. For more
  * information, see Recognizing celebrities in the Amazon Rekognition Developer Guide.
@@ -5817,22 +6864,34 @@ export const createFaceLivenessSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation requires permissions to perform the
  * `rekognition:RecognizeCelebrities` operation.
  */
-export const recognizeCelebrities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RecognizeCelebritiesRequest,
-    output: RecognizeCelebritiesResponse,
-    errors: [
-      AccessDeniedException,
-      ImageTooLargeException,
-      InternalServerError,
-      InvalidImageFormatException,
-      InvalidParameterException,
-      InvalidS3ObjectException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const recognizeCelebrities: (
+  input: RecognizeCelebritiesRequest,
+) => Effect.Effect<
+  RecognizeCelebritiesResponse,
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RecognizeCelebritiesRequest,
+  output: RecognizeCelebritiesResponse,
+  errors: [
+    AccessDeniedException,
+    ImageTooLargeException,
+    InternalServerError,
+    InvalidImageFormatException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Detects faces within an image that is provided as input.
  *
@@ -5856,7 +6915,21 @@ export const recognizeCelebrities = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation requires permissions to perform the `rekognition:DetectFaces`
  * action.
  */
-export const detectFaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detectFaces: (
+  input: DetectFacesRequest,
+) => Effect.Effect<
+  DetectFacesResponse,
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectFacesRequest,
   output: DetectFacesResponse,
   errors: [
@@ -5902,7 +6975,21 @@ export const detectFaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Detecting text in the Amazon Rekognition Developer
  * Guide.
  */
-export const detectText = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detectText: (
+  input: DetectTextRequest,
+) => Effect.Effect<
+  DetectTextResponse,
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectTextRequest,
   output: DetectTextResponse,
   errors: [
@@ -5974,7 +7061,21 @@ export const detectText = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the
  * `rekognition:CompareFaces` action.
  */
-export const compareFaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const compareFaces: (
+  input: CompareFacesRequest,
+) => Effect.Effect<
+  CompareFacesResponse,
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompareFacesRequest,
   output: CompareFacesResponse,
   errors: [
@@ -5996,7 +7097,19 @@ export const compareFaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the
  * `rekognition:DeleteCollection` action.
  */
-export const deleteCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCollection: (
+  input: DeleteCollectionRequest,
+) => Effect.Effect<
+  DeleteCollectionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCollectionRequest,
   output: DeleteCollectionResponse,
   errors: [
@@ -6114,7 +7227,21 @@ export const deleteCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the
  * `rekognition:DetectLabels` action.
  */
-export const detectLabels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detectLabels: (
+  input: DetectLabelsRequest,
+) => Effect.Effect<
+  DetectLabelsResponse,
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectLabelsRequest,
   output: DetectLabelsResponse,
   errors: [
@@ -6196,26 +7323,67 @@ export const detectLabels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you are retrieving results while using the Amazon Simple Notification Service, note that you will receive an
  * "ERROR" notification if the job encounters an issue.
  */
-export const getLabelDetection = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getLabelDetection: {
+  (
     input: GetLabelDetectionRequest,
-    output: GetLabelDetectionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetLabelDetectionResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetLabelDetectionRequest,
+  ) => Stream.Stream<
+    GetLabelDetectionResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetLabelDetectionRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetLabelDetectionRequest,
+  output: GetLabelDetectionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -6231,7 +7399,21 @@ export const getLabelDetection = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * This operation requires permissions to perform the
  * `rekognition:StartProjectVersion` action.
  */
-export const startProjectVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startProjectVersion: (
+  input: StartProjectVersionRequest,
+) => Effect.Effect<
+  StartProjectVersionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartProjectVersionRequest,
   output: StartProjectVersionResponse,
   errors: [
@@ -6257,19 +7439,30 @@ export const startProjectVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `CreateFaceLivenessSession`. Reference images are always returned when
  * possible.
  */
-export const getFaceLivenessSessionResults =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetFaceLivenessSessionResultsRequest,
-    output: GetFaceLivenessSessionResultsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      SessionNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const getFaceLivenessSessionResults: (
+  input: GetFaceLivenessSessionResultsRequest,
+) => Effect.Effect<
+  GetFaceLivenessSessionResultsResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | SessionNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFaceLivenessSessionResultsRequest,
+  output: GetFaceLivenessSessionResultsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    SessionNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Detects unsafe content in a specified JPEG or PNG format image. Use
  * `DetectModerationLabels` to moderate images depending on your requirements. For
@@ -6291,25 +7484,40 @@ export const getFaceLivenessSessionResults =
  * You can specify an adapter to use when retrieving label predictions by providing a
  * `ProjectVersionArn` to the `ProjectVersion` argument.
  */
-export const detectModerationLabels = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetectModerationLabelsRequest,
-    output: DetectModerationLabelsResponse,
-    errors: [
-      AccessDeniedException,
-      HumanLoopQuotaExceededException,
-      ImageTooLargeException,
-      InternalServerError,
-      InvalidImageFormatException,
-      InvalidParameterException,
-      InvalidS3ObjectException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ResourceNotReadyException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const detectModerationLabels: (
+  input: DetectModerationLabelsRequest,
+) => Effect.Effect<
+  DetectModerationLabelsResponse,
+  | AccessDeniedException
+  | HumanLoopQuotaExceededException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectModerationLabelsRequest,
+  output: DetectModerationLabelsResponse,
+  errors: [
+    AccessDeniedException,
+    HumanLoopQuotaExceededException,
+    ImageTooLargeException,
+    InternalServerError,
+    InvalidImageFormatException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ResourceNotReadyException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Detects Personal Protective Equipment (PPE) worn by people detected in an image. Amazon Rekognition can detect the
  * following types of PPE.
@@ -6344,22 +7552,34 @@ export const detectModerationLabels = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This operation requires permissions to perform the `rekognition:DetectProtectiveEquipment` action.
  */
-export const detectProtectiveEquipment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetectProtectiveEquipmentRequest,
-    output: DetectProtectiveEquipmentResponse,
-    errors: [
-      AccessDeniedException,
-      ImageTooLargeException,
-      InternalServerError,
-      InvalidImageFormatException,
-      InvalidParameterException,
-      InvalidS3ObjectException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const detectProtectiveEquipment: (
+  input: DetectProtectiveEquipmentRequest,
+) => Effect.Effect<
+  DetectProtectiveEquipmentResponse,
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetectProtectiveEquipmentRequest,
+  output: DetectProtectiveEquipmentResponse,
+  errors: [
+    AccessDeniedException,
+    ImageTooLargeException,
+    InternalServerError,
+    InvalidImageFormatException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a collection in an AWS Region. You can add faces to the collection using the
  * IndexFaces operation.
@@ -6379,7 +7599,20 @@ export const detectProtectiveEquipment = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * also require permission to perform the `rekognition:TagResource`
  * operation.
  */
-export const createCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCollection: (
+  input: CreateCollectionRequest,
+) => Effect.Effect<
+  CreateCollectionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceAlreadyExistsException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCollectionRequest,
   output: CreateCollectionResponse,
   errors: [
@@ -6405,7 +7638,23 @@ export const createCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * (`JobId`) from the initial call to `StartFaceSearch`. For more information, see
  * Searching stored videos for faces.
  */
-export const startFaceSearch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startFaceSearch: (
+  input: StartFaceSearchRequest,
+) => Effect.Effect<
+  StartFaceSearchResponse,
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | VideoTooLargeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFaceSearchRequest,
   output: StartFaceSearchResponse,
   errors: [
@@ -6438,21 +7687,32 @@ export const startFaceSearch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation requires permissions to perform the `rekognition:DistributeDatasetEntries` action.
  */
-export const distributeDatasetEntries = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DistributeDatasetEntriesRequest,
-    output: DistributeDatasetEntriesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ResourceNotReadyException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const distributeDatasetEntries: (
+  input: DistributeDatasetEntriesRequest,
+) => Effect.Effect<
+  DistributeDatasetEntriesResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DistributeDatasetEntriesRequest,
+  output: DistributeDatasetEntriesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ResourceNotReadyException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -6497,7 +7757,24 @@ export const distributeDatasetEntries = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see
  * *Analyzing an image* in the Amazon Rekognition Custom Labels Developer Guide.
  */
-export const detectCustomLabels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detectCustomLabels: (
+  input: DetectCustomLabelsRequest,
+) => Effect.Effect<
+  DetectCustomLabelsResponse,
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectCustomLabelsRequest,
   output: DetectCustomLabelsResponse,
   errors: [
@@ -6518,25 +7795,40 @@ export const detectCustomLabels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Initiates a new media analysis job. Accepts a manifest file in an Amazon S3 bucket. The
  * output is a manifest file and a summary of the manifest stored in the Amazon S3 bucket.
  */
-export const startMediaAnalysisJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMediaAnalysisJobRequest,
-    output: StartMediaAnalysisJobResponse,
-    errors: [
-      AccessDeniedException,
-      IdempotentParameterMismatchException,
-      InternalServerError,
-      InvalidManifestException,
-      InvalidParameterException,
-      InvalidS3ObjectException,
-      LimitExceededException,
-      ProvisionedThroughputExceededException,
-      ResourceNotFoundException,
-      ResourceNotReadyException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const startMediaAnalysisJob: (
+  input: StartMediaAnalysisJobRequest,
+) => Effect.Effect<
+  StartMediaAnalysisJobResponse,
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidManifestException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMediaAnalysisJobRequest,
+  output: StartMediaAnalysisJobResponse,
+  errors: [
+    AccessDeniedException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidManifestException,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ResourceNotReadyException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -6546,29 +7838,76 @@ export const startMediaAnalysisJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Lists the labels in a dataset. Amazon Rekognition Custom Labels uses labels to describe images. For more information, see Labeling images
  * in the *Amazon Rekognition Custom Labels Developer Guide*.
  */
-export const listDatasetLabels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDatasetLabels: {
+  (
     input: ListDatasetLabelsRequest,
-    output: ListDatasetLabelsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ResourceNotReadyException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DatasetLabelDescriptions",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDatasetLabelsResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceInUseException
+    | ResourceNotFoundException
+    | ResourceNotReadyException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatasetLabelsRequest,
+  ) => Stream.Stream<
+    ListDatasetLabelsResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceInUseException
+    | ResourceNotFoundException
+    | ResourceNotReadyException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatasetLabelsRequest,
+  ) => Stream.Stream<
+    DatasetLabelDescription,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceInUseException
+    | ResourceNotFoundException
+    | ResourceNotReadyException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatasetLabelsRequest,
+  output: ListDatasetLabelsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ResourceNotReadyException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DatasetLabelDescriptions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This operation applies only to Amazon Rekognition Custom Labels.
  *
@@ -6587,29 +7926,76 @@ export const listDatasetLabels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * This operation requires permissions to perform the `rekognition:ListDatasetEntries` action.
  */
-export const listDatasetEntries = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDatasetEntries: {
+  (
     input: ListDatasetEntriesRequest,
-    output: ListDatasetEntriesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidPaginationTokenException,
-      InvalidParameterException,
-      ProvisionedThroughputExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ResourceNotReadyException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DatasetEntries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDatasetEntriesResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceInUseException
+    | ResourceNotFoundException
+    | ResourceNotReadyException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatasetEntriesRequest,
+  ) => Stream.Stream<
+    ListDatasetEntriesResponse,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceInUseException
+    | ResourceNotFoundException
+    | ResourceNotReadyException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatasetEntriesRequest,
+  ) => Stream.Stream<
+    DatasetEntry,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidPaginationTokenException
+    | InvalidParameterException
+    | ProvisionedThroughputExceededException
+    | ResourceInUseException
+    | ResourceNotFoundException
+    | ResourceNotReadyException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatasetEntriesRequest,
+  output: ListDatasetEntriesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidPaginationTokenException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ResourceNotReadyException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DatasetEntries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Associates one or more faces with an existing UserID. Takes an array of
  * `FaceIds`. Each `FaceId` that are present in the `FaceIds`
@@ -6645,7 +8031,22 @@ export const listDatasetEntries = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * - UPDATING - A UserID is being updated and there are current associations or
  * disassociations of FaceID(s) taking place.
  */
-export const associateFaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateFaces: (
+  input: AssociateFacesRequest,
+) => Effect.Effect<
+  AssociateFacesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateFacesRequest,
   output: AssociateFacesResponse,
   errors: [
@@ -6668,7 +8069,20 @@ export const associateFaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the `rekognition:TagResource`
  * action.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -6692,7 +8106,22 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * generates an idempotency token for the requests. This prevents retries after a network error
  * results from making multiple `CreateUser` calls.
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUser: (
+  input: CreateUserRequest,
+) => Effect.Effect<
+  CreateUserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
   output: CreateUserResponse,
   errors: [
@@ -6801,7 +8230,23 @@ export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation requires permissions to perform the `rekognition:IndexFaces`
  * action.
  */
-export const indexFaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const indexFaces: (
+  input: IndexFacesRequest,
+) => Effect.Effect<
+  IndexFacesResponse,
+  | AccessDeniedException
+  | ImageTooLargeException
+  | InternalServerError
+  | InvalidImageFormatException
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IndexFacesRequest,
   output: IndexFacesResponse,
   errors: [
@@ -6840,7 +8285,24 @@ export const indexFaces = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation requires permissions to perform the `rekognition:PutProjectPolicy` action.
  */
-export const putProjectPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putProjectPolicy: (
+  input: PutProjectPolicyRequest,
+) => Effect.Effect<
+  PutProjectPolicyResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidPolicyRevisionIdException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | ProvisionedThroughputExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutProjectPolicyRequest,
   output: PutProjectPolicyResponse,
   errors: [
@@ -6885,7 +8347,22 @@ export const putProjectPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation requires permissions to perform the `rekognition:CopyProjectVersion` action.
  */
-export const copyProjectVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copyProjectVersion: (
+  input: CopyProjectVersionRequest,
+) => Effect.Effect<
+  CopyProjectVersionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyProjectVersionRequest,
   output: CopyProjectVersionResponse,
   errors: [
@@ -6931,23 +8408,36 @@ export const copyProjectVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * we recommend that you use the manifest
  * files to create training and test datasets for the project.
  */
-export const createProjectVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateProjectVersionRequest,
-    output: CreateProjectVersionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidParameterException,
-      LimitExceededException,
-      ProvisionedThroughputExceededException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createProjectVersion: (
+  input: CreateProjectVersionRequest,
+) => Effect.Effect<
+  CreateProjectVersionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectVersionRequest,
+  output: CreateProjectVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates an Amazon Rekognition stream processor that you can use to detect and recognize faces or to detect labels in a streaming video.
  *
@@ -6979,22 +8469,34 @@ export const createProjectVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation requires permissions to perform the
  * `rekognition:CreateStreamProcessor` action. If you want to tag your stream processor, you also require permission to perform the `rekognition:TagResource` operation.
  */
-export const createStreamProcessor = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateStreamProcessorRequest,
-    output: CreateStreamProcessorResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerError,
-      InvalidParameterException,
-      LimitExceededException,
-      ProvisionedThroughputExceededException,
-      ResourceInUseException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createStreamProcessor: (
+  input: CreateStreamProcessorRequest,
+) => Effect.Effect<
+  CreateStreamProcessorResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStreamProcessorRequest,
+  output: CreateStreamProcessorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ResourceInUseException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Starts asynchronous detection of inappropriate, unwanted, or offensive content in a stored video. For a list of moderation labels in Amazon Rekognition, see
  * Using the image and video moderation APIs.
@@ -7011,23 +8513,36 @@ export const createStreamProcessor = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information, see Moderating content in the Amazon Rekognition Developer Guide.
  */
-export const startContentModeration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartContentModerationRequest,
-    output: StartContentModerationResponse,
-    errors: [
-      AccessDeniedException,
-      IdempotentParameterMismatchException,
-      InternalServerError,
-      InvalidParameterException,
-      InvalidS3ObjectException,
-      LimitExceededException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-      VideoTooLargeException,
-    ],
-  }),
-);
+export const startContentModeration: (
+  input: StartContentModerationRequest,
+) => Effect.Effect<
+  StartContentModerationResponse,
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | VideoTooLargeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartContentModerationRequest,
+  output: StartContentModerationResponse,
+  errors: [
+    AccessDeniedException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    VideoTooLargeException,
+  ],
+}));
 /**
  * Starts asynchronous detection of labels in a stored video.
  *
@@ -7058,7 +8573,22 @@ export const startContentModeration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can specify `MinConfidence` to control the confidence threshold for the
  * labels returned. The default is 50.
  */
-export const startLabelDetection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startLabelDetection: (
+  input: StartLabelDetectionRequest,
+) => Effect.Effect<
+  StartLabelDetectionResponse,
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | VideoTooLargeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartLabelDetectionRequest,
   output: StartLabelDetectionResponse,
   errors: [
@@ -7085,7 +8615,22 @@ export const startLabelDetection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * topic is `SUCCEEDED`. if so, call GetTextDetection and pass the job identifier (`JobId`)
  * from the initial call to `StartTextDetection`.
  */
-export const startTextDetection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startTextDetection: (
+  input: StartTextDetectionRequest,
+) => Effect.Effect<
+  StartTextDetectionResponse,
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | VideoTooLargeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTextDetectionRequest,
   output: StartTextDetectionResponse,
   errors: [
@@ -7116,7 +8661,22 @@ export const startTextDetection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Detecting faces in a stored video in the
  * Amazon Rekognition Developer Guide.
  */
-export const startFaceDetection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startFaceDetection: (
+  input: StartFaceDetectionRequest,
+) => Effect.Effect<
+  StartFaceDetectionResponse,
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | VideoTooLargeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFaceDetectionRequest,
   output: StartFaceDetectionResponse,
   errors: [
@@ -7149,7 +8709,22 @@ export const startFaceDetection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * topic is `SUCCEEDED`. If so, call GetPersonTracking and pass the job identifier
  * (`JobId`) from the initial call to `StartPersonTracking`.
  */
-export const startPersonTracking = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startPersonTracking: (
+  input: StartPersonTrackingRequest,
+) => Effect.Effect<
+  StartPersonTrackingResponse,
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | VideoTooLargeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartPersonTrackingRequest,
   output: StartPersonTrackingResponse,
   errors: [
@@ -7179,23 +8754,36 @@ export const startPersonTracking = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Recognizing celebrities in the Amazon Rekognition Developer Guide.
  */
-export const startCelebrityRecognition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartCelebrityRecognitionRequest,
-    output: StartCelebrityRecognitionResponse,
-    errors: [
-      AccessDeniedException,
-      IdempotentParameterMismatchException,
-      InternalServerError,
-      InvalidParameterException,
-      InvalidS3ObjectException,
-      LimitExceededException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-      VideoTooLargeException,
-    ],
-  }),
-);
+export const startCelebrityRecognition: (
+  input: StartCelebrityRecognitionRequest,
+) => Effect.Effect<
+  StartCelebrityRecognitionResponse,
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | VideoTooLargeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCelebrityRecognitionRequest,
+  output: StartCelebrityRecognitionResponse,
+  errors: [
+    AccessDeniedException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    VideoTooLargeException,
+  ],
+}));
 /**
  * Starts asynchronous detection of segment detection in a stored video.
  *
@@ -7216,20 +8804,33 @@ export const startCelebrityRecognition = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information, see Detecting video segments in stored video in the Amazon Rekognition Developer Guide.
  */
-export const startSegmentDetection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartSegmentDetectionRequest,
-    output: StartSegmentDetectionResponse,
-    errors: [
-      AccessDeniedException,
-      IdempotentParameterMismatchException,
-      InternalServerError,
-      InvalidParameterException,
-      InvalidS3ObjectException,
-      LimitExceededException,
-      ProvisionedThroughputExceededException,
-      ThrottlingException,
-      VideoTooLargeException,
-    ],
-  }),
-);
+export const startSegmentDetection: (
+  input: StartSegmentDetectionRequest,
+) => Effect.Effect<
+  StartSegmentDetectionResponse,
+  | AccessDeniedException
+  | IdempotentParameterMismatchException
+  | InternalServerError
+  | InvalidParameterException
+  | InvalidS3ObjectException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | VideoTooLargeException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSegmentDetectionRequest,
+  output: StartSegmentDetectionResponse,
+  errors: [
+    AccessDeniedException,
+    IdempotentParameterMismatchException,
+    InternalServerError,
+    InvalidParameterException,
+    InvalidS3ObjectException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ThrottlingException,
+    VideoTooLargeException,
+  ],
+}));

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker Metrics",
   serviceShapeName: "SageMakerMetricsService",
@@ -261,6 +269,16 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type ExperimentEntityName = string;
+export type MetricName = string;
+export type SageMakerResourceArn = string;
+export type Long = number;
+export type Step = number;
+export type Double = number;
+export type Message = string;
+export type Integer = number;
+
 //# Schemas
 export interface MetricQuery {
   MetricName: string;
@@ -396,7 +414,13 @@ export const BatchPutMetricsResponse = S.suspend(() =>
 /**
  * Used to retrieve training metrics from SageMaker.
  */
-export const batchGetMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetMetrics: (
+  input: BatchGetMetricsRequest,
+) => Effect.Effect<
+  BatchGetMetricsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetMetricsRequest,
   output: BatchGetMetricsResponse,
   errors: [],
@@ -404,7 +428,13 @@ export const batchGetMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio.
  */
-export const batchPutMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchPutMetrics: (
+  input: BatchPutMetricsRequest,
+) => Effect.Effect<
+  BatchPutMetricsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutMetricsRequest,
   output: BatchPutMetricsResponse,
   errors: [],

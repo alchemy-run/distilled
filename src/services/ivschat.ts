@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "ivschat",
   serviceShapeName: "AmazonInteractiveVideoServiceChat",
@@ -240,6 +248,46 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type RoomIdentifier = string;
+export type UserID = string;
+export type ChatTokenCapability = string;
+export type SessionDurationInMinutes = number;
+export type LoggingConfigurationName = string;
+export type RoomName = string;
+export type RoomMaxMessageRatePerSecond = number;
+export type RoomMaxMessageLength = number;
+export type LoggingConfigurationIdentifier = string;
+export type MessageID = string;
+export type Reason = string;
+export type PaginationToken = string;
+export type MaxLoggingConfigurationResults = number;
+export type MaxRoomResults = number;
+export type LambdaArn = string;
+export type ResourceArn = string;
+export type EventName = string;
+export type TagKey = string;
+export type TagValue = string;
+export type FallbackResult = string;
+export type ErrorMessage = string;
+export type ID = string;
+export type LoggingConfigurationArn = string;
+export type LoggingConfigurationID = string;
+export type LoggingConfigurationState = string;
+export type RoomArn = string;
+export type RoomID = string;
+export type UpdateLoggingConfigurationState = string;
+export type BucketName = string;
+export type LogGroupName = string;
+export type DeliveryStreamName = string;
+export type ChatToken = string;
+export type ResourceId = string;
+export type ResourceType = string;
+export type CreateLoggingConfigurationState = string;
+export type ValidationExceptionReason = string;
+export type Limit = number;
+export type FieldName = string;
 
 //# Schemas
 export type ChatTokenCapabilities = string[];
@@ -517,6 +565,10 @@ export const FirehoseDestinationConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "FirehoseDestinationConfiguration",
 }) as any as S.Schema<FirehoseDestinationConfiguration>;
+export type DestinationConfiguration =
+  | { s3: S3DestinationConfiguration }
+  | { cloudWatchLogs: CloudWatchLogsDestinationConfiguration }
+  | { firehose: FirehoseDestinationConfiguration };
 export const DestinationConfiguration = S.Union(
   S.Struct({ s3: S3DestinationConfiguration }),
   S.Struct({ cloudWatchLogs: CloudWatchLogsDestinationConfiguration }),
@@ -990,7 +1042,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -1011,7 +1065,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     resourceType: S.String,
     limit: S.Number,
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -1034,37 +1090,96 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Gets the specified logging configuration.
  */
-export const getLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLoggingConfigurationRequest,
-    output: GetLoggingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getLoggingConfiguration: (
+  input: GetLoggingConfigurationRequest,
+) => Effect.Effect<
+  GetLoggingConfigurationResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLoggingConfigurationRequest,
+  output: GetLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets summary information about all your logging configurations in the AWS region where
  * the API request is processed.
  */
-export const listLoggingConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLoggingConfigurations: {
+  (
     input: ListLoggingConfigurationsRequest,
-    output: ListLoggingConfigurationsResponse,
-    errors: [AccessDeniedException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListLoggingConfigurationsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLoggingConfigurationsRequest,
+  ) => Stream.Stream<
+    ListLoggingConfigurationsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLoggingConfigurationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLoggingConfigurationsRequest,
+  output: ListLoggingConfigurationsResponse,
+  errors: [AccessDeniedException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets summary information about all your rooms in the AWS region where the API request is
  * processed. Results are sorted in descending order of `updateTime`.
  */
-export const listRooms = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRooms: {
+  (
+    input: ListRoomsRequest,
+  ): Effect.Effect<
+    ListRoomsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRoomsRequest,
+  ) => Stream.Stream<
+    ListRoomsResponse,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoomsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRoomsRequest,
   output: ListRoomsResponse,
   errors: [
@@ -1081,23 +1196,42 @@ export const listRooms = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Updates a specified logging configuration.
  */
-export const updateLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLoggingConfigurationRequest,
-    output: UpdateLoggingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateLoggingConfiguration: (
+  input: UpdateLoggingConfigurationRequest,
+) => Effect.Effect<
+  UpdateLoggingConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLoggingConfigurationRequest,
+  output: UpdateLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a room’s configuration.
  */
-export const updateRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRoom: (
+  input: UpdateRoomRequest,
+) => Effect.Effect<
+  UpdateRoomResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRoomRequest,
   output: UpdateRoomResponse,
   errors: [
@@ -1110,7 +1244,17 @@ export const updateRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified room.
  */
-export const deleteRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRoom: (
+  input: DeleteRoomRequest,
+) => Effect.Effect<
+  DeleteRoomResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRoomRequest,
   output: DeleteRoomResponse,
   errors: [
@@ -1137,7 +1281,17 @@ export const deleteRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Encryption keys are owned by Amazon IVS Chat and never used directly by your
  * application.
  */
-export const createChatToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createChatToken: (
+  input: CreateChatTokenRequest,
+) => Effect.Effect<
+  CreateChatTokenResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChatTokenRequest,
   output: CreateChatTokenResponse,
   errors: [
@@ -1150,23 +1304,41 @@ export const createChatToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified logging configuration.
  */
-export const deleteLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLoggingConfigurationRequest,
-    output: DeleteLoggingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteLoggingConfiguration: (
+  input: DeleteLoggingConfigurationRequest,
+) => Effect.Effect<
+  DeleteLoggingConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLoggingConfigurationRequest,
+  output: DeleteLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the specified room.
  */
-export const getRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRoom: (
+  input: GetRoomRequest,
+) => Effect.Effect<
+  GetRoomResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRoomRequest,
   output: GetRoomResponse,
   errors: [
@@ -1178,7 +1350,16 @@ export const getRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds or updates tags for the AWS resource with the specified ARN.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1190,7 +1371,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from the resource with the specified ARN.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1202,7 +1392,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about AWS tags for the specified ARN.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1216,7 +1415,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * events to clients of a room; e.g., to notify clients to change the way the chat UI is
  * rendered.
  */
-export const sendEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendEvent: (
+  input: SendEventRequest,
+) => Effect.Effect<
+  SendEventResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendEventRequest,
   output: SendEventResponse,
   errors: [
@@ -1230,7 +1440,19 @@ export const sendEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a room that allows clients to connect and pass messages.
  */
-export const createRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRoom: (
+  input: CreateRoomRequest,
+) => Effect.Effect<
+  CreateRoomResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRoomRequest,
   output: CreateRoomResponse,
   errors: [
@@ -1247,7 +1469,18 @@ export const createRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * DisconnectUser WebSocket operation in the Amazon IVS Chat Messaging API.
  */
-export const disconnectUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disconnectUser: (
+  input: DisconnectUserRequest,
+) => Effect.Effect<
+  DisconnectUserResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisconnectUserRequest,
   output: DisconnectUserResponse,
   errors: [
@@ -1264,7 +1497,18 @@ export const disconnectUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `EventName` is `aws:DELETE_MESSAGE`. This replicates the
  * DeleteMessage WebSocket operation in the Amazon IVS Chat Messaging API.
  */
-export const deleteMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMessage: (
+  input: DeleteMessageRequest,
+) => Effect.Effect<
+  DeleteMessageResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMessageRequest,
   output: DeleteMessageResponse,
   errors: [
@@ -1279,17 +1523,27 @@ export const deleteMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a logging configuration that allows clients to store and record sent
  * messages.
  */
-export const createLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLoggingConfigurationRequest,
-    output: CreateLoggingConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createLoggingConfiguration: (
+  input: CreateLoggingConfigurationRequest,
+) => Effect.Effect<
+  CreateLoggingConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLoggingConfigurationRequest,
+  output: CreateLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));

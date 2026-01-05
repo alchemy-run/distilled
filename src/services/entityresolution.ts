@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "EntityResolution",
   serviceShapeName: "AWSVeniceService",
@@ -292,6 +300,42 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type VeniceGlobalArn = string;
+export type StatementId = string;
+export type StatementAction = string;
+export type StatementPrincipal = string;
+export type StatementCondition = string;
+export type EntityName = string;
+export type HeaderSafeUniqueId = string;
+export type Description = string;
+export type IdMappingRoleArn = string;
+export type RoleArn = string;
+export type EntityNameOrIdMappingWorkflowArn = string;
+export type JobId = string;
+export type EntityNameOrIdNamespaceArn = string;
+export type ProviderServiceArn = string;
+export type NextToken = string;
+export type PolicyToken = string;
+export type PolicyDocument = string;
+export type TagKey = string;
+export type InputSourceARN = string;
+export type KMSArn = string;
+export type S3Path = string;
+export type TagValue = string;
+export type OptionalS3Path = string;
+export type AttributeName = string;
+export type UniqueId = string;
+export type IdMappingWorkflowArn = string;
+export type IdNamespaceArn = string;
+export type MatchingWorkflowArn = string;
+export type ProviderServiceDisplayName = string;
+export type SchemaMappingArn = string;
+export type ErrorMessage = string;
+export type CustomerProfilesDomainArn = string;
+export type CustomerProfilesObjectTypeArn = string;
+export type AwsAccountId = string;
 
 //# Schemas
 export type StatementActionList = string[];
@@ -2189,6 +2233,9 @@ export type IdNamespaceIdMappingWorkflowMetadataList =
 export const IdNamespaceIdMappingWorkflowMetadataList = S.Array(
   IdNamespaceIdMappingWorkflowMetadata,
 );
+export type ProviderEndpointConfiguration = {
+  marketplaceConfiguration: ProviderMarketplaceConfiguration;
+};
 export const ProviderEndpointConfiguration = S.Union(
   S.Struct({ marketplaceConfiguration: ProviderMarketplaceConfiguration }),
 );
@@ -2478,7 +2525,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.optional(S.String) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
@@ -2495,7 +2544,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },
@@ -2513,7 +2564,13 @@ export class ExceedsLimitException extends S.TaggedError<ExceedsLimitException>(
 /**
  * Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  InternalServerException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [InternalServerException, ResourceNotFoundException],
@@ -2521,7 +2578,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, `SchemaMapping` and `MatchingWorkflow` can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the `TagResource` action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -2533,56 +2599,95 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the `IdMappingWorkflow` with a given name. This operation will succeed even if a workflow with the given name does not exist.
  */
-export const deleteIdMappingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIdMappingWorkflowInput,
-    output: DeleteIdMappingWorkflowOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteIdMappingWorkflow: (
+  input: DeleteIdMappingWorkflowInput,
+) => Effect.Effect<
+  DeleteIdMappingWorkflowOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIdMappingWorkflowInput,
+  output: DeleteIdMappingWorkflowOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the `MatchingWorkflow` with a given name. This operation will succeed even if a workflow with the given name does not exist.
  */
-export const deleteMatchingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMatchingWorkflowInput,
-    output: DeleteMatchingWorkflowOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteMatchingWorkflow: (
+  input: DeleteMatchingWorkflowInput,
+) => Effect.Effect<
+  DeleteMatchingWorkflowOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMatchingWorkflowInput,
+  output: DeleteMatchingWorkflowOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the policy statement.
  */
-export const deletePolicyStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePolicyStatementInput,
-    output: DeletePolicyStatementOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deletePolicyStatement: (
+  input: DeletePolicyStatementInput,
+) => Effect.Effect<
+  DeletePolicyStatementOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePolicyStatementInput,
+  output: DeletePolicyStatementOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the `SchemaMapping` with a given name. This operation will succeed even if a schema with the given name does not exist. This operation will fail if there is a `MatchingWorkflow` object that references the `SchemaMapping` in the workflow's `InputSourceConfig`.
  */
-export const deleteSchemaMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSchemaMapping: (
+  input: DeleteSchemaMappingInput,
+) => Effect.Effect<
+  DeleteSchemaMappingOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSchemaMappingInput,
   output: DeleteSchemaMappingOutput,
   errors: [
@@ -2596,7 +2701,19 @@ export const deleteSchemaMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the resource-based policy.
  */
-export const putPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putPolicy: (
+  input: PutPolicyInput,
+) => Effect.Effect<
+  PutPolicyOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPolicyInput,
   output: PutPolicyOutput,
   errors: [
@@ -2613,7 +2730,19 @@ export const putPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A schema is immutable if it is being used by a workflow. Therefore, you can't update a schema mapping if it's associated with a workflow.
  */
-export const updateSchemaMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSchemaMapping: (
+  input: UpdateSchemaMappingInput,
+) => Effect.Effect<
+  UpdateSchemaMappingOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSchemaMappingInput,
   output: UpdateSchemaMappingOutput,
   errors: [
@@ -2628,68 +2757,176 @@ export const updateSchemaMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of all the `MatchingWorkflows` that have been created for an Amazon Web Services account.
  */
-export const listMatchingWorkflows =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMatchingWorkflows: {
+  (
     input: ListMatchingWorkflowsInput,
-    output: ListMatchingWorkflowsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "workflowSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMatchingWorkflowsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMatchingWorkflowsInput,
+  ) => Stream.Stream<
+    ListMatchingWorkflowsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMatchingWorkflowsInput,
+  ) => Stream.Stream<
+    MatchingWorkflowSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMatchingWorkflowsInput,
+  output: ListMatchingWorkflowsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workflowSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of all the `ProviderServices` that are available in this Amazon Web Services Region.
  */
-export const listProviderServices =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProviderServices: {
+  (
     input: ListProviderServicesInput,
-    output: ListProviderServicesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "providerServiceSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProviderServicesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProviderServicesInput,
+  ) => Stream.Stream<
+    ListProviderServicesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProviderServicesInput,
+  ) => Stream.Stream<
+    ProviderServiceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProviderServicesInput,
+  output: ListProviderServicesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "providerServiceSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of all the `SchemaMappings` that have been created for an Amazon Web Services account.
  */
-export const listSchemaMappings = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSchemaMappings: {
+  (
     input: ListSchemaMappingsInput,
-    output: ListSchemaMappingsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "schemaList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSchemaMappingsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSchemaMappingsInput,
+  ) => Stream.Stream<
+    ListSchemaMappingsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSchemaMappingsInput,
+  ) => Stream.Stream<
+    SchemaMappingSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSchemaMappingsInput,
+  output: ListSchemaMappingsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "schemaList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes the `IdNamespace` with a given name.
  */
-export const deleteIdNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIdNamespace: (
+  input: DeleteIdNamespaceInput,
+) => Effect.Effect<
+  DeleteIdNamespaceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIdNamespaceInput,
   output: DeleteIdNamespaceOutput,
   errors: [
@@ -2702,23 +2939,43 @@ export const deleteIdNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the `IdMappingWorkflow` with a given name, if it exists.
  */
-export const getIdMappingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIdMappingWorkflowInput,
-    output: GetIdMappingWorkflowOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getIdMappingWorkflow: (
+  input: GetIdMappingWorkflowInput,
+) => Effect.Effect<
+  GetIdMappingWorkflowOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdMappingWorkflowInput,
+  output: GetIdMappingWorkflowOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the `IdNamespace` with a given name, if it exists.
  */
-export const getIdNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIdNamespace: (
+  input: GetIdNamespaceInput,
+) => Effect.Effect<
+  GetIdNamespaceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdNamespaceInput,
   output: GetIdNamespaceOutput,
   errors: [
@@ -2732,7 +2989,18 @@ export const getIdNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the `MatchingWorkflow` with a given name, if it exists.
  */
-export const getMatchingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMatchingWorkflow: (
+  input: GetMatchingWorkflowInput,
+) => Effect.Effect<
+  GetMatchingWorkflowOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMatchingWorkflowInput,
   output: GetMatchingWorkflowOutput,
   errors: [
@@ -2746,7 +3014,18 @@ export const getMatchingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the resource-based policy.
  */
-export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicy: (
+  input: GetPolicyInput,
+) => Effect.Effect<
+  GetPolicyOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyInput,
   output: GetPolicyOutput,
   errors: [
@@ -2760,7 +3039,18 @@ export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the SchemaMapping of a given name.
  */
-export const getSchemaMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSchemaMapping: (
+  input: GetSchemaMappingInput,
+) => Effect.Effect<
+  GetSchemaMappingOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSchemaMappingInput,
   output: GetSchemaMappingOutput,
   errors: [
@@ -2774,47 +3064,102 @@ export const getSchemaMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all jobs for a given workflow.
  */
-export const listMatchingJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMatchingJobs: {
+  (
     input: ListMatchingJobsInput,
-    output: ListMatchingJobsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "jobs",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMatchingJobsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMatchingJobsInput,
+  ) => Stream.Stream<
+    ListMatchingJobsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMatchingJobsInput,
+  ) => Stream.Stream<
+    JobSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMatchingJobsInput,
+  output: ListMatchingJobsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates an existing `IdMappingWorkflow`. This method is identical to CreateIdMappingWorkflow, except it uses an HTTP `PUT` request instead of a `POST` request, and the `IdMappingWorkflow` must already exist for the method to succeed.
  *
  * Incremental processing is not supported for ID mapping workflows.
  */
-export const updateIdMappingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIdMappingWorkflowInput,
-    output: UpdateIdMappingWorkflowOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateIdMappingWorkflow: (
+  input: UpdateIdMappingWorkflowInput,
+) => Effect.Effect<
+  UpdateIdMappingWorkflowOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIdMappingWorkflowInput,
+  output: UpdateIdMappingWorkflowOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an existing ID namespace.
  */
-export const updateIdNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateIdNamespace: (
+  input: UpdateIdNamespaceInput,
+) => Effect.Effect<
+  UpdateIdNamespaceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIdNamespaceInput,
   output: UpdateIdNamespaceOutput,
   errors: [
@@ -2830,23 +3175,43 @@ export const updateIdNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For workflows where `resolutionType` is `ML_MATCHING` or `PROVIDER`, incremental processing is not supported.
  */
-export const updateMatchingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMatchingWorkflowInput,
-    output: UpdateMatchingWorkflowOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateMatchingWorkflow: (
+  input: UpdateMatchingWorkflowInput,
+) => Effect.Effect<
+  UpdateMatchingWorkflowOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMatchingWorkflowInput,
+  output: UpdateMatchingWorkflowOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the status, metrics, and errors (if there are any) that are associated with a job.
  */
-export const getIdMappingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIdMappingJob: (
+  input: GetIdMappingJobInput,
+) => Effect.Effect<
+  GetIdMappingJobOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdMappingJobInput,
   output: GetIdMappingJobOutput,
   errors: [
@@ -2862,7 +3227,18 @@ export const getIdMappingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can call this API as a dry run of an incremental load on the rule-based matching workflow.
  */
-export const getMatchId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMatchId: (
+  input: GetMatchIdInput,
+) => Effect.Effect<
+  GetMatchIdOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMatchIdInput,
   output: GetMatchIdOutput,
   errors: [
@@ -2876,7 +3252,18 @@ export const getMatchId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the status, metrics, and errors (if there are any) that are associated with a job.
  */
-export const getMatchingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMatchingJob: (
+  input: GetMatchingJobInput,
+) => Effect.Effect<
+  GetMatchingJobOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMatchingJobInput,
   output: GetMatchingJobOutput,
   errors: [
@@ -2890,29 +3277,76 @@ export const getMatchingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all ID mapping jobs for a given workflow.
  */
-export const listIdMappingJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listIdMappingJobs: {
+  (
     input: ListIdMappingJobsInput,
-    output: ListIdMappingJobsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "jobs",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListIdMappingJobsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdMappingJobsInput,
+  ) => Stream.Stream<
+    ListIdMappingJobsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdMappingJobsInput,
+  ) => Stream.Stream<
+    JobSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdMappingJobsInput,
+  output: ListIdMappingJobsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Adds a policy statement object. To retrieve a list of existing policy statements, use the `GetPolicy` API.
  */
-export const addPolicyStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addPolicyStatement: (
+  input: AddPolicyStatementInput,
+) => Effect.Effect<
+  AddPolicyStatementOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddPolicyStatementInput,
   output: AddPolicyStatementOutput,
   errors: [
@@ -2927,7 +3361,18 @@ export const addPolicyStatement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the `ProviderService` of a given name.
  */
-export const getProviderService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getProviderService: (
+  input: GetProviderServiceInput,
+) => Effect.Effect<
+  GetProviderServiceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProviderServiceInput,
   output: GetProviderServiceOutput,
   errors: [
@@ -2941,7 +3386,16 @@ export const getProviderService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Displays the tags associated with an Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -2953,7 +3407,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes multiple unique IDs in a matching workflow.
  */
-export const batchDeleteUniqueId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchDeleteUniqueId: (
+  input: BatchDeleteUniqueIdInput,
+) => Effect.Effect<
+  BatchDeleteUniqueIdOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteUniqueIdInput,
   output: BatchDeleteUniqueIdOutput,
   errors: [
@@ -2965,48 +3428,125 @@ export const batchDeleteUniqueId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of all the `IdMappingWorkflows` that have been created for an Amazon Web Services account.
  */
-export const listIdMappingWorkflows =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIdMappingWorkflows: {
+  (
     input: ListIdMappingWorkflowsInput,
-    output: ListIdMappingWorkflowsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "workflowSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIdMappingWorkflowsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdMappingWorkflowsInput,
+  ) => Stream.Stream<
+    ListIdMappingWorkflowsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdMappingWorkflowsInput,
+  ) => Stream.Stream<
+    IdMappingWorkflowSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdMappingWorkflowsInput,
+  output: ListIdMappingWorkflowsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workflowSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of all ID namespaces.
  */
-export const listIdNamespaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listIdNamespaces: {
+  (
     input: ListIdNamespacesInput,
-    output: ListIdNamespacesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "idNamespaceSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListIdNamespacesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdNamespacesInput,
+  ) => Stream.Stream<
+    ListIdNamespacesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdNamespacesInput,
+  ) => Stream.Stream<
+    IdNamespaceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdNamespacesInput,
+  output: ListIdNamespacesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "idNamespaceSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates an ID namespace object which will help customers provide metadata explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the UpdateIdNamespace API.
  */
-export const createIdNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIdNamespace: (
+  input: CreateIdNamespaceInput,
+) => Effect.Effect<
+  CreateIdNamespaceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ExceedsLimitException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIdNamespaceInput,
   output: CreateIdNamespaceOutput,
   errors: [
@@ -3023,24 +3563,46 @@ export const createIdNamespace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For workflows where `resolutionType` is `ML_MATCHING` or `PROVIDER`, incremental processing is not supported.
  */
-export const createMatchingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMatchingWorkflowInput,
-    output: CreateMatchingWorkflowOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ExceedsLimitException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createMatchingWorkflow: (
+  input: CreateMatchingWorkflowInput,
+) => Effect.Effect<
+  CreateMatchingWorkflowOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ExceedsLimitException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMatchingWorkflowInput,
+  output: CreateMatchingWorkflowOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ExceedsLimitException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a schema mapping, which defines the schema of the input customer records table. The `SchemaMapping` also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
  */
-export const createSchemaMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSchemaMapping: (
+  input: CreateSchemaMappingInput,
+) => Effect.Effect<
+  CreateSchemaMappingOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ExceedsLimitException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSchemaMappingInput,
   output: CreateSchemaMappingOutput,
   errors: [
@@ -3055,7 +3617,20 @@ export const createSchemaMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts the `IdMappingJob` of a workflow. The workflow must have previously been created using the `CreateIdMappingWorkflow` endpoint.
  */
-export const startIdMappingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startIdMappingJob: (
+  input: StartIdMappingJobInput,
+) => Effect.Effect<
+  StartIdMappingJobOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ExceedsLimitException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartIdMappingJobInput,
   output: StartIdMappingJobOutput,
   errors: [
@@ -3071,7 +3646,20 @@ export const startIdMappingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts the `MatchingJob` of a workflow. The workflow must have previously been created using the `CreateMatchingWorkflow` endpoint.
  */
-export const startMatchingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startMatchingJob: (
+  input: StartMatchingJobInput,
+) => Effect.Effect<
+  StartMatchingJobOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ExceedsLimitException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMatchingJobInput,
   output: StartMatchingJobOutput,
   errors: [
@@ -3089,26 +3677,47 @@ export const startMatchingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Incremental processing is not supported for ID mapping workflows.
  */
-export const createIdMappingWorkflow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIdMappingWorkflowInput,
-    output: CreateIdMappingWorkflowOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ExceedsLimitException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createIdMappingWorkflow: (
+  input: CreateIdMappingWorkflowInput,
+) => Effect.Effect<
+  CreateIdMappingWorkflowOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ExceedsLimitException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIdMappingWorkflowInput,
+  output: CreateIdMappingWorkflowOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ExceedsLimitException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Generates or retrieves Match IDs for records using a rule-based matching workflow. When you call this operation, it processes your records against the workflow's matching rules to identify potential matches. For existing records, it retrieves their Match IDs and associated rules. For records without matches, it generates new Match IDs. The operation saves results to Amazon S3.
  *
  * The processing type (`processingType`) you choose affects both the accuracy and response time of the operation. Additional charges apply for each API call, whether made through the Entity Resolution console or directly via the API. The rule-based matching workflow must exist and be active before calling this operation.
  */
-export const generateMatchId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const generateMatchId: (
+  input: GenerateMatchIdInput,
+) => Effect.Effect<
+  GenerateMatchIdOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateMatchIdInput,
   output: GenerateMatchIdOutput,
   errors: [

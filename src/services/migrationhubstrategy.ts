@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "MigrationHubStrategy",
   serviceShapeName: "AWSMigrationHubStrategyRecommendation",
@@ -240,6 +248,81 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ApplicationComponentId = string;
+export type AsyncTaskId = string;
+export type ApplicationMode = string;
+export type RecommendationTaskId = string;
+export type ServerId = string;
+export type NextToken = string;
+export type MaxResult = number;
+export type SortOrder = string;
+export type ApplicationComponentCriteria = string;
+export type Integer = number;
+export type ServerCriteria = string;
+export type AssessmentDataSourceType = string;
+export type importS3Bucket = string;
+export type DataSourceType = string;
+export type OutputFormat = string;
+export type InclusionStatus = string;
+export type SecretsManagerKey = string;
+export type AppType = string;
+export type DatabaseManagementPreference = string;
+export type AntipatternReportStatus = string;
+export type StatusMessage = string;
+export type GroupName = string;
+export type Condition = string;
+export type Strategy = string;
+export type TransformationToolName = string;
+export type TargetDestination = string;
+export type VersionControl = string;
+export type SourceVersion = string;
+export type Location = string;
+export type ProjectName = string;
+export type ImportFileTaskStatus = string;
+export type importS3Key = string;
+export type errorMessage = string;
+export type BusinessGoalsInteger = number;
+export type Severity = string;
+export type ServerOsType = string;
+export type S3Bucket = string;
+export type S3Key = string;
+export type SrcCodeOrDbAnalysisStatus = string;
+export type RunTimeAssessmentStatus = string;
+export type ResourceId = string;
+export type ResourceName = string;
+export type ResourceSubType = string;
+export type RuntimeAnalysisStatus = string;
+export type StrategyRecommendation = string;
+export type AssessmentStatus = string;
+export type AssessmentStatusMessage = string;
+export type RecommendationReportStatus = string;
+export type RecommendationReportStatusMessage = string;
+export type CollectorHealth = string;
+export type AwsManagedTargetDestination = string;
+export type SelfManageTargetDestination = string;
+export type NoPreferenceTargetDestination = string;
+export type HeterogeneousTargetDatabaseEngine = string;
+export type HomogeneousTargetDatabaseEngine = string;
+export type TargetDatabaseEngine = string;
+export type AppUnitErrorCategory = string;
+export type AnalysisType = string;
+export type ServerErrorCategory = string;
+export type TranformationToolDescription = string;
+export type TranformationToolInstallationLink = string;
+export type OSType = string;
+export type OSVersion = string;
+export type InterfaceName = string;
+export type IPAddress = string;
+export type MacAddress = string;
+export type NetMask = string;
+export type AuthType = string;
+export type VersionControlType = string;
+export type PipelineType = string;
+export type BinaryAnalyzerName = string;
+export type RunTimeAnalyzerName = string;
+export type SourceCodeAnalyzerName = string;
 
 //# Schemas
 export interface GetLatestAssessmentIdRequest {}
@@ -591,6 +674,10 @@ export const NoManagementPreference = S.suspend(() =>
 ).annotations({
   identifier: "NoManagementPreference",
 }) as any as S.Schema<NoManagementPreference>;
+export type ManagementPreference =
+  | { awsManagedResources: AwsManagedResources }
+  | { selfManageResources: SelfManageResources }
+  | { noPreference: NoManagementPreference };
 export const ManagementPreference = S.Union(
   S.Struct({ awsManagedResources: AwsManagedResources }),
   S.Struct({ selfManageResources: SelfManageResources }),
@@ -634,6 +721,10 @@ export const NoDatabaseMigrationPreference = S.suspend(() =>
 ).annotations({
   identifier: "NoDatabaseMigrationPreference",
 }) as any as S.Schema<NoDatabaseMigrationPreference>;
+export type DatabaseMigrationPreference =
+  | { heterogeneous: Heterogeneous }
+  | { homogeneous: Homogeneous }
+  | { noPreference: NoDatabaseMigrationPreference };
 export const DatabaseMigrationPreference = S.Union(
   S.Struct({ heterogeneous: Heterogeneous }),
   S.Struct({ homogeneous: Homogeneous }),
@@ -1358,10 +1449,17 @@ export interface AppUnitError {
 export const AppUnitError = S.suspend(() =>
   S.Struct({ appUnitErrorCategory: S.optional(S.String) }),
 ).annotations({ identifier: "AppUnitError" }) as any as S.Schema<AppUnitError>;
+export type AnalysisStatusUnion =
+  | { runtimeAnalysisStatus: string }
+  | { srcCodeOrDbAnalysisStatus: string };
 export const AnalysisStatusUnion = S.Union(
   S.Struct({ runtimeAnalysisStatus: S.String }),
   S.Struct({ srcCodeOrDbAnalysisStatus: S.String }),
 );
+export type AnalyzerNameUnion =
+  | { binaryAnalyzerName: string }
+  | { runTimeAnalyzerName: string }
+  | { sourceCodeAnalyzerName: string };
 export const AnalyzerNameUnion = S.Union(
   S.Struct({ binaryAnalyzerName: S.String }),
   S.Struct({ runTimeAnalyzerName: S.String }),
@@ -1764,11 +1862,15 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class DependencyException extends S.TaggedError<DependencyException>()(
   "DependencyException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String },
@@ -1780,7 +1882,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },
@@ -1799,20 +1903,38 @@ export class ServiceLinkedRoleLockClientException extends S.TaggedError<ServiceL
  * Retrieves a list of all the recommended strategies and tools for an application component
  * running on a server.
  */
-export const getApplicationComponentStrategies =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetApplicationComponentStrategiesRequest,
-    output: GetApplicationComponentStrategiesResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const getApplicationComponentStrategies: (
+  input: GetApplicationComponentStrategiesRequest,
+) => Effect.Effect<
+  GetApplicationComponentStrategiesResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApplicationComponentStrategiesRequest,
+  output: GetApplicationComponentStrategiesResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves the status of an on-going assessment.
  */
-export const getAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAssessment: (
+  input: GetAssessmentRequest,
+) => Effect.Effect<
+  GetAssessmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssessmentRequest,
   output: GetAssessmentResponse,
   errors: [
@@ -1826,7 +1948,16 @@ export const getAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves overall summary including the number of servers to rehost and the overall
  * number of anti-patterns.
  */
-export const getPortfolioSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPortfolioSummary: (
+  input: GetPortfolioSummaryRequest,
+) => Effect.Effect<
+  GetPortfolioSummaryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPortfolioSummaryRequest,
   output: GetPortfolioSummaryResponse,
   errors: [AccessDeniedException, InternalServerException, ThrottlingException],
@@ -1834,7 +1965,17 @@ export const getPortfolioSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts the assessment of an on-premises environment.
  */
-export const startAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startAssessment: (
+  input: StartAssessmentRequest,
+) => Effect.Effect<
+  StartAssessmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAssessmentRequest,
   output: StartAssessmentResponse,
   errors: [
@@ -1847,57 +1988,116 @@ export const startAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve the latest ID of a specific assessment task.
  */
-export const getLatestAssessmentId = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLatestAssessmentIdRequest,
-    output: GetLatestAssessmentIdResponse,
-    errors: [
-      AccessDeniedException,
-      DependencyException,
-      InternalServerException,
-      ValidationException,
-    ],
-  }),
-);
+export const getLatestAssessmentId: (
+  input: GetLatestAssessmentIdRequest,
+) => Effect.Effect<
+  GetLatestAssessmentIdResponse,
+  | AccessDeniedException
+  | DependencyException
+  | InternalServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLatestAssessmentIdRequest,
+  output: GetLatestAssessmentIdResponse,
+  errors: [
+    AccessDeniedException,
+    DependencyException,
+    InternalServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves your migration and modernization preferences.
  */
-export const getPortfolioPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPortfolioPreferencesRequest,
-    output: GetPortfolioPreferencesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getPortfolioPreferences: (
+  input: GetPortfolioPreferencesRequest,
+) => Effect.Effect<
+  GetPortfolioPreferencesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPortfolioPreferencesRequest,
+  output: GetPortfolioPreferencesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves a list of all the application components (processes).
  */
-export const listApplicationComponents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApplicationComponents: {
+  (
     input: ListApplicationComponentsRequest,
-    output: ListApplicationComponentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceLinkedRoleLockClientException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "applicationComponentInfos",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListApplicationComponentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceLinkedRoleLockClientException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationComponentsRequest,
+  ) => Stream.Stream<
+    ListApplicationComponentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceLinkedRoleLockClientException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationComponentsRequest,
+  ) => Stream.Stream<
+    ApplicationComponentDetail,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceLinkedRoleLockClientException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationComponentsRequest,
+  output: ListApplicationComponentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceLinkedRoleLockClientException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "applicationComponentInfos",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Stops the assessment of an on-premises environment.
  */
-export const stopAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopAssessment: (
+  input: StopAssessmentRequest,
+) => Effect.Effect<
+  StopAssessmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopAssessmentRequest,
   output: StopAssessmentResponse,
   errors: [
@@ -1910,23 +2110,43 @@ export const stopAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Saves the specified migration and modernization preferences.
  */
-export const putPortfolioPreferences = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutPortfolioPreferencesRequest,
-    output: PutPortfolioPreferencesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putPortfolioPreferences: (
+  input: PutPortfolioPreferencesRequest,
+) => Effect.Effect<
+  PutPortfolioPreferencesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutPortfolioPreferencesRequest,
+  output: PutPortfolioPreferencesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Starts a file import.
  */
-export const startImportFileTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startImportFileTask: (
+  input: StartImportFileTaskRequest,
+) => Effect.Effect<
+  StartImportFileTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImportFileTaskRequest,
   output: StartImportFileTaskResponse,
   errors: [
@@ -1940,7 +2160,18 @@ export const startImportFileTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the details about a specific import task.
  */
-export const getImportFileTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getImportFileTask: (
+  input: GetImportFileTaskRequest,
+) => Effect.Effect<
+  GetImportFileTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImportFileTaskRequest,
   output: GetImportFileTaskResponse,
   errors: [
@@ -1954,36 +2185,66 @@ export const getImportFileTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the configuration of an application component.
  */
-export const updateApplicationComponentConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateApplicationComponentConfigRequest,
-    output: UpdateApplicationComponentConfigResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateApplicationComponentConfig: (
+  input: UpdateApplicationComponentConfigRequest,
+) => Effect.Effect<
+  UpdateApplicationComponentConfigResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApplicationComponentConfigRequest,
+  output: UpdateApplicationComponentConfigResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves detailed information about the specified recommendation report.
  */
-export const getRecommendationReportDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRecommendationReportDetailsRequest,
-    output: GetRecommendationReportDetailsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getRecommendationReportDetails: (
+  input: GetRecommendationReportDetailsRequest,
+) => Effect.Effect<
+  GetRecommendationReportDetailsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRecommendationReportDetailsRequest,
+  output: GetRecommendationReportDetailsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves recommended strategies and tools for the specified server.
  */
-export const getServerStrategies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getServerStrategies: (
+  input: GetServerStrategiesRequest,
+) => Effect.Effect<
+  GetServerStrategiesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServerStrategiesRequest,
   output: GetServerStrategiesResponse,
   errors: [
@@ -1997,84 +2258,201 @@ export const getServerStrategies = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of all the servers.
  */
-export const listServers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listServers: {
+  (
     input: ListServersRequest,
-    output: ListServersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "serverInfos",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListServersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServersRequest,
+  ) => Stream.Stream<
+    ListServersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServersRequest,
+  ) => Stream.Stream<
+    ServerDetail,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServersRequest,
+  output: ListServersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "serverInfos",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector.
  */
-export const listAnalyzableServers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAnalyzableServers: {
+  (
     input: ListAnalyzableServersRequest,
-    output: ListAnalyzableServersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "analyzableServers",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAnalyzableServersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAnalyzableServersRequest,
+  ) => Stream.Stream<
+    ListAnalyzableServersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAnalyzableServersRequest,
+  ) => Stream.Stream<
+    AnalyzableServerSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAnalyzableServersRequest,
+  output: ListAnalyzableServersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "analyzableServers",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of all the imports performed.
  */
-export const listImportFileTask = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listImportFileTask: {
+  (
     input: ListImportFileTaskRequest,
-    output: ListImportFileTaskResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "taskInfos",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListImportFileTaskResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImportFileTaskRequest,
+  ) => Stream.Stream<
+    ListImportFileTaskResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImportFileTaskRequest,
+  ) => Stream.Stream<
+    ImportFileTaskInformation,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImportFileTaskRequest,
+  output: ListImportFileTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "taskInfos",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Starts generating a recommendation report.
  */
-export const startRecommendationReportGeneration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartRecommendationReportGenerationRequest,
-    output: StartRecommendationReportGenerationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startRecommendationReportGeneration: (
+  input: StartRecommendationReportGenerationRequest,
+) => Effect.Effect<
+  StartRecommendationReportGenerationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartRecommendationReportGenerationRequest,
+  output: StartRecommendationReportGenerationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the configuration of the specified server.
  */
-export const updateServerConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateServerConfig: (
+  input: UpdateServerConfigRequest,
+) => Effect.Effect<
+  UpdateServerConfigResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServerConfigRequest,
   output: UpdateServerConfigResponse,
   errors: [
@@ -2087,56 +2465,131 @@ export const updateServerConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a specified server.
  */
-export const getServerDetails = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getServerDetails: {
+  (
     input: GetServerDetailsRequest,
-    output: GetServerDetailsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "associatedApplications",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetServerDetailsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetServerDetailsRequest,
+  ) => Stream.Stream<
+    GetServerDetailsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetServerDetailsRequest,
+  ) => Stream.Stream<
+    AssociatedApplication,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetServerDetailsRequest,
+  output: GetServerDetailsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "associatedApplications",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of all the installed collectors.
  */
-export const listCollectors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCollectors: {
+  (
     input: ListCollectorsRequest,
-    output: ListCollectorsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "Collectors",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCollectorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCollectorsRequest,
+  ) => Stream.Stream<
+    ListCollectorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCollectorsRequest,
+  ) => Stream.Stream<
+    Collector,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCollectorsRequest,
+  output: ListCollectorsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "Collectors",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves details about an application component.
  */
-export const getApplicationComponentDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetApplicationComponentDetailsRequest,
-    output: GetApplicationComponentDetailsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const getApplicationComponentDetails: (
+  input: GetApplicationComponentDetailsRequest,
+) => Effect.Effect<
+  GetApplicationComponentDetailsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApplicationComponentDetailsRequest,
+  output: GetApplicationComponentDetailsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));

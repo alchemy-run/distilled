@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "SSM Incidents",
   serviceShapeName: "SSMIncidents",
@@ -240,6 +248,48 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type FindingId = string;
+export type ClientToken = string;
+export type ResponsePlanName = string;
+export type ResponsePlanDisplayName = string;
+export type SsmContactsArn = string;
+export type TimelineEventType = string;
+export type EventData = string;
+export type PolicyId = string;
+export type UUID = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type TimelineEventSort = string;
+export type SortOrder = string;
+export type Policy = string;
+export type IncidentTitle = string;
+export type Impact = number;
+export type TagKey = string;
+export type IncidentSummary = string;
+export type IncidentRecordStatus = string;
+export type DedupeString = string;
+export type RegionName = string;
+export type TagValue = string;
+export type SnsArn = string;
+export type GeneratedId = string;
+export type IncidentSource = string;
+export type RawData = string;
+export type ExceptionMessage = string;
+export type SseKmsKey = string;
+export type RoleArn = string;
+export type SsmTargetAccount = string;
+export type ItemType = string;
+export type ReplicationSetStatus = string;
+export type Url = string;
+export type MetricDefinition = string;
+export type ResourceType = string;
+export type ServicePrincipal = string;
+export type VariableType = string;
+export type RegionStatus = string;
+export type ServiceCode = string;
 
 //# Schemas
 export type FindingIdList = string[];
@@ -587,10 +637,17 @@ export type StringList = string[];
 export const StringList = S.Array(S.String);
 export type IntegerList = number[];
 export const IntegerList = S.Array(S.Number);
+export type AttributeValueList =
+  | { stringValues: StringList }
+  | { integerValues: IntegerList };
 export const AttributeValueList = S.Union(
   S.Struct({ stringValues: StringList }),
   S.Struct({ integerValues: IntegerList }),
 );
+export type Condition =
+  | { before: Date }
+  | { after: Date }
+  | { equals: (typeof AttributeValueList)["Type"] };
 export const Condition = S.Union(
   S.Struct({ before: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
   S.Struct({ after: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
@@ -733,6 +790,7 @@ export const UpdateDeletionProtectionOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDeletionProtectionOutput",
 }) as any as S.Schema<UpdateDeletionProtectionOutput>;
+export type EventReference = { resource: string } | { relatedItemId: string };
 export const EventReference = S.Union(
   S.Struct({ resource: S.String }),
   S.Struct({ relatedItemId: S.String }),
@@ -782,6 +840,7 @@ export const EmptyChatChannel = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<EmptyChatChannel>;
 export type ChatbotSnsConfigurationSet = string[];
 export const ChatbotSnsConfigurationSet = S.Array(S.String);
+export type NotificationTargetItem = { snsTopicArn: string };
 export const NotificationTargetItem = S.Union(
   S.Struct({ snsTopicArn: S.String }),
 );
@@ -807,6 +866,9 @@ export const IncidentTemplate = S.suspend(() =>
 ).annotations({
   identifier: "IncidentTemplate",
 }) as any as S.Schema<IncidentTemplate>;
+export type ChatChannel =
+  | { empty: EmptyChatChannel }
+  | { chatbotSns: ChatbotSnsConfigurationSet };
 export const ChatChannel = S.Union(
   S.Struct({ empty: EmptyChatChannel }),
   S.Struct({ chatbotSns: ChatbotSnsConfigurationSet }),
@@ -843,6 +905,11 @@ export const PagerDutyIncidentDetail = S.suspend(() =>
 ).annotations({
   identifier: "PagerDutyIncidentDetail",
 }) as any as S.Schema<PagerDutyIncidentDetail>;
+export type ItemValue =
+  | { arn: string }
+  | { url: string }
+  | { metricDefinition: string }
+  | { pagerDutyIncidentDetail: PagerDutyIncidentDetail };
 export const ItemValue = S.Union(
   S.Struct({ arn: S.String }),
   S.Struct({ url: S.String }),
@@ -870,6 +937,9 @@ export const RelatedItem = S.suspend(() =>
     generatedId: S.optional(S.String),
   }),
 ).annotations({ identifier: "RelatedItem" }) as any as S.Schema<RelatedItem>;
+export type RelatedItemsUpdate =
+  | { itemToAdd: RelatedItem }
+  | { itemToRemove: ItemIdentifier };
 export const RelatedItemsUpdate = S.Union(
   S.Struct({ itemToAdd: RelatedItem }),
   S.Struct({ itemToRemove: ItemIdentifier }),
@@ -912,6 +982,7 @@ export const SsmParameters = S.Record({
   key: S.String,
   value: SsmParameterValues,
 });
+export type DynamicSsmParameterValue = { variable: string };
 export const DynamicSsmParameterValue = S.Union(
   S.Struct({ variable: S.String }),
 );
@@ -942,6 +1013,7 @@ export const SsmAutomation = S.suspend(() =>
 ).annotations({
   identifier: "SsmAutomation",
 }) as any as S.Schema<SsmAutomation>;
+export type Action = { ssmAutomation: SsmAutomation };
 export const Action = S.Union(S.Struct({ ssmAutomation: SsmAutomation }));
 export type ActionsList = (typeof Action)["Type"][];
 export const ActionsList = S.Array(Action);
@@ -967,6 +1039,7 @@ export const PagerDutyConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "PagerDutyConfiguration",
 }) as any as S.Schema<PagerDutyConfiguration>;
+export type Integration = { pagerDutyConfiguration: PagerDutyConfiguration };
 export const Integration = S.Union(
   S.Struct({ pagerDutyConfiguration: PagerDutyConfiguration }),
 );
@@ -1284,6 +1357,9 @@ export const EventSummary = S.suspend(() =>
 ).annotations({ identifier: "EventSummary" }) as any as S.Schema<EventSummary>;
 export type EventSummaryList = EventSummary[];
 export const EventSummaryList = S.Array(EventSummary);
+export type UpdateReplicationSetAction =
+  | { addRegionAction: AddRegionAction }
+  | { deleteRegionAction: DeleteRegionAction };
 export const UpdateReplicationSetAction = S.Union(
   S.Struct({ addRegionAction: AddRegionAction }),
   S.Struct({ deleteRegionAction: DeleteRegionAction }),
@@ -1404,6 +1480,7 @@ export const UpdateReplicationSetOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateReplicationSetOutput",
 }) as any as S.Schema<UpdateReplicationSetOutput>;
+export type AutomationExecution = { ssmExecutionArn: string };
 export const AutomationExecution = S.Union(
   S.Struct({ ssmExecutionArn: S.String }),
 );
@@ -1544,6 +1621,9 @@ export const ListIncidentRecordsInput = S.suspend(() =>
 ).annotations({
   identifier: "ListIncidentRecordsInput",
 }) as any as S.Schema<ListIncidentRecordsInput>;
+export type FindingDetails =
+  | { codeDeployDeployment: CodeDeployDeployment }
+  | { cloudFormationStackUpdate: CloudFormationStackUpdate };
 export const FindingDetails = S.Union(
   S.Struct({ codeDeployDeployment: CodeDeployDeployment }),
   S.Struct({ cloudFormationStackUpdate: CloudFormationStackUpdate }),
@@ -1735,7 +1815,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -1748,7 +1830,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String, serviceCode: S.String, quotaCode: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
@@ -1776,22 +1860,41 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Delete an incident record from Incident Manager.
  */
-export const deleteIncidentRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIncidentRecordInput,
-    output: DeleteIncidentRecordOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteIncidentRecord: (
+  input: DeleteIncidentRecordInput,
+) => Effect.Effect<
+  DeleteIncidentRecordOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIncidentRecordInput,
+  output: DeleteIncidentRecordOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieve your Incident Manager replication set.
  */
-export const getReplicationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getReplicationSet: (
+  input: GetReplicationSetInput,
+) => Effect.Effect<
+  GetReplicationSetOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReplicationSetInput,
   output: GetReplicationSetOutput,
   errors: [
@@ -1805,7 +1908,20 @@ export const getReplicationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds a tag to a response plan.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1821,112 +1937,287 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the resource policies attached to the specified response plan.
  */
-export const getResourcePolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getResourcePolicies: {
+  (
     input: GetResourcePoliciesInput,
-    output: GetResourcePoliciesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "resourcePolicies",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetResourcePoliciesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetResourcePoliciesInput,
+  ) => Stream.Stream<
+    GetResourcePoliciesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetResourcePoliciesInput,
+  ) => Stream.Stream<
+    ResourcePolicy,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetResourcePoliciesInput,
+  output: GetResourcePoliciesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "resourcePolicies",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all response plans in your account.
  */
-export const listResponsePlans = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listResponsePlans: {
+  (
     input: ListResponsePlansInput,
-    output: ListResponsePlansOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "responsePlanSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListResponsePlansOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResponsePlansInput,
+  ) => Stream.Stream<
+    ListResponsePlansOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResponsePlansInput,
+  ) => Stream.Stream<
+    ResponsePlanSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResponsePlansInput,
+  output: ListResponsePlansOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "responsePlanSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists timeline events for the specified incident record.
  */
-export const listTimelineEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTimelineEvents: {
+  (
     input: ListTimelineEventsInput,
-    output: ListTimelineEventsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "eventSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTimelineEventsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTimelineEventsInput,
+  ) => Stream.Stream<
+    ListTimelineEventsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTimelineEventsInput,
+  ) => Stream.Stream<
+    EventSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTimelineEventsInput,
+  output: ListTimelineEventsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "eventSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List all related items for an incident record.
  */
-export const listRelatedItems = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRelatedItems: {
+  (
     input: ListRelatedItemsInput,
-    output: ListRelatedItemsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "relatedItems",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRelatedItemsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRelatedItemsInput,
+  ) => Stream.Stream<
+    ListRelatedItemsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRelatedItemsInput,
+  ) => Stream.Stream<
+    RelatedItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRelatedItemsInput,
+  output: ListRelatedItemsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "relatedItems",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists details about the replication set configured in your account.
  */
-export const listReplicationSets =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listReplicationSets: {
+  (
     input: ListReplicationSetsInput,
-    output: ListReplicationSetsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "replicationSetArns",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListReplicationSetsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReplicationSetsInput,
+  ) => Stream.Stream<
+    ListReplicationSetsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReplicationSetsInput,
+  ) => Stream.Stream<
+    Arn,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReplicationSetsInput,
+  output: ListReplicationSetsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "replicationSetArns",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes the specified response plan. Deleting a response plan stops all linked CloudWatch alarms and EventBridge events from creating an incident with this response
  * plan.
  */
-export const deleteResponsePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteResponsePlan: (
+  input: DeleteResponsePlanInput,
+) => Effect.Effect<
+  DeleteResponsePlanOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteResponsePlanInput,
   output: DeleteResponsePlanOutput,
   errors: [
@@ -1939,7 +2230,17 @@ export const deleteResponsePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a timeline event from an incident.
  */
-export const deleteTimelineEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTimelineEvent: (
+  input: DeleteTimelineEventInput,
+) => Effect.Effect<
+  DeleteTimelineEventOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTimelineEventInput,
   output: DeleteTimelineEventOutput,
   errors: [
@@ -1952,7 +2253,18 @@ export const deleteTimelineEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a timeline event based on its ID and incident record.
  */
-export const getTimelineEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTimelineEvent: (
+  input: GetTimelineEventInput,
+) => Effect.Effect<
+  GetTimelineEventOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTimelineEventInput,
   output: GetTimelineEventOutput,
   errors: [
@@ -1969,64 +2281,131 @@ export const getTimelineEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * change made by an CloudFormation stack creation or update or an CodeDeploy
  * deployment that can be investigated as a potential cause of the incident.
  */
-export const listIncidentFindings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIncidentFindings: {
+  (
     input: ListIncidentFindingsInput,
-    output: ListIncidentFindingsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "findings",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIncidentFindingsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIncidentFindingsInput,
+  ) => Stream.Stream<
+    ListIncidentFindingsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIncidentFindingsInput,
+  ) => Stream.Stream<
+    FindingSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIncidentFindingsInput,
+  output: ListIncidentFindingsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "findings",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Update the details of an incident record. You can use this operation to update an incident
  * record from the defined chat channel. For more information about using actions in chat
  * channels, see Interacting through chat.
  */
-export const updateIncidentRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIncidentRecordInput,
-    output: UpdateIncidentRecordOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateIncidentRecord: (
+  input: UpdateIncidentRecordInput,
+) => Effect.Effect<
+  UpdateIncidentRecordOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIncidentRecordInput,
+  output: UpdateIncidentRecordOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Add or delete Regions from your replication set.
  */
-export const updateReplicationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateReplicationSetInput,
-    output: UpdateReplicationSetOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateReplicationSet: (
+  input: UpdateReplicationSetInput,
+) => Effect.Effect<
+  UpdateReplicationSetOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateReplicationSetInput,
+  output: UpdateReplicationSetOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the details of the specified response plan.
  */
-export const getResponsePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResponsePlan: (
+  input: GetResponsePlanInput,
+) => Effect.Effect<
+  GetResponsePlanOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResponsePlanInput,
   output: GetResponsePlanOutput,
   errors: [
@@ -2040,7 +2419,18 @@ export const getResponsePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags that are attached to the specified response plan or incident.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2056,7 +2446,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * share the response plan using Resource Access Manager (RAM). For more
  * information about cross-account sharing, see Cross-Region and cross-account incident management.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyInput,
+) => Effect.Effect<
+  PutResourcePolicyOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyInput,
   output: PutResourcePolicyOutput,
   errors: [
@@ -2071,57 +2472,96 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes all Regions in your replication set. Deleting the replication set deletes all
  * Incident Manager data.
  */
-export const deleteReplicationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteReplicationSetInput,
-    output: DeleteReplicationSetOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteReplicationSet: (
+  input: DeleteReplicationSetInput,
+) => Effect.Effect<
+  DeleteReplicationSetOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReplicationSetInput,
+  output: DeleteReplicationSetOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the resource policy that Resource Access Manager uses to share your Incident Manager
  * resource.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyInput,
-    output: DeleteResourcePolicyOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyInput,
+) => Effect.Effect<
+  DeleteResourcePolicyOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyInput,
+  output: DeleteResourcePolicyOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update deletion protection to either allow or deny deletion of the final Region in a
  * replication set.
  */
-export const updateDeletionProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDeletionProtectionInput,
-    output: UpdateDeletionProtectionOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateDeletionProtection: (
+  input: UpdateDeletionProtectionInput,
+) => Effect.Effect<
+  UpdateDeletionProtectionOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDeletionProtectionInput,
+  output: UpdateDeletionProtectionOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Add or remove related items from the related items tab of an incident record.
  */
-export const updateRelatedItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRelatedItems: (
+  input: UpdateRelatedItemsInput,
+) => Effect.Effect<
+  UpdateRelatedItemsOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRelatedItemsInput,
   output: UpdateRelatedItemsOutput,
   errors: [
@@ -2136,7 +2576,19 @@ export const updateRelatedItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified response plan.
  */
-export const updateResponsePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateResponsePlan: (
+  input: UpdateResponsePlanInput,
+) => Effect.Effect<
+  UpdateResponsePlanOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateResponsePlanInput,
   output: UpdateResponsePlanOutput,
   errors: [
@@ -2151,7 +2603,19 @@ export const updateResponsePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2166,7 +2630,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a timeline event. You can update events of type `Custom Event`.
  */
-export const updateTimelineEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTimelineEvent: (
+  input: UpdateTimelineEventInput,
+) => Effect.Effect<
+  UpdateTimelineEventOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTimelineEventInput,
   output: UpdateTimelineEventOutput,
   errors: [
@@ -2184,7 +2660,19 @@ export const updateTimelineEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can create custom timeline events to mark important events that Incident Manager can detect
  * automatically.
  */
-export const createTimelineEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTimelineEvent: (
+  input: CreateTimelineEventInput,
+) => Effect.Effect<
+  CreateTimelineEventOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTimelineEventInput,
   output: CreateTimelineEventOutput,
   errors: [
@@ -2199,7 +2687,18 @@ export const createTimelineEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the details for the specified incident record.
  */
-export const getIncidentRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIncidentRecord: (
+  input: GetIncidentRecordInput,
+) => Effect.Effect<
+  GetIncidentRecordOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIncidentRecordInput,
   output: GetIncidentRecordOutput,
   errors: [
@@ -2216,43 +2715,74 @@ export const getIncidentRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * deployment or an CloudFormation stack creation or update that can be investigated as a
  * potential cause of the incident.
  */
-export const batchGetIncidentFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetIncidentFindingsInput,
-    output: BatchGetIncidentFindingsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchGetIncidentFindings: (
+  input: BatchGetIncidentFindingsInput,
+) => Effect.Effect<
+  BatchGetIncidentFindingsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetIncidentFindingsInput,
+  output: BatchGetIncidentFindingsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * A replication set replicates and encrypts your data to the provided Regions with the
  * provided KMS key.
  */
-export const createReplicationSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateReplicationSetInput,
-    output: CreateReplicationSetOutput,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createReplicationSet: (
+  input: CreateReplicationSetInput,
+) => Effect.Effect<
+  CreateReplicationSetOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateReplicationSetInput,
+  output: CreateReplicationSetOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a response plan that automates the initial response to incidents. A response plan
  * engages contacts, starts chat channel collaboration, and initiates runbooks at the beginning
  * of an incident.
  */
-export const createResponsePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createResponsePlan: (
+  input: CreateResponsePlanInput,
+) => Effect.Effect<
+  CreateResponsePlanOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResponsePlanInput,
   output: CreateResponsePlanOutput,
   errors: [
@@ -2268,28 +2798,73 @@ export const createResponsePlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists all incident records in your account. Use this command to retrieve the Amazon
  * Resource Name (ARN) of the incident record you want to update.
  */
-export const listIncidentRecords =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIncidentRecords: {
+  (
     input: ListIncidentRecordsInput,
-    output: ListIncidentRecordsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "incidentRecordSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIncidentRecordsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIncidentRecordsInput,
+  ) => Stream.Stream<
+    ListIncidentRecordsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIncidentRecordsInput,
+  ) => Stream.Stream<
+    IncidentRecordSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIncidentRecordsInput,
+  output: ListIncidentRecordsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "incidentRecordSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Used to start an incident from CloudWatch alarms, EventBridge events, or
  * manually.
  */
-export const startIncident = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startIncident: (
+  input: StartIncidentInput,
+) => Effect.Effect<
+  StartIncidentOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartIncidentInput,
   output: StartIncidentOutput,
   errors: [

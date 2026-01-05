@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("https://mediastore.amazonaws.com/doc/2017-09-01");
 const svc = T.AwsApiService({
   sdkId: "MediaStore",
@@ -241,6 +249,23 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ContainerName = string;
+export type PaginationToken = string;
+export type ContainerListLimit = number;
+export type ContainerARN = string;
+export type ContainerPolicy = string;
+export type LifecyclePolicy = string;
+export type TagKey = string;
+export type TagValue = string;
+export type Origin = string;
+export type Header = string;
+export type MaxAgeSeconds = number;
+export type ErrorMessage = string;
+export type ObjectGroup = string;
+export type ObjectGroupName = string;
+export type Endpoint = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -896,22 +921,51 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
  * See also DescribeContainer, which gets the properties of one
  * container.
  */
-export const listContainers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listContainers: {
+  (
     input: ListContainersInput,
-    output: ListContainersOutput,
-    errors: [InternalServerError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListContainersOutput,
+    InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContainersInput,
+  ) => Stream.Stream<
+    ListContainersOutput,
+    InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContainersInput,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerError | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContainersInput,
+  output: ListContainersOutput,
+  errors: [InternalServerError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * The metric policy that you want to add to the container. A metric policy allows AWS Elemental MediaStore to send metrics to Amazon CloudWatch. It takes up to 20 minutes for the new policy to take effect.
  */
-export const putMetricPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putMetricPolicy: (
+  input: PutMetricPolicyInput,
+) => Effect.Effect<
+  PutMetricPolicyOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMetricPolicyInput,
   output: PutMetricPolicyOutput,
   errors: [
@@ -923,7 +977,16 @@ export const putMetricPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the tags assigned to the specified container.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -947,7 +1010,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To learn more about CORS, see Cross-Origin Resource Sharing (CORS) in AWS Elemental MediaStore.
  */
-export const putCorsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putCorsPolicy: (
+  input: PutCorsPolicyInput,
+) => Effect.Effect<
+  PutCorsPolicyOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutCorsPolicyInput,
   output: PutCorsPolicyOutput,
   errors: [
@@ -966,7 +1038,16 @@ export const putCorsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * you enter `PutContainerPolicy` twice, the second command modifies the existing
  * policy.
  */
-export const putContainerPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putContainerPolicy: (
+  input: PutContainerPolicyInput,
+) => Effect.Effect<
+  PutContainerPolicyOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutContainerPolicyInput,
   output: PutContainerPolicyOutput,
   errors: [
@@ -980,7 +1061,16 @@ export const putContainerPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For information about how to construct an object lifecycle policy, see Components of an Object Lifecycle Policy.
  */
-export const putLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putLifecyclePolicy: (
+  input: PutLifecyclePolicyInput,
+) => Effect.Effect<
+  PutLifecyclePolicyOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLifecyclePolicyInput,
   output: PutLifecyclePolicyOutput,
   errors: [
@@ -992,7 +1082,16 @@ export const putLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts access logging on the specified container. When you enable access logging on a container, MediaStore delivers access logs for objects stored in that container to Amazon CloudWatch Logs.
  */
-export const startAccessLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startAccessLogging: (
+  input: StartAccessLoggingInput,
+) => Effect.Effect<
+  StartAccessLoggingOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAccessLoggingInput,
   output: StartAccessLoggingOutput,
   errors: [
@@ -1004,7 +1103,16 @@ export const startAccessLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops access logging on the specified container. When you stop access logging on a container, MediaStore stops sending access logs to Amazon CloudWatch Logs. These access logs are not saved and are not retrievable.
  */
-export const stopAccessLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopAccessLogging: (
+  input: StopAccessLoggingInput,
+) => Effect.Effect<
+  StopAccessLoggingOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopAccessLoggingInput,
   output: StopAccessLoggingOutput,
   errors: [
@@ -1018,7 +1126,16 @@ export const stopAccessLogging = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * tag key might be "customer" and the tag value might be "companyA." You can specify one or more tags to add to each container. You can add up to 50
  * tags to each container. For more information about tagging, including naming and usage conventions, see Tagging Resources in MediaStore.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -1030,7 +1147,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from the specified container. You can specify one or more tags to remove.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -1044,7 +1170,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * request, delete any objects in the container or in any folders in the container. You can
  * delete only empty containers.
  */
-export const deleteContainer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteContainer: (
+  input: DeleteContainerInput,
+) => Effect.Effect<
+  DeleteContainerOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContainerInput,
   output: DeleteContainerOutput,
   errors: [
@@ -1062,7 +1197,13 @@ export const deleteContainer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `Container` objects that are associated with a specified AWS account, use
  * ListContainers.
  */
-export const describeContainer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeContainer: (
+  input: DescribeContainerInput,
+) => Effect.Effect<
+  DescribeContainerOutput,
+  ContainerNotFoundException | InternalServerError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeContainerInput,
   output: DescribeContainerOutput,
   errors: [ContainerNotFoundException, InternalServerError],
@@ -1072,7 +1213,17 @@ export const describeContainer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * data that is included in an access policy, see the AWS Identity and Access Management User
  * Guide.
  */
-export const getContainerPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getContainerPolicy: (
+  input: GetContainerPolicyInput,
+) => Effect.Effect<
+  GetContainerPolicyOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | PolicyNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContainerPolicyInput,
   output: GetContainerPolicyOutput,
   errors: [
@@ -1090,7 +1241,17 @@ export const getContainerPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `MediaStore:GetCorsPolicy` action. By default, the container owner has this
  * permission and can grant it to others.
  */
-export const getCorsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCorsPolicy: (
+  input: GetCorsPolicyInput,
+) => Effect.Effect<
+  GetCorsPolicyOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | CorsPolicyNotFoundException
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCorsPolicyInput,
   output: GetCorsPolicyOutput,
   errors: [
@@ -1104,7 +1265,16 @@ export const getCorsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a storage container to hold objects. A container is similar to a bucket in
  * the Amazon S3 service.
  */
-export const createContainer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createContainer: (
+  input: CreateContainerInput,
+) => Effect.Effect<
+  CreateContainerOutput,
+  | ContainerInUseException
+  | InternalServerError
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContainerInput,
   output: CreateContainerOutput,
   errors: [
@@ -1116,7 +1286,17 @@ export const createContainer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the object lifecycle policy that is assigned to a container.
  */
-export const getLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLifecyclePolicy: (
+  input: GetLifecyclePolicyInput,
+) => Effect.Effect<
+  GetLifecyclePolicyOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | PolicyNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLifecyclePolicyInput,
   output: GetLifecyclePolicyOutput,
   errors: [
@@ -1129,7 +1309,17 @@ export const getLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the metric policy for the specified container.
  */
-export const getMetricPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMetricPolicy: (
+  input: GetMetricPolicyInput,
+) => Effect.Effect<
+  GetMetricPolicyOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | PolicyNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetricPolicyInput,
   output: GetMetricPolicyOutput,
   errors: [
@@ -1142,37 +1332,63 @@ export const getMetricPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the access policy that is associated with the specified container.
  */
-export const deleteContainerPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContainerPolicyInput,
-    output: DeleteContainerPolicyOutput,
-    errors: [
-      ContainerInUseException,
-      ContainerNotFoundException,
-      InternalServerError,
-      PolicyNotFoundException,
-    ],
-  }),
-);
+export const deleteContainerPolicy: (
+  input: DeleteContainerPolicyInput,
+) => Effect.Effect<
+  DeleteContainerPolicyOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | PolicyNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContainerPolicyInput,
+  output: DeleteContainerPolicyOutput,
+  errors: [
+    ContainerInUseException,
+    ContainerNotFoundException,
+    InternalServerError,
+    PolicyNotFoundException,
+  ],
+}));
 /**
  * Removes an object lifecycle policy from a container. It takes up to 20 minutes for the change to take effect.
  */
-export const deleteLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLifecyclePolicyInput,
-    output: DeleteLifecyclePolicyOutput,
-    errors: [
-      ContainerInUseException,
-      ContainerNotFoundException,
-      InternalServerError,
-      PolicyNotFoundException,
-    ],
-  }),
-);
+export const deleteLifecyclePolicy: (
+  input: DeleteLifecyclePolicyInput,
+) => Effect.Effect<
+  DeleteLifecyclePolicyOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | PolicyNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLifecyclePolicyInput,
+  output: DeleteLifecyclePolicyOutput,
+  errors: [
+    ContainerInUseException,
+    ContainerNotFoundException,
+    InternalServerError,
+    PolicyNotFoundException,
+  ],
+}));
 /**
  * Deletes the metric policy that is associated with the specified container. If there is no metric policy associated with the container, MediaStore doesn't send metrics to CloudWatch.
  */
-export const deleteMetricPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMetricPolicy: (
+  input: DeleteMetricPolicyInput,
+) => Effect.Effect<
+  DeleteMetricPolicyOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | InternalServerError
+  | PolicyNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMetricPolicyInput,
   output: DeleteMetricPolicyOutput,
   errors: [
@@ -1190,7 +1406,17 @@ export const deleteMetricPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `MediaStore:DeleteCorsPolicy` action. The container owner has this permission
  * by default and can grant this permission to others.
  */
-export const deleteCorsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCorsPolicy: (
+  input: DeleteCorsPolicyInput,
+) => Effect.Effect<
+  DeleteCorsPolicyOutput,
+  | ContainerInUseException
+  | ContainerNotFoundException
+  | CorsPolicyNotFoundException
+  | InternalServerError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCorsPolicyInput,
   output: DeleteCorsPolicyOutput,
   errors: [

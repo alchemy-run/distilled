@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "ManagedBlockchain",
   serviceShapeName: "TaigaWebService",
@@ -240,6 +248,33 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ClientRequestTokenString = string;
+export type ResourceIdString = string;
+export type NameString = string;
+export type DescriptionString = string;
+export type FrameworkVersionString = string;
+export type AccessorListMaxResults = number;
+export type PaginationToken = string;
+export type ProposalListMaxResults = number;
+export type MemberListMaxResults = number;
+export type NetworkListMaxResults = number;
+export type NodeListMaxResults = number;
+export type ArnString = string;
+export type TagKey = string;
+export type TagValue = string;
+export type NetworkMemberNameString = string;
+export type InstanceTypeString = string;
+export type AvailabilityZoneString = string;
+export type ThresholdPercentageInt = number;
+export type ProposalDurationInt = number;
+export type PrincipalString = string;
+export type AccessorBillingTokenString = string;
+export type VoteCount = number;
+export type UsernameString = string;
+export type PasswordString = string;
+export type ExceptionMessage = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -1664,7 +1699,9 @@ export const UpdateMemberOutput = S.suspend(() => S.Struct({})).annotations({
 export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
   "InternalServiceErrorException",
   {},
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { Message: S.optional(S.String) },
@@ -1676,7 +1713,9 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   {},
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String), ResourceName: S.optional(S.String) },
@@ -1692,7 +1731,9 @@ export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlread
 export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
   "ResourceLimitExceededException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotReadyException extends S.TaggedError<ResourceNotReadyException>()(
   "ResourceNotReadyException",
   { Message: S.optional(S.String) },
@@ -1707,74 +1748,204 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
  * Returns a list of the accessors and their properties. Accessor objects are containers that have the
  * information required for token based access to your Ethereum nodes.
  */
-export const listAccessors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAccessors: {
+  (
     input: ListAccessorsInput,
-    output: ListAccessorsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Accessors",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAccessorsOutput,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccessorsInput,
+  ) => Stream.Stream<
+    ListAccessorsOutput,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccessorsInput,
+  ) => Stream.Stream<
+    AccessorSummary,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccessorsInput,
+  output: ListAccessorsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Accessors",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of the members in a network and properties of their configurations.
  *
  * Applies only to Hyperledger Fabric.
  */
-export const listMembers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMembers: {
+  (
     input: ListMembersInput,
-    output: ListMembersOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMembersOutput,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMembersInput,
+  ) => Stream.Stream<
+    ListMembersOutput,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMembersInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMembersInput,
+  output: ListMembersOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about the networks in which the current Amazon Web Services account participates.
  *
  * Applies to Hyperledger Fabric and Ethereum.
  */
-export const listNetworks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listNetworks: {
+  (
     input: ListNetworksInput,
-    output: ListNetworksOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListNetworksOutput,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNetworksInput,
+  ) => Stream.Stream<
+    ListNetworksOutput,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNetworksInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNetworksInput,
+  output: ListNetworksOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about the nodes within a network.
  *
  * Applies to Hyperledger Fabric and Ethereum.
  */
-export const listNodes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listNodes: {
+  (
+    input: ListNodesInput,
+  ): Effect.Effect<
+    ListNodesOutput,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNodesInput,
+  ) => Stream.Stream<
+    ListNodesOutput,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNodesInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListNodesInput,
   output: ListNodesOutput,
   errors: [
@@ -1794,29 +1965,72 @@ export const listNodes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * Applies only to Hyperledger Fabric.
  */
-export const listProposalVotes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProposalVotes: {
+  (
     input: ListProposalVotesInput,
-    output: ListProposalVotesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProposalVotesOutput,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProposalVotesInput,
+  ) => Stream.Stream<
+    ListProposalVotesOutput,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProposalVotesInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProposalVotesInput,
+  output: ListProposalVotesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates a node configuration with new parameters.
  *
  * Applies only to Hyperledger Fabric.
  */
-export const updateNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateNode: (
+  input: UpdateNodeInput,
+) => Effect.Effect<
+  UpdateNodeOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNodeInput,
   output: UpdateNodeOutput,
   errors: [
@@ -1832,7 +2046,19 @@ export const updateNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Applies only to Hyperledger Fabric.
  */
-export const rejectInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rejectInvitation: (
+  input: RejectInvitationInput,
+) => Effect.Effect<
+  RejectInvitationOutput,
+  | AccessDeniedException
+  | IllegalActionException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectInvitationInput,
   output: RejectInvitationOutput,
   errors: [
@@ -1853,7 +2079,18 @@ export const rejectInvitation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * HTTP requests. However, WebSocket connections that were initiated while the accessor was in the
  * `AVAILABLE` state remain open until they expire (up to 2 hours).
  */
-export const deleteAccessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAccessor: (
+  input: DeleteAccessorInput,
+) => Effect.Effect<
+  DeleteAccessorOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessorInput,
   output: DeleteAccessorOutput,
   errors: [
@@ -1868,7 +2105,18 @@ export const deleteAccessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns detailed information about an accessor. An accessor object is a container that has the
  * information required for token based access to your Ethereum nodes.
  */
-export const getAccessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccessor: (
+  input: GetAccessorInput,
+) => Effect.Effect<
+  GetAccessorOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessorInput,
   output: GetAccessorOutput,
   errors: [
@@ -1884,7 +2132,18 @@ export const getAccessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Applies only to Hyperledger Fabric.
  */
-export const getProposal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getProposal: (
+  input: GetProposalInput,
+) => Effect.Effect<
+  GetProposalOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProposalInput,
   output: GetProposalOutput,
   errors: [
@@ -1900,30 +2159,77 @@ export const getProposal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Applies only to Hyperledger Fabric.
  */
-export const listProposals = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProposals: {
+  (
     input: ListProposalsInput,
-    output: ListProposalsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProposalsOutput,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProposalsInput,
+  ) => Stream.Stream<
+    ListProposalsOutput,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProposalsInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProposalsInput,
+  output: ListProposalsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Casts a vote for a specified `ProposalId` on behalf of a member. The member to vote as, specified by `VoterMemberId`, must be in the same Amazon Web Services account as the principal that calls the action.
  *
  * Applies only to Hyperledger Fabric.
  */
-export const voteOnProposal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const voteOnProposal: (
+  input: VoteOnProposalInput,
+) => Effect.Effect<
+  VoteOnProposalOutput,
+  | AccessDeniedException
+  | IllegalActionException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VoteOnProposalInput,
   output: VoteOnProposalOutput,
   errors: [
@@ -1940,31 +2246,81 @@ export const voteOnProposal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Applies only to Hyperledger Fabric.
  */
-export const listInvitations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listInvitations: {
+  (
     input: ListInvitationsInput,
-    output: ListInvitationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      InvalidRequestException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListInvitationsOutput,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceLimitExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInvitationsInput,
+  ) => Stream.Stream<
+    ListInvitationsOutput,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceLimitExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInvitationsInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceLimitExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInvitationsInput,
+  output: ListInvitationsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes a member. Deleting a member removes the member and all associated resources from the network. `DeleteMember` can only be called for a specified `MemberId` if the principal performing the action is associated with the Amazon Web Services account that owns the member. In all other cases, the `DeleteMember` action is carried out as the result of an approved proposal to remove a member. If `MemberId` is the last member in a network specified by the last Amazon Web Services account, the network is deleted also.
  *
  * Applies only to Hyperledger Fabric.
  */
-export const deleteMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMember: (
+  input: DeleteMemberInput,
+) => Effect.Effect<
+  DeleteMemberOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMemberInput,
   output: DeleteMemberOutput,
   errors: [
@@ -1981,7 +2337,19 @@ export const deleteMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Applies to Hyperledger Fabric and Ethereum.
  */
-export const deleteNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteNode: (
+  input: DeleteNodeInput,
+) => Effect.Effect<
+  DeleteNodeOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNodeInput,
   output: DeleteNodeOutput,
   errors: [
@@ -1998,7 +2366,17 @@ export const deleteNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2013,7 +2391,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2028,7 +2416,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Applies only to Hyperledger Fabric.
  */
-export const getMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMember: (
+  input: GetMemberInput,
+) => Effect.Effect<
+  GetMemberOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMemberInput,
   output: GetMemberOutput,
   errors: [
@@ -2044,7 +2443,18 @@ export const getMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Applies to Hyperledger Fabric and Ethereum.
  */
-export const getNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getNetwork: (
+  input: GetNetworkInput,
+) => Effect.Effect<
+  GetNetworkOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNetworkInput,
   output: GetNetworkOutput,
   errors: [
@@ -2060,7 +2470,18 @@ export const getNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Applies to Hyperledger Fabric and Ethereum.
  */
-export const getNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getNode: (
+  input: GetNodeInput,
+) => Effect.Effect<
+  GetNodeOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNodeInput,
   output: GetNodeOutput,
   errors: [
@@ -2080,7 +2501,18 @@ export const getNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2096,7 +2528,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Applies only to Hyperledger Fabric.
  */
-export const updateMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMember: (
+  input: UpdateMemberInput,
+) => Effect.Effect<
+  UpdateMemberOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMemberInput,
   output: UpdateMemberOutput,
   errors: [
@@ -2112,7 +2555,22 @@ export const updateMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Applies to Hyperledger Fabric and Ethereum.
  */
-export const createNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createNode: (
+  input: CreateNodeInput,
+) => Effect.Effect<
+  CreateNodeOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNodeInput,
   output: CreateNodeOutput,
   errors: [
@@ -2131,7 +2589,20 @@ export const createNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a new accessor for use with Amazon Managed Blockchain service that supports token based access.
  * The accessor contains information required for token based access.
  */
-export const createAccessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAccessor: (
+  input: CreateAccessorInput,
+) => Effect.Effect<
+  CreateAccessorOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ResourceLimitExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessorInput,
   output: CreateAccessorOutput,
   errors: [
@@ -2149,7 +2620,20 @@ export const createAccessor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Applies only to Hyperledger Fabric.
  */
-export const createNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createNetwork: (
+  input: CreateNetworkInput,
+) => Effect.Effect<
+  CreateNetworkOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ResourceLimitExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNetworkInput,
   output: CreateNetworkOutput,
   errors: [
@@ -2167,7 +2651,20 @@ export const createNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Applies only to Hyperledger Fabric.
  */
-export const createProposal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProposal: (
+  input: CreateProposalInput,
+) => Effect.Effect<
+  CreateProposalOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProposalInput,
   output: CreateProposalOutput,
   errors: [
@@ -2185,7 +2682,22 @@ export const createProposal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Applies only to Hyperledger Fabric.
  */
-export const createMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMember: (
+  input: CreateMemberInput,
+) => Effect.Effect<
+  CreateMemberOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMemberInput,
   output: CreateMemberOutput,
   errors: [

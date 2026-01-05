@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Marketplace Metering",
   serviceShapeName: "AWSMPMeteringService",
@@ -374,6 +382,21 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type ProductCode = string;
+export type UsageDimension = string;
+export type UsageQuantity = number;
+export type ClientToken = string;
+export type VersionInteger = number;
+export type Nonce = string;
+export type NonEmptyString = string;
+export type CustomerIdentifier = string;
+export type CustomerAWSAccountId = string;
+export type AllocatedUsageQuantity = number;
+export type TagKey = string;
+export type TagValue = string;
+export type errorMessage = string;
+
 //# Schemas
 export interface RegisterUsageRequest {
   ProductCode: string;
@@ -634,7 +657,18 @@ export class TimestampOutOfBoundsException extends S.TaggedError<TimestampOutOfB
  *
  * For Amazon Web Services Regions that support `ResolveCustomer`, see ResolveCustomer Region support.
  */
-export const resolveCustomer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resolveCustomer: (
+  input: ResolveCustomerRequest,
+) => Effect.Effect<
+  ResolveCustomerResult,
+  | DisabledApiException
+  | ExpiredTokenException
+  | InternalServiceErrorException
+  | InvalidTokenException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResolveCustomerRequest,
   output: ResolveCustomerResult,
   errors: [
@@ -686,7 +720,21 @@ export const resolveCustomer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For Amazon Web Services Regions that support `RegisterUsage`, see RegisterUsage Region support.
  */
-export const registerUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerUsage: (
+  input: RegisterUsageRequest,
+) => Effect.Effect<
+  RegisterUsageResult,
+  | CustomerNotEntitledException
+  | DisabledApiException
+  | InternalServiceErrorException
+  | InvalidProductCodeException
+  | InvalidPublicKeyVersionException
+  | InvalidRegionException
+  | PlatformNotSupportedException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterUsageRequest,
   output: RegisterUsageResult,
   errors: [
@@ -733,7 +781,22 @@ export const registerUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For an example of `BatchMeterUsage`, see BatchMeterUsage code example in the Amazon Web Services Marketplace Seller
  * Guide.
  */
-export const batchMeterUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchMeterUsage: (
+  input: BatchMeterUsageRequest,
+) => Effect.Effect<
+  BatchMeterUsageResult,
+  | DisabledApiException
+  | InternalServiceErrorException
+  | InvalidCustomerIdentifierException
+  | InvalidProductCodeException
+  | InvalidTagException
+  | InvalidUsageAllocationsException
+  | InvalidUsageDimensionException
+  | ThrottlingException
+  | TimestampOutOfBoundsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchMeterUsageRequest,
   output: BatchMeterUsageResult,
   errors: [
@@ -771,7 +834,24 @@ export const batchMeterUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For Amazon Web Services Regions that support `MeterUsage`, see MeterUsage Region support for Amazon EC2 and MeterUsage Region support for Amazon ECS and Amazon EKS.
  */
-export const meterUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const meterUsage: (
+  input: MeterUsageRequest,
+) => Effect.Effect<
+  MeterUsageResult,
+  | CustomerNotEntitledException
+  | DuplicateRequestException
+  | IdempotencyConflictException
+  | InternalServiceErrorException
+  | InvalidEndpointRegionException
+  | InvalidProductCodeException
+  | InvalidTagException
+  | InvalidUsageAllocationsException
+  | InvalidUsageDimensionException
+  | ThrottlingException
+  | TimestampOutOfBoundsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MeterUsageRequest,
   output: MeterUsageResult,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region as Rgn,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Workspaces Instances",
   serviceShapeName: "EUCMIFrontendAPIService",
@@ -104,6 +112,40 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type WorkspaceInstanceId = string;
+export type VolumeId = string;
+export type DeviceName = string;
+export type String64 = string;
+export type ClientToken = string;
+export type NonNegativeInteger = number;
+export type KmsKeyId = string;
+export type SnapshotId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type TagKey = string;
+export type TagValue = string;
+export type ImageId = string;
+export type InstanceType = string;
+export type String128 = string;
+export type Ipv4Address = string;
+export type SecurityGroupId = string;
+export type SecurityGroupName = string;
+export type SubnetId = string;
+export type UserData = string;
+export type VirtualName = string;
+export type ARN = string;
+export type Ipv6Address = string;
+export type HttpPutResponseHopLimit = number;
+export type Description = string;
+export type NetworkInterfaceId = string;
+export type AvailabilityZone = string;
+export type PlacementGroupId = string;
+export type HostId = string;
+export type RegionName = string;
+export type Ipv4Prefix = string;
+export type Ipv6Prefix = string;
 
 //# Schemas
 export type ProvisionStates = string[];
@@ -962,7 +1004,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -976,7 +1020,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -1000,27 +1046,72 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Retrieves a collection of WorkSpaces Instances based on specified filters.
  */
-export const listWorkspaceInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWorkspaceInstances: {
+  (
     input: ListWorkspaceInstancesRequest,
-    output: ListWorkspaceInstancesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "WorkspaceInstances",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWorkspaceInstancesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkspaceInstancesRequest,
+  ) => Stream.Stream<
+    ListWorkspaceInstancesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkspaceInstancesRequest,
+  ) => Stream.Stream<
+    WorkspaceInstance,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkspaceInstancesRequest,
+  output: ListWorkspaceInstancesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "WorkspaceInstances",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a new volume for WorkSpace Instances.
  */
-export const createVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVolume: (
+  input: CreateVolumeRequest,
+) => Effect.Effect<
+  CreateVolumeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVolumeRequest,
   output: CreateVolumeResponse,
   errors: [
@@ -1035,7 +1126,19 @@ export const createVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a specified volume.
  */
-export const deleteVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVolume: (
+  input: DeleteVolumeRequest,
+) => Effect.Effect<
+  DeleteVolumeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVolumeRequest,
   output: DeleteVolumeResponse,
   errors: [
@@ -1050,24 +1153,46 @@ export const deleteVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified WorkSpace
  */
-export const deleteWorkspaceInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWorkspaceInstanceRequest,
-    output: DeleteWorkspaceInstanceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteWorkspaceInstance: (
+  input: DeleteWorkspaceInstanceRequest,
+) => Effect.Effect<
+  DeleteWorkspaceInstanceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkspaceInstanceRequest,
+  output: DeleteWorkspaceInstanceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Detaches a volume from a WorkSpace Instance.
  */
-export const disassociateVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateVolume: (
+  input: DisassociateVolumeRequest,
+) => Effect.Effect<
+  DisassociateVolumeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateVolumeRequest,
   output: DisassociateVolumeResponse,
   errors: [
@@ -1082,7 +1207,18 @@ export const disassociateVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds tags to a WorkSpace Instance.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1096,7 +1232,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from a WorkSpace Instance.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1110,7 +1257,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Attaches a volume to a WorkSpace Instance.
  */
-export const associateVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateVolume: (
+  input: AssociateVolumeRequest,
+) => Effect.Effect<
+  AssociateVolumeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateVolumeRequest,
   output: AssociateVolumeResponse,
   errors: [
@@ -1125,65 +1284,149 @@ export const associateVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a specific WorkSpace Instance.
  */
-export const getWorkspaceInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetWorkspaceInstanceRequest,
-    output: GetWorkspaceInstanceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getWorkspaceInstance: (
+  input: GetWorkspaceInstanceRequest,
+) => Effect.Effect<
+  GetWorkspaceInstanceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkspaceInstanceRequest,
+  output: GetWorkspaceInstanceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a list of instance types supported by Amazon WorkSpaces Instances, enabling precise workspace infrastructure configuration.
  */
-export const listInstanceTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listInstanceTypes: {
+  (
     input: ListInstanceTypesRequest,
-    output: ListInstanceTypesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InstanceTypes",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListInstanceTypesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInstanceTypesRequest,
+  ) => Stream.Stream<
+    ListInstanceTypesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInstanceTypesRequest,
+  ) => Stream.Stream<
+    InstanceTypeInfo,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInstanceTypesRequest,
+  output: ListInstanceTypesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InstanceTypes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of AWS regions supported by Amazon WorkSpaces Instances, enabling region discovery for workspace deployments.
  */
-export const listRegions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRegions: {
+  (
     input: ListRegionsRequest,
-    output: ListRegionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Regions",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRegionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRegionsRequest,
+  ) => Stream.Stream<
+    ListRegionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRegionsRequest,
+  ) => Stream.Stream<
+    Region,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRegionsRequest,
+  output: ListRegionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Regions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves tags for a WorkSpace Instance.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1197,17 +1440,27 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Launches a new WorkSpace Instance with specified configuration parameters, enabling programmatic workspace deployment.
  */
-export const createWorkspaceInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWorkspaceInstanceRequest,
-    output: CreateWorkspaceInstanceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createWorkspaceInstance: (
+  input: CreateWorkspaceInstanceRequest,
+) => Effect.Effect<
+  CreateWorkspaceInstanceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWorkspaceInstanceRequest,
+  output: CreateWorkspaceInstanceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

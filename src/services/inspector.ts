@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Inspector",
   serviceShapeName: "InspectorService",
@@ -240,6 +248,49 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type AssessmentTargetName = string;
+export type AssessmentTemplateName = string;
+export type AssessmentRunDuration = number;
+export type UUID = string;
+export type PaginationToken = string;
+export type ListMaxResults = number;
+export type ListEventSubscriptionsMaxResults = number;
+export type PreviewAgentsMaxResults = number;
+export type AttributeKey = string;
+export type AssessmentRunName = string;
+export type AttributeValue = string;
+export type TagKey = string;
+export type TagValue = string;
+export type NamePattern = string;
+export type AgentId = string;
+export type AutoScalingGroup = string;
+export type RuleName = string;
+export type ErrorMessage = string;
+export type Url = string;
+export type ArnCount = number;
+export type NumericVersion = number;
+export type ServiceName = string;
+export type FindingId = string;
+export type Text = string;
+export type NumericSeverity = number;
+export type IocConfidence = number;
+export type RulesPackageName = string;
+export type Version = string;
+export type ProviderName = string;
+export type MessageType = string;
+export type Long = number;
+export type Hostname = string;
+export type AgentVersion = string;
+export type OperatingSystem = string;
+export type KernelVersion = string;
+export type Ipv4Address = string;
+export type Message = string;
+export type FindingCount = number;
+export type AmiId = string;
+export type ScopeValue = string;
 
 //# Schemas
 export interface DescribeCrossAccountAccessRoleRequest {}
@@ -1761,7 +1812,9 @@ export class AgentsAlreadyRunningAssessmentException extends S.TaggedError<Agent
 export class ServiceTemporarilyUnavailableException extends S.TaggedError<ServiceTemporarilyUnavailableException>()(
   "ServiceTemporarilyUnavailableException",
   { message: S.String, canRetry: S.Boolean },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { message: S.String, errorCode: S.String, canRetry: S.Boolean },
@@ -1780,102 +1833,192 @@ export class PreviewGenerationInProgressException extends S.TaggedError<PreviewG
  * Describes the IAM role that enables Amazon Inspector to access your AWS
  * account.
  */
-export const describeCrossAccountAccessRole =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeCrossAccountAccessRoleRequest,
-    output: DescribeCrossAccountAccessRoleResponse,
-    errors: [InternalException],
-  }));
+export const describeCrossAccountAccessRole: (
+  input: DescribeCrossAccountAccessRoleRequest,
+) => Effect.Effect<
+  DescribeCrossAccountAccessRoleResponse,
+  InternalException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCrossAccountAccessRoleRequest,
+  output: DescribeCrossAccountAccessRoleResponse,
+  errors: [InternalException],
+}));
 /**
  * Lists all available Amazon Inspector rules packages.
  */
-export const listRulesPackages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRulesPackages: {
+  (
     input: ListRulesPackagesRequest,
-    output: ListRulesPackagesResponse,
-    errors: [AccessDeniedException, InternalException, InvalidInputException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRulesPackagesResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRulesPackagesRequest,
+  ) => Stream.Stream<
+    ListRulesPackagesResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRulesPackagesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRulesPackagesRequest,
+  output: ListRulesPackagesResponse,
+  errors: [AccessDeniedException, InternalException, InvalidInputException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Describes the assessment targets that are specified by the ARNs of the assessment
  * targets.
  */
-export const describeAssessmentTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAssessmentTargetsRequest,
-    output: DescribeAssessmentTargetsResponse,
-    errors: [InternalException, InvalidInputException],
-  }),
-);
+export const describeAssessmentTargets: (
+  input: DescribeAssessmentTargetsRequest,
+) => Effect.Effect<
+  DescribeAssessmentTargetsResponse,
+  InternalException | InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAssessmentTargetsRequest,
+  output: DescribeAssessmentTargetsResponse,
+  errors: [InternalException, InvalidInputException],
+}));
 /**
  * Describes the assessment templates that are specified by the ARNs of the assessment
  * templates.
  */
-export const describeAssessmentTemplates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAssessmentTemplatesRequest,
-    output: DescribeAssessmentTemplatesResponse,
-    errors: [InternalException, InvalidInputException],
-  }),
-);
+export const describeAssessmentTemplates: (
+  input: DescribeAssessmentTemplatesRequest,
+) => Effect.Effect<
+  DescribeAssessmentTemplatesResponse,
+  InternalException | InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAssessmentTemplatesRequest,
+  output: DescribeAssessmentTemplatesResponse,
+  errors: [InternalException, InvalidInputException],
+}));
 /**
  * Describes the resource groups that are specified by the ARNs of the resource
  * groups.
  */
-export const describeResourceGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeResourceGroupsRequest,
-    output: DescribeResourceGroupsResponse,
-    errors: [InternalException, InvalidInputException],
-  }),
-);
+export const describeResourceGroups: (
+  input: DescribeResourceGroupsRequest,
+) => Effect.Effect<
+  DescribeResourceGroupsResponse,
+  InternalException | InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeResourceGroupsRequest,
+  output: DescribeResourceGroupsResponse,
+  errors: [InternalException, InvalidInputException],
+}));
 /**
  * Describes the rules packages that are specified by the ARNs of the rules
  * packages.
  */
-export const describeRulesPackages = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRulesPackagesRequest,
-    output: DescribeRulesPackagesResponse,
-    errors: [InternalException, InvalidInputException],
-  }),
-);
+export const describeRulesPackages: (
+  input: DescribeRulesPackagesRequest,
+) => Effect.Effect<
+  DescribeRulesPackagesResponse,
+  InternalException | InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRulesPackagesRequest,
+  output: DescribeRulesPackagesResponse,
+  errors: [InternalException, InvalidInputException],
+}));
 /**
  * Lists the ARNs of the assessment targets within this AWS account. For more
  * information about assessment targets, see Amazon Inspector Assessment
  * Targets.
  */
-export const listAssessmentTargets =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssessmentTargets: {
+  (
     input: ListAssessmentTargetsRequest,
-    output: ListAssessmentTargetsResponse,
-    errors: [AccessDeniedException, InternalException, InvalidInputException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAssessmentTargetsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssessmentTargetsRequest,
+  ) => Stream.Stream<
+    ListAssessmentTargetsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssessmentTargetsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssessmentTargetsRequest,
+  output: ListAssessmentTargetsResponse,
+  errors: [AccessDeniedException, InternalException, InvalidInputException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Describes the assessment runs that are specified by the ARNs of the assessment
  * runs.
  */
-export const describeAssessmentRuns = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAssessmentRunsRequest,
-    output: DescribeAssessmentRunsResponse,
-    errors: [InternalException, InvalidInputException],
-  }),
-);
+export const describeAssessmentRuns: (
+  input: DescribeAssessmentRunsRequest,
+) => Effect.Effect<
+  DescribeAssessmentRunsResponse,
+  InternalException | InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAssessmentRunsRequest,
+  output: DescribeAssessmentRunsResponse,
+  errors: [InternalException, InvalidInputException],
+}));
 /**
  * Describes the exclusions that are specified by the exclusions' ARNs.
  */
-export const describeExclusions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeExclusions: (
+  input: DescribeExclusionsRequest,
+) => Effect.Effect<
+  DescribeExclusionsResponse,
+  InternalException | InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExclusionsRequest,
   output: DescribeExclusionsResponse,
   errors: [InternalException, InvalidInputException],
@@ -1883,44 +2026,98 @@ export const describeExclusions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List exclusions that are generated by the assessment run.
  */
-export const listExclusions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listExclusions: {
+  (
     input: ListExclusionsRequest,
-    output: ListExclusionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListExclusionsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExclusionsRequest,
+  ) => Stream.Stream<
+    ListExclusionsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExclusionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExclusionsRequest,
+  output: ListExclusionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Registers the IAM role that grants Amazon Inspector access to AWS Services needed to
  * perform security assessments.
  */
-export const registerCrossAccountAccessRole =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterCrossAccountAccessRoleRequest,
-    output: RegisterCrossAccountAccessRoleResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidCrossAccountRoleException,
-      InvalidInputException,
-      ServiceTemporarilyUnavailableException,
-    ],
-  }));
+export const registerCrossAccountAccessRole: (
+  input: RegisterCrossAccountAccessRoleRequest,
+) => Effect.Effect<
+  RegisterCrossAccountAccessRoleResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidCrossAccountRoleException
+  | InvalidInputException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterCrossAccountAccessRoleRequest,
+  output: RegisterCrossAccountAccessRoleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidCrossAccountRoleException,
+    InvalidInputException,
+    ServiceTemporarilyUnavailableException,
+  ],
+}));
 /**
  * Enables the process of sending Amazon Simple Notification Service (SNS) notifications
  * about a specified event to a specified SNS topic.
  */
-export const subscribeToEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const subscribeToEvent: (
+  input: SubscribeToEventRequest,
+) => Effect.Effect<
+  SubscribeToEventResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubscribeToEventRequest,
   output: SubscribeToEventResponse,
   errors: [
@@ -1936,63 +2133,125 @@ export const subscribeToEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists findings that are generated by the assessment runs that are specified by the
  * ARNs of the assessment runs.
  */
-export const listFindings = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFindings: {
+  (
     input: ListFindingsRequest,
-    output: ListFindingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFindingsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFindingsRequest,
+  ) => Stream.Stream<
+    ListFindingsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFindingsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFindingsRequest,
+  output: ListFindingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes the assessment target that is specified by the ARN of the assessment
  * target.
  */
-export const deleteAssessmentTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAssessmentTargetRequest,
-    output: DeleteAssessmentTargetResponse,
-    errors: [
-      AccessDeniedException,
-      AssessmentRunInProgressException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceTemporarilyUnavailableException,
-    ],
-  }),
-);
+export const deleteAssessmentTarget: (
+  input: DeleteAssessmentTargetRequest,
+) => Effect.Effect<
+  DeleteAssessmentTargetResponse,
+  | AccessDeniedException
+  | AssessmentRunInProgressException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAssessmentTargetRequest,
+  output: DeleteAssessmentTargetResponse,
+  errors: [
+    AccessDeniedException,
+    AssessmentRunInProgressException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceTemporarilyUnavailableException,
+  ],
+}));
 /**
  * Deletes the assessment template that is specified by the ARN of the assessment
  * template.
  */
-export const deleteAssessmentTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAssessmentTemplateRequest,
-    output: DeleteAssessmentTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      AssessmentRunInProgressException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceTemporarilyUnavailableException,
-    ],
-  }),
-);
+export const deleteAssessmentTemplate: (
+  input: DeleteAssessmentTemplateRequest,
+) => Effect.Effect<
+  DeleteAssessmentTemplateResponse,
+  | AccessDeniedException
+  | AssessmentRunInProgressException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAssessmentTemplateRequest,
+  output: DeleteAssessmentTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    AssessmentRunInProgressException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceTemporarilyUnavailableException,
+  ],
+}));
 /**
  * Lists all tags associated with an assessment template.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2006,23 +2265,44 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes entire attributes (key and value pairs) from the findings that are specified
  * by the ARNs of the findings where an attribute with the specified key exists.
  */
-export const removeAttributesFromFindings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveAttributesFromFindingsRequest,
-    output: RemoveAttributesFromFindingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceTemporarilyUnavailableException,
-    ],
-  }));
+export const removeAttributesFromFindings: (
+  input: RemoveAttributesFromFindingsRequest,
+) => Effect.Effect<
+  RemoveAttributesFromFindingsResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveAttributesFromFindingsRequest,
+  output: RemoveAttributesFromFindingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceTemporarilyUnavailableException,
+  ],
+}));
 /**
  * Sets tags (key and value pairs) to the assessment template that is specified by the
  * ARN of the assessment template.
  */
-export const setTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setTagsForResource: (
+  input: SetTagsForResourceRequest,
+) => Effect.Effect<
+  SetTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetTagsForResourceRequest,
   output: SetTagsForResourceResponse,
   errors: [
@@ -2037,7 +2317,18 @@ export const setTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Stops the assessment run that is specified by the ARN of the assessment
  * run.
  */
-export const stopAssessmentRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopAssessmentRun: (
+  input: StopAssessmentRunRequest,
+) => Effect.Effect<
+  StopAssessmentRunResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopAssessmentRunRequest,
   output: StopAssessmentRunResponse,
   errors: [
@@ -2052,19 +2343,28 @@ export const stopAssessmentRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Disables the process of sending Amazon Simple Notification Service (SNS)
  * notifications about a specified event to a specified SNS topic.
  */
-export const unsubscribeFromEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UnsubscribeFromEventRequest,
-    output: UnsubscribeFromEventResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceTemporarilyUnavailableException,
-    ],
-  }),
-);
+export const unsubscribeFromEvent: (
+  input: UnsubscribeFromEventRequest,
+) => Effect.Effect<
+  UnsubscribeFromEventResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UnsubscribeFromEventRequest,
+  output: UnsubscribeFromEventResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceTemporarilyUnavailableException,
+  ],
+}));
 /**
  * Updates the assessment target that is specified by the ARN of the assessment
  * target.
@@ -2072,41 +2372,71 @@ export const unsubscribeFromEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * If resourceGroupArn is not specified, all EC2 instances in the current AWS account
  * and region are included in the assessment target.
  */
-export const updateAssessmentTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAssessmentTargetRequest,
-    output: UpdateAssessmentTargetResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceTemporarilyUnavailableException,
-    ],
-  }),
-);
+export const updateAssessmentTarget: (
+  input: UpdateAssessmentTargetRequest,
+) => Effect.Effect<
+  UpdateAssessmentTargetResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAssessmentTargetRequest,
+  output: UpdateAssessmentTargetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceTemporarilyUnavailableException,
+  ],
+}));
 /**
  * Assigns attributes (key and value pairs) to the findings that are specified by the
  * ARNs of the findings.
  */
-export const addAttributesToFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddAttributesToFindingsRequest,
-    output: AddAttributesToFindingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceTemporarilyUnavailableException,
-    ],
-  }),
-);
+export const addAttributesToFindings: (
+  input: AddAttributesToFindingsRequest,
+) => Effect.Effect<
+  AddAttributesToFindingsResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddAttributesToFindingsRequest,
+  output: AddAttributesToFindingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceTemporarilyUnavailableException,
+  ],
+}));
 /**
  * Deletes the assessment run that is specified by the ARN of the assessment
  * run.
  */
-export const deleteAssessmentRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAssessmentRun: (
+  input: DeleteAssessmentRunRequest,
+) => Effect.Effect<
+  DeleteAssessmentRunResponse,
+  | AccessDeniedException
+  | AssessmentRunInProgressException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssessmentRunRequest,
   output: DeleteAssessmentRunResponse,
   errors: [
@@ -2122,169 +2452,397 @@ export const deleteAssessmentRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Information about the data that is collected for the specified assessment
  * run.
  */
-export const getTelemetryMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTelemetryMetadataRequest,
-    output: GetTelemetryMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-    ],
-  }),
-);
+export const getTelemetryMetadata: (
+  input: GetTelemetryMetadataRequest,
+) => Effect.Effect<
+  GetTelemetryMetadataResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTelemetryMetadataRequest,
+  output: GetTelemetryMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+  ],
+}));
 /**
  * Lists the assessment templates that correspond to the assessment targets that are
  * specified by the ARNs of the assessment targets.
  */
-export const listAssessmentTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssessmentTemplates: {
+  (
     input: ListAssessmentTemplatesRequest,
-    output: ListAssessmentTemplatesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAssessmentTemplatesResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssessmentTemplatesRequest,
+  ) => Stream.Stream<
+    ListAssessmentTemplatesResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssessmentTemplatesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssessmentTemplatesRequest,
+  output: ListAssessmentTemplatesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Previews the agents installed on the EC2 instances that are part of the specified
  * assessment target.
  */
-export const previewAgents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const previewAgents: {
+  (
     input: PreviewAgentsRequest,
-    output: PreviewAgentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidCrossAccountRoleException,
-      InvalidInputException,
-      NoSuchEntityException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    PreviewAgentsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidCrossAccountRoleException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: PreviewAgentsRequest,
+  ) => Stream.Stream<
+    PreviewAgentsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidCrossAccountRoleException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: PreviewAgentsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalException
+    | InvalidCrossAccountRoleException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: PreviewAgentsRequest,
+  output: PreviewAgentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidCrossAccountRoleException,
+    InvalidInputException,
+    NoSuchEntityException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the exclusions preview (a list of ExclusionPreview objects) specified by
  * the preview token. You can obtain the preview token by running the CreateExclusionsPreview
  * API.
  */
-export const getExclusionsPreview =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getExclusionsPreview: {
+  (
     input: GetExclusionsPreviewRequest,
-    output: GetExclusionsPreviewResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetExclusionsPreviewResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetExclusionsPreviewRequest,
+  ) => Stream.Stream<
+    GetExclusionsPreviewResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetExclusionsPreviewRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetExclusionsPreviewRequest,
+  output: GetExclusionsPreviewResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the agents of the assessment runs that are specified by the ARNs of the
  * assessment runs.
  */
-export const listAssessmentRunAgents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssessmentRunAgents: {
+  (
     input: ListAssessmentRunAgentsRequest,
-    output: ListAssessmentRunAgentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAssessmentRunAgentsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssessmentRunAgentsRequest,
+  ) => Stream.Stream<
+    ListAssessmentRunAgentsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssessmentRunAgentsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssessmentRunAgentsRequest,
+  output: ListAssessmentRunAgentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the assessment runs that correspond to the assessment templates that are
  * specified by the ARNs of the assessment templates.
  */
-export const listAssessmentRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAssessmentRuns: {
+  (
     input: ListAssessmentRunsRequest,
-    output: ListAssessmentRunsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAssessmentRunsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssessmentRunsRequest,
+  ) => Stream.Stream<
+    ListAssessmentRunsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssessmentRunsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssessmentRunsRequest,
+  output: ListAssessmentRunsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all the event subscriptions for the assessment template that is specified by
  * the ARN of the assessment template. For more information, see SubscribeToEvent and UnsubscribeFromEvent.
  */
-export const listEventSubscriptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEventSubscriptions: {
+  (
     input: ListEventSubscriptionsRequest,
-    output: ListEventSubscriptionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEventSubscriptionsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEventSubscriptionsRequest,
+  ) => Stream.Stream<
+    ListEventSubscriptionsResponse,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEventSubscriptionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalException
+    | InvalidInputException
+    | NoSuchEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEventSubscriptionsRequest,
+  output: ListEventSubscriptionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates an assessment template for the assessment target that is specified by the ARN
  * of the assessment target. If the service-linked role isn’t already registered, this action also creates and
  * registers a service-linked role to grant Amazon Inspector access to AWS Services needed to
  * perform security assessments.
  */
-export const createAssessmentTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAssessmentTemplateRequest,
-    output: CreateAssessmentTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceTemporarilyUnavailableException,
-    ],
-  }),
-);
+export const createAssessmentTemplate: (
+  input: CreateAssessmentTemplateRequest,
+) => Effect.Effect<
+  CreateAssessmentTemplateResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAssessmentTemplateRequest,
+  output: CreateAssessmentTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceTemporarilyUnavailableException,
+  ],
+}));
 /**
  * Creates a resource group using the specified set of tags (key and value pairs) that
  * are used to select the EC2 instances to be included in an Amazon Inspector assessment
  * target. The created resource group is then used to create an Amazon Inspector assessment
  * target. For more information, see CreateAssessmentTarget.
  */
-export const createResourceGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createResourceGroup: (
+  input: CreateResourceGroupRequest,
+) => Effect.Effect<
+  CreateResourceGroupResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | LimitExceededException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateResourceGroupRequest,
   output: CreateResourceGroupResponse,
   errors: [
@@ -2305,27 +2863,52 @@ export const createResourceGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can run up to 500 concurrent agents per AWS account. For more information, see
  * Amazon Inspector Assessment Targets.
  */
-export const createAssessmentTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAssessmentTargetRequest,
-    output: CreateAssessmentTargetResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidCrossAccountRoleException,
-      InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceTemporarilyUnavailableException,
-    ],
-  }),
-);
+export const createAssessmentTarget: (
+  input: CreateAssessmentTargetRequest,
+) => Effect.Effect<
+  CreateAssessmentTargetResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidCrossAccountRoleException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAssessmentTargetRequest,
+  output: CreateAssessmentTargetResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidCrossAccountRoleException,
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceTemporarilyUnavailableException,
+  ],
+}));
 /**
  * Starts the assessment run specified by the ARN of the assessment template. For this
  * API to function properly, you must not exceed the limit of running up to 500 concurrent
  * agents per AWS account.
  */
-export const startAssessmentRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startAssessmentRun: (
+  input: StartAssessmentRunRequest,
+) => Effect.Effect<
+  StartAssessmentRunResponse,
+  | AccessDeniedException
+  | AgentsAlreadyRunningAssessmentException
+  | InternalException
+  | InvalidCrossAccountRoleException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAssessmentRunRequest,
   output: StartAssessmentRunResponse,
   errors: [
@@ -2343,7 +2926,20 @@ export const startAssessmentRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Produces an assessment report that includes detailed and comprehensive results of a
  * specified assessment run.
  */
-export const getAssessmentReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAssessmentReport: (
+  input: GetAssessmentReportRequest,
+) => Effect.Effect<
+  GetAssessmentReportResponse,
+  | AccessDeniedException
+  | AssessmentRunInProgressException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceTemporarilyUnavailableException
+  | UnsupportedFeatureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssessmentReportRequest,
   output: GetAssessmentReportResponse,
   errors: [
@@ -2361,24 +2957,40 @@ export const getAssessmentReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The exclusions preview lists the potential exclusions (ExclusionPreview) that Inspector can
  * detect before it runs the assessment.
  */
-export const createExclusionsPreview = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateExclusionsPreviewRequest,
-    output: CreateExclusionsPreviewResponse,
-    errors: [
-      AccessDeniedException,
-      InternalException,
-      InvalidInputException,
-      NoSuchEntityException,
-      PreviewGenerationInProgressException,
-      ServiceTemporarilyUnavailableException,
-    ],
-  }),
-);
+export const createExclusionsPreview: (
+  input: CreateExclusionsPreviewRequest,
+) => Effect.Effect<
+  CreateExclusionsPreviewResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | PreviewGenerationInProgressException
+  | ServiceTemporarilyUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateExclusionsPreviewRequest,
+  output: CreateExclusionsPreviewResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    InvalidInputException,
+    NoSuchEntityException,
+    PreviewGenerationInProgressException,
+    ServiceTemporarilyUnavailableException,
+  ],
+}));
 /**
  * Describes the findings that are specified by the ARNs of the findings.
  */
-export const describeFindings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeFindings: (
+  input: DescribeFindingsRequest,
+) => Effect.Effect<
+  DescribeFindingsResponse,
+  InternalException | InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFindingsRequest,
   output: DescribeFindingsResponse,
   errors: [InternalException, InvalidInputException],

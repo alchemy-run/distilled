@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "BCM Dashboards",
   serviceShapeName: "AWSBCMDashboardsService",
@@ -120,6 +128,19 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type DashboardName = string;
+export type Description = string;
+export type DashboardArn = string;
+export type MaxResults = number;
+export type NextPageToken = string;
+export type ResourceTagKey = string;
+export type WidgetTitle = string;
+export type WidgetWidth = number;
+export type WidgetHeight = number;
+export type ResourceTagValue = string;
+export type GenericString = string;
 
 //# Schemas
 export type ResourceTagKeyList = string[];
@@ -402,6 +423,12 @@ export const ReservationUtilizationQuery = S.suspend(() =>
 ).annotations({
   identifier: "ReservationUtilizationQuery",
 }) as any as S.Schema<ReservationUtilizationQuery>;
+export type QueryParameters =
+  | { costAndUsage: CostAndUsageQuery }
+  | { savingsPlansCoverage: SavingsPlansCoverageQuery }
+  | { savingsPlansUtilization: SavingsPlansUtilizationQuery }
+  | { reservationCoverage: ReservationCoverageQuery }
+  | { reservationUtilization: ReservationUtilizationQuery };
 export const QueryParameters = S.Union(
   S.Struct({ costAndUsage: CostAndUsageQuery }),
   S.Struct({ savingsPlansCoverage: SavingsPlansCoverageQuery }),
@@ -428,6 +455,9 @@ export const TableDisplayConfigStruct = S.suspend(() =>
 ).annotations({
   identifier: "TableDisplayConfigStruct",
 }) as any as S.Schema<TableDisplayConfigStruct>;
+export type DisplayConfig =
+  | { graph: GraphDisplayConfigMap }
+  | { table: TableDisplayConfigStruct };
 export const DisplayConfig = S.Union(
   S.Struct({ graph: GraphDisplayConfigMap }),
   S.Struct({ table: TableDisplayConfigStruct }),
@@ -605,7 +635,9 @@ export const CreateDashboardResponse = S.suspend(() =>
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.String },
@@ -617,7 +649,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String },
@@ -631,7 +665,17 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Deletes a specified dashboard. This action cannot be undone.
  */
-export const deleteDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDashboard: (
+  input: DeleteDashboardRequest,
+) => Effect.Effect<
+  DeleteDashboardResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDashboardRequest,
   output: DeleteDashboardResponse,
   errors: [
@@ -644,28 +688,70 @@ export const deleteDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of all dashboards in your account.
  */
-export const listDashboards = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDashboards: {
+  (
     input: ListDashboardsRequest,
-    output: ListDashboardsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dashboards",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDashboardsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDashboardsRequest,
+  ) => Stream.Stream<
+    ListDashboardsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDashboardsRequest,
+  ) => Stream.Stream<
+    DashboardReference,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDashboardsRequest,
+  output: ListDashboardsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dashboards",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Adds or updates tags for a specified dashboard resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -678,7 +764,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the configuration and metadata of a specified dashboard, including its widgets and layout settings.
  */
-export const getDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDashboard: (
+  input: GetDashboardRequest,
+) => Effect.Effect<
+  GetDashboardResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDashboardRequest,
   output: GetDashboardResponse,
   errors: [
@@ -692,7 +789,18 @@ export const getDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the resource-based policy attached to a dashboard, showing sharing configurations and permissions.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => Effect.Effect<
+  GetResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
   errors: [
@@ -706,7 +814,18 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing dashboard's properties, including its name, description, and widget configurations.
  */
-export const updateDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDashboard: (
+  input: UpdateDashboardRequest,
+) => Effect.Effect<
+  UpdateDashboardResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDashboardRequest,
   output: UpdateDashboardResponse,
   errors: [
@@ -720,7 +839,17 @@ export const updateDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes specified tags from a dashboard resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -733,7 +862,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of all tags associated with a specified dashboard resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -746,7 +885,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new dashboard that can contain multiple widgets displaying cost and usage data. You can add custom widgets or use predefined widgets, arranging them in your preferred layout.
  */
-export const createDashboard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDashboard: (
+  input: CreateDashboardRequest,
+) => Effect.Effect<
+  CreateDashboardResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDashboardRequest,
   output: CreateDashboardResponse,
   errors: [

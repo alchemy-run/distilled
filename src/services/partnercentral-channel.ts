@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "PartnerCentral Channel",
   serviceShapeName: "PartnerCentralChannel",
@@ -183,6 +191,30 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type TaggableArn = string;
+export type TagKey = string;
+export type Catalog = string;
+export type AssociatedResourceIdentifier = string;
+export type ClientToken = string;
+export type NextToken = string;
+export type ChannelHandshakeIdentifier = string;
+export type ProgramManagementAccountDisplayName = string;
+export type AccountId = string;
+export type ProgramManagementAccountIdentifier = string;
+export type Revision = string;
+export type RelationshipDisplayName = string;
+export type RelationshipIdentifier = string;
+export type TagValue = string;
+export type Note = string;
+export type MinimumNoticeDays = string;
+export type ChannelHandshakeId = string;
+export type Arn = string;
+export type ProgramManagementAccountId = string;
+export type RelationshipId = string;
+export type PartnerProfileDisplayName = string;
+export type AssociatedResourceId = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -449,6 +481,10 @@ export const PartnerLedSupport = S.suspend(() =>
 ).annotations({
   identifier: "PartnerLedSupport",
 }) as any as S.Schema<PartnerLedSupport>;
+export type SupportPlan =
+  | { resoldBusiness: ResoldBusiness }
+  | { resoldEnterprise: ResoldEnterprise }
+  | { partnerLedSupport: PartnerLedSupport };
 export const SupportPlan = S.Union(
   S.Struct({ resoldBusiness: ResoldBusiness }),
   S.Struct({ resoldEnterprise: ResoldEnterprise }),
@@ -713,10 +749,19 @@ export const ProgramManagementAccountTypeSort = S.suspend(() =>
 ).annotations({
   identifier: "ProgramManagementAccountTypeSort",
 }) as any as S.Schema<ProgramManagementAccountTypeSort>;
+export type ChannelHandshakePayload =
+  | { startServicePeriodPayload: StartServicePeriodPayload }
+  | { revokeServicePeriodPayload: RevokeServicePeriodPayload };
 export const ChannelHandshakePayload = S.Union(
   S.Struct({ startServicePeriodPayload: StartServicePeriodPayload }),
   S.Struct({ revokeServicePeriodPayload: RevokeServicePeriodPayload }),
 );
+export type ListChannelHandshakesTypeFilters =
+  | { startServicePeriodTypeFilters: StartServicePeriodTypeFilters }
+  | { revokeServicePeriodTypeFilters: RevokeServicePeriodTypeFilters }
+  | {
+      programManagementAccountTypeFilters: ProgramManagementAccountTypeFilters;
+    };
 export const ListChannelHandshakesTypeFilters = S.Union(
   S.Struct({ startServicePeriodTypeFilters: StartServicePeriodTypeFilters }),
   S.Struct({ revokeServicePeriodTypeFilters: RevokeServicePeriodTypeFilters }),
@@ -724,6 +769,10 @@ export const ListChannelHandshakesTypeFilters = S.Union(
     programManagementAccountTypeFilters: ProgramManagementAccountTypeFilters,
   }),
 );
+export type ListChannelHandshakesTypeSort =
+  | { startServicePeriodTypeSort: StartServicePeriodTypeSort }
+  | { revokeServicePeriodTypeSort: RevokeServicePeriodTypeSort }
+  | { programManagementAccountTypeSort: ProgramManagementAccountTypeSort };
 export const ListChannelHandshakesTypeSort = S.Union(
   S.Struct({ startServicePeriodTypeSort: StartServicePeriodTypeSort }),
   S.Struct({ revokeServicePeriodTypeSort: RevokeServicePeriodTypeSort }),
@@ -1192,6 +1241,12 @@ export const ProgramManagementAccountHandshakeDetail = S.suspend(() =>
 ).annotations({
   identifier: "ProgramManagementAccountHandshakeDetail",
 }) as any as S.Schema<ProgramManagementAccountHandshakeDetail>;
+export type HandshakeDetail =
+  | { startServicePeriodHandshakeDetail: StartServicePeriodHandshakeDetail }
+  | { revokeServicePeriodHandshakeDetail: RevokeServicePeriodHandshakeDetail }
+  | {
+      programManagementAccountHandshakeDetail: ProgramManagementAccountHandshakeDetail;
+    };
 export const HandshakeDetail = S.Union(
   S.Struct({
     startServicePeriodHandshakeDetail: StartServicePeriodHandshakeDetail,
@@ -1278,7 +1333,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
@@ -1295,7 +1352,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -1319,7 +1378,18 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Lists tags associated with a specific resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1333,40 +1403,75 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new program management account for managing partner relationships.
  */
-export const createProgramManagementAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateProgramManagementAccountRequest,
-    output: CreateProgramManagementAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createProgramManagementAccount: (
+  input: CreateProgramManagementAccountRequest,
+) => Effect.Effect<
+  CreateProgramManagementAccountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProgramManagementAccountRequest,
+  output: CreateProgramManagementAccountResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a program management account.
  */
-export const deleteProgramManagementAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteProgramManagementAccountRequest,
-    output: DeleteProgramManagementAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteProgramManagementAccount: (
+  input: DeleteProgramManagementAccountRequest,
+) => Effect.Effect<
+  DeleteProgramManagementAccountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProgramManagementAccountRequest,
+  output: DeleteProgramManagementAccountResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a partner relationship.
  */
-export const deleteRelationship = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRelationship: (
+  input: DeleteRelationshipRequest,
+) => Effect.Effect<
+  DeleteRelationshipResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRelationshipRequest,
   output: DeleteRelationshipResponse,
   errors: [
@@ -1381,7 +1486,19 @@ export const deleteRelationship = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds or updates tags for a specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1396,7 +1513,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from a specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1411,71 +1540,120 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Accepts a pending channel handshake request from another AWS account.
  */
-export const acceptChannelHandshake = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptChannelHandshakeRequest,
-    output: AcceptChannelHandshakeResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const acceptChannelHandshake: (
+  input: AcceptChannelHandshakeRequest,
+) => Effect.Effect<
+  AcceptChannelHandshakeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptChannelHandshakeRequest,
+  output: AcceptChannelHandshakeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Cancels a pending channel handshake request.
  */
-export const cancelChannelHandshake = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelChannelHandshakeRequest,
-    output: CancelChannelHandshakeResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelChannelHandshake: (
+  input: CancelChannelHandshakeRequest,
+) => Effect.Effect<
+  CancelChannelHandshakeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelChannelHandshakeRequest,
+  output: CancelChannelHandshakeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Rejects a pending channel handshake request.
  */
-export const rejectChannelHandshake = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectChannelHandshakeRequest,
-    output: RejectChannelHandshakeResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const rejectChannelHandshake: (
+  input: RejectChannelHandshakeRequest,
+) => Effect.Effect<
+  RejectChannelHandshakeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectChannelHandshakeRequest,
+  output: RejectChannelHandshakeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the properties of a program management account.
  */
-export const updateProgramManagementAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateProgramManagementAccountRequest,
-    output: UpdateProgramManagementAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateProgramManagementAccount: (
+  input: UpdateProgramManagementAccountRequest,
+) => Effect.Effect<
+  UpdateProgramManagementAccountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProgramManagementAccountRequest,
+  output: UpdateProgramManagementAccountResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves details of a specific partner relationship.
  */
-export const getRelationship = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRelationship: (
+  input: GetRelationshipRequest,
+) => Effect.Effect<
+  GetRelationshipResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRelationshipRequest,
   output: GetRelationshipResponse,
   errors: [
@@ -1489,7 +1667,19 @@ export const getRelationship = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the properties of a partner relationship.
  */
-export const updateRelationship = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRelationship: (
+  input: UpdateRelationshipRequest,
+) => Effect.Effect<
+  UpdateRelationshipResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRelationshipRequest,
   output: UpdateRelationshipResponse,
   errors: [
@@ -1504,68 +1694,163 @@ export const updateRelationship = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists program management accounts based on specified criteria.
  */
-export const listProgramManagementAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProgramManagementAccounts: {
+  (
     input: ListProgramManagementAccountsRequest,
-    output: ListProgramManagementAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProgramManagementAccountsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProgramManagementAccountsRequest,
+  ) => Stream.Stream<
+    ListProgramManagementAccountsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProgramManagementAccountsRequest,
+  ) => Stream.Stream<
+    ProgramManagementAccountSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProgramManagementAccountsRequest,
+  output: ListProgramManagementAccountsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists partner relationships based on specified criteria.
  */
-export const listRelationships = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRelationships: {
+  (
     input: ListRelationshipsRequest,
-    output: ListRelationshipsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRelationshipsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRelationshipsRequest,
+  ) => Stream.Stream<
+    ListRelationshipsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRelationshipsRequest,
+  ) => Stream.Stream<
+    RelationshipSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRelationshipsRequest,
+  output: ListRelationshipsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a new channel handshake request to establish a partnership with another AWS account.
  */
-export const createChannelHandshake = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateChannelHandshakeRequest,
-    output: CreateChannelHandshakeResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createChannelHandshake: (
+  input: CreateChannelHandshakeRequest,
+) => Effect.Effect<
+  CreateChannelHandshakeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateChannelHandshakeRequest,
+  output: CreateChannelHandshakeResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new partner relationship between accounts.
  */
-export const createRelationship = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRelationship: (
+  input: CreateRelationshipRequest,
+) => Effect.Effect<
+  CreateRelationshipResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRelationshipRequest,
   output: CreateRelationshipResponse,
   errors: [
@@ -1581,21 +1866,57 @@ export const createRelationship = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists channel handshakes based on specified criteria.
  */
-export const listChannelHandshakes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listChannelHandshakes: {
+  (
     input: ListChannelHandshakesRequest,
-    output: ListChannelHandshakesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListChannelHandshakesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChannelHandshakesRequest,
+  ) => Stream.Stream<
+    ListChannelHandshakesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChannelHandshakesRequest,
+  ) => Stream.Stream<
+    ChannelHandshakeSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelHandshakesRequest,
+  output: ListChannelHandshakesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));

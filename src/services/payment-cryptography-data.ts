@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Payment Cryptography Data",
   serviceShapeName: "PaymentCryptographyDataPlane",
@@ -293,6 +301,59 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type KeyArnOrKeyAliasType = string;
+export type CipherTextType = string;
+export type PlainTextType = string;
+export type PrimaryAccountNumberType = string;
+export type IntegerRangeBetween3And5Type = number;
+export type MessageDataType = string;
+export type IntegerRangeBetween4And16 = number;
+export type PinBlockLengthEquals16 = string;
+export type CommandMessageDataType = string;
+export type IntegerRangeBetween4And12 = number;
+export type KeyCheckValueAlgorithm = string;
+export type HexEvenLengthBetween16And32 = string;
+export type TransactionDataType = string;
+export type AuthRequestCryptogramType = string;
+export type ValidationDataType = string;
+export type MacType = string;
+export type EncryptedPinBlockType = string;
+export type HexLength16Or20Or24 = string;
+export type SystemTraceAuditNumberType = string;
+export type TransactionAmountType = string;
+export type KeyArn = string;
+export type KeyCheckValue = string;
+export type InitializationVectorType = string;
+export type NumberLengthEquals2 = string;
+export type SessionDerivationDataType = string;
+export type Tr31WrappedKeyBlock = string;
+export type As2805RandomKeyMaterial = string;
+export type CardExpiryDateType = string;
+export type ServiceCodeType = string;
+export type HexLengthBetween2And8 = string;
+export type HexLengthBetween2And4 = string;
+export type TrackDataType = string;
+export type ApplicationCryptogramType = string;
+export type HexLengthEquals4 = string;
+export type IntegerRangeBetween0And6 = number;
+export type DecimalizationTableType = string;
+export type HexLengthEquals1 = string;
+export type PinValidationDataType = string;
+export type PinOffsetType = string;
+export type CertificateType = string;
+export type HexLengthEquals8 = string;
+export type ProprietaryAuthenticationDataType = string;
+export type VerificationValueType = string;
+export type SharedInformation = string;
+export type AuthResponseValueType = string;
+export type PlainTextOutputType = string;
+export type MacOutputType = string;
+export type PinChangeMacOutputType = string;
+export type KeyMaterial = string;
+export type WrappedKeyMaterialFormat = string;
+export type VerificationFailedReason = string;
+
 //# Schemas
 export interface SymmetricEncryptionAttributes {
   Mode: string;
@@ -354,6 +415,11 @@ export const EmvEncryptionAttributes = S.suspend(() =>
 ).annotations({
   identifier: "EmvEncryptionAttributes",
 }) as any as S.Schema<EmvEncryptionAttributes>;
+export type EncryptionDecryptionAttributes =
+  | { Symmetric: SymmetricEncryptionAttributes }
+  | { Asymmetric: AsymmetricEncryptionAttributes }
+  | { Dukpt: DukptEncryptionAttributes }
+  | { Emv: EmvEncryptionAttributes };
 export const EncryptionDecryptionAttributes = S.Union(
   S.Struct({ Symmetric: SymmetricEncryptionAttributes }),
   S.Struct({ Asymmetric: AsymmetricEncryptionAttributes }),
@@ -380,6 +446,9 @@ export const EcdhDerivationAttributes = S.suspend(() =>
 ).annotations({
   identifier: "EcdhDerivationAttributes",
 }) as any as S.Schema<EcdhDerivationAttributes>;
+export type WrappedKeyMaterial =
+  | { Tr31KeyBlock: string }
+  | { DiffieHellmanSymmetricKey: EcdhDerivationAttributes };
 export const WrappedKeyMaterial = S.Union(
   S.Struct({ Tr31KeyBlock: S.String }),
   S.Struct({ DiffieHellmanSymmetricKey: EcdhDerivationAttributes }),
@@ -419,6 +488,9 @@ export const EncryptDataInput = S.suspend(() =>
 ).annotations({
   identifier: "EncryptDataInput",
 }) as any as S.Schema<EncryptDataInput>;
+export type SessionKeyDerivationValue =
+  | { ApplicationCryptogram: string }
+  | { ApplicationTransactionCounter: string };
 export const SessionKeyDerivationValue = S.Union(
   S.Struct({ ApplicationCryptogram: S.String }),
   S.Struct({ ApplicationTransactionCounter: S.String }),
@@ -455,6 +527,12 @@ export const MacAlgorithmDukpt = S.suspend(() =>
 ).annotations({
   identifier: "MacAlgorithmDukpt",
 }) as any as S.Schema<MacAlgorithmDukpt>;
+export type MacAttributes =
+  | { Algorithm: string }
+  | { EmvMac: MacAlgorithmEmv }
+  | { DukptIso9797Algorithm1: MacAlgorithmDukpt }
+  | { DukptIso9797Algorithm3: MacAlgorithmDukpt }
+  | { DukptCmac: MacAlgorithmDukpt };
 export const MacAttributes = S.Union(
   S.Struct({ Algorithm: S.String }),
   S.Struct({ EmvMac: MacAlgorithmEmv }),
@@ -495,6 +573,9 @@ export const TranslationPinDataIsoFormat1 = S.suspend(() =>
 ).annotations({
   identifier: "TranslationPinDataIsoFormat1",
 }) as any as S.Schema<TranslationPinDataIsoFormat1>;
+export type ReEncryptionAttributes =
+  | { Symmetric: SymmetricEncryptionAttributes }
+  | { Dukpt: DukptEncryptionAttributes };
 export const ReEncryptionAttributes = S.Union(
   S.Struct({ Symmetric: SymmetricEncryptionAttributes }),
   S.Struct({ Dukpt: DukptEncryptionAttributes }),
@@ -990,10 +1071,21 @@ export const Ibm3624PinVerification = S.suspend(() =>
 ).annotations({
   identifier: "Ibm3624PinVerification",
 }) as any as S.Schema<Ibm3624PinVerification>;
+export type As2805KekValidationType =
+  | { KekValidationRequest: KekValidationRequest }
+  | { KekValidationResponse: KekValidationResponse };
 export const As2805KekValidationType = S.Union(
   S.Struct({ KekValidationRequest: KekValidationRequest }),
   S.Struct({ KekValidationResponse: KekValidationResponse }),
 );
+export type CardGenerationAttributes =
+  | { AmexCardSecurityCodeVersion1: AmexCardSecurityCodeVersion1 }
+  | { AmexCardSecurityCodeVersion2: AmexCardSecurityCodeVersion2 }
+  | { CardVerificationValue1: CardVerificationValue1 }
+  | { CardVerificationValue2: CardVerificationValue2 }
+  | { CardHolderVerificationValue: CardHolderVerificationValue }
+  | { DynamicCardVerificationCode: DynamicCardVerificationCode }
+  | { DynamicCardVerificationValue: DynamicCardVerificationValue };
 export const CardGenerationAttributes = S.Union(
   S.Struct({ AmexCardSecurityCodeVersion1: AmexCardSecurityCodeVersion1 }),
   S.Struct({ AmexCardSecurityCodeVersion2: AmexCardSecurityCodeVersion2 }),
@@ -1003,6 +1095,13 @@ export const CardGenerationAttributes = S.Union(
   S.Struct({ DynamicCardVerificationCode: DynamicCardVerificationCode }),
   S.Struct({ DynamicCardVerificationValue: DynamicCardVerificationValue }),
 );
+export type PinGenerationAttributes =
+  | { VisaPin: VisaPin }
+  | { VisaPinVerificationValue: VisaPinVerificationValue }
+  | { Ibm3624PinOffset: Ibm3624PinOffset }
+  | { Ibm3624NaturalPin: Ibm3624NaturalPin }
+  | { Ibm3624RandomPin: Ibm3624RandomPin }
+  | { Ibm3624PinFromOffset: Ibm3624PinFromOffset };
 export const PinGenerationAttributes = S.Union(
   S.Struct({ VisaPin: VisaPin }),
   S.Struct({ VisaPinVerificationValue: VisaPinVerificationValue }),
@@ -1011,9 +1110,16 @@ export const PinGenerationAttributes = S.Union(
   S.Struct({ Ibm3624RandomPin: Ibm3624RandomPin }),
   S.Struct({ Ibm3624PinFromOffset: Ibm3624PinFromOffset }),
 );
+export type OutgoingKeyMaterial = { Tr31KeyBlock: OutgoingTr31KeyBlock };
 export const OutgoingKeyMaterial = S.Union(
   S.Struct({ Tr31KeyBlock: OutgoingTr31KeyBlock }),
 );
+export type TranslationIsoFormats =
+  | { IsoFormat0: TranslationPinDataIsoFormat034 }
+  | { IsoFormat1: TranslationPinDataIsoFormat1 }
+  | { IsoFormat3: TranslationPinDataIsoFormat034 }
+  | { IsoFormat4: TranslationPinDataIsoFormat034 }
+  | { As2805Format0: TranslationPinDataAs2805Format0 };
 export const TranslationIsoFormats = S.Union(
   S.Struct({ IsoFormat0: TranslationPinDataIsoFormat034 }),
   S.Struct({ IsoFormat1: TranslationPinDataIsoFormat1 }),
@@ -1021,6 +1127,12 @@ export const TranslationIsoFormats = S.Union(
   S.Struct({ IsoFormat4: TranslationPinDataIsoFormat034 }),
   S.Struct({ As2805Format0: TranslationPinDataAs2805Format0 }),
 );
+export type SessionKeyDerivation =
+  | { EmvCommon: SessionKeyEmvCommon }
+  | { Mastercard: SessionKeyMastercard }
+  | { Emv2000: SessionKeyEmv2000 }
+  | { Amex: SessionKeyAmex }
+  | { Visa: SessionKeyVisa };
 export const SessionKeyDerivation = S.Union(
   S.Struct({ EmvCommon: SessionKeyEmvCommon }),
   S.Struct({ Mastercard: SessionKeyMastercard }),
@@ -1028,10 +1140,24 @@ export const SessionKeyDerivation = S.Union(
   S.Struct({ Amex: SessionKeyAmex }),
   S.Struct({ Visa: SessionKeyVisa }),
 );
+export type CryptogramAuthResponse =
+  | { ArpcMethod1: CryptogramVerificationArpcMethod1 }
+  | { ArpcMethod2: CryptogramVerificationArpcMethod2 };
 export const CryptogramAuthResponse = S.Union(
   S.Struct({ ArpcMethod1: CryptogramVerificationArpcMethod1 }),
   S.Struct({ ArpcMethod2: CryptogramVerificationArpcMethod2 }),
 );
+export type CardVerificationAttributes =
+  | { AmexCardSecurityCodeVersion1: AmexCardSecurityCodeVersion1 }
+  | { AmexCardSecurityCodeVersion2: AmexCardSecurityCodeVersion2 }
+  | { CardVerificationValue1: CardVerificationValue1 }
+  | { CardVerificationValue2: CardVerificationValue2 }
+  | { CardHolderVerificationValue: CardHolderVerificationValue }
+  | { DynamicCardVerificationCode: DynamicCardVerificationCode }
+  | { DynamicCardVerificationValue: DynamicCardVerificationValue }
+  | {
+      DiscoverDynamicCardVerificationCode: DiscoverDynamicCardVerificationCode;
+    };
 export const CardVerificationAttributes = S.Union(
   S.Struct({ AmexCardSecurityCodeVersion1: AmexCardSecurityCodeVersion1 }),
   S.Struct({ AmexCardSecurityCodeVersion2: AmexCardSecurityCodeVersion2 }),
@@ -1044,10 +1170,14 @@ export const CardVerificationAttributes = S.Union(
     DiscoverDynamicCardVerificationCode: DiscoverDynamicCardVerificationCode,
   }),
 );
+export type PinVerificationAttributes =
+  | { VisaPin: VisaPinVerification }
+  | { Ibm3624Pin: Ibm3624PinVerification };
 export const PinVerificationAttributes = S.Union(
   S.Struct({ VisaPin: VisaPinVerification }),
   S.Struct({ Ibm3624Pin: Ibm3624PinVerification }),
 );
+export type DiffieHellmanDerivationData = { SharedInformation: string };
 export const DiffieHellmanDerivationData = S.Union(
   S.Struct({ SharedInformation: S.String }),
 );
@@ -1310,6 +1440,12 @@ export const IncomingDiffieHellmanTr31KeyBlock = S.suspend(() =>
 ).annotations({
   identifier: "IncomingDiffieHellmanTr31KeyBlock",
 }) as any as S.Schema<IncomingDiffieHellmanTr31KeyBlock>;
+export type DerivationMethodAttributes =
+  | { EmvCommon: EmvCommonAttributes }
+  | { Amex: AmexAttributes }
+  | { Visa: VisaAttributes }
+  | { Emv2000: Emv2000Attributes }
+  | { Mastercard: MasterCardAttributes };
 export const DerivationMethodAttributes = S.Union(
   S.Struct({ EmvCommon: EmvCommonAttributes }),
   S.Struct({ Amex: AmexAttributes }),
@@ -1317,6 +1453,9 @@ export const DerivationMethodAttributes = S.Union(
   S.Struct({ Emv2000: Emv2000Attributes }),
   S.Struct({ Mastercard: MasterCardAttributes }),
 );
+export type IncomingKeyMaterial = {
+  DiffieHellmanTr31KeyBlock: IncomingDiffieHellmanTr31KeyBlock;
+};
 export const IncomingKeyMaterial = S.Union(
   S.Struct({ DiffieHellmanTr31KeyBlock: IncomingDiffieHellmanTr31KeyBlock }),
 );
@@ -1503,6 +1642,7 @@ export const VerifyPinDataOutput = S.suspend(() =>
 ).annotations({
   identifier: "VerifyPinDataOutput",
 }) as any as S.Schema<VerifyPinDataOutput>;
+export type PinData = { PinOffset: string } | { VerificationValue: string };
 export const PinData = S.Union(
   S.Struct({ PinOffset: S.String }),
   S.Struct({ VerificationValue: S.String }),
@@ -1631,7 +1771,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { ResourceId: S.optional(S.String) },
@@ -1639,7 +1781,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String, fieldList: S.optional(ValidationExceptionFieldList) },
@@ -1679,7 +1823,18 @@ export class VerificationFailedException extends S.TaggedError<VerificationFaile
  *
  * - ReEncryptData
  */
-export const encryptData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const encryptData: (
+  input: EncryptDataInput,
+) => Effect.Effect<
+  EncryptDataOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EncryptDataInput,
   output: EncryptDataOutput,
   errors: [
@@ -1711,19 +1866,28 @@ export const encryptData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - GenerateMac
  */
-export const generateMacEmvPinChange = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GenerateMacEmvPinChangeInput,
-    output: GenerateMacEmvPinChangeOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const generateMacEmvPinChange: (
+  input: GenerateMacEmvPinChangeInput,
+) => Effect.Effect<
+  GenerateMacEmvPinChangeOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateMacEmvPinChangeInput,
+  output: GenerateMacEmvPinChangeOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Translates an cryptographic key between different wrapping keys without importing the key into Amazon Web Services Payment Cryptography.
  *
@@ -1743,19 +1907,28 @@ export const generateMacEmvPinChange = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - ImportKey
  */
-export const translateKeyMaterial = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TranslateKeyMaterialInput,
-    output: TranslateKeyMaterialOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const translateKeyMaterial: (
+  input: TranslateKeyMaterialInput,
+) => Effect.Effect<
+  TranslateKeyMaterialOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TranslateKeyMaterialInput,
+  output: TranslateKeyMaterialOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Generates a Message Authentication Code (MAC) cryptogram within Amazon Web Services Payment Cryptography.
  *
@@ -1771,7 +1944,18 @@ export const translateKeyMaterial = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - VerifyMac
  */
-export const generateMac = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const generateMac: (
+  input: GenerateMacInput,
+) => Effect.Effect<
+  GenerateMacOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateMacInput,
   output: GenerateMacOutput,
   errors: [
@@ -1801,7 +1985,18 @@ export const generateMac = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - VerifyPinData
  */
-export const generatePinData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const generatePinData: (
+  input: GeneratePinDataInput,
+) => Effect.Effect<
+  GeneratePinDataOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GeneratePinDataInput,
   output: GeneratePinDataOutput,
   errors: [
@@ -1823,19 +2018,28 @@ export const generatePinData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Cross-account use**: This operation can't be used across different Amazon Web Services accounts.
  */
-export const generateAs2805KekValidation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GenerateAs2805KekValidationInput,
-    output: GenerateAs2805KekValidationOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const generateAs2805KekValidation: (
+  input: GenerateAs2805KekValidationInput,
+) => Effect.Effect<
+  GenerateAs2805KekValidationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateAs2805KekValidationInput,
+  output: GenerateAs2805KekValidationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Generates card-related validation data using algorithms such as Card Verification Values (CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2), or Card Security Codes (CSC). For more information, see Generate card data in the *Amazon Web Services Payment Cryptography User Guide*.
  *
@@ -1851,19 +2055,28 @@ export const generateAs2805KekValidation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - VerifyCardValidationData
  */
-export const generateCardValidationData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GenerateCardValidationDataInput,
-    output: GenerateCardValidationDataOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const generateCardValidationData: (
+  input: GenerateCardValidationDataInput,
+) => Effect.Effect<
+  GenerateCardValidationDataOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateCardValidationDataInput,
+  output: GenerateCardValidationDataOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Translates encrypted PIN block from and to ISO 9564 formats 0,1,3,4. For more information, see Translate PIN data in the *Amazon Web Services Payment Cryptography User Guide*.
  *
@@ -1889,7 +2102,18 @@ export const generateCardValidationData = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - VerifyPinData
  */
-export const translatePinData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const translatePinData: (
+  input: TranslatePinDataInput,
+) => Effect.Effect<
+  TranslatePinDataOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TranslatePinDataInput,
   output: TranslatePinDataOutput,
   errors: [
@@ -1923,7 +2147,18 @@ export const translatePinData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - ImportKey
  */
-export const reEncryptData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const reEncryptData: (
+  input: ReEncryptDataInput,
+) => Effect.Effect<
+  ReEncryptDataOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReEncryptDataInput,
   output: ReEncryptDataOutput,
   errors: [
@@ -1957,7 +2192,18 @@ export const reEncryptData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - ImportKey
  */
-export const decryptData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const decryptData: (
+  input: DecryptDataInput,
+) => Effect.Effect<
+  DecryptDataOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DecryptDataInput,
   output: DecryptDataOutput,
   errors: [
@@ -1983,20 +2229,30 @@ export const decryptData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - VerifyPinData
  */
-export const verifyAuthRequestCryptogram = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: VerifyAuthRequestCryptogramInput,
-    output: VerifyAuthRequestCryptogramOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-      VerificationFailedException,
-    ],
-  }),
-);
+export const verifyAuthRequestCryptogram: (
+  input: VerifyAuthRequestCryptogramInput,
+) => Effect.Effect<
+  VerifyAuthRequestCryptogramOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | VerificationFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: VerifyAuthRequestCryptogramInput,
+  output: VerifyAuthRequestCryptogramOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+    VerificationFailedException,
+  ],
+}));
 /**
  * Verifies card-related validation data using algorithms such as Card Verification Values (CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2) and Card Security Codes (CSC). For more information, see Verify card data in the *Amazon Web Services Payment Cryptography User Guide*.
  *
@@ -2014,20 +2270,30 @@ export const verifyAuthRequestCryptogram = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - VerifyPinData
  */
-export const verifyCardValidationData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: VerifyCardValidationDataInput,
-    output: VerifyCardValidationDataOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-      VerificationFailedException,
-    ],
-  }),
-);
+export const verifyCardValidationData: (
+  input: VerifyCardValidationDataInput,
+) => Effect.Effect<
+  VerifyCardValidationDataOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | VerificationFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: VerifyCardValidationDataInput,
+  output: VerifyCardValidationDataOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+    VerificationFailedException,
+  ],
+}));
 /**
  * Verifies pin-related data such as PIN and PIN Offset using algorithms including VISA PVV and IBM3624. For more information, see Verify PIN data in the *Amazon Web Services Payment Cryptography User Guide*.
  *
@@ -2043,7 +2309,19 @@ export const verifyCardValidationData = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - TranslatePinData
  */
-export const verifyPinData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const verifyPinData: (
+  input: VerifyPinDataInput,
+) => Effect.Effect<
+  VerifyPinDataOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | VerificationFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyPinDataInput,
   output: VerifyPinDataOutput,
   errors: [
@@ -2068,7 +2346,19 @@ export const verifyPinData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - GenerateMac
  */
-export const verifyMac = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const verifyMac: (
+  input: VerifyMacInput,
+) => Effect.Effect<
+  VerifyMacOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | VerificationFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyMacInput,
   output: VerifyMacOutput,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker A2I Runtime",
   serviceShapeName: "AmazonSageMakerA2IRuntime",
@@ -241,6 +249,15 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type HumanLoopName = string;
+export type FlowDefinitionArn = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type InputContent = string;
+export type FailureReason = string;
+export type HumanLoopArn = string;
+
 //# Schemas
 export interface DeleteHumanLoopRequest {
   HumanLoopName: string;
@@ -456,7 +473,9 @@ export const StartHumanLoopResponse = S.suspend(() =>
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -464,7 +483,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },
@@ -485,7 +506,17 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  * If the human loop was deleted, this operation will return a
  * `ResourceNotFoundException`.
  */
-export const deleteHumanLoop = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteHumanLoop: (
+  input: DeleteHumanLoopRequest,
+) => Effect.Effect<
+  DeleteHumanLoopResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHumanLoopRequest,
   output: DeleteHumanLoopResponse,
   errors: [
@@ -498,7 +529,18 @@ export const deleteHumanLoop = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a human loop, provided that at least one activation condition is met.
  */
-export const startHumanLoop = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startHumanLoop: (
+  input: StartHumanLoopRequest,
+) => Effect.Effect<
+  StartHumanLoopResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartHumanLoopRequest,
   output: StartHumanLoopResponse,
   errors: [
@@ -513,7 +555,17 @@ export const startHumanLoop = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns information about the specified human loop. If the human loop was deleted, this
  * operation will return a `ResourceNotFoundException` error.
  */
-export const describeHumanLoop = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeHumanLoop: (
+  input: DescribeHumanLoopRequest,
+) => Effect.Effect<
+  DescribeHumanLoopResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHumanLoopRequest,
   output: DescribeHumanLoopResponse,
   errors: [
@@ -526,28 +578,70 @@ export const describeHumanLoop = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
  */
-export const listHumanLoops = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listHumanLoops: {
+  (
     input: ListHumanLoopsRequest,
-    output: ListHumanLoopsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "HumanLoopSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListHumanLoopsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListHumanLoopsRequest,
+  ) => Stream.Stream<
+    ListHumanLoopsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListHumanLoopsRequest,
+  ) => Stream.Stream<
+    HumanLoopSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListHumanLoopsRequest,
+  output: ListHumanLoopsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "HumanLoopSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Stops the specified human loop.
  */
-export const stopHumanLoop = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopHumanLoop: (
+  input: StopHumanLoopRequest,
+) => Effect.Effect<
+  StopHumanLoopResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopHumanLoopRequest,
   output: StopHumanLoopResponse,
   errors: [

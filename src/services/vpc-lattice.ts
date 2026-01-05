@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "VPC Lattice",
   serviceShapeName: "MercuryControlPlane",
@@ -292,6 +300,127 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ServiceIdentifier = string;
+export type ListenerIdentifier = string;
+export type ResourceIdentifier = string;
+export type ResourceArn = string;
+export type ServiceNetworkIdentifier = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type Arn = string;
+export type AuthPolicyString = string;
+export type PolicyString = string;
+export type TagKey = string;
+export type ClientToken = string;
+export type AccessLogDestinationArn = string;
+export type ServiceNetworkLogType = string;
+export type AccessLogSubscriptionIdentifier = string;
+export type DomainName = string;
+export type DomainVerificationIdentifier = string;
+export type ListenerName = string;
+export type ListenerProtocol = string;
+export type Port = number;
+export type ResourceConfigurationName = string;
+export type ResourceConfigurationType = string;
+export type PortRange = string;
+export type ProtocolType = string;
+export type ResourceGatewayIdentifier = string;
+export type ResourceConfigurationIdentifier = string;
+export type ResourceEndpointAssociationIdentifier = string;
+export type VpcEndpointId = string;
+export type VpcEndpointOwner = string;
+export type ResourceGatewayName = string;
+export type VpcId = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type ResourceGatewayIpAddressType = string;
+export type Ipv4AddressesPerEni = number;
+export type RuleName = string;
+export type RulePriority = number;
+export type RuleIdentifier = string;
+export type ServiceName = string;
+export type ServiceCustomDomainName = string;
+export type CertificateArn = string;
+export type AuthType = string;
+export type ServiceNetworkName = string;
+export type ServiceNetworkIdentifierWithoutRegex = string;
+export type ServiceNetworkResourceAssociationIdentifier = string;
+export type ServiceNetworkServiceAssociationIdentifier = string;
+export type ServiceNetworkVpcAssociationIdentifier = string;
+export type TargetGroupName = string;
+export type TargetGroupType = string;
+export type TargetGroupIdentifier = string;
+export type TagValue = string;
+export type PrivateDnsPreference = string;
+export type PrivateDnsSpecifiedDomain = string;
+export type TargetGroupProtocol = string;
+export type TargetGroupProtocolVersion = string;
+export type IpAddressType = string;
+export type LambdaEventStructureVersion = string;
+export type HealthCheckProtocolVersion = string;
+export type HealthCheckPort = number;
+export type HealthCheckPath = string;
+export type HealthCheckIntervalSeconds = number;
+export type HealthCheckTimeoutSeconds = number;
+export type HealthyThresholdCount = number;
+export type UnhealthyThresholdCount = number;
+export type AuthPolicyState = string;
+export type AccessLogSubscriptionId = string;
+export type AccessLogSubscriptionArn = string;
+export type ResourceId = string;
+export type DomainVerificationId = string;
+export type DomainVerificationArn = string;
+export type VerificationStatus = string;
+export type ListenerArn = string;
+export type ListenerId = string;
+export type ServiceArn = string;
+export type ServiceId = string;
+export type ResourceConfigurationId = string;
+export type ResourceConfigurationArn = string;
+export type ResourceGatewayId = string;
+export type ResourceConfigurationStatus = string;
+export type ResourceEndpointAssociationId = string;
+export type ResourceEndpointAssociationArn = string;
+export type ResourceGatewayArn = string;
+export type ResourceGatewayStatus = string;
+export type RuleArn = string;
+export type RuleId = string;
+export type ServiceStatus = string;
+export type FailureCode = string;
+export type FailureMessage = string;
+export type ServiceNetworkId = string;
+export type ServiceNetworkArn = string;
+export type ServiceNetworkResourceAssociationId = string;
+export type ServiceNetworkResourceAssociationArn = string;
+export type ServiceNetworkResourceAssociationStatus = string;
+export type AccountId = string;
+export type ServiceNetworkNameWithoutRegex = string;
+export type ServiceNetworkServiceAssociationStatus = string;
+export type ServiceNetworkServiceAssociationArn = string;
+export type ServiceNetworkVpcAssociationId = string;
+export type ServiceNetworkVpcAssociationStatus = string;
+export type ServiceNetworkVpcAssociationArn = string;
+export type TargetGroupId = string;
+export type TargetGroupArn = string;
+export type TargetGroupStatus = string;
+export type HttpStatusCode = number;
+export type ResourceConfigurationIpAddressType = string;
+export type IpAddress = string;
+export type WildcardArn = string;
+export type HttpMethod = string;
+export type HttpCodeMatcher = string;
+export type ServiceNetworkArnWithoutRegex = string;
+export type TargetStatus = string;
+export type TargetGroupWeight = number;
+export type HeaderMatchName = string;
+export type PathMatchExact = string;
+export type PathMatchPrefix = string;
+export type HeaderMatchExact = string;
+export type HeaderMatchPrefix = string;
+export type HeaderMatchContains = string;
+export type ValidationExceptionReason = string;
 
 //# Schemas
 export type TagKeys = string[];
@@ -782,6 +911,9 @@ export const FixedResponseAction = S.suspend(() =>
 ).annotations({
   identifier: "FixedResponseAction",
 }) as any as S.Schema<FixedResponseAction>;
+export type RuleAction =
+  | { forward: ForwardAction }
+  | { fixedResponse: FixedResponseAction };
 export const RuleAction = S.Union(
   S.Struct({ forward: ForwardAction }),
   S.Struct({ fixedResponse: FixedResponseAction }),
@@ -909,6 +1041,10 @@ export interface ArnResource {
 export const ArnResource = S.suspend(() =>
   S.Struct({ arn: S.optional(S.String) }),
 ).annotations({ identifier: "ArnResource" }) as any as S.Schema<ArnResource>;
+export type ResourceConfigurationDefinition =
+  | { dnsResource: DnsResource }
+  | { ipResource: IpResource }
+  | { arnResource: ArnResource };
 export const ResourceConfigurationDefinition = S.Union(
   S.Struct({ dnsResource: DnsResource }),
   S.Struct({ ipResource: IpResource }),
@@ -1222,6 +1358,7 @@ export const GetRuleRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetRuleRequest",
 }) as any as S.Schema<GetRuleRequest>;
+export type PathMatchType = { exact: string } | { prefix: string };
 export const PathMatchType = S.Union(
   S.Struct({ exact: S.String }),
   S.Struct({ prefix: S.String }),
@@ -1233,6 +1370,10 @@ export interface PathMatch {
 export const PathMatch = S.suspend(() =>
   S.Struct({ match: PathMatchType, caseSensitive: S.optional(S.Boolean) }),
 ).annotations({ identifier: "PathMatch" }) as any as S.Schema<PathMatch>;
+export type HeaderMatchType =
+  | { exact: string }
+  | { prefix: string }
+  | { contains: string };
 export const HeaderMatchType = S.Union(
   S.Struct({ exact: S.String }),
   S.Struct({ prefix: S.String }),
@@ -1264,6 +1405,7 @@ export const HttpMatch = S.suspend(() =>
     headerMatches: S.optional(HeaderMatchList),
   }),
 ).annotations({ identifier: "HttpMatch" }) as any as S.Schema<HttpMatch>;
+export type RuleMatch = { httpMatch: HttpMatch };
 export const RuleMatch = S.Union(S.Struct({ httpMatch: HttpMatch }));
 export interface UpdateRuleRequest {
   serviceIdentifier: string;
@@ -2039,6 +2181,7 @@ export const DnsOptions = S.suspend(() =>
     privateDnsSpecifiedDomains: S.optional(PrivateDnsSpecifiedDomainsList),
   }),
 ).annotations({ identifier: "DnsOptions" }) as any as S.Schema<DnsOptions>;
+export type Matcher = { httpCode: string };
 export const Matcher = S.Union(S.Struct({ httpCode: S.String }));
 export interface HealthCheckConfig {
   enabled?: boolean;
@@ -4147,7 +4290,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -4165,7 +4310,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -4189,27 +4336,73 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Lists the associations between a service network and a VPC endpoint.
  */
-export const listServiceNetworkVpcEndpointAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceNetworkVpcEndpointAssociations: {
+  (
     input: ListServiceNetworkVpcEndpointAssociationsRequest,
-    output: ListServiceNetworkVpcEndpointAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceNetworkVpcEndpointAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceNetworkVpcEndpointAssociationsRequest,
+  ) => Stream.Stream<
+    ListServiceNetworkVpcEndpointAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceNetworkVpcEndpointAssociationsRequest,
+  ) => Stream.Stream<
+    ServiceNetworkEndpointAssociation,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceNetworkVpcEndpointAssociationsRequest,
+  output: ListServiceNetworkVpcEndpointAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. For more information, see Listener rules in the *Amazon VPC Lattice User Guide*.
  */
-export const createRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRule: (
+  input: CreateRuleRequest,
+) => Effect.Effect<
+  CreateRuleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleRequest,
   output: CreateRuleResponse,
   errors: [
@@ -4225,42 +4418,76 @@ export const createRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts the domain verification process for a custom domain name.
  */
-export const startDomainVerification = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartDomainVerificationRequest,
-    output: StartDomainVerificationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startDomainVerification: (
+  input: StartDomainVerificationRequest,
+) => Effect.Effect<
+  StartDomainVerificationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDomainVerificationRequest,
+  output: StartDomainVerificationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a resource configuration. A resource configuration defines a specific resource. You can associate a resource configuration with a service network or a VPC endpoint.
  */
-export const createResourceConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateResourceConfigurationRequest,
-    output: CreateResourceConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createResourceConfiguration: (
+  input: CreateResourceConfigurationRequest,
+) => Effect.Effect<
+  CreateResourceConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateResourceConfigurationRequest,
+  output: CreateResourceConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the specified target group.
  */
-export const updateTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTargetGroup: (
+  input: UpdateTargetGroupRequest,
+) => Effect.Effect<
+  UpdateTargetGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTargetGroupRequest,
   output: UpdateTargetGroupResponse,
   errors: [
@@ -4276,67 +4503,185 @@ export const updateTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon Kinesis Data Firehose. The service network owner can use the access logs to audit the services in the network. The service network owner can only see access logs from clients and services that are associated with their service network. Access log entries represent traffic originated from VPCs associated with that network. For more information, see Access logs in the *Amazon VPC Lattice User Guide*.
  */
-export const createAccessLogSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAccessLogSubscriptionRequest,
-    output: CreateAccessLogSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAccessLogSubscription: (
+  input: CreateAccessLogSubscriptionRequest,
+) => Effect.Effect<
+  CreateAccessLogSubscriptionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccessLogSubscriptionRequest,
+  output: CreateAccessLogSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the domain verifications.
  */
-export const listDomainVerifications =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDomainVerifications: {
+  (
     input: ListDomainVerificationsRequest,
-    output: ListDomainVerificationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDomainVerificationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDomainVerificationsRequest,
+  ) => Stream.Stream<
+    ListDomainVerificationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDomainVerificationsRequest,
+  ) => Stream.Stream<
+    DomainVerificationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDomainVerificationsRequest,
+  output: ListDomainVerificationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the listeners for the specified service.
  */
-export const listListeners = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listListeners: {
+  (
     input: ListListenersRequest,
-    output: ListListenersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListListenersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListListenersRequest,
+  ) => Stream.Stream<
+    ListListenersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListListenersRequest,
+  ) => Stream.Stream<
+    ListenerSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListListenersRequest,
+  output: ListListenersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the rules for the specified listener.
  */
-export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRules: {
+  (
+    input: ListRulesRequest,
+  ): Effect.Effect<
+    ListRulesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRulesRequest,
+  ) => Stream.Stream<
+    ListRulesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRulesRequest,
+  ) => Stream.Stream<
+    RuleSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRulesRequest,
   output: ListRulesResponse,
   errors: [
@@ -4358,7 +4703,20 @@ export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * For more information, see Services in the *Amazon VPC Lattice User Guide*.
  */
-export const createService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createService: (
+  input: CreateServiceRequest,
+) => Effect.Effect<
+  CreateServiceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceRequest,
   output: CreateServiceResponse,
   errors: [
@@ -4376,21 +4734,32 @@ export const createService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Service networks in the *Amazon VPC Lattice User Guide*.
  */
-export const createServiceNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateServiceNetworkRequest,
-    output: CreateServiceNetworkResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createServiceNetwork: (
+  input: CreateServiceNetworkRequest,
+) => Effect.Effect<
+  CreateServiceNetworkResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateServiceNetworkRequest,
+  output: CreateServiceNetworkResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see Manage VPC associations in the *Amazon VPC Lattice User Guide*.
  *
@@ -4400,26 +4769,51 @@ export const createServiceNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
  */
-export const createServiceNetworkVpcAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateServiceNetworkVpcAssociationRequest,
-    output: CreateServiceNetworkVpcAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createServiceNetworkVpcAssociation: (
+  input: CreateServiceNetworkVpcAssociationRequest,
+) => Effect.Effect<
+  CreateServiceNetworkVpcAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateServiceNetworkVpcAssociationRequest,
+  output: CreateServiceNetworkVpcAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a target group. A target group is a collection of targets, or compute resources, that run your application or service. A target group can only be used by a single service.
  *
  * For more information, see Target groups in the *Amazon VPC Lattice User Guide*.
  */
-export const createTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTargetGroup: (
+  input: CreateTargetGroupRequest,
+) => Effect.Effect<
+  CreateTargetGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTargetGroupRequest,
   output: CreateTargetGroupResponse,
   errors: [
@@ -4435,7 +4829,19 @@ export const createTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deregisters the specified targets from the specified target group.
  */
-export const deregisterTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deregisterTargets: (
+  input: DeregisterTargetsRequest,
+) => Effect.Effect<
+  DeregisterTargetsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterTargetsRequest,
   output: DeregisterTargetsResponse,
   errors: [
@@ -4450,29 +4856,77 @@ export const deregisterTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the targets for the target group. By default, all targets are included. You can use this API to check the health status of targets. You can also ﬁlter the results by target.
  */
-export const listTargets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTargets: {
+  (
     input: ListTargetsRequest,
-    output: ListTargetsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTargetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTargetsRequest,
+  ) => Stream.Stream<
+    ListTargetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTargetsRequest,
+  ) => Stream.Stream<
+    TargetSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTargetsRequest,
+  output: ListTargetsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Registers the targets with the target group. If it's a Lambda target, you can only have one target in a target group.
  */
-export const registerTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerTargets: (
+  input: RegisterTargetsRequest,
+) => Effect.Effect<
+  RegisterTargetsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterTargetsRequest,
   output: RegisterTargetsResponse,
   errors: [
@@ -4488,7 +4942,18 @@ export const registerTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the auth policy for the specified service or service network.
  */
-export const getAuthPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAuthPolicy: (
+  input: GetAuthPolicyRequest,
+) => Effect.Effect<
+  GetAuthPolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAuthPolicyRequest,
   output: GetAuthPolicyResponse,
   errors: [
@@ -4502,7 +4967,18 @@ export const getAuthPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the specified resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => Effect.Effect<
+  GetResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
   errors: [
@@ -4516,7 +4992,17 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -4531,7 +5017,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Auth policies in the *Amazon VPC Lattice User Guide*.
  */
-export const putAuthPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putAuthPolicy: (
+  input: PutAuthPolicyRequest,
+) => Effect.Effect<
+  PutAuthPolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAuthPolicyRequest,
   output: PutAuthPolicyResponse,
   errors: [
@@ -4545,7 +5042,18 @@ export const putAuthPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds the specified tags to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -4559,39 +5067,68 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the specified access log subscription.
  */
-export const getAccessLogSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAccessLogSubscriptionRequest,
-    output: GetAccessLogSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAccessLogSubscription: (
+  input: GetAccessLogSubscriptionRequest,
+) => Effect.Effect<
+  GetAccessLogSubscriptionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccessLogSubscriptionRequest,
+  output: GetAccessLogSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about a domain verification.ß
  */
-export const getDomainVerification = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDomainVerificationRequest,
-    output: GetDomainVerificationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getDomainVerification: (
+  input: GetDomainVerificationRequest,
+) => Effect.Effect<
+  GetDomainVerificationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDomainVerificationRequest,
+  output: GetDomainVerificationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about the specified listener for the specified service.
  */
-export const getListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getListener: (
+  input: GetListenerRequest,
+) => Effect.Effect<
+  GetListenerResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetListenerRequest,
   output: GetListenerResponse,
   errors: [
@@ -4605,55 +5142,95 @@ export const getListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the specified resource configuration.
  */
-export const getResourceConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetResourceConfigurationRequest,
-    output: GetResourceConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getResourceConfiguration: (
+  input: GetResourceConfigurationRequest,
+) => Effect.Effect<
+  GetResourceConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceConfigurationRequest,
+  output: GetResourceConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the specified resource configuration.
  */
-export const updateResourceConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateResourceConfigurationRequest,
-    output: UpdateResourceConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateResourceConfiguration: (
+  input: UpdateResourceConfigurationRequest,
+) => Effect.Effect<
+  UpdateResourceConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResourceConfigurationRequest,
+  output: UpdateResourceConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates the resource configuration from the resource VPC endpoint.
  */
-export const deleteResourceEndpointAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteResourceEndpointAssociationRequest,
-    output: DeleteResourceEndpointAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteResourceEndpointAssociation: (
+  input: DeleteResourceEndpointAssociationRequest,
+) => Effect.Effect<
+  DeleteResourceEndpointAssociationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourceEndpointAssociationRequest,
+  output: DeleteResourceEndpointAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about the specified resource gateway.
  */
-export const getResourceGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourceGateway: (
+  input: GetResourceGatewayRequest,
+) => Effect.Effect<
+  GetResourceGatewayResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourceGatewayRequest,
   output: GetResourceGatewayResponse,
   errors: [
@@ -4667,7 +5244,18 @@ export const getResourceGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more information, see Listener rules in the *Amazon VPC Lattice User Guide*.
  */
-export const getRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRule: (
+  input: GetRuleRequest,
+) => Effect.Effect<
+  GetRuleResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRuleRequest,
   output: GetRuleResponse,
   errors: [
@@ -4681,7 +5269,18 @@ export const getRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the specified service.
  */
-export const getService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getService: (
+  input: GetServiceRequest,
+) => Effect.Effect<
+  GetServiceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceRequest,
   output: GetServiceResponse,
   errors: [
@@ -4695,7 +5294,18 @@ export const getService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the specified service network.
  */
-export const getServiceNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getServiceNetwork: (
+  input: GetServiceNetworkRequest,
+) => Effect.Effect<
+  GetServiceNetworkResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceNetworkRequest,
   output: GetServiceNetworkResponse,
   errors: [
@@ -4709,52 +5319,93 @@ export const getServiceNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the specified association between a service network and a resource configuration.
  */
-export const getServiceNetworkResourceAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetServiceNetworkResourceAssociationRequest,
-    output: GetServiceNetworkResourceAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getServiceNetworkResourceAssociation: (
+  input: GetServiceNetworkResourceAssociationRequest,
+) => Effect.Effect<
+  GetServiceNetworkResourceAssociationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceNetworkResourceAssociationRequest,
+  output: GetServiceNetworkResourceAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about the specified association between a service network and a service.
  */
-export const getServiceNetworkServiceAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetServiceNetworkServiceAssociationRequest,
-    output: GetServiceNetworkServiceAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getServiceNetworkServiceAssociation: (
+  input: GetServiceNetworkServiceAssociationRequest,
+) => Effect.Effect<
+  GetServiceNetworkServiceAssociationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceNetworkServiceAssociationRequest,
+  output: GetServiceNetworkServiceAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about the specified association between a service network and a VPC.
  */
-export const getServiceNetworkVpcAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetServiceNetworkVpcAssociationRequest,
-    output: GetServiceNetworkVpcAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getServiceNetworkVpcAssociation: (
+  input: GetServiceNetworkVpcAssociationRequest,
+) => Effect.Effect<
+  GetServiceNetworkVpcAssociationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceNetworkVpcAssociationRequest,
+  output: GetServiceNetworkVpcAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about the specified target group.
  */
-export const getTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTargetGroup: (
+  input: GetTargetGroupRequest,
+) => Effect.Effect<
+  GetTargetGroupResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTargetGroupRequest,
   output: GetTargetGroupResponse,
   errors: [
@@ -4768,23 +5419,43 @@ export const getTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified resource policy.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition statements as the Amazon Web Services Resource Access Manager permission for sharing services and service networks.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [
@@ -4798,7 +5469,17 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -4811,56 +5492,97 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified access log subscription.
  */
-export const deleteAccessLogSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAccessLogSubscriptionRequest,
-    output: DeleteAccessLogSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAccessLogSubscription: (
+  input: DeleteAccessLogSubscriptionRequest,
+) => Effect.Effect<
+  DeleteAccessLogSubscriptionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccessLogSubscriptionRequest,
+  output: DeleteAccessLogSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the specified domain verification.
  */
-export const deleteDomainVerification = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDomainVerificationRequest,
-    output: DeleteDomainVerificationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteDomainVerification: (
+  input: DeleteDomainVerificationRequest,
+) => Effect.Effect<
+  DeleteDomainVerificationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDomainVerificationRequest,
+  output: DeleteDomainVerificationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the specified access log subscription.
  */
-export const updateAccessLogSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccessLogSubscriptionRequest,
-    output: UpdateAccessLogSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAccessLogSubscription: (
+  input: UpdateAccessLogSubscriptionRequest,
+) => Effect.Effect<
+  UpdateAccessLogSubscriptionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccessLogSubscriptionRequest,
+  output: UpdateAccessLogSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the specified listener for the specified service.
  */
-export const updateListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateListener: (
+  input: UpdateListenerRequest,
+) => Effect.Effect<
+  UpdateListenerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateListenerRequest,
   output: UpdateListenerResponse,
   errors: [
@@ -4876,59 +5598,103 @@ export const updateListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * A resource gateway is a point of ingress into the VPC where a resource resides. It spans multiple Availability Zones. For your resource to be accessible from all Availability Zones, you should create your resource gateways to span as many Availability Zones as possible. A VPC can have multiple resource gateways.
  */
-export const createResourceGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateResourceGatewayRequest,
-    output: CreateResourceGatewayResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createResourceGateway: (
+  input: CreateResourceGatewayRequest,
+) => Effect.Effect<
+  CreateResourceGatewayResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateResourceGatewayRequest,
+  output: CreateResourceGatewayResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the specified resource gateway.
  */
-export const updateResourceGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateResourceGatewayRequest,
-    output: UpdateResourceGatewayResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateResourceGateway: (
+  input: UpdateResourceGatewayRequest,
+) => Effect.Effect<
+  UpdateResourceGatewayResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResourceGatewayRequest,
+  output: UpdateResourceGatewayResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the specified resource gateway.
  */
-export const deleteResourceGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourceGatewayRequest,
-    output: DeleteResourceGatewayResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResourceGateway: (
+  input: DeleteResourceGatewayRequest,
+) => Effect.Effect<
+  DeleteResourceGatewayResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourceGatewayRequest,
+  output: DeleteResourceGatewayResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a specified rule for the listener. You can't modify a default listener rule. To modify a default listener rule, use `UpdateListener`.
  */
-export const updateRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRule: (
+  input: UpdateRuleRequest,
+) => Effect.Effect<
+  UpdateRuleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleRequest,
   output: UpdateRuleResponse,
   errors: [
@@ -4944,7 +5710,20 @@ export const updateRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified service.
  */
-export const updateService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateService: (
+  input: UpdateServiceRequest,
+) => Effect.Effect<
+  UpdateServiceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceRequest,
   output: UpdateServiceResponse,
   errors: [
@@ -4960,7 +5739,19 @@ export const updateService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a service. A service can't be deleted if it's associated with a service network. If you delete a service, all resources related to the service, such as the resource policy, auth policy, listeners, listener rules, and access log subscriptions, are also deleted. For more information, see Delete a service in the *Amazon VPC Lattice User Guide*.
  */
-export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteService: (
+  input: DeleteServiceRequest,
+) => Effect.Effect<
+  DeleteServiceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceRequest,
   output: DeleteServiceResponse,
   errors: [
@@ -4975,53 +5766,86 @@ export const deleteService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified service network.
  */
-export const updateServiceNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServiceNetworkRequest,
-    output: UpdateServiceNetworkResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateServiceNetwork: (
+  input: UpdateServiceNetworkRequest,
+) => Effect.Effect<
+  UpdateServiceNetworkResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceNetworkRequest,
+  output: UpdateServiceNetworkResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive connections through the service network, including through a service network VPC endpoint.
  */
-export const createServiceNetworkResourceAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateServiceNetworkResourceAssociationRequest,
-    output: CreateServiceNetworkResourceAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createServiceNetworkResourceAssociation: (
+  input: CreateServiceNetworkResourceAssociationRequest,
+) => Effect.Effect<
+  CreateServiceNetworkResourceAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateServiceNetworkResourceAssociationRequest,
+  output: CreateServiceNetworkResourceAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the association between a service network and a resource configuration.
  */
-export const deleteServiceNetworkResourceAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteServiceNetworkResourceAssociationRequest,
-    output: DeleteServiceNetworkResourceAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteServiceNetworkResourceAssociation: (
+  input: DeleteServiceNetworkResourceAssociationRequest,
+) => Effect.Effect<
+  DeleteServiceNetworkResourceAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceNetworkResourceAssociationRequest,
+  output: DeleteServiceNetworkResourceAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates the specified service with the specified service network. For more information, see Manage service associations in the *Amazon VPC Lattice User Guide*.
  *
@@ -5031,72 +5855,128 @@ export const deleteServiceNetworkResourceAssociation =
  *
  * As a result of this operation, the association is created in the service network account and the association owner account.
  */
-export const createServiceNetworkServiceAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateServiceNetworkServiceAssociationRequest,
-    output: CreateServiceNetworkServiceAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createServiceNetworkServiceAssociation: (
+  input: CreateServiceNetworkServiceAssociationRequest,
+) => Effect.Effect<
+  CreateServiceNetworkServiceAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateServiceNetworkServiceAssociationRequest,
+  output: CreateServiceNetworkServiceAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the association between a service and a service network. This operation fails if an association is still in progress.
  */
-export const deleteServiceNetworkServiceAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteServiceNetworkServiceAssociationRequest,
-    output: DeleteServiceNetworkServiceAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteServiceNetworkServiceAssociation: (
+  input: DeleteServiceNetworkServiceAssociationRequest,
+) => Effect.Effect<
+  DeleteServiceNetworkServiceAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceNetworkServiceAssociationRequest,
+  output: DeleteServiceNetworkServiceAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups.
  */
-export const updateServiceNetworkVpcAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateServiceNetworkVpcAssociationRequest,
-    output: UpdateServiceNetworkVpcAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateServiceNetworkVpcAssociation: (
+  input: UpdateServiceNetworkVpcAssociationRequest,
+) => Effect.Effect<
+  UpdateServiceNetworkVpcAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceNetworkVpcAssociationRequest,
+  output: UpdateServiceNetworkVpcAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates the VPC from the service network. You can't disassociate the VPC if there is a create or update association in progress.
  */
-export const deleteServiceNetworkVpcAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteServiceNetworkVpcAssociationRequest,
-    output: DeleteServiceNetworkVpcAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteServiceNetworkVpcAssociation: (
+  input: DeleteServiceNetworkVpcAssociationRequest,
+) => Effect.Effect<
+  DeleteServiceNetworkVpcAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceNetworkVpcAssociationRequest,
+  output: DeleteServiceNetworkVpcAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a target group. You can't delete a target group if it is used in a listener rule or if the target group creation is in progress.
  */
-export const deleteTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTargetGroup: (
+  input: DeleteTargetGroupRequest,
+) => Effect.Effect<
+  DeleteTargetGroupResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTargetGroupRequest,
   output: DeleteTargetGroupResponse,
   errors: [
@@ -5110,7 +5990,19 @@ export const deleteTargetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified listener.
  */
-export const deleteListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteListener: (
+  input: DeleteListenerRequest,
+) => Effect.Effect<
+  DeleteListenerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteListenerRequest,
   output: DeleteListenerResponse,
   errors: [
@@ -5125,26 +6017,48 @@ export const deleteListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified resource configuration.
  */
-export const deleteResourceConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourceConfigurationRequest,
-    output: DeleteResourceConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResourceConfiguration: (
+  input: DeleteResourceConfigurationRequest,
+) => Effect.Effect<
+  DeleteResourceConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourceConfigurationRequest,
+  output: DeleteResourceConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. You can delete additional listener rules, but you cannot delete the default rule.
  *
  * For more information, see Listener rules in the *Amazon VPC Lattice User Guide*.
  */
-export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRule: (
+  input: DeleteRuleRequest,
+) => Effect.Effect<
+  DeleteRuleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleRequest,
   output: DeleteRuleResponse,
   errors: [
@@ -5159,20 +6073,30 @@ export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see Delete a service network in the *Amazon VPC Lattice User Guide*.
  */
-export const deleteServiceNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteServiceNetworkRequest,
-    output: DeleteServiceNetworkResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteServiceNetwork: (
+  input: DeleteServiceNetworkRequest,
+) => Effect.Effect<
+  DeleteServiceNetworkResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceNetworkRequest,
+  output: DeleteServiceNetworkResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the listener rules in a batch. You can use this operation to change the priority of listener rules. This can be useful when bulk updating or swapping rule priority.
  *
@@ -5180,7 +6104,19 @@ export const deleteServiceNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information, see How Amazon VPC Lattice works with IAM in the *Amazon VPC Lattice User Guide*.
  */
-export const batchUpdateRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchUpdateRule: (
+  input: BatchUpdateRuleRequest,
+) => Effect.Effect<
+  BatchUpdateRuleResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateRuleRequest,
   output: BatchUpdateRuleResponse,
   errors: [
@@ -5195,211 +6131,550 @@ export const batchUpdateRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the access log subscriptions for the specified service network or service.
  */
-export const listAccessLogSubscriptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAccessLogSubscriptions: {
+  (
     input: ListAccessLogSubscriptionsRequest,
-    output: ListAccessLogSubscriptionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAccessLogSubscriptionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccessLogSubscriptionsRequest,
+  ) => Stream.Stream<
+    ListAccessLogSubscriptionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccessLogSubscriptionsRequest,
+  ) => Stream.Stream<
+    AccessLogSubscriptionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccessLogSubscriptionsRequest,
+  output: ListAccessLogSubscriptionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the resource configurations owned by or shared with this account.
  */
-export const listResourceConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourceConfigurations: {
+  (
     input: ListResourceConfigurationsRequest,
-    output: ListResourceConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourceConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceConfigurationsRequest,
+  ) => Stream.Stream<
+    ListResourceConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceConfigurationsRequest,
+  ) => Stream.Stream<
+    ResourceConfigurationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceConfigurationsRequest,
+  output: ListResourceConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the associations for the specified VPC endpoint.
  */
-export const listResourceEndpointAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourceEndpointAssociations: {
+  (
     input: ListResourceEndpointAssociationsRequest,
-    output: ListResourceEndpointAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourceEndpointAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceEndpointAssociationsRequest,
+  ) => Stream.Stream<
+    ListResourceEndpointAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceEndpointAssociationsRequest,
+  ) => Stream.Stream<
+    ResourceEndpointAssociationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceEndpointAssociationsRequest,
+  output: ListResourceEndpointAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the resource gateways that you own or that were shared with you.
  */
-export const listResourceGateways =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourceGateways: {
+  (
     input: ListResourceGatewaysRequest,
-    output: ListResourceGatewaysResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourceGatewaysResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceGatewaysRequest,
+  ) => Stream.Stream<
+    ListResourceGatewaysResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceGatewaysRequest,
+  ) => Stream.Stream<
+    ResourceGatewaySummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceGatewaysRequest,
+  output: ListResourceGatewaysResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the services owned by the caller account or shared with the caller account.
  */
-export const listServices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listServices: {
+  (
     input: ListServicesRequest,
-    output: ListServicesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListServicesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServicesRequest,
+  ) => Stream.Stream<
+    ListServicesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServicesRequest,
+  ) => Stream.Stream<
+    ServiceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServicesRequest,
+  output: ListServicesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the service networks owned by or shared with this account. The account ID in the ARN shows which account owns the service network.
  */
-export const listServiceNetworks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceNetworks: {
+  (
     input: ListServiceNetworksRequest,
-    output: ListServiceNetworksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceNetworksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceNetworksRequest,
+  ) => Stream.Stream<
+    ListServiceNetworksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceNetworksRequest,
+  ) => Stream.Stream<
+    ServiceNetworkSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceNetworksRequest,
+  output: ListServiceNetworksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the associations between a service network and a resource configuration.
  */
-export const listServiceNetworkResourceAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceNetworkResourceAssociations: {
+  (
     input: ListServiceNetworkResourceAssociationsRequest,
-    output: ListServiceNetworkResourceAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceNetworkResourceAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceNetworkResourceAssociationsRequest,
+  ) => Stream.Stream<
+    ListServiceNetworkResourceAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceNetworkResourceAssociationsRequest,
+  ) => Stream.Stream<
+    ServiceNetworkResourceAssociationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceNetworkResourceAssociationsRequest,
+  output: ListServiceNetworkResourceAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the associations between a service network and a service. You can filter the list either by service or service network. You must provide either the service network identifier or the service identifier.
  *
  * Every association in Amazon VPC Lattice has a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource is shared with another account, the association includes the local account ID as the prefix in the ARN.
  */
-export const listServiceNetworkServiceAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceNetworkServiceAssociations: {
+  (
     input: ListServiceNetworkServiceAssociationsRequest,
-    output: ListServiceNetworkServiceAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceNetworkServiceAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceNetworkServiceAssociationsRequest,
+  ) => Stream.Stream<
+    ListServiceNetworkServiceAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceNetworkServiceAssociationsRequest,
+  ) => Stream.Stream<
+    ServiceNetworkServiceAssociationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceNetworkServiceAssociationsRequest,
+  output: ListServiceNetworkServiceAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the associations between a service network and a VPC. You can filter the list either by VPC or service network. You must provide either the ID of the service network identifier or the ID of the VPC.
  */
-export const listServiceNetworkVpcAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceNetworkVpcAssociations: {
+  (
     input: ListServiceNetworkVpcAssociationsRequest,
-    output: ListServiceNetworkVpcAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceNetworkVpcAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceNetworkVpcAssociationsRequest,
+  ) => Stream.Stream<
+    ListServiceNetworkVpcAssociationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceNetworkVpcAssociationsRequest,
+  ) => Stream.Stream<
+    ServiceNetworkVpcAssociationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceNetworkVpcAssociationsRequest,
+  output: ListServiceNetworkVpcAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists your target groups. You can narrow your search by using the filters below in your request.
  */
-export const listTargetGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTargetGroups: {
+  (
     input: ListTargetGroupsRequest,
-    output: ListTargetGroupsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTargetGroupsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTargetGroupsRequest,
+  ) => Stream.Stream<
+    ListTargetGroupsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTargetGroupsRequest,
+  ) => Stream.Stream<
+    TargetGroupSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTargetGroupsRequest,
+  output: ListTargetGroupsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes the specified auth policy. If an auth is set to `AWS_IAM` and the auth policy is deleted, all requests are denied. If you are trying to remove the auth policy completely, you must set the auth type to `NONE`. If auth is enabled on the resource, but no auth policy is set, all requests are denied.
  */
-export const deleteAuthPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAuthPolicy: (
+  input: DeleteAuthPolicyRequest,
+) => Effect.Effect<
+  DeleteAuthPolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAuthPolicyRequest,
   output: DeleteAuthPolicyResponse,
   errors: [
@@ -5413,7 +6688,20 @@ export const deleteAuthPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a listener for a service. Before you start using your Amazon VPC Lattice service, you must add one or more listeners. A listener is a process that checks for connection requests to your services. For more information, see Listeners in the *Amazon VPC Lattice User Guide*.
  */
-export const createListener = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createListener: (
+  input: CreateListenerRequest,
+) => Effect.Effect<
+  CreateListenerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateListenerRequest,
   output: CreateListenerResponse,
   errors: [

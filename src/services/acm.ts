@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "ACM",
   serviceShapeName: "CertificateManager",
@@ -260,6 +268,23 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type NextToken = string;
+export type MaxItems = number;
+export type IdempotencyToken = string;
+export type DomainNameString = string;
+export type PcaArn = string;
+export type TagKey = string;
+export type TagValue = string;
+export type PositiveInteger = number;
+export type ServiceErrorMessage = string;
+export type CertificateBody = string;
+export type CertificateChain = string;
+export type PrivateKey = string;
+export type AvailabilityErrorMessage = string;
+export type ValidationExceptionMessage = string;
 
 //# Schemas
 export interface GetAccountConfigurationRequest {}
@@ -944,29 +969,46 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 /**
  * Returns the account configuration options associated with an Amazon Web Services account.
  */
-export const getAccountConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAccountConfigurationRequest,
-    output: GetAccountConfigurationResponse,
-    errors: [AccessDeniedException, ThrottlingException],
-  }),
-);
+export const getAccountConfiguration: (
+  input: GetAccountConfigurationRequest,
+) => Effect.Effect<
+  GetAccountConfigurationResponse,
+  AccessDeniedException | ThrottlingException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountConfigurationRequest,
+  output: GetAccountConfigurationResponse,
+  errors: [AccessDeniedException, ThrottlingException],
+}));
 /**
  * Lists the tags that have been applied to the ACM certificate. Use the certificate's Amazon Resource Name (ARN) to specify the certificate. To add a tag to an ACM certificate, use the AddTagsToCertificate action. To delete a tag, use the RemoveTagsFromCertificate action.
  */
-export const listTagsForCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListTagsForCertificateRequest,
-    output: ListTagsForCertificateResponse,
-    errors: [InvalidArnException, ResourceNotFoundException],
-  }),
-);
+export const listTagsForCertificate: (
+  input: ListTagsForCertificateRequest,
+) => Effect.Effect<
+  ListTagsForCertificateResponse,
+  InvalidArnException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForCertificateRequest,
+  output: ListTagsForCertificateResponse,
+  errors: [InvalidArnException, ResourceNotFoundException],
+}));
 /**
  * Exports a private certificate issued by a private certificate authority (CA) or public certificate for use anywhere. The exported file contains the certificate, the certificate chain, and the encrypted private key associated with the public key that is embedded in the certificate. For security, you must assign a passphrase for the private key when exporting it.
  *
  * For information about exporting and formatting a certificate using the ACM console or CLI, see Export a private certificate and Export a public certificate.
  */
-export const exportCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const exportCertificate: (
+  input: ExportCertificateRequest,
+) => Effect.Effect<
+  ExportCertificateResponse,
+  | InvalidArnException
+  | RequestInProgressException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportCertificateRequest,
   output: ExportCertificateResponse,
   errors: [
@@ -978,7 +1020,16 @@ export const exportCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a certificate and its certificate chain. The certificate may be either a public or private certificate issued using the ACM `RequestCertificate` action, or a certificate imported into ACM using the `ImportCertificate` action. The chain consists of the certificate of the issuing CA and the intermediate certificates of any other subordinate CAs. All of the certificates are base64 encoded. You can use OpenSSL to decode the certificates and inspect individual fields.
  */
-export const getCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCertificate: (
+  input: GetCertificateRequest,
+) => Effect.Effect<
+  GetCertificateResponse,
+  | InvalidArnException
+  | RequestInProgressException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCertificateRequest,
   output: GetCertificateResponse,
   errors: [
@@ -990,22 +1041,39 @@ export const getCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Resends the email that requests domain ownership validation. The domain owner or an authorized representative must approve the ACM certificate before it can be issued. The certificate can be approved by clicking a link in the mail to navigate to the Amazon certificate approval website and then clicking **I Approve**. However, the validation email can be blocked by spam filters. Therefore, if you do not receive the original mail, you can request that the mail be resent within 72 hours of requesting the ACM certificate. If more than 72 hours have elapsed since your original request or since your last attempt to resend validation mail, you must request a new certificate. For more information about setting up your contact email addresses, see Configure Email for your Domain.
  */
-export const resendValidationEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResendValidationEmailRequest,
-    output: ResendValidationEmailResponse,
-    errors: [
-      InvalidArnException,
-      InvalidDomainValidationOptionsException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const resendValidationEmail: (
+  input: ResendValidationEmailRequest,
+) => Effect.Effect<
+  ResendValidationEmailResponse,
+  | InvalidArnException
+  | InvalidDomainValidationOptionsException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResendValidationEmailRequest,
+  output: ResendValidationEmailResponse,
+  errors: [
+    InvalidArnException,
+    InvalidDomainValidationOptionsException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Renews an eligible ACM certificate. In order to renew your Amazon Web Services Private CA certificates with ACM, you must first grant the ACM service principal permission to do so. For more information, see Testing Managed Renewal in the ACM User Guide.
  */
-export const renewCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const renewCertificate: (
+  input: RenewCertificateRequest,
+) => Effect.Effect<
+  RenewCertificateResponse,
+  | InvalidArnException
+  | RequestInProgressException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RenewCertificateRequest,
   output: RenewCertificateResponse,
   errors: [
@@ -1019,7 +1087,19 @@ export const renewCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You cannot delete an ACM certificate that is being used by another Amazon Web Services service. To delete a certificate that is in use, the certificate association must first be removed.
  */
-export const deleteCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCertificate: (
+  input: DeleteCertificateRequest,
+) => Effect.Effect<
+  DeleteCertificateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InvalidArnException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCertificateRequest,
   output: DeleteCertificateResponse,
   errors: [
@@ -1036,22 +1116,42 @@ export const deleteCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The supported configuration option is `DaysBeforeExpiry`. This option specifies the number of days prior to certificate expiration when ACM starts generating `EventBridge` events. ACM sends one event per day per certificate until the certificate expires. By default, accounts receive events starting 45 days before certificate expiration.
  */
-export const putAccountConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutAccountConfigurationRequest,
-    output: PutAccountConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putAccountConfiguration: (
+  input: PutAccountConfigurationRequest,
+) => Effect.Effect<
+  PutAccountConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAccountConfigurationRequest,
+  output: PutAccountConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Revokes a public ACM certificate. You can only revoke certificates that have been previously exported.
  */
-export const revokeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const revokeCertificate: (
+  input: RevokeCertificateRequest,
+) => Effect.Effect<
+  RevokeCertificateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InvalidArnException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeCertificateRequest,
   output: RevokeCertificateResponse,
   errors: [
@@ -1066,24 +1166,38 @@ export const revokeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a certificate. You can use this function to specify whether to opt in to or out of recording your certificate in a certificate transparency log and exporting. For more information, see Opting Out of Certificate Transparency Logging and Certificate Manager Exportable Managed Certificates.
  */
-export const updateCertificateOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCertificateOptionsRequest,
-    output: UpdateCertificateOptionsResponse,
-    errors: [
-      InvalidArnException,
-      InvalidStateException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateCertificateOptions: (
+  input: UpdateCertificateOptionsRequest,
+) => Effect.Effect<
+  UpdateCertificateOptionsResponse,
+  | InvalidArnException
+  | InvalidStateException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCertificateOptionsRequest,
+  output: UpdateCertificateOptionsResponse,
+  errors: [
+    InvalidArnException,
+    InvalidStateException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns detailed metadata about the specified ACM certificate.
  *
  * If you have just created a certificate using the `RequestCertificate` action, there is a delay of several seconds before you can retrieve information about it.
  */
-export const describeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCertificate: (
+  input: DescribeCertificateRequest,
+) => Effect.Effect<
+  DescribeCertificateResponse,
+  InvalidArnException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCertificateRequest,
   output: DescribeCertificateResponse,
   errors: [InvalidArnException, ResourceNotFoundException],
@@ -1091,38 +1205,68 @@ export const describeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only `RSA_2048` certificates. For more information, see Filters.
  */
-export const listCertificates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCertificates: {
+  (
     input: ListCertificatesRequest,
-    output: ListCertificatesResponse,
-    errors: [InvalidArgsException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CertificateSummaryList",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCertificatesResponse,
+    InvalidArgsException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCertificatesRequest,
+  ) => Stream.Stream<
+    ListCertificatesResponse,
+    InvalidArgsException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCertificatesRequest,
+  ) => Stream.Stream<
+    CertificateSummary,
+    InvalidArgsException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCertificatesRequest,
+  output: ListCertificatesResponse,
+  errors: [InvalidArgsException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CertificateSummaryList",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Remove one or more tags from an ACM certificate. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this function, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value.
  *
  * To add tags to a certificate, use the AddTagsToCertificate action. To view all of the tags that have been applied to a specific ACM certificate, use the ListTagsForCertificate action.
  */
-export const removeTagsFromCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveTagsFromCertificateRequest,
-    output: RemoveTagsFromCertificateResponse,
-    errors: [
-      InvalidArnException,
-      InvalidParameterException,
-      InvalidTagException,
-      ResourceNotFoundException,
-      TagPolicyException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const removeTagsFromCertificate: (
+  input: RemoveTagsFromCertificateRequest,
+) => Effect.Effect<
+  RemoveTagsFromCertificateResponse,
+  | InvalidArnException
+  | InvalidParameterException
+  | InvalidTagException
+  | ResourceNotFoundException
+  | TagPolicyException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTagsFromCertificateRequest,
+  output: RemoveTagsFromCertificateResponse,
+  errors: [
+    InvalidArnException,
+    InvalidParameterException,
+    InvalidTagException,
+    ResourceNotFoundException,
+    TagPolicyException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Adds one or more tags to an ACM certificate. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a `key` and an optional `value`. You specify the certificate on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair.
  *
@@ -1130,21 +1274,32 @@ export const removeTagsFromCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To remove one or more tags, use the RemoveTagsFromCertificate action. To view all of the tags that have been applied to the certificate, use the ListTagsForCertificate action.
  */
-export const addTagsToCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddTagsToCertificateRequest,
-    output: AddTagsToCertificateResponse,
-    errors: [
-      InvalidArnException,
-      InvalidParameterException,
-      InvalidTagException,
-      ResourceNotFoundException,
-      TagPolicyException,
-      ThrottlingException,
-      TooManyTagsException,
-    ],
-  }),
-);
+export const addTagsToCertificate: (
+  input: AddTagsToCertificateRequest,
+) => Effect.Effect<
+  AddTagsToCertificateResponse,
+  | InvalidArnException
+  | InvalidParameterException
+  | InvalidTagException
+  | ResourceNotFoundException
+  | TagPolicyException
+  | ThrottlingException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddTagsToCertificateRequest,
+  output: AddTagsToCertificateResponse,
+  errors: [
+    InvalidArnException,
+    InvalidParameterException,
+    InvalidTagException,
+    ResourceNotFoundException,
+    TagPolicyException,
+    ThrottlingException,
+    TooManyTagsException,
+  ],
+}));
 /**
  * Imports a certificate into Certificate Manager (ACM) to use with services that are integrated with ACM. Note that integrated services allow only certificate types and keys they support to be associated with their resources. Further, their support differs depending on whether the certificate is imported into IAM or into ACM. For more information, see the documentation for each service. For more information about importing certificates into ACM, see Importing Certificates in the *Certificate Manager User Guide*.
  *
@@ -1176,7 +1331,20 @@ export const addTagsToCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This operation returns the Amazon Resource Name (ARN) of the imported certificate.
  */
-export const importCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importCertificate: (
+  input: ImportCertificateRequest,
+) => Effect.Effect<
+  ImportCertificateResponse,
+  | InvalidArnException
+  | InvalidParameterException
+  | InvalidTagException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | TagPolicyException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportCertificateRequest,
   output: ImportCertificateResponse,
   errors: [
@@ -1198,7 +1366,20 @@ export const importCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * After successful completion of the `RequestCertificate` action, there is a delay of several seconds before you can retrieve information about the new certificate.
  */
-export const requestCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const requestCertificate: (
+  input: RequestCertificateRequest,
+) => Effect.Effect<
+  RequestCertificateResponse,
+  | InvalidArnException
+  | InvalidDomainValidationOptionsException
+  | InvalidParameterException
+  | InvalidTagException
+  | LimitExceededException
+  | TagPolicyException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestCertificateRequest,
   output: RequestCertificateResponse,
   errors: [

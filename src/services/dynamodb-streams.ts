@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Strm from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://dynamodb.amazonaws.com/doc/2012-08-10/");
 const svc = T.AwsApiService({
   sdkId: "DynamoDB Streams",
@@ -450,6 +458,20 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type StreamArn = string;
+export type PositiveIntegerObject = number;
+export type ShardId = string;
+export type ShardIterator = string;
+export type SequenceNumber = string;
+export type TableName = string;
+export type ErrorMessage = string;
+export type PositiveLongObject = number;
+export type AttributeName = string;
+export type KeySchemaAttributeName = string;
+export type StringAttributeValue = string;
+export type NumberAttributeValue = string;
+
 //# Schemas
 export interface GetRecordsInput {
   ShardIterator: string;
@@ -809,7 +831,13 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
  *
  * You can call `ListStreams` at a maximum rate of 5 times per second.
  */
-export const listStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listStreams: (
+  input: ListStreamsInput,
+) => Effect.Effect<
+  ListStreamsOutput,
+  InternalServerError | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListStreamsInput,
   output: ListStreamsOutput,
   errors: [InternalServerError, ResourceNotFoundException],
@@ -823,7 +851,16 @@ export const listStreams = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A shard iterator expires 15 minutes after it is returned to the requester.
  */
-export const getShardIterator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getShardIterator: (
+  input: GetShardIteratorInput,
+) => Effect.Effect<
+  GetShardIteratorOutput,
+  | InternalServerError
+  | ResourceNotFoundException
+  | TrimmedDataAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetShardIteratorInput,
   output: GetShardIteratorOutput,
   errors: [
@@ -843,7 +880,13 @@ export const getShardIterator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * records). If both `StartingSequenceNumber` and `EndingSequenceNumber`
  * are present, then that shard is closed and can no longer receive more data.
  */
-export const describeStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeStream: (
+  input: DescribeStreamInput,
+) => Effect.Effect<
+  DescribeStreamOutput,
+  InternalServerError | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStreamInput,
   output: DescribeStreamOutput,
   errors: [InternalServerError, ResourceNotFoundException],
@@ -860,7 +903,18 @@ export const describeStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `GetRecords` can retrieve a maximum of 1 MB of data or 1000 stream records,
  * whichever comes first.
  */
-export const getRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRecords: (
+  input: GetRecordsInput,
+) => Effect.Effect<
+  GetRecordsOutput,
+  | ExpiredIteratorException
+  | InternalServerError
+  | LimitExceededException
+  | ResourceNotFoundException
+  | TrimmedDataAccessException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecordsInput,
   output: GetRecordsOutput,
   errors: [

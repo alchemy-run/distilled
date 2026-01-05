@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://events.amazonaws.com/doc/2015-10-07");
 const svc = T.AwsApiService({ sdkId: "Pipes", serviceShapeName: "Pipes" });
 const auth = T.AwsAuthSigv4({ name: "pipes" });
@@ -290,6 +298,106 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type PipeArn = string;
+export type TagKey = string;
+export type PipeName = string;
+export type PipeDescription = string;
+export type RequestedPipeState = string;
+export type ArnOrUrl = string;
+export type OptionalArn = string;
+export type Arn = string;
+export type RoleArn = string;
+export type KmsKeyIdentifier = string;
+export type PipeState = string;
+export type ResourceArn = string;
+export type NextToken = string;
+export type LimitMax100 = number;
+export type TagValue = string;
+export type InputTemplate = string;
+export type LogLevel = string;
+export type IncludeExecutionDataOption = string;
+export type RequestedPipeStateDescribeResponse = string;
+export type PipeStateReason = string;
+export type LimitMax10000 = number;
+export type OnPartialBatchItemFailureStreams = string;
+export type MaximumBatchingWindowInSeconds = number;
+export type MaximumRecordAgeInSeconds = number;
+export type MaximumRetryAttemptsESM = number;
+export type LimitMax10 = number;
+export type KinesisStreamStartPosition = string;
+export type DynamoDBStreamStartPosition = string;
+export type MQBrokerQueueName = string;
+export type URI = string;
+export type KafkaTopicName = string;
+export type MSKStartPosition = string;
+export type SelfManagedKafkaStartPosition = string;
+export type EndpointString = string;
+export type SecretManagerArn = string;
+export type PathParameter = string;
+export type PipeTargetInvocationType = string;
+export type KinesisPartitionKey = string;
+export type ArnOrJsonPath = string;
+export type LimitMin1 = number;
+export type LaunchType = string;
+export type PropagateTags = string;
+export type ReferenceId = string;
+export type MessageGroupId = string;
+export type MessageDeduplicationId = string;
+export type SecretManagerArnOrJsonPath = string;
+export type Database = string;
+export type DbUser = string;
+export type StatementName = string;
+export type Sql = string;
+export type EventBridgeEndpointId = string;
+export type EventBridgeDetailType = string;
+export type EventBridgeEventSource = string;
+export type JsonPath = string;
+export type LogStreamName = string;
+export type TimeValue = string;
+export type EpochTimeUnit = string;
+export type TimeFieldType = string;
+export type TimestampFormat = string;
+export type VersionValue = string;
+export type S3OutputFormat = string;
+export type FirehoseArn = string;
+export type CloudwatchLogGroupArn = string;
+export type EventPattern = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type HeaderKey = string;
+export type HeaderValue = string;
+export type QueryStringKey = string;
+export type QueryStringValue = string;
+export type CapacityProvider = string;
+export type CapacityProviderStrategyItemWeight = number;
+export type CapacityProviderStrategyItemBase = number;
+export type PlacementConstraintType = string;
+export type PlacementConstraintExpression = string;
+export type PlacementStrategyType = string;
+export type PlacementStrategyField = string;
+export type BatchArraySize = number;
+export type BatchRetryAttempts = number;
+export type BatchJobDependencyType = string;
+export type SageMakerPipelineParameterName = string;
+export type SageMakerPipelineParameterValue = string;
+export type DimensionValue = string;
+export type DimensionValueType = string;
+export type DimensionName = string;
+export type MeasureValue = string;
+export type MeasureValueType = string;
+export type MeasureName = string;
+export type MultiMeasureName = string;
+export type ErrorMessage = string;
+export type Subnet = string;
+export type SecurityGroup = string;
+export type AssignPublicIp = string;
+export type EphemeralStorageSize = number;
+export type BatchResourceRequirementType = string;
+export type MultiMeasureAttributeName = string;
+export type EcsEnvironmentFileType = string;
+export type EcsResourceRequirementType = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -602,6 +710,7 @@ export const PipeSourceSqsQueueParameters = S.suspend(() =>
 ).annotations({
   identifier: "PipeSourceSqsQueueParameters",
 }) as any as S.Schema<PipeSourceSqsQueueParameters>;
+export type MQBrokerAccessCredentials = { BasicAuth: string };
 export const MQBrokerAccessCredentials = S.Union(
   S.Struct({ BasicAuth: S.String }),
 );
@@ -846,6 +955,9 @@ export const UpdatePipeSourceRabbitMQBrokerParameters = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePipeSourceRabbitMQBrokerParameters",
 }) as any as S.Schema<UpdatePipeSourceRabbitMQBrokerParameters>;
+export type MSKAccessCredentials =
+  | { SaslScram512Auth: string }
+  | { ClientCertificateTlsAuth: string };
 export const MSKAccessCredentials = S.Union(
   S.Struct({ SaslScram512Auth: S.String }),
   S.Struct({ ClientCertificateTlsAuth: S.String }),
@@ -864,6 +976,11 @@ export const UpdatePipeSourceManagedStreamingKafkaParameters = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePipeSourceManagedStreamingKafkaParameters",
 }) as any as S.Schema<UpdatePipeSourceManagedStreamingKafkaParameters>;
+export type SelfManagedKafkaAccessConfigurationCredentials =
+  | { BasicAuth: string }
+  | { SaslScram512Auth: string }
+  | { SaslScram256Auth: string }
+  | { ClientCertificateTlsAuth: string };
 export const SelfManagedKafkaAccessConfigurationCredentials = S.Union(
   S.Struct({ BasicAuth: S.String }),
   S.Struct({ SaslScram512Auth: S.String }),
@@ -1866,7 +1983,9 @@ export class InternalException extends S.TaggedError<InternalException>()(
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { message: S.optional(S.String) },
@@ -1883,7 +2002,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -1906,7 +2027,16 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Removes one or more tags from the specified pipes.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [InternalException, NotFoundException, ValidationException],
@@ -1914,7 +2044,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Displays the tags associated with a pipe.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [InternalException, NotFoundException, ValidationException],
@@ -1935,7 +2074,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can associate as many as 50 tags with a pipe.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalException
+  | NotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [InternalException, NotFoundException, ValidationException],
@@ -1943,7 +2091,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete an existing pipe. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
-export const deletePipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePipe: (
+  input: DeletePipeRequest,
+) => Effect.Effect<
+  DeletePipeResponse,
+  | ConflictException
+  | InternalException
+  | NotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePipeRequest,
   output: DeletePipeResponse,
   errors: [
@@ -1957,7 +2116,38 @@ export const deletePipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get the pipes associated with this account. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
-export const listPipes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPipes: {
+  (
+    input: ListPipesRequest,
+  ): Effect.Effect<
+    ListPipesResponse,
+    | InternalException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPipesRequest,
+  ) => Stream.Stream<
+    ListPipesResponse,
+    | InternalException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPipesRequest,
+  ) => Stream.Stream<
+    Pipe,
+    | InternalException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPipesRequest,
   output: ListPipesResponse,
   errors: [InternalException, ThrottlingException, ValidationException],
@@ -1971,7 +2161,18 @@ export const listPipes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Start an existing pipe.
  */
-export const startPipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startPipe: (
+  input: StartPipeRequest,
+) => Effect.Effect<
+  StartPipeResponse,
+  | ConflictException
+  | InternalException
+  | NotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartPipeRequest,
   output: StartPipeResponse,
   errors: [
@@ -1985,7 +2186,18 @@ export const startPipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stop an existing pipe.
  */
-export const stopPipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopPipe: (
+  input: StopPipeRequest,
+) => Effect.Effect<
+  StopPipeResponse,
+  | ConflictException
+  | InternalException
+  | NotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopPipeRequest,
   output: StopPipeResponse,
   errors: [
@@ -1999,7 +2211,17 @@ export const stopPipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get the information about an existing pipe. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
-export const describePipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describePipe: (
+  input: DescribePipeRequest,
+) => Effect.Effect<
+  DescribePipeResponse,
+  | InternalException
+  | NotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePipeRequest,
   output: DescribePipeResponse,
   errors: [
@@ -2024,7 +2246,18 @@ export const describePipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about pipes, see
  * Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
-export const updatePipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePipe: (
+  input: UpdatePipeRequest,
+) => Effect.Effect<
+  UpdatePipeResponse,
+  | ConflictException
+  | InternalException
+  | NotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePipeRequest,
   output: UpdatePipeResponse,
   errors: [
@@ -2039,7 +2272,19 @@ export const updatePipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Create a pipe. Amazon EventBridge Pipes connect event sources to targets and reduces
  * the need for specialized knowledge and integration code.
  */
-export const createPipe = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPipe: (
+  input: CreatePipeRequest,
+) => Effect.Effect<
+  CreatePipeResponse,
+  | ConflictException
+  | InternalException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePipeRequest,
   output: CreatePipeResponse,
   errors: [

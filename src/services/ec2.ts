@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region as Rgn,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://ec2.amazonaws.com/doc/2016-11-15");
 const svc = T.AwsApiService({ sdkId: "EC2", serviceShapeName: "AmazonEC2" });
 const auth = T.AwsAuthSigv4({ name: "ec2" });
@@ -258,6 +266,406 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type CapacityReservationId = string;
+export type ReservationId = string;
+export type TransitGatewayMulticastDomainId = string;
+export type TransitGatewayAttachmentId = string;
+export type VpcEndpointServiceId = string;
+export type VpcEndpointId = string;
+export type VpcPeeringConnectionIdWithResolver = string;
+export type PublicIpAddress = string;
+export type Ipv4PoolEc2Id = string;
+export type IpamPoolId = string;
+export type AssetId = string;
+export type AvailabilityZoneId = string;
+export type Integer = number;
+export type ClientVpnEndpointId = string;
+export type VpcId = string;
+export type SecurityGroupId = string;
+export type NetworkInterfaceId = string;
+export type NatGatewayId = string;
+export type PrivateIpAddressCount = number;
+export type AllocationId = string;
+export type InstanceId = string;
+export type EipAllocationPublicIp = string;
+export type AccountID = string;
+export type SubnetId = string;
+export type DefaultingDhcpOptionsId = string;
+export type CertificateId = string;
+export type RoleId = string;
+export type InstanceEventWindowId = string;
+export type IpamId = string;
+export type IpamResourceDiscoveryId = string;
+export type AvailabilityZoneName = string;
+export type RouteServerId = string;
+export type RouteGatewayId = string;
+export type RouteTableId = string;
+export type NetmaskLength = number;
+export type TransitGatewayPolicyTableId = string;
+export type TransitGatewayRouteTableId = string;
+export type Ipv6PoolEc2Id = string;
+export type InternetGatewayId = string;
+export type VerifiedAccessInstanceId = string;
+export type VerifiedAccessTrustProviderId = string;
+export type VolumeId = string;
+export type VpnGatewayId = string;
+export type SecurityGroupName = string;
+export type BundleId = string;
+export type CapacityReservationFleetId = string;
+export type ConversionTaskId = string;
+export type DeclarativePoliciesReportId = string;
+export type ExportVmTaskId = string;
+export type ImageId = string;
+export type ImportTaskId = string;
+export type ReservedInstancesListingId = string;
+export type SpotFleetRequestId = string;
+export type SpotInstanceRequestId = string;
+export type KmsKeyId = string;
+export type Long = number;
+export type CopySnapshotRequestPSU = string;
+export type SnapshotCompletionDurationMinutesRequest = number;
+export type OutpostArn = string;
+export type PlacementGroupArn = string;
+export type CapacityReservationCommitmentDuration = number;
+export type Ipv4PoolCoipId = string;
+export type LocalGatewayRoutetableId = string;
+export type SensitiveMacCredentials = string;
+export type FlowLogResourceId = string;
+export type InstanceEventWindowCronExpression = string;
+export type IpamScopeId = string;
+export type IpamNetmaskLength = number;
+export type IpamPrefixListResolverId = string;
+export type BoxedLong = number;
+export type LaunchTemplateName = string;
+export type VersionDescription = string;
+export type LaunchTemplateId = string;
+export type LocalGatewayVirtualInterfaceGroupId = string;
+export type PrefixListResourceId = string;
+export type LocalGatewayId = string;
+export type OutpostLagId = string;
+export type NetworkAclId = string;
+export type IpAddress = string;
+export type NetworkInsightsResourceId = string;
+export type Port = number;
+export type PlacementGroupId = string;
+export type SnapshotId = string;
+export type TransitGatewayId = string;
+export type CarrierGatewayId = string;
+export type CoreNetworkArn = string;
+export type OdbNetworkArn = string;
+export type EgressOnlyInternetGatewayId = string;
+export type VpcPeeringConnectionId = string;
+export type RouteServerEndpointId = string;
+export type TaggableResourceId = string;
+export type TrafficMirrorFilterId = string;
+export type TrafficMirrorTargetId = string;
+export type TransitGatewayMeteringPolicyId = string;
+export type TransitAssociationGatewayId = string;
+export type VerifiedAccessGroupId = string;
+export type CertificateArn = string;
+export type ServiceNetworkArn = string;
+export type ResourceConfigurationArn = string;
+export type CustomerGatewayId = string;
+export type VpnConcentratorId = string;
+export type VpnConnectionId = string;
+export type CapacityManagerDataExportId = string;
+export type DhcpOptionsId = string;
+export type FleetId = string;
+export type VpcFlowLogId = string;
+export type FpgaImageId = string;
+export type ImageUsageReportId = string;
+export type InstanceConnectEndpointId = string;
+export type IpamExternalResourceVerificationTokenId = string;
+export type IpamPolicyId = string;
+export type IpamPrefixListResolverTargetId = string;
+export type KeyPairNameWithResolver = string;
+export type KeyPairId = string;
+export type LocalGatewayRouteTableVirtualInterfaceGroupAssociationId = string;
+export type LocalGatewayRouteTableVpcAssociationId = string;
+export type LocalGatewayVirtualInterfaceId = string;
+export type NetworkInsightsAccessScopeId = string;
+export type NetworkInsightsAccessScopeAnalysisId = string;
+export type NetworkInsightsAnalysisId = string;
+export type NetworkInsightsPathId = string;
+export type NetworkInterfacePermissionId = string;
+export type PlacementGroupName = string;
+export type RouteServerPeerId = string;
+export type SubnetCidrReservationId = string;
+export type TrafficMirrorFilterRuleIdWithResolver = string;
+export type TrafficMirrorSessionId = string;
+export type TransitGatewayConnectPeerId = string;
+export type TransitGatewayRouteTableAnnouncementId = string;
+export type VerifiedAccessEndpointId = string;
+export type VpcBlockPublicAccessExclusionId = string;
+export type VpcEncryptionControlId = string;
+export type ConnectionNotificationId = string;
+export type NextToken = string;
+export type AddressMaxResults = number;
+export type DescribeAddressTransfersMaxResults = number;
+export type MaxResultsParam = number;
+export type DescribeByoipCidrsMaxResults = number;
+export type DescribeFutureCapacityMaxResults = number;
+export type DescribeCapacityBlockExtensionOfferingsMaxResults = number;
+export type DescribeCapacityBlockOfferingsMaxResults = number;
+export type CapacityBlockId = string;
+export type DescribeCapacityBlocksMaxResults = number;
+export type DescribeCapacityBlockStatusMaxResults = number;
+export type DescribeCapacityManagerDataExportsRequestMaxResults = number;
+export type DescribeCapacityReservationBillingRequestsRequestMaxResults =
+  number;
+export type DescribeCapacityReservationFleetsMaxResults = number;
+export type DescribeCapacityReservationsMaxResults = number;
+export type DescribeCapacityReservationTopologyMaxResults = number;
+export type CarrierGatewayMaxResults = number;
+export type DescribeClassicLinkInstancesMaxResults = number;
+export type DescribeClientVpnAuthorizationRulesMaxResults = number;
+export type DescribeClientVpnConnectionsMaxResults = number;
+export type DescribeClientVpnEndpointMaxResults = number;
+export type DescribeClientVpnRoutesMaxResults = number;
+export type DescribeClientVpnTargetNetworksMaxResults = number;
+export type CoipPoolMaxResults = number;
+export type DeclarativePoliciesMaxResults = number;
+export type DescribeDhcpOptionsMaxResults = number;
+export type DescribeEgressOnlyInternetGatewaysMaxResults = number;
+export type ElasticGpuId = string;
+export type DescribeElasticGpusMaxResults = number;
+export type ExportImageTaskId = string;
+export type DescribeExportImageTasksMaxResults = number;
+export type ExportTaskId = string;
+export type DescribeFastLaunchImagesRequestMaxResults = number;
+export type DescribeFastSnapshotRestoresMaxResults = number;
+export type DescribeFpgaImagesMaxResults = number;
+export type DescribeHostReservationsMaxResults = number;
+export type OfferingId = string;
+export type HostReservationId = string;
+export type DedicatedHostId = string;
+export type IamInstanceProfileAssociationId = string;
+export type DescribeIamInstanceProfileAssociationsMaxResults = number;
+export type DescribeImageReferencesMaxResults = number;
+export type DescribeImageUsageReportEntriesMaxResults = number;
+export type DescribeImageUsageReportsMaxResults = number;
+export type ImportImageTaskId = string;
+export type ImportSnapshotTaskId = string;
+export type InstanceConnectEndpointMaxResults = number;
+export type DescribeInstanceCreditSpecificationsMaxResults = number;
+export type ResultRange = number;
+export type DescribeInstanceImageMetadataMaxResults = number;
+export type DescribeInstanceSqlHaStatesRequestMaxResultsInteger = number;
+export type DescribeInstanceTopologyMaxResults = number;
+export type DITOMaxResults = number;
+export type DITMaxResults = number;
+export type DescribeInternetGatewaysMaxResults = number;
+export type DescribeIpamByoasnMaxResults = number;
+export type IpamMaxResults = number;
+export type Ipv6PoolMaxResults = number;
+export type KeyPairName = string;
+export type DescribeLaunchTemplatesMaxResults = number;
+export type LocalGatewayMaxResults = number;
+export type DescribeLockedSnapshotsMaxResults = number;
+export type DescribeMacHostsRequestMaxResults = number;
+export type MacModificationTaskId = string;
+export type DescribeMacModificationTasksMaxResults = number;
+export type PrefixListMaxResults = number;
+export type DescribeMovingAddressesMaxResults = number;
+export type DescribeNatGatewaysMaxResults = number;
+export type DescribeNetworkAclsMaxResults = number;
+export type NetworkInsightsMaxResults = number;
+export type DescribeNetworkInterfacePermissionsMaxResults = number;
+export type DescribeNetworkInterfacesMaxResults = number;
+export type OutpostLagMaxResults = number;
+export type DescribePrincipalIdFormatMaxResults = number;
+export type PoolMaxResults = number;
+export type ReplaceRootVolumeTaskId = string;
+export type DescribeReplaceRootVolumeTasksMaxResults = number;
+export type ReservedInstancesModificationId = string;
+export type ReservedInstancesOfferingId = string;
+export type RouteServerMaxResults = number;
+export type DescribeRouteTablesMaxResults = number;
+export type DescribeScheduledInstanceAvailabilityMaxResults = number;
+export type ScheduledInstanceId = string;
+export type DescribeSecurityGroupRulesMaxResults = number;
+export type DescribeSecurityGroupsMaxResults = number;
+export type DescribeSecurityGroupVpcAssociationsMaxResults = number;
+export type ServiceLinkVirtualInterfaceId = string;
+export type ServiceLinkMaxResults = number;
+export type DescribeSnapshotTierStatusMaxResults = number;
+export type DescribeSpotFleetInstancesMaxResults = number;
+export type DescribeSpotFleetRequestHistoryMaxResults = number;
+export type DescribeStaleSecurityGroupsMaxResults = number;
+export type DescribeStaleSecurityGroupsNextToken = string;
+export type DescribeStoreImageTasksRequestMaxResults = number;
+export type DescribeSubnetsMaxResults = number;
+export type TrafficMirroringMaxResults = number;
+export type TransitGatewayMaxResults = number;
+export type TrunkInterfaceAssociationId = string;
+export type DescribeTrunkInterfaceAssociationsMaxResults = number;
+export type DescribeVerifiedAccessEndpointsMaxResults = number;
+export type DescribeVerifiedAccessGroupMaxResults = number;
+export type DescribeVerifiedAccessInstanceLoggingConfigurationsMaxResults =
+  number;
+export type DescribeVerifiedAccessInstancesMaxResults = number;
+export type DescribeVerifiedAccessTrustProvidersMaxResults = number;
+export type DescribeVpcBlockPublicAccessExclusionsMaxResults = number;
+export type DescribeVpcClassicLinkDnsSupportMaxResults = number;
+export type DescribeVpcClassicLinkDnsSupportNextToken = string;
+export type DescribeVpcEncryptionControlsMaxResults = number;
+export type MaxResults2 = number;
+export type DescribeVpcPeeringConnectionsMaxResults = number;
+export type DescribeVpcsMaxResults = number;
+export type GVCDMaxResults = number;
+export type NetworkInterfaceAttachmentId = string;
+export type InstanceIdForResolver = string;
+export type VolumeIdWithResolver = string;
+export type ElasticIpAssociationId = string;
+export type IpamResourceDiscoveryAssociationId = string;
+export type DrainSeconds = number;
+export type RouteTableAssociationId = string;
+export type DisassociateSecurityGroupVpcSecurityGroupId = string;
+export type SubnetCidrAssociationId = string;
+export type VpcCidrAssociationId = string;
+export type SecretArn = string;
+export type Period = number;
+export type MaxResults = number;
+export type GetCapacityReservationUsageRequestMaxResults = number;
+export type GetGroupsForCapacityReservationRequestMaxResults = number;
+export type IpamAddressHistoryMaxResults = number;
+export type IpamPoolAllocationId = string;
+export type GetIpamPoolAllocationsMaxResults = number;
+export type GetManagedPrefixListAssociationsMaxResults = number;
+export type GetNetworkInsightsAccessScopeAnalysisFindingsMaxResults = number;
+export type GetSecurityGroupsForVpcRequestMaxResults = number;
+export type SpotPlacementScoresTargetCapacity = number;
+export type SpotPlacementScoresMaxResults = number;
+export type GetSubnetCidrReservationsMaxResults = number;
+export type GetVerifiedAccessEndpointTargetsMaxResults = number;
+export type GetVpcResourcesBlockingEncryptionEnforcementMaxResults = number;
+export type VpnConnectionDeviceTypeId = string;
+export type ListImagesInRecycleBinMaxResults = number;
+export type ListSnapshotsInRecycleBinMaxResults = number;
+export type CoolOffPeriodRequestHours = number;
+export type RetentionPeriodRequestDays = number;
+export type BoxedInteger = number;
+export type CoipPoolId = string;
+export type StringType = string;
+export type KernelId = string;
+export type RamdiskId = string;
+export type NetworkAclAssociationId = string;
+export type ReportInstanceStatusRequestDescription = string;
+export type RestoreSnapshotTierRequestTemporaryRestoreDays = number;
+export type RunInstancesUserData = string;
+export type ResourceArn = string;
+export type DoubleWithConstraints = number;
+export type IntegerWithConstraints = number;
+export type ImageUsageResourceTypeName = string;
+export type Hour = number;
+export type SensitiveUserData = string;
+export type Double = number;
+export type InstanceIdWithVolumeResolver = string;
+export type VerifiedAccessEndpointPortNumber = number;
+export type LoadBalancerArn = string;
+export type KmsKeyArn = string;
+export type RdsDbInstanceArn = string;
+export type RdsDbClusterArn = string;
+export type RdsDbProxyArn = string;
+export type ClientSecretType = string;
+export type ExcludedInstanceType = string;
+export type AllowedInstanceType = string;
+export type SensitiveUrl = string;
+export type ImportManifestUrl = string;
+export type SecurityGroupRuleId = string;
+export type preSharedKey = string;
+export type ImageProviderRequest = string;
+export type MarketplaceProductCodeRequest = string;
+export type ImageNameRequest = string;
+export type ElasticInferenceAcceleratorCount = number;
+export type SnapshotCompletionDurationMinutesResponse = number;
+export type EkPubKeyValue = string;
+export type PasswordData = string;
+export type VpnConnectionDeviceSampleConfiguration = string;
+export type RetentionPeriodResponseDays = number;
+export type CoolOffPeriodResponseHours = number;
+export type S3StorageUploadPolicySignature = string;
+export type ImageUsageResourceTypeOptionValue = string;
+export type LaunchTemplateElasticInferenceAcceleratorCount = number;
+export type ResourceTypeOptionValue = string;
+export type MaximumDaysSinceDeprecatedValue = number;
+export type MaximumDaysSinceCreatedValue = number;
+export type IpamPoolCidrId = string;
+export type ImageUsageReportState = string;
+export type ImageUsageReportStateReason = string;
+export type Location = string;
+export type Float = number;
+export type customerGatewayConfiguration = string;
+export type ImageProvider = string;
+export type MarketplaceProductCode = string;
+export type ImageName = string;
+export type BoxedDouble = number;
+export type InstanceEventId = string;
+export type CloudWatchLogGroupArn = string;
+export type Ipv6Address = string;
+export type CancelCapacityReservationFleetErrorCode = string;
+export type CancelCapacityReservationFleetErrorMessage = string;
+export type ProcessorSustainedClockSpeed = number;
+export type CpuManufacturerName = string;
+export type VCpuCount = number;
+export type CoreCount = number;
+export type ThreadsPerCore = number;
+export type MemorySize = number;
+export type DiskSize = number;
+export type MaximumEbsAttachments = number;
+export type NetworkPerformance = string;
+export type MaxNetworkInterfaces = number;
+export type MaximumNetworkCards = number;
+export type DefaultNetworkCardIndex = number;
+export type MaxIpv4AddrPerInterface = number;
+export type MaxIpv6AddrPerInterface = number;
+export type totalGpuMemory = number;
+export type totalFpgaMemory = number;
+export type totalInferenceMemory = number;
+export type NitroTpmSupportedVersionType = string;
+export type TotalMediaMemory = number;
+export type TotalNeuronMemory = number;
+export type ComponentAccount = string;
+export type ComponentRegion = string;
+export type DiskCount = number;
+export type BaselineBandwidthInMbps = number;
+export type BaselineThroughputInMBps = number;
+export type BaselineIops = number;
+export type MaximumBandwidthInMbps = number;
+export type MaximumThroughputInMBps = number;
+export type MaximumIops = number;
+export type NetworkCardIndex = number;
+export type BaselineBandwidthInGbps = number;
+export type PeakBandwidthInGbps = number;
+export type DefaultEnaQueueCountPerInterface = number;
+export type MaximumEnaQueueCount = number;
+export type MaximumEnaQueueCountPerInterface = number;
+export type MaximumEfaInterfaces = number;
+export type GpuDeviceName = string;
+export type GpuDeviceManufacturerName = string;
+export type GpuDeviceCount = number;
+export type FpgaDeviceName = string;
+export type FpgaDeviceManufacturerName = string;
+export type FpgaDeviceCount = number;
+export type InferenceDeviceCount = number;
+export type InferenceDeviceName = string;
+export type InferenceDeviceManufacturerName = string;
+export type MediaDeviceCount = number;
+export type MediaDeviceName = string;
+export type MediaDeviceManufacturerName = string;
+export type NeuronDeviceCount = number;
+export type NeuronDeviceName = string;
+export type ProtocolInt = number;
+export type Priority = number;
+export type GpuDeviceMemorySize = number;
+export type FpgaDeviceMemorySize = number;
+export type InferenceDeviceMemorySize = number;
+export type MediaDeviceMemorySize = number;
+export type NeuronDeviceCoreCount = number;
+export type NeuronDeviceCoreVersion = number;
+export type NeuronDeviceMemorySize = number;
 
 //# Schemas
 export type ReservedInstanceIdSet = string[];
@@ -65219,43 +65627,61 @@ export class DefaultSubnetAlreadyExistsInAvailabilityZone extends S.TaggedError<
  * For more information, see DHCP option sets
  * in the *Amazon VPC User Guide*.
  */
-export const associateDhcpOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateDhcpOptionsRequest,
-    output: AssociateDhcpOptionsResponse,
-    errors: [InvalidVpcIDNotFound],
-  }),
-);
+export const associateDhcpOptions: (
+  input: AssociateDhcpOptionsRequest,
+) => Effect.Effect<
+  AssociateDhcpOptionsResponse,
+  InvalidVpcIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateDhcpOptionsRequest,
+  output: AssociateDhcpOptionsResponse,
+  errors: [InvalidVpcIDNotFound],
+}));
 /**
  * Attaches an internet gateway or a virtual private gateway to a VPC, enabling connectivity
  * between the internet and the VPC. For more information, see Internet gateways in the
  * *Amazon VPC User Guide*.
  */
-export const attachInternetGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AttachInternetGatewayRequest,
-    output: AttachInternetGatewayResponse,
-    errors: [InvalidInternetGatewayIDNotFound],
-  }),
-);
+export const attachInternetGateway: (
+  input: AttachInternetGatewayRequest,
+) => Effect.Effect<
+  AttachInternetGatewayResponse,
+  InvalidInternetGatewayIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachInternetGatewayRequest,
+  output: AttachInternetGatewayResponse,
+  errors: [InvalidInternetGatewayIDNotFound],
+}));
 /**
  * Cancels an active conversion task. The task can be the import of an instance or volume. The action removes all
  * artifacts of the conversion, including a partially uploaded volume or instance. If the conversion is complete or is
  * in the process of transferring the final disk image, the command fails and returns an exception.
  */
-export const cancelConversionTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelConversionRequest,
-    output: CancelConversionTaskResponse,
-    errors: [],
-  }),
-);
+export const cancelConversionTask: (
+  input: CancelConversionRequest,
+) => Effect.Effect<
+  CancelConversionTaskResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelConversionRequest,
+  output: CancelConversionTaskResponse,
+  errors: [],
+}));
 /**
  * Cancels an active export task. The request removes all artifacts of the export, including any partially-created
  * Amazon S3 objects. If the export task is complete or is in the process of transferring the final disk image, the
  * command fails and returns an error.
  */
-export const cancelExportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelExportTask: (
+  input: CancelExportTaskRequest,
+) => Effect.Effect<
+  CancelExportTaskResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelExportTaskRequest,
   output: CancelExportTaskResponse,
   errors: [],
@@ -65268,28 +65694,42 @@ export const cancelExportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN
  * User Guide.
  */
-export const createVpnConnectionRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVpnConnectionRouteRequest,
-    output: CreateVpnConnectionRouteResponse,
-    errors: [],
-  }),
-);
+export const createVpnConnectionRoute: (
+  input: CreateVpnConnectionRouteRequest,
+) => Effect.Effect<
+  CreateVpnConnectionRouteResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVpnConnectionRouteRequest,
+  output: CreateVpnConnectionRouteResponse,
+  errors: [],
+}));
 /**
  * Deletes the specified customer gateway. You must delete the VPN connection before you
  * can delete the customer gateway.
  */
-export const deleteCustomerGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCustomerGatewayRequest,
-    output: DeleteCustomerGatewayResponse,
-    errors: [InvalidCustomerGatewayIDNotFound],
-  }),
-);
+export const deleteCustomerGateway: (
+  input: DeleteCustomerGatewayRequest,
+) => Effect.Effect<
+  DeleteCustomerGatewayResponse,
+  InvalidCustomerGatewayIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomerGatewayRequest,
+  output: DeleteCustomerGatewayResponse,
+  errors: [InvalidCustomerGatewayIDNotFound],
+}));
 /**
  * Deletes the specified set of DHCP options. You must disassociate the set of DHCP options before you can delete it. You can disassociate the set of DHCP options by associating either a new set of options or the default set of options with the VPC.
  */
-export const deleteDhcpOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDhcpOptions: (
+  input: DeleteDhcpOptionsRequest,
+) => Effect.Effect<
+  DeleteDhcpOptionsResponse,
+  InvalidDhcpOptionIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDhcpOptionsRequest,
   output: DeleteDhcpOptionsResponse,
   errors: [InvalidDhcpOptionIDNotFound],
@@ -65298,17 +65738,27 @@ export const deleteDhcpOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes the specified internet gateway. You must detach the internet gateway from the
  * VPC before you can delete it.
  */
-export const deleteInternetGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInternetGatewayRequest,
-    output: DeleteInternetGatewayResponse,
-    errors: [InvalidInternetGatewayIDNotFound],
-  }),
-);
+export const deleteInternetGateway: (
+  input: DeleteInternetGatewayRequest,
+) => Effect.Effect<
+  DeleteInternetGatewayResponse,
+  InvalidInternetGatewayIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInternetGatewayRequest,
+  output: DeleteInternetGatewayResponse,
+  errors: [InvalidInternetGatewayIDNotFound],
+}));
 /**
  * Deletes the specified network ACL. You can't delete the ACL if it's associated with any subnets. You can't delete the default network ACL.
  */
-export const deleteNetworkAcl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteNetworkAcl: (
+  input: DeleteNetworkAclRequest,
+) => Effect.Effect<
+  DeleteNetworkAclResponse,
+  InvalidNetworkAclIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNetworkAclRequest,
   output: DeleteNetworkAclResponse,
   errors: [InvalidNetworkAclIDNotFound],
@@ -65316,40 +65766,58 @@ export const deleteNetworkAcl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified ingress or egress entry (rule) from the specified network ACL.
  */
-export const deleteNetworkAclEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteNetworkAclEntryRequest,
-    output: DeleteNetworkAclEntryResponse,
-    errors: [InvalidNetworkAclIDNotFound],
-  }),
-);
+export const deleteNetworkAclEntry: (
+  input: DeleteNetworkAclEntryRequest,
+) => Effect.Effect<
+  DeleteNetworkAclEntryResponse,
+  InvalidNetworkAclIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNetworkAclEntryRequest,
+  output: DeleteNetworkAclEntryResponse,
+  errors: [InvalidNetworkAclIDNotFound],
+}));
 /**
  * Deletes the specified network interface. You must detach the network interface before
  * you can delete it.
  */
-export const deleteNetworkInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteNetworkInterfaceRequest,
-    output: DeleteNetworkInterfaceResponse,
-    errors: [InvalidNetworkInterfaceIDNotFound],
-  }),
-);
+export const deleteNetworkInterface: (
+  input: DeleteNetworkInterfaceRequest,
+) => Effect.Effect<
+  DeleteNetworkInterfaceResponse,
+  InvalidNetworkInterfaceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNetworkInterfaceRequest,
+  output: DeleteNetworkInterfaceResponse,
+  errors: [InvalidNetworkInterfaceIDNotFound],
+}));
 /**
  * Deletes the specified placement group. You must terminate all instances in the
  * placement group before you can delete the placement group. For more information, see
  * Placement groups in the *Amazon EC2 User Guide*.
  */
-export const deletePlacementGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePlacementGroupRequest,
-    output: DeletePlacementGroupResponse,
-    errors: [],
-  }),
-);
+export const deletePlacementGroup: (
+  input: DeletePlacementGroupRequest,
+) => Effect.Effect<
+  DeletePlacementGroupResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePlacementGroupRequest,
+  output: DeletePlacementGroupResponse,
+  errors: [],
+}));
 /**
  * Deletes the specified route from the specified route table.
  */
-export const deleteRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRoute: (
+  input: DeleteRouteRequest,
+) => Effect.Effect<
+  DeleteRouteResponse,
+  InvalidRouteTableIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouteRequest,
   output: DeleteRouteResponse,
   errors: [InvalidRouteTableIDNotFound],
@@ -65357,7 +65825,13 @@ export const deleteRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified route table. You must disassociate the route table from any subnets before you can delete it. You can't delete the main route table.
  */
-export const deleteRouteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRouteTable: (
+  input: DeleteRouteTableRequest,
+) => Effect.Effect<
+  DeleteRouteTableResponse,
+  DependencyViolation | InvalidRouteTableIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouteTableRequest,
   output: DeleteRouteTableResponse,
   errors: [DependencyViolation, InvalidRouteTableIDNotFound],
@@ -65377,7 +65851,13 @@ export const deleteRouteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Delete an Amazon EBS snapshot in the
  * *Amazon EBS User Guide*.
  */
-export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSnapshot: (
+  input: DeleteSnapshotRequest,
+) => Effect.Effect<
+  DeleteSnapshotResponse,
+  InvalidSnapshotNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSnapshotRequest,
   output: DeleteSnapshotResponse,
   errors: [InvalidSnapshotNotFound],
@@ -65385,16 +65865,27 @@ export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the data feed for Spot Instances.
  */
-export const deleteSpotDatafeedSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteSpotDatafeedSubscriptionRequest,
-    output: DeleteSpotDatafeedSubscriptionResponse,
-    errors: [],
-  }));
+export const deleteSpotDatafeedSubscription: (
+  input: DeleteSpotDatafeedSubscriptionRequest,
+) => Effect.Effect<
+  DeleteSpotDatafeedSubscriptionResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSpotDatafeedSubscriptionRequest,
+  output: DeleteSpotDatafeedSubscriptionResponse,
+  errors: [],
+}));
 /**
  * Deletes the specified subnet. You must terminate all running instances in the subnet before you can delete the subnet.
  */
-export const deleteSubnet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSubnet: (
+  input: DeleteSubnetRequest,
+) => Effect.Effect<
+  DeleteSubnetResponse,
+  InvalidSubnetIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubnetRequest,
   output: DeleteSubnetResponse,
   errors: [InvalidSubnetIDNotFound],
@@ -65407,7 +65898,13 @@ export const deleteSubnet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * your Amazon EC2 resources in the Amazon Elastic Compute Cloud User
  * Guide.
  */
-export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTags: (
+  input: DeleteTagsRequest,
+) => Effect.Effect<
+  DeleteTagsResponse,
+  InvalidID | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsRequest,
   output: DeleteTagsResponse,
   errors: [InvalidID],
@@ -65421,7 +65918,13 @@ export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Delete an Amazon EBS volume in the
  * *Amazon EBS User Guide*.
  */
-export const deleteVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVolume: (
+  input: DeleteVolumeRequest,
+) => Effect.Effect<
+  DeleteVolumeResponse,
+  InvalidVolumeNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVolumeRequest,
   output: DeleteVolumeResponse,
   errors: [InvalidVolumeNotFound],
@@ -65436,7 +65939,13 @@ export const deleteVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you created a flow log for the VPC that you are deleting, note that flow logs for deleted
  * VPCs are eventually automatically removed.
  */
-export const deleteVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVpc: (
+  input: DeleteVpcRequest,
+) => Effect.Effect<
+  DeleteVpcResponse,
+  DependencyViolation | InvalidVpcIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpcRequest,
   output: DeleteVpcResponse,
   errors: [DependencyViolation, InvalidVpcIDNotFound],
@@ -65456,7 +65965,13 @@ export const deleteVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * certificates used for the Amazon Web Services-side tunnel endpoints for the VPN
  * connection before deleting the VPN connection.
  */
-export const deleteVpnConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVpnConnection: (
+  input: DeleteVpnConnectionRequest,
+) => Effect.Effect<
+  DeleteVpnConnectionResponse,
+  InvalidVpnConnectionIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpnConnectionRequest,
   output: DeleteVpnConnectionResponse,
   errors: [InvalidVpnConnectionIDNotFound],
@@ -65467,20 +65982,30 @@ export const deleteVpnConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * traffic to be routed from the virtual private gateway to the VPN customer
  * gateway.
  */
-export const deleteVpnConnectionRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVpnConnectionRouteRequest,
-    output: DeleteVpnConnectionRouteResponse,
-    errors: [],
-  }),
-);
+export const deleteVpnConnectionRoute: (
+  input: DeleteVpnConnectionRouteRequest,
+) => Effect.Effect<
+  DeleteVpnConnectionRouteResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpnConnectionRouteRequest,
+  output: DeleteVpnConnectionRouteResponse,
+  errors: [],
+}));
 /**
  * Deletes the specified virtual private gateway. You must first detach the virtual
  * private gateway from the VPC. Note that you don't need to delete the virtual private
  * gateway if you plan to delete and recreate the VPN connection between your VPC and your
  * network.
  */
-export const deleteVpnGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVpnGateway: (
+  input: DeleteVpnGatewayRequest,
+) => Effect.Effect<
+  DeleteVpnGatewayResponse,
+  InvalidVpnGatewayIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpnGatewayRequest,
   output: DeleteVpnGatewayResponse,
   errors: [InvalidVpnGatewayIDNotFound],
@@ -65490,23 +66015,31 @@ export const deleteVpnGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * and the VPC. The VPC must not contain any running instances with Elastic IP addresses or
  * public IPv4 addresses.
  */
-export const detachInternetGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetachInternetGatewayRequest,
-    output: DetachInternetGatewayResponse,
-    errors: [InvalidInternetGatewayIDNotFound],
-  }),
-);
+export const detachInternetGateway: (
+  input: DetachInternetGatewayRequest,
+) => Effect.Effect<
+  DetachInternetGatewayResponse,
+  InvalidInternetGatewayIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachInternetGatewayRequest,
+  output: DetachInternetGatewayResponse,
+  errors: [InvalidInternetGatewayIDNotFound],
+}));
 /**
  * Detaches a network interface from an instance.
  */
-export const detachNetworkInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetachNetworkInterfaceRequest,
-    output: DetachNetworkInterfaceResponse,
-    errors: [InvalidAttachmentIDNotFound],
-  }),
-);
+export const detachNetworkInterface: (
+  input: DetachNetworkInterfaceRequest,
+) => Effect.Effect<
+  DetachNetworkInterfaceResponse,
+  InvalidAttachmentIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachNetworkInterfaceRequest,
+  output: DetachNetworkInterfaceResponse,
+  errors: [InvalidAttachmentIDNotFound],
+}));
 /**
  * Detaches an EBS volume from an instance. Make sure to unmount any file systems on the
  * device within your operating system before detaching the volume. Failure to do so can result
@@ -65526,7 +66059,13 @@ export const detachNetworkInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Detach an Amazon EBS volume in the
  * *Amazon EBS User Guide*.
  */
-export const detachVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detachVolume: (
+  input: DetachVolumeRequest,
+) => Effect.Effect<
+  VolumeAttachment,
+  InvalidVolumeNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachVolumeRequest,
   output: VolumeAttachment,
   errors: [InvalidVolumeNotFound],
@@ -65540,7 +66079,13 @@ export const detachVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You must wait for the attachment's state to switch to `detached` before you
  * can delete the VPC or attach a different VPC to the virtual private gateway.
  */
-export const detachVpnGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detachVpnGateway: (
+  input: DetachVpnGatewayRequest,
+) => Effect.Effect<
+  DetachVpnGatewayResponse,
+  InvalidVpnGatewayIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachVpnGatewayRequest,
   output: DetachVpnGatewayResponse,
   errors: [InvalidVpnGatewayIDNotFound],
@@ -65549,13 +66094,17 @@ export const detachVpnGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Disables a virtual private gateway (VGW) from propagating routes to a specified route
  * table of a VPC.
  */
-export const disableVgwRoutePropagation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableVgwRoutePropagationRequest,
-    output: DisableVgwRoutePropagationResponse,
-    errors: [],
-  }),
-);
+export const disableVgwRoutePropagation: (
+  input: DisableVgwRoutePropagationRequest,
+) => Effect.Effect<
+  DisableVgwRoutePropagationResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableVgwRoutePropagationRequest,
+  output: DisableVgwRoutePropagationResponse,
+  errors: [],
+}));
 /**
  * Disassociates an Elastic IP address from the instance or network interface it's associated with.
  *
@@ -65569,7 +66118,13 @@ export const disableVgwRoutePropagation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Network interface only has one remaining public IPv4 address
  */
-export const disassociateAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateAddress: (
+  input: DisassociateAddressRequest,
+) => Effect.Effect<
+  DisassociateAddressResponse,
+  InvalidAssociationIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateAddressRequest,
   output: DisassociateAddressResponse,
   errors: [InvalidAssociationIDNotFound],
@@ -65582,29 +66137,43 @@ export const disassociateAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * about route tables, see Route
  * tables in the *Amazon VPC User Guide*.
  */
-export const disassociateRouteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateRouteTableRequest,
-    output: DisassociateRouteTableResponse,
-    errors: [InvalidAssociationIDNotFound],
-  }),
-);
+export const disassociateRouteTable: (
+  input: DisassociateRouteTableRequest,
+) => Effect.Effect<
+  DisassociateRouteTableResponse,
+  InvalidAssociationIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateRouteTableRequest,
+  output: DisassociateRouteTableResponse,
+  errors: [InvalidAssociationIDNotFound],
+}));
 /**
  * Enables a virtual private gateway (VGW) to propagate routes to the specified route
  * table of a VPC.
  */
-export const enableVgwRoutePropagation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableVgwRoutePropagationRequest,
-    output: EnableVgwRoutePropagationResponse,
-    errors: [],
-  }),
-);
+export const enableVgwRoutePropagation: (
+  input: EnableVgwRoutePropagationRequest,
+) => Effect.Effect<
+  EnableVgwRoutePropagationResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableVgwRoutePropagationRequest,
+  output: EnableVgwRoutePropagationResponse,
+  errors: [],
+}));
 /**
  * Enables I/O operations for a volume that had I/O operations disabled because the data on
  * the volume was potentially inconsistent.
  */
-export const enableVolumeIO = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableVolumeIO: (
+  input: EnableVolumeIORequest,
+) => Effect.Effect<
+  EnableVolumeIOResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableVolumeIORequest,
   output: EnableVolumeIOResponse,
   errors: [],
@@ -65637,13 +66206,17 @@ export const enableVolumeIO = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * settings and provided that they have permission to use the relevant `Describe`
  * command for the resource type.
  */
-export const modifyIdentityIdFormat = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyIdentityIdFormatRequest,
-    output: ModifyIdentityIdFormatResponse,
-    errors: [],
-  }),
-);
+export const modifyIdentityIdFormat: (
+  input: ModifyIdentityIdFormatRequest,
+) => Effect.Effect<
+  ModifyIdentityIdFormatResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyIdentityIdFormatRequest,
+  output: ModifyIdentityIdFormatResponse,
+  errors: [],
+}));
 /**
  * Modifies the ID format for the specified resource on a per-Region basis. You can
  * specify that resources should receive longer IDs (17-character IDs) when they are
@@ -65673,7 +66246,13 @@ export const modifyIdentityIdFormat = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * of these settings and provided that they have permission to use the relevant
  * `Describe` command for the resource type.
  */
-export const modifyIdFormat = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyIdFormat: (
+  input: ModifyIdFormatRequest,
+) => Effect.Effect<
+  ModifyIdFormatResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyIdFormatRequest,
   output: ModifyIdFormatResponse,
   errors: [],
@@ -65698,13 +66277,17 @@ export const modifyIdFormat = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Outpost racks
  */
-export const modifySubnetAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifySubnetAttributeRequest,
-    output: ModifySubnetAttributeResponse,
-    errors: [InvalidSubnetIDNotFound],
-  }),
-);
+export const modifySubnetAttribute: (
+  input: ModifySubnetAttributeRequest,
+) => Effect.Effect<
+  ModifySubnetAttributeResponse,
+  InvalidSubnetIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifySubnetAttributeRequest,
+  output: ModifySubnetAttributeResponse,
+  errors: [InvalidSubnetIDNotFound],
+}));
 /**
  * Modifies a volume attribute.
  *
@@ -65716,17 +66299,27 @@ export const modifySubnetAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can change the default behavior to resume I/O operations. We recommend that you change
  * this only for boot volumes or for volumes that are stateless or disposable.
  */
-export const modifyVolumeAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyVolumeAttributeRequest,
-    output: ModifyVolumeAttributeResponse,
-    errors: [],
-  }),
-);
+export const modifyVolumeAttribute: (
+  input: ModifyVolumeAttributeRequest,
+) => Effect.Effect<
+  ModifyVolumeAttributeResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVolumeAttributeRequest,
+  output: ModifyVolumeAttributeResponse,
+  errors: [],
+}));
 /**
  * Modifies the specified attribute of the specified VPC.
  */
-export const modifyVpcAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyVpcAttribute: (
+  input: ModifyVpcAttributeRequest,
+) => Effect.Effect<
+  ModifyVpcAttributeResponse,
+  InvalidVpcIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyVpcAttributeRequest,
   output: ModifyVpcAttributeResponse,
   errors: [InvalidVpcIDNotFound],
@@ -65743,7 +66336,13 @@ export const modifyVpcAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about troubleshooting, see Troubleshoot an unreachable
  * instance in the *Amazon EC2 User Guide*.
  */
-export const rebootInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rebootInstances: (
+  input: RebootInstancesRequest,
+) => Effect.Effect<
+  RebootInstancesResponse,
+  InvalidInstanceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootInstancesRequest,
   output: RebootInstancesResponse,
   errors: [InvalidInstanceIDNotFound],
@@ -65766,7 +66365,13 @@ export const rebootInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * After you release an Elastic IP address, you might be able to recover it.
  * For more information, see Release an Elastic IP address.
  */
-export const releaseAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const releaseAddress: (
+  input: ReleaseAddressRequest,
+) => Effect.Effect<
+  ReleaseAddressResponse,
+  InvalidAllocationIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReleaseAddressRequest,
   output: ReleaseAddressResponse,
   errors: [InvalidAllocationIDNotFound],
@@ -65775,13 +66380,17 @@ export const releaseAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Replaces an entry (rule) in a network ACL. For more information, see Network ACLs in the
  * *Amazon VPC User Guide*.
  */
-export const replaceNetworkAclEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ReplaceNetworkAclEntryRequest,
-    output: ReplaceNetworkAclEntryResponse,
-    errors: [InvalidNetworkAclIDNotFound],
-  }),
-);
+export const replaceNetworkAclEntry: (
+  input: ReplaceNetworkAclEntryRequest,
+) => Effect.Effect<
+  ReplaceNetworkAclEntryResponse,
+  InvalidNetworkAclIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReplaceNetworkAclEntryRequest,
+  output: ReplaceNetworkAclEntryResponse,
+  errors: [InvalidNetworkAclIDNotFound],
+}));
 /**
  * Replaces an existing route within a route table in a VPC.
  *
@@ -65792,7 +66401,13 @@ export const replaceNetworkAclEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Route tables in the
  * *Amazon VPC User Guide*.
  */
-export const replaceRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const replaceRoute: (
+  input: ReplaceRouteRequest,
+) => Effect.Effect<
+  ReplaceRouteResponse,
+  InvalidRouteTableIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReplaceRouteRequest,
   output: ReplaceRouteResponse,
   errors: [InvalidRouteTableIDNotFound],
@@ -65805,17 +66420,27 @@ export const replaceRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Use of this action does not change the value returned by DescribeInstanceStatus.
  */
-export const reportInstanceStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ReportInstanceStatusRequest,
-    output: ReportInstanceStatusResponse,
-    errors: [],
-  }),
-);
+export const reportInstanceStatus: (
+  input: ReportInstanceStatusRequest,
+) => Effect.Effect<
+  ReportInstanceStatusResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReportInstanceStatusRequest,
+  output: ReportInstanceStatusResponse,
+  errors: [],
+}));
 /**
  * Resets an attribute of an AMI to its default value.
  */
-export const resetImageAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resetImageAttribute: (
+  input: ResetImageAttributeRequest,
+) => Effect.Effect<
+  ResetImageAttributeResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetImageAttributeRequest,
   output: ResetImageAttributeResponse,
   errors: [],
@@ -65832,36 +66457,49 @@ export const resetImageAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * more information, see NAT instances in the
  * *Amazon VPC User Guide*.
  */
-export const resetInstanceAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetInstanceAttributeRequest,
-    output: ResetInstanceAttributeResponse,
-    errors: [],
-  }),
-);
+export const resetInstanceAttribute: (
+  input: ResetInstanceAttributeRequest,
+) => Effect.Effect<
+  ResetInstanceAttributeResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetInstanceAttributeRequest,
+  output: ResetInstanceAttributeResponse,
+  errors: [],
+}));
 /**
  * Resets a network interface attribute. You can specify only one attribute at a
  * time.
  */
-export const resetNetworkInterfaceAttribute =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ResetNetworkInterfaceAttributeRequest,
-    output: ResetNetworkInterfaceAttributeResponse,
-    errors: [],
-  }));
+export const resetNetworkInterfaceAttribute: (
+  input: ResetNetworkInterfaceAttributeRequest,
+) => Effect.Effect<
+  ResetNetworkInterfaceAttributeResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetNetworkInterfaceAttributeRequest,
+  output: ResetNetworkInterfaceAttributeResponse,
+  errors: [],
+}));
 /**
  * Resets permission settings for the specified snapshot.
  *
  * For more information about modifying snapshot permissions, see Share a snapshot in the
  * *Amazon EBS User Guide*.
  */
-export const resetSnapshotAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetSnapshotAttributeRequest,
-    output: ResetSnapshotAttributeResponse,
-    errors: [],
-  }),
-);
+export const resetSnapshotAttribute: (
+  input: ResetSnapshotAttributeRequest,
+) => Effect.Effect<
+  ResetSnapshotAttributeResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetSnapshotAttributeRequest,
+  output: ResetSnapshotAttributeResponse,
+  errors: [],
+}));
 /**
  * Sends a diagnostic interrupt to the specified Amazon EC2 instance to trigger a
  * *kernel panic* (on Linux instances), or a blue
@@ -65881,35 +66519,48 @@ export const resetSnapshotAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * when a kernel panic or stop error occurs, see Send a diagnostic interrupt
  * (for advanced users) in the *Amazon EC2 User Guide*.
  */
-export const sendDiagnosticInterrupt = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendDiagnosticInterruptRequest,
-    output: SendDiagnosticInterruptResponse,
-    errors: [],
-  }),
-);
+export const sendDiagnosticInterrupt: (
+  input: SendDiagnosticInterruptRequest,
+) => Effect.Effect<
+  SendDiagnosticInterruptResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendDiagnosticInterruptRequest,
+  output: SendDiagnosticInterruptResponse,
+  errors: [],
+}));
 /**
  * Unassigns the specified secondary private IP addresses or IPv4 Prefix Delegation
  * prefixes from a network interface.
  */
-export const unassignPrivateIpAddresses = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UnassignPrivateIpAddressesRequest,
-    output: UnassignPrivateIpAddressesResponse,
-    errors: [InvalidNetworkInterfaceIDNotFound],
-  }),
-);
+export const unassignPrivateIpAddresses: (
+  input: UnassignPrivateIpAddressesRequest,
+) => Effect.Effect<
+  UnassignPrivateIpAddressesResponse,
+  InvalidNetworkInterfaceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UnassignPrivateIpAddressesRequest,
+  output: UnassignPrivateIpAddressesResponse,
+  errors: [InvalidNetworkInterfaceIDNotFound],
+}));
 /**
  * Accepts a request to assign billing of the available capacity of a shared Capacity
  * Reservation to your account. For more information, see Billing assignment for shared
  * Amazon EC2 Capacity Reservations.
  */
-export const acceptCapacityReservationBillingOwnership =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AcceptCapacityReservationBillingOwnershipRequest,
-    output: AcceptCapacityReservationBillingOwnershipResult,
-    errors: [],
-  }));
+export const acceptCapacityReservationBillingOwnership: (
+  input: AcceptCapacityReservationBillingOwnershipRequest,
+) => Effect.Effect<
+  AcceptCapacityReservationBillingOwnershipResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptCapacityReservationBillingOwnershipRequest,
+  output: AcceptCapacityReservationBillingOwnershipResult,
+  errors: [],
+}));
 /**
  * Allocates an Elastic IP address to your Amazon Web Services account. After you allocate the Elastic IP address you can associate
  * it with an instance or network interface. After you release an Elastic IP address, it is released to the IP address
@@ -65937,7 +66588,13 @@ export const acceptCapacityReservationBillingOwnership =
  * You can allocate a carrier IP address which is a public IP address from a telecommunication carrier,
  * to a network interface which resides in a subnet in a Wavelength Zone (for example an EC2 instance).
  */
-export const allocateAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const allocateAddress: (
+  input: AllocateAddressRequest,
+) => Effect.Effect<
+  AllocateAddressResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AllocateAddressRequest,
   output: AllocateAddressResult,
   errors: [],
@@ -65947,7 +66604,13 @@ export const allocateAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * instance type or instance family, the Availability Zone in which to allocate the host,
  * and the number of hosts to allocate.
  */
-export const allocateHosts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const allocateHosts: (
+  input: AllocateHostsRequest,
+) => Effect.Effect<
+  AllocateHostsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AllocateHostsRequest,
   output: AllocateHostsResult,
   errors: [],
@@ -65956,12 +66619,17 @@ export const allocateHosts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Applies a security group to the association between the target network and the Client VPN endpoint. This action replaces the existing
  * security groups with the specified security groups.
  */
-export const applySecurityGroupsToClientVpnTargetNetwork =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ApplySecurityGroupsToClientVpnTargetNetworkRequest,
-    output: ApplySecurityGroupsToClientVpnTargetNetworkResult,
-    errors: [],
-  }));
+export const applySecurityGroupsToClientVpnTargetNetwork: (
+  input: ApplySecurityGroupsToClientVpnTargetNetworkRequest,
+) => Effect.Effect<
+  ApplySecurityGroupsToClientVpnTargetNetworkResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ApplySecurityGroupsToClientVpnTargetNetworkRequest,
+  output: ApplySecurityGroupsToClientVpnTargetNetworkResult,
+  errors: [],
+}));
 /**
  * Assigns the specified IPv6 addresses to the specified network interface. You can
  * specify specific IPv6 addresses, or you can specify the number of IPv6 addresses to be
@@ -65976,7 +66644,13 @@ export const applySecurityGroupsToClientVpnTargetNetwork =
  * information, see Assigning prefixes to network
  * interfaces in the *Amazon EC2 User Guide*.
  */
-export const assignIpv6Addresses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const assignIpv6Addresses: (
+  input: AssignIpv6AddressesRequest,
+) => Effect.Effect<
+  AssignIpv6AddressesResult,
+  InvalidNetworkInterfaceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssignIpv6AddressesRequest,
   output: AssignIpv6AddressesResult,
   errors: [InvalidNetworkInterfaceIDNotFound],
@@ -66003,7 +66677,13 @@ export const assignIpv6Addresses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Addresses section of Amazon EC2
  * Pricing.
  */
-export const associateAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateAddress: (
+  input: AssociateAddressRequest,
+) => Effect.Effect<
+  AssociateAddressResult,
+  InvalidInstanceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAddressRequest,
   output: AssociateAddressResult,
   errors: [InvalidInstanceIDNotFound],
@@ -66014,12 +66694,17 @@ export const associateAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * organizations payer account. For more information, see Billing assignment for shared
  * Amazon EC2 Capacity Reservations.
  */
-export const associateCapacityReservationBillingOwner =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateCapacityReservationBillingOwnerRequest,
-    output: AssociateCapacityReservationBillingOwnerResult,
-    errors: [],
-  }));
+export const associateCapacityReservationBillingOwner: (
+  input: AssociateCapacityReservationBillingOwnerRequest,
+) => Effect.Effect<
+  AssociateCapacityReservationBillingOwnerResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateCapacityReservationBillingOwnerRequest,
+  output: AssociateCapacityReservationBillingOwnerResult,
+  errors: [],
+}));
 /**
  * Associates an Identity and Access Management (IAM) role with an Certificate Manager (ACM) certificate.
  * This enables the certificate to be used by the ACM for Nitro Enclaves application inside an enclave. For more
@@ -66037,12 +66722,17 @@ export const associateCapacityReservationBillingOwner =
  * Grant the role permission to access the certificate and encryption key in the
  * *Amazon Web Services Nitro Enclaves User Guide*.
  */
-export const associateEnclaveCertificateIamRole =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateEnclaveCertificateIamRoleRequest,
-    output: AssociateEnclaveCertificateIamRoleResult,
-    errors: [],
-  }));
+export const associateEnclaveCertificateIamRole: (
+  input: AssociateEnclaveCertificateIamRoleRequest,
+) => Effect.Effect<
+  AssociateEnclaveCertificateIamRoleResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateEnclaveCertificateIamRoleRequest,
+  output: AssociateEnclaveCertificateIamRoleResult,
+  errors: [],
+}));
 /**
  * Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information,
  * see Work with NAT gateways in the *Amazon VPC User Guide*.
@@ -66056,13 +66746,17 @@ export const associateEnclaveCertificateIamRole =
  * Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information
  * about network border groups and EIPs, see Allocate an Elastic IP address in the *Amazon VPC User Guide*.
  */
-export const associateNatGatewayAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateNatGatewayAddressRequest,
-    output: AssociateNatGatewayAddressResult,
-    errors: [],
-  }),
-);
+export const associateNatGatewayAddress: (
+  input: AssociateNatGatewayAddressRequest,
+) => Effect.Effect<
+  AssociateNatGatewayAddressResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateNatGatewayAddressRequest,
+  output: AssociateNatGatewayAddressResult,
+  errors: [],
+}));
 /**
  * Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC.
  *
@@ -66076,25 +66770,34 @@ export const associateNatGatewayAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - You cannot use this feature with the default VPC.
  */
-export const associateSecurityGroupVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateSecurityGroupVpcRequest,
-    output: AssociateSecurityGroupVpcResult,
-    errors: [],
-  }),
-);
+export const associateSecurityGroupVpc: (
+  input: AssociateSecurityGroupVpcRequest,
+) => Effect.Effect<
+  AssociateSecurityGroupVpcResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateSecurityGroupVpcRequest,
+  output: AssociateSecurityGroupVpcResult,
+  errors: [],
+}));
 /**
  * Associates the specified subnets and transit gateway attachments with the specified transit gateway multicast domain.
  *
  * The transit gateway attachment must be in the available state before you can add a resource. Use DescribeTransitGatewayAttachments
  * to see the state of the attachment.
  */
-export const associateTransitGatewayMulticastDomain =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateTransitGatewayMulticastDomainRequest,
-    output: AssociateTransitGatewayMulticastDomainResult,
-    errors: [],
-  }));
+export const associateTransitGatewayMulticastDomain: (
+  input: AssociateTransitGatewayMulticastDomainRequest,
+) => Effect.Effect<
+  AssociateTransitGatewayMulticastDomainResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateTransitGatewayMulticastDomainRequest,
+  output: AssociateTransitGatewayMulticastDomainResult,
+  errors: [],
+}));
 /**
  * This action is deprecated.
  *
@@ -66108,13 +66811,17 @@ export const associateTransitGatewayMulticastDomain =
  *
  * Linking your instance to a VPC is sometimes referred to as *attaching* your instance.
  */
-export const attachClassicLinkVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AttachClassicLinkVpcRequest,
-    output: AttachClassicLinkVpcResult,
-    errors: [],
-  }),
-);
+export const attachClassicLinkVpc: (
+  input: AttachClassicLinkVpcRequest,
+) => Effect.Effect<
+  AttachClassicLinkVpcResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachClassicLinkVpcRequest,
+  output: AttachClassicLinkVpcResult,
+  errors: [],
+}));
 /**
  * Attaches an Amazon EBS volume to a `running` or `stopped`
  * instance, and exposes it to the instance with the specified device name.
@@ -66144,7 +66851,13 @@ export const attachClassicLinkVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Attach an Amazon EBS volume to an instance in the
  * *Amazon EBS User Guide*.
  */
-export const attachVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const attachVolume: (
+  input: AttachVolumeRequest,
+) => Effect.Effect<
+  VolumeAttachment,
+  InvalidVolumeNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachVolumeRequest,
   output: VolumeAttachment,
   errors: [InvalidVolumeNotFound],
@@ -66173,13 +66886,17 @@ export const attachVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Instance capacity, or run in any open Capacity Reservation that has matching attributes
  * and sufficient capacity.
  */
-export const cancelCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelCapacityReservationRequest,
-    output: CancelCapacityReservationResult,
-    errors: [],
-  }),
-);
+export const cancelCapacityReservation: (
+  input: CancelCapacityReservationRequest,
+) => Effect.Effect<
+  CancelCapacityReservationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelCapacityReservationRequest,
+  output: CancelCapacityReservationResult,
+  errors: [],
+}));
 /**
  * Cancels the generation of an account status report.
  *
@@ -66190,28 +66907,43 @@ export const cancelCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Generating the account status report for declarative policies in the
  * *Amazon Web Services Organizations User Guide*.
  */
-export const cancelDeclarativePoliciesReport =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CancelDeclarativePoliciesReportRequest,
-    output: CancelDeclarativePoliciesReportResult,
-    errors: [],
-  }));
+export const cancelDeclarativePoliciesReport: (
+  input: CancelDeclarativePoliciesReportRequest,
+) => Effect.Effect<
+  CancelDeclarativePoliciesReportResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelDeclarativePoliciesReportRequest,
+  output: CancelDeclarativePoliciesReportResult,
+  errors: [],
+}));
 /**
  * Removes your Amazon Web Services account from the launch permissions for the specified AMI.
  * For more information, see Cancel having an AMI shared with
  * your Amazon Web Services account in the *Amazon EC2 User Guide*.
  */
-export const cancelImageLaunchPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelImageLaunchPermissionRequest,
-    output: CancelImageLaunchPermissionResult,
-    errors: [],
-  }),
-);
+export const cancelImageLaunchPermission: (
+  input: CancelImageLaunchPermissionRequest,
+) => Effect.Effect<
+  CancelImageLaunchPermissionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelImageLaunchPermissionRequest,
+  output: CancelImageLaunchPermissionResult,
+  errors: [],
+}));
 /**
  * Cancels an in-process import virtual machine or import snapshot task.
  */
-export const cancelImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelImportTask: (
+  input: CancelImportTaskRequest,
+) => Effect.Effect<
+  CancelImportTaskResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelImportTaskRequest,
   output: CancelImportTaskResult,
   errors: [],
@@ -66221,17 +66953,27 @@ export const cancelImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * be used by the owner of the product code. It is useful when a product code owner must
  * verify whether another user's instance is eligible for support.
  */
-export const confirmProductInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ConfirmProductInstanceRequest,
-    output: ConfirmProductInstanceResult,
-    errors: [],
-  }),
-);
+export const confirmProductInstance: (
+  input: ConfirmProductInstanceRequest,
+) => Effect.Effect<
+  ConfirmProductInstanceResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ConfirmProductInstanceRequest,
+  output: ConfirmProductInstanceResult,
+  errors: [],
+}));
 /**
  * Copies the specified Amazon FPGA Image (AFI) to the current Region.
  */
-export const copyFpgaImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copyFpgaImage: (
+  input: CopyFpgaImageRequest,
+) => Effect.Effect<
+  CopyFpgaImageResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyFpgaImageRequest,
   output: CopyFpgaImageResult,
   errors: [],
@@ -66300,7 +67042,13 @@ export const copyFpgaImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, including the required permissions for copying an AMI, see Copy an Amazon EC2 AMI in the
  * *Amazon EC2 User Guide*.
  */
-export const copyImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copyImage: (
+  input: CopyImageRequest,
+) => Effect.Effect<
+  CopyImageResult,
+  InvalidAMIIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyImageRequest,
   output: CopyImageResult,
   errors: [InvalidAMIIDNotFound],
@@ -66336,7 +67084,13 @@ export const copyImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Copy an Amazon EBS snapshot in the
  * *Amazon EBS User Guide*.
  */
-export const copySnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copySnapshot: (
+  input: CopySnapshotRequest,
+) => Effect.Effect<
+  CopySnapshotResult,
+  InvalidSnapshotNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopySnapshotRequest,
   output: CopySnapshotResult,
   errors: [InvalidSnapshotNotFound],
@@ -66346,7 +67100,13 @@ export const copySnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Availability Zone. The volume copy can be attached to an Amazon EC2 instance once it reaches the
  * `available` state. For more information, see Copy an Amazon EBS volume.
  */
-export const copyVolumes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copyVolumes: (
+  input: CopyVolumesRequest,
+) => Effect.Effect<
+  CopyVolumesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyVolumesRequest,
   output: CopyVolumesResult,
   errors: [],
@@ -66355,33 +67115,48 @@ export const copyVolumes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a new data export configuration for EC2 Capacity Manager. This allows you to automatically export capacity usage data to an S3 bucket on a scheduled basis.
  * The exported data includes metrics for On-Demand, Spot, and Capacity Reservations usage across your organization.
  */
-export const createCapacityManagerDataExport =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCapacityManagerDataExportRequest,
-    output: CreateCapacityManagerDataExportResult,
-    errors: [],
-  }));
+export const createCapacityManagerDataExport: (
+  input: CreateCapacityManagerDataExportRequest,
+) => Effect.Effect<
+  CreateCapacityManagerDataExportResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCapacityManagerDataExportRequest,
+  output: CreateCapacityManagerDataExportResult,
+  errors: [],
+}));
 /**
  * Create a new Capacity Reservation by splitting the capacity of the source Capacity
  * Reservation. The new Capacity Reservation will have the same attributes as the source
  * Capacity Reservation except for tags. The source Capacity Reservation must be
  * `active` and owned by your Amazon Web Services account.
  */
-export const createCapacityReservationBySplitting =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCapacityReservationBySplittingRequest,
-    output: CreateCapacityReservationBySplittingResult,
-    errors: [],
-  }));
+export const createCapacityReservationBySplitting: (
+  input: CreateCapacityReservationBySplittingRequest,
+) => Effect.Effect<
+  CreateCapacityReservationBySplittingResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCapacityReservationBySplittingRequest,
+  output: CreateCapacityReservationBySplittingResult,
+  errors: [],
+}));
 /**
  * Creates an interruptible Capacity Reservation by specifying the number of unused instances you want to allocate from your source reservation. This helps you make unused capacity available for other workloads within your account while maintaining control to reclaim it.
  */
-export const createInterruptibleCapacityReservationAllocation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateInterruptibleCapacityReservationAllocationRequest,
-    output: CreateInterruptibleCapacityReservationAllocationResult,
-    errors: [],
-  }));
+export const createInterruptibleCapacityReservationAllocation: (
+  input: CreateInterruptibleCapacityReservationAllocationRequest,
+) => Effect.Effect<
+  CreateInterruptibleCapacityReservationAllocationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInterruptibleCapacityReservationAllocationRequest,
+  output: CreateInterruptibleCapacityReservationAllocationResult,
+  errors: [],
+}));
 /**
  * Creates an ED25519 or 2048-bit RSA key pair with the specified name and in the
  * specified format. Amazon EC2 stores the public key and displays the private
@@ -66398,7 +67173,13 @@ export const createInterruptibleCapacityReservationAllocation =
  * For more information, see Amazon EC2 key pairs in the
  * *Amazon EC2 User Guide*.
  */
-export const createKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKeyPair: (
+  input: CreateKeyPairRequest,
+) => Effect.Effect<
+  KeyPair,
+  InvalidKeyPairDuplicate | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKeyPairRequest,
   output: KeyPair,
   errors: [InvalidKeyPairDuplicate],
@@ -66417,23 +67198,31 @@ export const createKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about network ACLs, see Network ACLs
  * in the *Amazon VPC User Guide*.
  */
-export const createNetworkAclEntry = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateNetworkAclEntryRequest,
-    output: CreateNetworkAclEntryResponse,
-    errors: [InvalidNetworkAclIDNotFound],
-  }),
-);
+export const createNetworkAclEntry: (
+  input: CreateNetworkAclEntryRequest,
+) => Effect.Effect<
+  CreateNetworkAclEntryResponse,
+  InvalidNetworkAclIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNetworkAclEntryRequest,
+  output: CreateNetworkAclEntryResponse,
+  errors: [InvalidNetworkAclIDNotFound],
+}));
 /**
  * Creates a public IPv4 address pool. A public IPv4 pool is an EC2 IP address pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only. To monitor the status of pool creation, use DescribePublicIpv4Pools.
  */
-export const createPublicIpv4Pool = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePublicIpv4PoolRequest,
-    output: CreatePublicIpv4PoolResult,
-    errors: [],
-  }),
-);
+export const createPublicIpv4Pool: (
+  input: CreatePublicIpv4PoolRequest,
+) => Effect.Effect<
+  CreatePublicIpv4PoolResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePublicIpv4PoolRequest,
+  output: CreatePublicIpv4PoolResult,
+  errors: [],
+}));
 /**
  * Starts a task that restores an AMI from an Amazon S3 object that was previously created by
  * using CreateStoreImageTask.
@@ -66444,13 +67233,17 @@ export const createPublicIpv4Pool = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Store and restore an AMI using
  * S3 in the *Amazon EC2 User Guide*.
  */
-export const createRestoreImageTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRestoreImageTaskRequest,
-    output: CreateRestoreImageTaskResult,
-    errors: [],
-  }),
-);
+export const createRestoreImageTask: (
+  input: CreateRestoreImageTaskRequest,
+) => Effect.Effect<
+  CreateRestoreImageTaskResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRestoreImageTaskRequest,
+  output: CreateRestoreImageTaskResult,
+  errors: [],
+}));
 /**
  * Creates a route in a route table within a VPC.
  *
@@ -66472,7 +67265,13 @@ export const createRestoreImageTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about route tables, see Route tables in the
  * *Amazon VPC User Guide*.
  */
-export const createRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRoute: (
+  input: CreateRouteRequest,
+) => Effect.Effect<
+  CreateRouteResult,
+  InvalidRouteTableIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouteRequest,
   output: CreateRouteResult,
   errors: [InvalidRouteTableIDNotFound],
@@ -66503,7 +67302,13 @@ export const createRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about VPC security group limits, see Amazon VPC Limits.
  */
-export const createSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSecurityGroup: (
+  input: CreateSecurityGroupRequest,
+) => Effect.Effect<
+  CreateSecurityGroupResult,
+  InvalidGroupDuplicate | MissingParameter | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSecurityGroupRequest,
   output: CreateSecurityGroupResult,
   errors: [InvalidGroupDuplicate, MissingParameter],
@@ -66544,7 +67349,13 @@ export const createSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * and any associated snapshots always remain protected. For more information, see Amazon EBS encryption
  * in the *Amazon EBS User Guide*.
  */
-export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSnapshot: (
+  input: CreateSnapshotRequest,
+) => Effect.Effect<
+  Snapshot,
+  InvalidVolumeNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotRequest,
   output: Snapshot,
   errors: [InvalidVolumeNotFound],
@@ -66574,7 +67385,13 @@ export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Subnets in the *Amazon VPC User Guide*.
  */
-export const createSubnet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSubnet: (
+  input: CreateSubnetRequest,
+) => Effect.Effect<
+  CreateSubnetResult,
+  InvalidVpcIDNotFound | ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubnetRequest,
   output: CreateSubnetResult,
   errors: [InvalidVpcIDNotFound, ParseError],
@@ -66591,7 +67408,13 @@ export const createSubnet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * resource-level permissions for Amazon EC2 API actions in the Amazon
  * Elastic Compute Cloud User Guide.
  */
-export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTags: (
+  input: CreateTagsRequest,
+) => Effect.Effect<
+  CreateTagsResponse,
+  InvalidID | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagsRequest,
   output: CreateTagsResponse,
   errors: [InvalidID],
@@ -66600,12 +67423,17 @@ export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * An Amazon Web Services Verified Access instance is a regional entity that evaluates application requests and grants
  * access only when your security requirements are met.
  */
-export const createVerifiedAccessInstance =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateVerifiedAccessInstanceRequest,
-    output: CreateVerifiedAccessInstanceResult,
-    errors: [],
-  }));
+export const createVerifiedAccessInstance: (
+  input: CreateVerifiedAccessInstanceRequest,
+) => Effect.Effect<
+  CreateVerifiedAccessInstanceResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVerifiedAccessInstanceRequest,
+  output: CreateVerifiedAccessInstanceResult,
+  errors: [],
+}));
 /**
  * Requests a VPC peering connection between two VPCs: a requester VPC that you own and
  * an accepter VPC with which to create the connection. The accepter VPC can belong to
@@ -66622,22 +67450,31 @@ export const createVerifiedAccessInstance =
  * If you create a VPC peering connection request between VPCs with overlapping CIDR
  * blocks, the VPC peering connection has a status of `failed`.
  */
-export const createVpcPeeringConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVpcPeeringConnectionRequest,
-    output: CreateVpcPeeringConnectionResult,
-    errors: [InvalidVpcIDNotFound, ParseError],
-  }),
-);
+export const createVpcPeeringConnection: (
+  input: CreateVpcPeeringConnectionRequest,
+) => Effect.Effect<
+  CreateVpcPeeringConnectionResult,
+  InvalidVpcIDNotFound | ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVpcPeeringConnectionRequest,
+  output: CreateVpcPeeringConnectionResult,
+  errors: [InvalidVpcIDNotFound, ParseError],
+}));
 /**
  * Deletes an existing Capacity Manager data export configuration. This stops future scheduled exports but does not delete previously exported files from S3.
  */
-export const deleteCapacityManagerDataExport =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCapacityManagerDataExportRequest,
-    output: DeleteCapacityManagerDataExportResult,
-    errors: [],
-  }));
+export const deleteCapacityManagerDataExport: (
+  input: DeleteCapacityManagerDataExportRequest,
+) => Effect.Effect<
+  DeleteCapacityManagerDataExportResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCapacityManagerDataExportRequest,
+  output: DeleteCapacityManagerDataExportResult,
+  errors: [],
+}));
 /**
  * Deletes a carrier gateway.
  *
@@ -66645,30 +67482,44 @@ export const deleteCapacityManagerDataExport =
  * Target, the route is a blackhole route. For information about how to delete a route, see
  * DeleteRoute.
  */
-export const deleteCarrierGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCarrierGatewayRequest,
-    output: DeleteCarrierGatewayResult,
-    errors: [InvalidCarrierGatewayIDNotFound],
-  }),
-);
+export const deleteCarrierGateway: (
+  input: DeleteCarrierGatewayRequest,
+) => Effect.Effect<
+  DeleteCarrierGatewayResult,
+  InvalidCarrierGatewayIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCarrierGatewayRequest,
+  output: DeleteCarrierGatewayResult,
+  errors: [InvalidCarrierGatewayIDNotFound],
+}));
 /**
  * Deletes a route from a Client VPN endpoint. You can only delete routes that you manually added using
  * the **CreateClientVpnRoute** action. You cannot delete routes that were
  * automatically added when associating a subnet. To remove routes that have been automatically added,
  * disassociate the target subnet from the Client VPN endpoint.
  */
-export const deleteClientVpnRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteClientVpnRouteRequest,
-    output: DeleteClientVpnRouteResult,
-    errors: [],
-  }),
-);
+export const deleteClientVpnRoute: (
+  input: DeleteClientVpnRouteRequest,
+) => Effect.Effect<
+  DeleteClientVpnRouteResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClientVpnRouteRequest,
+  output: DeleteClientVpnRouteResult,
+  errors: [],
+}));
 /**
  * Deletes a range of customer-owned IP addresses.
  */
-export const deleteCoipCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCoipCidr: (
+  input: DeleteCoipCidrRequest,
+) => Effect.Effect<
+  DeleteCoipCidrResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoipCidrRequest,
   output: DeleteCoipCidrResult,
   errors: [],
@@ -66676,7 +67527,13 @@ export const deleteCoipCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a pool of customer-owned IP (CoIP) addresses.
  */
-export const deleteCoipPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCoipPool: (
+  input: DeleteCoipPoolRequest,
+) => Effect.Effect<
+  DeleteCoipPoolResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoipPoolRequest,
   output: DeleteCoipPoolResult,
   errors: [],
@@ -66684,16 +67541,27 @@ export const deleteCoipPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an egress-only internet gateway.
  */
-export const deleteEgressOnlyInternetGateway =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteEgressOnlyInternetGatewayRequest,
-    output: DeleteEgressOnlyInternetGatewayResult,
-    errors: [InvalidGatewayIDNotFound],
-  }));
+export const deleteEgressOnlyInternetGateway: (
+  input: DeleteEgressOnlyInternetGatewayRequest,
+) => Effect.Effect<
+  DeleteEgressOnlyInternetGatewayResult,
+  InvalidGatewayIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEgressOnlyInternetGatewayRequest,
+  output: DeleteEgressOnlyInternetGatewayResult,
+  errors: [InvalidGatewayIDNotFound],
+}));
 /**
  * Deletes one or more flow logs.
  */
-export const deleteFlowLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFlowLogs: (
+  input: DeleteFlowLogsRequest,
+) => Effect.Effect<
+  DeleteFlowLogsResult,
+  InvalidFlowLogIdNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFlowLogsRequest,
   output: DeleteFlowLogsResult,
   errors: [InvalidFlowLogIdNotFound],
@@ -66701,7 +67569,13 @@ export const deleteFlowLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified Amazon FPGA Image (AFI).
  */
-export const deleteFpgaImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFpgaImage: (
+  input: DeleteFpgaImageRequest,
+) => Effect.Effect<
+  DeleteFpgaImageResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFpgaImageRequest,
   output: DeleteFpgaImageResult,
   errors: [],
@@ -66712,39 +67586,59 @@ export const deleteFpgaImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see View your AMI usage in the
  * *Amazon EC2 User Guide*.
  */
-export const deleteImageUsageReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteImageUsageReportRequest,
-    output: DeleteImageUsageReportResult,
-    errors: [],
-  }),
-);
+export const deleteImageUsageReport: (
+  input: DeleteImageUsageReportRequest,
+) => Effect.Effect<
+  DeleteImageUsageReportResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteImageUsageReportRequest,
+  output: DeleteImageUsageReportResult,
+  errors: [],
+}));
 /**
  * Deletes the specified EC2 Instance Connect Endpoint.
  */
-export const deleteInstanceConnectEndpoint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteInstanceConnectEndpointRequest,
-    output: DeleteInstanceConnectEndpointResult,
-    errors: [],
-  }));
+export const deleteInstanceConnectEndpoint: (
+  input: DeleteInstanceConnectEndpointRequest,
+) => Effect.Effect<
+  DeleteInstanceConnectEndpointResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInstanceConnectEndpointRequest,
+  output: DeleteInstanceConnectEndpointResult,
+  errors: [],
+}));
 /**
  * Delete a verification token.
  *
  * A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
  */
-export const deleteIpamExternalResourceVerificationToken =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteIpamExternalResourceVerificationTokenRequest,
-    output: DeleteIpamExternalResourceVerificationTokenResult,
-    errors: [],
-  }));
+export const deleteIpamExternalResourceVerificationToken: (
+  input: DeleteIpamExternalResourceVerificationTokenRequest,
+) => Effect.Effect<
+  DeleteIpamExternalResourceVerificationTokenResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIpamExternalResourceVerificationTokenRequest,
+  output: DeleteIpamExternalResourceVerificationTokenResult,
+  errors: [],
+}));
 /**
  * Deletes an IPAM policy.
  *
  * An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
  */
-export const deleteIpamPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIpamPolicy: (
+  input: DeleteIpamPolicyRequest,
+) => Effect.Effect<
+  DeleteIpamPolicyResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIpamPolicyRequest,
   output: DeleteIpamPolicyResult,
   errors: [],
@@ -66754,26 +67648,41 @@ export const deleteIpamPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about IPAM prefix list resolver, see Automate prefix list updates with IPAM in the *Amazon VPC IPAM User Guide*.
  */
-export const deleteIpamPrefixListResolverTarget =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteIpamPrefixListResolverTargetRequest,
-    output: DeleteIpamPrefixListResolverTargetResult,
-    errors: [],
-  }));
+export const deleteIpamPrefixListResolverTarget: (
+  input: DeleteIpamPrefixListResolverTargetRequest,
+) => Effect.Effect<
+  DeleteIpamPrefixListResolverTargetResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIpamPrefixListResolverTargetRequest,
+  output: DeleteIpamPrefixListResolverTargetResult,
+  errors: [],
+}));
 /**
  * Deletes an IPAM resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
-export const deleteIpamResourceDiscovery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIpamResourceDiscoveryRequest,
-    output: DeleteIpamResourceDiscoveryResult,
-    errors: [],
-  }),
-);
+export const deleteIpamResourceDiscovery: (
+  input: DeleteIpamResourceDiscoveryRequest,
+) => Effect.Effect<
+  DeleteIpamResourceDiscoveryResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIpamResourceDiscoveryRequest,
+  output: DeleteIpamResourceDiscoveryResult,
+  errors: [],
+}));
 /**
  * Deletes the specified key pair, by removing the public key from Amazon EC2.
  */
-export const deleteKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKeyPair: (
+  input: DeleteKeyPairRequest,
+) => Effect.Effect<
+  DeleteKeyPairResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeyPairRequest,
   output: DeleteKeyPairResult,
   errors: [],
@@ -66781,64 +67690,99 @@ export const deleteKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified route from the specified local gateway route table.
  */
-export const deleteLocalGatewayRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLocalGatewayRouteRequest,
-    output: DeleteLocalGatewayRouteResult,
-    errors: [],
-  }),
-);
+export const deleteLocalGatewayRoute: (
+  input: DeleteLocalGatewayRouteRequest,
+) => Effect.Effect<
+  DeleteLocalGatewayRouteResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLocalGatewayRouteRequest,
+  output: DeleteLocalGatewayRouteResult,
+  errors: [],
+}));
 /**
  * Deletes a local gateway route table.
  */
-export const deleteLocalGatewayRouteTable =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteLocalGatewayRouteTableRequest,
-    output: DeleteLocalGatewayRouteTableResult,
-    errors: [],
-  }));
+export const deleteLocalGatewayRouteTable: (
+  input: DeleteLocalGatewayRouteTableRequest,
+) => Effect.Effect<
+  DeleteLocalGatewayRouteTableResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLocalGatewayRouteTableRequest,
+  output: DeleteLocalGatewayRouteTableResult,
+  errors: [],
+}));
 /**
  * Deletes a local gateway route table virtual interface group association.
  */
-export const deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
-    output: DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult,
-    errors: [],
-  }));
+export const deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation: (
+  input: DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
+) => Effect.Effect<
+  DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
+  output: DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult,
+  errors: [],
+}));
 /**
  * Deletes the specified association between a VPC and local gateway route table.
  */
-export const deleteLocalGatewayRouteTableVpcAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteLocalGatewayRouteTableVpcAssociationRequest,
-    output: DeleteLocalGatewayRouteTableVpcAssociationResult,
-    errors: [],
-  }));
+export const deleteLocalGatewayRouteTableVpcAssociation: (
+  input: DeleteLocalGatewayRouteTableVpcAssociationRequest,
+) => Effect.Effect<
+  DeleteLocalGatewayRouteTableVpcAssociationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLocalGatewayRouteTableVpcAssociationRequest,
+  output: DeleteLocalGatewayRouteTableVpcAssociationResult,
+  errors: [],
+}));
 /**
  * Deletes the specified local gateway virtual interface.
  */
-export const deleteLocalGatewayVirtualInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteLocalGatewayVirtualInterfaceRequest,
-    output: DeleteLocalGatewayVirtualInterfaceResult,
-    errors: [],
-  }));
+export const deleteLocalGatewayVirtualInterface: (
+  input: DeleteLocalGatewayVirtualInterfaceRequest,
+) => Effect.Effect<
+  DeleteLocalGatewayVirtualInterfaceResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLocalGatewayVirtualInterfaceRequest,
+  output: DeleteLocalGatewayVirtualInterfaceResult,
+  errors: [],
+}));
 /**
  * Delete the specified local gateway interface group.
  */
-export const deleteLocalGatewayVirtualInterfaceGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteLocalGatewayVirtualInterfaceGroupRequest,
-    output: DeleteLocalGatewayVirtualInterfaceGroupResult,
-    errors: [],
-  }));
+export const deleteLocalGatewayVirtualInterfaceGroup: (
+  input: DeleteLocalGatewayVirtualInterfaceGroupRequest,
+) => Effect.Effect<
+  DeleteLocalGatewayVirtualInterfaceGroupResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLocalGatewayVirtualInterfaceGroupRequest,
+  output: DeleteLocalGatewayVirtualInterfaceGroupResult,
+  errors: [],
+}));
 /**
  * Deletes the specified NAT gateway. Deleting a public NAT gateway disassociates its Elastic IP address,
  * but does not release the address from your account. Deleting a NAT gateway does not delete any NAT gateway
  * routes in your route tables.
  */
-export const deleteNatGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteNatGateway: (
+  input: DeleteNatGatewayRequest,
+) => Effect.Effect<
+  DeleteNatGatewayResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNatGatewayRequest,
   output: DeleteNatGatewayResult,
   errors: [],
@@ -66846,62 +67790,90 @@ export const deleteNatGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified Network Access Scope.
  */
-export const deleteNetworkInsightsAccessScope =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteNetworkInsightsAccessScopeRequest,
-    output: DeleteNetworkInsightsAccessScopeResult,
-    errors: [],
-  }));
+export const deleteNetworkInsightsAccessScope: (
+  input: DeleteNetworkInsightsAccessScopeRequest,
+) => Effect.Effect<
+  DeleteNetworkInsightsAccessScopeResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNetworkInsightsAccessScopeRequest,
+  output: DeleteNetworkInsightsAccessScopeResult,
+  errors: [],
+}));
 /**
  * Deletes the specified Network Access Scope analysis.
  */
-export const deleteNetworkInsightsAccessScopeAnalysis =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteNetworkInsightsAccessScopeAnalysisRequest,
-    output: DeleteNetworkInsightsAccessScopeAnalysisResult,
-    errors: [],
-  }));
+export const deleteNetworkInsightsAccessScopeAnalysis: (
+  input: DeleteNetworkInsightsAccessScopeAnalysisRequest,
+) => Effect.Effect<
+  DeleteNetworkInsightsAccessScopeAnalysisResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNetworkInsightsAccessScopeAnalysisRequest,
+  output: DeleteNetworkInsightsAccessScopeAnalysisResult,
+  errors: [],
+}));
 /**
  * Deletes the specified network insights analysis.
  */
-export const deleteNetworkInsightsAnalysis =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteNetworkInsightsAnalysisRequest,
-    output: DeleteNetworkInsightsAnalysisResult,
-    errors: [],
-  }));
+export const deleteNetworkInsightsAnalysis: (
+  input: DeleteNetworkInsightsAnalysisRequest,
+) => Effect.Effect<
+  DeleteNetworkInsightsAnalysisResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNetworkInsightsAnalysisRequest,
+  output: DeleteNetworkInsightsAnalysisResult,
+  errors: [],
+}));
 /**
  * Deletes the specified path.
  */
-export const deleteNetworkInsightsPath = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteNetworkInsightsPathRequest,
-    output: DeleteNetworkInsightsPathResult,
-    errors: [],
-  }),
-);
+export const deleteNetworkInsightsPath: (
+  input: DeleteNetworkInsightsPathRequest,
+) => Effect.Effect<
+  DeleteNetworkInsightsPathResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNetworkInsightsPathRequest,
+  output: DeleteNetworkInsightsPathResult,
+  errors: [],
+}));
 /**
  * Deletes a permission for a network interface. By default, you cannot delete the
  * permission if the account for which you're removing the permission has attached the
  * network interface to an instance. However, you can force delete the permission,
  * regardless of any attachment.
  */
-export const deleteNetworkInterfacePermission =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteNetworkInterfacePermissionRequest,
-    output: DeleteNetworkInterfacePermissionResult,
-    errors: [],
-  }));
+export const deleteNetworkInterfacePermission: (
+  input: DeleteNetworkInterfacePermissionRequest,
+) => Effect.Effect<
+  DeleteNetworkInterfacePermissionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNetworkInterfacePermissionRequest,
+  output: DeleteNetworkInterfacePermissionResult,
+  errors: [],
+}));
 /**
  * Delete a public IPv4 pool. A public IPv4 pool is an EC2 IP address pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only.
  */
-export const deletePublicIpv4Pool = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePublicIpv4PoolRequest,
-    output: DeletePublicIpv4PoolResult,
-    errors: [],
-  }),
-);
+export const deletePublicIpv4Pool: (
+  input: DeletePublicIpv4PoolRequest,
+) => Effect.Effect<
+  DeletePublicIpv4PoolResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePublicIpv4PoolRequest,
+  output: DeletePublicIpv4PoolResult,
+  errors: [],
+}));
 /**
  * Deletes the specified route server.
  *
@@ -66920,7 +67892,13 @@ export const deletePublicIpv4Pool = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const deleteRouteServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRouteServer: (
+  input: DeleteRouteServerRequest,
+) => Effect.Effect<
+  DeleteRouteServerResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRouteServerRequest,
   output: DeleteRouteServerResult,
   errors: [],
@@ -66930,13 +67908,17 @@ export const deleteRouteServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A route server endpoint is an Amazon Web Services-managed component inside a subnet that facilitates BGP (Border Gateway Protocol) connections between your route server and your BGP peers.
  */
-export const deleteRouteServerEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRouteServerEndpointRequest,
-    output: DeleteRouteServerEndpointResult,
-    errors: [],
-  }),
-);
+export const deleteRouteServerEndpoint: (
+  input: DeleteRouteServerEndpointRequest,
+) => Effect.Effect<
+  DeleteRouteServerEndpointResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRouteServerEndpointRequest,
+  output: DeleteRouteServerEndpointResult,
+  errors: [],
+}));
 /**
  * Deletes a security group.
  *
@@ -66944,7 +67926,13 @@ export const deleteRouteServerEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * referenced by another security group in the same VPC, or has a VPC association, the operation fails with
  * `DependencyViolation`.
  */
-export const deleteSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSecurityGroup: (
+  input: DeleteSecurityGroupRequest,
+) => Effect.Effect<
+  DeleteSecurityGroupResult,
+  InvalidGroupNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSecurityGroupRequest,
   output: DeleteSecurityGroupResult,
   errors: [InvalidGroupNotFound],
@@ -66952,197 +67940,290 @@ export const deleteSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a subnet CIDR reservation.
  */
-export const deleteSubnetCidrReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSubnetCidrReservationRequest,
-    output: DeleteSubnetCidrReservationResult,
-    errors: [],
-  }),
-);
+export const deleteSubnetCidrReservation: (
+  input: DeleteSubnetCidrReservationRequest,
+) => Effect.Effect<
+  DeleteSubnetCidrReservationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSubnetCidrReservationRequest,
+  output: DeleteSubnetCidrReservationResult,
+  errors: [],
+}));
 /**
  * Deletes the specified Traffic Mirror filter.
  *
  * You cannot delete a Traffic Mirror filter that is in use by a Traffic Mirror session.
  */
-export const deleteTrafficMirrorFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTrafficMirrorFilterRequest,
-    output: DeleteTrafficMirrorFilterResult,
-    errors: [],
-  }),
-);
+export const deleteTrafficMirrorFilter: (
+  input: DeleteTrafficMirrorFilterRequest,
+) => Effect.Effect<
+  DeleteTrafficMirrorFilterResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTrafficMirrorFilterRequest,
+  output: DeleteTrafficMirrorFilterResult,
+  errors: [],
+}));
 /**
  * Deletes the specified Traffic Mirror rule.
  */
-export const deleteTrafficMirrorFilterRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTrafficMirrorFilterRuleRequest,
-    output: DeleteTrafficMirrorFilterRuleResult,
-    errors: [],
-  }));
+export const deleteTrafficMirrorFilterRule: (
+  input: DeleteTrafficMirrorFilterRuleRequest,
+) => Effect.Effect<
+  DeleteTrafficMirrorFilterRuleResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTrafficMirrorFilterRuleRequest,
+  output: DeleteTrafficMirrorFilterRuleResult,
+  errors: [],
+}));
 /**
  * Deletes the specified Traffic Mirror session.
  */
-export const deleteTrafficMirrorSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTrafficMirrorSessionRequest,
-    output: DeleteTrafficMirrorSessionResult,
-    errors: [],
-  }),
-);
+export const deleteTrafficMirrorSession: (
+  input: DeleteTrafficMirrorSessionRequest,
+) => Effect.Effect<
+  DeleteTrafficMirrorSessionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTrafficMirrorSessionRequest,
+  output: DeleteTrafficMirrorSessionResult,
+  errors: [],
+}));
 /**
  * Deletes the specified Traffic Mirror target.
  *
  * You cannot delete a Traffic Mirror target that is in use by a Traffic Mirror session.
  */
-export const deleteTrafficMirrorTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTrafficMirrorTargetRequest,
-    output: DeleteTrafficMirrorTargetResult,
-    errors: [],
-  }),
-);
+export const deleteTrafficMirrorTarget: (
+  input: DeleteTrafficMirrorTargetRequest,
+) => Effect.Effect<
+  DeleteTrafficMirrorTargetResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTrafficMirrorTargetRequest,
+  output: DeleteTrafficMirrorTargetResult,
+  errors: [],
+}));
 /**
  * Deletes a transit gateway metering policy.
  */
-export const deleteTransitGatewayMeteringPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTransitGatewayMeteringPolicyRequest,
-    output: DeleteTransitGatewayMeteringPolicyResult,
-    errors: [],
-  }));
+export const deleteTransitGatewayMeteringPolicy: (
+  input: DeleteTransitGatewayMeteringPolicyRequest,
+) => Effect.Effect<
+  DeleteTransitGatewayMeteringPolicyResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTransitGatewayMeteringPolicyRequest,
+  output: DeleteTransitGatewayMeteringPolicyResult,
+  errors: [],
+}));
 /**
  * Deletes an entry from a transit gateway metering policy.
  */
-export const deleteTransitGatewayMeteringPolicyEntry =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTransitGatewayMeteringPolicyEntryRequest,
-    output: DeleteTransitGatewayMeteringPolicyEntryResult,
-    errors: [],
-  }));
+export const deleteTransitGatewayMeteringPolicyEntry: (
+  input: DeleteTransitGatewayMeteringPolicyEntryRequest,
+) => Effect.Effect<
+  DeleteTransitGatewayMeteringPolicyEntryResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTransitGatewayMeteringPolicyEntryRequest,
+  output: DeleteTransitGatewayMeteringPolicyEntryResult,
+  errors: [],
+}));
 /**
  * Deletes a transit gateway peering attachment.
  */
-export const deleteTransitGatewayPeeringAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTransitGatewayPeeringAttachmentRequest,
-    output: DeleteTransitGatewayPeeringAttachmentResult,
-    errors: [],
-  }));
+export const deleteTransitGatewayPeeringAttachment: (
+  input: DeleteTransitGatewayPeeringAttachmentRequest,
+) => Effect.Effect<
+  DeleteTransitGatewayPeeringAttachmentResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTransitGatewayPeeringAttachmentRequest,
+  output: DeleteTransitGatewayPeeringAttachmentResult,
+  errors: [],
+}));
 /**
  * Deletes the specified transit gateway policy table.
  */
-export const deleteTransitGatewayPolicyTable =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTransitGatewayPolicyTableRequest,
-    output: DeleteTransitGatewayPolicyTableResult,
-    errors: [],
-  }));
+export const deleteTransitGatewayPolicyTable: (
+  input: DeleteTransitGatewayPolicyTableRequest,
+) => Effect.Effect<
+  DeleteTransitGatewayPolicyTableResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTransitGatewayPolicyTableRequest,
+  output: DeleteTransitGatewayPolicyTableResult,
+  errors: [],
+}));
 /**
  * Deletes a reference (route) to a prefix list in a specified transit gateway route table.
  */
-export const deleteTransitGatewayPrefixListReference =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTransitGatewayPrefixListReferenceRequest,
-    output: DeleteTransitGatewayPrefixListReferenceResult,
-    errors: [],
-  }));
+export const deleteTransitGatewayPrefixListReference: (
+  input: DeleteTransitGatewayPrefixListReferenceRequest,
+) => Effect.Effect<
+  DeleteTransitGatewayPrefixListReferenceResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTransitGatewayPrefixListReferenceRequest,
+  output: DeleteTransitGatewayPrefixListReferenceResult,
+  errors: [],
+}));
 /**
  * Deletes the specified route from the specified transit gateway route table.
  */
-export const deleteTransitGatewayRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTransitGatewayRouteRequest,
-    output: DeleteTransitGatewayRouteResult,
-    errors: [],
-  }),
-);
+export const deleteTransitGatewayRoute: (
+  input: DeleteTransitGatewayRouteRequest,
+) => Effect.Effect<
+  DeleteTransitGatewayRouteResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTransitGatewayRouteRequest,
+  output: DeleteTransitGatewayRouteResult,
+  errors: [],
+}));
 /**
  * Deletes the specified transit gateway route table. If there are any route tables associated with
  * the transit gateway route table, you must first run DisassociateRouteTable before you can delete the transit gateway route table. This removes any route tables associated with the transit gateway route table.
  */
-export const deleteTransitGatewayRouteTable =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTransitGatewayRouteTableRequest,
-    output: DeleteTransitGatewayRouteTableResult,
-    errors: [ParseError],
-  }));
+export const deleteTransitGatewayRouteTable: (
+  input: DeleteTransitGatewayRouteTableRequest,
+) => Effect.Effect<
+  DeleteTransitGatewayRouteTableResult,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTransitGatewayRouteTableRequest,
+  output: DeleteTransitGatewayRouteTableResult,
+  errors: [ParseError],
+}));
 /**
  * Advertises to the transit gateway that a transit gateway route table is deleted.
  */
-export const deleteTransitGatewayRouteTableAnnouncement =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTransitGatewayRouteTableAnnouncementRequest,
-    output: DeleteTransitGatewayRouteTableAnnouncementResult,
-    errors: [],
-  }));
+export const deleteTransitGatewayRouteTableAnnouncement: (
+  input: DeleteTransitGatewayRouteTableAnnouncementRequest,
+) => Effect.Effect<
+  DeleteTransitGatewayRouteTableAnnouncementResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTransitGatewayRouteTableAnnouncementRequest,
+  output: DeleteTransitGatewayRouteTableAnnouncementResult,
+  errors: [],
+}));
 /**
  * Deletes the specified VPC attachment.
  */
-export const deleteTransitGatewayVpcAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTransitGatewayVpcAttachmentRequest,
-    output: DeleteTransitGatewayVpcAttachmentResult,
-    errors: [],
-  }));
+export const deleteTransitGatewayVpcAttachment: (
+  input: DeleteTransitGatewayVpcAttachmentRequest,
+) => Effect.Effect<
+  DeleteTransitGatewayVpcAttachmentResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTransitGatewayVpcAttachmentRequest,
+  output: DeleteTransitGatewayVpcAttachmentResult,
+  errors: [],
+}));
 /**
  * Delete an Amazon Web Services Verified Access group.
  */
-export const deleteVerifiedAccessGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVerifiedAccessGroupRequest,
-    output: DeleteVerifiedAccessGroupResult,
-    errors: [],
-  }),
-);
+export const deleteVerifiedAccessGroup: (
+  input: DeleteVerifiedAccessGroupRequest,
+) => Effect.Effect<
+  DeleteVerifiedAccessGroupResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVerifiedAccessGroupRequest,
+  output: DeleteVerifiedAccessGroupResult,
+  errors: [],
+}));
 /**
  * Delete an Amazon Web Services Verified Access instance.
  */
-export const deleteVerifiedAccessInstance =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteVerifiedAccessInstanceRequest,
-    output: DeleteVerifiedAccessInstanceResult,
-    errors: [],
-  }));
+export const deleteVerifiedAccessInstance: (
+  input: DeleteVerifiedAccessInstanceRequest,
+) => Effect.Effect<
+  DeleteVerifiedAccessInstanceResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVerifiedAccessInstanceRequest,
+  output: DeleteVerifiedAccessInstanceResult,
+  errors: [],
+}));
 /**
  * Delete an Amazon Web Services Verified Access trust provider.
  */
-export const deleteVerifiedAccessTrustProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteVerifiedAccessTrustProviderRequest,
-    output: DeleteVerifiedAccessTrustProviderResult,
-    errors: [],
-  }));
+export const deleteVerifiedAccessTrustProvider: (
+  input: DeleteVerifiedAccessTrustProviderRequest,
+) => Effect.Effect<
+  DeleteVerifiedAccessTrustProviderResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVerifiedAccessTrustProviderRequest,
+  output: DeleteVerifiedAccessTrustProviderResult,
+  errors: [],
+}));
 /**
  * Delete a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
-export const deleteVpcBlockPublicAccessExclusion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteVpcBlockPublicAccessExclusionRequest,
-    output: DeleteVpcBlockPublicAccessExclusionResult,
-    errors: [],
-  }));
+export const deleteVpcBlockPublicAccessExclusion: (
+  input: DeleteVpcBlockPublicAccessExclusionRequest,
+) => Effect.Effect<
+  DeleteVpcBlockPublicAccessExclusionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpcBlockPublicAccessExclusionRequest,
+  output: DeleteVpcBlockPublicAccessExclusionResult,
+  errors: [],
+}));
 /**
  * Deletes a VPC Encryption Control configuration. This removes the encryption policy enforcement from the specified VPC.
  *
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
-export const deleteVpcEncryptionControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVpcEncryptionControlRequest,
-    output: DeleteVpcEncryptionControlResult,
-    errors: [],
-  }),
-);
+export const deleteVpcEncryptionControl: (
+  input: DeleteVpcEncryptionControlRequest,
+) => Effect.Effect<
+  DeleteVpcEncryptionControlResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpcEncryptionControlRequest,
+  output: DeleteVpcEncryptionControlResult,
+  errors: [],
+}));
 /**
  * Deletes the specified VPC endpoint connection notifications.
  */
-export const deleteVpcEndpointConnectionNotifications =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteVpcEndpointConnectionNotificationsRequest,
-    output: DeleteVpcEndpointConnectionNotificationsResult,
-    errors: [],
-  }));
+export const deleteVpcEndpointConnectionNotifications: (
+  input: DeleteVpcEndpointConnectionNotificationsRequest,
+) => Effect.Effect<
+  DeleteVpcEndpointConnectionNotificationsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpcEndpointConnectionNotificationsRequest,
+  output: DeleteVpcEndpointConnectionNotificationsResult,
+  errors: [],
+}));
 /**
  * Deletes the specified VPC endpoints.
  *
@@ -67153,7 +68234,13 @@ export const deleteVpcEndpointConnectionNotifications =
  *
  * When you delete an interface endpoint, we delete its endpoint network interfaces.
  */
-export const deleteVpcEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVpcEndpoints: (
+  input: DeleteVpcEndpointsRequest,
+) => Effect.Effect<
+  DeleteVpcEndpointsResult,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpcEndpointsRequest,
   output: DeleteVpcEndpointsResult,
   errors: [ParseError],
@@ -67164,12 +68251,17 @@ export const deleteVpcEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `PendingAcceptance` interface endpoint connections that are attached to
  * the service.
  */
-export const deleteVpcEndpointServiceConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteVpcEndpointServiceConfigurationsRequest,
-    output: DeleteVpcEndpointServiceConfigurationsResult,
-    errors: [],
-  }));
+export const deleteVpcEndpointServiceConfigurations: (
+  input: DeleteVpcEndpointServiceConfigurationsRequest,
+) => Effect.Effect<
+  DeleteVpcEndpointServiceConfigurationsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpcEndpointServiceConfigurationsRequest,
+  output: DeleteVpcEndpointServiceConfigurationsResult,
+  errors: [],
+}));
 /**
  * Deletes a VPC peering connection. Either the owner of the requester VPC or the owner
  * of the accepter VPC can delete the VPC peering connection if it's in the
@@ -67177,23 +68269,31 @@ export const deleteVpcEndpointServiceConfigurations =
  * connection in the `pending-acceptance` state. You cannot delete a VPC peering
  * connection that's in the `failed` or `rejected` state.
  */
-export const deleteVpcPeeringConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVpcPeeringConnectionRequest,
-    output: DeleteVpcPeeringConnectionResult,
-    errors: [InvalidVpcPeeringConnectionIdNotFound],
-  }),
-);
+export const deleteVpcPeeringConnection: (
+  input: DeleteVpcPeeringConnectionRequest,
+) => Effect.Effect<
+  DeleteVpcPeeringConnectionResult,
+  InvalidVpcPeeringConnectionIdNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpcPeeringConnectionRequest,
+  output: DeleteVpcPeeringConnectionResult,
+  errors: [InvalidVpcPeeringConnectionIdNotFound],
+}));
 /**
  * Deletes the specified VPN concentrator.
  */
-export const deleteVpnConcentrator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVpnConcentratorRequest,
-    output: DeleteVpnConcentratorResult,
-    errors: [],
-  }),
-);
+export const deleteVpnConcentrator: (
+  input: DeleteVpnConcentratorRequest,
+) => Effect.Effect<
+  DeleteVpnConcentratorResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpnConcentratorRequest,
+  output: DeleteVpnConcentratorResult,
+  errors: [],
+}));
 /**
  * Releases the specified address range that you provisioned for use with your Amazon Web Services resources
  * through bring your own IP addresses (BYOIP) and deletes the corresponding address pool.
@@ -67201,22 +68301,31 @@ export const deleteVpnConcentrator = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Before you can release an address range, you must stop advertising it and you must not
  * have any IP addresses allocated from its address range.
  */
-export const deprovisionByoipCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeprovisionByoipCidrRequest,
-    output: DeprovisionByoipCidrResult,
-    errors: [],
-  }),
-);
+export const deprovisionByoipCidr: (
+  input: DeprovisionByoipCidrRequest,
+) => Effect.Effect<
+  DeprovisionByoipCidrResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeprovisionByoipCidrRequest,
+  output: DeprovisionByoipCidrResult,
+  errors: [],
+}));
 /**
  * Deprovision a CIDR from a public IPv4 pool.
  */
-export const deprovisionPublicIpv4PoolCidr =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeprovisionPublicIpv4PoolCidrRequest,
-    output: DeprovisionPublicIpv4PoolCidrResult,
-    errors: [],
-  }));
+export const deprovisionPublicIpv4PoolCidr: (
+  input: DeprovisionPublicIpv4PoolCidrRequest,
+) => Effect.Effect<
+  DeprovisionPublicIpv4PoolCidrResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeprovisionPublicIpv4PoolCidrRequest,
+  output: DeprovisionPublicIpv4PoolCidrResult,
+  errors: [],
+}));
 /**
  * Describes the specified bundle tasks or all of your bundle tasks.
  *
@@ -67228,7 +68337,13 @@ export const deprovisionPublicIpv4PoolCidr =
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeBundleTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeBundleTasks: (
+  input: DescribeBundleTasksRequest,
+) => Effect.Effect<
+  DescribeBundleTasksResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBundleTasksRequest,
   output: DescribeBundleTasksResult,
   errors: [],
@@ -67237,97 +68352,204 @@ export const describeBundleTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Describes the IP address ranges that were provisioned for use with Amazon Web Services resources
  * through through bring your own IP addresses (BYOIP).
  */
-export const describeByoipCidrs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeByoipCidrs: {
+  (
     input: DescribeByoipCidrsRequest,
-    output: DescribeByoipCidrsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ByoipCidrs",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeByoipCidrsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeByoipCidrsRequest,
+  ) => Stream.Stream<
+    DescribeByoipCidrsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeByoipCidrsRequest,
+  ) => Stream.Stream<
+    ByoipCidr,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeByoipCidrsRequest,
+  output: DescribeByoipCidrsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ByoipCidrs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more of your Capacity Reservations. The results describe only the
  * Capacity Reservations in the Amazon Web Services Region that you're currently
  * using.
  */
-export const describeCapacityReservations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCapacityReservations: {
+  (
     input: DescribeCapacityReservationsRequest,
-    output: DescribeCapacityReservationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CapacityReservations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeCapacityReservationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCapacityReservationsRequest,
+  ) => Stream.Stream<
+    DescribeCapacityReservationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCapacityReservationsRequest,
+  ) => Stream.Stream<
+    CapacityReservation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCapacityReservationsRequest,
+  output: DescribeCapacityReservationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CapacityReservations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more of your carrier gateways.
  */
-export const describeCarrierGateways =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCarrierGateways: {
+  (
     input: DescribeCarrierGatewaysRequest,
-    output: DescribeCarrierGatewaysResult,
-    errors: [ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CarrierGateways",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeCarrierGatewaysResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCarrierGatewaysRequest,
+  ) => Stream.Stream<
+    DescribeCarrierGatewaysResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCarrierGatewaysRequest,
+  ) => Stream.Stream<
+    CarrierGateway,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCarrierGatewaysRequest,
+  output: DescribeCarrierGatewaysResult,
+  errors: [ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CarrierGateways",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified customer-owned address pools or all of your customer-owned address pools.
  */
-export const describeCoipPools = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeCoipPools: {
+  (
     input: DescribeCoipPoolsRequest,
-    output: DescribeCoipPoolsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CoipPools",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeCoipPoolsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCoipPoolsRequest,
+  ) => Stream.Stream<
+    DescribeCoipPoolsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCoipPoolsRequest,
+  ) => Stream.Stream<
+    CoipPool,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCoipPoolsRequest,
+  output: DescribeCoipPoolsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CoipPools",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more of your VPN customer gateways.
  *
  * For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN
  * User Guide.
  */
-export const describeCustomerGateways = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCustomerGatewaysRequest,
-    output: DescribeCustomerGatewaysResult,
-    errors: [ParseError],
-  }),
-);
+export const describeCustomerGateways: (
+  input: DescribeCustomerGatewaysRequest,
+) => Effect.Effect<
+  DescribeCustomerGatewaysResult,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCustomerGatewaysRequest,
+  output: DescribeCustomerGatewaysResult,
+  errors: [ParseError],
+}));
 /**
  * Describes your egress-only internet gateways. The default is to describe all your egress-only internet gateways.
  * Alternatively, you can specify specific egress-only internet gateway IDs or filter the results to
  * include only the egress-only internet gateways that match specific criteria.
  */
-export const describeEgressOnlyInternetGateways =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeEgressOnlyInternetGateways: {
+  (
     input: DescribeEgressOnlyInternetGatewaysRequest,
-    output: DescribeEgressOnlyInternetGatewaysResult,
-    errors: [ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EgressOnlyInternetGateways",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeEgressOnlyInternetGatewaysResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEgressOnlyInternetGatewaysRequest,
+  ) => Stream.Stream<
+    DescribeEgressOnlyInternetGatewaysResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEgressOnlyInternetGatewaysRequest,
+  ) => Stream.Stream<
+    EgressOnlyInternetGateway,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEgressOnlyInternetGatewaysRequest,
+  output: DescribeEgressOnlyInternetGatewaysResult,
+  errors: [ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EgressOnlyInternetGateways",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the ID format settings for resources for the specified IAM user, IAM role, or root
  * user. For example, you can view the resource types that are enabled for longer IDs. This request only
@@ -67351,13 +68573,17 @@ export const describeEgressOnlyInternetGateways =
  * These settings apply to the principal specified in the request. They do not apply to the
  * principal that makes the request.
  */
-export const describeIdentityIdFormat = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeIdentityIdFormatRequest,
-    output: DescribeIdentityIdFormatResult,
-    errors: [],
-  }),
-);
+export const describeIdentityIdFormat: (
+  input: DescribeIdentityIdFormatRequest,
+) => Effect.Effect<
+  DescribeIdentityIdFormatResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIdentityIdFormatRequest,
+  output: DescribeIdentityIdFormatResult,
+  errors: [],
+}));
 /**
  * Describes the ID format settings for your resources on a per-Region basis, for example, to view which resource types are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types.
  *
@@ -67382,7 +68608,13 @@ export const describeIdentityIdFormat = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * provided that they have permission to use the relevant `Describe` command for the
  * resource type.
  */
-export const describeIdFormat = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeIdFormat: (
+  input: DescribeIdFormatRequest,
+) => Effect.Effect<
+  DescribeIdFormatResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIdFormatRequest,
   output: DescribeIdFormatResult,
   errors: [],
@@ -67390,50 +68622,102 @@ export const describeIdFormat = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the specified EC2 Instance Connect Endpoints or all EC2 Instance Connect Endpoints.
  */
-export const describeInstanceConnectEndpoints =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeInstanceConnectEndpoints: {
+  (
     input: DescribeInstanceConnectEndpointsRequest,
-    output: DescribeInstanceConnectEndpointsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InstanceConnectEndpoints",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeInstanceConnectEndpointsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeInstanceConnectEndpointsRequest,
+  ) => Stream.Stream<
+    DescribeInstanceConnectEndpointsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeInstanceConnectEndpointsRequest,
+  ) => Stream.Stream<
+    Ec2InstanceConnectEndpoint,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeInstanceConnectEndpointsRequest,
+  output: DescribeInstanceConnectEndpointsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InstanceConnectEndpoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the SQL Server High Availability states for Amazon EC2 instances that are
  * enabled for Amazon EC2 High Availability for SQL Server monitoring.
  */
-export const describeInstanceSqlHaStates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInstanceSqlHaStatesRequest,
-    output: DescribeInstanceSqlHaStatesResult,
-    errors: [],
-  }),
-);
+export const describeInstanceSqlHaStates: (
+  input: DescribeInstanceSqlHaStatesRequest,
+) => Effect.Effect<
+  DescribeInstanceSqlHaStatesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInstanceSqlHaStatesRequest,
+  output: DescribeInstanceSqlHaStatesResult,
+  errors: [],
+}));
 /**
  * Describes your internet gateways. The default is to describe all your internet gateways.
  * Alternatively, you can specify specific internet gateway IDs or filter the results to
  * include only the internet gateways that match specific criteria.
  */
-export const describeInternetGateways =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeInternetGateways: {
+  (
     input: DescribeInternetGatewaysRequest,
-    output: DescribeInternetGatewaysResult,
-    errors: [InvalidInternetGatewayIDNotFound, ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InternetGateways",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeInternetGatewaysResult,
+    InvalidInternetGatewayIDNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeInternetGatewaysRequest,
+  ) => Stream.Stream<
+    DescribeInternetGatewaysResult,
+    InvalidInternetGatewayIDNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeInternetGatewaysRequest,
+  ) => Stream.Stream<
+    InternetGateway,
+    InvalidInternetGatewayIDNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeInternetGatewaysRequest,
+  output: DescribeInternetGatewaysResult,
+  errors: [InvalidInternetGatewayIDNotFound, ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InternetGateways",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes your Autonomous System Numbers (ASNs), their provisioning statuses, and the BYOIP CIDRs with which they are associated. For more information, see Tutorial: Bring your ASN to IPAM in the *Amazon VPC IPAM guide*.
  */
-export const describeIpamByoasn = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeIpamByoasn: (
+  input: DescribeIpamByoasnRequest,
+) => Effect.Effect<
+  DescribeIpamByoasnResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIpamByoasnRequest,
   output: DescribeIpamByoasnResult,
   errors: [],
@@ -67443,277 +68727,617 @@ export const describeIpamByoasn = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
  */
-export const describeIpamExternalResourceVerificationTokens =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeIpamExternalResourceVerificationTokensRequest,
-    output: DescribeIpamExternalResourceVerificationTokensResult,
-    errors: [],
-  }));
+export const describeIpamExternalResourceVerificationTokens: (
+  input: DescribeIpamExternalResourceVerificationTokensRequest,
+) => Effect.Effect<
+  DescribeIpamExternalResourceVerificationTokensResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIpamExternalResourceVerificationTokensRequest,
+  output: DescribeIpamExternalResourceVerificationTokensResult,
+  errors: [],
+}));
 /**
  * Describes one or more IPAM policies.
  *
  * An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
  */
-export const describeIpamPolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeIpamPoliciesRequest,
-    output: DescribeIpamPoliciesResult,
-    errors: [],
-  }),
-);
+export const describeIpamPolicies: (
+  input: DescribeIpamPoliciesRequest,
+) => Effect.Effect<
+  DescribeIpamPoliciesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIpamPoliciesRequest,
+  output: DescribeIpamPoliciesResult,
+  errors: [],
+}));
 /**
  * Get information about your IPAM pools.
  */
-export const describeIpamPools = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeIpamPools: {
+  (
     input: DescribeIpamPoolsRequest,
-    output: DescribeIpamPoolsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IpamPools",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeIpamPoolsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeIpamPoolsRequest,
+  ) => Stream.Stream<
+    DescribeIpamPoolsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeIpamPoolsRequest,
+  ) => Stream.Stream<
+    IpamPool,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeIpamPoolsRequest,
+  output: DescribeIpamPoolsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IpamPools",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more IPAM prefix list resolvers. Use this operation to view the configuration, status, and properties of your resolvers.
  */
-export const describeIpamPrefixListResolvers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeIpamPrefixListResolvers: {
+  (
     input: DescribeIpamPrefixListResolversRequest,
-    output: DescribeIpamPrefixListResolversResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IpamPrefixListResolvers",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeIpamPrefixListResolversResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeIpamPrefixListResolversRequest,
+  ) => Stream.Stream<
+    DescribeIpamPrefixListResolversResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeIpamPrefixListResolversRequest,
+  ) => Stream.Stream<
+    IpamPrefixListResolver,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeIpamPrefixListResolversRequest,
+  output: DescribeIpamPrefixListResolversResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IpamPrefixListResolvers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more IPAM prefix list resolver Targets. Use this operation to view the configuration and status of resolver targets.
  */
-export const describeIpamPrefixListResolverTargets =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeIpamPrefixListResolverTargets: {
+  (
     input: DescribeIpamPrefixListResolverTargetsRequest,
-    output: DescribeIpamPrefixListResolverTargetsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IpamPrefixListResolverTargets",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeIpamPrefixListResolverTargetsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeIpamPrefixListResolverTargetsRequest,
+  ) => Stream.Stream<
+    DescribeIpamPrefixListResolverTargetsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeIpamPrefixListResolverTargetsRequest,
+  ) => Stream.Stream<
+    IpamPrefixListResolverTarget,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeIpamPrefixListResolverTargetsRequest,
+  output: DescribeIpamPrefixListResolverTargetsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IpamPrefixListResolverTargets",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes IPAM resource discoveries. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
-export const describeIpamResourceDiscoveries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeIpamResourceDiscoveries: {
+  (
     input: DescribeIpamResourceDiscoveriesRequest,
-    output: DescribeIpamResourceDiscoveriesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IpamResourceDiscoveries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeIpamResourceDiscoveriesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeIpamResourceDiscoveriesRequest,
+  ) => Stream.Stream<
+    DescribeIpamResourceDiscoveriesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeIpamResourceDiscoveriesRequest,
+  ) => Stream.Stream<
+    IpamResourceDiscovery,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeIpamResourceDiscoveriesRequest,
+  output: DescribeIpamResourceDiscoveriesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IpamResourceDiscoveries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes resource discovery association with an Amazon VPC IPAM. An associated resource discovery is a resource discovery that has been associated with an IPAM..
  */
-export const describeIpamResourceDiscoveryAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeIpamResourceDiscoveryAssociations: {
+  (
     input: DescribeIpamResourceDiscoveryAssociationsRequest,
-    output: DescribeIpamResourceDiscoveryAssociationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IpamResourceDiscoveryAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeIpamResourceDiscoveryAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeIpamResourceDiscoveryAssociationsRequest,
+  ) => Stream.Stream<
+    DescribeIpamResourceDiscoveryAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeIpamResourceDiscoveryAssociationsRequest,
+  ) => Stream.Stream<
+    IpamResourceDiscoveryAssociation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeIpamResourceDiscoveryAssociationsRequest,
+  output: DescribeIpamResourceDiscoveryAssociationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IpamResourceDiscoveryAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Get information about your IPAM pools.
  *
  * For more information, see What is IPAM? in the *Amazon VPC IPAM User Guide*.
  */
-export const describeIpams = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeIpams: {
+  (
     input: DescribeIpamsRequest,
-    output: DescribeIpamsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Ipams",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeIpamsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeIpamsRequest,
+  ) => Stream.Stream<
+    DescribeIpamsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeIpamsRequest,
+  ) => Stream.Stream<
+    Ipam,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeIpamsRequest,
+  output: DescribeIpamsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Ipams",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Get information about your IPAM scopes.
  */
-export const describeIpamScopes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeIpamScopes: {
+  (
     input: DescribeIpamScopesRequest,
-    output: DescribeIpamScopesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IpamScopes",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeIpamScopesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeIpamScopesRequest,
+  ) => Stream.Stream<
+    DescribeIpamScopesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeIpamScopesRequest,
+  ) => Stream.Stream<
+    IpamScope,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeIpamScopesRequest,
+  output: DescribeIpamScopesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IpamScopes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more launch templates.
  */
-export const describeLaunchTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeLaunchTemplates: {
+  (
     input: DescribeLaunchTemplatesRequest,
-    output: DescribeLaunchTemplatesResult,
-    errors: [ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LaunchTemplates",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeLaunchTemplatesResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeLaunchTemplatesRequest,
+  ) => Stream.Stream<
+    DescribeLaunchTemplatesResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeLaunchTemplatesRequest,
+  ) => Stream.Stream<
+    LaunchTemplate,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeLaunchTemplatesRequest,
+  output: DescribeLaunchTemplatesResult,
+  errors: [ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LaunchTemplates",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more versions of a specified launch template. You can describe all
  * versions, individual versions, or a range of versions. You can also describe all the
  * latest versions or all the default versions of all the launch templates in your
  * account.
  */
-export const describeLaunchTemplateVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeLaunchTemplateVersions: {
+  (
     input: DescribeLaunchTemplateVersionsRequest,
-    output: DescribeLaunchTemplateVersionsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LaunchTemplateVersions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeLaunchTemplateVersionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeLaunchTemplateVersionsRequest,
+  ) => Stream.Stream<
+    DescribeLaunchTemplateVersionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeLaunchTemplateVersionsRequest,
+  ) => Stream.Stream<
+    LaunchTemplateVersion,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeLaunchTemplateVersionsRequest,
+  output: DescribeLaunchTemplateVersionsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LaunchTemplateVersions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more local gateway route tables. By default, all local gateway route tables are described.
  * Alternatively, you can filter the results.
  */
-export const describeLocalGatewayRouteTables =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeLocalGatewayRouteTables: {
+  (
     input: DescribeLocalGatewayRouteTablesRequest,
-    output: DescribeLocalGatewayRouteTablesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LocalGatewayRouteTables",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeLocalGatewayRouteTablesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeLocalGatewayRouteTablesRequest,
+  ) => Stream.Stream<
+    DescribeLocalGatewayRouteTablesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeLocalGatewayRouteTablesRequest,
+  ) => Stream.Stream<
+    LocalGatewayRouteTable,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeLocalGatewayRouteTablesRequest,
+  output: DescribeLocalGatewayRouteTablesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LocalGatewayRouteTables",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the associations between virtual interface groups and local gateway route tables.
  */
-export const describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-    input:
-      DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest,
-    output:
-      DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LocalGatewayRouteTableVirtualInterfaceGroupAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+export const describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations: {
+  (
+    input: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest,
+  ): Effect.Effect<
+    DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest,
+  ) => Stream.Stream<
+    DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest,
+  ) => Stream.Stream<
+    LocalGatewayRouteTableVirtualInterfaceGroupAssociation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest,
+  output: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LocalGatewayRouteTableVirtualInterfaceGroupAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified associations between VPCs and local gateway route tables.
  */
-export const describeLocalGatewayRouteTableVpcAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeLocalGatewayRouteTableVpcAssociations: {
+  (
     input: DescribeLocalGatewayRouteTableVpcAssociationsRequest,
-    output: DescribeLocalGatewayRouteTableVpcAssociationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LocalGatewayRouteTableVpcAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeLocalGatewayRouteTableVpcAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeLocalGatewayRouteTableVpcAssociationsRequest,
+  ) => Stream.Stream<
+    DescribeLocalGatewayRouteTableVpcAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeLocalGatewayRouteTableVpcAssociationsRequest,
+  ) => Stream.Stream<
+    LocalGatewayRouteTableVpcAssociation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeLocalGatewayRouteTableVpcAssociationsRequest,
+  output: DescribeLocalGatewayRouteTableVpcAssociationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LocalGatewayRouteTableVpcAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified local gateway virtual interface groups.
  */
-export const describeLocalGatewayVirtualInterfaceGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeLocalGatewayVirtualInterfaceGroups: {
+  (
     input: DescribeLocalGatewayVirtualInterfaceGroupsRequest,
-    output: DescribeLocalGatewayVirtualInterfaceGroupsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LocalGatewayVirtualInterfaceGroups",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeLocalGatewayVirtualInterfaceGroupsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeLocalGatewayVirtualInterfaceGroupsRequest,
+  ) => Stream.Stream<
+    DescribeLocalGatewayVirtualInterfaceGroupsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeLocalGatewayVirtualInterfaceGroupsRequest,
+  ) => Stream.Stream<
+    LocalGatewayVirtualInterfaceGroup,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeLocalGatewayVirtualInterfaceGroupsRequest,
+  output: DescribeLocalGatewayVirtualInterfaceGroupsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LocalGatewayVirtualInterfaceGroups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified local gateway virtual interfaces.
  */
-export const describeLocalGatewayVirtualInterfaces =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeLocalGatewayVirtualInterfaces: {
+  (
     input: DescribeLocalGatewayVirtualInterfacesRequest,
-    output: DescribeLocalGatewayVirtualInterfacesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LocalGatewayVirtualInterfaces",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeLocalGatewayVirtualInterfacesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeLocalGatewayVirtualInterfacesRequest,
+  ) => Stream.Stream<
+    DescribeLocalGatewayVirtualInterfacesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeLocalGatewayVirtualInterfacesRequest,
+  ) => Stream.Stream<
+    LocalGatewayVirtualInterface,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeLocalGatewayVirtualInterfacesRequest,
+  output: DescribeLocalGatewayVirtualInterfacesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LocalGatewayVirtualInterfaces",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes a System Integrity Protection (SIP) modification task or volume ownership delegation
  * task for an Amazon EC2 Mac instance. For more information, see Configure
  * SIP for Amazon EC2 instances in the *Amazon EC2 User Guide*.
  */
-export const describeMacModificationTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeMacModificationTasks: {
+  (
     input: DescribeMacModificationTasksRequest,
-    output: DescribeMacModificationTasksResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MacModificationTasks",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeMacModificationTasksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeMacModificationTasksRequest,
+  ) => Stream.Stream<
+    DescribeMacModificationTasksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeMacModificationTasksRequest,
+  ) => Stream.Stream<
+    MacModificationTask,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeMacModificationTasksRequest,
+  output: DescribeMacModificationTasksResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MacModificationTasks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes your managed prefix lists and any Amazon Web Services-managed prefix lists.
  */
-export const describeManagedPrefixLists =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeManagedPrefixLists: {
+  (
     input: DescribeManagedPrefixListsRequest,
-    output: DescribeManagedPrefixListsResult,
-    errors: [ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PrefixLists",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeManagedPrefixListsResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeManagedPrefixListsRequest,
+  ) => Stream.Stream<
+    DescribeManagedPrefixListsResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeManagedPrefixListsRequest,
+  ) => Stream.Stream<
+    ManagedPrefixList,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeManagedPrefixListsRequest,
+  output: DescribeManagedPrefixListsResult,
+  errors: [ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PrefixLists",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes your network ACLs. The default is to describe all your network ACLs.
  * Alternatively, you can specify specific network ACL IDs or filter the results to
@@ -67722,33 +69346,75 @@ export const describeManagedPrefixLists =
  * For more information, see Network ACLs in the
  * *Amazon VPC User Guide*.
  */
-export const describeNetworkAcls =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeNetworkAcls: {
+  (
     input: DescribeNetworkAclsRequest,
-    output: DescribeNetworkAclsResult,
-    errors: [InvalidRouteTableIDNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "NetworkAcls",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeNetworkAclsResult,
+    InvalidRouteTableIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeNetworkAclsRequest,
+  ) => Stream.Stream<
+    DescribeNetworkAclsResult,
+    InvalidRouteTableIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeNetworkAclsRequest,
+  ) => Stream.Stream<
+    NetworkAcl,
+    InvalidRouteTableIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeNetworkAclsRequest,
+  output: DescribeNetworkAclsResult,
+  errors: [InvalidRouteTableIDNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "NetworkAcls",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the permissions for your network interfaces.
  */
-export const describeNetworkInterfacePermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeNetworkInterfacePermissions: {
+  (
     input: DescribeNetworkInterfacePermissionsRequest,
-    output: DescribeNetworkInterfacePermissionsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "NetworkInterfacePermissions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeNetworkInterfacePermissionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeNetworkInterfacePermissionsRequest,
+  ) => Stream.Stream<
+    DescribeNetworkInterfacePermissionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeNetworkInterfacePermissionsRequest,
+  ) => Stream.Stream<
+    NetworkInterfacePermission,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeNetworkInterfacePermissionsRequest,
+  output: DescribeNetworkInterfacePermissionsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "NetworkInterfacePermissions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified placement groups or all of your placement groups.
  *
@@ -67761,29 +69427,54 @@ export const describeNetworkInterfacePermissions =
  * For more information, see Placement groups in the
  * *Amazon EC2 User Guide*.
  */
-export const describePlacementGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePlacementGroupsRequest,
-    output: DescribePlacementGroupsResult,
-    errors: [],
-  }),
-);
+export const describePlacementGroups: (
+  input: DescribePlacementGroupsRequest,
+) => Effect.Effect<
+  DescribePlacementGroupsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePlacementGroupsRequest,
+  output: DescribePlacementGroupsResult,
+  errors: [],
+}));
 /**
  * Describes a root volume replacement task. For more information, see
  * Replace a root volume in the *Amazon EC2 User Guide*.
  */
-export const describeReplaceRootVolumeTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeReplaceRootVolumeTasks: {
+  (
     input: DescribeReplaceRootVolumeTasksRequest,
-    output: DescribeReplaceRootVolumeTasksResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ReplaceRootVolumeTasks",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeReplaceRootVolumeTasksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeReplaceRootVolumeTasksRequest,
+  ) => Stream.Stream<
+    DescribeReplaceRootVolumeTasksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeReplaceRootVolumeTasksRequest,
+  ) => Stream.Stream<
+    ReplaceRootVolumeTask,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeReplaceRootVolumeTasksRequest,
+  output: DescribeReplaceRootVolumeTasksResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ReplaceRootVolumeTasks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes your account's Reserved Instance listings in the Reserved Instance
  * Marketplace.
@@ -67809,12 +69500,17 @@ export const describeReplaceRootVolumeTasks =
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeReservedInstancesListings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeReservedInstancesListingsRequest,
-    output: DescribeReservedInstancesListingsResult,
-    errors: [],
-  }));
+export const describeReservedInstancesListings: (
+  input: DescribeReservedInstancesListingsRequest,
+) => Effect.Effect<
+  DescribeReservedInstancesListingsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeReservedInstancesListingsRequest,
+  output: DescribeReservedInstancesListingsResult,
+  errors: [],
+}));
 /**
  * Describes one or more route server endpoints.
  *
@@ -67822,18 +69518,39 @@ export const describeReservedInstancesListings =
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const describeRouteServerEndpoints =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRouteServerEndpoints: {
+  (
     input: DescribeRouteServerEndpointsRequest,
-    output: DescribeRouteServerEndpointsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RouteServerEndpoints",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRouteServerEndpointsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRouteServerEndpointsRequest,
+  ) => Stream.Stream<
+    DescribeRouteServerEndpointsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRouteServerEndpointsRequest,
+  ) => Stream.Stream<
+    RouteServerEndpoint,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRouteServerEndpointsRequest,
+  output: DescribeRouteServerEndpointsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RouteServerEndpoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more route server peers.
  *
@@ -67847,18 +69564,39 @@ export const describeRouteServerEndpoints =
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const describeRouteServerPeers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRouteServerPeers: {
+  (
     input: DescribeRouteServerPeersRequest,
-    output: DescribeRouteServerPeersResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RouteServerPeers",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRouteServerPeersResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRouteServerPeersRequest,
+  ) => Stream.Stream<
+    DescribeRouteServerPeersResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRouteServerPeersRequest,
+  ) => Stream.Stream<
+    RouteServerPeer,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRouteServerPeersRequest,
+  output: DescribeRouteServerPeersResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RouteServerPeers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more route servers.
  *
@@ -67877,18 +69615,39 @@ export const describeRouteServerPeers =
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const describeRouteServers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRouteServers: {
+  (
     input: DescribeRouteServersRequest,
-    output: DescribeRouteServersResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RouteServers",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRouteServersResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRouteServersRequest,
+  ) => Stream.Stream<
+    DescribeRouteServersResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRouteServersRequest,
+  ) => Stream.Stream<
+    RouteServer,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRouteServersRequest,
+  output: DescribeRouteServersResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RouteServers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes your route tables. The default is to describe all your route tables.
  * Alternatively, you can specify specific route table IDs or filter the results to
@@ -67899,46 +69658,92 @@ export const describeRouteServers =
  * For more information, see Route tables in the
  * *Amazon VPC User Guide*.
  */
-export const describeRouteTables =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRouteTables: {
+  (
     input: DescribeRouteTablesRequest,
-    output: DescribeRouteTablesResult,
-    errors: [InvalidRouteTableIDNotFound, ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RouteTables",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRouteTablesResult,
+    InvalidRouteTableIDNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRouteTablesRequest,
+  ) => Stream.Stream<
+    DescribeRouteTablesResult,
+    InvalidRouteTableIDNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRouteTablesRequest,
+  ) => Stream.Stream<
+    RouteTable,
+    InvalidRouteTableIDNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRouteTablesRequest,
+  output: DescribeRouteTablesResult,
+  errors: [InvalidRouteTableIDNotFound, ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RouteTables",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more of your security group rules.
  */
-export const describeSecurityGroupRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeSecurityGroupRules: {
+  (
     input: DescribeSecurityGroupRulesRequest,
-    output: DescribeSecurityGroupRulesResult,
-    errors: [InvalidSecurityGroupRuleIdNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SecurityGroupRules",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeSecurityGroupRulesResult,
+    InvalidSecurityGroupRuleIdNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSecurityGroupRulesRequest,
+  ) => Stream.Stream<
+    DescribeSecurityGroupRulesResult,
+    InvalidSecurityGroupRuleIdNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSecurityGroupRulesRequest,
+  ) => Stream.Stream<
+    SecurityGroupRule,
+    InvalidSecurityGroupRuleIdNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSecurityGroupRulesRequest,
+  output: DescribeSecurityGroupRulesResult,
+  errors: [InvalidSecurityGroupRuleIdNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SecurityGroupRules",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified attribute of the specified snapshot. You can specify only one
  * attribute at a time.
  *
  * For more information about EBS snapshots, see Amazon EBS snapshots in the *Amazon EBS User Guide*.
  */
-export const describeSnapshotAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSnapshotAttributeRequest,
-    output: DescribeSnapshotAttributeResult,
-    errors: [InvalidSnapshotNotFound],
-  }),
-);
+export const describeSnapshotAttribute: (
+  input: DescribeSnapshotAttributeRequest,
+) => Effect.Effect<
+  DescribeSnapshotAttributeResult,
+  InvalidSnapshotNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSnapshotAttributeRequest,
+  output: DescribeSnapshotAttributeResult,
+  errors: [InvalidSnapshotNotFound],
+}));
 /**
  * Describes the specified EBS snapshots available to you or all of the EBS snapshots
  * available to you.
@@ -67986,39 +69791,68 @@ export const describeSnapshotAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * We strongly recommend using only paginated requests. Unpaginated requests are
  * susceptible to throttling and timeouts.
  */
-export const describeSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeSnapshots: {
+  (
     input: DescribeSnapshotsRequest,
-    output: DescribeSnapshotsResult,
-    errors: [InvalidSnapshotNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Snapshots",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeSnapshotsResult,
+    InvalidSnapshotNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSnapshotsRequest,
+  ) => Stream.Stream<
+    DescribeSnapshotsResult,
+    InvalidSnapshotNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSnapshotsRequest,
+  ) => Stream.Stream<
+    Snapshot,
+    InvalidSnapshotNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSnapshotsRequest,
+  output: DescribeSnapshotsResult,
+  errors: [InvalidSnapshotNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Snapshots",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the data feed for Spot Instances. For more information, see Spot
  * Instance data feed in the *Amazon EC2 User Guide*.
  */
-export const describeSpotDatafeedSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeSpotDatafeedSubscriptionRequest,
-    output: DescribeSpotDatafeedSubscriptionResult,
-    errors: [],
-  }));
+export const describeSpotDatafeedSubscription: (
+  input: DescribeSpotDatafeedSubscriptionRequest,
+) => Effect.Effect<
+  DescribeSpotDatafeedSubscriptionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSpotDatafeedSubscriptionRequest,
+  output: DescribeSpotDatafeedSubscriptionResult,
+  errors: [],
+}));
 /**
  * Describes the running instances for the specified Spot Fleet.
  */
-export const describeSpotFleetInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSpotFleetInstancesRequest,
-    output: DescribeSpotFleetInstancesResponse,
-    errors: [],
-  }),
-);
+export const describeSpotFleetInstances: (
+  input: DescribeSpotFleetInstancesRequest,
+) => Effect.Effect<
+  DescribeSpotFleetInstancesResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSpotFleetInstancesRequest,
+  output: DescribeSpotFleetInstancesResponse,
+  errors: [],
+}));
 /**
  * Describes your subnets. The default is to describe all your subnets.
  * Alternatively, you can specify specific subnet IDs or filter the results to
@@ -68027,299 +69861,685 @@ export const describeSpotFleetInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Subnets in the
  * *Amazon VPC User Guide*.
  */
-export const describeSubnets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeSubnets: {
+  (
     input: DescribeSubnetsRequest,
-    output: DescribeSubnetsResult,
-    errors: [InvalidSubnetIDNotFound, ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Subnets",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeSubnetsResult,
+    InvalidSubnetIDNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSubnetsRequest,
+  ) => Stream.Stream<
+    DescribeSubnetsResult,
+    InvalidSubnetIDNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSubnetsRequest,
+  ) => Stream.Stream<
+    Subnet,
+    InvalidSubnetIDNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSubnetsRequest,
+  output: DescribeSubnetsResult,
+  errors: [InvalidSubnetIDNotFound, ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Subnets",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more Traffic Mirror filters.
  */
-export const describeTrafficMirrorFilters =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTrafficMirrorFilters: {
+  (
     input: DescribeTrafficMirrorFiltersRequest,
-    output: DescribeTrafficMirrorFiltersResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TrafficMirrorFilters",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTrafficMirrorFiltersResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTrafficMirrorFiltersRequest,
+  ) => Stream.Stream<
+    DescribeTrafficMirrorFiltersResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTrafficMirrorFiltersRequest,
+  ) => Stream.Stream<
+    TrafficMirrorFilter,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTrafficMirrorFiltersRequest,
+  output: DescribeTrafficMirrorFiltersResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TrafficMirrorFilters",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror sessions are described. Alternatively, you can filter the results.
  */
-export const describeTrafficMirrorSessions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTrafficMirrorSessions: {
+  (
     input: DescribeTrafficMirrorSessionsRequest,
-    output: DescribeTrafficMirrorSessionsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TrafficMirrorSessions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTrafficMirrorSessionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTrafficMirrorSessionsRequest,
+  ) => Stream.Stream<
+    DescribeTrafficMirrorSessionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTrafficMirrorSessionsRequest,
+  ) => Stream.Stream<
+    TrafficMirrorSession,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTrafficMirrorSessionsRequest,
+  output: DescribeTrafficMirrorSessionsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TrafficMirrorSessions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Information about one or more Traffic Mirror targets.
  */
-export const describeTrafficMirrorTargets =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTrafficMirrorTargets: {
+  (
     input: DescribeTrafficMirrorTargetsRequest,
-    output: DescribeTrafficMirrorTargetsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TrafficMirrorTargets",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTrafficMirrorTargetsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTrafficMirrorTargetsRequest,
+  ) => Stream.Stream<
+    DescribeTrafficMirrorTargetsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTrafficMirrorTargetsRequest,
+  ) => Stream.Stream<
+    TrafficMirrorTarget,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTrafficMirrorTargetsRequest,
+  output: DescribeTrafficMirrorTargetsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TrafficMirrorTargets",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more Connect peers.
  */
-export const describeTransitGatewayConnectPeers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTransitGatewayConnectPeers: {
+  (
     input: DescribeTransitGatewayConnectPeersRequest,
-    output: DescribeTransitGatewayConnectPeersResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransitGatewayConnectPeers",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTransitGatewayConnectPeersResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTransitGatewayConnectPeersRequest,
+  ) => Stream.Stream<
+    DescribeTransitGatewayConnectPeersResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTransitGatewayConnectPeersRequest,
+  ) => Stream.Stream<
+    TransitGatewayConnectPeer,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTransitGatewayConnectPeersRequest,
+  output: DescribeTransitGatewayConnectPeersResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransitGatewayConnectPeers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more Connect attachments.
  */
-export const describeTransitGatewayConnects =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTransitGatewayConnects: {
+  (
     input: DescribeTransitGatewayConnectsRequest,
-    output: DescribeTransitGatewayConnectsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransitGatewayConnects",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTransitGatewayConnectsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTransitGatewayConnectsRequest,
+  ) => Stream.Stream<
+    DescribeTransitGatewayConnectsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTransitGatewayConnectsRequest,
+  ) => Stream.Stream<
+    TransitGatewayConnect,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTransitGatewayConnectsRequest,
+  output: DescribeTransitGatewayConnectsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransitGatewayConnects",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more transit gateway metering policies.
  */
-export const describeTransitGatewayMeteringPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTransitGatewayMeteringPoliciesRequest,
-    output: DescribeTransitGatewayMeteringPoliciesResult,
-    errors: [],
-  }));
+export const describeTransitGatewayMeteringPolicies: (
+  input: DescribeTransitGatewayMeteringPoliciesRequest,
+) => Effect.Effect<
+  DescribeTransitGatewayMeteringPoliciesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTransitGatewayMeteringPoliciesRequest,
+  output: DescribeTransitGatewayMeteringPoliciesResult,
+  errors: [],
+}));
 /**
  * Describes one or more transit gateway multicast domains.
  */
-export const describeTransitGatewayMulticastDomains =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTransitGatewayMulticastDomains: {
+  (
     input: DescribeTransitGatewayMulticastDomainsRequest,
-    output: DescribeTransitGatewayMulticastDomainsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransitGatewayMulticastDomains",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTransitGatewayMulticastDomainsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTransitGatewayMulticastDomainsRequest,
+  ) => Stream.Stream<
+    DescribeTransitGatewayMulticastDomainsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTransitGatewayMulticastDomainsRequest,
+  ) => Stream.Stream<
+    TransitGatewayMulticastDomain,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTransitGatewayMulticastDomainsRequest,
+  output: DescribeTransitGatewayMulticastDomainsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransitGatewayMulticastDomains",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes your transit gateway peering attachments.
  */
-export const describeTransitGatewayPeeringAttachments =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTransitGatewayPeeringAttachments: {
+  (
     input: DescribeTransitGatewayPeeringAttachmentsRequest,
-    output: DescribeTransitGatewayPeeringAttachmentsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransitGatewayPeeringAttachments",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTransitGatewayPeeringAttachmentsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTransitGatewayPeeringAttachmentsRequest,
+  ) => Stream.Stream<
+    DescribeTransitGatewayPeeringAttachmentsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTransitGatewayPeeringAttachmentsRequest,
+  ) => Stream.Stream<
+    TransitGatewayPeeringAttachment,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTransitGatewayPeeringAttachmentsRequest,
+  output: DescribeTransitGatewayPeeringAttachmentsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransitGatewayPeeringAttachments",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more transit gateway route policy tables.
  */
-export const describeTransitGatewayPolicyTables =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTransitGatewayPolicyTables: {
+  (
     input: DescribeTransitGatewayPolicyTablesRequest,
-    output: DescribeTransitGatewayPolicyTablesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransitGatewayPolicyTables",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTransitGatewayPolicyTablesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTransitGatewayPolicyTablesRequest,
+  ) => Stream.Stream<
+    DescribeTransitGatewayPolicyTablesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTransitGatewayPolicyTablesRequest,
+  ) => Stream.Stream<
+    TransitGatewayPolicyTable,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTransitGatewayPolicyTablesRequest,
+  output: DescribeTransitGatewayPolicyTablesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransitGatewayPolicyTables",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more transit gateway route table advertisements.
  */
-export const describeTransitGatewayRouteTableAnnouncements =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTransitGatewayRouteTableAnnouncements: {
+  (
     input: DescribeTransitGatewayRouteTableAnnouncementsRequest,
-    output: DescribeTransitGatewayRouteTableAnnouncementsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransitGatewayRouteTableAnnouncements",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTransitGatewayRouteTableAnnouncementsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTransitGatewayRouteTableAnnouncementsRequest,
+  ) => Stream.Stream<
+    DescribeTransitGatewayRouteTableAnnouncementsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTransitGatewayRouteTableAnnouncementsRequest,
+  ) => Stream.Stream<
+    TransitGatewayRouteTableAnnouncement,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTransitGatewayRouteTableAnnouncementsRequest,
+  output: DescribeTransitGatewayRouteTableAnnouncementsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransitGatewayRouteTableAnnouncements",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more transit gateway route tables. By default, all transit gateway route tables are described.
  * Alternatively, you can filter the results.
  */
-export const describeTransitGatewayRouteTables =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTransitGatewayRouteTables: {
+  (
     input: DescribeTransitGatewayRouteTablesRequest,
-    output: DescribeTransitGatewayRouteTablesResult,
-    errors: [ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransitGatewayRouteTables",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTransitGatewayRouteTablesResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTransitGatewayRouteTablesRequest,
+  ) => Stream.Stream<
+    DescribeTransitGatewayRouteTablesResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTransitGatewayRouteTablesRequest,
+  ) => Stream.Stream<
+    TransitGatewayRouteTable,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTransitGatewayRouteTablesRequest,
+  output: DescribeTransitGatewayRouteTablesResult,
+  errors: [ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransitGatewayRouteTables",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more transit gateways. By default, all transit gateways are described. Alternatively, you can
  * filter the results.
  */
-export const describeTransitGateways =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTransitGateways: {
+  (
     input: DescribeTransitGatewaysRequest,
-    output: DescribeTransitGatewaysResult,
-    errors: [ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransitGateways",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTransitGatewaysResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTransitGatewaysRequest,
+  ) => Stream.Stream<
+    DescribeTransitGatewaysResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTransitGatewaysRequest,
+  ) => Stream.Stream<
+    TransitGateway,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTransitGatewaysRequest,
+  output: DescribeTransitGatewaysResult,
+  errors: [ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransitGateways",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more VPC attachments. By default, all VPC attachments are described.
  * Alternatively, you can filter the results.
  */
-export const describeTransitGatewayVpcAttachments =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTransitGatewayVpcAttachments: {
+  (
     input: DescribeTransitGatewayVpcAttachmentsRequest,
-    output: DescribeTransitGatewayVpcAttachmentsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransitGatewayVpcAttachments",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTransitGatewayVpcAttachmentsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTransitGatewayVpcAttachmentsRequest,
+  ) => Stream.Stream<
+    DescribeTransitGatewayVpcAttachmentsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTransitGatewayVpcAttachmentsRequest,
+  ) => Stream.Stream<
+    TransitGatewayVpcAttachment,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTransitGatewayVpcAttachmentsRequest,
+  output: DescribeTransitGatewayVpcAttachmentsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransitGatewayVpcAttachments",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more network interface trunk associations.
  */
-export const describeTrunkInterfaceAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTrunkInterfaceAssociations: {
+  (
     input: DescribeTrunkInterfaceAssociationsRequest,
-    output: DescribeTrunkInterfaceAssociationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InterfaceAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTrunkInterfaceAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTrunkInterfaceAssociationsRequest,
+  ) => Stream.Stream<
+    DescribeTrunkInterfaceAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTrunkInterfaceAssociationsRequest,
+  ) => Stream.Stream<
+    TrunkInterfaceAssociation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTrunkInterfaceAssociationsRequest,
+  output: DescribeTrunkInterfaceAssociationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InterfaceAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified Amazon Web Services Verified Access endpoints.
  */
-export const describeVerifiedAccessEndpoints =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVerifiedAccessEndpoints: {
+  (
     input: DescribeVerifiedAccessEndpointsRequest,
-    output: DescribeVerifiedAccessEndpointsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "VerifiedAccessEndpoints",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVerifiedAccessEndpointsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVerifiedAccessEndpointsRequest,
+  ) => Stream.Stream<
+    DescribeVerifiedAccessEndpointsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVerifiedAccessEndpointsRequest,
+  ) => Stream.Stream<
+    VerifiedAccessEndpoint,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVerifiedAccessEndpointsRequest,
+  output: DescribeVerifiedAccessEndpointsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "VerifiedAccessEndpoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified Verified Access groups.
  */
-export const describeVerifiedAccessGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVerifiedAccessGroups: {
+  (
     input: DescribeVerifiedAccessGroupsRequest,
-    output: DescribeVerifiedAccessGroupsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "VerifiedAccessGroups",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVerifiedAccessGroupsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVerifiedAccessGroupsRequest,
+  ) => Stream.Stream<
+    DescribeVerifiedAccessGroupsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVerifiedAccessGroupsRequest,
+  ) => Stream.Stream<
+    VerifiedAccessGroup,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVerifiedAccessGroupsRequest,
+  output: DescribeVerifiedAccessGroupsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "VerifiedAccessGroups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified Amazon Web Services Verified Access instances.
  */
-export const describeVerifiedAccessInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVerifiedAccessInstances: {
+  (
     input: DescribeVerifiedAccessInstancesRequest,
-    output: DescribeVerifiedAccessInstancesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "VerifiedAccessInstances",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVerifiedAccessInstancesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVerifiedAccessInstancesRequest,
+  ) => Stream.Stream<
+    DescribeVerifiedAccessInstancesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVerifiedAccessInstancesRequest,
+  ) => Stream.Stream<
+    VerifiedAccessInstance,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVerifiedAccessInstancesRequest,
+  output: DescribeVerifiedAccessInstancesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "VerifiedAccessInstances",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified Amazon Web Services Verified Access trust providers.
  */
-export const describeVerifiedAccessTrustProviders =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVerifiedAccessTrustProviders: {
+  (
     input: DescribeVerifiedAccessTrustProvidersRequest,
-    output: DescribeVerifiedAccessTrustProvidersResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "VerifiedAccessTrustProviders",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVerifiedAccessTrustProvidersResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVerifiedAccessTrustProvidersRequest,
+  ) => Stream.Stream<
+    DescribeVerifiedAccessTrustProvidersResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVerifiedAccessTrustProvidersRequest,
+  ) => Stream.Stream<
+    VerifiedAccessTrustProvider,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVerifiedAccessTrustProvidersRequest,
+  output: DescribeVerifiedAccessTrustProvidersResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "VerifiedAccessTrustProviders",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified attribute of the specified volume. You can specify only one
  * attribute at a time.
  *
  * For more information about EBS volumes, see Amazon EBS volumes in the *Amazon EBS User Guide*.
  */
-export const describeVolumeAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVolumeAttributeRequest,
-    output: DescribeVolumeAttributeResult,
-    errors: [],
-  }),
-);
+export const describeVolumeAttribute: (
+  input: DescribeVolumeAttributeRequest,
+) => Effect.Effect<
+  DescribeVolumeAttributeResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVolumeAttributeRequest,
+  output: DescribeVolumeAttributeResult,
+  errors: [],
+}));
 /**
  * Describes the specified EBS volumes or all of your EBS volumes.
  *
@@ -68335,137 +70555,281 @@ export const describeVolumeAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * structures, might vary. Applications should not assume the elements appear in a
  * particular order.
  */
-export const describeVolumes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeVolumes: {
+  (
     input: DescribeVolumesRequest,
-    output: DescribeVolumesResult,
-    errors: [InvalidVolumeNotFound, ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Volumes",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeVolumesResult,
+    InvalidVolumeNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVolumesRequest,
+  ) => Stream.Stream<
+    DescribeVolumesResult,
+    InvalidVolumeNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVolumesRequest,
+  ) => Stream.Stream<
+    Volume,
+    InvalidVolumeNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVolumesRequest,
+  output: DescribeVolumesResult,
+  errors: [InvalidVolumeNotFound, ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Volumes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified attribute of the specified VPC. You can specify only one attribute at a time.
  */
-export const describeVpcAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVpcAttributeRequest,
-    output: DescribeVpcAttributeResult,
-    errors: [InvalidVpcIDNotFound],
-  }),
-);
+export const describeVpcAttribute: (
+  input: DescribeVpcAttributeRequest,
+) => Effect.Effect<
+  DescribeVpcAttributeResult,
+  InvalidVpcIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVpcAttributeRequest,
+  output: DescribeVpcAttributeResult,
+  errors: [InvalidVpcIDNotFound],
+}));
 /**
  * Describe VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
-export const describeVpcBlockPublicAccessExclusions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeVpcBlockPublicAccessExclusionsRequest,
-    output: DescribeVpcBlockPublicAccessExclusionsResult,
-    errors: [],
-  }));
+export const describeVpcBlockPublicAccessExclusions: (
+  input: DescribeVpcBlockPublicAccessExclusionsRequest,
+) => Effect.Effect<
+  DescribeVpcBlockPublicAccessExclusionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVpcBlockPublicAccessExclusionsRequest,
+  output: DescribeVpcBlockPublicAccessExclusionsResult,
+  errors: [],
+}));
 /**
  * Describes one or more VPC Encryption Control configurations. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements You can filter the results to return information about specific encryption controls or VPCs.
  *
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
-export const describeVpcEncryptionControls =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeVpcEncryptionControlsRequest,
-    output: DescribeVpcEncryptionControlsResult,
-    errors: [],
-  }));
+export const describeVpcEncryptionControls: (
+  input: DescribeVpcEncryptionControlsRequest,
+) => Effect.Effect<
+  DescribeVpcEncryptionControlsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVpcEncryptionControlsRequest,
+  output: DescribeVpcEncryptionControlsResult,
+  errors: [],
+}));
 /**
  * Describes the connection notifications for VPC endpoints and VPC endpoint
  * services.
  */
-export const describeVpcEndpointConnectionNotifications =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVpcEndpointConnectionNotifications: {
+  (
     input: DescribeVpcEndpointConnectionNotificationsRequest,
-    output: DescribeVpcEndpointConnectionNotificationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ConnectionNotificationSet",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVpcEndpointConnectionNotificationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVpcEndpointConnectionNotificationsRequest,
+  ) => Stream.Stream<
+    DescribeVpcEndpointConnectionNotificationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVpcEndpointConnectionNotificationsRequest,
+  ) => Stream.Stream<
+    ConnectionNotification,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVpcEndpointConnectionNotificationsRequest,
+  output: DescribeVpcEndpointConnectionNotificationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ConnectionNotificationSet",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the VPC endpoint service configurations in your account (your services).
  */
-export const describeVpcEndpointServiceConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVpcEndpointServiceConfigurations: {
+  (
     input: DescribeVpcEndpointServiceConfigurationsRequest,
-    output: DescribeVpcEndpointServiceConfigurationsResult,
-    errors: [InvalidVpcEndpointServiceIdNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ServiceConfigurations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVpcEndpointServiceConfigurationsResult,
+    InvalidVpcEndpointServiceIdNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVpcEndpointServiceConfigurationsRequest,
+  ) => Stream.Stream<
+    DescribeVpcEndpointServiceConfigurationsResult,
+    InvalidVpcEndpointServiceIdNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVpcEndpointServiceConfigurationsRequest,
+  ) => Stream.Stream<
+    ServiceConfiguration,
+    InvalidVpcEndpointServiceIdNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVpcEndpointServiceConfigurationsRequest,
+  output: DescribeVpcEndpointServiceConfigurationsResult,
+  errors: [InvalidVpcEndpointServiceIdNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ServiceConfigurations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes your VPC peering connections. The default is to describe all your VPC peering connections.
  * Alternatively, you can specify specific VPC peering connection IDs or filter the results to
  * include only the VPC peering connections that match specific criteria.
  */
-export const describeVpcPeeringConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVpcPeeringConnections: {
+  (
     input: DescribeVpcPeeringConnectionsRequest,
-    output: DescribeVpcPeeringConnectionsResult,
-    errors: [ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "VpcPeeringConnections",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVpcPeeringConnectionsResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVpcPeeringConnectionsRequest,
+  ) => Stream.Stream<
+    DescribeVpcPeeringConnectionsResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVpcPeeringConnectionsRequest,
+  ) => Stream.Stream<
+    VpcPeeringConnection,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVpcPeeringConnectionsRequest,
+  output: DescribeVpcPeeringConnectionsResult,
+  errors: [ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "VpcPeeringConnections",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes your VPCs. The default is to describe all your VPCs.
  * Alternatively, you can specify specific VPC IDs or filter the results to
  * include only the VPCs that match specific criteria.
  */
-export const describeVpcs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeVpcs: {
+  (
     input: DescribeVpcsRequest,
-    output: DescribeVpcsResult,
-    errors: [InvalidVpcIDNotFound, ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Vpcs",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeVpcsResult,
+    InvalidVpcIDNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVpcsRequest,
+  ) => Stream.Stream<
+    DescribeVpcsResult,
+    InvalidVpcIDNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVpcsRequest,
+  ) => Stream.Stream<
+    Vpc,
+    InvalidVpcIDNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVpcsRequest,
+  output: DescribeVpcsResult,
+  errors: [InvalidVpcIDNotFound, ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Vpcs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more of your VPN concentrators.
  */
-export const describeVpnConcentrators =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVpnConcentrators: {
+  (
     input: DescribeVpnConcentratorsRequest,
-    output: DescribeVpnConcentratorsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "VpnConcentrators",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVpnConcentratorsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVpnConcentratorsRequest,
+  ) => Stream.Stream<
+    DescribeVpnConcentratorsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVpnConcentratorsRequest,
+  ) => Stream.Stream<
+    VpnConcentrator,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVpnConcentratorsRequest,
+  output: DescribeVpnConcentratorsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "VpnConcentrators",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more of your virtual private gateways.
  *
  * For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN
  * User Guide.
  */
-export const describeVpnGateways = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeVpnGateways: (
+  input: DescribeVpnGatewaysRequest,
+) => Effect.Effect<
+  DescribeVpnGatewaysResult,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVpnGatewaysRequest,
   output: DescribeVpnGatewaysResult,
   errors: [ParseError],
@@ -68477,32 +70841,45 @@ export const describeVpnGateways = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the VPC security groups are no longer associated with it. An instance is automatically unlinked from
  * a VPC when it's stopped.
  */
-export const detachClassicLinkVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetachClassicLinkVpcRequest,
-    output: DetachClassicLinkVpcResult,
-    errors: [],
-  }),
-);
+export const detachClassicLinkVpc: (
+  input: DetachClassicLinkVpcRequest,
+) => Effect.Effect<
+  DetachClassicLinkVpcResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachClassicLinkVpcRequest,
+  output: DetachClassicLinkVpcResult,
+  errors: [],
+}));
 /**
  * Detaches the specified Amazon Web Services Verified Access trust provider from the specified Amazon Web Services Verified Access instance.
  */
-export const detachVerifiedAccessTrustProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DetachVerifiedAccessTrustProviderRequest,
-    output: DetachVerifiedAccessTrustProviderResult,
-    errors: [],
-  }));
+export const detachVerifiedAccessTrustProvider: (
+  input: DetachVerifiedAccessTrustProviderRequest,
+) => Effect.Effect<
+  DetachVerifiedAccessTrustProviderResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachVerifiedAccessTrustProviderRequest,
+  output: DetachVerifiedAccessTrustProviderResult,
+  errors: [],
+}));
 /**
  * Disables Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the *Amazon VPC User Guide*.
  */
-export const disableAddressTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableAddressTransferRequest,
-    output: DisableAddressTransferResult,
-    errors: [],
-  }),
-);
+export const disableAddressTransfer: (
+  input: DisableAddressTransferRequest,
+) => Effect.Effect<
+  DisableAddressTransferResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableAddressTransferRequest,
+  output: DisableAddressTransferResult,
+  errors: [],
+}));
 /**
  * Disables Allowed AMIs for your account in the specified Amazon Web Services Region. When set to
  * `disabled`, the image criteria in your Allowed AMIs settings do not apply, and no
@@ -68517,32 +70894,46 @@ export const disableAddressTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon EC2 with Allowed AMIs in
  * *Amazon EC2 User Guide*.
  */
-export const disableAllowedImagesSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableAllowedImagesSettingsRequest,
-    output: DisableAllowedImagesSettingsResult,
-    errors: [],
-  }));
+export const disableAllowedImagesSettings: (
+  input: DisableAllowedImagesSettingsRequest,
+) => Effect.Effect<
+  DisableAllowedImagesSettingsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableAllowedImagesSettingsRequest,
+  output: DisableAllowedImagesSettingsResult,
+  errors: [],
+}));
 /**
  * Disables Infrastructure Performance metric subscriptions.
  */
-export const disableAwsNetworkPerformanceMetricSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableAwsNetworkPerformanceMetricSubscriptionRequest,
-    output: DisableAwsNetworkPerformanceMetricSubscriptionResult,
-    errors: [],
-  }));
+export const disableAwsNetworkPerformanceMetricSubscription: (
+  input: DisableAwsNetworkPerformanceMetricSubscriptionRequest,
+) => Effect.Effect<
+  DisableAwsNetworkPerformanceMetricSubscriptionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableAwsNetworkPerformanceMetricSubscriptionRequest,
+  output: DisableAwsNetworkPerformanceMetricSubscriptionResult,
+  errors: [],
+}));
 /**
  * Disables EC2 Capacity Manager for your account. This stops data ingestion and removes access to capacity analytics and optimization recommendations.
  * Previously collected data is retained but no new data will be processed.
  */
-export const disableCapacityManager = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableCapacityManagerRequest,
-    output: DisableCapacityManagerResult,
-    errors: [],
-  }),
-);
+export const disableCapacityManager: (
+  input: DisableCapacityManagerRequest,
+) => Effect.Effect<
+  DisableCapacityManagerResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableCapacityManagerRequest,
+  output: DisableCapacityManagerResult,
+  errors: [],
+}));
 /**
  * Disables EBS encryption by default for your account in the current Region.
  *
@@ -68555,12 +70946,17 @@ export const disableCapacityManager = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Amazon EBS encryption in the
  * *Amazon EBS User Guide*.
  */
-export const disableEbsEncryptionByDefault =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableEbsEncryptionByDefaultRequest,
-    output: DisableEbsEncryptionByDefaultResult,
-    errors: [],
-  }));
+export const disableEbsEncryptionByDefault: (
+  input: DisableEbsEncryptionByDefaultRequest,
+) => Effect.Effect<
+  DisableEbsEncryptionByDefaultResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableEbsEncryptionByDefaultRequest,
+  output: DisableEbsEncryptionByDefaultResult,
+  errors: [],
+}));
 /**
  * Sets the AMI state to `disabled` and removes all launch permissions from the
  * AMI. A disabled AMI can't be used for instance launches.
@@ -68579,7 +70975,13 @@ export const disableEbsEncryptionByDefault =
  * For more information, see Disable an AMI in the
  * *Amazon EC2 User Guide*.
  */
-export const disableImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableImage: (
+  input: DisableImageRequest,
+) => Effect.Effect<
+  DisableImageResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableImageRequest,
   output: DisableImageResult,
   errors: [],
@@ -68593,25 +70995,34 @@ export const disableImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Block
  * public access to your AMIs in the *Amazon EC2 User Guide*.
  */
-export const disableImageBlockPublicAccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableImageBlockPublicAccessRequest,
-    output: DisableImageBlockPublicAccessResult,
-    errors: [],
-  }));
+export const disableImageBlockPublicAccess: (
+  input: DisableImageBlockPublicAccessRequest,
+) => Effect.Effect<
+  DisableImageBlockPublicAccessResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableImageBlockPublicAccessRequest,
+  output: DisableImageBlockPublicAccessResult,
+  errors: [],
+}));
 /**
  * Cancels the deprecation of the specified AMI.
  *
  * For more information, see Deprecate an Amazon EC2 AMI in the
  * *Amazon EC2 User Guide*.
  */
-export const disableImageDeprecation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableImageDeprecationRequest,
-    output: DisableImageDeprecationResult,
-    errors: [],
-  }),
-);
+export const disableImageDeprecation: (
+  input: DisableImageDeprecationRequest,
+) => Effect.Effect<
+  DisableImageDeprecationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableImageDeprecationRequest,
+  output: DisableImageDeprecationResult,
+  errors: [],
+}));
 /**
  * Disables deregistration protection for an AMI. When deregistration protection is disabled,
  * the AMI can be deregistered.
@@ -68623,39 +71034,60 @@ export const disableImageDeprecation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Protect an Amazon EC2 AMI from
  * deregistration in the *Amazon EC2 User Guide*.
  */
-export const disableImageDeregistrationProtection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableImageDeregistrationProtectionRequest,
-    output: DisableImageDeregistrationProtectionResult,
-    errors: [],
-  }));
+export const disableImageDeregistrationProtection: (
+  input: DisableImageDeregistrationProtectionRequest,
+) => Effect.Effect<
+  DisableImageDeregistrationProtectionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableImageDeregistrationProtectionRequest,
+  output: DisableImageDeregistrationProtectionResult,
+  errors: [],
+}));
 /**
  * Disable Amazon EC2 instances running in an SQL Server High Availability cluster from SQL Server High Availability
  * instance standby detection monitoring. Once disabled, Amazon Web Services no longer monitors the
  * metadata for the instances to determine whether they are active or standby nodes in the
  * SQL Server High Availability cluster.
  */
-export const disableInstanceSqlHaStandbyDetections =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableInstanceSqlHaStandbyDetectionsRequest,
-    output: DisableInstanceSqlHaStandbyDetectionsResult,
-    errors: [],
-  }));
+export const disableInstanceSqlHaStandbyDetections: (
+  input: DisableInstanceSqlHaStandbyDetectionsRequest,
+) => Effect.Effect<
+  DisableInstanceSqlHaStandbyDetectionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableInstanceSqlHaStandbyDetectionsRequest,
+  output: DisableInstanceSqlHaStandbyDetectionsResult,
+  errors: [],
+}));
 /**
  * Disable the IPAM account. For more information, see Enable integration with Organizations in the *Amazon VPC IPAM User Guide*.
  */
-export const disableIpamOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableIpamOrganizationAdminAccountRequest,
-    output: DisableIpamOrganizationAdminAccountResult,
-    errors: [],
-  }));
+export const disableIpamOrganizationAdminAccount: (
+  input: DisableIpamOrganizationAdminAccountRequest,
+) => Effect.Effect<
+  DisableIpamOrganizationAdminAccountResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableIpamOrganizationAdminAccountRequest,
+  output: DisableIpamOrganizationAdminAccountResult,
+  errors: [],
+}));
 /**
  * Disables an IPAM policy.
  *
  * An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
  */
-export const disableIpamPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableIpamPolicy: (
+  input: DisableIpamPolicyRequest,
+) => Effect.Effect<
+  DisableIpamPolicyResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableIpamPolicyRequest,
   output: DisableIpamPolicyResult,
   errors: [],
@@ -68666,13 +71098,17 @@ export const disableIpamPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Manage account access to the EC2 serial console in the Amazon EC2
  * User Guide.
  */
-export const disableSerialConsoleAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableSerialConsoleAccessRequest,
-    output: DisableSerialConsoleAccessResult,
-    errors: [],
-  }),
-);
+export const disableSerialConsoleAccess: (
+  input: DisableSerialConsoleAccessRequest,
+) => Effect.Effect<
+  DisableSerialConsoleAccessResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableSerialConsoleAccessRequest,
+  output: DisableSerialConsoleAccessResult,
+  errors: [],
+}));
 /**
  * Disables the *block public access for snapshots* setting at
  * the account level for the specified Amazon Web Services Region. After you disable block public
@@ -68690,25 +71126,34 @@ export const disableSerialConsoleAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see
  * Block public access for snapshots in the *Amazon EBS User Guide* .
  */
-export const disableSnapshotBlockPublicAccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableSnapshotBlockPublicAccessRequest,
-    output: DisableSnapshotBlockPublicAccessResult,
-    errors: [],
-  }));
+export const disableSnapshotBlockPublicAccess: (
+  input: DisableSnapshotBlockPublicAccessRequest,
+) => Effect.Effect<
+  DisableSnapshotBlockPublicAccessResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableSnapshotBlockPublicAccessRequest,
+  output: DisableSnapshotBlockPublicAccessResult,
+  errors: [],
+}));
 /**
  * This action is deprecated.
  *
  * Disables ClassicLink for a VPC. You cannot disable ClassicLink for a VPC that has EC2-Classic instances
  * linked to it.
  */
-export const disableVpcClassicLink = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableVpcClassicLinkRequest,
-    output: DisableVpcClassicLinkResult,
-    errors: [InvalidVpcIDNotFound],
-  }),
-);
+export const disableVpcClassicLink: (
+  input: DisableVpcClassicLinkRequest,
+) => Effect.Effect<
+  DisableVpcClassicLinkResult,
+  InvalidVpcIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableVpcClassicLinkRequest,
+  output: DisableVpcClassicLinkResult,
+  errors: [InvalidVpcIDNotFound],
+}));
 /**
  * This action is deprecated.
  *
@@ -68718,24 +71163,34 @@ export const disableVpcClassicLink = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must specify a VPC ID in the request.
  */
-export const disableVpcClassicLinkDnsSupport =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableVpcClassicLinkDnsSupportRequest,
-    output: DisableVpcClassicLinkDnsSupportResult,
-    errors: [InvalidVpcIDNotFound],
-  }));
+export const disableVpcClassicLinkDnsSupport: (
+  input: DisableVpcClassicLinkDnsSupportRequest,
+) => Effect.Effect<
+  DisableVpcClassicLinkDnsSupportResult,
+  InvalidVpcIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableVpcClassicLinkDnsSupportRequest,
+  output: DisableVpcClassicLinkDnsSupportResult,
+  errors: [InvalidVpcIDNotFound],
+}));
 /**
  * Cancels a pending request to assign billing of the unused capacity of a Capacity
  * Reservation to a consumer account, or revokes a request that has already been accepted.
  * For more information, see Billing assignment for shared
  * Amazon EC2 Capacity Reservations.
  */
-export const disassociateCapacityReservationBillingOwner =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateCapacityReservationBillingOwnerRequest,
-    output: DisassociateCapacityReservationBillingOwnerResult,
-    errors: [],
-  }));
+export const disassociateCapacityReservationBillingOwner: (
+  input: DisassociateCapacityReservationBillingOwnerRequest,
+) => Effect.Effect<
+  DisassociateCapacityReservationBillingOwnerResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateCapacityReservationBillingOwnerRequest,
+  output: DisassociateCapacityReservationBillingOwnerResult,
+  errors: [],
+}));
 /**
  * Disassociates a target network from the specified Client VPN endpoint. When you disassociate the
  * last target network from a Client VPN, the following happens:
@@ -68748,12 +71203,17 @@ export const disassociateCapacityReservationBillingOwner =
  *
  * - The Client VPN endpoint's status changes to `pending-associate`
  */
-export const disassociateClientVpnTargetNetwork =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateClientVpnTargetNetworkRequest,
-    output: DisassociateClientVpnTargetNetworkResult,
-    errors: [],
-  }));
+export const disassociateClientVpnTargetNetwork: (
+  input: DisassociateClientVpnTargetNetworkRequest,
+) => Effect.Effect<
+  DisassociateClientVpnTargetNetworkResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateClientVpnTargetNetworkRequest,
+  output: DisassociateClientVpnTargetNetworkResult,
+  errors: [],
+}));
 /**
  * Disassociates an IAM role from an Certificate Manager (ACM) certificate. Disassociating an IAM role
  * from an ACM certificate removes the Amazon S3 object that contains the certificate, certificate chain, and
@@ -68761,44 +71221,63 @@ export const disassociateClientVpnTargetNetwork =
  * KMS key used to encrypt the private key. This effectively revokes the role's permission
  * to use the certificate.
  */
-export const disassociateEnclaveCertificateIamRole =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateEnclaveCertificateIamRoleRequest,
-    output: DisassociateEnclaveCertificateIamRoleResult,
-    errors: [],
-  }));
+export const disassociateEnclaveCertificateIamRole: (
+  input: DisassociateEnclaveCertificateIamRoleRequest,
+) => Effect.Effect<
+  DisassociateEnclaveCertificateIamRoleResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateEnclaveCertificateIamRoleRequest,
+  output: DisassociateEnclaveCertificateIamRoleResult,
+  errors: [],
+}));
 /**
  * Disassociates an IAM instance profile from a running or stopped instance.
  *
  * Use DescribeIamInstanceProfileAssociations to get the association
  * ID.
  */
-export const disassociateIamInstanceProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateIamInstanceProfileRequest,
-    output: DisassociateIamInstanceProfileResult,
-    errors: [],
-  }));
+export const disassociateIamInstanceProfile: (
+  input: DisassociateIamInstanceProfileRequest,
+) => Effect.Effect<
+  DisassociateIamInstanceProfileResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateIamInstanceProfileRequest,
+  output: DisassociateIamInstanceProfileResult,
+  errors: [],
+}));
 /**
  * Remove the association between your Autonomous System Number (ASN) and your BYOIP CIDR. You may want to use this action to disassociate an ASN from a CIDR or if you want to swap ASNs.
  * For more information, see Tutorial: Bring your ASN to IPAM in the *Amazon VPC IPAM guide*.
  */
-export const disassociateIpamByoasn = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateIpamByoasnRequest,
-    output: DisassociateIpamByoasnResult,
-    errors: [],
-  }),
-);
+export const disassociateIpamByoasn: (
+  input: DisassociateIpamByoasnRequest,
+) => Effect.Effect<
+  DisassociateIpamByoasnResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateIpamByoasnRequest,
+  output: DisassociateIpamByoasnResult,
+  errors: [],
+}));
 /**
  * Disassociates a resource discovery from an Amazon VPC IPAM. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
-export const disassociateIpamResourceDiscovery =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateIpamResourceDiscoveryRequest,
-    output: DisassociateIpamResourceDiscoveryResult,
-    errors: [],
-  }));
+export const disassociateIpamResourceDiscovery: (
+  input: DisassociateIpamResourceDiscoveryRequest,
+) => Effect.Effect<
+  DisassociateIpamResourceDiscoveryResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateIpamResourceDiscoveryRequest,
+  output: DisassociateIpamResourceDiscoveryResult,
+  errors: [],
+}));
 /**
  * Disassociates secondary Elastic IP addresses (EIPs) from a public NAT gateway.
  * You cannot disassociate your primary EIP. For more information, see Edit secondary IP address associations in the *Amazon VPC User Guide*.
@@ -68811,12 +71290,17 @@ export const disassociateIpamResourceDiscovery =
  * connections drain out, the EIPs (and the corresponding private IP addresses mapped to them)
  * are released.
  */
-export const disassociateNatGatewayAddress =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateNatGatewayAddressRequest,
-    output: DisassociateNatGatewayAddressResult,
-    errors: [],
-  }));
+export const disassociateNatGatewayAddress: (
+  input: DisassociateNatGatewayAddressRequest,
+) => Effect.Effect<
+  DisassociateNatGatewayAddressResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateNatGatewayAddressRequest,
+  output: DisassociateNatGatewayAddressResult,
+  errors: [],
+}));
 /**
  * Disassociates a route server from a VPC.
  *
@@ -68824,71 +71308,103 @@ export const disassociateNatGatewayAddress =
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const disassociateRouteServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateRouteServerRequest,
-    output: DisassociateRouteServerResult,
-    errors: [],
-  }),
-);
+export const disassociateRouteServer: (
+  input: DisassociateRouteServerRequest,
+) => Effect.Effect<
+  DisassociateRouteServerResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateRouteServerRequest,
+  output: DisassociateRouteServerResult,
+  errors: [],
+}));
 /**
  * Disassociates a security group from a VPC. You cannot disassociate the security group if any Elastic network interfaces in the associated VPC are still associated with the security group.
  *
  * Note that the disassociation is asynchronous and you can check the status of the request with DescribeSecurityGroupVpcAssociations.
  */
-export const disassociateSecurityGroupVpc =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateSecurityGroupVpcRequest,
-    output: DisassociateSecurityGroupVpcResult,
-    errors: [],
-  }));
+export const disassociateSecurityGroupVpc: (
+  input: DisassociateSecurityGroupVpcRequest,
+) => Effect.Effect<
+  DisassociateSecurityGroupVpcResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateSecurityGroupVpcRequest,
+  output: DisassociateSecurityGroupVpcResult,
+  errors: [],
+}));
 /**
  * Disassociates a CIDR block from a subnet. Currently, you can disassociate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it.
  */
-export const disassociateSubnetCidrBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateSubnetCidrBlockRequest,
-    output: DisassociateSubnetCidrBlockResult,
-    errors: [InvalidSubnetCidrBlockAssociationIDNotFound],
-  }),
-);
+export const disassociateSubnetCidrBlock: (
+  input: DisassociateSubnetCidrBlockRequest,
+) => Effect.Effect<
+  DisassociateSubnetCidrBlockResult,
+  InvalidSubnetCidrBlockAssociationIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateSubnetCidrBlockRequest,
+  output: DisassociateSubnetCidrBlockResult,
+  errors: [InvalidSubnetCidrBlockAssociationIDNotFound],
+}));
 /**
  * Disassociates the specified subnets from the transit gateway multicast domain.
  */
-export const disassociateTransitGatewayMulticastDomain =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateTransitGatewayMulticastDomainRequest,
-    output: DisassociateTransitGatewayMulticastDomainResult,
-    errors: [],
-  }));
+export const disassociateTransitGatewayMulticastDomain: (
+  input: DisassociateTransitGatewayMulticastDomainRequest,
+) => Effect.Effect<
+  DisassociateTransitGatewayMulticastDomainResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateTransitGatewayMulticastDomainRequest,
+  output: DisassociateTransitGatewayMulticastDomainResult,
+  errors: [],
+}));
 /**
  * Removes the association between an an attachment and a policy table.
  */
-export const disassociateTransitGatewayPolicyTable =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateTransitGatewayPolicyTableRequest,
-    output: DisassociateTransitGatewayPolicyTableResult,
-    errors: [],
-  }));
+export const disassociateTransitGatewayPolicyTable: (
+  input: DisassociateTransitGatewayPolicyTableRequest,
+) => Effect.Effect<
+  DisassociateTransitGatewayPolicyTableResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateTransitGatewayPolicyTableRequest,
+  output: DisassociateTransitGatewayPolicyTableResult,
+  errors: [],
+}));
 /**
  * Disassociates a resource attachment from a transit gateway route table.
  */
-export const disassociateTransitGatewayRouteTable =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateTransitGatewayRouteTableRequest,
-    output: DisassociateTransitGatewayRouteTableResult,
-    errors: [],
-  }));
+export const disassociateTransitGatewayRouteTable: (
+  input: DisassociateTransitGatewayRouteTableRequest,
+) => Effect.Effect<
+  DisassociateTransitGatewayRouteTableResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateTransitGatewayRouteTableRequest,
+  output: DisassociateTransitGatewayRouteTableResult,
+  errors: [],
+}));
 /**
  * Removes an association between a branch network interface with a trunk network interface.
  */
-export const disassociateTrunkInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateTrunkInterfaceRequest,
-    output: DisassociateTrunkInterfaceResult,
-    errors: [],
-  }),
-);
+export const disassociateTrunkInterface: (
+  input: DisassociateTrunkInterfaceRequest,
+) => Effect.Effect<
+  DisassociateTrunkInterfaceResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateTrunkInterfaceRequest,
+  output: DisassociateTrunkInterfaceResult,
+  errors: [],
+}));
 /**
  * Disassociates a CIDR block from a VPC. To disassociate the CIDR block, you must
  * specify its association ID. You can get the association ID by using
@@ -68898,23 +71414,31 @@ export const disassociateTrunkInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You cannot disassociate the CIDR block with which you originally created the VPC (the
  * primary CIDR block).
  */
-export const disassociateVpcCidrBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateVpcCidrBlockRequest,
-    output: DisassociateVpcCidrBlockResult,
-    errors: [InvalidVpcCidrBlockAssociationIdErrorNotFound],
-  }),
-);
+export const disassociateVpcCidrBlock: (
+  input: DisassociateVpcCidrBlockRequest,
+) => Effect.Effect<
+  DisassociateVpcCidrBlockResult,
+  InvalidVpcCidrBlockAssociationIdErrorNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateVpcCidrBlockRequest,
+  output: DisassociateVpcCidrBlockResult,
+  errors: [InvalidVpcCidrBlockAssociationIdErrorNotFound],
+}));
 /**
  * Enables Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the *Amazon VPC User Guide*.
  */
-export const enableAddressTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableAddressTransferRequest,
-    output: EnableAddressTransferResult,
-    errors: [],
-  }),
-);
+export const enableAddressTransfer: (
+  input: EnableAddressTransferRequest,
+) => Effect.Effect<
+  EnableAddressTransferResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableAddressTransferRequest,
+  output: EnableAddressTransferResult,
+  errors: [],
+}));
 /**
  * Enables Allowed AMIs for your account in the specified Amazon Web Services Region. Two values are
  * accepted:
@@ -68941,33 +71465,46 @@ export const enableAddressTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon EC2 with Allowed AMIs in
  * *Amazon EC2 User Guide*.
  */
-export const enableAllowedImagesSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableAllowedImagesSettingsRequest,
-    output: EnableAllowedImagesSettingsResult,
-    errors: [],
-  }),
-);
+export const enableAllowedImagesSettings: (
+  input: EnableAllowedImagesSettingsRequest,
+) => Effect.Effect<
+  EnableAllowedImagesSettingsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableAllowedImagesSettingsRequest,
+  output: EnableAllowedImagesSettingsResult,
+  errors: [],
+}));
 /**
  * Enables Infrastructure Performance subscriptions.
  */
-export const enableAwsNetworkPerformanceMetricSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableAwsNetworkPerformanceMetricSubscriptionRequest,
-    output: EnableAwsNetworkPerformanceMetricSubscriptionResult,
-    errors: [],
-  }));
+export const enableAwsNetworkPerformanceMetricSubscription: (
+  input: EnableAwsNetworkPerformanceMetricSubscriptionRequest,
+) => Effect.Effect<
+  EnableAwsNetworkPerformanceMetricSubscriptionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableAwsNetworkPerformanceMetricSubscriptionRequest,
+  output: EnableAwsNetworkPerformanceMetricSubscriptionResult,
+  errors: [],
+}));
 /**
  * Enables EC2 Capacity Manager for your account. This starts data ingestion for your EC2 capacity usage across On-Demand, Spot, and Capacity Reservations.
  * Initial data processing may take several hours to complete.
  */
-export const enableCapacityManager = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableCapacityManagerRequest,
-    output: EnableCapacityManagerResult,
-    errors: [],
-  }),
-);
+export const enableCapacityManager: (
+  input: EnableCapacityManagerRequest,
+) => Effect.Effect<
+  EnableCapacityManagerResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableCapacityManagerRequest,
+  output: EnableCapacityManagerResult,
+  errors: [],
+}));
 /**
  * Enables EBS encryption by default for your account in the current Region.
  *
@@ -68983,12 +71520,17 @@ export const enableCapacityManager = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * using instance types that do not support encryption. For more information, see Supported
  * instance types.
  */
-export const enableEbsEncryptionByDefault =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableEbsEncryptionByDefaultRequest,
-    output: EnableEbsEncryptionByDefaultResult,
-    errors: [],
-  }));
+export const enableEbsEncryptionByDefault: (
+  input: EnableEbsEncryptionByDefaultRequest,
+) => Effect.Effect<
+  EnableEbsEncryptionByDefaultResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableEbsEncryptionByDefaultRequest,
+  output: EnableEbsEncryptionByDefaultResult,
+  errors: [],
+}));
 /**
  * Re-enables a disabled AMI. The re-enabled AMI is marked as `available` and can
  * be used for instance launches, appears in describe operations, and can be shared. Amazon Web Services
@@ -69001,7 +71543,13 @@ export const enableEbsEncryptionByDefault =
  * For more information, see Disable an Amazon EC2 AMI
  * in the *Amazon EC2 User Guide*.
  */
-export const enableImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableImage: (
+  input: EnableImageRequest,
+) => Effect.Effect<
+  EnableImageResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableImageRequest,
   output: EnableImageResult,
   errors: [],
@@ -69019,25 +71567,34 @@ export const enableImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Block
  * public access to your AMIs in the *Amazon EC2 User Guide*.
  */
-export const enableImageBlockPublicAccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableImageBlockPublicAccessRequest,
-    output: EnableImageBlockPublicAccessResult,
-    errors: [],
-  }));
+export const enableImageBlockPublicAccess: (
+  input: EnableImageBlockPublicAccessRequest,
+) => Effect.Effect<
+  EnableImageBlockPublicAccessResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableImageBlockPublicAccessRequest,
+  output: EnableImageBlockPublicAccessResult,
+  errors: [],
+}));
 /**
  * Enables deprecation of the specified AMI at the specified date and time.
  *
  * For more information, see Deprecate an AMI in the
  * *Amazon EC2 User Guide*.
  */
-export const enableImageDeprecation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableImageDeprecationRequest,
-    output: EnableImageDeprecationResult,
-    errors: [],
-  }),
-);
+export const enableImageDeprecation: (
+  input: EnableImageDeprecationRequest,
+) => Effect.Effect<
+  EnableImageDeprecationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableImageDeprecationRequest,
+  output: EnableImageDeprecationResult,
+  errors: [],
+}));
 /**
  * Enables deregistration protection for an AMI. When deregistration protection is enabled,
  * the AMI can't be deregistered.
@@ -69047,12 +71604,17 @@ export const enableImageDeprecation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Protect an
  * Amazon EC2 AMI from deregistration in the *Amazon EC2 User Guide*.
  */
-export const enableImageDeregistrationProtection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableImageDeregistrationProtectionRequest,
-    output: EnableImageDeregistrationProtectionResult,
-    errors: [],
-  }));
+export const enableImageDeregistrationProtection: (
+  input: EnableImageDeregistrationProtectionRequest,
+) => Effect.Effect<
+  EnableImageDeregistrationProtectionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableImageDeregistrationProtectionRequest,
+  output: EnableImageDeregistrationProtectionResult,
+  errors: [],
+}));
 /**
  * Enable Amazon EC2 instances running in an SQL Server High Availability cluster for SQL Server High Availability
  * instance standby detection monitoring. Once enabled, Amazon Web Services monitors the metadata for
@@ -69066,21 +71628,31 @@ export const enableImageDeregistrationProtection =
  * information, see
  * Prerequisites for using SQL Server High Availability instance standby detection.
  */
-export const enableInstanceSqlHaStandbyDetections =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableInstanceSqlHaStandbyDetectionsRequest,
-    output: EnableInstanceSqlHaStandbyDetectionsResult,
-    errors: [],
-  }));
+export const enableInstanceSqlHaStandbyDetections: (
+  input: EnableInstanceSqlHaStandbyDetectionsRequest,
+) => Effect.Effect<
+  EnableInstanceSqlHaStandbyDetectionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableInstanceSqlHaStandbyDetectionsRequest,
+  output: EnableInstanceSqlHaStandbyDetectionsResult,
+  errors: [],
+}));
 /**
  * Enable an Organizations member account as the IPAM admin account. You cannot select the Organizations management account as the IPAM admin account. For more information, see Enable integration with Organizations in the *Amazon VPC IPAM User Guide*.
  */
-export const enableIpamOrganizationAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableIpamOrganizationAdminAccountRequest,
-    output: EnableIpamOrganizationAdminAccountResult,
-    errors: [],
-  }));
+export const enableIpamOrganizationAdminAccount: (
+  input: EnableIpamOrganizationAdminAccountRequest,
+) => Effect.Effect<
+  EnableIpamOrganizationAdminAccountResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableIpamOrganizationAdminAccountRequest,
+  output: EnableIpamOrganizationAdminAccountResult,
+  errors: [],
+}));
 /**
  * Enables an IPAM policy.
  *
@@ -69088,7 +71660,13 @@ export const enableIpamOrganizationAdminAccount =
  *
  * For more information, see Define public IPv4 allocation strategy with IPAM policies in the *Amazon VPC IPAM User Guide*.
  */
-export const enableIpamPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableIpamPolicy: (
+  input: EnableIpamPolicyRequest,
+) => Effect.Effect<
+  EnableIpamPolicyResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableIpamPolicyRequest,
   output: EnableIpamPolicyResult,
   errors: [],
@@ -69101,12 +71679,17 @@ export const enableIpamPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * a delegated administrator account can run a cross-account analysis using resources
  * from the member accounts.
  */
-export const enableReachabilityAnalyzerOrganizationSharing =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableReachabilityAnalyzerOrganizationSharingRequest,
-    output: EnableReachabilityAnalyzerOrganizationSharingResult,
-    errors: [],
-  }));
+export const enableReachabilityAnalyzerOrganizationSharing: (
+  input: EnableReachabilityAnalyzerOrganizationSharingRequest,
+) => Effect.Effect<
+  EnableReachabilityAnalyzerOrganizationSharingResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableReachabilityAnalyzerOrganizationSharingRequest,
+  output: EnableReachabilityAnalyzerOrganizationSharingResult,
+  errors: [],
+}));
 /**
  * Defines which route tables the route server can update with routes.
  *
@@ -69114,24 +71697,33 @@ export const enableReachabilityAnalyzerOrganizationSharing =
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const enableRouteServerPropagation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableRouteServerPropagationRequest,
-    output: EnableRouteServerPropagationResult,
-    errors: [],
-  }));
+export const enableRouteServerPropagation: (
+  input: EnableRouteServerPropagationRequest,
+) => Effect.Effect<
+  EnableRouteServerPropagationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableRouteServerPropagationRequest,
+  output: EnableRouteServerPropagationResult,
+  errors: [],
+}));
 /**
  * Enables access to the EC2 serial console of all instances for your account. By default,
  * access to the EC2 serial console is disabled for your account. For more information, see Manage account access to the EC2 serial console
  * in the *Amazon EC2 User Guide*.
  */
-export const enableSerialConsoleAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableSerialConsoleAccessRequest,
-    output: EnableSerialConsoleAccessResult,
-    errors: [],
-  }),
-);
+export const enableSerialConsoleAccess: (
+  input: EnableSerialConsoleAccessRequest,
+) => Effect.Effect<
+  EnableSerialConsoleAccessResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableSerialConsoleAccessRequest,
+  output: EnableSerialConsoleAccessResult,
+  errors: [],
+}));
 /**
  * Enables or modifies the *block public access for snapshots*
  * setting at the account level for the specified Amazon Web Services Region. After you enable block
@@ -69152,22 +71744,32 @@ export const enableSerialConsoleAccess = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see
  * Block public access for snapshots in the *Amazon EBS User Guide*.
  */
-export const enableSnapshotBlockPublicAccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableSnapshotBlockPublicAccessRequest,
-    output: EnableSnapshotBlockPublicAccessResult,
-    errors: [],
-  }));
+export const enableSnapshotBlockPublicAccess: (
+  input: EnableSnapshotBlockPublicAccessRequest,
+) => Effect.Effect<
+  EnableSnapshotBlockPublicAccessResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableSnapshotBlockPublicAccessRequest,
+  output: EnableSnapshotBlockPublicAccessResult,
+  errors: [],
+}));
 /**
  * Enables the specified attachment to propagate routes to the specified
  * propagation route table.
  */
-export const enableTransitGatewayRouteTablePropagation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableTransitGatewayRouteTablePropagationRequest,
-    output: EnableTransitGatewayRouteTablePropagationResult,
-    errors: [],
-  }));
+export const enableTransitGatewayRouteTablePropagation: (
+  input: EnableTransitGatewayRouteTablePropagationRequest,
+) => Effect.Effect<
+  EnableTransitGatewayRouteTablePropagationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableTransitGatewayRouteTablePropagationRequest,
+  output: EnableTransitGatewayRouteTablePropagationResult,
+  errors: [],
+}));
 /**
  * This action is deprecated.
  *
@@ -69178,13 +71780,17 @@ export const enableTransitGatewayRouteTablePropagation =
  * routes for VPCs in the `10.0.0.0/16` and `10.1.0.0/16` IP address
  * ranges.
  */
-export const enableVpcClassicLink = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableVpcClassicLinkRequest,
-    output: EnableVpcClassicLinkResult,
-    errors: [InvalidVpcIDNotFound],
-  }),
-);
+export const enableVpcClassicLink: (
+  input: EnableVpcClassicLinkRequest,
+) => Effect.Effect<
+  EnableVpcClassicLinkResult,
+  InvalidVpcIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableVpcClassicLinkRequest,
+  output: EnableVpcClassicLinkResult,
+  errors: [InvalidVpcIDNotFound],
+}));
 /**
  * This action is deprecated.
  *
@@ -69196,23 +71802,33 @@ export const enableVpcClassicLink = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You must specify a VPC ID in the request.
  */
-export const enableVpcClassicLinkDnsSupport =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableVpcClassicLinkDnsSupportRequest,
-    output: EnableVpcClassicLinkDnsSupportResult,
-    errors: [InvalidVpcIDNotFound],
-  }));
+export const enableVpcClassicLinkDnsSupport: (
+  input: EnableVpcClassicLinkDnsSupportRequest,
+) => Effect.Effect<
+  EnableVpcClassicLinkDnsSupportResult,
+  InvalidVpcIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableVpcClassicLinkDnsSupportRequest,
+  output: EnableVpcClassicLinkDnsSupportResult,
+  errors: [InvalidVpcIDNotFound],
+}));
 /**
  * Downloads the contents of the Client VPN endpoint configuration file for the specified Client VPN endpoint. The Client VPN endpoint configuration
  * file includes the Client VPN endpoint and certificate information clients need to establish a connection
  * with the Client VPN endpoint.
  */
-export const exportClientVpnClientConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExportClientVpnClientConfigurationRequest,
-    output: ExportClientVpnClientConfigurationResult,
-    errors: [],
-  }));
+export const exportClientVpnClientConfiguration: (
+  input: ExportClientVpnClientConfigurationRequest,
+) => Effect.Effect<
+  ExportClientVpnClientConfigurationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportClientVpnClientConfigurationRequest,
+  output: ExportClientVpnClientConfigurationResult,
+  errors: [],
+}));
 /**
  * Exports routes from the specified transit gateway route table to the specified S3 bucket.
  * By default, all routes are exported. Alternatively, you can filter by CIDR range.
@@ -69221,22 +71837,31 @@ export const exportClientVpnClientConfiguration =
  * Export route tables
  * to Amazon S3 in the *Amazon Web Services Transit Gateways Guide*.
  */
-export const exportTransitGatewayRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExportTransitGatewayRoutesRequest,
-    output: ExportTransitGatewayRoutesResult,
-    errors: [],
-  }),
-);
+export const exportTransitGatewayRoutes: (
+  input: ExportTransitGatewayRoutesRequest,
+) => Effect.Effect<
+  ExportTransitGatewayRoutesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportTransitGatewayRoutesRequest,
+  output: ExportTransitGatewayRoutesResult,
+  errors: [],
+}));
 /**
  * Retrieves the current configuration and status of EC2 Capacity Manager for your account, including enablement status, Organizations access settings, and data ingestion status.
  */
-export const getCapacityManagerAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCapacityManagerAttributesRequest,
-    output: GetCapacityManagerAttributesResult,
-    errors: [],
-  }));
+export const getCapacityManagerAttributes: (
+  input: GetCapacityManagerAttributesRequest,
+) => Effect.Effect<
+  GetCapacityManagerAttributesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCapacityManagerAttributesRequest,
+  output: GetCapacityManagerAttributesResult,
+  errors: [],
+}));
 /**
  * Gets the console output for the specified instance. For Linux instances, the instance
  * console output displays the exact console output that would normally be displayed on a
@@ -69246,7 +71871,13 @@ export const getCapacityManagerAttributes =
  * For more information, see Instance
  * console output in the *Amazon EC2 User Guide*.
  */
-export const getConsoleOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConsoleOutput: (
+  input: GetConsoleOutputRequest,
+) => Effect.Effect<
+  GetConsoleOutputResult,
+  InvalidInstanceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConsoleOutputRequest,
   output: GetConsoleOutputResult,
   errors: [InvalidInstanceIDNotFound],
@@ -69259,26 +71890,34 @@ export const getConsoleOutput = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Instance console output in the *Amazon EC2 User Guide*.
  */
-export const getConsoleScreenshot = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetConsoleScreenshotRequest,
-    output: GetConsoleScreenshotResult,
-    errors: [],
-  }),
-);
+export const getConsoleScreenshot: (
+  input: GetConsoleScreenshotRequest,
+) => Effect.Effect<
+  GetConsoleScreenshotResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConsoleScreenshotRequest,
+  output: GetConsoleScreenshotResult,
+  errors: [],
+}));
 /**
  * Describes the default KMS key for EBS encryption by default for your account in this Region.
  *
  * For more information, see Amazon EBS encryption
  * in the *Amazon EBS User Guide*.
  */
-export const getEbsDefaultKmsKeyId = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEbsDefaultKmsKeyIdRequest,
-    output: GetEbsDefaultKmsKeyIdResult,
-    errors: [],
-  }),
-);
+export const getEbsDefaultKmsKeyId: (
+  input: GetEbsDefaultKmsKeyIdRequest,
+) => Effect.Effect<
+  GetEbsDefaultKmsKeyIdResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEbsDefaultKmsKeyIdRequest,
+  output: GetEbsDefaultKmsKeyIdResult,
+  errors: [],
+}));
 /**
  * Describes whether EBS encryption by default is enabled for your account in the current
  * Region.
@@ -69286,25 +71925,33 @@ export const getEbsDefaultKmsKeyId = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Amazon EBS encryption
  * in the *Amazon EBS User Guide*.
  */
-export const getEbsEncryptionByDefault = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEbsEncryptionByDefaultRequest,
-    output: GetEbsEncryptionByDefaultResult,
-    errors: [],
-  }),
-);
+export const getEbsEncryptionByDefault: (
+  input: GetEbsEncryptionByDefaultRequest,
+) => Effect.Effect<
+  GetEbsEncryptionByDefaultResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEbsEncryptionByDefaultRequest,
+  output: GetEbsEncryptionByDefaultResult,
+  errors: [],
+}));
 /**
  * Gets the enabled IPAM policy.
  *
  * An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
  */
-export const getEnabledIpamPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEnabledIpamPolicyRequest,
-    output: GetEnabledIpamPolicyResult,
-    errors: [],
-  }),
-);
+export const getEnabledIpamPolicy: (
+  input: GetEnabledIpamPolicyRequest,
+) => Effect.Effect<
+  GetEnabledIpamPolicyResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEnabledIpamPolicyRequest,
+  output: GetEnabledIpamPolicyResult,
+  errors: [],
+}));
 /**
  * Gets the current state of *block public access for AMIs* at the account
  * level in the specified Amazon Web Services Region.
@@ -69312,17 +71959,28 @@ export const getEnabledIpamPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Block
  * public access to your AMIs in the *Amazon EC2 User Guide*.
  */
-export const getImageBlockPublicAccessState =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetImageBlockPublicAccessStateRequest,
-    output: GetImageBlockPublicAccessStateResult,
-    errors: [],
-  }));
+export const getImageBlockPublicAccessState: (
+  input: GetImageBlockPublicAccessStateRequest,
+) => Effect.Effect<
+  GetImageBlockPublicAccessStateResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetImageBlockPublicAccessStateRequest,
+  output: GetImageBlockPublicAccessStateResult,
+  errors: [],
+}));
 /**
  * Gets the public endorsement key associated with the Nitro Trusted
  * Platform Module (NitroTPM) for the specified instance.
  */
-export const getInstanceTpmEkPub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInstanceTpmEkPub: (
+  input: GetInstanceTpmEkPubRequest,
+) => Effect.Effect<
+  GetInstanceTpmEkPubResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceTpmEkPubRequest,
   output: GetInstanceTpmEkPubResult,
   errors: [],
@@ -69342,7 +72000,13 @@ export const getInstanceTpmEkPub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see UEFI Secure Boot in the
  * *Amazon EC2 User Guide*.
  */
-export const getInstanceUefiData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInstanceUefiData: (
+  input: GetInstanceUefiDataRequest,
+) => Effect.Effect<
+  GetInstanceUefiDataResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceUefiDataRequest,
   output: GetInstanceUefiDataResult,
   errors: [],
@@ -69352,34 +72016,75 @@ export const getInstanceUefiData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you use this action after AllocateIpamPoolCidr or ReleaseIpamPoolAllocation, note that all EC2 API actions follow an eventual consistency model.
  */
-export const getIpamPoolAllocations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getIpamPoolAllocations: {
+  (
     input: GetIpamPoolAllocationsRequest,
-    output: GetIpamPoolAllocationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IpamPoolAllocations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetIpamPoolAllocationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetIpamPoolAllocationsRequest,
+  ) => Stream.Stream<
+    GetIpamPoolAllocationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetIpamPoolAllocationsRequest,
+  ) => Stream.Stream<
+    IpamPoolAllocation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetIpamPoolAllocationsRequest,
+  output: GetIpamPoolAllocationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IpamPoolAllocations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Get the CIDRs provisioned to an IPAM pool.
  */
-export const getIpamPoolCidrs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getIpamPoolCidrs: {
+  (
     input: GetIpamPoolCidrsRequest,
-    output: GetIpamPoolCidrsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IpamPoolCidrs",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetIpamPoolCidrsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetIpamPoolCidrsRequest,
+  ) => Stream.Stream<
+    GetIpamPoolCidrsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetIpamPoolCidrsRequest,
+  ) => Stream.Stream<
+    IpamPoolCidr,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetIpamPoolCidrsRequest,
+  output: GetIpamPoolCidrsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IpamPoolCidrs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the encrypted administrator password for a running Windows instance.
  *
@@ -69399,7 +72104,13 @@ export const getIpamPoolCidrs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * an empty string. We recommend that you wait up to 15 minutes after launching an instance
  * before trying to retrieve the generated password.
  */
-export const getPasswordData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPasswordData: (
+  input: GetPasswordDataRequest,
+) => Effect.Effect<
+  GetPasswordDataResult,
+  InvalidInstanceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPasswordDataRequest,
   output: GetPasswordDataResult,
   errors: [InvalidInstanceIDNotFound],
@@ -69411,13 +72122,17 @@ export const getPasswordData = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const getRouteServerAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRouteServerAssociationsRequest,
-    output: GetRouteServerAssociationsResult,
-    errors: [],
-  }),
-);
+export const getRouteServerAssociations: (
+  input: GetRouteServerAssociationsRequest,
+) => Effect.Effect<
+  GetRouteServerAssociationsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRouteServerAssociationsRequest,
+  output: GetRouteServerAssociationsResult,
+  errors: [],
+}));
 /**
  * Gets information about the route propagations for the specified route server.
  *
@@ -69436,25 +72151,34 @@ export const getRouteServerAssociations = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect.
  */
-export const getRouteServerPropagations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRouteServerPropagationsRequest,
-    output: GetRouteServerPropagationsResult,
-    errors: [],
-  }),
-);
+export const getRouteServerPropagations: (
+  input: GetRouteServerPropagationsRequest,
+) => Effect.Effect<
+  GetRouteServerPropagationsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRouteServerPropagationsRequest,
+  output: GetRouteServerPropagationsResult,
+  errors: [],
+}));
 /**
  * Retrieves the access status of your account to the EC2 serial console of all instances. By
  * default, access to the EC2 serial console is disabled for your account. For more
  * information, see Manage account access to the EC2 serial console in the Amazon EC2
  * User Guide.
  */
-export const getSerialConsoleAccessStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSerialConsoleAccessStatusRequest,
-    output: GetSerialConsoleAccessStatusResult,
-    errors: [],
-  }));
+export const getSerialConsoleAccessStatus: (
+  input: GetSerialConsoleAccessStatusRequest,
+) => Effect.Effect<
+  GetSerialConsoleAccessStatusResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSerialConsoleAccessStatusRequest,
+  output: GetSerialConsoleAccessStatusResult,
+  errors: [],
+}));
 /**
  * Gets the current state of *block public access for snapshots* setting
  * for the account and Region.
@@ -69462,107 +72186,189 @@ export const getSerialConsoleAccessStatus =
  * For more information, see
  * Block public access for snapshots in the *Amazon EBS User Guide*.
  */
-export const getSnapshotBlockPublicAccessState =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSnapshotBlockPublicAccessStateRequest,
-    output: GetSnapshotBlockPublicAccessStateResult,
-    errors: [],
-  }));
+export const getSnapshotBlockPublicAccessState: (
+  input: GetSnapshotBlockPublicAccessStateRequest,
+) => Effect.Effect<
+  GetSnapshotBlockPublicAccessStateResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSnapshotBlockPublicAccessStateRequest,
+  output: GetSnapshotBlockPublicAccessStateResult,
+  errors: [],
+}));
 /**
  * Gets information about the subnet CIDR reservations.
  */
-export const getSubnetCidrReservations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSubnetCidrReservationsRequest,
-    output: GetSubnetCidrReservationsResult,
-    errors: [],
-  }),
-);
+export const getSubnetCidrReservations: (
+  input: GetSubnetCidrReservationsRequest,
+) => Effect.Effect<
+  GetSubnetCidrReservationsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSubnetCidrReservationsRequest,
+  output: GetSubnetCidrReservationsResult,
+  errors: [],
+}));
 /**
  * Retrieves the entries for a transit gateway metering policy.
  */
-export const getTransitGatewayMeteringPolicyEntries =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTransitGatewayMeteringPolicyEntriesRequest,
-    output: GetTransitGatewayMeteringPolicyEntriesResult,
-    errors: [],
-  }));
+export const getTransitGatewayMeteringPolicyEntries: (
+  input: GetTransitGatewayMeteringPolicyEntriesRequest,
+) => Effect.Effect<
+  GetTransitGatewayMeteringPolicyEntriesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTransitGatewayMeteringPolicyEntriesRequest,
+  output: GetTransitGatewayMeteringPolicyEntriesResult,
+  errors: [],
+}));
 /**
  * Gets a list of the transit gateway policy table associations.
  */
-export const getTransitGatewayPolicyTableAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getTransitGatewayPolicyTableAssociations: {
+  (
     input: GetTransitGatewayPolicyTableAssociationsRequest,
-    output: GetTransitGatewayPolicyTableAssociationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Associations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetTransitGatewayPolicyTableAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTransitGatewayPolicyTableAssociationsRequest,
+  ) => Stream.Stream<
+    GetTransitGatewayPolicyTableAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTransitGatewayPolicyTableAssociationsRequest,
+  ) => Stream.Stream<
+    TransitGatewayPolicyTableAssociation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTransitGatewayPolicyTableAssociationsRequest,
+  output: GetTransitGatewayPolicyTableAssociationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Associations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets information about the prefix list references in a specified transit gateway route table.
  */
-export const getTransitGatewayPrefixListReferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getTransitGatewayPrefixListReferences: {
+  (
     input: GetTransitGatewayPrefixListReferencesRequest,
-    output: GetTransitGatewayPrefixListReferencesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransitGatewayPrefixListReferences",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetTransitGatewayPrefixListReferencesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTransitGatewayPrefixListReferencesRequest,
+  ) => Stream.Stream<
+    GetTransitGatewayPrefixListReferencesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTransitGatewayPrefixListReferencesRequest,
+  ) => Stream.Stream<
+    TransitGatewayPrefixListReference,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTransitGatewayPrefixListReferencesRequest,
+  output: GetTransitGatewayPrefixListReferencesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransitGatewayPrefixListReferences",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Get the Verified Access policy associated with the endpoint.
  */
-export const getVerifiedAccessEndpointPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetVerifiedAccessEndpointPolicyRequest,
-    output: GetVerifiedAccessEndpointPolicyResult,
-    errors: [],
-  }));
+export const getVerifiedAccessEndpointPolicy: (
+  input: GetVerifiedAccessEndpointPolicyRequest,
+) => Effect.Effect<
+  GetVerifiedAccessEndpointPolicyResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVerifiedAccessEndpointPolicyRequest,
+  output: GetVerifiedAccessEndpointPolicyResult,
+  errors: [],
+}));
 /**
  * Shows the contents of the Verified Access policy associated with the group.
  */
-export const getVerifiedAccessGroupPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetVerifiedAccessGroupPolicyRequest,
-    output: GetVerifiedAccessGroupPolicyResult,
-    errors: [],
-  }));
+export const getVerifiedAccessGroupPolicy: (
+  input: GetVerifiedAccessGroupPolicyRequest,
+) => Effect.Effect<
+  GetVerifiedAccessGroupPolicyResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVerifiedAccessGroupPolicyRequest,
+  output: GetVerifiedAccessGroupPolicyResult,
+  errors: [],
+}));
 /**
  * Download an Amazon Web Services-provided sample configuration file to be used with the customer
  * gateway device specified for your Site-to-Site VPN connection.
  */
-export const getVpnConnectionDeviceSampleConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetVpnConnectionDeviceSampleConfigurationRequest,
-    output: GetVpnConnectionDeviceSampleConfigurationResult,
-    errors: [],
-  }));
+export const getVpnConnectionDeviceSampleConfiguration: (
+  input: GetVpnConnectionDeviceSampleConfigurationRequest,
+) => Effect.Effect<
+  GetVpnConnectionDeviceSampleConfigurationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVpnConnectionDeviceSampleConfigurationRequest,
+  output: GetVpnConnectionDeviceSampleConfigurationResult,
+  errors: [],
+}));
 /**
  * Uploads a client certificate revocation list to the specified Client VPN endpoint. Uploading a client certificate revocation list overwrites the existing client certificate revocation list.
  *
  * Uploading a client certificate revocation list resets existing client connections.
  */
-export const importClientVpnClientCertificateRevocationList =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ImportClientVpnClientCertificateRevocationListRequest,
-    output: ImportClientVpnClientCertificateRevocationListResult,
-    errors: [],
-  }));
+export const importClientVpnClientCertificateRevocationList: (
+  input: ImportClientVpnClientCertificateRevocationListRequest,
+) => Effect.Effect<
+  ImportClientVpnClientCertificateRevocationListResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportClientVpnClientCertificateRevocationListRequest,
+  output: ImportClientVpnClientCertificateRevocationListResult,
+  errors: [],
+}));
 /**
  * Imports the public key from an RSA or ED25519 key pair that you created using a third-party tool.
  * You give Amazon Web Services only the public key. The private key is never transferred between you and Amazon Web Services.
  *
  * For more information about the requirements for importing a key pair, see Create a key pair and import the public key to Amazon EC2 in the *Amazon EC2 User Guide*.
  */
-export const importKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importKeyPair: (
+  input: ImportKeyPairRequest,
+) => Effect.Effect<
+  ImportKeyPairResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportKeyPairRequest,
   output: ImportKeyPairResult,
   errors: [],
@@ -69584,7 +72390,13 @@ export const importKeyPair = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - If the snapshot is locked in compliance mode and the cooling-off period has lapsed, you can
  * only increase the lock duration or extend the lock expiration date.
  */
-export const lockSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const lockSnapshot: (
+  input: LockSnapshotRequest,
+) => Effect.Effect<
+  LockSnapshotResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LockSnapshotRequest,
   output: LockSnapshotResult,
   errors: [],
@@ -69592,23 +72404,31 @@ export const lockSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies an attribute of the specified Elastic IP address. For requirements, see Using reverse DNS for email applications.
  */
-export const modifyAddressAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyAddressAttributeRequest,
-    output: ModifyAddressAttributeResult,
-    errors: [],
-  }),
-);
+export const modifyAddressAttribute: (
+  input: ModifyAddressAttributeRequest,
+) => Effect.Effect<
+  ModifyAddressAttributeResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyAddressAttributeRequest,
+  output: ModifyAddressAttributeResult,
+  errors: [],
+}));
 /**
  * Changes the opt-in status of the specified zone group for your account.
  */
-export const modifyAvailabilityZoneGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyAvailabilityZoneGroupRequest,
-    output: ModifyAvailabilityZoneGroupResult,
-    errors: [],
-  }),
-);
+export const modifyAvailabilityZoneGroup: (
+  input: ModifyAvailabilityZoneGroupRequest,
+) => Effect.Effect<
+  ModifyAvailabilityZoneGroupResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyAvailabilityZoneGroupRequest,
+  output: ModifyAvailabilityZoneGroupResult,
+  errors: [],
+}));
 /**
  * Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions
  * under which it is to be released. You can't modify a Capacity Reservation's instance
@@ -69637,13 +72457,17 @@ export const modifyAvailabilityZoneGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `failed` state - You can't modify the Capacity Reservation in any
  * way.
  */
-export const modifyCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyCapacityReservationRequest,
-    output: ModifyCapacityReservationResult,
-    errors: [],
-  }),
-);
+export const modifyCapacityReservation: (
+  input: ModifyCapacityReservationRequest,
+) => Effect.Effect<
+  ModifyCapacityReservationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyCapacityReservationRequest,
+  output: ModifyCapacityReservationResult,
+  errors: [],
+}));
 /**
  * Modifies a Capacity Reservation Fleet.
  *
@@ -69653,12 +72477,17 @@ export const modifyCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * modify the end date for the Fleet, the end dates for all of the individual Capacity
  * Reservations in the Fleet are updated accordingly.
  */
-export const modifyCapacityReservationFleet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyCapacityReservationFleetRequest,
-    output: ModifyCapacityReservationFleetResult,
-    errors: [],
-  }));
+export const modifyCapacityReservationFleet: (
+  input: ModifyCapacityReservationFleetRequest,
+) => Effect.Effect<
+  ModifyCapacityReservationFleetResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyCapacityReservationFleetRequest,
+  output: ModifyCapacityReservationFleetResult,
+  errors: [],
+}));
 /**
  * Modifies the default credit option for CPU usage of burstable performance instances.
  * The default credit option is set at the account level per Amazon Web Services Region, and
@@ -69676,12 +72505,17 @@ export const modifyCapacityReservationFleet =
  * For more information, see Burstable
  * performance instances in the *Amazon EC2 User Guide*.
  */
-export const modifyDefaultCreditSpecification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyDefaultCreditSpecificationRequest,
-    output: ModifyDefaultCreditSpecificationResult,
-    errors: [],
-  }));
+export const modifyDefaultCreditSpecification: (
+  input: ModifyDefaultCreditSpecificationRequest,
+) => Effect.Effect<
+  ModifyDefaultCreditSpecificationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyDefaultCreditSpecificationRequest,
+  output: ModifyDefaultCreditSpecificationResult,
+  errors: [],
+}));
 /**
  * Changes the default KMS key for EBS encryption by default for your account in this Region.
  *
@@ -69695,13 +72529,17 @@ export const modifyDefaultCreditSpecification =
  * For more information, see Amazon EBS encryption
  * in the *Amazon EBS User Guide*.
  */
-export const modifyEbsDefaultKmsKeyId = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyEbsDefaultKmsKeyIdRequest,
-    output: ModifyEbsDefaultKmsKeyIdResult,
-    errors: [],
-  }),
-);
+export const modifyEbsDefaultKmsKeyId: (
+  input: ModifyEbsDefaultKmsKeyIdRequest,
+) => Effect.Effect<
+  ModifyEbsDefaultKmsKeyIdResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyEbsDefaultKmsKeyIdRequest,
+  output: ModifyEbsDefaultKmsKeyIdResult,
+  errors: [],
+}));
 /**
  * Modifies the specified EC2 Fleet.
  *
@@ -69731,7 +72569,13 @@ export const modifyEbsDefaultKmsKeyId = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * If you are finished with your EC2 Fleet for now, but will use it again later, you can set the
  * target capacity to 0.
  */
-export const modifyFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyFleet: (
+  input: ModifyFleetRequest,
+) => Effect.Effect<
+  ModifyFleetResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyFleetRequest,
   output: ModifyFleetResult,
   errors: [],
@@ -69748,7 +72592,13 @@ export const modifyFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * instance types in an instance family, or to support a specific instance type
  * only.
  */
-export const modifyHosts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyHosts: (
+  input: ModifyHostsRequest,
+) => Effect.Effect<
+  ModifyHostsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyHostsRequest,
   output: ModifyHostsResult,
   errors: [],
@@ -69760,12 +72610,17 @@ export const modifyHosts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * EC2 Instance Connect Endpoint in the
  * *Amazon EC2 User Guide*.
  */
-export const modifyInstanceConnectEndpoint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyInstanceConnectEndpointRequest,
-    output: ModifyInstanceConnectEndpointResult,
-    errors: [],
-  }));
+export const modifyInstanceConnectEndpoint: (
+  input: ModifyInstanceConnectEndpointRequest,
+) => Effect.Effect<
+  ModifyInstanceConnectEndpointResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyInstanceConnectEndpointRequest,
+  output: ModifyInstanceConnectEndpointResult,
+  errors: [],
+}));
 /**
  * By default, all vCPUs for the instance type are active when you launch an instance. When you
  * configure the number of active vCPUs for the instance, it can help you save on licensing costs and
@@ -69778,13 +72633,17 @@ export const modifyInstanceConnectEndpoint =
  * Supported CPU
  * options in the *Amazon EC2 User Guide*.
  */
-export const modifyInstanceCpuOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyInstanceCpuOptionsRequest,
-    output: ModifyInstanceCpuOptionsResult,
-    errors: [],
-  }),
-);
+export const modifyInstanceCpuOptions: (
+  input: ModifyInstanceCpuOptionsRequest,
+) => Effect.Effect<
+  ModifyInstanceCpuOptionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyInstanceCpuOptionsRequest,
+  output: ModifyInstanceCpuOptionsResult,
+  errors: [],
+}));
 /**
  * Modifies the specified event window.
  *
@@ -69799,13 +72658,17 @@ export const modifyInstanceCpuOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Define event windows for scheduled
  * events in the *Amazon EC2 User Guide*.
  */
-export const modifyInstanceEventWindow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyInstanceEventWindowRequest,
-    output: ModifyInstanceEventWindowResult,
-    errors: [],
-  }),
-);
+export const modifyInstanceEventWindow: (
+  input: ModifyInstanceEventWindowRequest,
+) => Effect.Effect<
+  ModifyInstanceEventWindowResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyInstanceEventWindowRequest,
+  output: ModifyInstanceEventWindowResult,
+  errors: [],
+}));
 /**
  * Modifies the recovery behavior of your instance to disable simplified automatic
  * recovery or set the recovery behavior to default. The default configuration will not
@@ -69815,12 +72678,17 @@ export const modifyInstanceEventWindow = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Modifies the reboot migration behavior during a user-initiated reboot of an instance
  * that has a pending `system-reboot` event. For more information, see Enable or disable reboot migration.
  */
-export const modifyInstanceMaintenanceOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyInstanceMaintenanceOptionsRequest,
-    output: ModifyInstanceMaintenanceOptionsResult,
-    errors: [],
-  }));
+export const modifyInstanceMaintenanceOptions: (
+  input: ModifyInstanceMaintenanceOptionsRequest,
+) => Effect.Effect<
+  ModifyInstanceMaintenanceOptionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyInstanceMaintenanceOptionsRequest,
+  output: ModifyInstanceMaintenanceOptionsResult,
+  errors: [],
+}));
 /**
  * Modifies the default instance metadata service (IMDS) settings at the account level in
  * the specified Amazon Web Services
@@ -69832,22 +72700,32 @@ export const modifyInstanceMaintenanceOptions =
  * instance metadata settings. For more information, see Order of precedence for instance metadata options in the
  * *Amazon EC2 User Guide*.
  */
-export const modifyInstanceMetadataDefaults =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyInstanceMetadataDefaultsRequest,
-    output: ModifyInstanceMetadataDefaultsResult,
-    errors: [],
-  }));
+export const modifyInstanceMetadataDefaults: (
+  input: ModifyInstanceMetadataDefaultsRequest,
+) => Effect.Effect<
+  ModifyInstanceMetadataDefaultsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyInstanceMetadataDefaultsRequest,
+  output: ModifyInstanceMetadataDefaultsResult,
+  errors: [],
+}));
 /**
  * Change the configuration of the network performance options for an existing
  * instance.
  */
-export const modifyInstanceNetworkPerformanceOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyInstanceNetworkPerformanceRequest,
-    output: ModifyInstanceNetworkPerformanceResult,
-    errors: [],
-  }));
+export const modifyInstanceNetworkPerformanceOptions: (
+  input: ModifyInstanceNetworkPerformanceRequest,
+) => Effect.Effect<
+  ModifyInstanceNetworkPerformanceResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyInstanceNetworkPerformanceRequest,
+  output: ModifyInstanceNetworkPerformanceResult,
+  errors: [],
+}));
 /**
  * Modifies the placement attributes for a specified instance. You can do the
  * following:
@@ -69872,19 +72750,29 @@ export const modifyInstanceNetworkPerformanceOptions =
  * To modify the host ID, tenancy, placement group, or partition for an instance, the
  * instance must be in the `stopped` state.
  */
-export const modifyInstancePlacement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyInstancePlacementRequest,
-    output: ModifyInstancePlacementResult,
-    errors: [],
-  }),
-);
+export const modifyInstancePlacement: (
+  input: ModifyInstancePlacementRequest,
+) => Effect.Effect<
+  ModifyInstancePlacementResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyInstancePlacementRequest,
+  output: ModifyInstancePlacementResult,
+  errors: [],
+}));
 /**
  * Modify the configurations of an IPAM pool.
  *
  * For more information, see Modify a pool in the *Amazon VPC IPAM User Guide*.
  */
-export const modifyIpamPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyIpamPool: (
+  input: ModifyIpamPoolRequest,
+) => Effect.Effect<
+  ModifyIpamPoolResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyIpamPoolRequest,
   output: ModifyIpamPoolResult,
   errors: [],
@@ -69892,37 +72780,57 @@ export const modifyIpamPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies an IPAM prefix list resolver. You can update the description and CIDR selection rules. Changes to rules will trigger re-evaluation and potential updates to associated prefix lists.
  */
-export const modifyIpamPrefixListResolver =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyIpamPrefixListResolverRequest,
-    output: ModifyIpamPrefixListResolverResult,
-    errors: [],
-  }));
+export const modifyIpamPrefixListResolver: (
+  input: ModifyIpamPrefixListResolverRequest,
+) => Effect.Effect<
+  ModifyIpamPrefixListResolverResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyIpamPrefixListResolverRequest,
+  output: ModifyIpamPrefixListResolverResult,
+  errors: [],
+}));
 /**
  * Modifies an IPAM prefix list resolver target. You can update version tracking settings and the desired version of the target prefix list.
  */
-export const modifyIpamPrefixListResolverTarget =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyIpamPrefixListResolverTargetRequest,
-    output: ModifyIpamPrefixListResolverTargetResult,
-    errors: [],
-  }));
+export const modifyIpamPrefixListResolverTarget: (
+  input: ModifyIpamPrefixListResolverTargetRequest,
+) => Effect.Effect<
+  ModifyIpamPrefixListResolverTargetResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyIpamPrefixListResolverTargetRequest,
+  output: ModifyIpamPrefixListResolverTargetResult,
+  errors: [],
+}));
 /**
  * Modify a resource CIDR. You can use this action to transfer resource CIDRs between scopes and ignore resource CIDRs that you do not want to manage. If set to false, the resource will not be tracked for overlap, it cannot be auto-imported into a pool, and it will be removed from any pool it has an allocation in.
  *
  * For more information, see Move resource CIDRs between scopes and Change the monitoring state of resource CIDRs in the *Amazon VPC IPAM User Guide*.
  */
-export const modifyIpamResourceCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyIpamResourceCidrRequest,
-    output: ModifyIpamResourceCidrResult,
-    errors: [],
-  }),
-);
+export const modifyIpamResourceCidr: (
+  input: ModifyIpamResourceCidrRequest,
+) => Effect.Effect<
+  ModifyIpamResourceCidrResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyIpamResourceCidrRequest,
+  output: ModifyIpamResourceCidrResult,
+  errors: [],
+}));
 /**
  * Modify an IPAM scope.
  */
-export const modifyIpamScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyIpamScope: (
+  input: ModifyIpamScopeRequest,
+) => Effect.Effect<
+  ModifyIpamScopeResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyIpamScopeRequest,
   output: ModifyIpamScopeResult,
   errors: [],
@@ -69932,53 +72840,75 @@ export const modifyIpamScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * set as the default version. When launching an instance, the default version applies when
  * a launch template version is not specified.
  */
-export const modifyLaunchTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyLaunchTemplateRequest,
-    output: ModifyLaunchTemplateResult,
-    errors: [],
-  }),
-);
+export const modifyLaunchTemplate: (
+  input: ModifyLaunchTemplateRequest,
+) => Effect.Effect<
+  ModifyLaunchTemplateResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyLaunchTemplateRequest,
+  output: ModifyLaunchTemplateResult,
+  errors: [],
+}));
 /**
  * Modifies the specified local gateway route.
  */
-export const modifyLocalGatewayRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyLocalGatewayRouteRequest,
-    output: ModifyLocalGatewayRouteResult,
-    errors: [],
-  }),
-);
+export const modifyLocalGatewayRoute: (
+  input: ModifyLocalGatewayRouteRequest,
+) => Effect.Effect<
+  ModifyLocalGatewayRouteResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyLocalGatewayRouteRequest,
+  output: ModifyLocalGatewayRouteResult,
+  errors: [],
+}));
 /**
  * Modifies the specified network interface attribute. You can specify only one attribute
  * at a time. You can use this action to attach and detach security groups from an existing
  * EC2 instance.
  */
-export const modifyNetworkInterfaceAttribute =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyNetworkInterfaceAttributeRequest,
-    output: ModifyNetworkInterfaceAttributeResponse,
-    errors: [InvalidNetworkInterfaceIDNotFound],
-  }));
+export const modifyNetworkInterfaceAttribute: (
+  input: ModifyNetworkInterfaceAttributeRequest,
+) => Effect.Effect<
+  ModifyNetworkInterfaceAttributeResponse,
+  InvalidNetworkInterfaceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyNetworkInterfaceAttributeRequest,
+  output: ModifyNetworkInterfaceAttributeResponse,
+  errors: [InvalidNetworkInterfaceIDNotFound],
+}));
 /**
  * Modifies the options for instance hostnames for the specified instance.
  */
-export const modifyPrivateDnsNameOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyPrivateDnsNameOptionsRequest,
-    output: ModifyPrivateDnsNameOptionsResult,
-    errors: [],
-  }),
-);
+export const modifyPrivateDnsNameOptions: (
+  input: ModifyPrivateDnsNameOptionsRequest,
+) => Effect.Effect<
+  ModifyPrivateDnsNameOptionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyPrivateDnsNameOptionsRequest,
+  output: ModifyPrivateDnsNameOptionsResult,
+  errors: [],
+}));
 /**
  * Modify public hostname options for a network interface. For more information, see EC2 instance hostnames, DNS names, and domains in the *Amazon EC2 User Guide*.
  */
-export const modifyPublicIpDnsNameOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyPublicIpDnsNameOptionsRequest,
-    output: ModifyPublicIpDnsNameOptionsResult,
-    errors: [],
-  }));
+export const modifyPublicIpDnsNameOptions: (
+  input: ModifyPublicIpDnsNameOptionsRequest,
+) => Effect.Effect<
+  ModifyPublicIpDnsNameOptionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyPublicIpDnsNameOptionsRequest,
+  output: ModifyPublicIpDnsNameOptionsResult,
+  errors: [],
+}));
 /**
  * Modifies the configuration of an existing route server.
  *
@@ -69997,7 +72927,13 @@ export const modifyPublicIpDnsNameOptions =
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const modifyRouteServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyRouteServer: (
+  input: ModifyRouteServerRequest,
+) => Effect.Effect<
+  ModifyRouteServerResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyRouteServerRequest,
   output: ModifyRouteServerResult,
   errors: [],
@@ -70009,7 +72945,13 @@ export const modifyRouteServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * tier. For more information, see Archive Amazon EBS snapshots
  * in the *Amazon EBS User Guide*.
  */
-export const modifySnapshotTier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifySnapshotTier: (
+  input: ModifySnapshotTierRequest,
+) => Effect.Effect<
+  ModifySnapshotTierResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifySnapshotTierRequest,
   output: ModifySnapshotTierResult,
   errors: [],
@@ -70020,80 +72962,118 @@ export const modifySnapshotTier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * By default, Amazon DNS network services are not eligible for Traffic Mirror. Use `AddNetworkServices` to add network services to a Traffic Mirror filter. When a network service is added to the Traffic Mirror filter, all traffic related to that network service will be mirrored.
  * When you no longer want to mirror network services, use `RemoveNetworkServices` to remove the network services from the Traffic Mirror filter.
  */
-export const modifyTrafficMirrorFilterNetworkServices =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyTrafficMirrorFilterNetworkServicesRequest,
-    output: ModifyTrafficMirrorFilterNetworkServicesResult,
-    errors: [],
-  }));
+export const modifyTrafficMirrorFilterNetworkServices: (
+  input: ModifyTrafficMirrorFilterNetworkServicesRequest,
+) => Effect.Effect<
+  ModifyTrafficMirrorFilterNetworkServicesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyTrafficMirrorFilterNetworkServicesRequest,
+  output: ModifyTrafficMirrorFilterNetworkServicesResult,
+  errors: [],
+}));
 /**
  * Modifies the specified Traffic Mirror rule.
  *
  * `DestinationCidrBlock` and `SourceCidrBlock` must both be an IPv4
  * range or an IPv6 range.
  */
-export const modifyTrafficMirrorFilterRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyTrafficMirrorFilterRuleRequest,
-    output: ModifyTrafficMirrorFilterRuleResult,
-    errors: [],
-  }));
+export const modifyTrafficMirrorFilterRule: (
+  input: ModifyTrafficMirrorFilterRuleRequest,
+) => Effect.Effect<
+  ModifyTrafficMirrorFilterRuleResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyTrafficMirrorFilterRuleRequest,
+  output: ModifyTrafficMirrorFilterRuleResult,
+  errors: [],
+}));
 /**
  * Modifies a Traffic Mirror session.
  */
-export const modifyTrafficMirrorSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyTrafficMirrorSessionRequest,
-    output: ModifyTrafficMirrorSessionResult,
-    errors: [],
-  }),
-);
+export const modifyTrafficMirrorSession: (
+  input: ModifyTrafficMirrorSessionRequest,
+) => Effect.Effect<
+  ModifyTrafficMirrorSessionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyTrafficMirrorSessionRequest,
+  output: ModifyTrafficMirrorSessionResult,
+  errors: [],
+}));
 /**
  * Modifies a transit gateway metering policy.
  */
-export const modifyTransitGatewayMeteringPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyTransitGatewayMeteringPolicyRequest,
-    output: ModifyTransitGatewayMeteringPolicyResult,
-    errors: [],
-  }));
+export const modifyTransitGatewayMeteringPolicy: (
+  input: ModifyTransitGatewayMeteringPolicyRequest,
+) => Effect.Effect<
+  ModifyTransitGatewayMeteringPolicyResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyTransitGatewayMeteringPolicyRequest,
+  output: ModifyTransitGatewayMeteringPolicyResult,
+  errors: [],
+}));
 /**
  * Modifies a reference (route) to a prefix list in a specified transit gateway route table.
  */
-export const modifyTransitGatewayPrefixListReference =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyTransitGatewayPrefixListReferenceRequest,
-    output: ModifyTransitGatewayPrefixListReferenceResult,
-    errors: [],
-  }));
+export const modifyTransitGatewayPrefixListReference: (
+  input: ModifyTransitGatewayPrefixListReferenceRequest,
+) => Effect.Effect<
+  ModifyTransitGatewayPrefixListReferenceResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyTransitGatewayPrefixListReferenceRequest,
+  output: ModifyTransitGatewayPrefixListReferenceResult,
+  errors: [],
+}));
 /**
  * Modifies the specified Amazon Web Services Verified Access group configuration.
  */
-export const modifyVerifiedAccessGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyVerifiedAccessGroupRequest,
-    output: ModifyVerifiedAccessGroupResult,
-    errors: [],
-  }),
-);
+export const modifyVerifiedAccessGroup: (
+  input: ModifyVerifiedAccessGroupRequest,
+) => Effect.Effect<
+  ModifyVerifiedAccessGroupResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVerifiedAccessGroupRequest,
+  output: ModifyVerifiedAccessGroupResult,
+  errors: [],
+}));
 /**
  * Modifies the specified Amazon Web Services Verified Access group policy.
  */
-export const modifyVerifiedAccessGroupPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyVerifiedAccessGroupPolicyRequest,
-    output: ModifyVerifiedAccessGroupPolicyResult,
-    errors: [],
-  }));
+export const modifyVerifiedAccessGroupPolicy: (
+  input: ModifyVerifiedAccessGroupPolicyRequest,
+) => Effect.Effect<
+  ModifyVerifiedAccessGroupPolicyResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVerifiedAccessGroupPolicyRequest,
+  output: ModifyVerifiedAccessGroupPolicyResult,
+  errors: [],
+}));
 /**
  * Modifies the configuration of the specified Amazon Web Services Verified Access instance.
  */
-export const modifyVerifiedAccessInstance =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyVerifiedAccessInstanceRequest,
-    output: ModifyVerifiedAccessInstanceResult,
-    errors: [],
-  }));
+export const modifyVerifiedAccessInstance: (
+  input: ModifyVerifiedAccessInstanceRequest,
+) => Effect.Effect<
+  ModifyVerifiedAccessInstanceResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVerifiedAccessInstanceRequest,
+  output: ModifyVerifiedAccessInstanceResult,
+  errors: [],
+}));
 /**
  * You can modify several parameters of an existing EBS volume, including volume size, volume
  * type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance
@@ -70113,7 +73093,13 @@ export const modifyVerifiedAccessInstance =
  * is in the `in-use` or `available` state before you can modify the same
  * volume. This is sometimes referred to as a cooldown period.
  */
-export const modifyVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyVolume: (
+  input: ModifyVolumeRequest,
+) => Effect.Effect<
+  ModifyVolumeResult,
+  InvalidVolumeNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyVolumeRequest,
   output: ModifyVolumeResult,
   errors: [InvalidVolumeNotFound],
@@ -70121,40 +73107,60 @@ export const modifyVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modify VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on.
  */
-export const modifyVpcBlockPublicAccessExclusion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyVpcBlockPublicAccessExclusionRequest,
-    output: ModifyVpcBlockPublicAccessExclusionResult,
-    errors: [],
-  }));
+export const modifyVpcBlockPublicAccessExclusion: (
+  input: ModifyVpcBlockPublicAccessExclusionRequest,
+) => Effect.Effect<
+  ModifyVpcBlockPublicAccessExclusionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVpcBlockPublicAccessExclusionRequest,
+  output: ModifyVpcBlockPublicAccessExclusionResult,
+  errors: [],
+}));
 /**
  * Modify VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
-export const modifyVpcBlockPublicAccessOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyVpcBlockPublicAccessOptionsRequest,
-    output: ModifyVpcBlockPublicAccessOptionsResult,
-    errors: [],
-  }));
+export const modifyVpcBlockPublicAccessOptions: (
+  input: ModifyVpcBlockPublicAccessOptionsRequest,
+) => Effect.Effect<
+  ModifyVpcBlockPublicAccessOptionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVpcBlockPublicAccessOptionsRequest,
+  output: ModifyVpcBlockPublicAccessOptionsResult,
+  errors: [],
+}));
 /**
  * Modifies the encryption control configuration for a VPC. You can update the encryption mode and exclusion settings for various gateway types and peering connections.
  *
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
-export const modifyVpcEncryptionControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyVpcEncryptionControlRequest,
-    output: ModifyVpcEncryptionControlResult,
-    errors: [],
-  }),
-);
+export const modifyVpcEncryptionControl: (
+  input: ModifyVpcEncryptionControlRequest,
+) => Effect.Effect<
+  ModifyVpcEncryptionControlResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVpcEncryptionControlRequest,
+  output: ModifyVpcEncryptionControlResult,
+  errors: [],
+}));
 /**
  * Modifies attributes of a specified VPC endpoint. The attributes that you can modify
  * depend on the type of VPC endpoint (interface, gateway, or Gateway Load Balancer). For more information,
  * see the Amazon Web Services PrivateLink
  * Guide.
  */
-export const modifyVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyVpcEndpoint: (
+  input: ModifyVpcEndpointRequest,
+) => Effect.Effect<
+  ModifyVpcEndpointResult,
+  InvalidVpcEndpointIdNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyVpcEndpointRequest,
   output: ModifyVpcEndpointResult,
   errors: [InvalidVpcEndpointIdNotFound],
@@ -70163,33 +73169,48 @@ export const modifyVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Modifies a connection notification for VPC endpoint or VPC endpoint service. You
  * can change the SNS topic for the notification, or the events for which to be notified.
  */
-export const modifyVpcEndpointConnectionNotification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyVpcEndpointConnectionNotificationRequest,
-    output: ModifyVpcEndpointConnectionNotificationResult,
-    errors: [],
-  }));
+export const modifyVpcEndpointConnectionNotification: (
+  input: ModifyVpcEndpointConnectionNotificationRequest,
+) => Effect.Effect<
+  ModifyVpcEndpointConnectionNotificationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVpcEndpointConnectionNotificationRequest,
+  output: ModifyVpcEndpointConnectionNotificationResult,
+  errors: [],
+}));
 /**
  * Modifies the attributes of the specified VPC endpoint service configuration.
  *
  * If you set or modify the private DNS name, you must prove that you own the private DNS
  * domain name.
  */
-export const modifyVpcEndpointServiceConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyVpcEndpointServiceConfigurationRequest,
-    output: ModifyVpcEndpointServiceConfigurationResult,
-    errors: [InvalidVpcEndpointServiceIdNotFound],
-  }));
+export const modifyVpcEndpointServiceConfiguration: (
+  input: ModifyVpcEndpointServiceConfigurationRequest,
+) => Effect.Effect<
+  ModifyVpcEndpointServiceConfigurationResult,
+  InvalidVpcEndpointServiceIdNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVpcEndpointServiceConfigurationRequest,
+  output: ModifyVpcEndpointServiceConfigurationResult,
+  errors: [InvalidVpcEndpointServiceIdNotFound],
+}));
 /**
  * Modifies the payer responsibility for your VPC endpoint service.
  */
-export const modifyVpcEndpointServicePayerResponsibility =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyVpcEndpointServicePayerResponsibilityRequest,
-    output: ModifyVpcEndpointServicePayerResponsibilityResult,
-    errors: [],
-  }));
+export const modifyVpcEndpointServicePayerResponsibility: (
+  input: ModifyVpcEndpointServicePayerResponsibilityRequest,
+) => Effect.Effect<
+  ModifyVpcEndpointServicePayerResponsibilityResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVpcEndpointServicePayerResponsibilityRequest,
+  output: ModifyVpcEndpointServicePayerResponsibilityResult,
+  errors: [],
+}));
 /**
  * Modifies the instance tenancy attribute of the specified VPC. You can change the
  * instance tenancy attribute of a VPC to `default` only. You cannot change the
@@ -70202,7 +73223,13 @@ export const modifyVpcEndpointServicePayerResponsibility =
  * For more information, see Dedicated Instances in the
  * *Amazon EC2 User Guide*.
  */
-export const modifyVpcTenancy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyVpcTenancy: (
+  input: ModifyVpcTenancyRequest,
+) => Effect.Effect<
+  ModifyVpcTenancyResult,
+  InvalidVpcIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyVpcTenancyRequest,
   output: ModifyVpcTenancyResult,
   errors: [InvalidVpcIDNotFound],
@@ -70247,7 +73274,13 @@ export const modifyVpcTenancy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * be temporarily unavailable for a brief period while we provision the new
  * endpoints.
  */
-export const modifyVpnConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyVpnConnection: (
+  input: ModifyVpnConnectionRequest,
+) => Effect.Effect<
+  ModifyVpnConnectionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyVpnConnectionRequest,
   output: ModifyVpnConnectionResult,
   errors: [],
@@ -70260,23 +73293,31 @@ export const modifyVpnConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * VPN connection will be temporarily unavailable for a brief period while the VPN
  * connection is updated.
  */
-export const modifyVpnConnectionOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyVpnConnectionOptionsRequest,
-    output: ModifyVpnConnectionOptionsResult,
-    errors: [],
-  }),
-);
+export const modifyVpnConnectionOptions: (
+  input: ModifyVpnConnectionOptionsRequest,
+) => Effect.Effect<
+  ModifyVpnConnectionOptionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVpnConnectionOptionsRequest,
+  output: ModifyVpnConnectionOptionsResult,
+  errors: [],
+}));
 /**
  * Modifies the VPN tunnel endpoint certificate.
  */
-export const modifyVpnTunnelCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyVpnTunnelCertificateRequest,
-    output: ModifyVpnTunnelCertificateResult,
-    errors: [],
-  }),
-);
+export const modifyVpnTunnelCertificate: (
+  input: ModifyVpnTunnelCertificateRequest,
+) => Effect.Effect<
+  ModifyVpnTunnelCertificateResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVpnTunnelCertificateRequest,
+  output: ModifyVpnTunnelCertificateResult,
+  errors: [],
+}));
 /**
  * This action is deprecated.
  *
@@ -70286,7 +73327,13 @@ export const modifyVpnTunnelCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * available for use in the EC2-Classic platform. You cannot move an Elastic IP address that was
  * originally allocated for use in the EC2-VPC platform to the EC2-Classic platform.
  */
-export const moveAddressToVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const moveAddressToVpc: (
+  input: MoveAddressToVpcRequest,
+) => Effect.Effect<
+  MoveAddressToVpcResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MoveAddressToVpcRequest,
   output: MoveAddressToVpcResult,
   errors: [],
@@ -70296,7 +73343,13 @@ export const moveAddressToVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you already have a BYOIPv4 CIDR with Amazon Web Services, you can move the CIDR to IPAM from a public IPv4 pool. You cannot move an IPv6 CIDR to IPAM. If you are bringing a new IP address to Amazon Web Services for the first time, complete the steps in Tutorial: BYOIP address CIDRs to IPAM.
  */
-export const moveByoipCidrToIpam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const moveByoipCidrToIpam: (
+  input: MoveByoipCidrToIpamRequest,
+) => Effect.Effect<
+  MoveByoipCidrToIpamResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MoveByoipCidrToIpamRequest,
   output: MoveByoipCidrToIpamResult,
   errors: [],
@@ -70319,47 +73372,65 @@ export const moveByoipCidrToIpam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - Capacity Reservation end time - `At specific time` or
  * `Manually`.
  */
-export const moveCapacityReservationInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: MoveCapacityReservationInstancesRequest,
-    output: MoveCapacityReservationInstancesResult,
-    errors: [],
-  }));
+export const moveCapacityReservationInstances: (
+  input: MoveCapacityReservationInstancesRequest,
+) => Effect.Effect<
+  MoveCapacityReservationInstancesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: MoveCapacityReservationInstancesRequest,
+  output: MoveCapacityReservationInstancesResult,
+  errors: [],
+}));
 /**
  * Purchase the Capacity Block for use with your account. With Capacity Blocks you ensure
  * GPU capacity is available for machine learning (ML) workloads. You must specify the ID
  * of the Capacity Block offering you are purchasing.
  */
-export const purchaseCapacityBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PurchaseCapacityBlockRequest,
-    output: PurchaseCapacityBlockResult,
-    errors: [],
-  }),
-);
+export const purchaseCapacityBlock: (
+  input: PurchaseCapacityBlockRequest,
+) => Effect.Effect<
+  PurchaseCapacityBlockResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PurchaseCapacityBlockRequest,
+  output: PurchaseCapacityBlockResult,
+  errors: [],
+}));
 /**
  * Purchase the Capacity Block extension for use with your account. You must specify the
  * ID of the Capacity Block extension offering you are purchasing.
  */
-export const purchaseCapacityBlockExtension =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PurchaseCapacityBlockExtensionRequest,
-    output: PurchaseCapacityBlockExtensionResult,
-    errors: [],
-  }));
+export const purchaseCapacityBlockExtension: (
+  input: PurchaseCapacityBlockExtensionRequest,
+) => Effect.Effect<
+  PurchaseCapacityBlockExtensionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PurchaseCapacityBlockExtensionRequest,
+  output: PurchaseCapacityBlockExtensionResult,
+  errors: [],
+}));
 /**
  * Purchase a reservation with configurations that match those of your Dedicated Host.
  * You must have active Dedicated Hosts in your account before you purchase a reservation.
  * This action results in the specified reservation being purchased and charged to your
  * account.
  */
-export const purchaseHostReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PurchaseHostReservationRequest,
-    output: PurchaseHostReservationResult,
-    errors: [],
-  }),
-);
+export const purchaseHostReservation: (
+  input: PurchaseHostReservationRequest,
+) => Effect.Effect<
+  PurchaseHostReservationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PurchaseHostReservationRequest,
+  output: PurchaseHostReservationResult,
+  errors: [],
+}));
 /**
  * Registers an AMI. When you're creating an instance-store backed AMI, registering the AMI
  * is the final step in the creation process. For more information about creating AMIs, see
@@ -70404,7 +73475,13 @@ export const purchaseHostReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * about how to obtain the platform details and billing information of an AMI, see Understand AMI
  * billing information in the *Amazon EC2 User Guide*.
  */
-export const registerImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerImage: (
+  input: RegisterImageRequest,
+) => Effect.Effect<
+  RegisterImageResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterImageRequest,
   output: RegisterImageResult,
   errors: [],
@@ -70414,30 +73491,45 @@ export const registerImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Reservation to your account. For more information, see Billing assignment for shared
  * Amazon EC2 Capacity Reservations.
  */
-export const rejectCapacityReservationBillingOwnership =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RejectCapacityReservationBillingOwnershipRequest,
-    output: RejectCapacityReservationBillingOwnershipResult,
-    errors: [],
-  }));
+export const rejectCapacityReservationBillingOwnership: (
+  input: RejectCapacityReservationBillingOwnershipRequest,
+) => Effect.Effect<
+  RejectCapacityReservationBillingOwnershipResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectCapacityReservationBillingOwnershipRequest,
+  output: RejectCapacityReservationBillingOwnershipResult,
+  errors: [],
+}));
 /**
  * Rejects a request to associate cross-account subnets with a transit gateway multicast domain.
  */
-export const rejectTransitGatewayMulticastDomainAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RejectTransitGatewayMulticastDomainAssociationsRequest,
-    output: RejectTransitGatewayMulticastDomainAssociationsResult,
-    errors: [],
-  }));
+export const rejectTransitGatewayMulticastDomainAssociations: (
+  input: RejectTransitGatewayMulticastDomainAssociationsRequest,
+) => Effect.Effect<
+  RejectTransitGatewayMulticastDomainAssociationsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectTransitGatewayMulticastDomainAssociationsRequest,
+  output: RejectTransitGatewayMulticastDomainAssociationsResult,
+  errors: [],
+}));
 /**
  * Rejects a transit gateway peering attachment request.
  */
-export const rejectTransitGatewayPeeringAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RejectTransitGatewayPeeringAttachmentRequest,
-    output: RejectTransitGatewayPeeringAttachmentResult,
-    errors: [],
-  }));
+export const rejectTransitGatewayPeeringAttachment: (
+  input: RejectTransitGatewayPeeringAttachmentRequest,
+) => Effect.Effect<
+  RejectTransitGatewayPeeringAttachmentResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectTransitGatewayPeeringAttachmentRequest,
+  output: RejectTransitGatewayPeeringAttachmentResult,
+  errors: [],
+}));
 /**
  * Rejects a request to attach a VPC to a transit gateway.
  *
@@ -70445,34 +73537,48 @@ export const rejectTransitGatewayPeeringAttachment =
  * Use DescribeTransitGatewayVpcAttachments to view your pending VPC attachment requests.
  * Use AcceptTransitGatewayVpcAttachment to accept a VPC attachment request.
  */
-export const rejectTransitGatewayVpcAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RejectTransitGatewayVpcAttachmentRequest,
-    output: RejectTransitGatewayVpcAttachmentResult,
-    errors: [],
-  }));
+export const rejectTransitGatewayVpcAttachment: (
+  input: RejectTransitGatewayVpcAttachmentRequest,
+) => Effect.Effect<
+  RejectTransitGatewayVpcAttachmentResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectTransitGatewayVpcAttachmentRequest,
+  output: RejectTransitGatewayVpcAttachmentResult,
+  errors: [],
+}));
 /**
  * Rejects VPC endpoint connection requests to your VPC endpoint service.
  */
-export const rejectVpcEndpointConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RejectVpcEndpointConnectionsRequest,
-    output: RejectVpcEndpointConnectionsResult,
-    errors: [],
-  }));
+export const rejectVpcEndpointConnections: (
+  input: RejectVpcEndpointConnectionsRequest,
+) => Effect.Effect<
+  RejectVpcEndpointConnectionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectVpcEndpointConnectionsRequest,
+  output: RejectVpcEndpointConnectionsResult,
+  errors: [],
+}));
 /**
  * Rejects a VPC peering connection request. The VPC peering connection must be in the
  * `pending-acceptance` state. Use the DescribeVpcPeeringConnections request
  * to view your outstanding VPC peering connection requests. To delete an active VPC peering
  * connection, or to delete a VPC peering connection request that you initiated, use DeleteVpcPeeringConnection.
  */
-export const rejectVpcPeeringConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectVpcPeeringConnectionRequest,
-    output: RejectVpcPeeringConnectionResult,
-    errors: [InvalidVpcPeeringConnectionIdNotFound],
-  }),
-);
+export const rejectVpcPeeringConnection: (
+  input: RejectVpcPeeringConnectionRequest,
+) => Effect.Effect<
+  RejectVpcPeeringConnectionResult,
+  InvalidVpcPeeringConnectionIdNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectVpcPeeringConnectionRequest,
+  output: RejectVpcPeeringConnectionResult,
+  errors: [InvalidVpcPeeringConnectionIdNotFound],
+}));
 /**
  * When you no longer want to use an On-Demand Dedicated Host it can be released.
  * On-Demand billing is stopped and the host goes into `released` state. The
@@ -70486,7 +73592,13 @@ export const rejectVpcPeeringConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Released hosts still appear in a DescribeHosts response.
  */
-export const releaseHosts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const releaseHosts: (
+  input: ReleaseHostsRequest,
+) => Effect.Effect<
+  ReleaseHostsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReleaseHostsRequest,
   output: ReleaseHostsResult,
   errors: [],
@@ -70496,13 +73608,17 @@ export const releaseHosts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * All EC2 API actions follow an eventual consistency model.
  */
-export const releaseIpamPoolAllocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ReleaseIpamPoolAllocationRequest,
-    output: ReleaseIpamPoolAllocationResult,
-    errors: [],
-  }),
-);
+export const releaseIpamPoolAllocation: (
+  input: ReleaseIpamPoolAllocationRequest,
+) => Effect.Effect<
+  ReleaseIpamPoolAllocationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReleaseIpamPoolAllocationRequest,
+  output: ReleaseIpamPoolAllocationResult,
+  errors: [],
+}));
 /**
  * Replaces an IAM instance profile for the specified running instance. You can use
  * this action to change the IAM instance profile that's associated with an instance
@@ -70511,12 +73627,17 @@ export const releaseIpamPoolAllocation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Use DescribeIamInstanceProfileAssociations to get the association
  * ID.
  */
-export const replaceIamInstanceProfileAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ReplaceIamInstanceProfileAssociationRequest,
-    output: ReplaceIamInstanceProfileAssociationResult,
-    errors: [],
-  }));
+export const replaceIamInstanceProfileAssociation: (
+  input: ReplaceIamInstanceProfileAssociationRequest,
+) => Effect.Effect<
+  ReplaceIamInstanceProfileAssociationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReplaceIamInstanceProfileAssociationRequest,
+  output: ReplaceIamInstanceProfileAssociationResult,
+  errors: [],
+}));
 /**
  * Changes which network ACL a subnet is associated with. By default when you create a
  * subnet, it's automatically associated with the default network ACL. For more
@@ -70524,12 +73645,17 @@ export const replaceIamInstanceProfileAssociation =
  *
  * This is an idempotent operation.
  */
-export const replaceNetworkAclAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ReplaceNetworkAclAssociationRequest,
-    output: ReplaceNetworkAclAssociationResult,
-    errors: [],
-  }));
+export const replaceNetworkAclAssociation: (
+  input: ReplaceNetworkAclAssociationRequest,
+) => Effect.Effect<
+  ReplaceNetworkAclAssociationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReplaceNetworkAclAssociationRequest,
+  output: ReplaceNetworkAclAssociationResult,
+  errors: [],
+}));
 /**
  * Changes the route table associated with a given subnet, internet gateway, or virtual private gateway in a VPC. After the operation
  * completes, the subnet or gateway uses the routes in the new route table. For more
@@ -70538,26 +73664,41 @@ export const replaceNetworkAclAssociation =
  *
  * You can also use this operation to change which table is the main route table in the VPC. Specify the main route table's association ID and the route table ID of the new main route table.
  */
-export const replaceRouteTableAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ReplaceRouteTableAssociationRequest,
-    output: ReplaceRouteTableAssociationResult,
-    errors: [InvalidRouteTableIDNotFound],
-  }));
+export const replaceRouteTableAssociation: (
+  input: ReplaceRouteTableAssociationRequest,
+) => Effect.Effect<
+  ReplaceRouteTableAssociationResult,
+  InvalidRouteTableIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReplaceRouteTableAssociationRequest,
+  output: ReplaceRouteTableAssociationResult,
+  errors: [InvalidRouteTableIDNotFound],
+}));
 /**
  * Replaces the specified route in the specified transit gateway route table.
  */
-export const replaceTransitGatewayRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ReplaceTransitGatewayRouteRequest,
-    output: ReplaceTransitGatewayRouteResult,
-    errors: [],
-  }),
-);
+export const replaceTransitGatewayRoute: (
+  input: ReplaceTransitGatewayRouteRequest,
+) => Effect.Effect<
+  ReplaceTransitGatewayRouteResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReplaceTransitGatewayRouteRequest,
+  output: ReplaceTransitGatewayRouteResult,
+  errors: [],
+}));
 /**
  * Trigger replacement of specified VPN tunnel.
  */
-export const replaceVpnTunnel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const replaceVpnTunnel: (
+  input: ReplaceVpnTunnelRequest,
+) => Effect.Effect<
+  ReplaceVpnTunnelResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReplaceVpnTunnelRequest,
   output: ReplaceVpnTunnelResult,
   errors: [],
@@ -70565,13 +73706,17 @@ export const replaceVpnTunnel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Resets the attribute of the specified IP address. For requirements, see Using reverse DNS for email applications.
  */
-export const resetAddressAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetAddressAttributeRequest,
-    output: ResetAddressAttributeResult,
-    errors: [],
-  }),
-);
+export const resetAddressAttribute: (
+  input: ResetAddressAttributeRequest,
+) => Effect.Effect<
+  ResetAddressAttributeResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetAddressAttributeRequest,
+  output: ResetAddressAttributeResult,
+  errors: [],
+}));
 /**
  * Resets the default KMS key for EBS encryption for your account in this Region
  * to the Amazon Web Services managed KMS key for EBS.
@@ -70581,67 +73726,93 @@ export const resetAddressAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon EBS encryption
  * in the *Amazon EBS User Guide*.
  */
-export const resetEbsDefaultKmsKeyId = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetEbsDefaultKmsKeyIdRequest,
-    output: ResetEbsDefaultKmsKeyIdResult,
-    errors: [],
-  }),
-);
+export const resetEbsDefaultKmsKeyId: (
+  input: ResetEbsDefaultKmsKeyIdRequest,
+) => Effect.Effect<
+  ResetEbsDefaultKmsKeyIdResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetEbsDefaultKmsKeyIdRequest,
+  output: ResetEbsDefaultKmsKeyIdResult,
+  errors: [],
+}));
 /**
  * Resets the specified attribute of the specified Amazon FPGA Image (AFI) to its default value.
  * You can only reset the load permission attribute.
  */
-export const resetFpgaImageAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResetFpgaImageAttributeRequest,
-    output: ResetFpgaImageAttributeResult,
-    errors: [],
-  }),
-);
+export const resetFpgaImageAttribute: (
+  input: ResetFpgaImageAttributeRequest,
+) => Effect.Effect<
+  ResetFpgaImageAttributeResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetFpgaImageAttributeRequest,
+  output: ResetFpgaImageAttributeResult,
+  errors: [],
+}));
 /**
  * This action is deprecated.
  *
  * Restores an Elastic IP address that was previously moved to the EC2-VPC platform back to the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in EC2-VPC. The Elastic IP address must not be associated with an instance or network interface.
  */
-export const restoreAddressToClassic = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RestoreAddressToClassicRequest,
-    output: RestoreAddressToClassicResult,
-    errors: [],
-  }),
-);
+export const restoreAddressToClassic: (
+  input: RestoreAddressToClassicRequest,
+) => Effect.Effect<
+  RestoreAddressToClassicResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreAddressToClassicRequest,
+  output: RestoreAddressToClassicResult,
+  errors: [],
+}));
 /**
  * Restores an AMI from the Recycle Bin. For more information, see Recover deleted Amazon EBS
  * snapshots and EBS-back AMIs with Recycle Bin in the
  * *Amazon EC2 User Guide*.
  */
-export const restoreImageFromRecycleBin = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RestoreImageFromRecycleBinRequest,
-    output: RestoreImageFromRecycleBinResult,
-    errors: [],
-  }),
-);
+export const restoreImageFromRecycleBin: (
+  input: RestoreImageFromRecycleBinRequest,
+) => Effect.Effect<
+  RestoreImageFromRecycleBinResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreImageFromRecycleBinRequest,
+  output: RestoreImageFromRecycleBinResult,
+  errors: [],
+}));
 /**
  * Restores the entries from a previous version of a managed prefix list to a new version of the prefix list.
  */
-export const restoreManagedPrefixListVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RestoreManagedPrefixListVersionRequest,
-    output: RestoreManagedPrefixListVersionResult,
-    errors: [],
-  }));
+export const restoreManagedPrefixListVersion: (
+  input: RestoreManagedPrefixListVersionRequest,
+) => Effect.Effect<
+  RestoreManagedPrefixListVersionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreManagedPrefixListVersionRequest,
+  output: RestoreManagedPrefixListVersionResult,
+  errors: [],
+}));
 /**
  * Restores a snapshot from the Recycle Bin. For more information, see Restore
  * snapshots from the Recycle Bin in the *Amazon EBS User Guide*.
  */
-export const restoreSnapshotFromRecycleBin =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RestoreSnapshotFromRecycleBinRequest,
-    output: RestoreSnapshotFromRecycleBinResult,
-    errors: [],
-  }));
+export const restoreSnapshotFromRecycleBin: (
+  input: RestoreSnapshotFromRecycleBinRequest,
+) => Effect.Effect<
+  RestoreSnapshotFromRecycleBinResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreSnapshotFromRecycleBinRequest,
+  output: RestoreSnapshotFromRecycleBinResult,
+  errors: [],
+}));
 /**
  * Restores an archived Amazon EBS snapshot for use temporarily or permanently, or modifies the restore
  * period or restore type for a snapshot that was previously temporarily restored.
@@ -70650,7 +73821,13 @@ export const restoreSnapshotFromRecycleBin =
  * Restore an archived snapshot and
  * modify the restore period or restore type for a temporarily restored snapshot in the *Amazon EBS User Guide*.
  */
-export const restoreSnapshotTier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const restoreSnapshotTier: (
+  input: RestoreSnapshotTierRequest,
+) => Effect.Effect<
+  RestoreSnapshotTierResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreSnapshotTierRequest,
   output: RestoreSnapshotTierResult,
   errors: [],
@@ -70659,23 +73836,31 @@ export const restoreSnapshotTier = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Restores a volume from the Recycle Bin. For more information, see Restore
  * volumes from the Recycle Bin in the *Amazon EBS User Guide*.
  */
-export const restoreVolumeFromRecycleBin = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RestoreVolumeFromRecycleBinRequest,
-    output: RestoreVolumeFromRecycleBinResult,
-    errors: [],
-  }),
-);
+export const restoreVolumeFromRecycleBin: (
+  input: RestoreVolumeFromRecycleBinRequest,
+) => Effect.Effect<
+  RestoreVolumeFromRecycleBinResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RestoreVolumeFromRecycleBinRequest,
+  output: RestoreVolumeFromRecycleBinResult,
+  errors: [],
+}));
 /**
  * Removes an ingress authorization rule from a Client VPN endpoint.
  */
-export const revokeClientVpnIngress = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RevokeClientVpnIngressRequest,
-    output: RevokeClientVpnIngressResult,
-    errors: [],
-  }),
-);
+export const revokeClientVpnIngress: (
+  input: RevokeClientVpnIngressRequest,
+) => Effect.Effect<
+  RevokeClientVpnIngressResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeClientVpnIngressRequest,
+  output: RevokeClientVpnIngressResult,
+  errors: [],
+}));
 /**
  * Removes the specified inbound (ingress) rules from a security group.
  *
@@ -70700,38 +73885,67 @@ export const revokeClientVpnIngress = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Rule changes are propagated to instances within the security group as quickly as possible.
  * However, a small delay might occur.
  */
-export const revokeSecurityGroupIngress = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RevokeSecurityGroupIngressRequest,
-    output: RevokeSecurityGroupIngressResult,
-    errors: [InvalidGroupNotFound],
-  }),
-);
+export const revokeSecurityGroupIngress: (
+  input: RevokeSecurityGroupIngressRequest,
+) => Effect.Effect<
+  RevokeSecurityGroupIngressResult,
+  InvalidGroupNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeSecurityGroupIngressRequest,
+  output: RevokeSecurityGroupIngressResult,
+  errors: [InvalidGroupNotFound],
+}));
 /**
  * Searches for routes in the specified local gateway route table.
  */
-export const searchLocalGatewayRoutes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchLocalGatewayRoutes: {
+  (
     input: SearchLocalGatewayRoutesRequest,
-    output: SearchLocalGatewayRoutesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Routes",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchLocalGatewayRoutesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchLocalGatewayRoutesRequest,
+  ) => Stream.Stream<
+    SearchLocalGatewayRoutesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchLocalGatewayRoutesRequest,
+  ) => Stream.Stream<
+    LocalGatewayRoute,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchLocalGatewayRoutesRequest,
+  output: SearchLocalGatewayRoutesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Routes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches for routes in the specified transit gateway route table.
  */
-export const searchTransitGatewayRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SearchTransitGatewayRoutesRequest,
-    output: SearchTransitGatewayRoutesResult,
-    errors: [],
-  }),
-);
+export const searchTransitGatewayRoutes: (
+  input: SearchTransitGatewayRoutesRequest,
+) => Effect.Effect<
+  SearchTransitGatewayRoutesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchTransitGatewayRoutesRequest,
+  output: SearchTransitGatewayRoutesResult,
+  errors: [],
+}));
 /**
  * Generates an account status report. The report is generated asynchronously, and can
  * take several hours to complete.
@@ -70773,31 +73987,46 @@ export const searchTransitGatewayRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Generating the account status report for declarative policies in the
  * *Amazon Web Services Organizations User Guide*.
  */
-export const startDeclarativePoliciesReport =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDeclarativePoliciesReportRequest,
-    output: StartDeclarativePoliciesReportResult,
-    errors: [],
-  }));
+export const startDeclarativePoliciesReport: (
+  input: StartDeclarativePoliciesReportRequest,
+) => Effect.Effect<
+  StartDeclarativePoliciesReportResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDeclarativePoliciesReportRequest,
+  output: StartDeclarativePoliciesReportResult,
+  errors: [],
+}));
 /**
  * Starts analyzing the specified Network Access Scope.
  */
-export const startNetworkInsightsAccessScopeAnalysis =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartNetworkInsightsAccessScopeAnalysisRequest,
-    output: StartNetworkInsightsAccessScopeAnalysisResult,
-    errors: [],
-  }));
+export const startNetworkInsightsAccessScopeAnalysis: (
+  input: StartNetworkInsightsAccessScopeAnalysisRequest,
+) => Effect.Effect<
+  StartNetworkInsightsAccessScopeAnalysisResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartNetworkInsightsAccessScopeAnalysisRequest,
+  output: StartNetworkInsightsAccessScopeAnalysisResult,
+  errors: [],
+}));
 /**
  * Starts analyzing the specified path. If the path is reachable, the
  * operation returns the shortest feasible path.
  */
-export const startNetworkInsightsAnalysis =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartNetworkInsightsAnalysisRequest,
-    output: StartNetworkInsightsAnalysisResult,
-    errors: [],
-  }));
+export const startNetworkInsightsAnalysis: (
+  input: StartNetworkInsightsAnalysisRequest,
+) => Effect.Effect<
+  StartNetworkInsightsAnalysisResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartNetworkInsightsAnalysisRequest,
+  output: StartNetworkInsightsAnalysisResult,
+  errors: [],
+}));
 /**
  * Initiates the verification process to prove that the service provider owns the private
  * DNS name domain for the endpoint service.
@@ -70806,12 +74035,17 @@ export const startNetworkInsightsAnalysis =
  *
  * Before the service provider runs this command, they must add a record to the DNS server.
  */
-export const startVpcEndpointServicePrivateDnsVerification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartVpcEndpointServicePrivateDnsVerificationRequest,
-    output: StartVpcEndpointServicePrivateDnsVerificationResult,
-    errors: [],
-  }));
+export const startVpcEndpointServicePrivateDnsVerification: (
+  input: StartVpcEndpointServicePrivateDnsVerificationRequest,
+) => Effect.Effect<
+  StartVpcEndpointServicePrivateDnsVerificationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartVpcEndpointServicePrivateDnsVerificationRequest,
+  output: StartVpcEndpointServicePrivateDnsVerificationResult,
+  errors: [],
+}));
 /**
  * Stops an Amazon EBS-backed instance. You can restart your instance at any time using
  * the StartInstances API. For more information, see Stop and start Amazon EC2
@@ -70851,7 +74085,13 @@ export const startVpcEndpointServicePrivateDnsVerification =
  *
  * You can't stop or hibernate instance store-backed instances.
  */
-export const stopInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopInstances: (
+  input: StopInstancesRequest,
+) => Effect.Effect<
+  StopInstancesResult,
+  InvalidInstanceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopInstancesRequest,
   output: StopInstancesResult,
   errors: [InvalidInstanceIDNotFound],
@@ -70931,7 +74171,13 @@ export const stopInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Troubleshooting terminating your instance in the
  * *Amazon EC2 User Guide*.
  */
-export const terminateInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const terminateInstances: (
+  input: TerminateInstancesRequest,
+) => Effect.Effect<
+  TerminateInstancesResult,
+  InvalidInstanceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateInstancesRequest,
   output: TerminateInstancesResult,
   errors: [InvalidInstanceIDNotFound],
@@ -70940,13 +74186,17 @@ export const terminateInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Unassigns the specified IPv6 addresses or Prefix Delegation prefixes from a network
  * interface.
  */
-export const unassignIpv6Addresses = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UnassignIpv6AddressesRequest,
-    output: UnassignIpv6AddressesResult,
-    errors: [InvalidNetworkInterfaceIDNotFound],
-  }),
-);
+export const unassignIpv6Addresses: (
+  input: UnassignIpv6AddressesRequest,
+) => Effect.Effect<
+  UnassignIpv6AddressesResult,
+  InvalidNetworkInterfaceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UnassignIpv6AddressesRequest,
+  output: UnassignIpv6AddressesResult,
+  errors: [InvalidNetworkInterfaceIDNotFound],
+}));
 /**
  * Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information,
  * see Edit secondary IP address associations
@@ -70960,18 +74210,29 @@ export const unassignIpv6Addresses = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * assigned private IP address). After the existing connections drain out, the private IP
  * addresses are released.
  */
-export const unassignPrivateNatGatewayAddress =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UnassignPrivateNatGatewayAddressRequest,
-    output: UnassignPrivateNatGatewayAddressResult,
-    errors: [],
-  }));
+export const unassignPrivateNatGatewayAddress: (
+  input: UnassignPrivateNatGatewayAddressRequest,
+) => Effect.Effect<
+  UnassignPrivateNatGatewayAddressResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UnassignPrivateNatGatewayAddressRequest,
+  output: UnassignPrivateNatGatewayAddressResult,
+  errors: [],
+}));
 /**
  * Unlocks a snapshot that is locked in governance mode or that is locked in compliance mode
  * but still in the cooling-off period. You can't unlock a snapshot that is locked in compliance
  * mode after the cooling-off period has expired.
  */
-export const unlockSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const unlockSnapshot: (
+  input: UnlockSnapshotRequest,
+) => Effect.Effect<
+  UnlockSnapshotResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnlockSnapshotRequest,
   output: UnlockSnapshotResult,
   errors: [],
@@ -70981,7 +74242,13 @@ export const unlockSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * your instances and volumes in the
  * *Amazon EC2 User Guide*.
  */
-export const unmonitorInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const unmonitorInstances: (
+  input: UnmonitorInstancesRequest,
+) => Effect.Effect<
+  UnmonitorInstancesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnmonitorInstancesRequest,
   output: UnmonitorInstancesResult,
   errors: [],
@@ -70990,33 +74257,48 @@ export const unmonitorInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the Organizations access setting for EC2 Capacity Manager. This controls whether Capacity Manager can aggregate
  * data from all accounts in your Amazon Web Services Organization or only from the current account.
  */
-export const updateCapacityManagerOrganizationsAccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCapacityManagerOrganizationsAccessRequest,
-    output: UpdateCapacityManagerOrganizationsAccessResult,
-    errors: [],
-  }));
+export const updateCapacityManagerOrganizationsAccess: (
+  input: UpdateCapacityManagerOrganizationsAccessRequest,
+) => Effect.Effect<
+  UpdateCapacityManagerOrganizationsAccessResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCapacityManagerOrganizationsAccessRequest,
+  output: UpdateCapacityManagerOrganizationsAccessResult,
+  errors: [],
+}));
 /**
  * Modifies the number of instances allocated to an interruptible reservation, allowing you to add more capacity or reclaim capacity to your source Capacity Reservation.
  */
-export const updateInterruptibleCapacityReservationAllocation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateInterruptibleCapacityReservationAllocationRequest,
-    output: UpdateInterruptibleCapacityReservationAllocationResult,
-    errors: [],
-  }));
+export const updateInterruptibleCapacityReservationAllocation: (
+  input: UpdateInterruptibleCapacityReservationAllocationRequest,
+) => Effect.Effect<
+  UpdateInterruptibleCapacityReservationAllocationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInterruptibleCapacityReservationAllocationRequest,
+  output: UpdateInterruptibleCapacityReservationAllocationResult,
+  errors: [],
+}));
 /**
  * Updates the description of an ingress (inbound) security group rule. You can replace an
  * existing description, or add a description to a rule that did not have one previously.
  * You can remove a description for a security group rule by omitting the description
  * parameter in the request.
  */
-export const updateSecurityGroupRuleDescriptionsIngress =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSecurityGroupRuleDescriptionsIngressRequest,
-    output: UpdateSecurityGroupRuleDescriptionsIngressResult,
-    errors: [],
-  }));
+export const updateSecurityGroupRuleDescriptionsIngress: (
+  input: UpdateSecurityGroupRuleDescriptionsIngressRequest,
+) => Effect.Effect<
+  UpdateSecurityGroupRuleDescriptionsIngressResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSecurityGroupRuleDescriptionsIngressRequest,
+  output: UpdateSecurityGroupRuleDescriptionsIngressResult,
+  errors: [],
+}));
 /**
  * Stops advertising an address range that is provisioned as an address pool.
  *
@@ -71026,7 +74308,13 @@ export const updateSecurityGroupRuleDescriptionsIngress =
  * It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services
  * because of BGP propagation delays.
  */
-export const withdrawByoipCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const withdrawByoipCidr: (
+  input: WithdrawByoipCidrRequest,
+) => Effect.Effect<
+  WithdrawByoipCidrResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WithdrawByoipCidrRequest,
   output: WithdrawByoipCidrResult,
   errors: [],
@@ -71034,22 +74322,31 @@ export const withdrawByoipCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Accepts an Elastic IP address transfer. For more information, see Accept a transferred Elastic IP address in the *Amazon VPC User Guide*.
  */
-export const acceptAddressTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptAddressTransferRequest,
-    output: AcceptAddressTransferResult,
-    errors: [],
-  }),
-);
+export const acceptAddressTransfer: (
+  input: AcceptAddressTransferRequest,
+) => Effect.Effect<
+  AcceptAddressTransferResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptAddressTransferRequest,
+  output: AcceptAddressTransferResult,
+  errors: [],
+}));
 /**
  * Accepts the Convertible Reserved Instance exchange quote described in the GetReservedInstancesExchangeQuote call.
  */
-export const acceptReservedInstancesExchangeQuote =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AcceptReservedInstancesExchangeQuoteRequest,
-    output: AcceptReservedInstancesExchangeQuoteResult,
-    errors: [],
-  }));
+export const acceptReservedInstancesExchangeQuote: (
+  input: AcceptReservedInstancesExchangeQuoteRequest,
+) => Effect.Effect<
+  AcceptReservedInstancesExchangeQuoteResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptReservedInstancesExchangeQuoteRequest,
+  output: AcceptReservedInstancesExchangeQuoteResult,
+  errors: [],
+}));
 /**
  * Advertises an IPv4 or IPv6 address range that is provisioned for use with your Amazon Web Services resources through
  * bring your own IP addresses (BYOIP).
@@ -71065,7 +74362,13 @@ export const acceptReservedInstancesExchangeQuote =
  * It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services
  * because of BGP propagation delays.
  */
-export const advertiseByoipCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const advertiseByoipCidr: (
+  input: AdvertiseByoipCidrRequest,
+) => Effect.Effect<
+  AdvertiseByoipCidrResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdvertiseByoipCidrRequest,
   output: AdvertiseByoipCidrResult,
   errors: [],
@@ -71077,13 +74380,17 @@ export const advertiseByoipCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This action creates an allocation with strong consistency. The returned CIDR will not overlap with any other allocations from the same pool.
  */
-export const allocateIpamPoolCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AllocateIpamPoolCidrRequest,
-    output: AllocateIpamPoolCidrResult,
-    errors: [],
-  }),
-);
+export const allocateIpamPoolCidr: (
+  input: AllocateIpamPoolCidrRequest,
+) => Effect.Effect<
+  AllocateIpamPoolCidrResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AllocateIpamPoolCidrRequest,
+  output: AllocateIpamPoolCidrResult,
+  errors: [],
+}));
 /**
  * Assigns the specified secondary private IP addresses to the specified network
  * interface.
@@ -71110,45 +74417,63 @@ export const allocateIpamPoolCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * information, see Assigning prefixes to network
  * interfaces in the *Amazon EC2 User Guide*.
  */
-export const assignPrivateIpAddresses = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssignPrivateIpAddressesRequest,
-    output: AssignPrivateIpAddressesResult,
-    errors: [InvalidNetworkInterfaceIDNotFound],
-  }),
-);
+export const assignPrivateIpAddresses: (
+  input: AssignPrivateIpAddressesRequest,
+) => Effect.Effect<
+  AssignPrivateIpAddressesResult,
+  InvalidNetworkInterfaceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssignPrivateIpAddressesRequest,
+  output: AssignPrivateIpAddressesResult,
+  errors: [InvalidNetworkInterfaceIDNotFound],
+}));
 /**
  * Assigns private IPv4 addresses to a private NAT gateway. For more information, see
  * Work with NAT gateways in the *Amazon VPC User Guide*.
  */
-export const assignPrivateNatGatewayAddress =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssignPrivateNatGatewayAddressRequest,
-    output: AssignPrivateNatGatewayAddressResult,
-    errors: [],
-  }));
+export const assignPrivateNatGatewayAddress: (
+  input: AssignPrivateNatGatewayAddressRequest,
+) => Effect.Effect<
+  AssignPrivateNatGatewayAddressResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssignPrivateNatGatewayAddressRequest,
+  output: AssignPrivateNatGatewayAddressResult,
+  errors: [],
+}));
 /**
  * Associates a target network with a Client VPN endpoint. A target network is a subnet in a VPC. You can associate multiple subnets from the same VPC with a Client VPN endpoint. You can associate only one subnet in each Availability Zone. We recommend that you associate at least two subnets to provide Availability Zone redundancy.
  *
  * If you specified a VPC when you created the Client VPN endpoint or if you have previous subnet associations, the specified subnet must be in the same VPC. To specify a subnet that's in a different VPC, you must first modify the Client VPN endpoint (ModifyClientVpnEndpoint) and change the VPC that's associated with it.
  */
-export const associateClientVpnTargetNetwork =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateClientVpnTargetNetworkRequest,
-    output: AssociateClientVpnTargetNetworkResult,
-    errors: [],
-  }));
+export const associateClientVpnTargetNetwork: (
+  input: AssociateClientVpnTargetNetworkRequest,
+) => Effect.Effect<
+  AssociateClientVpnTargetNetworkResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateClientVpnTargetNetworkRequest,
+  output: AssociateClientVpnTargetNetworkResult,
+  errors: [],
+}));
 /**
  * Associates an IAM instance profile with a running or stopped instance. You cannot
  * associate more than one IAM instance profile with an instance.
  */
-export const associateIamInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateIamInstanceProfileRequest,
-    output: AssociateIamInstanceProfileResult,
-    errors: [],
-  }),
-);
+export const associateIamInstanceProfile: (
+  input: AssociateIamInstanceProfileRequest,
+) => Effect.Effect<
+  AssociateIamInstanceProfileResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateIamInstanceProfileRequest,
+  output: AssociateIamInstanceProfileResult,
+  errors: [],
+}));
 /**
  * Associates one or more targets with an event window. Only one type of target (instance
  * IDs, Dedicated Host IDs, or tags) can be specified with an event window.
@@ -71156,12 +74481,17 @@ export const associateIamInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Define event windows for scheduled
  * events in the *Amazon EC2 User Guide*.
  */
-export const associateInstanceEventWindow =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateInstanceEventWindowRequest,
-    output: AssociateInstanceEventWindowResult,
-    errors: [],
-  }));
+export const associateInstanceEventWindow: (
+  input: AssociateInstanceEventWindowRequest,
+) => Effect.Effect<
+  AssociateInstanceEventWindowResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateInstanceEventWindowRequest,
+  output: AssociateInstanceEventWindowResult,
+  errors: [],
+}));
 /**
  * Associates your Autonomous System Number (ASN) with a BYOIP CIDR that you own in the same Amazon Web Services Region.
  * For more information, see Tutorial: Bring your ASN to IPAM in the *Amazon VPC IPAM guide*.
@@ -71169,7 +74499,13 @@ export const associateInstanceEventWindow =
  * After the association succeeds, the ASN is eligible for
  * advertisement. You can view the association with DescribeByoipCidrs. You can advertise the CIDR with AdvertiseByoipCidr.
  */
-export const associateIpamByoasn = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateIpamByoasn: (
+  input: AssociateIpamByoasnRequest,
+) => Effect.Effect<
+  AssociateIpamByoasnResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateIpamByoasnRequest,
   output: AssociateIpamByoasnResult,
   errors: [],
@@ -71177,12 +74513,17 @@ export const associateIpamByoasn = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates an IPAM resource discovery with an Amazon VPC IPAM. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
-export const associateIpamResourceDiscovery =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateIpamResourceDiscoveryRequest,
-    output: AssociateIpamResourceDiscoveryResult,
-    errors: [],
-  }));
+export const associateIpamResourceDiscovery: (
+  input: AssociateIpamResourceDiscoveryRequest,
+) => Effect.Effect<
+  AssociateIpamResourceDiscoveryResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateIpamResourceDiscoveryRequest,
+  output: AssociateIpamResourceDiscoveryResult,
+  errors: [],
+}));
 /**
  * Associates a route server with a VPC to enable dynamic route updates.
  *
@@ -71190,13 +74531,17 @@ export const associateIpamResourceDiscovery =
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const associateRouteServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateRouteServerRequest,
-    output: AssociateRouteServerResult,
-    errors: [],
-  }),
-);
+export const associateRouteServer: (
+  input: AssociateRouteServerRequest,
+) => Effect.Effect<
+  AssociateRouteServerResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateRouteServerRequest,
+  output: AssociateRouteServerResult,
+  errors: [],
+}));
 /**
  * Associates a subnet in your VPC or an internet gateway or virtual private gateway
  * attached to your VPC with a route table in your VPC. This association causes traffic
@@ -71207,7 +74552,13 @@ export const associateRouteServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Route tables in the
  * *Amazon VPC User Guide*.
  */
-export const associateRouteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateRouteTable: (
+  input: AssociateRouteTableRequest,
+) => Effect.Effect<
+  AssociateRouteTableResult,
+  InvalidRouteTableIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateRouteTableRequest,
   output: AssociateRouteTableResult,
   errors: [InvalidRouteTableIDNotFound],
@@ -71215,22 +74566,32 @@ export const associateRouteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates the specified transit gateway attachment with a transit gateway policy table.
  */
-export const associateTransitGatewayPolicyTable =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateTransitGatewayPolicyTableRequest,
-    output: AssociateTransitGatewayPolicyTableResult,
-    errors: [],
-  }));
+export const associateTransitGatewayPolicyTable: (
+  input: AssociateTransitGatewayPolicyTableRequest,
+) => Effect.Effect<
+  AssociateTransitGatewayPolicyTableResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateTransitGatewayPolicyTableRequest,
+  output: AssociateTransitGatewayPolicyTableResult,
+  errors: [],
+}));
 /**
  * Associates the specified attachment with the specified transit gateway route table. You can
  * associate only one route table with an attachment.
  */
-export const associateTransitGatewayRouteTable =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateTransitGatewayRouteTableRequest,
-    output: AssociateTransitGatewayRouteTableResult,
-    errors: [],
-  }));
+export const associateTransitGatewayRouteTable: (
+  input: AssociateTransitGatewayRouteTableRequest,
+) => Effect.Effect<
+  AssociateTransitGatewayRouteTableResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateTransitGatewayRouteTableRequest,
+  output: AssociateTransitGatewayRouteTableResult,
+  errors: [],
+}));
 /**
  * Associates a branch network interface with a trunk network interface.
  *
@@ -71239,13 +74600,17 @@ export const associateTransitGatewayRouteTable =
  * each branch network interface that you want to associate with the trunk
  * network interface.
  */
-export const associateTrunkInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateTrunkInterfaceRequest,
-    output: AssociateTrunkInterfaceResult,
-    errors: [],
-  }),
-);
+export const associateTrunkInterface: (
+  input: AssociateTrunkInterfaceRequest,
+) => Effect.Effect<
+  AssociateTrunkInterfaceResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateTrunkInterfaceRequest,
+  output: AssociateTrunkInterfaceResult,
+  errors: [],
+}));
 /**
  * Attaches an available virtual private gateway to a VPC. You can attach one virtual private
  * gateway to one VPC at a time.
@@ -71253,7 +74618,13 @@ export const associateTrunkInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN
  * User Guide.
  */
-export const attachVpnGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const attachVpnGateway: (
+  input: AttachVpnGatewayRequest,
+) => Effect.Effect<
+  AttachVpnGatewayResult,
+  InvalidVpnGatewayIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachVpnGatewayRequest,
   output: AttachVpnGatewayResult,
   errors: [InvalidVpnGatewayIDNotFound],
@@ -71263,62 +74634,89 @@ export const attachVpnGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * firewall rules that grant access to networks. You must configure ingress authorization rules to
  * enable clients to access resources in Amazon Web Services or on-premises networks.
  */
-export const authorizeClientVpnIngress = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AuthorizeClientVpnIngressRequest,
-    output: AuthorizeClientVpnIngressResult,
-    errors: [],
-  }),
-);
+export const authorizeClientVpnIngress: (
+  input: AuthorizeClientVpnIngressRequest,
+) => Effect.Effect<
+  AuthorizeClientVpnIngressResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AuthorizeClientVpnIngressRequest,
+  output: AuthorizeClientVpnIngressResult,
+  errors: [],
+}));
 /**
  * Cancels one or more Spot Instance requests.
  *
  * Canceling a Spot Instance request does not terminate running Spot Instances
  * associated with the request.
  */
-export const cancelSpotInstanceRequests = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelSpotInstanceRequestsRequest,
-    output: CancelSpotInstanceRequestsResult,
-    errors: [],
-  }),
-);
+export const cancelSpotInstanceRequests: (
+  input: CancelSpotInstanceRequestsRequest,
+) => Effect.Effect<
+  CancelSpotInstanceRequestsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelSpotInstanceRequestsRequest,
+  output: CancelSpotInstanceRequestsResult,
+  errors: [],
+}));
 /**
  * Creates a Capacity Reservation Fleet. For more information, see Create a
  * Capacity Reservation Fleet in the
  * *Amazon EC2 User Guide*.
  */
-export const createCapacityReservationFleet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCapacityReservationFleetRequest,
-    output: CreateCapacityReservationFleetResult,
-    errors: [],
-  }));
+export const createCapacityReservationFleet: (
+  input: CreateCapacityReservationFleetRequest,
+) => Effect.Effect<
+  CreateCapacityReservationFleetResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCapacityReservationFleetRequest,
+  output: CreateCapacityReservationFleetResult,
+  errors: [],
+}));
 /**
  * Creates a carrier gateway. For more information about carrier gateways, see Carrier gateways in the *Amazon Web Services Wavelength Developer Guide*.
  */
-export const createCarrierGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCarrierGatewayRequest,
-    output: CreateCarrierGatewayResult,
-    errors: [InvalidVpcIDNotFound, ParseError],
-  }),
-);
+export const createCarrierGateway: (
+  input: CreateCarrierGatewayRequest,
+) => Effect.Effect<
+  CreateCarrierGatewayResult,
+  InvalidVpcIDNotFound | ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCarrierGatewayRequest,
+  output: CreateCarrierGatewayResult,
+  errors: [InvalidVpcIDNotFound, ParseError],
+}));
 /**
  * Adds a route to a network to a Client VPN endpoint. Each Client VPN endpoint has a route table that describes the
  * available destination network routes. Each route in the route table specifies the path for traﬃc to speciﬁc resources or networks.
  */
-export const createClientVpnRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateClientVpnRouteRequest,
-    output: CreateClientVpnRouteResult,
-    errors: [],
-  }),
-);
+export const createClientVpnRoute: (
+  input: CreateClientVpnRouteRequest,
+) => Effect.Effect<
+  CreateClientVpnRouteResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateClientVpnRouteRequest,
+  output: CreateClientVpnRouteResult,
+  errors: [],
+}));
 /**
  * Creates a range of customer-owned IP addresses.
  */
-export const createCoipCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCoipCidr: (
+  input: CreateCoipCidrRequest,
+) => Effect.Effect<
+  CreateCoipCidrResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoipCidrRequest,
   output: CreateCoipCidrResult,
   errors: [],
@@ -71326,7 +74724,13 @@ export const createCoipCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a pool of customer-owned IP (CoIP) addresses.
  */
-export const createCoipPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCoipPool: (
+  input: CreateCoipPoolRequest,
+) => Effect.Effect<
+  CreateCoipPoolResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoipPoolRequest,
   output: CreateCoipPoolResult,
   errors: [],
@@ -71349,13 +74753,17 @@ export const createCoipPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * returns information about the existing customer gateway; it doesn't create a new customer
  * gateway.
  */
-export const createCustomerGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCustomerGatewayRequest,
-    output: CreateCustomerGatewayResult,
-    errors: [ParseError],
-  }),
-);
+export const createCustomerGateway: (
+  input: CreateCustomerGatewayRequest,
+) => Effect.Effect<
+  CreateCustomerGatewayResult,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomerGatewayRequest,
+  output: CreateCustomerGatewayResult,
+  errors: [ParseError],
+}));
 /**
  * Creates a default VPC with a size `/16` IPv4 CIDR block and a default subnet
  * in each Availability Zone. For more information about the components of a default VPC,
@@ -71366,7 +74774,13 @@ export const createCustomerGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * If you deleted your previous default VPC, you can create a default VPC. You cannot have
  * more than one default VPC per Region.
  */
-export const createDefaultVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDefaultVpc: (
+  input: CreateDefaultVpcRequest,
+) => Effect.Effect<
+  CreateDefaultVpcResult,
+  DefaultVpcAlreadyExists | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDefaultVpcRequest,
   output: CreateDefaultVpcResult,
   errors: [DefaultVpcAlreadyExists],
@@ -71411,7 +74825,13 @@ export const createDefaultVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Acceptable values are between 140 and 2147483647 seconds (approximately 68 years). If no value is entered, the default lease time is 140 seconds. If you use long-term addressing for EC2 instances, you can increase the lease time and avoid frequent
  * lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
  */
-export const createDhcpOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDhcpOptions: (
+  input: CreateDhcpOptionsRequest,
+) => Effect.Effect<
+  CreateDhcpOptionsResult,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDhcpOptionsRequest,
   output: CreateDhcpOptionsResult,
   errors: [ParseError],
@@ -71433,7 +74853,13 @@ export const createDhcpOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see VPC Flow Logs
  * in the *Amazon VPC User Guide*.
  */
-export const createFlowLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFlowLogs: (
+  input: CreateFlowLogsRequest,
+) => Effect.Effect<
+  CreateFlowLogsResult,
+  InvalidID | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFlowLogsRequest,
   output: CreateFlowLogsResult,
   errors: [InvalidID],
@@ -71448,7 +74874,13 @@ export const createFlowLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can securely deploy an AFI on multiple FPGA-accelerated instances.
  * For more information, see the Amazon Web Services FPGA Hardware Development Kit.
  */
-export const createFpgaImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFpgaImage: (
+  input: CreateFpgaImageRequest,
+) => Effect.Effect<
+  CreateFpgaImageResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFpgaImageRequest,
   output: CreateFpgaImageResult,
   errors: [],
@@ -71478,13 +74910,17 @@ export const createFpgaImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Define event windows for scheduled
  * events in the *Amazon EC2 User Guide*.
  */
-export const createInstanceEventWindow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateInstanceEventWindowRequest,
-    output: CreateInstanceEventWindowResult,
-    errors: [],
-  }),
-);
+export const createInstanceEventWindow: (
+  input: CreateInstanceEventWindowRequest,
+) => Effect.Effect<
+  CreateInstanceEventWindowResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInstanceEventWindowRequest,
+  output: CreateInstanceEventWindowResult,
+  errors: [],
+}));
 /**
  * Exports a running or stopped instance to an Amazon S3 bucket.
  *
@@ -71492,13 +74928,17 @@ export const createInstanceEventWindow = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * image formats, and known limitations for the types of instances you can export, see Exporting an instance as a VM Using VM
  * Import/Export in the *VM Import/Export User Guide*.
  */
-export const createInstanceExportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateInstanceExportTaskRequest,
-    output: CreateInstanceExportTaskResult,
-    errors: [],
-  }),
-);
+export const createInstanceExportTask: (
+  input: CreateInstanceExportTaskRequest,
+) => Effect.Effect<
+  CreateInstanceExportTaskResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInstanceExportTaskRequest,
+  output: CreateInstanceExportTaskResult,
+  errors: [],
+}));
 /**
  * Creates an internet gateway for use with a VPC. After creating the internet gateway,
  * you attach it to a VPC using AttachInternetGateway.
@@ -71506,13 +74946,17 @@ export const createInstanceExportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Internet gateways in the
  * *Amazon VPC User Guide*.
  */
-export const createInternetGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateInternetGatewayRequest,
-    output: CreateInternetGatewayResult,
-    errors: [ParseError],
-  }),
-);
+export const createInternetGateway: (
+  input: CreateInternetGatewayRequest,
+) => Effect.Effect<
+  CreateInternetGatewayResult,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInternetGatewayRequest,
+  output: CreateInternetGatewayResult,
+  errors: [ParseError],
+}));
 /**
  * Create an IPAM. Amazon VPC IP Address Manager (IPAM) is a VPC feature that you can use
  * to automate your IP address management workflows including assigning, tracking,
@@ -71521,7 +74965,13 @@ export const createInternetGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information, see Create an IPAM in the *Amazon VPC IPAM User Guide*.
  */
-export const createIpam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIpam: (
+  input: CreateIpamRequest,
+) => Effect.Effect<
+  CreateIpamResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIpamRequest,
   output: CreateIpamResult,
   errors: [],
@@ -71531,12 +74981,17 @@ export const createIpam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
  */
-export const createIpamExternalResourceVerificationToken =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateIpamExternalResourceVerificationTokenRequest,
-    output: CreateIpamExternalResourceVerificationTokenResult,
-    errors: [],
-  }));
+export const createIpamExternalResourceVerificationToken: (
+  input: CreateIpamExternalResourceVerificationTokenRequest,
+) => Effect.Effect<
+  CreateIpamExternalResourceVerificationTokenResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIpamExternalResourceVerificationTokenRequest,
+  output: CreateIpamExternalResourceVerificationTokenResult,
+  errors: [],
+}));
 /**
  * Creates an IPAM policy.
  *
@@ -71544,7 +74999,13 @@ export const createIpamExternalResourceVerificationToken =
  *
  * For more information, see Define public IPv4 allocation strategy with IPAM policies in the *Amazon VPC IPAM User Guide*.
  */
-export const createIpamPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIpamPolicy: (
+  input: CreateIpamPolicyRequest,
+) => Effect.Effect<
+  CreateIpamPolicyResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIpamPolicyRequest,
   output: CreateIpamPolicyResult,
   errors: [],
@@ -71554,7 +75015,13 @@ export const createIpamPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Create a top-level pool in the *Amazon VPC IPAM User Guide*.
  */
-export const createIpamPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIpamPool: (
+  input: CreateIpamPoolRequest,
+) => Effect.Effect<
+  CreateIpamPoolResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIpamPoolRequest,
   output: CreateIpamPoolResult,
   errors: [],
@@ -71566,18 +75033,29 @@ export const createIpamPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about IPAM prefix list resolver, see Automate prefix list updates with IPAM in the *Amazon VPC IPAM User Guide*.
  */
-export const createIpamPrefixListResolverTarget =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateIpamPrefixListResolverTargetRequest,
-    output: CreateIpamPrefixListResolverTargetResult,
-    errors: [],
-  }));
+export const createIpamPrefixListResolverTarget: (
+  input: CreateIpamPrefixListResolverTargetRequest,
+) => Effect.Effect<
+  CreateIpamPrefixListResolverTargetResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIpamPrefixListResolverTargetRequest,
+  output: CreateIpamPrefixListResolverTargetResult,
+  errors: [],
+}));
 /**
  * Create an IPAM scope. In IPAM, a scope is the highest-level container within IPAM. An IPAM contains two default scopes. Each scope represents the IP space for a single network. The private scope is intended for all private IP address space. The public scope is intended for all public IP address space. Scopes enable you to reuse IP addresses across multiple unconnected networks without causing IP address overlap or conflict.
  *
  * For more information, see Add a scope in the *Amazon VPC IPAM User Guide*.
  */
-export const createIpamScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIpamScope: (
+  input: CreateIpamScopeRequest,
+) => Effect.Effect<
+  CreateIpamScopeResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIpamScopeRequest,
   output: CreateIpamScopeResult,
   errors: [],
@@ -71590,49 +75068,73 @@ export const createIpamScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `NetworkInterfaceId`
  */
-export const createLocalGatewayRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLocalGatewayRouteRequest,
-    output: CreateLocalGatewayRouteResult,
-    errors: [],
-  }),
-);
+export const createLocalGatewayRoute: (
+  input: CreateLocalGatewayRouteRequest,
+) => Effect.Effect<
+  CreateLocalGatewayRouteResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLocalGatewayRouteRequest,
+  output: CreateLocalGatewayRouteResult,
+  errors: [],
+}));
 /**
  * Creates a local gateway route table virtual interface group association.
  */
-export const createLocalGatewayRouteTableVirtualInterfaceGroupAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
-    output: CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult,
-    errors: [],
-  }));
+export const createLocalGatewayRouteTableVirtualInterfaceGroupAssociation: (
+  input: CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
+) => Effect.Effect<
+  CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
+  output: CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult,
+  errors: [],
+}));
 /**
  * Associates the specified VPC with the specified local gateway route table.
  */
-export const createLocalGatewayRouteTableVpcAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLocalGatewayRouteTableVpcAssociationRequest,
-    output: CreateLocalGatewayRouteTableVpcAssociationResult,
-    errors: [],
-  }));
+export const createLocalGatewayRouteTableVpcAssociation: (
+  input: CreateLocalGatewayRouteTableVpcAssociationRequest,
+) => Effect.Effect<
+  CreateLocalGatewayRouteTableVpcAssociationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLocalGatewayRouteTableVpcAssociationRequest,
+  output: CreateLocalGatewayRouteTableVpcAssociationResult,
+  errors: [],
+}));
 /**
  * Create a virtual interface for a local gateway.
  */
-export const createLocalGatewayVirtualInterface =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLocalGatewayVirtualInterfaceRequest,
-    output: CreateLocalGatewayVirtualInterfaceResult,
-    errors: [],
-  }));
+export const createLocalGatewayVirtualInterface: (
+  input: CreateLocalGatewayVirtualInterfaceRequest,
+) => Effect.Effect<
+  CreateLocalGatewayVirtualInterfaceResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLocalGatewayVirtualInterfaceRequest,
+  output: CreateLocalGatewayVirtualInterfaceResult,
+  errors: [],
+}));
 /**
  * Create a local gateway virtual interface group.
  */
-export const createLocalGatewayVirtualInterfaceGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLocalGatewayVirtualInterfaceGroupRequest,
-    output: CreateLocalGatewayVirtualInterfaceGroupResult,
-    errors: [],
-  }));
+export const createLocalGatewayVirtualInterfaceGroup: (
+  input: CreateLocalGatewayVirtualInterfaceGroupRequest,
+) => Effect.Effect<
+  CreateLocalGatewayVirtualInterfaceGroupResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLocalGatewayVirtualInterfaceGroupRequest,
+  output: CreateLocalGatewayVirtualInterfaceGroupResult,
+  errors: [],
+}));
 /**
  * Creates a System Integrity Protection (SIP) modification task to configure the SIP settings
  * for an x86 Mac instance or Apple silicon Mac instance. For more information, see
@@ -71669,23 +75171,32 @@ export const createLocalGatewayVirtualInterfaceGroup =
  *
  * - `MacSystemIntegrityProtectionConfigurationRequest "NvramProtections=disabled"`
  */
-export const createMacSystemIntegrityProtectionModificationTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateMacSystemIntegrityProtectionModificationTaskRequest,
-    output: CreateMacSystemIntegrityProtectionModificationTaskResult,
-    errors: [],
-  }));
+export const createMacSystemIntegrityProtectionModificationTask: (
+  input: CreateMacSystemIntegrityProtectionModificationTaskRequest,
+) => Effect.Effect<
+  CreateMacSystemIntegrityProtectionModificationTaskResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMacSystemIntegrityProtectionModificationTaskRequest,
+  output: CreateMacSystemIntegrityProtectionModificationTaskResult,
+  errors: [],
+}));
 /**
  * Creates a managed prefix list. You can specify entries for the prefix list.
  * Each entry consists of a CIDR block and an optional description.
  */
-export const createManagedPrefixList = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateManagedPrefixListRequest,
-    output: CreateManagedPrefixListResult,
-    errors: [ParseError],
-  }),
-);
+export const createManagedPrefixList: (
+  input: CreateManagedPrefixListRequest,
+) => Effect.Effect<
+  CreateManagedPrefixListResult,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateManagedPrefixListRequest,
+  output: CreateManagedPrefixListResult,
+  errors: [ParseError],
+}));
 /**
  * Creates a NAT gateway in the specified subnet. This action creates a network interface
  * in the specified subnet with a private IP address from the IP address range of the
@@ -71709,7 +75220,13 @@ export const createManagedPrefixList = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about network border groups and EIPs, see Allocate an Elastic IP address
  * in the *Amazon VPC User Guide*.
  */
-export const createNatGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createNatGateway: (
+  input: CreateNatGatewayRequest,
+) => Effect.Effect<
+  CreateNatGatewayResult,
+  InvalidSubnetIDNotFound | ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNatGatewayRequest,
   output: CreateNatGatewayResult,
   errors: [InvalidSubnetIDNotFound, ParseError],
@@ -71723,13 +75240,17 @@ export const createNatGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about network interfaces, see Elastic network interfaces in the
  * *Amazon EC2 User Guide*.
  */
-export const createNetworkInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateNetworkInterfaceRequest,
-    output: CreateNetworkInterfaceResult,
-    errors: [InvalidSubnetIDNotFound, ParseError],
-  }),
-);
+export const createNetworkInterface: (
+  input: CreateNetworkInterfaceRequest,
+) => Effect.Effect<
+  CreateNetworkInterfaceResult,
+  InvalidSubnetIDNotFound | ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNetworkInterfaceRequest,
+  output: CreateNetworkInterfaceResult,
+  errors: [InvalidSubnetIDNotFound, ParseError],
+}));
 /**
  * Creates a placement group in which to launch instances. The strategy of the placement
  * group determines how the instances are organized within the group.
@@ -71744,13 +75265,17 @@ export const createNetworkInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Placement groups in the
  * *Amazon EC2 User Guide*.
  */
-export const createPlacementGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePlacementGroupRequest,
-    output: CreatePlacementGroupResult,
-    errors: [],
-  }),
-);
+export const createPlacementGroup: (
+  input: CreatePlacementGroupRequest,
+) => Effect.Effect<
+  CreatePlacementGroupResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePlacementGroupRequest,
+  output: CreatePlacementGroupResult,
+  errors: [],
+}));
 /**
  * Replaces the EBS-backed root volume for a `running` instance with a new
  * volume that is restored to the original root volume's launch state, that is restored to a
@@ -71759,13 +75284,17 @@ export const createPlacementGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information, see Replace a root volume in the *Amazon EC2 User Guide*.
  */
-export const createReplaceRootVolumeTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateReplaceRootVolumeTaskRequest,
-    output: CreateReplaceRootVolumeTaskResult,
-    errors: [],
-  }),
-);
+export const createReplaceRootVolumeTask: (
+  input: CreateReplaceRootVolumeTaskRequest,
+) => Effect.Effect<
+  CreateReplaceRootVolumeTaskResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateReplaceRootVolumeTaskRequest,
+  output: CreateReplaceRootVolumeTaskResult,
+  errors: [],
+}));
 /**
  * Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved
  * Instance Marketplace. You can submit one Standard Reserved Instance listing at a time. To get
@@ -71789,12 +75318,17 @@ export const createReplaceRootVolumeTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Sell in the Reserved Instance
  * Marketplace in the *Amazon EC2 User Guide*.
  */
-export const createReservedInstancesListing =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateReservedInstancesListingRequest,
-    output: CreateReservedInstancesListingResult,
-    errors: [],
-  }));
+export const createReservedInstancesListing: (
+  input: CreateReservedInstancesListingRequest,
+) => Effect.Effect<
+  CreateReservedInstancesListingResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateReservedInstancesListingRequest,
+  output: CreateReservedInstancesListingResult,
+  errors: [],
+}));
 /**
  * Creates a new route server to manage dynamic routing in a VPC.
  *
@@ -71813,7 +75347,13 @@ export const createReservedInstancesListing =
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const createRouteServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRouteServer: (
+  input: CreateRouteServerRequest,
+) => Effect.Effect<
+  CreateRouteServerResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouteServerRequest,
   output: CreateRouteServerResult,
   errors: [],
@@ -71825,13 +75365,17 @@ export const createRouteServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const createRouteServerEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRouteServerEndpointRequest,
-    output: CreateRouteServerEndpointResult,
-    errors: [],
-  }),
-);
+export const createRouteServerEndpoint: (
+  input: CreateRouteServerEndpointRequest,
+) => Effect.Effect<
+  CreateRouteServerEndpointResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRouteServerEndpointRequest,
+  output: CreateRouteServerEndpointResult,
+  errors: [],
+}));
 /**
  * Creates a new BGP peer for a specified route server endpoint.
  *
@@ -71845,13 +75389,17 @@ export const createRouteServerEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const createRouteServerPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRouteServerPeerRequest,
-    output: CreateRouteServerPeerResult,
-    errors: [],
-  }),
-);
+export const createRouteServerPeer: (
+  input: CreateRouteServerPeerRequest,
+) => Effect.Effect<
+  CreateRouteServerPeerResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRouteServerPeerRequest,
+  output: CreateRouteServerPeerResult,
+  errors: [],
+}));
 /**
  * Stores an AMI as a single object in an Amazon S3 bucket.
  *
@@ -71861,25 +75409,33 @@ export const createRouteServerPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Store and restore an AMI using
  * S3 in the *Amazon EC2 User Guide*.
  */
-export const createStoreImageTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateStoreImageTaskRequest,
-    output: CreateStoreImageTaskResult,
-    errors: [],
-  }),
-);
+export const createStoreImageTask: (
+  input: CreateStoreImageTaskRequest,
+) => Effect.Effect<
+  CreateStoreImageTaskResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStoreImageTaskRequest,
+  output: CreateStoreImageTaskResult,
+  errors: [],
+}));
 /**
  * Creates a subnet CIDR reservation. For more information, see Subnet CIDR reservations
  * in the *Amazon VPC User Guide* and Manage prefixes
  * for your network interfaces in the *Amazon EC2 User Guide*.
  */
-export const createSubnetCidrReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSubnetCidrReservationRequest,
-    output: CreateSubnetCidrReservationResult,
-    errors: [],
-  }),
-);
+export const createSubnetCidrReservation: (
+  input: CreateSubnetCidrReservationRequest,
+) => Effect.Effect<
+  CreateSubnetCidrReservationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSubnetCidrReservationRequest,
+  output: CreateSubnetCidrReservationResult,
+  errors: [],
+}));
 /**
  * Creates a Traffic Mirror filter.
  *
@@ -71889,13 +75445,17 @@ export const createSubnetCidrReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * to add Traffic Mirror rules to the filter. The rules you add define what traffic gets mirrored.
  * You can also use ModifyTrafficMirrorFilterNetworkServices to mirror supported network services.
  */
-export const createTrafficMirrorFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTrafficMirrorFilterRequest,
-    output: CreateTrafficMirrorFilterResult,
-    errors: [],
-  }),
-);
+export const createTrafficMirrorFilter: (
+  input: CreateTrafficMirrorFilterRequest,
+) => Effect.Effect<
+  CreateTrafficMirrorFilterResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTrafficMirrorFilterRequest,
+  output: CreateTrafficMirrorFilterResult,
+  errors: [],
+}));
 /**
  * Creates a Traffic Mirror filter rule.
  *
@@ -71903,12 +75463,17 @@ export const createTrafficMirrorFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You need the Traffic Mirror filter ID when you create the rule.
  */
-export const createTrafficMirrorFilterRule =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTrafficMirrorFilterRuleRequest,
-    output: CreateTrafficMirrorFilterRuleResult,
-    errors: [],
-  }));
+export const createTrafficMirrorFilterRule: (
+  input: CreateTrafficMirrorFilterRuleRequest,
+) => Effect.Effect<
+  CreateTrafficMirrorFilterRuleResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTrafficMirrorFilterRuleRequest,
+  output: CreateTrafficMirrorFilterRuleResult,
+  errors: [],
+}));
 /**
  * Creates a Traffic Mirror session.
  *
@@ -71921,13 +75486,17 @@ export const createTrafficMirrorFilterRule =
  * By default, no traffic is mirrored. Use CreateTrafficMirrorFilter to
  * create filter rules that specify the traffic to mirror.
  */
-export const createTrafficMirrorSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTrafficMirrorSessionRequest,
-    output: CreateTrafficMirrorSessionResult,
-    errors: [],
-  }),
-);
+export const createTrafficMirrorSession: (
+  input: CreateTrafficMirrorSessionRequest,
+) => Effect.Effect<
+  CreateTrafficMirrorSessionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTrafficMirrorSessionRequest,
+  output: CreateTrafficMirrorSessionResult,
+  errors: [],
+}));
 /**
  * Creates a target for your Traffic Mirror session.
  *
@@ -71939,13 +75508,17 @@ export const createTrafficMirrorSession = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To use the target in a Traffic Mirror session, use CreateTrafficMirrorSession.
  */
-export const createTrafficMirrorTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTrafficMirrorTargetRequest,
-    output: CreateTrafficMirrorTargetResult,
-    errors: [],
-  }),
-);
+export const createTrafficMirrorTarget: (
+  input: CreateTrafficMirrorTargetRequest,
+) => Effect.Effect<
+  CreateTrafficMirrorTargetResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTrafficMirrorTargetRequest,
+  output: CreateTrafficMirrorTargetResult,
+  errors: [],
+}));
 /**
  * Creates a transit gateway.
  *
@@ -71965,25 +75538,33 @@ export const createTrafficMirrorTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can use EnableTransitGatewayRouteTablePropagation to propagate routes from a resource
  * attachment to a transit gateway route table. If you disable automatic associations, you can use AssociateTransitGatewayRouteTable to associate a resource attachment with a transit gateway route table.
  */
-export const createTransitGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTransitGatewayRequest,
-    output: CreateTransitGatewayResult,
-    errors: [ParseError],
-  }),
-);
+export const createTransitGateway: (
+  input: CreateTransitGatewayRequest,
+) => Effect.Effect<
+  CreateTransitGatewayResult,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitGatewayRequest,
+  output: CreateTransitGatewayResult,
+  errors: [ParseError],
+}));
 /**
  * Creates a Connect attachment from a specified transit gateway attachment. A Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a transit gateway and an appliance.
  *
  * A Connect attachment uses an existing VPC or Amazon Web Services Direct Connect attachment as the underlying transport mechanism.
  */
-export const createTransitGatewayConnect = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTransitGatewayConnectRequest,
-    output: CreateTransitGatewayConnectResult,
-    errors: [],
-  }),
-);
+export const createTransitGatewayConnect: (
+  input: CreateTransitGatewayConnectRequest,
+) => Effect.Effect<
+  CreateTransitGatewayConnectResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitGatewayConnectRequest,
+  output: CreateTransitGatewayConnectResult,
+  errors: [],
+}));
 /**
  * Creates a Connect peer for a specified transit gateway Connect attachment between a
  * transit gateway and an appliance.
@@ -71993,32 +75574,47 @@ export const createTransitGatewayConnect = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Connect peers
  * in the *Amazon Web Services Transit Gateways Guide*.
  */
-export const createTransitGatewayConnectPeer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTransitGatewayConnectPeerRequest,
-    output: CreateTransitGatewayConnectPeerResult,
-    errors: [],
-  }));
+export const createTransitGatewayConnectPeer: (
+  input: CreateTransitGatewayConnectPeerRequest,
+) => Effect.Effect<
+  CreateTransitGatewayConnectPeerResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitGatewayConnectPeerRequest,
+  output: CreateTransitGatewayConnectPeerResult,
+  errors: [],
+}));
 /**
  * Creates a metering policy for a transit gateway to track and measure network traffic.
  */
-export const createTransitGatewayMeteringPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTransitGatewayMeteringPolicyRequest,
-    output: CreateTransitGatewayMeteringPolicyResult,
-    errors: [],
-  }));
+export const createTransitGatewayMeteringPolicy: (
+  input: CreateTransitGatewayMeteringPolicyRequest,
+) => Effect.Effect<
+  CreateTransitGatewayMeteringPolicyResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitGatewayMeteringPolicyRequest,
+  output: CreateTransitGatewayMeteringPolicyResult,
+  errors: [],
+}));
 /**
  * Creates a multicast domain using the specified transit gateway.
  *
  * The transit gateway must be in the available state before you create a domain. Use DescribeTransitGateways to see the state of transit gateway.
  */
-export const createTransitGatewayMulticastDomain =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTransitGatewayMulticastDomainRequest,
-    output: CreateTransitGatewayMulticastDomainResult,
-    errors: [],
-  }));
+export const createTransitGatewayMulticastDomain: (
+  input: CreateTransitGatewayMulticastDomainRequest,
+) => Effect.Effect<
+  CreateTransitGatewayMulticastDomainResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitGatewayMulticastDomainRequest,
+  output: CreateTransitGatewayMulticastDomainResult,
+  errors: [],
+}));
 /**
  * Requests a transit gateway peering attachment between the specified transit gateway
  * (requester) and a peer transit gateway (accepter). The peer transit gateway can be in
@@ -72027,39 +75623,59 @@ export const createTransitGatewayMulticastDomain =
  * After you create the peering attachment, the owner of the accepter transit gateway
  * must accept the attachment request.
  */
-export const createTransitGatewayPeeringAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTransitGatewayPeeringAttachmentRequest,
-    output: CreateTransitGatewayPeeringAttachmentResult,
-    errors: [],
-  }));
+export const createTransitGatewayPeeringAttachment: (
+  input: CreateTransitGatewayPeeringAttachmentRequest,
+) => Effect.Effect<
+  CreateTransitGatewayPeeringAttachmentResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitGatewayPeeringAttachmentRequest,
+  output: CreateTransitGatewayPeeringAttachmentResult,
+  errors: [],
+}));
 /**
  * Creates a transit gateway policy table.
  */
-export const createTransitGatewayPolicyTable =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTransitGatewayPolicyTableRequest,
-    output: CreateTransitGatewayPolicyTableResult,
-    errors: [],
-  }));
+export const createTransitGatewayPolicyTable: (
+  input: CreateTransitGatewayPolicyTableRequest,
+) => Effect.Effect<
+  CreateTransitGatewayPolicyTableResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitGatewayPolicyTableRequest,
+  output: CreateTransitGatewayPolicyTableResult,
+  errors: [],
+}));
 /**
  * Creates a route table for the specified transit gateway.
  */
-export const createTransitGatewayRouteTable =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTransitGatewayRouteTableRequest,
-    output: CreateTransitGatewayRouteTableResult,
-    errors: [ParseError],
-  }));
+export const createTransitGatewayRouteTable: (
+  input: CreateTransitGatewayRouteTableRequest,
+) => Effect.Effect<
+  CreateTransitGatewayRouteTableResult,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitGatewayRouteTableRequest,
+  output: CreateTransitGatewayRouteTableResult,
+  errors: [ParseError],
+}));
 /**
  * Advertises a new transit gateway route table.
  */
-export const createTransitGatewayRouteTableAnnouncement =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTransitGatewayRouteTableAnnouncementRequest,
-    output: CreateTransitGatewayRouteTableAnnouncementResult,
-    errors: [],
-  }));
+export const createTransitGatewayRouteTableAnnouncement: (
+  input: CreateTransitGatewayRouteTableAnnouncementRequest,
+) => Effect.Effect<
+  CreateTransitGatewayRouteTableAnnouncementResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitGatewayRouteTableAnnouncementRequest,
+  output: CreateTransitGatewayRouteTableAnnouncementResult,
+  errors: [],
+}));
 /**
  * Attaches the specified VPC to the specified transit gateway.
  *
@@ -72068,37 +75684,51 @@ export const createTransitGatewayRouteTableAnnouncement =
  *
  * To send VPC traffic to an attached transit gateway, add a route to the VPC route table using CreateRoute.
  */
-export const createTransitGatewayVpcAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTransitGatewayVpcAttachmentRequest,
-    output: CreateTransitGatewayVpcAttachmentResult,
-    errors: [InvalidTransitGatewayIDNotFound],
-  }));
+export const createTransitGatewayVpcAttachment: (
+  input: CreateTransitGatewayVpcAttachmentRequest,
+) => Effect.Effect<
+  CreateTransitGatewayVpcAttachmentResult,
+  InvalidTransitGatewayIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitGatewayVpcAttachmentRequest,
+  output: CreateTransitGatewayVpcAttachmentResult,
+  errors: [InvalidTransitGatewayIDNotFound],
+}));
 /**
  * An Amazon Web Services Verified Access group is a collection of Amazon Web Services Verified Access endpoints who's associated applications have
  * similar security requirements. Each instance within a Verified Access group shares an Verified Access policy. For
  * example, you can group all Verified Access instances associated with "sales" applications together and
  * use one common Verified Access policy.
  */
-export const createVerifiedAccessGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVerifiedAccessGroupRequest,
-    output: CreateVerifiedAccessGroupResult,
-    errors: [],
-  }),
-);
+export const createVerifiedAccessGroup: (
+  input: CreateVerifiedAccessGroupRequest,
+) => Effect.Effect<
+  CreateVerifiedAccessGroupResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVerifiedAccessGroupRequest,
+  output: CreateVerifiedAccessGroupResult,
+  errors: [],
+}));
 /**
  * A trust provider is a third-party entity that creates, maintains, and manages identity
  * information for users and devices. When an application request is made, the identity
  * information sent by the trust provider is evaluated by Verified Access before allowing or
  * denying the application request.
  */
-export const createVerifiedAccessTrustProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateVerifiedAccessTrustProviderRequest,
-    output: CreateVerifiedAccessTrustProviderResult,
-    errors: [],
-  }));
+export const createVerifiedAccessTrustProvider: (
+  input: CreateVerifiedAccessTrustProviderRequest,
+) => Effect.Effect<
+  CreateVerifiedAccessTrustProviderResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVerifiedAccessTrustProviderRequest,
+  output: CreateVerifiedAccessTrustProviderResult,
+  errors: [],
+}));
 /**
  * Creates an EBS volume that can be attached to an instance in the same Availability Zone.
  *
@@ -72116,7 +75746,13 @@ export const createVerifiedAccessTrustProvider =
  * For more information, see Create an Amazon EBS volume in the
  * *Amazon EBS User Guide*.
  */
-export const createVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVolume: (
+  input: CreateVolumeRequest,
+) => Effect.Effect<
+  Volume,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVolumeRequest,
   output: Volume,
   errors: [],
@@ -72139,7 +75775,13 @@ export const createVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the tenancy of a VPC after you create it. For more information, see VPC configuration options in the
  * *Amazon VPC User Guide*.
  */
-export const createVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVpc: (
+  input: CreateVpcRequest,
+) => Effect.Effect<
+  CreateVpcResult,
+  InvalidParameterValue | ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcRequest,
   output: CreateVpcResult,
   errors: [InvalidParameterValue, ParseError],
@@ -72147,19 +75789,30 @@ export const createVpc = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
-export const createVpcBlockPublicAccessExclusion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateVpcBlockPublicAccessExclusionRequest,
-    output: CreateVpcBlockPublicAccessExclusionResult,
-    errors: [],
-  }));
+export const createVpcBlockPublicAccessExclusion: (
+  input: CreateVpcBlockPublicAccessExclusionRequest,
+) => Effect.Effect<
+  CreateVpcBlockPublicAccessExclusionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVpcBlockPublicAccessExclusionRequest,
+  output: CreateVpcBlockPublicAccessExclusionResult,
+  errors: [],
+}));
 /**
  * Creates a VPC endpoint. A VPC endpoint provides a private connection between the
  * specified VPC and the specified endpoint service. You can use an endpoint service
  * provided by Amazon Web Services, an Amazon Web Services Marketplace Partner, or another
  * Amazon Web Services account. For more information, see the Amazon Web Services PrivateLink User Guide.
  */
-export const createVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVpcEndpoint: (
+  input: CreateVpcEndpointRequest,
+) => Effect.Effect<
+  CreateVpcEndpointResult,
+  InvalidVpcIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcEndpointRequest,
   output: CreateVpcEndpointResult,
   errors: [InvalidVpcIDNotFound],
@@ -72172,22 +75825,31 @@ export const createVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can create a connection notification for interface endpoints only.
  */
-export const createVpcEndpointConnectionNotification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateVpcEndpointConnectionNotificationRequest,
-    output: CreateVpcEndpointConnectionNotificationResult,
-    errors: [],
-  }));
+export const createVpcEndpointConnectionNotification: (
+  input: CreateVpcEndpointConnectionNotificationRequest,
+) => Effect.Effect<
+  CreateVpcEndpointConnectionNotificationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVpcEndpointConnectionNotificationRequest,
+  output: CreateVpcEndpointConnectionNotificationResult,
+  errors: [],
+}));
 /**
  * Creates a VPN concentrator that aggregates multiple VPN connections to a transit gateway.
  */
-export const createVpnConcentrator = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVpnConcentratorRequest,
-    output: CreateVpnConcentratorResult,
-    errors: [],
-  }),
-);
+export const createVpnConcentrator: (
+  input: CreateVpnConcentratorRequest,
+) => Effect.Effect<
+  CreateVpnConcentratorResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVpnConcentratorRequest,
+  output: CreateVpnConcentratorResult,
+  errors: [],
+}));
 /**
  * Creates a virtual private gateway. A virtual private gateway is the endpoint on the
  * VPC side of your VPN connection. You can create a virtual private gateway before
@@ -72196,7 +75858,13 @@ export const createVpnConcentrator = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN
  * User Guide.
  */
-export const createVpnGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVpnGateway: (
+  input: CreateVpnGatewayRequest,
+) => Effect.Effect<
+  CreateVpnGatewayResult,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpnGatewayRequest,
   output: CreateVpnGatewayResult,
   errors: [ParseError],
@@ -72205,32 +75873,46 @@ export const createVpnGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes the specified Client VPN endpoint. You must disassociate all target networks before you
  * can delete a Client VPN endpoint.
  */
-export const deleteClientVpnEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteClientVpnEndpointRequest,
-    output: DeleteClientVpnEndpointResult,
-    errors: [],
-  }),
-);
+export const deleteClientVpnEndpoint: (
+  input: DeleteClientVpnEndpointRequest,
+) => Effect.Effect<
+  DeleteClientVpnEndpointResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClientVpnEndpointRequest,
+  output: DeleteClientVpnEndpointResult,
+  errors: [],
+}));
 /**
  * Deletes the specified event window.
  *
  * For more information, see Define event windows for scheduled
  * events in the *Amazon EC2 User Guide*.
  */
-export const deleteInstanceEventWindow = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInstanceEventWindowRequest,
-    output: DeleteInstanceEventWindowResult,
-    errors: [],
-  }),
-);
+export const deleteInstanceEventWindow: (
+  input: DeleteInstanceEventWindowRequest,
+) => Effect.Effect<
+  DeleteInstanceEventWindowResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInstanceEventWindowRequest,
+  output: DeleteInstanceEventWindowResult,
+  errors: [],
+}));
 /**
  * Delete an IPAM. Deleting an IPAM removes all monitored data associated with the IPAM including the historical data for CIDRs.
  *
  * For more information, see Delete an IPAM in the *Amazon VPC IPAM User Guide*.
  */
-export const deleteIpam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIpam: (
+  input: DeleteIpamRequest,
+) => Effect.Effect<
+  DeleteIpamResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIpamRequest,
   output: DeleteIpamResult,
   errors: [],
@@ -72238,44 +75920,63 @@ export const deleteIpam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an IPAM prefix list resolver. Before deleting a resolver, you must first delete all resolver targets associated with it.
  */
-export const deleteIpamPrefixListResolver =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteIpamPrefixListResolverRequest,
-    output: DeleteIpamPrefixListResolverResult,
-    errors: [],
-  }));
+export const deleteIpamPrefixListResolver: (
+  input: DeleteIpamPrefixListResolverRequest,
+) => Effect.Effect<
+  DeleteIpamPrefixListResolverResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIpamPrefixListResolverRequest,
+  output: DeleteIpamPrefixListResolverResult,
+  errors: [],
+}));
 /**
  * Deletes a launch template. Deleting a launch template deletes all of its
  * versions.
  */
-export const deleteLaunchTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLaunchTemplateRequest,
-    output: DeleteLaunchTemplateResult,
-    errors: [InvalidLaunchTemplateNameNotFoundException, MissingParameter],
-  }),
-);
+export const deleteLaunchTemplate: (
+  input: DeleteLaunchTemplateRequest,
+) => Effect.Effect<
+  DeleteLaunchTemplateResult,
+  | InvalidLaunchTemplateNameNotFoundException
+  | MissingParameter
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLaunchTemplateRequest,
+  output: DeleteLaunchTemplateResult,
+  errors: [InvalidLaunchTemplateNameNotFoundException, MissingParameter],
+}));
 /**
  * Deletes the specified managed prefix list. You must first remove all references to the prefix list in your resources.
  */
-export const deleteManagedPrefixList = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteManagedPrefixListRequest,
-    output: DeleteManagedPrefixListResult,
-    errors: [ParseError],
-  }),
-);
+export const deleteManagedPrefixList: (
+  input: DeleteManagedPrefixListRequest,
+) => Effect.Effect<
+  DeleteManagedPrefixListResult,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteManagedPrefixListRequest,
+  output: DeleteManagedPrefixListResult,
+  errors: [ParseError],
+}));
 /**
  * Deprovisions your Autonomous System Number (ASN) from your Amazon Web Services account. This action can only be called after any BYOIP CIDR associations are removed from your Amazon Web Services account with DisassociateIpamByoasn.
  * For more information, see Tutorial: Bring your ASN to IPAM in the *Amazon VPC IPAM guide*.
  */
-export const deprovisionIpamByoasn = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeprovisionIpamByoasnRequest,
-    output: DeprovisionIpamByoasnResult,
-    errors: [],
-  }),
-);
+export const deprovisionIpamByoasn: (
+  input: DeprovisionIpamByoasnRequest,
+) => Effect.Effect<
+  DeprovisionIpamByoasnResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeprovisionIpamByoasnRequest,
+  output: DeprovisionIpamByoasnResult,
+  errors: [],
+}));
 /**
  * Deregisters the specified AMI. A deregistered AMI can't be used to launch new
  * instances.
@@ -72305,7 +76006,13 @@ export const deprovisionIpamByoasn = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Deregister an Amazon EC2 AMI in the
  * *Amazon EC2 User Guide*.
  */
-export const deregisterImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deregisterImage: (
+  input: DeregisterImageRequest,
+) => Effect.Effect<
+  DeregisterImageResult,
+  InvalidAMIIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterImageRequest,
   output: DeregisterImageResult,
   errors: [InvalidAMIIDNotFound],
@@ -72314,30 +76021,45 @@ export const deregisterImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deregisters tag keys to prevent tags that have the specified tag keys from being
  * included in scheduled event notifications for resources in the Region.
  */
-export const deregisterInstanceEventNotificationAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterInstanceEventNotificationAttributesRequest,
-    output: DeregisterInstanceEventNotificationAttributesResult,
-    errors: [],
-  }));
+export const deregisterInstanceEventNotificationAttributes: (
+  input: DeregisterInstanceEventNotificationAttributesRequest,
+) => Effect.Effect<
+  DeregisterInstanceEventNotificationAttributesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterInstanceEventNotificationAttributesRequest,
+  output: DeregisterInstanceEventNotificationAttributesResult,
+  errors: [],
+}));
 /**
  * Deregisters the specified members (network interfaces) from the transit gateway multicast group.
  */
-export const deregisterTransitGatewayMulticastGroupMembers =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterTransitGatewayMulticastGroupMembersRequest,
-    output: DeregisterTransitGatewayMulticastGroupMembersResult,
-    errors: [],
-  }));
+export const deregisterTransitGatewayMulticastGroupMembers: (
+  input: DeregisterTransitGatewayMulticastGroupMembersRequest,
+) => Effect.Effect<
+  DeregisterTransitGatewayMulticastGroupMembersResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterTransitGatewayMulticastGroupMembersRequest,
+  output: DeregisterTransitGatewayMulticastGroupMembersResult,
+  errors: [],
+}));
 /**
  * Deregisters the specified sources (network interfaces) from the transit gateway multicast group.
  */
-export const deregisterTransitGatewayMulticastGroupSources =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterTransitGatewayMulticastGroupSourcesRequest,
-    output: DeregisterTransitGatewayMulticastGroupSourcesResult,
-    errors: [],
-  }));
+export const deregisterTransitGatewayMulticastGroupSources: (
+  input: DeregisterTransitGatewayMulticastGroupSourcesRequest,
+) => Effect.Effect<
+  DeregisterTransitGatewayMulticastGroupSourcesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterTransitGatewayMulticastGroupSourcesRequest,
+  output: DeregisterTransitGatewayMulticastGroupSourcesResult,
+  errors: [],
+}));
 /**
  * Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the *Amazon VPC User Guide*.
  *
@@ -72351,18 +76073,39 @@ export const deregisterTransitGatewayMulticastGroupSources =
  * account. Accepted transfers are visible to the source account for 14 days
  * after the transfers have been accepted.
  */
-export const describeAddressTransfers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAddressTransfers: {
+  (
     input: DescribeAddressTransfersRequest,
-    output: DescribeAddressTransfersResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AddressTransfers",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAddressTransfersResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAddressTransfersRequest,
+  ) => Stream.Stream<
+    DescribeAddressTransfersResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAddressTransfersRequest,
+  ) => Stream.Stream<
+    AddressTransfer,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAddressTransfersRequest,
+  output: DescribeAddressTransfersResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AddressTransfers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the longer ID format settings for all resource types in a specific
  * Region. This request is useful for performing a quick audit to determine whether a
@@ -72384,60 +76127,127 @@ export const describeAddressTransfers =
  * `vpc-cidr-block-association` | `vpc-endpoint` |
  * `vpc-peering-connection` | `vpn-connection` | `vpn-gateway`.
  */
-export const describeAggregateIdFormat = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAggregateIdFormatRequest,
-    output: DescribeAggregateIdFormatResult,
-    errors: [],
-  }),
-);
+export const describeAggregateIdFormat: (
+  input: DescribeAggregateIdFormatRequest,
+) => Effect.Effect<
+  DescribeAggregateIdFormatResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAggregateIdFormatRequest,
+  output: DescribeAggregateIdFormatResult,
+  errors: [],
+}));
 /**
  * Describes the current Infrastructure Performance metric subscriptions.
  */
-export const describeAwsNetworkPerformanceMetricSubscriptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAwsNetworkPerformanceMetricSubscriptions: {
+  (
     input: DescribeAwsNetworkPerformanceMetricSubscriptionsRequest,
-    output: DescribeAwsNetworkPerformanceMetricSubscriptionsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Subscriptions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAwsNetworkPerformanceMetricSubscriptionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAwsNetworkPerformanceMetricSubscriptionsRequest,
+  ) => Stream.Stream<
+    DescribeAwsNetworkPerformanceMetricSubscriptionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAwsNetworkPerformanceMetricSubscriptionsRequest,
+  ) => Stream.Stream<
+    Subscription,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAwsNetworkPerformanceMetricSubscriptionsRequest,
+  output: DescribeAwsNetworkPerformanceMetricSubscriptionsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Subscriptions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the events for the specified Capacity Block extension during the specified
  * time.
  */
-export const describeCapacityBlockExtensionHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCapacityBlockExtensionHistory: {
+  (
     input: DescribeCapacityBlockExtensionHistoryRequest,
-    output: DescribeCapacityBlockExtensionHistoryResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CapacityBlockExtensions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeCapacityBlockExtensionHistoryResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCapacityBlockExtensionHistoryRequest,
+  ) => Stream.Stream<
+    DescribeCapacityBlockExtensionHistoryResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCapacityBlockExtensionHistoryRequest,
+  ) => Stream.Stream<
+    CapacityBlockExtension,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCapacityBlockExtensionHistoryRequest,
+  output: DescribeCapacityBlockExtensionHistoryResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CapacityBlockExtensions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes Capacity Block extension offerings available for purchase in the Amazon Web Services
  * Region that you're currently using.
  */
-export const describeCapacityBlockExtensionOfferings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCapacityBlockExtensionOfferings: {
+  (
     input: DescribeCapacityBlockExtensionOfferingsRequest,
-    output: DescribeCapacityBlockExtensionOfferingsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CapacityBlockExtensionOfferings",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeCapacityBlockExtensionOfferingsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCapacityBlockExtensionOfferingsRequest,
+  ) => Stream.Stream<
+    DescribeCapacityBlockExtensionOfferingsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCapacityBlockExtensionOfferingsRequest,
+  ) => Stream.Stream<
+    CapacityBlockExtensionOffering,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCapacityBlockExtensionOfferingsRequest,
+  output: DescribeCapacityBlockExtensionOfferingsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CapacityBlockExtensionOfferings",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you can
  * purchase a specific GPU instance type or EC2 UltraServer for a period of time.
@@ -72445,48 +76255,111 @@ export const describeCapacityBlockExtensionOfferings =
  * To search for an available Capacity Block offering, you specify a reservation duration
  * and instance count.
  */
-export const describeCapacityBlockOfferings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCapacityBlockOfferings: {
+  (
     input: DescribeCapacityBlockOfferingsRequest,
-    output: DescribeCapacityBlockOfferingsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CapacityBlockOfferings",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeCapacityBlockOfferingsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCapacityBlockOfferingsRequest,
+  ) => Stream.Stream<
+    DescribeCapacityBlockOfferingsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCapacityBlockOfferingsRequest,
+  ) => Stream.Stream<
+    CapacityBlockOffering,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCapacityBlockOfferingsRequest,
+  output: DescribeCapacityBlockOfferingsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CapacityBlockOfferings",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes details about Capacity Blocks in the Amazon Web Services Region that you're currently using.
  */
-export const describeCapacityBlocks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCapacityBlocks: {
+  (
     input: DescribeCapacityBlocksRequest,
-    output: DescribeCapacityBlocksResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CapacityBlocks",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeCapacityBlocksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCapacityBlocksRequest,
+  ) => Stream.Stream<
+    DescribeCapacityBlocksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCapacityBlocksRequest,
+  ) => Stream.Stream<
+    CapacityBlock,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCapacityBlocksRequest,
+  output: DescribeCapacityBlocksResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CapacityBlocks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more Capacity Manager data export configurations. Returns information about export settings, delivery status, and recent export activity.
  */
-export const describeCapacityManagerDataExports =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCapacityManagerDataExports: {
+  (
     input: DescribeCapacityManagerDataExportsRequest,
-    output: DescribeCapacityManagerDataExportsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CapacityManagerDataExports",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeCapacityManagerDataExportsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCapacityManagerDataExportsRequest,
+  ) => Stream.Stream<
+    DescribeCapacityManagerDataExportsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCapacityManagerDataExportsRequest,
+  ) => Stream.Stream<
+    CapacityManagerDataExportResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCapacityManagerDataExportsRequest,
+  output: DescribeCapacityManagerDataExportsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CapacityManagerDataExports",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes a tree-based hierarchy that represents the physical host placement of your
  * pending or active Capacity Reservations within an Availability Zone or Local Zone. You
@@ -72511,12 +76384,17 @@ export const describeCapacityManagerDataExports =
  * For more information, see Amazon EC2 topology in
  * the *Amazon EC2 User Guide*.
  */
-export const describeCapacityReservationTopology =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeCapacityReservationTopologyRequest,
-    output: DescribeCapacityReservationTopologyResult,
-    errors: [],
-  }));
+export const describeCapacityReservationTopology: (
+  input: DescribeCapacityReservationTopologyRequest,
+) => Effect.Effect<
+  DescribeCapacityReservationTopologyResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCapacityReservationTopologyRequest,
+  output: DescribeCapacityReservationTopologyResult,
+  errors: [],
+}));
 /**
  * This action is deprecated.
  *
@@ -72524,63 +76402,147 @@ export const describeCapacityReservationTopology =
  * information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot
  * use this request to return information about other instances.
  */
-export const describeClassicLinkInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClassicLinkInstances: {
+  (
     input: DescribeClassicLinkInstancesRequest,
-    output: DescribeClassicLinkInstancesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Instances",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeClassicLinkInstancesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClassicLinkInstancesRequest,
+  ) => Stream.Stream<
+    DescribeClassicLinkInstancesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClassicLinkInstancesRequest,
+  ) => Stream.Stream<
+    ClassicLinkInstance,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClassicLinkInstancesRequest,
+  output: DescribeClassicLinkInstancesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Instances",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the authorization rules for a specified Client VPN endpoint.
  */
-export const describeClientVpnAuthorizationRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClientVpnAuthorizationRules: {
+  (
     input: DescribeClientVpnAuthorizationRulesRequest,
-    output: DescribeClientVpnAuthorizationRulesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AuthorizationRules",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeClientVpnAuthorizationRulesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClientVpnAuthorizationRulesRequest,
+  ) => Stream.Stream<
+    DescribeClientVpnAuthorizationRulesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClientVpnAuthorizationRulesRequest,
+  ) => Stream.Stream<
+    AuthorizationRule,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClientVpnAuthorizationRulesRequest,
+  output: DescribeClientVpnAuthorizationRulesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AuthorizationRules",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the routes for the specified Client VPN endpoint.
  */
-export const describeClientVpnRoutes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClientVpnRoutes: {
+  (
     input: DescribeClientVpnRoutesRequest,
-    output: DescribeClientVpnRoutesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Routes",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeClientVpnRoutesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClientVpnRoutesRequest,
+  ) => Stream.Stream<
+    DescribeClientVpnRoutesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClientVpnRoutesRequest,
+  ) => Stream.Stream<
+    ClientVpnRoute,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClientVpnRoutesRequest,
+  output: DescribeClientVpnRoutesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Routes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the target networks associated with the specified Client VPN endpoint.
  */
-export const describeClientVpnTargetNetworks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClientVpnTargetNetworks: {
+  (
     input: DescribeClientVpnTargetNetworksRequest,
-    output: DescribeClientVpnTargetNetworksResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ClientVpnTargetNetworks",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeClientVpnTargetNetworksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClientVpnTargetNetworksRequest,
+  ) => Stream.Stream<
+    DescribeClientVpnTargetNetworksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClientVpnTargetNetworksRequest,
+  ) => Stream.Stream<
+    TargetNetwork,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClientVpnTargetNetworksRequest,
+  output: DescribeClientVpnTargetNetworksResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ClientVpnTargetNetworks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the metadata of an account status report, including the status of the
  * report.
@@ -72595,42 +76557,89 @@ export const describeClientVpnTargetNetworks =
  * For more information, see Generating the account status report for declarative policies in the
  * *Amazon Web Services Organizations User Guide*.
  */
-export const describeDeclarativePoliciesReports =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDeclarativePoliciesReportsRequest,
-    output: DescribeDeclarativePoliciesReportsResult,
-    errors: [],
-  }));
+export const describeDeclarativePoliciesReports: (
+  input: DescribeDeclarativePoliciesReportsRequest,
+) => Effect.Effect<
+  DescribeDeclarativePoliciesReportsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDeclarativePoliciesReportsRequest,
+  output: DescribeDeclarativePoliciesReportsResult,
+  errors: [],
+}));
 /**
  * Describe details for Windows AMIs that are configured for Windows fast launch.
  */
-export const describeFastLaunchImages =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeFastLaunchImages: {
+  (
     input: DescribeFastLaunchImagesRequest,
-    output: DescribeFastLaunchImagesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FastLaunchImages",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeFastLaunchImagesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFastLaunchImagesRequest,
+  ) => Stream.Stream<
+    DescribeFastLaunchImagesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFastLaunchImagesRequest,
+  ) => Stream.Stream<
+    DescribeFastLaunchImagesSuccessItem,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFastLaunchImagesRequest,
+  output: DescribeFastLaunchImagesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FastLaunchImages",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the state of fast snapshot restores for your snapshots.
  */
-export const describeFastSnapshotRestores =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeFastSnapshotRestores: {
+  (
     input: DescribeFastSnapshotRestoresRequest,
-    output: DescribeFastSnapshotRestoresResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FastSnapshotRestores",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeFastSnapshotRestoresResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFastSnapshotRestoresRequest,
+  ) => Stream.Stream<
+    DescribeFastSnapshotRestoresResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFastSnapshotRestoresRequest,
+  ) => Stream.Stream<
+    DescribeFastSnapshotRestoreSuccessItem,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFastSnapshotRestoresRequest,
+  output: DescribeFastSnapshotRestoresResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FastSnapshotRestores",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the running instances for the specified EC2 Fleet.
  *
@@ -72641,13 +76650,17 @@ export const describeFastSnapshotRestores =
  * For more information, see Describe your
  * EC2 Fleet in the *Amazon EC2 User Guide*.
  */
-export const describeFleetInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFleetInstancesRequest,
-    output: DescribeFleetInstancesResult,
-    errors: [],
-  }),
-);
+export const describeFleetInstances: (
+  input: DescribeFleetInstancesRequest,
+) => Effect.Effect<
+  DescribeFleetInstancesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFleetInstancesRequest,
+  output: DescribeFleetInstancesResult,
+  errors: [],
+}));
 /**
  * Describes the Dedicated Host reservations that are available to purchase.
  *
@@ -72658,34 +76671,76 @@ export const describeFleetInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * information about supported instance types, see Dedicated Hosts
  * in the *Amazon EC2 User Guide*.
  */
-export const describeHostReservationOfferings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeHostReservationOfferings: {
+  (
     input: DescribeHostReservationOfferingsRequest,
-    output: DescribeHostReservationOfferingsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "OfferingSet",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeHostReservationOfferingsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeHostReservationOfferingsRequest,
+  ) => Stream.Stream<
+    DescribeHostReservationOfferingsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeHostReservationOfferingsRequest,
+  ) => Stream.Stream<
+    HostOffering,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeHostReservationOfferingsRequest,
+  output: DescribeHostReservationOfferingsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "OfferingSet",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes reservations that are associated with Dedicated Hosts in your
  * account.
  */
-export const describeHostReservations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeHostReservations: {
+  (
     input: DescribeHostReservationsRequest,
-    output: DescribeHostReservationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "HostReservationSet",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeHostReservationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeHostReservationsRequest,
+  ) => Stream.Stream<
+    DescribeHostReservationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeHostReservationsRequest,
+  ) => Stream.Stream<
+    HostReservation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeHostReservationsRequest,
+  output: DescribeHostReservationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "HostReservationSet",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified attribute of the specified AMI. You can specify only one attribute
  * at a time.
@@ -72693,13 +76748,17 @@ export const describeHostReservations =
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeImageAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeImageAttributeRequest,
-    output: ImageAttribute,
-    errors: [],
-  }),
-);
+export const describeImageAttribute: (
+  input: DescribeImageAttributeRequest,
+) => Effect.Effect<
+  ImageAttribute,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeImageAttributeRequest,
+  output: ImageAttribute,
+  errors: [],
+}));
 /**
  * Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the
  * images available to you.
@@ -72731,19 +76790,39 @@ export const describeImageAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeImages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeImages: {
+  (
     input: DescribeImagesRequest,
-    output: DescribeImagesResult,
-    errors: [InvalidAMIIDNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Images",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeImagesResult,
+    InvalidAMIIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeImagesRequest,
+  ) => Stream.Stream<
+    DescribeImagesResult,
+    InvalidAMIIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeImagesRequest,
+  ) => Stream.Stream<
+    Image,
+    InvalidAMIIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeImagesRequest,
+  output: DescribeImagesResult,
+  errors: [InvalidAMIIDNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Images",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the entries in image usage reports, showing how your images are used across
  * other Amazon Web Services accounts.
@@ -72751,18 +76830,39 @@ export const describeImages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * For more information, see View your AMI usage in the
  * *Amazon EC2 User Guide*.
  */
-export const describeImageUsageReportEntries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeImageUsageReportEntries: {
+  (
     input: DescribeImageUsageReportEntriesRequest,
-    output: DescribeImageUsageReportEntriesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ImageUsageReportEntries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeImageUsageReportEntriesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeImageUsageReportEntriesRequest,
+  ) => Stream.Stream<
+    DescribeImageUsageReportEntriesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeImageUsageReportEntriesRequest,
+  ) => Stream.Stream<
+    ImageUsageReportEntry,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeImageUsageReportEntriesRequest,
+  output: DescribeImageUsageReportEntriesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ImageUsageReportEntries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the credit option for CPU usage of the specified burstable performance
  * instances. The credit options are `standard` and
@@ -72790,38 +76890,69 @@ export const describeImageUsageReportEntries =
  * For more information, see Burstable
  * performance instances in the *Amazon EC2 User Guide*.
  */
-export const describeInstanceCreditSpecifications =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeInstanceCreditSpecifications: {
+  (
     input: DescribeInstanceCreditSpecificationsRequest,
-    output: DescribeInstanceCreditSpecificationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InstanceCreditSpecifications",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeInstanceCreditSpecificationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeInstanceCreditSpecificationsRequest,
+  ) => Stream.Stream<
+    DescribeInstanceCreditSpecificationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeInstanceCreditSpecificationsRequest,
+  ) => Stream.Stream<
+    InstanceCreditSpecification,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeInstanceCreditSpecificationsRequest,
+  output: DescribeInstanceCreditSpecificationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InstanceCreditSpecifications",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the tag keys that are registered to appear in scheduled event notifications
  * for resources in the current Region.
  */
-export const describeInstanceEventNotificationAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeInstanceEventNotificationAttributesRequest,
-    output: DescribeInstanceEventNotificationAttributesResult,
-    errors: [],
-  }));
+export const describeInstanceEventNotificationAttributes: (
+  input: DescribeInstanceEventNotificationAttributesRequest,
+) => Effect.Effect<
+  DescribeInstanceEventNotificationAttributesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInstanceEventNotificationAttributesRequest,
+  output: DescribeInstanceEventNotificationAttributesResult,
+  errors: [],
+}));
 /**
  * Describes the historical SQL Server High Availability states for Amazon EC2
  * instances that are enabled for Amazon EC2 High Availability for SQL Server monitoring.
  */
-export const describeInstanceSqlHaHistoryStates =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeInstanceSqlHaHistoryStatesRequest,
-    output: DescribeInstanceSqlHaHistoryStatesResult,
-    errors: [],
-  }));
+export const describeInstanceSqlHaHistoryStates: (
+  input: DescribeInstanceSqlHaHistoryStatesRequest,
+) => Effect.Effect<
+  DescribeInstanceSqlHaHistoryStatesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInstanceSqlHaHistoryStatesRequest,
+  output: DescribeInstanceSqlHaHistoryStatesResult,
+  errors: [],
+}));
 /**
  * Describes a tree-based hierarchy that represents the physical host placement of your
  * EC2 instances within an Availability Zone or Local Zone. You can use this information to
@@ -72845,42 +76976,90 @@ export const describeInstanceSqlHaHistoryStates =
  * For more information, see Amazon EC2 topology in
  * the *Amazon EC2 User Guide*.
  */
-export const describeInstanceTopology =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeInstanceTopology: {
+  (
     input: DescribeInstanceTopologyRequest,
-    output: DescribeInstanceTopologyResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Instances",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeInstanceTopologyResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeInstanceTopologyRequest,
+  ) => Stream.Stream<
+    DescribeInstanceTopologyResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeInstanceTopologyRequest,
+  ) => Stream.Stream<
+    InstanceTopology,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeInstanceTopologyRequest,
+  output: DescribeInstanceTopologyResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Instances",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the instance types that are offered for the specified location. If no location is
  * specified, the default is to list the instance types that are offered in the current
  * Region.
  */
-export const describeInstanceTypeOfferings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeInstanceTypeOfferings: {
+  (
     input: DescribeInstanceTypeOfferingsRequest,
-    output: DescribeInstanceTypeOfferingsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InstanceTypeOfferings",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeInstanceTypeOfferingsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeInstanceTypeOfferingsRequest,
+  ) => Stream.Stream<
+    DescribeInstanceTypeOfferingsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeInstanceTypeOfferingsRequest,
+  ) => Stream.Stream<
+    InstanceTypeOffering,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeInstanceTypeOfferingsRequest,
+  output: DescribeInstanceTypeOfferingsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InstanceTypeOfferings",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified key pairs or all of your key pairs.
  *
  * For more information about key pairs, see Amazon EC2 key pairs
  * in the *Amazon EC2 User Guide*.
  */
-export const describeKeyPairs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeKeyPairs: (
+  input: DescribeKeyPairsRequest,
+) => Effect.Effect<
+  DescribeKeyPairsResult,
+  InvalidKeyPairNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeKeyPairsRequest,
   output: DescribeKeyPairsResult,
   errors: [InvalidKeyPairNotFound],
@@ -72889,98 +77068,212 @@ export const describeKeyPairs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Describes one or more local gateways. By default, all local gateways are described.
  * Alternatively, you can filter the results.
  */
-export const describeLocalGateways =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeLocalGateways: {
+  (
     input: DescribeLocalGatewaysRequest,
-    output: DescribeLocalGatewaysResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LocalGateways",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeLocalGatewaysResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeLocalGatewaysRequest,
+  ) => Stream.Stream<
+    DescribeLocalGatewaysResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeLocalGatewaysRequest,
+  ) => Stream.Stream<
+    LocalGateway,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeLocalGatewaysRequest,
+  output: DescribeLocalGatewaysResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LocalGateways",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the lock status for a snapshot.
  */
-export const describeLockedSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLockedSnapshotsRequest,
-    output: DescribeLockedSnapshotsResult,
-    errors: [],
-  }),
-);
+export const describeLockedSnapshots: (
+  input: DescribeLockedSnapshotsRequest,
+) => Effect.Effect<
+  DescribeLockedSnapshotsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLockedSnapshotsRequest,
+  output: DescribeLockedSnapshotsResult,
+  errors: [],
+}));
 /**
  * Describes the specified EC2 Mac Dedicated Host or all of your EC2 Mac Dedicated Hosts.
  */
-export const describeMacHosts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeMacHosts: {
+  (
     input: DescribeMacHostsRequest,
-    output: DescribeMacHostsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MacHosts",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeMacHostsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeMacHostsRequest,
+  ) => Stream.Stream<
+    DescribeMacHostsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeMacHostsRequest,
+  ) => Stream.Stream<
+    MacHost,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeMacHostsRequest,
+  output: DescribeMacHostsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MacHosts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This action is deprecated.
  *
  * Describes your Elastic IP addresses that are being moved from or being restored to the EC2-Classic platform.
  * This request does not return information about any other Elastic IP addresses in your account.
  */
-export const describeMovingAddresses =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeMovingAddresses: {
+  (
     input: DescribeMovingAddressesRequest,
-    output: DescribeMovingAddressesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MovingAddressStatuses",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeMovingAddressesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeMovingAddressesRequest,
+  ) => Stream.Stream<
+    DescribeMovingAddressesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeMovingAddressesRequest,
+  ) => Stream.Stream<
+    MovingAddressStatus,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeMovingAddressesRequest,
+  output: DescribeMovingAddressesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MovingAddressStatuses",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified Network Access Scope analyses.
  */
-export const describeNetworkInsightsAccessScopeAnalyses =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeNetworkInsightsAccessScopeAnalyses: {
+  (
     input: DescribeNetworkInsightsAccessScopeAnalysesRequest,
-    output: DescribeNetworkInsightsAccessScopeAnalysesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "NetworkInsightsAccessScopeAnalyses",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeNetworkInsightsAccessScopeAnalysesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeNetworkInsightsAccessScopeAnalysesRequest,
+  ) => Stream.Stream<
+    DescribeNetworkInsightsAccessScopeAnalysesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeNetworkInsightsAccessScopeAnalysesRequest,
+  ) => Stream.Stream<
+    NetworkInsightsAccessScopeAnalysis,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeNetworkInsightsAccessScopeAnalysesRequest,
+  output: DescribeNetworkInsightsAccessScopeAnalysesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "NetworkInsightsAccessScopeAnalyses",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified Network Access Scopes.
  */
-export const describeNetworkInsightsAccessScopes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeNetworkInsightsAccessScopes: {
+  (
     input: DescribeNetworkInsightsAccessScopesRequest,
-    output: DescribeNetworkInsightsAccessScopesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "NetworkInsightsAccessScopes",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeNetworkInsightsAccessScopesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeNetworkInsightsAccessScopesRequest,
+  ) => Stream.Stream<
+    DescribeNetworkInsightsAccessScopesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeNetworkInsightsAccessScopesRequest,
+  ) => Stream.Stream<
+    NetworkInsightsAccessScope,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeNetworkInsightsAccessScopesRequest,
+  output: DescribeNetworkInsightsAccessScopesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "NetworkInsightsAccessScopes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the Outposts link aggregation groups (LAGs).
  *
  * LAGs are only available for second-generation Outposts racks at this time.
  */
-export const describeOutpostLags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeOutpostLags: (
+  input: DescribeOutpostLagsRequest,
+) => Effect.Effect<
+  DescribeOutpostLagsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeOutpostLagsRequest,
   output: DescribeOutpostLagsResult,
   errors: [],
@@ -72989,18 +77282,39 @@ export const describeOutpostLags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Describes available Amazon Web Services services in a prefix list format, which includes the prefix list
  * name and prefix list ID of the service and the IP address range for the service.
  */
-export const describePrefixLists =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describePrefixLists: {
+  (
     input: DescribePrefixListsRequest,
-    output: DescribePrefixListsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PrefixLists",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribePrefixListsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribePrefixListsRequest,
+  ) => Stream.Stream<
+    DescribePrefixListsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribePrefixListsRequest,
+  ) => Stream.Stream<
+    PrefixList,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribePrefixListsRequest,
+  output: DescribePrefixListsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PrefixLists",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the ID format settings for the root user and all IAM roles and IAM users
  * that have explicitly specified a longer ID (17-character ID) preference.
@@ -73023,33 +77337,75 @@ export const describePrefixLists =
  * | `vpc-cidr-block-association` | `vpc-endpoint` |
  * `vpc-peering-connection` | `vpn-connection` | `vpn-gateway`.
  */
-export const describePrincipalIdFormat =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describePrincipalIdFormat: {
+  (
     input: DescribePrincipalIdFormatRequest,
-    output: DescribePrincipalIdFormatResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Principals",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribePrincipalIdFormatResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribePrincipalIdFormatRequest,
+  ) => Stream.Stream<
+    DescribePrincipalIdFormatResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribePrincipalIdFormatRequest,
+  ) => Stream.Stream<
+    PrincipalIdFormat,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribePrincipalIdFormatRequest,
+  output: DescribePrincipalIdFormatResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Principals",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified IPv4 address pools.
  */
-export const describePublicIpv4Pools =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describePublicIpv4Pools: {
+  (
     input: DescribePublicIpv4PoolsRequest,
-    output: DescribePublicIpv4PoolsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PublicIpv4Pools",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribePublicIpv4PoolsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribePublicIpv4PoolsRequest,
+  ) => Stream.Stream<
+    DescribePublicIpv4PoolsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribePublicIpv4PoolsRequest,
+  ) => Stream.Stream<
+    PublicIpv4Pool,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribePublicIpv4PoolsRequest,
+  output: DescribePublicIpv4PoolsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PublicIpv4Pools",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the Regions that are enabled for your account, or all Regions.
  *
@@ -73061,7 +77417,13 @@ export const describePublicIpv4Pools =
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeRegions: (
+  input: DescribeRegionsRequest,
+) => Effect.Effect<
+  DescribeRegionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRegionsRequest,
   output: DescribeRegionsResult,
   errors: [],
@@ -73069,66 +77431,139 @@ export const describeRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the VPCs on the other side of a VPC peering or Transit Gateway connection that are referencing the security groups you've specified in this request.
  */
-export const describeSecurityGroupReferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeSecurityGroupReferencesRequest,
-    output: DescribeSecurityGroupReferencesResult,
-    errors: [],
-  }));
+export const describeSecurityGroupReferences: (
+  input: DescribeSecurityGroupReferencesRequest,
+) => Effect.Effect<
+  DescribeSecurityGroupReferencesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSecurityGroupReferencesRequest,
+  output: DescribeSecurityGroupReferencesResult,
+  errors: [],
+}));
 /**
  * Describes the specified security groups or all of your security groups.
  */
-export const describeSecurityGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeSecurityGroups: {
+  (
     input: DescribeSecurityGroupsRequest,
-    output: DescribeSecurityGroupsResult,
-    errors: [InvalidGroupNotFound, ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SecurityGroups",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeSecurityGroupsResult,
+    InvalidGroupNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSecurityGroupsRequest,
+  ) => Stream.Stream<
+    DescribeSecurityGroupsResult,
+    InvalidGroupNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSecurityGroupsRequest,
+  ) => Stream.Stream<
+    SecurityGroup,
+    InvalidGroupNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSecurityGroupsRequest,
+  output: DescribeSecurityGroupsResult,
+  errors: [InvalidGroupNotFound, ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SecurityGroups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes security group VPC associations made with AssociateSecurityGroupVpc.
  */
-export const describeSecurityGroupVpcAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeSecurityGroupVpcAssociations: {
+  (
     input: DescribeSecurityGroupVpcAssociationsRequest,
-    output: DescribeSecurityGroupVpcAssociationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SecurityGroupVpcAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeSecurityGroupVpcAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSecurityGroupVpcAssociationsRequest,
+  ) => Stream.Stream<
+    DescribeSecurityGroupVpcAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSecurityGroupVpcAssociationsRequest,
+  ) => Stream.Stream<
+    SecurityGroupVpcAssociation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSecurityGroupVpcAssociationsRequest,
+  output: DescribeSecurityGroupVpcAssociationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SecurityGroupVpcAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the Outpost service link virtual interfaces.
  */
-export const describeServiceLinkVirtualInterfaces =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeServiceLinkVirtualInterfacesRequest,
-    output: DescribeServiceLinkVirtualInterfacesResult,
-    errors: [],
-  }));
+export const describeServiceLinkVirtualInterfaces: (
+  input: DescribeServiceLinkVirtualInterfacesRequest,
+) => Effect.Effect<
+  DescribeServiceLinkVirtualInterfacesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeServiceLinkVirtualInterfacesRequest,
+  output: DescribeServiceLinkVirtualInterfacesResult,
+  errors: [],
+}));
 /**
  * Describes the storage tier status of one or more Amazon EBS snapshots.
  */
-export const describeSnapshotTierStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeSnapshotTierStatus: {
+  (
     input: DescribeSnapshotTierStatusRequest,
-    output: DescribeSnapshotTierStatusResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SnapshotTierStatuses",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeSnapshotTierStatusResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSnapshotTierStatusRequest,
+  ) => Stream.Stream<
+    DescribeSnapshotTierStatusResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSnapshotTierStatusRequest,
+  ) => Stream.Stream<
+    SnapshotTierStatus,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSnapshotTierStatusRequest,
+  output: DescribeSnapshotTierStatusResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SnapshotTierStatuses",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the events for the specified Spot Fleet request during the specified
  * time.
@@ -73140,30 +77575,56 @@ export const describeSnapshotTierStatus =
  * For more information, see Monitor fleet events using Amazon
  * EventBridge in the *Amazon EC2 User Guide*.
  */
-export const describeSpotFleetRequestHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeSpotFleetRequestHistoryRequest,
-    output: DescribeSpotFleetRequestHistoryResponse,
-    errors: [],
-  }));
+export const describeSpotFleetRequestHistory: (
+  input: DescribeSpotFleetRequestHistoryRequest,
+) => Effect.Effect<
+  DescribeSpotFleetRequestHistoryResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSpotFleetRequestHistoryRequest,
+  output: DescribeSpotFleetRequestHistoryResponse,
+  errors: [],
+}));
 /**
  * Describes your Spot Fleet requests.
  *
  * Spot Fleet requests are deleted 48 hours after they are canceled and their instances
  * are terminated.
  */
-export const describeSpotFleetRequests =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeSpotFleetRequests: {
+  (
     input: DescribeSpotFleetRequestsRequest,
-    output: DescribeSpotFleetRequestsResponse,
-    errors: [ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SpotFleetRequestConfigs",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeSpotFleetRequestsResponse,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSpotFleetRequestsRequest,
+  ) => Stream.Stream<
+    DescribeSpotFleetRequestsResponse,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSpotFleetRequestsRequest,
+  ) => Stream.Stream<
+    SpotFleetRequestConfig,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSpotFleetRequestsRequest,
+  output: DescribeSpotFleetRequestsResponse,
+  errors: [ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SpotFleetRequestConfigs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the Spot price history. For more information, see Spot Instance pricing history in the
  * *Amazon EC2 User Guide*.
@@ -73172,18 +77633,39 @@ export const describeSpotFleetRequests =
  * instance types within that time range. It also returns the last price change before the
  * start time, which is the effective price as of the start time.
  */
-export const describeSpotPriceHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeSpotPriceHistory: {
+  (
     input: DescribeSpotPriceHistoryRequest,
-    output: DescribeSpotPriceHistoryResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SpotPriceHistory",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeSpotPriceHistoryResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSpotPriceHistoryRequest,
+  ) => Stream.Stream<
+    DescribeSpotPriceHistoryResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSpotPriceHistoryRequest,
+  ) => Stream.Stream<
+    SpotPrice,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSpotPriceHistoryRequest,
+  output: DescribeSpotPriceHistoryResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SpotPriceHistory",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the progress of the AMI store tasks. You can describe the store tasks for
  * specified AMIs. If you don't specify the AMIs, you get a paginated list of store tasks from
@@ -73202,18 +77684,39 @@ export const describeSpotPriceHistory =
  * For more information, see Store and restore an AMI using
  * S3 in the *Amazon EC2 User Guide*.
  */
-export const describeStoreImageTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeStoreImageTasks: {
+  (
     input: DescribeStoreImageTasksRequest,
-    output: DescribeStoreImageTasksResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "StoreImageTaskResults",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeStoreImageTasksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeStoreImageTasksRequest,
+  ) => Stream.Stream<
+    DescribeStoreImageTasksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeStoreImageTasksRequest,
+  ) => Stream.Stream<
+    StoreImageTaskResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeStoreImageTasksRequest,
+  output: DescribeStoreImageTasksResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "StoreImageTaskResults",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified tags for your EC2 resources.
  *
@@ -73227,58 +77730,108 @@ export const describeStoreImageTasks =
  * structures, might vary. Applications should not assume the elements appear in a
  * particular order.
  */
-export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeTags: {
+  (
     input: DescribeTagsRequest,
-    output: DescribeTagsResult,
-    errors: [ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Tags",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeTagsResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTagsRequest,
+  ) => Stream.Stream<
+    DescribeTagsResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTagsRequest,
+  ) => Stream.Stream<
+    TagDescription,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTagsRequest,
+  output: DescribeTagsResult,
+  errors: [ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Tags",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the most recent volume modification request for the specified EBS volumes.
  *
  * For more information, see
  * Monitor the progress of volume modifications in the *Amazon EBS User Guide*.
  */
-export const describeVolumesModifications =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVolumesModifications: {
+  (
     input: DescribeVolumesModificationsRequest,
-    output: DescribeVolumesModificationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "VolumesModifications",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVolumesModificationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVolumesModificationsRequest,
+  ) => Stream.Stream<
+    DescribeVolumesModificationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVolumesModificationsRequest,
+  ) => Stream.Stream<
+    VolumeModification,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVolumesModificationsRequest,
+  output: DescribeVolumesModificationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "VolumesModifications",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describe VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
-export const describeVpcBlockPublicAccessOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeVpcBlockPublicAccessOptionsRequest,
-    output: DescribeVpcBlockPublicAccessOptionsResult,
-    errors: [],
-  }));
+export const describeVpcBlockPublicAccessOptions: (
+  input: DescribeVpcBlockPublicAccessOptionsRequest,
+) => Effect.Effect<
+  DescribeVpcBlockPublicAccessOptionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVpcBlockPublicAccessOptionsRequest,
+  output: DescribeVpcBlockPublicAccessOptionsResult,
+  errors: [],
+}));
 /**
  * This action is deprecated.
  *
  * Describes the ClassicLink status of the specified VPCs.
  */
-export const describeVpcClassicLink = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVpcClassicLinkRequest,
-    output: DescribeVpcClassicLinkResult,
-    errors: [InvalidVpcIDNotFound],
-  }),
-);
+export const describeVpcClassicLink: (
+  input: DescribeVpcClassicLinkRequest,
+) => Effect.Effect<
+  DescribeVpcClassicLinkResult,
+  InvalidVpcIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVpcClassicLinkRequest,
+  output: DescribeVpcClassicLinkResult,
+  errors: [InvalidVpcIDNotFound],
+}));
 /**
  * This action is deprecated.
  *
@@ -73288,50 +77841,113 @@ export const describeVpcClassicLink = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * of an instance in a VPC resolves to its private IP address when addressed from a linked
  * EC2-Classic instance.
  */
-export const describeVpcClassicLinkDnsSupport =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVpcClassicLinkDnsSupport: {
+  (
     input: DescribeVpcClassicLinkDnsSupportRequest,
-    output: DescribeVpcClassicLinkDnsSupportResult,
-    errors: [InvalidVpcIDNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Vpcs",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVpcClassicLinkDnsSupportResult,
+    InvalidVpcIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVpcClassicLinkDnsSupportRequest,
+  ) => Stream.Stream<
+    DescribeVpcClassicLinkDnsSupportResult,
+    InvalidVpcIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVpcClassicLinkDnsSupportRequest,
+  ) => Stream.Stream<
+    ClassicLinkDnsSupport,
+    InvalidVpcIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVpcClassicLinkDnsSupportRequest,
+  output: DescribeVpcClassicLinkDnsSupportResult,
+  errors: [InvalidVpcIDNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Vpcs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the VPC endpoint connections to your VPC endpoint services, including any
  * endpoints that are pending your acceptance.
  */
-export const describeVpcEndpointConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVpcEndpointConnections: {
+  (
     input: DescribeVpcEndpointConnectionsRequest,
-    output: DescribeVpcEndpointConnectionsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "VpcEndpointConnections",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVpcEndpointConnectionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVpcEndpointConnectionsRequest,
+  ) => Stream.Stream<
+    DescribeVpcEndpointConnectionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVpcEndpointConnectionsRequest,
+  ) => Stream.Stream<
+    VpcEndpointConnection,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVpcEndpointConnectionsRequest,
+  output: DescribeVpcEndpointConnectionsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "VpcEndpointConnections",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the principals (service consumers) that are permitted to discover your VPC
  * endpoint service. Principal ARNs with path components aren't supported.
  */
-export const describeVpcEndpointServicePermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVpcEndpointServicePermissions: {
+  (
     input: DescribeVpcEndpointServicePermissionsRequest,
-    output: DescribeVpcEndpointServicePermissionsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AllowedPrincipals",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVpcEndpointServicePermissionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVpcEndpointServicePermissionsRequest,
+  ) => Stream.Stream<
+    DescribeVpcEndpointServicePermissionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVpcEndpointServicePermissionsRequest,
+  ) => Stream.Stream<
+    AllowedPrincipal,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVpcEndpointServicePermissionsRequest,
+  output: DescribeVpcEndpointServicePermissionsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AllowedPrincipals",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Discontinue Windows fast launch for a Windows AMI, and clean up existing pre-provisioned
  * snapshots. After you disable Windows fast launch, the AMI uses the standard launch process for
@@ -73341,7 +77957,13 @@ export const describeVpcEndpointServicePermissions =
  * You can only change these settings for Windows AMIs that you own or that have been
  * shared with you.
  */
-export const disableFastLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableFastLaunch: (
+  input: DisableFastLaunchRequest,
+) => Effect.Effect<
+  DisableFastLaunchResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableFastLaunchRequest,
   output: DisableFastLaunchResult,
   errors: [],
@@ -73366,34 +77988,49 @@ export const disableFastLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const disableRouteServerPropagation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableRouteServerPropagationRequest,
-    output: DisableRouteServerPropagationResult,
-    errors: [],
-  }));
+export const disableRouteServerPropagation: (
+  input: DisableRouteServerPropagationRequest,
+) => Effect.Effect<
+  DisableRouteServerPropagationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableRouteServerPropagationRequest,
+  output: DisableRouteServerPropagationResult,
+  errors: [],
+}));
 /**
  * Disables the specified resource attachment from propagating routes to the specified
  * propagation route table.
  */
-export const disableTransitGatewayRouteTablePropagation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableTransitGatewayRouteTablePropagationRequest,
-    output: DisableTransitGatewayRouteTablePropagationResult,
-    errors: [],
-  }));
+export const disableTransitGatewayRouteTablePropagation: (
+  input: DisableTransitGatewayRouteTablePropagationRequest,
+) => Effect.Effect<
+  DisableTransitGatewayRouteTablePropagationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableTransitGatewayRouteTablePropagationRequest,
+  output: DisableTransitGatewayRouteTablePropagationResult,
+  errors: [],
+}));
 /**
  * Disassociates one or more targets from an event window.
  *
  * For more information, see Define event windows for scheduled
  * events in the *Amazon EC2 User Guide*.
  */
-export const disassociateInstanceEventWindow =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateInstanceEventWindowRequest,
-    output: DisassociateInstanceEventWindowResult,
-    errors: [],
-  }));
+export const disassociateInstanceEventWindow: (
+  input: DisassociateInstanceEventWindowRequest,
+) => Effect.Effect<
+  DisassociateInstanceEventWindowResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateInstanceEventWindowRequest,
+  output: DisassociateInstanceEventWindowResult,
+  errors: [],
+}));
 /**
  * When you enable Windows fast launch for a Windows AMI, images are pre-provisioned, using
  * snapshots to launch instances up to 65% faster. To create the optimized Windows image, Amazon EC2
@@ -73405,7 +78042,13 @@ export const disassociateInstanceEventWindow =
  * You can only change these settings for Windows AMIs that you own or that have been
  * shared with you.
  */
-export const enableFastLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableFastLaunch: (
+  input: EnableFastLaunchRequest,
+) => Effect.Effect<
+  EnableFastLaunchResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableFastLaunchRequest,
   output: EnableFastLaunchResult,
   errors: [],
@@ -73413,18 +78056,29 @@ export const enableFastLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Downloads the client certificate revocation list for the specified Client VPN endpoint.
  */
-export const exportClientVpnClientCertificateRevocationList =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExportClientVpnClientCertificateRevocationListRequest,
-    output: ExportClientVpnClientCertificateRevocationListResult,
-    errors: [],
-  }));
+export const exportClientVpnClientCertificateRevocationList: (
+  input: ExportClientVpnClientCertificateRevocationListRequest,
+) => Effect.Effect<
+  ExportClientVpnClientCertificateRevocationListResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportClientVpnClientCertificateRevocationListRequest,
+  output: ExportClientVpnClientCertificateRevocationListResult,
+  errors: [],
+}));
 /**
  * Exports an Amazon Machine Image (AMI) to a VM file. For more information, see Exporting a VM
  * directly from an Amazon Machine Image (AMI) in the
  * *VM Import/Export User Guide*.
  */
-export const exportImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const exportImage: (
+  input: ExportImageRequest,
+) => Effect.Effect<
+  ExportImageResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportImageRequest,
   output: ExportImageResult,
   errors: [],
@@ -73432,72 +78086,133 @@ export const exportImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the currently negotiated security parameters for an active VPN tunnel, including IKE version, DH groups, encryption algorithms, and integrity algorithms.
  */
-export const getActiveVpnTunnelStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetActiveVpnTunnelStatusRequest,
-    output: GetActiveVpnTunnelStatusResult,
-    errors: [],
-  }),
-);
+export const getActiveVpnTunnelStatus: (
+  input: GetActiveVpnTunnelStatusRequest,
+) => Effect.Effect<
+  GetActiveVpnTunnelStatusResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetActiveVpnTunnelStatusRequest,
+  output: GetActiveVpnTunnelStatusResult,
+  errors: [],
+}));
 /**
  * Returns the IAM roles that are associated with the specified ACM (ACM) certificate.
  * It also returns the name of the Amazon S3 bucket and the Amazon S3 object key where the certificate,
  * certificate chain, and encrypted private key bundle are stored, and the ARN of the KMS key
  * that's used to encrypt the private key.
  */
-export const getAssociatedEnclaveCertificateIamRoles =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetAssociatedEnclaveCertificateIamRolesRequest,
-    output: GetAssociatedEnclaveCertificateIamRolesResult,
-    errors: [],
-  }));
+export const getAssociatedEnclaveCertificateIamRoles: (
+  input: GetAssociatedEnclaveCertificateIamRolesRequest,
+) => Effect.Effect<
+  GetAssociatedEnclaveCertificateIamRolesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAssociatedEnclaveCertificateIamRolesRequest,
+  output: GetAssociatedEnclaveCertificateIamRolesResult,
+  errors: [],
+}));
 /**
  * Gets information about the IPv6 CIDR block associations for a specified IPv6 address pool.
  */
-export const getAssociatedIpv6PoolCidrs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getAssociatedIpv6PoolCidrs: {
+  (
     input: GetAssociatedIpv6PoolCidrsRequest,
-    output: GetAssociatedIpv6PoolCidrsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Ipv6CidrAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetAssociatedIpv6PoolCidrsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetAssociatedIpv6PoolCidrsRequest,
+  ) => Stream.Stream<
+    GetAssociatedIpv6PoolCidrsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetAssociatedIpv6PoolCidrsRequest,
+  ) => Stream.Stream<
+    Ipv6CidrAssociation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetAssociatedIpv6PoolCidrsRequest,
+  output: GetAssociatedIpv6PoolCidrsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Ipv6CidrAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the available dimension values for capacity metrics within a specified time range. This is useful for discovering what accounts,
  * regions, instance families, and other dimensions have data available for filtering and grouping.
  */
-export const getCapacityManagerMetricDimensions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getCapacityManagerMetricDimensions: {
+  (
     input: GetCapacityManagerMetricDimensionsRequest,
-    output: GetCapacityManagerMetricDimensionsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MetricDimensionResults",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetCapacityManagerMetricDimensionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCapacityManagerMetricDimensionsRequest,
+  ) => Stream.Stream<
+    GetCapacityManagerMetricDimensionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCapacityManagerMetricDimensionsRequest,
+  ) => Stream.Stream<
+    CapacityManagerDimension,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCapacityManagerMetricDimensionsRequest,
+  output: GetCapacityManagerMetricDimensionsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MetricDimensionResults",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets usage information about a Capacity Reservation. If the Capacity Reservation is
  * shared, it shows usage information for the Capacity Reservation owner and each Amazon Web Services account that is currently using the shared capacity. If the Capacity
  * Reservation is not shared, it shows only the Capacity Reservation owner's usage.
  */
-export const getCapacityReservationUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCapacityReservationUsageRequest,
-    output: GetCapacityReservationUsageResult,
-    errors: [],
-  }),
-);
+export const getCapacityReservationUsage: (
+  input: GetCapacityReservationUsageRequest,
+) => Effect.Effect<
+  GetCapacityReservationUsageResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCapacityReservationUsageRequest,
+  output: GetCapacityReservationUsageResult,
+  errors: [],
+}));
 /**
  * Describes the allocations from the specified customer-owned address pool.
  */
-export const getCoipPoolUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCoipPoolUsage: (
+  input: GetCoipPoolUsageRequest,
+) => Effect.Effect<
+  GetCoipPoolUsageResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoipPoolUsageRequest,
   output: GetCoipPoolUsageResult,
   errors: [],
@@ -73509,27 +78224,53 @@ export const getCoipPoolUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Burstable
  * performance instances in the *Amazon EC2 User Guide*.
  */
-export const getDefaultCreditSpecification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDefaultCreditSpecificationRequest,
-    output: GetDefaultCreditSpecificationResult,
-    errors: [],
-  }));
+export const getDefaultCreditSpecification: (
+  input: GetDefaultCreditSpecificationRequest,
+) => Effect.Effect<
+  GetDefaultCreditSpecificationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDefaultCreditSpecificationRequest,
+  output: GetDefaultCreditSpecificationResult,
+  errors: [],
+}));
 /**
  * Lists the resource groups to which a Capacity Reservation has been added.
  */
-export const getGroupsForCapacityReservation =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getGroupsForCapacityReservation: {
+  (
     input: GetGroupsForCapacityReservationRequest,
-    output: GetGroupsForCapacityReservationResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CapacityReservationGroups",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetGroupsForCapacityReservationResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetGroupsForCapacityReservationRequest,
+  ) => Stream.Stream<
+    GetGroupsForCapacityReservationResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetGroupsForCapacityReservationRequest,
+  ) => Stream.Stream<
+    CapacityReservationGroup,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetGroupsForCapacityReservationRequest,
+  output: GetGroupsForCapacityReservationResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CapacityReservationGroups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Preview a reservation purchase with configurations that match those of your Dedicated
  * Host. You must have active Dedicated Hosts in your account before you purchase a
@@ -73538,18 +78279,29 @@ export const getGroupsForCapacityReservation =
  * This is a preview of the PurchaseHostReservation action and does not
  * result in the offering being purchased.
  */
-export const getHostReservationPurchasePreview =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetHostReservationPurchasePreviewRequest,
-    output: GetHostReservationPurchasePreviewResult,
-    errors: [],
-  }));
+export const getHostReservationPurchasePreview: (
+  input: GetHostReservationPurchasePreviewRequest,
+) => Effect.Effect<
+  GetHostReservationPurchasePreviewResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetHostReservationPurchasePreviewRequest,
+  output: GetHostReservationPurchasePreviewResult,
+  errors: [],
+}));
 /**
  * Retrieves the ancestry chain of the specified AMI, tracing its lineage back to the root
  * AMI. For more information, see AMI ancestry in
  * *Amazon EC2 User Guide*.
  */
-export const getImageAncestry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getImageAncestry: (
+  input: GetImageAncestryRequest,
+) => Effect.Effect<
+  GetImageAncestryResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImageAncestryRequest,
   output: GetImageAncestryResult,
   errors: [],
@@ -73562,43 +78314,89 @@ export const getImageAncestry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Order of precedence for instance metadata options in the
  * *Amazon EC2 User Guide*.
  */
-export const getInstanceMetadataDefaults = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetInstanceMetadataDefaultsRequest,
-    output: GetInstanceMetadataDefaultsResult,
-    errors: [],
-  }),
-);
+export const getInstanceMetadataDefaults: (
+  input: GetInstanceMetadataDefaultsRequest,
+) => Effect.Effect<
+  GetInstanceMetadataDefaultsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInstanceMetadataDefaultsRequest,
+  output: GetInstanceMetadataDefaultsResult,
+  errors: [],
+}));
 /**
  * Retrieve historical information about a CIDR within an IPAM scope. For more information, see View the history of IP addresses in the *Amazon VPC IPAM User Guide*.
  */
-export const getIpamAddressHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getIpamAddressHistory: {
+  (
     input: GetIpamAddressHistoryRequest,
-    output: GetIpamAddressHistoryResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "HistoryRecords",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetIpamAddressHistoryResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetIpamAddressHistoryRequest,
+  ) => Stream.Stream<
+    GetIpamAddressHistoryResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetIpamAddressHistoryRequest,
+  ) => Stream.Stream<
+    IpamAddressHistoryRecord,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetIpamAddressHistoryRequest,
+  output: GetIpamAddressHistoryResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "HistoryRecords",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the resource CIDRs that are monitored as part of a resource discovery. A discovered resource is a resource CIDR monitored under a resource discovery. The following resources can be discovered: VPCs, Public IPv4 pools, VPC subnets, and Elastic IP addresses.
  */
-export const getIpamDiscoveredResourceCidrs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getIpamDiscoveredResourceCidrs: {
+  (
     input: GetIpamDiscoveredResourceCidrsRequest,
-    output: GetIpamDiscoveredResourceCidrsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IpamDiscoveredResourceCidrs",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetIpamDiscoveredResourceCidrsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetIpamDiscoveredResourceCidrsRequest,
+  ) => Stream.Stream<
+    GetIpamDiscoveredResourceCidrsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetIpamDiscoveredResourceCidrsRequest,
+  ) => Stream.Stream<
+    IpamDiscoveredResourceCidr,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetIpamDiscoveredResourceCidrsRequest,
+  output: GetIpamDiscoveredResourceCidrsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IpamDiscoveredResourceCidrs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the Amazon Web Services Organizations targets for an IPAM policy.
  *
@@ -73606,27 +78404,53 @@ export const getIpamDiscoveredResourceCidrs =
  *
  * A target can be an individual Amazon Web Services account or an entity within an Amazon Web Services Organization to which an IPAM policy can be applied.
  */
-export const getIpamPolicyOrganizationTargets =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetIpamPolicyOrganizationTargetsRequest,
-    output: GetIpamPolicyOrganizationTargetsResult,
-    errors: [],
-  }));
+export const getIpamPolicyOrganizationTargets: (
+  input: GetIpamPolicyOrganizationTargetsRequest,
+) => Effect.Effect<
+  GetIpamPolicyOrganizationTargetsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIpamPolicyOrganizationTargetsRequest,
+  output: GetIpamPolicyOrganizationTargetsResult,
+  errors: [],
+}));
 /**
  * Retrieves the CIDR entries for a specific version of an IPAM prefix list resolver. This shows the actual CIDRs that were selected and synchronized at a particular point in time.
  */
-export const getIpamPrefixListResolverVersionEntries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getIpamPrefixListResolverVersionEntries: {
+  (
     input: GetIpamPrefixListResolverVersionEntriesRequest,
-    output: GetIpamPrefixListResolverVersionEntriesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Entries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetIpamPrefixListResolverVersionEntriesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetIpamPrefixListResolverVersionEntriesRequest,
+  ) => Stream.Stream<
+    GetIpamPrefixListResolverVersionEntriesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetIpamPrefixListResolverVersionEntriesRequest,
+  ) => Stream.Stream<
+    IpamPrefixListResolverVersionEntry,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetIpamPrefixListResolverVersionEntriesRequest,
+  output: GetIpamPrefixListResolverVersionEntriesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Entries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves version information for an IPAM prefix list resolver.
  *
@@ -73657,207 +78481,459 @@ export const getIpamPrefixListResolverVersionEntries =
  *
  * **Version 2 CIDRs:** 10.1.0.0/16, 10.2.0.0/16, 10.3.0.0/16
  */
-export const getIpamPrefixListResolverVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getIpamPrefixListResolverVersions: {
+  (
     input: GetIpamPrefixListResolverVersionsRequest,
-    output: GetIpamPrefixListResolverVersionsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IpamPrefixListResolverVersions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetIpamPrefixListResolverVersionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetIpamPrefixListResolverVersionsRequest,
+  ) => Stream.Stream<
+    GetIpamPrefixListResolverVersionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetIpamPrefixListResolverVersionsRequest,
+  ) => Stream.Stream<
+    IpamPrefixListResolverVersion,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetIpamPrefixListResolverVersionsRequest,
+  output: GetIpamPrefixListResolverVersionsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IpamPrefixListResolverVersions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns resource CIDRs managed by IPAM in a given scope. If an IPAM is associated with more than one resource discovery, the resource CIDRs across all of the resource discoveries is returned. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
-export const getIpamResourceCidrs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getIpamResourceCidrs: {
+  (
     input: GetIpamResourceCidrsRequest,
-    output: GetIpamResourceCidrsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IpamResourceCidrs",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetIpamResourceCidrsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetIpamResourceCidrsRequest,
+  ) => Stream.Stream<
+    GetIpamResourceCidrsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetIpamResourceCidrsRequest,
+  ) => Stream.Stream<
+    IpamResourceCidr,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetIpamResourceCidrsRequest,
+  output: GetIpamResourceCidrsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IpamResourceCidrs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets information about the resources that are associated with the specified managed prefix list.
  */
-export const getManagedPrefixListAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getManagedPrefixListAssociations: {
+  (
     input: GetManagedPrefixListAssociationsRequest,
-    output: GetManagedPrefixListAssociationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PrefixListAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetManagedPrefixListAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetManagedPrefixListAssociationsRequest,
+  ) => Stream.Stream<
+    GetManagedPrefixListAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetManagedPrefixListAssociationsRequest,
+  ) => Stream.Stream<
+    PrefixListAssociation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetManagedPrefixListAssociationsRequest,
+  output: GetManagedPrefixListAssociationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PrefixListAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets information about the entries for a specified managed prefix list.
  */
-export const getManagedPrefixListEntries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getManagedPrefixListEntries: {
+  (
     input: GetManagedPrefixListEntriesRequest,
-    output: GetManagedPrefixListEntriesResult,
-    errors: [ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Entries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetManagedPrefixListEntriesResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetManagedPrefixListEntriesRequest,
+  ) => Stream.Stream<
+    GetManagedPrefixListEntriesResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetManagedPrefixListEntriesRequest,
+  ) => Stream.Stream<
+    PrefixListEntry,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetManagedPrefixListEntriesRequest,
+  output: GetManagedPrefixListEntriesResult,
+  errors: [ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Entries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the findings for the specified Network Access Scope analysis.
  */
-export const getNetworkInsightsAccessScopeAnalysisFindings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getNetworkInsightsAccessScopeAnalysisFindings: {
+  (
     input: GetNetworkInsightsAccessScopeAnalysisFindingsRequest,
-    output: GetNetworkInsightsAccessScopeAnalysisFindingsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AnalysisFindings",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetNetworkInsightsAccessScopeAnalysisFindingsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetNetworkInsightsAccessScopeAnalysisFindingsRequest,
+  ) => Stream.Stream<
+    GetNetworkInsightsAccessScopeAnalysisFindingsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetNetworkInsightsAccessScopeAnalysisFindingsRequest,
+  ) => Stream.Stream<
+    AccessScopeAnalysisFinding,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetNetworkInsightsAccessScopeAnalysisFindingsRequest,
+  output: GetNetworkInsightsAccessScopeAnalysisFindingsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AnalysisFindings",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets security groups that can be associated by the Amazon Web Services account making the request with network interfaces in the specified VPC.
  */
-export const getSecurityGroupsForVpc =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getSecurityGroupsForVpc: {
+  (
     input: GetSecurityGroupsForVpcRequest,
-    output: GetSecurityGroupsForVpcResult,
-    errors: [ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SecurityGroupForVpcs",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetSecurityGroupsForVpcResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetSecurityGroupsForVpcRequest,
+  ) => Stream.Stream<
+    GetSecurityGroupsForVpcResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSecurityGroupsForVpcRequest,
+  ) => Stream.Stream<
+    SecurityGroupForVpc,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetSecurityGroupsForVpcRequest,
+  output: GetSecurityGroupsForVpcResult,
+  errors: [ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SecurityGroupForVpcs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the route tables to which the specified resource attachment propagates routes.
  */
-export const getTransitGatewayAttachmentPropagations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getTransitGatewayAttachmentPropagations: {
+  (
     input: GetTransitGatewayAttachmentPropagationsRequest,
-    output: GetTransitGatewayAttachmentPropagationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransitGatewayAttachmentPropagations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetTransitGatewayAttachmentPropagationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTransitGatewayAttachmentPropagationsRequest,
+  ) => Stream.Stream<
+    GetTransitGatewayAttachmentPropagationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTransitGatewayAttachmentPropagationsRequest,
+  ) => Stream.Stream<
+    TransitGatewayAttachmentPropagation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTransitGatewayAttachmentPropagationsRequest,
+  output: GetTransitGatewayAttachmentPropagationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransitGatewayAttachmentPropagations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets information about the associations for the transit gateway multicast domain.
  */
-export const getTransitGatewayMulticastDomainAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getTransitGatewayMulticastDomainAssociations: {
+  (
     input: GetTransitGatewayMulticastDomainAssociationsRequest,
-    output: GetTransitGatewayMulticastDomainAssociationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MulticastDomainAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetTransitGatewayMulticastDomainAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTransitGatewayMulticastDomainAssociationsRequest,
+  ) => Stream.Stream<
+    GetTransitGatewayMulticastDomainAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTransitGatewayMulticastDomainAssociationsRequest,
+  ) => Stream.Stream<
+    TransitGatewayMulticastDomainAssociation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTransitGatewayMulticastDomainAssociationsRequest,
+  output: GetTransitGatewayMulticastDomainAssociationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MulticastDomainAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets information about the associations for the specified transit gateway route table.
  */
-export const getTransitGatewayRouteTableAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getTransitGatewayRouteTableAssociations: {
+  (
     input: GetTransitGatewayRouteTableAssociationsRequest,
-    output: GetTransitGatewayRouteTableAssociationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Associations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetTransitGatewayRouteTableAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTransitGatewayRouteTableAssociationsRequest,
+  ) => Stream.Stream<
+    GetTransitGatewayRouteTableAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTransitGatewayRouteTableAssociationsRequest,
+  ) => Stream.Stream<
+    TransitGatewayRouteTableAssociation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTransitGatewayRouteTableAssociationsRequest,
+  output: GetTransitGatewayRouteTableAssociationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Associations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets information about the route table propagations for the specified transit gateway route table.
  */
-export const getTransitGatewayRouteTablePropagations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getTransitGatewayRouteTablePropagations: {
+  (
     input: GetTransitGatewayRouteTablePropagationsRequest,
-    output: GetTransitGatewayRouteTablePropagationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransitGatewayRouteTablePropagations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetTransitGatewayRouteTablePropagationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTransitGatewayRouteTablePropagationsRequest,
+  ) => Stream.Stream<
+    GetTransitGatewayRouteTablePropagationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTransitGatewayRouteTablePropagationsRequest,
+  ) => Stream.Stream<
+    TransitGatewayRouteTablePropagation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTransitGatewayRouteTablePropagationsRequest,
+  output: GetTransitGatewayRouteTablePropagationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransitGatewayRouteTablePropagations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the targets for the specified network CIDR endpoint for Verified Access.
  */
-export const getVerifiedAccessEndpointTargets =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetVerifiedAccessEndpointTargetsRequest,
-    output: GetVerifiedAccessEndpointTargetsResult,
-    errors: [],
-  }));
+export const getVerifiedAccessEndpointTargets: (
+  input: GetVerifiedAccessEndpointTargetsRequest,
+) => Effect.Effect<
+  GetVerifiedAccessEndpointTargetsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVerifiedAccessEndpointTargetsRequest,
+  output: GetVerifiedAccessEndpointTargetsResult,
+  errors: [],
+}));
 /**
  * Gets information about resources in a VPC that are blocking encryption enforcement.
  *
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
-export const getVpcResourcesBlockingEncryptionEnforcement =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetVpcResourcesBlockingEncryptionEnforcementRequest,
-    output: GetVpcResourcesBlockingEncryptionEnforcementResult,
-    errors: [],
-  }));
+export const getVpcResourcesBlockingEncryptionEnforcement: (
+  input: GetVpcResourcesBlockingEncryptionEnforcementRequest,
+) => Effect.Effect<
+  GetVpcResourcesBlockingEncryptionEnforcementResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVpcResourcesBlockingEncryptionEnforcementRequest,
+  output: GetVpcResourcesBlockingEncryptionEnforcementResult,
+  errors: [],
+}));
 /**
  * Obtain a list of customer gateway devices for which sample configuration
  * files can be provided. The request has no additional parameters. You can also see the
  * list of device types with sample configuration files available under Your customer gateway
  * device in the *Amazon Web Services Site-to-Site VPN User Guide*.
  */
-export const getVpnConnectionDeviceTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getVpnConnectionDeviceTypes: {
+  (
     input: GetVpnConnectionDeviceTypesRequest,
-    output: GetVpnConnectionDeviceTypesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "VpnConnectionDeviceTypes",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetVpnConnectionDeviceTypesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetVpnConnectionDeviceTypesRequest,
+  ) => Stream.Stream<
+    GetVpnConnectionDeviceTypesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetVpnConnectionDeviceTypesRequest,
+  ) => Stream.Stream<
+    VpnConnectionDeviceType,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetVpnConnectionDeviceTypesRequest,
+  output: GetVpnConnectionDeviceTypesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "VpnConnectionDeviceTypes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Get details of available tunnel endpoint maintenance.
  */
-export const getVpnTunnelReplacementStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetVpnTunnelReplacementStatusRequest,
-    output: GetVpnTunnelReplacementStatusResult,
-    errors: [],
-  }));
+export const getVpnTunnelReplacementStatus: (
+  input: GetVpnTunnelReplacementStatusRequest,
+) => Effect.Effect<
+  GetVpnTunnelReplacementStatusResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVpnTunnelReplacementStatusRequest,
+  output: GetVpnTunnelReplacementStatusResult,
+  errors: [],
+}));
 /**
  * Imports a disk into an EBS snapshot.
  *
  * For more information, see Importing a disk as a snapshot using VM Import/Export in the
  * *VM Import/Export User Guide*.
  */
-export const importSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importSnapshot: (
+  input: ImportSnapshotRequest,
+) => Effect.Effect<
+  ImportSnapshotResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportSnapshotRequest,
   output: ImportSnapshotResult,
   errors: [],
@@ -73873,7 +78949,13 @@ export const importSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API action is not supported by the Command Line Interface (CLI).
  */
-export const importVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importVolume: (
+  input: ImportVolumeRequest,
+) => Effect.Effect<
+  ImportVolumeResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportVolumeRequest,
   output: ImportVolumeResult,
   errors: [],
@@ -73883,53 +78965,103 @@ export const importVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Recycle
  * Bin in the *Amazon EC2 User Guide*.
  */
-export const listImagesInRecycleBin =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listImagesInRecycleBin: {
+  (
     input: ListImagesInRecycleBinRequest,
-    output: ListImagesInRecycleBinResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Images",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListImagesInRecycleBinResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImagesInRecycleBinRequest,
+  ) => Stream.Stream<
+    ListImagesInRecycleBinResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImagesInRecycleBinRequest,
+  ) => Stream.Stream<
+    ImageRecycleBinInfo,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImagesInRecycleBinRequest,
+  output: ListImagesInRecycleBinResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Images",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists one or more snapshots that are currently in the Recycle Bin.
  */
-export const listSnapshotsInRecycleBin =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSnapshotsInRecycleBin: {
+  (
     input: ListSnapshotsInRecycleBinRequest,
-    output: ListSnapshotsInRecycleBinResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Snapshots",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSnapshotsInRecycleBinResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSnapshotsInRecycleBinRequest,
+  ) => Stream.Stream<
+    ListSnapshotsInRecycleBinResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSnapshotsInRecycleBinRequest,
+  ) => Stream.Stream<
+    SnapshotRecycleBinInfo,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSnapshotsInRecycleBinRequest,
+  output: ListSnapshotsInRecycleBinResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Snapshots",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists one or more volumes that are currently in the Recycle Bin.
  */
-export const listVolumesInRecycleBin = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListVolumesInRecycleBinRequest,
-    output: ListVolumesInRecycleBinResult,
-    errors: [],
-  }),
-);
+export const listVolumesInRecycleBin: (
+  input: ListVolumesInRecycleBinRequest,
+) => Effect.Effect<
+  ListVolumesInRecycleBinResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListVolumesInRecycleBinRequest,
+  output: ListVolumesInRecycleBinResult,
+  errors: [],
+}));
 /**
  * Modifies the specified Client VPN endpoint. Modifying the DNS server resets existing client connections.
  */
-export const modifyClientVpnEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyClientVpnEndpointRequest,
-    output: ModifyClientVpnEndpointResult,
-    errors: [],
-  }),
-);
+export const modifyClientVpnEndpoint: (
+  input: ModifyClientVpnEndpointRequest,
+) => Effect.Effect<
+  ModifyClientVpnEndpointResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyClientVpnEndpointRequest,
+  output: ModifyClientVpnEndpointResult,
+  errors: [],
+}));
 /**
  * Modifies the specified attribute of the specified AMI. You can specify only one attribute
  * at a time.
@@ -73943,13 +79075,17 @@ export const modifyClientVpnEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To enable the SriovNetSupport enhanced networking attribute of an image, enable
  * SriovNetSupport on an instance and create an AMI from the instance.
  */
-export const modifyImageAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyImageAttributeRequest,
-    output: ModifyImageAttributeResponse,
-    errors: [InvalidAMIIDNotFound],
-  }),
-);
+export const modifyImageAttribute: (
+  input: ModifyImageAttributeRequest,
+) => Effect.Effect<
+  ModifyImageAttributeResponse,
+  InvalidAMIIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyImageAttributeRequest,
+  output: ModifyImageAttributeResponse,
+  errors: [InvalidAMIIDNotFound],
+}));
 /**
  * Modifies the specified attribute of the specified instance. You can specify only one
  * attribute at a time.
@@ -73964,22 +79100,31 @@ export const modifyImageAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Modify a stopped instance in the
  * *Amazon EC2 User Guide*.
  */
-export const modifyInstanceAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyInstanceAttributeRequest,
-    output: ModifyInstanceAttributeResponse,
-    errors: [InvalidInstanceIDNotFound],
-  }),
-);
+export const modifyInstanceAttribute: (
+  input: ModifyInstanceAttributeRequest,
+) => Effect.Effect<
+  ModifyInstanceAttributeResponse,
+  InvalidInstanceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyInstanceAttributeRequest,
+  output: ModifyInstanceAttributeResponse,
+  errors: [InvalidInstanceIDNotFound],
+}));
 /**
  * Modifies the start time for a scheduled Amazon EC2 instance event.
  */
-export const modifyInstanceEventStartTime =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyInstanceEventStartTimeRequest,
-    output: ModifyInstanceEventStartTimeResult,
-    errors: [],
-  }));
+export const modifyInstanceEventStartTime: (
+  input: ModifyInstanceEventStartTimeRequest,
+) => Effect.Effect<
+  ModifyInstanceEventStartTimeResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyInstanceEventStartTimeRequest,
+  output: ModifyInstanceEventStartTimeResult,
+  errors: [],
+}));
 /**
  * Modify the instance metadata parameters on a running or stopped instance. When you
  * modify the parameters on a stopped instance, they are applied when the instance is
@@ -73989,16 +79134,27 @@ export const modifyInstanceEventStartTime =
  * subsequent describe-instances API calls. For more information, see Instance metadata and user data in the
  * *Amazon EC2 User Guide*.
  */
-export const modifyInstanceMetadataOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyInstanceMetadataOptionsRequest,
-    output: ModifyInstanceMetadataOptionsResult,
-    errors: [],
-  }));
+export const modifyInstanceMetadataOptions: (
+  input: ModifyInstanceMetadataOptionsRequest,
+) => Effect.Effect<
+  ModifyInstanceMetadataOptionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyInstanceMetadataOptionsRequest,
+  output: ModifyInstanceMetadataOptionsResult,
+  errors: [],
+}));
 /**
  * Modify the configurations of an IPAM.
  */
-export const modifyIpam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyIpam: (
+  input: ModifyIpamRequest,
+) => Effect.Effect<
+  ModifyIpamResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyIpamRequest,
   output: ModifyIpamResult,
   errors: [],
@@ -74010,22 +79166,31 @@ export const modifyIpam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Allocation rules are optional configurations within an IPAM policy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Amazon-provided IP addresses.
  */
-export const modifyIpamPolicyAllocationRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyIpamPolicyAllocationRulesRequest,
-    output: ModifyIpamPolicyAllocationRulesResult,
-    errors: [],
-  }));
+export const modifyIpamPolicyAllocationRules: (
+  input: ModifyIpamPolicyAllocationRulesRequest,
+) => Effect.Effect<
+  ModifyIpamPolicyAllocationRulesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyIpamPolicyAllocationRulesRequest,
+  output: ModifyIpamPolicyAllocationRulesResult,
+  errors: [],
+}));
 /**
  * Modifies a resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
-export const modifyIpamResourceDiscovery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyIpamResourceDiscoveryRequest,
-    output: ModifyIpamResourceDiscoveryResult,
-    errors: [],
-  }),
-);
+export const modifyIpamResourceDiscovery: (
+  input: ModifyIpamResourceDiscoveryRequest,
+) => Effect.Effect<
+  ModifyIpamResourceDiscoveryResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyIpamResourceDiscoveryRequest,
+  output: ModifyIpamResourceDiscoveryResult,
+  errors: [],
+}));
 /**
  * Modifies the specified managed prefix list.
  *
@@ -74035,13 +79200,17 @@ export const modifyIpamResourceDiscovery = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * If you specify a current version number that does not match the true current version
  * number, the request fails.
  */
-export const modifyManagedPrefixList = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyManagedPrefixListRequest,
-    output: ModifyManagedPrefixListResult,
-    errors: [],
-  }),
-);
+export const modifyManagedPrefixList: (
+  input: ModifyManagedPrefixListRequest,
+) => Effect.Effect<
+  ModifyManagedPrefixListResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyManagedPrefixListRequest,
+  output: ModifyManagedPrefixListResult,
+  errors: [],
+}));
 /**
  * Modifies the configuration of your Reserved Instances, such as the Availability Zone,
  * instance count, or instance type. The Reserved Instances to be modified must be identical,
@@ -74050,13 +79219,17 @@ export const modifyManagedPrefixList = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Modify Reserved Instances in the
  * *Amazon EC2 User Guide*.
  */
-export const modifyReservedInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyReservedInstancesRequest,
-    output: ModifyReservedInstancesResult,
-    errors: [],
-  }),
-);
+export const modifyReservedInstances: (
+  input: ModifyReservedInstancesRequest,
+) => Effect.Effect<
+  ModifyReservedInstancesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyReservedInstancesRequest,
+  output: ModifyReservedInstancesResult,
+  errors: [],
+}));
 /**
  * Adds or removes permission settings for the specified snapshot. You may add or remove
  * specified Amazon Web Services account IDs from a snapshot's list of create volume permissions, but you cannot
@@ -74069,50 +79242,73 @@ export const modifyReservedInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about modifying snapshot permissions, see Share a snapshot in the
  * *Amazon EBS User Guide*.
  */
-export const modifySnapshotAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifySnapshotAttributeRequest,
-    output: ModifySnapshotAttributeResponse,
-    errors: [InvalidSnapshotNotFound],
-  }),
-);
+export const modifySnapshotAttribute: (
+  input: ModifySnapshotAttributeRequest,
+) => Effect.Effect<
+  ModifySnapshotAttributeResponse,
+  InvalidSnapshotNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifySnapshotAttributeRequest,
+  output: ModifySnapshotAttributeResponse,
+  errors: [InvalidSnapshotNotFound],
+}));
 /**
  * Modifies the specified transit gateway. When you modify a transit gateway, the modified options are applied to new transit gateway attachments only. Your existing transit gateway attachments are not modified.
  */
-export const modifyTransitGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyTransitGatewayRequest,
-    output: ModifyTransitGatewayResult,
-    errors: [],
-  }),
-);
+export const modifyTransitGateway: (
+  input: ModifyTransitGatewayRequest,
+) => Effect.Effect<
+  ModifyTransitGatewayResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyTransitGatewayRequest,
+  output: ModifyTransitGatewayResult,
+  errors: [],
+}));
 /**
  * Modifies the specified VPC attachment.
  */
-export const modifyTransitGatewayVpcAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyTransitGatewayVpcAttachmentRequest,
-    output: ModifyTransitGatewayVpcAttachmentResult,
-    errors: [],
-  }));
+export const modifyTransitGatewayVpcAttachment: (
+  input: ModifyTransitGatewayVpcAttachmentRequest,
+) => Effect.Effect<
+  ModifyTransitGatewayVpcAttachmentResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyTransitGatewayVpcAttachmentRequest,
+  output: ModifyTransitGatewayVpcAttachmentResult,
+  errors: [],
+}));
 /**
  * Modifies the specified Amazon Web Services Verified Access endpoint policy.
  */
-export const modifyVerifiedAccessEndpointPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyVerifiedAccessEndpointPolicyRequest,
-    output: ModifyVerifiedAccessEndpointPolicyResult,
-    errors: [],
-  }));
+export const modifyVerifiedAccessEndpointPolicy: (
+  input: ModifyVerifiedAccessEndpointPolicyRequest,
+) => Effect.Effect<
+  ModifyVerifiedAccessEndpointPolicyResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVerifiedAccessEndpointPolicyRequest,
+  output: ModifyVerifiedAccessEndpointPolicyResult,
+  errors: [],
+}));
 /**
  * Modifies the configuration of the specified Amazon Web Services Verified Access trust provider.
  */
-export const modifyVerifiedAccessTrustProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyVerifiedAccessTrustProviderRequest,
-    output: ModifyVerifiedAccessTrustProviderResult,
-    errors: [],
-  }));
+export const modifyVerifiedAccessTrustProvider: (
+  input: ModifyVerifiedAccessTrustProviderRequest,
+) => Effect.Effect<
+  ModifyVerifiedAccessTrustProviderResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVerifiedAccessTrustProviderRequest,
+  output: ModifyVerifiedAccessTrustProviderResult,
+  errors: [],
+}));
 /**
  * Modifies the permissions for your VPC endpoint service. You can add or remove permissions
  * for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to
@@ -74122,12 +79318,17 @@ export const modifyVerifiedAccessTrustProvider =
  * public service can send a request to attach an endpoint. If the service does not require manual approval,
  * attachments are automatically approved.
  */
-export const modifyVpcEndpointServicePermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyVpcEndpointServicePermissionsRequest,
-    output: ModifyVpcEndpointServicePermissionsResult,
-    errors: [],
-  }));
+export const modifyVpcEndpointServicePermissions: (
+  input: ModifyVpcEndpointServicePermissionsRequest,
+) => Effect.Effect<
+  ModifyVpcEndpointServicePermissionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVpcEndpointServicePermissionsRequest,
+  output: ModifyVpcEndpointServicePermissionsResult,
+  errors: [],
+}));
 /**
  * Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP
  * addresses (BYOIP) and creates a corresponding address pool. After the address range is
@@ -74142,7 +79343,13 @@ export const modifyVpcEndpointServicePermissions =
  * but the address range is not ready to use until its status changes from `pending-provision`
  * to `provisioned`. For more information, see Onboard your address range.
  */
-export const provisionByoipCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const provisionByoipCidr: (
+  input: ProvisionByoipCidrRequest,
+) => Effect.Effect<
+  ProvisionByoipCidrResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionByoipCidrRequest,
   output: ProvisionByoipCidrResult,
   errors: [],
@@ -74150,7 +79357,13 @@ export const provisionByoipCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provisions your Autonomous System Number (ASN) for use in your Amazon Web Services account. This action requires authorization context for Amazon to bring the ASN to an Amazon Web Services account. For more information, see Tutorial: Bring your ASN to IPAM in the *Amazon VPC IPAM guide*.
  */
-export const provisionIpamByoasn = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const provisionIpamByoasn: (
+  input: ProvisionIpamByoasnRequest,
+) => Effect.Effect<
+  ProvisionIpamByoasnResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionIpamByoasnRequest,
   output: ProvisionIpamByoasnResult,
   errors: [],
@@ -74160,25 +79373,33 @@ export const provisionIpamByoasn = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Provision CIDRs to pools in the *Amazon VPC IPAM User Guide*.
  */
-export const provisionIpamPoolCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ProvisionIpamPoolCidrRequest,
-    output: ProvisionIpamPoolCidrResult,
-    errors: [],
-  }),
-);
+export const provisionIpamPoolCidr: (
+  input: ProvisionIpamPoolCidrRequest,
+) => Effect.Effect<
+  ProvisionIpamPoolCidrResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ProvisionIpamPoolCidrRequest,
+  output: ProvisionIpamPoolCidrResult,
+  errors: [],
+}));
 /**
  * Provision a CIDR to a public IPv4 pool.
  *
  * For more information about IPAM, see What is IPAM? in the *Amazon VPC IPAM User Guide*.
  */
-export const provisionPublicIpv4PoolCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ProvisionPublicIpv4PoolCidrRequest,
-    output: ProvisionPublicIpv4PoolCidrResult,
-    errors: [],
-  }),
-);
+export const provisionPublicIpv4PoolCidr: (
+  input: ProvisionPublicIpv4PoolCidrRequest,
+) => Effect.Effect<
+  ProvisionPublicIpv4PoolCidrResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ProvisionPublicIpv4PoolCidrRequest,
+  output: ProvisionPublicIpv4PoolCidrResult,
+  errors: [],
+}));
 /**
  * Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay
  * a lower hourly rate compared to On-Demand instance pricing.
@@ -74194,12 +79415,17 @@ export const provisionPublicIpv4PoolCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Instances and Sell in the Reserved Instance
  * Marketplace in the *Amazon EC2 User Guide*.
  */
-export const purchaseReservedInstancesOffering =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PurchaseReservedInstancesOfferingRequest,
-    output: PurchaseReservedInstancesOfferingResult,
-    errors: [],
-  }));
+export const purchaseReservedInstancesOffering: (
+  input: PurchaseReservedInstancesOfferingRequest,
+) => Effect.Effect<
+  PurchaseReservedInstancesOfferingResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PurchaseReservedInstancesOfferingRequest,
+  output: PurchaseReservedInstancesOfferingResult,
+  errors: [],
+}));
 /**
  * You can no longer purchase Scheduled Instances.
  *
@@ -74212,25 +79438,34 @@ export const purchaseReservedInstancesOffering =
  *
  * After you purchase a Scheduled Instance, you can't cancel, modify, or resell your purchase.
  */
-export const purchaseScheduledInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PurchaseScheduledInstancesRequest,
-    output: PurchaseScheduledInstancesResult,
-    errors: [],
-  }),
-);
+export const purchaseScheduledInstances: (
+  input: PurchaseScheduledInstancesRequest,
+) => Effect.Effect<
+  PurchaseScheduledInstancesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PurchaseScheduledInstancesRequest,
+  output: PurchaseScheduledInstancesResult,
+  errors: [],
+}));
 /**
  * Registers a set of tag keys to include in scheduled event notifications for your
  * resources.
  *
  * To remove tags, use DeregisterInstanceEventNotificationAttributes.
  */
-export const registerInstanceEventNotificationAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterInstanceEventNotificationAttributesRequest,
-    output: RegisterInstanceEventNotificationAttributesResult,
-    errors: [],
-  }));
+export const registerInstanceEventNotificationAttributes: (
+  input: RegisterInstanceEventNotificationAttributesRequest,
+) => Effect.Effect<
+  RegisterInstanceEventNotificationAttributesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterInstanceEventNotificationAttributesRequest,
+  output: RegisterInstanceEventNotificationAttributesResult,
+  errors: [],
+}));
 /**
  * Registers members (network interfaces) with the transit gateway multicast group. A member is a network interface associated
  * with a supported EC2 instance that receives multicast traffic. For more information, see
@@ -74240,12 +79475,17 @@ export const registerInstanceEventNotificationAttributes =
  * After you add the members, use SearchTransitGatewayMulticastGroups to verify that the members were added
  * to the transit gateway multicast group.
  */
-export const registerTransitGatewayMulticastGroupMembers =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterTransitGatewayMulticastGroupMembersRequest,
-    output: RegisterTransitGatewayMulticastGroupMembersResult,
-    errors: [],
-  }));
+export const registerTransitGatewayMulticastGroupMembers: (
+  input: RegisterTransitGatewayMulticastGroupMembersRequest,
+) => Effect.Effect<
+  RegisterTransitGatewayMulticastGroupMembersResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterTransitGatewayMulticastGroupMembersRequest,
+  output: RegisterTransitGatewayMulticastGroupMembersResult,
+  errors: [],
+}));
 /**
  * Registers sources (network interfaces) with the specified transit gateway multicast group.
  *
@@ -74256,12 +79496,17 @@ export const registerTransitGatewayMulticastGroupMembers =
  * After you add the source, use SearchTransitGatewayMulticastGroups to verify that the source was added to the multicast
  * group.
  */
-export const registerTransitGatewayMulticastGroupSources =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterTransitGatewayMulticastGroupSourcesRequest,
-    output: RegisterTransitGatewayMulticastGroupSourcesResult,
-    errors: [],
-  }));
+export const registerTransitGatewayMulticastGroupSources: (
+  input: RegisterTransitGatewayMulticastGroupSourcesRequest,
+) => Effect.Effect<
+  RegisterTransitGatewayMulticastGroupSourcesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterTransitGatewayMulticastGroupSourcesRequest,
+  output: RegisterTransitGatewayMulticastGroupSourcesResult,
+  errors: [],
+}));
 /**
  * Removes the specified outbound (egress) rules from the specified security group.
  *
@@ -74281,28 +79526,53 @@ export const registerTransitGatewayMulticastGroupSources =
  * Rule changes are propagated to instances within the security group as quickly as possible. However,
  * a small delay might occur.
  */
-export const revokeSecurityGroupEgress = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RevokeSecurityGroupEgressRequest,
-    output: RevokeSecurityGroupEgressResult,
-    errors: [InvalidGroupNotFound],
-  }),
-);
+export const revokeSecurityGroupEgress: (
+  input: RevokeSecurityGroupEgressRequest,
+) => Effect.Effect<
+  RevokeSecurityGroupEgressResult,
+  InvalidGroupNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeSecurityGroupEgressRequest,
+  output: RevokeSecurityGroupEgressResult,
+  errors: [InvalidGroupNotFound],
+}));
 /**
  * Searches one or more transit gateway multicast groups and returns the group membership information.
  */
-export const searchTransitGatewayMulticastGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchTransitGatewayMulticastGroups: {
+  (
     input: SearchTransitGatewayMulticastGroupsRequest,
-    output: SearchTransitGatewayMulticastGroupsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MulticastGroups",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchTransitGatewayMulticastGroupsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchTransitGatewayMulticastGroupsRequest,
+  ) => Stream.Stream<
+    SearchTransitGatewayMulticastGroupsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchTransitGatewayMulticastGroupsRequest,
+  ) => Stream.Stream<
+    TransitGatewayMulticastGroup,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchTransitGatewayMulticastGroupsRequest,
+  output: SearchTransitGatewayMulticastGroupsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MulticastGroups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Starts an Amazon EBS-backed instance that you've previously stopped.
  *
@@ -74329,7 +79599,13 @@ export const searchTransitGatewayMulticastGroups =
  * For more information, see Stop and start Amazon EC2
  * instances in the *Amazon EC2 User Guide*.
  */
-export const startInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startInstances: (
+  input: StartInstancesRequest,
+) => Effect.Effect<
+  StartInstancesResult,
+  InvalidInstanceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartInstancesRequest,
   output: StartInstancesResult,
   errors: [InvalidInstanceIDNotFound],
@@ -74337,43 +79613,63 @@ export const startInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Terminates active Client VPN endpoint connections. This action can be used to terminate a specific client connection, or up to five connections established by a specific user.
  */
-export const terminateClientVpnConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: TerminateClientVpnConnectionsRequest,
-    output: TerminateClientVpnConnectionsResult,
-    errors: [],
-  }));
+export const terminateClientVpnConnections: (
+  input: TerminateClientVpnConnectionsRequest,
+) => Effect.Effect<
+  TerminateClientVpnConnectionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TerminateClientVpnConnectionsRequest,
+  output: TerminateClientVpnConnectionsResult,
+  errors: [],
+}));
 /**
  * Updates the description of an egress (outbound) security group rule. You
  * can replace an existing description, or add a description to a rule that did not have one
  * previously. You can remove a description for a security group rule by omitting the
  * description parameter in the request.
  */
-export const updateSecurityGroupRuleDescriptionsEgress =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSecurityGroupRuleDescriptionsEgressRequest,
-    output: UpdateSecurityGroupRuleDescriptionsEgressResult,
-    errors: [],
-  }));
+export const updateSecurityGroupRuleDescriptionsEgress: (
+  input: UpdateSecurityGroupRuleDescriptionsEgressRequest,
+) => Effect.Effect<
+  UpdateSecurityGroupRuleDescriptionsEgressResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSecurityGroupRuleDescriptionsEgressRequest,
+  output: UpdateSecurityGroupRuleDescriptionsEgressResult,
+  errors: [],
+}));
 /**
  * Accepts a request to associate subnets with a transit gateway multicast domain.
  */
-export const acceptTransitGatewayMulticastDomainAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AcceptTransitGatewayMulticastDomainAssociationsRequest,
-    output: AcceptTransitGatewayMulticastDomainAssociationsResult,
-    errors: [],
-  }));
+export const acceptTransitGatewayMulticastDomainAssociations: (
+  input: AcceptTransitGatewayMulticastDomainAssociationsRequest,
+) => Effect.Effect<
+  AcceptTransitGatewayMulticastDomainAssociationsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptTransitGatewayMulticastDomainAssociationsRequest,
+  output: AcceptTransitGatewayMulticastDomainAssociationsResult,
+  errors: [],
+}));
 /**
  * Accepts a transit gateway peering attachment request. The peering attachment must be
  * in the `pendingAcceptance` state.
  */
-export const acceptTransitGatewayPeeringAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AcceptTransitGatewayPeeringAttachmentRequest,
-    output: AcceptTransitGatewayPeeringAttachmentResult,
-    errors: [],
-  }));
+export const acceptTransitGatewayPeeringAttachment: (
+  input: AcceptTransitGatewayPeeringAttachmentRequest,
+) => Effect.Effect<
+  AcceptTransitGatewayPeeringAttachmentResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptTransitGatewayPeeringAttachmentRequest,
+  output: AcceptTransitGatewayPeeringAttachmentResult,
+  errors: [],
+}));
 /**
  * Accepts a request to attach a VPC to a transit gateway.
  *
@@ -74381,32 +79677,46 @@ export const acceptTransitGatewayPeeringAttachment =
  * Use DescribeTransitGatewayVpcAttachments to view your pending VPC attachment requests.
  * Use RejectTransitGatewayVpcAttachment to reject a VPC attachment request.
  */
-export const acceptTransitGatewayVpcAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AcceptTransitGatewayVpcAttachmentRequest,
-    output: AcceptTransitGatewayVpcAttachmentResult,
-    errors: [],
-  }));
+export const acceptTransitGatewayVpcAttachment: (
+  input: AcceptTransitGatewayVpcAttachmentRequest,
+) => Effect.Effect<
+  AcceptTransitGatewayVpcAttachmentResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptTransitGatewayVpcAttachmentRequest,
+  output: AcceptTransitGatewayVpcAttachmentResult,
+  errors: [],
+}));
 /**
  * Accepts connection requests to your VPC endpoint service.
  */
-export const acceptVpcEndpointConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AcceptVpcEndpointConnectionsRequest,
-    output: AcceptVpcEndpointConnectionsResult,
-    errors: [],
-  }));
+export const acceptVpcEndpointConnections: (
+  input: AcceptVpcEndpointConnectionsRequest,
+) => Effect.Effect<
+  AcceptVpcEndpointConnectionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptVpcEndpointConnectionsRequest,
+  output: AcceptVpcEndpointConnectionsResult,
+  errors: [],
+}));
 /**
  * Associates a CIDR block with your subnet. You can only associate a single IPv6 CIDR
  * block with your subnet.
  */
-export const associateSubnetCidrBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateSubnetCidrBlockRequest,
-    output: AssociateSubnetCidrBlockResult,
-    errors: [InvalidSubnetIDNotFound],
-  }),
-);
+export const associateSubnetCidrBlock: (
+  input: AssociateSubnetCidrBlockRequest,
+) => Effect.Effect<
+  AssociateSubnetCidrBlockResult,
+  InvalidSubnetIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateSubnetCidrBlockRequest,
+  output: AssociateSubnetCidrBlockResult,
+  errors: [InvalidSubnetIDNotFound],
+}));
 /**
  * Associates a CIDR block with your VPC. You can associate a secondary IPv4 CIDR block,
  * an Amazon-provided IPv6 CIDR block, or an IPv6 CIDR block from an IPv6 address pool that
@@ -74419,32 +79729,45 @@ export const associateSubnetCidrBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * restrictions, see IP addressing for your VPCs and subnets
  * in the *Amazon VPC User Guide*.
  */
-export const associateVpcCidrBlock = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateVpcCidrBlockRequest,
-    output: AssociateVpcCidrBlockResult,
-    errors: [InvalidVpcIDNotFound],
-  }),
-);
+export const associateVpcCidrBlock: (
+  input: AssociateVpcCidrBlockRequest,
+) => Effect.Effect<
+  AssociateVpcCidrBlockResult,
+  InvalidVpcIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateVpcCidrBlockRequest,
+  output: AssociateVpcCidrBlockResult,
+  errors: [InvalidVpcIDNotFound],
+}));
 /**
  * Attaches a network interface to an instance.
  */
-export const attachNetworkInterface = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AttachNetworkInterfaceRequest,
-    output: AttachNetworkInterfaceResult,
-    errors: [InvalidNetworkInterfaceIDNotFound],
-  }),
-);
+export const attachNetworkInterface: (
+  input: AttachNetworkInterfaceRequest,
+) => Effect.Effect<
+  AttachNetworkInterfaceResult,
+  InvalidNetworkInterfaceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachNetworkInterfaceRequest,
+  output: AttachNetworkInterfaceResult,
+  errors: [InvalidNetworkInterfaceIDNotFound],
+}));
 /**
  * Attaches the specified Amazon Web Services Verified Access trust provider to the specified Amazon Web Services Verified Access instance.
  */
-export const attachVerifiedAccessTrustProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AttachVerifiedAccessTrustProviderRequest,
-    output: AttachVerifiedAccessTrustProviderResult,
-    errors: [],
-  }));
+export const attachVerifiedAccessTrustProvider: (
+  input: AttachVerifiedAccessTrustProviderRequest,
+) => Effect.Effect<
+  AttachVerifiedAccessTrustProviderResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachVerifiedAccessTrustProviderRequest,
+  output: AttachVerifiedAccessTrustProviderResult,
+  errors: [],
+}));
 /**
  * Adds the specified outbound (egress) rules to a security group.
  *
@@ -74465,12 +79788,17 @@ export const attachVerifiedAccessTrustProvider =
  *
  * For information about security group quotas, see Amazon VPC quotas in the *Amazon VPC User Guide*.
  */
-export const authorizeSecurityGroupEgress =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AuthorizeSecurityGroupEgressRequest,
-    output: AuthorizeSecurityGroupEgressResult,
-    errors: [InvalidGroupNotFound],
-  }));
+export const authorizeSecurityGroupEgress: (
+  input: AuthorizeSecurityGroupEgressRequest,
+) => Effect.Effect<
+  AuthorizeSecurityGroupEgressResult,
+  InvalidGroupNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AuthorizeSecurityGroupEgressRequest,
+  output: AuthorizeSecurityGroupEgressResult,
+  errors: [InvalidGroupNotFound],
+}));
 /**
  * Adds the specified inbound (ingress) rules to a security group.
  *
@@ -74491,12 +79819,17 @@ export const authorizeSecurityGroupEgress =
  *
  * For more information about security group quotas, see Amazon VPC quotas in the *Amazon VPC User Guide*.
  */
-export const authorizeSecurityGroupIngress =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AuthorizeSecurityGroupIngressRequest,
-    output: AuthorizeSecurityGroupIngressResult,
-    errors: [InvalidGroupNotFound],
-  }));
+export const authorizeSecurityGroupIngress: (
+  input: AuthorizeSecurityGroupIngressRequest,
+) => Effect.Effect<
+  AuthorizeSecurityGroupIngressResult,
+  InvalidGroupNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AuthorizeSecurityGroupIngressRequest,
+  output: AuthorizeSecurityGroupIngressResult,
+  errors: [InvalidGroupNotFound],
+}));
 /**
  * Bundles an Amazon instance store-backed Windows instance.
  *
@@ -74506,7 +79839,13 @@ export const authorizeSecurityGroupIngress =
  * This action is not applicable for Linux/Unix instances or Windows instances that are
  * backed by Amazon EBS.
  */
-export const bundleInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const bundleInstance: (
+  input: BundleInstanceRequest,
+) => Effect.Effect<
+  BundleInstanceResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BundleInstanceRequest,
   output: BundleInstanceResult,
   errors: [],
@@ -74514,7 +79853,13 @@ export const bundleInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels a bundling operation for an instance store-backed Windows instance.
  */
-export const cancelBundleTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelBundleTask: (
+  input: CancelBundleTaskRequest,
+) => Effect.Effect<
+  CancelBundleTaskResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelBundleTaskRequest,
   output: CancelBundleTaskResult,
   errors: [],
@@ -74532,12 +79877,17 @@ export const cancelBundleTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - The Fleet stops creating new Capacity Reservations.
  */
-export const cancelCapacityReservationFleets =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CancelCapacityReservationFleetsRequest,
-    output: CancelCapacityReservationFleetsResult,
-    errors: [],
-  }));
+export const cancelCapacityReservationFleets: (
+  input: CancelCapacityReservationFleetsRequest,
+) => Effect.Effect<
+  CancelCapacityReservationFleetsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelCapacityReservationFleetsRequest,
+  output: CancelCapacityReservationFleetsResult,
+  errors: [],
+}));
 /**
  * Cancels the specified Reserved Instance listing in the Reserved Instance
  * Marketplace.
@@ -74545,12 +79895,17 @@ export const cancelCapacityReservationFleets =
  * For more information, see Sell in the Reserved Instance
  * Marketplace in the *Amazon EC2 User Guide*.
  */
-export const cancelReservedInstancesListing =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CancelReservedInstancesListingRequest,
-    output: CancelReservedInstancesListingResult,
-    errors: [],
-  }));
+export const cancelReservedInstancesListing: (
+  input: CancelReservedInstancesListingRequest,
+) => Effect.Effect<
+  CancelReservedInstancesListingResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelReservedInstancesListingRequest,
+  output: CancelReservedInstancesListingResult,
+  errors: [],
+}));
 /**
  * Cancels the specified Spot Fleet requests.
  *
@@ -74578,13 +79933,17 @@ export const cancelReservedInstancesListing =
  * - You can delete up to 100 fleets in a single request. If you exceed the specified
  * number, no fleets are deleted.
  */
-export const cancelSpotFleetRequests = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelSpotFleetRequestsRequest,
-    output: CancelSpotFleetRequestsResponse,
-    errors: [],
-  }),
-);
+export const cancelSpotFleetRequests: (
+  input: CancelSpotFleetRequestsRequest,
+) => Effect.Effect<
+  CancelSpotFleetRequestsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelSpotFleetRequestsRequest,
+  output: CancelSpotFleetRequestsResponse,
+  errors: [],
+}));
 /**
  * Creates a new Capacity Reservation with the specified attributes. Capacity
  * Reservations enable you to reserve capacity for your Amazon EC2 instances in a specific
@@ -74611,32 +79970,46 @@ export const cancelSpotFleetRequests = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Amazon EC2 Service Quotas in the
  * *Amazon EC2 User Guide*.
  */
-export const createCapacityReservation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCapacityReservationRequest,
-    output: CreateCapacityReservationResult,
-    errors: [],
-  }),
-);
+export const createCapacityReservation: (
+  input: CreateCapacityReservationRequest,
+) => Effect.Effect<
+  CreateCapacityReservationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCapacityReservationRequest,
+  output: CreateCapacityReservationResult,
+  errors: [],
+}));
 /**
  * Creates a Client VPN endpoint. A Client VPN endpoint is the resource you create and configure to
  * enable and manage client VPN sessions. It is the destination endpoint at which all client VPN sessions
  * are terminated.
  */
-export const createClientVpnEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateClientVpnEndpointRequest,
-    output: CreateClientVpnEndpointResult,
-    errors: [],
-  }),
-);
+export const createClientVpnEndpoint: (
+  input: CreateClientVpnEndpointRequest,
+) => Effect.Effect<
+  CreateClientVpnEndpointResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateClientVpnEndpointRequest,
+  output: CreateClientVpnEndpointResult,
+  errors: [],
+}));
 /**
  * Creates a default subnet with a size `/20` IPv4 CIDR block in the
  * specified Availability Zone in your default VPC. You can have only one default subnet
  * per Availability Zone. For more information, see Create a default
  * subnet in the *Amazon VPC User Guide*.
  */
-export const createDefaultSubnet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDefaultSubnet: (
+  input: CreateDefaultSubnetRequest,
+) => Effect.Effect<
+  CreateDefaultSubnetResult,
+  DefaultSubnetAlreadyExistsInAvailabilityZone | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDefaultSubnetRequest,
   output: CreateDefaultSubnetResult,
   errors: [DefaultSubnetAlreadyExistsInAvailabilityZone],
@@ -74645,24 +80018,34 @@ export const createDefaultSubnet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Delegates ownership of the Amazon EBS root volume for an Apple silicon
  * Mac instance to an administrative user.
  */
-export const createDelegateMacVolumeOwnershipTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDelegateMacVolumeOwnershipTaskRequest,
-    output: CreateDelegateMacVolumeOwnershipTaskResult,
-    errors: [],
-  }));
+export const createDelegateMacVolumeOwnershipTask: (
+  input: CreateDelegateMacVolumeOwnershipTaskRequest,
+) => Effect.Effect<
+  CreateDelegateMacVolumeOwnershipTaskResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDelegateMacVolumeOwnershipTaskRequest,
+  output: CreateDelegateMacVolumeOwnershipTaskResult,
+  errors: [],
+}));
 /**
  * [IPv6 only] Creates an egress-only internet gateway for your VPC. An egress-only
  * internet gateway is used to enable outbound communication over IPv6 from instances in
  * your VPC to the internet, and prevents hosts outside of your VPC from initiating an IPv6
  * connection with your instance.
  */
-export const createEgressOnlyInternetGateway =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateEgressOnlyInternetGatewayRequest,
-    output: CreateEgressOnlyInternetGatewayResult,
-    errors: [InvalidVpcIDNotFound, ParseError],
-  }));
+export const createEgressOnlyInternetGateway: (
+  input: CreateEgressOnlyInternetGatewayRequest,
+) => Effect.Effect<
+  CreateEgressOnlyInternetGatewayResult,
+  InvalidVpcIDNotFound | ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEgressOnlyInternetGatewayRequest,
+  output: CreateEgressOnlyInternetGatewayResult,
+  errors: [InvalidVpcIDNotFound, ParseError],
+}));
 /**
  * Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running or
  * stopped.
@@ -74684,7 +80067,13 @@ export const createEgressOnlyInternetGateway =
  * For more information, see Create an Amazon EBS-backed AMI in
  * the *Amazon Elastic Compute Cloud User Guide*.
  */
-export const createImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createImage: (
+  input: CreateImageRequest,
+) => Effect.Effect<
+  CreateImageResult,
+  InvalidInstanceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateImageRequest,
   output: CreateImageResult,
   errors: [InvalidInstanceIDNotFound],
@@ -74697,13 +80086,17 @@ export const createImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see View your AMI usage in the
  * *Amazon EC2 User Guide*.
  */
-export const createImageUsageReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateImageUsageReportRequest,
-    output: CreateImageUsageReportResult,
-    errors: [],
-  }),
-);
+export const createImageUsageReport: (
+  input: CreateImageUsageReportRequest,
+) => Effect.Effect<
+  CreateImageUsageReportResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateImageUsageReportRequest,
+  output: CreateImageUsageReportResult,
+  errors: [],
+}));
 /**
  * Creates an IPAM prefix list resolver.
  *
@@ -74711,22 +80104,31 @@ export const createImageUsageReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information about IPAM prefix list resolver, see Automate prefix list updates with IPAM in the *Amazon VPC IPAM User Guide*.
  */
-export const createIpamPrefixListResolver =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateIpamPrefixListResolverRequest,
-    output: CreateIpamPrefixListResolverResult,
-    errors: [],
-  }));
+export const createIpamPrefixListResolver: (
+  input: CreateIpamPrefixListResolverRequest,
+) => Effect.Effect<
+  CreateIpamPrefixListResolverResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIpamPrefixListResolverRequest,
+  output: CreateIpamPrefixListResolverResult,
+  errors: [],
+}));
 /**
  * Creates an IPAM resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
-export const createIpamResourceDiscovery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIpamResourceDiscoveryRequest,
-    output: CreateIpamResourceDiscoveryResult,
-    errors: [],
-  }),
-);
+export const createIpamResourceDiscovery: (
+  input: CreateIpamResourceDiscoveryRequest,
+) => Effect.Effect<
+  CreateIpamResourceDiscoveryResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIpamResourceDiscoveryRequest,
+  output: CreateIpamResourceDiscoveryResult,
+  errors: [],
+}));
 /**
  * Creates a new version of a launch template. You must specify an existing launch
  * template, either by name or ID. You can determine whether the new version inherits
@@ -74743,29 +80145,44 @@ export const createIpamResourceDiscovery = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * template (manage launch template versions) in the
  * *Amazon EC2 User Guide*.
  */
-export const createLaunchTemplateVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLaunchTemplateVersionRequest,
-    output: CreateLaunchTemplateVersionResult,
-    errors: [],
-  }),
-);
+export const createLaunchTemplateVersion: (
+  input: CreateLaunchTemplateVersionRequest,
+) => Effect.Effect<
+  CreateLaunchTemplateVersionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLaunchTemplateVersionRequest,
+  output: CreateLaunchTemplateVersionResult,
+  errors: [],
+}));
 /**
  * Creates a local gateway route table.
  */
-export const createLocalGatewayRouteTable =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLocalGatewayRouteTableRequest,
-    output: CreateLocalGatewayRouteTableResult,
-    errors: [],
-  }));
+export const createLocalGatewayRouteTable: (
+  input: CreateLocalGatewayRouteTableRequest,
+) => Effect.Effect<
+  CreateLocalGatewayRouteTableResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLocalGatewayRouteTableRequest,
+  output: CreateLocalGatewayRouteTableResult,
+  errors: [],
+}));
 /**
  * Creates a network ACL in a VPC. Network ACLs provide an optional layer of security (in addition to security groups) for the instances in your VPC.
  *
  * For more information, see Network ACLs in the
  * *Amazon VPC User Guide*.
  */
-export const createNetworkAcl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createNetworkAcl: (
+  input: CreateNetworkAclRequest,
+) => Effect.Effect<
+  CreateNetworkAclResult,
+  InvalidVpcIDNotFound | ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNetworkAclRequest,
   output: CreateNetworkAclResult,
   errors: [InvalidVpcIDNotFound, ParseError],
@@ -74777,13 +80194,17 @@ export const createNetworkAcl = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * two resources in your virtual private cloud (VPC). For more information, see the
  * Reachability Analyzer Guide.
  */
-export const createNetworkInsightsPath = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateNetworkInsightsPathRequest,
-    output: CreateNetworkInsightsPathResult,
-    errors: [],
-  }),
-);
+export const createNetworkInsightsPath: (
+  input: CreateNetworkInsightsPathRequest,
+) => Effect.Effect<
+  CreateNetworkInsightsPathResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNetworkInsightsPathRequest,
+  output: CreateNetworkInsightsPathResult,
+  errors: [],
+}));
 /**
  * Grants an Amazon Web Services-authorized account permission to attach the specified
  * network interface to an instance in their account.
@@ -74791,19 +80212,30 @@ export const createNetworkInsightsPath = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can grant permission to a single Amazon Web Services account only, and only one
  * account at a time.
  */
-export const createNetworkInterfacePermission =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateNetworkInterfacePermissionRequest,
-    output: CreateNetworkInterfacePermissionResult,
-    errors: [],
-  }));
+export const createNetworkInterfacePermission: (
+  input: CreateNetworkInterfacePermissionRequest,
+) => Effect.Effect<
+  CreateNetworkInterfacePermissionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNetworkInterfacePermissionRequest,
+  output: CreateNetworkInterfacePermissionResult,
+  errors: [],
+}));
 /**
  * Creates a route table for the specified VPC. After you create a route table, you can add routes and associate the table with a subnet.
  *
  * For more information, see Route tables in the
  * *Amazon VPC User Guide*.
  */
-export const createRouteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRouteTable: (
+  input: CreateRouteTableRequest,
+) => Effect.Effect<
+  CreateRouteTableResult,
+  InvalidVpcIDNotFound | ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRouteTableRequest,
   output: CreateRouteTableResult,
   errors: [InvalidVpcIDNotFound, ParseError],
@@ -74826,7 +80258,13 @@ export const createRouteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - If the source instance is on an Outpost, you can create the snapshots on the same
  * Outpost or in its parent Amazon Web Services Region.
  */
-export const createSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSnapshots: (
+  input: CreateSnapshotsRequest,
+) => Effect.Effect<
+  CreateSnapshotsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotsRequest,
   output: CreateSnapshotsResult,
   errors: [],
@@ -74837,49 +80275,73 @@ export const createSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Spot Instance data feed
  * in the *Amazon EC2 User Guide*.
  */
-export const createSpotDatafeedSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateSpotDatafeedSubscriptionRequest,
-    output: CreateSpotDatafeedSubscriptionResult,
-    errors: [],
-  }));
+export const createSpotDatafeedSubscription: (
+  input: CreateSpotDatafeedSubscriptionRequest,
+) => Effect.Effect<
+  CreateSpotDatafeedSubscriptionResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSpotDatafeedSubscriptionRequest,
+  output: CreateSpotDatafeedSubscriptionResult,
+  errors: [],
+}));
 /**
  * Creates an entry in a transit gateway metering policy to define traffic measurement rules.
  */
-export const createTransitGatewayMeteringPolicyEntry =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTransitGatewayMeteringPolicyEntryRequest,
-    output: CreateTransitGatewayMeteringPolicyEntryResult,
-    errors: [],
-  }));
+export const createTransitGatewayMeteringPolicyEntry: (
+  input: CreateTransitGatewayMeteringPolicyEntryRequest,
+) => Effect.Effect<
+  CreateTransitGatewayMeteringPolicyEntryResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitGatewayMeteringPolicyEntryRequest,
+  output: CreateTransitGatewayMeteringPolicyEntryResult,
+  errors: [],
+}));
 /**
  * Creates a reference (route) to a prefix list in a specified transit gateway route table.
  */
-export const createTransitGatewayPrefixListReference =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTransitGatewayPrefixListReferenceRequest,
-    output: CreateTransitGatewayPrefixListReferenceResult,
-    errors: [],
-  }));
+export const createTransitGatewayPrefixListReference: (
+  input: CreateTransitGatewayPrefixListReferenceRequest,
+) => Effect.Effect<
+  CreateTransitGatewayPrefixListReferenceResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitGatewayPrefixListReferenceRequest,
+  output: CreateTransitGatewayPrefixListReferenceResult,
+  errors: [],
+}));
 /**
  * Creates a static route for the specified transit gateway route table.
  */
-export const createTransitGatewayRoute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTransitGatewayRouteRequest,
-    output: CreateTransitGatewayRouteResult,
-    errors: [],
-  }),
-);
+export const createTransitGatewayRoute: (
+  input: CreateTransitGatewayRouteRequest,
+) => Effect.Effect<
+  CreateTransitGatewayRouteResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransitGatewayRouteRequest,
+  output: CreateTransitGatewayRouteResult,
+  errors: [],
+}));
 /**
  * An Amazon Web Services Verified Access endpoint is where you define your application along with an optional endpoint-level access policy.
  */
-export const createVerifiedAccessEndpoint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateVerifiedAccessEndpointRequest,
-    output: CreateVerifiedAccessEndpointResult,
-    errors: [],
-  }));
+export const createVerifiedAccessEndpoint: (
+  input: CreateVerifiedAccessEndpointRequest,
+) => Effect.Effect<
+  CreateVerifiedAccessEndpointResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVerifiedAccessEndpointRequest,
+  output: CreateVerifiedAccessEndpointResult,
+  errors: [],
+}));
 /**
  * Creates a VPC endpoint service to which service consumers (Amazon Web Services accounts,
  * users, and IAM roles) can connect.
@@ -74898,12 +80360,17 @@ export const createVerifiedAccessEndpoint =
  * For more information, see the Amazon Web Services PrivateLink
  * Guide.
  */
-export const createVpcEndpointServiceConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateVpcEndpointServiceConfigurationRequest,
-    output: CreateVpcEndpointServiceConfigurationResult,
-    errors: [],
-  }));
+export const createVpcEndpointServiceConfiguration: (
+  input: CreateVpcEndpointServiceConfigurationRequest,
+) => Effect.Effect<
+  CreateVpcEndpointServiceConfigurationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVpcEndpointServiceConfigurationRequest,
+  output: CreateVpcEndpointServiceConfigurationResult,
+  errors: [],
+}));
 /**
  * Creates a VPN connection between an existing virtual private gateway or transit
  * gateway and a customer gateway. The supported connection type is
@@ -74926,7 +80393,13 @@ export const createVpcEndpointServiceConfiguration =
  * For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN
  * User Guide.
  */
-export const createVpnConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVpnConnection: (
+  input: CreateVpnConnectionRequest,
+) => Effect.Effect<
+  CreateVpnConnectionResult,
+  InvalidCustomerGatewayIDNotFound | ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpnConnectionRequest,
   output: CreateVpnConnectionResult,
   errors: [InvalidCustomerGatewayIDNotFound, ParseError],
@@ -74976,7 +80449,13 @@ export const createVpnConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Delete an EC2 Fleet request and the instances
  * in the fleet in the *Amazon EC2 User Guide*.
  */
-export const deleteFleets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFleets: (
+  input: DeleteFleetsRequest,
+) => Effect.Effect<
+  DeleteFleetsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFleetsRequest,
   output: DeleteFleetsResult,
   errors: [],
@@ -74990,7 +80469,13 @@ export const deleteFleets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Delete a pool in the *Amazon VPC IPAM User Guide*.
  */
-export const deleteIpamPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIpamPool: (
+  input: DeleteIpamPoolRequest,
+) => Effect.Effect<
+  DeleteIpamPoolResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIpamPoolRequest,
   output: DeleteIpamPoolResult,
   errors: [],
@@ -75000,7 +80485,13 @@ export const deleteIpamPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Delete a scope in the *Amazon VPC IPAM User Guide*.
  */
-export const deleteIpamScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIpamScope: (
+  input: DeleteIpamScopeRequest,
+) => Effect.Effect<
+  DeleteIpamScopeResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIpamScopeRequest,
   output: DeleteIpamScopeResult,
   errors: [],
@@ -75019,21 +80510,31 @@ export const deleteIpamScope = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Delete a launch template version in the
  * *Amazon EC2 User Guide*.
  */
-export const deleteLaunchTemplateVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteLaunchTemplateVersionsRequest,
-    output: DeleteLaunchTemplateVersionsResult,
-    errors: [],
-  }));
+export const deleteLaunchTemplateVersions: (
+  input: DeleteLaunchTemplateVersionsRequest,
+) => Effect.Effect<
+  DeleteLaunchTemplateVersionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLaunchTemplateVersionsRequest,
+  output: DeleteLaunchTemplateVersionsResult,
+  errors: [],
+}));
 /**
  * Deletes the queued purchases for the specified Reserved Instances.
  */
-export const deleteQueuedReservedInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteQueuedReservedInstancesRequest,
-    output: DeleteQueuedReservedInstancesResult,
-    errors: [],
-  }));
+export const deleteQueuedReservedInstances: (
+  input: DeleteQueuedReservedInstancesRequest,
+) => Effect.Effect<
+  DeleteQueuedReservedInstancesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteQueuedReservedInstancesRequest,
+  output: DeleteQueuedReservedInstancesResult,
+  errors: [],
+}));
 /**
  * Deletes the specified BGP peer from a route server.
  *
@@ -75045,43 +80546,60 @@ export const deleteQueuedReservedInstances =
  *
  * - Can initiate BGP sessions
  */
-export const deleteRouteServerPeer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRouteServerPeerRequest,
-    output: DeleteRouteServerPeerResult,
-    errors: [],
-  }),
-);
+export const deleteRouteServerPeer: (
+  input: DeleteRouteServerPeerRequest,
+) => Effect.Effect<
+  DeleteRouteServerPeerResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRouteServerPeerRequest,
+  output: DeleteRouteServerPeerResult,
+  errors: [],
+}));
 /**
  * Deletes the specified Connect attachment. You must first delete any Connect peers for
  * the attachment.
  */
-export const deleteTransitGatewayConnect = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTransitGatewayConnectRequest,
-    output: DeleteTransitGatewayConnectResult,
-    errors: [],
-  }),
-);
+export const deleteTransitGatewayConnect: (
+  input: DeleteTransitGatewayConnectRequest,
+) => Effect.Effect<
+  DeleteTransitGatewayConnectResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTransitGatewayConnectRequest,
+  output: DeleteTransitGatewayConnectResult,
+  errors: [],
+}));
 /**
  * Deletes the specified transit gateway multicast domain.
  */
-export const deleteTransitGatewayMulticastDomain =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTransitGatewayMulticastDomainRequest,
-    output: DeleteTransitGatewayMulticastDomainResult,
-    errors: [],
-  }));
+export const deleteTransitGatewayMulticastDomain: (
+  input: DeleteTransitGatewayMulticastDomainRequest,
+) => Effect.Effect<
+  DeleteTransitGatewayMulticastDomainResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTransitGatewayMulticastDomainRequest,
+  output: DeleteTransitGatewayMulticastDomainResult,
+  errors: [],
+}));
 /**
  * Deprovision a CIDR provisioned from an IPAM pool. If you deprovision a CIDR from a pool that has a source pool, the CIDR is recycled back into the source pool. For more information, see Deprovision pool CIDRs in the *Amazon VPC IPAM User Guide*.
  */
-export const deprovisionIpamPoolCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeprovisionIpamPoolCidrRequest,
-    output: DeprovisionIpamPoolCidrResult,
-    errors: [],
-  }),
-);
+export const deprovisionIpamPoolCidr: (
+  input: DeprovisionIpamPoolCidrRequest,
+) => Effect.Effect<
+  DeprovisionIpamPoolCidrResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeprovisionIpamPoolCidrRequest,
+  output: DeprovisionIpamPoolCidrResult,
+  errors: [],
+}));
 /**
  * Describes attributes of your Amazon Web Services account. The following are the supported account attributes:
  *
@@ -75105,17 +80623,27 @@ export const deprovisionIpamPoolCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * structures, might vary. Applications should not assume the elements appear in a
  * particular order.
  */
-export const describeAccountAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccountAttributesRequest,
-    output: DescribeAccountAttributesResult,
-    errors: [],
-  }),
-);
+export const describeAccountAttributes: (
+  input: DescribeAccountAttributesRequest,
+) => Effect.Effect<
+  DescribeAccountAttributesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccountAttributesRequest,
+  output: DescribeAccountAttributesResult,
+  errors: [],
+}));
 /**
  * Describes the specified Elastic IP addresses or all of your Elastic IP addresses.
  */
-export const describeAddresses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAddresses: (
+  input: DescribeAddressesRequest,
+) => Effect.Effect<
+  DescribeAddressesResult,
+  InvalidAllocationIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAddressesRequest,
   output: DescribeAddressesResult,
   errors: [InvalidAllocationIDNotFound],
@@ -75123,18 +80651,39 @@ export const describeAddresses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the attributes of the specified Elastic IP addresses. For requirements, see Using reverse DNS for email applications.
  */
-export const describeAddressesAttribute =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAddressesAttribute: {
+  (
     input: DescribeAddressesAttributeRequest,
-    output: DescribeAddressesAttributeResult,
-    errors: [InvalidAllocationIDNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Addresses",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeAddressesAttributeResult,
+    InvalidAllocationIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAddressesAttributeRequest,
+  ) => Stream.Stream<
+    DescribeAddressesAttributeResult,
+    InvalidAllocationIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAddressesAttributeRequest,
+  ) => Stream.Stream<
+    AddressAttribute,
+    InvalidAllocationIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAddressesAttributeRequest,
+  output: DescribeAddressesAttributeResult,
+  errors: [InvalidAllocationIDNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Addresses",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to
  * you.
@@ -75147,76 +80696,164 @@ export const describeAddressesAttribute =
  * structures, might vary. Applications should not assume the elements appear in a
  * particular order.
  */
-export const describeAvailabilityZones = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAvailabilityZonesRequest,
-    output: DescribeAvailabilityZonesResult,
-    errors: [ParseError],
-  }),
-);
+export const describeAvailabilityZones: (
+  input: DescribeAvailabilityZonesRequest,
+) => Effect.Effect<
+  DescribeAvailabilityZonesResult,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAvailabilityZonesRequest,
+  output: DescribeAvailabilityZonesResult,
+  errors: [ParseError],
+}));
 /**
  * Describes the availability of capacity for the specified Capacity blocks, or all of your Capacity Blocks.
  */
-export const describeCapacityBlockStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCapacityBlockStatus: {
+  (
     input: DescribeCapacityBlockStatusRequest,
-    output: DescribeCapacityBlockStatusResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CapacityBlockStatuses",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeCapacityBlockStatusResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCapacityBlockStatusRequest,
+  ) => Stream.Stream<
+    DescribeCapacityBlockStatusResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCapacityBlockStatusRequest,
+  ) => Stream.Stream<
+    CapacityBlockStatus,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCapacityBlockStatusRequest,
+  output: DescribeCapacityBlockStatusResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CapacityBlockStatuses",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes a request to assign the billing of the unused capacity of a Capacity
  * Reservation. For more information, see Billing assignment for shared
  * Amazon EC2 Capacity Reservations.
  */
-export const describeCapacityReservationBillingRequests =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCapacityReservationBillingRequests: {
+  (
     input: DescribeCapacityReservationBillingRequestsRequest,
-    output: DescribeCapacityReservationBillingRequestsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CapacityReservationBillingRequests",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeCapacityReservationBillingRequestsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCapacityReservationBillingRequestsRequest,
+  ) => Stream.Stream<
+    DescribeCapacityReservationBillingRequestsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCapacityReservationBillingRequestsRequest,
+  ) => Stream.Stream<
+    CapacityReservationBillingRequest,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCapacityReservationBillingRequestsRequest,
+  output: DescribeCapacityReservationBillingRequestsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CapacityReservationBillingRequests",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more Capacity Reservation Fleets.
  */
-export const describeCapacityReservationFleets =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeCapacityReservationFleets: {
+  (
     input: DescribeCapacityReservationFleetsRequest,
-    output: DescribeCapacityReservationFleetsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CapacityReservationFleets",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeCapacityReservationFleetsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCapacityReservationFleetsRequest,
+  ) => Stream.Stream<
+    DescribeCapacityReservationFleetsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCapacityReservationFleetsRequest,
+  ) => Stream.Stream<
+    CapacityReservationFleet,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCapacityReservationFleetsRequest,
+  output: DescribeCapacityReservationFleetsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CapacityReservationFleets",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes active client connections and connections that have been terminated within the last 60
  * minutes for the specified Client VPN endpoint.
  */
-export const describeClientVpnConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClientVpnConnections: {
+  (
     input: DescribeClientVpnConnectionsRequest,
-    output: DescribeClientVpnConnectionsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Connections",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeClientVpnConnectionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClientVpnConnectionsRequest,
+  ) => Stream.Stream<
+    DescribeClientVpnConnectionsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClientVpnConnectionsRequest,
+  ) => Stream.Stream<
+    ClientVpnConnection,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClientVpnConnectionsRequest,
+  output: DescribeClientVpnConnectionsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Connections",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes your DHCP option sets. The default is to describe all your DHCP option sets.
  * Alternatively, you can specify specific DHCP option set IDs or filter the results to
@@ -75225,24 +80862,51 @@ export const describeClientVpnConnections =
  * For more information, see DHCP option sets in the
  * *Amazon VPC User Guide*.
  */
-export const describeDhcpOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeDhcpOptions: {
+  (
     input: DescribeDhcpOptionsRequest,
-    output: DescribeDhcpOptionsResult,
-    errors: [InvalidDhcpOptionIDNotFound, ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DhcpOptions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeDhcpOptionsResult,
+    InvalidDhcpOptionIDNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDhcpOptionsRequest,
+  ) => Stream.Stream<
+    DescribeDhcpOptionsResult,
+    InvalidDhcpOptionIDNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDhcpOptionsRequest,
+  ) => Stream.Stream<
+    DhcpOptions,
+    InvalidDhcpOptionIDNotFound | ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDhcpOptionsRequest,
+  output: DescribeDhcpOptionsResult,
+  errors: [InvalidDhcpOptionIDNotFound, ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DhcpOptions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Amazon Elastic Graphics reached end of life on January 8, 2024.
  *
  * Describes the Elastic Graphics accelerator associated with your instances.
  */
-export const describeElasticGpus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeElasticGpus: (
+  input: DescribeElasticGpusRequest,
+) => Effect.Effect<
+  DescribeElasticGpusResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeElasticGpusRequest,
   output: DescribeElasticGpusResult,
   errors: [],
@@ -75250,22 +80914,49 @@ export const describeElasticGpus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the specified export image tasks or all of your export image tasks.
  */
-export const describeExportImageTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeExportImageTasks: {
+  (
     input: DescribeExportImageTasksRequest,
-    output: DescribeExportImageTasksResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ExportImageTasks",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeExportImageTasksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeExportImageTasksRequest,
+  ) => Stream.Stream<
+    DescribeExportImageTasksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeExportImageTasksRequest,
+  ) => Stream.Stream<
+    ExportImageTask,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeExportImageTasksRequest,
+  output: DescribeExportImageTasksResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ExportImageTasks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified export instance tasks or all of your export instance tasks.
  */
-export const describeExportTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeExportTasks: (
+  input: DescribeExportTasksRequest,
+) => Effect.Effect<
+  DescribeExportTasksResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExportTasksRequest,
   output: DescribeExportTasksResult,
   errors: [],
@@ -75280,102 +80971,196 @@ export const describeExportTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Monitor fleet events using Amazon EventBridge in the
  * *Amazon EC2 User Guide*.
  */
-export const describeFleetHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFleetHistoryRequest,
-    output: DescribeFleetHistoryResult,
-    errors: [],
-  }),
-);
+export const describeFleetHistory: (
+  input: DescribeFleetHistoryRequest,
+) => Effect.Effect<
+  DescribeFleetHistoryResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFleetHistoryRequest,
+  output: DescribeFleetHistoryResult,
+  errors: [],
+}));
 /**
  * Describes one or more flow logs.
  *
  * To view the published flow log records, you must view the log destination. For example,
  * the CloudWatch Logs log group, the Amazon S3 bucket, or the Kinesis Data Firehose delivery stream.
  */
-export const describeFlowLogs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeFlowLogs: {
+  (
     input: DescribeFlowLogsRequest,
-    output: DescribeFlowLogsResult,
-    errors: [ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FlowLogs",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeFlowLogsResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFlowLogsRequest,
+  ) => Stream.Stream<
+    DescribeFlowLogsResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFlowLogsRequest,
+  ) => Stream.Stream<
+    FlowLog,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFlowLogsRequest,
+  output: DescribeFlowLogsResult,
+  errors: [ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FlowLogs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified attribute of the specified Amazon FPGA Image (AFI).
  */
-export const describeFpgaImageAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFpgaImageAttributeRequest,
-    output: DescribeFpgaImageAttributeResult,
-    errors: [],
-  }),
-);
+export const describeFpgaImageAttribute: (
+  input: DescribeFpgaImageAttributeRequest,
+) => Effect.Effect<
+  DescribeFpgaImageAttributeResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFpgaImageAttributeRequest,
+  output: DescribeFpgaImageAttributeResult,
+  errors: [],
+}));
 /**
  * Describes the Amazon FPGA Images (AFIs) available to you. These include public AFIs,
  * private AFIs that you own, and AFIs owned by other Amazon Web Services accounts for which you have load
  * permissions.
  */
-export const describeFpgaImages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeFpgaImages: {
+  (
     input: DescribeFpgaImagesRequest,
-    output: DescribeFpgaImagesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FpgaImages",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeFpgaImagesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFpgaImagesRequest,
+  ) => Stream.Stream<
+    DescribeFpgaImagesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFpgaImagesRequest,
+  ) => Stream.Stream<
+    FpgaImage,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFpgaImagesRequest,
+  output: DescribeFpgaImagesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FpgaImages",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes your IAM instance profile associations.
  */
-export const describeIamInstanceProfileAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeIamInstanceProfileAssociations: {
+  (
     input: DescribeIamInstanceProfileAssociationsRequest,
-    output: DescribeIamInstanceProfileAssociationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IamInstanceProfileAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeIamInstanceProfileAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeIamInstanceProfileAssociationsRequest,
+  ) => Stream.Stream<
+    DescribeIamInstanceProfileAssociationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeIamInstanceProfileAssociationsRequest,
+  ) => Stream.Stream<
+    IamInstanceProfileAssociation,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeIamInstanceProfileAssociationsRequest,
+  output: DescribeIamInstanceProfileAssociationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IamInstanceProfileAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes your import snapshot tasks.
  */
-export const describeImportSnapshotTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeImportSnapshotTasks: {
+  (
     input: DescribeImportSnapshotTasksRequest,
-    output: DescribeImportSnapshotTasksResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ImportSnapshotTasks",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeImportSnapshotTasksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeImportSnapshotTasksRequest,
+  ) => Stream.Stream<
+    DescribeImportSnapshotTasksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeImportSnapshotTasksRequest,
+  ) => Stream.Stream<
+    ImportSnapshotTask,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeImportSnapshotTasksRequest,
+  output: DescribeImportSnapshotTasksResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ImportSnapshotTasks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified attribute of the specified instance. You can specify only one
  * attribute at a time. Available attributes include SQL license exemption configuration
  * for instances registered with the SQL LE service.
  */
-export const describeInstanceAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInstanceAttributeRequest,
-    output: InstanceAttribute,
-    errors: [InvalidInstanceIDNotFound],
-  }),
-);
+export const describeInstanceAttribute: (
+  input: DescribeInstanceAttributeRequest,
+) => Effect.Effect<
+  InstanceAttribute,
+  InvalidInstanceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInstanceAttributeRequest,
+  output: InstanceAttribute,
+  errors: [InvalidInstanceIDNotFound],
+}));
 /**
  * Describes the specified event windows or all event windows.
  *
@@ -75389,18 +81174,39 @@ export const describeInstanceAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Define event windows for scheduled
  * events in the *Amazon EC2 User Guide*.
  */
-export const describeInstanceEventWindows =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeInstanceEventWindows: {
+  (
     input: DescribeInstanceEventWindowsRequest,
-    output: DescribeInstanceEventWindowsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InstanceEventWindows",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeInstanceEventWindowsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeInstanceEventWindowsRequest,
+  ) => Stream.Stream<
+    DescribeInstanceEventWindowsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeInstanceEventWindowsRequest,
+  ) => Stream.Stream<
+    InstanceEventWindow,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeInstanceEventWindowsRequest,
+  output: DescribeInstanceEventWindowsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InstanceEventWindows",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the AMI that was used to launch an instance, even if the AMI is deprecated,
  * deregistered, made private (no longer public or shared with your account), or not
@@ -75426,51 +81232,113 @@ export const describeInstanceEventWindows =
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeInstanceImageMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeInstanceImageMetadata: {
+  (
     input: DescribeInstanceImageMetadataRequest,
-    output: DescribeInstanceImageMetadataResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InstanceImageMetadata",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeInstanceImageMetadataResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeInstanceImageMetadataRequest,
+  ) => Stream.Stream<
+    DescribeInstanceImageMetadataResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeInstanceImageMetadataRequest,
+  ) => Stream.Stream<
+    InstanceImageMetadata,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeInstanceImageMetadataRequest,
+  output: DescribeInstanceImageMetadataResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InstanceImageMetadata",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes your IPv6 address pools.
  */
-export const describeIpv6Pools = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeIpv6Pools: {
+  (
     input: DescribeIpv6PoolsRequest,
-    output: DescribeIpv6PoolsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Ipv6Pools",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeIpv6PoolsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeIpv6PoolsRequest,
+  ) => Stream.Stream<
+    DescribeIpv6PoolsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeIpv6PoolsRequest,
+  ) => Stream.Stream<
+    Ipv6Pool,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeIpv6PoolsRequest,
+  output: DescribeIpv6PoolsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Ipv6Pools",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes your NAT gateways. The default is to describe all your NAT gateways.
  * Alternatively, you can specify specific NAT gateway IDs or filter the results to
  * include only the NAT gateways that match specific criteria.
  */
-export const describeNatGateways =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeNatGateways: {
+  (
     input: DescribeNatGatewaysRequest,
-    output: DescribeNatGatewaysResult,
-    errors: [ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "NatGateways",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeNatGatewaysResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeNatGatewaysRequest,
+  ) => Stream.Stream<
+    DescribeNatGatewaysResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeNatGatewaysRequest,
+  ) => Stream.Stream<
+    NatGateway,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeNatGatewaysRequest,
+  output: DescribeNatGatewaysResult,
+  errors: [ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "NatGateways",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified network interfaces or all your network interfaces.
  *
@@ -75483,18 +81351,39 @@ export const describeNatGateways =
  * We strongly recommend using only paginated requests. Unpaginated requests are
  * susceptible to throttling and timeouts.
  */
-export const describeNetworkInterfaces =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeNetworkInterfaces: {
+  (
     input: DescribeNetworkInterfacesRequest,
-    output: DescribeNetworkInterfacesResult,
-    errors: [InvalidNetworkInterfaceIDNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "NetworkInterfaces",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeNetworkInterfacesResult,
+    InvalidNetworkInterfaceIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeNetworkInterfacesRequest,
+  ) => Stream.Stream<
+    DescribeNetworkInterfacesResult,
+    InvalidNetworkInterfaceIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeNetworkInterfacesRequest,
+  ) => Stream.Stream<
+    NetworkInterface,
+    InvalidNetworkInterfaceIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeNetworkInterfacesRequest,
+  output: DescribeNetworkInterfacesResult,
+  errors: [InvalidNetworkInterfaceIDNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "NetworkInterfaces",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more of the Reserved Instances that you purchased.
  *
@@ -75504,13 +81393,17 @@ export const describeNetworkInterfaces =
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeReservedInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeReservedInstancesRequest,
-    output: DescribeReservedInstancesResult,
-    errors: [],
-  }),
-);
+export const describeReservedInstances: (
+  input: DescribeReservedInstancesRequest,
+) => Effect.Effect<
+  DescribeReservedInstancesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeReservedInstancesRequest,
+  output: DescribeReservedInstancesResult,
+  errors: [],
+}));
 /**
  * Describes the modifications made to your Reserved Instances. If no parameter is specified,
  * information about all your Reserved Instances modification requests is returned. If a
@@ -75523,17 +81416,38 @@ export const describeReservedInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeReservedInstancesModifications =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeReservedInstancesModifications: {
+  (
     input: DescribeReservedInstancesModificationsRequest,
-    output: DescribeReservedInstancesModificationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ReservedInstancesModifications",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeReservedInstancesModificationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeReservedInstancesModificationsRequest,
+  ) => Stream.Stream<
+    DescribeReservedInstancesModificationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeReservedInstancesModificationsRequest,
+  ) => Stream.Stream<
+    ReservedInstancesModification,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeReservedInstancesModificationsRequest,
+  output: DescribeReservedInstancesModificationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ReservedInstancesModifications",
+  } as const,
+}));
 /**
  * Describes Reserved Instance offerings that are available for purchase. With Reserved
  * Instances, you purchase the right to launch instances for a period of time. During that time
@@ -75550,33 +81464,75 @@ export const describeReservedInstancesModifications =
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeReservedInstancesOfferings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeReservedInstancesOfferings: {
+  (
     input: DescribeReservedInstancesOfferingsRequest,
-    output: DescribeReservedInstancesOfferingsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ReservedInstancesOfferings",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeReservedInstancesOfferingsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeReservedInstancesOfferingsRequest,
+  ) => Stream.Stream<
+    DescribeReservedInstancesOfferingsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeReservedInstancesOfferingsRequest,
+  ) => Stream.Stream<
+    ReservedInstancesOffering,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeReservedInstancesOfferingsRequest,
+  output: DescribeReservedInstancesOfferingsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ReservedInstancesOfferings",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified Scheduled Instances or all your Scheduled Instances.
  */
-export const describeScheduledInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeScheduledInstances: {
+  (
     input: DescribeScheduledInstancesRequest,
-    output: DescribeScheduledInstancesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ScheduledInstanceSet",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeScheduledInstancesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeScheduledInstancesRequest,
+  ) => Stream.Stream<
+    DescribeScheduledInstancesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeScheduledInstancesRequest,
+  ) => Stream.Stream<
+    ScheduledInstance,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeScheduledInstancesRequest,
+  output: DescribeScheduledInstancesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ScheduledInstanceSet",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified Spot Instance requests.
  *
@@ -75598,18 +81554,39 @@ export const describeScheduledInstances =
  * Spot Instance requests are deleted four hours after they are canceled and their instances are
  * terminated.
  */
-export const describeSpotInstanceRequests =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeSpotInstanceRequests: {
+  (
     input: DescribeSpotInstanceRequestsRequest,
-    output: DescribeSpotInstanceRequestsResult,
-    errors: [ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SpotInstanceRequests",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeSpotInstanceRequestsResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSpotInstanceRequestsRequest,
+  ) => Stream.Stream<
+    DescribeSpotInstanceRequestsResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSpotInstanceRequestsRequest,
+  ) => Stream.Stream<
+    SpotInstanceRequest,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSpotInstanceRequestsRequest,
+  output: DescribeSpotInstanceRequestsResult,
+  errors: [ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SpotInstanceRequests",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the stale security group rules for security groups referenced across a VPC
  * peering connection, transit gateway connection, or with a security group VPC
@@ -75620,70 +81597,143 @@ export const describeSpotInstanceRequests =
  * gateway security group referencing feature has been disabled), or if a
  * security group VPC association has been disassociated.
  */
-export const describeStaleSecurityGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeStaleSecurityGroups: {
+  (
     input: DescribeStaleSecurityGroupsRequest,
-    output: DescribeStaleSecurityGroupsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "StaleSecurityGroupSet",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeStaleSecurityGroupsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeStaleSecurityGroupsRequest,
+  ) => Stream.Stream<
+    DescribeStaleSecurityGroupsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeStaleSecurityGroupsRequest,
+  ) => Stream.Stream<
+    StaleSecurityGroup,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeStaleSecurityGroupsRequest,
+  output: DescribeStaleSecurityGroupsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "StaleSecurityGroupSet",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describe traffic mirror filters that determine the traffic that is mirrored.
  */
-export const describeTrafficMirrorFilterRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTrafficMirrorFilterRulesRequest,
-    output: DescribeTrafficMirrorFilterRulesResult,
-    errors: [],
-  }));
+export const describeTrafficMirrorFilterRules: (
+  input: DescribeTrafficMirrorFilterRulesRequest,
+) => Effect.Effect<
+  DescribeTrafficMirrorFilterRulesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTrafficMirrorFilterRulesRequest,
+  output: DescribeTrafficMirrorFilterRulesResult,
+  errors: [],
+}));
 /**
  * Describes one or more attachments between resources and transit gateways. By default, all attachments are described.
  * Alternatively, you can filter the results by attachment ID, attachment state, resource ID, or resource owner.
  */
-export const describeTransitGatewayAttachments =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTransitGatewayAttachments: {
+  (
     input: DescribeTransitGatewayAttachmentsRequest,
-    output: DescribeTransitGatewayAttachmentsResult,
-    errors: [ParseError],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransitGatewayAttachments",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTransitGatewayAttachmentsResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTransitGatewayAttachmentsRequest,
+  ) => Stream.Stream<
+    DescribeTransitGatewayAttachmentsResult,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTransitGatewayAttachmentsRequest,
+  ) => Stream.Stream<
+    TransitGatewayAttachment,
+    ParseError | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTransitGatewayAttachmentsRequest,
+  output: DescribeTransitGatewayAttachmentsResult,
+  errors: [ParseError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransitGatewayAttachments",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the VPC resources, VPC endpoint services, Amazon Lattice services, or service networks
  * associated with the VPC endpoint.
  */
-export const describeVpcEndpointAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeVpcEndpointAssociationsRequest,
-    output: DescribeVpcEndpointAssociationsResult,
-    errors: [],
-  }));
+export const describeVpcEndpointAssociations: (
+  input: DescribeVpcEndpointAssociationsRequest,
+) => Effect.Effect<
+  DescribeVpcEndpointAssociationsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVpcEndpointAssociationsRequest,
+  output: DescribeVpcEndpointAssociationsResult,
+  errors: [],
+}));
 /**
  * Describes your VPC endpoints. The default is to describe all your VPC endpoints.
  * Alternatively, you can specify specific VPC endpoint IDs or filter the results to
  * include only the VPC endpoints that match specific criteria.
  */
-export const describeVpcEndpoints =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVpcEndpoints: {
+  (
     input: DescribeVpcEndpointsRequest,
-    output: DescribeVpcEndpointsResult,
-    errors: [InvalidVpcEndpointIdNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "VpcEndpoints",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVpcEndpointsResult,
+    InvalidVpcEndpointIdNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVpcEndpointsRequest,
+  ) => Stream.Stream<
+    DescribeVpcEndpointsResult,
+    InvalidVpcEndpointIdNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVpcEndpointsRequest,
+  ) => Stream.Stream<
+    VpcEndpoint,
+    InvalidVpcEndpointIdNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVpcEndpointsRequest,
+  output: DescribeVpcEndpointsResult,
+  errors: [InvalidVpcEndpointIdNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "VpcEndpoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes available services to which you can create a VPC endpoint.
  *
@@ -75695,22 +81745,31 @@ export const describeVpcEndpoints =
  * the VPC endpoint services in the common Availability Zone,
  * `us-east-1a`.
  */
-export const describeVpcEndpointServices = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVpcEndpointServicesRequest,
-    output: DescribeVpcEndpointServicesResult,
-    errors: [ParseError],
-  }),
-);
+export const describeVpcEndpointServices: (
+  input: DescribeVpcEndpointServicesRequest,
+) => Effect.Effect<
+  DescribeVpcEndpointServicesResult,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVpcEndpointServicesRequest,
+  output: DescribeVpcEndpointServicesResult,
+  errors: [ParseError],
+}));
 /**
  * Exports the client configuration for a Verified Access instance.
  */
-export const exportVerifiedAccessInstanceClientConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExportVerifiedAccessInstanceClientConfigurationRequest,
-    output: ExportVerifiedAccessInstanceClientConfigurationResult,
-    errors: [],
-  }));
+export const exportVerifiedAccessInstanceClientConfiguration: (
+  input: ExportVerifiedAccessInstanceClientConfigurationRequest,
+) => Effect.Effect<
+  ExportVerifiedAccessInstanceClientConfigurationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportVerifiedAccessInstanceClientConfigurationRequest,
+  output: ExportVerifiedAccessInstanceClientConfigurationResult,
+  errors: [],
+}));
 /**
  * Gets the current state of the Allowed AMIs setting and the list of Allowed AMIs criteria
  * at the account level in the specified Region.
@@ -75723,13 +81782,17 @@ export const exportVerifiedAccessInstanceClientConfiguration =
  * Amazon EC2 with Allowed AMIs in
  * *Amazon EC2 User Guide*.
  */
-export const getAllowedImagesSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAllowedImagesSettingsRequest,
-    output: GetAllowedImagesSettingsResult,
-    errors: [],
-  }),
-);
+export const getAllowedImagesSettings: (
+  input: GetAllowedImagesSettingsRequest,
+) => Effect.Effect<
+  GetAllowedImagesSettingsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAllowedImagesSettingsRequest,
+  output: GetAllowedImagesSettingsResult,
+  errors: [],
+}));
 /**
  * Retrieves a summary of the account status report.
  *
@@ -75743,12 +81806,17 @@ export const getAllowedImagesSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Generating the account status report for declarative policies in the
  * *Amazon Web Services Organizations User Guide*.
  */
-export const getDeclarativePoliciesReportSummary =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDeclarativePoliciesReportSummaryRequest,
-    output: GetDeclarativePoliciesReportSummaryResult,
-    errors: [],
-  }));
+export const getDeclarativePoliciesReportSummary: (
+  input: GetDeclarativePoliciesReportSummaryRequest,
+) => Effect.Effect<
+  GetDeclarativePoliciesReportSummaryResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDeclarativePoliciesReportSummaryRequest,
+  output: GetDeclarativePoliciesReportSummaryResult,
+  errors: [],
+}));
 /**
  * Generates a CloudFormation template that streamlines and automates the integration of VPC flow logs
  * with Amazon Athena. This make it easier for you to query and gain insights from VPC flow logs data.
@@ -75766,27 +81834,53 @@ export const getDeclarativePoliciesReportSummary =
  * `GetFlowLogsIntegrationTemplate` does not support integration between
  * Amazon Web Services Transit Gateway Flow Logs and Amazon Athena.
  */
-export const getFlowLogsIntegrationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetFlowLogsIntegrationTemplateRequest,
-    output: GetFlowLogsIntegrationTemplateResult,
-    errors: [],
-  }));
+export const getFlowLogsIntegrationTemplate: (
+  input: GetFlowLogsIntegrationTemplateRequest,
+) => Effect.Effect<
+  GetFlowLogsIntegrationTemplateResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFlowLogsIntegrationTemplateRequest,
+  output: GetFlowLogsIntegrationTemplateResult,
+  errors: [],
+}));
 /**
  * Gets IPAM discovered accounts. A discovered account is an Amazon Web Services account that is monitored under a resource discovery. If you have integrated IPAM with Amazon Web Services Organizations, all accounts in the organization are discovered accounts. Only the IPAM account can get all discovered accounts in the organization.
  */
-export const getIpamDiscoveredAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getIpamDiscoveredAccounts: {
+  (
     input: GetIpamDiscoveredAccountsRequest,
-    output: GetIpamDiscoveredAccountsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IpamDiscoveredAccounts",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetIpamDiscoveredAccountsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetIpamDiscoveredAccountsRequest,
+  ) => Stream.Stream<
+    GetIpamDiscoveredAccountsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetIpamDiscoveredAccountsRequest,
+  ) => Stream.Stream<
+    IpamDiscoveredAccount,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetIpamDiscoveredAccountsRequest,
+  output: GetIpamDiscoveredAccountsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IpamDiscoveredAccounts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the allocation rules for an IPAM policy.
  *
@@ -75794,38 +81888,69 @@ export const getIpamDiscoveredAccounts =
  *
  * Allocation rules are optional configurations within an IPAM policy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Amazon-provided IP addresses.
  */
-export const getIpamPolicyAllocationRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetIpamPolicyAllocationRulesRequest,
-    output: GetIpamPolicyAllocationRulesResult,
-    errors: [],
-  }));
+export const getIpamPolicyAllocationRules: (
+  input: GetIpamPolicyAllocationRulesRequest,
+) => Effect.Effect<
+  GetIpamPolicyAllocationRulesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIpamPolicyAllocationRulesRequest,
+  output: GetIpamPolicyAllocationRulesResult,
+  errors: [],
+}));
 /**
  * Retrieves the CIDR selection rules for an IPAM prefix list resolver. Use this operation to view the business logic that determines which CIDRs are selected for synchronization with prefix lists.
  */
-export const getIpamPrefixListResolverRules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getIpamPrefixListResolverRules: {
+  (
     input: GetIpamPrefixListResolverRulesRequest,
-    output: GetIpamPrefixListResolverRulesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Rules",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetIpamPrefixListResolverRulesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetIpamPrefixListResolverRulesRequest,
+  ) => Stream.Stream<
+    GetIpamPrefixListResolverRulesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetIpamPrefixListResolverRulesRequest,
+  ) => Stream.Stream<
+    IpamPrefixListResolverRule,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetIpamPrefixListResolverRulesRequest,
+  output: GetIpamPrefixListResolverRulesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Rules",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a quote and exchange information for exchanging one or more specified Convertible
  * Reserved Instances for a new Convertible Reserved Instance. If the exchange cannot be
  * performed, the reason is returned in the response. Use AcceptReservedInstancesExchangeQuote to perform the exchange.
  */
-export const getReservedInstancesExchangeQuote =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetReservedInstancesExchangeQuoteRequest,
-    output: GetReservedInstancesExchangeQuoteResult,
-    errors: [],
-  }));
+export const getReservedInstancesExchangeQuote: (
+  input: GetReservedInstancesExchangeQuoteRequest,
+) => Effect.Effect<
+  GetReservedInstancesExchangeQuoteResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReservedInstancesExchangeQuoteRequest,
+  output: GetReservedInstancesExchangeQuoteResult,
+  errors: [],
+}));
 /**
  * Gets the routing database for the specified route server. The Routing Information Base (RIB) serves as a database that stores all the routing information and network topology data collected by a router or routing system, such as routes learned from BGP peers. The RIB is constantly updated as new routing information is received or existing routes change. This ensures that the route server always has the most current view of the network topology and can make optimal routing decisions.
  *
@@ -75842,12 +81967,17 @@ export const getReservedInstancesExchangeQuote =
  *
  * Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect.
  */
-export const getRouteServerRoutingDatabase =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRouteServerRoutingDatabaseRequest,
-    output: GetRouteServerRoutingDatabaseResult,
-    errors: [],
-  }));
+export const getRouteServerRoutingDatabase: (
+  input: GetRouteServerRoutingDatabaseRequest,
+) => Effect.Effect<
+  GetRouteServerRoutingDatabaseResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRouteServerRoutingDatabaseRequest,
+  output: GetRouteServerRoutingDatabaseResult,
+  errors: [],
+}));
 /**
  * Calculates the Spot placement score for a Region or Availability Zone based on the
  * specified target capacity and compute requirements.
@@ -75860,18 +81990,39 @@ export const getRouteServerRoutingDatabase =
  * For more information, see Spot placement score in
  * the *Amazon EC2 User Guide*.
  */
-export const getSpotPlacementScores =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getSpotPlacementScores: {
+  (
     input: GetSpotPlacementScoresRequest,
-    output: GetSpotPlacementScoresResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SpotPlacementScores",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetSpotPlacementScoresResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetSpotPlacementScoresRequest,
+  ) => Stream.Stream<
+    GetSpotPlacementScoresResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSpotPlacementScoresRequest,
+  ) => Stream.Stream<
+    SpotPlacementScore,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetSpotPlacementScoresRequest,
+  output: GetSpotPlacementScoresResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SpotPlacementScores",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * To import your virtual machines (VMs) with a console-based experience, you can use the
  * *Import virtual machine images to Amazon Web Services* template in the Migration Hub Orchestrator console. For more
@@ -75889,7 +82040,13 @@ export const getSpotPlacementScores =
  * For more information, see Importing a
  * VM as an image using VM Import/Export in the *VM Import/Export User Guide*.
  */
-export const importImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importImage: (
+  input: ImportImageRequest,
+) => Effect.Effect<
+  ImportImageResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportImageRequest,
   output: ImportImageResult,
   errors: [],
@@ -75910,7 +82067,13 @@ export const importImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API action is not supported by the Command Line Interface (CLI).
  */
-export const importInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importInstance: (
+  input: ImportInstanceRequest,
+) => Effect.Effect<
+  ImportInstanceResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportInstanceRequest,
   output: ImportInstanceResult,
   errors: [],
@@ -75918,53 +82081,76 @@ export const importInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies the specified attribute of the specified Amazon FPGA Image (AFI).
  */
-export const modifyFpgaImageAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyFpgaImageAttributeRequest,
-    output: ModifyFpgaImageAttributeResult,
-    errors: [],
-  }),
-);
+export const modifyFpgaImageAttribute: (
+  input: ModifyFpgaImageAttributeRequest,
+) => Effect.Effect<
+  ModifyFpgaImageAttributeResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyFpgaImageAttributeRequest,
+  output: ModifyFpgaImageAttributeResult,
+  errors: [],
+}));
 /**
  * Modifies the Capacity Reservation settings for a stopped instance. Use this action to
  * configure an instance to target a specific Capacity Reservation, run in any
  * `open` Capacity Reservation with matching attributes, run in On-Demand
  * Instance capacity, or only run in a Capacity Reservation.
  */
-export const modifyInstanceCapacityReservationAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyInstanceCapacityReservationAttributesRequest,
-    output: ModifyInstanceCapacityReservationAttributesResult,
-    errors: [],
-  }));
+export const modifyInstanceCapacityReservationAttributes: (
+  input: ModifyInstanceCapacityReservationAttributesRequest,
+) => Effect.Effect<
+  ModifyInstanceCapacityReservationAttributesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyInstanceCapacityReservationAttributesRequest,
+  output: ModifyInstanceCapacityReservationAttributesResult,
+  errors: [],
+}));
 /**
  * Modifies the rules of a security group.
  */
-export const modifySecurityGroupRules = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifySecurityGroupRulesRequest,
-    output: ModifySecurityGroupRulesResult,
-    errors: [],
-  }),
-);
+export const modifySecurityGroupRules: (
+  input: ModifySecurityGroupRulesRequest,
+) => Effect.Effect<
+  ModifySecurityGroupRulesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifySecurityGroupRulesRequest,
+  output: ModifySecurityGroupRulesResult,
+  errors: [],
+}));
 /**
  * Modifies the configuration of the specified Amazon Web Services Verified Access endpoint.
  */
-export const modifyVerifiedAccessEndpoint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyVerifiedAccessEndpointRequest,
-    output: ModifyVerifiedAccessEndpointResult,
-    errors: [],
-  }));
+export const modifyVerifiedAccessEndpoint: (
+  input: ModifyVerifiedAccessEndpointRequest,
+) => Effect.Effect<
+  ModifyVerifiedAccessEndpointResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVerifiedAccessEndpointRequest,
+  output: ModifyVerifiedAccessEndpointResult,
+  errors: [],
+}));
 /**
  * Modifies the logging configuration for the specified Amazon Web Services Verified Access instance.
  */
-export const modifyVerifiedAccessInstanceLoggingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyVerifiedAccessInstanceLoggingConfigurationRequest,
-    output: ModifyVerifiedAccessInstanceLoggingConfigurationResult,
-    errors: [],
-  }));
+export const modifyVerifiedAccessInstanceLoggingConfiguration: (
+  input: ModifyVerifiedAccessInstanceLoggingConfigurationRequest,
+) => Effect.Effect<
+  ModifyVerifiedAccessInstanceLoggingConfigurationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVerifiedAccessInstanceLoggingConfigurationRequest,
+  output: ModifyVerifiedAccessInstanceLoggingConfigurationResult,
+  errors: [],
+}));
 /**
  * Modifies the VPC peering connection options on one side of a VPC peering connection.
  *
@@ -75979,12 +82165,17 @@ export const modifyVerifiedAccessInstanceLoggingConfiguration =
  * the accepter VPC peering options. To verify which VPCs are the accepter and the
  * requester for a VPC peering connection, use the DescribeVpcPeeringConnections command.
  */
-export const modifyVpcPeeringConnectionOptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyVpcPeeringConnectionOptionsRequest,
-    output: ModifyVpcPeeringConnectionOptionsResult,
-    errors: [InvalidVpcPeeringConnectionIdNotFound],
-  }));
+export const modifyVpcPeeringConnectionOptions: (
+  input: ModifyVpcPeeringConnectionOptionsRequest,
+) => Effect.Effect<
+  ModifyVpcPeeringConnectionOptionsResult,
+  InvalidVpcPeeringConnectionIdNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVpcPeeringConnectionOptionsRequest,
+  output: ModifyVpcPeeringConnectionOptionsResult,
+  errors: [InvalidVpcPeeringConnectionIdNotFound],
+}));
 /**
  * Enables detailed monitoring for a running instance. Otherwise, basic monitoring is
  * enabled. For more information, see Monitor your instances using
@@ -75992,7 +82183,13 @@ export const modifyVpcPeeringConnectionOptions =
  *
  * To disable detailed monitoring, see UnmonitorInstances.
  */
-export const monitorInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const monitorInstances: (
+  input: MonitorInstancesRequest,
+) => Effect.Effect<
+  MonitorInstancesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MonitorInstancesRequest,
   output: MonitorInstancesResult,
   errors: [],
@@ -76008,12 +82205,17 @@ export const monitorInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon EC2 with Allowed AMIs in
  * *Amazon EC2 User Guide*.
  */
-export const replaceImageCriteriaInAllowedImagesSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ReplaceImageCriteriaInAllowedImagesSettingsRequest,
-    output: ReplaceImageCriteriaInAllowedImagesSettingsResult,
-    errors: [],
-  }));
+export const replaceImageCriteriaInAllowedImagesSettings: (
+  input: ReplaceImageCriteriaInAllowedImagesSettingsRequest,
+) => Effect.Effect<
+  ReplaceImageCriteriaInAllowedImagesSettingsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReplaceImageCriteriaInAllowedImagesSettingsRequest,
+  output: ReplaceImageCriteriaInAllowedImagesSettingsResult,
+  errors: [],
+}));
 /**
  * Creates a Spot Instance request.
  *
@@ -76026,13 +82228,17 @@ export const replaceImageCriteriaInAllowedImagesSettings =
  * is the best Spot request method to use? in the
  * *Amazon EC2 User Guide*.
  */
-export const requestSpotInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RequestSpotInstancesRequest,
-    output: RequestSpotInstancesResult,
-    errors: [],
-  }),
-);
+export const requestSpotInstances: (
+  input: RequestSpotInstancesRequest,
+) => Effect.Effect<
+  RequestSpotInstancesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RequestSpotInstancesRequest,
+  output: RequestSpotInstancesResult,
+  errors: [],
+}));
 /**
  * Launches the specified number of instances using an AMI for which you have
  * permissions.
@@ -76085,7 +82291,13 @@ export const requestSpotInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For troubleshooting, see What to do if
  * an instance immediately terminates, and Troubleshooting connecting to your instance.
  */
-export const runInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const runInstances: (
+  input: RunInstancesRequest,
+) => Effect.Effect<
+  Reservation,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunInstancesRequest,
   output: Reservation,
   errors: [ParseError],
@@ -76099,13 +82311,17 @@ export const runInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For an inter-Region VPC peering connection request, you must accept the VPC peering
  * connection in the Region of the accepter VPC.
  */
-export const acceptVpcPeeringConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptVpcPeeringConnectionRequest,
-    output: AcceptVpcPeeringConnectionResult,
-    errors: [InvalidVpcPeeringConnectionIdNotFound],
-  }),
-);
+export const acceptVpcPeeringConnection: (
+  input: AcceptVpcPeeringConnectionRequest,
+) => Effect.Effect<
+  AcceptVpcPeeringConnectionResult,
+  InvalidVpcPeeringConnectionIdNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptVpcPeeringConnectionRequest,
+  output: AcceptVpcPeeringConnectionResult,
+  errors: [InvalidVpcPeeringConnectionIdNotFound],
+}));
 /**
  * Creates an EC2 Instance Connect Endpoint.
  *
@@ -76114,12 +82330,17 @@ export const acceptVpcPeeringConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * information, see Connect to your instances using EC2 Instance Connect Endpoint in the
  * *Amazon EC2 User Guide*.
  */
-export const createInstanceConnectEndpoint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateInstanceConnectEndpointRequest,
-    output: CreateInstanceConnectEndpointResult,
-    errors: [],
-  }));
+export const createInstanceConnectEndpoint: (
+  input: CreateInstanceConnectEndpointRequest,
+) => Effect.Effect<
+  CreateInstanceConnectEndpointResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInstanceConnectEndpointRequest,
+  output: CreateInstanceConnectEndpointResult,
+  errors: [],
+}));
 /**
  * Creates a launch template.
  *
@@ -76134,13 +82355,17 @@ export const createInstanceConnectEndpoint =
  * information, see Create a launch template from an existing launch template in the
  * *Amazon EC2 User Guide*.
  */
-export const createLaunchTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLaunchTemplateRequest,
-    output: CreateLaunchTemplateResult,
-    errors: [MissingParameter],
-  }),
-);
+export const createLaunchTemplate: (
+  input: CreateLaunchTemplateRequest,
+) => Effect.Effect<
+  CreateLaunchTemplateResult,
+  MissingParameter | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLaunchTemplateRequest,
+  output: CreateLaunchTemplateResult,
+  errors: [MissingParameter],
+}));
 /**
  * Creates a Network Access Scope.
  *
@@ -76148,80 +82373,128 @@ export const createLaunchTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * to verify that their networks on Amazon Web Services conform to their network security and governance
  * objectives. For more information, see the Amazon Web Services Network Access Analyzer Guide.
  */
-export const createNetworkInsightsAccessScope =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateNetworkInsightsAccessScopeRequest,
-    output: CreateNetworkInsightsAccessScopeResult,
-    errors: [],
-  }));
+export const createNetworkInsightsAccessScope: (
+  input: CreateNetworkInsightsAccessScopeRequest,
+) => Effect.Effect<
+  CreateNetworkInsightsAccessScopeResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNetworkInsightsAccessScopeRequest,
+  output: CreateNetworkInsightsAccessScopeResult,
+  errors: [],
+}));
 /**
  * Creates a VPC Encryption Control configuration for a specified VPC. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements for standards like HIPAA, FedRAMP, and PCI DSS.
  *
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
-export const createVpcEncryptionControl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVpcEncryptionControlRequest,
-    output: CreateVpcEncryptionControlResult,
-    errors: [],
-  }),
-);
+export const createVpcEncryptionControl: (
+  input: CreateVpcEncryptionControlRequest,
+) => Effect.Effect<
+  CreateVpcEncryptionControlResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVpcEncryptionControlRequest,
+  output: CreateVpcEncryptionControlResult,
+  errors: [],
+}));
 /**
  * Deletes the specified transit gateway.
  */
-export const deleteTransitGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTransitGatewayRequest,
-    output: DeleteTransitGatewayResult,
-    errors: [ParseError],
-  }),
-);
+export const deleteTransitGateway: (
+  input: DeleteTransitGatewayRequest,
+) => Effect.Effect<
+  DeleteTransitGatewayResult,
+  ParseError | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTransitGatewayRequest,
+  output: DeleteTransitGatewayResult,
+  errors: [ParseError],
+}));
 /**
  * Deletes the specified Connect peer.
  */
-export const deleteTransitGatewayConnectPeer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTransitGatewayConnectPeerRequest,
-    output: DeleteTransitGatewayConnectPeerResult,
-    errors: [],
-  }));
+export const deleteTransitGatewayConnectPeer: (
+  input: DeleteTransitGatewayConnectPeerRequest,
+) => Effect.Effect<
+  DeleteTransitGatewayConnectPeerResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTransitGatewayConnectPeerRequest,
+  output: DeleteTransitGatewayConnectPeerResult,
+  errors: [],
+}));
 /**
  * Delete an Amazon Web Services Verified Access endpoint.
  */
-export const deleteVerifiedAccessEndpoint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteVerifiedAccessEndpointRequest,
-    output: DeleteVerifiedAccessEndpointResult,
-    errors: [],
-  }));
+export const deleteVerifiedAccessEndpoint: (
+  input: DeleteVerifiedAccessEndpointRequest,
+) => Effect.Effect<
+  DeleteVerifiedAccessEndpointResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVerifiedAccessEndpointRequest,
+  output: DeleteVerifiedAccessEndpointResult,
+  errors: [],
+}));
 /**
  * Describes one or more Client VPN endpoints in the account.
  */
-export const describeClientVpnEndpoints =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeClientVpnEndpoints: {
+  (
     input: DescribeClientVpnEndpointsRequest,
-    output: DescribeClientVpnEndpointsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ClientVpnEndpoints",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeClientVpnEndpointsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClientVpnEndpointsRequest,
+  ) => Stream.Stream<
+    DescribeClientVpnEndpointsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClientVpnEndpointsRequest,
+  ) => Stream.Stream<
+    ClientVpnEndpoint,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClientVpnEndpointsRequest,
+  output: DescribeClientVpnEndpointsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ClientVpnEndpoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified conversion tasks or all your conversion tasks. For more information, see the
  * VM Import/Export User Guide.
  *
  * For information about the import manifest referenced by this API action, see VM Import Manifest.
  */
-export const describeConversionTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConversionTasksRequest,
-    output: DescribeConversionTasksResult,
-    errors: [],
-  }),
-);
+export const describeConversionTasks: (
+  input: DescribeConversionTasksRequest,
+) => Effect.Effect<
+  DescribeConversionTasksResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConversionTasksRequest,
+  output: DescribeConversionTasksResult,
+  errors: [],
+}));
 /**
  * Describes the specified Dedicated Hosts or all your Dedicated Hosts.
  *
@@ -76229,37 +82502,78 @@ export const describeConversionTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * All listed instances consume capacity on your Dedicated Host. Dedicated Hosts that have
  * recently been released are listed with the state `released`.
  */
-export const describeHosts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeHosts: {
+  (
     input: DescribeHostsRequest,
-    output: DescribeHostsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Hosts",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeHostsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeHostsRequest,
+  ) => Stream.Stream<
+    DescribeHostsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeHostsRequest,
+  ) => Stream.Stream<
+    Host,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeHostsRequest,
+  output: DescribeHostsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Hosts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes your Amazon Web Services resources that are referencing the specified images.
  *
  * For more information, see Identify your resources referencing
  * specified AMIs in the *Amazon EC2 User Guide*.
  */
-export const describeImageReferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeImageReferences: {
+  (
     input: DescribeImageReferencesRequest,
-    output: DescribeImageReferencesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ImageReferences",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeImageReferencesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeImageReferencesRequest,
+  ) => Stream.Stream<
+    DescribeImageReferencesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeImageReferencesRequest,
+  ) => Stream.Stream<
+    ImageReference,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeImageReferencesRequest,
+  output: DescribeImageReferencesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ImageReferences",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the configuration and status of image usage reports, filtered by report IDs or
  * image IDs.
@@ -76267,33 +82581,75 @@ export const describeImageReferences =
  * For more information, see View your AMI usage in the
  * *Amazon EC2 User Guide*.
  */
-export const describeImageUsageReports =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeImageUsageReports: {
+  (
     input: DescribeImageUsageReportsRequest,
-    output: DescribeImageUsageReportsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ImageUsageReports",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeImageUsageReportsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeImageUsageReportsRequest,
+  ) => Stream.Stream<
+    DescribeImageUsageReportsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeImageUsageReportsRequest,
+  ) => Stream.Stream<
+    ImageUsageReport,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeImageUsageReportsRequest,
+  output: DescribeImageUsageReportsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ImageUsageReports",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Displays details about an import virtual machine or import snapshot tasks that are already created.
  */
-export const describeImportImageTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeImportImageTasks: {
+  (
     input: DescribeImportImageTasksRequest,
-    output: DescribeImportImageTasksResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ImportImageTasks",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeImportImageTasksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeImportImageTasksRequest,
+  ) => Stream.Stream<
+    DescribeImportImageTasksResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeImportImageTasksRequest,
+  ) => Stream.Stream<
+    ImportImageTask,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeImportImageTasksRequest,
+  output: DescribeImportImageTasksResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ImportImageTasks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the status of the specified instances or all of your instances. By default,
  * only running instances are described, unless you specifically indicate to return the
@@ -76329,43 +82685,90 @@ export const describeImportImageTasks =
  * structures, might vary. Applications should not assume the elements appear in a
  * particular order.
  */
-export const describeInstanceStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeInstanceStatus: {
+  (
     input: DescribeInstanceStatusRequest,
-    output: DescribeInstanceStatusResult,
-    errors: [InvalidInstanceIDNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InstanceStatuses",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeInstanceStatusResult,
+    InvalidInstanceIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeInstanceStatusRequest,
+  ) => Stream.Stream<
+    DescribeInstanceStatusResult,
+    InvalidInstanceIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeInstanceStatusRequest,
+  ) => Stream.Stream<
+    InstanceStatus,
+    InvalidInstanceIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeInstanceStatusRequest,
+  output: DescribeInstanceStatusResult,
+  errors: [InvalidInstanceIDNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InstanceStatuses",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more of your paths.
  */
-export const describeNetworkInsightsPaths =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeNetworkInsightsPaths: {
+  (
     input: DescribeNetworkInsightsPathsRequest,
-    output: DescribeNetworkInsightsPathsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "NetworkInsightsPaths",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeNetworkInsightsPathsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeNetworkInsightsPathsRequest,
+  ) => Stream.Stream<
+    DescribeNetworkInsightsPathsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeNetworkInsightsPathsRequest,
+  ) => Stream.Stream<
+    NetworkInsightsPath,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeNetworkInsightsPathsRequest,
+  output: DescribeNetworkInsightsPathsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "NetworkInsightsPaths",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes a network interface attribute. You can specify only one attribute at a
  * time.
  */
-export const describeNetworkInterfaceAttribute =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeNetworkInterfaceAttributeRequest,
-    output: DescribeNetworkInterfaceAttributeResult,
-    errors: [InvalidNetworkInterfaceIDNotFound],
-  }));
+export const describeNetworkInterfaceAttribute: (
+  input: DescribeNetworkInterfaceAttributeRequest,
+) => Effect.Effect<
+  DescribeNetworkInterfaceAttributeResult,
+  InvalidNetworkInterfaceIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeNetworkInterfaceAttributeRequest,
+  output: DescribeNetworkInterfaceAttributeResult,
+  errors: [InvalidNetworkInterfaceIDNotFound],
+}));
 /**
  * Finds available schedules that meet the specified criteria.
  *
@@ -76374,18 +82777,39 @@ export const describeNetworkInterfaceAttribute =
  * After you find a schedule that meets your needs, call PurchaseScheduledInstances
  * to purchase Scheduled Instances with that schedule.
  */
-export const describeScheduledInstanceAvailability =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeScheduledInstanceAvailability: {
+  (
     input: DescribeScheduledInstanceAvailabilityRequest,
-    output: DescribeScheduledInstanceAvailabilityResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ScheduledInstanceAvailabilitySet",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeScheduledInstanceAvailabilityResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeScheduledInstanceAvailabilityRequest,
+  ) => Stream.Stream<
+    DescribeScheduledInstanceAvailabilityResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeScheduledInstanceAvailabilityRequest,
+  ) => Stream.Stream<
+    ScheduledInstanceAvailability,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeScheduledInstanceAvailabilityRequest,
+  output: DescribeScheduledInstanceAvailabilityResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ScheduledInstanceAvailabilitySet",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the status of the specified volumes. Volume status provides the result of the
  * checks performed on your volumes to determine events that can impair the performance of your
@@ -76428,28 +82852,53 @@ export const describeScheduledInstanceAvailability =
  * structures, might vary. Applications should not assume the elements appear in a
  * particular order.
  */
-export const describeVolumeStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVolumeStatus: {
+  (
     input: DescribeVolumeStatusRequest,
-    output: DescribeVolumeStatusResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "VolumeStatuses",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVolumeStatusResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVolumeStatusRequest,
+  ) => Stream.Stream<
+    DescribeVolumeStatusResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVolumeStatusRequest,
+  ) => Stream.Stream<
+    VolumeStatusItem,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVolumeStatusRequest,
+  output: DescribeVolumeStatusResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "VolumeStatuses",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Disables fast snapshot restores for the specified snapshots in the specified Availability Zones.
  */
-export const disableFastSnapshotRestores = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableFastSnapshotRestoresRequest,
-    output: DisableFastSnapshotRestoresResult,
-    errors: [],
-  }),
-);
+export const disableFastSnapshotRestores: (
+  input: DisableFastSnapshotRestoresRequest,
+) => Effect.Effect<
+  DisableFastSnapshotRestoresResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableFastSnapshotRestoresRequest,
+  output: DisableFastSnapshotRestoresResult,
+  errors: [],
+}));
 /**
  * Enables fast snapshot restores for the specified snapshots in the specified Availability Zones.
  *
@@ -76458,46 +82907,81 @@ export const disableFastSnapshotRestores = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Amazon EBS fast snapshot
  * restore in the *Amazon EBS User Guide*.
  */
-export const enableFastSnapshotRestores = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableFastSnapshotRestoresRequest,
-    output: EnableFastSnapshotRestoresResult,
-    errors: [],
-  }),
-);
+export const enableFastSnapshotRestores: (
+  input: EnableFastSnapshotRestoresRequest,
+) => Effect.Effect<
+  EnableFastSnapshotRestoresResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableFastSnapshotRestoresRequest,
+  output: EnableFastSnapshotRestoresResult,
+  errors: [],
+}));
 /**
  * Gets network performance data.
  */
-export const getAwsNetworkPerformanceData =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getAwsNetworkPerformanceData: {
+  (
     input: GetAwsNetworkPerformanceDataRequest,
-    output: GetAwsNetworkPerformanceDataResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DataResponses",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetAwsNetworkPerformanceDataResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetAwsNetworkPerformanceDataRequest,
+  ) => Stream.Stream<
+    GetAwsNetworkPerformanceDataResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetAwsNetworkPerformanceDataRequest,
+  ) => Stream.Stream<
+    DataResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetAwsNetworkPerformanceDataRequest,
+  output: GetAwsNetworkPerformanceDataResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DataResponses",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the public IP addresses that have been discovered by IPAM.
  */
-export const getIpamDiscoveredPublicAddresses =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetIpamDiscoveredPublicAddressesRequest,
-    output: GetIpamDiscoveredPublicAddressesResult,
-    errors: [],
-  }));
+export const getIpamDiscoveredPublicAddresses: (
+  input: GetIpamDiscoveredPublicAddressesRequest,
+) => Effect.Effect<
+  GetIpamDiscoveredPublicAddressesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIpamDiscoveredPublicAddressesRequest,
+  output: GetIpamDiscoveredPublicAddressesResult,
+  errors: [],
+}));
 /**
  * Returns a list of transit gateway policy table entries.
  */
-export const getTransitGatewayPolicyTableEntries =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetTransitGatewayPolicyTableEntriesRequest,
-    output: GetTransitGatewayPolicyTableEntriesResult,
-    errors: [],
-  }));
+export const getTransitGatewayPolicyTableEntries: (
+  input: GetTransitGatewayPolicyTableEntriesRequest,
+) => Effect.Effect<
+  GetTransitGatewayPolicyTableEntriesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTransitGatewayPolicyTableEntriesRequest,
+  output: GetTransitGatewayPolicyTableEntriesResult,
+  errors: [],
+}));
 /**
  * Modifies the credit option for CPU usage on a running or stopped burstable performance
  * instance. The credit options are `standard` and
@@ -76506,25 +82990,34 @@ export const getTransitGatewayPolicyTableEntries =
  * For more information, see Burstable
  * performance instances in the *Amazon EC2 User Guide*.
  */
-export const modifyInstanceCreditSpecification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ModifyInstanceCreditSpecificationRequest,
-    output: ModifyInstanceCreditSpecificationResult,
-    errors: [],
-  }));
+export const modifyInstanceCreditSpecification: (
+  input: ModifyInstanceCreditSpecificationRequest,
+) => Effect.Effect<
+  ModifyInstanceCreditSpecificationResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyInstanceCreditSpecificationRequest,
+  output: ModifyInstanceCreditSpecificationResult,
+  errors: [],
+}));
 /**
  * Modifies the options for a VPN tunnel in an Amazon Web Services Site-to-Site VPN connection. You can modify
  * multiple options for a tunnel in a single request, but you can only modify one tunnel at
  * a time. For more information, see Site-to-Site VPN tunnel options for your Site-to-Site VPN
  * connection in the *Amazon Web Services Site-to-Site VPN User Guide*.
  */
-export const modifyVpnTunnelOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifyVpnTunnelOptionsRequest,
-    output: ModifyVpnTunnelOptionsResult,
-    errors: [],
-  }),
-);
+export const modifyVpnTunnelOptions: (
+  input: ModifyVpnTunnelOptionsRequest,
+) => Effect.Effect<
+  ModifyVpnTunnelOptionsResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifyVpnTunnelOptionsRequest,
+  output: ModifyVpnTunnelOptionsResult,
+  errors: [],
+}));
 /**
  * Launches the specified Scheduled Instances.
  *
@@ -76535,75 +83028,163 @@ export const modifyVpnTunnelOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Scheduled Instance before the current scheduled time period ends, you can launch it again
  * after a few minutes.
  */
-export const runScheduledInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RunScheduledInstancesRequest,
-    output: RunScheduledInstancesResult,
-    errors: [],
-  }),
-);
+export const runScheduledInstances: (
+  input: RunScheduledInstancesRequest,
+) => Effect.Effect<
+  RunScheduledInstancesResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RunScheduledInstancesRequest,
+  output: RunScheduledInstancesResult,
+  errors: [],
+}));
 /**
  * Describes the specified instance types. By default, all instance types for the current
  * Region are described. Alternatively, you can filter the results.
  */
-export const describeInstanceTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeInstanceTypes: {
+  (
     input: DescribeInstanceTypesRequest,
-    output: DescribeInstanceTypesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InstanceTypes",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeInstanceTypesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeInstanceTypesRequest,
+  ) => Stream.Stream<
+    DescribeInstanceTypesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeInstanceTypesRequest,
+  ) => Stream.Stream<
+    InstanceTypeInfo,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeInstanceTypesRequest,
+  output: DescribeInstanceTypesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InstanceTypes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more of your network insights analyses.
  */
-export const describeNetworkInsightsAnalyses =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeNetworkInsightsAnalyses: {
+  (
     input: DescribeNetworkInsightsAnalysesRequest,
-    output: DescribeNetworkInsightsAnalysesResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "NetworkInsightsAnalyses",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeNetworkInsightsAnalysesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeNetworkInsightsAnalysesRequest,
+  ) => Stream.Stream<
+    DescribeNetworkInsightsAnalysesResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeNetworkInsightsAnalysesRequest,
+  ) => Stream.Stream<
+    NetworkInsightsAnalysis,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeNetworkInsightsAnalysesRequest,
+  output: DescribeNetworkInsightsAnalysesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "NetworkInsightsAnalyses",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified Amazon Web Services Verified Access instances.
  */
-export const describeVerifiedAccessInstanceLoggingConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeVerifiedAccessInstanceLoggingConfigurations: {
+  (
     input: DescribeVerifiedAccessInstanceLoggingConfigurationsRequest,
-    output: DescribeVerifiedAccessInstanceLoggingConfigurationsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LoggingConfigurations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeVerifiedAccessInstanceLoggingConfigurationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeVerifiedAccessInstanceLoggingConfigurationsRequest,
+  ) => Stream.Stream<
+    DescribeVerifiedAccessInstanceLoggingConfigurationsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeVerifiedAccessInstanceLoggingConfigurationsRequest,
+  ) => Stream.Stream<
+    VerifiedAccessInstanceLoggingConfiguration,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeVerifiedAccessInstanceLoggingConfigurationsRequest,
+  output: DescribeVerifiedAccessInstanceLoggingConfigurationsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LoggingConfigurations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves capacity usage metrics for your EC2 resources. Returns time-series data for metrics like unused capacity, utilization rates, and costs
  * across On-Demand, Spot, and Capacity Reservations. Data can be grouped and filtered by various dimensions such as region, account, and instance family.
  */
-export const getCapacityManagerMetricData =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getCapacityManagerMetricData: {
+  (
     input: GetCapacityManagerMetricDataRequest,
-    output: GetCapacityManagerMetricDataResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MetricDataResults",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetCapacityManagerMetricDataResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCapacityManagerMetricDataRequest,
+  ) => Stream.Stream<
+    GetCapacityManagerMetricDataResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCapacityManagerMetricDataRequest,
+  ) => Stream.Stream<
+    MetricDataResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCapacityManagerMetricDataRequest,
+  output: GetCapacityManagerMetricDataResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MetricDataResults",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the configuration data of the specified instance. You can use this data to
  * create a launch template.
@@ -76615,22 +83196,31 @@ export const getCapacityManagerMetricData =
  * `DescribeInstanceAttribute`.
  * Or, you can allow `describe*` depending on your instance requirements.
  */
-export const getLaunchTemplateData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLaunchTemplateDataRequest,
-    output: GetLaunchTemplateDataResult,
-    errors: [],
-  }),
-);
+export const getLaunchTemplateData: (
+  input: GetLaunchTemplateDataRequest,
+) => Effect.Effect<
+  GetLaunchTemplateDataResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLaunchTemplateDataRequest,
+  output: GetLaunchTemplateDataResult,
+  errors: [],
+}));
 /**
  * Gets the content for the specified Network Access Scope.
  */
-export const getNetworkInsightsAccessScopeContent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetNetworkInsightsAccessScopeContentRequest,
-    output: GetNetworkInsightsAccessScopeContentResult,
-    errors: [],
-  }));
+export const getNetworkInsightsAccessScopeContent: (
+  input: GetNetworkInsightsAccessScopeContentRequest,
+) => Effect.Effect<
+  GetNetworkInsightsAccessScopeContentResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetNetworkInsightsAccessScopeContentRequest,
+  output: GetNetworkInsightsAccessScopeContentResult,
+  errors: [],
+}));
 /**
  * Creates a Spot Fleet request.
  *
@@ -76665,7 +83255,13 @@ export const getNetworkInsightsAccessScopeContent =
  * is the best Spot request method to use? in the
  * *Amazon EC2 User Guide*.
  */
-export const requestSpotFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const requestSpotFleet: (
+  input: RequestSpotFleetRequest,
+) => Effect.Effect<
+  RequestSpotFleetResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestSpotFleetRequest,
   output: RequestSpotFleetResponse,
   errors: [],
@@ -76679,7 +83275,13 @@ export const requestSpotFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see EC2 Fleet in the *Amazon EC2 User Guide*.
  */
-export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFleet: (
+  input: CreateFleetRequest,
+) => Effect.Effect<
+  CreateFleetResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFleetRequest,
   output: CreateFleetResult,
   errors: [],
@@ -76693,32 +83295,56 @@ export const createFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Describe your
  * EC2 Fleet in the *Amazon EC2 User Guide*.
  */
-export const describeFleets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeFleets: {
+  (
     input: DescribeFleetsRequest,
-    output: DescribeFleetsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Fleets",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeFleetsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeFleetsRequest,
+  ) => Stream.Stream<
+    DescribeFleetsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeFleetsRequest,
+  ) => Stream.Stream<
+    FleetData,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeFleetsRequest,
+  output: DescribeFleetsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Fleets",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes one or more of your VPN connections.
  *
  * For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN
  * User Guide.
  */
-export const describeVpnConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVpnConnectionsRequest,
-    output: DescribeVpnConnectionsResult,
-    errors: [InvalidVpnConnectionIDNotFound],
-  }),
-);
+export const describeVpnConnections: (
+  input: DescribeVpnConnectionsRequest,
+) => Effect.Effect<
+  DescribeVpnConnectionsResult,
+  InvalidVpnConnectionIDNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVpnConnectionsRequest,
+  output: DescribeVpnConnectionsResult,
+  errors: [InvalidVpnConnectionIDNotFound],
+}));
 /**
  * Returns a list of instance types with the specified instance attributes. You can
  * use the response to preview the instance types without launching instances. Note
@@ -76733,18 +83359,39 @@ export const describeVpnConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * mixed instance groups using attribute-based instance type selection in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const getInstanceTypesFromInstanceRequirements =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getInstanceTypesFromInstanceRequirements: {
+  (
     input: GetInstanceTypesFromInstanceRequirementsRequest,
-    output: GetInstanceTypesFromInstanceRequirementsResult,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InstanceTypes",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetInstanceTypesFromInstanceRequirementsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetInstanceTypesFromInstanceRequirementsRequest,
+  ) => Stream.Stream<
+    GetInstanceTypesFromInstanceRequirementsResult,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetInstanceTypesFromInstanceRequirementsRequest,
+  ) => Stream.Stream<
+    InstanceTypeInfoFromInstanceRequirements,
+    Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetInstanceTypesFromInstanceRequirementsRequest,
+  output: GetInstanceTypesFromInstanceRequirementsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InstanceTypes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Describes the specified instances or all instances.
  *
@@ -76784,19 +83431,39 @@ export const getInstanceTypesFromInstanceRequirements =
  * structures, might vary. Applications should not assume the elements appear in a
  * particular order.
  */
-export const describeInstances = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeInstances: {
+  (
     input: DescribeInstancesRequest,
-    output: DescribeInstancesResult,
-    errors: [InvalidInstanceIDNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Reservations",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeInstancesResult,
+    InvalidInstanceIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeInstancesRequest,
+  ) => Stream.Stream<
+    DescribeInstancesResult,
+    InvalidInstanceIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeInstancesRequest,
+  ) => Stream.Stream<
+    Reservation,
+    InvalidInstanceIDNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeInstancesRequest,
+  output: DescribeInstancesResult,
+  errors: [InvalidInstanceIDNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Reservations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Modifies the specified Spot Fleet request.
  *
@@ -76829,10 +83496,14 @@ export const describeInstances = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * If you are finished with your Spot Fleet for now, but will use it again later, you can
  * set the target capacity to 0.
  */
-export const modifySpotFleetRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ModifySpotFleetRequestRequest,
-    output: ModifySpotFleetRequestResponse,
-    errors: [],
-  }),
-);
+export const modifySpotFleetRequest: (
+  input: ModifySpotFleetRequestRequest,
+) => Effect.Effect<
+  ModifySpotFleetRequestResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ModifySpotFleetRequestRequest,
+  output: ModifySpotFleetRequestResponse,
+  errors: [],
+}));

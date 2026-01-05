@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials as Creds,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "finspace data",
   serviceShapeName: "AWSHabaneroPublicAPI",
@@ -240,6 +248,53 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type PermissionGroupId = string;
+export type UserId = string;
+export type ClientToken = string;
+export type DatasetId = string;
+export type DatasetTitle = string;
+export type DatasetDescription = string;
+export type AliasString = string;
+export type StringValueLength1to255 = string;
+export type TimestampEpoch = number;
+export type PermissionGroupName = string;
+export type PermissionGroupDescription = string;
+export type Email = string;
+export type FirstName = string;
+export type LastName = string;
+export type RoleArn = string;
+export type ChangesetId = string;
+export type DataViewId = string;
+export type SessionDuration = number;
+export type IdType = string;
+export type ResultLimit = number;
+export type PaginationToken = string;
+export type StringMapKey = string;
+export type StringMapValue = string;
+export type OwnerName = string;
+export type PhoneNumber = string;
+export type DataViewDestinationType = string;
+export type StatusCode = number;
+export type ChangesetArn = string;
+export type DatasetArn = string;
+export type DataViewArn = string;
+export type stringValueLength1to1024 = string;
+export type stringValueLength1to63 = string;
+export type Password = string;
+export type StringValueLength1to250 = string;
+export type ColumnName = string;
+export type ErrorMessage = string;
+export type AccessKeyId = string;
+export type SecretAccessKey = string;
+export type SessionToken = string;
+export type S3BucketName = string;
+export type S3Key = string;
+export type StringValueLength1to2552 = string;
+export type stringValueMaxLength1000 = string;
+export type ColumnDescription = string;
+export type ErrorMessage2 = string;
 
 //# Schemas
 export type SortColumnList = string[];
@@ -1765,11 +1820,15 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   {},
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String), reason: S.optional(S.String) },
@@ -1787,21 +1846,42 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Request programmatic credentials to use with FinSpace SDK. For more information, see Step 2. Access credentials programmatically using IAM access key id and secret access key.
  */
-export const getProgrammaticAccessCredentials =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetProgrammaticAccessCredentialsRequest,
-    output: GetProgrammaticAccessCredentialsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getProgrammaticAccessCredentials: (
+  input: GetProgrammaticAccessCredentialsRequest,
+) => Effect.Effect<
+  GetProgrammaticAccessCredentialsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProgrammaticAccessCredentialsRequest,
+  output: GetProgrammaticAccessCredentialsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Get information about a Changeset.
  */
-export const getChangeset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getChangeset: (
+  input: GetChangesetRequest,
+) => Effect.Effect<
+  GetChangesetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChangesetRequest,
   output: GetChangesetResponse,
   errors: [
@@ -1816,7 +1896,18 @@ export const getChangeset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a Dataview.
  */
-export const getDataView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDataView: (
+  input: GetDataViewRequest,
+) => Effect.Effect<
+  GetDataViewResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataViewRequest,
   output: GetDataViewResponse,
   errors: [
@@ -1830,74 +1921,194 @@ export const getDataView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the FinSpace Changesets for a Dataset.
  */
-export const listChangesets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listChangesets: {
+  (
     input: ListChangesetsRequest,
-    output: ListChangesetsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "changesets",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListChangesetsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChangesetsRequest,
+  ) => Stream.Stream<
+    ListChangesetsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChangesetsRequest,
+  ) => Stream.Stream<
+    ChangesetSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChangesetsRequest,
+  output: ListChangesetsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "changesets",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all of the active Datasets that a user has access to.
  */
-export const listDatasets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDatasets: {
+  (
     input: ListDatasetsRequest,
-    output: ListDatasetsResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "datasets",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDatasetsResponse,
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatasetsRequest,
+  ) => Stream.Stream<
+    ListDatasetsResponse,
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatasetsRequest,
+  ) => Stream.Stream<
+    Dataset,
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatasetsRequest,
+  output: ListDatasetsResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "datasets",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all available Dataviews for a Dataset.
  */
-export const listDataViews = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDataViews: {
+  (
     input: ListDataViewsRequest,
-    output: ListDataViewsResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dataViews",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDataViewsResponse,
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataViewsRequest,
+  ) => Stream.Stream<
+    ListDataViewsResponse,
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataViewsRequest,
+  ) => Stream.Stream<
+    DataViewSummary,
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataViewsRequest,
+  output: ListDataViewsResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dataViews",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Denies access to the FinSpace web application and API for the specified user.
  */
-export const disableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableUser: (
+  input: DisableUserRequest,
+) => Effect.Effect<
+  DisableUserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableUserRequest,
   output: DisableUserResponse,
   errors: [
@@ -1912,23 +2123,46 @@ export const disableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a user from a permission group.
  */
-export const disassociateUserFromPermissionGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateUserFromPermissionGroupRequest,
-    output: DisassociateUserFromPermissionGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateUserFromPermissionGroup: (
+  input: DisassociateUserFromPermissionGroupRequest,
+) => Effect.Effect<
+  DisassociateUserFromPermissionGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateUserFromPermissionGroupRequest,
+  output: DisassociateUserFromPermissionGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about a Dataset.
  */
-export const getDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDataset: (
+  input: GetDatasetRequest,
+) => Effect.Effect<
+  GetDatasetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDatasetRequest,
   output: GetDatasetResponse,
   errors: [
@@ -1943,7 +2177,19 @@ export const getDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Resets the password for a specified user ID and generates a temporary one. Only a superuser can reset password for other users. Resetting the password immediately invalidates the previous password associated with the user.
  */
-export const resetUserPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resetUserPassword: (
+  input: ResetUserPasswordRequest,
+) => Effect.Effect<
+  ResetUserPasswordResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetUserPasswordRequest,
   output: ResetUserPasswordResponse,
   errors: [
@@ -1958,7 +2204,19 @@ export const resetUserPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a FinSpace Changeset.
  */
-export const updateChangeset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateChangeset: (
+  input: UpdateChangesetRequest,
+) => Effect.Effect<
+  UpdateChangesetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateChangesetRequest,
   output: UpdateChangesetResponse,
   errors: [
@@ -1973,7 +2231,19 @@ export const updateChangeset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a FinSpace Dataset.
  */
-export const updateDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDataset: (
+  input: UpdateDatasetRequest,
+) => Effect.Effect<
+  UpdateDatasetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDatasetRequest,
   output: UpdateDatasetResponse,
   errors: [
@@ -1988,24 +2258,46 @@ export const updateDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies the details of a permission group. You cannot modify a `permissionGroupID`.
  */
-export const updatePermissionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePermissionGroupRequest,
-    output: UpdatePermissionGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updatePermissionGroup: (
+  input: UpdatePermissionGroupRequest,
+) => Effect.Effect<
+  UpdatePermissionGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePermissionGroupRequest,
+  output: UpdatePermissionGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Modifies the details of the specified user. You cannot update the `userId` for a user.
  */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUser: (
+  input: UpdateUserRequest,
+) => Effect.Effect<
+  UpdateUserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,
   output: UpdateUserResponse,
   errors: [
@@ -2020,7 +2312,18 @@ export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the details of a specific permission group.
  */
-export const getPermissionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPermissionGroup: (
+  input: GetPermissionGroupRequest,
+) => Effect.Effect<
+  GetPermissionGroupResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPermissionGroupRequest,
   output: GetPermissionGroupResponse,
   errors: [
@@ -2034,39 +2337,68 @@ export const getPermissionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all the permission groups that are associated with a specific user.
  */
-export const listPermissionGroupsByUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPermissionGroupsByUserRequest,
-    output: ListPermissionGroupsByUserResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const listPermissionGroupsByUser: (
+  input: ListPermissionGroupsByUserRequest,
+) => Effect.Effect<
+  ListPermissionGroupsByUserResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPermissionGroupsByUserRequest,
+  output: ListPermissionGroupsByUserResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists details of all the users in a specific permission group.
  */
-export const listUsersByPermissionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListUsersByPermissionGroupRequest,
-    output: ListUsersByPermissionGroupResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const listUsersByPermissionGroup: (
+  input: ListUsersByPermissionGroupRequest,
+) => Effect.Effect<
+  ListUsersByPermissionGroupResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListUsersByPermissionGroupRequest,
+  output: ListUsersByPermissionGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves details for a specific user.
  */
-export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUser: (
+  input: GetUserRequest,
+) => Effect.Effect<
+  GetUserResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserRequest,
   output: GetUserResponse,
   errors: [
@@ -2080,40 +2412,73 @@ export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds a user to a permission group to grant permissions for actions a user can perform in FinSpace.
  */
-export const associateUserToPermissionGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateUserToPermissionGroupRequest,
-    output: AssociateUserToPermissionGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const associateUserToPermissionGroup: (
+  input: AssociateUserToPermissionGroupRequest,
+) => Effect.Effect<
+  AssociateUserToPermissionGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateUserToPermissionGroupRequest,
+  output: AssociateUserToPermissionGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a group of permissions for various actions that a user can perform in FinSpace.
  */
-export const createPermissionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePermissionGroupRequest,
-    output: CreatePermissionGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      LimitExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createPermissionGroup: (
+  input: CreatePermissionGroupRequest,
+) => Effect.Effect<
+  CreatePermissionGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePermissionGroupRequest,
+  output: CreatePermissionGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    LimitExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new user in FinSpace.
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUser: (
+  input: CreateUserRequest,
+) => Effect.Effect<
+  CreateUserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
   output: CreateUserResponse,
   errors: [
@@ -2128,7 +2493,20 @@ export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a FinSpace Dataset.
  */
-export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataset: (
+  input: DeleteDatasetRequest,
+) => Effect.Effect<
+  DeleteDatasetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatasetRequest,
   output: DeleteDatasetResponse,
   errors: [
@@ -2144,25 +2522,49 @@ export const deleteDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a permission group. This action is irreversible.
  */
-export const deletePermissionGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePermissionGroupRequest,
-    output: DeletePermissionGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deletePermissionGroup: (
+  input: DeletePermissionGroupRequest,
+) => Effect.Effect<
+  DeletePermissionGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePermissionGroupRequest,
+  output: DeletePermissionGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Allows the specified user to access the FinSpace web application and API.
  */
-export const enableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableUser: (
+  input: EnableUserRequest,
+) => Effect.Effect<
+  EnableUserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableUserRequest,
   output: EnableUserResponse,
   errors: [
@@ -2178,7 +2580,19 @@ export const enableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a Dataview for a Dataset.
  */
-export const createDataView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDataView: (
+  input: CreateDataViewRequest,
+) => Effect.Effect<
+  CreateDataViewResponse,
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataViewRequest,
   output: CreateDataViewResponse,
   errors: [
@@ -2193,7 +2607,20 @@ export const createDataView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new FinSpace Dataset.
  */
-export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDataset: (
+  input: CreateDatasetRequest,
+) => Effect.Effect<
+  CreateDatasetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatasetRequest,
   output: CreateDatasetResponse,
   errors: [
@@ -2209,7 +2636,41 @@ export const createDataset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all available users in FinSpace.
  */
-export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUsers: {
+  (
+    input: ListUsersRequest,
+  ): Effect.Effect<
+    ListUsersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    ListUsersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    User,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse,
   errors: [
@@ -2229,7 +2690,17 @@ export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * A temporary Amazon S3 location, where you can copy your files from a source location to stage or use
  * as a scratch space in FinSpace notebook.
  */
-export const getWorkingLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkingLocation: (
+  input: GetWorkingLocationRequest,
+) => Effect.Effect<
+  GetWorkingLocationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkingLocationRequest,
   output: GetWorkingLocationResponse,
   errors: [
@@ -2242,23 +2713,56 @@ export const getWorkingLocation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all available permission groups in FinSpace.
  */
-export const listPermissionGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPermissionGroups: {
+  (
     input: ListPermissionGroupsRequest,
-    output: ListPermissionGroupsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "permissionGroups",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPermissionGroupsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPermissionGroupsRequest,
+  ) => Stream.Stream<
+    ListPermissionGroupsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPermissionGroupsRequest,
+  ) => Stream.Stream<
+    PermissionGroup,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPermissionGroupsRequest,
+  output: ListPermissionGroupsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "permissionGroups",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns the credentials to access the external Dataview from an S3 location. To call this API:
  *
@@ -2266,22 +2770,45 @@ export const listPermissionGroups =
  *
  * - You must be a member of a FinSpace user group, where the dataset that you want to access has `Read Dataset Data` permissions.
  */
-export const getExternalDataViewAccessDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetExternalDataViewAccessDetailsRequest,
-    output: GetExternalDataViewAccessDetailsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getExternalDataViewAccessDetails: (
+  input: GetExternalDataViewAccessDetailsRequest,
+) => Effect.Effect<
+  GetExternalDataViewAccessDetailsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetExternalDataViewAccessDetailsRequest,
+  output: GetExternalDataViewAccessDetailsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new Changeset in a FinSpace Dataset.
  */
-export const createChangeset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createChangeset: (
+  input: CreateChangesetRequest,
+) => Effect.Effect<
+  CreateChangesetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChangesetRequest,
   output: CreateChangesetResponse,
   errors: [

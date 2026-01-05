@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "IVS RealTime",
   serviceShapeName: "AmazonInteractiveVideoServiceRealTime",
@@ -292,6 +300,80 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type EncoderConfigurationName = string;
+export type IngestConfigurationName = string;
+export type IngestConfigurationStageArn = string;
+export type UserId = string;
+export type StageArn = string;
+export type ParticipantTokenDurationMinutes = number;
+export type ParticipantTokenUserId = string;
+export type ParticipantTokenCapability = string;
+export type StageName = string;
+export type StorageConfigurationName = string;
+export type EncoderConfigurationArn = string;
+export type IngestConfigurationArn = string;
+export type PublicKeyArn = string;
+export type StorageConfigurationArn = string;
+export type ParticipantTokenId = string;
+export type DisconnectParticipantReason = string;
+export type CompositionArn = string;
+export type StageSessionId = string;
+export type ParticipantId = string;
+export type PublicKeyMaterial = string;
+export type PublicKeyName = string;
+export type PaginationToken = string;
+export type MaxCompositionResults = number;
+export type MaxEncoderConfigurationResults = number;
+export type IngestConfigurationState = string;
+export type MaxIngestConfigurationResults = number;
+export type MaxParticipantEventResults = number;
+export type MaxParticipantReplicaResults = number;
+export type ParticipantState = string;
+export type MaxParticipantResults = number;
+export type ParticipantRecordingFilterByRecordingState = string;
+export type MaxPublicKeyResults = number;
+export type MaxStageResults = number;
+export type MaxStageSessionResults = number;
+export type MaxStorageConfigurationResults = number;
+export type ResourceArn = string;
+export type CompositionClientToken = string;
+export type ReconnectWindowSeconds = number;
+export type TagKey = string;
+export type Width = number;
+export type Height = number;
+export type Framerate = number;
+export type Bitrate = number;
+export type TagValue = string;
+export type AutoParticipantRecordingStorageConfigurationArn = string;
+export type ParticipantRecordingReconnectWindowSeconds = number;
+export type S3BucketName = string;
+export type DestinationConfigurationName = string;
+export type errorMessage = string;
+export type ThumbnailIntervalSeconds = number;
+export type ParticipantRecordingTargetSegmentDurationSeconds = number;
+export type AttributeKey = string;
+export type GridGap = number;
+export type PipOffset = number;
+export type PipWidth = number;
+export type PipHeight = number;
+export type ChannelArn = string;
+export type CompositionState = string;
+export type StreamKey = string;
+export type ParticipantClientAttribute = string;
+export type ParticipantRecordingS3BucketName = string;
+export type ParticipantRecordingS3Prefix = string;
+export type ParticipantRecordingState = string;
+export type ReplicationType = string;
+export type ReplicationState = string;
+export type PublicKeyFingerprint = string;
+export type EventName = string;
+export type RecordingConfigurationFormat = string;
+export type DestinationState = string;
+export type StageEndpoint = string;
+export type CompositionRecordingTargetSegmentDurationSeconds = number;
+export type ParticipantTokenString = string;
 
 //# Schemas
 export type ParticipantTokenCapabilities = string[];
@@ -2302,7 +2384,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     xAmznErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
     exceptionMessage: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -2428,58 +2512,147 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Lists all IngestConfigurations in your account, in the AWS region where the API request is processed.
  */
-export const listIngestConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIngestConfigurations: {
+  (
     input: ListIngestConfigurationsRequest,
-    output: ListIngestConfigurationsResponse,
-    errors: [AccessDeniedException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "ingestConfigurations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIngestConfigurationsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIngestConfigurationsRequest,
+  ) => Stream.Stream<
+    ListIngestConfigurationsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIngestConfigurationsRequest,
+  ) => Stream.Stream<
+    IngestConfigurationSummary,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIngestConfigurationsRequest,
+  output: ListIngestConfigurationsResponse,
+  errors: [AccessDeniedException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ingestConfigurations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists events for a specified participant that occurred during a specified stage
  * session.
  */
-export const listParticipantEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listParticipantEvents: {
+  (
     input: ListParticipantEventsRequest,
-    output: ListParticipantEventsResponse,
-    errors: [AccessDeniedException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListParticipantEventsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListParticipantEventsRequest,
+  ) => Stream.Stream<
+    ListParticipantEventsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListParticipantEventsRequest,
+  ) => Stream.Stream<
+    unknown,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListParticipantEventsRequest,
+  output: ListParticipantEventsResponse,
+  errors: [AccessDeniedException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets summary information about all storage configurations in your account,
  * in the AWS region where the API request is processed.
  */
-export const listStorageConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listStorageConfigurations: {
+  (
     input: ListStorageConfigurationsRequest,
-    output: ListStorageConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListStorageConfigurationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStorageConfigurationsRequest,
+  ) => Stream.Stream<
+    ListStorageConfigurationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStorageConfigurationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStorageConfigurationsRequest,
+  output: ListStorageConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Import a public key to be used for signing stage participant tokens.
  */
-export const importPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importPublicKey: (
+  input: ImportPublicKeyRequest,
+) => Effect.Effect<
+  ImportPublicKeyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportPublicKeyRequest,
   output: ImportPublicKeyResponse,
   errors: [
@@ -2493,25 +2666,48 @@ export const importPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts replicating a publishing participant from a source stage to a destination stage.
  */
-export const startParticipantReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartParticipantReplicationRequest,
-    output: StartParticipantReplicationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const startParticipantReplication: (
+  input: StartParticipantReplicationRequest,
+) => Effect.Effect<
+  StartParticipantReplicationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartParticipantReplicationRequest,
+  output: StartParticipantReplicationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a stage’s configuration.
  */
-export const updateStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateStage: (
+  input: UpdateStageRequest,
+) => Effect.Effect<
+  UpdateStageResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStageRequest,
   output: UpdateStageResponse,
   errors: [
@@ -2530,25 +2726,47 @@ export const updateStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To avoid this, for all Compositions that reference the storage configuration, first use StopComposition and wait for it to complete,
  * then use DeleteStorageConfiguration.
  */
-export const deleteStorageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStorageConfigurationRequest,
-    output: DeleteStorageConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteStorageConfiguration: (
+  input: DeleteStorageConfigurationRequest,
+) => Effect.Effect<
+  DeleteStorageConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStorageConfigurationRequest,
+  output: DeleteStorageConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Stops and deletes a Composition resource. Any broadcast from the Composition resource
  * is stopped.
  */
-export const stopComposition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopComposition: (
+  input: StopCompositionRequest,
+) => Effect.Effect<
+  StopCompositionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopCompositionRequest,
   output: StopCompositionResponse,
   errors: [
@@ -2563,108 +2781,168 @@ export const stopComposition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an EncoderConfiguration object.
  */
-export const createEncoderConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEncoderConfigurationRequest,
-    output: CreateEncoderConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createEncoderConfiguration: (
+  input: CreateEncoderConfigurationRequest,
+) => Effect.Effect<
+  CreateEncoderConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEncoderConfigurationRequest,
+  output: CreateEncoderConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new storage configuration, used to enable recording to Amazon S3.
  * When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket.
  * This will ensure that IVS has sufficient permissions to write content to the provided bucket.
  */
-export const createStorageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateStorageConfigurationRequest,
-    output: CreateStorageConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createStorageConfiguration: (
+  input: CreateStorageConfigurationRequest,
+) => Effect.Effect<
+  CreateStorageConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStorageConfigurationRequest,
+  output: CreateStorageConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an EncoderConfiguration resource. Ensures that no Compositions are using this
  * template; otherwise, returns an error.
  */
-export const deleteEncoderConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEncoderConfigurationRequest,
-    output: DeleteEncoderConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteEncoderConfiguration: (
+  input: DeleteEncoderConfigurationRequest,
+) => Effect.Effect<
+  DeleteEncoderConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEncoderConfigurationRequest,
+  output: DeleteEncoderConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about the specified EncoderConfiguration resource.
  */
-export const getEncoderConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEncoderConfigurationRequest,
-    output: GetEncoderConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const getEncoderConfiguration: (
+  input: GetEncoderConfigurationRequest,
+) => Effect.Effect<
+  GetEncoderConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEncoderConfigurationRequest,
+  output: GetEncoderConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the storage configuration for the specified ARN.
  */
-export const getStorageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetStorageConfigurationRequest,
-    output: GetStorageConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const getStorageConfiguration: (
+  input: GetStorageConfigurationRequest,
+) => Effect.Effect<
+  GetStorageConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStorageConfigurationRequest,
+  output: GetStorageConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new IngestConfiguration resource, used to specify the ingest protocol for a stage.
  */
-export const createIngestConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIngestConfigurationRequest,
-    output: CreateIngestConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      PendingVerification,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createIngestConfiguration: (
+  input: CreateIngestConfigurationRequest,
+) => Effect.Effect<
+  CreateIngestConfigurationResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIngestConfigurationRequest,
+  output: CreateIngestConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    PendingVerification,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an additional token for a specified stage. This can be done after stage creation
  * or when tokens expire. Tokens always are scoped to the stage for which they are
@@ -2673,23 +2951,42 @@ export const createIngestConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Encryption keys are owned by Amazon IVS and never used directly by your
  * application.
  */
-export const createParticipantToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateParticipantTokenRequest,
-    output: CreateParticipantTokenResponse,
-    errors: [
-      AccessDeniedException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createParticipantToken: (
+  input: CreateParticipantTokenRequest,
+) => Effect.Effect<
+  CreateParticipantTokenResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateParticipantTokenRequest,
+  output: CreateParticipantTokenResponse,
+  errors: [
+    AccessDeniedException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new stage (and optionally participant tokens).
  */
-export const createStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createStage: (
+  input: CreateStageRequest,
+) => Effect.Effect<
+  CreateStageResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStageRequest,
   output: CreateStageResponse,
   errors: [
@@ -2703,75 +3000,202 @@ export const createStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets summary information about all Compositions in your account, in the AWS region
  * where the API request is processed.
  */
-export const listCompositions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCompositions: {
+  (
     input: ListCompositionsRequest,
-    output: ListCompositionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCompositionsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCompositionsRequest,
+  ) => Stream.Stream<
+    ListCompositionsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCompositionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCompositionsRequest,
+  output: ListCompositionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all the replicas for a participant from a source stage.
  */
-export const listParticipantReplicas =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listParticipantReplicas: {
+  (
     input: ListParticipantReplicasRequest,
-    output: ListParticipantReplicasResponse,
-    errors: [AccessDeniedException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "replicas",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListParticipantReplicasResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListParticipantReplicasRequest,
+  ) => Stream.Stream<
+    ListParticipantReplicasResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListParticipantReplicasRequest,
+  ) => Stream.Stream<
+    ParticipantReplica,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListParticipantReplicasRequest,
+  output: ListParticipantReplicasResponse,
+  errors: [AccessDeniedException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "replicas",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all participants in a specified stage session.
  */
-export const listParticipants = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listParticipants: {
+  (
     input: ListParticipantsRequest,
-    output: ListParticipantsResponse,
-    errors: [AccessDeniedException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListParticipantsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListParticipantsRequest,
+  ) => Stream.Stream<
+    ListParticipantsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListParticipantsRequest,
+  ) => Stream.Stream<
+    unknown,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListParticipantsRequest,
+  output: ListParticipantsResponse,
+  errors: [AccessDeniedException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets summary information about all public keys in your account, in the AWS region where the API request is processed.
  */
-export const listPublicKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPublicKeys: {
+  (
     input: ListPublicKeysRequest,
-    output: ListPublicKeysResponse,
-    errors: [AccessDeniedException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "publicKeys",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPublicKeysResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPublicKeysRequest,
+  ) => Stream.Stream<
+    ListPublicKeysResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPublicKeysRequest,
+  ) => Stream.Stream<
+    PublicKeySummary,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPublicKeysRequest,
+  output: ListPublicKeysResponse,
+  errors: [AccessDeniedException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "publicKeys",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets summary information about all stages in your account, in the AWS region where the
  * API request is processed.
  */
-export const listStages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listStages: {
+  (
+    input: ListStagesRequest,
+  ): Effect.Effect<
+    ListStagesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStagesRequest,
+  ) => Stream.Stream<
+    ListStagesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStagesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListStagesRequest,
   output: ListStagesResponse,
   errors: [AccessDeniedException, ConflictException, ValidationException],
@@ -2784,22 +3208,51 @@ export const listStages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Gets all sessions for a specified stage.
  */
-export const listStageSessions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listStageSessions: {
+  (
     input: ListStageSessionsRequest,
-    output: ListStageSessionsResponse,
-    errors: [AccessDeniedException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListStageSessionsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStageSessionsRequest,
+  ) => Stream.Stream<
+    ListStageSessionsResponse,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStageSessionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    AccessDeniedException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStageSessionsRequest,
+  output: ListStageSessionsResponse,
+  errors: [AccessDeniedException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Adds or updates tags for the AWS resource with the specified ARN.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2813,55 +3266,92 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * an IngestConfiguration, DisconnectParticipant also updates the `stageArn`
  * in the IngestConfiguration to be an empty string.
  */
-export const disconnectParticipant = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisconnectParticipantRequest,
-    output: DisconnectParticipantResponse,
-    errors: [
-      AccessDeniedException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const disconnectParticipant: (
+  input: DisconnectParticipantRequest,
+) => Effect.Effect<
+  DisconnectParticipantResponse,
+  | AccessDeniedException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisconnectParticipantRequest,
+  output: DisconnectParticipantResponse,
+  errors: [
+    AccessDeniedException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a specified IngestConfiguration. Only the stage ARN attached to the IngestConfiguration can be updated. An IngestConfiguration that is active cannot be updated.
  */
-export const updateIngestConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIngestConfigurationRequest,
-    output: UpdateIngestConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateIngestConfiguration: (
+  input: UpdateIngestConfigurationRequest,
+) => Effect.Effect<
+  UpdateIngestConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIngestConfigurationRequest,
+  output: UpdateIngestConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a specified IngestConfiguration, so it can no longer be used to broadcast. An IngestConfiguration cannot be deleted if the publisher is actively streaming to a stage, unless `force` is set to `true`.
  */
-export const deleteIngestConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIngestConfigurationRequest,
-    output: DeleteIngestConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      PendingVerification,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteIngestConfiguration: (
+  input: DeleteIngestConfigurationRequest,
+) => Effect.Effect<
+  DeleteIngestConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIngestConfigurationRequest,
+  output: DeleteIngestConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    PendingVerification,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the specified public key used to sign stage participant tokens.
  * This invalidates future participant tokens generated using the key pair’s private key.
  */
-export const deletePublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePublicKey: (
+  input: DeletePublicKeyRequest,
+) => Effect.Effect<
+  DeletePublicKeyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePublicKeyRequest,
   output: DeletePublicKeyResponse,
   errors: [
@@ -2877,7 +3367,18 @@ export const deletePublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * removes the `stageArn` from the associated IngestConfiguration, if there are participants
  * using the IngestConfiguration to publish to the stage.
  */
-export const deleteStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteStage: (
+  input: DeleteStageRequest,
+) => Effect.Effect<
+  DeleteStageResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStageRequest,
   output: DeleteStageResponse,
   errors: [
@@ -2891,7 +3392,16 @@ export const deleteStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from the resource with the specified ARN.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2903,7 +3413,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about AWS tags for the specified ARN.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2915,36 +3434,60 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a replicated participant session.
  */
-export const stopParticipantReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopParticipantReplicationRequest,
-    output: StopParticipantReplicationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const stopParticipantReplication: (
+  input: StopParticipantReplicationRequest,
+) => Effect.Effect<
+  StopParticipantReplicationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopParticipantReplicationRequest,
+  output: StopParticipantReplicationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about the specified IngestConfiguration.
  */
-export const getIngestConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIngestConfigurationRequest,
-    output: GetIngestConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getIngestConfiguration: (
+  input: GetIngestConfigurationRequest,
+) => Effect.Effect<
+  GetIngestConfigurationResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIngestConfigurationRequest,
+  output: GetIngestConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about the specified participant token.
  */
-export const getParticipant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getParticipant: (
+  input: GetParticipantRequest,
+) => Effect.Effect<
+  GetParticipantResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetParticipantRequest,
   output: GetParticipantResponse,
   errors: [
@@ -2956,7 +3499,16 @@ export const getParticipant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information for the specified public key.
  */
-export const getPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPublicKey: (
+  input: GetPublicKeyRequest,
+) => Effect.Effect<
+  GetPublicKeyResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPublicKeyRequest,
   output: GetPublicKeyResponse,
   errors: [
@@ -2968,7 +3520,16 @@ export const getPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information for the specified stage session.
  */
-export const getStageSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStageSession: (
+  input: GetStageSessionRequest,
+) => Effect.Effect<
+  GetStageSessionResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStageSessionRequest,
   output: GetStageSessionResponse,
   errors: [
@@ -2980,7 +3541,16 @@ export const getStageSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information for the specified stage.
  */
-export const getStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStage: (
+  input: GetStageRequest,
+) => Effect.Effect<
+  GetStageResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStageRequest,
   output: GetStageResponse,
   errors: [
@@ -2993,27 +3563,75 @@ export const getStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets summary information about all EncoderConfigurations in your account, in the AWS
  * region where the API request is processed.
  */
-export const listEncoderConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEncoderConfigurations: {
+  (
     input: ListEncoderConfigurationsRequest,
-    output: ListEncoderConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEncoderConfigurationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEncoderConfigurationsRequest,
+  ) => Stream.Stream<
+    ListEncoderConfigurationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEncoderConfigurationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEncoderConfigurationsRequest,
+  output: ListEncoderConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Get information about the specified Composition resource.
  */
-export const getComposition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getComposition: (
+  input: GetCompositionRequest,
+) => Effect.Effect<
+  GetCompositionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCompositionRequest,
   output: GetCompositionResponse,
   errors: [
@@ -3045,7 +3663,20 @@ export const getComposition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - When broadcasting is disconnected and all attempts to reconnect are
  * exhausted.
  */
-export const startComposition = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startComposition: (
+  input: StartCompositionRequest,
+) => Effect.Effect<
+  StartCompositionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | PendingVerification
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCompositionRequest,
   output: StartCompositionResponse,
   errors: [

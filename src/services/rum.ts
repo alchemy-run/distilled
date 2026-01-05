@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "RUM", serviceShapeName: "RUM" });
 const auth = T.AwsAuthSigv4({ name: "rum" });
 const ver = T.ServiceVersion("2018-05-10");
@@ -237,6 +245,45 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type AppMonitorId = string;
+export type Alias = string;
+export type TagKey = string;
+export type AppMonitorName = string;
+export type AppMonitorDomain = string;
+export type MaxResultsInteger = number;
+export type MetricDestination = string;
+export type DestinationArn = string;
+export type MetricDefinitionId = string;
+export type AppMonitorPlatform = string;
+export type PolicyRevisionId = string;
+export type MaxQueryResults = number;
+export type Token = string;
+export type IamRoleArn = string;
+export type JsonValue = string;
+export type TagValue = string;
+export type IdentityPoolId = string;
+export type Url = string;
+export type SessionSampleRate = number;
+export type Telemetry = string;
+export type CustomEventsStatus = string;
+export type MetricName = string;
+export type ValueKey = string;
+export type UnitLabel = string;
+export type EventPattern = string;
+export type Namespace = string;
+export type QueryTimestamp = number;
+export type QueryFilterKey = string;
+export type QueryFilterValue = string;
+export type DeobfuscationStatus = string;
+export type DeobfuscationS3Uri = string;
+export type DimensionKey = string;
+export type DimensionName = string;
+export type ISOTimestampString = string;
+export type StateEnum = string;
+export type EventData = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -1201,7 +1248,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.String },
@@ -1235,7 +1284,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },
@@ -1261,7 +1312,16 @@ export class PolicySizeLimitExceededException extends S.TaggedError<PolicySizeLi
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1273,7 +1333,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing app monitor. This immediately stops the collection of data.
  */
-export const deleteAppMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAppMonitor: (
+  input: DeleteAppMonitorRequest,
+) => Effect.Effect<
+  DeleteAppMonitorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppMonitorRequest,
   output: DeleteAppMonitorResponse,
   errors: [
@@ -1288,49 +1360,124 @@ export const deleteAppMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single destination.
  */
-export const batchGetRumMetricDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const batchGetRumMetricDefinitions: {
+  (
     input: BatchGetRumMetricDefinitionsRequest,
-    output: BatchGetRumMetricDefinitionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MetricDefinitions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    BatchGetRumMetricDefinitionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: BatchGetRumMetricDefinitionsRequest,
+  ) => Stream.Stream<
+    BatchGetRumMetricDefinitionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: BatchGetRumMetricDefinitionsRequest,
+  ) => Stream.Stream<
+    MetricDefinition,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: BatchGetRumMetricDefinitionsRequest,
+  output: BatchGetRumMetricDefinitionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MetricDefinitions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of destinations that you have created to receive RUM extended metrics, for the specified app monitor.
  *
  * For more information about extended metrics, see AddRumMetrics.
  */
-export const listRumMetricsDestinations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRumMetricsDestinations: {
+  (
     input: ListRumMetricsDestinationsRequest,
-    output: ListRumMetricsDestinationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Destinations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRumMetricsDestinationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRumMetricsDestinationsRequest,
+  ) => Stream.Stream<
+    ListRumMetricsDestinationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRumMetricsDestinationsRequest,
+  ) => Stream.Stream<
+    MetricDestinationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRumMetricsDestinationsRequest,
+  output: ListRumMetricsDestinationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Destinations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Displays the tags associated with a CloudWatch RUM resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1352,7 +1499,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Tagging Amazon Web Services resources.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1368,7 +1524,20 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * After you create an app monitor, sign in to the CloudWatch RUM console to get the JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
  */
-export const createAppMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAppMonitor: (
+  input: CreateAppMonitorRequest,
+) => Effect.Effect<
+  CreateAppMonitorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppMonitorRequest,
   output: CreateAppMonitorResponse,
   errors: [
@@ -1384,7 +1553,20 @@ export const createAppMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Use this operation to retrieve information about a resource-based policy that is attached to an app monitor.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => Effect.Effect<
+  GetResourcePolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | PolicyNotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
   errors: [
@@ -1400,24 +1582,56 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the Amazon CloudWatch RUM app monitors in the account.
  */
-export const listAppMonitors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAppMonitors: {
+  (
     input: ListAppMonitorsRequest,
-    output: ListAppMonitorsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AppMonitorSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAppMonitorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppMonitorsRequest,
+  ) => Stream.Stream<
+    ListAppMonitorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppMonitorsRequest,
+  ) => Stream.Stream<
+    AppMonitorSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppMonitorsRequest,
+  output: ListAppMonitorsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AppMonitorSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Removes the specified metrics from being sent to an extended metrics destination.
  *
@@ -1425,47 +1639,104 @@ export const listAppMonitors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * The maximum number of metric definitions that you can specify in one `BatchDeleteRumMetricDefinitions` operation is 200.
  */
-export const batchDeleteRumMetricDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDeleteRumMetricDefinitionsRequest,
-    output: BatchDeleteRumMetricDefinitionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchDeleteRumMetricDefinitions: (
+  input: BatchDeleteRumMetricDefinitionsRequest,
+) => Effect.Effect<
+  BatchDeleteRumMetricDefinitionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteRumMetricDefinitionsRequest,
+  output: BatchDeleteRumMetricDefinitionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
  */
-export const getAppMonitorData = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getAppMonitorData: {
+  (
     input: GetAppMonitorDataRequest,
-    output: GetAppMonitorDataResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Events",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetAppMonitorDataResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetAppMonitorDataRequest,
+  ) => Stream.Stream<
+    GetAppMonitorDataResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetAppMonitorDataRequest,
+  ) => Stream.Stream<
+    EventData,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetAppMonitorDataRequest,
+  output: GetAppMonitorDataResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Events",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Sends telemetry events about your application performance and user behavior to CloudWatch RUM. The code snippet that RUM generates for you to add to your application includes `PutRumEvents` operations to send this data to RUM.
  *
  * Each `PutRumEvents` operation can send a batch of events from one user session.
  */
-export const putRumEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putRumEvents: (
+  input: PutRumEventsRequest,
+) => Effect.Effect<
+  PutRumEventsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRumEventsRequest,
   output: PutRumEventsResponse,
   errors: [
@@ -1479,39 +1750,59 @@ export const putRumEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination.
  */
-export const deleteRumMetricsDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRumMetricsDestinationRequest,
-    output: DeleteRumMetricsDestinationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteRumMetricsDestination: (
+  input: DeleteRumMetricsDestinationRequest,
+) => Effect.Effect<
+  DeleteRumMetricsDestinationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRumMetricsDestinationRequest,
+  output: DeleteRumMetricsDestinationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates or updates a destination to receive extended metrics from CloudWatch RUM. You can send extended metrics to CloudWatch or to a CloudWatch Evidently experiment.
  *
  * For more information about extended metrics, see BatchCreateRumMetricDefinitions.
  */
-export const putRumMetricsDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRumMetricsDestinationRequest,
-    output: PutRumMetricsDestinationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putRumMetricsDestination: (
+  input: PutRumMetricsDestinationRequest,
+) => Effect.Effect<
+  PutRumMetricsDestinationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRumMetricsDestinationRequest,
+  output: PutRumMetricsDestinationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the configuration of an existing app monitor. When you use this operation, only the parts of the app monitor configuration that you specify in this operation are changed. For any parameters that you omit, the existing values are kept.
  *
@@ -1521,7 +1812,19 @@ export const putRumMetricsDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * After you update an app monitor, sign in to the CloudWatch RUM console to get the updated JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
  */
-export const updateAppMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAppMonitor: (
+  input: UpdateAppMonitorRequest,
+) => Effect.Effect<
+  UpdateAppMonitorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAppMonitorRequest,
   output: UpdateAppMonitorResponse,
   errors: [
@@ -1536,44 +1839,78 @@ export const updateAppMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies one existing metric definition for CloudWatch RUM extended metrics. For more information about extended metrics, see BatchCreateRumMetricsDefinitions.
  */
-export const updateRumMetricDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRumMetricDefinitionRequest,
-    output: UpdateRumMetricDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateRumMetricDefinition: (
+  input: UpdateRumMetricDefinitionRequest,
+) => Effect.Effect<
+  UpdateRumMetricDefinitionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRumMetricDefinitionRequest,
+  output: UpdateRumMetricDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes the association of a resource-based policy from an app monitor.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      InvalidPolicyRevisionIdException,
-      PolicyNotFoundException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidPolicyRevisionIdException
+  | PolicyNotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    InvalidPolicyRevisionIdException,
+    PolicyNotFoundException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the complete configuration information for one app monitor.
  */
-export const getAppMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAppMonitor: (
+  input: GetAppMonitorRequest,
+) => Effect.Effect<
+  GetAppMonitorResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppMonitorRequest,
   output: GetAppMonitorResponse,
   errors: [
@@ -1607,24 +1944,51 @@ export const getAppMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If some metric definitions specified in a `BatchCreateRumMetricDefinitions` operations are not valid, those metric definitions fail and return errors, but all valid metric definitions in the same operation still succeed.
  */
-export const batchCreateRumMetricDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchCreateRumMetricDefinitionsRequest,
-    output: BatchCreateRumMetricDefinitionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchCreateRumMetricDefinitions: (
+  input: BatchCreateRumMetricDefinitionsRequest,
+) => Effect.Effect<
+  BatchCreateRumMetricDefinitionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCreateRumMetricDefinitionsRequest,
+  output: BatchCreateRumMetricDefinitionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidPolicyRevisionIdException
+  | MalformedPolicyDocumentException
+  | PolicySizeLimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [

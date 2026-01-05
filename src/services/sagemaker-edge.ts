@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Sagemaker Edge",
   serviceShapeName: "AmazonSageMakerEdge",
@@ -241,6 +249,21 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type DeviceName = string;
+export type DeviceFleetName = string;
+export type Version = string;
+export type Dimension = string;
+export type Metric = string;
+export type Value = number;
+export type ModelName = string;
+export type EntityName = string;
+export type DeviceRegistration = string;
+export type CacheTTLSeconds = string;
+export type ErrorMessage = string;
+export type S3Uri = string;
+export type ChecksumString = string;
+
 //# Schemas
 export interface GetDeploymentsRequest {
   DeviceName: string;
@@ -471,17 +494,27 @@ export class InternalServiceException extends S.TaggedError<InternalServiceExcep
 /**
  * Use to check if a device is registered with SageMaker Edge Manager.
  */
-export const getDeviceRegistration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDeviceRegistrationRequest,
-    output: GetDeviceRegistrationResult,
-    errors: [InternalServiceException],
-  }),
-);
+export const getDeviceRegistration: (
+  input: GetDeviceRegistrationRequest,
+) => Effect.Effect<
+  GetDeviceRegistrationResult,
+  InternalServiceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDeviceRegistrationRequest,
+  output: GetDeviceRegistrationResult,
+  errors: [InternalServiceException],
+}));
 /**
  * Use to get the current status of devices registered on SageMaker Edge Manager.
  */
-export const sendHeartbeat = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendHeartbeat: (
+  input: SendHeartbeatRequest,
+) => Effect.Effect<
+  SendHeartbeatResponse,
+  InternalServiceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendHeartbeatRequest,
   output: SendHeartbeatResponse,
   errors: [InternalServiceException],
@@ -489,7 +522,13 @@ export const sendHeartbeat = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Use to get the active deployments from a device.
  */
-export const getDeployments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeployments: (
+  input: GetDeploymentsRequest,
+) => Effect.Effect<
+  GetDeploymentsResult,
+  InternalServiceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentsRequest,
   output: GetDeploymentsResult,
   errors: [InternalServiceException],

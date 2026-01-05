@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Timestream Write",
   serviceShapeName: "Timestream_20181101",
@@ -340,6 +348,32 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ClientRequestToken = string;
+export type ResourceCreateAPIName = string;
+export type RecordVersion = number;
+export type StringValue2048 = string;
+export type ResourceName = string;
+export type BatchLoadTaskId = string;
+export type PageLimit = number;
+export type PaginationLimit = number;
+export type AmazonResourceName = string;
+export type TagKey = string;
+export type TagValue = string;
+export type MemoryStoreRetentionPeriodInHours = number;
+export type MagneticStoreRetentionPeriodInDays = number;
+export type Long = number;
+export type SchemaName = string;
+export type StringValue256 = string;
+export type ErrorMessage = string;
+export type S3BucketName = string;
+export type S3ObjectKey = string;
+export type StringValue1 = string;
+export type S3ObjectKeyPrefix = string;
+export type SchemaValue = string;
+export type Integer = number;
+export type RecordIndex = number;
 
 //# Schemas
 export interface DescribeEndpointsRequest {}
@@ -1228,7 +1262,9 @@ export class InvalidEndpointException extends S.TaggedError<InvalidEndpointExcep
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -1240,7 +1276,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },
@@ -1264,48 +1302,103 @@ export class RejectedRecordsException extends S.TaggedError<RejectedRecordsExcep
  * code
  * sample for details.
  */
-export const describeBatchLoadTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeBatchLoadTaskRequest,
-    output: DescribeBatchLoadTaskResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidEndpointException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeBatchLoadTask: (
+  input: DescribeBatchLoadTaskRequest,
+) => Effect.Effect<
+  DescribeBatchLoadTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBatchLoadTaskRequest,
+  output: DescribeBatchLoadTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidEndpointException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Provides a list of batch load tasks, along with the name, status, when the task is
  * resumable until, and other details. See code
  * sample for details.
  */
-export const listBatchLoadTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBatchLoadTasks: {
+  (
     input: ListBatchLoadTasksRequest,
-    output: ListBatchLoadTasksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidEndpointException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBatchLoadTasksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidEndpointException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBatchLoadTasksRequest,
+  ) => Stream.Stream<
+    ListBatchLoadTasksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidEndpointException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBatchLoadTasksRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidEndpointException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBatchLoadTasksRequest,
+  output: ListBatchLoadTasksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidEndpointException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Associates a set of tags with a Timestream resource. You can then activate
  * these user-defined tags so that they appear on the Billing and Cost Management console for
  * cost allocation tracking.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1335,7 +1428,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The
  * Endpoint Discovery Pattern.
  */
-export const describeEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeEndpoints: (
+  input: DescribeEndpointsRequest,
+) => Effect.Effect<
+  DescribeEndpointsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEndpointsRequest,
   output: DescribeEndpointsResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
@@ -1345,30 +1447,105 @@ export const describeEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * code sample for
  * details.
  */
-export const listDatabases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDatabases: {
+  (
     input: ListDatabasesRequest,
-    output: ListDatabasesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidEndpointException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDatabasesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidEndpointException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDatabasesRequest,
+  ) => Stream.Stream<
+    ListDatabasesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidEndpointException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatabasesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidEndpointException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDatabasesRequest,
+  output: ListDatabasesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidEndpointException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides a list of tables, along with the name, status, and retention properties of each
  * table. See code sample
  * for details.
  */
-export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTables: {
+  (
+    input: ListTablesRequest,
+  ): Effect.Effect<
+    ListTablesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidEndpointException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTablesRequest,
+  ) => Stream.Stream<
+    ListTablesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidEndpointException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTablesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidEndpointException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTablesRequest,
   output: ListTablesResponse,
   errors: [
@@ -1394,7 +1571,19 @@ export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * See code
  * sample for details.
  */
-export const updateTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTable: (
+  input: UpdateTableRequest,
+) => Effect.Effect<
+  UpdateTableResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTableRequest,
   output: UpdateTableResponse,
   errors: [
@@ -1417,7 +1606,19 @@ export const updateTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * See code
  * sample for details.
  */
-export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTable: (
+  input: DeleteTableRequest,
+) => Effect.Effect<
+  DeleteTableResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableRequest,
   output: DeleteTableResponse,
   errors: [
@@ -1432,7 +1633,19 @@ export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  *
  */
-export const resumeBatchLoadTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resumeBatchLoadTask: (
+  input: ResumeBatchLoadTaskRequest,
+) => Effect.Effect<
+  ResumeBatchLoadTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeBatchLoadTaskRequest,
   output: ResumeBatchLoadTaskResponse,
   errors: [
@@ -1447,7 +1660,17 @@ export const resumeBatchLoadTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all tags on a Timestream resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1471,7 +1694,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * See code sample
  * for details.
  */
-export const deleteDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDatabase: (
+  input: DeleteDatabaseRequest,
+) => Effect.Effect<
+  DeleteDatabaseResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatabaseRequest,
   output: DeleteDatabaseResponse,
   errors: [
@@ -1489,7 +1724,19 @@ export const deleteDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * quotas apply. See code sample
  * for details.
  */
-export const describeDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDatabase: (
+  input: DescribeDatabaseRequest,
+) => Effect.Effect<
+  DescribeDatabaseResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDatabaseRequest,
   output: DescribeDatabaseResponse,
   errors: [
@@ -1507,7 +1754,19 @@ export const describeDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * code
  * sample for details.
  */
-export const describeTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTable: (
+  input: DescribeTableRequest,
+) => Effect.Effect<
+  DescribeTableResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTableRequest,
   output: DescribeTableResponse,
   errors: [
@@ -1527,7 +1786,20 @@ export const describeTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * See code sample
  * for details.
  */
-export const updateDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDatabase: (
+  input: UpdateDatabaseRequest,
+) => Effect.Effect<
+  UpdateDatabaseResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDatabaseRequest,
   output: UpdateDatabaseResponse,
   errors: [
@@ -1543,7 +1815,18 @@ export const updateDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the association of tags from a Timestream resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1559,7 +1842,20 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * specified, the database will be encrypted with a Timestream managed KMS key located in your account. For more information, see Amazon Web Services managed keys. Service quotas apply. For
  * details, see code sample.
  */
-export const createDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDatabase: (
+  input: CreateDatabaseRequest,
+) => Effect.Effect<
+  CreateDatabaseResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidEndpointException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatabaseRequest,
   output: CreateDatabaseResponse,
   errors: [
@@ -1580,7 +1876,21 @@ export const createDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * code
  * sample for details.
  */
-export const createTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTable: (
+  input: CreateTableRequest,
+) => Effect.Effect<
+  CreateTableResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTableRequest,
   output: CreateTableResponse,
   errors: [
@@ -1605,7 +1915,21 @@ export const createTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * details, see code
  * sample.
  */
-export const createBatchLoadTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBatchLoadTask: (
+  input: CreateBatchLoadTaskRequest,
+) => Effect.Effect<
+  CreateBatchLoadTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBatchLoadTaskRequest,
   output: CreateBatchLoadTaskResponse,
   errors: [
@@ -1664,7 +1988,20 @@ export const createBatchLoadTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * send a version number greater than `3`, or the update requests would receive a
  * `RejectedRecordsException`.
  */
-export const writeRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const writeRecords: (
+  input: WriteRecordsRequest,
+) => Effect.Effect<
+  WriteRecordsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | RejectedRecordsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WriteRecordsRequest,
   output: WriteRecordsResponse,
   errors: [

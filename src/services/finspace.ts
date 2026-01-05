@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "finspace",
   serviceShapeName: "AWSHabaneroManagementService",
@@ -240,6 +248,98 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type EnvironmentName = string;
+export type Description = string;
+export type KmsKeyId = string;
+export type DataBundleArn = string;
+export type EnvironmentId = string;
+export type DatabaseName = string;
+export type ClientTokenString = string;
+export type ClientToken = string;
+export type KxEnvironmentId = string;
+export type KxClusterName = string;
+export type KxClusterDescription = string;
+export type ReleaseLabel = string;
+export type InitializationScriptFilePath = string;
+export type ExecutionRoleArn = string;
+export type AvailabilityZoneId = string;
+export type KxDataviewName = string;
+export type ChangesetId = string;
+export type KxEnvironmentName = string;
+export type KmsKeyARN = string;
+export type KxScalingGroupName = string;
+export type KxHostType = string;
+export type IdType = string;
+export type KxUserNameString = string;
+export type RoleArn = string;
+export type KxVolumeName = string;
+export type KxClusterNodeIdString = string;
+export type KxUserArn = string;
+export type PaginationToken = string;
+export type ResultLimit = number;
+export type MaxResults = number;
+export type BoxedInteger = number;
+export type FinSpaceTaggableArn = string;
+export type TagKey = string;
+export type TagValue = string;
+export type SamlMetadataDocument = string;
+export type url = string;
+export type urn = string;
+export type FederationProviderName = string;
+export type EmailId = string;
+export type NameString = string;
+export type S3Path = string;
+export type DbPath = string;
+export type VolumeName = string;
+export type KxCacheStorageType = string;
+export type KxCacheStorageSize = number;
+export type NodeCount = number;
+export type AutoScalingMetricTarget = number;
+export type CooldownTime = number;
+export type NodeType = string;
+export type VpcIdString = string;
+export type SecurityGroupIdString = string;
+export type SubnetIdString = string;
+export type KxCommandLineArgumentKey = string;
+export type KxCommandLineArgumentValue = string;
+export type S3Bucket = string;
+export type S3Key = string;
+export type S3ObjectVersion = string;
+export type KxSavedownStorageSize = number;
+export type MemoryMib = number;
+export type ClusterNodeCount = number;
+export type CpuCount = number;
+export type KxNAS1Size = number;
+export type TransitGatewayID = string;
+export type ValidCIDRSpace = string;
+export type ValidHostname = string;
+export type ValidIPAddress = string;
+export type DatabaseArn = string;
+export type EnvironmentArn = string;
+export type ErrorMessage2 = string;
+export type KxClusterStatusReason = string;
+export type SignedKxConnectionString = string;
+export type numBytes = number;
+export type numChangesets = number;
+export type numFiles = number;
+export type KxDataviewStatusReason = string;
+export type EnvironmentErrorMessage = string;
+export type stringValueLength1to255 = string;
+export type arn = string;
+export type KxVolumeArn = string;
+export type KxVolumeStatusReason = string;
+export type FederationAttributeKey = string;
+export type FederationAttributeValue = string;
+export type VersionId = string;
+export type RuleNumber = number;
+export type Protocol = string;
+export type ValidCIDRBlock = string;
+export type SmsDomainUrl = string;
+export type ErrorMessage = string;
+export type Port = number;
+export type IcmpTypeOrCode = number;
 
 //# Schemas
 export type DataBundleArns = string[];
@@ -3299,7 +3399,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String), reason: S.optional(S.String) },
@@ -3323,7 +3425,9 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
   { message: S.optional(S.String) },
@@ -3337,7 +3441,16 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * A list of all of your FinSpace environments.
  */
-export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listEnvironments: (
+  input: ListEnvironmentsRequest,
+) => Effect.Effect<
+  ListEnvironmentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListEnvironmentsRequest,
   output: ListEnvironmentsResponse,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
@@ -3345,7 +3458,16 @@ export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes metadata tags from a FinSpace resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3357,7 +3479,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * A list of all tags for a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3369,7 +3500,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the FinSpace environment object.
  */
-export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEnvironment: (
+  input: GetEnvironmentRequest,
+) => Effect.Effect<
+  GetEnvironmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentRequest,
   output: GetEnvironmentResponse,
   errors: [
@@ -3382,7 +3523,18 @@ export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves all the information for the specified kdb environment.
  */
-export const getKxEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKxEnvironment: (
+  input: GetKxEnvironmentRequest,
+) => Effect.Effect<
+  GetKxEnvironmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxEnvironmentRequest,
   output: GetKxEnvironmentResponse,
   errors: [
@@ -3396,7 +3548,16 @@ export const getKxEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds metadata tags to a FinSpace resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3408,27 +3569,63 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of kdb environments created in an account.
  */
-export const listKxEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listKxEnvironments: {
+  (
     input: ListKxEnvironmentsRequest,
-    output: ListKxEnvironmentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "environments",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListKxEnvironmentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKxEnvironmentsRequest,
+  ) => Stream.Stream<
+    ListKxEnvironmentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKxEnvironmentsRequest,
+  ) => Stream.Stream<
+    KxEnvironment,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKxEnvironmentsRequest,
+  output: ListKxEnvironmentsResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "environments",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Update your FinSpace environment.
  */
-export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEnvironment: (
+  input: UpdateEnvironmentRequest,
+) => Effect.Effect<
+  UpdateEnvironmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentRequest,
   output: UpdateEnvironmentResponse,
   errors: [
@@ -3442,7 +3639,20 @@ export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified dataview. The dataviews get automatically updated when any new changesets are ingested. Each update of the dataview creates a new version, including changeset details and cache configurations
  */
-export const updateKxDataview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateKxDataview: (
+  input: UpdateKxDataviewRequest,
+) => Effect.Effect<
+  UpdateKxDataviewResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKxDataviewRequest,
   output: UpdateKxDataviewResponse,
   errors: [
@@ -3458,29 +3668,80 @@ export const updateKxDataview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all the nodes in a kdb cluster.
  */
-export const listKxClusterNodes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listKxClusterNodes: {
+  (
     input: ListKxClusterNodesRequest,
-    output: ListKxClusterNodesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListKxClusterNodesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKxClusterNodesRequest,
+  ) => Stream.Stream<
+    ListKxClusterNodesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKxClusterNodesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKxClusterNodesRequest,
+  output: ListKxClusterNodesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of clusters.
  */
-export const listKxClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listKxClusters: (
+  input: ListKxClustersRequest,
+) => Effect.Effect<
+  ListKxClustersResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListKxClustersRequest,
   output: ListKxClustersResponse,
   errors: [
@@ -3496,29 +3757,84 @@ export const listKxClusters = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of scaling groups in a kdb environment.
  */
-export const listKxScalingGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listKxScalingGroups: {
+  (
     input: ListKxScalingGroupsRequest,
-    output: ListKxScalingGroupsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListKxScalingGroupsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKxScalingGroupsRequest,
+  ) => Stream.Stream<
+    ListKxScalingGroupsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKxScalingGroupsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKxScalingGroupsRequest,
+  output: ListKxScalingGroupsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all the volumes in a kdb environment.
  */
-export const listKxVolumes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listKxVolumes: (
+  input: ListKxVolumesRequest,
+) => Effect.Effect<
+  ListKxVolumesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListKxVolumesRequest,
   output: ListKxVolumesResponse,
   errors: [
@@ -3534,7 +3850,20 @@ export const listKxVolumes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details of a scaling group.
  */
-export const getKxScalingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKxScalingGroup: (
+  input: GetKxScalingGroupRequest,
+) => Effect.Effect<
+  GetKxScalingGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxScalingGroupRequest,
   output: GetKxScalingGroupResponse,
   errors: [
@@ -3551,44 +3880,80 @@ export const getKxScalingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Allows you to update code configuration on a running cluster. By using this API you can update the code, the initialization script path, and the command line arguments for a specific cluster.
  * The configuration that you want to update will override any existing configurations on the cluster.
  */
-export const updateKxClusterCodeConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateKxClusterCodeConfigurationRequest,
-    output: UpdateKxClusterCodeConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateKxClusterCodeConfiguration: (
+  input: UpdateKxClusterCodeConfigurationRequest,
+) => Effect.Effect<
+  UpdateKxClusterCodeConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateKxClusterCodeConfigurationRequest,
+  output: UpdateKxClusterCodeConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the databases mounted on a kdb cluster, which includes the `changesetId` and all the dbPaths to be cached. This API does not allow you to change a database name or add a database if you created a cluster without one.
  *
  * Using this API you can point a cluster to a different changeset and modify a list of partitions being cached.
  */
-export const updateKxClusterDatabases = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateKxClusterDatabasesRequest,
-    output: UpdateKxClusterDatabasesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateKxClusterDatabases: (
+  input: UpdateKxClusterDatabasesRequest,
+) => Effect.Effect<
+  UpdateKxClusterDatabasesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateKxClusterDatabasesRequest,
+  output: UpdateKxClusterDatabasesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the user details. You can only update the IAM role associated with a user.
  */
-export const updateKxUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateKxUser: (
+  input: UpdateKxUserRequest,
+) => Effect.Effect<
+  UpdateKxUserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKxUserRequest,
   output: UpdateKxUserResponse,
   errors: [
@@ -3605,7 +3970,20 @@ export const updateKxUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the throughput or capacity of a volume. During the update process, the filesystem
  * might be unavailable for a few minutes. You can retry any operations after the update is complete.
  */
-export const updateKxVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateKxVolume: (
+  input: UpdateKxVolumeRequest,
+) => Effect.Effect<
+  UpdateKxVolumeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKxVolumeRequest,
   output: UpdateKxVolumeResponse,
   errors: [
@@ -3621,7 +3999,20 @@ export const updateKxVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a kdb cluster.
  */
-export const deleteKxCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKxCluster: (
+  input: DeleteKxClusterRequest,
+) => Effect.Effect<
+  DeleteKxClusterResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKxClusterRequest,
   output: DeleteKxClusterResponse,
   errors: [
@@ -3637,25 +4028,49 @@ export const deleteKxCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified scaling group. This action is irreversible. You cannot delete a scaling group until all the clusters running on it have been deleted.
  */
-export const deleteKxScalingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteKxScalingGroupRequest,
-    output: DeleteKxScalingGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteKxScalingGroup: (
+  input: DeleteKxScalingGroupRequest,
+) => Effect.Effect<
+  DeleteKxScalingGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteKxScalingGroupRequest,
+  output: DeleteKxScalingGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the volume is lost. This action is irreversible.
  */
-export const deleteKxVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKxVolume: (
+  input: DeleteKxVolumeRequest,
+) => Effect.Effect<
+  DeleteKxVolumeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKxVolumeRequest,
   output: DeleteKxVolumeResponse,
   errors: [
@@ -3671,7 +4086,21 @@ export const deleteKxVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new kdb database in the environment.
  */
-export const createKxDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKxDatabase: (
+  input: CreateKxDatabaseRequest,
+) => Effect.Effect<
+  CreateKxDatabaseResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKxDatabaseRequest,
   output: CreateKxDatabaseResponse,
   errors: [
@@ -3688,25 +4117,50 @@ export const createKxDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new scaling group.
  */
-export const createKxScalingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateKxScalingGroupRequest,
-    output: CreateKxScalingGroupResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createKxScalingGroup: (
+  input: CreateKxScalingGroupRequest,
+) => Effect.Effect<
+  CreateKxScalingGroupResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateKxScalingGroupRequest,
+  output: CreateKxScalingGroupResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a user in FinSpace kdb environment with an associated IAM role.
  */
-export const createKxUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKxUser: (
+  input: CreateKxUserRequest,
+) => Effect.Effect<
+  CreateKxUserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKxUserRequest,
   output: CreateKxUserResponse,
   errors: [
@@ -3723,7 +4177,20 @@ export const createKxUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a changeset for a kdb database. A changeset allows you to add and delete existing files by using an ordered list of change requests.
  */
-export const createKxChangeset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKxChangeset: (
+  input: CreateKxChangesetRequest,
+) => Effect.Effect<
+  CreateKxChangesetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKxChangesetRequest,
   output: CreateKxChangesetResponse,
   errors: [
@@ -3739,7 +4206,21 @@ export const createKxChangeset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a snapshot of kdb database with tiered storage capabilities and a pre-warmed cache, ready for mounting on kdb clusters. Dataviews are only available for clusters running on a scaling group. They are not supported on dedicated clusters.
  */
-export const createKxDataview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKxDataview: (
+  input: CreateKxDataviewRequest,
+) => Effect.Effect<
+  CreateKxDataviewResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKxDataviewRequest,
   output: CreateKxDataviewResponse,
   errors: [
@@ -3756,7 +4237,21 @@ export const createKxDataview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new volume with a specific amount of throughput and storage capacity.
  */
-export const createKxVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKxVolume: (
+  input: CreateKxVolumeRequest,
+) => Effect.Effect<
+  CreateKxVolumeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKxVolumeRequest,
   output: CreateKxVolumeResponse,
   errors: [
@@ -3773,7 +4268,20 @@ export const createKxVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a kdb cluster.
  */
-export const getKxCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKxCluster: (
+  input: GetKxClusterRequest,
+) => Effect.Effect<
+  GetKxClusterResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxClusterRequest,
   output: GetKxClusterResponse,
   errors: [
@@ -3789,7 +4297,20 @@ export const getKxCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new kdb cluster.
  */
-export const createKxCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKxCluster: (
+  input: CreateKxClusterRequest,
+) => Effect.Effect<
+  CreateKxClusterResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKxClusterRequest,
   output: CreateKxClusterResponse,
   errors: [
@@ -3805,7 +4326,19 @@ export const createKxCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates information for the given kdb database.
  */
-export const updateKxDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateKxDatabase: (
+  input: UpdateKxDatabaseRequest,
+) => Effect.Effect<
+  UpdateKxDatabaseResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKxDatabaseRequest,
   output: UpdateKxDatabaseResponse,
   errors: [
@@ -3820,7 +4353,19 @@ export const updateKxDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates information for the given kdb environment.
  */
-export const updateKxEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateKxEnvironment: (
+  input: UpdateKxEnvironmentRequest,
+) => Effect.Effect<
+  UpdateKxEnvironmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKxEnvironmentRequest,
   output: UpdateKxEnvironmentResponse,
   errors: [
@@ -3835,7 +4380,19 @@ export const updateKxEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified database and all of its associated data. This action is irreversible. You must copy any data out of the database before deleting it if the data is to be retained.
  */
-export const deleteKxDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKxDatabase: (
+  input: DeleteKxDatabaseRequest,
+) => Effect.Effect<
+  DeleteKxDatabaseResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKxDatabaseRequest,
   output: DeleteKxDatabaseResponse,
   errors: [
@@ -3850,7 +4407,19 @@ export const deleteKxDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified dataview. Before deleting a dataview, make sure that it is not in use by any cluster.
  */
-export const deleteKxDataview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKxDataview: (
+  input: DeleteKxDataviewRequest,
+) => Effect.Effect<
+  DeleteKxDataviewResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKxDataviewRequest,
   output: DeleteKxDataviewResponse,
   errors: [
@@ -3865,7 +4434,19 @@ export const deleteKxDataview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the kdb environment. This action is irreversible. Deleting a kdb environment will remove all the associated data and any services running in it.
  */
-export const deleteKxEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKxEnvironment: (
+  input: DeleteKxEnvironmentRequest,
+) => Effect.Effect<
+  DeleteKxEnvironmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKxEnvironmentRequest,
   output: DeleteKxEnvironmentResponse,
   errors: [
@@ -3880,7 +4461,19 @@ export const deleteKxEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a user in the specified kdb environment.
  */
-export const deleteKxUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKxUser: (
+  input: DeleteKxUserRequest,
+) => Effect.Effect<
+  DeleteKxUserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKxUserRequest,
   output: DeleteKxUserResponse,
   errors: [
@@ -3895,7 +4488,18 @@ export const deleteKxUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified nodes from a cluster.
  */
-export const deleteKxClusterNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKxClusterNode: (
+  input: DeleteKxClusterNodeRequest,
+) => Effect.Effect<
+  DeleteKxClusterNodeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKxClusterNodeRequest,
   output: DeleteKxClusterNodeResponse,
   errors: [
@@ -3909,7 +4513,18 @@ export const deleteKxClusterNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete an FinSpace environment.
  */
-export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEnvironment: (
+  input: DeleteEnvironmentRequest,
+) => Effect.Effect<
+  DeleteEnvironmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentRequest,
   output: DeleteEnvironmentResponse,
   errors: [
@@ -3923,23 +4538,43 @@ export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a connection string for a user to connect to a kdb cluster. You must call this API using the same role that you have defined while creating a user.
  */
-export const getKxConnectionString = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetKxConnectionStringRequest,
-    output: GetKxConnectionStringResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getKxConnectionString: (
+  input: GetKxConnectionStringRequest,
+) => Effect.Effect<
+  GetKxConnectionStringResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetKxConnectionStringRequest,
+  output: GetKxConnectionStringResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns database information for the specified environment ID.
  */
-export const getKxDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKxDatabase: (
+  input: GetKxDatabaseRequest,
+) => Effect.Effect<
+  GetKxDatabaseResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxDatabaseRequest,
   output: GetKxDatabaseResponse,
   errors: [
@@ -3953,7 +4588,18 @@ export const getKxDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about the specified kdb user.
  */
-export const getKxUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKxUser: (
+  input: GetKxUserRequest,
+) => Effect.Effect<
+  GetKxUserResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxUserRequest,
   output: GetKxUserResponse,
   errors: [
@@ -3967,7 +4613,18 @@ export const getKxUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a kdb changeset.
  */
-export const getKxChangeset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKxChangeset: (
+  input: GetKxChangesetRequest,
+) => Effect.Effect<
+  GetKxChangesetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxChangesetRequest,
   output: GetKxChangesetResponse,
   errors: [
@@ -3981,7 +4638,18 @@ export const getKxChangeset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details of the dataview.
  */
-export const getKxDataview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKxDataview: (
+  input: GetKxDataviewRequest,
+) => Effect.Effect<
+  GetKxDataviewResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxDataviewRequest,
   output: GetKxDataviewResponse,
   errors: [
@@ -3995,70 +4663,186 @@ export const getKxDataview = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of all the changesets for a database.
  */
-export const listKxChangesets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listKxChangesets: {
+  (
     input: ListKxChangesetsRequest,
-    output: ListKxChangesetsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListKxChangesetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKxChangesetsRequest,
+  ) => Stream.Stream<
+    ListKxChangesetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKxChangesetsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKxChangesetsRequest,
+  output: ListKxChangesetsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of all the databases in the kdb environment.
  */
-export const listKxDatabases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listKxDatabases: {
+  (
     input: ListKxDatabasesRequest,
-    output: ListKxDatabasesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListKxDatabasesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKxDatabasesRequest,
+  ) => Stream.Stream<
+    ListKxDatabasesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKxDatabasesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKxDatabasesRequest,
+  output: ListKxDatabasesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of all the dataviews in the database.
  */
-export const listKxDataviews = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listKxDataviews: {
+  (
     input: ListKxDataviewsRequest,
-    output: ListKxDataviewsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListKxDataviewsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKxDataviewsRequest,
+  ) => Stream.Stream<
+    ListKxDataviewsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKxDataviewsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKxDataviewsRequest,
+  output: ListKxDataviewsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all the users in a kdb environment.
  */
-export const listKxUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listKxUsers: (
+  input: ListKxUsersRequest,
+) => Effect.Effect<
+  ListKxUsersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListKxUsersRequest,
   output: ListKxUsersResponse,
   errors: [
@@ -4072,7 +4856,20 @@ export const listKxUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the information about the volume.
  */
-export const getKxVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKxVolume: (
+  input: GetKxVolumeRequest,
+) => Effect.Effect<
+  GetKxVolumeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKxVolumeRequest,
   output: GetKxVolumeResponse,
   errors: [
@@ -4090,24 +4887,47 @@ export const getKxVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Once you send a request to update a network, you cannot change it again. Network update might require termination of any clusters that are running in the existing network.
  */
-export const updateKxEnvironmentNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateKxEnvironmentNetworkRequest,
-    output: UpdateKxEnvironmentNetworkResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateKxEnvironmentNetwork: (
+  input: UpdateKxEnvironmentNetworkRequest,
+) => Effect.Effect<
+  UpdateKxEnvironmentNetworkResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateKxEnvironmentNetworkRequest,
+  output: UpdateKxEnvironmentNetworkResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a managed kdb environment for the account.
  */
-export const createKxEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKxEnvironment: (
+  input: CreateKxEnvironmentRequest,
+) => Effect.Effect<
+  CreateKxEnvironmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKxEnvironmentRequest,
   output: CreateKxEnvironmentResponse,
   errors: [
@@ -4123,7 +4943,19 @@ export const createKxEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a new FinSpace environment.
  */
-export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEnvironment: (
+  input: CreateEnvironmentRequest,
+) => Effect.Effect<
+  CreateEnvironmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentRequest,
   output: CreateEnvironmentResponse,
   errors: [

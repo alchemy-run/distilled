@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace(
   "https://license-manager.amazonaws.com/doc/2018_08_01",
 );
@@ -243,6 +251,30 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type ClientToken = string;
+export type StatusReasonMessage = string;
+export type LicenseAssetResourceName = string;
+export type LicenseAssetResourceDescription = string;
+export type BoxLong = number;
+export type ReportGeneratorName = string;
+export type ClientRequestToken = string;
+export type Integer = number;
+export type TokenString = string;
+export type LicenseConversionTaskId = string;
+export type BoxInteger = number;
+export type MaxSize100 = number;
+export type ISO8601DateTime = string;
+export type Long = number;
+export type UsageOperation = string;
+export type FilterName = string;
+export type FilterValue = string;
+export type Message = string;
+export type SignedToken = string;
+export type ProductCodeId = string;
+export type Location = string;
 
 //# Schemas
 export interface GetServiceSettingsRequest {}
@@ -3483,7 +3515,9 @@ export class RateLimitExceededException extends S.TaggedError<RateLimitExceededE
   "RateLimitExceededException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "RateLimitExceeded", httpResponseCode: 429 }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class FailedDependencyException extends S.TaggedError<FailedDependencyException>()(
   "FailedDependencyException",
   { Message: S.optional(S.String), ErrorCode: S.optional(S.String) },
@@ -3493,7 +3527,9 @@ export class ServerInternalException extends S.TaggedError<ServerInternalExcepti
   "ServerInternalException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class RedirectException extends S.TaggedError<RedirectException>()(
   "RedirectException",
   {
@@ -3538,103 +3574,172 @@ export class UnsupportedDigitalSignatureMethodException extends S.TaggedError<Un
 /**
  * Modifies the attributes of an existing license configuration.
  */
-export const updateLicenseConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLicenseConfigurationRequest,
-    output: UpdateLicenseConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      ConflictException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ResourceLimitExceededException,
-      ServerInternalException,
-    ],
-  }),
-);
+export const updateLicenseConfiguration: (
+  input: UpdateLicenseConfigurationRequest,
+) => Effect.Effect<
+  UpdateLicenseConfigurationResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | ConflictException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLicenseConfigurationRequest,
+  output: UpdateLicenseConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    ConflictException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ResourceLimitExceededException,
+    ServerInternalException,
+  ],
+}));
 /**
  * Gets detailed information about the specified license configuration.
  */
-export const getLicenseConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLicenseConfigurationRequest,
-    output: GetLicenseConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }),
-);
+export const getLicenseConfiguration: (
+  input: GetLicenseConfigurationRequest,
+) => Effect.Effect<
+  GetLicenseConfigurationResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLicenseConfigurationRequest,
+  output: GetLicenseConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+  ],
+}));
 /**
  * Lists the license configuration operations that failed.
  */
-export const listFailuresForLicenseConfigurationOperations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListFailuresForLicenseConfigurationOperationsRequest,
-    output: ListFailuresForLicenseConfigurationOperationsResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }));
+export const listFailuresForLicenseConfigurationOperations: (
+  input: ListFailuresForLicenseConfigurationOperationsRequest,
+) => Effect.Effect<
+  ListFailuresForLicenseConfigurationOperationsResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFailuresForLicenseConfigurationOperationsRequest,
+  output: ListFailuresForLicenseConfigurationOperationsResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+  ],
+}));
 /**
  * Lists the license type conversion tasks for your account.
  */
-export const listLicenseConversionTasks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListLicenseConversionTasksRequest,
-    output: ListLicenseConversionTasksResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }),
-);
+export const listLicenseConversionTasks: (
+  input: ListLicenseConversionTasksRequest,
+) => Effect.Effect<
+  ListLicenseConversionTasksResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLicenseConversionTasksRequest,
+  output: ListLicenseConversionTasksResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+  ],
+}));
 /**
  * Gets information about the specified license type conversion task.
  */
-export const getLicenseConversionTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLicenseConversionTaskRequest,
-    output: GetLicenseConversionTaskResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }),
-);
+export const getLicenseConversionTask: (
+  input: GetLicenseConversionTaskRequest,
+) => Effect.Effect<
+  GetLicenseConversionTaskResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLicenseConversionTaskRequest,
+  output: GetLicenseConversionTaskResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+  ],
+}));
 /**
  * Describes the license configurations for the specified resource.
  */
-export const listLicenseSpecificationsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListLicenseSpecificationsForResourceRequest,
-    output: ListLicenseSpecificationsForResourceResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }));
+export const listLicenseSpecificationsForResource: (
+  input: ListLicenseSpecificationsForResourceRequest,
+) => Effect.Effect<
+  ListLicenseSpecificationsForResourceResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLicenseSpecificationsForResourceRequest,
+  output: ListLicenseSpecificationsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+  ],
+}));
 /**
  * Lists all versions of the specified license.
  */
-export const listLicenseVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listLicenseVersions: (
+  input: ListLicenseVersionsRequest,
+) => Effect.Effect<
+  ListLicenseVersionsResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLicenseVersionsRequest,
   output: ListLicenseVersionsResponse,
   errors: [
@@ -3650,70 +3755,111 @@ export const listLicenseVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You cannot delete a license configuration that is in use.
  */
-export const deleteLicenseConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLicenseConfigurationRequest,
-    output: DeleteLicenseConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }),
-);
+export const deleteLicenseConfiguration: (
+  input: DeleteLicenseConfigurationRequest,
+) => Effect.Effect<
+  DeleteLicenseConfigurationResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLicenseConfigurationRequest,
+  output: DeleteLicenseConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+  ],
+}));
 /**
  * Lists the license configurations for your account.
  */
-export const listLicenseConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListLicenseConfigurationsRequest,
-    output: ListLicenseConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      FilterLimitExceededException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }),
-);
+export const listLicenseConfigurations: (
+  input: ListLicenseConfigurationsRequest,
+) => Effect.Effect<
+  ListLicenseConfigurationsResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | FilterLimitExceededException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLicenseConfigurationsRequest,
+  output: ListLicenseConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    FilterLimitExceededException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+  ],
+}));
 /**
  * Lists all license usage records for a license configuration, displaying license
  * consumption details by resource at a selected point in time. Use this action to audit the
  * current license consumption for any license inventory and configuration.
  */
-export const listUsageForLicenseConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListUsageForLicenseConfigurationRequest,
-    output: ListUsageForLicenseConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      FilterLimitExceededException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }));
+export const listUsageForLicenseConfiguration: (
+  input: ListUsageForLicenseConfigurationRequest,
+) => Effect.Effect<
+  ListUsageForLicenseConfigurationResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | FilterLimitExceededException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListUsageForLicenseConfigurationRequest,
+  output: ListUsageForLicenseConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    FilterLimitExceededException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+  ],
+}));
 /**
  * Lists license configurations for an organization.
  */
-export const listLicenseConfigurationsForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListLicenseConfigurationsForOrganizationRequest,
-    output: ListLicenseConfigurationsForOrganizationResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      FilterLimitExceededException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }));
+export const listLicenseConfigurationsForOrganization: (
+  input: ListLicenseConfigurationsForOrganizationRequest,
+) => Effect.Effect<
+  ListLicenseConfigurationsForOrganizationResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | FilterLimitExceededException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLicenseConfigurationsForOrganizationRequest,
+  output: ListLicenseConfigurationsForOrganizationResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    FilterLimitExceededException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+  ],
+}));
 /**
  * Lists the resource associations for the specified license configuration.
  *
@@ -3721,23 +3867,44 @@ export const listLicenseConfigurationsForOrganization =
  * For example, an AMI or a stopped instance might not consume a license (depending on
  * the license rules).
  */
-export const listAssociationsForLicenseConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAssociationsForLicenseConfigurationRequest,
-    output: ListAssociationsForLicenseConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      FilterLimitExceededException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }));
+export const listAssociationsForLicenseConfiguration: (
+  input: ListAssociationsForLicenseConfigurationRequest,
+) => Effect.Effect<
+  ListAssociationsForLicenseConfigurationResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | FilterLimitExceededException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAssociationsForLicenseConfigurationRequest,
+  output: ListAssociationsForLicenseConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    FilterLimitExceededException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+  ],
+}));
 /**
  * Gets the License Manager settings for the current Region.
  */
-export const getServiceSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getServiceSettings: (
+  input: GetServiceSettingsRequest,
+) => Effect.Effect<
+  GetServiceSettingsResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | RateLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceSettingsRequest,
   output: GetServiceSettingsResponse,
   errors: [
@@ -3750,21 +3917,32 @@ export const getServiceSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists resources managed using Systems Manager inventory.
  */
-export const listResourceInventory = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListResourceInventoryRequest,
-    output: ListResourceInventoryResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      FailedDependencyException,
-      FilterLimitExceededException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }),
-);
+export const listResourceInventory: (
+  input: ListResourceInventoryRequest,
+) => Effect.Effect<
+  ListResourceInventoryResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | FailedDependencyException
+  | FilterLimitExceededException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListResourceInventoryRequest,
+  output: ListResourceInventoryResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    FailedDependencyException,
+    FilterLimitExceededException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+  ],
+}));
 /**
  * Creates a license configuration.
  *
@@ -3774,24 +3952,45 @@ export const listResourceInventory = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a
  * license must be associated with a host), and the number of licenses purchased and used.
  */
-export const createLicenseConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLicenseConfigurationRequest,
-    output: CreateLicenseConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ResourceLimitExceededException,
-      ServerInternalException,
-    ],
-  }),
-);
+export const createLicenseConfiguration: (
+  input: CreateLicenseConfigurationRequest,
+) => Effect.Effect<
+  CreateLicenseConfigurationResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLicenseConfigurationRequest,
+  output: CreateLicenseConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ResourceLimitExceededException,
+    ServerInternalException,
+  ],
+}));
 /**
  * Lists your tokens.
  */
-export const listTokens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTokens: (
+  input: ListTokensRequest,
+) => Effect.Effect<
+  ListTokensResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTokensRequest,
   output: ListTokensResponse,
   errors: [
@@ -3809,179 +4008,297 @@ export const listTokens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You cannot update the license specifications for launch templates and CloudFormation templates,
  * as they send license configurations to the operation that creates the resource.
  */
-export const updateLicenseSpecificationsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateLicenseSpecificationsForResourceRequest,
-    output: UpdateLicenseSpecificationsForResourceResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      ConflictException,
-      InvalidParameterValueException,
-      InvalidResourceStateException,
-      LicenseUsageException,
-      RateLimitExceededException,
-      ServerInternalException,
-    ],
-  }));
+export const updateLicenseSpecificationsForResource: (
+  input: UpdateLicenseSpecificationsForResourceRequest,
+) => Effect.Effect<
+  UpdateLicenseSpecificationsForResourceResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | ConflictException
+  | InvalidParameterValueException
+  | InvalidResourceStateException
+  | LicenseUsageException
+  | RateLimitExceededException
+  | ServerInternalException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLicenseSpecificationsForResourceRequest,
+  output: UpdateLicenseSpecificationsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    ConflictException,
+    InvalidParameterValueException,
+    InvalidResourceStateException,
+    LicenseUsageException,
+    RateLimitExceededException,
+    ServerInternalException,
+  ],
+}));
 /**
  * Extends the expiration date for license consumption.
  */
-export const extendLicenseConsumption = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExtendLicenseConsumptionRequest,
-    output: ExtendLicenseConsumptionResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ResourceNotFoundException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const extendLicenseConsumption: (
+  input: ExtendLicenseConsumptionRequest,
+) => Effect.Effect<
+  ExtendLicenseConsumptionResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceNotFoundException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExtendLicenseConsumptionRequest,
+  output: ExtendLicenseConsumptionResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ResourceNotFoundException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates License Manager settings for the current Region.
  */
-export const updateServiceSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServiceSettingsRequest,
-    output: UpdateServiceSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      ConflictException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateServiceSettings: (
+  input: UpdateServiceSettingsRequest,
+) => Effect.Effect<
+  UpdateServiceSettingsResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | ConflictException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceSettingsRequest,
+  output: UpdateServiceSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    ConflictException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a license asset group.
  */
-export const createLicenseAssetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLicenseAssetGroupRequest,
-    output: CreateLicenseAssetGroupResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const createLicenseAssetGroup: (
+  input: CreateLicenseAssetGroupRequest,
+) => Effect.Effect<
+  CreateLicenseAssetGroupResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLicenseAssetGroupRequest,
+  output: CreateLicenseAssetGroupResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a license asset group.
  */
-export const getLicenseAssetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLicenseAssetGroupRequest,
-    output: GetLicenseAssetGroupResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const getLicenseAssetGroup: (
+  input: GetLicenseAssetGroupRequest,
+) => Effect.Effect<
+  GetLicenseAssetGroupResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLicenseAssetGroupRequest,
+  output: GetLicenseAssetGroupResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a license asset ruleset.
  */
-export const getLicenseAssetRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLicenseAssetRulesetRequest,
-    output: GetLicenseAssetRulesetResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const getLicenseAssetRuleset: (
+  input: GetLicenseAssetRulesetRequest,
+) => Effect.Effect<
+  GetLicenseAssetRulesetResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLicenseAssetRulesetRequest,
+  output: GetLicenseAssetRulesetResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists assets for a license asset group.
  */
-export const listAssetsForLicenseAssetGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAssetsForLicenseAssetGroupRequest,
-    output: ListAssetsForLicenseAssetGroupResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }));
+export const listAssetsForLicenseAssetGroup: (
+  input: ListAssetsForLicenseAssetGroupRequest,
+) => Effect.Effect<
+  ListAssetsForLicenseAssetGroupResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAssetsForLicenseAssetGroupRequest,
+  output: ListAssetsForLicenseAssetGroupResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a license asset group.
  */
-export const deleteLicenseAssetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLicenseAssetGroupRequest,
-    output: DeleteLicenseAssetGroupResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteLicenseAssetGroup: (
+  input: DeleteLicenseAssetGroupRequest,
+) => Effect.Effect<
+  DeleteLicenseAssetGroupResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLicenseAssetGroupRequest,
+  output: DeleteLicenseAssetGroupResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists license asset groups.
  */
-export const listLicenseAssetGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListLicenseAssetGroupsRequest,
-    output: ListLicenseAssetGroupsResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const listLicenseAssetGroups: (
+  input: ListLicenseAssetGroupsRequest,
+) => Effect.Effect<
+  ListLicenseAssetGroupsResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLicenseAssetGroupsRequest,
+  output: ListLicenseAssetGroupsResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists license asset rulesets.
  */
-export const listLicenseAssetRulesets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListLicenseAssetRulesetsRequest,
-    output: ListLicenseAssetRulesetsResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const listLicenseAssetRulesets: (
+  input: ListLicenseAssetRulesetsRequest,
+) => Effect.Effect<
+  ListLicenseAssetRulesetsResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLicenseAssetRulesetsRequest,
+  output: ListLicenseAssetRulesetsResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the licenses for your account.
  */
-export const listLicenses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listLicenses: (
+  input: ListLicensesRequest,
+) => Effect.Effect<
+  ListLicensesResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLicensesRequest,
   output: ListLicensesResponse,
   errors: [
@@ -3997,7 +4314,19 @@ export const listLicenses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists the tags for the specified resource. For more information about tagging support in
  * License Manager, see the TagResource operation.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -4012,54 +4341,84 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a license asset group.
  */
-export const updateLicenseAssetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLicenseAssetGroupRequest,
-    output: UpdateLicenseAssetGroupResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateLicenseAssetGroup: (
+  input: UpdateLicenseAssetGroupRequest,
+) => Effect.Effect<
+  UpdateLicenseAssetGroupResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLicenseAssetGroupRequest,
+  output: UpdateLicenseAssetGroupResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a license asset ruleset.
  */
-export const updateLicenseAssetRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLicenseAssetRulesetRequest,
-    output: UpdateLicenseAssetRulesetResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateLicenseAssetRuleset: (
+  input: UpdateLicenseAssetRulesetRequest,
+) => Effect.Effect<
+  UpdateLicenseAssetRulesetResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLicenseAssetRulesetRequest,
+  output: UpdateLicenseAssetRulesetResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a license asset ruleset.
  */
-export const deleteLicenseAssetRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLicenseAssetRulesetRequest,
-    output: DeleteLicenseAssetRulesetResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteLicenseAssetRuleset: (
+  input: DeleteLicenseAssetRulesetRequest,
+) => Effect.Effect<
+  DeleteLicenseAssetRulesetResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLicenseAssetRulesetRequest,
+  output: DeleteLicenseAssetRulesetResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds the specified tags to the specified resource. The following resources support
  * tagging in License Manager:
@@ -4072,7 +4431,19 @@ export const deleteLicenseAssetRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Report generators
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -4087,7 +4458,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -4103,7 +4486,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens
  * are valid for one hour.
  */
-export const getAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccessToken: (
+  input: GetAccessTokenRequest,
+) => Effect.Effect<
+  GetAccessTokenResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessTokenRequest,
   output: GetAccessTokenResponse,
   errors: [
@@ -4117,23 +4511,46 @@ export const getAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new license conversion task.
  */
-export const createLicenseConversionTaskForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLicenseConversionTaskForResourceRequest,
-    output: CreateLicenseConversionTaskForResourceResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }));
+export const createLicenseConversionTaskForResource: (
+  input: CreateLicenseConversionTaskForResourceRequest,
+) => Effect.Effect<
+  CreateLicenseConversionTaskForResourceResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLicenseConversionTaskForResourceRequest,
+  output: CreateLicenseConversionTaskForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets detailed information about the specified license.
  */
-export const getLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLicense: (
+  input: GetLicenseRequest,
+) => Effect.Effect<
+  GetLicenseResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLicenseRequest,
   output: GetLicenseResponse,
   errors: [
@@ -4148,7 +4565,19 @@ export const getLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets detailed information about the usage of the specified license.
  */
-export const getLicenseUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLicenseUsage: (
+  input: GetLicenseUsageRequest,
+) => Effect.Effect<
+  GetLicenseUsageResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLicenseUsageRequest,
   output: GetLicenseUsageResponse,
   errors: [
@@ -4163,7 +4592,21 @@ export const getLicenseUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified license.
  */
-export const deleteLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLicense: (
+  input: DeleteLicenseRequest,
+) => Effect.Effect<
+  DeleteLicenseResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | ConflictException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | RedirectException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLicenseRequest,
   output: DeleteLicenseResponse,
   errors: [
@@ -4184,7 +4627,21 @@ export const deleteLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * you can call AssumeRoleWithWebIdentity to get role credentials that you can use to
  * call License Manager to manage the specified license.
  */
-export const createToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createToken: (
+  input: CreateTokenRequest,
+) => Effect.Effect<
+  CreateTokenResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | RateLimitExceededException
+  | RedirectException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTokenRequest,
   output: CreateTokenResponse,
   errors: [
@@ -4201,7 +4658,20 @@ export const createToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified token. Must be called in the license home Region.
  */
-export const deleteToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteToken: (
+  input: DeleteTokenRequest,
+) => Effect.Effect<
+  DeleteTokenResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | RateLimitExceededException
+  | RedirectException
+  | ResourceNotFoundException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTokenRequest,
   output: DeleteTokenResponse,
   errors: [
@@ -4217,7 +4687,20 @@ export const deleteToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a license.
  */
-export const createLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLicense: (
+  input: CreateLicenseRequest,
+) => Effect.Effect<
+  CreateLicenseResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | RedirectException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLicenseRequest,
   output: CreateLicenseResponse,
   errors: [
@@ -4234,7 +4717,20 @@ export const createLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a new version of the specified grant. For more information, see
  * Granted licenses in License Manager in the *License Manager User Guide*.
  */
-export const createGrantVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGrantVersion: (
+  input: CreateGrantVersionRequest,
+) => Effect.Effect<
+  CreateGrantVersionResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGrantVersionRequest,
   output: CreateGrantVersionResponse,
   errors: [
@@ -4250,25 +4746,51 @@ export const createGrantVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a report generator.
  */
-export const createLicenseManagerReportGenerator =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLicenseManagerReportGeneratorRequest,
-    output: CreateLicenseManagerReportGeneratorResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }));
+export const createLicenseManagerReportGenerator: (
+  input: CreateLicenseManagerReportGeneratorRequest,
+) => Effect.Effect<
+  CreateLicenseManagerReportGeneratorResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLicenseManagerReportGeneratorRequest,
+  output: CreateLicenseManagerReportGeneratorResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets detailed information about the specified grant.
  */
-export const getGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGrant: (
+  input: GetGrantRequest,
+) => Effect.Effect<
+  GetGrantResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGrantRequest,
   output: GetGrantResponse,
   errors: [
@@ -4284,25 +4806,49 @@ export const getGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the grants distributed for the specified license.
  */
-export const listDistributedGrants = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDistributedGrantsRequest,
-    output: ListDistributedGrantsResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ResourceLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const listDistributedGrants: (
+  input: ListDistributedGrantsRequest,
+) => Effect.Effect<
+  ListDistributedGrantsResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDistributedGrantsRequest,
+  output: ListDistributedGrantsResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ResourceLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the specified grant.
  */
-export const deleteGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGrant: (
+  input: DeleteGrantRequest,
+) => Effect.Effect<
+  DeleteGrantResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGrantRequest,
   output: DeleteGrantResponse,
   errors: [
@@ -4318,27 +4864,53 @@ export const deleteGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the report generators for your account.
  */
-export const listLicenseManagerReportGenerators =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListLicenseManagerReportGeneratorsRequest,
-    output: ListLicenseManagerReportGeneratorsResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }));
+export const listLicenseManagerReportGenerators: (
+  input: ListLicenseManagerReportGeneratorsRequest,
+) => Effect.Effect<
+  ListLicenseManagerReportGeneratorsResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLicenseManagerReportGeneratorsRequest,
+  output: ListLicenseManagerReportGeneratorsResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists grants that are received. Received grants are grants created while specifying the
  * recipient as this Amazon Web Services account, your organization, or an organizational unit
  * (OU) to which this member account belongs.
  */
-export const listReceivedGrants = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listReceivedGrants: (
+  input: ListReceivedGrantsRequest,
+) => Effect.Effect<
+  ListReceivedGrantsResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListReceivedGrantsRequest,
   output: ListReceivedGrantsResponse,
   errors: [
@@ -4354,41 +4926,78 @@ export const listReceivedGrants = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the grants received for all accounts in the organization.
  */
-export const listReceivedGrantsForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListReceivedGrantsForOrganizationRequest,
-    output: ListReceivedGrantsForOrganizationResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ResourceLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }));
+export const listReceivedGrantsForOrganization: (
+  input: ListReceivedGrantsForOrganizationRequest,
+) => Effect.Effect<
+  ListReceivedGrantsForOrganizationResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListReceivedGrantsForOrganizationRequest,
+  output: ListReceivedGrantsForOrganizationResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ResourceLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the licenses received for all accounts in the organization.
  */
-export const listReceivedLicensesForOrganization =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListReceivedLicensesForOrganizationRequest,
-    output: ListReceivedLicensesForOrganizationResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ResourceLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }));
+export const listReceivedLicensesForOrganization: (
+  input: ListReceivedLicensesForOrganizationRequest,
+) => Effect.Effect<
+  ListReceivedLicensesForOrganizationResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListReceivedLicensesForOrganizationRequest,
+  output: ListReceivedLicensesForOrganizationResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ResourceLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Rejects the specified grant.
  */
-export const rejectGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rejectGrant: (
+  input: RejectGrantRequest,
+) => Effect.Effect<
+  RejectGrantResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectGrantRequest,
   output: RejectGrantResponse,
   errors: [
@@ -4407,45 +5016,84 @@ export const rejectGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This action deletes the report generator, which stops it from generating future reports.
  * The action cannot be reversed. It has no effect on the previous reports from this generator.
  */
-export const deleteLicenseManagerReportGenerator =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteLicenseManagerReportGeneratorRequest,
-    output: DeleteLicenseManagerReportGeneratorResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }));
+export const deleteLicenseManagerReportGenerator: (
+  input: DeleteLicenseManagerReportGeneratorRequest,
+) => Effect.Effect<
+  DeleteLicenseManagerReportGeneratorResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLicenseManagerReportGeneratorRequest,
+  output: DeleteLicenseManagerReportGeneratorResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a report generator.
  *
  * After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
  */
-export const updateLicenseManagerReportGenerator =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateLicenseManagerReportGeneratorRequest,
-    output: UpdateLicenseManagerReportGeneratorResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }));
+export const updateLicenseManagerReportGenerator: (
+  input: UpdateLicenseManagerReportGeneratorRequest,
+) => Effect.Effect<
+  UpdateLicenseManagerReportGeneratorResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLicenseManagerReportGeneratorRequest,
+  output: UpdateLicenseManagerReportGeneratorResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Accepts the specified grant.
  */
-export const acceptGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const acceptGrant: (
+  input: AcceptGrantRequest,
+) => Effect.Effect<
+  AcceptGrantResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptGrantRequest,
   output: AcceptGrantResponse,
   errors: [
@@ -4463,7 +5111,20 @@ export const acceptGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * entitlements with a specific Amazon Web Services account, an organization, or an
  * organizational unit (OU). For more information, see Granted licenses in License Manager in the *License Manager User Guide*.
  */
-export const createGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGrant: (
+  input: CreateGrantRequest,
+) => Effect.Effect<
+  CreateGrantResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGrantRequest,
   output: CreateGrantResponse,
   errors: [
@@ -4479,43 +5140,81 @@ export const createGrant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about the specified report generator.
  */
-export const getLicenseManagerReportGenerator =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetLicenseManagerReportGeneratorRequest,
-    output: GetLicenseManagerReportGeneratorResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }));
+export const getLicenseManagerReportGenerator: (
+  input: GetLicenseManagerReportGeneratorRequest,
+) => Effect.Effect<
+  GetLicenseManagerReportGeneratorResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLicenseManagerReportGeneratorRequest,
+  output: GetLicenseManagerReportGeneratorResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists received licenses.
  */
-export const listReceivedLicenses = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListReceivedLicensesRequest,
-    output: ListReceivedLicensesResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ResourceLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const listReceivedLicenses: (
+  input: ListReceivedLicensesRequest,
+) => Effect.Effect<
+  ListReceivedLicensesResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListReceivedLicensesRequest,
+  output: ListReceivedLicensesResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ResourceLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Checks in the specified license. Check in a license when it is no longer in use.
  */
-export const checkInLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const checkInLicense: (
+  input: CheckInLicenseRequest,
+) => Effect.Effect<
+  CheckInLicenseResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | ConflictException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ResourceNotFoundException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckInLicenseRequest,
   output: CheckInLicenseResponse,
   errors: [
@@ -4532,68 +5231,121 @@ export const checkInLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new version of the specified license.
  */
-export const createLicenseVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLicenseVersionRequest,
-    output: CreateLicenseVersionResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      ConflictException,
-      RateLimitExceededException,
-      RedirectException,
-      ResourceNotFoundException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const createLicenseVersion: (
+  input: CreateLicenseVersionRequest,
+) => Effect.Effect<
+  CreateLicenseVersionResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | ConflictException
+  | RateLimitExceededException
+  | RedirectException
+  | ResourceNotFoundException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLicenseVersionRequest,
+  output: CreateLicenseVersionResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    ConflictException,
+    RateLimitExceededException,
+    RedirectException,
+    ResourceNotFoundException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a license asset ruleset.
  */
-export const createLicenseAssetRuleset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLicenseAssetRulesetRequest,
-    output: CreateLicenseAssetRulesetResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      InvalidParameterValueException,
-      RateLimitExceededException,
-      ServerInternalException,
-      ValidationException,
-    ],
-  }),
-);
+export const createLicenseAssetRuleset: (
+  input: CreateLicenseAssetRulesetRequest,
+) => Effect.Effect<
+  CreateLicenseAssetRulesetResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | RateLimitExceededException
+  | ServerInternalException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLicenseAssetRulesetRequest,
+  output: CreateLicenseAssetRulesetResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    InvalidParameterValueException,
+    RateLimitExceededException,
+    ServerInternalException,
+    ValidationException,
+  ],
+}));
 /**
  * Checks out the specified license for offline use.
  */
-export const checkoutBorrowLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CheckoutBorrowLicenseRequest,
-    output: CheckoutBorrowLicenseResponse,
-    errors: [
-      AccessDeniedException,
-      AuthorizationException,
-      EntitlementNotAllowedException,
-      InvalidParameterValueException,
-      NoEntitlementsAllowedException,
-      RateLimitExceededException,
-      RedirectException,
-      ResourceNotFoundException,
-      ServerInternalException,
-      UnsupportedDigitalSignatureMethodException,
-      ValidationException,
-    ],
-  }),
-);
+export const checkoutBorrowLicense: (
+  input: CheckoutBorrowLicenseRequest,
+) => Effect.Effect<
+  CheckoutBorrowLicenseResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | EntitlementNotAllowedException
+  | InvalidParameterValueException
+  | NoEntitlementsAllowedException
+  | RateLimitExceededException
+  | RedirectException
+  | ResourceNotFoundException
+  | ServerInternalException
+  | UnsupportedDigitalSignatureMethodException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CheckoutBorrowLicenseRequest,
+  output: CheckoutBorrowLicenseResponse,
+  errors: [
+    AccessDeniedException,
+    AuthorizationException,
+    EntitlementNotAllowedException,
+    InvalidParameterValueException,
+    NoEntitlementsAllowedException,
+    RateLimitExceededException,
+    RedirectException,
+    ResourceNotFoundException,
+    ServerInternalException,
+    UnsupportedDigitalSignatureMethodException,
+    ValidationException,
+  ],
+}));
 /**
  * Checks out the specified license.
  *
  * If the account that created the license is the same that is performing the check out, you must
  * specify the account as the beneficiary.
  */
-export const checkoutLicense = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const checkoutLicense: (
+  input: CheckoutLicenseRequest,
+) => Effect.Effect<
+  CheckoutLicenseResponse,
+  | AccessDeniedException
+  | AuthorizationException
+  | InvalidParameterValueException
+  | NoEntitlementsAllowedException
+  | RateLimitExceededException
+  | RedirectException
+  | ResourceNotFoundException
+  | ServerInternalException
+  | UnsupportedDigitalSignatureMethodException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckoutLicenseRequest,
   output: CheckoutLicenseResponse,
   errors: [

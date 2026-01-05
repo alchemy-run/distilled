@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "EMR Serverless",
   serviceShapeName: "AwsToledoWebService",
@@ -240,6 +248,61 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ResourceArn = string;
+export type TagKey = string;
+export type ApplicationName = string;
+export type ReleaseLabel = string;
+export type EngineType = string;
+export type ClientToken = string;
+export type Architecture = string;
+export type ApplicationId = string;
+export type NextToken = string;
+export type ApplicationState = string;
+export type IAMRoleArn = string;
+export type Duration = number;
+export type String256 = string;
+export type JobRunMode = string;
+export type JobRunId = string;
+export type AttemptNumber = number;
+export type ShutdownGracePeriodInSeconds = number;
+export type JobRunState = string;
+export type TagValue = string;
+export type WorkerTypeString = string;
+export type CpuSize = string;
+export type MemorySize = string;
+export type DiskSize = string;
+export type SubnetString = string;
+export type SecurityGroupString = string;
+export type ImageUri = string;
+export type String1024 = string;
+export type IdentityCenterInstanceArn = string;
+export type PolicyDocument = string;
+export type Arn = string;
+export type Url = string;
+export type WorkerCounts = number;
+export type ConfigurationPropertyKey = string;
+export type ConfigurationPropertyValue = string;
+export type UriString = string;
+export type EncryptionKeyArn = string;
+export type LogGroupName = string;
+export type LogStreamNamePrefix = string;
+export type PrometheusUrlString = string;
+export type EntryPointPath = string;
+export type EntryPointArgument = string;
+export type SparkSubmitParameters = string;
+export type Query = string;
+export type InitScriptPath = string;
+export type HiveCliParameters = string;
+export type ApplicationArn = string;
+export type JobArn = string;
+export type RequestIdentityUserArn = string;
+export type JobRunType = string;
+export type DiskType = string;
+export type LogTypeString = string;
+export type ImageDigest = string;
+export type IdentityCenterApplicationArn = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -1094,6 +1157,7 @@ export const ApplicationSummary = S.suspend(() =>
 }) as any as S.Schema<ApplicationSummary>;
 export type ApplicationList = ApplicationSummary[];
 export const ApplicationList = S.Array(ApplicationSummary);
+export type JobDriver = { sparkSubmit: SparkSubmit } | { hive: Hive };
 export const JobDriver = S.Union(
   S.Struct({ sparkSubmit: SparkSubmit }),
   S.Struct({ hive: Hive }),
@@ -1446,7 +1510,9 @@ export const GetApplicationResponse = S.suspend(() =>
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -1468,7 +1534,16 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 /**
  * Removes tags from resources.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1480,7 +1555,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Displays detailed information about a job run.
  */
-export const getJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJobRun: (
+  input: GetJobRunRequest,
+) => Effect.Effect<
+  GetJobRunResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRunRequest,
   output: GetJobRunResponse,
   errors: [
@@ -1492,7 +1576,17 @@ export const getJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a specified application and initializes initial capacity if configured.
  */
-export const startApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startApplication: (
+  input: StartApplicationRequest,
+) => Effect.Effect<
+  StartApplicationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartApplicationRequest,
   output: StartApplicationResponse,
   errors: [
@@ -1505,59 +1599,137 @@ export const startApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists applications based on a set of parameters.
  */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listApplications: {
+  (
     input: ListApplicationsRequest,
-    output: ListApplicationsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "applications",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListApplicationsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ListApplicationsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ApplicationSummary,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "applications",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists job runs based on a set of parameters.
  */
-export const listJobRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listJobRuns: {
+  (
     input: ListJobRunsRequest,
-    output: ListJobRunsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "jobRuns",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListJobRunsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobRunsRequest,
+  ) => Stream.Stream<
+    ListJobRunsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobRunsRequest,
+  ) => Stream.Stream<
+    JobRunSummary,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListJobRunsRequest,
+  output: ListJobRunsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobRuns",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all attempt of a job run.
  */
-export const listJobRunAttempts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listJobRunAttempts: {
+  (
     input: ListJobRunAttemptsRequest,
-    output: ListJobRunAttemptsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "jobRunAttempts",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListJobRunAttemptsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobRunAttemptsRequest,
+  ) => Stream.Stream<
+    ListJobRunAttemptsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobRunAttemptsRequest,
+  ) => Stream.Stream<
+    JobRunAttemptSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListJobRunAttemptsRequest,
+  output: ListJobRunAttemptsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobRunAttempts",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates a specified application. An application has to be in a stopped or created state in order to be updated.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApplication: (
+  input: UpdateApplicationRequest,
+) => Effect.Effect<
+  UpdateApplicationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
   output: UpdateApplicationResponse,
   errors: [
@@ -1569,7 +1741,16 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels a job run.
  */
-export const cancelJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelJobRun: (
+  input: CancelJobRunRequest,
+) => Effect.Effect<
+  CancelJobRunResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobRunRequest,
   output: CancelJobRunResponse,
   errors: [
@@ -1585,21 +1766,37 @@ export const cancelJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
  */
-export const getDashboardForJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDashboardForJobRunRequest,
-    output: GetDashboardForJobRunResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getDashboardForJobRun: (
+  input: GetDashboardForJobRunRequest,
+) => Effect.Effect<
+  GetDashboardForJobRunResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDashboardForJobRunRequest,
+  output: GetDashboardForJobRunResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an application. An application has to be in a stopped or created state in order to be deleted.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplication: (
+  input: DeleteApplicationRequest,
+) => Effect.Effect<
+  DeleteApplicationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResponse,
   errors: [
@@ -1611,7 +1808,16 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a specified application and releases initial capacity if configured. All scheduled and running jobs must be completed or cancelled before stopping an application.
  */
-export const stopApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopApplication: (
+  input: StopApplicationRequest,
+) => Effect.Effect<
+  StopApplicationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopApplicationRequest,
   output: StopApplicationResponse,
   errors: [
@@ -1623,7 +1829,16 @@ export const stopApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags assigned to the resources.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1635,7 +1850,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1647,7 +1871,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Displays detailed information about a specified application.
  */
-export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApplication: (
+  input: GetApplicationRequest,
+) => Effect.Effect<
+  GetApplicationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
   output: GetApplicationResponse,
   errors: [
@@ -1659,7 +1892,17 @@ export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a job run.
  */
-export const startJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startJobRun: (
+  input: StartJobRunRequest,
+) => Effect.Effect<
+  StartJobRunResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartJobRunRequest,
   output: StartJobRunResponse,
   errors: [
@@ -1672,7 +1915,17 @@ export const startJobRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an application.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationRequest,
+) => Effect.Effect<
+  CreateApplicationResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
   output: CreateApplicationResponse,
   errors: [

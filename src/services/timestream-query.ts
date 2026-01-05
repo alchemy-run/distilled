@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Timestream Query",
   serviceShapeName: "Timestream_20181101",
@@ -340,6 +348,38 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type QueryId = string;
+export type ScheduledQueryName = string;
+export type QueryString = string;
+export type ClientToken = string;
+export type AmazonResourceName = string;
+export type StringValue2048 = string;
+export type MaxQueryCapacity = number;
+export type MaxScheduledQueriesResults = number;
+export type NextScheduledQueriesResultsToken = string;
+export type MaxTagsForResourceResult = number;
+export type NextTagsForResourceResultsToken = string;
+export type ClientRequestToken = string;
+export type PaginationToken = string;
+export type MaxQueryResults = number;
+export type TagKey = string;
+export type ScheduleExpression = string;
+export type TagValue = string;
+export type Long = number;
+export type ServiceErrorMessage = string;
+export type ErrorMessage = string;
+export type ResourceName = string;
+export type SchemaName = string;
+export type S3BucketName = string;
+export type S3ObjectKeyPrefix = string;
+export type QueryTCU = number;
+export type Double = number;
+export type ScalarValue = string;
+export type S3ObjectKey = string;
+export type Timestamp = string;
+export type PartitionKey = string;
 
 //# Schemas
 export interface DescribeAccountSettingsRequest {}
@@ -1340,7 +1380,9 @@ export class InvalidEndpointException extends S.TaggedError<InvalidEndpointExcep
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String), ScheduledQueryArn: S.optional(S.String) },
@@ -1352,7 +1394,9 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String) },
@@ -1372,18 +1416,26 @@ export class QueryExecutionException extends S.TaggedError<QueryExecutionExcepti
  *
  * You're charged only for the duration of compute units used for your workloads.
  */
-export const describeAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccountSettingsRequest,
-    output: DescribeAccountSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidEndpointException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeAccountSettings: (
+  input: DescribeAccountSettingsRequest,
+) => Effect.Effect<
+  DescribeAccountSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccountSettingsRequest,
+  output: DescribeAccountSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidEndpointException,
+    ThrottlingException,
+  ],
+}));
 /**
  * DescribeEndpoints returns a list of available endpoints to make Timestream
  * API calls against. This API is available through both Write and Query.
@@ -1402,7 +1454,16 @@ export const describeAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For detailed information on how and when to use and implement DescribeEndpoints, see
  * The Endpoint Discovery Pattern.
  */
-export const describeEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeEndpoints: (
+  input: DescribeEndpointsRequest,
+) => Effect.Effect<
+  DescribeEndpointsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEndpointsRequest,
   output: DescribeEndpointsResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
@@ -1412,37 +1473,57 @@ export const describeEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you enabled `QueryInsights`, this API also returns insights and metrics related to the query that you executed as part of an Amazon SNS notification. `QueryInsights` helps with performance tuning of your query. For more information about `QueryInsights`, see Using query insights to optimize queries in Amazon Timestream.
  */
-export const executeScheduledQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExecuteScheduledQueryRequest,
-    output: ExecuteScheduledQueryResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidEndpointException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const executeScheduledQuery: (
+  input: ExecuteScheduledQueryRequest,
+) => Effect.Effect<
+  ExecuteScheduledQueryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecuteScheduledQueryRequest,
+  output: ExecuteScheduledQueryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidEndpointException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Update a scheduled query.
  */
-export const updateScheduledQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateScheduledQueryRequest,
-    output: UpdateScheduledQueryResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidEndpointException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateScheduledQuery: (
+  input: UpdateScheduledQueryRequest,
+) => Effect.Effect<
+  UpdateScheduledQueryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateScheduledQueryRequest,
+  output: UpdateScheduledQueryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidEndpointException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Cancels a query that has been issued. Cancellation is provided only if the query has
  * not completed running before the cancellation request was issued. Because cancellation
@@ -1451,7 +1532,18 @@ export const updateScheduledQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * canceled. See code
  * sample for details.
  */
-export const cancelQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelQuery: (
+  input: CancelQueryRequest,
+) => Effect.Effect<
+  CancelQueryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelQueryRequest,
   output: CancelQueryResponse,
   errors: [
@@ -1465,7 +1557,17 @@ export const cancelQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the association of tags from a Timestream query resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1478,46 +1580,100 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List all tags on a Timestream query resource.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceRequest,
-    output: ListTagsForResourceResponse,
-    errors: [
-      InvalidEndpointException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Tags",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceResponse,
+    | InvalidEndpointException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    ListTagsForResourceResponse,
+    | InvalidEndpointException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    Tag,
+    | InvalidEndpointException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InvalidEndpointException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Tags",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes a given scheduled query. This is an irreversible operation.
  */
-export const deleteScheduledQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteScheduledQueryRequest,
-    output: DeleteScheduledQueryResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidEndpointException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteScheduledQuery: (
+  input: DeleteScheduledQueryRequest,
+) => Effect.Effect<
+  DeleteScheduledQueryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteScheduledQueryRequest,
+  output: DeleteScheduledQueryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidEndpointException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * A synchronous operation that allows you to submit a query with parameters to be stored
  * by Timestream for later running. Timestream only supports using this operation with
  * `ValidateOnly` set to `true`.
  */
-export const prepareQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const prepareQuery: (
+  input: PrepareQueryRequest,
+) => Effect.Effect<
+  PrepareQueryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PrepareQueryRequest,
   output: PrepareQueryResponse,
   errors: [
@@ -1533,7 +1689,18 @@ export const prepareQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * user-defined tags so that they appear on the Billing and Cost Management console for
  * cost allocation tracking.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1549,58 +1716,113 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * After you've transitioned your account to use TCUs for query pricing, you can't transition to using bytes scanned for query pricing.
  */
-export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountSettingsRequest,
-    output: UpdateAccountSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidEndpointException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAccountSettings: (
+  input: UpdateAccountSettingsRequest,
+) => Effect.Effect<
+  UpdateAccountSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountSettingsRequest,
+  output: UpdateAccountSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidEndpointException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a list of all scheduled queries in the caller's Amazon account and Region.
  * `ListScheduledQueries` is eventually consistent.
  */
-export const listScheduledQueries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listScheduledQueries: {
+  (
     input: ListScheduledQueriesRequest,
-    output: ListScheduledQueriesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidEndpointException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ScheduledQueries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListScheduledQueriesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidEndpointException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListScheduledQueriesRequest,
+  ) => Stream.Stream<
+    ListScheduledQueriesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidEndpointException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListScheduledQueriesRequest,
+  ) => Stream.Stream<
+    ScheduledQuery,
+    | AccessDeniedException
+    | InternalServerException
+    | InvalidEndpointException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListScheduledQueriesRequest,
+  output: ListScheduledQueriesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidEndpointException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ScheduledQueries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides detailed information about a scheduled query.
  */
-export const describeScheduledQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeScheduledQueryRequest,
-    output: DescribeScheduledQueryResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      InvalidEndpointException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeScheduledQuery: (
+  input: DescribeScheduledQueryRequest,
+) => Effect.Effect<
+  DescribeScheduledQueryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeScheduledQueryRequest,
+  output: DescribeScheduledQueryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidEndpointException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Create a scheduled query that will be run on your behalf at the configured schedule.
  * Timestream assumes the execution role provided as part of the
@@ -1608,21 +1830,32 @@ export const describeScheduledQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * the `NotificationConfiguration` parameter to configure notification for your
  * scheduled query operations.
  */
-export const createScheduledQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateScheduledQueryRequest,
-    output: CreateScheduledQueryResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      InvalidEndpointException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createScheduledQuery: (
+  input: CreateScheduledQueryRequest,
+) => Effect.Effect<
+  CreateScheduledQueryResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidEndpointException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateScheduledQueryRequest,
+  output: CreateScheduledQueryResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    InvalidEndpointException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * `Query` is a synchronous operation that enables you to run a query against
  * your Amazon Timestream data.
@@ -1655,7 +1888,50 @@ export const createScheduledQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * string in the query requests, the query will fail with an Invalid
  * pagination token error.
  */
-export const query = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const query: {
+  (
+    input: QueryRequest,
+  ): Effect.Effect<
+    QueryResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | InvalidEndpointException
+    | QueryExecutionException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: QueryRequest,
+  ) => Stream.Stream<
+    QueryResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | InvalidEndpointException
+    | QueryExecutionException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: QueryRequest,
+  ) => Stream.Stream<
+    Row,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | InvalidEndpointException
+    | QueryExecutionException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: QueryRequest,
   output: QueryResponse,
   errors: [

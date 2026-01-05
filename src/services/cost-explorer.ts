@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Cost Explorer",
   serviceShapeName: "AWSInsightsIndexService",
@@ -537,6 +545,80 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type CostCategoryName = string;
+export type ZonedDateTime = string;
+export type CostCategoryValue = string;
+export type GenericString = string;
+export type Arn = string;
+export type NextPageToken = string;
+export type PageSize = number;
+export type Value = string;
+export type AnalysisId = string;
+export type MetricName = string;
+export type BillingViewArn = string;
+export type CostAndUsageComparisonsMaxResults = number;
+export type SearchString = string;
+export type MaxResults = number;
+export type CostComparisonDriversMaxResults = number;
+export type PredictionIntervalLevel = number;
+export type NonNegativeInteger = number;
+export type RecommendationDetailId = string;
+export type TagKey = string;
+export type CostAllocationTagsMaxResults = number;
+export type CostCategoryMaxResults = number;
+export type ResourceType = string;
+export type RecommendationId = string;
+export type ResourceTagKey = string;
+export type NullableNonNegativeDouble = number;
+export type YearMonthDay = string;
+export type ResourceTagValue = string;
+export type GenericDouble = number;
+export type GroupDefinitionKey = string;
+export type SortDefinitionKey = string;
+export type SubscriberAddress = string;
+export type ErrorMessage = string;
+export type NonNegativeLong = number;
+export type Entity = string;
+export type AccountId = string;
+export type SavingsPlansId = string;
+export type MetricAmount = string;
+export type MetricUnit = string;
+export type UtilizationPercentage = string;
+export type UtilizationPercentageInUnits = string;
+export type PurchasedHours = string;
+export type PurchasedUnits = string;
+export type TotalActualHours = string;
+export type TotalActualUnits = string;
+export type UnusedHours = string;
+export type UnusedUnits = string;
+export type OnDemandCostOfRIHoursUsed = string;
+export type NetRISavings = string;
+export type TotalPotentialRISavings = string;
+export type AmortizedUpfrontFee = string;
+export type AmortizedRecurringFee = string;
+export type TotalAmortizedFee = string;
+export type RICostForUnusedHours = string;
+export type RealizedSavings = string;
+export type UnrealizedSavings = string;
+export type SavingsPlanArn = string;
+export type GenericArn = string;
+export type SavingsPlansCommitment = number;
+export type Key = string;
+export type AttributeType = string;
+export type AttributeValue = string;
+export type OnDemandHours = string;
+export type ReservedHours = string;
+export type TotalRunningHours = string;
+export type CoverageHoursPercentage = string;
+export type OnDemandNormalizedUnits = string;
+export type ReservedNormalizedUnits = string;
+export type TotalRunningNormalizedUnits = string;
+export type CoverageNormalizedUnitsPercentage = string;
+export type OnDemandCost = string;
+export type ReservationGroupKey = string;
+export type ReservationGroupValue = string;
 
 //# Schemas
 export interface StartSavingsPlansPurchaseRecommendationGenerationRequest {}
@@ -3922,76 +4004,126 @@ export class AnalysisNotFoundException extends S.TaggedError<AnalysisNotFoundExc
 /**
  * Modifies the feedback property of a given cost anomaly.
  */
-export const provideAnomalyFeedback = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ProvideAnomalyFeedbackRequest,
-    output: ProvideAnomalyFeedbackResponse,
-    errors: [LimitExceededException],
-  }),
-);
+export const provideAnomalyFeedback: (
+  input: ProvideAnomalyFeedbackRequest,
+) => Effect.Effect<
+  ProvideAnomalyFeedbackResponse,
+  LimitExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ProvideAnomalyFeedbackRequest,
+  output: ProvideAnomalyFeedbackResponse,
+  errors: [LimitExceededException],
+}));
 /**
  * Creates a new cost anomaly detection monitor with the requested type and monitor
  * specification.
  */
-export const createAnomalyMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAnomalyMonitorRequest,
-    output: CreateAnomalyMonitorResponse,
-    errors: [LimitExceededException],
-  }),
-);
+export const createAnomalyMonitor: (
+  input: CreateAnomalyMonitorRequest,
+) => Effect.Effect<
+  CreateAnomalyMonitorResponse,
+  LimitExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAnomalyMonitorRequest,
+  output: CreateAnomalyMonitorResponse,
+  errors: [LimitExceededException],
+}));
 /**
  * Deletes a cost anomaly monitor.
  */
-export const deleteAnomalyMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAnomalyMonitorRequest,
-    output: DeleteAnomalyMonitorResponse,
-    errors: [LimitExceededException, UnknownMonitorException],
-  }),
-);
+export const deleteAnomalyMonitor: (
+  input: DeleteAnomalyMonitorRequest,
+) => Effect.Effect<
+  DeleteAnomalyMonitorResponse,
+  LimitExceededException | UnknownMonitorException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAnomalyMonitorRequest,
+  output: DeleteAnomalyMonitorResponse,
+  errors: [LimitExceededException, UnknownMonitorException],
+}));
 /**
  * Deletes a cost category. Expenses from this month going forward will no longer be
  * categorized with this cost category.
  */
-export const deleteCostCategoryDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCostCategoryDefinitionRequest,
-    output: DeleteCostCategoryDefinitionResponse,
-    errors: [LimitExceededException, ResourceNotFoundException],
-  }));
+export const deleteCostCategoryDefinition: (
+  input: DeleteCostCategoryDefinitionRequest,
+) => Effect.Effect<
+  DeleteCostCategoryDefinitionResponse,
+  LimitExceededException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCostCategoryDefinitionRequest,
+  output: DeleteCostCategoryDefinitionResponse,
+  errors: [LimitExceededException, ResourceNotFoundException],
+}));
 /**
  * Retrieves the cost anomaly monitor definitions for your account. You can filter using a
  * list of cost anomaly monitor Amazon Resource Names (ARNs).
  */
-export const getAnomalyMonitors = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getAnomalyMonitors: {
+  (
     input: GetAnomalyMonitorsRequest,
-    output: GetAnomalyMonitorsResponse,
-    errors: [
-      InvalidNextTokenException,
-      LimitExceededException,
-      UnknownMonitorException,
-    ],
-    pagination: {
-      inputToken: "NextPageToken",
-      outputToken: "NextPageToken",
-      items: "AnomalyMonitors",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetAnomalyMonitorsResponse,
+    | InvalidNextTokenException
+    | LimitExceededException
+    | UnknownMonitorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetAnomalyMonitorsRequest,
+  ) => Stream.Stream<
+    GetAnomalyMonitorsResponse,
+    | InvalidNextTokenException
+    | LimitExceededException
+    | UnknownMonitorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetAnomalyMonitorsRequest,
+  ) => Stream.Stream<
+    AnomalyMonitor,
+    | InvalidNextTokenException
+    | LimitExceededException
+    | UnknownMonitorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetAnomalyMonitorsRequest,
+  output: GetAnomalyMonitorsResponse,
+  errors: [
+    InvalidNextTokenException,
+    LimitExceededException,
+    UnknownMonitorException,
+  ],
+  pagination: {
+    inputToken: "NextPageToken",
+    outputToken: "NextPageToken",
+    items: "AnomalyMonitors",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves estimated usage records for hourly granularity or resource-level data at daily
  * granularity.
  */
-export const getApproximateUsageRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetApproximateUsageRecordsRequest,
-    output: GetApproximateUsageRecordsResponse,
-    errors: [DataUnavailableException, LimitExceededException],
-  }),
-);
+export const getApproximateUsageRecords: (
+  input: GetApproximateUsageRecordsRequest,
+) => Effect.Effect<
+  GetApproximateUsageRecordsResponse,
+  DataUnavailableException | LimitExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApproximateUsageRecordsRequest,
+  output: GetApproximateUsageRecordsResponse,
+  errors: [DataUnavailableException, LimitExceededException],
+}));
 /**
  * Retrieves attribute data along with aggregate utilization and savings data for a given
  * time period. This doesn't support granular or grouped data (daily/monthly) in response. You
@@ -4004,65 +4136,145 @@ export const getApproximateUsageRecords = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `GetSavingsPlanUtilizationDetails` internally groups data by
  * `SavingsPlansArn`.
  */
-export const getSavingsPlansUtilizationDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getSavingsPlansUtilizationDetails: {
+  (
     input: GetSavingsPlansUtilizationDetailsRequest,
-    output: GetSavingsPlansUtilizationDetailsResponse,
-    errors: [
-      DataUnavailableException,
-      InvalidNextTokenException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetSavingsPlansUtilizationDetailsResponse,
+    | DataUnavailableException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetSavingsPlansUtilizationDetailsRequest,
+  ) => Stream.Stream<
+    GetSavingsPlansUtilizationDetailsResponse,
+    | DataUnavailableException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSavingsPlansUtilizationDetailsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | DataUnavailableException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetSavingsPlansUtilizationDetailsRequest,
+  output: GetSavingsPlansUtilizationDetailsResponse,
+  errors: [
+    DataUnavailableException,
+    InvalidNextTokenException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the commitment purchase analyses for your account.
  */
-export const listCommitmentPurchaseAnalyses =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCommitmentPurchaseAnalysesRequest,
-    output: ListCommitmentPurchaseAnalysesResponse,
-    errors: [
-      DataUnavailableException,
-      InvalidNextTokenException,
-      LimitExceededException,
-    ],
-  }));
+export const listCommitmentPurchaseAnalyses: (
+  input: ListCommitmentPurchaseAnalysesRequest,
+) => Effect.Effect<
+  ListCommitmentPurchaseAnalysesResponse,
+  | DataUnavailableException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCommitmentPurchaseAnalysesRequest,
+  output: ListCommitmentPurchaseAnalysesResponse,
+  errors: [
+    DataUnavailableException,
+    InvalidNextTokenException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Retrieves a list of your historical cost allocation tag backfill requests.
  */
-export const listCostAllocationTagBackfillHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCostAllocationTagBackfillHistory: {
+  (
     input: ListCostAllocationTagBackfillHistoryRequest,
-    output: ListCostAllocationTagBackfillHistoryResponse,
-    errors: [InvalidNextTokenException, LimitExceededException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "BackfillRequests",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCostAllocationTagBackfillHistoryResponse,
+    InvalidNextTokenException | LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCostAllocationTagBackfillHistoryRequest,
+  ) => Stream.Stream<
+    ListCostAllocationTagBackfillHistoryResponse,
+    InvalidNextTokenException | LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCostAllocationTagBackfillHistoryRequest,
+  ) => Stream.Stream<
+    CostAllocationTagBackfillRequest,
+    InvalidNextTokenException | LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCostAllocationTagBackfillHistoryRequest,
+  output: ListCostAllocationTagBackfillHistoryResponse,
+  errors: [InvalidNextTokenException, LimitExceededException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BackfillRequests",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Get a list of cost allocation tags. All inputs in the API are optional and serve as
  * filters. By default, all cost allocation tags are returned.
  */
-export const listCostAllocationTags =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCostAllocationTags: {
+  (
     input: ListCostAllocationTagsRequest,
-    output: ListCostAllocationTagsResponse,
-    errors: [InvalidNextTokenException, LimitExceededException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CostAllocationTags",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCostAllocationTagsResponse,
+    InvalidNextTokenException | LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCostAllocationTagsRequest,
+  ) => Stream.Stream<
+    ListCostAllocationTagsResponse,
+    InvalidNextTokenException | LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCostAllocationTagsRequest,
+  ) => Stream.Stream<
+    CostAllocationTag,
+    InvalidNextTokenException | LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCostAllocationTagsRequest,
+  output: ListCostAllocationTagsResponse,
+  errors: [InvalidNextTokenException, LimitExceededException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CostAllocationTags",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the name, Amazon Resource Name (ARN), `NumberOfRules` and effective
  * dates of all cost categories defined in the account. You have the option to use
@@ -4072,96 +4284,169 @@ export const listCostAllocationTags =
  * is omitted in the response. `ListCostCategoryDefinitions` supports pagination. The
  * request can have a `MaxResults` range up to 100.
  */
-export const listCostCategoryDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCostCategoryDefinitions: {
+  (
     input: ListCostCategoryDefinitionsRequest,
-    output: ListCostCategoryDefinitionsResponse,
-    errors: [LimitExceededException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CostCategoryReferences",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCostCategoryDefinitionsResponse,
+    LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCostCategoryDefinitionsRequest,
+  ) => Stream.Stream<
+    ListCostCategoryDefinitionsResponse,
+    LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCostCategoryDefinitionsRequest,
+  ) => Stream.Stream<
+    CostCategoryReference,
+    LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCostCategoryDefinitionsRequest,
+  output: ListCostCategoryDefinitionsResponse,
+  errors: [LimitExceededException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CostCategoryReferences",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns resource associations of all cost categories defined in the account. You have the option to use `CostCategoryArn` to get the association for a specific cost category. `ListCostCategoryResourceAssociations` supports pagination. The request can have a `MaxResults` range up to 100.
  */
-export const listCostCategoryResourceAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCostCategoryResourceAssociations: {
+  (
     input: ListCostCategoryResourceAssociationsRequest,
-    output: ListCostCategoryResourceAssociationsResponse,
-    errors: [LimitExceededException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CostCategoryResourceAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCostCategoryResourceAssociationsResponse,
+    LimitExceededException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCostCategoryResourceAssociationsRequest,
+  ) => Stream.Stream<
+    ListCostCategoryResourceAssociationsResponse,
+    LimitExceededException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCostCategoryResourceAssociationsRequest,
+  ) => Stream.Stream<
+    CostCategoryResourceAssociation,
+    LimitExceededException | ResourceNotFoundException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCostCategoryResourceAssociationsRequest,
+  output: ListCostCategoryResourceAssociationsResponse,
+  errors: [LimitExceededException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CostCategoryResourceAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of your historical recommendation generations within the past 30
  * days.
  */
-export const listSavingsPlansPurchaseRecommendationGeneration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListSavingsPlansPurchaseRecommendationGenerationRequest,
-    output: ListSavingsPlansPurchaseRecommendationGenerationResponse,
-    errors: [
-      DataUnavailableException,
-      InvalidNextTokenException,
-      LimitExceededException,
-    ],
-  }));
+export const listSavingsPlansPurchaseRecommendationGeneration: (
+  input: ListSavingsPlansPurchaseRecommendationGenerationRequest,
+) => Effect.Effect<
+  ListSavingsPlansPurchaseRecommendationGenerationResponse,
+  | DataUnavailableException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSavingsPlansPurchaseRecommendationGenerationRequest,
+  output: ListSavingsPlansPurchaseRecommendationGenerationResponse,
+  errors: [
+    DataUnavailableException,
+    InvalidNextTokenException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Request a cost allocation tag backfill. This will backfill the activation status (either `active` or `inactive`) for all tag keys from `para:BackfillFrom` up to the time this request is made.
  *
  * You can request a backfill once every 24 hours.
  */
-export const startCostAllocationTagBackfill =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartCostAllocationTagBackfillRequest,
-    output: StartCostAllocationTagBackfillResponse,
-    errors: [BackfillLimitExceededException, LimitExceededException],
-  }));
+export const startCostAllocationTagBackfill: (
+  input: StartCostAllocationTagBackfillRequest,
+) => Effect.Effect<
+  StartCostAllocationTagBackfillResponse,
+  BackfillLimitExceededException | LimitExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCostAllocationTagBackfillRequest,
+  output: StartCostAllocationTagBackfillResponse,
+  errors: [BackfillLimitExceededException, LimitExceededException],
+}));
 /**
  * Deletes a cost anomaly subscription.
  */
-export const deleteAnomalySubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAnomalySubscriptionRequest,
-    output: DeleteAnomalySubscriptionResponse,
-    errors: [LimitExceededException, UnknownSubscriptionException],
-  }),
-);
+export const deleteAnomalySubscription: (
+  input: DeleteAnomalySubscriptionRequest,
+) => Effect.Effect<
+  DeleteAnomalySubscriptionResponse,
+  LimitExceededException | UnknownSubscriptionException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAnomalySubscriptionRequest,
+  output: DeleteAnomalySubscriptionResponse,
+  errors: [LimitExceededException, UnknownSubscriptionException],
+}));
 /**
  * Updates an existing cost anomaly monitor. The changes made are applied going forward, and
  * doesn't change anomalies detected in the past.
  */
-export const updateAnomalyMonitor = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAnomalyMonitorRequest,
-    output: UpdateAnomalyMonitorResponse,
-    errors: [LimitExceededException, UnknownMonitorException],
-  }),
-);
+export const updateAnomalyMonitor: (
+  input: UpdateAnomalyMonitorRequest,
+) => Effect.Effect<
+  UpdateAnomalyMonitorResponse,
+  LimitExceededException | UnknownMonitorException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAnomalyMonitorRequest,
+  output: UpdateAnomalyMonitorResponse,
+  errors: [LimitExceededException, UnknownMonitorException],
+}));
 /**
  * Adds an alert subscription to a cost anomaly detection monitor. You can use each
  * subscription to define subscribers with email or SNS notifications. Email subscribers can set
  * an absolute or percentage threshold and a time frequency for receiving notifications.
  */
-export const createAnomalySubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAnomalySubscriptionRequest,
-    output: CreateAnomalySubscriptionResponse,
-    errors: [LimitExceededException, UnknownMonitorException],
-  }),
-);
+export const createAnomalySubscription: (
+  input: CreateAnomalySubscriptionRequest,
+) => Effect.Effect<
+  CreateAnomalySubscriptionResponse,
+  LimitExceededException | UnknownMonitorException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAnomalySubscriptionRequest,
+  output: CreateAnomalySubscriptionResponse,
+  errors: [LimitExceededException, UnknownMonitorException],
+}));
 /**
  * Returns a list of resource tags associated with the resource specified by the Amazon
  * Resource Name (ARN).
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  LimitExceededException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [LimitExceededException, ResourceNotFoundException],
@@ -4170,7 +4455,13 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes one or more tags from a resource. Specify only tag keys in your request. Don't
  * specify the value.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  LimitExceededException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [LimitExceededException, ResourceNotFoundException],
@@ -4179,27 +4470,67 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves the cost anomaly subscription objects for your account. You can filter using a
  * list of cost anomaly monitor Amazon Resource Names (ARNs).
  */
-export const getAnomalySubscriptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getAnomalySubscriptions: {
+  (
     input: GetAnomalySubscriptionsRequest,
-    output: GetAnomalySubscriptionsResponse,
-    errors: [
-      InvalidNextTokenException,
-      LimitExceededException,
-      UnknownSubscriptionException,
-    ],
-    pagination: {
-      inputToken: "NextPageToken",
-      outputToken: "NextPageToken",
-      items: "AnomalySubscriptions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetAnomalySubscriptionsResponse,
+    | InvalidNextTokenException
+    | LimitExceededException
+    | UnknownSubscriptionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetAnomalySubscriptionsRequest,
+  ) => Stream.Stream<
+    GetAnomalySubscriptionsResponse,
+    | InvalidNextTokenException
+    | LimitExceededException
+    | UnknownSubscriptionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetAnomalySubscriptionsRequest,
+  ) => Stream.Stream<
+    AnomalySubscription,
+    | InvalidNextTokenException
+    | LimitExceededException
+    | UnknownSubscriptionException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetAnomalySubscriptionsRequest,
+  output: GetAnomalySubscriptionsResponse,
+  errors: [
+    InvalidNextTokenException,
+    LimitExceededException,
+    UnknownSubscriptionException,
+  ],
+  pagination: {
+    inputToken: "NextPageToken",
+    outputToken: "NextPageToken",
+    items: "AnomalySubscriptions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a forecast for how much Amazon Web Services predicts that you will spend over
  * the forecast time period that you select, based on your past costs.
  */
-export const getCostForecast = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCostForecast: (
+  input: GetCostForecastRequest,
+) => Effect.Effect<
+  GetCostForecastResponse,
+  | BillingViewHealthStatusException
+  | DataUnavailableException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCostForecastRequest,
   output: GetCostForecastResponse,
   errors: [
@@ -4216,17 +4547,24 @@ export const getCostForecast = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The JSON below describes the generic construct for each type. See Request Parameters for possible values as they apply to
  * `AnomalySubscription`.
  */
-export const updateAnomalySubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAnomalySubscriptionRequest,
-    output: UpdateAnomalySubscriptionResponse,
-    errors: [
-      LimitExceededException,
-      UnknownMonitorException,
-      UnknownSubscriptionException,
-    ],
-  }),
-);
+export const updateAnomalySubscription: (
+  input: UpdateAnomalySubscriptionRequest,
+) => Effect.Effect<
+  UpdateAnomalySubscriptionResponse,
+  | LimitExceededException
+  | UnknownMonitorException
+  | UnknownSubscriptionException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAnomalySubscriptionRequest,
+  output: UpdateAnomalySubscriptionResponse,
+  errors: [
+    LimitExceededException,
+    UnknownMonitorException,
+    UnknownSubscriptionException,
+  ],
+}));
 /**
  * Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a
  * cost category that's defined in the account.
@@ -4236,58 +4574,135 @@ export const updateAnomalySubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Category that's effective on the current date. If cost category is still effective,
  * `EffectiveEnd` is omitted in the response.
  */
-export const describeCostCategoryDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeCostCategoryDefinitionRequest,
-    output: DescribeCostCategoryDefinitionResponse,
-    errors: [LimitExceededException, ResourceNotFoundException],
-  }));
+export const describeCostCategoryDefinition: (
+  input: DescribeCostCategoryDefinitionRequest,
+) => Effect.Effect<
+  DescribeCostCategoryDefinitionResponse,
+  LimitExceededException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCostCategoryDefinitionRequest,
+  output: DescribeCostCategoryDefinitionResponse,
+  errors: [LimitExceededException, ResourceNotFoundException],
+}));
 /**
  * Retrieves cost and usage comparisons for your account between two periods within the last
  * 13 months. If you have enabled multi-year data at monthly granularity, you can go back up to
  * 38 months.
  */
-export const getCostAndUsageComparisons =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getCostAndUsageComparisons: {
+  (
     input: GetCostAndUsageComparisonsRequest,
-    output: GetCostAndUsageComparisonsResponse,
-    errors: [
-      BillingViewHealthStatusException,
-      DataUnavailableException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextPageToken",
-      outputToken: "NextPageToken",
-      items: "CostAndUsageComparisons",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetCostAndUsageComparisonsResponse,
+    | BillingViewHealthStatusException
+    | DataUnavailableException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCostAndUsageComparisonsRequest,
+  ) => Stream.Stream<
+    GetCostAndUsageComparisonsResponse,
+    | BillingViewHealthStatusException
+    | DataUnavailableException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCostAndUsageComparisonsRequest,
+  ) => Stream.Stream<
+    CostAndUsageComparison,
+    | BillingViewHealthStatusException
+    | DataUnavailableException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCostAndUsageComparisonsRequest,
+  output: GetCostAndUsageComparisonsResponse,
+  errors: [
+    BillingViewHealthStatusException,
+    DataUnavailableException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextPageToken",
+    outputToken: "NextPageToken",
+    items: "CostAndUsageComparisons",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves key factors driving cost changes between two time periods within the last 13
  * months, such as usage changes, discount changes, and commitment-based savings. If you have
  * enabled multi-year data at monthly granularity, you can go back up to 38 months.
  */
-export const getCostComparisonDrivers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getCostComparisonDrivers: {
+  (
     input: GetCostComparisonDriversRequest,
-    output: GetCostComparisonDriversResponse,
-    errors: [
-      BillingViewHealthStatusException,
-      DataUnavailableException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextPageToken",
-      outputToken: "NextPageToken",
-      items: "CostComparisonDrivers",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetCostComparisonDriversResponse,
+    | BillingViewHealthStatusException
+    | DataUnavailableException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCostComparisonDriversRequest,
+  ) => Stream.Stream<
+    GetCostComparisonDriversResponse,
+    | BillingViewHealthStatusException
+    | DataUnavailableException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCostComparisonDriversRequest,
+  ) => Stream.Stream<
+    CostComparisonDriver,
+    | BillingViewHealthStatusException
+    | DataUnavailableException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCostComparisonDriversRequest,
+  output: GetCostComparisonDriversResponse,
+  errors: [
+    BillingViewHealthStatusException,
+    DataUnavailableException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextPageToken",
+    outputToken: "NextPageToken",
+    items: "CostComparisonDrivers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the reservation coverage for your account, which you can use to see how much
  * of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service,
@@ -4323,44 +4738,63 @@ export const getCostComparisonDrivers =
  * To determine valid values for a dimension, use the `GetDimensionValues`
  * operation.
  */
-export const getReservationCoverage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetReservationCoverageRequest,
-    output: GetReservationCoverageResponse,
-    errors: [
-      DataUnavailableException,
-      InvalidNextTokenException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const getReservationCoverage: (
+  input: GetReservationCoverageRequest,
+) => Effect.Effect<
+  GetReservationCoverageResponse,
+  | DataUnavailableException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReservationCoverageRequest,
+  output: GetReservationCoverageResponse,
+  errors: [
+    DataUnavailableException,
+    InvalidNextTokenException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Retrieves the reservation utilization for your account. Management account in an
  * organization have access to member accounts. You can filter data by dimensions in a time
  * period. You can use `GetDimensionValues` to determine the possible dimension
  * values. Currently, you can group only by `SUBSCRIPTION_ID`.
  */
-export const getReservationUtilization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetReservationUtilizationRequest,
-    output: GetReservationUtilizationResponse,
-    errors: [
-      DataUnavailableException,
-      InvalidNextTokenException,
-      LimitExceededException,
-    ],
-  }),
-);
+export const getReservationUtilization: (
+  input: GetReservationUtilizationRequest,
+) => Effect.Effect<
+  GetReservationUtilizationResponse,
+  | DataUnavailableException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReservationUtilizationRequest,
+  output: GetReservationUtilizationResponse,
+  errors: [
+    DataUnavailableException,
+    InvalidNextTokenException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Retrieves the details for a Savings Plan recommendation. These details include the hourly
  * data-points that construct the cost, coverage, and utilization charts.
  */
-export const getSavingsPlanPurchaseRecommendationDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSavingsPlanPurchaseRecommendationDetailsRequest,
-    output: GetSavingsPlanPurchaseRecommendationDetailsResponse,
-    errors: [DataUnavailableException, LimitExceededException],
-  }));
+export const getSavingsPlanPurchaseRecommendationDetails: (
+  input: GetSavingsPlanPurchaseRecommendationDetailsRequest,
+) => Effect.Effect<
+  GetSavingsPlanPurchaseRecommendationDetailsResponse,
+  DataUnavailableException | LimitExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSavingsPlanPurchaseRecommendationDetailsRequest,
+  output: GetSavingsPlanPurchaseRecommendationDetailsResponse,
+  errors: [DataUnavailableException, LimitExceededException],
+}));
 /**
  * Retrieves the Savings Plans covered for your account. This enables you to see how much of
  * your cost is covered by a Savings Plan. An organization’s management account can see the
@@ -4379,21 +4813,51 @@ export const getSavingsPlanPurchaseRecommendationDetails =
  * To determine valid values for a dimension, use the `GetDimensionValues`
  * operation.
  */
-export const getSavingsPlansCoverage =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getSavingsPlansCoverage: {
+  (
     input: GetSavingsPlansCoverageRequest,
-    output: GetSavingsPlansCoverageResponse,
-    errors: [
-      DataUnavailableException,
-      InvalidNextTokenException,
-      LimitExceededException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetSavingsPlansCoverageResponse,
+    | DataUnavailableException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetSavingsPlansCoverageRequest,
+  ) => Stream.Stream<
+    GetSavingsPlansCoverageResponse,
+    | DataUnavailableException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSavingsPlansCoverageRequest,
+  ) => Stream.Stream<
+    unknown,
+    | DataUnavailableException
+    | InvalidNextTokenException
+    | LimitExceededException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetSavingsPlansCoverageRequest,
+  output: GetSavingsPlansCoverageResponse,
+  errors: [
+    DataUnavailableException,
+    InvalidNextTokenException,
+    LimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the Savings Plans utilization for your account across date ranges with daily or
  * monthly granularity. Management account in an organization have access to member accounts. You
@@ -4403,18 +4867,33 @@ export const getSavingsPlansCoverage =
  * You can't group by any dimension values for
  * `GetSavingsPlansUtilization`.
  */
-export const getSavingsPlansUtilization = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSavingsPlansUtilizationRequest,
-    output: GetSavingsPlansUtilizationResponse,
-    errors: [DataUnavailableException, LimitExceededException],
-  }),
-);
+export const getSavingsPlansUtilization: (
+  input: GetSavingsPlansUtilizationRequest,
+) => Effect.Effect<
+  GetSavingsPlansUtilizationResponse,
+  DataUnavailableException | LimitExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSavingsPlansUtilizationRequest,
+  output: GetSavingsPlansUtilizationResponse,
+  errors: [DataUnavailableException, LimitExceededException],
+}));
 /**
  * Retrieves a forecast for how much Amazon Web Services predicts that you will use
  * over the forecast time period that you select, based on your past usage.
  */
-export const getUsageForecast = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUsageForecast: (
+  input: GetUsageForecastRequest,
+) => Effect.Effect<
+  GetUsageForecastResponse,
+  | BillingViewHealthStatusException
+  | DataUnavailableException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | UnresolvableUsageUnitException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsageForecastRequest,
   output: GetUsageForecastResponse,
   errors: [
@@ -4434,29 +4913,43 @@ export const getUsageForecast = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `StartSavingsPlansPurchaseRecommendationGeneration` has no request syntax
  * because no input parameters are needed to support this operation.
  */
-export const startSavingsPlansPurchaseRecommendationGeneration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartSavingsPlansPurchaseRecommendationGenerationRequest,
-    output: StartSavingsPlansPurchaseRecommendationGenerationResponse,
-    errors: [
-      DataUnavailableException,
-      GenerationExistsException,
-      LimitExceededException,
-      ServiceQuotaExceededException,
-    ],
-  }));
+export const startSavingsPlansPurchaseRecommendationGeneration: (
+  input: StartSavingsPlansPurchaseRecommendationGenerationRequest,
+) => Effect.Effect<
+  StartSavingsPlansPurchaseRecommendationGenerationResponse,
+  | DataUnavailableException
+  | GenerationExistsException
+  | LimitExceededException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSavingsPlansPurchaseRecommendationGenerationRequest,
+  output: StartSavingsPlansPurchaseRecommendationGenerationResponse,
+  errors: [
+    DataUnavailableException,
+    GenerationExistsException,
+    LimitExceededException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Updates status for cost allocation tags in bulk, with maximum batch size of 20. If the tag
  * status that's updated is the same as the existing tag status, the request doesn't fail.
  * Instead, it doesn't have any effect on the tag status (for example, activating the active
  * tag).
  */
-export const updateCostAllocationTagsStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCostAllocationTagsStatusRequest,
-    output: UpdateCostAllocationTagsStatusResponse,
-    errors: [LimitExceededException],
-  }));
+export const updateCostAllocationTagsStatus: (
+  input: UpdateCostAllocationTagsStatusRequest,
+) => Effect.Effect<
+  UpdateCostAllocationTagsStatusResponse,
+  LimitExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCostAllocationTagsStatusRequest,
+  output: UpdateCostAllocationTagsStatusResponse,
+  errors: [LimitExceededException],
+}));
 /**
  * An API operation for adding one or more tags (key-value pairs) to a resource.
  *
@@ -4468,7 +4961,16 @@ export const updateCostAllocationTagsStatus =
  * Although the maximum number of array members is 200, user-tag maximum is 50. The remaining
  * are reserved for Amazon Web Services use.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | LimitExceededException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -4481,7 +4983,20 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Queries for available tag keys and tag values for a specified period. You can search
  * the tag values for an arbitrary string.
  */
-export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTags: (
+  input: GetTagsRequest,
+) => Effect.Effect<
+  GetTagsResponse,
+  | BillExpirationException
+  | BillingViewHealthStatusException
+  | DataUnavailableException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | RequestChangedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTagsRequest,
   output: GetTagsResponse,
   errors: [
@@ -4499,32 +5014,58 @@ export const getTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * categorize the current month’s expenses and future expenses. This won’t change categorization
  * for the previous months.
  */
-export const updateCostCategoryDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCostCategoryDefinitionRequest,
-    output: UpdateCostCategoryDefinitionResponse,
-    errors: [
-      LimitExceededException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }));
+export const updateCostCategoryDefinition: (
+  input: UpdateCostCategoryDefinitionRequest,
+) => Effect.Effect<
+  UpdateCostCategoryDefinitionResponse,
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCostCategoryDefinitionRequest,
+  output: UpdateCostCategoryDefinitionResponse,
+  errors: [
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Creates a new cost category with the requested name and rules.
  */
-export const createCostCategoryDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCostCategoryDefinitionRequest,
-    output: CreateCostCategoryDefinitionResponse,
-    errors: [LimitExceededException, ServiceQuotaExceededException],
-  }));
+export const createCostCategoryDefinition: (
+  input: CreateCostCategoryDefinitionRequest,
+) => Effect.Effect<
+  CreateCostCategoryDefinitionResponse,
+  LimitExceededException | ServiceQuotaExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCostCategoryDefinitionRequest,
+  output: CreateCostCategoryDefinitionResponse,
+  errors: [LimitExceededException, ServiceQuotaExceededException],
+}));
 /**
  * Retrieves an array of cost category names and values incurred cost.
  *
  * If some cost category names and values are not associated with any cost, they will not
  * be returned by this API.
  */
-export const getCostCategories = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCostCategories: (
+  input: GetCostCategoriesRequest,
+) => Effect.Effect<
+  GetCostCategoriesResponse,
+  | BillExpirationException
+  | BillingViewHealthStatusException
+  | DataUnavailableException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | RequestChangedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCostCategoriesRequest,
   output: GetCostCategoriesResponse,
   errors: [
@@ -4541,7 +5082,20 @@ export const getCostCategories = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves all available filter values for a specified filter over a period of time. You
  * can search the dimension values for an arbitrary string.
  */
-export const getDimensionValues = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDimensionValues: (
+  input: GetDimensionValuesRequest,
+) => Effect.Effect<
+  GetDimensionValuesResponse,
+  | BillExpirationException
+  | BillingViewHealthStatusException
+  | DataUnavailableException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | RequestChangedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDimensionValuesRequest,
   output: GetDimensionValuesResponse,
   errors: [
@@ -4564,7 +5118,20 @@ export const getDimensionValues = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For information about filter limitations, see Quotas and restrictions
  * in the *Billing and Cost Management User Guide*.
  */
-export const getCostAndUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCostAndUsage: (
+  input: GetCostAndUsageRequest,
+) => Effect.Effect<
+  GetCostAndUsageResponse,
+  | BillExpirationException
+  | BillingViewHealthStatusException
+  | DataUnavailableException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | RequestChangedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCostAndUsageRequest,
   output: GetCostAndUsageResponse,
   errors: [
@@ -4593,80 +5160,134 @@ export const getCostAndUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Access for Cost Explorer in the Billing and Cost Management User
  * Guide.
  */
-export const getCostAndUsageWithResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCostAndUsageWithResourcesRequest,
-    output: GetCostAndUsageWithResourcesResponse,
-    errors: [
-      BillExpirationException,
-      BillingViewHealthStatusException,
-      DataUnavailableException,
-      InvalidNextTokenException,
-      LimitExceededException,
-      RequestChangedException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const getCostAndUsageWithResources: (
+  input: GetCostAndUsageWithResourcesRequest,
+) => Effect.Effect<
+  GetCostAndUsageWithResourcesResponse,
+  | BillExpirationException
+  | BillingViewHealthStatusException
+  | DataUnavailableException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | RequestChangedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCostAndUsageWithResourcesRequest,
+  output: GetCostAndUsageWithResourcesResponse,
+  errors: [
+    BillExpirationException,
+    BillingViewHealthStatusException,
+    DataUnavailableException,
+    InvalidNextTokenException,
+    LimitExceededException,
+    RequestChangedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Retrieves a commitment purchase analysis result based on the
  * `AnalysisId`.
  */
-export const getCommitmentPurchaseAnalysis =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCommitmentPurchaseAnalysisRequest,
-    output: GetCommitmentPurchaseAnalysisResponse,
-    errors: [
-      AnalysisNotFoundException,
-      DataUnavailableException,
-      LimitExceededException,
-    ],
-  }));
+export const getCommitmentPurchaseAnalysis: (
+  input: GetCommitmentPurchaseAnalysisRequest,
+) => Effect.Effect<
+  GetCommitmentPurchaseAnalysisResponse,
+  | AnalysisNotFoundException
+  | DataUnavailableException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCommitmentPurchaseAnalysisRequest,
+  output: GetCommitmentPurchaseAnalysisResponse,
+  errors: [
+    AnalysisNotFoundException,
+    DataUnavailableException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Retrieves the Savings Plans recommendations for your account. First use
  * `StartSavingsPlansPurchaseRecommendationGeneration` to generate a new set of
  * recommendations, and then use `GetSavingsPlansPurchaseRecommendation` to retrieve
  * them.
  */
-export const getSavingsPlansPurchaseRecommendation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSavingsPlansPurchaseRecommendationRequest,
-    output: GetSavingsPlansPurchaseRecommendationResponse,
-    errors: [InvalidNextTokenException, LimitExceededException],
-  }));
+export const getSavingsPlansPurchaseRecommendation: (
+  input: GetSavingsPlansPurchaseRecommendationRequest,
+) => Effect.Effect<
+  GetSavingsPlansPurchaseRecommendationResponse,
+  InvalidNextTokenException | LimitExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSavingsPlansPurchaseRecommendationRequest,
+  output: GetSavingsPlansPurchaseRecommendationResponse,
+  errors: [InvalidNextTokenException, LimitExceededException],
+}));
 /**
  * Specifies the parameters of a planned commitment purchase and starts the generation of the
  * analysis. This enables you to estimate the cost, coverage, and utilization impact of your
  * planned commitment purchases.
  */
-export const startCommitmentPurchaseAnalysis =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartCommitmentPurchaseAnalysisRequest,
-    output: StartCommitmentPurchaseAnalysisResponse,
-    errors: [
-      DataUnavailableException,
-      GenerationExistsException,
-      LimitExceededException,
-      ServiceQuotaExceededException,
-    ],
-  }));
+export const startCommitmentPurchaseAnalysis: (
+  input: StartCommitmentPurchaseAnalysisRequest,
+) => Effect.Effect<
+  StartCommitmentPurchaseAnalysisResponse,
+  | DataUnavailableException
+  | GenerationExistsException
+  | LimitExceededException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCommitmentPurchaseAnalysisRequest,
+  output: StartCommitmentPurchaseAnalysisResponse,
+  errors: [
+    DataUnavailableException,
+    GenerationExistsException,
+    LimitExceededException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Retrieves all of the cost anomalies detected on your account during the time period that's
  * specified by the `DateInterval` object. Anomalies are available for up to 90
  * days.
  */
-export const getAnomalies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getAnomalies: {
+  (
     input: GetAnomaliesRequest,
-    output: GetAnomaliesResponse,
-    errors: [InvalidNextTokenException, LimitExceededException],
-    pagination: {
-      inputToken: "NextPageToken",
-      outputToken: "NextPageToken",
-      items: "Anomalies",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetAnomaliesResponse,
+    InvalidNextTokenException | LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetAnomaliesRequest,
+  ) => Stream.Stream<
+    GetAnomaliesResponse,
+    InvalidNextTokenException | LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetAnomaliesRequest,
+  ) => Stream.Stream<
+    Anomaly,
+    InvalidNextTokenException | LimitExceededException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetAnomaliesRequest,
+  output: GetAnomaliesResponse,
+  errors: [InvalidNextTokenException, LimitExceededException],
+  pagination: {
+    inputToken: "NextPageToken",
+    outputToken: "NextPageToken",
+    items: "Anomalies",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets recommendations for reservation purchases. These recommendations might help you to
  * reduce your costs. Reservations provide a discounted hourly rate (up to 75%) compared to
@@ -4687,16 +5308,24 @@ export const getAnomalies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * example, your RI recommendation is for `c4.large` because that is the smallest size
  * instance in the c4 instance family.
  */
-export const getReservationPurchaseRecommendation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetReservationPurchaseRecommendationRequest,
-    output: GetReservationPurchaseRecommendationResponse,
-    errors: [
-      DataUnavailableException,
-      InvalidNextTokenException,
-      LimitExceededException,
-    ],
-  }));
+export const getReservationPurchaseRecommendation: (
+  input: GetReservationPurchaseRecommendationRequest,
+) => Effect.Effect<
+  GetReservationPurchaseRecommendationResponse,
+  | DataUnavailableException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReservationPurchaseRecommendationRequest,
+  output: GetReservationPurchaseRecommendationResponse,
+  errors: [
+    DataUnavailableException,
+    InvalidNextTokenException,
+    LimitExceededException,
+  ],
+}));
 /**
  * Creates recommendations that help you save cost by identifying idle and underutilized
  * Amazon EC2 instances.
@@ -4705,9 +5334,14 @@ export const getReservationPurchaseRecommendation =
  * providing savings detail and metrics. For more information about calculation and function, see
  * Optimizing Your Cost with Rightsizing Recommendations in the *Billing and Cost Management User Guide*.
  */
-export const getRightsizingRecommendation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRightsizingRecommendationRequest,
-    output: GetRightsizingRecommendationResponse,
-    errors: [InvalidNextTokenException, LimitExceededException],
-  }));
+export const getRightsizingRecommendation: (
+  input: GetRightsizingRecommendationRequest,
+) => Effect.Effect<
+  GetRightsizingRecommendationResponse,
+  InvalidNextTokenException | LimitExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRightsizingRecommendationRequest,
+  output: GetRightsizingRecommendationResponse,
+  errors: [InvalidNextTokenException, LimitExceededException],
+}));

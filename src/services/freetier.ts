@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "FreeTier",
   serviceShapeName: "AWSFreeTierService",
@@ -318,6 +326,15 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type ActivityId = string;
+export type AccountId = string;
+export type MaxResults = number;
+export type NextPageToken = string;
+export type GenericDouble = number;
+export type GenericString = string;
+export type Value = string;
+
 //# Schemas
 export interface GetAccountPlanStateRequest {}
 export const GetAccountPlanStateRequest = S.suspend(() =>
@@ -431,6 +448,7 @@ export const DimensionValues = S.suspend(() =>
 ).annotations({
   identifier: "DimensionValues",
 }) as any as S.Schema<DimensionValues>;
+export type ActivityReward = { credit: MonetaryAmount };
 export const ActivityReward = S.Union(S.Struct({ credit: MonetaryAmount }));
 export interface Expression {
   Or?: Expressions;
@@ -573,7 +591,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -581,7 +601,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String },
@@ -591,22 +613,63 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Returns a list of activities that are available. This operation supports pagination and filtering by status.
  */
-export const listAccountActivities =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAccountActivities: {
+  (
     input: ListAccountActivitiesRequest,
-    output: ListAccountActivitiesResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "activities",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAccountActivitiesResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccountActivitiesRequest,
+  ) => Stream.Stream<
+    ListAccountActivitiesResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccountActivitiesRequest,
+  ) => Stream.Stream<
+    ActivitySummary,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountActivitiesRequest,
+  output: ListAccountActivitiesResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "activities",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * This returns all of the information related to the state of the account plan related to Free Tier.
  */
-export const getAccountPlanState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccountPlanState: (
+  input: GetAccountPlanStateRequest,
+) => Effect.Effect<
+  GetAccountPlanStateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountPlanStateRequest,
   output: GetAccountPlanStateResponse,
   errors: [
@@ -620,7 +683,18 @@ export const getAccountPlanState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The account plan type for the Amazon Web Services account.
  */
-export const upgradeAccountPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const upgradeAccountPlan: (
+  input: UpgradeAccountPlanRequest,
+) => Effect.Effect<
+  UpgradeAccountPlanResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpgradeAccountPlanRequest,
   output: UpgradeAccountPlanResponse,
   errors: [
@@ -634,7 +708,17 @@ export const upgradeAccountPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a specific activity record that is available to the customer.
  */
-export const getAccountActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccountActivity: (
+  input: GetAccountActivityRequest,
+) => Effect.Effect<
+  GetAccountActivityResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountActivityRequest,
   output: GetAccountActivityResponse,
   errors: [
@@ -647,16 +731,45 @@ export const getAccountActivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of all Free Tier usage objects that match your filters.
  */
-export const getFreeTierUsage = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getFreeTierUsage: {
+  (
     input: GetFreeTierUsageRequest,
-    output: GetFreeTierUsageResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "freeTierUsages",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetFreeTierUsageResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetFreeTierUsageRequest,
+  ) => Stream.Stream<
+    GetFreeTierUsageResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetFreeTierUsageRequest,
+  ) => Stream.Stream<
+    FreeTierUsage,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetFreeTierUsageRequest,
+  output: GetFreeTierUsageResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "freeTierUsages",
+    pageSize: "maxResults",
+  } as const,
+}));

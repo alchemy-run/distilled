@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region as Rgn,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Geo Places",
   serviceShapeName: "PlacesService",
@@ -473,6 +481,49 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type SensitiveString = string;
+export type PostalCodeMode = string;
+export type AutocompleteAdditionalFeature = string;
+export type LanguageTag = string;
+export type CountryCode = string;
+export type AutocompleteIntendedUse = string;
+export type ApiKey = string;
+export type GeocodeAdditionalFeature = string;
+export type GeocodeIntendedUse = string;
+export type GetPlaceAdditionalFeature = string;
+export type GetPlaceIntendedUse = string;
+export type DistanceMeters = number;
+export type ReverseGeocodeAdditionalFeature = string;
+export type ReverseGeocodeIntendedUse = string;
+export type Heading = number;
+export type SearchNearbyAdditionalFeature = string;
+export type SearchNearbyIntendedUse = string;
+export type Token = string;
+export type SearchTextAdditionalFeature = string;
+export type SearchTextIntendedUse = string;
+export type SuggestAdditionalFeature = string;
+export type SuggestIntendedUse = string;
+export type AutocompleteFilterPlaceType = string;
+export type GeocodeFilterPlaceType = string;
+export type ReverseGeocodeFilterPlaceType = string;
+export type PlaceType = string;
+export type CountryCode3 = string;
+export type IntersectionStreet = string;
+export type PostalAuthority = string;
+export type PostalCodeType = string;
+export type OpeningHoursDisplay = string;
+export type DurationSeconds = number;
+export type CountryCode2 = string;
+export type TypePlacement = string;
+export type TypeSeparator = string;
+export type ZipClassificationCode = string;
+export type RecordTypeCode = string;
+export type SuggestResultItemType = string;
+export type MatchScore = number;
+export type QueryType = string;
+export type ValidationExceptionReason = string;
 
 //# Schemas
 export type Position = number[];
@@ -1980,12 +2031,16 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { Message: S.String.pipe(T.JsonName("message")) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String.pipe(T.JsonName("message")) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -2001,7 +2056,17 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  *
  * For more information, see GetPlace in the *Amazon Location Service Developer Guide*.
  */
-export const getPlace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPlace: (
+  input: GetPlaceRequest,
+) => Effect.Effect<
+  GetPlaceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPlaceRequest,
   output: GetPlaceResponse,
   errors: [
@@ -2016,7 +2081,17 @@ export const getPlace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Suggest in the *Amazon Location Service Developer Guide*.
  */
-export const suggest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const suggest: (
+  input: SuggestRequest,
+) => Effect.Effect<
+  SuggestResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SuggestRequest,
   output: SuggestResponse,
   errors: [
@@ -2031,7 +2106,17 @@ export const suggest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Reverse Geocode in the *Amazon Location Service Developer Guide*.
  */
-export const reverseGeocode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const reverseGeocode: (
+  input: ReverseGeocodeRequest,
+) => Effect.Effect<
+  ReverseGeocodeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReverseGeocodeRequest,
   output: ReverseGeocodeResponse,
   errors: [
@@ -2046,7 +2131,17 @@ export const reverseGeocode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Search Nearby in the *Amazon Location Service Developer Guide*.
  */
-export const searchNearby = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const searchNearby: (
+  input: SearchNearbyRequest,
+) => Effect.Effect<
+  SearchNearbyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchNearbyRequest,
   output: SearchNearbyResponse,
   errors: [
@@ -2061,7 +2156,17 @@ export const searchNearby = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Search Text in the *Amazon Location Service Developer Guide*.
  */
-export const searchText = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const searchText: (
+  input: SearchTextRequest,
+) => Effect.Effect<
+  SearchTextResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchTextRequest,
   output: SearchTextResponse,
   errors: [
@@ -2076,7 +2181,17 @@ export const searchText = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Autocomplete in the *Amazon Location Service Developer Guide*.
  */
-export const autocomplete = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const autocomplete: (
+  input: AutocompleteRequest,
+) => Effect.Effect<
+  AutocompleteResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AutocompleteRequest,
   output: AutocompleteResponse,
   errors: [
@@ -2091,7 +2206,17 @@ export const autocomplete = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Geocode in the *Amazon Location Service Developer Guide*.
  */
-export const geocode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const geocode: (
+  input: GeocodeRequest,
+) => Effect.Effect<
+  GeocodeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Rgn.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GeocodeRequest,
   output: GeocodeResponse,
   errors: [

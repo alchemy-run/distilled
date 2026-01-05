@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Snowball",
   serviceShapeName: "AWSIESnowballJobManagementService",
@@ -240,6 +248,29 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ClusterId = string;
+export type JobId = string;
+export type AddressId = string;
+export type KmsKeyARN = string;
+export type RoleARN = string;
+export type InitialClusterSize = number;
+export type LongTermPricingId = string;
+export type ListLimit = number;
+export type Integer = number;
+export type SnsTopicARN = string;
+export type PhoneNumber = string;
+export type Email = string;
+export type DevicePickupId = string;
+export type ResourceARN = string;
+export type AmiId = string;
+export type StorageLimit = number;
+export type S3StorageLimit = number;
+export type ServiceSize = number;
+export type NodeFaultTolerance = number;
+export type GSTIN = string;
+export type Long = number;
 
 //# Schemas
 export interface GetSnowballUsageRequest {}
@@ -1509,7 +1540,13 @@ export class UnsupportedAddressException extends S.TaggedError<UnsupportedAddres
  * The default service limit for the number of Snow devices that you can have at one time
  * is 1. If you want to increase your service limit, contact Amazon Web Services Support.
  */
-export const getSnowballUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSnowballUsage: (
+  input: GetSnowballUsageRequest,
+) => Effect.Effect<
+  GetSnowballUsageResult,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSnowballUsageRequest,
   output: GetSnowballUsageResult,
   errors: [],
@@ -1517,39 +1554,57 @@ export const getSnowballUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the long-term pricing type.
  */
-export const updateLongTermPricing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLongTermPricingRequest,
-    output: UpdateLongTermPricingResult,
-    errors: [InvalidResourceException],
-  }),
-);
+export const updateLongTermPricing: (
+  input: UpdateLongTermPricingRequest,
+) => Effect.Effect<
+  UpdateLongTermPricingResult,
+  InvalidResourceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLongTermPricingRequest,
+  output: UpdateLongTermPricingResult,
+  errors: [InvalidResourceException],
+}));
 /**
  * Updates the state when a shipment state changes to a different state.
  */
-export const updateJobShipmentState = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateJobShipmentStateRequest,
-    output: UpdateJobShipmentStateResult,
-    errors: [InvalidJobStateException, InvalidResourceException],
-  }),
-);
+export const updateJobShipmentState: (
+  input: UpdateJobShipmentStateRequest,
+) => Effect.Effect<
+  UpdateJobShipmentStateResult,
+  InvalidJobStateException | InvalidResourceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateJobShipmentStateRequest,
+  output: UpdateJobShipmentStateResult,
+  errors: [InvalidJobStateException, InvalidResourceException],
+}));
 /**
  * Creates a job with the long-term usage option for a device. The long-term usage is a
  * 1-year or 3-year long-term pricing type for the device. You are billed upfront, and Amazon Web Services provides discounts for long-term pricing.
  */
-export const createLongTermPricing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLongTermPricingRequest,
-    output: CreateLongTermPricingResult,
-    errors: [InvalidResourceException],
-  }),
-);
+export const createLongTermPricing: (
+  input: CreateLongTermPricingRequest,
+) => Effect.Effect<
+  CreateLongTermPricingResult,
+  InvalidResourceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLongTermPricingRequest,
+  output: CreateLongTermPricingResult,
+  errors: [InvalidResourceException],
+}));
 /**
  * Takes an `AddressId` and returns specific details about that address in the
  * form of an `Address` object.
  */
-export const describeAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAddress: (
+  input: DescribeAddressRequest,
+) => Effect.Effect<
+  DescribeAddressResult,
+  InvalidResourceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAddressRequest,
   output: DescribeAddressResult,
   errors: [InvalidResourceException],
@@ -1575,7 +1630,13 @@ export const describeAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The credentials of a given job, including its manifest file and unlock code, expire 360
  * days after the job is created.
  */
-export const getJobManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJobManifest: (
+  input: GetJobManifestRequest,
+) => Effect.Effect<
+  GetJobManifestResult,
+  InvalidJobStateException | InvalidResourceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobManifestRequest,
   output: GetJobManifestResult,
   errors: [InvalidJobStateException, InvalidResourceException],
@@ -1597,7 +1658,13 @@ export const getJobManifest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * separately helps prevent unauthorized parties from gaining access to the Snow device
  * associated with that job.
  */
-export const getJobUnlockCode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJobUnlockCode: (
+  input: GetJobUnlockCodeRequest,
+) => Effect.Effect<
+  GetJobUnlockCodeResult,
+  InvalidJobStateException | InvalidResourceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobUnlockCodeRequest,
   output: GetJobUnlockCodeResult,
   errors: [InvalidJobStateException, InvalidResourceException],
@@ -1606,7 +1673,13 @@ export const getJobUnlockCode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns an Amazon S3 presigned URL for an update file associated with a specified
  * `JobId`.
  */
-export const getSoftwareUpdates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSoftwareUpdates: (
+  input: GetSoftwareUpdatesRequest,
+) => Effect.Effect<
+  GetSoftwareUpdatesResult,
+  InvalidJobStateException | InvalidResourceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSoftwareUpdatesRequest,
   output: GetSoftwareUpdatesResult,
   errors: [InvalidJobStateException, InvalidResourceException],
@@ -1614,40 +1687,87 @@ export const getSoftwareUpdates = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * A list of locations from which the customer can choose to pickup a device.
  */
-export const listPickupLocations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPickupLocations: {
+  (
     input: ListPickupLocationsRequest,
-    output: ListPickupLocationsResult,
-    errors: [InvalidResourceException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPickupLocationsResult,
+    InvalidResourceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPickupLocationsRequest,
+  ) => Stream.Stream<
+    ListPickupLocationsResult,
+    InvalidResourceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPickupLocationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidResourceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPickupLocationsRequest,
+  output: ListPickupLocationsResult,
+  errors: [InvalidResourceException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a specified number of `ADDRESS` objects. Calling this API in one of
  * the US regions will return addresses from the list of all addresses associated with this
  * account in all US regions.
  */
-export const describeAddresses = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeAddresses: {
+  (
     input: DescribeAddressesRequest,
-    output: DescribeAddressesResult,
-    errors: [InvalidNextTokenException, InvalidResourceException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Addresses",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeAddressesResult,
+    InvalidNextTokenException | InvalidResourceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAddressesRequest,
+  ) => Stream.Stream<
+    DescribeAddressesResult,
+    InvalidNextTokenException | InvalidResourceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAddressesRequest,
+  ) => Stream.Stream<
+    Address,
+    InvalidNextTokenException | InvalidResourceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAddressesRequest,
+  output: DescribeAddressesResult,
+  errors: [InvalidNextTokenException, InvalidResourceException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Addresses",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about a specific cluster including shipping information, cluster
  * status, and other important metadata.
  */
-export const describeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCluster: (
+  input: DescribeClusterRequest,
+) => Effect.Effect<
+  DescribeClusterResult,
+  InvalidResourceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClusterRequest,
   output: DescribeClusterResult,
   errors: [InvalidResourceException],
@@ -1657,77 +1777,168 @@ export const describeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `JobListEntry` object is for a job in the specified cluster and contains a job's
  * state, a job's ID, and other information.
  */
-export const listClusterJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listClusterJobs: {
+  (
     input: ListClusterJobsRequest,
-    output: ListClusterJobsResult,
-    errors: [InvalidNextTokenException, InvalidResourceException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "JobListEntries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListClusterJobsResult,
+    InvalidNextTokenException | InvalidResourceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClusterJobsRequest,
+  ) => Stream.Stream<
+    ListClusterJobsResult,
+    InvalidNextTokenException | InvalidResourceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClusterJobsRequest,
+  ) => Stream.Stream<
+    JobListEntry,
+    InvalidNextTokenException | InvalidResourceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClusterJobsRequest,
+  output: ListClusterJobsResult,
+  errors: [InvalidNextTokenException, InvalidResourceException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "JobListEntries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns an array of `ClusterListEntry` objects of the specified length. Each
  * `ClusterListEntry` object contains a cluster's state, a cluster's ID, and other
  * important status information.
  */
-export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listClusters: {
+  (
     input: ListClustersRequest,
-    output: ListClustersResult,
-    errors: [InvalidNextTokenException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ClusterListEntries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListClustersResult,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClustersRequest,
+  ) => Stream.Stream<
+    ListClustersResult,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClustersRequest,
+  ) => Stream.Stream<
+    ClusterListEntry,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClustersRequest,
+  output: ListClustersResult,
+  errors: [InvalidNextTokenException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ClusterListEntries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This action returns a list of the different Amazon EC2-compatible Amazon Machine Images (AMIs)
  * that are owned by your Amazon Web Services accountthat would be supported for use on a Snow
  * device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS - Focal, or Ubuntu 22.04 LTS - Jammy images, available on the
  * Amazon Web Services Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but still supported for use on devices through Amazon EC2 VM Import/Export and running locally in AMIs.
  */
-export const listCompatibleImages =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCompatibleImages: {
+  (
     input: ListCompatibleImagesRequest,
-    output: ListCompatibleImagesResult,
-    errors: [Ec2RequestFailedException, InvalidNextTokenException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CompatibleImages",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCompatibleImagesResult,
+    Ec2RequestFailedException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCompatibleImagesRequest,
+  ) => Stream.Stream<
+    ListCompatibleImagesResult,
+    Ec2RequestFailedException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCompatibleImagesRequest,
+  ) => Stream.Stream<
+    CompatibleImage,
+    Ec2RequestFailedException | InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCompatibleImagesRequest,
+  output: ListCompatibleImagesResult,
+  errors: [Ec2RequestFailedException, InvalidNextTokenException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CompatibleImages",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all long-term pricing types.
  */
-export const listLongTermPricing =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLongTermPricing: {
+  (
     input: ListLongTermPricingRequest,
-    output: ListLongTermPricingResult,
-    errors: [InvalidNextTokenException, InvalidResourceException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LongTermPricingEntries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListLongTermPricingResult,
+    InvalidNextTokenException | InvalidResourceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLongTermPricingRequest,
+  ) => Stream.Stream<
+    ListLongTermPricingResult,
+    InvalidNextTokenException | InvalidResourceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLongTermPricingRequest,
+  ) => Stream.Stream<
+    LongTermPricingListEntry,
+    InvalidNextTokenException | InvalidResourceException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLongTermPricingRequest,
+  output: ListLongTermPricingResult,
+  errors: [InvalidNextTokenException, InvalidResourceException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LongTermPricingEntries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Cancels the specified job. You can only cancel a job before its `JobState`
  * value changes to `PreparingAppliance`. Requesting the `ListJobs` or
  * `DescribeJob` action returns a job's `JobState` as part of the
  * response element data returned.
  */
-export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelJob: (
+  input: CancelJobRequest,
+) => Effect.Effect<
+  CancelJobResult,
+  | InvalidJobStateException
+  | InvalidResourceException
+  | KMSRequestFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobRequest,
   output: CancelJobResult,
   errors: [
@@ -1739,17 +1950,24 @@ export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Information on the shipping label of a Snow device that is being returned to Amazon Web Services.
  */
-export const describeReturnShippingLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeReturnShippingLabelRequest,
-    output: DescribeReturnShippingLabelResult,
-    errors: [
-      ConflictException,
-      InvalidJobStateException,
-      InvalidResourceException,
-    ],
-  }),
-);
+export const describeReturnShippingLabel: (
+  input: DescribeReturnShippingLabelRequest,
+) => Effect.Effect<
+  DescribeReturnShippingLabelResult,
+  | ConflictException
+  | InvalidJobStateException
+  | InvalidResourceException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeReturnShippingLabelRequest,
+  output: DescribeReturnShippingLabelResult,
+  errors: [
+    ConflictException,
+    InvalidJobStateException,
+    InvalidResourceException,
+  ],
+}));
 /**
  * Returns an array of `JobListEntry` objects of the specified length. Each
  * `JobListEntry` object contains a job's state, a job's ID, and a value that
@@ -1757,7 +1975,29 @@ export const describeReturnShippingLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * in one of the US regions will return jobs from the list of all jobs associated with this
  * account in all US regions.
  */
-export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listJobs: {
+  (
+    input: ListJobsRequest,
+  ): Effect.Effect<
+    ListJobsResult,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobsRequest,
+  ) => Stream.Stream<
+    ListJobsResult,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobsRequest,
+  ) => Stream.Stream<
+    JobListEntry,
+    InvalidNextTokenException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListJobsRequest,
   output: ListJobsResult,
   errors: [InvalidNextTokenException],
@@ -1773,7 +2013,19 @@ export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * the information associated with a job. Once the job changes to a different job state, usually
  * within 60 minutes of the job being created, this action is no longer available.
  */
-export const updateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateJob: (
+  input: UpdateJobRequest,
+) => Effect.Effect<
+  UpdateJobResult,
+  | ClusterLimitExceededException
+  | Ec2RequestFailedException
+  | InvalidInputCombinationException
+  | InvalidJobStateException
+  | InvalidResourceException
+  | KMSRequestFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobRequest,
   output: UpdateJobResult,
   errors: [
@@ -1790,7 +2042,16 @@ export const updateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `AwaitingQuorum` status. You'll have at least an hour after creating a cluster
  * job to cancel it.
  */
-export const cancelCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelCluster: (
+  input: CancelClusterRequest,
+) => Effect.Effect<
+  CancelClusterResult,
+  | InvalidJobStateException
+  | InvalidResourceException
+  | KMSRequestFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelClusterRequest,
   output: CancelClusterResult,
   errors: [
@@ -1805,7 +2066,18 @@ export const cancelCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * changes to a different job state, usually 60 minutes after the cluster being created, this
  * action is no longer available.
  */
-export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCluster: (
+  input: UpdateClusterRequest,
+) => Effect.Effect<
+  UpdateClusterResult,
+  | Ec2RequestFailedException
+  | InvalidInputCombinationException
+  | InvalidJobStateException
+  | InvalidResourceException
+  | KMSRequestFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterRequest,
   output: UpdateClusterResult,
   errors: [
@@ -1820,7 +2092,13 @@ export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists all supported versions for Snow on-device services. Returns an
  * array of `ServiceVersion` object containing the supported versions for a particular service.
  */
-export const listServiceVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listServiceVersions: (
+  input: ListServiceVersionsRequest,
+) => Effect.Effect<
+  ListServiceVersionsResult,
+  InvalidNextTokenException | InvalidResourceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListServiceVersionsRequest,
   output: ListServiceVersionsResult,
   errors: [InvalidNextTokenException, InvalidResourceException],
@@ -1828,26 +2106,41 @@ export const listServiceVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a shipping label that will be used to return the Snow device to Amazon Web Services.
  */
-export const createReturnShippingLabel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateReturnShippingLabelRequest,
-    output: CreateReturnShippingLabelResult,
-    errors: [
-      ConflictException,
-      InvalidInputCombinationException,
-      InvalidJobStateException,
-      InvalidResourceException,
-      ReturnShippingLabelAlreadyExistsException,
-    ],
-  }),
-);
+export const createReturnShippingLabel: (
+  input: CreateReturnShippingLabelRequest,
+) => Effect.Effect<
+  CreateReturnShippingLabelResult,
+  | ConflictException
+  | InvalidInputCombinationException
+  | InvalidJobStateException
+  | InvalidResourceException
+  | ReturnShippingLabelAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateReturnShippingLabelRequest,
+  output: CreateReturnShippingLabelResult,
+  errors: [
+    ConflictException,
+    InvalidInputCombinationException,
+    InvalidJobStateException,
+    InvalidResourceException,
+    ReturnShippingLabelAlreadyExistsException,
+  ],
+}));
 /**
  * Creates an address for a Snow device to be shipped to. In most regions,
  * addresses are validated at the time of creation. The address you provide must be located
  * within the serviceable area of your region. If the address is invalid or unsupported, then an
  * exception is thrown. If providing an address as a JSON file through the `cli-input-json` option, include the full file path. For example, `--cli-input-json file://create-address.json`.
  */
-export const createAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAddress: (
+  input: CreateAddressRequest,
+) => Effect.Effect<
+  CreateAddressResult,
+  InvalidAddressException | UnsupportedAddressException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAddressRequest,
   output: CreateAddressResult,
   errors: [InvalidAddressException, UnsupportedAddressException],
@@ -1856,7 +2149,17 @@ export const createAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates an empty cluster. Each cluster supports five nodes. You use the CreateJob action separately to create the jobs for each of these nodes. The
  * cluster does not ship until these five node jobs have been created.
  */
-export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCluster: (
+  input: CreateClusterRequest,
+) => Effect.Effect<
+  CreateClusterResult,
+  | Ec2RequestFailedException
+  | InvalidInputCombinationException
+  | InvalidResourceException
+  | KMSRequestFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterRequest,
   output: CreateClusterResult,
   errors: [
@@ -1948,7 +2251,18 @@ export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Description: Snowball Edge Storage Optimized 210TB
  */
-export const createJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createJob: (
+  input: CreateJobRequest,
+) => Effect.Effect<
+  CreateJobResult,
+  | ClusterLimitExceededException
+  | Ec2RequestFailedException
+  | InvalidInputCombinationException
+  | InvalidResourceException
+  | KMSRequestFailedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobRequest,
   output: CreateJobResult,
   errors: [
@@ -1963,7 +2277,13 @@ export const createJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns information about a specific job including shipping information, job status,
  * and other important metadata.
  */
-export const describeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeJob: (
+  input: DescribeJobRequest,
+) => Effect.Effect<
+  DescribeJobResult,
+  InvalidResourceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobRequest,
   output: DescribeJobResult,
   errors: [InvalidResourceException],

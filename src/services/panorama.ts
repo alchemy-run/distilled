@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Panorama",
   serviceShapeName: "OmniCloudServiceLambda",
@@ -240,6 +248,95 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ApplicationInstanceName = string;
+export type Description = string;
+export type ApplicationInstanceId = string;
+export type RuntimeRoleArn = string;
+export type DefaultRuntimeContextDevice = string;
+export type DeviceId = string;
+export type JobType = string;
+export type TemplateType = string;
+export type NodePackageName = string;
+export type NodePackageVersion = string;
+export type NodeName = string;
+export type PackageImportJobType = string;
+export type ClientToken = string;
+export type NodePackageId = string;
+export type PackageOwnerAccount = string;
+export type NodePackagePatchVersion = string;
+export type JobId = string;
+export type NodeId = string;
+export type MaxSize25 = number;
+export type NextToken = string;
+export type StatusFilter = string;
+export type ListDevicesSortBy = string;
+export type SortOrder = string;
+export type NameFilter = string;
+export type DeviceAggregatedStatus = string;
+export type NodeCategory = string;
+export type Token = string;
+export type ResourceArn = string;
+export type DeviceName = string;
+export type TagKey = string;
+export type ManifestPayloadData = string;
+export type ManifestOverridesPayloadData = string;
+export type TagValue = string;
+export type TemplateKey = string;
+export type TemplateValue = string;
+export type JobResourceType = string;
+export type NodeInstanceId = string;
+export type NodeSignalValue = string;
+export type NodePackageArn = string;
+export type ApplicationInstanceStatus = string;
+export type ApplicationInstanceHealthStatus = string;
+export type ApplicationInstanceStatusDescription = string;
+export type ApplicationInstanceArn = string;
+export type DeviceArn = string;
+export type DeviceType = string;
+export type DeviceConnectionStatus = string;
+export type DeviceStatus = string;
+export type LatestSoftware = string;
+export type CurrentSoftware = string;
+export type DeviceSerialNumber = string;
+export type LatestAlternateSoftware = string;
+export type DeviceBrand = string;
+export type ImageVersion = string;
+export type UpdateProgress = string;
+export type NodeAssetName = string;
+export type NodeFromTemplateJobStatus = string;
+export type NodeFromTemplateJobStatusMessage = string;
+export type PrincipalArn = string;
+export type PackageImportJobStatus = string;
+export type PackageImportJobStatusMessage = string;
+export type PackageVersionStatus = string;
+export type PackageVersionStatusDescription = string;
+export type RetryAfterSeconds = number;
+export type ConnectionType = string;
+export type IpAddressOrServerName = string;
+export type Bucket = string;
+export type DesiredState = string;
+export type RuntimeContextName = string;
+export type DeviceReportedStatus = string;
+export type Version = string;
+export type NodeInstanceStatus = string;
+export type Region = string;
+export type BucketName = string;
+export type ObjectKey = string;
+export type IpAddress = string;
+export type Mask = string;
+export type Dns = string;
+export type DefaultGateway = string;
+export type NetworkConnectionStatus = string;
+export type HwAddress = string;
+export type NtpServerName = string;
+export type PortName = string;
+export type PortType = string;
+export type PortDefaultValue = string;
+export type MaxConnections = number;
+export type ValidationExceptionReason = string;
+export type IotThingName = string;
 
 //# Schemas
 export type DeviceIdList = string[];
@@ -901,7 +998,9 @@ export const UpdateDeviceMetadataRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDeviceMetadataRequest",
 }) as any as S.Schema<UpdateDeviceMetadataRequest>;
+export type ManifestPayload = { PayloadData: string };
 export const ManifestPayload = S.Union(S.Struct({ PayloadData: S.String }));
+export type ManifestOverridesPayload = { PayloadData: string };
 export const ManifestOverridesPayload = S.Union(
   S.Struct({ PayloadData: S.String }),
 );
@@ -2167,7 +2266,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     Message: S.String,
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -2207,49 +2308,121 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Returns a list of application instance dependencies.
  */
-export const listApplicationInstanceDependencies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApplicationInstanceDependencies: {
+  (
     input: ListApplicationInstanceDependenciesRequest,
-    output: ListApplicationInstanceDependenciesResponse,
-    errors: [AccessDeniedException, InternalServerException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListApplicationInstanceDependenciesResponse,
+    AccessDeniedException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationInstanceDependenciesRequest,
+  ) => Stream.Stream<
+    ListApplicationInstanceDependenciesResponse,
+    AccessDeniedException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationInstanceDependenciesRequest,
+  ) => Stream.Stream<
+    unknown,
+    AccessDeniedException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationInstanceDependenciesRequest,
+  output: ListApplicationInstanceDependenciesResponse,
+  errors: [AccessDeniedException, InternalServerException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of application node instances.
  */
-export const listApplicationInstanceNodeInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApplicationInstanceNodeInstances: {
+  (
     input: ListApplicationInstanceNodeInstancesRequest,
-    output: ListApplicationInstanceNodeInstancesResponse,
-    errors: [AccessDeniedException, InternalServerException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListApplicationInstanceNodeInstancesResponse,
+    AccessDeniedException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationInstanceNodeInstancesRequest,
+  ) => Stream.Stream<
+    ListApplicationInstanceNodeInstancesResponse,
+    AccessDeniedException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationInstanceNodeInstancesRequest,
+  ) => Stream.Stream<
+    unknown,
+    AccessDeniedException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationInstanceNodeInstancesRequest,
+  output: ListApplicationInstanceNodeInstancesResponse,
+  errors: [AccessDeniedException, InternalServerException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of application instances.
  */
-export const listApplicationInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApplicationInstances: {
+  (
     input: ListApplicationInstancesRequest,
-    output: ListApplicationInstancesResponse,
-    errors: [AccessDeniedException, InternalServerException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListApplicationInstancesResponse,
+    AccessDeniedException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationInstancesRequest,
+  ) => Stream.Stream<
+    ListApplicationInstancesResponse,
+    AccessDeniedException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationInstancesRequest,
+  ) => Stream.Stream<
+    unknown,
+    AccessDeniedException | InternalServerException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationInstancesRequest,
+  output: ListApplicationInstancesResponse,
+  errors: [AccessDeniedException, InternalServerException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Tags a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2261,7 +2434,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2273,7 +2455,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of tags for a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2285,25 +2476,44 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an application instance and deploys it to a device.
  */
-export const createApplicationInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateApplicationInstanceRequest,
-    output: CreateApplicationInstanceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createApplicationInstance: (
+  input: CreateApplicationInstanceRequest,
+) => Effect.Effect<
+  CreateApplicationInstanceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApplicationInstanceRequest,
+  output: CreateApplicationInstanceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a package.
  *
  * To delete a package, you need permission to call `s3:DeleteObject` in addition to permissions for
  * the AWS Panorama API.
  */
-export const deletePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePackage: (
+  input: DeletePackageRequest,
+) => Effect.Effect<
+  DeletePackageResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePackageRequest,
   output: DeletePackageResponse,
   errors: [
@@ -2317,7 +2527,17 @@ export const deletePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a device.
  */
-export const describeDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDevice: (
+  input: DescribeDeviceRequest,
+) => Effect.Effect<
+  DescribeDeviceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDeviceRequest,
   output: DescribeDeviceResponse,
   errors: [
@@ -2330,7 +2550,18 @@ export const describeDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a node.
  */
-export const describeNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeNode: (
+  input: DescribeNodeRequest,
+) => Effect.Effect<
+  DescribeNodeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNodeRequest,
   output: DescribeNodeResponse,
   errors: [
@@ -2344,51 +2575,89 @@ export const describeNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a package import job.
  */
-export const describePackageImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePackageImportJobRequest,
-    output: DescribePackageImportJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ValidationException,
-    ],
-  }),
-);
+export const describePackageImportJob: (
+  input: DescribePackageImportJobRequest,
+) => Effect.Effect<
+  DescribePackageImportJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePackageImportJobRequest,
+  output: DescribePackageImportJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Signal camera nodes to stop or resume.
  */
-export const signalApplicationInstanceNodeInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SignalApplicationInstanceNodeInstancesRequest,
-    output: SignalApplicationInstanceNodeInstancesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }));
+export const signalApplicationInstanceNodeInstances: (
+  input: SignalApplicationInstanceNodeInstancesRequest,
+) => Effect.Effect<
+  SignalApplicationInstanceNodeInstancesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SignalApplicationInstanceNodeInstancesRequest,
+  output: SignalApplicationInstanceNodeInstancesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about an application instance's configuration manifest.
  */
-export const describeApplicationInstanceDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeApplicationInstanceDetailsRequest,
-    output: DescribeApplicationInstanceDetailsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const describeApplicationInstanceDetails: (
+  input: DescribeApplicationInstanceDetailsRequest,
+) => Effect.Effect<
+  DescribeApplicationInstanceDetailsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeApplicationInstanceDetailsRequest,
+  output: DescribeApplicationInstanceDetailsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about a device job.
  */
-export const describeDeviceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDeviceJob: (
+  input: DescribeDeviceJobRequest,
+) => Effect.Effect<
+  DescribeDeviceJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDeviceJobRequest,
   output: DescribeDeviceJobResponse,
   errors: [
@@ -2402,22 +2671,41 @@ export const describeDeviceJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a job to create a camera stream node.
  */
-export const describeNodeFromTemplateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeNodeFromTemplateJobRequest,
-    output: DescribeNodeFromTemplateJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeNodeFromTemplateJob: (
+  input: DescribeNodeFromTemplateJobRequest,
+) => Effect.Effect<
+  DescribeNodeFromTemplateJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeNodeFromTemplateJobRequest,
+  output: DescribeNodeFromTemplateJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about a package.
  */
-export const describePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describePackage: (
+  input: DescribePackageRequest,
+) => Effect.Effect<
+  DescribePackageResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePackageRequest,
   output: DescribePackageResponse,
   errors: [
@@ -2431,86 +2719,141 @@ export const describePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a package version.
  */
-export const describePackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePackageVersionRequest,
-    output: DescribePackageVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const describePackageVersion: (
+  input: DescribePackageVersionRequest,
+) => Effect.Effect<
+  DescribePackageVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePackageVersionRequest,
+  output: DescribePackageVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a device's metadata.
  */
-export const updateDeviceMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDeviceMetadataRequest,
-    output: UpdateDeviceMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateDeviceMetadata: (
+  input: UpdateDeviceMetadataRequest,
+) => Effect.Effect<
+  UpdateDeviceMetadataResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDeviceMetadataRequest,
+  output: UpdateDeviceMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deregisters a package version.
  */
-export const deregisterPackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeregisterPackageVersionRequest,
-    output: DeregisterPackageVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deregisterPackageVersion: (
+  input: DeregisterPackageVersionRequest,
+) => Effect.Effect<
+  DeregisterPackageVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterPackageVersionRequest,
+  output: DeregisterPackageVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Registers a package version.
  */
-export const registerPackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterPackageVersionRequest,
-    output: RegisterPackageVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ValidationException,
-    ],
-  }),
-);
+export const registerPackageVersion: (
+  input: RegisterPackageVersionRequest,
+) => Effect.Effect<
+  RegisterPackageVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterPackageVersionRequest,
+  output: RegisterPackageVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes an application instance.
  */
-export const removeApplicationInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveApplicationInstanceRequest,
-    output: RemoveApplicationInstanceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const removeApplicationInstance: (
+  input: RemoveApplicationInstanceRequest,
+) => Effect.Effect<
+  RemoveApplicationInstanceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveApplicationInstanceRequest,
+  output: RemoveApplicationInstanceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a device.
  */
-export const deleteDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDevice: (
+  input: DeleteDeviceRequest,
+) => Effect.Effect<
+  DeleteDeviceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeviceRequest,
   output: DeleteDeviceResponse,
   errors: [
@@ -2524,22 +2867,40 @@ export const deleteDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a camera stream node.
  */
-export const createNodeFromTemplateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateNodeFromTemplateJobRequest,
-    output: CreateNodeFromTemplateJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ValidationException,
-    ],
-  }),
-);
+export const createNodeFromTemplateJob: (
+  input: CreateNodeFromTemplateJobRequest,
+) => Effect.Effect<
+  CreateNodeFromTemplateJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNodeFromTemplateJobRequest,
+  output: CreateNodeFromTemplateJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a package and storage location in an Amazon S3 access point.
  */
-export const createPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPackage: (
+  input: CreatePackageRequest,
+) => Effect.Effect<
+  CreatePackageResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePackageRequest,
   output: CreatePackageResponse,
   errors: [
@@ -2552,83 +2913,223 @@ export const createPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about an application instance on a device.
  */
-export const describeApplicationInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeApplicationInstanceRequest,
-    output: DescribeApplicationInstanceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeApplicationInstance: (
+  input: DescribeApplicationInstanceRequest,
+) => Effect.Effect<
+  DescribeApplicationInstanceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeApplicationInstanceRequest,
+  output: DescribeApplicationInstanceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of devices.
  */
-export const listDevices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDevices: {
+  (
     input: ListDevicesRequest,
-    output: ListDevicesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDevicesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDevicesRequest,
+  ) => Stream.Stream<
+    ListDevicesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDevicesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDevicesRequest,
+  output: ListDevicesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of jobs.
  */
-export const listDevicesJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDevicesJobs: {
+  (
     input: ListDevicesJobsRequest,
-    output: ListDevicesJobsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDevicesJobsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDevicesJobsRequest,
+  ) => Stream.Stream<
+    ListDevicesJobsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDevicesJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDevicesJobsRequest,
+  output: ListDevicesJobsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of camera stream node jobs.
  */
-export const listNodeFromTemplateJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listNodeFromTemplateJobs: {
+  (
     input: ListNodeFromTemplateJobsRequest,
-    output: ListNodeFromTemplateJobsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListNodeFromTemplateJobsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNodeFromTemplateJobsRequest,
+  ) => Stream.Stream<
+    ListNodeFromTemplateJobsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNodeFromTemplateJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNodeFromTemplateJobsRequest,
+  output: ListNodeFromTemplateJobsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of nodes.
  */
-export const listNodes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listNodes: {
+  (
+    input: ListNodesRequest,
+  ): Effect.Effect<
+    ListNodesResponse,
+    | ConflictException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNodesRequest,
+  ) => Stream.Stream<
+    ListNodesResponse,
+    | ConflictException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNodesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | ConflictException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListNodesRequest,
   output: ListNodesResponse,
   errors: [ConflictException, InternalServerException, ValidationException],
@@ -2641,47 +3142,126 @@ export const listNodes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns a list of package import jobs.
  */
-export const listPackageImportJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPackageImportJobs: {
+  (
     input: ListPackageImportJobsRequest,
-    output: ListPackageImportJobsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPackageImportJobsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPackageImportJobsRequest,
+  ) => Stream.Stream<
+    ListPackageImportJobsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPackageImportJobsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPackageImportJobsRequest,
+  output: ListPackageImportJobsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of packages.
  */
-export const listPackages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPackages: {
+  (
     input: ListPackagesRequest,
-    output: ListPackagesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPackagesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPackagesRequest,
+  ) => Stream.Stream<
+    ListPackagesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPackagesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPackagesRequest,
+  output: ListPackagesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a job to run on a device. A job can update a device's software or reboot it.
  */
-export const createJobForDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createJobForDevices: (
+  input: CreateJobForDevicesRequest,
+) => Effect.Effect<
+  CreateJobForDevicesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobForDevicesRequest,
   output: CreateJobForDevicesResponse,
   errors: [
@@ -2695,25 +3275,44 @@ export const createJobForDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Imports a node package.
  */
-export const createPackageImportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePackageImportJobRequest,
-    output: CreatePackageImportJobResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ValidationException,
-    ],
-  }),
-);
+export const createPackageImportJob: (
+  input: CreatePackageImportJobRequest,
+) => Effect.Effect<
+  CreatePackageImportJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePackageImportJobRequest,
+  output: CreatePackageImportJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a device and returns a configuration archive. The configuration archive is a ZIP file that contains a
  * provisioning certificate that is valid for 5 minutes. Name the configuration archive
  * `certificates-omni_*device-name*.zip` and transfer it to the device within 5
  * minutes. Use the included USB storage device and connect it to the USB 3.0 port next to the HDMI output.
  */
-export const provisionDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const provisionDevice: (
+  input: ProvisionDeviceRequest,
+) => Effect.Effect<
+  ProvisionDeviceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionDeviceRequest,
   output: ProvisionDeviceResponse,
   errors: [

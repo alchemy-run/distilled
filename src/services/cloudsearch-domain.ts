@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://cloudsearch.amazonaws.com/doc/2013-01-01/");
 const svc = T.AwsApiService({
   sdkId: "CloudSearch Domain",
@@ -241,6 +249,26 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Cursor = string;
+export type Expr = string;
+export type Facet = string;
+export type FilterQuery = string;
+export type Highlight = string;
+export type Query = string;
+export type QueryOptions = string;
+export type Return = string;
+export type Size = number;
+export type Sort = string;
+export type Start = number;
+export type Stat = string;
+export type Suggester = string;
+export type SuggestionsSize = number;
+export type Adds = number;
+export type Deletes = number;
+export type Long = number;
+export type Double = number;
 
 //# Schemas
 export interface SearchRequest {
@@ -538,7 +566,13 @@ export class SearchException extends S.TaggedError<SearchException>()(
  * For more information about formatting your data for Amazon CloudSearch, see Preparing Your Data in the *Amazon CloudSearch Developer Guide*.
  * For more information about uploading data for indexing, see Uploading Data in the *Amazon CloudSearch Developer Guide*.
  */
-export const uploadDocuments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const uploadDocuments: (
+  input: UploadDocumentsRequest,
+) => Effect.Effect<
+  UploadDocumentsResponse,
+  DocumentServiceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadDocumentsRequest,
   output: UploadDocumentsResponse,
   errors: [DocumentServiceException],
@@ -550,7 +584,13 @@ export const uploadDocuments = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The endpoint for submitting `Suggest` requests is domain-specific. You submit suggest requests to a domain's search endpoint. To get the search endpoint for your domain, use the Amazon CloudSearch configuration service `DescribeDomains` action. A domain's endpoints are also displayed on the domain dashboard in the Amazon CloudSearch console.
  */
-export const suggest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const suggest: (
+  input: SuggestRequest,
+) => Effect.Effect<
+  SuggestResponse,
+  SearchException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SuggestRequest,
   output: SuggestResponse,
   errors: [SearchException],
@@ -570,7 +610,13 @@ export const suggest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The endpoint for submitting `Search` requests is domain-specific. You submit search requests to a domain's search endpoint. To get the search endpoint for your domain, use the Amazon CloudSearch configuration service `DescribeDomains` action. A domain's endpoints are also displayed on the domain dashboard in the Amazon CloudSearch console.
  */
-export const search = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const search: (
+  input: SearchRequest,
+) => Effect.Effect<
+  SearchResponse,
+  SearchException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchRequest,
   output: SearchResponse,
   errors: [SearchException],

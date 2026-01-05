@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Chime",
   serviceShapeName: "UCBuzzConsoleService",
@@ -270,6 +278,23 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type E164PhoneNumber = string;
+export type NonEmptyString = string;
+export type AccountName = string;
+export type SensitiveString = string;
+export type GuidString = string;
+export type JoinTokenString = string;
+export type ClientRequestToken = string;
+export type EmailAddress = string;
+export type CallingName = string;
+export type ProfileServiceMaxResults = number;
+export type ResultMax = number;
+export type Alpha2CountryCode = string;
+export type TollFreePrefix = string;
+export type PhoneNumberMaxResults = number;
+export type RetentionDays = number;
 
 //# Schemas
 export interface GetGlobalSettingsRequest {}
@@ -2699,7 +2724,9 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
   "ServiceFailureException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
   "ResourceLimitExceededException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
@@ -2707,11 +2734,15 @@ export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitE
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
   "ThrottledClientException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
   "UnauthorizedClientException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
@@ -2725,20 +2756,30 @@ export class UnprocessableEntityException extends S.TaggedError<UnprocessableEnt
 /**
  * Deletes the events configuration that allows a bot to receive outgoing events.
  */
-export const deleteEventsConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEventsConfigurationRequest,
-    output: DeleteEventsConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const deleteEventsConfiguration: (
+  input: DeleteEventsConfigurationRequest,
+) => Effect.Effect<
+  DeleteEventsConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEventsConfigurationRequest,
+  output: DeleteEventsConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ResourceLimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see
  * Logging Amazon Chime API Calls with AWS CloudTrail
@@ -2752,28 +2793,53 @@ export const deleteEventsConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Managing Chat Retention Policies
  * in the *Amazon Chime Administration Guide*.
  */
-export const putRetentionSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRetentionSettingsRequest,
-    output: PutRetentionSettingsResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const putRetentionSettings: (
+  input: PutRetentionSettingsRequest,
+) => Effect.Effect<
+  PutRetentionSettingsResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRetentionSettingsRequest,
+  output: PutRetentionSettingsResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime
  * `Team` account. Only `Team` account types are currently
  * supported for this action.
  */
-export const inviteUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const inviteUsers: (
+  input: InviteUsersRequest,
+) => Effect.Effect<
+  InviteUsersResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InviteUsersRequest,
   output: InviteUsersResponse,
   errors: [
@@ -2793,26 +2859,51 @@ export const inviteUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the Policies Page in the Amazon Chime Administration
  * Guide.
  */
-export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountSettingsRequest,
-    output: UpdateAccountSettingsResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const updateAccountSettings: (
+  input: UpdateAccountSettingsRequest,
+) => Effect.Effect<
+  UpdateAccountSettingsResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountSettingsRequest,
+  output: UpdateAccountSettingsResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Updates user details for a specified user ID. Currently, only `LicenseType` updates are supported for this action.
  */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUser: (
+  input: UpdateUserRequest,
+) => Effect.Effect<
+  UpdateUserResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,
   output: UpdateUserResponse,
   errors: [
@@ -2828,7 +2919,20 @@ export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the settings for the specified user, such as phone number settings.
  */
-export const updateUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUserSettings: (
+  input: UpdateUserSettingsRequest,
+) => Effect.Effect<
+  UpdateUserSettingsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserSettingsRequest,
   output: UpdateUserSettingsResponse,
   errors: [
@@ -2845,7 +2949,20 @@ export const updateUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves details for the specified Amazon Chime account, such as account type and supported
  * licenses.
  */
-export const getAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccount: (
+  input: GetAccountRequest,
+) => Effect.Effect<
+  GetAccountResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountRequest,
   output: GetAccountResponse,
   errors: [
@@ -2863,7 +2980,20 @@ export const getAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * and dialout settings. For more information about these settings, see
  * Use the Policies Page in the *Amazon Chime Administration Guide*.
  */
-export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccountSettings: (
+  input: GetAccountSettingsRequest,
+) => Effect.Effect<
+  GetAccountSettingsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountSettingsRequest,
   output: GetAccountSettingsResponse,
   errors: [
@@ -2879,7 +3009,20 @@ export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details for the specified bot, such as bot email address, bot type, status, and display name.
  */
-export const getBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBot: (
+  input: GetBotRequest,
+) => Effect.Effect<
+  GetBotResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBotRequest,
   output: GetBotResponse,
   errors: [
@@ -2896,7 +3039,20 @@ export const getBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves details for the specified phone number order, such as the order creation timestamp, phone
  * numbers in E.164 format, product type, and order status.
  */
-export const getPhoneNumberOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPhoneNumberOrder: (
+  input: GetPhoneNumberOrderRequest,
+) => Effect.Effect<
+  GetPhoneNumberOrderResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPhoneNumberOrderRequest,
   output: GetPhoneNumberOrderResponse,
   errors: [
@@ -2913,25 +3069,49 @@ export const getPhoneNumberOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets the retention settings for the specified Amazon Chime Enterprise account. For more information about retention settings, see
  * Managing Chat Retention Policies in the *Amazon Chime Administration Guide*.
  */
-export const getRetentionSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRetentionSettingsRequest,
-    output: GetRetentionSettingsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const getRetentionSettings: (
+  input: GetRetentionSettingsRequest,
+) => Effect.Effect<
+  GetRetentionSettingsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRetentionSettingsRequest,
+  output: GetRetentionSettingsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Retrieves room details, such as the room name, for a room in an Amazon Chime Enterprise account.
  */
-export const getRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRoom: (
+  input: GetRoomRequest,
+) => Effect.Effect<
+  GetRoomResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRoomRequest,
   output: GetRoomResponse,
   errors: [
@@ -2950,7 +3130,20 @@ export const getRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To retrieve user details with an email address instead of a user ID, use the
  * ListUsers action, and then filter by email address.
  */
-export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUser: (
+  input: GetUserRequest,
+) => Effect.Effect<
+  GetUserResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserRequest,
   output: GetUserResponse,
   errors: [
@@ -2966,7 +3159,20 @@ export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves settings for the specified user ID, such as any associated phone number settings.
  */
-export const getUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUserSettings: (
+  input: GetUserSettingsRequest,
+) => Effect.Effect<
+  GetUserSettingsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserSettingsRequest,
   output: GetUserSettingsResponse,
   errors: [
@@ -2984,30 +3190,114 @@ export const getUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * by account name prefix. To find out which Amazon Chime account a user belongs to, you can
  * filter by the user's email address, which returns one account result.
  */
-export const listAccounts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAccounts: {
+  (
     input: ListAccountsRequest,
-    output: ListAccountsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAccountsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccountsRequest,
+  ) => Stream.Stream<
+    ListAccountsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccountsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsRequest,
+  output: ListAccountsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
  */
-export const listBots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBots: {
+  (
+    input: ListBotsRequest,
+  ): Effect.Effect<
+    ListBotsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBotsRequest,
+  ) => Stream.Stream<
+    ListBotsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBotsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBotsRequest,
   output: ListBotsResponse,
   errors: [
@@ -3028,53 +3318,179 @@ export const listBots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
  */
-export const listPhoneNumbers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPhoneNumbers: {
+  (
     input: ListPhoneNumbersRequest,
-    output: ListPhoneNumbersResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPhoneNumbersResponse,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPhoneNumbersRequest,
+  ) => Stream.Stream<
+    ListPhoneNumbersResponse,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPhoneNumbersRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPhoneNumbersRequest,
+  output: ListPhoneNumbersResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the membership details for the specified room in an Amazon Chime Enterprise account,
  * such as the members' IDs, email addresses, and names.
  */
-export const listRoomMemberships =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRoomMemberships: {
+  (
     input: ListRoomMembershipsRequest,
-    output: ListRoomMembershipsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRoomMembershipsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRoomMembershipsRequest,
+  ) => Stream.Stream<
+    ListRoomMembershipsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoomMembershipsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRoomMembershipsRequest,
+  output: ListRoomMembershipsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
  */
-export const listRooms = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRooms: {
+  (
+    input: ListRoomsRequest,
+  ): Effect.Effect<
+    ListRoomsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRoomsRequest,
+  ) => Stream.Stream<
+    ListRoomsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoomsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRoomsRequest,
   output: ListRoomsResponse,
   errors: [
@@ -3096,7 +3512,50 @@ export const listRooms = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Lists the users that belong to the specified Amazon Chime account. You can specify an email
  * address to list only the user that the email address belongs to.
  */
-export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUsers: {
+  (
+    input: ListUsersRequest,
+  ): Effect.Effect<
+    ListUsersResponse,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    ListUsersResponse,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | NotFoundException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse,
   errors: [
@@ -3117,26 +3576,50 @@ export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Regenerates the security token for a bot.
  */
-export const regenerateSecurityToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegenerateSecurityTokenRequest,
-    output: RegenerateSecurityTokenResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const regenerateSecurityToken: (
+  input: RegenerateSecurityTokenRequest,
+) => Effect.Effect<
+  RegenerateSecurityTokenResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegenerateSecurityTokenRequest,
+  output: RegenerateSecurityTokenResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns
  * the User object with the updated personal meeting PIN.
  */
-export const resetPersonalPIN = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resetPersonalPIN: (
+  input: ResetPersonalPINRequest,
+) => Effect.Effect<
+  ResetPersonalPINResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetPersonalPINRequest,
   output: ResetPersonalPINResponse,
   errors: [
@@ -3153,7 +3636,21 @@ export const resetPersonalPIN = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Moves a phone number from the **Deletion queue** back into the
  * phone number **Inventory**.
  */
-export const restorePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const restorePhoneNumber: (
+  input: RestorePhoneNumberRequest,
+) => Effect.Effect<
+  RestorePhoneNumberResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestorePhoneNumberRequest,
   output: RestorePhoneNumberResponse,
   errors: [
@@ -3170,7 +3667,20 @@ export const restorePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates account details for the specified Amazon Chime account. Currently, only account name and default license updates are supported for this action.
  */
-export const updateAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAccount: (
+  input: UpdateAccountRequest,
+) => Effect.Effect<
+  UpdateAccountResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountRequest,
   output: UpdateAccountResponse,
   errors: [
@@ -3186,7 +3696,20 @@ export const updateAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the status of the specified bot, such as starting or stopping the bot from running in your Amazon Chime Enterprise account.
  */
-export const updateBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBot: (
+  input: UpdateBotRequest,
+) => Effect.Effect<
+  UpdateBotResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBotRequest,
   output: UpdateBotResponse,
   errors: [
@@ -3202,7 +3725,20 @@ export const updateBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates room details, such as the room name, for a room in an Amazon Chime Enterprise account.
  */
-export const updateRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRoom: (
+  input: UpdateRoomRequest,
+) => Effect.Effect<
+  UpdateRoomResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRoomRequest,
   output: UpdateRoomResponse,
   errors: [
@@ -3221,21 +3757,32 @@ export const updateRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * administrator or a general chat room member. The member role can be updated only for
  * user IDs.
  */
-export const updateRoomMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRoomMembershipRequest,
-    output: UpdateRoomMembershipResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const updateRoomMembership: (
+  input: UpdateRoomMembershipRequest,
+) => Effect.Effect<
+  UpdateRoomMembershipResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRoomMembershipRequest,
+  output: UpdateRoomMembershipResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Moves the specified phone number into the **Deletion queue**. A
  * phone number must be disassociated from any users or Amazon Chime Voice Connectors
@@ -3245,7 +3792,20 @@ export const updateRoomMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * **Deletion queue**
  * for 7 days before they are deleted permanently.
  */
-export const deletePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePhoneNumber: (
+  input: DeletePhoneNumberRequest,
+) => Effect.Effect<
+  DeletePhoneNumberResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePhoneNumberRequest,
   output: DeletePhoneNumberResponse,
   errors: [
@@ -3261,7 +3821,20 @@ export const deletePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a chat room in an Amazon Chime Enterprise account.
  */
-export const deleteRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRoom: (
+  input: DeleteRoomRequest,
+) => Effect.Effect<
+  DeleteRoomResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRoomRequest,
   output: DeleteRoomResponse,
   errors: [
@@ -3277,59 +3850,107 @@ export const deleteRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a member from a chat room in an Amazon Chime Enterprise account.
  */
-export const deleteRoomMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRoomMembershipRequest,
-    output: DeleteRoomMembershipResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const deleteRoomMembership: (
+  input: DeleteRoomMembershipRequest,
+) => Effect.Effect<
+  DeleteRoomMembershipResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRoomMembershipRequest,
+  output: DeleteRoomMembershipResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Disassociates the primary provisioned phone number from the specified Amazon Chime user.
  */
-export const disassociatePhoneNumberFromUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociatePhoneNumberFromUserRequest,
-    output: DisassociatePhoneNumberFromUserResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
+export const disassociatePhoneNumberFromUser: (
+  input: DisassociatePhoneNumberFromUserRequest,
+) => Effect.Effect<
+  DisassociatePhoneNumberFromUserResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociatePhoneNumberFromUserRequest,
+  output: DisassociatePhoneNumberFromUserResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Disassociates the specified sign-in delegate groups from the specified Amazon Chime account.
  */
-export const disassociateSigninDelegateGroupsFromAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateSigninDelegateGroupsFromAccountRequest,
-    output: DisassociateSigninDelegateGroupsFromAccountResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
+export const disassociateSigninDelegateGroupsFromAccount: (
+  input: DisassociateSigninDelegateGroupsFromAccountRequest,
+) => Effect.Effect<
+  DisassociateSigninDelegateGroupsFromAccountResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateSigninDelegateGroupsFromAccountRequest,
+  output: DisassociateSigninDelegateGroupsFromAccountResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Logs out the specified user from all of the devices they are currently logged into.
  */
-export const logoutUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const logoutUser: (
+  input: LogoutUserRequest,
+) => Effect.Effect<
+  LogoutUserResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LogoutUserRequest,
   output: LogoutUserResponse,
   errors: [
@@ -3345,25 +3966,49 @@ export const logoutUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Redacts the specified message from the specified Amazon Chime conversation.
  */
-export const redactConversationMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RedactConversationMessageRequest,
-    output: RedactConversationMessageResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const redactConversationMessage: (
+  input: RedactConversationMessageRequest,
+) => Effect.Effect<
+  RedactConversationMessageResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RedactConversationMessageRequest,
+  output: RedactConversationMessageResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Redacts the specified message from the specified Amazon Chime channel.
  */
-export const redactRoomMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const redactRoomMessage: (
+  input: RedactRoomMessageRequest,
+) => Effect.Effect<
+  RedactRoomMessageResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RedactRoomMessageRequest,
   output: RedactRoomMessageResponse,
   errors: [
@@ -3379,38 +4024,63 @@ export const redactRoomMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates a phone number with the specified Amazon Chime user.
  */
-export const associatePhoneNumberWithUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociatePhoneNumberWithUserRequest,
-    output: AssociatePhoneNumberWithUserResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
+export const associatePhoneNumberWithUser: (
+  input: AssociatePhoneNumberWithUserRequest,
+) => Effect.Effect<
+  AssociatePhoneNumberWithUserResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociatePhoneNumberWithUserRequest,
+  output: AssociatePhoneNumberWithUserResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Associates the specified sign-in delegate groups with the specified Amazon Chime account.
  */
-export const associateSigninDelegateGroupsWithAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateSigninDelegateGroupsWithAccountRequest,
-    output: AssociateSigninDelegateGroupsWithAccountResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
+export const associateSigninDelegateGroupsWithAccount: (
+  input: AssociateSigninDelegateGroupsWithAccountRequest,
+) => Effect.Effect<
+  AssociateSigninDelegateGroupsWithAccountResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateSigninDelegateGroupsWithAccountRequest,
+  output: AssociateSigninDelegateGroupsWithAccountResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Removes the suspension from up to 50 previously suspended users for the specified Amazon
  * Chime `EnterpriseLWA` account. Only users on `EnterpriseLWA`
@@ -3423,7 +4093,20 @@ export const associateSigninDelegateGroupsWithAccount =
  * `Registered`
  * status. Users who are not previously suspended are ignored.
  */
-export const batchUnsuspendUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchUnsuspendUser: (
+  input: BatchUnsuspendUserRequest,
+) => Effect.Effect<
+  BatchUnsuspendUserResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUnsuspendUserRequest,
   output: BatchUnsuspendUserResponse,
   errors: [
@@ -3443,21 +4126,32 @@ export const batchUnsuspendUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Phone numbers remain in the
  * **Deletion queue** for 7 days before they are deleted permanently.
  */
-export const batchDeletePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDeletePhoneNumberRequest,
-    output: BatchDeletePhoneNumberResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const batchDeletePhoneNumber: (
+  input: BatchDeletePhoneNumberRequest,
+) => Effect.Effect<
+  BatchDeletePhoneNumberResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeletePhoneNumberRequest,
+  output: BatchDeletePhoneNumberResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Suspends up to 50 users from a `Team` or `EnterpriseLWA` Amazon Chime
  * account. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration
@@ -3475,7 +4169,20 @@ export const batchDeletePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To sign out users without suspending them, use the
  * LogoutUser action.
  */
-export const batchSuspendUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchSuspendUser: (
+  input: BatchSuspendUserRequest,
+) => Effect.Effect<
+  BatchSuspendUserResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchSuspendUserRequest,
   output: BatchSuspendUserResponse,
   errors: [
@@ -3495,25 +4202,49 @@ export const batchSuspendUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
  */
-export const batchUpdatePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchUpdatePhoneNumberRequest,
-    output: BatchUpdatePhoneNumberResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const batchUpdatePhoneNumber: (
+  input: BatchUpdatePhoneNumberRequest,
+) => Effect.Effect<
+  BatchUpdatePhoneNumberResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdatePhoneNumberRequest,
+  output: BatchUpdatePhoneNumberResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only `LicenseType` updates are supported for this action.
  */
-export const batchUpdateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchUpdateUser: (
+  input: BatchUpdateUserRequest,
+) => Effect.Effect<
+  BatchUpdateUserResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateUserRequest,
   output: BatchUpdateUserResponse,
   errors: [
@@ -3532,7 +4263,20 @@ export const batchUpdateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Managing Your Amazon Chime Accounts in the Amazon Chime
  * Administration Guide.
  */
-export const createAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAccount: (
+  input: CreateAccountRequest,
+) => Effect.Effect<
+  CreateAccountResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountRequest,
   output: CreateAccountResponse,
   errors: [
@@ -3548,7 +4292,21 @@ export const createAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a bot for an Amazon Chime Enterprise account.
  */
-export const createBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBot: (
+  input: CreateBotRequest,
+) => Effect.Effect<
+  CreateBotResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBotRequest,
   output: CreateBotResponse,
   errors: [
@@ -3565,7 +4323,21 @@ export const createBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a chat room for the specified Amazon Chime Enterprise account.
  */
-export const createRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRoom: (
+  input: CreateRoomRequest,
+) => Effect.Effect<
+  CreateRoomResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRoomRequest,
   output: CreateRoomResponse,
   errors: [
@@ -3586,7 +4358,21 @@ export const createRoom = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
  */
-export const updatePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePhoneNumber: (
+  input: UpdatePhoneNumberRequest,
+) => Effect.Effect<
+  UpdatePhoneNumberResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePhoneNumberRequest,
   output: UpdatePhoneNumberResponse,
   errors: [
@@ -3603,7 +4389,21 @@ export const updatePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a user under the specified Amazon Chime account.
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUser: (
+  input: CreateUserRequest,
+) => Effect.Effect<
+  CreateUserResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
   output: CreateUserResponse,
   errors: [
@@ -3621,46 +4421,82 @@ export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a
  * chat room administrator or a general chat room member.
  */
-export const batchCreateRoomMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchCreateRoomMembershipRequest,
-    output: BatchCreateRoomMembershipResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const batchCreateRoomMembership: (
+  input: BatchCreateRoomMembershipRequest,
+) => Effect.Effect<
+  BatchCreateRoomMembershipResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCreateRoomMembershipRequest,
+  output: BatchCreateRoomMembershipResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member.
  */
-export const createRoomMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRoomMembershipRequest,
-    output: CreateRoomMembershipResponse,
-    errors: [
-      BadRequestException,
-      ConflictException,
-      ForbiddenException,
-      NotFoundException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const createRoomMembership: (
+  input: CreateRoomMembershipRequest,
+) => Effect.Effect<
+  CreateRoomMembershipResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | NotFoundException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRoomMembershipRequest,
+  output: CreateRoomMembershipResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    NotFoundException,
+    ResourceLimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business
  * Calling and Amazon Chime Voice Connector settings.
  */
-export const getGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGlobalSettings: (
+  input: GetGlobalSettingsRequest,
+) => Effect.Effect<
+  GetGlobalSettingsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGlobalSettingsRequest,
   output: GetGlobalSettingsResponse,
   errors: [
@@ -3675,24 +4511,63 @@ export const getGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the phone number orders for the administrator's Amazon Chime account.
  */
-export const listPhoneNumberOrders =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPhoneNumberOrders: {
+  (
     input: ListPhoneNumberOrdersRequest,
-    output: ListPhoneNumberOrdersResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPhoneNumberOrdersResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPhoneNumberOrdersRequest,
+  ) => Stream.Stream<
+    ListPhoneNumberOrdersResponse,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPhoneNumberOrdersRequest,
+  ) => Stream.Stream<
+    unknown,
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPhoneNumberOrdersRequest,
+  output: ListPhoneNumberOrdersResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches for phone numbers that can be ordered. For US numbers, provide at least one of
  * the following search filters: `AreaCode`, `City`,
@@ -3700,82 +4575,167 @@ export const listPhoneNumberOrders =
  * `City`, you must also provide `State`. Numbers outside the US only
  * support the `PhoneNumberType` filter, which you must use.
  */
-export const searchAvailablePhoneNumbers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchAvailablePhoneNumbers: {
+  (
     input: SearchAvailablePhoneNumbersRequest,
-    output: SearchAvailablePhoneNumbersResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchAvailablePhoneNumbersResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchAvailablePhoneNumbersRequest,
+  ) => Stream.Stream<
+    SearchAvailablePhoneNumbersResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchAvailablePhoneNumbersRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | BadRequestException
+    | ForbiddenException
+    | ServiceFailureException
+    | ServiceUnavailableException
+    | ThrottledClientException
+    | UnauthorizedClientException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchAvailablePhoneNumbersRequest,
+  output: SearchAvailablePhoneNumbersResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
  */
-export const getPhoneNumberSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPhoneNumberSettingsRequest,
-    output: GetPhoneNumberSettingsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const getPhoneNumberSettings: (
+  input: GetPhoneNumberSettingsRequest,
+) => Effect.Effect<
+  GetPhoneNumberSettingsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPhoneNumberSettingsRequest,
+  output: GetPhoneNumberSettingsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
  */
-export const updateGlobalSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateGlobalSettingsRequest,
-    output: UpdateGlobalSettingsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const updateGlobalSettings: (
+  input: UpdateGlobalSettingsRequest,
+) => Effect.Effect<
+  UpdateGlobalSettingsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGlobalSettingsRequest,
+  output: UpdateGlobalSettingsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Updates the phone number settings for the administrator's AWS account, such as the default
  * outbound calling name. You can update the default outbound calling name once every seven
  * days. Outbound calling names can take up to 72 hours to update.
  */
-export const updatePhoneNumberSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePhoneNumberSettingsRequest,
-    output: UpdatePhoneNumberSettingsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const updatePhoneNumberSettings: (
+  input: UpdatePhoneNumberSettingsRequest,
+) => Effect.Effect<
+  UpdatePhoneNumberSettingsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePhoneNumberSettingsRequest,
+  output: UpdatePhoneNumberSettingsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
  */
-export const getPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPhoneNumber: (
+  input: GetPhoneNumberRequest,
+) => Effect.Effect<
+  GetPhoneNumberResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPhoneNumberRequest,
   output: GetPhoneNumberResponse,
   errors: [
@@ -3797,97 +4757,155 @@ export const getPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **This API is not available in a dedicated namespace.**
  */
-export const createMeetingDialOut = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMeetingDialOutRequest,
-    output: CreateMeetingDialOutResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ForbiddenException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const createMeetingDialOut: (
+  input: CreateMeetingDialOutRequest,
+) => Effect.Effect<
+  CreateMeetingDialOutResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMeetingDialOutRequest,
+  output: CreateMeetingDialOutResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ForbiddenException,
+    ResourceLimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type.
  * For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
  */
-export const createPhoneNumberOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePhoneNumberOrderRequest,
-    output: CreatePhoneNumberOrderResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ForbiddenException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const createPhoneNumberOrder: (
+  input: CreatePhoneNumberOrderRequest,
+) => Effect.Effect<
+  CreatePhoneNumberOrderResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePhoneNumberOrderRequest,
+  output: CreatePhoneNumberOrderResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ForbiddenException,
+    ResourceLimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Gets details for an events configuration that allows a bot to receive outgoing events, such as an HTTPS endpoint or Lambda function ARN.
  */
-export const getEventsConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEventsConfigurationRequest,
-    output: GetEventsConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const getEventsConfiguration: (
+  input: GetEventsConfigurationRequest,
+) => Effect.Effect<
+  GetEventsConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEventsConfigurationRequest,
+  output: GetEventsConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ResourceLimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Creates an events configuration that allows a bot to receive outgoing events sent by Amazon
  * Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information,
  * see Bot.
  */
-export const putEventsConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutEventsConfigurationRequest,
-    output: PutEventsConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      NotFoundException,
-      ResourceLimitExceededException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      UnauthorizedClientException,
-    ],
-  }),
-);
+export const putEventsConfiguration: (
+  input: PutEventsConfigurationRequest,
+) => Effect.Effect<
+  PutEventsConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutEventsConfigurationRequest,
+  output: PutEventsConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    NotFoundException,
+    ResourceLimitExceededException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Lists supported phone number countries.
  */
-export const listSupportedPhoneNumberCountries =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListSupportedPhoneNumberCountriesRequest,
-    output: ListSupportedPhoneNumberCountriesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ForbiddenException,
-      ServiceFailureException,
-      ServiceUnavailableException,
-      ThrottledClientException,
-      UnauthorizedClientException,
-    ],
-  }));
+export const listSupportedPhoneNumberCountries: (
+  input: ListSupportedPhoneNumberCountriesRequest,
+) => Effect.Effect<
+  ListSupportedPhoneNumberCountriesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListSupportedPhoneNumberCountriesRequest,
+  output: ListSupportedPhoneNumberCountriesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ForbiddenException,
+    ServiceFailureException,
+    ServiceUnavailableException,
+    ThrottledClientException,
+    UnauthorizedClientException,
+  ],
+}));
 /**
  * Deletes the specified Amazon Chime account. You must suspend all users before deleting
  * `Team` account. You can use the BatchSuspendUser action
@@ -3904,7 +4922,21 @@ export const listSupportedPhoneNumberCountries =
  * After 90 days, deleted accounts are permanently removed from your
  * `Disabled` accounts list.
  */
-export const deleteAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAccount: (
+  input: DeleteAccountRequest,
+) => Effect.Effect<
+  DeleteAccountResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountRequest,
   output: DeleteAccountResponse,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials as Creds,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Connect",
   serviceShapeName: "AmazonConnectService",
@@ -260,6 +268,382 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type InstanceId = string;
+export type ResourceId = string;
+export type VersionNumber = number;
+export type DataSetId = string;
+export type AWSAccountId = string;
+export type Origin = string;
+export type ClientToken = string;
+export type ContactId = string;
+export type AgentResourceId = string;
+export type VocabularyId = string;
+export type EmailAddressId = string;
+export type ARN = string;
+export type FunctionArn = string;
+export type PhoneNumberId = string;
+export type ContactFlowId = string;
+export type QueueId = string;
+export type QuickConnectId = string;
+export type RoutingProfileId = string;
+export type PEM = string;
+export type EntityArn = string;
+export type TrafficDistributionGroupIdOrArn = string;
+export type UserId = string;
+export type WorkspaceId = string;
+export type DataTableId = string;
+export type FileId = string;
+export type PhoneNumber = string;
+export type PhoneNumberDescription = string;
+export type AgentStatusName = string;
+export type AgentStatusDescription = string;
+export type AgentStatusOrderNumber = number;
+export type ExpiryDurationInMinutes = number;
+export type Name = string;
+export type Description = string;
+export type ContactFlowName = string;
+export type ContactFlowDescription = string;
+export type ContactFlowContent = string;
+export type ContactFlowModuleName = string;
+export type ContactFlowModuleDescription = string;
+export type ContactFlowModuleContent = string;
+export type FlowModuleSettings = string;
+export type InstanceIdOrArn = string;
+export type ContactFlowModuleId = string;
+export type ResourceVersion = number;
+export type ContactFlowModuleAlias = string;
+export type FlowModuleContentSha256 = string;
+export type FlowContentSha256 = string;
+export type RegionName = string;
+export type DataTableName = string;
+export type DataTableDescription = string;
+export type TimeZone = string;
+export type EmailAddress = string;
+export type EmailAddressDisplayName = string;
+export type EvaluationFormTitle = string;
+export type EvaluationFormDescription = string;
+export type CommonNameLength127 = string;
+export type HoursOfOperationDescription = string;
+export type HoursOfOperationId = string;
+export type CommonHumanReadableName = string;
+export type CommonHumanReadableDescription = string;
+export type HoursOfOperationOverrideYearMonthDayDateFormat = string;
+export type DirectoryAlias = string;
+export type DirectoryId = string;
+export type URI = string;
+export type SourceApplicationName = string;
+export type PredefinedAttributeName = string;
+export type PredefinedAttributePurposeName = string;
+export type PromptDescription = string;
+export type S3Uri = string;
+export type DeviceToken = string;
+export type QueueDescription = string;
+export type QueueMaxContacts = number;
+export type QuickConnectName = string;
+export type QuickConnectDescription = string;
+export type RoutingProfileName = string;
+export type RoutingProfileDescription = string;
+export type RuleName = string;
+export type RuleFunction = string;
+export type CreateSecurityProfileName = string;
+export type SecurityProfileDescription = string;
+export type SecurityProfilePermission = string;
+export type TagRestrictedResourceName = string;
+export type HierarchyRestrictedResourceName = string;
+export type HierarchyGroupId = string;
+export type TaskTemplateName = string;
+export type TaskTemplateDescription = string;
+export type Name128 = string;
+export type Description250 = string;
+export type IntegrationAssociationId = string;
+export type AgentUsername = string;
+export type Password = string;
+export type DirectoryUserId = string;
+export type SecurityProfileId = string;
+export type HierarchyGroupName = string;
+export type ViewsInstanceId = string;
+export type ViewsClientToken = string;
+export type ViewDescription = string;
+export type ViewName = string;
+export type ViewId = string;
+export type ViewContentSha256 = string;
+export type VocabularyName = string;
+export type VocabularyContent = string;
+export type WorkspaceName = string;
+export type WorkspaceDescription = string;
+export type WorkspaceTitle = string;
+export type Page = string;
+export type Slug = string;
+export type InputData = string;
+export type HoursOfOperationOverrideId = string;
+export type PromptId = string;
+export type RegistrationId = string;
+export type RuleId = string;
+export type TaskTemplateId = string;
+export type UseCaseId = string;
+export type ViewVersion = number;
+export type AgentStatusId = string;
+export type AuthenticationProfileId = string;
+export type AssociationId = string;
+export type BotName = string;
+export type LexRegion = string;
+export type NextToken = string;
+export type MaxResult100 = number;
+export type URLExpiryInSeconds = number;
+export type GroupingV2 = string;
+export type NextToken2500 = string;
+export type SnapshotVersion = string;
+export type MediaSource = string;
+export type MaxResult1000 = number;
+export type MaxResult25 = number;
+export type ListAssociatedContactsRequestMaxResults = number;
+export type VocabularyNextToken = string;
+export type MaxResult7 = number;
+export type MaxResult10 = number;
+export type LargeNextToken = string;
+export type PhoneNumberPrefix = string;
+export type MaxResult200 = number;
+export type MaxResult2 = number;
+export type ViewsNextToken = string;
+export type MaxResults = number;
+export type AwsRegion = string;
+export type MaxResult500 = number;
+export type SourceId = string;
+export type DestinationId = string;
+export type Subtype = string;
+export type FileName = string;
+export type FileSizeInBytes = number;
+export type ChatDurationInMinutes = number;
+export type SupportedMessagingContentType = string;
+export type CustomerIdNonEmpty = string;
+export type CampaignId = string;
+export type RingTimeoutInSeconds = number;
+export type StreamingId = string;
+export type ContactTagKey = string;
+export type TagKey = string;
+export type UpdateAgentStatusDescription = string;
+export type AuthenticationProfileName = string;
+export type AuthenticationProfileDescription = string;
+export type IpCidr = string;
+export type AccessTokenDuration = number;
+export type InactivityDuration = number;
+export type QueueTimeAdjustmentSeconds = number;
+export type QueuePriority = number;
+export type UpdateHoursOfOperationDescription = string;
+export type InstanceAttributeValue = string;
+export type ParticipantToken = string;
+export type AuthorizationCode = string;
+export type AuthenticationError = string;
+export type AuthenticationErrorDescription = string;
+export type UpdateQuickConnectDescription = string;
+export type AliasArn = string;
+export type Priority = number;
+export type Delay = number;
+export type PredefinedAttributeStringValue = string;
+export type ProficiencyLevel = number;
+export type RequestIdentifier = string;
+export type TagValue = string;
+export type AttributeName = string;
+export type AttributeValue = string;
+export type ReferenceKey = string;
+export type SegmentAttributeName = string;
+export type LengthBoundary = number;
+export type ValueBoundary = number;
+export type PositiveAndNegativeDouble = number;
+export type PositiveDouble = number;
+export type DisplayName = string;
+export type OutboundCallerIdName = string;
+export type Concurrency = number;
+export type SecurityProfilePolicyKey = string;
+export type SecurityProfilePolicyValue = string;
+export type Namespace = string;
+export type Permission = string;
+export type FlowModuleId = string;
+export type TaskTemplateFieldDescription = string;
+export type TaskTemplateSingleSelectOption = string;
+export type AgentFirstName = string;
+export type AgentLastName = string;
+export type Email = string;
+export type AfterContactWorkTimeLimit = number;
+export type ViewTemplate = string;
+export type ViewAction = string;
+export type RoutingExpression = string;
+export type ValidationTestType = string;
+export type CurrentMetricId = string;
+export type ResourceArnOrId = string;
+export type MetricNameV2 = string;
+export type MetricId = string;
+export type ChatContentType = string;
+export type ChatContent = string;
+export type OutboundRequestId = string;
+export type ChatStreamingEndpointARN = string;
+export type PreSignedAttachmentUrl = string;
+export type EndpointAddress = string;
+export type MessageTemplateKnowledgeBaseId = string;
+export type MessageTemplateId = string;
+export type DisconnectReasonCode = string;
+export type ContactTagValue = string;
+export type Message = string;
+export type EmailAddressArn = string;
+export type TrafficDistributionGroupId = string;
+export type TrafficDistributionGroupArn = string;
+export type ISO8601Datetime = string;
+export type Url = string;
+export type PromptPresignedUrl = string;
+export type TaskTemplateArn = string;
+export type BucketName = string;
+export type Prefix = string;
+export type Hours = number;
+export type ReferenceValue = string;
+export type ReferenceArn = string;
+export type ReferenceStatusReason = string;
+export type SegmentAttributeValueString = string;
+export type SegmentAttributeValueInteger = number;
+export type EvaluationFormSectionTitle = string;
+export type ReferenceId = string;
+export type EvaluationFormQuestionInstructions = string;
+export type EvaluationFormItemWeight = number;
+export type EvaluationFormQuestionTitle = string;
+export type Hours24Format = number;
+export type MinutesLimit60 = number;
+export type TaskNameExpression = string;
+export type TaskDescriptionExpression = string;
+export type EventBridgeActionName = string;
+export type Subject = string;
+export type Content = string;
+export type TemplateId = string;
+export type EvaluationFormId = string;
+export type TaskTemplateFieldValue = string;
+export type TaskTemplateFieldName = string;
+export type ThresholdValue = number;
+export type NullableProficiencyLimitValue = number;
+export type DateTimeFormat = string;
+export type NullableDouble = number;
+export type SearchText = string;
+export type DateYearMonthDayFormat = string;
+export type TagKeyString = string;
+export type TagValueString = string;
+export type OutboundSubject = string;
+export type Body = string;
+export type EmailMessageContentType = string;
+export type InboundSubject = string;
+export type CustomerProfileAttributesSerialized = string;
+export type EvaluationNoteString = string;
+export type Percentage = number;
+export type HierarchyLevelName = string;
+export type WorkspaceErrorCode = string;
+export type WorkspaceBatchErrorMessage = string;
+export type ErrorCode = string;
+export type ErrorMessage = string;
+export type RefreshTokenDuration = number;
+export type TotalPauseCount = number;
+export type TotalPauseDurationInSeconds = number;
+export type CustomerId = string;
+export type DataTableVersion = string;
+export type GlobalSignInEndpoint = string;
+export type Long = number;
+export type SecurityProfileName = string;
+export type InstanceArn = string;
+export type HierarchyLevelId = string;
+export type VocabularyFailureReason = string;
+export type MetadataUrl = string;
+export type SecurityToken = string;
+export type HoursOfOperationName = string;
+export type PromptName = string;
+export type QueueName = string;
+export type KeyId = string;
+export type FieldValueId = string;
+export type SlaName = string;
+export type TargetSlaMinutes = number;
+export type SearchableContactAttributeKey = string;
+export type SearchableContactAttributeValue = string;
+export type SearchableSegmentAttributeKey = string;
+export type SearchableSegmentAttributeValue = string;
+export type EmailHeaderValue = string;
+export type EvaluationAnswerDataStringValue = string;
+export type EvaluationAnswerDataNumericValue = number;
+export type DurationInSeconds = number;
+export type ApproximateTotalCount = number;
+export type ParticipantId = string;
+export type ViewInputSchema = string;
+export type AgentPauseDurationInSeconds = number;
+export type Duration = number;
+export type EndpointDisplayName = string;
+export type Index = number;
+export type PotentialDisconnectIssue = string;
+export type RecordingLocation = string;
+export type FragmentNumber = string;
+export type RecordingDeletionReason = string;
+export type UnprocessedTranscriptLocation = string;
+export type EvaluationId = string;
+export type ContactDetailName = string;
+export type ContactDetailDescription = string;
+export type ActiveRegion = string;
+export type OriginRegion = string;
+export type ReplicationStatusReason = string;
+export type PhoneNumberWorkflowMessage = string;
+export type EvaluationScorePercentage = number;
+export type Double = number;
+export type EvaluationAcknowledgerCommentString = string;
+export type RealTimeContactAnalysisId256 = string;
+export type RealTimeContactAnalysisTranscriptContent = string;
+export type RealTimeContactAnalysisContentType = string;
+export type RealTimeContactAnalysisEventType = string;
+export type RealTimeContactAnalysisPostContactSummaryContent = string;
+export type Integer = number;
+export type FieldStringValue = string;
+export type PrimaryAttributeContextKeyName = string;
+export type IAMRestrictedPrimaryValue = string;
+export type ThemeString = string;
+export type ThemeImageLink = string;
+export type ProficiencyValue = string;
+export type NullableProficiencyLevel = number;
+export type ComparisonOperator = string;
+export type ParticipantTimerDurationInMinutes = number;
+export type WorkspaceAssociatedResourceId = string;
+export type WorkspaceAssociatedResourceType = string;
+export type WorkspaceAssociatedResourceName = string;
+export type ProblemMessageString = string;
+export type PlatformName = string;
+export type PlatformVersion = string;
+export type OperatingSystem = string;
+export type AiAgentVersionId = string;
+export type Count = number;
+export type DurationMillis = number;
+export type FormId = string;
+export type EvaluationArn = string;
+export type ExportLocation = string;
+export type RealTimeContactAnalysisCategoryName = string;
+export type AttachmentName = string;
+export type ContentType = string;
+export type ArtifactId = string;
+export type EvaluationFormQuestionAnswerScore = number;
+export type EvaluationFormSingleSelectQuestionOptionText = string;
+export type EvaluationFormMultiSelectQuestionOptionText = string;
+export type PostAcceptPreviewTimeoutDurationInSeconds = number;
+export type Value = number;
+export type UrlMetadataSignedHeadersKey = string;
+export type UrlMetadataSignedHeadersValue = string;
+export type AttendeeId = string;
+export type JoinToken = string;
+export type MediaRegion = string;
+export type MeetingId = string;
+export type AudioQualityScore = number;
+export type PotentialAudioQualityIssue = string;
+export type RealTimeContactAnalysisOffset = number;
+export type AgentId = string;
+export type SingleSelectQuestionRuleCategoryAutomationLabel = string;
+export type MultiSelectQuestionRuleCategoryAutomationLabel = string;
+export type IntegerCount = number;
+export type DimensionsV2Key = string;
+export type DimensionsV2Value = string;
+export type EvaluationSuggestedAnswerJustification = string;
+export type TotalCount = number;
+export type EvaluationSuggestedAnswerTranscriptSegment = string;
+export type QuestionRuleCategoryAutomationLabel = string;
+export type EvaluationSuggestedAnswerTranscriptMillisOffset = number;
 
 //# Schemas
 export type QuickConnectsList = string[];
@@ -6350,6 +6734,12 @@ export const UpdateContactAttributesResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateContactAttributesResponse>;
 export type EvaluationAnswerDataStringValueList = string[];
 export const EvaluationAnswerDataStringValueList = S.Array(S.String);
+export type EvaluationAnswerData =
+  | { StringValue: string }
+  | { NumericValue: number }
+  | { StringValues: EvaluationAnswerDataStringValueList }
+  | { DateTimeValue: string }
+  | { NotApplicable: boolean };
 export const EvaluationAnswerData = S.Union(
   S.Struct({ StringValue: S.String }),
   S.Struct({ NumericValue: S.Number }),
@@ -6385,6 +6775,7 @@ export const EvaluationNotesMap = S.Record({
   key: S.String,
   value: EvaluationNote,
 });
+export type EvaluatorUserUnion = { ConnectUserArn: string };
 export const EvaluatorUserUnion = S.Union(
   S.Struct({ ConnectUserArn: S.String }),
 );
@@ -7252,6 +7643,9 @@ export const UpdatePhoneNumberMetadataResponse = S.suspend(() =>
 }) as any as S.Schema<UpdatePhoneNumberMetadataResponse>;
 export type PredefinedAttributeStringValuesList = string[];
 export const PredefinedAttributeStringValuesList = S.Array(S.String);
+export type PredefinedAttributeValues = {
+  StringList: PredefinedAttributeStringValuesList;
+};
 export const PredefinedAttributeValues = S.Union(
   S.Struct({ StringList: PredefinedAttributeStringValuesList }),
 );
@@ -10095,6 +10489,9 @@ export const SourceCampaign = S.suspend(() =>
 ).annotations({
   identifier: "SourceCampaign",
 }) as any as S.Schema<SourceCampaign>;
+export type CreatedByInfo =
+  | { ConnectUserArn: string }
+  | { AWSIdentityArn: string };
 export const CreatedByInfo = S.Union(
   S.Struct({ ConnectUserArn: S.String }),
   S.Struct({ AWSIdentityArn: S.String }),
@@ -16761,6 +17158,7 @@ export const PrimaryValueResponse = S.suspend(() =>
 }) as any as S.Schema<PrimaryValueResponse>;
 export type PrimaryValuesResponseSet = PrimaryValueResponse[];
 export const PrimaryValuesResponseSet = S.Array(PrimaryValueResponse);
+export type RealTimeContactAnalysisTimeData = { AbsoluteTime: Date };
 export const RealTimeContactAnalysisTimeData = S.Union(
   S.Struct({ AbsoluteTime: S.Date.pipe(T.TimestampFormat("date-time")) }),
 );
@@ -16929,10 +17327,16 @@ export const SearchContactsTimestampCondition = S.suspend(() =>
 ).annotations({
   identifier: "SearchContactsTimestampCondition",
 }) as any as S.Schema<SearchContactsTimestampCondition>;
+export type ParticipantTimerValue =
+  | { ParticipantTimerAction: string }
+  | { ParticipantTimerDurationInMinutes: number };
 export const ParticipantTimerValue = S.Union(
   S.Struct({ ParticipantTimerAction: S.String }),
   S.Struct({ ParticipantTimerDurationInMinutes: S.Number }),
 );
+export type InvalidRequestExceptionReason = {
+  AttachedFileInvalidRequestExceptionReason: string;
+};
 export const InvalidRequestExceptionReason = S.Union(
   S.Struct({ AttachedFileInvalidRequestExceptionReason: S.String }),
 );
@@ -17238,6 +17642,15 @@ export const EvaluationSummary = S.suspend(() =>
 }) as any as S.Schema<EvaluationSummary>;
 export type EvaluationSummaryList = EvaluationSummary[];
 export const EvaluationSummaryList = S.Array(EvaluationSummary);
+export type ReferenceSummary =
+  | { Url: UrlReference }
+  | { Attachment: AttachmentReference }
+  | { EmailMessage: EmailMessageReference }
+  | { EmailMessagePlainText: EmailMessageReference }
+  | { String: StringReference }
+  | { Number: NumberReference }
+  | { Date: DateReference }
+  | { Email: EmailReference };
 export const ReferenceSummary = S.Union(
   S.Struct({ Url: UrlReference }),
   S.Struct({ Attachment: AttachmentReference }),
@@ -18516,6 +18929,7 @@ export const EvaluationMetadata = S.suspend(() =>
 ).annotations({
   identifier: "EvaluationMetadata",
 }) as any as S.Schema<EvaluationMetadata>;
+export type ContactMetricValue = { Number: number };
 export const ContactMetricValue = S.Union(S.Struct({ Number: S.Number }));
 export interface CurrentMetricData {
   Metric?: CurrentMetric;
@@ -18810,6 +19224,9 @@ export const AgentsCriteria = S.suspend(() =>
 ).annotations({
   identifier: "AgentsCriteria",
 }) as any as S.Schema<AgentsCriteria>;
+export type UpdateParticipantRoleConfigChannelInfo = {
+  Chat: ChatParticipantRoleConfig;
+};
 export const UpdateParticipantRoleConfigChannelInfo = S.Union(
   S.Struct({ Chat: ChatParticipantRoleConfig }),
 );
@@ -18914,6 +19331,9 @@ export const AgentQualityMetrics = S.suspend(() =>
 ).annotations({
   identifier: "AgentQualityMetrics",
 }) as any as S.Schema<AgentQualityMetrics>;
+export type NextContactMetadata = {
+  QuickConnectContactData: QuickConnectContactData;
+};
 export const NextContactMetadata = S.Union(
   S.Struct({ QuickConnectContactData: QuickConnectContactData }),
 );
@@ -19042,6 +19462,9 @@ export type EvaluationFormNumericQuestionOptionList =
 export const EvaluationFormNumericQuestionOptionList = S.Array(
   EvaluationFormNumericQuestionOption,
 );
+export type EvaluationFormNumericQuestionAutomation =
+  | { PropertyValue: NumericQuestionPropertyValueAutomation }
+  | { AnswerSource: EvaluationFormQuestionAutomationAnswerSource };
 export const EvaluationFormNumericQuestionAutomation = S.Union(
   S.Struct({ PropertyValue: NumericQuestionPropertyValueAutomation }),
   S.Struct({ AnswerSource: EvaluationFormQuestionAutomationAnswerSource }),
@@ -19663,9 +20086,15 @@ export const AudioFeatures = S.suspend(() =>
 ).annotations({
   identifier: "AudioFeatures",
 }) as any as S.Schema<AudioFeatures>;
+export type ServiceQuotaExceededExceptionReason = {
+  AttachedFileServiceQuotaExceededExceptionReason: string;
+};
 export const ServiceQuotaExceededExceptionReason = S.Union(
   S.Struct({ AttachedFileServiceQuotaExceededExceptionReason: S.String }),
 );
+export type EvaluationFormSingleSelectQuestionAutomationOption = {
+  RuleCategory: SingleSelectQuestionRuleCategoryAutomation;
+};
 export const EvaluationFormSingleSelectQuestionAutomationOption = S.Union(
   S.Struct({ RuleCategory: SingleSelectQuestionRuleCategoryAutomation }),
 );
@@ -19674,6 +20103,9 @@ export type EvaluationFormSingleSelectQuestionAutomationOptionList =
 export const EvaluationFormSingleSelectQuestionAutomationOptionList = S.Array(
   EvaluationFormSingleSelectQuestionAutomationOption,
 );
+export type EvaluationFormMultiSelectQuestionAutomationOption = {
+  RuleCategory: MultiSelectQuestionRuleCategoryAutomation;
+};
 export const EvaluationFormMultiSelectQuestionAutomationOption = S.Union(
   S.Struct({ RuleCategory: MultiSelectQuestionRuleCategoryAutomation }),
 );
@@ -20367,6 +20799,11 @@ export const RoutingCriteriaInput = S.suspend(() =>
 ).annotations({
   identifier: "RoutingCriteriaInput",
 }) as any as S.Schema<RoutingCriteriaInput>;
+export type EvaluationFormQuestionTypeProperties =
+  | { Numeric: EvaluationFormNumericQuestionProperties }
+  | { SingleSelect: EvaluationFormSingleSelectQuestionProperties }
+  | { Text: EvaluationFormTextQuestionProperties }
+  | { MultiSelect: EvaluationFormMultiSelectQuestionProperties };
 export const EvaluationFormQuestionTypeProperties = S.Union(
   S.Struct({ Numeric: EvaluationFormNumericQuestionProperties }),
   S.Struct({ SingleSelect: EvaluationFormSingleSelectQuestionProperties }),
@@ -20565,6 +21002,13 @@ export const EvaluationGenAIAnswerAnalysisDetails = S.suspend(() =>
 ).annotations({
   identifier: "EvaluationGenAIAnswerAnalysisDetails",
 }) as any as S.Schema<EvaluationGenAIAnswerAnalysisDetails>;
+export type RealtimeContactAnalysisSegment =
+  | { Transcript: RealTimeContactAnalysisSegmentTranscript }
+  | { Categories: RealTimeContactAnalysisSegmentCategories }
+  | { Issues: RealTimeContactAnalysisSegmentIssues }
+  | { Event: RealTimeContactAnalysisSegmentEvent }
+  | { Attachments: RealTimeContactAnalysisSegmentAttachments }
+  | { PostContactSummary: RealTimeContactAnalysisSegmentPostContactSummary };
 export const RealtimeContactAnalysisSegment = S.Union(
   S.Struct({ Transcript: RealTimeContactAnalysisSegmentTranscript }),
   S.Struct({ Categories: RealTimeContactAnalysisSegmentCategories }),
@@ -20633,6 +21077,9 @@ export const CreateEvaluationFormRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateEvaluationFormRequest",
 }) as any as S.Schema<CreateEvaluationFormRequest>;
+export type EvaluationQuestionAnswerAnalysisDetails =
+  | { GenAI: EvaluationGenAIAnswerAnalysisDetails }
+  | { ContactLens: EvaluationContactLensAnswerAnalysisDetails };
 export const EvaluationQuestionAnswerAnalysisDetails = S.Union(
   S.Struct({ GenAI: EvaluationGenAIAnswerAnalysisDetails }),
   S.Struct({ ContactLens: EvaluationContactLensAnswerAnalysisDetails }),
@@ -20814,7 +21261,9 @@ export const DescribeContactEvaluationResponse = S.suspend(() =>
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { Message: S.optional(S.String) },
@@ -20872,7 +21321,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceConflictException extends S.TaggedError<ResourceConflictException>()(
   "ResourceConflictException",
   { Message: S.optional(S.String) },
@@ -20893,7 +21344,9 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
   "LimitExceededException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "LimitExceededException", httpResponseCode: 429 }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class PropertyValidationException extends S.TaggedError<PropertyValidationException>()(
   "PropertyValidationException",
   {
@@ -20912,7 +21365,9 @@ export class UserNotFoundException extends S.TaggedError<UserNotFoundException>(
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -20955,7 +21410,16 @@ export class OutboundContactNotPermittedException extends S.TaggedError<Outbound
  * If an instance is not created successfully, the instance status reason field returns details relevant to the
  * reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
  */
-export const describeInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeInstance: (
+  input: DescribeInstanceRequest,
+) => Effect.Effect<
+  DescribeInstanceResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInstanceRequest,
   output: DescribeInstanceResponse,
   errors: [
@@ -20969,61 +21433,140 @@ export const describeInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * provided `TargetArn` is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with
  * the traffic distribution group.
  */
-export const searchAvailablePhoneNumbers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchAvailablePhoneNumbers: {
+  (
     input: SearchAvailablePhoneNumbersRequest,
-    output: SearchAvailablePhoneNumbersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AvailableNumbersList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchAvailablePhoneNumbersResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchAvailablePhoneNumbersRequest,
+  ) => Stream.Stream<
+    SearchAvailablePhoneNumbersResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchAvailablePhoneNumbersRequest,
+  ) => Stream.Stream<
+    AvailableNumberSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchAvailablePhoneNumbersRequest,
+  output: SearchAvailablePhoneNumbersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AvailableNumbersList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches the flow modules in an Amazon Connect instance, with optional filtering.
  */
-export const searchContactFlowModules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchContactFlowModules: {
+  (
     input: SearchContactFlowModulesRequest,
-    output: SearchContactFlowModulesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ContactFlowModules",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchContactFlowModulesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchContactFlowModulesRequest,
+  ) => Stream.Stream<
+    SearchContactFlowModulesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchContactFlowModulesRequest,
+  ) => Stream.Stream<
+    ContactFlowModule,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchContactFlowModulesRequest,
+  output: SearchContactFlowModulesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ContactFlowModules",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches email address in an instance, with optional filtering.
  */
-export const searchEmailAddresses = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SearchEmailAddressesRequest,
-    output: SearchEmailAddressesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const searchEmailAddresses: (
+  input: SearchEmailAddressesRequest,
+) => Effect.Effect<
+  SearchEmailAddressesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchEmailAddressesRequest,
+  output: SearchEmailAddressesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Searches evaluation forms in an Amazon Connect instance, with optional filtering.
  *
@@ -21045,40 +21588,85 @@ export const searchEmailAddresses = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const searchEvaluationForms = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SearchEvaluationFormsRequest,
-    output: SearchEvaluationFormsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const searchEvaluationForms: (
+  input: SearchEvaluationFormsRequest,
+) => Effect.Effect<
+  SearchEvaluationFormsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchEvaluationFormsRequest,
+  output: SearchEvaluationFormsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Searches the hours of operation overrides.
  */
-export const searchHoursOfOperationOverrides =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchHoursOfOperationOverrides: {
+  (
     input: SearchHoursOfOperationOverridesRequest,
-    output: SearchHoursOfOperationOverridesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "HoursOfOperationOverrides",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchHoursOfOperationOverridesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchHoursOfOperationOverridesRequest,
+  ) => Stream.Stream<
+    SearchHoursOfOperationOverridesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchHoursOfOperationOverridesRequest,
+  ) => Stream.Stream<
+    HoursOfOperationOverride,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchHoursOfOperationOverridesRequest,
+  output: SearchHoursOfOperationOverridesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "HoursOfOperationOverrides",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches security profiles in an Amazon Connect instance, with optional filtering.
  *
@@ -21086,69 +21674,182 @@ export const searchHoursOfOperationOverrides =
  * profile permissions, see List
  * of security profile permissions.
  */
-export const searchSecurityProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchSecurityProfiles: {
+  (
     input: SearchSecurityProfilesRequest,
-    output: SearchSecurityProfilesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SecurityProfiles",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchSecurityProfilesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchSecurityProfilesRequest,
+  ) => Stream.Stream<
+    SearchSecurityProfilesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchSecurityProfilesRequest,
+  ) => Stream.Stream<
+    SecurityProfileSearchSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchSecurityProfilesRequest,
+  output: SearchSecurityProfilesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SecurityProfiles",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches for workspace associations with users or routing profiles based on various criteria.
  */
-export const searchWorkspaceAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchWorkspaceAssociations: {
+  (
     input: SearchWorkspaceAssociationsRequest,
-    output: SearchWorkspaceAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "WorkspaceAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchWorkspaceAssociationsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchWorkspaceAssociationsRequest,
+  ) => Stream.Stream<
+    SearchWorkspaceAssociationsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchWorkspaceAssociationsRequest,
+  ) => Stream.Stream<
+    WorkspaceAssociationSearchSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchWorkspaceAssociationsRequest,
+  output: SearchWorkspaceAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "WorkspaceAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches workspaces based on name, description, visibility, or tags.
  */
-export const searchWorkspaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchWorkspaces: {
+  (
     input: SearchWorkspacesRequest,
-    output: SearchWorkspacesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Workspaces",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchWorkspacesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchWorkspacesRequest,
+  ) => Stream.Stream<
+    SearchWorkspacesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchWorkspacesRequest,
+  ) => Stream.Stream<
+    WorkspaceSearchSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchWorkspacesRequest,
+  output: SearchWorkspacesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Workspaces",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the specified flow.
  *
@@ -21159,50 +21860,76 @@ export const searchWorkspaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * example, `arn:aws:.../contact-flow/{id}:$SAVED`. After a flow is published, `$SAVED` needs to
  * be supplied to view saved content that has not been published.
  */
-export const updateContactFlowContent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContactFlowContentRequest,
-    output: UpdateContactFlowContentResponse,
-    errors: [
-      InternalServiceException,
-      InvalidContactFlowException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateContactFlowContent: (
+  input: UpdateContactFlowContentRequest,
+) => Effect.Effect<
+  UpdateContactFlowContentResponse,
+  | InternalServiceException
+  | InvalidContactFlowException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContactFlowContentRequest,
+  output: UpdateContactFlowContentResponse,
+  errors: [
+    InternalServiceException,
+    InvalidContactFlowException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves the contact attributes for the specified contact.
  */
-export const getContactAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetContactAttributesRequest,
-    output: GetContactAttributesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getContactAttributes: (
+  input: GetContactAttributesRequest,
+) => Effect.Effect<
+  GetContactAttributesResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContactAttributesRequest,
+  output: GetContactAttributesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Retrieves the current traffic distribution for a given traffic distribution group.
  */
-export const getTrafficDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTrafficDistributionRequest,
-    output: GetTrafficDistributionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getTrafficDistribution: (
+  input: GetTrafficDistributionRequest,
+) => Effect.Effect<
+  GetTrafficDistributionResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTrafficDistributionRequest,
+  output: GetTrafficDistributionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -21213,7 +21940,16 @@ export const getTrafficDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
  * You must wait 30 days before you can restart creating and deleting instances in your account.
  */
-export const deleteInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteInstance: (
+  input: DeleteInstanceRequest,
+) => Effect.Effect<
+  DeleteInstanceResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInstanceRequest,
   output: DeleteInstanceResponse,
   errors: [
@@ -21226,21 +21962,40 @@ export const deleteInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an Amazon Web Services resource association from an Amazon Connect instance. The association must not
  * have any use cases associated with it.
  */
-export const deleteIntegrationAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteIntegrationAssociationRequest,
-    output: DeleteIntegrationAssociationResponse,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteIntegrationAssociation: (
+  input: DeleteIntegrationAssociationRequest,
+) => Effect.Effect<
+  DeleteIntegrationAssociationResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIntegrationAssociationRequest,
+  output: DeleteIntegrationAssociationResponse,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a use case from an integration association.
  */
-export const deleteUseCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUseCase: (
+  input: DeleteUseCaseRequest,
+) => Effect.Effect<
+  DeleteUseCaseResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUseCaseRequest,
   output: DeleteUseCaseResponse,
   errors: [
@@ -21255,7 +22010,17 @@ export const deleteUseCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
  */
-export const disassociateBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateBot: (
+  input: DisassociateBotRequest,
+) => Effect.Effect<
+  DisassociateBotResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateBotRequest,
   output: DisassociateBotResponse,
   errors: [
@@ -21269,60 +22034,100 @@ export const disassociateBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Associates an existing vocabulary as the default. Contact Lens for Amazon Connect uses the vocabulary in post-call and real-time
  * analysis sessions for the given language.
  */
-export const associateDefaultVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateDefaultVocabularyRequest,
-    output: AssociateDefaultVocabularyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const associateDefaultVocabulary: (
+  input: AssociateDefaultVocabularyRequest,
+) => Effect.Effect<
+  AssociateDefaultVocabularyResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateDefaultVocabularyRequest,
+  output: AssociateDefaultVocabularyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Associates an agent with a traffic distribution group. This API can be called only in the Region where the traffic distribution group
  * is created.
  */
-export const associateTrafficDistributionGroupUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateTrafficDistributionGroupUserRequest,
-    output: AssociateTrafficDistributionGroupUserResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const associateTrafficDistributionGroupUser: (
+  input: AssociateTrafficDistributionGroupUserRequest,
+) => Effect.Effect<
+  AssociateTrafficDistributionGroupUserResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateTrafficDistributionGroupUserRequest,
+  output: AssociateTrafficDistributionGroupUserResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Allows you to confirm that the attached file has been uploaded using the pre-signed URL provided in the
  * StartAttachedFileUpload API.
  */
-export const completeAttachedFileUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CompleteAttachedFileUploadRequest,
-    output: CompleteAttachedFileUploadResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const completeAttachedFileUpload: (
+  input: CompleteAttachedFileUploadRequest,
+) => Effect.Effect<
+  CompleteAttachedFileUploadResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CompleteAttachedFileUploadRequest,
+  output: CompleteAttachedFileUploadResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes an attached file along with the underlying S3 Object.
  *
  * The attached file is **permanently deleted** if S3 bucket versioning is not
  * enabled.
  */
-export const deleteAttachedFile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAttachedFile: (
+  input: DeleteAttachedFileRequest,
+) => Effect.Effect<
+  DeleteAttachedFileResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAttachedFileRequest,
   output: DeleteAttachedFileResponse,
   errors: [
@@ -21336,7 +22141,18 @@ export const deleteAttachedFile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a rule for the specified Amazon Connect instance.
  */
-export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRule: (
+  input: DeleteRuleRequest,
+) => Effect.Effect<
+  DeleteRuleResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleRequest,
   output: DeleteRuleResponse,
   errors: [
@@ -21351,26 +22167,49 @@ export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Disassociates an agent from a traffic distribution group. This API can be called only in the Region where the
  * traffic distribution group is created.
  */
-export const disassociateTrafficDistributionGroupUser =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateTrafficDistributionGroupUserRequest,
-    output: DisassociateTrafficDistributionGroupUserResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const disassociateTrafficDistributionGroupUser: (
+  input: DisassociateTrafficDistributionGroupUserRequest,
+) => Effect.Effect<
+  DisassociateTrafficDistributionGroupUserResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateTrafficDistributionGroupUserRequest,
+  output: DisassociateTrafficDistributionGroupUserResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a rule for the specified Amazon Connect instance.
  *
  * Use the Rules Function
  * language to code conditions for the rule.
  */
-export const updateRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRule: (
+  input: UpdateRuleRequest,
+) => Effect.Effect<
+  UpdateRuleResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleRequest,
   output: UpdateRuleResponse,
   errors: [
@@ -21385,22 +22224,43 @@ export const updateRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon Web Services resource association with an Amazon Connect instance.
  */
-export const createIntegrationAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateIntegrationAssociationRequest,
-    output: CreateIntegrationAssociationResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const createIntegrationAssociation: (
+  input: CreateIntegrationAssociationRequest,
+) => Effect.Effect<
+  CreateIntegrationAssociationResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIntegrationAssociationRequest,
+  output: CreateIntegrationAssociationResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a use case for an integration association.
  */
-export const createUseCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUseCase: (
+  input: CreateUseCaseRequest,
+) => Effect.Effect<
+  CreateUseCaseResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUseCaseRequest,
   output: CreateUseCaseResponse,
   errors: [
@@ -21465,27 +22325,52 @@ export const createUseCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
  */
-export const associateEmailAddressAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateEmailAddressAliasRequest,
-    output: AssociateEmailAddressAliasResponse,
-    errors: [
-      AccessDeniedException,
-      IdempotencyException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const associateEmailAddressAlias: (
+  input: AssociateEmailAddressAliasRequest,
+) => Effect.Effect<
+  AssociateEmailAddressAliasResponse,
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateEmailAddressAliasRequest,
+  output: AssociateEmailAddressAliasResponse,
+  errors: [
+    AccessDeniedException,
+    IdempotencyException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Associates a workspace with one or more users or routing profiles, allowing them to access the workspace's
  * configured views and pages.
  */
-export const associateWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateWorkspace: (
+  input: AssociateWorkspaceRequest,
+) => Effect.Effect<
+  AssociateWorkspaceResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateWorkspaceRequest,
   output: AssociateWorkspaceResponse,
   errors: [
@@ -21502,55 +22387,96 @@ export const associateWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Associates a list of analytics datasets for a given Amazon Connect instance to a target account. You can
  * associate multiple datasets in a single call.
  */
-export const batchAssociateAnalyticsDataSet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchAssociateAnalyticsDataSetRequest,
-    output: BatchAssociateAnalyticsDataSetResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const batchAssociateAnalyticsDataSet: (
+  input: BatchAssociateAnalyticsDataSetRequest,
+) => Effect.Effect<
+  BatchAssociateAnalyticsDataSetResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchAssociateAnalyticsDataSetRequest,
+  output: BatchAssociateAnalyticsDataSetResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Allows you to retrieve metadata about multiple attached files on an associated resource. Each attached file
  * provided in the input list must be associated with the input AssociatedResourceArn.
  */
-export const batchGetAttachedFileMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetAttachedFileMetadataRequest,
-    output: BatchGetAttachedFileMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const batchGetAttachedFileMetadata: (
+  input: BatchGetAttachedFileMetadataRequest,
+) => Effect.Effect<
+  BatchGetAttachedFileMetadataResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetAttachedFileMetadataRequest,
+  output: BatchGetAttachedFileMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieve the flow associations for the given resources.
  */
-export const batchGetFlowAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetFlowAssociationRequest,
-    output: BatchGetFlowAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const batchGetFlowAssociation: (
+  input: BatchGetFlowAssociationRequest,
+) => Effect.Effect<
+  BatchGetFlowAssociationResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetFlowAssociationRequest,
+  output: BatchGetFlowAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes an agent status.
  */
-export const describeAgentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAgentStatus: (
+  input: DescribeAgentStatusRequest,
+) => Effect.Effect<
+  DescribeAgentStatusResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAgentStatusRequest,
   output: DescribeAgentStatusResponse,
   errors: [
@@ -21567,18 +22493,28 @@ export const describeAgentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Describes the target authentication profile.
  */
-export const describeAuthenticationProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAuthenticationProfileRequest,
-    output: DescribeAuthenticationProfileResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeAuthenticationProfile: (
+  input: DescribeAuthenticationProfileRequest,
+) => Effect.Effect<
+  DescribeAuthenticationProfileResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAuthenticationProfileRequest,
+  output: DescribeAuthenticationProfileResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the specified flow module.
  *
@@ -21586,43 +22522,76 @@ export const describeAuthenticationProfile =
  * example, `arn:aws:.../contact-flow/{id}:$SAVED`. After a flow is published, `$SAVED` needs to
  * be supplied to view saved content that has not been published.
  */
-export const describeContactFlowModule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeContactFlowModuleRequest,
-    output: DescribeContactFlowModuleResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeContactFlowModule: (
+  input: DescribeContactFlowModuleRequest,
+) => Effect.Effect<
+  DescribeContactFlowModuleResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeContactFlowModuleRequest,
+  output: DescribeContactFlowModuleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves detailed information about a specific alias, including which version it currently points to and its
  * metadata.
  */
-export const describeContactFlowModuleAlias =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeContactFlowModuleAliasRequest,
-    output: DescribeContactFlowModuleAliasResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeContactFlowModuleAlias: (
+  input: DescribeContactFlowModuleAliasRequest,
+) => Effect.Effect<
+  DescribeContactFlowModuleAliasResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeContactFlowModuleAliasRequest,
+  output: DescribeContactFlowModuleAliasResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns all properties for a data table except for attributes and values. All properties from CreateDataTable
  * are returned as well as properties for region replication, versioning, and system tables. "Describe" is a deprecated
  * term but is allowed to maintain consistency with existing operations.
  */
-export const describeDataTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDataTable: (
+  input: DescribeDataTableRequest,
+) => Effect.Effect<
+  DescribeDataTableResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDataTableRequest,
   output: DescribeDataTableResponse,
   errors: [
@@ -21638,73 +22607,122 @@ export const describeDataTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns detailed information for a specific data table attribute including its configuration, validation rules,
  * and metadata. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations.
  */
-export const describeDataTableAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDataTableAttributeRequest,
-    output: DescribeDataTableAttributeResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeDataTableAttribute: (
+  input: DescribeDataTableAttributeRequest,
+) => Effect.Effect<
+  DescribeDataTableAttributeResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDataTableAttributeRequest,
+  output: DescribeDataTableAttributeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the hours of operation.
  */
-export const describeHoursOfOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeHoursOfOperationRequest,
-    output: DescribeHoursOfOperationResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeHoursOfOperation: (
+  input: DescribeHoursOfOperationRequest,
+) => Effect.Effect<
+  DescribeHoursOfOperationResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeHoursOfOperationRequest,
+  output: DescribeHoursOfOperationResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the hours of operation override.
  */
-export const describeHoursOfOperationOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeHoursOfOperationOverrideRequest,
-    output: DescribeHoursOfOperationOverrideResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeHoursOfOperationOverride: (
+  input: DescribeHoursOfOperationOverrideRequest,
+) => Effect.Effect<
+  DescribeHoursOfOperationOverrideResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeHoursOfOperationOverrideRequest,
+  output: DescribeHoursOfOperationOverrideResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Describes the specified instance attribute.
  */
-export const describeInstanceAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInstanceAttributeRequest,
-    output: DescribeInstanceAttributeResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeInstanceAttribute: (
+  input: DescribeInstanceAttributeRequest,
+) => Effect.Effect<
+  DescribeInstanceAttributeResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInstanceAttributeRequest,
+  output: DescribeInstanceAttributeResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the prompt.
  */
-export const describePrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describePrompt: (
+  input: DescribePromptRequest,
+) => Effect.Effect<
+  DescribePromptResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePromptRequest,
   output: DescribePromptResponse,
   errors: [
@@ -21718,7 +22736,18 @@ export const describePrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the specified queue.
  */
-export const describeQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeQueue: (
+  input: DescribeQueueRequest,
+) => Effect.Effect<
+  DescribeQueueResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeQueueRequest,
   output: DescribeQueueResponse,
   errors: [
@@ -21732,19 +22761,28 @@ export const describeQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the quick connect.
  */
-export const describeQuickConnect = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeQuickConnectRequest,
-    output: DescribeQuickConnectResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeQuickConnect: (
+  input: DescribeQuickConnectRequest,
+) => Effect.Effect<
+  DescribeQuickConnectResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeQuickConnectRequest,
+  output: DescribeQuickConnectResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the specified routing profile.
  *
@@ -21752,23 +22790,43 @@ export const describeQuickConnect = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Syntax shown on this page is incorrect; we are working to update it. SearchRoutingProfiles does include
  * AssociatedQueueIds.
  */
-export const describeRoutingProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRoutingProfileRequest,
-    output: DescribeRoutingProfileResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeRoutingProfile: (
+  input: DescribeRoutingProfileRequest,
+) => Effect.Effect<
+  DescribeRoutingProfileResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRoutingProfileRequest,
+  output: DescribeRoutingProfileResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes a rule for the specified Amazon Connect instance.
  */
-export const describeRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeRule: (
+  input: DescribeRuleRequest,
+) => Effect.Effect<
+  DescribeRuleResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRuleRequest,
   output: DescribeRuleResponse,
   errors: [
@@ -21786,40 +22844,70 @@ export const describeRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * profile permissions, see List
  * of security profile permissions.
  */
-export const describeSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSecurityProfileRequest,
-    output: DescribeSecurityProfileResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeSecurityProfile: (
+  input: DescribeSecurityProfileRequest,
+) => Effect.Effect<
+  DescribeSecurityProfileResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSecurityProfileRequest,
+  output: DescribeSecurityProfileResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets details and status of a traffic distribution group.
  */
-export const describeTrafficDistributionGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTrafficDistributionGroupRequest,
-    output: DescribeTrafficDistributionGroupResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeTrafficDistributionGroup: (
+  input: DescribeTrafficDistributionGroupRequest,
+) => Effect.Effect<
+  DescribeTrafficDistributionGroupResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTrafficDistributionGroupRequest,
+  output: DescribeTrafficDistributionGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the specified user. You can find the instance ID in the Amazon Connect
  * console (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users
  * and note the IDs provided in the output.
  */
-export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeUser: (
+  input: DescribeUserRequest,
+) => Effect.Effect<
+  DescribeUserResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserRequest,
   output: DescribeUserResponse,
   errors: [
@@ -21833,7 +22921,18 @@ export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the specified vocabulary.
  */
-export const describeVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeVocabulary: (
+  input: DescribeVocabularyRequest,
+) => Effect.Effect<
+  DescribeVocabularyResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVocabularyRequest,
   output: DescribeVocabularyResponse,
   errors: [
@@ -21847,7 +22946,19 @@ export const describeVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details about a workspace, including its configuration and metadata.
  */
-export const describeWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeWorkspace: (
+  input: DescribeWorkspaceRequest,
+) => Effect.Effect<
+  DescribeWorkspaceResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkspaceRequest,
   output: DescribeWorkspaceResponse,
   errors: [
@@ -21863,7 +22974,18 @@ export const describeWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Provides a pre-signed URL for download of an approved attached file. This API also returns metadata about the
  * attached file. It will only return a downloadURL if the status of the attached file is `APPROVED`.
  */
-export const getAttachedFile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAttachedFile: (
+  input: GetAttachedFileRequest,
+) => Effect.Effect<
+  GetAttachedFileResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAttachedFileRequest,
   output: GetAttachedFileResponse,
   errors: [
@@ -21877,56 +22999,110 @@ export const getAttachedFile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists agent statuses.
  */
-export const listAgentStatuses = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAgentStatuses: {
+  (
     input: ListAgentStatusRequest,
-    output: ListAgentStatusResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AgentStatusSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAgentStatusResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAgentStatusRequest,
+  ) => Stream.Stream<
+    ListAgentStatusResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAgentStatusRequest,
+  ) => Stream.Stream<
+    AgentStatusSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAgentStatusRequest,
+  output: ListAgentStatusResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AgentStatusSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the data lake datasets available to associate with for a given Amazon Connect instance.
  */
-export const listAnalyticsDataLakeDataSets =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAnalyticsDataLakeDataSetsRequest,
-    output: ListAnalyticsDataLakeDataSetsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const listAnalyticsDataLakeDataSets: (
+  input: ListAnalyticsDataLakeDataSetsRequest,
+) => Effect.Effect<
+  ListAnalyticsDataLakeDataSetsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAnalyticsDataLakeDataSetsRequest,
+  output: ListAnalyticsDataLakeDataSetsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Provides information about contact tree, a list of associated contacts with a unique identifier.
  */
-export const listAssociatedContacts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAssociatedContactsRequest,
-    output: ListAssociatedContactsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const listAssociatedContacts: (
+  input: ListAssociatedContactsRequest,
+) => Effect.Effect<
+  ListAssociatedContactsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAssociatedContactsRequest,
+  output: ListAssociatedContactsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change. To
  * request access to this API, contact Amazon Web Services Support.
@@ -21934,24 +23110,60 @@ export const listAssociatedContacts = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Provides summary information about the authentication profiles in a specified Amazon Connect
  * instance.
  */
-export const listAuthenticationProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAuthenticationProfiles: {
+  (
     input: ListAuthenticationProfilesRequest,
-    output: ListAuthenticationProfilesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AuthenticationProfileSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAuthenticationProfilesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAuthenticationProfilesRequest,
+  ) => Stream.Stream<
+    ListAuthenticationProfilesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAuthenticationProfilesRequest,
+  ) => Stream.Stream<
+    AuthenticationProfileSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAuthenticationProfilesRequest,
+  output: ListAuthenticationProfilesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AuthenticationProfileSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -21959,7 +23171,41 @@ export const listAuthenticationProfiles =
  * currently associated with the instance. Use this API to return both Amazon Lex V1 and V2
  * bots.
  */
-export const listBots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBots: {
+  (
+    input: ListBotsRequest,
+  ): Effect.Effect<
+    ListBotsResponse,
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBotsRequest,
+  ) => Stream.Stream<
+    ListBotsResponse,
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBotsRequest,
+  ) => Stream.Stream<
+    LexBotConfig,
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBotsRequest,
   output: ListBotsResponse,
   errors: [
@@ -21979,69 +23225,186 @@ export const listBots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Lists all aliases associated with a contact flow module, showing their current version mappings and
  * metadata.
  */
-export const listContactFlowModuleAliases =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listContactFlowModuleAliases: {
+  (
     input: ListContactFlowModuleAliasesRequest,
-    output: ListContactFlowModuleAliasesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ContactFlowModuleAliasSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListContactFlowModuleAliasesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContactFlowModuleAliasesRequest,
+  ) => Stream.Stream<
+    ListContactFlowModuleAliasesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContactFlowModuleAliasesRequest,
+  ) => Stream.Stream<
+    ContactFlowModuleAliasSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContactFlowModuleAliasesRequest,
+  output: ListContactFlowModuleAliasesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ContactFlowModuleAliasSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides information about the flow modules for the specified Amazon Connect instance.
  */
-export const listContactFlowModules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listContactFlowModules: {
+  (
     input: ListContactFlowModulesRequest,
-    output: ListContactFlowModulesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ContactFlowModulesSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListContactFlowModulesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContactFlowModulesRequest,
+  ) => Stream.Stream<
+    ListContactFlowModulesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContactFlowModulesRequest,
+  ) => Stream.Stream<
+    ContactFlowModuleSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContactFlowModulesRequest,
+  output: ListContactFlowModulesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ContactFlowModulesSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a paginated list of all versions for a specific contact flow module.
  */
-export const listContactFlowModuleVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listContactFlowModuleVersions: {
+  (
     input: ListContactFlowModuleVersionsRequest,
-    output: ListContactFlowModuleVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ContactFlowModuleVersionSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListContactFlowModuleVersionsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContactFlowModuleVersionsRequest,
+  ) => Stream.Stream<
+    ListContactFlowModuleVersionsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContactFlowModuleVersionsRequest,
+  ) => Stream.Stream<
+    ContactFlowModuleVersionSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContactFlowModuleVersionsRequest,
+  output: ListContactFlowModuleVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ContactFlowModuleVersionSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides information about the flows for the specified Amazon Connect instance.
  *
@@ -22051,115 +23414,296 @@ export const listContactFlowModuleVersions =
  * For more information about flows, see Flows in the Amazon Connect
  * Administrator Guide.
  */
-export const listContactFlows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listContactFlows: {
+  (
     input: ListContactFlowsRequest,
-    output: ListContactFlowsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ContactFlowSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListContactFlowsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContactFlowsRequest,
+  ) => Stream.Stream<
+    ListContactFlowsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContactFlowsRequest,
+  ) => Stream.Stream<
+    ContactFlowSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContactFlowsRequest,
+  output: ListContactFlowsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ContactFlowSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns all the available versions for the specified Amazon Connect instance and flow identifier.
  */
-export const listContactFlowVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listContactFlowVersions: {
+  (
     input: ListContactFlowVersionsRequest,
-    output: ListContactFlowVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ContactFlowVersionSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListContactFlowVersionsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContactFlowVersionsRequest,
+  ) => Stream.Stream<
+    ListContactFlowVersionsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContactFlowVersionsRequest,
+  ) => Stream.Stream<
+    ContactFlowVersionSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContactFlowVersionsRequest,
+  output: ListContactFlowVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ContactFlowVersionSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all data tables for the specified Amazon Connect instance. Returns summary information for each table
  * including basic metadata and modification details.
  */
-export const listDataTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDataTables: {
+  (
     input: ListDataTablesRequest,
-    output: ListDataTablesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DataTableSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDataTablesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataTablesRequest,
+  ) => Stream.Stream<
+    ListDataTablesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataTablesRequest,
+  ) => Stream.Stream<
+    DataTableSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataTablesRequest,
+  output: ListDataTablesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DataTableSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the default vocabularies for the specified Amazon Connect instance.
  */
-export const listDefaultVocabularies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDefaultVocabularies: {
+  (
     input: ListDefaultVocabulariesRequest,
-    output: ListDefaultVocabulariesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DefaultVocabularyList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDefaultVocabulariesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDefaultVocabulariesRequest,
+  ) => Stream.Stream<
+    ListDefaultVocabulariesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDefaultVocabulariesRequest,
+  ) => Stream.Stream<
+    DefaultVocabulary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDefaultVocabulariesRequest,
+  output: ListDefaultVocabulariesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DefaultVocabularyList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides information about the hours of operation for the specified Amazon Connect instance.
  *
  * For more information about hours of operation, see Set the Hours of Operation for a Queue in the
  * *Amazon Connect Administrator Guide*.
  */
-export const listHoursOfOperations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listHoursOfOperations: {
+  (
     input: ListHoursOfOperationsRequest,
-    output: ListHoursOfOperationsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "HoursOfOperationSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListHoursOfOperationsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListHoursOfOperationsRequest,
+  ) => Stream.Stream<
+    ListHoursOfOperationsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListHoursOfOperationsRequest,
+  ) => Stream.Stream<
+    HoursOfOperationSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListHoursOfOperationsRequest,
+  output: ListHoursOfOperationsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "HoursOfOperationSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -22167,39 +23711,92 @@ export const listHoursOfOperations =
  * that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance
  * API was invoked.
  */
-export const listInstances = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listInstances: {
+  (
     input: ListInstancesRequest,
-    output: ListInstancesResponse,
-    errors: [InternalServiceException, InvalidRequestException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InstanceSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListInstancesResponse,
+    InternalServiceException | InvalidRequestException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInstancesRequest,
+  ) => Stream.Stream<
+    ListInstancesResponse,
+    InternalServiceException | InvalidRequestException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInstancesRequest,
+  ) => Stream.Stream<
+    InstanceSummary,
+    InternalServiceException | InvalidRequestException | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInstancesRequest,
+  output: ListInstancesResponse,
+  errors: [InternalServiceException, InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InstanceSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides summary information about the Amazon Web Services resource associations for the specified Amazon Connect instance.
  */
-export const listIntegrationAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIntegrationAssociations: {
+  (
     input: ListIntegrationAssociationsRequest,
-    output: ListIntegrationAssociationsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IntegrationAssociationSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIntegrationAssociationsResponse,
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIntegrationAssociationsRequest,
+  ) => Stream.Stream<
+    ListIntegrationAssociationsResponse,
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIntegrationAssociationsRequest,
+  ) => Stream.Stream<
+    IntegrationAssociationSummary,
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIntegrationAssociationsRequest,
+  output: ListIntegrationAssociationsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IntegrationAssociationSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides information about the phone numbers for the specified Amazon Connect instance.
  *
@@ -22214,25 +23811,60 @@ export const listIntegrationAssociations =
  * `ResourceNotFoundException`. Instead, use the ListPhoneNumbersV2 API. It returns the new
  * phone number ARN that can be used to tag phone number resources.
  */
-export const listPhoneNumbers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPhoneNumbers: {
+  (
     input: ListPhoneNumbersRequest,
-    output: ListPhoneNumbersResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PhoneNumberSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPhoneNumbersResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPhoneNumbersRequest,
+  ) => Stream.Stream<
+    ListPhoneNumbersResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPhoneNumbersRequest,
+  ) => Stream.Stream<
+    PhoneNumberSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPhoneNumbersRequest,
+  output: ListPhoneNumbersResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PhoneNumberSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists predefined attributes for the specified Amazon Connect instance. A *predefined attribute* is
  * made up of a name and a value. You can use predefined attributes for:
@@ -22249,67 +23881,174 @@ export const listPhoneNumbers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const listPredefinedAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPredefinedAttributes: {
+  (
     input: ListPredefinedAttributesRequest,
-    output: ListPredefinedAttributesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PredefinedAttributeSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPredefinedAttributesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPredefinedAttributesRequest,
+  ) => Stream.Stream<
+    ListPredefinedAttributesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPredefinedAttributesRequest,
+  ) => Stream.Stream<
+    PredefinedAttributeSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPredefinedAttributesRequest,
+  output: ListPredefinedAttributesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PredefinedAttributeSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides information about the prompts for the specified Amazon Connect instance.
  */
-export const listPrompts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPrompts: {
+  (
     input: ListPromptsRequest,
-    output: ListPromptsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PromptSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPromptsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPromptsRequest,
+  ) => Stream.Stream<
+    ListPromptsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPromptsRequest,
+  ) => Stream.Stream<
+    PromptSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPromptsRequest,
+  output: ListPromptsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PromptSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the quick connects associated with a queue.
  */
-export const listQueueQuickConnects =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listQueueQuickConnects: {
+  (
     input: ListQueueQuickConnectsRequest,
-    output: ListQueueQuickConnectsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "QuickConnectSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListQueueQuickConnectsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListQueueQuickConnectsRequest,
+  ) => Stream.Stream<
+    ListQueueQuickConnectsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListQueueQuickConnectsRequest,
+  ) => Stream.Stream<
+    QuickConnectSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListQueueQuickConnectsRequest,
+  output: ListQueueQuickConnectsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "QuickConnectSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides information about the queues for the specified Amazon Connect instance.
  *
@@ -22320,7 +24059,44 @@ export const listQueueQuickConnects =
  * For more information about queues, see Queues: Standard and Agent in the
  * *Amazon Connect Administrator Guide*.
  */
-export const listQueues = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listQueues: {
+  (
+    input: ListQueuesRequest,
+  ): Effect.Effect<
+    ListQueuesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListQueuesRequest,
+  ) => Stream.Stream<
+    ListQueuesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListQueuesRequest,
+  ) => Stream.Stream<
+    QueueSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListQueuesRequest,
   output: ListQueuesResponse,
   errors: [
@@ -22357,92 +24133,235 @@ export const listQueues = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const listRoutingProfileManualAssignmentQueues =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRoutingProfileManualAssignmentQueues: {
+  (
     input: ListRoutingProfileManualAssignmentQueuesRequest,
-    output: ListRoutingProfileManualAssignmentQueuesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RoutingProfileManualAssignmentQueueConfigSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRoutingProfileManualAssignmentQueuesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRoutingProfileManualAssignmentQueuesRequest,
+  ) => Stream.Stream<
+    ListRoutingProfileManualAssignmentQueuesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoutingProfileManualAssignmentQueuesRequest,
+  ) => Stream.Stream<
+    RoutingProfileManualAssignmentQueueConfigSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRoutingProfileManualAssignmentQueuesRequest,
+  output: ListRoutingProfileManualAssignmentQueuesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RoutingProfileManualAssignmentQueueConfigSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the queues associated with a routing profile.
  */
-export const listRoutingProfileQueues =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRoutingProfileQueues: {
+  (
     input: ListRoutingProfileQueuesRequest,
-    output: ListRoutingProfileQueuesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RoutingProfileQueueConfigSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRoutingProfileQueuesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRoutingProfileQueuesRequest,
+  ) => Stream.Stream<
+    ListRoutingProfileQueuesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoutingProfileQueuesRequest,
+  ) => Stream.Stream<
+    RoutingProfileQueueConfigSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRoutingProfileQueuesRequest,
+  output: ListRoutingProfileQueuesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RoutingProfileQueueConfigSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides summary information about the routing profiles for the specified Amazon Connect instance.
  *
  * For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the *Amazon Connect Administrator Guide*.
  */
-export const listRoutingProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRoutingProfiles: {
+  (
     input: ListRoutingProfilesRequest,
-    output: ListRoutingProfilesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RoutingProfileSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRoutingProfilesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRoutingProfilesRequest,
+  ) => Stream.Stream<
+    ListRoutingProfilesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoutingProfilesRequest,
+  ) => Stream.Stream<
+    RoutingProfileSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRoutingProfilesRequest,
+  output: ListRoutingProfilesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RoutingProfileSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Returns a paginated list of all security keys associated with the instance.
  */
-export const listSecurityKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSecurityKeys: {
+  (
     input: ListSecurityKeysRequest,
-    output: ListSecurityKeysResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SecurityKeys",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSecurityKeysResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecurityKeysRequest,
+  ) => Stream.Stream<
+    ListSecurityKeysResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecurityKeysRequest,
+  ) => Stream.Stream<
+    SecurityKey,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecurityKeysRequest,
+  output: ListSecurityKeysResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SecurityKeys",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides summary information about the security profiles for the specified Amazon Connect instance.
  *
@@ -22450,135 +24369,380 @@ export const listSecurityKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * profile permissions, see List
  * of security profile permissions.
  */
-export const listSecurityProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSecurityProfiles: {
+  (
     input: ListSecurityProfilesRequest,
-    output: ListSecurityProfilesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SecurityProfileSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSecurityProfilesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecurityProfilesRequest,
+  ) => Stream.Stream<
+    ListSecurityProfilesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecurityProfilesRequest,
+  ) => Stream.Stream<
+    SecurityProfileSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecurityProfilesRequest,
+  output: ListSecurityProfilesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SecurityProfileSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists task templates for the specified Amazon Connect instance.
  */
-export const listTaskTemplates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTaskTemplates: {
+  (
     input: ListTaskTemplatesRequest,
-    output: ListTaskTemplatesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TaskTemplates",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTaskTemplatesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTaskTemplatesRequest,
+  ) => Stream.Stream<
+    ListTaskTemplatesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTaskTemplatesRequest,
+  ) => Stream.Stream<
+    TaskTemplateMetadata,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTaskTemplatesRequest,
+  output: ListTaskTemplatesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TaskTemplates",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists traffic distribution groups.
  */
-export const listTrafficDistributionGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTrafficDistributionGroups: {
+  (
     input: ListTrafficDistributionGroupsRequest,
-    output: ListTrafficDistributionGroupsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TrafficDistributionGroupSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTrafficDistributionGroupsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTrafficDistributionGroupsRequest,
+  ) => Stream.Stream<
+    ListTrafficDistributionGroupsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTrafficDistributionGroupsRequest,
+  ) => Stream.Stream<
+    TrafficDistributionGroupSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTrafficDistributionGroupsRequest,
+  output: ListTrafficDistributionGroupsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TrafficDistributionGroupSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists traffic distribution group users.
  */
-export const listTrafficDistributionGroupUsers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTrafficDistributionGroupUsers: {
+  (
     input: ListTrafficDistributionGroupUsersRequest,
-    output: ListTrafficDistributionGroupUsersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TrafficDistributionGroupUserSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTrafficDistributionGroupUsersResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTrafficDistributionGroupUsersRequest,
+  ) => Stream.Stream<
+    ListTrafficDistributionGroupUsersResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTrafficDistributionGroupUsersRequest,
+  ) => Stream.Stream<
+    TrafficDistributionGroupUserSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTrafficDistributionGroupUsersRequest,
+  output: ListTrafficDistributionGroupUsersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TrafficDistributionGroupUserSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the use cases for the integration association.
  */
-export const listUseCases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listUseCases: {
+  (
     input: ListUseCasesRequest,
-    output: ListUseCasesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "UseCaseSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListUseCasesResponse,
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUseCasesRequest,
+  ) => Stream.Stream<
+    ListUseCasesResponse,
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUseCasesRequest,
+  ) => Stream.Stream<
+    UseCase,
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUseCasesRequest,
+  output: ListUseCasesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "UseCaseSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides summary information about the hierarchy groups for the specified Amazon Connect instance.
  *
  * For more information about agent hierarchies, see Set Up Agent Hierarchies in the *Amazon Connect Administrator Guide*.
  */
-export const listUserHierarchyGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUserHierarchyGroups: {
+  (
     input: ListUserHierarchyGroupsRequest,
-    output: ListUserHierarchyGroupsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "UserHierarchyGroupSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListUserHierarchyGroupsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUserHierarchyGroupsRequest,
+  ) => Stream.Stream<
+    ListUserHierarchyGroupsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUserHierarchyGroupsRequest,
+  ) => Stream.Stream<
+    HierarchyGroupSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUserHierarchyGroupsRequest,
+  output: ListUserHierarchyGroupsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "UserHierarchyGroupSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides summary information about the users for the specified Amazon Connect instance.
  */
-export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUsers: {
+  (
+    input: ListUsersRequest,
+  ): Effect.Effect<
+    ListUsersResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    ListUsersResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    UserSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse,
   errors: [
@@ -22598,7 +24762,19 @@ export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists media assets (such as logos) associated with a workspace.
  */
-export const listWorkspaceMedia = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listWorkspaceMedia: (
+  input: ListWorkspaceMediaRequest,
+) => Effect.Effect<
+  ListWorkspaceMediaResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListWorkspaceMediaRequest,
   output: ListWorkspaceMediaResponse,
   errors: [
@@ -22613,94 +24789,241 @@ export const listWorkspaceMedia = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the page configurations in a workspace, including the views assigned to each page.
  */
-export const listWorkspacePages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkspacePages: {
+  (
     input: ListWorkspacePagesRequest,
-    output: ListWorkspacePagesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "WorkspacePageList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkspacePagesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkspacePagesRequest,
+  ) => Stream.Stream<
+    ListWorkspacePagesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkspacePagesRequest,
+  ) => Stream.Stream<
+    WorkspacePage,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkspacePagesRequest,
+  output: ListWorkspacePagesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "WorkspacePageList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the workspaces in an Amazon Connect instance.
  */
-export const listWorkspaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkspaces: {
+  (
     input: ListWorkspacesRequest,
-    output: ListWorkspacesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "WorkspaceSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkspacesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkspacesRequest,
+  ) => Stream.Stream<
+    ListWorkspacesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkspacesRequest,
+  ) => Stream.Stream<
+    WorkspaceSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkspacesRequest,
+  output: ListWorkspacesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "WorkspaceSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches for data tables based on the table's ID, name, and description. In the future, this operation can
  * support searching on attribute names and possibly primary values. Follows other search operations closely and
  * supports both search criteria and filters.
  */
-export const searchDataTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchDataTables: {
+  (
     input: SearchDataTablesRequest,
-    output: SearchDataTablesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DataTables",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchDataTablesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchDataTablesRequest,
+  ) => Stream.Stream<
+    SearchDataTablesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchDataTablesRequest,
+  ) => Stream.Stream<
+    DataTable,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchDataTablesRequest,
+  output: SearchDataTablesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DataTables",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches the hours of operation in an Amazon Connect instance, with optional filtering.
  */
-export const searchHoursOfOperations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchHoursOfOperations: {
+  (
     input: SearchHoursOfOperationsRequest,
-    output: SearchHoursOfOperationsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "HoursOfOperations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchHoursOfOperationsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchHoursOfOperationsRequest,
+  ) => Stream.Stream<
+    SearchHoursOfOperationsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchHoursOfOperationsRequest,
+  ) => Stream.Stream<
+    HoursOfOperation,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchHoursOfOperationsRequest,
+  output: SearchHoursOfOperationsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "HoursOfOperations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches predefined attributes that meet certain criteria. A *predefined attribute* is made
  * up of a name and a value. You can use predefined attributes for:
@@ -22717,182 +25040,466 @@ export const searchHoursOfOperations =
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const searchPredefinedAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchPredefinedAttributes: {
+  (
     input: SearchPredefinedAttributesRequest,
-    output: SearchPredefinedAttributesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PredefinedAttributes",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchPredefinedAttributesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchPredefinedAttributesRequest,
+  ) => Stream.Stream<
+    SearchPredefinedAttributesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchPredefinedAttributesRequest,
+  ) => Stream.Stream<
+    PredefinedAttribute,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchPredefinedAttributesRequest,
+  output: SearchPredefinedAttributesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PredefinedAttributes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches prompts in an Amazon Connect instance, with optional filtering.
  */
-export const searchPrompts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchPrompts: {
+  (
     input: SearchPromptsRequest,
-    output: SearchPromptsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Prompts",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchPromptsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchPromptsRequest,
+  ) => Stream.Stream<
+    SearchPromptsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchPromptsRequest,
+  ) => Stream.Stream<
+    Prompt,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchPromptsRequest,
+  output: SearchPromptsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Prompts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches queues in an Amazon Connect instance, with optional filtering.
  */
-export const searchQueues = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchQueues: {
+  (
     input: SearchQueuesRequest,
-    output: SearchQueuesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Queues",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchQueuesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchQueuesRequest,
+  ) => Stream.Stream<
+    SearchQueuesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchQueuesRequest,
+  ) => Stream.Stream<
+    Queue,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchQueuesRequest,
+  output: SearchQueuesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Queues",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches quick connects in an Amazon Connect instance, with optional filtering.
  */
-export const searchQuickConnects =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchQuickConnects: {
+  (
     input: SearchQuickConnectsRequest,
-    output: SearchQuickConnectsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "QuickConnects",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchQuickConnectsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchQuickConnectsRequest,
+  ) => Stream.Stream<
+    SearchQuickConnectsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchQuickConnectsRequest,
+  ) => Stream.Stream<
+    QuickConnect,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchQuickConnectsRequest,
+  output: SearchQuickConnectsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "QuickConnects",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches routing profiles in an Amazon Connect instance, with optional filtering.
  *
  * `SearchRoutingProfiles` does not populate LastModifiedRegion, LastModifiedTime,
  * MediaConcurrencies.CrossChannelBehavior, and AgentAvailabilityTimer in its response, but DescribeRoutingProfile does.
  */
-export const searchRoutingProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchRoutingProfiles: {
+  (
     input: SearchRoutingProfilesRequest,
-    output: SearchRoutingProfilesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RoutingProfiles",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchRoutingProfilesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchRoutingProfilesRequest,
+  ) => Stream.Stream<
+    SearchRoutingProfilesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchRoutingProfilesRequest,
+  ) => Stream.Stream<
+    RoutingProfile,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchRoutingProfilesRequest,
+  output: SearchRoutingProfilesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RoutingProfiles",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches UserHierarchyGroups in an Amazon Connect instance, with optional filtering.
  *
  * The UserHierarchyGroup with `"LevelId": "0"` is the foundation for building levels on top of an
  * instance. It is not user-definable, nor is it visible in the UI.
  */
-export const searchUserHierarchyGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchUserHierarchyGroups: {
+  (
     input: SearchUserHierarchyGroupsRequest,
-    output: SearchUserHierarchyGroupsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "UserHierarchyGroups",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchUserHierarchyGroupsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchUserHierarchyGroupsRequest,
+  ) => Stream.Stream<
+    SearchUserHierarchyGroupsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchUserHierarchyGroupsRequest,
+  ) => Stream.Stream<
+    HierarchyGroup,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchUserHierarchyGroupsRequest,
+  output: SearchUserHierarchyGroupsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "UserHierarchyGroups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches views based on name, description, or tags.
  */
-export const searchViews = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchViews: {
+  (
     input: SearchViewsRequest,
-    output: SearchViewsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Views",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchViewsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchViewsRequest,
+  ) => Stream.Stream<
+    SearchViewsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchViewsRequest,
+  ) => Stream.Stream<
+    View,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchViewsRequest,
+  output: SearchViewsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Views",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches for vocabularies within a specific Amazon Connect instance using `State`,
  * `NameStartsWith`, and `LanguageCode`.
  */
-export const searchVocabularies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchVocabularies: {
+  (
     input: SearchVocabulariesRequest,
-    output: SearchVocabulariesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "VocabularySummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchVocabulariesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchVocabulariesRequest,
+  ) => Stream.Stream<
+    SearchVocabulariesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchVocabulariesRequest,
+  ) => Stream.Stream<
+    VocabularySummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchVocabulariesRequest,
+  output: SearchVocabulariesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "VocabularySummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Processes chat integration events from Amazon Web Services or external integrations to Amazon Connect. A chat
  * integration event includes:
@@ -22908,19 +25515,28 @@ export const searchVocabularies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * Access to this API is currently restricted to Amazon Web Services End User Messaging for supporting SMS
  * integration.
  */
-export const sendChatIntegrationEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendChatIntegrationEventRequest,
-    output: SendChatIntegrationEventResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const sendChatIntegrationEvent: (
+  input: SendChatIntegrationEventRequest,
+) => Effect.Effect<
+  SendChatIntegrationEventResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendChatIntegrationEventRequest,
+  output: SendChatIntegrationEventResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Starts recording the contact:
  *
@@ -22939,19 +25555,28 @@ export const sendChatIntegrationEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Only voice recordings are supported at this time.
  */
-export const startContactRecording = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartContactRecordingRequest,
-    output: StartContactRecordingResponse,
-    errors: [
-      InternalServiceException,
-      InvalidActiveRegionException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const startContactRecording: (
+  input: StartContactRecordingRequest,
+) => Effect.Effect<
+  StartContactRecordingResponse,
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartContactRecordingRequest,
+  output: StartContactRecordingResponse,
+  errors: [
+    InternalServiceException,
+    InvalidActiveRegionException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Ends the specified contact. Use this API to stop queued callbacks. It does not work for voice contacts that use
  * the following initiation methods:
@@ -22968,7 +25593,19 @@ export const startContactRecording = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Chat and task contacts can be terminated in any state, regardless of initiation method.
  */
-export const stopContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopContact: (
+  input: StopContactRequest,
+) => Effect.Effect<
+  StopContactResponse,
+  | ContactNotFoundException
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopContactRequest,
   output: StopContactResponse,
   errors: [
@@ -22985,20 +25622,32 @@ export const stopContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * associated to the record and its primary values. Users that have restrictions on attributes and/or primary values are
  * not authorized to use this endpoint. The combination of new primary values must be unique within the table.
  */
-export const updateDataTablePrimaryValues =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDataTablePrimaryValuesRequest,
-    output: UpdateDataTablePrimaryValuesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateDataTablePrimaryValues: (
+  input: UpdateDataTablePrimaryValuesRequest,
+) => Effect.Effect<
+  UpdateDataTablePrimaryValuesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataTablePrimaryValuesRequest,
+  output: UpdateDataTablePrimaryValuesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the traffic distribution for a given traffic distribution group.
  *
@@ -23017,20 +25666,30 @@ export const updateDataTablePrimaryValues =
  * across Amazon Web Services Regions
  * in the *Amazon Connect Administrator Guide*.
  */
-export const updateTrafficDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTrafficDistributionRequest,
-    output: UpdateTrafficDistributionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateTrafficDistribution: (
+  input: UpdateTrafficDistributionRequest,
+) => Effect.Effect<
+  UpdateTrafficDistributionResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTrafficDistributionRequest,
+  output: UpdateTrafficDistributionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Associates a queued contact with an agent.
  *
@@ -23063,174 +25722,286 @@ export const updateTrafficDistribution = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const associateContactWithUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateContactWithUserRequest,
-    output: AssociateContactWithUserResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const associateContactWithUser: (
+  input: AssociateContactWithUserRequest,
+) => Effect.Effect<
+  AssociateContactWithUserResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateContactWithUserRequest,
+  output: AssociateContactWithUserResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Associates a set of queues with a routing profile.
  */
-export const associateRoutingProfileQueues =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateRoutingProfileQueuesRequest,
-    output: AssociateRoutingProfileQueuesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const associateRoutingProfileQueues: (
+  input: AssociateRoutingProfileQueuesRequest,
+) => Effect.Effect<
+  AssociateRoutingProfileQueuesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateRoutingProfileQueuesRequest,
+  output: AssociateRoutingProfileQueuesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Associates a set of proficiencies with a user.
  */
-export const associateUserProficiencies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateUserProficienciesRequest,
-    output: AssociateUserProficienciesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const associateUserProficiencies: (
+  input: AssociateUserProficienciesRequest,
+) => Effect.Effect<
+  AssociateUserProficienciesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateUserProficienciesRequest,
+  output: AssociateUserProficienciesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Removes a list of analytics datasets associated with a given Amazon Connect instance. You can disassociate
  * multiple datasets in a single call.
  */
-export const batchDisassociateAnalyticsDataSet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDisassociateAnalyticsDataSetRequest,
-    output: BatchDisassociateAnalyticsDataSetResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const batchDisassociateAnalyticsDataSet: (
+  input: BatchDisassociateAnalyticsDataSetRequest,
+) => Effect.Effect<
+  BatchDisassociateAnalyticsDataSetResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDisassociateAnalyticsDataSetRequest,
+  output: BatchDisassociateAnalyticsDataSetResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Enables rehydration of chats for the lifespan of a contact. For more information about chat rehydration, see
  * Enable persistent chat in
  * the *Amazon Connect Administrator Guide*.
  */
-export const createPersistentContactAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePersistentContactAssociationRequest,
-    output: CreatePersistentContactAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const createPersistentContactAssociation: (
+  input: CreatePersistentContactAssociationRequest,
+) => Effect.Effect<
+  CreatePersistentContactAssociationResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePersistentContactAssociationRequest,
+  output: CreatePersistentContactAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describe email address form the specified Amazon Connect instance.
  */
-export const describeEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEmailAddressRequest,
-    output: DescribeEmailAddressResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeEmailAddress: (
+  input: DescribeEmailAddressRequest,
+) => Effect.Effect<
+  DescribeEmailAddressResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEmailAddressRequest,
+  output: DescribeEmailAddressResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Retrieves the current storage configurations for the specified resource type, association ID, and instance
  * ID.
  */
-export const describeInstanceStorageConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeInstanceStorageConfigRequest,
-    output: DescribeInstanceStorageConfigResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeInstanceStorageConfig: (
+  input: DescribeInstanceStorageConfigRequest,
+) => Effect.Effect<
+  DescribeInstanceStorageConfigResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInstanceStorageConfigRequest,
+  output: DescribeInstanceStorageConfigResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Disassociates a set of queues from a routing profile.
  *
  * Up to 10 queue references can be disassociated in a single API call. More than 10 queue references results in a
  * single call results in an InvalidParameterException.
  */
-export const disassociateRoutingProfileQueues =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateRoutingProfileQueuesRequest,
-    output: DisassociateRoutingProfileQueuesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const disassociateRoutingProfileQueues: (
+  input: DisassociateRoutingProfileQueuesRequest,
+) => Effect.Effect<
+  DisassociateRoutingProfileQueuesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateRoutingProfileQueuesRequest,
+  output: DisassociateRoutingProfileQueuesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Disassociates a set of proficiencies from a user.
  */
-export const disassociateUserProficiencies =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateUserProficienciesRequest,
-    output: DisassociateUserProficienciesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const disassociateUserProficiencies: (
+  input: DisassociateUserProficienciesRequest,
+) => Effect.Effect<
+  DisassociateUserProficienciesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateUserProficienciesRequest,
+  output: DisassociateUserProficienciesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Removes the association between a workspace and one or more users or routing profiles.
  */
-export const disassociateWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateWorkspaceRequest,
-    output: DisassociateWorkspaceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const disassociateWorkspace: (
+  input: DisassociateWorkspaceRequest,
+) => Effect.Effect<
+  DisassociateWorkspaceResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateWorkspaceRequest,
+  output: DisassociateWorkspaceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves the flow associated for a given resource.
  */
-export const getFlowAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFlowAssociation: (
+  input: GetFlowAssociationRequest,
+) => Effect.Effect<
+  GetFlowAssociationResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFlowAssociationRequest,
   output: GetFlowAssociationResponse,
   errors: [
@@ -23245,7 +26016,18 @@ export const getFlowAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the prompt file.
  */
-export const getPromptFile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPromptFile: (
+  input: GetPromptFileRequest,
+) => Effect.Effect<
+  GetPromptFileResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPromptFileRequest,
   output: GetPromptFileResponse,
   errors: [
@@ -23259,7 +26041,18 @@ export const getPromptFile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets details about a specific task template in the specified Amazon Connect instance.
  */
-export const getTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTaskTemplate: (
+  input: GetTaskTemplateRequest,
+) => Effect.Effect<
+  GetTaskTemplateResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTaskTemplateRequest,
   output: GetTaskTemplateResponse,
   errors: [
@@ -23273,288 +26066,734 @@ export const getTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the association status of requested dataset ID for a given Amazon Connect instance.
  */
-export const listAnalyticsDataAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAnalyticsDataAssociationsRequest,
-    output: ListAnalyticsDataAssociationsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const listAnalyticsDataAssociations: (
+  input: ListAnalyticsDataAssociationsRequest,
+) => Effect.Effect<
+  ListAnalyticsDataAssociationsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAnalyticsDataAssociationsRequest,
+  output: ListAnalyticsDataAssociationsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Returns a paginated list of all approved origins associated with the instance.
  */
-export const listApprovedOrigins =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApprovedOrigins: {
+  (
     input: ListApprovedOriginsRequest,
-    output: ListApprovedOriginsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Origins",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListApprovedOriginsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApprovedOriginsRequest,
+  ) => Stream.Stream<
+    ListApprovedOriginsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApprovedOriginsRequest,
+  ) => Stream.Stream<
+    Origin,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApprovedOriginsRequest,
+  output: ListApprovedOriginsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Origins",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns all attributes for a specified data table. A maximum of 100 attributes per data table is allowed.
  * Customers can request an increase by using Amazon Web Services Service Quotas. The response can be filtered by specific attribute IDs
  * for CloudFormation integration.
  */
-export const listDataTableAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataTableAttributes: {
+  (
     input: ListDataTableAttributesRequest,
-    output: ListDataTableAttributesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Attributes",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataTableAttributesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataTableAttributesRequest,
+  ) => Stream.Stream<
+    ListDataTableAttributesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataTableAttributesRequest,
+  ) => Stream.Stream<
+    DataTableAttribute,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataTableAttributesRequest,
+  output: ListDataTableAttributesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Attributes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all security profiles attached to a Q in Connect AIAgent Entity in an Amazon Connect instance.
  */
-export const listEntitySecurityProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEntitySecurityProfiles: {
+  (
     input: ListEntitySecurityProfilesRequest,
-    output: ListEntitySecurityProfilesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SecurityProfiles",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEntitySecurityProfilesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEntitySecurityProfilesRequest,
+  ) => Stream.Stream<
+    ListEntitySecurityProfilesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEntitySecurityProfilesRequest,
+  ) => Stream.Stream<
+    SecurityProfileItem,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEntitySecurityProfilesRequest,
+  output: ListEntitySecurityProfilesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SecurityProfiles",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the flow association based on the filters.
  */
-export const listFlowAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFlowAssociations: {
+  (
     input: ListFlowAssociationsRequest,
-    output: ListFlowAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FlowAssociationSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFlowAssociationsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFlowAssociationsRequest,
+  ) => Stream.Stream<
+    ListFlowAssociationsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFlowAssociationsRequest,
+  ) => Stream.Stream<
+    FlowAssociationSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFlowAssociationsRequest,
+  output: ListFlowAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FlowAssociationSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the hours of operation overrides.
  */
-export const listHoursOfOperationOverrides =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listHoursOfOperationOverrides: {
+  (
     input: ListHoursOfOperationOverridesRequest,
-    output: ListHoursOfOperationOverridesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "HoursOfOperationOverrideList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListHoursOfOperationOverridesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListHoursOfOperationOverridesRequest,
+  ) => Stream.Stream<
+    ListHoursOfOperationOverridesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListHoursOfOperationOverridesRequest,
+  ) => Stream.Stream<
+    HoursOfOperationOverride,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListHoursOfOperationOverridesRequest,
+  output: ListHoursOfOperationOverridesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "HoursOfOperationOverrideList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Returns a paginated list of all attribute types for the given instance.
  */
-export const listInstanceAttributes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInstanceAttributes: {
+  (
     input: ListInstanceAttributesRequest,
-    output: ListInstanceAttributesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Attributes",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInstanceAttributesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInstanceAttributesRequest,
+  ) => Stream.Stream<
+    ListInstanceAttributesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInstanceAttributesRequest,
+  ) => Stream.Stream<
+    Attribute,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInstanceAttributesRequest,
+  output: ListInstanceAttributesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Attributes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Returns a paginated list of storage configs for the identified instance and resource type.
  */
-export const listInstanceStorageConfigs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInstanceStorageConfigs: {
+  (
     input: ListInstanceStorageConfigsRequest,
-    output: ListInstanceStorageConfigsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "StorageConfigs",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInstanceStorageConfigsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInstanceStorageConfigsRequest,
+  ) => Stream.Stream<
+    ListInstanceStorageConfigsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInstanceStorageConfigsRequest,
+  ) => Stream.Stream<
+    InstanceStorageConfig,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInstanceStorageConfigsRequest,
+  output: ListInstanceStorageConfigsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "StorageConfigs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow
  * blocks.
  */
-export const listLambdaFunctions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLambdaFunctions: {
+  (
     input: ListLambdaFunctionsRequest,
-    output: ListLambdaFunctionsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LambdaFunctions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListLambdaFunctionsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLambdaFunctionsRequest,
+  ) => Stream.Stream<
+    ListLambdaFunctionsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLambdaFunctionsRequest,
+  ) => Stream.Stream<
+    FunctionArn,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLambdaFunctionsRequest,
+  output: ListLambdaFunctionsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LambdaFunctions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return
  * both Amazon Lex V1 and V2 bots, use the ListBots API.
  */
-export const listLexBots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLexBots: {
+  (
     input: ListLexBotsRequest,
-    output: ListLexBotsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LexBots",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLexBotsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLexBotsRequest,
+  ) => Stream.Stream<
+    ListLexBotsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLexBotsRequest,
+  ) => Stream.Stream<
+    LexBot,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLexBotsRequest,
+  output: ListLexBotsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LexBots",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Provides information about the quick connects for the specified Amazon Connect instance.
  */
-export const listQuickConnects = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listQuickConnects: {
+  (
     input: ListQuickConnectsRequest,
-    output: ListQuickConnectsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "QuickConnectSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListQuickConnectsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListQuickConnectsRequest,
+  ) => Stream.Stream<
+    ListQuickConnectsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListQuickConnectsRequest,
+  ) => Stream.Stream<
+    QuickConnectSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListQuickConnectsRequest,
+  output: ListQuickConnectsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "QuickConnectSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of third-party applications or MCP Servers in a specific security profile.
  */
-export const listSecurityProfileApplications =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSecurityProfileApplications: {
+  (
     input: ListSecurityProfileApplicationsRequest,
-    output: ListSecurityProfileApplicationsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Applications",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSecurityProfileApplicationsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecurityProfileApplicationsRequest,
+  ) => Stream.Stream<
+    ListSecurityProfileApplicationsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecurityProfileApplicationsRequest,
+  ) => Stream.Stream<
+    Application,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecurityProfileApplicationsRequest,
+  output: ListSecurityProfileApplicationsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Applications",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * A list of Flow Modules an AI Agent can invoke as a tool
  */
-export const listSecurityProfileFlowModules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSecurityProfileFlowModules: {
+  (
     input: ListSecurityProfileFlowModulesRequest,
-    output: ListSecurityProfileFlowModulesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AllowedFlowModules",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSecurityProfileFlowModulesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecurityProfileFlowModulesRequest,
+  ) => Stream.Stream<
+    ListSecurityProfileFlowModulesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecurityProfileFlowModulesRequest,
+  ) => Stream.Stream<
+    FlowModule,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecurityProfileFlowModulesRequest,
+  output: ListSecurityProfileFlowModulesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AllowedFlowModules",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the permissions granted to a security profile.
  *
@@ -23562,31 +26801,78 @@ export const listSecurityProfileFlowModules =
  * profile permissions, see List
  * of security profile permissions.
  */
-export const listSecurityProfilePermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSecurityProfilePermissions: {
+  (
     input: ListSecurityProfilePermissionsRequest,
-    output: ListSecurityProfilePermissionsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Permissions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSecurityProfilePermissionsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecurityProfilePermissionsRequest,
+  ) => Stream.Stream<
+    ListSecurityProfilePermissionsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecurityProfilePermissionsRequest,
+  ) => Stream.Stream<
+    SecurityProfilePermission,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecurityProfilePermissionsRequest,
+  output: ListSecurityProfilePermissionsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Permissions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the tags for the specified resource.
  *
  * For sample policies that use tags, see Amazon Connect Identity-Based Policy
  * Examples in the *Amazon Connect Administrator Guide*.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -23600,45 +26886,104 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists proficiencies associated with a user.
  */
-export const listUserProficiencies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUserProficiencies: {
+  (
     input: ListUserProficienciesRequest,
-    output: ListUserProficienciesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "UserProficiencyList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListUserProficienciesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUserProficienciesRequest,
+  ) => Stream.Stream<
+    ListUserProficienciesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUserProficienciesRequest,
+  ) => Stream.Stream<
+    UserProficiency,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUserProficienciesRequest,
+  output: ListUserProficienciesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "UserProficiencyList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Update the hours of operation override.
  */
-export const updateHoursOfOperationOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateHoursOfOperationOverrideRequest,
-    output: UpdateHoursOfOperationOverrideResponse,
-    errors: [
-      ConditionalOperationFailedException,
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateHoursOfOperationOverride: (
+  input: UpdateHoursOfOperationOverrideRequest,
+) => Effect.Effect<
+  UpdateHoursOfOperationOverrideResponse,
+  | ConditionalOperationFailedException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateHoursOfOperationOverrideRequest,
+  output: UpdateHoursOfOperationOverrideResponse,
+  errors: [
+    ConditionalOperationFailedException,
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a prompt.
  */
-export const updatePrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePrompt: (
+  input: UpdatePromptRequest,
+) => Effect.Effect<
+  UpdatePromptResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePromptRequest,
   output: UpdatePromptResponse,
   errors: [
@@ -23652,38 +26997,68 @@ export const updatePrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an hours of operation.
  */
-export const deleteHoursOfOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteHoursOfOperationRequest,
-    output: DeleteHoursOfOperationResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteHoursOfOperation: (
+  input: DeleteHoursOfOperationRequest,
+) => Effect.Effect<
+  DeleteHoursOfOperationResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteHoursOfOperationRequest,
+  output: DeleteHoursOfOperationResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes an hours of operation override in an Amazon Connect hours of operation resource.
  */
-export const deleteHoursOfOperationOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteHoursOfOperationOverrideRequest,
-    output: DeleteHoursOfOperationOverrideResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteHoursOfOperationOverride: (
+  input: DeleteHoursOfOperationOverrideRequest,
+) => Effect.Effect<
+  DeleteHoursOfOperationOverrideResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteHoursOfOperationOverrideRequest,
+  output: DeleteHoursOfOperationOverrideResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a prompt.
  */
-export const deletePrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePrompt: (
+  input: DeletePromptRequest,
+) => Effect.Effect<
+  DeletePromptResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePromptRequest,
   output: DeletePromptResponse,
   errors: [
@@ -23707,7 +27082,18 @@ export const deletePrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if
  * you're using Amazon Connect Global Resiliency.
  */
-export const deleteQuickConnect = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteQuickConnect: (
+  input: DeleteQuickConnectRequest,
+) => Effect.Effect<
+  DeleteQuickConnectResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQuickConnectRequest,
   output: DeleteQuickConnectResponse,
   errors: [
@@ -23721,7 +27107,18 @@ export const deleteQuickConnect = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the task template.
  */
-export const deleteTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTaskTemplate: (
+  input: DeleteTaskTemplateRequest,
+) => Effect.Effect<
+  DeleteTaskTemplateResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTaskTemplateRequest,
   output: DeleteTaskTemplateResponse,
   errors: [
@@ -23748,7 +27145,18 @@ export const deleteTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if
  * you're using Amazon Connect Global Resiliency.
  */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUser: (
+  input: DeleteUserRequest,
+) => Effect.Effect<
+  DeleteUserResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
   output: DeleteUserResponse,
   errors: [
@@ -23762,93 +27170,151 @@ export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a media asset (such as a logo) from a workspace.
  */
-export const deleteWorkspaceMedia = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWorkspaceMediaRequest,
-    output: DeleteWorkspaceMediaResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteWorkspaceMedia: (
+  input: DeleteWorkspaceMediaRequest,
+) => Effect.Effect<
+  DeleteWorkspaceMediaResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkspaceMediaRequest,
+  output: DeleteWorkspaceMediaResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Removes the dataset ID associated with a given Amazon Connect instance.
  */
-export const disassociateAnalyticsDataSet =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateAnalyticsDataSetRequest,
-    output: DisassociateAnalyticsDataSetResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const disassociateAnalyticsDataSet: (
+  input: DisassociateAnalyticsDataSetRequest,
+) => Effect.Effect<
+  DisassociateAnalyticsDataSetResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateAnalyticsDataSetRequest,
+  output: DisassociateAnalyticsDataSetResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Revokes access to integrated applications from Amazon Connect.
  */
-export const disassociateApprovedOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateApprovedOriginRequest,
-    output: DisassociateApprovedOriginResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const disassociateApprovedOrigin: (
+  input: DisassociateApprovedOriginRequest,
+) => Effect.Effect<
+  DisassociateApprovedOriginResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateApprovedOriginRequest,
+  output: DisassociateApprovedOriginResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Removes the storage type configurations for the specified resource type and association ID.
  */
-export const disassociateInstanceStorageConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateInstanceStorageConfigRequest,
-    output: DisassociateInstanceStorageConfigResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const disassociateInstanceStorageConfig: (
+  input: DisassociateInstanceStorageConfigRequest,
+) => Effect.Effect<
+  DisassociateInstanceStorageConfigResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateInstanceStorageConfigRequest,
+  output: DisassociateInstanceStorageConfigResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Remove the Lambda function from the dropdown options available in the relevant flow blocks.
  */
-export const disassociateLambdaFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateLambdaFunctionRequest,
-    output: DisassociateLambdaFunctionResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const disassociateLambdaFunction: (
+  input: DisassociateLambdaFunctionRequest,
+) => Effect.Effect<
+  DisassociateLambdaFunctionResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateLambdaFunctionRequest,
+  output: DisassociateLambdaFunctionResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Revokes authorization from the specified instance to access the specified Amazon Lex bot.
  */
-export const disassociateLexBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateLexBot: (
+  input: DisassociateLexBotRequest,
+) => Effect.Effect<
+  DisassociateLexBotResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateLexBotRequest,
   output: DisassociateLexBotResponse,
   errors: [
@@ -23862,68 +27328,104 @@ export const disassociateLexBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates a set of quick connects from a queue.
  */
-export const disassociateQueueQuickConnects =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateQueueQuickConnectsRequest,
-    output: DisassociateQueueQuickConnectsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const disassociateQueueQuickConnects: (
+  input: DisassociateQueueQuickConnectsRequest,
+) => Effect.Effect<
+  DisassociateQueueQuickConnectsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateQueueQuickConnectsRequest,
+  output: DisassociateQueueQuickConnectsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Deletes the specified security key.
  */
-export const disassociateSecurityKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateSecurityKeyRequest,
-    output: DisassociateSecurityKeyResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const disassociateSecurityKey: (
+  input: DisassociateSecurityKeyRequest,
+) => Effect.Effect<
+  DisassociateSecurityKeyResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateSecurityKeyRequest,
+  output: DisassociateSecurityKeyResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Imports a media asset (such as a logo) for use in a workspace.
  */
-export const importWorkspaceMedia = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ImportWorkspaceMediaRequest,
-    output: ImportWorkspaceMediaResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const importWorkspaceMedia: (
+  input: ImportWorkspaceMediaRequest,
+) => Effect.Effect<
+  ImportWorkspaceMediaResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportWorkspaceMediaRequest,
+  output: ImportWorkspaceMediaResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Ends message streaming on a specified contact. To restart message streaming on that contact, call the StartContactStreaming
  * API.
  */
-export const stopContactStreaming = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopContactStreamingRequest,
-    output: StopContactStreamingResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const stopContactStreaming: (
+  input: StopContactStreamingRequest,
+) => Effect.Effect<
+  StopContactStreamingResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopContactStreamingRequest,
+  output: StopContactStreamingResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Adds the specified tags to the specified resource.
  *
@@ -23933,7 +27435,18 @@ export const stopContactStreaming = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For sample policies that use tags, see Amazon Connect Identity-Based Policy
  * Examples in the *Amazon Connect Administrator Guide*.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -23947,7 +27460,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -23964,55 +27488,82 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Updates the selected authentication profile.
  */
-export const updateAuthenticationProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAuthenticationProfileRequest,
-    output: UpdateAuthenticationProfileResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateAuthenticationProfile: (
+  input: UpdateAuthenticationProfileRequest,
+) => Effect.Effect<
+  UpdateAuthenticationProfileResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAuthenticationProfileRequest,
+  output: UpdateAuthenticationProfileResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Updates the value for the specified attribute type.
  */
-export const updateInstanceAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateInstanceAttributeRequest,
-    output: UpdateInstanceAttributeResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateInstanceAttribute: (
+  input: UpdateInstanceAttributeRequest,
+) => Effect.Effect<
+  UpdateInstanceAttributeResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInstanceAttributeRequest,
+  output: UpdateInstanceAttributeResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Updates an existing configuration for a resource type. This API is idempotent.
  */
-export const updateInstanceStorageConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateInstanceStorageConfigRequest,
-    output: UpdateInstanceStorageConfigResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateInstanceStorageConfig: (
+  input: UpdateInstanceStorageConfigRequest,
+) => Effect.Effect<
+  UpdateInstanceStorageConfigResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInstanceStorageConfigRequest,
+  output: UpdateInstanceStorageConfigResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a predefined attribute for the specified Amazon Connect instance. A *predefined attribute* is
  * made up of a name and a value.
@@ -24034,51 +27585,78 @@ export const updateInstanceStorageConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const updatePredefinedAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePredefinedAttributeRequest,
-    output: UpdatePredefinedAttributeResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updatePredefinedAttribute: (
+  input: UpdatePredefinedAttributeRequest,
+) => Effect.Effect<
+  UpdatePredefinedAttributeResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePredefinedAttributeRequest,
+  output: UpdatePredefinedAttributeResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the hours of operation for the specified queue.
  */
-export const updateQueueHoursOfOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateQueueHoursOfOperationRequest,
-    output: UpdateQueueHoursOfOperationResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateQueueHoursOfOperation: (
+  input: UpdateQueueHoursOfOperationRequest,
+) => Effect.Effect<
+  UpdateQueueHoursOfOperationResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQueueHoursOfOperationRequest,
+  output: UpdateQueueHoursOfOperationResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the maximum number of contacts allowed in a queue before it is considered full.
  */
-export const updateQueueMaxContacts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateQueueMaxContactsRequest,
-    output: UpdateQueueMaxContactsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateQueueMaxContacts: (
+  input: UpdateQueueMaxContactsRequest,
+) => Effect.Effect<
+  UpdateQueueMaxContactsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQueueMaxContactsRequest,
+  output: UpdateQueueMaxContactsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.
  *
@@ -24096,22 +27674,43 @@ export const updateQueueMaxContacts = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - If you plan to use IAM policies to allow/deny access to this API for phone number resources
  * claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
  */
-export const updateQueueOutboundCallerConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateQueueOutboundCallerConfigRequest,
-    output: UpdateQueueOutboundCallerConfigResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateQueueOutboundCallerConfig: (
+  input: UpdateQueueOutboundCallerConfigRequest,
+) => Effect.Effect<
+  UpdateQueueOutboundCallerConfigResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQueueOutboundCallerConfigRequest,
+  output: UpdateQueueOutboundCallerConfigResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the status of the queue.
  */
-export const updateQueueStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateQueueStatus: (
+  input: UpdateQueueStatusRequest,
+) => Effect.Effect<
+  UpdateQueueStatusResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueStatusRequest,
   output: UpdateQueueStatusResponse,
   errors: [
@@ -24125,97 +27724,154 @@ export const updateQueueStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the configuration settings for the specified quick connect.
  */
-export const updateQuickConnectConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateQuickConnectConfigRequest,
-    output: UpdateQuickConnectConfigResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateQuickConnectConfig: (
+  input: UpdateQuickConnectConfigRequest,
+) => Effect.Effect<
+  UpdateQuickConnectConfigResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQuickConnectConfigRequest,
+  output: UpdateQuickConnectConfigResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least `Name` or `Description` must be provided.
  */
-export const updateQuickConnectName = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateQuickConnectNameRequest,
-    output: UpdateQuickConnectNameResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateQuickConnectName: (
+  input: UpdateQuickConnectNameRequest,
+) => Effect.Effect<
+  UpdateQuickConnectNameResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQuickConnectNameRequest,
+  output: UpdateQuickConnectNameResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Whether agents with this routing profile will have their routing order calculated based on time since
  * their last inbound contact or *longest idle time*.
  */
-export const updateRoutingProfileAgentAvailabilityTimer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRoutingProfileAgentAvailabilityTimerRequest,
-    output: UpdateRoutingProfileAgentAvailabilityTimerResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateRoutingProfileAgentAvailabilityTimer: (
+  input: UpdateRoutingProfileAgentAvailabilityTimerRequest,
+) => Effect.Effect<
+  UpdateRoutingProfileAgentAvailabilityTimerResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRoutingProfileAgentAvailabilityTimerRequest,
+  output: UpdateRoutingProfileAgentAvailabilityTimerResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile.
  */
-export const updateRoutingProfileConcurrency =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRoutingProfileConcurrencyRequest,
-    output: UpdateRoutingProfileConcurrencyResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateRoutingProfileConcurrency: (
+  input: UpdateRoutingProfileConcurrencyRequest,
+) => Effect.Effect<
+  UpdateRoutingProfileConcurrencyResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRoutingProfileConcurrencyRequest,
+  output: UpdateRoutingProfileConcurrencyResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the default outbound queue of a routing profile.
  */
-export const updateRoutingProfileDefaultOutboundQueue =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateRoutingProfileDefaultOutboundQueueRequest,
-    output: UpdateRoutingProfileDefaultOutboundQueueResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateRoutingProfileDefaultOutboundQueue: (
+  input: UpdateRoutingProfileDefaultOutboundQueueRequest,
+) => Effect.Effect<
+  UpdateRoutingProfileDefaultOutboundQueueResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRoutingProfileDefaultOutboundQueueRequest,
+  output: UpdateRoutingProfileDefaultOutboundQueueResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the properties associated with a set of queues for a routing profile.
  */
-export const updateRoutingProfileQueues = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRoutingProfileQueuesRequest,
-    output: UpdateRoutingProfileQueuesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateRoutingProfileQueues: (
+  input: UpdateRoutingProfileQueuesRequest,
+) => Effect.Effect<
+  UpdateRoutingProfileQueuesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRoutingProfileQueuesRequest,
+  output: UpdateRoutingProfileQueuesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a security profile.
  *
@@ -24223,23 +27879,43 @@ export const updateRoutingProfileQueues = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * profile permissions, see List
  * of security profile permissions.
  */
-export const updateSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSecurityProfileRequest,
-    output: UpdateSecurityProfileResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateSecurityProfile: (
+  input: UpdateSecurityProfileRequest,
+) => Effect.Effect<
+  UpdateSecurityProfileResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSecurityProfileRequest,
+  output: UpdateSecurityProfileResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Assigns the specified hierarchy group to the specified user.
  */
-export const updateUserHierarchy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUserHierarchy: (
+  input: UpdateUserHierarchyRequest,
+) => Effect.Effect<
+  UpdateUserHierarchyResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserHierarchyRequest,
   output: UpdateUserHierarchyResponse,
   errors: [
@@ -24259,104 +27935,170 @@ export const updateUserHierarchy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * reset the password through email. For more information, see Best Practices for Security Profiles
  * in the *Amazon Connect Administrator Guide*.
  */
-export const updateUserIdentityInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserIdentityInfoRequest,
-    output: UpdateUserIdentityInfoResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateUserIdentityInfo: (
+  input: UpdateUserIdentityInfoRequest,
+) => Effect.Effect<
+  UpdateUserIdentityInfoResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserIdentityInfoRequest,
+  output: UpdateUserIdentityInfoResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the phone configuration settings for the specified user.
  */
-export const updateUserPhoneConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserPhoneConfigRequest,
-    output: UpdateUserPhoneConfigResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateUserPhoneConfig: (
+  input: UpdateUserPhoneConfigRequest,
+) => Effect.Effect<
+  UpdateUserPhoneConfigResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserPhoneConfigRequest,
+  output: UpdateUserPhoneConfigResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the properties associated with the proficiencies of a user.
  */
-export const updateUserProficiencies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserProficienciesRequest,
-    output: UpdateUserProficienciesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateUserProficiencies: (
+  input: UpdateUserProficienciesRequest,
+) => Effect.Effect<
+  UpdateUserProficienciesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserProficienciesRequest,
+  output: UpdateUserProficienciesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Assigns the specified routing profile to the specified user.
  */
-export const updateUserRoutingProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserRoutingProfileRequest,
-    output: UpdateUserRoutingProfileResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateUserRoutingProfile: (
+  input: UpdateUserRoutingProfileRequest,
+) => Effect.Effect<
+  UpdateUserRoutingProfileResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserRoutingProfileRequest,
+  output: UpdateUserRoutingProfileResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Assigns the specified security profiles to the specified user.
  */
-export const updateUserSecurityProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateUserSecurityProfilesRequest,
-    output: UpdateUserSecurityProfilesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateUserSecurityProfiles: (
+  input: UpdateUserSecurityProfilesRequest,
+) => Effect.Effect<
+  UpdateUserSecurityProfilesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserSecurityProfilesRequest,
+  output: UpdateUserSecurityProfilesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Associates the specified dataset for a Amazon Connect instance with the target account. You can associate
  * only one dataset in a single call.
  */
-export const associateAnalyticsDataSet = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateAnalyticsDataSetRequest,
-    output: AssociateAnalyticsDataSetResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const associateAnalyticsDataSet: (
+  input: AssociateAnalyticsDataSetRequest,
+) => Effect.Effect<
+  AssociateAnalyticsDataSetResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateAnalyticsDataSetRequest,
+  output: AssociateAnalyticsDataSetResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Associates a connect resource to a flow.
  */
-export const associateFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateFlow: (
+  input: AssociateFlowRequest,
+) => Effect.Effect<
+  AssociateFlowResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateFlowRequest,
   output: AssociateFlowResponse,
   errors: [
@@ -24371,7 +28113,19 @@ export const associateFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a flow for the specified Amazon Connect instance.
  */
-export const deleteContactFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteContactFlow: (
+  input: DeleteContactFlowRequest,
+) => Effect.Effect<
+  DeleteContactFlowResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContactFlowRequest,
   output: DeleteContactFlowResponse,
   errors: [
@@ -24386,74 +28140,129 @@ export const deleteContactFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified flow module.
  */
-export const deleteContactFlowModule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContactFlowModuleRequest,
-    output: DeleteContactFlowModuleResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteContactFlowModule: (
+  input: DeleteContactFlowModuleRequest,
+) => Effect.Effect<
+  DeleteContactFlowModuleResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContactFlowModuleRequest,
+  output: DeleteContactFlowModuleResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Removes an alias reference, breaking the named connection to the underlying module version without affecting the
  * version itself.
  */
-export const deleteContactFlowModuleAlias =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteContactFlowModuleAliasRequest,
-    output: DeleteContactFlowModuleAliasResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteContactFlowModuleAlias: (
+  input: DeleteContactFlowModuleAliasRequest,
+) => Effect.Effect<
+  DeleteContactFlowModuleAliasResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContactFlowModuleAliasRequest,
+  output: DeleteContactFlowModuleAliasResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Removes a specific version of a contact flow module.
  */
-export const deleteContactFlowModuleVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteContactFlowModuleVersionRequest,
-    output: DeleteContactFlowModuleVersionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteContactFlowModuleVersion: (
+  input: DeleteContactFlowModuleVersionRequest,
+) => Effect.Effect<
+  DeleteContactFlowModuleVersionResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContactFlowModuleVersionRequest,
+  output: DeleteContactFlowModuleVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes the particular version specified in flow version identifier.
  */
-export const deleteContactFlowVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContactFlowVersionRequest,
-    output: DeleteContactFlowVersionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteContactFlowVersion: (
+  input: DeleteContactFlowVersionRequest,
+) => Effect.Effect<
+  DeleteContactFlowVersionResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContactFlowVersionRequest,
+  output: DeleteContactFlowVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes email address from the specified Amazon Connect instance.
  */
-export const deleteEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEmailAddress: (
+  input: DeleteEmailAddressRequest,
+) => Effect.Effect<
+  DeleteEmailAddressResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEmailAddressRequest,
   output: DeleteEmailAddressResponse,
   errors: [
@@ -24469,7 +28278,19 @@ export const deleteEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a workspace and removes all associated view and resource assignments.
  */
-export const deleteWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkspace: (
+  input: DeleteWorkspaceRequest,
+) => Effect.Effect<
+  DeleteWorkspaceResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkspaceRequest,
   output: DeleteWorkspaceResponse,
   errors: [
@@ -24485,7 +28306,20 @@ export const deleteWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes the association between a view and a page in a workspace. The page will display the default view after
  * deletion.
  */
-export const deleteWorkspacePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkspacePage: (
+  input: DeleteWorkspacePageRequest,
+) => Effect.Effect<
+  DeleteWorkspacePageResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkspacePageRequest,
   output: DeleteWorkspacePageResponse,
   errors: [
@@ -24554,24 +28388,48 @@ export const deleteWorkspacePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
  */
-export const disassociateEmailAddressAlias =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateEmailAddressAliasRequest,
-    output: DisassociateEmailAddressAliasResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const disassociateEmailAddressAlias: (
+  input: DisassociateEmailAddressAliasRequest,
+) => Effect.Effect<
+  DisassociateEmailAddressAliasResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateEmailAddressAliasRequest,
+  output: DisassociateEmailAddressAliasResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Disassociates a connect resource from a flow.
  */
-export const disassociateFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateFlow: (
+  input: DisassociateFlowRequest,
+) => Effect.Effect<
+  DisassociateFlowResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateFlowRequest,
   output: DisassociateFlowResponse,
   errors: [
@@ -24586,26 +28444,50 @@ export const disassociateFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates a security profile attached to a Q in Connect AI Agent Entity in an Amazon Connect instance.
  */
-export const disassociateSecurityProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateSecurityProfilesRequest,
-    output: DisassociateSecurityProfilesResponse,
-    errors: [
-      AccessDeniedException,
-      ConditionalOperationFailedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const disassociateSecurityProfiles: (
+  input: DisassociateSecurityProfilesRequest,
+) => Effect.Effect<
+  DisassociateSecurityProfilesResponse,
+  | AccessDeniedException
+  | ConditionalOperationFailedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateSecurityProfilesRequest,
+  output: DisassociateSecurityProfilesResponse,
+  errors: [
+    AccessDeniedException,
+    ConditionalOperationFailedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Dismisses contacts from an agent’s CCP and returns the agent to an available state, which allows the agent to
  * receive a new routed contact. Contacts can only be dismissed if they are in a `MISSED`,
  * `ERROR`, `ENDED`, or `REJECTED` state in the Agent Event Stream.
  */
-export const dismissUserContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const dismissUserContact: (
+  input: DismissUserContactRequest,
+) => Effect.Effect<
+  DismissUserContactResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DismissUserContactRequest,
   output: DismissUserContactResponse,
   errors: [
@@ -24624,7 +28506,19 @@ export const dismissUserContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Agent status and Set your
  * next status in the *Amazon Connect Administrator Guide*.
  */
-export const putUserStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putUserStatus: (
+  input: PutUserStatusRequest,
+) => Effect.Effect<
+  PutUserStatusResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutUserStatusRequest,
   output: PutUserStatusResponse,
   errors: [
@@ -24640,7 +28534,19 @@ export const putUserStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Starts screen sharing for a contact. For more information about screen sharing, see Set up in-app, web, video calling, and screen sharing
  * capabilities in the *Amazon Connect Administrator Guide*.
  */
-export const startScreenSharing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startScreenSharing: (
+  input: StartScreenSharingRequest,
+) => Effect.Effect<
+  StartScreenSharingResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartScreenSharingRequest,
   output: StartScreenSharingResponse,
   errors: [
@@ -24655,77 +28561,139 @@ export const startScreenSharing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a specific Aliases metadata, including the version it’s tied to, it’s name, and description.
  */
-export const updateContactFlowModuleAlias =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateContactFlowModuleAliasRequest,
-    output: UpdateContactFlowModuleAliasResponse,
-    errors: [
-      AccessDeniedException,
-      ConditionalOperationFailedException,
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateContactFlowModuleAlias: (
+  input: UpdateContactFlowModuleAliasRequest,
+) => Effect.Effect<
+  UpdateContactFlowModuleAliasResponse,
+  | AccessDeniedException
+  | ConditionalOperationFailedException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContactFlowModuleAliasRequest,
+  output: UpdateContactFlowModuleAliasResponse,
+  errors: [
+    AccessDeniedException,
+    ConditionalOperationFailedException,
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates metadata about specified flow module.
  */
-export const updateContactFlowModuleMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateContactFlowModuleMetadataRequest,
-    output: UpdateContactFlowModuleMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateContactFlowModuleMetadata: (
+  input: UpdateContactFlowModuleMetadataRequest,
+) => Effect.Effect<
+  UpdateContactFlowModuleMetadataResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContactFlowModuleMetadataRequest,
+  output: UpdateContactFlowModuleMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the outbound email address Id for a specified queue.
  */
-export const updateQueueOutboundEmailConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateQueueOutboundEmailConfigRequest,
-    output: UpdateQueueOutboundEmailConfigResponse,
-    errors: [
-      AccessDeniedException,
-      ConditionalOperationFailedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateQueueOutboundEmailConfig: (
+  input: UpdateQueueOutboundEmailConfigRequest,
+) => Effect.Effect<
+  UpdateQueueOutboundEmailConfigResponse,
+  | AccessDeniedException
+  | ConditionalOperationFailedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateQueueOutboundEmailConfigRequest,
+  output: UpdateQueueOutboundEmailConfigResponse,
+  errors: [
+    AccessDeniedException,
+    ConditionalOperationFailedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the metadata of a workspace, such as its name and description.
  */
-export const updateWorkspaceMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWorkspaceMetadataRequest,
-    output: UpdateWorkspaceMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateWorkspaceMetadata: (
+  input: UpdateWorkspaceMetadataRequest,
+) => Effect.Effect<
+  UpdateWorkspaceMetadataResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkspaceMetadataRequest,
+  output: UpdateWorkspaceMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the configuration of a page in a workspace, including the associated view and input data.
  */
-export const updateWorkspacePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWorkspacePage: (
+  input: UpdateWorkspacePageRequest,
+) => Effect.Effect<
+  UpdateWorkspacePageResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkspacePageRequest,
   output: UpdateWorkspacePageResponse,
   errors: [
@@ -24742,96 +28710,158 @@ export const updateWorkspacePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the theme configuration for a workspace, including colors and styling.
  */
-export const updateWorkspaceTheme = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWorkspaceThemeRequest,
-    output: UpdateWorkspaceThemeResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateWorkspaceTheme: (
+  input: UpdateWorkspaceThemeRequest,
+) => Effect.Effect<
+  UpdateWorkspaceThemeResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkspaceThemeRequest,
+  output: UpdateWorkspaceThemeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the visibility setting of a workspace, controlling whether it is available to all users, assigned users
  * only, or none.
  */
-export const updateWorkspaceVisibility = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWorkspaceVisibilityRequest,
-    output: UpdateWorkspaceVisibilityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateWorkspaceVisibility: (
+  input: UpdateWorkspaceVisibilityRequest,
+) => Effect.Effect<
+  UpdateWorkspaceVisibilityResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkspaceVisibilityRequest,
+  output: UpdateWorkspaceVisibilityResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates metadata about specified flow.
  */
-export const updateContactFlowMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContactFlowMetadataRequest,
-    output: UpdateContactFlowMetadataResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateContactFlowMetadata: (
+  input: UpdateContactFlowMetadataRequest,
+) => Effect.Effect<
+  UpdateContactFlowMetadataResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContactFlowMetadataRequest,
+  output: UpdateContactFlowMetadataResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * The name of the flow.
  *
  * You can also create and update flows using the Amazon Connect
  * Flow language.
  */
-export const updateContactFlowName = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContactFlowNameRequest,
-    output: UpdateContactFlowNameResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateContactFlowName: (
+  input: UpdateContactFlowNameRequest,
+) => Effect.Effect<
+  UpdateContactFlowNameResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContactFlowNameRequest,
+  output: UpdateContactFlowNameResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the hours of operation.
  */
-export const updateHoursOfOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateHoursOfOperationRequest,
-    output: UpdateHoursOfOperationResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateHoursOfOperation: (
+  input: UpdateHoursOfOperationRequest,
+) => Effect.Effect<
+  UpdateHoursOfOperationResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateHoursOfOperationRequest,
+  output: UpdateHoursOfOperationResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the name and description of a queue. At least `Name` or `Description` must be provided.
  */
-export const updateQueueName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateQueueName: (
+  input: UpdateQueueNameRequest,
+) => Effect.Effect<
+  UpdateQueueNameResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueNameRequest,
   output: UpdateQueueNameResponse,
   errors: [
@@ -24846,54 +28876,86 @@ export const updateQueueName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least `Name` or `Description` must be provided.
  */
-export const updateRoutingProfileName = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRoutingProfileNameRequest,
-    output: UpdateRoutingProfileNameResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateRoutingProfileName: (
+  input: UpdateRoutingProfileNameRequest,
+) => Effect.Effect<
+  UpdateRoutingProfileNameResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRoutingProfileNameRequest,
+  output: UpdateRoutingProfileNameResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the name of the user hierarchy group.
  */
-export const updateUserHierarchyGroupName =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateUserHierarchyGroupNameRequest,
-    output: UpdateUserHierarchyGroupNameResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateUserHierarchyGroupName: (
+  input: UpdateUserHierarchyGroupNameRequest,
+) => Effect.Effect<
+  UpdateUserHierarchyGroupNameResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserHierarchyGroupNameRequest,
+  output: UpdateUserHierarchyGroupNameResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Associate security profiles with an Entity in an Amazon Connect instance.
  */
-export const associateSecurityProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateSecurityProfilesRequest,
-    output: AssociateSecurityProfilesResponse,
-    errors: [
-      AccessDeniedException,
-      ConditionalOperationFailedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const associateSecurityProfiles: (
+  input: AssociateSecurityProfilesRequest,
+) => Effect.Effect<
+  AssociateSecurityProfilesResponse,
+  | AccessDeniedException
+  | ConditionalOperationFailedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateSecurityProfilesRequest,
+  output: AssociateSecurityProfilesResponse,
+  errors: [
+    AccessDeniedException,
+    ConditionalOperationFailedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Updates specified flow module for the specified Amazon Connect instance.
  *
@@ -24901,56 +28963,89 @@ export const associateSecurityProfiles = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * example, `arn:aws:.../contact-flow/{id}:$SAVED`. After a flow is published, `$SAVED` needs to
  * be supplied to view saved content that has not been published.
  */
-export const updateContactFlowModuleContent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateContactFlowModuleContentRequest,
-    output: UpdateContactFlowModuleContentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidContactFlowModuleException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateContactFlowModuleContent: (
+  input: UpdateContactFlowModuleContentRequest,
+) => Effect.Effect<
+  UpdateContactFlowModuleContentResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidContactFlowModuleException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContactFlowModuleContentRequest,
+  output: UpdateContactFlowModuleContentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidContactFlowModuleException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates an email address metadata. For more information about email addresses, see Create email addresses in the Amazon Connect
  * Administrator Guide.
  */
-export const updateEmailAddressMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEmailAddressMetadataRequest,
-    output: UpdateEmailAddressMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      IdempotencyException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateEmailAddressMetadata: (
+  input: UpdateEmailAddressMetadataRequest,
+) => Effect.Effect<
+  UpdateEmailAddressMetadataResponse,
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEmailAddressMetadataRequest,
+  output: UpdateEmailAddressMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    IdempotencyException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes an attribute and all its values from a data table.
  */
-export const deleteDataTableAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDataTableAttributeRequest,
-    output: DeleteDataTableAttributeResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteDataTableAttribute: (
+  input: DeleteDataTableAttributeRequest,
+) => Effect.Effect<
+  DeleteDataTableAttributeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataTableAttributeRequest,
+  output: DeleteDataTableAttributeResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -24959,7 +29054,21 @@ export const deleteDataTableAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can add or update user-defined contact information for both ongoing and completed contacts.
  */
-export const updateContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateContact: (
+  input: UpdateContactRequest,
+) => Effect.Effect<
+  UpdateContactResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContactRequest,
   output: UpdateContactResponse,
   errors: [
@@ -24978,22 +29087,34 @@ export const updateContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * fields and tags. There are no other granular update endpoints. It does not act as a patch operation - all properties
  * must be provided or defaults will be used. Fields follow the same requirements as CreateDataTable.
  */
-export const updateDataTableMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDataTableMetadataRequest,
-    output: UpdateDataTableMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateDataTableMetadata: (
+  input: UpdateDataTableMetadataRequest,
+) => Effect.Effect<
+  UpdateDataTableMetadataResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataTableMetadataRequest,
+  output: UpdateDataTableMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a data table and all associated attributes, versions, audits, and values. Does not update any references
  * to the data table, even from other data tables. This includes dynamic values and conditional validations. System
@@ -25001,7 +29122,20 @@ export const updateDataTableMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * requested from the admin website, a warning is shown alerting the user of the most recent time the table and its
  * values were accessed.
  */
-export const deleteDataTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataTable: (
+  input: DeleteDataTableRequest,
+) => Effect.Effect<
+  DeleteDataTableResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataTableRequest,
   output: DeleteDataTableResponse,
   errors: [
@@ -25017,7 +29151,20 @@ export const deleteDataTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Allows resuming a task contact in a paused state.
  */
-export const resumeContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resumeContact: (
+  input: ResumeContactRequest,
+) => Effect.Effect<
+  ResumeContactResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeContactRequest,
   output: ResumeContactResponse,
   errors: [
@@ -25043,44 +29190,78 @@ export const resumeContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The API returns a success response to acknowledge the request. However, the interaction and exchange of
  * identity information occur asynchronously after the response is returned.
  */
-export const updateParticipantAuthentication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateParticipantAuthenticationRequest,
-    output: UpdateParticipantAuthenticationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }));
+export const updateParticipantAuthentication: (
+  input: UpdateParticipantAuthenticationRequest,
+) => Effect.Effect<
+  UpdateParticipantAuthenticationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateParticipantAuthenticationRequest,
+  output: UpdateParticipantAuthenticationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates multiple data table values using all properties from BatchCreateDataTableValue. System managed values
  * are not modifiable by customers. The operation requires proper lock versions to prevent concurrent modification
  * conflicts.
  */
-export const batchUpdateDataTableValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchUpdateDataTableValueRequest,
-    output: BatchUpdateDataTableValueResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const batchUpdateDataTableValue: (
+  input: BatchUpdateDataTableValueRequest,
+) => Effect.Effect<
+  BatchUpdateDataTableValueResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateDataTableValueRequest,
+  output: BatchUpdateDataTableValueResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Adds the specified tags to the contact resource. For more information about this API is used, see Set up granular billing for a detailed
  * view of your Amazon Connect usage.
  */
-export const tagContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagContact: (
+  input: TagContactRequest,
+) => Effect.Effect<
+  TagContactResponse,
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagContactRequest,
   output: TagContactResponse,
   errors: [
@@ -25099,18 +29280,26 @@ export const tagContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Voice and screen recordings are supported.
  */
-export const resumeContactRecording = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResumeContactRecordingRequest,
-    output: ResumeContactRecordingResponse,
-    errors: [
-      InternalServiceException,
-      InvalidActiveRegionException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const resumeContactRecording: (
+  input: ResumeContactRecordingRequest,
+) => Effect.Effect<
+  ResumeContactRecordingResponse,
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResumeContactRecordingRequest,
+  output: ResumeContactRecordingResponse,
+  errors: [
+    InternalServiceException,
+    InvalidActiveRegionException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Stops recording a call when a contact is being recorded. StopContactRecording is a one-time action. If you use
  * StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For
@@ -25119,18 +29308,26 @@ export const resumeContactRecording = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Only voice recordings are supported at this time.
  */
-export const stopContactRecording = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopContactRecordingRequest,
-    output: StopContactRecordingResponse,
-    errors: [
-      InternalServiceException,
-      InvalidActiveRegionException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const stopContactRecording: (
+  input: StopContactRecordingRequest,
+) => Effect.Effect<
+  StopContactRecordingResponse,
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopContactRecordingRequest,
+  output: StopContactRecordingResponse,
+  errors: [
+    InternalServiceException,
+    InvalidActiveRegionException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * When a contact is being recorded, this API suspends recording whatever is selected in the flow configuration:
  * call (IVR or agent), screen, or both. If only call recording or only screen recording is enabled, then it would be
@@ -25142,23 +29339,43 @@ export const stopContactRecording = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Voice (IVR, agent) and screen recordings are supported.
  */
-export const suspendContactRecording = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SuspendContactRecordingRequest,
-    output: SuspendContactRecordingResponse,
-    errors: [
-      InternalServiceException,
-      InvalidActiveRegionException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const suspendContactRecording: (
+  input: SuspendContactRecordingRequest,
+) => Effect.Effect<
+  SuspendContactRecordingResponse,
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SuspendContactRecordingRequest,
+  output: SuspendContactRecordingResponse,
+  errors: [
+    InternalServiceException,
+    InvalidActiveRegionException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Removes the specified tags from the contact resource. For more information about this API is used, see Set up granular billing for a detailed
  * view of your Amazon Connect usage.
  */
-export const untagContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagContact: (
+  input: UntagContactRequest,
+) => Effect.Effect<
+  UntagContactResponse,
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagContactRequest,
   output: UntagContactResponse,
   errors: [
@@ -25183,19 +29400,28 @@ export const untagContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * about contact record retention and the maximum size of the contact record attributes section, see Feature
  * specifications in the *Amazon Connect Administrator Guide*.
  */
-export const updateContactAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContactAttributesRequest,
-    output: UpdateContactAttributesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidActiveRegionException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateContactAttributes: (
+  input: UpdateContactAttributesRequest,
+) => Effect.Effect<
+  UpdateContactAttributesResponse,
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContactAttributesRequest,
+  output: UpdateContactAttributesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidActiveRegionException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Updates your claimed phone number from its current Amazon Connect instance or traffic distribution group to another Amazon Connect instance or traffic distribution group in the same Amazon Web Services Region.
  *
@@ -25205,7 +29431,20 @@ export const updateContactAttributes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can call DescribePhoneNumber API to verify the status of a previous UpdatePhoneNumber operation.
  */
-export const updatePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePhoneNumber: (
+  input: UpdatePhoneNumberRequest,
+) => Effect.Effect<
+  UpdatePhoneNumberResponse,
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePhoneNumberRequest,
   output: UpdatePhoneNumberResponse,
   errors: [
@@ -25222,58 +29461,132 @@ export const updatePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Describes an evaluation form in the specified Amazon Connect instance. If the version property is not
  * provided, the latest version of the evaluation form is described.
  */
-export const describeEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEvaluationFormRequest,
-    output: DescribeEvaluationFormResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeEvaluationForm: (
+  input: DescribeEvaluationFormRequest,
+) => Effect.Effect<
+  DescribeEvaluationFormResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEvaluationFormRequest,
+  output: DescribeEvaluationFormResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists evaluation forms in the specified Amazon Connect instance.
  */
-export const listEvaluationForms =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEvaluationForms: {
+  (
     input: ListEvaluationFormsRequest,
-    output: ListEvaluationFormsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EvaluationFormSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEvaluationFormsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEvaluationFormsRequest,
+  ) => Stream.Stream<
+    ListEvaluationFormsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEvaluationFormsRequest,
+  ) => Stream.Stream<
+    EvaluationFormSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEvaluationFormsRequest,
+  output: ListEvaluationFormsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EvaluationFormSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists versions of an evaluation form in the specified Amazon Connect instance.
  */
-export const listEvaluationFormVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEvaluationFormVersions: {
+  (
     input: ListEvaluationFormVersionsRequest,
-    output: ListEvaluationFormVersionsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EvaluationFormVersionSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEvaluationFormVersionsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEvaluationFormVersionsRequest,
+  ) => Stream.Stream<
+    ListEvaluationFormVersionsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEvaluationFormVersionsRequest,
+  ) => Stream.Stream<
+    EvaluationFormVersionSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEvaluationFormVersionsRequest,
+  output: ListEvaluationFormVersionsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EvaluationFormVersionSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided `TargetArn`
  * is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group.
@@ -25287,25 +29600,60 @@ export const listEvaluationFormVersions =
  * - When given a traffic distribution group ARN `ListPhoneNumbersV2` returns only the phone numbers claimed to the
  * traffic distribution group.
  */
-export const listPhoneNumbersV2 = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPhoneNumbersV2: {
+  (
     input: ListPhoneNumbersV2Request,
-    output: ListPhoneNumbersV2Response,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ListPhoneNumbersSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPhoneNumbersV2Response,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPhoneNumbersV2Request,
+  ) => Stream.Stream<
+    ListPhoneNumbersV2Response,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPhoneNumbersV2Request,
+  ) => Stream.Stream<
+    ListPhoneNumbersSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPhoneNumbersV2Request,
+  output: ListPhoneNumbersV2Response,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ListPhoneNumbersSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Associates a flow with a phone number claimed to your Amazon Connect instance.
  *
@@ -25316,33 +29664,53 @@ export const listPhoneNumbersV2 = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * in
  * this scenario, you will receive a `ResourceNotFoundException`.
  */
-export const associatePhoneNumberContactFlow =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociatePhoneNumberContactFlowRequest,
-    output: AssociatePhoneNumberContactFlowResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const associatePhoneNumberContactFlow: (
+  input: AssociatePhoneNumberContactFlowRequest,
+) => Effect.Effect<
+  AssociatePhoneNumberContactFlowResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociatePhoneNumberContactFlowRequest,
+  output: AssociatePhoneNumberContactFlowResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes registration for a device token and a chat contact.
  */
-export const deletePushNotificationRegistration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeletePushNotificationRegistrationRequest,
-    output: DeletePushNotificationRegistrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deletePushNotificationRegistration: (
+  input: DeletePushNotificationRegistrationRequest,
+) => Effect.Effect<
+  DeletePushNotificationRegistrationResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePushNotificationRegistrationRequest,
+  output: DeletePushNotificationRegistrationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Removes the flow association from a phone number claimed to your Amazon Connect instance.
  *
@@ -25352,18 +29720,28 @@ export const deletePushNotificationRegistration =
  * full phone number ARN. If a UUID is provided in this scenario, you will receive a
  * `ResourceNotFoundException`.
  */
-export const disassociatePhoneNumberContactFlow =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociatePhoneNumberContactFlowRequest,
-    output: DisassociatePhoneNumberContactFlowResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const disassociatePhoneNumberContactFlow: (
+  input: DisassociatePhoneNumberContactFlowRequest,
+) => Effect.Effect<
+  DisassociatePhoneNumberContactFlowResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociatePhoneNumberContactFlowRequest,
+  output: DisassociatePhoneNumberContactFlowResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an
  * Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created.
@@ -25383,7 +29761,19 @@ export const disassociatePhoneNumberContactFlow =
  * and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At
  * that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
  */
-export const importPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importPhoneNumber: (
+  input: ImportPhoneNumberRequest,
+) => Effect.Effect<
+  ImportPhoneNumberResponse,
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportPhoneNumberRequest,
   output: ImportPhoneNumberResponse,
   errors: [
@@ -25400,40 +29790,61 @@ export const importPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * from the admin website, a warning is shown alerting the user of the most recent time the attribute and its values
  * were accessed. System managed values are not deletable by customers.
  */
-export const batchDeleteDataTableValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDeleteDataTableValueRequest,
-    output: BatchDeleteDataTableValueResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const batchDeleteDataTableValue: (
+  input: BatchDeleteDataTableValueRequest,
+) => Effect.Effect<
+  BatchDeleteDataTableValueResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteDataTableValueRequest,
+  output: BatchDeleteDataTableValueResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves multiple values from a data table without evaluating expressions. Returns the raw stored values along
  * with metadata such as lock versions and modification timestamps. "Describe" is a deprecated term but is allowed to
  * maintain consistency with existing operations.
  */
-export const batchDescribeDataTableValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDescribeDataTableValueRequest,
-    output: BatchDescribeDataTableValueResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const batchDescribeDataTableValue: (
+  input: BatchDescribeDataTableValueRequest,
+) => Effect.Effect<
+  BatchDescribeDataTableValueResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDescribeDataTableValueRequest,
+  output: BatchDescribeDataTableValueResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call
  * this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was
@@ -25463,7 +29874,19 @@ export const batchDescribeDataTableValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * 200% limit. At that point you are blocked from claiming any more numbers until you
  * open an Amazon Web Services support ticket.
  */
-export const claimPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const claimPhoneNumber: (
+  input: ClaimPhoneNumberRequest,
+) => Effect.Effect<
+  ClaimPhoneNumberResponse,
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClaimPhoneNumberRequest,
   output: ClaimPhoneNumberResponse,
   errors: [
@@ -25492,7 +29915,19 @@ export const claimPhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * or `PUBLISHED`. The `PUBLISHED` status will initiate validation on the content.
  * `SAVED` does not initiate validation of the content. `SAVED` | `PUBLISHED`
  */
-export const describeContactFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeContactFlow: (
+  input: DescribeContactFlowRequest,
+) => Effect.Effect<
+  DescribeContactFlowResponse,
+  | ContactFlowNotPublishedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeContactFlowRequest,
   output: DescribeContactFlowResponse,
   errors: [
@@ -25513,7 +29948,18 @@ export const describeContactFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * in
  * this scenario, you receive a `ResourceNotFoundException`.
  */
-export const describePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describePhoneNumber: (
+  input: DescribePhoneNumberRequest,
+) => Effect.Effect<
+  DescribePhoneNumberResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePhoneNumberRequest,
   output: DescribePhoneNumberResponse,
   errors: [
@@ -25540,50 +29986,78 @@ export const describePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const describePredefinedAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePredefinedAttributeRequest,
-    output: DescribePredefinedAttributeResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describePredefinedAttribute: (
+  input: DescribePredefinedAttributeRequest,
+) => Effect.Effect<
+  DescribePredefinedAttributeResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePredefinedAttributeRequest,
+  output: DescribePredefinedAttributeResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the specified hierarchy group.
  */
-export const describeUserHierarchyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeUserHierarchyGroupRequest,
-    output: DescribeUserHierarchyGroupResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeUserHierarchyGroup: (
+  input: DescribeUserHierarchyGroupRequest,
+) => Effect.Effect<
+  DescribeUserHierarchyGroupResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUserHierarchyGroupRequest,
+  output: DescribeUserHierarchyGroupResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes the hierarchy structure of the specified Amazon Connect instance.
  */
-export const describeUserHierarchyStructure =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeUserHierarchyStructureRequest,
-    output: DescribeUserHierarchyStructureResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeUserHierarchyStructure: (
+  input: DescribeUserHierarchyStructureRequest,
+) => Effect.Effect<
+  DescribeUserHierarchyStructureResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeUserHierarchyStructureRequest,
+  output: DescribeUserHierarchyStructureResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Evaluates values at the time of the request and returns them. It considers the request's timezone or the table's
  * timezone, in that order, when accessing time based tables. When a value is accessed, the accessor's identity and the
@@ -25591,58 +30065,140 @@ export const describeUserHierarchyStructure =
  * not included in the operation name since it does not meet all the criteria for a batch operation as specified in
  * Batch Operations: Amazon Web Services API Standards.
  */
-export const evaluateDataTableValues =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const evaluateDataTableValues: {
+  (
     input: EvaluateDataTableValuesRequest,
-    output: EvaluateDataTableValuesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    EvaluateDataTableValuesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: EvaluateDataTableValuesRequest,
+  ) => Stream.Stream<
+    EvaluateDataTableValuesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: EvaluateDataTableValuesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: EvaluateDataTableValuesRequest,
+  output: EvaluateDataTableValuesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Get the hours of operations with the effective override applied.
  */
-export const getEffectiveHoursOfOperations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetEffectiveHoursOfOperationsRequest,
-    output: GetEffectiveHoursOfOperationsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const getEffectiveHoursOfOperations: (
+  input: GetEffectiveHoursOfOperationsRequest,
+) => Effect.Effect<
+  GetEffectiveHoursOfOperationsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEffectiveHoursOfOperationsRequest,
+  output: GetEffectiveHoursOfOperationsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists contact evaluations in the specified Amazon Connect instance.
  */
-export const listContactEvaluations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listContactEvaluations: {
+  (
     input: ListContactEvaluationsRequest,
-    output: ListContactEvaluationsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EvaluationSummaryList",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListContactEvaluationsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContactEvaluationsRequest,
+  ) => Stream.Stream<
+    ListContactEvaluationsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContactEvaluationsRequest,
+  ) => Stream.Stream<
+    EvaluationSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContactEvaluationsRequest,
+  output: ListContactEvaluationsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EvaluationSummaryList",
+  } as const,
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -25650,73 +30206,224 @@ export const listContactEvaluations =
  * *References* are links to documents that are related to a contact, such as emails, attachments,
  * or URLs.
  */
-export const listContactReferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listContactReferences: {
+  (
     input: ListContactReferencesRequest,
-    output: ListContactReferencesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ReferenceSummaryList",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListContactReferencesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContactReferencesRequest,
+  ) => Stream.Stream<
+    ListContactReferencesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContactReferencesRequest,
+  ) => Stream.Stream<
+    ReferenceSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContactReferencesRequest,
+  output: ListContactReferencesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ReferenceSummaryList",
+  } as const,
+}));
 /**
  * Lists all primary value combinations for a given data table. Returns the unique combinations of primary
  * attribute values that identify records in the table. Up to 100 records are returned per request.
  */
-export const listDataTablePrimaryValues =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataTablePrimaryValues: {
+  (
     input: ListDataTablePrimaryValuesRequest,
-    output: ListDataTablePrimaryValuesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PrimaryValuesList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataTablePrimaryValuesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataTablePrimaryValuesRequest,
+  ) => Stream.Stream<
+    ListDataTablePrimaryValuesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataTablePrimaryValuesRequest,
+  ) => Stream.Stream<
+    RecordPrimaryValue,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataTablePrimaryValuesRequest,
+  output: ListDataTablePrimaryValuesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PrimaryValuesList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists values stored in a data table with optional filtering by record IDs or primary attribute values. Returns
  * the raw stored values along with metadata such as lock versions and modification timestamps.
  */
-export const listDataTableValues =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataTableValues: {
+  (
     input: ListDataTableValuesRequest,
-    output: ListDataTableValuesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Values",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataTableValuesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataTableValuesRequest,
+  ) => Stream.Stream<
+    ListDataTableValuesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataTableValuesRequest,
+  ) => Stream.Stream<
+    DataTableValueSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataTableValuesRequest,
+  output: ListDataTableValuesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Values",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List all rules for the specified Amazon Connect instance.
  */
-export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRules: {
+  (
+    input: ListRulesRequest,
+  ): Effect.Effect<
+    ListRulesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRulesRequest,
+  ) => Stream.Stream<
+    ListRulesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRulesRequest,
+  ) => Stream.Stream<
+    RuleSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRulesRequest,
   output: ListRulesResponse,
   errors: [
@@ -25737,53 +30444,80 @@ export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Deactivates an evaluation form in the specified Amazon Connect instance. After a form is deactivated, it is no longer
  * available for users to start new evaluations based on the form.
  */
-export const deactivateEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeactivateEvaluationFormRequest,
-    output: DeactivateEvaluationFormResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deactivateEvaluationForm: (
+  input: DeactivateEvaluationFormRequest,
+) => Effect.Effect<
+  DeactivateEvaluationFormResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeactivateEvaluationFormRequest,
+  output: DeactivateEvaluationFormResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates details about a contact evaluation in the specified Amazon Connect instance. A contact evaluation
  * must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An
  * answer or note can be deleted by passing an empty object (`{}`) to the question identifier.
  */
-export const updateContactEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContactEvaluationRequest,
-    output: UpdateContactEvaluationResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateContactEvaluation: (
+  input: UpdateContactEvaluationRequest,
+) => Effect.Effect<
+  UpdateContactEvaluationResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContactEvaluationRequest,
+  output: UpdateContactEvaluationResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a contact evaluation in the specified Amazon Connect instance.
  */
-export const deleteContactEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteContactEvaluationRequest,
-    output: DeleteContactEvaluationResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteContactEvaluation: (
+  input: DeleteContactEvaluationRequest,
+) => Effect.Effect<
+  DeleteContactEvaluationResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteContactEvaluationRequest,
+  output: DeleteContactEvaluationResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes an evaluation form in the specified Amazon Connect instance.
  *
@@ -25791,36 +30525,54 @@ export const deleteContactEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - If no version is provided, then the full form (all versions) is deleted.
  */
-export const deleteEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEvaluationFormRequest,
-    output: DeleteEvaluationFormResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteEvaluationForm: (
+  input: DeleteEvaluationFormRequest,
+) => Effect.Effect<
+  DeleteEvaluationFormResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEvaluationFormRequest,
+  output: DeleteEvaluationFormResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Activates an evaluation form in the specified Amazon Connect instance. After the evaluation form is
  * activated, it is available to start new evaluations based on the form.
  */
-export const activateEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ActivateEvaluationFormRequest,
-    output: ActivateEvaluationFormResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const activateEvaluationForm: (
+  input: ActivateEvaluationFormRequest,
+) => Effect.Effect<
+  ActivateEvaluationFormResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ActivateEvaluationFormRequest,
+  output: ActivateEvaluationFormResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API
  * only in the Amazon Web Services Region where the number was claimed.
@@ -25847,7 +30599,20 @@ export const activateEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * 200% limit. At that point you are blocked from claiming any more numbers until you
  * open an Amazon Web Services support ticket.
  */
-export const releasePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const releasePhoneNumber: (
+  input: ReleasePhoneNumberRequest,
+) => Effect.Effect<
+  ReleasePhoneNumberResponse,
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReleasePhoneNumberRequest,
   output: ReleasePhoneNumberResponse,
   errors: [
@@ -25863,7 +30628,19 @@ export const releasePhoneNumber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the vocabulary that has the given identifier.
  */
-export const deleteVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVocabulary: (
+  input: DeleteVocabularyRequest,
+) => Effect.Effect<
+  DeleteVocabularyResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVocabularyRequest,
   output: DeleteVocabularyResponse,
   errors: [
@@ -25881,55 +30658,98 @@ export const deleteVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about deleting traffic distribution groups, see Delete traffic distribution groups in the
  * *Amazon Connect Administrator Guide*.
  */
-export const deleteTrafficDistributionGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTrafficDistributionGroupRequest,
-    output: DeleteTrafficDistributionGroupResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteTrafficDistributionGroup: (
+  input: DeleteTrafficDistributionGroupRequest,
+) => Effect.Effect<
+  DeleteTrafficDistributionGroupResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTrafficDistributionGroupRequest,
+  output: DeleteTrafficDistributionGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the user hierarchy structure: add, remove, and rename user hierarchy levels.
  */
-export const updateUserHierarchyStructure =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateUserHierarchyStructureRequest,
-    output: UpdateUserHierarchyStructureResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateUserHierarchyStructure: (
+  input: UpdateUserHierarchyStructureRequest,
+) => Effect.Effect<
+  UpdateUserHierarchyStructureResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserHierarchyStructureRequest,
+  output: UpdateUserHierarchyStructureResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a predefined attribute from the specified Amazon Connect instance.
  */
-export const deletePredefinedAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePredefinedAttributeRequest,
-    output: DeletePredefinedAttributeResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deletePredefinedAttribute: (
+  input: DeletePredefinedAttributeRequest,
+) => Effect.Effect<
+  DeletePredefinedAttributeResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePredefinedAttributeRequest,
+  output: DeletePredefinedAttributeResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a queue.
  */
-export const deleteQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteQueue: (
+  input: DeleteQueueRequest,
+) => Effect.Effect<
+  DeleteQueueResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteQueueRequest,
   output: DeleteQueueResponse,
   errors: [
@@ -25944,77 +30764,120 @@ export const deleteQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a routing profile.
  */
-export const deleteRoutingProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRoutingProfileRequest,
-    output: DeleteRoutingProfileResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteRoutingProfile: (
+  input: DeleteRoutingProfileRequest,
+) => Effect.Effect<
+  DeleteRoutingProfileResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRoutingProfileRequest,
+  output: DeleteRoutingProfileResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes an existing user hierarchy group. It must not be associated with any agents or have any active child
  * groups.
  */
-export const deleteUserHierarchyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteUserHierarchyGroupRequest,
-    output: DeleteUserHierarchyGroupResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteUserHierarchyGroup: (
+  input: DeleteUserHierarchyGroupRequest,
+) => Effect.Effect<
+  DeleteUserHierarchyGroupResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserHierarchyGroupRequest,
+  output: DeleteUserHierarchyGroupResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a security profile.
  */
-export const deleteSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSecurityProfileRequest,
-    output: DeleteSecurityProfileResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteSecurityProfile: (
+  input: DeleteSecurityProfileRequest,
+) => Effect.Effect<
+  DeleteSecurityProfileResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSecurityProfileRequest,
+  output: DeleteSecurityProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a phone number’s metadata.
  *
  * To verify the status of a previous UpdatePhoneNumberMetadata operation, call the DescribePhoneNumber API.
  */
-export const updatePhoneNumberMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePhoneNumberMetadataRequest,
-    output: UpdatePhoneNumberMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      IdempotencyException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updatePhoneNumberMetadata: (
+  input: UpdatePhoneNumberMetadataRequest,
+) => Effect.Effect<
+  UpdatePhoneNumberMetadataResponse,
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePhoneNumberMetadataRequest,
+  output: UpdatePhoneNumberMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    IdempotencyException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -26026,19 +30889,30 @@ export const updatePhoneNumberMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * resource being specified in the storage configuration, like an S3 bucket, exists when being used for
  * association.
  */
-export const associateInstanceStorageConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateInstanceStorageConfigRequest,
-    output: AssociateInstanceStorageConfigResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const associateInstanceStorageConfig: (
+  input: AssociateInstanceStorageConfigRequest,
+) => Effect.Effect<
+  AssociateInstanceStorageConfigResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateInstanceStorageConfigRequest,
+  output: AssociateInstanceStorageConfigResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account
  * and call this API.
@@ -26048,7 +30922,19 @@ export const associateInstanceStorageConfig =
  * requests. If agents are available, the dial requests are dialed out, which results in a voice call. The resulting
  * voice call uses the same contactId that was created by BatchPutContact.
  */
-export const batchPutContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchPutContact: (
+  input: BatchPutContactRequest,
+) => Effect.Effect<
+  BatchPutContactResponse,
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchPutContactRequest,
   output: BatchPutContactResponse,
   errors: [
@@ -26084,7 +30970,19 @@ export const batchPutContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const getContactMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getContactMetrics: (
+  input: GetContactMetricsRequest,
+) => Effect.Effect<
+  GetContactMetricsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContactMetricsRequest,
   output: GetContactMetricsResponse,
   errors: [
@@ -26099,46 +30997,117 @@ export const getContactMetrics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Searches AgentStatuses in an Amazon Connect instance, with optional filtering.
  */
-export const searchAgentStatuses =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchAgentStatuses: {
+  (
     input: SearchAgentStatusesRequest,
-    output: SearchAgentStatusesResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AgentStatuses",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchAgentStatusesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchAgentStatusesRequest,
+  ) => Stream.Stream<
+    SearchAgentStatusesResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchAgentStatusesRequest,
+  ) => Stream.Stream<
+    AgentStatus,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchAgentStatusesRequest,
+  output: SearchAgentStatusesResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AgentStatuses",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches the flows in an Amazon Connect instance, with optional filtering.
  */
-export const searchContactFlows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchContactFlows: {
+  (
     input: SearchContactFlowsRequest,
-    output: SearchContactFlowsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ContactFlows",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchContactFlowsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchContactFlowsRequest,
+  ) => Stream.Stream<
+    SearchContactFlowsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchContactFlowsRequest,
+  ) => Stream.Stream<
+    ContactFlow,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchContactFlowsRequest,
+  output: SearchContactFlowsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ContactFlows",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Submits a contact evaluation in the specified Amazon Connect instance. Answers included in the request are
  * merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted
@@ -26147,19 +31116,28 @@ export const searchContactFlows = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * If a contact evaluation is already in submitted state, this operation will trigger a resubmission.
  */
-export const submitContactEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SubmitContactEvaluationRequest,
-    output: SubmitContactEvaluationResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const submitContactEvaluation: (
+  input: SubmitContactEvaluationRequest,
+) => Effect.Effect<
+  SubmitContactEvaluationResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SubmitContactEvaluationRequest,
+  output: SubmitContactEvaluationResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates timeouts for when human chat participants are to be considered idle, and when agents are automatically
  * disconnected from a chat due to idleness. You can set four timers:
@@ -26175,20 +31153,30 @@ export const submitContactEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about how chat timeouts work, see
  * Set up chat timeouts for human participants.
  */
-export const updateParticipantRoleConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateParticipantRoleConfigRequest,
-    output: UpdateParticipantRoleConfigResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateParticipantRoleConfig: (
+  input: UpdateParticipantRoleConfigRequest,
+) => Effect.Effect<
+  UpdateParticipantRoleConfigResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateParticipantRoleConfigRequest,
+  output: UpdateParticipantRoleConfigResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Supports SAML sign-in for Amazon Connect. Retrieves a token for federation. The token is for the Amazon Connect user which corresponds to the IAM credentials that were used to invoke this action.
  *
@@ -26200,7 +31188,19 @@ export const updateParticipantRoleConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * `Provided identity: Principal: .... User: .... cannot be used for federation with Amazon Connect`
  */
-export const getFederationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFederationToken: (
+  input: GetFederationTokenRequest,
+) => Effect.Effect<
+  GetFederationTokenResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | UserNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFederationTokenRequest,
   output: GetFederationTokenResponse,
   errors: [
@@ -26217,7 +31217,47 @@ export const getFederationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Results are sorted primarily by type, and secondarily by name.
  */
-export const listViews = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listViews: {
+  (
+    input: ListViewsRequest,
+  ): Effect.Effect<
+    ListViewsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListViewsRequest,
+  ) => Stream.Stream<
+    ListViewsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListViewsRequest,
+  ) => Stream.Stream<
+    ViewSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListViewsRequest,
   output: ListViewsResponse,
   errors: [
@@ -26238,42 +31278,78 @@ export const listViews = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Creates hours of operation.
  */
-export const createHoursOfOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateHoursOfOperationRequest,
-    output: CreateHoursOfOperationResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createHoursOfOperation: (
+  input: CreateHoursOfOperationRequest,
+) => Effect.Effect<
+  CreateHoursOfOperationResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateHoursOfOperationRequest,
+  output: CreateHoursOfOperationResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates an hours of operation override in an Amazon Connect hours of operation resource.
  */
-export const createHoursOfOperationOverride =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateHoursOfOperationOverrideRequest,
-    output: CreateHoursOfOperationOverrideResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const createHoursOfOperationOverride: (
+  input: CreateHoursOfOperationOverrideRequest,
+) => Effect.Effect<
+  CreateHoursOfOperationOverrideResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateHoursOfOperationOverrideRequest,
+  output: CreateHoursOfOperationOverrideResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a quick connect for the specified Amazon Connect instance.
  */
-export const createQuickConnect = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createQuickConnect: (
+  input: CreateQuickConnectRequest,
+) => Effect.Effect<
+  CreateQuickConnectResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQuickConnectRequest,
   output: CreateQuickConnectResponse,
   errors: [
@@ -26289,21 +31365,32 @@ export const createQuickConnect = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new routing profile.
  */
-export const createRoutingProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateRoutingProfileRequest,
-    output: CreateRoutingProfileResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createRoutingProfile: (
+  input: CreateRoutingProfileRequest,
+) => Effect.Effect<
+  CreateRoutingProfileResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRoutingProfileRequest,
+  output: CreateRoutingProfileResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Initiates a new outbound SMS or WhatsApp contact to a customer. Response of this API provides the
  * `ContactId` of the outbound SMS or WhatsApp contact created.
@@ -26329,21 +31416,32 @@ export const createRoutingProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - Set up WhatsApp
  * Business messaging
  */
-export const startOutboundChatContact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartOutboundChatContactRequest,
-    output: StartOutboundChatContactResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const startOutboundChatContact: (
+  input: StartOutboundChatContactRequest,
+) => Effect.Effect<
+  StartOutboundChatContactResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartOutboundChatContactRequest,
+  output: StartOutboundChatContactResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a new queue for the specified Amazon Connect instance.
  *
@@ -26361,7 +31459,20 @@ export const startOutboundChatContact = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - If you plan to use IAM policies to allow/deny access to this API for phone number resources
  * claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
  */
-export const createQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createQueue: (
+  input: CreateQueueRequest,
+) => Effect.Effect<
+  CreateQueueResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateQueueRequest,
   output: CreateQueueResponse,
   errors: [
@@ -26384,7 +31495,20 @@ export const createQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For information about how to create users using the Amazon Connect admin website, see Add Users in the Amazon Connect
  * Administrator Guide.
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUser: (
+  input: CreateUserRequest,
+) => Effect.Effect<
+  CreateUserResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
   output: CreateUserResponse,
   errors: [
@@ -26422,7 +31546,18 @@ export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Amazon Connect Chat security best practices
  */
-export const startChatContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startChatContact: (
+  input: StartChatContactRequest,
+) => Effect.Effect<
+  StartChatContactResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartChatContactRequest,
   output: StartChatContactResponse,
   errors: [
@@ -26446,62 +31581,107 @@ export const startChatContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Amazon Connect Chat security best practices
  */
-export const startContactStreaming = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartContactStreamingRequest,
-    output: StartContactStreamingResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const startContactStreaming: (
+  input: StartContactStreamingRequest,
+) => Effect.Effect<
+  StartContactStreamingResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartContactStreamingRequest,
+  output: StartContactStreamingResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates an immutable snapshot of a contact flow module, preserving its content and settings at a specific point
  * in time for version control and rollback capabilities.
  */
-export const createContactFlowModuleVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateContactFlowModuleVersionRequest,
-    output: CreateContactFlowModuleVersionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const createContactFlowModuleVersion: (
+  input: CreateContactFlowModuleVersionRequest,
+) => Effect.Effect<
+  CreateContactFlowModuleVersionResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContactFlowModuleVersionRequest,
+  output: CreateContactFlowModuleVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the
  * `FlowContentSha256` provided is different from the `FlowContentSha256` of the
  * `$LATEST` published flow content, then an error is returned. This API only supports creating versions for
  * flows of type `Campaign`.
  */
-export const createContactFlowVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateContactFlowVersionRequest,
-    output: CreateContactFlowVersionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createContactFlowVersion: (
+  input: CreateContactFlowVersionRequest,
+) => Effect.Effect<
+  CreateContactFlowVersionResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContactFlowVersionRequest,
+  output: CreateContactFlowVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates agent status.
  */
-export const updateAgentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAgentStatus: (
+  input: UpdateAgentStatusRequest,
+) => Effect.Effect<
+  UpdateAgentStatusResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAgentStatusRequest,
   output: UpdateAgentStatusResponse,
   errors: [
@@ -26517,58 +31697,101 @@ export const updateAgentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates a set of quick connects with a queue.
  */
-export const associateQueueQuickConnects = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateQueueQuickConnectsRequest,
-    output: AssociateQueueQuickConnectsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const associateQueueQuickConnects: (
+  input: AssociateQueueQuickConnectsRequest,
+) => Effect.Effect<
+  AssociateQueueQuickConnectsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateQueueQuickConnectsRequest,
+  output: AssociateQueueQuickConnectsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the scheduled time of a task contact that is already scheduled.
  */
-export const updateContactSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContactScheduleRequest,
-    output: UpdateContactScheduleResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateContactSchedule: (
+  input: UpdateContactScheduleRequest,
+) => Effect.Effect<
+  UpdateContactScheduleResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContactScheduleRequest,
+  output: UpdateContactScheduleResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Stops in-flight message processing for an ongoing chat session.
  */
-export const stopContactMediaProcessing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopContactMediaProcessingRequest,
-    output: StopContactMediaProcessingResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const stopContactMediaProcessing: (
+  input: StopContactMediaProcessingRequest,
+) => Effect.Effect<
+  StopContactMediaProcessingResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopContactMediaProcessingRequest,
+  output: StopContactMediaProcessingResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates an agent status for the specified Amazon Connect instance.
  */
-export const createAgentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAgentStatus: (
+  input: CreateAgentStatusRequest,
+) => Effect.Effect<
+  CreateAgentStatusResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAgentStatusRequest,
   output: CreateAgentStatusResponse,
   errors: [
@@ -26584,21 +31807,34 @@ export const createAgentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a named alias that points to a specific version of a contact flow module.
  */
-export const createContactFlowModuleAlias =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateContactFlowModuleAliasRequest,
-    output: CreateContactFlowModuleAliasResponse,
-    errors: [
-      AccessDeniedException,
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const createContactFlowModuleAlias: (
+  input: CreateContactFlowModuleAliasRequest,
+) => Effect.Effect<
+  CreateContactFlowModuleAliasResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContactFlowModuleAliasRequest,
+  output: CreateContactFlowModuleAliasResponse,
+  errors: [
+    AccessDeniedException,
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a new predefined attribute for the specified Amazon Connect instance. A *predefined attribute*
  * is made up of a name and a value.
@@ -26620,27 +31856,50 @@ export const createContactFlowModuleAlias =
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const createPredefinedAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePredefinedAttributeRequest,
-    output: CreatePredefinedAttributeResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createPredefinedAttribute: (
+  input: CreatePredefinedAttributeRequest,
+) => Effect.Effect<
+  CreatePredefinedAttributeResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePredefinedAttributeRequest,
+  output: CreatePredefinedAttributeResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a prompt. For more information about prompts, such as supported file types and maximum length, see
  * Create prompts in the
  * *Amazon Connect Administrator Guide*.
  */
-export const createPrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPrompt: (
+  input: CreatePromptRequest,
+) => Effect.Effect<
+  CreatePromptResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePromptRequest,
   output: CreatePromptResponse,
   errors: [
@@ -26655,25 +31914,50 @@ export const createPrompt = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new user hierarchy group.
  */
-export const createUserHierarchyGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateUserHierarchyGroupRequest,
-    output: CreateUserHierarchyGroupResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createUserHierarchyGroup: (
+  input: CreateUserHierarchyGroupRequest,
+) => Effect.Effect<
+  CreateUserHierarchyGroupResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserHierarchyGroupRequest,
+  output: CreateUserHierarchyGroupResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Allows pausing an ongoing task contact.
  */
-export const pauseContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const pauseContact: (
+  input: PauseContactRequest,
+) => Effect.Effect<
+  PauseContactResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PauseContactRequest,
   output: PauseContactResponse,
   errors: [
@@ -26690,31 +31974,59 @@ export const pauseContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a flow module for the specified Amazon Connect instance.
  */
-export const createContactFlowModule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateContactFlowModuleRequest,
-    output: CreateContactFlowModuleResponse,
-    errors: [
-      AccessDeniedException,
-      DuplicateResourceException,
-      IdempotencyException,
-      InternalServiceException,
-      InvalidContactFlowModuleException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createContactFlowModule: (
+  input: CreateContactFlowModuleRequest,
+) => Effect.Effect<
+  CreateContactFlowModuleResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidContactFlowModuleException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateContactFlowModuleRequest,
+  output: CreateContactFlowModuleResponse,
+  errors: [
+    AccessDeniedException,
+    DuplicateResourceException,
+    IdempotencyException,
+    InternalServiceException,
+    InvalidContactFlowModuleException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a flow for the specified Amazon Connect instance.
  *
  * You can also create and update flows using the Amazon Connect
  * Flow language.
  */
-export const createContactFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createContactFlow: (
+  input: CreateContactFlowRequest,
+) => Effect.Effect<
+  CreateContactFlowResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidContactFlowException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContactFlowRequest,
   output: CreateContactFlowResponse,
   errors: [
@@ -26733,26 +32045,64 @@ export const createContactFlow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Results will be sorted from highest to lowest.
  */
-export const listViewVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listViewVersions: {
+  (
     input: ListViewVersionsRequest,
-    output: ListViewVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ViewVersionSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListViewVersionsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListViewVersionsRequest,
+  ) => Stream.Stream<
+    ListViewVersionsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListViewVersionsRequest,
+  ) => Stream.Stream<
+    ViewVersionSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListViewVersionsRequest,
+  output: ListViewVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ViewVersionSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the view for the specified Amazon Connect instance and view identifier.
  *
@@ -26765,7 +32115,19 @@ export const listViewVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * not supplied, then `$LATEST` is assumed for customer managed views and an error is returned if there is no
  * published content available. Version 1 is assumed for Amazon Web Services managed views.
  */
-export const describeView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeView: (
+  input: DescribeViewRequest,
+) => Effect.Effect<
+  DescribeViewResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeViewRequest,
   output: DescribeViewResponse,
   errors: [
@@ -26785,7 +32147,20 @@ export const describeView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * always be updated, but the `$LATEST` alias' content will only be updated if `Status` is
  * `PUBLISHED`.
  */
-export const updateViewContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateViewContent: (
+  input: UpdateViewContentRequest,
+) => Effect.Effect<
+  UpdateViewContentResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateViewContentRequest,
   output: UpdateViewContentResponse,
   errors: [
@@ -26801,7 +32176,20 @@ export const updateViewContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases).
  */
-export const deleteView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteView: (
+  input: DeleteViewRequest,
+) => Effect.Effect<
+  DeleteViewResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteViewRequest,
   output: DeleteViewResponse,
   errors: [
@@ -26817,7 +32205,20 @@ export const deleteView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the particular version specified in `ViewVersion` identifier.
  */
-export const deleteViewVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteViewVersion: (
+  input: DeleteViewVersionRequest,
+) => Effect.Effect<
+  DeleteViewVersionResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteViewVersionRequest,
   output: DeleteViewVersionResponse,
   errors: [
@@ -26834,7 +32235,21 @@ export const deleteViewVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the view metadata. Note that either `Name` or `Description` must be
  * provided.
  */
-export const updateViewMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateViewMetadata: (
+  input: UpdateViewMetadataRequest,
+) => Effect.Effect<
+  UpdateViewMetadataResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateViewMetadataRequest,
   output: UpdateViewMetadataResponse,
   errors: [
@@ -26854,30 +32269,56 @@ export const updateViewMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * existing primary values will already be unique. Creating attributes does not create any values. System managed tables
  * may not allow customers to create new attributes.
  */
-export const createDataTableAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataTableAttributeRequest,
-    output: CreateDataTableAttributeResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createDataTableAttribute: (
+  input: CreateDataTableAttributeRequest,
+) => Effect.Effect<
+  CreateDataTableAttributeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataTableAttributeRequest,
+  output: CreateDataTableAttributeResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a rule for the specified Amazon Connect instance.
  *
  * Use the Rules Function
  * language to code conditions for the rule.
  */
-export const createRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRule: (
+  input: CreateRuleRequest,
+) => Effect.Effect<
+  CreateRuleResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleRequest,
   output: CreateRuleResponse,
   errors: [
@@ -26897,26 +32338,52 @@ export const createRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * profile permissions, see List
  * of security profile permissions.
  */
-export const createSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSecurityProfileRequest,
-    output: CreateSecurityProfileResponse,
-    errors: [
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createSecurityProfile: (
+  input: CreateSecurityProfileRequest,
+) => Effect.Effect<
+  CreateSecurityProfileResponse,
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSecurityProfileRequest,
+  output: CreateSecurityProfileResponse,
+  errors: [
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a workspace that defines the user experience by mapping views to pages. Workspaces can be assigned to
  * users or routing profiles.
  */
-export const createWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkspace: (
+  input: CreateWorkspaceRequest,
+) => Effect.Effect<
+  CreateWorkspaceResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkspaceRequest,
   output: CreateWorkspaceResponse,
   errors: [
@@ -26961,7 +32428,18 @@ export const createWorkspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const describeContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeContact: (
+  input: DescribeContactRequest,
+) => Effect.Effect<
+  DescribeContactResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeContactRequest,
   output: DescribeContactResponse,
   errors: [
@@ -26998,23 +32476,59 @@ export const describeContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Add filters to reduce the amount of data returned
  */
-export const getCurrentMetricData =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getCurrentMetricData: {
+  (
     input: GetCurrentMetricDataRequest,
-    output: GetCurrentMetricDataResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetCurrentMetricDataResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCurrentMetricDataRequest,
+  ) => Stream.Stream<
+    GetCurrentMetricDataResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCurrentMetricDataRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCurrentMetricDataRequest,
+  output: GetCurrentMetricDataResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets historical metric data from the specified Amazon Connect instance.
  *
@@ -27026,24 +32540,59 @@ export const getCurrentMetricData =
  * For example, you can track the number of incoming contacts for the last 7 days, with data split by day, to see how
  * contact volume changed per day of the week.
  */
-export const getMetricData = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getMetricData: {
+  (
     input: GetMetricDataRequest,
-    output: GetMetricDataResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetMetricDataResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetMetricDataRequest,
+  ) => Stream.Stream<
+    GetMetricDataResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetMetricDataRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetMetricDataRequest,
+  output: GetMetricDataResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets metric data from the specified Amazon Connect instance.
  *
@@ -27078,24 +32627,59 @@ export const getMetricData = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - Add filters to reduce the amount of data returned
  */
-export const getMetricDataV2 = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getMetricDataV2: {
+  (
     input: GetMetricDataV2Request,
-    output: GetMetricDataV2Response,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetMetricDataV2Response,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetMetricDataV2Request,
+  ) => Stream.Stream<
+    GetMetricDataV2Response,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetMetricDataV2Request,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetMetricDataV2Request,
+  output: GetMetricDataV2Response,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches contact evaluations in an Amazon Connect instance, with optional filtering.
  *
@@ -27116,42 +32700,89 @@ export const getMetricDataV2 = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const searchContactEvaluations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SearchContactEvaluationsRequest,
-    output: SearchContactEvaluationsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const searchContactEvaluations: (
+  input: SearchContactEvaluationsRequest,
+) => Effect.Effect<
+  SearchContactEvaluationsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchContactEvaluationsRequest,
+  output: SearchContactEvaluationsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Searches tags used in an Amazon Connect instance using optional search criteria.
  */
-export const searchResourceTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchResourceTags: {
+  (
     input: SearchResourceTagsRequest,
-    output: SearchResourceTagsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      MaximumResultReturnedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Tags",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchResourceTagsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | MaximumResultReturnedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchResourceTagsRequest,
+  ) => Stream.Stream<
+    SearchResourceTagsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | MaximumResultReturnedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchResourceTagsRequest,
+  ) => Stream.Stream<
+    TagSet,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | MaximumResultReturnedException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchResourceTagsRequest,
+  output: SearchResourceTagsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    MaximumResultReturnedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Tags",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Starts an empty evaluation in the specified Amazon Connect instance, using the given evaluation form for the
  * particular contact. The evaluation form version used for the contact evaluation corresponds to the currently
@@ -27159,20 +32790,30 @@ export const searchResourceTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * Evaluations created through the public API do not contain answer values suggested from automation.
  */
-export const startContactEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartContactEvaluationRequest,
-    output: StartContactEvaluationResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const startContactEvaluation: (
+  input: StartContactEvaluationRequest,
+) => Effect.Effect<
+  StartContactEvaluationResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartContactEvaluationRequest,
+  output: StartContactEvaluationResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
@@ -27187,7 +32828,18 @@ export const startContactEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
  * You must wait 30 days before you can restart creating and deleting instances in your account.
  */
-export const createInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createInstance: (
+  input: CreateInstanceRequest,
+) => Effect.Effect<
+  CreateInstanceResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstanceRequest,
   output: CreateInstanceResponse,
   errors: [
@@ -27203,7 +32855,20 @@ export const createInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * be your default vocabulary for a given language. Contact Lens for Amazon Connect uses the default vocabulary in post-call and real-time
  * contact analysis sessions for that language.
  */
-export const createVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVocabulary: (
+  input: CreateVocabularyRequest,
+) => Effect.Effect<
+  CreateVocabularyResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVocabularyRequest,
   output: CreateVocabularyResponse,
   errors: [
@@ -27221,27 +32886,53 @@ export const createVocabulary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Associates an approved origin to an Amazon Connect instance.
  */
-export const associateApprovedOrigin = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateApprovedOriginRequest,
-    output: AssociateApprovedOriginResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const associateApprovedOrigin: (
+  input: AssociateApprovedOriginRequest,
+) => Effect.Effect<
+  AssociateApprovedOriginResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateApprovedOriginRequest,
+  output: AssociateApprovedOriginResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a new data table with the specified properties. Supports the creation of all table properties except for
  * attributes and values. A table with no attributes and values is a valid state for a table. The number of tables per
  * instance is limited to 100 per instance. Customers can request an increase by using Amazon Web Services Service Quotas.
  */
-export const createDataTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDataTable: (
+  input: CreateDataTableRequest,
+) => Effect.Effect<
+  CreateDataTableResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataTableRequest,
   output: CreateDataTableResponse,
   errors: [
@@ -27263,7 +32954,20 @@ export const createDataTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account
  * and call this API.
  */
-export const sendOutboundEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendOutboundEmail: (
+  input: SendOutboundEmailRequest,
+) => Effect.Effect<
+  SendOutboundEmailResponse,
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendOutboundEmailRequest,
   output: SendOutboundEmailResponse,
   errors: [
@@ -27281,21 +32985,32 @@ export const sendOutboundEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Associates a security key to the instance.
  */
-export const associateSecurityKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateSecurityKeyRequest,
-    output: AssociateSecurityKeyResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const associateSecurityKey: (
+  input: AssociateSecurityKeyRequest,
+) => Effect.Effect<
+  AssociateSecurityKeyResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateSecurityKeyRequest,
+  output: AssociateSecurityKeyResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Initiates a flow to start a new task contact. For more information about task contacts, see Concepts: Tasks in Amazon Connect in the
  * *Amazon Connect Administrator Guide*.
@@ -27331,7 +33046,19 @@ export const associateSecurityKey = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * quotas for task contacts, see Amazon Connect service quotas in the
  * *Amazon Connect Administrator Guide*.
  */
-export const startTaskContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startTaskContact: (
+  input: StartTaskContactRequest,
+) => Effect.Effect<
+  StartTaskContactResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTaskContactRequest,
   output: StartTaskContactResponse,
   errors: [
@@ -27348,28 +33075,52 @@ export const startTaskContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Allows the specified Amazon Connect instance to access the specified Lambda function.
  */
-export const associateLambdaFunction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateLambdaFunctionRequest,
-    output: AssociateLambdaFunctionResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const associateLambdaFunction: (
+  input: AssociateLambdaFunctionRequest,
+) => Effect.Effect<
+  AssociateLambdaFunctionResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateLambdaFunctionRequest,
+  output: AssociateLambdaFunctionResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * This API is in preview release for Amazon Connect and is subject to change.
  *
  * Allows the specified Amazon Connect instance to access the specified Amazon Lex V1 bot. This API
  * only supports the association of Amazon Lex V1 bots.
  */
-export const associateLexBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateLexBot: (
+  input: AssociateLexBotRequest,
+) => Effect.Effect<
+  AssociateLexBotResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateLexBotRequest,
   output: AssociateLexBotResponse,
   errors: [
@@ -27386,7 +33137,20 @@ export const associateLexBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by
  * *userId* will be set to silent monitoring mode on the contact.
  */
-export const monitorContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const monitorContact: (
+  input: MonitorContactRequest,
+) => Effect.Effect<
+  MonitorContactResponse,
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MonitorContactRequest,
   output: MonitorContactResponse,
   errors: [
@@ -27403,21 +33167,32 @@ export const monitorContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Initiates a flow to send an agent reply or outbound email contact (created from the CreateContact API) to a
  * customer.
  */
-export const startOutboundEmailContact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartOutboundEmailContactRequest,
-    output: StartOutboundEmailContactResponse,
-    errors: [
-      AccessDeniedException,
-      IdempotencyException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const startOutboundEmailContact: (
+  input: StartOutboundEmailContactRequest,
+) => Effect.Effect<
+  StartOutboundEmailContactResponse,
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartOutboundEmailContactRequest,
+  output: StartOutboundEmailContactResponse,
+  errors: [
+    AccessDeniedException,
+    IdempotencyException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Transfers `TASK` or `EMAIL`
  * contacts from one agent or queue to another agent or queue at any point after a contact is
@@ -27438,7 +33213,20 @@ export const startOutboundEmailContact = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - A contact cannot be transferred more than 11 times.
  */
-export const transferContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const transferContact: (
+  input: TransferContactRequest,
+) => Effect.Effect<
+  TransferContactResponse,
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TransferContactRequest,
   output: TransferContactResponse,
   errors: [
@@ -27456,7 +33244,23 @@ export const transferContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * addresses, see Create email
  * addresses in the Amazon Connect Administrator Guide.
  */
-export const createEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEmailAddress: (
+  input: CreateEmailAddressRequest,
+) => Effect.Effect<
+  CreateEmailAddressResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEmailAddressRequest,
   output: CreateEmailAddressResponse,
   errors: [
@@ -27476,19 +33280,30 @@ export const createEmailAddress = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates registration for a device token and a chat contact to receive real-time push notifications. For more
  * information about push notifications, see Set up push notifications in Amazon Connect for mobile chat in the *Amazon Connect Administrator Guide*.
  */
-export const createPushNotificationRegistration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePushNotificationRegistrationRequest,
-    output: CreatePushNotificationRegistrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }));
+export const createPushNotificationRegistration: (
+  input: CreatePushNotificationRegistrationRequest,
+) => Effect.Effect<
+  CreatePushNotificationRegistrationResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePushNotificationRegistrationRequest,
+  output: CreatePushNotificationRegistrationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates values for attributes in a data table. The value may be a default or it may be associated with a primary
  * value. The value must pass all customer defined validation as well as the default validation for the value type. The
@@ -27497,23 +33312,36 @@ export const createPushNotificationRegistration =
  * unauthorized. The combination of primary values and the attribute name serve as the identifier for the individual
  * item request.
  */
-export const batchCreateDataTableValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchCreateDataTableValueRequest,
-    output: BatchCreateDataTableValueResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DuplicateResourceException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const batchCreateDataTableValue: (
+  input: BatchCreateDataTableValueRequest,
+) => Effect.Effect<
+  BatchCreateDataTableValueResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCreateDataTableValueRequest,
+  output: BatchCreateDataTableValueResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates details about a specific evaluation form version in the specified Amazon Connect instance. Question
  * and section identifiers cannot be duplicated within the same evaluation form.
@@ -27521,20 +33349,30 @@ export const batchCreateDataTableValue = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation does not support partial updates. Instead it does a full update of evaluation form
  * content.
  */
-export const updateEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEvaluationFormRequest,
-    output: UpdateEvaluationFormResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateEvaluationForm: (
+  input: UpdateEvaluationFormRequest,
+) => Effect.Effect<
+  UpdateEvaluationFormResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEvaluationFormRequest,
+  output: UpdateEvaluationFormResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Publishes a new version of the view identifier.
  *
@@ -27543,7 +33381,21 @@ export const updateEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * It returns the highest version if there is no change in content compared to that version. An error is displayed
  * if the supplied ViewContentSha256 is different from the ViewContentSha256 of the `$LATEST` alias.
  */
-export const createViewVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createViewVersion: (
+  input: CreateViewVersionRequest,
+) => Effect.Effect<
+  CreateViewVersionResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateViewVersionRequest,
   output: CreateViewVersionResponse,
   errors: [
@@ -27567,7 +33419,22 @@ export const createViewVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `$SAVED` qualifier or both of the `$SAVED` and `$LATEST` qualifiers with the
  * provided view content based on the status. The view is idempotent if ClientToken is provided.
  */
-export const createView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createView: (
+  input: CreateViewRequest,
+) => Effect.Effect<
+  CreateViewResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateViewRequest,
   output: CreateViewResponse,
   errors: [
@@ -27588,7 +33455,20 @@ export const createView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Allows the specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2
  * bot.
  */
-export const associateBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateBot: (
+  input: AssociateBotRequest,
+) => Effect.Effect<
+  AssociateBotResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateBotRequest,
   output: AssociateBotResponse,
   errors: [
@@ -27619,7 +33499,22 @@ export const associateBot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * While you can use API to create task contacts that are in the `COMPLETED` state, you must contact Amazon Web Services Support before using it for bulk import use cases. Bulk import causes your requests to be throttled or
  * fail if your CreateContact limits aren't high enough.
  */
-export const createContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createContact: (
+  input: CreateContactRequest,
+) => Effect.Effect<
+  CreateContactResponse,
+  | AccessDeniedException
+  | ConflictException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContactRequest,
   output: CreateContactResponse,
   errors: [
@@ -27639,7 +33534,19 @@ export const createContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * integrating custom participants or Enable multi-user web, in-app, and video
  * calling.
  */
-export const createParticipant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createParticipant: (
+  input: CreateParticipantRequest,
+) => Effect.Effect<
+  CreateParticipantResponse,
+  | ConflictException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateParticipantRequest,
   output: CreateParticipantResponse,
   errors: [
@@ -27656,25 +33563,48 @@ export const createParticipant = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You may only use this API to upload attachments to an Amazon Connect Case or Amazon Connect Email.
  */
-export const startAttachedFileUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartAttachedFileUploadRequest,
-    output: StartAttachedFileUploadResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const startAttachedFileUpload: (
+  input: StartAttachedFileUploadRequest,
+) => Effect.Effect<
+  StartAttachedFileUploadResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAttachedFileUploadRequest,
+  output: StartAttachedFileUploadResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates an inbound email contact and initiates a flow to start the email contact for the customer. Response of
  * this API provides the ContactId of the email contact created.
  */
-export const startEmailContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startEmailContact: (
+  input: StartEmailContactRequest,
+) => Effect.Effect<
+  StartEmailContactResponse,
+  | AccessDeniedException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartEmailContactRequest,
   output: StartEmailContactResponse,
   errors: [
@@ -27691,7 +33621,19 @@ export const startEmailContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates details about a specific task template in the specified Amazon Connect instance. This operation does
  * not support partial updates. Instead it does a full update of template content.
  */
-export const updateTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTaskTemplate: (
+  input: UpdateTaskTemplateRequest,
+) => Effect.Effect<
+  UpdateTaskTemplateResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | PropertyValidationException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTaskTemplateRequest,
   output: UpdateTaskTemplateResponse,
   errors: [
@@ -27716,25 +33658,54 @@ export const updateTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about creating traffic distribution groups, see Set up traffic distribution groups in the
  * *Amazon Connect Administrator Guide*.
  */
-export const createTrafficDistributionGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTrafficDistributionGroupRequest,
-    output: CreateTrafficDistributionGroupResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ResourceNotReadyException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }));
+export const createTrafficDistributionGroup: (
+  input: CreateTrafficDistributionGroupRequest,
+) => Effect.Effect<
+  CreateTrafficDistributionGroupResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTrafficDistributionGroupRequest,
+  output: CreateTrafficDistributionGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ResourceNotReadyException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Associates a view with a page in a workspace, defining what users see when they navigate to that page.
  */
-export const createWorkspacePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkspacePage: (
+  input: CreateWorkspacePageRequest,
+) => Effect.Effect<
+  CreateWorkspacePageResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkspacePageRequest,
   output: CreateWorkspacePageResponse,
   errors: [
@@ -27754,48 +33725,84 @@ export const createWorkspacePage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Enables in-flight message processing for an ongoing chat session. Message processing will stay active for the
  * rest of the chat, even if an individual contact segment ends.
  */
-export const startContactMediaProcessing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartContactMediaProcessingRequest,
-    output: StartContactMediaProcessingResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }),
-);
+export const startContactMediaProcessing: (
+  input: StartContactMediaProcessingRequest,
+) => Effect.Effect<
+  StartContactMediaProcessingResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartContactMediaProcessingRequest,
+  output: StartContactMediaProcessingResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Updates all properties for an attribute using all properties from CreateDataTableAttribute. There are no other
  * granular update endpoints. It does not act as a patch operation - all properties must be provided. System managed
  * attributes are not mutable by customers. Changing an attribute's validation does not invalidate existing values since
  * validation only runs when values are created or updated.
  */
-export const updateDataTableAttribute = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDataTableAttributeRequest,
-    output: UpdateDataTableAttributeResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateDataTableAttribute: (
+  input: UpdateDataTableAttributeRequest,
+) => Effect.Effect<
+  UpdateDataTableAttributeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataTableAttributeRequest,
+  output: UpdateDataTableAttributeResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a new task template in the specified Amazon Connect instance.
  */
-export const createTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTaskTemplate: (
+  input: CreateTaskTemplateRequest,
+) => Effect.Effect<
+  CreateTaskTemplateResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | PropertyValidationException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTaskTemplateRequest,
   output: CreateTaskTemplateResponse,
   errors: [
@@ -27814,7 +33821,21 @@ export const createTaskTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about replicating an Amazon Connect instance, see Create a replica of your existing Amazon Connect
  * instance in the *Amazon Connect Administrator Guide*.
  */
-export const replicateInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const replicateInstance: (
+  input: ReplicateInstanceRequest,
+) => Effect.Effect<
+  ReplicateInstanceResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReplicateInstanceRequest,
   output: ReplicateInstanceResponse,
   errors: [
@@ -27831,54 +33852,135 @@ export const replicateInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the real-time active user data from the specified Amazon Connect instance.
  */
-export const getCurrentUserData = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getCurrentUserData: {
+  (
     input: GetCurrentUserDataRequest,
-    output: GetCurrentUserDataResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetCurrentUserDataResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCurrentUserDataRequest,
+  ) => Stream.Stream<
+    GetCurrentUserDataResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCurrentUserDataRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCurrentUserDataRequest,
+  output: GetCurrentUserDataResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches users in an Amazon Connect instance, with optional filtering.
  *
  * `AfterContactWorkTimeLimit` is returned in milliseconds.
  */
-export const searchUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchUsers: {
+  (
     input: SearchUsersRequest,
-    output: SearchUsersResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Users",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchUsersResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchUsersRequest,
+  ) => Stream.Stream<
+    SearchUsersResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchUsersRequest,
+  ) => Stream.Stream<
+    UserSearchSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchUsersRequest,
+  output: SearchUsersResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Users",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions
  * in the flow that are specified (in ContactFlowId) and present in the Amazon Connect instance (specified as
  * InstanceId).
  */
-export const startWebRTCContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startWebRTCContact: (
+  input: StartWebRTCContactRequest,
+) => Effect.Effect<
+  StartWebRTCContactResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartWebRTCContactRequest,
   output: StartWebRTCContactResponse,
   errors: [
@@ -27900,40 +34002,61 @@ export const startWebRTCContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Either **QueuePriority** or **QueueTimeAdjustmentInSeconds** should be provided within the request body, but not both.
  */
-export const updateContactRoutingData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateContactRoutingDataRequest,
-    output: UpdateContactRoutingDataResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidActiveRegionException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateContactRoutingData: (
+  input: UpdateContactRoutingDataRequest,
+) => Effect.Effect<
+  UpdateContactRoutingDataResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidActiveRegionException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateContactRoutingDataRequest,
+  output: UpdateContactRoutingDataResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidActiveRegionException,
+    InvalidParameterException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates an evaluation form in the specified Amazon Connect instance. The form can be used to define
  * questions related to agent performance, and create sections to organize such questions. Question and section
  * identifiers cannot be duplicated within the same evaluation form.
  */
-export const createEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEvaluationFormRequest,
-    output: CreateEvaluationFormResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createEvaluationForm: (
+  input: CreateEvaluationFormRequest,
+) => Effect.Effect<
+  CreateEvaluationFormResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEvaluationFormRequest,
+  output: CreateEvaluationFormResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Provides a list of analysis segments for a real-time chat analysis session. This API supports CHAT channels
  * only.
@@ -27941,46 +34064,120 @@ export const createEvaluationForm = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This API does not support VOICE. If you attempt to use it for VOICE, an `InvalidRequestException`
  * occurs.
  */
-export const listRealtimeContactAnalysisSegmentsV2 =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRealtimeContactAnalysisSegmentsV2: {
+  (
     input: ListRealtimeContactAnalysisSegmentsV2Request,
-    output: ListRealtimeContactAnalysisSegmentsV2Response,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      InvalidRequestException,
-      OutputTypeNotFoundException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRealtimeContactAnalysisSegmentsV2Response,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | OutputTypeNotFoundException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRealtimeContactAnalysisSegmentsV2Request,
+  ) => Stream.Stream<
+    ListRealtimeContactAnalysisSegmentsV2Response,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | OutputTypeNotFoundException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRealtimeContactAnalysisSegmentsV2Request,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidRequestException
+    | OutputTypeNotFoundException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRealtimeContactAnalysisSegmentsV2Request,
+  output: ListRealtimeContactAnalysisSegmentsV2Response,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidRequestException,
+    OutputTypeNotFoundException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches contacts in an Amazon Connect instance.
  */
-export const searchContacts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchContacts: {
+  (
     input: SearchContactsRequest,
-    output: SearchContactsResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Contacts",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchContactsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchContactsRequest,
+  ) => Stream.Stream<
+    SearchContactsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchContactsRequest,
+  ) => Stream.Stream<
+    ContactSearchSummary,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchContactsRequest,
+  output: SearchContactsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Contacts",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's
  * specified (in `ContactFlowId`).
@@ -28003,33 +34200,52 @@ export const searchContacts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * For Preview dialing mode, only the Amazon Connect outbound campaigns service principal is allowed to assume a
  * role in your account and call this API with OutboundStrategy.
  */
-export const startOutboundVoiceContact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartOutboundVoiceContactRequest,
-    output: StartOutboundVoiceContactResponse,
-    errors: [
-      DestinationNotAllowedException,
-      InternalServiceException,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      OutboundContactNotPermittedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const startOutboundVoiceContact: (
+  input: StartOutboundVoiceContactRequest,
+) => Effect.Effect<
+  StartOutboundVoiceContactResponse,
+  | DestinationNotAllowedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | OutboundContactNotPermittedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartOutboundVoiceContactRequest,
+  output: StartOutboundVoiceContactResponse,
+  errors: [
+    DestinationNotAllowedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    OutboundContactNotPermittedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Describes a contact evaluation in the specified Amazon Connect instance.
  */
-export const describeContactEvaluation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeContactEvaluationRequest,
-    output: DescribeContactEvaluationResponse,
-    errors: [
-      InternalServiceException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeContactEvaluation: (
+  input: DescribeContactEvaluationRequest,
+) => Effect.Effect<
+  DescribeContactEvaluationResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeContactEvaluationRequest,
+  output: DescribeContactEvaluationResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));

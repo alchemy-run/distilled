@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Launch Wizard",
   serviceShapeName: "LaunchWizard",
@@ -292,6 +300,22 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type TagKey = string;
+export type WorkloadName = string;
+export type DeploymentPatternName = string;
+export type DeploymentName = string;
+export type DeploymentId = string;
+export type MaxDeploymentResults = number;
+export type NextToken = string;
+export type MaxDeploymentEventResults = number;
+export type MaxWorkloadResults = number;
+export type MaxWorkloadDeploymentPatternResults = number;
+export type TagValue = string;
+export type KeyString = string;
+export type ValueString = string;
+export type WorkloadVersionName = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -884,7 +908,9 @@ export const GetWorkloadDeploymentPatternOutput = S.suspend(() =>
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -902,7 +928,16 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Removes the specified tags from the given resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -914,23 +949,52 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the deployments that have been created.
  */
-export const listDeployments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDeployments: {
+  (
     input: ListDeploymentsInput,
-    output: ListDeploymentsOutput,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "deployments",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDeploymentsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeploymentsInput,
+  ) => Stream.Stream<
+    ListDeploymentsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeploymentsInput,
+  ) => Stream.Stream<
+    DeploymentDataSummary,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeploymentsInput,
+  output: ListDeploymentsOutput,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "deployments",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about the deployment.
  */
-export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeployment: (
+  input: GetDeploymentInput,
+) => Effect.Effect<
+  GetDeploymentOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentInput,
   output: GetDeploymentOutput,
   errors: [
@@ -942,7 +1006,17 @@ export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a deployment.
  */
-export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDeployment: (
+  input: DeleteDeploymentInput,
+) => Effect.Effect<
+  DeleteDeploymentOutput,
+  | InternalServerException
+  | ResourceLimitException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeploymentInput,
   output: DeleteDeploymentOutput,
   errors: [
@@ -955,26 +1029,65 @@ export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the events of a deployment.
  */
-export const listDeploymentEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDeploymentEvents: {
+  (
     input: ListDeploymentEventsInput,
-    output: ListDeploymentEventsOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "deploymentEvents",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDeploymentEventsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeploymentEventsInput,
+  ) => Stream.Stream<
+    ListDeploymentEventsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeploymentEventsInput,
+  ) => Stream.Stream<
+    DeploymentEventDataSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeploymentEventsInput,
+  output: ListDeploymentEventsOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "deploymentEvents",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns information about a workload.
  */
-export const getWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkload: (
+  input: GetWorkloadInput,
+) => Effect.Effect<
+  GetWorkloadOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkloadInput,
   output: GetWorkloadOutput,
   errors: [
@@ -986,42 +1099,101 @@ export const getWorkload = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the available workload names. You can use the ListWorkloadDeploymentPatterns operation to discover the available deployment patterns for a given workload.
  */
-export const listWorkloads = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkloads: {
+  (
     input: ListWorkloadsInput,
-    output: ListWorkloadsOutput,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "workloads",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkloadsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkloadsInput,
+  ) => Stream.Stream<
+    ListWorkloadsOutput,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkloadsInput,
+  ) => Stream.Stream<
+    WorkloadDataSummary,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkloadsInput,
+  output: ListWorkloadsOutput,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workloads",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the workload deployment patterns for a given workload name. You can use the ListWorkloads operation to discover the available workload names.
  */
-export const listWorkloadDeploymentPatterns =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWorkloadDeploymentPatterns: {
+  (
     input: ListWorkloadDeploymentPatternsInput,
-    output: ListWorkloadDeploymentPatternsOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "workloadDeploymentPatterns",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWorkloadDeploymentPatternsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkloadDeploymentPatternsInput,
+  ) => Stream.Stream<
+    ListWorkloadDeploymentPatternsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkloadDeploymentPatternsInput,
+  ) => Stream.Stream<
+    WorkloadDeploymentPatternDataSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkloadDeploymentPatternsInput,
+  output: ListWorkloadDeploymentPatternsOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workloadDeploymentPatterns",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the tags associated with a specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [
@@ -1033,7 +1205,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds the specified tags to the given resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -1047,7 +1228,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * not available in the Launch Wizard console to use the `Clone deployment` action
  * on.
  */
-export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDeployment: (
+  input: CreateDeploymentInput,
+) => Effect.Effect<
+  CreateDeploymentOutput,
+  | InternalServerException
+  | ResourceLimitException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentInput,
   output: CreateDeploymentOutput,
   errors: [
@@ -1063,13 +1254,21 @@ export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * operation to discover the available workload names and the ListWorkloadDeploymentPatterns operation to discover the available deployment
  * pattern names of a given workload.
  */
-export const getWorkloadDeploymentPattern =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetWorkloadDeploymentPatternInput,
-    output: GetWorkloadDeploymentPatternOutput,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const getWorkloadDeploymentPattern: (
+  input: GetWorkloadDeploymentPatternInput,
+) => Effect.Effect<
+  GetWorkloadDeploymentPatternOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkloadDeploymentPatternInput,
+  output: GetWorkloadDeploymentPatternOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://memorydb.amazonaws.com/doc/2021-01-01/");
 const svc = T.AwsApiService({
   sdkId: "MemoryDB",
@@ -260,6 +268,20 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type TargetBucket = string;
+export type KmsKeyId = string;
+export type UserName = string;
+export type IntegerOptional = number;
+export type ACLName = string;
+export type AccessString = string;
+export type FilterName = string;
+export type FilterValue = string;
+export type Integer = number;
+export type Double = number;
+export type ExceptionMessage = string;
+export type AwsQueryErrorMessage = string;
 
 //# Schemas
 export type ClusterNameList = string[];
@@ -3028,39 +3050,104 @@ export class ShardsPerClusterQuotaExceededFault extends S.TaggedError<ShardsPerC
 /**
  * Returns a list of ACLs.
  */
-export const describeACLs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeACLs: {
+  (
     input: DescribeACLsRequest,
-    output: DescribeACLsResponse,
-    errors: [ACLNotFoundFault, InvalidParameterCombinationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ACLs",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeACLsResponse,
+    | ACLNotFoundFault
+    | InvalidParameterCombinationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeACLsRequest,
+  ) => Stream.Stream<
+    DescribeACLsResponse,
+    | ACLNotFoundFault
+    | InvalidParameterCombinationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeACLsRequest,
+  ) => Stream.Stream<
+    ACL,
+    | ACLNotFoundFault
+    | InvalidParameterCombinationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeACLsRequest,
+  output: DescribeACLsResponse,
+  errors: [ACLNotFoundFault, InvalidParameterCombinationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ACLs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of users.
  */
-export const describeUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeUsers: {
+  (
     input: DescribeUsersRequest,
-    output: DescribeUsersResponse,
-    errors: [InvalidParameterCombinationException, UserNotFoundFault],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Users",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeUsersResponse,
+    | InvalidParameterCombinationException
+    | UserNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeUsersRequest,
+  ) => Stream.Stream<
+    DescribeUsersResponse,
+    | InvalidParameterCombinationException
+    | UserNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeUsersRequest,
+  ) => Stream.Stream<
+    User,
+    | InvalidParameterCombinationException
+    | UserNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeUsersRequest,
+  output: DescribeUsersResponse,
+  errors: [InvalidParameterCombinationException, UserNotFoundFault],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Users",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Changes the list of users that belong to the Access Control List.
  */
-export const updateACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateACL: (
+  input: UpdateACLRequest,
+) => Effect.Effect<
+  UpdateACLResponse,
+  | ACLNotFoundFault
+  | DefaultUserRequired
+  | DuplicateUserNameFault
+  | InvalidACLStateFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | UserNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateACLRequest,
   output: UpdateACLResponse,
   errors: [
@@ -3076,104 +3163,239 @@ export const updateACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the available Redis OSS engine versions.
  */
-export const describeEngineVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeEngineVersions: {
+  (
     input: DescribeEngineVersionsRequest,
-    output: DescribeEngineVersionsResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EngineVersions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeEngineVersionsResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEngineVersionsRequest,
+  ) => Stream.Stream<
+    DescribeEngineVersionsResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEngineVersionsRequest,
+  ) => Stream.Stream<
+    EngineVersionInfo,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEngineVersionsRequest,
+  output: DescribeEngineVersionsResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EngineVersions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns events related to clusters, security groups, and parameter groups. You can obtain events specific to a particular cluster, security group, or parameter group by providing the name as a parameter.
  *
  * By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
  */
-export const describeEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeEvents: {
+  (
     input: DescribeEventsRequest,
-    output: DescribeEventsResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Events",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeEventsResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeEventsRequest,
+  ) => Stream.Stream<
+    DescribeEventsResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeEventsRequest,
+  ) => Stream.Stream<
+    Event,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeEventsRequest,
+  output: DescribeEventsResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Events",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns details of the service updates.
  */
-export const describeServiceUpdates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeServiceUpdates: {
+  (
     input: DescribeServiceUpdatesRequest,
-    output: DescribeServiceUpdatesResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ServiceUpdates",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeServiceUpdatesResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeServiceUpdatesRequest,
+  ) => Stream.Stream<
+    DescribeServiceUpdatesResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeServiceUpdatesRequest,
+  ) => Stream.Stream<
+    ServiceUpdate,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeServiceUpdatesRequest,
+  output: DescribeServiceUpdatesResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ServiceUpdates",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cluster if a cluster name is supplied.
  */
-export const describeClusters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeClusters: {
+  (
     input: DescribeClustersRequest,
-    output: DescribeClustersResponse,
-    errors: [
-      ClusterNotFoundFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Clusters",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeClustersResponse,
+    | ClusterNotFoundFault
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClustersRequest,
+  ) => Stream.Stream<
+    DescribeClustersResponse,
+    | ClusterNotFoundFault
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClustersRequest,
+  ) => Stream.Stream<
+    Cluster,
+    | ClusterNotFoundFault
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClustersRequest,
+  output: DescribeClustersResponse,
+  errors: [
+    ClusterNotFoundFault,
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Clusters",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all available node types that you can scale to from your cluster's current node type.
  *
  * When you use the UpdateCluster operation to scale your cluster, the value of the NodeType parameter must be one of the node types returned by this operation.
  */
-export const listAllowedNodeTypeUpdates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListAllowedNodeTypeUpdatesRequest,
-    output: ListAllowedNodeTypeUpdatesResponse,
-    errors: [
-      ClusterNotFoundFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-  }),
-);
+export const listAllowedNodeTypeUpdates: (
+  input: ListAllowedNodeTypeUpdatesRequest,
+) => Effect.Effect<
+  ListAllowedNodeTypeUpdatesResponse,
+  | ClusterNotFoundFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAllowedNodeTypeUpdatesRequest,
+  output: ListAllowedNodeTypeUpdatesResponse,
+  errors: [
+    ClusterNotFoundFault,
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+}));
 /**
  * Deletes an Access Control List. The ACL must first be disassociated from the cluster before it can be deleted. For more information, see Authenticating users with Access Contol Lists (ACLs).
  */
-export const deleteACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteACL: (
+  input: DeleteACLRequest,
+) => Effect.Effect<
+  DeleteACLResponse,
+  | ACLNotFoundFault
+  | InvalidACLStateFault
+  | InvalidParameterValueException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteACLRequest,
   output: DeleteACLResponse,
   errors: [
@@ -3185,22 +3407,58 @@ export const deleteACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
  */
-export const describeSubnetGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeSubnetGroups: {
+  (
     input: DescribeSubnetGroupsRequest,
-    output: DescribeSubnetGroupsResponse,
-    errors: [ServiceLinkedRoleNotFoundFault, SubnetGroupNotFoundFault],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SubnetGroups",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeSubnetGroupsResponse,
+    | ServiceLinkedRoleNotFoundFault
+    | SubnetGroupNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSubnetGroupsRequest,
+  ) => Stream.Stream<
+    DescribeSubnetGroupsResponse,
+    | ServiceLinkedRoleNotFoundFault
+    | SubnetGroupNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSubnetGroupsRequest,
+  ) => Stream.Stream<
+    SubnetGroup,
+    | ServiceLinkedRoleNotFoundFault
+    | SubnetGroupNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSubnetGroupsRequest,
+  output: DescribeSubnetGroupsResponse,
+  errors: [ServiceLinkedRoleNotFoundFault, SubnetGroupNotFoundFault],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SubnetGroups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes a subnet group. You cannot delete a default subnet group or one that is associated with any clusters.
  */
-export const deleteSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSubnetGroup: (
+  input: DeleteSubnetGroupRequest,
+) => Effect.Effect<
+  DeleteSubnetGroupResponse,
+  | ServiceLinkedRoleNotFoundFault
+  | SubnetGroupInUseFault
+  | SubnetGroupNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubnetGroupRequest,
   output: DeleteSubnetGroupResponse,
   errors: [
@@ -3212,38 +3470,63 @@ export const deleteSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing multi-Region cluster.
  */
-export const deleteMultiRegionCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMultiRegionClusterRequest,
-    output: DeleteMultiRegionClusterResponse,
-    errors: [
-      InvalidMultiRegionClusterStateFault,
-      InvalidParameterValueException,
-      MultiRegionClusterNotFoundFault,
-    ],
-  }),
-);
+export const deleteMultiRegionCluster: (
+  input: DeleteMultiRegionClusterRequest,
+) => Effect.Effect<
+  DeleteMultiRegionClusterResponse,
+  | InvalidMultiRegionClusterStateFault
+  | InvalidParameterValueException
+  | MultiRegionClusterNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMultiRegionClusterRequest,
+  output: DeleteMultiRegionClusterResponse,
+  errors: [
+    InvalidMultiRegionClusterStateFault,
+    InvalidParameterValueException,
+    MultiRegionClusterNotFoundFault,
+  ],
+}));
 /**
  * Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters.
  * You cannot delete the default parameter groups in your account.
  */
-export const deleteParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteParameterGroupRequest,
-    output: DeleteParameterGroupResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterGroupStateFault,
-      InvalidParameterValueException,
-      ParameterGroupNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-  }),
-);
+export const deleteParameterGroup: (
+  input: DeleteParameterGroupRequest,
+) => Effect.Effect<
+  DeleteParameterGroupResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterGroupStateFault
+  | InvalidParameterValueException
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteParameterGroupRequest,
+  output: DeleteParameterGroupResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterGroupStateFault,
+    InvalidParameterValueException,
+    ParameterGroupNotFoundFault,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+}));
 /**
  * Deletes a user. The user will be removed from all ACLs and in turn removed from all clusters.
  */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUser: (
+  input: DeleteUserRequest,
+) => Effect.Effect<
+  DeleteUserResponse,
+  | InvalidParameterValueException
+  | InvalidUserStateFault
+  | UserNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
   output: DeleteUserResponse,
   errors: [
@@ -3255,83 +3538,198 @@ export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about reserved nodes for this account, or about a specified reserved node.
  */
-export const describeReservedNodes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeReservedNodes: {
+  (
     input: DescribeReservedNodesRequest,
-    output: DescribeReservedNodesResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ReservedNodeNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ReservedNodes",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeReservedNodesResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ReservedNodeNotFoundFault
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeReservedNodesRequest,
+  ) => Stream.Stream<
+    DescribeReservedNodesResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ReservedNodeNotFoundFault
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeReservedNodesRequest,
+  ) => Stream.Stream<
+    ReservedNode,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ReservedNodeNotFoundFault
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeReservedNodesRequest,
+  output: DescribeReservedNodesResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    ReservedNodeNotFoundFault,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ReservedNodes",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of multi-region parameter groups.
  */
-export const describeMultiRegionParameterGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeMultiRegionParameterGroupsRequest,
-    output: DescribeMultiRegionParameterGroupsResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      MultiRegionParameterGroupNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-  }));
+export const describeMultiRegionParameterGroups: (
+  input: DescribeMultiRegionParameterGroupsRequest,
+) => Effect.Effect<
+  DescribeMultiRegionParameterGroupsResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MultiRegionParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeMultiRegionParameterGroupsRequest,
+  output: DescribeMultiRegionParameterGroupsResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    MultiRegionParameterGroupNotFoundFault,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+}));
 /**
  * Lists available reserved node offerings.
  */
-export const describeReservedNodesOfferings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeReservedNodesOfferings: {
+  (
     input: DescribeReservedNodesOfferingsRequest,
-    output: DescribeReservedNodesOfferingsResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ReservedNodesOfferingNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ReservedNodesOfferings",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeReservedNodesOfferingsResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ReservedNodesOfferingNotFoundFault
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeReservedNodesOfferingsRequest,
+  ) => Stream.Stream<
+    DescribeReservedNodesOfferingsResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ReservedNodesOfferingNotFoundFault
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeReservedNodesOfferingsRequest,
+  ) => Stream.Stream<
+    ReservedNodesOffering,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ReservedNodesOfferingNotFoundFault
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeReservedNodesOfferingsRequest,
+  output: DescribeReservedNodesOfferingsResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    ReservedNodesOfferingNotFoundFault,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ReservedNodesOfferings",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about cluster snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot,
  * or just the snapshots associated with a particular cluster.
  */
-export const describeSnapshots = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeSnapshots: {
+  (
     input: DescribeSnapshotsRequest,
-    output: DescribeSnapshotsResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ServiceLinkedRoleNotFoundFault,
-      SnapshotNotFoundFault,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Snapshots",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeSnapshotsResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ServiceLinkedRoleNotFoundFault
+    | SnapshotNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSnapshotsRequest,
+  ) => Stream.Stream<
+    DescribeSnapshotsResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ServiceLinkedRoleNotFoundFault
+    | SnapshotNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSnapshotsRequest,
+  ) => Stream.Stream<
+    Snapshot,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ServiceLinkedRoleNotFoundFault
+    | SnapshotNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSnapshotsRequest,
+  output: DescribeSnapshotsResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    ServiceLinkedRoleNotFoundFault,
+    SnapshotNotFoundFault,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Snapshots",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see Applying the service updates.
  */
-export const batchUpdateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchUpdateCluster: (
+  input: BatchUpdateClusterRequest,
+) => Effect.Effect<
+  BatchUpdateClusterResponse,
+  | InvalidParameterValueException
+  | ServiceUpdateNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateClusterRequest,
   output: BatchUpdateClusterResponse,
   errors: [InvalidParameterValueException, ServiceUpdateNotFoundFault],
@@ -3342,7 +3740,19 @@ export const batchUpdateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `CreateSnapshot` permission is required to create a final snapshot.
  * Without this permission, the API call will fail with an `Access Denied` exception.
  */
-export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCluster: (
+  input: DeleteClusterRequest,
+) => Effect.Effect<
+  DeleteClusterResponse,
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | SnapshotAlreadyExistsFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterRequest,
   output: DeleteClusterResponse,
   errors: [
@@ -3359,7 +3769,24 @@ export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you add or remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your MemoryDB resources.
  */
-export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTags: (
+  input: ListTagsRequest,
+) => Effect.Effect<
+  ListTagsResponse,
+  | ACLNotFoundFault
+  | ClusterNotFoundFault
+  | InvalidARNFault
+  | InvalidClusterStateFault
+  | MultiRegionClusterNotFoundFault
+  | MultiRegionParameterGroupNotFoundFault
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | SnapshotNotFoundFault
+  | SubnetGroupNotFoundFault
+  | UserNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsRequest,
   output: ListTagsResponse,
   errors: [
@@ -3379,52 +3806,102 @@ export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns details about one or more multi-Region clusters.
  */
-export const describeMultiRegionClusters =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeMultiRegionClusters: {
+  (
     input: DescribeMultiRegionClustersRequest,
-    output: DescribeMultiRegionClustersResponse,
-    errors: [
-      ClusterNotFoundFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      MultiRegionClusterNotFoundFault,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MultiRegionClusters",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeMultiRegionClustersResponse,
+    | ClusterNotFoundFault
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | MultiRegionClusterNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeMultiRegionClustersRequest,
+  ) => Stream.Stream<
+    DescribeMultiRegionClustersResponse,
+    | ClusterNotFoundFault
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | MultiRegionClusterNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeMultiRegionClustersRequest,
+  ) => Stream.Stream<
+    MultiRegionCluster,
+    | ClusterNotFoundFault
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | MultiRegionClusterNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeMultiRegionClustersRequest,
+  output: DescribeMultiRegionClustersResponse,
+  errors: [
+    ClusterNotFoundFault,
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    MultiRegionClusterNotFoundFault,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MultiRegionClusters",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the configuration of an existing multi-Region cluster.
  */
-export const updateMultiRegionCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMultiRegionClusterRequest,
-    output: UpdateMultiRegionClusterResponse,
-    errors: [
-      InvalidMultiRegionClusterStateFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      MultiRegionClusterNotFoundFault,
-      MultiRegionParameterGroupNotFoundFault,
-    ],
-  }),
-);
+export const updateMultiRegionCluster: (
+  input: UpdateMultiRegionClusterRequest,
+) => Effect.Effect<
+  UpdateMultiRegionClusterResponse,
+  | InvalidMultiRegionClusterStateFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MultiRegionClusterNotFoundFault
+  | MultiRegionParameterGroupNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMultiRegionClusterRequest,
+  output: UpdateMultiRegionClusterResponse,
+  errors: [
+    InvalidMultiRegionClusterStateFault,
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    MultiRegionClusterNotFoundFault,
+    MultiRegionParameterGroupNotFoundFault,
+  ],
+}));
 /**
  * Lists the allowed updates for a multi-Region cluster.
  */
-export const listAllowedMultiRegionClusterUpdates =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListAllowedMultiRegionClusterUpdatesRequest,
-    output: ListAllowedMultiRegionClusterUpdatesResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      MultiRegionClusterNotFoundFault,
-    ],
-  }));
+export const listAllowedMultiRegionClusterUpdates: (
+  input: ListAllowedMultiRegionClusterUpdatesRequest,
+) => Effect.Effect<
+  ListAllowedMultiRegionClusterUpdatesResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MultiRegionClusterNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAllowedMultiRegionClusterUpdatesRequest,
+  output: ListAllowedMultiRegionClusterUpdatesResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    MultiRegionClusterNotFoundFault,
+  ],
+}));
 /**
  * Use this operation to add tags to a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see Tagging your MemoryDB resources.
  *
@@ -3436,7 +3913,26 @@ export const listAllowedMultiRegionClusterUpdates =
  *
  * For more information, see Using Cost Allocation Tags.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ACLNotFoundFault
+  | ClusterNotFoundFault
+  | InvalidARNFault
+  | InvalidClusterStateFault
+  | InvalidParameterValueException
+  | MultiRegionClusterNotFoundFault
+  | MultiRegionParameterGroupNotFoundFault
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | SnapshotNotFoundFault
+  | SubnetGroupNotFoundFault
+  | TagQuotaPerResourceExceeded
+  | UserNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3458,64 +3954,149 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the detailed parameter list for a particular parameter group.
  */
-export const describeParameters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeParameters: {
+  (
     input: DescribeParametersRequest,
-    output: DescribeParametersResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ParameterGroupNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Parameters",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeParametersResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ParameterGroupNotFoundFault
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeParametersRequest,
+  ) => Stream.Stream<
+    DescribeParametersResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ParameterGroupNotFoundFault
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeParametersRequest,
+  ) => Stream.Stream<
+    Parameter,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ParameterGroupNotFoundFault
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeParametersRequest,
+  output: DescribeParametersResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    ParameterGroupNotFoundFault,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Parameters",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
  */
-export const describeParameterGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeParameterGroups: {
+  (
     input: DescribeParameterGroupsRequest,
-    output: DescribeParameterGroupsResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ParameterGroupNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ParameterGroups",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeParameterGroupsResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ParameterGroupNotFoundFault
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeParameterGroupsRequest,
+  ) => Stream.Stream<
+    DescribeParameterGroupsResponse,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ParameterGroupNotFoundFault
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeParameterGroupsRequest,
+  ) => Stream.Stream<
+    ParameterGroup,
+    | InvalidParameterCombinationException
+    | InvalidParameterValueException
+    | ParameterGroupNotFoundFault
+    | ServiceLinkedRoleNotFoundFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeParameterGroupsRequest,
+  output: DescribeParameterGroupsResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    ParameterGroupNotFoundFault,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ParameterGroups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
  */
-export const updateParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateParameterGroupRequest,
-    output: UpdateParameterGroupResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterGroupStateFault,
-      InvalidParameterValueException,
-      ParameterGroupNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-  }),
-);
+export const updateParameterGroup: (
+  input: UpdateParameterGroupRequest,
+) => Effect.Effect<
+  UpdateParameterGroupResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterGroupStateFault
+  | InvalidParameterValueException
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateParameterGroupRequest,
+  output: UpdateParameterGroupResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterGroupStateFault,
+    InvalidParameterValueException,
+    ParameterGroupNotFoundFault,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+}));
 /**
  * Modifies the parameters of a parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire parameter group, specify the AllParameters and ParameterGroupName parameters.
  */
-export const resetParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resetParameterGroup: (
+  input: ResetParameterGroupRequest,
+) => Effect.Effect<
+  ResetParameterGroupResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterGroupStateFault
+  | InvalidParameterValueException
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetParameterGroupRequest,
   output: ResetParameterGroupResponse,
   errors: [
@@ -3529,7 +4110,17 @@ export const resetParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Changes user password(s) and/or access string.
  */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUser: (
+  input: UpdateUserRequest,
+) => Effect.Effect<
+  UpdateUserResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | InvalidUserStateFault
+  | UserNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,
   output: UpdateUserResponse,
   errors: [
@@ -3542,38 +4133,68 @@ export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new multi-Region cluster.
  */
-export const createMultiRegionCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMultiRegionClusterRequest,
-    output: CreateMultiRegionClusterResponse,
-    errors: [
-      ClusterQuotaForCustomerExceededFault,
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      MultiRegionClusterAlreadyExistsFault,
-      MultiRegionParameterGroupNotFoundFault,
-      TagQuotaPerResourceExceeded,
-    ],
-  }),
-);
+export const createMultiRegionCluster: (
+  input: CreateMultiRegionClusterRequest,
+) => Effect.Effect<
+  CreateMultiRegionClusterResponse,
+  | ClusterQuotaForCustomerExceededFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MultiRegionClusterAlreadyExistsFault
+  | MultiRegionParameterGroupNotFoundFault
+  | TagQuotaPerResourceExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMultiRegionClusterRequest,
+  output: CreateMultiRegionClusterResponse,
+  errors: [
+    ClusterQuotaForCustomerExceededFault,
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    MultiRegionClusterAlreadyExistsFault,
+    MultiRegionParameterGroupNotFoundFault,
+    TagQuotaPerResourceExceeded,
+  ],
+}));
 /**
  * Returns the detailed parameter list for a particular multi-region parameter group.
  */
-export const describeMultiRegionParameters =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeMultiRegionParametersRequest,
-    output: DescribeMultiRegionParametersResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      MultiRegionParameterGroupNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-    ],
-  }));
+export const describeMultiRegionParameters: (
+  input: DescribeMultiRegionParametersRequest,
+) => Effect.Effect<
+  DescribeMultiRegionParametersResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MultiRegionParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeMultiRegionParametersRequest,
+  output: DescribeMultiRegionParametersResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    MultiRegionParameterGroupNotFoundFault,
+    ServiceLinkedRoleNotFoundFault,
+  ],
+}));
 /**
  * Deletes an existing snapshot. When you receive a successful response from this operation, MemoryDB immediately begins deleting the snapshot; you cannot cancel or revert this operation.
  */
-export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSnapshot: (
+  input: DeleteSnapshotRequest,
+) => Effect.Effect<
+  DeleteSnapshotResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | InvalidSnapshotStateFault
+  | ServiceLinkedRoleNotFoundFault
+  | SnapshotNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSnapshotRequest,
   output: DeleteSnapshotResponse,
   errors: [
@@ -3587,7 +4208,20 @@ export const deleteSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Access Control List. For more information, see Authenticating users with Access Contol Lists (ACLs).
  */
-export const createACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createACL: (
+  input: CreateACLRequest,
+) => Effect.Effect<
+  CreateACLResponse,
+  | ACLAlreadyExistsFault
+  | ACLQuotaExceededFault
+  | DefaultUserRequired
+  | DuplicateUserNameFault
+  | InvalidParameterValueException
+  | TagQuotaPerResourceExceeded
+  | UserNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateACLRequest,
   output: CreateACLResponse,
   errors: [
@@ -3603,20 +4237,32 @@ export const createACL = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Allows you to purchase a reserved node offering. Reserved nodes are not eligible for cancellation and are non-refundable.
  */
-export const purchaseReservedNodesOffering =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PurchaseReservedNodesOfferingRequest,
-    output: PurchaseReservedNodesOfferingResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterValueException,
-      ReservedNodeAlreadyExistsFault,
-      ReservedNodeQuotaExceededFault,
-      ReservedNodesOfferingNotFoundFault,
-      ServiceLinkedRoleNotFoundFault,
-      TagQuotaPerResourceExceeded,
-    ],
-  }));
+export const purchaseReservedNodesOffering: (
+  input: PurchaseReservedNodesOfferingRequest,
+) => Effect.Effect<
+  PurchaseReservedNodesOfferingResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ReservedNodeAlreadyExistsFault
+  | ReservedNodeQuotaExceededFault
+  | ReservedNodesOfferingNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | TagQuotaPerResourceExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PurchaseReservedNodesOfferingRequest,
+  output: PurchaseReservedNodesOfferingResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterValueException,
+    ReservedNodeAlreadyExistsFault,
+    ReservedNodeQuotaExceededFault,
+    ReservedNodesOfferingNotFoundFault,
+    ServiceLinkedRoleNotFoundFault,
+    TagQuotaPerResourceExceeded,
+  ],
+}));
 /**
  * Use this operation to remove tags on a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see Tagging your MemoryDB resources.
  *
@@ -3628,7 +4274,26 @@ export const purchaseReservedNodesOffering =
  *
  * For more information, see Using Cost Allocation Tags.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | ACLNotFoundFault
+  | ClusterNotFoundFault
+  | InvalidARNFault
+  | InvalidClusterStateFault
+  | InvalidParameterValueException
+  | MultiRegionClusterNotFoundFault
+  | MultiRegionParameterGroupNotFoundFault
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | SnapshotNotFoundFault
+  | SubnetGroupNotFoundFault
+  | TagNotFoundFault
+  | UserNotFoundFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3651,25 +4316,50 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a new MemoryDB parameter group. A parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster. For
  * more information, see Configuring engine parameters using parameter groups.
  */
-export const createParameterGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateParameterGroupRequest,
-    output: CreateParameterGroupResponse,
-    errors: [
-      InvalidParameterCombinationException,
-      InvalidParameterGroupStateFault,
-      InvalidParameterValueException,
-      ParameterGroupAlreadyExistsFault,
-      ParameterGroupQuotaExceededFault,
-      ServiceLinkedRoleNotFoundFault,
-      TagQuotaPerResourceExceeded,
-    ],
-  }),
-);
+export const createParameterGroup: (
+  input: CreateParameterGroupRequest,
+) => Effect.Effect<
+  CreateParameterGroupResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterGroupStateFault
+  | InvalidParameterValueException
+  | ParameterGroupAlreadyExistsFault
+  | ParameterGroupQuotaExceededFault
+  | ServiceLinkedRoleNotFoundFault
+  | TagQuotaPerResourceExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateParameterGroupRequest,
+  output: CreateParameterGroupResponse,
+  errors: [
+    InvalidParameterCombinationException,
+    InvalidParameterGroupStateFault,
+    InvalidParameterValueException,
+    ParameterGroupAlreadyExistsFault,
+    ParameterGroupQuotaExceededFault,
+    ServiceLinkedRoleNotFoundFault,
+    TagQuotaPerResourceExceeded,
+  ],
+}));
 /**
  * Makes a copy of an existing snapshot.
  */
-export const copySnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copySnapshot: (
+  input: CopySnapshotRequest,
+) => Effect.Effect<
+  CopySnapshotResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | InvalidSnapshotStateFault
+  | ServiceLinkedRoleNotFoundFault
+  | SnapshotAlreadyExistsFault
+  | SnapshotNotFoundFault
+  | SnapshotQuotaExceededFault
+  | TagQuotaPerResourceExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopySnapshotRequest,
   output: CopySnapshotResponse,
   errors: [
@@ -3686,7 +4376,21 @@ export const copySnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a copy of an entire cluster at a specific moment in time.
  */
-export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSnapshot: (
+  input: CreateSnapshotRequest,
+) => Effect.Effect<
+  CreateSnapshotResponse,
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | SnapshotAlreadyExistsFault
+  | SnapshotQuotaExceededFault
+  | TagQuotaPerResourceExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotRequest,
   output: CreateSnapshotResponse,
   errors: [
@@ -3703,7 +4407,19 @@ export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a subnet group. For more information, see Updating a subnet group
  */
-export const updateSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSubnetGroup: (
+  input: UpdateSubnetGroupRequest,
+) => Effect.Effect<
+  UpdateSubnetGroupResponse,
+  | InvalidSubnet
+  | ServiceLinkedRoleNotFoundFault
+  | SubnetGroupNotFoundFault
+  | SubnetInUse
+  | SubnetNotAllowedFault
+  | SubnetQuotaExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSubnetGroupRequest,
   output: UpdateSubnetGroupResponse,
   errors: [
@@ -3718,7 +4434,19 @@ export const updateSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a MemoryDB user. For more information, see Authenticating users with Access Contol Lists (ACLs).
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUser: (
+  input: CreateUserRequest,
+) => Effect.Effect<
+  CreateUserResponse,
+  | DuplicateUserNameFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | TagQuotaPerResourceExceeded
+  | UserAlreadyExistsFault
+  | UserQuotaExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
   output: CreateUserResponse,
   errors: [
@@ -3734,7 +4462,21 @@ export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Used to failover a shard. This API is designed for testing the behavior of your application in case of MemoryDB failover. It is not designed to be used as a production-level tool for initiating
  * a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large scale operational events, Amazon may block this API.
  */
-export const failoverShard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const failoverShard: (
+  input: FailoverShardRequest,
+) => Effect.Effect<
+  FailoverShardResponse,
+  | APICallRateForCustomerExceededFault
+  | ClusterNotFoundFault
+  | InvalidClusterStateFault
+  | InvalidKMSKeyFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ShardNotFoundFault
+  | TestFailoverNotAvailableFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FailoverShardRequest,
   output: FailoverShardResponse,
   errors: [
@@ -3754,7 +4496,20 @@ export const failoverShard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * When you create a cluster in an Amazon VPC, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that subnet to associate with your nodes.
  * For more information, see Subnets and subnet groups.
  */
-export const createSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSubnetGroup: (
+  input: CreateSubnetGroupRequest,
+) => Effect.Effect<
+  CreateSubnetGroupResponse,
+  | InvalidSubnet
+  | ServiceLinkedRoleNotFoundFault
+  | SubnetGroupAlreadyExistsFault
+  | SubnetGroupQuotaExceededFault
+  | SubnetNotAllowedFault
+  | SubnetQuotaExceededFault
+  | TagQuotaPerResourceExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubnetGroupRequest,
   output: CreateSubnetGroupResponse,
   errors: [
@@ -3770,7 +4525,31 @@ export const createSubnetGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a cluster. All nodes in the cluster run the same protocol-compliant engine software.
  */
-export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCluster: (
+  input: CreateClusterRequest,
+) => Effect.Effect<
+  CreateClusterResponse,
+  | ACLNotFoundFault
+  | ClusterAlreadyExistsFault
+  | ClusterQuotaForCustomerExceededFault
+  | InsufficientClusterCapacityFault
+  | InvalidACLStateFault
+  | InvalidCredentialsException
+  | InvalidMultiRegionClusterStateFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | InvalidVPCNetworkStateFault
+  | MultiRegionClusterNotFoundFault
+  | NodeQuotaForClusterExceededFault
+  | NodeQuotaForCustomerExceededFault
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | ShardsPerClusterQuotaExceededFault
+  | SubnetGroupNotFoundFault
+  | TagQuotaPerResourceExceeded
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterRequest,
   output: CreateClusterResponse,
   errors: [
@@ -3797,7 +4576,29 @@ export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration settings by specifying the settings and the new values.
  */
-export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCluster: (
+  input: UpdateClusterRequest,
+) => Effect.Effect<
+  UpdateClusterResponse,
+  | ACLNotFoundFault
+  | ClusterNotFoundFault
+  | ClusterQuotaForCustomerExceededFault
+  | InvalidACLStateFault
+  | InvalidClusterStateFault
+  | InvalidKMSKeyFault
+  | InvalidNodeStateFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | InvalidVPCNetworkStateFault
+  | NodeQuotaForClusterExceededFault
+  | NodeQuotaForCustomerExceededFault
+  | NoOperationFault
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | ShardsPerClusterQuotaExceededFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterRequest,
   output: UpdateClusterResponse,
   errors: [

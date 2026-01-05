@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Service Quotas",
   serviceShapeName: "ServiceQuotasV20190624",
@@ -260,6 +268,46 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ExceptionMessage = string;
+export type RequestId = string;
+export type ServiceCode = string;
+export type QuotaCode = string;
+export type AwsRegion = string;
+export type AmazonResourceName = string;
+export type ReportId = string;
+export type NextToken = string;
+export type MaxResultsUtilization = number;
+export type QuotaContextId = string;
+export type MaxResults = number;
+export type QuotaValue = number;
+export type ReportMessage = string;
+export type TagKey = string;
+export type ExcludedService = string;
+export type ExcludedLimit = string;
+export type TagValue = string;
+export type TotalCount = number;
+export type ReportErrorCode = string;
+export type ReportErrorMessage = string;
+export type QuotaName = string;
+export type ServiceName = string;
+export type QuotaArn = string;
+export type QuotaUnit = string;
+export type QuotaDescription = string;
+export type QuotaMetricNamespace = string;
+export type UtilizationPct = number;
+export type DefaultValue = number;
+export type AppliedValue = number;
+export type CustomerServiceEngagementId = string;
+export type Requester = string;
+export type QuotaMetricName = string;
+export type Statistic = string;
+export type PeriodValue = number;
+export type ErrorMessage = string;
+export type QuotaContextScopeType = string;
+export type MetricDimensionName = string;
+export type MetricDimensionValue = string;
 
 //# Schemas
 export interface AssociateServiceQuotaTemplateRequest {}
@@ -1162,7 +1210,9 @@ export class InvalidResourceStateException extends S.TaggedError<InvalidResource
 export class ServiceException extends S.TaggedError<ServiceException>()(
   "ServiceException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
   { Message: S.optional(S.String) },
@@ -1182,7 +1232,9 @@ export class TagPolicyViolationException extends S.TaggedError<TagPolicyViolatio
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class TemplatesNotAvailableInRegionException extends S.TaggedError<TemplatesNotAvailableInRegionException>()(
   "TemplatesNotAvailableInRegionException",
   { Message: S.optional(S.String) },
@@ -1201,7 +1253,21 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
  * Creates a Support case for an existing quota increase request. This call only creates
  * a Support case if the request has a `Pending` status.
  */
-export const createSupportCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSupportCase: (
+  input: CreateSupportCaseRequest,
+) => Effect.Effect<
+  CreateSupportCaseResponse,
+  | AccessDeniedException
+  | DependencyAccessDeniedException
+  | IllegalArgumentException
+  | InvalidResourceStateException
+  | NoSuchResourceException
+  | ResourceAlreadyExistsException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSupportCaseRequest,
   output: CreateSupportCaseResponse,
   errors: [
@@ -1219,163 +1285,391 @@ export const createSupportCase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes the quota increase request for the specified quota from your quota request
  * template.
  */
-export const deleteServiceQuotaIncreaseRequestFromTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteServiceQuotaIncreaseRequestFromTemplateRequest,
-    output: DeleteServiceQuotaIncreaseRequestFromTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      AWSServiceAccessNotEnabledException,
-      DependencyAccessDeniedException,
-      IllegalArgumentException,
-      NoAvailableOrganizationException,
-      NoSuchResourceException,
-      ServiceException,
-      TemplatesNotAvailableInRegionException,
-      TooManyRequestsException,
-    ],
-  }));
+export const deleteServiceQuotaIncreaseRequestFromTemplate: (
+  input: DeleteServiceQuotaIncreaseRequestFromTemplateRequest,
+) => Effect.Effect<
+  DeleteServiceQuotaIncreaseRequestFromTemplateResponse,
+  | AccessDeniedException
+  | AWSServiceAccessNotEnabledException
+  | DependencyAccessDeniedException
+  | IllegalArgumentException
+  | NoAvailableOrganizationException
+  | NoSuchResourceException
+  | ServiceException
+  | TemplatesNotAvailableInRegionException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceQuotaIncreaseRequestFromTemplateRequest,
+  output: DeleteServiceQuotaIncreaseRequestFromTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    AWSServiceAccessNotEnabledException,
+    DependencyAccessDeniedException,
+    IllegalArgumentException,
+    NoAvailableOrganizationException,
+    NoSuchResourceException,
+    ServiceException,
+    TemplatesNotAvailableInRegionException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves the status of the association for the quota request template.
  */
-export const getAssociationForServiceQuotaTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetAssociationForServiceQuotaTemplateRequest,
-    output: GetAssociationForServiceQuotaTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      AWSServiceAccessNotEnabledException,
-      DependencyAccessDeniedException,
-      NoAvailableOrganizationException,
-      ServiceException,
-      ServiceQuotaTemplateNotInUseException,
-      TemplatesNotAvailableInRegionException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getAssociationForServiceQuotaTemplate: (
+  input: GetAssociationForServiceQuotaTemplateRequest,
+) => Effect.Effect<
+  GetAssociationForServiceQuotaTemplateResponse,
+  | AccessDeniedException
+  | AWSServiceAccessNotEnabledException
+  | DependencyAccessDeniedException
+  | NoAvailableOrganizationException
+  | ServiceException
+  | ServiceQuotaTemplateNotInUseException
+  | TemplatesNotAvailableInRegionException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAssociationForServiceQuotaTemplateRequest,
+  output: GetAssociationForServiceQuotaTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    AWSServiceAccessNotEnabledException,
+    DependencyAccessDeniedException,
+    NoAvailableOrganizationException,
+    ServiceException,
+    ServiceQuotaTemplateNotInUseException,
+    TemplatesNotAvailableInRegionException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Lists the default values for the quotas for the specified Amazon Web Services service. A default
  * value does not reflect any quota increases.
  */
-export const listAWSDefaultServiceQuotas =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAWSDefaultServiceQuotas: {
+  (
     input: ListAWSDefaultServiceQuotasRequest,
-    output: ListAWSDefaultServiceQuotasResponse,
-    errors: [
-      AccessDeniedException,
-      IllegalArgumentException,
-      InvalidPaginationTokenException,
-      NoSuchResourceException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Quotas",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAWSDefaultServiceQuotasResponse,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InvalidPaginationTokenException
+    | NoSuchResourceException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAWSDefaultServiceQuotasRequest,
+  ) => Stream.Stream<
+    ListAWSDefaultServiceQuotasResponse,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InvalidPaginationTokenException
+    | NoSuchResourceException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAWSDefaultServiceQuotasRequest,
+  ) => Stream.Stream<
+    ServiceQuota,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InvalidPaginationTokenException
+    | NoSuchResourceException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAWSDefaultServiceQuotasRequest,
+  output: ListAWSDefaultServiceQuotasResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalArgumentException,
+    InvalidPaginationTokenException,
+    NoSuchResourceException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Quotas",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the quota increase requests for the specified Amazon Web Services service. Filter
  * responses to return quota requests at either the account level, resource level, or all
  * levels. Responses include any open or closed requests within 90 days.
  */
-export const listRequestedServiceQuotaChangeHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRequestedServiceQuotaChangeHistory: {
+  (
     input: ListRequestedServiceQuotaChangeHistoryRequest,
-    output: ListRequestedServiceQuotaChangeHistoryResponse,
-    errors: [
-      AccessDeniedException,
-      IllegalArgumentException,
-      InvalidPaginationTokenException,
-      NoSuchResourceException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RequestedQuotas",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRequestedServiceQuotaChangeHistoryResponse,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InvalidPaginationTokenException
+    | NoSuchResourceException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRequestedServiceQuotaChangeHistoryRequest,
+  ) => Stream.Stream<
+    ListRequestedServiceQuotaChangeHistoryResponse,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InvalidPaginationTokenException
+    | NoSuchResourceException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRequestedServiceQuotaChangeHistoryRequest,
+  ) => Stream.Stream<
+    RequestedServiceQuotaChange,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InvalidPaginationTokenException
+    | NoSuchResourceException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRequestedServiceQuotaChangeHistoryRequest,
+  output: ListRequestedServiceQuotaChangeHistoryResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalArgumentException,
+    InvalidPaginationTokenException,
+    NoSuchResourceException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RequestedQuotas",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the quota increase requests for the specified quota. Filter responses to
  * return quota requests at either the account level, resource level, or all levels.
  */
-export const listRequestedServiceQuotaChangeHistoryByQuota =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRequestedServiceQuotaChangeHistoryByQuota: {
+  (
     input: ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
-    output: ListRequestedServiceQuotaChangeHistoryByQuotaResponse,
-    errors: [
-      AccessDeniedException,
-      IllegalArgumentException,
-      InvalidPaginationTokenException,
-      NoSuchResourceException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RequestedQuotas",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRequestedServiceQuotaChangeHistoryByQuotaResponse,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InvalidPaginationTokenException
+    | NoSuchResourceException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
+  ) => Stream.Stream<
+    ListRequestedServiceQuotaChangeHistoryByQuotaResponse,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InvalidPaginationTokenException
+    | NoSuchResourceException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
+  ) => Stream.Stream<
+    RequestedServiceQuotaChange,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InvalidPaginationTokenException
+    | NoSuchResourceException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
+  output: ListRequestedServiceQuotaChangeHistoryByQuotaResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalArgumentException,
+    InvalidPaginationTokenException,
+    NoSuchResourceException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RequestedQuotas",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the applied quota values for the specified Amazon Web Services service. For some quotas, only
  * the default values are available. If the applied quota value is not available for a
  * quota, the quota is not retrieved. Filter responses to return applied quota values at
  * either the account level, resource level, or all levels.
  */
-export const listServiceQuotas = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listServiceQuotas: {
+  (
     input: ListServiceQuotasRequest,
-    output: ListServiceQuotasResponse,
-    errors: [
-      AccessDeniedException,
-      IllegalArgumentException,
-      InvalidPaginationTokenException,
-      NoSuchResourceException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Quotas",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListServiceQuotasResponse,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InvalidPaginationTokenException
+    | NoSuchResourceException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceQuotasRequest,
+  ) => Stream.Stream<
+    ListServiceQuotasResponse,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InvalidPaginationTokenException
+    | NoSuchResourceException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceQuotasRequest,
+  ) => Stream.Stream<
+    ServiceQuota,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InvalidPaginationTokenException
+    | NoSuchResourceException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceQuotasRequest,
+  output: ListServiceQuotasResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalArgumentException,
+    InvalidPaginationTokenException,
+    NoSuchResourceException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Quotas",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the names and codes for the Amazon Web Services services integrated with Service Quotas.
  */
-export const listServices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listServices: {
+  (
     input: ListServicesRequest,
-    output: ListServicesResponse,
-    errors: [
-      AccessDeniedException,
-      IllegalArgumentException,
-      InvalidPaginationTokenException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Services",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListServicesResponse,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InvalidPaginationTokenException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServicesRequest,
+  ) => Stream.Stream<
+    ListServicesResponse,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InvalidPaginationTokenException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServicesRequest,
+  ) => Stream.Stream<
+    ServiceInfo,
+    | AccessDeniedException
+    | IllegalArgumentException
+    | InvalidPaginationTokenException
+    | ServiceException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServicesRequest,
+  output: ListServicesResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalArgumentException,
+    InvalidPaginationTokenException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Services",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Removes tags from the specified applied quota. You can specify one or more tags to
  * remove.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1391,25 +1685,45 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * excluded quotas. Automatic Management monitors your Service Quotas utilization and notifies you before you
  * run out of your allocated quotas.
  */
-export const updateAutoManagement = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAutoManagementRequest,
-    output: UpdateAutoManagementResponse,
-    errors: [
-      AccessDeniedException,
-      IllegalArgumentException,
-      NoSuchResourceException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const updateAutoManagement: (
+  input: UpdateAutoManagementRequest,
+) => Effect.Effect<
+  UpdateAutoManagementResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAutoManagementRequest,
+  output: UpdateAutoManagementResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalArgumentException,
+    NoSuchResourceException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Stops Service Quotas Automatic Management for an Amazon Web Services account and removes all associated
  * configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you
  * run out of your allocated quotas.
  */
-export const stopAutoManagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopAutoManagement: (
+  input: StopAutoManagementRequest,
+) => Effect.Effect<
+  StopAutoManagementResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopAutoManagementRequest,
   output: StopAutoManagementResponse,
   errors: [
@@ -1425,7 +1739,18 @@ export const stopAutoManagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * quota. For some quotas, only the default values are available. If the applied quota
  * value is not available for a quota, the quota is not retrieved.
  */
-export const getServiceQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getServiceQuota: (
+  input: GetServiceQuotaRequest,
+) => Effect.Effect<
+  GetServiceQuotaResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetServiceQuotaRequest,
   output: GetServiceQuotaResponse,
   errors: [
@@ -1439,7 +1764,18 @@ export const getServiceQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the tags assigned to the specified applied quota.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1455,7 +1791,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * and excluded quotas configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you
  * run out of your allocated quotas.
  */
-export const startAutoManagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startAutoManagement: (
+  input: StartAutoManagementRequest,
+) => Effect.Effect<
+  StartAutoManagementResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAutoManagementRequest,
   output: StartAutoManagementResponse,
   errors: [
@@ -1470,18 +1817,28 @@ export const startAutoManagement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves information about your Service Quotas Automatic Management configuration. Automatic Management monitors your Service Quotas utilization and notifies you before you
  * run out of your allocated quotas.
  */
-export const getAutoManagementConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetAutoManagementConfigurationRequest,
-    output: GetAutoManagementConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      IllegalArgumentException,
-      NoSuchResourceException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getAutoManagementConfiguration: (
+  input: GetAutoManagementConfigurationRequest,
+) => Effect.Effect<
+  GetAutoManagementConfigurationResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAutoManagementConfigurationRequest,
+  output: GetAutoManagementConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalArgumentException,
+    NoSuchResourceException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves the quota utilization report for your Amazon Web Services account. This operation returns
  * paginated results showing your quota usage across all Amazon Web Services services, sorted by utilization
@@ -1496,34 +1853,53 @@ export const getAutoManagementConfiguration =
  * parameter to retrieve additional pages of results. Reports are automatically deleted after
  * 15 minutes.
  */
-export const getQuotaUtilizationReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetQuotaUtilizationReportRequest,
-    output: GetQuotaUtilizationReportResponse,
-    errors: [
-      AccessDeniedException,
-      IllegalArgumentException,
-      NoSuchResourceException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getQuotaUtilizationReport: (
+  input: GetQuotaUtilizationReportRequest,
+) => Effect.Effect<
+  GetQuotaUtilizationReportResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQuotaUtilizationReportRequest,
+  output: GetQuotaUtilizationReportResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalArgumentException,
+    NoSuchResourceException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves information about the specified quota increase request.
  */
-export const getRequestedServiceQuotaChange =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRequestedServiceQuotaChangeRequest,
-    output: GetRequestedServiceQuotaChangeResponse,
-    errors: [
-      AccessDeniedException,
-      IllegalArgumentException,
-      NoSuchResourceException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getRequestedServiceQuotaChange: (
+  input: GetRequestedServiceQuotaChangeRequest,
+) => Effect.Effect<
+  GetRequestedServiceQuotaChangeResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRequestedServiceQuotaChangeRequest,
+  output: GetRequestedServiceQuotaChangeResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalArgumentException,
+    NoSuchResourceException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Initiates the generation of a quota utilization report for your Amazon Web Services account. This
  * asynchronous operation analyzes your quota usage across all Amazon Web Services services and returns
@@ -1533,168 +1909,313 @@ export const getRequestedServiceQuotaChange =
  * number of quotas in your account. Use the `GetQuotaUtilizationReport` operation
  * to check the status and retrieve the results when the report is ready.
  */
-export const startQuotaUtilizationReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartQuotaUtilizationReportRequest,
-    output: StartQuotaUtilizationReportResponse,
-    errors: [
-      AccessDeniedException,
-      IllegalArgumentException,
-      InvalidPaginationTokenException,
-      NoSuchResourceException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const startQuotaUtilizationReport: (
+  input: StartQuotaUtilizationReportRequest,
+) => Effect.Effect<
+  StartQuotaUtilizationReportResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | InvalidPaginationTokenException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartQuotaUtilizationReportRequest,
+  output: StartQuotaUtilizationReportResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalArgumentException,
+    InvalidPaginationTokenException,
+    NoSuchResourceException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Submits a quota increase request for the specified quota at the account or resource
  * level.
  */
-export const requestServiceQuotaIncrease = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RequestServiceQuotaIncreaseRequest,
-    output: RequestServiceQuotaIncreaseResponse,
-    errors: [
-      AccessDeniedException,
-      DependencyAccessDeniedException,
-      IllegalArgumentException,
-      InvalidResourceStateException,
-      NoSuchResourceException,
-      QuotaExceededException,
-      ResourceAlreadyExistsException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const requestServiceQuotaIncrease: (
+  input: RequestServiceQuotaIncreaseRequest,
+) => Effect.Effect<
+  RequestServiceQuotaIncreaseResponse,
+  | AccessDeniedException
+  | DependencyAccessDeniedException
+  | IllegalArgumentException
+  | InvalidResourceStateException
+  | NoSuchResourceException
+  | QuotaExceededException
+  | ResourceAlreadyExistsException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RequestServiceQuotaIncreaseRequest,
+  output: RequestServiceQuotaIncreaseResponse,
+  errors: [
+    AccessDeniedException,
+    DependencyAccessDeniedException,
+    IllegalArgumentException,
+    InvalidResourceStateException,
+    NoSuchResourceException,
+    QuotaExceededException,
+    ResourceAlreadyExistsException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves the default value for the specified quota. The default value does not
  * reflect any quota increases.
  */
-export const getAWSDefaultServiceQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAWSDefaultServiceQuotaRequest,
-    output: GetAWSDefaultServiceQuotaResponse,
-    errors: [
-      AccessDeniedException,
-      IllegalArgumentException,
-      NoSuchResourceException,
-      ServiceException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getAWSDefaultServiceQuota: (
+  input: GetAWSDefaultServiceQuotaRequest,
+) => Effect.Effect<
+  GetAWSDefaultServiceQuotaResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAWSDefaultServiceQuotaRequest,
+  output: GetAWSDefaultServiceQuotaResponse,
+  errors: [
+    AccessDeniedException,
+    IllegalArgumentException,
+    NoSuchResourceException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Lists the quota increase requests in the specified quota request template.
  */
-export const listServiceQuotaIncreaseRequestsInTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceQuotaIncreaseRequestsInTemplate: {
+  (
     input: ListServiceQuotaIncreaseRequestsInTemplateRequest,
-    output: ListServiceQuotaIncreaseRequestsInTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      AWSServiceAccessNotEnabledException,
-      DependencyAccessDeniedException,
-      IllegalArgumentException,
-      NoAvailableOrganizationException,
-      ServiceException,
-      TemplatesNotAvailableInRegionException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ServiceQuotaIncreaseRequestInTemplateList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceQuotaIncreaseRequestsInTemplateResponse,
+    | AccessDeniedException
+    | AWSServiceAccessNotEnabledException
+    | DependencyAccessDeniedException
+    | IllegalArgumentException
+    | NoAvailableOrganizationException
+    | ServiceException
+    | TemplatesNotAvailableInRegionException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceQuotaIncreaseRequestsInTemplateRequest,
+  ) => Stream.Stream<
+    ListServiceQuotaIncreaseRequestsInTemplateResponse,
+    | AccessDeniedException
+    | AWSServiceAccessNotEnabledException
+    | DependencyAccessDeniedException
+    | IllegalArgumentException
+    | NoAvailableOrganizationException
+    | ServiceException
+    | TemplatesNotAvailableInRegionException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceQuotaIncreaseRequestsInTemplateRequest,
+  ) => Stream.Stream<
+    ServiceQuotaIncreaseRequestInTemplate,
+    | AccessDeniedException
+    | AWSServiceAccessNotEnabledException
+    | DependencyAccessDeniedException
+    | IllegalArgumentException
+    | NoAvailableOrganizationException
+    | ServiceException
+    | TemplatesNotAvailableInRegionException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceQuotaIncreaseRequestsInTemplateRequest,
+  output: ListServiceQuotaIncreaseRequestsInTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    AWSServiceAccessNotEnabledException,
+    DependencyAccessDeniedException,
+    IllegalArgumentException,
+    NoAvailableOrganizationException,
+    ServiceException,
+    TemplatesNotAvailableInRegionException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ServiceQuotaIncreaseRequestInTemplateList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves information about the specified quota increase request in your quota request
  * template.
  */
-export const getServiceQuotaIncreaseRequestFromTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetServiceQuotaIncreaseRequestFromTemplateRequest,
-    output: GetServiceQuotaIncreaseRequestFromTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      AWSServiceAccessNotEnabledException,
-      DependencyAccessDeniedException,
-      IllegalArgumentException,
-      NoAvailableOrganizationException,
-      NoSuchResourceException,
-      ServiceException,
-      TemplatesNotAvailableInRegionException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getServiceQuotaIncreaseRequestFromTemplate: (
+  input: GetServiceQuotaIncreaseRequestFromTemplateRequest,
+) => Effect.Effect<
+  GetServiceQuotaIncreaseRequestFromTemplateResponse,
+  | AccessDeniedException
+  | AWSServiceAccessNotEnabledException
+  | DependencyAccessDeniedException
+  | IllegalArgumentException
+  | NoAvailableOrganizationException
+  | NoSuchResourceException
+  | ServiceException
+  | TemplatesNotAvailableInRegionException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceQuotaIncreaseRequestFromTemplateRequest,
+  output: GetServiceQuotaIncreaseRequestFromTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    AWSServiceAccessNotEnabledException,
+    DependencyAccessDeniedException,
+    IllegalArgumentException,
+    NoAvailableOrganizationException,
+    NoSuchResourceException,
+    ServiceException,
+    TemplatesNotAvailableInRegionException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Associates your quota request template with your organization. When a new
  * Amazon Web Services account is created in your organization, the quota increase requests in the
  * template are automatically applied to the account. You can add a quota increase request
  * for any adjustable quota to your template.
  */
-export const associateServiceQuotaTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateServiceQuotaTemplateRequest,
-    output: AssociateServiceQuotaTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      AWSServiceAccessNotEnabledException,
-      DependencyAccessDeniedException,
-      NoAvailableOrganizationException,
-      OrganizationNotInAllFeaturesModeException,
-      ServiceException,
-      TemplatesNotAvailableInRegionException,
-      TooManyRequestsException,
-    ],
-  }));
+export const associateServiceQuotaTemplate: (
+  input: AssociateServiceQuotaTemplateRequest,
+) => Effect.Effect<
+  AssociateServiceQuotaTemplateResponse,
+  | AccessDeniedException
+  | AWSServiceAccessNotEnabledException
+  | DependencyAccessDeniedException
+  | NoAvailableOrganizationException
+  | OrganizationNotInAllFeaturesModeException
+  | ServiceException
+  | TemplatesNotAvailableInRegionException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateServiceQuotaTemplateRequest,
+  output: AssociateServiceQuotaTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    AWSServiceAccessNotEnabledException,
+    DependencyAccessDeniedException,
+    NoAvailableOrganizationException,
+    OrganizationNotInAllFeaturesModeException,
+    ServiceException,
+    TemplatesNotAvailableInRegionException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Adds a quota increase request to your quota request template.
  */
-export const putServiceQuotaIncreaseRequestIntoTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutServiceQuotaIncreaseRequestIntoTemplateRequest,
-    output: PutServiceQuotaIncreaseRequestIntoTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      AWSServiceAccessNotEnabledException,
-      DependencyAccessDeniedException,
-      IllegalArgumentException,
-      NoAvailableOrganizationException,
-      NoSuchResourceException,
-      QuotaExceededException,
-      ServiceException,
-      TemplatesNotAvailableInRegionException,
-      TooManyRequestsException,
-    ],
-  }));
+export const putServiceQuotaIncreaseRequestIntoTemplate: (
+  input: PutServiceQuotaIncreaseRequestIntoTemplateRequest,
+) => Effect.Effect<
+  PutServiceQuotaIncreaseRequestIntoTemplateResponse,
+  | AccessDeniedException
+  | AWSServiceAccessNotEnabledException
+  | DependencyAccessDeniedException
+  | IllegalArgumentException
+  | NoAvailableOrganizationException
+  | NoSuchResourceException
+  | QuotaExceededException
+  | ServiceException
+  | TemplatesNotAvailableInRegionException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutServiceQuotaIncreaseRequestIntoTemplateRequest,
+  output: PutServiceQuotaIncreaseRequestIntoTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    AWSServiceAccessNotEnabledException,
+    DependencyAccessDeniedException,
+    IllegalArgumentException,
+    NoAvailableOrganizationException,
+    NoSuchResourceException,
+    QuotaExceededException,
+    ServiceException,
+    TemplatesNotAvailableInRegionException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Disables your quota request template. After a template is disabled, the quota increase
  * requests in the template are not applied to new Amazon Web Services accounts in your organization.
  * Disabling a quota request template does not apply its quota increase requests.
  */
-export const disassociateServiceQuotaTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateServiceQuotaTemplateRequest,
-    output: DisassociateServiceQuotaTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      AWSServiceAccessNotEnabledException,
-      DependencyAccessDeniedException,
-      NoAvailableOrganizationException,
-      ServiceException,
-      ServiceQuotaTemplateNotInUseException,
-      TemplatesNotAvailableInRegionException,
-      TooManyRequestsException,
-    ],
-  }));
+export const disassociateServiceQuotaTemplate: (
+  input: DisassociateServiceQuotaTemplateRequest,
+) => Effect.Effect<
+  DisassociateServiceQuotaTemplateResponse,
+  | AccessDeniedException
+  | AWSServiceAccessNotEnabledException
+  | DependencyAccessDeniedException
+  | NoAvailableOrganizationException
+  | ServiceException
+  | ServiceQuotaTemplateNotInUseException
+  | TemplatesNotAvailableInRegionException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateServiceQuotaTemplateRequest,
+  output: DisassociateServiceQuotaTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    AWSServiceAccessNotEnabledException,
+    DependencyAccessDeniedException,
+    NoAvailableOrganizationException,
+    ServiceException,
+    ServiceQuotaTemplateNotInUseException,
+    TemplatesNotAvailableInRegionException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Adds tags to the specified applied quota. You can include one or more tags to add to
  * the quota.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | NoSuchResourceException
+  | ServiceException
+  | TagPolicyViolationException
+  | TooManyRequestsException
+  | TooManyTagsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [

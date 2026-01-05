@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("https://iam.amazonaws.com/doc/2010-05-08/");
 const svc = T.AwsApiService({
   sdkId: "IAM",
@@ -741,6 +749,135 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type delegationRequestIdType = string;
+export type arnType = string;
+export type clientIDType = string;
+export type instanceProfileNameType = string;
+export type roleNameType = string;
+export type groupNameType = string;
+export type existingUserNameType = string;
+export type userNameType = string;
+export type passwordType = string;
+export type accountAliasType = string;
+export type accountIdType = string;
+export type delegationRequestDescriptionType = string;
+export type requestMessageType = string;
+export type requestorWorkflowIdType = string;
+export type redirectUrlType = string;
+export type notificationChannelType = string;
+export type sessionDurationType = number;
+export type pathType = string;
+export type OpenIDConnectProviderUrlType = string;
+export type thumbprintType = string;
+export type policyNameType = string;
+export type policyPathType = string;
+export type policyDocumentType = string;
+export type policyDescriptionType = string;
+export type roleDescriptionType = string;
+export type roleMaxSessionDurationType = number;
+export type SAMLMetadataDocumentType = string;
+export type SAMLProviderNameType = string;
+export type privateKeyType = string;
+export type customSuffixType = string;
+export type serviceName = string;
+export type credentialAgeDays = number;
+export type virtualMFADeviceName = string;
+export type serialNumberType = string;
+export type accessKeyIdType = string;
+export type limitExceededMessage = string;
+export type policyVersionIdType = string;
+export type serverCertificateNameType = string;
+export type serviceSpecificCredentialId = string;
+export type certificateIdType = string;
+export type publicKeyIdType = string;
+export type OrganizationIdType = string;
+export type FeatureDisabledMessage = string;
+export type authenticationCodeType = string;
+export type stringType = string;
+export type ReportStateDescriptionType = string;
+export type organizationsEntityPathType = string;
+export type organizationsPolicyIdType = string;
+export type maxItemsType = number;
+export type markerType = string;
+export type localeType = string;
+export type jobIDType = string;
+export type serviceNamespaceType = string;
+export type DeletionTaskIdType = string;
+export type ownerIdType = string;
+export type pathPrefixType = string;
+export type notesType = string;
+export type ActionNameType = string;
+export type ResourceNameType = string;
+export type ResourceHandlingOptionType = string;
+export type tagKeyType = string;
+export type minimumPasswordLengthType = number;
+export type maxPasswordAgeType = number;
+export type passwordReusePreventionType = number;
+export type privateKeyIdType = string;
+export type certificateBodyType = string;
+export type certificateChainType = string;
+export type publicKeyMaterialType = string;
+export type tagValueType = string;
+export type summaryValueType = number;
+export type ContextKeyNameType = string;
+export type ContextKeyValueType = string;
+export type ConcurrentModificationMessage = string;
+export type entityAlreadyExistsMessage = string;
+export type invalidInputMessage = string;
+export type entityTemporarilyUnmodifiableMessage = string;
+export type noSuchEntityMessage = string;
+export type deleteConflictMessage = string;
+export type ExceptionMessage = string;
+export type FeatureEnabledMessage = string;
+export type serviceFailureExceptionMessage = string;
+export type responseMarkerType = string;
+export type credentialReportExpiredExceptionMessage = string;
+export type summaryContentType = string;
+export type integerType = number;
+export type malformedPolicyDocumentMessage = string;
+export type policyParameterNameType = string;
+export type policyParameterValueType = string;
+export type accessKeySecretType = string;
+export type idType = string;
+export type attachmentCountType = number;
+export type serviceUserName = string;
+export type servicePassword = string;
+export type serviceCredentialAlias = string;
+export type serviceCredentialSecret = string;
+export type permissionType = string;
+export type requestorNameType = string;
+export type CertificationKeyType = string;
+export type CertificationValueType = string;
+export type serviceNameType = string;
+export type ReasonType = string;
+export type publicKeyFingerprintType = string;
+export type invalidUserTypeMessage = string;
+export type openIdIdpCommunicationErrorExceptionMessage = string;
+export type reportGenerationLimitExceededMessage = string;
+export type credentialReportNotPresentExceptionMessage = string;
+export type policyEvaluationErrorMessage = string;
+export type unmodifiableEntityMessage = string;
+export type keyPairMismatchMessage = string;
+export type duplicateCertificateMessage = string;
+export type duplicateSSHPublicKeyMessage = string;
+export type invalidAuthenticationCodeMessage = string;
+export type policyNotAttachableMessage = string;
+export type passwordPolicyViolationMessage = string;
+export type RegionNameType = string;
+export type entityNameType = string;
+export type PolicyIdentifierType = string;
+export type EvalDecisionSourceType = string;
+export type LineNumber = number;
+export type ColumnNumber = number;
+export type consoleDeepLinkType = string;
+export type serviceNotSupportedMessage = string;
+export type credentialReportNotReadyExceptionMessage = string;
+export type unrecognizedPublicKeyEncodingMessage = string;
+export type malformedCertificateMessage = string;
+export type invalidCertificateMessage = string;
+export type invalidPublicKeyMessage = string;
 
 //# Schemas
 export interface DeleteAccountPasswordPolicyRequest {}
@@ -7261,7 +7398,9 @@ export class ServiceFailureException extends S.TaggedError<ServiceFailureExcepti
   "ServiceFailureException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ServiceFailure", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class CredentialReportExpiredException extends S.TaggedError<CredentialReportExpiredException>()(
   "CredentialReportExpiredException",
   { message: S.optional(S.String) },
@@ -7306,7 +7445,9 @@ export class PolicyEvaluationException extends S.TaggedError<PolicyEvaluationExc
   "PolicyEvaluationException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "PolicyEvaluation", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class UnmodifiableEntityException extends S.TaggedError<UnmodifiableEntityException>()(
   "UnmodifiableEntityException",
   { message: S.optional(S.String) },
@@ -7394,45 +7535,64 @@ export class ServiceAccessNotEnabledException extends S.TaggedError<ServiceAcces
  * use the `GetWebIdentityToken` API to obtain JSON Web Tokens (JWTs) for authentication with external services. This operation
  * does not affect tokens that were issued before the feature was disabled.
  */
-export const disableOutboundWebIdentityFederation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableOutboundWebIdentityFederationRequest,
-    output: DisableOutboundWebIdentityFederationResponse,
-    errors: [FeatureDisabledException],
-  }));
+export const disableOutboundWebIdentityFederation: (
+  input: DisableOutboundWebIdentityFederationRequest,
+) => Effect.Effect<
+  DisableOutboundWebIdentityFederationResponse,
+  FeatureDisabledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableOutboundWebIdentityFederationRequest,
+  output: DisableOutboundWebIdentityFederationResponse,
+  errors: [FeatureDisabledException],
+}));
 /**
  * Retrieves the configuration information for the outbound identity federation feature in your Amazon Web Services account. The response includes the unique issuer URL for your
  * Amazon Web Services account and the current enabled/disabled status of the feature. Use this operation to obtain the issuer URL that you need to configure trust relationships with external services.
  */
-export const getOutboundWebIdentityFederationInfo =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetOutboundWebIdentityFederationInfoRequest,
-    output: GetOutboundWebIdentityFederationInfoResponse,
-    errors: [FeatureDisabledException],
-  }));
+export const getOutboundWebIdentityFederationInfo: (
+  input: GetOutboundWebIdentityFederationInfoRequest,
+) => Effect.Effect<
+  GetOutboundWebIdentityFederationInfoResponse,
+  FeatureDisabledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOutboundWebIdentityFederationInfoRequest,
+  output: GetOutboundWebIdentityFederationInfoResponse,
+  errors: [FeatureDisabledException],
+}));
 /**
  * Enables the outbound identity federation feature for your Amazon Web Services account. When enabled, IAM principals in your account
  * can use the `GetWebIdentityToken` API to obtain JSON Web Tokens (JWTs) for secure authentication with external services.
  * This operation also generates a unique issuer URL for your Amazon Web Services account.
  */
-export const enableOutboundWebIdentityFederation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableOutboundWebIdentityFederationRequest,
-    output: EnableOutboundWebIdentityFederationResponse,
-    errors: [FeatureEnabledException],
-  }));
+export const enableOutboundWebIdentityFederation: (
+  input: EnableOutboundWebIdentityFederationRequest,
+) => Effect.Effect<
+  EnableOutboundWebIdentityFederationResponse,
+  FeatureEnabledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableOutboundWebIdentityFederationRequest,
+  output: EnableOutboundWebIdentityFederationResponse,
+  errors: [FeatureEnabledException],
+}));
 /**
  * Generates a credential report for the Amazon Web Services account. For more information about the
  * credential report, see Getting credential reports in
  * the *IAM User Guide*.
  */
-export const generateCredentialReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GenerateCredentialReportRequest,
-    output: GenerateCredentialReportResponse,
-    errors: [LimitExceededException, ServiceFailureException],
-  }),
-);
+export const generateCredentialReport: (
+  input: GenerateCredentialReportRequest,
+) => Effect.Effect<
+  GenerateCredentialReportResponse,
+  LimitExceededException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateCredentialReportRequest,
+  output: GenerateCredentialReportResponse,
+  errors: [LimitExceededException, ServiceFailureException],
+}));
 /**
  * Generates a report that includes details about when an IAM resource (user, group,
  * role, or policy) was last used in an attempt to access Amazon Web Services services. Recent activity
@@ -7487,25 +7647,34 @@ export const generateCredentialReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about service and action last accessed data, see Reducing permissions using service last accessed data in the
  * *IAM User Guide*.
  */
-export const generateServiceLastAccessedDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GenerateServiceLastAccessedDetailsRequest,
-    output: GenerateServiceLastAccessedDetailsResponse,
-    errors: [InvalidInputException, NoSuchEntityException],
-  }));
+export const generateServiceLastAccessedDetails: (
+  input: GenerateServiceLastAccessedDetailsRequest,
+) => Effect.Effect<
+  GenerateServiceLastAccessedDetailsResponse,
+  InvalidInputException | NoSuchEntityException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateServiceLastAccessedDetailsRequest,
+  output: GenerateServiceLastAccessedDetailsResponse,
+  errors: [InvalidInputException, NoSuchEntityException],
+}));
 /**
  * Retrieves the password policy for the Amazon Web Services account. This tells you the complexity
  * requirements and mandatory rotation periods for the IAM user passwords in your account.
  * For more information about using a password policy, see Managing an IAM password
  * policy.
  */
-export const getAccountPasswordPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAccountPasswordPolicyRequest,
-    output: GetAccountPasswordPolicyResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-  }),
-);
+export const getAccountPasswordPolicy: (
+  input: GetAccountPasswordPolicyRequest,
+) => Effect.Effect<
+  GetAccountPasswordPolicyResponse,
+  NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountPasswordPolicyRequest,
+  output: GetAccountPasswordPolicyResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+}));
 /**
  * Retrieves information about IAM entity usage and IAM quotas in the Amazon Web Services
  * account.
@@ -7513,7 +7682,13 @@ export const getAccountPasswordPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For information about IAM quotas, see IAM and STS quotas in the
  * *IAM User Guide*.
  */
-export const getAccountSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccountSummary: (
+  input: GetAccountSummaryRequest,
+) => Effect.Effect<
+  GetAccountSummaryResponse,
+  ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountSummaryRequest,
   output: GetAccountSummaryResponse,
   errors: [ServiceFailureException],
@@ -7531,17 +7706,44 @@ export const getAccountSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * here for clarity but must be URL encoded to be included as a part of a real HTML
  * request.
  */
-export const getContextKeysForCustomPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetContextKeysForCustomPolicyRequest,
-    output: GetContextKeysForPolicyResponse,
-    errors: [InvalidInputException],
-  }));
+export const getContextKeysForCustomPolicy: (
+  input: GetContextKeysForCustomPolicyRequest,
+) => Effect.Effect<
+  GetContextKeysForPolicyResponse,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContextKeysForCustomPolicyRequest,
+  output: GetContextKeysForPolicyResponse,
+  errors: [InvalidInputException],
+}));
 /**
  * Returns a list of IAM users that are in the specified IAM group. You can paginate
  * the results using the `MaxItems` and `Marker` parameters.
  */
-export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getGroup: {
+  (
+    input: GetGroupRequest,
+  ): Effect.Effect<
+    GetGroupResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetGroupRequest,
+  ) => Stream.Stream<
+    GetGroupResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetGroupRequest,
+  ) => Stream.Stream<
+    User,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetGroupRequest,
   output: GetGroupResponse,
   errors: [NoSuchEntityException, ServiceFailureException],
@@ -7571,7 +7773,13 @@ export const getGroup = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * For more information about policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const getGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGroupPolicy: (
+  input: GetGroupPolicyRequest,
+) => Effect.Effect<
+  GetGroupPolicyResponse,
+  NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupPolicyRequest,
   output: GetGroupPolicyResponse,
   errors: [NoSuchEntityException, ServiceFailureException],
@@ -7594,17 +7802,24 @@ export const getGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * GetDelegationRequest
  * for a given delegation request will always be able to retrieve the human readable summary for that request.
  */
-export const getHumanReadableSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetHumanReadableSummaryRequest,
-    output: GetHumanReadableSummaryResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const getHumanReadableSummary: (
+  input: GetHumanReadableSummaryRequest,
+) => Effect.Effect<
+  GetHumanReadableSummaryResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetHumanReadableSummaryRequest,
+  output: GetHumanReadableSummaryResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Retrieves the user name for the specified IAM user. A login profile is created when
  * you create a password for the user to access the Amazon Web Services Management Console. If the user does not exist
@@ -7619,7 +7834,13 @@ export const getHumanReadableSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * password creation date. A user with programmatic access does not have a login profile
  * unless you create a password for the user to access the Amazon Web Services Management Console.
  */
-export const getLoginProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLoginProfile: (
+  input: GetLoginProfileRequest,
+) => Effect.Effect<
+  GetLoginProfileResponse,
+  NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoginProfileRequest,
   output: GetLoginProfileResponse,
   errors: [NoSuchEntityException, ServiceFailureException],
@@ -7628,17 +7849,24 @@ export const getLoginProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns information about the specified OpenID Connect (OIDC) provider resource object
  * in IAM.
  */
-export const getOpenIDConnectProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetOpenIDConnectProviderRequest,
-    output: GetOpenIDConnectProviderResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const getOpenIDConnectProvider: (
+  input: GetOpenIDConnectProviderRequest,
+) => Effect.Effect<
+  GetOpenIDConnectProviderResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOpenIDConnectProviderRequest,
+  output: GetOpenIDConnectProviderResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Retrieves information about the specified managed policy, including the policy's
  * default version and the total number of IAM users, groups, and roles to which the
@@ -7653,7 +7881,16 @@ export const getOpenIDConnectProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicy: (
+  input: GetPolicyRequest,
+) => Effect.Effect<
+  GetPolicyResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyRequest,
   output: GetPolicyResponse,
   errors: [
@@ -7685,7 +7922,16 @@ export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about managed policy versions, see Versioning for managed
  * policies in the *IAM User Guide*.
  */
-export const getPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicyVersion: (
+  input: GetPolicyVersionRequest,
+) => Effect.Effect<
+  GetPolicyVersionResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyVersionRequest,
   output: GetPolicyVersionResponse,
   errors: [
@@ -7707,7 +7953,13 @@ export const getPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the Java SDK. Other languages and SDKs provide similar functionality, and some SDKs do this decoding
  * automatically.
  */
-export const getRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRole: (
+  input: GetRoleRequest,
+) => Effect.Effect<
+  GetRoleResponse,
+  NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRoleRequest,
   output: GetRoleResponse,
   errors: [NoSuchEntityException, ServiceFailureException],
@@ -7734,7 +7986,13 @@ export const getRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about roles, see IAM roles in the
  * *IAM User Guide*.
  */
-export const getRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRolePolicy: (
+  input: GetRolePolicyRequest,
+) => Effect.Effect<
+  GetRolePolicyResponse,
+  NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRolePolicyRequest,
   output: GetRolePolicyResponse,
   errors: [NoSuchEntityException, ServiceFailureException],
@@ -7746,7 +8004,13 @@ export const getRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you do not specify a user name, IAM determines the user name implicitly based on
  * the Amazon Web Services access key ID used to sign the request to this operation.
  */
-export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUser: (
+  input: GetUserRequest,
+) => Effect.Effect<
+  GetUserResponse,
+  NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserRequest,
   output: GetUserResponse,
   errors: [NoSuchEntityException, ServiceFailureException],
@@ -7770,7 +8034,13 @@ export const getUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const getUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUserPolicy: (
+  input: GetUserPolicyRequest,
+) => Effect.Effect<
+  GetUserPolicyResponse,
+  NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserPolicyRequest,
   output: GetUserPolicyResponse,
   errors: [NoSuchEntityException, ServiceFailureException],
@@ -7781,19 +8051,39 @@ export const getUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * deleting, and listing an Amazon Web Services account alias in the
  * *IAM User Guide*.
  */
-export const listAccountAliases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAccountAliases: {
+  (
     input: ListAccountAliasesRequest,
-    output: ListAccountAliasesResponse,
-    errors: [ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "AccountAliases",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAccountAliasesResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccountAliasesRequest,
+  ) => Stream.Stream<
+    ListAccountAliasesResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccountAliasesRequest,
+  ) => Stream.Stream<
+    accountAliasType,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountAliasesRequest,
+  output: ListAccountAliasesResponse,
+  errors: [ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "AccountAliases",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists all managed policies that are attached to the specified IAM role.
  *
@@ -7808,22 +8098,52 @@ export const listAccountAliases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * attached to the specified role (or none that match the specified path prefix), the
  * operation returns an empty list.
  */
-export const listAttachedRolePolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAttachedRolePolicies: {
+  (
     input: ListAttachedRolePoliciesRequest,
-    output: ListAttachedRolePoliciesResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "AttachedPolicies",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAttachedRolePoliciesResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttachedRolePoliciesRequest,
+  ) => Stream.Stream<
+    ListAttachedRolePoliciesResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttachedRolePoliciesRequest,
+  ) => Stream.Stream<
+    AttachedPolicy,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttachedRolePoliciesRequest,
+  output: ListAttachedRolePoliciesResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "AttachedPolicies",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists all managed policies that are attached to the specified IAM user.
  *
@@ -7838,22 +8158,52 @@ export const listAttachedRolePolicies =
  * attached to the specified group (or none that match the specified path prefix), the
  * operation returns an empty list.
  */
-export const listAttachedUserPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAttachedUserPolicies: {
+  (
     input: ListAttachedUserPoliciesRequest,
-    output: ListAttachedUserPoliciesResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "AttachedPolicies",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAttachedUserPoliciesResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttachedUserPoliciesRequest,
+  ) => Stream.Stream<
+    ListAttachedUserPoliciesResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttachedUserPoliciesRequest,
+  ) => Stream.Stream<
+    AttachedPolicy,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttachedUserPoliciesRequest,
+  output: ListAttachedUserPoliciesResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "AttachedPolicies",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists delegation requests based on the specified criteria.
  *
@@ -7864,17 +8214,24 @@ export const listAttachedUserPolicies =
  *
  * Managing Permissions for Delegation Requests.
  */
-export const listDelegationRequests = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListDelegationRequestsRequest,
-    output: ListDelegationRequestsResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const listDelegationRequests: (
+  input: ListDelegationRequestsRequest,
+) => Effect.Effect<
+  ListDelegationRequestsResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDelegationRequestsRequest,
+  output: ListDelegationRequestsResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Lists the names of the inline policies that are embedded in the specified IAM
  * group.
@@ -7888,26 +8245,68 @@ export const listDelegationRequests = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * parameters. If there are no inline policies embedded with the specified group, the
  * operation returns an empty list.
  */
-export const listGroupPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listGroupPolicies: {
+  (
     input: ListGroupPoliciesRequest,
-    output: ListGroupPoliciesResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "PolicyNames",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListGroupPoliciesResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupPoliciesRequest,
+  ) => Stream.Stream<
+    ListGroupPoliciesResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupPoliciesRequest,
+  ) => Stream.Stream<
+    policyNameType,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGroupPoliciesRequest,
+  output: ListGroupPoliciesResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "PolicyNames",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the IAM groups that have the specified path prefix.
  *
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGroups: {
+  (
+    input: ListGroupsRequest,
+  ): Effect.Effect<
+    ListGroupsResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupsRequest,
+  ) => Stream.Stream<
+    ListGroupsResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupsRequest,
+  ) => Stream.Stream<
+    Group,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGroupsRequest,
   output: ListGroupsResponse,
   errors: [ServiceFailureException],
@@ -7924,19 +8323,39 @@ export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listGroupsForUser = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listGroupsForUser: {
+  (
     input: ListGroupsForUserRequest,
-    output: ListGroupsForUserResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Groups",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListGroupsForUserResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupsForUserRequest,
+  ) => Stream.Stream<
+    ListGroupsForUserResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupsForUserRequest,
+  ) => Stream.Stream<
+    Group,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGroupsForUserRequest,
+  output: ListGroupsForUserResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Groups",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the instance profiles that have the specified path prefix. If there are none,
  * the operation returns an empty list. For more information about instance profiles, see
@@ -7950,18 +8369,39 @@ export const listGroupsForUser = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listInstanceProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInstanceProfiles: {
+  (
     input: ListInstanceProfilesRequest,
-    output: ListInstanceProfilesResponse,
-    errors: [ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "InstanceProfiles",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInstanceProfilesResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInstanceProfilesRequest,
+  ) => Stream.Stream<
+    ListInstanceProfilesResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInstanceProfilesRequest,
+  ) => Stream.Stream<
+    InstanceProfile,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInstanceProfilesRequest,
+  output: ListInstanceProfilesResponse,
+  errors: [ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "InstanceProfiles",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the instance profiles that have the specified associated IAM role. If there
  * are none, the operation returns an empty list. For more information about instance
@@ -7971,57 +8411,128 @@ export const listInstanceProfiles =
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listInstanceProfilesForRole =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInstanceProfilesForRole: {
+  (
     input: ListInstanceProfilesForRoleRequest,
-    output: ListInstanceProfilesForRoleResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "InstanceProfiles",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInstanceProfilesForRoleResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInstanceProfilesForRoleRequest,
+  ) => Stream.Stream<
+    ListInstanceProfilesForRoleResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInstanceProfilesForRoleRequest,
+  ) => Stream.Stream<
+    InstanceProfile,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInstanceProfilesForRoleRequest,
+  output: ListInstanceProfilesForRoleResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "InstanceProfiles",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the tags that are attached to the specified IAM instance profile. The returned list of tags is sorted by tag key.
  * For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const listInstanceProfileTags =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInstanceProfileTags: {
+  (
     input: ListInstanceProfileTagsRequest,
-    output: ListInstanceProfileTagsResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Tags",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInstanceProfileTagsResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInstanceProfileTagsRequest,
+  ) => Stream.Stream<
+    ListInstanceProfileTagsResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInstanceProfileTagsRequest,
+  ) => Stream.Stream<
+    Tag,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInstanceProfileTagsRequest,
+  output: ListInstanceProfileTagsResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Tags",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the tags that are attached to the specified IAM virtual multi-factor authentication (MFA) device. The returned list of tags is
  * sorted by tag key. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const listMFADeviceTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMFADeviceTags: {
+  (
     input: ListMFADeviceTagsRequest,
-    output: ListMFADeviceTagsResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Tags",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMFADeviceTagsResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMFADeviceTagsRequest,
+  ) => Stream.Stream<
+    ListMFADeviceTagsResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMFADeviceTagsRequest,
+  ) => Stream.Stream<
+    Tag,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMFADeviceTagsRequest,
+  output: ListMFADeviceTagsResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Tags",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists information about the IAM OpenID Connect (OIDC) provider resource objects
  * defined in the Amazon Web Services account.
@@ -8029,13 +8540,17 @@ export const listMFADeviceTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * IAM resource-listing operations return a subset of the available
  * attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an OIDC provider, see GetOpenIDConnectProvider.
  */
-export const listOpenIDConnectProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListOpenIDConnectProvidersRequest,
-    output: ListOpenIDConnectProvidersResponse,
-    errors: [ServiceFailureException],
-  }),
-);
+export const listOpenIDConnectProviders: (
+  input: ListOpenIDConnectProvidersRequest,
+) => Effect.Effect<
+  ListOpenIDConnectProvidersResponse,
+  ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListOpenIDConnectProvidersRequest,
+  output: ListOpenIDConnectProvidersResponse,
+  errors: [ServiceFailureException],
+}));
 /**
  * Lists the tags that are attached to the specified OpenID Connect (OIDC)-compatible
  * identity provider. The returned list of tags is sorted by tag key. For more information, see About web identity
@@ -8044,22 +8559,52 @@ export const listOpenIDConnectProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const listOpenIDConnectProviderTags =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOpenIDConnectProviderTags: {
+  (
     input: ListOpenIDConnectProviderTagsRequest,
-    output: ListOpenIDConnectProviderTagsResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Tags",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOpenIDConnectProviderTagsResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOpenIDConnectProviderTagsRequest,
+  ) => Stream.Stream<
+    ListOpenIDConnectProviderTagsResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOpenIDConnectProviderTagsRequest,
+  ) => Stream.Stream<
+    Tag,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOpenIDConnectProviderTagsRequest,
+  output: ListOpenIDConnectProviderTagsResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Tags",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists all the managed policies that are available in your Amazon Web Services account, including
  * your own customer-defined managed policies and all Amazon Web Services managed policies.
@@ -8080,41 +8625,90 @@ export const listOpenIDConnectProviderTags =
  * attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a customer manged policy, see
  * GetPolicy.
  */
-export const listPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPolicies: {
+  (
     input: ListPoliciesRequest,
-    output: ListPoliciesResponse,
-    errors: [ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Policies",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPoliciesResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPoliciesRequest,
+  ) => Stream.Stream<
+    ListPoliciesResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPoliciesRequest,
+  ) => Stream.Stream<
+    Policy,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPoliciesRequest,
+  output: ListPoliciesResponse,
+  errors: [ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Policies",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the tags that are attached to the specified IAM customer managed policy.
  * The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const listPolicyTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPolicyTags: {
+  (
     input: ListPolicyTagsRequest,
-    output: ListPolicyTagsResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Tags",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPolicyTagsResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPolicyTagsRequest,
+  ) => Stream.Stream<
+    ListPolicyTagsResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPolicyTagsRequest,
+  ) => Stream.Stream<
+    Tag,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPolicyTagsRequest,
+  output: ListPolicyTagsResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Tags",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists information about the versions of the specified managed policy, including the
  * version that is currently set as the policy's default version.
@@ -8122,23 +8716,52 @@ export const listPolicyTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * For more information about managed policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const listPolicyVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPolicyVersions: {
+  (
     input: ListPolicyVersionsRequest,
-    output: ListPolicyVersionsResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Versions",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPolicyVersionsResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPolicyVersionsRequest,
+  ) => Stream.Stream<
+    ListPolicyVersionsResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPolicyVersionsRequest,
+  ) => Stream.Stream<
+    PolicyVersion,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPolicyVersionsRequest,
+  output: ListPolicyVersionsResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Versions",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the names of the inline policies that are embedded in the specified IAM
  * role.
@@ -8152,19 +8775,39 @@ export const listPolicyVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * parameters. If there are no inline policies embedded with the specified role, the
  * operation returns an empty list.
  */
-export const listRolePolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRolePolicies: {
+  (
     input: ListRolePoliciesRequest,
-    output: ListRolePoliciesResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "PolicyNames",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRolePoliciesResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRolePoliciesRequest,
+  ) => Stream.Stream<
+    ListRolePoliciesResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRolePoliciesRequest,
+  ) => Stream.Stream<
+    policyNameType,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRolePoliciesRequest,
+  output: ListRolePoliciesResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "PolicyNames",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the IAM roles that have the specified path prefix. If there are none, the
  * operation returns an empty list. For more information about roles, see IAM roles in the
@@ -8184,7 +8827,29 @@ export const listRolePolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listRoles = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRoles: {
+  (
+    input: ListRolesRequest,
+  ): Effect.Effect<
+    ListRolesResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRolesRequest,
+  ) => Stream.Stream<
+    ListRolesResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRolesRequest,
+  ) => Stream.Stream<
+    Role,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRolesRequest,
   output: ListRolesResponse,
   errors: [ServiceFailureException],
@@ -8200,19 +8865,39 @@ export const listRoles = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * sorted by tag key. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const listRoleTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRoleTags: {
+  (
     input: ListRoleTagsRequest,
-    output: ListRoleTagsResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Tags",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRoleTagsResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRoleTagsRequest,
+  ) => Stream.Stream<
+    ListRoleTagsResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoleTagsRequest,
+  ) => Stream.Stream<
+    Tag,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRoleTagsRequest,
+  output: ListRoleTagsResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Tags",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the SAML provider resource objects defined in IAM in the account.
  * IAM resource-listing operations return a subset of the available
@@ -8220,7 +8905,13 @@ export const listRoleTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * This operation requires Signature Version 4.
  */
-export const listSAMLProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listSAMLProviders: (
+  input: ListSAMLProvidersRequest,
+) => Effect.Effect<
+  ListSAMLProvidersResponse,
+  ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSAMLProvidersRequest,
   output: ListSAMLProvidersResponse,
   errors: [ServiceFailureException],
@@ -8233,22 +8924,52 @@ export const listSAMLProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const listSAMLProviderTags =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSAMLProviderTags: {
+  (
     input: ListSAMLProviderTagsRequest,
-    output: ListSAMLProviderTagsResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Tags",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSAMLProviderTagsResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSAMLProviderTagsRequest,
+  ) => Stream.Stream<
+    ListSAMLProviderTagsResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSAMLProviderTagsRequest,
+  ) => Stream.Stream<
+    Tag,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSAMLProviderTagsRequest,
+  output: ListSAMLProviderTagsResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Tags",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the tags that are attached to the specified IAM server certificate. The
  * returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the
@@ -8260,18 +8981,39 @@ export const listSAMLProviderTags =
  * certificates, Working with server
  * certificates in the *IAM User Guide*.
  */
-export const listServerCertificateTags =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServerCertificateTags: {
+  (
     input: ListServerCertificateTagsRequest,
-    output: ListServerCertificateTagsResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Tags",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServerCertificateTagsResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServerCertificateTagsRequest,
+  ) => Stream.Stream<
+    ListServerCertificateTagsResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServerCertificateTagsRequest,
+  ) => Stream.Stream<
+    Tag,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServerCertificateTagsRequest,
+  output: ListServerCertificateTagsResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Tags",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the names of the inline policies embedded in the specified IAM user.
  *
@@ -8284,19 +9026,39 @@ export const listServerCertificateTags =
  * parameters. If there are no inline policies embedded with the specified user, the
  * operation returns an empty list.
  */
-export const listUserPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listUserPolicies: {
+  (
     input: ListUserPoliciesRequest,
-    output: ListUserPoliciesResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "PolicyNames",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListUserPoliciesResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUserPoliciesRequest,
+  ) => Stream.Stream<
+    ListUserPoliciesResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUserPoliciesRequest,
+  ) => Stream.Stream<
+    policyNameType,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUserPoliciesRequest,
+  output: ListUserPoliciesResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "PolicyNames",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the IAM users that have the specified path prefix. If no path prefix is
  * specified, the operation returns all users in the Amazon Web Services account. If there are none, the
@@ -8314,7 +9076,29 @@ export const listUserPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUsers: {
+  (
+    input: ListUsersRequest,
+  ): Effect.Effect<
+    ListUsersResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    ListUsersResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    User,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse,
   errors: [ServiceFailureException],
@@ -8329,19 +9113,39 @@ export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * Lists the tags that are attached to the specified IAM user. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const listUserTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listUserTags: {
+  (
     input: ListUserTagsRequest,
-    output: ListUserTagsResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Tags",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListUserTagsResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUserTagsRequest,
+  ) => Stream.Stream<
+    ListUserTagsResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUserTagsRequest,
+  ) => Stream.Stream<
+    Tag,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUserTagsRequest,
+  output: ListUserTagsResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Tags",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the virtual MFA devices defined in the Amazon Web Services account by assignment status. If
  * you do not specify an assignment status, the operation returns a list of all virtual MFA
@@ -8354,18 +9158,39 @@ export const listUserTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listVirtualMFADevices =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listVirtualMFADevices: {
+  (
     input: ListVirtualMFADevicesRequest,
-    output: ListVirtualMFADevicesResponse,
-    errors: [],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "VirtualMFADevices",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListVirtualMFADevicesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVirtualMFADevicesRequest,
+  ) => Stream.Stream<
+    ListVirtualMFADevicesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVirtualMFADevicesRequest,
+  ) => Stream.Stream<
+    VirtualMFADevice,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVirtualMFADevicesRequest,
+  output: ListVirtualMFADevicesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "VirtualMFADevices",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Adds or updates an inline policy document that is embedded in the specified IAM
  * group.
@@ -8388,7 +9213,17 @@ export const listVirtualMFADevices =
  * API with IAM, see Making query requests in the
  * *IAM User Guide*.
  */
-export const putGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putGroupPolicy: (
+  input: PutGroupPolicyRequest,
+) => Effect.Effect<
+  PutGroupPolicyResponse,
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutGroupPolicyRequest,
   output: PutGroupPolicyResponse,
   errors: [
@@ -8404,18 +9239,34 @@ export const putGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the password immediately invalidates the previous password associated with this
  * user.
  */
-export const resetServiceSpecificCredential =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ResetServiceSpecificCredentialRequest,
-    output: ResetServiceSpecificCredentialResponse,
-    errors: [NoSuchEntityException],
-  }));
+export const resetServiceSpecificCredential: (
+  input: ResetServiceSpecificCredentialRequest,
+) => Effect.Effect<
+  ResetServiceSpecificCredentialResponse,
+  NoSuchEntityException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetServiceSpecificCredentialRequest,
+  output: ResetServiceSpecificCredentialResponse,
+  errors: [NoSuchEntityException],
+}));
 /**
  * Updates the metadata document, SAML encryption settings, and private keys for an
  * existing SAML provider. To rotate private keys, add your new private key and then remove
  * the old key in a separate request.
  */
-export const updateSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSAMLProvider: (
+  input: UpdateSAMLProviderRequest,
+) => Effect.Effect<
+  UpdateSAMLProviderResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSAMLProviderRequest,
   output: UpdateSAMLProviderResponse,
   errors: [
@@ -8433,18 +9284,28 @@ export const updateSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This operation is idempotent; it does not fail or return an error if you add an
  * existing client ID to the provider.
  */
-export const addClientIDToOpenIDConnectProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AddClientIDToOpenIDConnectProviderRequest,
-    output: AddClientIDToOpenIDConnectProviderResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }));
+export const addClientIDToOpenIDConnectProvider: (
+  input: AddClientIDToOpenIDConnectProviderRequest,
+) => Effect.Effect<
+  AddClientIDToOpenIDConnectProviderResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddClientIDToOpenIDConnectProviderRequest,
+  output: AddClientIDToOpenIDConnectProviderResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Associates a delegation request with the current identity.
  *
@@ -8467,25 +9328,43 @@ export const addClientIDToOpenIDConnectProvider =
  *
  * Managing Permissions for Delegation Requests.
  */
-export const associateDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateDelegationRequestRequest,
-    output: AssociateDelegationRequestResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const associateDelegationRequest: (
+  input: AssociateDelegationRequestRequest,
+) => Effect.Effect<
+  AssociateDelegationRequestResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateDelegationRequestRequest,
+  output: AssociateDelegationRequestResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Creates an alias for your Amazon Web Services account. For information about using an Amazon Web Services account
  * alias, see Creating, deleting, and
  * listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User
  * Guide.
  */
-export const createAccountAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAccountAlias: (
+  input: CreateAccountAliasRequest,
+) => Effect.Effect<
+  CreateAccountAliasResponse,
+  | ConcurrentModificationException
+  | EntityAlreadyExistsException
+  | LimitExceededException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountAliasRequest,
   output: CreateAccountAliasResponse,
   errors: [
@@ -8503,7 +9382,18 @@ export const createAccountAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * multi-factor authentication (MFA) device in the
  * *IAM User Guide*.
  */
-export const deactivateMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deactivateMFADevice: (
+  input: DeactivateMFADeviceRequest,
+) => Effect.Effect<
+  DeactivateMFADeviceResponse,
+  | ConcurrentModificationException
+  | EntityTemporarilyUnmodifiableException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivateMFADeviceRequest,
   output: DeactivateMFADeviceResponse,
   errors: [
@@ -8520,7 +9410,17 @@ export const deactivateMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User
  * Guide.
  */
-export const deleteAccountAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAccountAlias: (
+  input: DeleteAccountAliasRequest,
+) => Effect.Effect<
+  DeleteAccountAliasResponse,
+  | ConcurrentModificationException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountAliasRequest,
   output: DeleteAccountAliasResponse,
   errors: [
@@ -8538,18 +9438,26 @@ export const deleteAccountAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root
  * user credentials even if the Amazon Web Services account has no associated IAM users.
  */
-export const deleteSigningCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSigningCertificateRequest,
-    output: DeleteSigningCertificateResponse,
-    errors: [
-      ConcurrentModificationException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const deleteSigningCertificate: (
+  input: DeleteSigningCertificateRequest,
+) => Effect.Effect<
+  DeleteSigningCertificateResponse,
+  | ConcurrentModificationException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSigningCertificateRequest,
+  output: DeleteSigningCertificateResponse,
+  errors: [
+    ConcurrentModificationException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Deletes the specified IAM user. Unlike the Amazon Web Services Management Console, when you delete a user
  * programmatically, you must delete the items attached to the user manually, or the
@@ -8574,7 +9482,18 @@ export const deleteSigningCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - Group memberships (RemoveUserFromGroup)
  */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUser: (
+  input: DeleteUserRequest,
+) => Effect.Effect<
+  DeleteUserResponse,
+  | ConcurrentModificationException
+  | DeleteConflictException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
   output: DeleteUserResponse,
   errors: [
@@ -8591,19 +9510,28 @@ export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You must deactivate a user's virtual MFA device before you can delete it. For
  * information about deactivating MFA devices, see DeactivateMFADevice.
  */
-export const deleteVirtualMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteVirtualMFADeviceRequest,
-    output: DeleteVirtualMFADeviceResponse,
-    errors: [
-      ConcurrentModificationException,
-      DeleteConflictException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const deleteVirtualMFADevice: (
+  input: DeleteVirtualMFADeviceRequest,
+) => Effect.Effect<
+  DeleteVirtualMFADeviceResponse,
+  | ConcurrentModificationException
+  | DeleteConflictException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVirtualMFADeviceRequest,
+  output: DeleteVirtualMFADeviceResponse,
+  errors: [
+    ConcurrentModificationException,
+    DeleteConflictException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Rejects a delegation request, denying the requested temporary access.
  *
@@ -8615,18 +9543,26 @@ export const deleteVirtualMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Managing Permissions for Delegation Requests.
  */
-export const rejectDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectDelegationRequestRequest,
-    output: RejectDelegationRequestResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const rejectDelegationRequest: (
+  input: RejectDelegationRequestRequest,
+) => Effect.Effect<
+  RejectDelegationRequestResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectDelegationRequestRequest,
+  output: RejectDelegationRequestResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Removes the specified client ID (also known as audience) from the list of client IDs
  * registered for the specified IAM OpenID Connect (OIDC) provider resource
@@ -8635,17 +9571,26 @@ export const rejectDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation is idempotent; it does not fail or return an error if you try to remove
  * a client ID that does not exist.
  */
-export const removeClientIDFromOpenIDConnectProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveClientIDFromOpenIDConnectProviderRequest,
-    output: RemoveClientIDFromOpenIDConnectProviderResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }));
+export const removeClientIDFromOpenIDConnectProvider: (
+  input: RemoveClientIDFromOpenIDConnectProviderRequest,
+) => Effect.Effect<
+  RemoveClientIDFromOpenIDConnectProviderResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveClientIDFromOpenIDConnectProviderRequest,
+  output: RemoveClientIDFromOpenIDConnectProviderResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Sends the exchange token for an accepted delegation request.
  *
@@ -8660,7 +9605,17 @@ export const removeClientIDFromOpenIDConnectProvider =
  *
  * Managing Permissions for Delegation Requests.
  */
-export const sendDelegationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendDelegationToken: (
+  input: SendDelegationTokenRequest,
+) => Effect.Effect<
+  SendDelegationTokenResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendDelegationTokenRequest,
   output: SendDelegationTokenResponse,
   errors: [
@@ -8697,7 +9652,18 @@ export const sendDelegationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * need to store an array, you can store comma-separated values in the string. However, you
  * must interpret the value in your code.
  */
-export const tagInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagInstanceProfile: (
+  input: TagInstanceProfileRequest,
+) => Effect.Effect<
+  TagInstanceProfileResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagInstanceProfileRequest,
   output: TagInstanceProfileResponse,
   errors: [
@@ -8736,7 +9702,18 @@ export const tagInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * need to store an array, you can store comma-separated values in the string. However, you
  * must interpret the value in your code.
  */
-export const tagMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagMFADevice: (
+  input: TagMFADeviceRequest,
+) => Effect.Effect<
+  TagMFADeviceResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagMFADeviceRequest,
   output: TagMFADeviceResponse,
   errors: [
@@ -8776,19 +9753,28 @@ export const tagMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * need to store an array, you can store comma-separated values in the string. However, you
  * must interpret the value in your code.
  */
-export const tagOpenIDConnectProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TagOpenIDConnectProviderRequest,
-    output: TagOpenIDConnectProviderResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const tagOpenIDConnectProvider: (
+  input: TagOpenIDConnectProviderRequest,
+) => Effect.Effect<
+  TagOpenIDConnectProviderResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagOpenIDConnectProviderRequest,
+  output: TagOpenIDConnectProviderResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Adds one or more tags to an IAM customer managed policy. If a tag with the same key
  * name already exists, then that tag is overwritten with the new value.
@@ -8816,7 +9802,18 @@ export const tagOpenIDConnectProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * need to store an array, you can store comma-separated values in the string. However, you
  * must interpret the value in your code.
  */
-export const tagPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagPolicy: (
+  input: TagPolicyRequest,
+) => Effect.Effect<
+  TagPolicyResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagPolicyRequest,
   output: TagPolicyResponse,
   errors: [
@@ -8862,7 +9859,18 @@ export const tagPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about tagging, see Tagging IAM identities in the
  * *IAM User Guide*.
  */
-export const tagRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagRole: (
+  input: TagRoleRequest,
+) => Effect.Effect<
+  TagRoleResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagRoleRequest,
   output: TagRoleResponse,
   errors: [
@@ -8902,7 +9910,18 @@ export const tagRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * need to store an array, you can store comma-separated values in the string. However, you
  * must interpret the value in your code.
  */
-export const tagSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagSAMLProvider: (
+  input: TagSAMLProviderRequest,
+) => Effect.Effect<
+  TagSAMLProviderResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagSAMLProviderRequest,
   output: TagSAMLProviderResponse,
   errors: [
@@ -8949,19 +9968,28 @@ export const tagSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * need to store an array, you can store comma-separated values in the string. However, you
  * must interpret the value in your code.
  */
-export const tagServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TagServerCertificateRequest,
-    output: TagServerCertificateResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const tagServerCertificate: (
+  input: TagServerCertificateRequest,
+) => Effect.Effect<
+  TagServerCertificateResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagServerCertificateRequest,
+  output: TagServerCertificateResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Adds one or more tags to an IAM user. If a tag with the same key name already exists,
  * then that tag is overwritten with the new value.
@@ -8996,7 +10024,18 @@ export const tagServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about tagging, see Tagging IAM identities in the
  * *IAM User Guide*.
  */
-export const tagUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagUser: (
+  input: TagUserRequest,
+) => Effect.Effect<
+  TagUserResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagUserRequest,
   output: TagUserResponse,
   errors: [
@@ -9011,24 +10050,42 @@ export const tagUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes the specified tags from the IAM instance profile. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const untagInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UntagInstanceProfileRequest,
-    output: UntagInstanceProfileResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const untagInstanceProfile: (
+  input: UntagInstanceProfileRequest,
+) => Effect.Effect<
+  UntagInstanceProfileResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagInstanceProfileRequest,
+  output: UntagInstanceProfileResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Removes the specified tags from the IAM virtual multi-factor authentication (MFA)
  * device. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const untagMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagMFADevice: (
+  input: UntagMFADeviceRequest,
+) => Effect.Effect<
+  UntagMFADeviceResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagMFADeviceRequest,
   output: UntagMFADeviceResponse,
   errors: [
@@ -9044,23 +10101,41 @@ export const untagMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const untagOpenIDConnectProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UntagOpenIDConnectProviderRequest,
-    output: UntagOpenIDConnectProviderResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const untagOpenIDConnectProvider: (
+  input: UntagOpenIDConnectProviderRequest,
+) => Effect.Effect<
+  UntagOpenIDConnectProviderResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagOpenIDConnectProviderRequest,
+  output: UntagOpenIDConnectProviderResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Removes the specified tags from the customer managed policy. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const untagPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagPolicy: (
+  input: UntagPolicyRequest,
+) => Effect.Effect<
+  UntagPolicyResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagPolicyRequest,
   output: UntagPolicyResponse,
   errors: [
@@ -9074,7 +10149,16 @@ export const untagPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes the specified tags from the role. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const untagRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagRole: (
+  input: UntagRoleRequest,
+) => Effect.Effect<
+  UntagRoleResponse,
+  | ConcurrentModificationException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagRoleRequest,
   output: UntagRoleResponse,
   errors: [
@@ -9089,7 +10173,17 @@ export const untagRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * federation. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const untagSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagSAMLProvider: (
+  input: UntagSAMLProviderRequest,
+) => Effect.Effect<
+  UntagSAMLProviderResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagSAMLProviderRequest,
   output: UntagSAMLProviderResponse,
   errors: [
@@ -9110,23 +10204,40 @@ export const untagSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * certificates, Working with server
  * certificates in the *IAM User Guide*.
  */
-export const untagServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UntagServerCertificateRequest,
-    output: UntagServerCertificateResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const untagServerCertificate: (
+  input: UntagServerCertificateRequest,
+) => Effect.Effect<
+  UntagServerCertificateResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagServerCertificateRequest,
+  output: UntagServerCertificateResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Removes the specified tags from the user. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const untagUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagUser: (
+  input: UntagUserRequest,
+) => Effect.Effect<
+  UntagUserResponse,
+  | ConcurrentModificationException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagUserRequest,
   output: UntagUserResponse,
   errors: [
@@ -9144,18 +10255,26 @@ export const untagUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Managing Permissions for Delegation Requests.
  */
-export const updateDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDelegationRequestRequest,
-    output: UpdateDelegationRequestResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const updateDelegationRequest: (
+  input: UpdateDelegationRequestRequest,
+) => Effect.Effect<
+  UpdateDelegationRequestResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDelegationRequestRequest,
+  output: UpdateDelegationRequestResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Replaces the existing list of server certificate thumbprints associated with an OpenID
  * Connect (OIDC) provider resource object with a new list of thumbprints.
@@ -9180,17 +10299,26 @@ export const updateDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `UpdateOpenIDConnectProviderThumbprint` operation to highly
  * privileged users.
  */
-export const updateOpenIDConnectProviderThumbprint =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateOpenIDConnectProviderThumbprintRequest,
-    output: UpdateOpenIDConnectProviderThumbprintResponse,
-    errors: [
-      ConcurrentModificationException,
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }));
+export const updateOpenIDConnectProviderThumbprint: (
+  input: UpdateOpenIDConnectProviderThumbprintRequest,
+) => Effect.Effect<
+  UpdateOpenIDConnectProviderThumbprintResponse,
+  | ConcurrentModificationException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOpenIDConnectProviderThumbprintRequest,
+  output: UpdateOpenIDConnectProviderThumbprintResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Updates the name and/or the path of the specified IAM user.
  *
@@ -9204,7 +10332,19 @@ export const updateOpenIDConnectProviderThumbprint =
  * entity making the request must have permission on Bob and Robert, or must have
  * permission on all (*). For more information about permissions, see Permissions and policies.
  */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUser: (
+  input: UpdateUserRequest,
+) => Effect.Effect<
+  UpdateUserResponse,
+  | ConcurrentModificationException
+  | EntityAlreadyExistsException
+  | EntityTemporarilyUnmodifiableException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,
   output: UpdateUserResponse,
   errors: [
@@ -9230,7 +10370,17 @@ export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the `Managers` group, but not the `MGRs` group, then the
  * update fails. For more information about permissions, see Access management.
  */
-export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGroup: (
+  input: UpdateGroupRequest,
+) => Effect.Effect<
+  UpdateGroupResponse,
+  | EntityAlreadyExistsException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupRequest,
   output: UpdateGroupResponse,
   errors: [
@@ -9261,18 +10411,26 @@ export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the `ProdCert` certificate, then the update fails. For more information
  * about permissions, see Access management in the *IAM User Guide*.
  */
-export const updateServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateServerCertificateRequest,
-    output: UpdateServerCertificateResponse,
-    errors: [
-      EntityAlreadyExistsException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const updateServerCertificate: (
+  input: UpdateServerCertificateRequest,
+) => Effect.Effect<
+  UpdateServerCertificateResponse,
+  | EntityAlreadyExistsException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServerCertificateRequest,
+  output: UpdateServerCertificateResponse,
+  errors: [
+    EntityAlreadyExistsException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Deletes an OpenID Connect identity provider (IdP) resource object in IAM.
  *
@@ -9283,17 +10441,24 @@ export const updateServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This operation is idempotent; it does not fail or return an error if you call the
  * operation for a provider that does not exist.
  */
-export const deleteOpenIDConnectProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOpenIDConnectProviderRequest,
-    output: DeleteOpenIDConnectProviderResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const deleteOpenIDConnectProvider: (
+  input: DeleteOpenIDConnectProviderRequest,
+) => Effect.Effect<
+  DeleteOpenIDConnectProviderResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOpenIDConnectProviderRequest,
+  output: DeleteOpenIDConnectProviderResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Deletes a SAML provider resource in IAM.
  *
@@ -9303,7 +10468,17 @@ export const deleteOpenIDConnectProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This operation requires Signature Version 4.
  */
-export const deleteSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSAMLProvider: (
+  input: DeleteSAMLProviderRequest,
+) => Effect.Effect<
+  DeleteSAMLProviderResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSAMLProviderRequest,
   output: DeleteSAMLProviderResponse,
   errors: [
@@ -9321,7 +10496,17 @@ export const deleteSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * policies and inline policies in the
  * *IAM User Guide*.
  */
-export const detachGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detachGroupPolicy: (
+  input: DetachGroupPolicyRequest,
+) => Effect.Effect<
+  DetachGroupPolicyResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachGroupPolicyRequest,
   output: DetachGroupPolicyResponse,
   errors: [
@@ -9339,7 +10524,17 @@ export const detachGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * policies and inline policies in the
  * *IAM User Guide*.
  */
-export const detachUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detachUserPolicy: (
+  input: DetachUserPolicyRequest,
+) => Effect.Effect<
+  DetachUserPolicyResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachUserPolicyRequest,
   output: DetachUserPolicyResponse,
   errors: [
@@ -9368,12 +10563,17 @@ export const detachUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * against a value in an IAM policy. Use GetContextKeysForPrincipalPolicy to understand what key names and values
  * you must supply when you call SimulatePrincipalPolicy.
  */
-export const getContextKeysForPrincipalPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetContextKeysForPrincipalPolicyRequest,
-    output: GetContextKeysForPolicyResponse,
-    errors: [InvalidInputException, NoSuchEntityException],
-  }));
+export const getContextKeysForPrincipalPolicy: (
+  input: GetContextKeysForPrincipalPolicyRequest,
+) => Effect.Effect<
+  GetContextKeysForPolicyResponse,
+  InvalidInputException | NoSuchEntityException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetContextKeysForPrincipalPolicyRequest,
+  output: GetContextKeysForPolicyResponse,
+  errors: [InvalidInputException, NoSuchEntityException],
+}));
 /**
  * Sets the specified version of the specified policy as the policy's default (operative)
  * version.
@@ -9384,18 +10584,26 @@ export const getContextKeysForPrincipalPolicy =
  * For information about managed policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const setDefaultPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetDefaultPolicyVersionRequest,
-    output: SetDefaultPolicyVersionResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const setDefaultPolicyVersion: (
+  input: SetDefaultPolicyVersionRequest,
+) => Effect.Effect<
+  SetDefaultPolicyVersionResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetDefaultPolicyVersionRequest,
+  output: SetDefaultPolicyVersionResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Changes the status of the specified access key from Active to Inactive, or vice versa.
  * This operation can be used to disable a user's key as part of a key rotation
@@ -9411,7 +10619,17 @@ export const setDefaultPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For information about rotating keys, see Managing keys and certificates
  * in the *IAM User Guide*.
  */
-export const updateAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAccessKey: (
+  input: UpdateAccessKeyRequest,
+) => Effect.Effect<
+  UpdateAccessKeyResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccessKeyRequest,
   output: UpdateAccessKeyResponse,
   errors: [
@@ -9432,18 +10650,26 @@ export const updateAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated
  * users.
  */
-export const updateSigningCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSigningCertificateRequest,
-    output: UpdateSigningCertificateResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const updateSigningCertificate: (
+  input: UpdateSigningCertificateRequest,
+) => Effect.Effect<
+  UpdateSigningCertificateResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSigningCertificateRequest,
+  output: UpdateSigningCertificateResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Sets the status of an IAM user's SSH public key to active or inactive. SSH public
  * keys that are inactive cannot be used for authentication. This operation can be used to
@@ -9454,7 +10680,13 @@ export const updateSigningCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * to authenticate to an CodeCommit repository, see Set up CodeCommit for
  * SSH connections in the *CodeCommit User Guide*.
  */
-export const updateSSHPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSSHPublicKey: (
+  input: UpdateSSHPublicKeyRequest,
+) => Effect.Effect<
+  UpdateSSHPublicKeyResponse,
+  InvalidInputException | NoSuchEntityException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSSHPublicKeyRequest,
   output: UpdateSSHPublicKeyResponse,
   errors: [InvalidInputException, NoSuchEntityException],
@@ -9475,7 +10707,17 @@ export const updateSSHPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * making keys inactive or deleting them, see UpdateAccessKey
  * and DeleteAccessKey.
  */
-export const deleteLoginProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLoginProfile: (
+  input: DeleteLoginProfileRequest,
+) => Effect.Effect<
+  DeleteLoginProfileResponse,
+  | EntityTemporarilyUnmodifiableException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLoginProfileRequest,
   output: DeleteLoginProfileResponse,
   errors: [
@@ -9494,7 +10736,16 @@ export const deleteLoginProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about policies, refer to Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const deleteGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGroupPolicy: (
+  input: DeleteGroupPolicyRequest,
+) => Effect.Effect<
+  DeleteGroupPolicyResponse,
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupPolicyRequest,
   output: DeleteGroupPolicyResponse,
   errors: [
@@ -9506,12 +10757,17 @@ export const deleteGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified service-specific credential.
  */
-export const deleteServiceSpecificCredential =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteServiceSpecificCredentialRequest,
-    output: DeleteServiceSpecificCredentialResponse,
-    errors: [NoSuchEntityException],
-  }));
+export const deleteServiceSpecificCredential: (
+  input: DeleteServiceSpecificCredentialRequest,
+) => Effect.Effect<
+  DeleteServiceSpecificCredentialResponse,
+  NoSuchEntityException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceSpecificCredentialRequest,
+  output: DeleteServiceSpecificCredentialResponse,
+  errors: [NoSuchEntityException],
+}));
 /**
  * Deletes the specified SSH public key.
  *
@@ -9520,7 +10776,13 @@ export const deleteServiceSpecificCredential =
  * to authenticate to an CodeCommit repository, see Set up CodeCommit for
  * SSH connections in the *CodeCommit User Guide*.
  */
-export const deleteSSHPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSSHPublicKey: (
+  input: DeleteSSHPublicKeyRequest,
+) => Effect.Effect<
+  DeleteSSHPublicKeyResponse,
+  NoSuchEntityException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSSHPublicKeyRequest,
   output: DeleteSSHPublicKeyResponse,
   errors: [NoSuchEntityException],
@@ -9531,12 +10793,17 @@ export const deleteSSHPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deleting the permissions boundary for a user might increase its permissions by
  * allowing the user to perform all the actions granted in its permissions policies.
  */
-export const deleteUserPermissionsBoundary =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteUserPermissionsBoundaryRequest,
-    output: DeleteUserPermissionsBoundaryResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-  }));
+export const deleteUserPermissionsBoundary: (
+  input: DeleteUserPermissionsBoundaryRequest,
+) => Effect.Effect<
+  DeleteUserPermissionsBoundaryResponse,
+  NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserPermissionsBoundaryRequest,
+  output: DeleteUserPermissionsBoundaryResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+}));
 /**
  * Deletes the specified inline policy that is embedded in the specified IAM
  * user.
@@ -9546,7 +10813,16 @@ export const deleteUserPermissionsBoundary =
  * For more information about policies, refer to Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const deleteUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUserPolicy: (
+  input: DeleteUserPolicyRequest,
+) => Effect.Effect<
+  DeleteUserPolicyResponse,
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserPolicyRequest,
   output: DeleteUserPolicyResponse,
   errors: [
@@ -9558,7 +10834,16 @@ export const deleteUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the specified user from the specified group.
  */
-export const removeUserFromGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removeUserFromGroup: (
+  input: RemoveUserFromGroupRequest,
+) => Effect.Effect<
+  RemoveUserFromGroupResponse,
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveUserFromGroupRequest,
   output: RemoveUserFromGroupResponse,
   errors: [
@@ -9573,16 +10858,30 @@ export const removeUserFromGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * for authentication to the service. This operation can be used to disable a user's
  * service-specific credential as part of a credential rotation work flow.
  */
-export const updateServiceSpecificCredential =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateServiceSpecificCredentialRequest,
-    output: UpdateServiceSpecificCredentialResponse,
-    errors: [NoSuchEntityException],
-  }));
+export const updateServiceSpecificCredential: (
+  input: UpdateServiceSpecificCredentialRequest,
+) => Effect.Effect<
+  UpdateServiceSpecificCredentialResponse,
+  NoSuchEntityException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateServiceSpecificCredentialRequest,
+  output: UpdateServiceSpecificCredentialResponse,
+  errors: [NoSuchEntityException],
+}));
 /**
  * Adds the specified user to the specified group.
  */
-export const addUserToGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addUserToGroup: (
+  input: AddUserToGroupRequest,
+) => Effect.Effect<
+  AddUserToGroupResponse,
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddUserToGroupRequest,
   output: AddUserToGroupResponse,
   errors: [
@@ -9599,7 +10898,16 @@ export const addUserToGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root
  * user credentials even if the Amazon Web Services account has no associated users.
  */
-export const deleteAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAccessKey: (
+  input: DeleteAccessKeyRequest,
+) => Effect.Effect<
+  DeleteAccessKeyResponse,
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessKeyRequest,
   output: DeleteAccessKeyResponse,
   errors: [
@@ -9620,17 +10928,24 @@ export const deleteAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * An accepted request may be rejected before the exchange token is sent to the partner.
  */
-export const acceptDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptDelegationRequestRequest,
-    output: AcceptDelegationRequestResponse,
-    errors: [
-      ConcurrentModificationException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const acceptDelegationRequest: (
+  input: AcceptDelegationRequestRequest,
+) => Effect.Effect<
+  AcceptDelegationRequestResponse,
+  | ConcurrentModificationException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptDelegationRequestRequest,
+  output: AcceptDelegationRequestResponse,
+  errors: [
+    ConcurrentModificationException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Creates an IAM role that is linked to a specific Amazon Web Services service. The service controls
  * the attached policies and when the role can be deleted. This helps ensure that the
@@ -9643,18 +10958,26 @@ export const acceptDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To attach a policy to this service-linked role, you must make the request using the
  * Amazon Web Services service that depends on this role.
  */
-export const createServiceLinkedRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateServiceLinkedRoleRequest,
-    output: CreateServiceLinkedRoleResponse,
-    errors: [
-      InvalidInputException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const createServiceLinkedRole: (
+  input: CreateServiceLinkedRoleRequest,
+) => Effect.Effect<
+  CreateServiceLinkedRoleResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateServiceLinkedRoleRequest,
+  output: CreateServiceLinkedRoleResponse,
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Deletes the specified instance profile. The instance profile must not have an
  * associated role.
@@ -9667,18 +10990,26 @@ export const createServiceLinkedRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about instance profiles, see Using
  * instance profiles in the *IAM User Guide*.
  */
-export const deleteInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInstanceProfileRequest,
-    output: DeleteInstanceProfileResponse,
-    errors: [
-      DeleteConflictException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const deleteInstanceProfile: (
+  input: DeleteInstanceProfileRequest,
+) => Effect.Effect<
+  DeleteInstanceProfileResponse,
+  | DeleteConflictException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInstanceProfileRequest,
+  output: DeleteInstanceProfileResponse,
+  errors: [
+    DeleteConflictException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Deletes the specified managed policy.
  *
@@ -9701,7 +11032,18 @@ export const deleteInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For information about managed policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePolicy: (
+  input: DeletePolicyRequest,
+) => Effect.Effect<
+  DeletePolicyResponse,
+  | DeleteConflictException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyRequest,
   output: DeletePolicyResponse,
   errors: [
@@ -9722,7 +11064,18 @@ export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For information about versions for managed policies, see Versioning for managed
  * policies in the *IAM User Guide*.
  */
-export const deletePolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePolicyVersion: (
+  input: DeletePolicyVersionRequest,
+) => Effect.Effect<
+  DeletePolicyVersionResponse,
+  | DeleteConflictException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyVersionRequest,
   output: DeletePolicyVersionResponse,
   errors: [
@@ -9750,18 +11103,26 @@ export const deletePolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see DeleteLoadBalancerListeners in the Elastic Load Balancing API
  * Reference.
  */
-export const deleteServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteServerCertificateRequest,
-    output: DeleteServerCertificateResponse,
-    errors: [
-      DeleteConflictException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const deleteServerCertificate: (
+  input: DeleteServerCertificateRequest,
+) => Effect.Effect<
+  DeleteServerCertificateResponse,
+  | DeleteConflictException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServerCertificateRequest,
+  output: DeleteServerCertificateResponse,
+  errors: [
+    DeleteConflictException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Sets the specified version of the global endpoint token as the token version used for
  * the Amazon Web Services account.
@@ -9786,12 +11147,17 @@ export const deleteServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To view the current session token version, see the
  * `GlobalEndpointTokenVersion` entry in the response of the GetAccountSummary operation.
  */
-export const setSecurityTokenServicePreferences =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SetSecurityTokenServicePreferencesRequest,
-    output: SetSecurityTokenServicePreferencesResponse,
-    errors: [ServiceFailureException],
-  }));
+export const setSecurityTokenServicePreferences: (
+  input: SetSecurityTokenServicePreferencesRequest,
+) => Effect.Effect<
+  SetSecurityTokenServicePreferencesResponse,
+  ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetSecurityTokenServicePreferencesRequest,
+  output: SetSecurityTokenServicePreferencesResponse,
+  errors: [ServiceFailureException],
+}));
 /**
  * Creates an IAM resource that describes an identity provider (IdP) that supports SAML
  * 2.0.
@@ -9814,7 +11180,18 @@ export const setSecurityTokenServicePreferences =
  * federated users to access the Amazon Web Services Management Console and About SAML 2.0-based
  * federation in the *IAM User Guide*.
  */
-export const createSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSAMLProvider: (
+  input: CreateSAMLProviderRequest,
+) => Effect.Effect<
+  CreateSAMLProviderResponse,
+  | ConcurrentModificationException
+  | EntityAlreadyExistsException
+  | InvalidInputException
+  | LimitExceededException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSAMLProviderRequest,
   output: CreateSAMLProviderResponse,
   errors: [
@@ -9828,22 +11205,39 @@ export const createSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the password policy for the Amazon Web Services account. There are no parameters.
  */
-export const deleteAccountPasswordPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAccountPasswordPolicyRequest,
-    output: DeleteAccountPasswordPolicyResponse,
-    errors: [
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const deleteAccountPasswordPolicy: (
+  input: DeleteAccountPasswordPolicyRequest,
+) => Effect.Effect<
+  DeleteAccountPasswordPolicyResponse,
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountPasswordPolicyRequest,
+  output: DeleteAccountPasswordPolicyResponse,
+  errors: [
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Deletes the specified IAM group. The group must not contain any users or have any
  * attached policies.
  */
-export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGroup: (
+  input: DeleteGroupRequest,
+) => Effect.Effect<
+  DeleteGroupResponse,
+  | DeleteConflictException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupRequest,
   output: DeleteGroupResponse,
   errors: [
@@ -9874,17 +11268,24 @@ export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about service-linked roles, see Roles terms and concepts: Amazon Web Services service-linked role in the
  * *IAM User Guide*.
  */
-export const deleteServiceLinkedRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteServiceLinkedRoleRequest,
-    output: DeleteServiceLinkedRoleResponse,
-    errors: [
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const deleteServiceLinkedRole: (
+  input: DeleteServiceLinkedRoleRequest,
+) => Effect.Effect<
+  DeleteServiceLinkedRoleResponse,
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteServiceLinkedRoleRequest,
+  output: DeleteServiceLinkedRoleResponse,
+  errors: [
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Adds or updates an inline policy document that is embedded in the specified IAM
  * user.
@@ -9907,7 +11308,17 @@ export const deleteServiceLinkedRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * API with IAM, see Making query requests in the
  * *IAM User Guide*.
  */
-export const putUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putUserPolicy: (
+  input: PutUserPolicyRequest,
+) => Effect.Effect<
+  PutUserPolicyResponse,
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutUserPolicyRequest,
   output: PutUserPolicyResponse,
   errors: [
@@ -9930,18 +11341,26 @@ export const putUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about using a password policy, see Managing an IAM password
  * policy in the *IAM User Guide*.
  */
-export const updateAccountPasswordPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountPasswordPolicyRequest,
-    output: UpdateAccountPasswordPolicyResponse,
-    errors: [
-      LimitExceededException,
-      MalformedPolicyDocumentException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const updateAccountPasswordPolicy: (
+  input: UpdateAccountPasswordPolicyRequest,
+) => Effect.Effect<
+  UpdateAccountPasswordPolicyResponse,
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountPasswordPolicyRequest,
+  output: UpdateAccountPasswordPolicyResponse,
+  errors: [
+    LimitExceededException,
+    MalformedPolicyDocumentException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Creates a new Amazon Web Services secret access key and corresponding Amazon Web Services access key ID for the
  * specified user. The default status for new keys is `Active`.
@@ -9959,7 +11378,16 @@ export const updateAccountPasswordPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * file) if you want to be able to access it again. If a secret key is lost, you can
  * delete the access keys for the associated user and then create new keys.
  */
-export const createAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAccessKey: (
+  input: CreateAccessKeyRequest,
+) => Effect.Effect<
+  CreateAccessKeyResponse,
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessKeyRequest,
   output: CreateAccessKeyResponse,
   errors: [
@@ -9974,7 +11402,17 @@ export const createAccessKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For information about the number of groups you can create, see IAM and STS
  * quotas in the *IAM User Guide*.
  */
-export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGroup: (
+  input: CreateGroupRequest,
+) => Effect.Effect<
+  CreateGroupResponse,
+  | EntityAlreadyExistsException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupRequest,
   output: CreateGroupResponse,
   errors: [
@@ -9992,19 +11430,28 @@ export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For information about the number of instance profiles you can create, see IAM object
  * quotas in the *IAM User Guide*.
  */
-export const createInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateInstanceProfileRequest,
-    output: CreateInstanceProfileResponse,
-    errors: [
-      ConcurrentModificationException,
-      EntityAlreadyExistsException,
-      InvalidInputException,
-      LimitExceededException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const createInstanceProfile: (
+  input: CreateInstanceProfileRequest,
+) => Effect.Effect<
+  CreateInstanceProfileResponse,
+  | ConcurrentModificationException
+  | EntityAlreadyExistsException
+  | InvalidInputException
+  | LimitExceededException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInstanceProfileRequest,
+  output: CreateInstanceProfileResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityAlreadyExistsException,
+    InvalidInputException,
+    LimitExceededException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Creates an IAM entity to describe an identity provider (IdP) that supports OpenID Connect (OIDC).
  *
@@ -10044,20 +11491,30 @@ export const createInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * operation creates. Therefore, it is best to limit access to the CreateOpenIDConnectProvider operation to highly privileged
  * users.
  */
-export const createOpenIDConnectProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateOpenIDConnectProviderRequest,
-    output: CreateOpenIDConnectProviderResponse,
-    errors: [
-      ConcurrentModificationException,
-      EntityAlreadyExistsException,
-      InvalidInputException,
-      LimitExceededException,
-      OpenIdIdpCommunicationErrorException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const createOpenIDConnectProvider: (
+  input: CreateOpenIDConnectProviderRequest,
+) => Effect.Effect<
+  CreateOpenIDConnectProviderResponse,
+  | ConcurrentModificationException
+  | EntityAlreadyExistsException
+  | InvalidInputException
+  | LimitExceededException
+  | OpenIdIdpCommunicationErrorException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOpenIDConnectProviderRequest,
+  output: CreateOpenIDConnectProviderResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityAlreadyExistsException,
+    InvalidInputException,
+    LimitExceededException,
+    OpenIdIdpCommunicationErrorException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Creates a new managed policy for your Amazon Web Services account.
  *
@@ -10074,7 +11531,19 @@ export const createOpenIDConnectProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * policies and inline policies in the
  * *IAM User Guide*.
  */
-export const createPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPolicy: (
+  input: CreatePolicyRequest,
+) => Effect.Effect<
+  CreatePolicyResponse,
+  | ConcurrentModificationException
+  | EntityAlreadyExistsException
+  | InvalidInputException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePolicyRequest,
   output: CreatePolicyResponse,
   errors: [
@@ -10098,7 +11567,18 @@ export const createPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about managed policy versions, see Versioning for managed
  * policies in the *IAM User Guide*.
  */
-export const createPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPolicyVersion: (
+  input: CreatePolicyVersionRequest,
+) => Effect.Effect<
+  CreatePolicyVersionResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePolicyVersionRequest,
   output: CreatePolicyVersionResponse,
   errors: [
@@ -10115,7 +11595,19 @@ export const createPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For information about quotas for the number of IAM users you can create, see IAM and STS
  * quotas in the *IAM User Guide*.
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUser: (
+  input: CreateUserRequest,
+) => Effect.Effect<
+  CreateUserResponse,
+  | ConcurrentModificationException
+  | EntityAlreadyExistsException
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
   output: CreateUserResponse,
   errors: [
@@ -10143,19 +11635,28 @@ export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * provision your virtual device, you should ensure that the information is destroyed
  * following secure procedures.
  */
-export const createVirtualMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateVirtualMFADeviceRequest,
-    output: CreateVirtualMFADeviceResponse,
-    errors: [
-      ConcurrentModificationException,
-      EntityAlreadyExistsException,
-      InvalidInputException,
-      LimitExceededException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const createVirtualMFADevice: (
+  input: CreateVirtualMFADeviceRequest,
+) => Effect.Effect<
+  CreateVirtualMFADeviceResponse,
+  | ConcurrentModificationException
+  | EntityAlreadyExistsException
+  | InvalidInputException
+  | LimitExceededException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVirtualMFADeviceRequest,
+  output: CreateVirtualMFADeviceResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityAlreadyExistsException,
+    InvalidInputException,
+    LimitExceededException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Generates a report for service last accessed data for Organizations. You can generate a
  * report for any entities (organization root, organizational unit, or account) or policies
@@ -10275,24 +11776,33 @@ export const createVirtualMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about service last accessed data, see Reducing policy scope by
  * viewing user activity in the *IAM User Guide*.
  */
-export const generateOrganizationsAccessReport =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GenerateOrganizationsAccessReportRequest,
-    output: GenerateOrganizationsAccessReportResponse,
-    errors: [ReportGenerationLimitExceededException],
-  }));
+export const generateOrganizationsAccessReport: (
+  input: GenerateOrganizationsAccessReportRequest,
+) => Effect.Effect<
+  GenerateOrganizationsAccessReportResponse,
+  ReportGenerationLimitExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateOrganizationsAccessReportRequest,
+  output: GenerateOrganizationsAccessReportResponse,
+  errors: [ReportGenerationLimitExceededException],
+}));
 /**
  * Retrieves information about when the specified access key was last used. The
  * information includes the date and time of last use, along with the Amazon Web Services service and
  * Region that were specified in the last request made with that key.
  */
-export const getAccessKeyLastUsed = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAccessKeyLastUsedRequest,
-    output: GetAccessKeyLastUsedResponse,
-    errors: [],
-  }),
-);
+export const getAccessKeyLastUsed: (
+  input: GetAccessKeyLastUsedRequest,
+) => Effect.Effect<
+  GetAccessKeyLastUsedResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccessKeyLastUsedRequest,
+  output: GetAccessKeyLastUsedResponse,
+  errors: [],
+}));
 /**
  * Retrieves information about a specific delegation request.
  *
@@ -10304,20 +11814,30 @@ export const getAccessKeyLastUsed = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Managing Permissions for Delegation Requests.
  */
-export const getDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDelegationRequestRequest,
-    output: GetDelegationRequestResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-  }),
-);
+export const getDelegationRequest: (
+  input: GetDelegationRequestRequest,
+) => Effect.Effect<
+  GetDelegationRequestResponse,
+  NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDelegationRequestRequest,
+  output: GetDelegationRequestResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+}));
 /**
  * Retrieves information about the specified instance profile, including the instance
  * profile's path, GUID, ARN, and role. For more information about instance profiles, see
  * Using
  * instance profiles in the *IAM User Guide*.
  */
-export const getInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getInstanceProfile: (
+  input: GetInstanceProfileRequest,
+) => Effect.Effect<
+  GetInstanceProfileResponse,
+  NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceProfileRequest,
   output: GetInstanceProfileResponse,
   errors: [NoSuchEntityException, ServiceFailureException],
@@ -10325,7 +11845,13 @@ export const getInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about an MFA device for a specified user.
  */
-export const getMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMFADevice: (
+  input: GetMFADeviceRequest,
+) => Effect.Effect<
+  GetMFADeviceResponse,
+  NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMFADeviceRequest,
   output: GetMFADeviceResponse,
   errors: [NoSuchEntityException, ServiceFailureException],
@@ -10354,19 +11880,33 @@ export const getMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * By default, the list is sorted by service namespace.
  */
-export const getOrganizationsAccessReport =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetOrganizationsAccessReportRequest,
-    output: GetOrganizationsAccessReportResponse,
-    errors: [NoSuchEntityException],
-  }));
+export const getOrganizationsAccessReport: (
+  input: GetOrganizationsAccessReportRequest,
+) => Effect.Effect<
+  GetOrganizationsAccessReportResponse,
+  NoSuchEntityException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOrganizationsAccessReportRequest,
+  output: GetOrganizationsAccessReportResponse,
+  errors: [NoSuchEntityException],
+}));
 /**
  * Returns the SAML provider metadocument that was uploaded when the IAM SAML provider
  * resource object was created or updated.
  *
  * This operation requires Signature Version 4.
  */
-export const getSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSAMLProvider: (
+  input: GetSAMLProviderRequest,
+) => Effect.Effect<
+  GetSAMLProviderResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSAMLProviderRequest,
   output: GetSAMLProviderResponse,
   errors: [
@@ -10383,13 +11923,17 @@ export const getSAMLProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * topic includes a list of Amazon Web Services services that can use the server certificates that you
  * manage with IAM.
  */
-export const getServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetServerCertificateRequest,
-    output: GetServerCertificateResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-  }),
-);
+export const getServerCertificate: (
+  input: GetServerCertificateRequest,
+) => Effect.Effect<
+  GetServerCertificateResponse,
+  NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServerCertificateRequest,
+  output: GetServerCertificateResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+}));
 /**
  * Returns information about the access key IDs associated with the specified IAM user.
  * If there is none, the operation returns an empty list.
@@ -10409,19 +11953,39 @@ export const getServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To ensure the security of your Amazon Web Services account, the secret access key is accessible
  * only during key and user creation.
  */
-export const listAccessKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAccessKeys: {
+  (
     input: ListAccessKeysRequest,
-    output: ListAccessKeysResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "AccessKeyMetadata",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAccessKeysResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccessKeysRequest,
+  ) => Stream.Stream<
+    ListAccessKeysResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccessKeysRequest,
+  ) => Stream.Stream<
+    AccessKeyMetadata,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccessKeysRequest,
+  output: ListAccessKeysResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "AccessKeyMetadata",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists all managed policies that are attached to the specified IAM group.
  *
@@ -10436,22 +12000,52 @@ export const listAccessKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * attached to the specified group (or none that match the specified path prefix), the
  * operation returns an empty list.
  */
-export const listAttachedGroupPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAttachedGroupPolicies: {
+  (
     input: ListAttachedGroupPoliciesRequest,
-    output: ListAttachedGroupPoliciesResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "AttachedPolicies",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAttachedGroupPoliciesResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttachedGroupPoliciesRequest,
+  ) => Stream.Stream<
+    ListAttachedGroupPoliciesResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttachedGroupPoliciesRequest,
+  ) => Stream.Stream<
+    AttachedPolicy,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttachedGroupPoliciesRequest,
+  output: ListAttachedGroupPoliciesResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "AttachedPolicies",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists all IAM users, groups, and roles that the specified managed policy is attached
  * to.
@@ -10464,21 +12058,51 @@ export const listAttachedGroupPolicies =
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listEntitiesForPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEntitiesForPolicy: {
+  (
     input: ListEntitiesForPolicyRequest,
-    output: ListEntitiesForPolicyResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEntitiesForPolicyResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEntitiesForPolicyRequest,
+  ) => Stream.Stream<
+    ListEntitiesForPolicyResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEntitiesForPolicyRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEntitiesForPolicyRequest,
+  output: ListEntitiesForPolicyResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the MFA devices for an IAM user. If the request includes a IAM user name,
  * then this operation lists all the MFA devices associated with the specified user. If you
@@ -10488,19 +12112,39 @@ export const listEntitiesForPolicy =
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listMFADevices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMFADevices: {
+  (
     input: ListMFADevicesRequest,
-    output: ListMFADevicesResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "MFADevices",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMFADevicesResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMFADevicesRequest,
+  ) => Stream.Stream<
+    ListMFADevicesResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMFADevicesRequest,
+  ) => Stream.Stream<
+    MFADevice,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMFADevicesRequest,
+  output: ListMFADevicesResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "MFADevices",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Lists the server certificates stored in IAM that have the specified path prefix. If
  * none exist, the operation returns an empty list.
@@ -10517,18 +12161,39 @@ export const listMFADevices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a servercertificate, see
  * GetServerCertificate.
  */
-export const listServerCertificates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServerCertificates: {
+  (
     input: ListServerCertificatesRequest,
-    output: ListServerCertificatesResponse,
-    errors: [ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "ServerCertificateMetadataList",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServerCertificatesResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServerCertificatesRequest,
+  ) => Stream.Stream<
+    ListServerCertificatesResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServerCertificatesRequest,
+  ) => Stream.Stream<
+    ServerCertificateMetadata,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServerCertificatesRequest,
+  output: ListServerCertificatesResponse,
+  errors: [ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "ServerCertificateMetadataList",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Returns information about the signing certificates associated with the specified IAM
  * user. If none exists, the operation returns an empty list.
@@ -10543,18 +12208,39 @@ export const listServerCertificates =
  * this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no
  * associated users.
  */
-export const listSigningCertificates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSigningCertificates: {
+  (
     input: ListSigningCertificatesRequest,
-    output: ListSigningCertificatesResponse,
-    errors: [NoSuchEntityException, ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "Certificates",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSigningCertificatesResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSigningCertificatesRequest,
+  ) => Stream.Stream<
+    ListSigningCertificatesResponse,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSigningCertificatesRequest,
+  ) => Stream.Stream<
+    SigningCertificate,
+    NoSuchEntityException | ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSigningCertificatesRequest,
+  output: ListSigningCertificatesResponse,
+  errors: [NoSuchEntityException, ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "Certificates",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Returns information about the SSH public keys associated with the specified IAM
  * user. If none exists, the operation returns an empty list.
@@ -10567,19 +12253,39 @@ export const listSigningCertificates =
  * Although each user is limited to a small number of keys, you can still paginate the
  * results using the `MaxItems` and `Marker` parameters.
  */
-export const listSSHPublicKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSSHPublicKeys: {
+  (
     input: ListSSHPublicKeysRequest,
-    output: ListSSHPublicKeysResponse,
-    errors: [NoSuchEntityException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "SSHPublicKeys",
-      pageSize: "MaxItems",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSSHPublicKeysResponse,
+    NoSuchEntityException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSSHPublicKeysRequest,
+  ) => Stream.Stream<
+    ListSSHPublicKeysResponse,
+    NoSuchEntityException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSSHPublicKeysRequest,
+  ) => Stream.Stream<
+    SSHPublicKeyMetadata,
+    NoSuchEntityException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSSHPublicKeysRequest,
+  output: ListSSHPublicKeysResponse,
+  errors: [NoSuchEntityException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "SSHPublicKeys",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Simulate how a set of IAM policies and optionally a resource-based policy works with
  * a list of API operations and Amazon Web Services resources to determine the policies' effective
@@ -10609,41 +12315,82 @@ export const listSSHPublicKeys = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * policies with the IAM policy simulator in the
  * *IAM User Guide*.
  */
-export const simulateCustomPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const simulateCustomPolicy: {
+  (
     input: SimulateCustomPolicyRequest,
-    output: SimulatePolicyResponse,
-    errors: [InvalidInputException, PolicyEvaluationException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "EvaluationResults",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SimulatePolicyResponse,
+    InvalidInputException | PolicyEvaluationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SimulateCustomPolicyRequest,
+  ) => Stream.Stream<
+    SimulatePolicyResponse,
+    InvalidInputException | PolicyEvaluationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SimulateCustomPolicyRequest,
+  ) => Stream.Stream<
+    EvaluationResult,
+    InvalidInputException | PolicyEvaluationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SimulateCustomPolicyRequest,
+  output: SimulatePolicyResponse,
+  errors: [InvalidInputException, PolicyEvaluationException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "EvaluationResults",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Use UpdateRole instead.
  *
  * Modifies only the description of a role. This operation performs the same function as
  * the `Description` parameter in the `UpdateRole` operation.
  */
-export const updateRoleDescription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateRoleDescriptionRequest,
-    output: UpdateRoleDescriptionResponse,
-    errors: [
-      NoSuchEntityException,
-      ServiceFailureException,
-      UnmodifiableEntityException,
-    ],
-  }),
-);
+export const updateRoleDescription: (
+  input: UpdateRoleDescriptionRequest,
+) => Effect.Effect<
+  UpdateRoleDescriptionResponse,
+  | NoSuchEntityException
+  | ServiceFailureException
+  | UnmodifiableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRoleDescriptionRequest,
+  output: UpdateRoleDescriptionResponse,
+  errors: [
+    NoSuchEntityException,
+    ServiceFailureException,
+    UnmodifiableEntityException,
+  ],
+}));
 /**
  * Enables the specified MFA device and associates it with the specified IAM user. When
  * enabled, the MFA device is required for every subsequent login by the IAM user
  * associated with the device.
  */
-export const enableMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableMFADevice: (
+  input: EnableMFADeviceRequest,
+) => Effect.Effect<
+  EnableMFADeviceResponse,
+  | ConcurrentModificationException
+  | EntityAlreadyExistsException
+  | EntityTemporarilyUnmodifiableException
+  | InvalidAuthenticationCodeException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableMFADeviceRequest,
   output: EnableMFADeviceResponse,
   errors: [
@@ -10680,7 +12427,19 @@ export const enableMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To learn more, see Validating IAM policies
  * in the *IAM User Guide*.
  */
-export const attachRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const attachRolePolicy: (
+  input: AttachRolePolicyRequest,
+) => Effect.Effect<
+  AttachRolePolicyResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | PolicyNotAttachableException
+  | ServiceFailureException
+  | UnmodifiableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachRolePolicyRequest,
   output: AttachRolePolicyResponse,
   errors: [
@@ -10702,7 +12461,18 @@ export const attachRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about modifying passwords, see Managing passwords in the
  * *IAM User Guide*.
  */
-export const updateLoginProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateLoginProfile: (
+  input: UpdateLoginProfileRequest,
+) => Effect.Effect<
+  UpdateLoginProfileResponse,
+  | EntityTemporarilyUnmodifiableException
+  | LimitExceededException
+  | NoSuchEntityException
+  | PasswordPolicyViolationException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLoginProfileRequest,
   output: UpdateLoginProfileResponse,
   errors: [
@@ -10732,7 +12502,19 @@ export const updateLoginProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * about to delete. Deleting a role or instance profile that is associated with a
  * running instance will break any applications running on the instance.
  */
-export const deleteRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRole: (
+  input: DeleteRoleRequest,
+) => Effect.Effect<
+  DeleteRoleResponse,
+  | ConcurrentModificationException
+  | DeleteConflictException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | UnmodifiableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRoleRequest,
   output: DeleteRoleResponse,
   errors: [
@@ -10752,7 +12534,18 @@ export const deleteRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * policies and inline policies in the
  * *IAM User Guide*.
  */
-export const detachRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detachRolePolicy: (
+  input: DetachRolePolicyRequest,
+) => Effect.Effect<
+  DetachRolePolicyResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | UnmodifiableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachRolePolicyRequest,
   output: DetachRolePolicyResponse,
   errors: [
@@ -10772,16 +12565,24 @@ export const detachRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * example, it might allow anyone who assumes the role to perform all the actions
  * granted in its permissions policies.
  */
-export const deleteRolePermissionsBoundary =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRolePermissionsBoundaryRequest,
-    output: DeleteRolePermissionsBoundaryResponse,
-    errors: [
-      NoSuchEntityException,
-      ServiceFailureException,
-      UnmodifiableEntityException,
-    ],
-  }));
+export const deleteRolePermissionsBoundary: (
+  input: DeleteRolePermissionsBoundaryRequest,
+) => Effect.Effect<
+  DeleteRolePermissionsBoundaryResponse,
+  | NoSuchEntityException
+  | ServiceFailureException
+  | UnmodifiableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRolePermissionsBoundaryRequest,
+  output: DeleteRolePermissionsBoundaryResponse,
+  errors: [
+    NoSuchEntityException,
+    ServiceFailureException,
+    UnmodifiableEntityException,
+  ],
+}));
 /**
  * Deletes the specified inline policy that is embedded in the specified IAM
  * role.
@@ -10791,7 +12592,17 @@ export const deleteRolePermissionsBoundary =
  * For more information about policies, refer to Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const deleteRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRolePolicy: (
+  input: DeleteRolePolicyRequest,
+) => Effect.Effect<
+  DeleteRolePolicyResponse,
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | UnmodifiableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRolePolicyRequest,
   output: DeleteRolePolicyResponse,
   errors: [
@@ -10814,21 +12625,39 @@ export const deleteRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see Using
  * instance profiles in the *IAM User Guide*.
  */
-export const removeRoleFromInstanceProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveRoleFromInstanceProfileRequest,
-    output: RemoveRoleFromInstanceProfileResponse,
-    errors: [
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-      UnmodifiableEntityException,
-    ],
-  }));
+export const removeRoleFromInstanceProfile: (
+  input: RemoveRoleFromInstanceProfileRequest,
+) => Effect.Effect<
+  RemoveRoleFromInstanceProfileResponse,
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | UnmodifiableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveRoleFromInstanceProfileRequest,
+  output: RemoveRoleFromInstanceProfileResponse,
+  errors: [
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+    UnmodifiableEntityException,
+  ],
+}));
 /**
  * Updates the description or maximum session duration setting of a role.
  */
-export const updateRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRole: (
+  input: UpdateRoleRequest,
+) => Effect.Effect<
+  UpdateRoleResponse,
+  | NoSuchEntityException
+  | ServiceFailureException
+  | UnmodifiableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRoleRequest,
   output: UpdateRoleResponse,
   errors: [
@@ -10859,19 +12688,28 @@ export const updateRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see Using
  * instance profiles in the *IAM User Guide*.
  */
-export const addRoleToInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddRoleToInstanceProfileRequest,
-    output: AddRoleToInstanceProfileResponse,
-    errors: [
-      EntityAlreadyExistsException,
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceFailureException,
-      UnmodifiableEntityException,
-    ],
-  }),
-);
+export const addRoleToInstanceProfile: (
+  input: AddRoleToInstanceProfileRequest,
+) => Effect.Effect<
+  AddRoleToInstanceProfileResponse,
+  | EntityAlreadyExistsException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | UnmodifiableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddRoleToInstanceProfileRequest,
+  output: AddRoleToInstanceProfileResponse,
+  errors: [
+    EntityAlreadyExistsException,
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceFailureException,
+    UnmodifiableEntityException,
+  ],
+}));
 /**
  * Adds or updates an inline policy document that is embedded in the specified IAM
  * role.
@@ -10905,7 +12743,18 @@ export const addRoleToInstanceProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * API with IAM, see Making query requests in the
  * *IAM User Guide*.
  */
-export const putRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putRolePolicy: (
+  input: PutRolePolicyRequest,
+) => Effect.Effect<
+  PutRolePolicyResponse,
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | UnmodifiableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRolePolicyRequest,
   output: PutRolePolicyResponse,
   errors: [
@@ -10922,19 +12771,28 @@ export const putRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Using roles to
  * delegate permissions and federate identities.
  */
-export const updateAssumeRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAssumeRolePolicyRequest,
-    output: UpdateAssumeRolePolicyResponse,
-    errors: [
-      LimitExceededException,
-      MalformedPolicyDocumentException,
-      NoSuchEntityException,
-      ServiceFailureException,
-      UnmodifiableEntityException,
-    ],
-  }),
-);
+export const updateAssumeRolePolicy: (
+  input: UpdateAssumeRolePolicyRequest,
+) => Effect.Effect<
+  UpdateAssumeRolePolicyResponse,
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | UnmodifiableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAssumeRolePolicyRequest,
+  output: UpdateAssumeRolePolicyResponse,
+  errors: [
+    LimitExceededException,
+    MalformedPolicyDocumentException,
+    NoSuchEntityException,
+    ServiceFailureException,
+    UnmodifiableEntityException,
+  ],
+}));
 /**
  * Synchronizes the specified MFA device with its IAM resource object on the Amazon Web Services
  * servers.
@@ -10942,7 +12800,18 @@ export const updateAssumeRolePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about creating and working with virtual MFA devices, see Using a virtual MFA
  * device in the *IAM User Guide*.
  */
-export const resyncMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resyncMFADevice: (
+  input: ResyncMFADeviceRequest,
+) => Effect.Effect<
+  ResyncMFADeviceResponse,
+  | ConcurrentModificationException
+  | InvalidAuthenticationCodeException
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResyncMFADeviceRequest,
   output: ResyncMFADeviceResponse,
   errors: [
@@ -10968,7 +12837,18 @@ export const resyncMFADevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const attachUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const attachUserPolicy: (
+  input: AttachUserPolicyRequest,
+) => Effect.Effect<
+  AttachUserPolicyResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | PolicyNotAttachableException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachUserPolicyRequest,
   output: AttachUserPolicyResponse,
   errors: [
@@ -10993,19 +12873,28 @@ export const attachUserPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * a role are evaluated, see IAM JSON policy
  * evaluation logic in the IAM User Guide.
  */
-export const putRolePermissionsBoundary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutRolePermissionsBoundaryRequest,
-    output: PutRolePermissionsBoundaryResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      PolicyNotAttachableException,
-      ServiceFailureException,
-      UnmodifiableEntityException,
-    ],
-  }),
-);
+export const putRolePermissionsBoundary: (
+  input: PutRolePermissionsBoundaryRequest,
+) => Effect.Effect<
+  PutRolePermissionsBoundaryResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | PolicyNotAttachableException
+  | ServiceFailureException
+  | UnmodifiableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRolePermissionsBoundaryRequest,
+  output: PutRolePermissionsBoundaryResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    PolicyNotAttachableException,
+    ServiceFailureException,
+    UnmodifiableEntityException,
+  ],
+}));
 /**
  * Adds or updates the policy that is specified as the IAM user's permissions
  * boundary. You can use an Amazon Web Services managed policy or a customer managed policy to set the
@@ -11018,18 +12907,26 @@ export const putRolePermissionsBoundary = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * permissions for a user are evaluated, see IAM JSON policy
  * evaluation logic in the IAM User Guide.
  */
-export const putUserPermissionsBoundary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutUserPermissionsBoundaryRequest,
-    output: PutUserPermissionsBoundaryResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      PolicyNotAttachableException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const putUserPermissionsBoundary: (
+  input: PutUserPermissionsBoundaryRequest,
+) => Effect.Effect<
+  PutUserPermissionsBoundaryResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | PolicyNotAttachableException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutUserPermissionsBoundaryRequest,
+  output: PutUserPermissionsBoundaryResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    PolicyNotAttachableException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Attaches the specified managed policy to the specified IAM group.
  *
@@ -11045,7 +12942,18 @@ export const putUserPermissionsBoundary = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information about policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const attachGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const attachGroupPolicy: (
+  input: AttachGroupPolicyRequest,
+) => Effect.Effect<
+  AttachGroupPolicyResponse,
+  | InvalidInputException
+  | LimitExceededException
+  | NoSuchEntityException
+  | PolicyNotAttachableException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachGroupPolicyRequest,
   output: AttachGroupPolicyResponse,
   errors: [
@@ -11068,7 +12976,19 @@ export const attachGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * modifying passwords, see Managing passwords in the
  * *IAM User Guide*.
  */
-export const changePassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const changePassword: (
+  input: ChangePasswordRequest,
+) => Effect.Effect<
+  ChangePasswordResponse,
+  | EntityTemporarilyUnmodifiableException
+  | InvalidUserTypeException
+  | LimitExceededException
+  | NoSuchEntityException
+  | PasswordPolicyViolationException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChangePasswordRequest,
   output: ChangePasswordResponse,
   errors: [
@@ -11090,7 +13010,18 @@ export const changePassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about managing passwords, see Managing passwords in the
  * *IAM User Guide*.
  */
-export const createLoginProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLoginProfile: (
+  input: CreateLoginProfileRequest,
+) => Effect.Effect<
+  CreateLoginProfileResponse,
+  | EntityAlreadyExistsException
+  | LimitExceededException
+  | NoSuchEntityException
+  | PasswordPolicyViolationException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLoginProfileRequest,
   output: CreateLoginProfileResponse,
   errors: [
@@ -11108,19 +13039,28 @@ export const createLoginProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * go through an onboarding process described in the
  * partner onboarding documentation.
  */
-export const createDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDelegationRequestRequest,
-    output: CreateDelegationRequestResponse,
-    errors: [
-      ConcurrentModificationException,
-      EntityAlreadyExistsException,
-      InvalidInputException,
-      LimitExceededException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const createDelegationRequest: (
+  input: CreateDelegationRequestRequest,
+) => Effect.Effect<
+  CreateDelegationRequestResponse,
+  | ConcurrentModificationException
+  | EntityAlreadyExistsException
+  | InvalidInputException
+  | LimitExceededException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDelegationRequestRequest,
+  output: CreateDelegationRequestResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityAlreadyExistsException,
+    InvalidInputException,
+    LimitExceededException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Creates a new role for your Amazon Web Services account.
  *
@@ -11129,7 +13069,19 @@ export const createDelegationRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * and the number of roles you can create, see IAM and STS quotas in the
  * *IAM User Guide*.
  */
-export const createRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRole: (
+  input: CreateRoleRequest,
+) => Effect.Effect<
+  CreateRoleResponse,
+  | ConcurrentModificationException
+  | EntityAlreadyExistsException
+  | InvalidInputException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRoleRequest,
   output: CreateRoleResponse,
   errors: [
@@ -11156,16 +13108,24 @@ export const createRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about service-specific credentials, see Service-specific credentials for IAM users in the
  * *IAM User Guide*.
  */
-export const createServiceSpecificCredential =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateServiceSpecificCredentialRequest,
-    output: CreateServiceSpecificCredentialResponse,
-    errors: [
-      LimitExceededException,
-      NoSuchEntityException,
-      ServiceNotSupportedException,
-    ],
-  }));
+export const createServiceSpecificCredential: (
+  input: CreateServiceSpecificCredentialRequest,
+) => Effect.Effect<
+  CreateServiceSpecificCredentialResponse,
+  | LimitExceededException
+  | NoSuchEntityException
+  | ServiceNotSupportedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateServiceSpecificCredentialRequest,
+  output: CreateServiceSpecificCredentialResponse,
+  errors: [
+    LimitExceededException,
+    NoSuchEntityException,
+    ServiceNotSupportedException,
+  ],
+}));
 /**
  * Retrieves information about all IAM users, groups, roles, and policies in your Amazon Web Services
  * account, including their relationships to one another. Use this operation to obtain a
@@ -11183,23 +13143,54 @@ export const createServiceSpecificCredential =
  * paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const getAccountAuthorizationDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getAccountAuthorizationDetails: {
+  (
     input: GetAccountAuthorizationDetailsRequest,
-    output: GetAccountAuthorizationDetailsResponse,
-    errors: [ServiceFailureException],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetAccountAuthorizationDetailsResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetAccountAuthorizationDetailsRequest,
+  ) => Stream.Stream<
+    GetAccountAuthorizationDetailsResponse,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetAccountAuthorizationDetailsRequest,
+  ) => Stream.Stream<
+    unknown,
+    ServiceFailureException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetAccountAuthorizationDetailsRequest,
+  output: GetAccountAuthorizationDetailsResponse,
+  errors: [ServiceFailureException],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Retrieves a credential report for the Amazon Web Services account. For more information about the
  * credential report, see Getting credential reports in
  * the *IAM User Guide*.
  */
-export const getCredentialReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCredentialReport: (
+  input: GetCredentialReportRequest,
+) => Effect.Effect<
+  GetCredentialReportResponse,
+  | CredentialReportExpiredException
+  | CredentialReportNotPresentException
+  | CredentialReportNotReadyException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCredentialReportRequest,
   output: GetCredentialReportResponse,
   errors: [
@@ -11257,12 +13248,17 @@ export const getCredentialReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about service and action last accessed data, see Reducing permissions using service last accessed data in the
  * *IAM User Guide*.
  */
-export const getServiceLastAccessedDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetServiceLastAccessedDetailsRequest,
-    output: GetServiceLastAccessedDetailsResponse,
-    errors: [InvalidInputException, NoSuchEntityException],
-  }));
+export const getServiceLastAccessedDetails: (
+  input: GetServiceLastAccessedDetailsRequest,
+) => Effect.Effect<
+  GetServiceLastAccessedDetailsResponse,
+  InvalidInputException | NoSuchEntityException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceLastAccessedDetailsRequest,
+  output: GetServiceLastAccessedDetailsResponse,
+  errors: [InvalidInputException, NoSuchEntityException],
+}));
 /**
  * After you generate a group or policy report using the
  * `GenerateServiceLastAccessedDetails` operation, you can use the
@@ -11288,12 +13284,17 @@ export const getServiceLastAccessedDetails =
  * By default, the list of associated entities is sorted by date, with the most recent
  * access listed first.
  */
-export const getServiceLastAccessedDetailsWithEntities =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetServiceLastAccessedDetailsWithEntitiesRequest,
-    output: GetServiceLastAccessedDetailsWithEntitiesResponse,
-    errors: [InvalidInputException, NoSuchEntityException],
-  }));
+export const getServiceLastAccessedDetailsWithEntities: (
+  input: GetServiceLastAccessedDetailsWithEntitiesRequest,
+) => Effect.Effect<
+  GetServiceLastAccessedDetailsWithEntitiesResponse,
+  InvalidInputException | NoSuchEntityException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceLastAccessedDetailsWithEntitiesRequest,
+  output: GetServiceLastAccessedDetailsWithEntitiesResponse,
+  errors: [InvalidInputException, NoSuchEntityException],
+}));
 /**
  * Retrieves the status of your service-linked role deletion. After you use DeleteServiceLinkedRole to submit a service-linked role for deletion, you
  * can use the `DeletionTaskId` parameter in
@@ -11301,16 +13302,24 @@ export const getServiceLastAccessedDetailsWithEntities =
  * If the deletion fails, this operation returns the reason that it failed, if that
  * information is returned by the service.
  */
-export const getServiceLinkedRoleDeletionStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetServiceLinkedRoleDeletionStatusRequest,
-    output: GetServiceLinkedRoleDeletionStatusResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }));
+export const getServiceLinkedRoleDeletionStatus: (
+  input: GetServiceLinkedRoleDeletionStatusRequest,
+) => Effect.Effect<
+  GetServiceLinkedRoleDeletionStatusResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceLinkedRoleDeletionStatusRequest,
+  output: GetServiceLinkedRoleDeletionStatusResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Retrieves the specified SSH public key, including metadata about the key.
  *
@@ -11319,7 +13328,15 @@ export const getServiceLinkedRoleDeletionStatus =
  * to authenticate to an CodeCommit repository, see Set up CodeCommit for SSH
  * connections in the *CodeCommit User Guide*.
  */
-export const getSSHPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSSHPublicKey: (
+  input: GetSSHPublicKeyRequest,
+) => Effect.Effect<
+  GetSSHPublicKeyResponse,
+  | NoSuchEntityException
+  | UnrecognizedPublicKeyEncodingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSSHPublicKeyRequest,
   output: GetSSHPublicKeyResponse,
   errors: [NoSuchEntityException, UnrecognizedPublicKeyEncodingException],
@@ -11360,12 +13377,17 @@ export const getSSHPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * for a user or role, use the GetUser or GetRole
  * operations.
  */
-export const listPoliciesGrantingServiceAccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListPoliciesGrantingServiceAccessRequest,
-    output: ListPoliciesGrantingServiceAccessResponse,
-    errors: [InvalidInputException, NoSuchEntityException],
-  }));
+export const listPoliciesGrantingServiceAccess: (
+  input: ListPoliciesGrantingServiceAccessRequest,
+) => Effect.Effect<
+  ListPoliciesGrantingServiceAccessResponse,
+  InvalidInputException | NoSuchEntityException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPoliciesGrantingServiceAccessRequest,
+  output: ListPoliciesGrantingServiceAccessResponse,
+  errors: [InvalidInputException, NoSuchEntityException],
+}));
 /**
  * Uploads a server certificate entity for the Amazon Web Services account. The server certificate
  * entity includes a public key certificate, a private key, and an optional certificate
@@ -11394,21 +13416,32 @@ export const listPoliciesGrantingServiceAccess =
  * information about using the Query API with IAM, see Calling the API by making HTTP query
  * requests in the *IAM User Guide*.
  */
-export const uploadServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UploadServerCertificateRequest,
-    output: UploadServerCertificateResponse,
-    errors: [
-      ConcurrentModificationException,
-      EntityAlreadyExistsException,
-      InvalidInputException,
-      KeyPairMismatchException,
-      LimitExceededException,
-      MalformedCertificateException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const uploadServerCertificate: (
+  input: UploadServerCertificateRequest,
+) => Effect.Effect<
+  UploadServerCertificateResponse,
+  | ConcurrentModificationException
+  | EntityAlreadyExistsException
+  | InvalidInputException
+  | KeyPairMismatchException
+  | LimitExceededException
+  | MalformedCertificateException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UploadServerCertificateRequest,
+  output: UploadServerCertificateResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityAlreadyExistsException,
+    InvalidInputException,
+    KeyPairMismatchException,
+    LimitExceededException,
+    MalformedCertificateException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Uploads an X.509 signing certificate and associates it with the specified IAM user.
  * Some Amazon Web Services services require you to use certificates to validate requests that are signed
@@ -11432,22 +13465,34 @@ export const uploadServerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * general information about using the Query API with IAM, see Making query
  * requests in the *IAM User Guide*.
  */
-export const uploadSigningCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UploadSigningCertificateRequest,
-    output: UploadSigningCertificateResponse,
-    errors: [
-      ConcurrentModificationException,
-      DuplicateCertificateException,
-      EntityAlreadyExistsException,
-      InvalidCertificateException,
-      LimitExceededException,
-      MalformedCertificateException,
-      NoSuchEntityException,
-      ServiceFailureException,
-    ],
-  }),
-);
+export const uploadSigningCertificate: (
+  input: UploadSigningCertificateRequest,
+) => Effect.Effect<
+  UploadSigningCertificateResponse,
+  | ConcurrentModificationException
+  | DuplicateCertificateException
+  | EntityAlreadyExistsException
+  | InvalidCertificateException
+  | LimitExceededException
+  | MalformedCertificateException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UploadSigningCertificateRequest,
+  output: UploadSigningCertificateResponse,
+  errors: [
+    ConcurrentModificationException,
+    DuplicateCertificateException,
+    EntityAlreadyExistsException,
+    InvalidCertificateException,
+    LimitExceededException,
+    MalformedCertificateException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+}));
 /**
  * Uploads an SSH public key and associates it with the specified IAM user.
  *
@@ -11456,7 +13501,18 @@ export const uploadSigningCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * to authenticate to an CodeCommit repository, see Set up CodeCommit for
  * SSH connections in the *CodeCommit User Guide*.
  */
-export const uploadSSHPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const uploadSSHPublicKey: (
+  input: UploadSSHPublicKeyRequest,
+) => Effect.Effect<
+  UploadSSHPublicKeyResponse,
+  | DuplicateSSHPublicKeyException
+  | InvalidPublicKeyException
+  | LimitExceededException
+  | NoSuchEntityException
+  | UnrecognizedPublicKeyEncodingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadSSHPublicKeyRequest,
   output: UploadSSHPublicKeyResponse,
   errors: [
@@ -11475,29 +13531,43 @@ export const uploadSSHPublicKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * credentials to authenticate to an Amazon Web Services service, see Set up service-specific credentials
  * in the CodeCommit User Guide.
  */
-export const listServiceSpecificCredentials =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListServiceSpecificCredentialsRequest,
-    output: ListServiceSpecificCredentialsResponse,
-    errors: [NoSuchEntityException, ServiceNotSupportedException],
-  }));
+export const listServiceSpecificCredentials: (
+  input: ListServiceSpecificCredentialsRequest,
+) => Effect.Effect<
+  ListServiceSpecificCredentialsResponse,
+  NoSuchEntityException | ServiceNotSupportedException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListServiceSpecificCredentialsRequest,
+  output: ListServiceSpecificCredentialsResponse,
+  errors: [NoSuchEntityException, ServiceNotSupportedException],
+}));
 /**
  * Disables the management of privileged root user credentials across member accounts in
  * your organization. When you disable this feature, the management account and the
  * delegated administrator for IAM can no longer manage root user credentials for member
  * accounts in your organization.
  */
-export const disableOrganizationsRootCredentialsManagement =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableOrganizationsRootCredentialsManagementRequest,
-    output: DisableOrganizationsRootCredentialsManagementResponse,
-    errors: [
-      AccountNotManagementOrDelegatedAdministratorException,
-      OrganizationNotFoundException,
-      OrganizationNotInAllFeaturesModeException,
-      ServiceAccessNotEnabledException,
-    ],
-  }));
+export const disableOrganizationsRootCredentialsManagement: (
+  input: DisableOrganizationsRootCredentialsManagementRequest,
+) => Effect.Effect<
+  DisableOrganizationsRootCredentialsManagementResponse,
+  | AccountNotManagementOrDelegatedAdministratorException
+  | OrganizationNotFoundException
+  | OrganizationNotInAllFeaturesModeException
+  | ServiceAccessNotEnabledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableOrganizationsRootCredentialsManagementRequest,
+  output: DisableOrganizationsRootCredentialsManagementResponse,
+  errors: [
+    AccountNotManagementOrDelegatedAdministratorException,
+    OrganizationNotFoundException,
+    OrganizationNotInAllFeaturesModeException,
+    ServiceAccessNotEnabledException,
+  ],
+}));
 /**
  * Simulate how a set of IAM policies attached to an IAM entity works with a list of
  * API operations and Amazon Web Services resources to determine the policies' effective permissions. The
@@ -11536,22 +13606,52 @@ export const disableOrganizationsRootCredentialsManagement =
  * policies with the IAM policy simulator in the
  * *IAM User Guide*.
  */
-export const simulatePrincipalPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const simulatePrincipalPolicy: {
+  (
     input: SimulatePrincipalPolicyRequest,
-    output: SimulatePolicyResponse,
-    errors: [
-      InvalidInputException,
-      NoSuchEntityException,
-      PolicyEvaluationException,
-    ],
-    pagination: {
-      inputToken: "Marker",
-      outputToken: "Marker",
-      items: "EvaluationResults",
-      pageSize: "MaxItems",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SimulatePolicyResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | PolicyEvaluationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SimulatePrincipalPolicyRequest,
+  ) => Stream.Stream<
+    SimulatePolicyResponse,
+    | InvalidInputException
+    | NoSuchEntityException
+    | PolicyEvaluationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SimulatePrincipalPolicyRequest,
+  ) => Stream.Stream<
+    EvaluationResult,
+    | InvalidInputException
+    | NoSuchEntityException
+    | PolicyEvaluationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SimulatePrincipalPolicyRequest,
+  output: SimulatePolicyResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    PolicyEvaluationException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "Marker",
+    items: "EvaluationResults",
+    pageSize: "MaxItems",
+  } as const,
+}));
 /**
  * Enables the management of privileged root user credentials across member accounts in your
  * organization. When you enable root credentials management for centralized root access, the management account and the delegated
@@ -11567,51 +13667,78 @@ export const simulatePrincipalPolicy =
  * IAM and Organizations in the Organizations User
  * Guide.
  */
-export const enableOrganizationsRootCredentialsManagement =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableOrganizationsRootCredentialsManagementRequest,
-    output: EnableOrganizationsRootCredentialsManagementResponse,
-    errors: [
-      AccountNotManagementOrDelegatedAdministratorException,
-      CallerIsNotManagementAccountException,
-      OrganizationNotFoundException,
-      OrganizationNotInAllFeaturesModeException,
-      ServiceAccessNotEnabledException,
-    ],
-  }));
+export const enableOrganizationsRootCredentialsManagement: (
+  input: EnableOrganizationsRootCredentialsManagementRequest,
+) => Effect.Effect<
+  EnableOrganizationsRootCredentialsManagementResponse,
+  | AccountNotManagementOrDelegatedAdministratorException
+  | CallerIsNotManagementAccountException
+  | OrganizationNotFoundException
+  | OrganizationNotInAllFeaturesModeException
+  | ServiceAccessNotEnabledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableOrganizationsRootCredentialsManagementRequest,
+  output: EnableOrganizationsRootCredentialsManagementResponse,
+  errors: [
+    AccountNotManagementOrDelegatedAdministratorException,
+    CallerIsNotManagementAccountException,
+    OrganizationNotFoundException,
+    OrganizationNotInAllFeaturesModeException,
+    ServiceAccessNotEnabledException,
+  ],
+}));
 /**
  * Disables root user sessions for privileged tasks across member accounts in your
  * organization. When you disable this feature, the management account and the delegated
  * administrator for IAM can no longer perform privileged tasks on member accounts in
  * your organization.
  */
-export const disableOrganizationsRootSessions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableOrganizationsRootSessionsRequest,
-    output: DisableOrganizationsRootSessionsResponse,
-    errors: [
-      AccountNotManagementOrDelegatedAdministratorException,
-      OrganizationNotFoundException,
-      OrganizationNotInAllFeaturesModeException,
-      ServiceAccessNotEnabledException,
-    ],
-  }));
+export const disableOrganizationsRootSessions: (
+  input: DisableOrganizationsRootSessionsRequest,
+) => Effect.Effect<
+  DisableOrganizationsRootSessionsResponse,
+  | AccountNotManagementOrDelegatedAdministratorException
+  | OrganizationNotFoundException
+  | OrganizationNotInAllFeaturesModeException
+  | ServiceAccessNotEnabledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableOrganizationsRootSessionsRequest,
+  output: DisableOrganizationsRootSessionsResponse,
+  errors: [
+    AccountNotManagementOrDelegatedAdministratorException,
+    OrganizationNotFoundException,
+    OrganizationNotInAllFeaturesModeException,
+    ServiceAccessNotEnabledException,
+  ],
+}));
 /**
  * Lists the centralized root access features enabled for your organization. For more
  * information, see Centrally manage root access for member accounts.
  */
-export const listOrganizationsFeatures = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListOrganizationsFeaturesRequest,
-    output: ListOrganizationsFeaturesResponse,
-    errors: [
-      AccountNotManagementOrDelegatedAdministratorException,
-      OrganizationNotFoundException,
-      OrganizationNotInAllFeaturesModeException,
-      ServiceAccessNotEnabledException,
-    ],
-  }),
-);
+export const listOrganizationsFeatures: (
+  input: ListOrganizationsFeaturesRequest,
+) => Effect.Effect<
+  ListOrganizationsFeaturesResponse,
+  | AccountNotManagementOrDelegatedAdministratorException
+  | OrganizationNotFoundException
+  | OrganizationNotInAllFeaturesModeException
+  | ServiceAccessNotEnabledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListOrganizationsFeaturesRequest,
+  output: ListOrganizationsFeaturesResponse,
+  errors: [
+    AccountNotManagementOrDelegatedAdministratorException,
+    OrganizationNotFoundException,
+    OrganizationNotInAllFeaturesModeException,
+    ServiceAccessNotEnabledException,
+  ],
+}));
 /**
  * Allows the management account or delegated administrator to perform privileged tasks
  * on member accounts in your organization. For more information, see Centrally manage root access for member accounts in the Identity and Access Management
@@ -11626,15 +13753,25 @@ export const listOrganizationsFeatures = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * IAM and Organizations in the Organizations User
  * Guide.
  */
-export const enableOrganizationsRootSessions =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableOrganizationsRootSessionsRequest,
-    output: EnableOrganizationsRootSessionsResponse,
-    errors: [
-      AccountNotManagementOrDelegatedAdministratorException,
-      CallerIsNotManagementAccountException,
-      OrganizationNotFoundException,
-      OrganizationNotInAllFeaturesModeException,
-      ServiceAccessNotEnabledException,
-    ],
-  }));
+export const enableOrganizationsRootSessions: (
+  input: EnableOrganizationsRootSessionsRequest,
+) => Effect.Effect<
+  EnableOrganizationsRootSessionsResponse,
+  | AccountNotManagementOrDelegatedAdministratorException
+  | CallerIsNotManagementAccountException
+  | OrganizationNotFoundException
+  | OrganizationNotInAllFeaturesModeException
+  | ServiceAccessNotEnabledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableOrganizationsRootSessionsRequest,
+  output: EnableOrganizationsRootSessionsResponse,
+  errors: [
+    AccountNotManagementOrDelegatedAdministratorException,
+    CallerIsNotManagementAccountException,
+    OrganizationNotFoundException,
+    OrganizationNotInAllFeaturesModeException,
+    ServiceAccessNotEnabledException,
+  ],
+}));

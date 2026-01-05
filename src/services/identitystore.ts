@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "identitystore",
   serviceShapeName: "AWSIdentityStore",
@@ -261,6 +269,22 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type IdentityStoreId = string;
+export type ResourceId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type GroupDisplayName = string;
+export type SensitiveStringType = string;
+export type UserName = string;
+export type ExtensionName = string;
+export type AttributePath = string;
+export type StringType = string;
+export type ExceptionMessage = string;
+export type RequestId = string;
+export type ExternalIdIssuer = string;
+export type ExternalIdIdentifier = string;
+
 //# Schemas
 export type GroupIds = string[];
 export const GroupIds = S.Array(S.String);
@@ -282,6 +306,9 @@ export const UniqueAttribute = S.suspend(() =>
 ).annotations({
   identifier: "UniqueAttribute",
 }) as any as S.Schema<UniqueAttribute>;
+export type AlternateIdentifier =
+  | { ExternalId: ExternalId }
+  | { UniqueAttribute: UniqueAttribute };
 export const AlternateIdentifier = S.Union(
   S.Struct({ ExternalId: ExternalId }),
   S.Struct({ UniqueAttribute: UniqueAttribute }),
@@ -300,6 +327,7 @@ export const GetUserIdRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetUserIdRequest",
 }) as any as S.Schema<GetUserIdRequest>;
+export type MemberId = { UserId: string };
 export const MemberId = S.Union(S.Struct({ UserId: S.String }));
 export interface IsMemberInGroupsRequest {
   IdentityStoreId: string;
@@ -1113,7 +1141,13 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const getUserId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUserId: (
+  input: GetUserIdRequest,
+) => Effect.Effect<
+  GetUserIdResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserIdRequest,
   output: GetUserIdResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -1123,7 +1157,29 @@ export const getUserId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGroups: {
+  (
+    input: ListGroupsRequest,
+  ): Effect.Effect<
+    ListGroupsResponse,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupsRequest,
+  ) => Stream.Stream<
+    ListGroupsResponse,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupsRequest,
+  ) => Stream.Stream<
+    Group,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGroupsRequest,
   output: ListGroupsResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -1137,7 +1193,17 @@ export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Creates a user within the specified identity store.
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUser: (
+  input: CreateUserRequest,
+) => Effect.Effect<
+  CreateUserResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
   output: CreateUserResponse,
   errors: [
@@ -1152,7 +1218,13 @@ export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const isMemberInGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const isMemberInGroups: (
+  input: IsMemberInGroupsRequest,
+) => Effect.Effect<
+  IsMemberInGroupsResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IsMemberInGroupsRequest,
   output: IsMemberInGroupsResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -1162,24 +1234,67 @@ export const isMemberInGroups = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const listGroupMembershipsForMember =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGroupMembershipsForMember: {
+  (
     input: ListGroupMembershipsForMemberRequest,
-    output: ListGroupMembershipsForMemberResponse,
-    errors: [ResourceNotFoundException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "GroupMemberships",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListGroupMembershipsForMemberResponse,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupMembershipsForMemberRequest,
+  ) => Stream.Stream<
+    ListGroupMembershipsForMemberResponse,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupMembershipsForMemberRequest,
+  ) => Stream.Stream<
+    GroupMembership,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGroupMembershipsForMemberRequest,
+  output: ListGroupMembershipsForMemberResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "GroupMemberships",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all users in the identity store. Returns a paginated list of complete `User` objects. Filtering for a `User` by the `UserName` attribute is deprecated. Instead, use the `GetUserId` API action.
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUsers: {
+  (
+    input: ListUsersRequest,
+  ): Effect.Effect<
+    ListUsersResponse,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    ListUsersResponse,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    User,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -1195,46 +1310,84 @@ export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const describeGroupMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeGroupMembershipRequest,
-    output: DescribeGroupMembershipResponse,
-    errors: [ResourceNotFoundException, ValidationException],
-  }),
-);
+export const describeGroupMembership: (
+  input: DescribeGroupMembershipRequest,
+) => Effect.Effect<
+  DescribeGroupMembershipResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeGroupMembershipRequest,
+  output: DescribeGroupMembershipResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
 /**
  * Delete a membership within a group given `MembershipId`.
  */
-export const deleteGroupMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteGroupMembershipRequest,
-    output: DeleteGroupMembershipResponse,
-    errors: [ConflictException, ResourceNotFoundException, ValidationException],
-  }),
-);
+export const deleteGroupMembership: (
+  input: DeleteGroupMembershipRequest,
+) => Effect.Effect<
+  DeleteGroupMembershipResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGroupMembershipRequest,
+  output: DeleteGroupMembershipResponse,
+  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+}));
 /**
  * For the specified group in the specified identity store, returns the list of all ` GroupMembership` objects and returns results in paginated form.
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const listGroupMemberships =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGroupMemberships: {
+  (
     input: ListGroupMembershipsRequest,
-    output: ListGroupMembershipsResponse,
-    errors: [ResourceNotFoundException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "GroupMemberships",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListGroupMembershipsResponse,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupMembershipsRequest,
+  ) => Stream.Stream<
+    ListGroupMembershipsResponse,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupMembershipsRequest,
+  ) => Stream.Stream<
+    GroupMembership,
+    ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGroupMembershipsRequest,
+  output: ListGroupMembershipsResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "GroupMemberships",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the group metadata and attributes from `GroupId` in an identity store.
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const describeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeGroup: (
+  input: DescribeGroupRequest,
+) => Effect.Effect<
+  DescribeGroupResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGroupRequest,
   output: DescribeGroupResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -1244,7 +1397,13 @@ export const describeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeUser: (
+  input: DescribeUserRequest,
+) => Effect.Effect<
+  DescribeUserResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserRequest,
   output: DescribeUserResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -1252,7 +1411,16 @@ export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete a group within an identity store given `GroupId`.
  */
-export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGroup: (
+  input: DeleteGroupRequest,
+) => Effect.Effect<
+  DeleteGroupResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupRequest,
   output: DeleteGroupResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -1260,7 +1428,16 @@ export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a user within an identity store given `UserId`.
  */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUser: (
+  input: DeleteUserRequest,
+) => Effect.Effect<
+  DeleteUserResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
   output: DeleteUserResponse,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
@@ -1270,19 +1447,29 @@ export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const getGroupMembershipId = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetGroupMembershipIdRequest,
-    output: GetGroupMembershipIdResponse,
-    errors: [ResourceNotFoundException, ValidationException],
-  }),
-);
+export const getGroupMembershipId: (
+  input: GetGroupMembershipIdRequest,
+) => Effect.Effect<
+  GetGroupMembershipIdResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGroupMembershipIdRequest,
+  output: GetGroupMembershipIdResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
 /**
  * Retrieves `GroupId` in an identity store.
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const getGroupId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGroupId: (
+  input: GetGroupIdRequest,
+) => Effect.Effect<
+  GetGroupIdResponse,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupIdRequest,
   output: GetGroupIdResponse,
   errors: [ResourceNotFoundException, ValidationException],
@@ -1290,7 +1477,17 @@ export const getGroupId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a group within the specified identity store.
  */
-export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGroup: (
+  input: CreateGroupRequest,
+) => Effect.Effect<
+  CreateGroupResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupRequest,
   output: CreateGroupResponse,
   errors: [
@@ -1303,7 +1500,17 @@ export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified group metadata and attributes in the specified identity store.
  */
-export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGroup: (
+  input: UpdateGroupRequest,
+) => Effect.Effect<
+  UpdateGroupResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupRequest,
   output: UpdateGroupResponse,
   errors: [
@@ -1316,7 +1523,17 @@ export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified user metadata and attributes in the specified identity store.
  */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUser: (
+  input: UpdateUserRequest,
+) => Effect.Effect<
+  UpdateUserResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,
   output: UpdateUserResponse,
   errors: [
@@ -1329,15 +1546,23 @@ export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a relationship between a member and a group. The following identifiers must be specified: `GroupId`, `IdentityStoreId`, and `MemberId`.
  */
-export const createGroupMembership = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateGroupMembershipRequest,
-    output: CreateGroupMembershipResponse,
-    errors: [
-      ConflictException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createGroupMembership: (
+  input: CreateGroupMembershipRequest,
+) => Effect.Effect<
+  CreateGroupMembershipResponse,
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGroupMembershipRequest,
+  output: CreateGroupMembershipResponse,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));

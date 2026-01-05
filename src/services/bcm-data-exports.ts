@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "BCM Data Exports",
   serviceShapeName: "AWSBillingAndCostManagementDataExports",
@@ -273,6 +281,18 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type GenericString = string;
+export type TableName = string;
+export type MaxResults = number;
+export type NextPageToken = string;
+export type ResourceTagKey = string;
+export type ExportName = string;
+export type ResourceTagValue = string;
+export type TableProperty = string;
+export type QueryStatement = string;
 
 //# Schemas
 export type ResourceTagKeyList = string[];
@@ -762,7 +782,9 @@ export const CreateExportResponse = S.suspend(() =>
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -774,7 +796,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     QuotaCode: S.optional(S.String),
     ServiceCode: S.optional(S.String),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -798,23 +822,83 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Lists all data export definitions.
  */
-export const listExports = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listExports: {
+  (
     input: ListExportsRequest,
-    output: ListExportsResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Exports",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListExportsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExportsRequest,
+  ) => Stream.Stream<
+    ListExportsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExportsRequest,
+  ) => Stream.Stream<
+    ExportReference,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExportsRequest,
+  output: ListExportsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Exports",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all available tables in data exports.
  */
-export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTables: {
+  (
+    input: ListTablesRequest,
+  ): Effect.Effect<
+    ListTablesResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTablesRequest,
+  ) => Stream.Stream<
+    ListTablesResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTablesRequest,
+  ) => Stream.Stream<
+    Table,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTablesRequest,
   output: ListTablesResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
@@ -828,7 +912,17 @@ export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Adds tags for an existing data export definition.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -842,7 +936,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates an existing data export by overwriting all export parameters. All export
  * parameters must be provided in the UpdateExport request.
  */
-export const updateExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateExport: (
+  input: UpdateExportRequest,
+) => Effect.Effect<
+  UpdateExportResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateExportRequest,
   output: UpdateExportResponse,
   errors: [
@@ -855,7 +959,17 @@ export const updateExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes tags associated with an existing data export definition.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -868,7 +982,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing data export.
  */
-export const deleteExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteExport: (
+  input: DeleteExportRequest,
+) => Effect.Effect<
+  DeleteExportResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExportRequest,
   output: DeleteExportResponse,
   errors: [
@@ -881,7 +1005,17 @@ export const deleteExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List tags associated with an existing data export.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -894,7 +1028,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Exports data based on the source data update.
  */
-export const getExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getExecution: (
+  input: GetExecutionRequest,
+) => Effect.Effect<
+  GetExecutionResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExecutionRequest,
   output: GetExecutionResponse,
   errors: [
@@ -907,7 +1051,17 @@ export const getExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Views the definition of an existing data export.
  */
-export const getExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getExport: (
+  input: GetExportRequest,
+) => Effect.Effect<
+  GetExportResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExportRequest,
   output: GetExportResponse,
   errors: [
@@ -920,29 +1074,70 @@ export const getExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the historical executions for the export.
  */
-export const listExecutions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listExecutions: {
+  (
     input: ListExecutionsRequest,
-    output: ListExecutionsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Executions",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListExecutionsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExecutionsRequest,
+  ) => Stream.Stream<
+    ListExecutionsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExecutionsRequest,
+  ) => Stream.Stream<
+    ExecutionReference,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExecutionsRequest,
+  output: ListExecutionsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Executions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the metadata for the specified table and table properties. This includes the list
  * of columns in the table schema, their data types, and column descriptions.
  */
-export const getTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTable: (
+  input: GetTableRequest,
+) => Effect.Effect<
+  GetTableResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableRequest,
   output: GetTableResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
@@ -969,7 +1164,17 @@ export const getTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * dictionary or use the `ListTables` API to get a response of all tables
  * and their available properties.
  */
-export const createExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createExport: (
+  input: CreateExportRequest,
+) => Effect.Effect<
+  CreateExportResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExportRequest,
   output: CreateExportResponse,
   errors: [

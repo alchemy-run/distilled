@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "SimSpaceWeaver",
   serviceShapeName: "SimSpaceWeaver",
@@ -292,6 +300,33 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type SimSpaceWeaverArn = string;
+export type TagKey = string;
+export type ClientToken = string;
+export type SimSpaceWeaverResourceName = string;
+export type Description = string;
+export type RoleArn = string;
+export type TimeToLiveString = string;
+export type PositiveInteger = number;
+export type OptionalString = string;
+export type SimSpaceWeaverLongResourceName = string;
+export type TagValue = string;
+export type BucketName = string;
+export type ObjectKey = string;
+export type ObjectKeyPrefix = string;
+export type NonEmptyString = string;
+export type UUID = string;
+export type SimulationStatus = string;
+export type SimulationTargetStatus = string;
+export type SimulationAppStatus = string;
+export type SimulationAppTargetStatus = string;
+export type LifecycleManagementStrategy = string;
+export type ClockStatus = string;
+export type ClockTargetStatus = string;
+export type PortNumber = number;
+export type LogGroupArn = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -964,7 +999,9 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },
@@ -975,7 +1012,13 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  * Removes tags from a SimSpace Weaver resource. For more information about tags, see Tagging Amazon Web Services resources in the
  * *Amazon Web Services General Reference*.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [ResourceNotFoundException, ValidationException],
@@ -984,7 +1027,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Adds tags to a SimSpace Weaver resource. For more information about tags, see Tagging Amazon Web Services resources in the
  * *Amazon Web Services General Reference*.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -996,7 +1048,13 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all tags on a SimSpace Weaver resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceOutput,
+  ResourceNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [ResourceNotFoundException, ValidationException],
@@ -1007,7 +1065,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can't restart a simulation after you stop it. If you want to restart a simulation, then
  * you must stop it, delete it, and start a new instance of it.
  */
-export const stopSimulation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopSimulation: (
+  input: StopSimulationInput,
+) => Effect.Effect<
+  StopSimulationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopSimulationInput,
   output: StopSimulationOutput,
   errors: [
@@ -1021,7 +1090,17 @@ export const stopSimulation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the state of the given custom app.
  */
-export const describeApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeApp: (
+  input: DescribeAppInput,
+) => Effect.Effect<
+  DescribeAppOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppInput,
   output: DescribeAppOutput,
   errors: [
@@ -1034,26 +1113,85 @@ export const describeApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the SimSpace Weaver simulations in the Amazon Web Services account used to make the API call.
  */
-export const listSimulations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSimulations: {
+  (
     input: ListSimulationsInput,
-    output: ListSimulationsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSimulationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSimulationsInput,
+  ) => Stream.Stream<
+    ListSimulationsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSimulationsInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSimulationsInput,
+  output: ListSimulationsOutput,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all custom apps or service apps for the given simulation and domain.
  */
-export const listApps = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApps: {
+  (
+    input: ListAppsInput,
+  ): Effect.Effect<
+    ListAppsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppsInput,
+  ) => Stream.Stream<
+    ListAppsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppsInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAppsInput,
   output: ListAppsOutput,
   errors: [
@@ -1112,7 +1250,18 @@ export const listApps = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * *ss*
  * is the 2-digit seconds
  */
-export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSnapshot: (
+  input: CreateSnapshotInput,
+) => Effect.Effect<
+  CreateSnapshotOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotInput,
   output: CreateSnapshotOutput,
   errors: [
@@ -1129,7 +1278,18 @@ export const createSnapshot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Your simulation uses resources in other Amazon Web Services. This API operation doesn't delete
  * resources in other Amazon Web Services.
  */
-export const deleteSimulation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSimulation: (
+  input: DeleteSimulationInput,
+) => Effect.Effect<
+  DeleteSimulationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSimulationInput,
   output: DeleteSimulationOutput,
   errors: [
@@ -1143,7 +1303,18 @@ export const deleteSimulation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the instance of the given custom app.
  */
-export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApp: (
+  input: DeleteAppInput,
+) => Effect.Effect<
+  DeleteAppOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppInput,
   output: DeleteAppOutput,
   errors: [
@@ -1157,7 +1328,18 @@ export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts the simulation clock.
  */
-export const startClock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startClock: (
+  input: StartClockInput,
+) => Effect.Effect<
+  StartClockOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartClockInput,
   output: StartClockOutput,
   errors: [
@@ -1171,7 +1353,18 @@ export const startClock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops the given custom app and shuts down all of its allocated compute resources.
  */
-export const stopApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopApp: (
+  input: StopAppInput,
+) => Effect.Effect<
+  StopAppOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopAppInput,
   output: StopAppOutput,
   errors: [
@@ -1185,7 +1378,18 @@ export const stopApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops the simulation clock.
  */
-export const stopClock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopClock: (
+  input: StopClockInput,
+) => Effect.Effect<
+  StopClockOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopClockInput,
   output: StopClockOutput,
   errors: [
@@ -1199,7 +1403,17 @@ export const stopClock = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the current state of the given simulation.
  */
-export const describeSimulation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeSimulation: (
+  input: DescribeSimulationInput,
+) => Effect.Effect<
+  DescribeSimulationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSimulationInput,
   output: DescribeSimulationOutput,
   errors: [
@@ -1212,7 +1426,18 @@ export const describeSimulation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a custom app with the configuration specified in the simulation schema.
  */
-export const startApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startApp: (
+  input: StartAppInput,
+) => Effect.Effect<
+  StartAppOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAppInput,
   output: StartAppOutput,
   errors: [
@@ -1231,7 +1456,18 @@ export const startApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about snapshots, see Snapshots
  * in the *SimSpace Weaver User Guide*.
  */
-export const startSimulation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startSimulation: (
+  input: StartSimulationInput,
+) => Effect.Effect<
+  StartSimulationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSimulationInput,
   output: StartSimulationOutput,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "codeartifact",
   serviceShapeName: "CodeArtifactControlPlaneService",
@@ -240,6 +248,44 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type DomainName = string;
+export type AccountId = string;
+export type RepositoryName = string;
+export type ExternalConnectionName = string;
+export type PackageNamespace = string;
+export type PackageName = string;
+export type PackageVersion = string;
+export type Arn = string;
+export type PackageGroupPattern = string;
+export type PackageGroupContactInfo = string;
+export type Description = string;
+export type PolicyRevision = string;
+export type AuthorizationTokenDurationSeconds = number;
+export type AssetName = string;
+export type PackageVersionRevision = string;
+export type ListAllowedRepositoriesForGroupMaxResults = number;
+export type PaginationToken = string;
+export type ListPackagesMaxResults = number;
+export type ListDomainsMaxResults = number;
+export type ListPackageGroupsMaxResults = number;
+export type PackageGroupPatternPrefix = string;
+export type ListPackageVersionAssetsMaxResults = number;
+export type ListPackageVersionsMaxResults = number;
+export type ListRepositoriesMaxResults = number;
+export type ListRepositoriesInDomainMaxResults = number;
+export type SHA256 = string;
+export type PolicyDocument = string;
+export type TagKey = string;
+export type TagValue = string;
+export type Integer = number;
+export type Long = number;
+export type String255 = string;
+export type LongOptional = number;
+export type ErrorMessage = string;
+export type HashValue = string;
+export type RetryAfterSeconds = number;
 
 //# Schemas
 export type PackageVersionList = string[];
@@ -2621,7 +2667,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -2644,7 +2692,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String, reason: S.optional(S.String) },
@@ -2660,22 +2710,40 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * Package group
  * definition syntax and matching behavior in the *CodeArtifact User Guide*.
  */
-export const getAssociatedPackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAssociatedPackageGroupRequest,
-    output: GetAssociatedPackageGroupResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAssociatedPackageGroup: (
+  input: GetAssociatedPackageGroupRequest,
+) => Effect.Effect<
+  GetAssociatedPackageGroupResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAssociatedPackageGroupRequest,
+  output: GetAssociatedPackageGroupResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes tags from a resource in CodeArtifact.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResult,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResult,
   errors: [
@@ -2688,7 +2756,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResult,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResult,
   errors: [
@@ -2703,7 +2781,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * DomainDescription
  * object that contains information about the requested domain.
  */
-export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDomain: (
+  input: DescribeDomainRequest,
+) => Effect.Effect<
+  DescribeDomainResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainRequest,
   output: DescribeDomainResult,
   errors: [
@@ -2718,24 +2807,44 @@ export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Returns a PackageGroupDescription object that
  * contains information about the requested package group.
  */
-export const describePackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePackageGroupRequest,
-    output: DescribePackageGroupResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describePackageGroup: (
+  input: DescribePackageGroupRequest,
+) => Effect.Effect<
+  DescribePackageGroupResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePackageGroupRequest,
+  output: DescribePackageGroupResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a `RepositoryDescription` object that contains detailed information
  * about the requested repository.
  */
-export const describeRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeRepository: (
+  input: DescribeRepositoryRequest,
+) => Effect.Effect<
+  DescribeRepositoryResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRepositoryRequest,
   output: DescribeRepositoryResult,
   errors: [
@@ -2768,19 +2877,28 @@ export const describeRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Using IAM Roles
  * for more information on controlling session duration.
  */
-export const getAuthorizationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAuthorizationTokenRequest,
-    output: GetAuthorizationTokenResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAuthorizationToken: (
+  input: GetAuthorizationTokenRequest,
+) => Effect.Effect<
+  GetAuthorizationTokenResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAuthorizationTokenRequest,
+  output: GetAuthorizationTokenResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the resource policy attached to the specified domain.
  *
@@ -2788,37 +2906,55 @@ export const getAuthorizationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Identity-based policies
  * and resource-based policies in the *IAM User Guide*.
  */
-export const getDomainPermissionsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDomainPermissionsPolicyRequest,
-    output: GetDomainPermissionsPolicyResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getDomainPermissionsPolicy: (
+  input: GetDomainPermissionsPolicyRequest,
+) => Effect.Effect<
+  GetDomainPermissionsPolicyResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDomainPermissionsPolicyRequest,
+  output: GetDomainPermissionsPolicyResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the readme file or descriptive text for a package version.
  *
  * The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
  */
-export const getPackageVersionReadme = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPackageVersionReadmeRequest,
-    output: GetPackageVersionReadmeResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getPackageVersionReadme: (
+  input: GetPackageVersionReadmeRequest,
+) => Effect.Effect<
+  GetPackageVersionReadmeResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPackageVersionReadmeRequest,
+  output: GetPackageVersionReadmeResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each
  * package format:
@@ -2839,82 +2975,172 @@ export const getPackageVersionReadme = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - `swift`
  */
-export const getRepositoryEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetRepositoryEndpointRequest,
-    output: GetRepositoryEndpointResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getRepositoryEndpoint: (
+  input: GetRepositoryEndpointRequest,
+) => Effect.Effect<
+  GetRepositoryEndpointResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRepositoryEndpointRequest,
+  output: GetRepositoryEndpointResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the resource policy that is set on a repository.
  */
-export const getRepositoryPermissionsPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetRepositoryPermissionsPolicyRequest,
-    output: GetRepositoryPermissionsPolicyResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getRepositoryPermissionsPolicy: (
+  input: GetRepositoryPermissionsPolicyRequest,
+) => Effect.Effect<
+  GetRepositoryPermissionsPolicyResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRepositoryPermissionsPolicyRequest,
+  output: GetRepositoryPermissionsPolicyResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of
  * PackageSummary
  * objects for packages in a repository that match the request parameters.
  */
-export const listPackages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPackages: {
+  (
     input: ListPackagesRequest,
-    output: ListPackagesResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "packages",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPackagesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPackagesRequest,
+  ) => Stream.Stream<
+    ListPackagesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPackagesRequest,
+  ) => Stream.Stream<
+    PackageSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPackagesRequest,
+  output: ListPackagesResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "packages",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of
  * RepositorySummary
  * objects. Each `RepositorySummary` contains information about a repository in the specified domain and that matches the input
  * parameters.
  */
-export const listRepositoriesInDomain =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRepositoriesInDomain: {
+  (
     input: ListRepositoriesInDomainRequest,
-    output: ListRepositoriesInDomainResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "repositories",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRepositoriesInDomainResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRepositoriesInDomainRequest,
+  ) => Stream.Stream<
+    ListRepositoriesInDomainResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRepositoriesInDomainRequest,
+  ) => Stream.Stream<
+    RepositorySummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRepositoriesInDomainRequest,
+  output: ListRepositoriesInDomainResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "repositories",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of direct children of the specified package group.
  *
@@ -2922,30 +3148,77 @@ export const listRepositoriesInDomain =
  * Package group
  * definition syntax and matching behavior in the *CodeArtifact User Guide*.
  */
-export const listSubPackageGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSubPackageGroups: {
+  (
     input: ListSubPackageGroupsRequest,
-    output: ListSubPackageGroupsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "packageGroups",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSubPackageGroupsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSubPackageGroupsRequest,
+  ) => Stream.Stream<
+    ListSubPackageGroupsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSubPackageGroupsRequest,
+  ) => Stream.Stream<
+    PackageGroupSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSubPackageGroupsRequest,
+  output: ListSubPackageGroupsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "packageGroups",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a
  * PackageDescription
  * object that contains information about the requested package.
  */
-export const describePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describePackage: (
+  input: DescribePackageRequest,
+) => Effect.Effect<
+  DescribePackageResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePackageRequest,
   output: DescribePackageResult,
   errors: [
@@ -2961,46 +3234,113 @@ export const describePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * this call. Each returned `DomainSummary` object contains information about a
  * domain.
  */
-export const listDomains = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDomains: {
+  (
     input: ListDomainsRequest,
-    output: ListDomainsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "domains",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDomainsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDomainsRequest,
+  ) => Stream.Stream<
+    ListDomainsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDomainsRequest,
+  ) => Stream.Stream<
+    DomainSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDomainsRequest,
+  output: ListDomainsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "domains",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of package groups in the requested domain.
  */
-export const listPackageGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPackageGroups: {
+  (
     input: ListPackageGroupsRequest,
-    output: ListPackageGroupsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "packageGroups",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPackageGroupsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPackageGroupsRequest,
+  ) => Stream.Stream<
+    ListPackageGroupsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPackageGroupsRequest,
+  ) => Stream.Stream<
+    PackageGroupSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPackageGroupsRequest,
+  output: ListPackageGroupsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "packageGroups",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns the direct dependencies for a package version. The dependencies are returned as
  * PackageDependency
@@ -3008,65 +3348,143 @@ export const listPackageGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * format (for example, the `package.json` file for npm packages and the `pom.xml` file
  * for Maven). Any package version dependencies that are not listed in the configuration file are not returned.
  */
-export const listPackageVersionDependencies =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListPackageVersionDependenciesRequest,
-    output: ListPackageVersionDependenciesResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const listPackageVersionDependencies: (
+  input: ListPackageVersionDependenciesRequest,
+) => Effect.Effect<
+  ListPackageVersionDependenciesResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPackageVersionDependenciesRequest,
+  output: ListPackageVersionDependenciesResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of
  * PackageVersionSummary
  * objects for package versions in a repository that match the request parameters. Package versions of all statuses will be returned by default when calling `list-package-versions` with no `--status` parameter.
  */
-export const listPackageVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPackageVersions: {
+  (
     input: ListPackageVersionsRequest,
-    output: ListPackageVersionsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "versions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPackageVersionsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPackageVersionsRequest,
+  ) => Stream.Stream<
+    ListPackageVersionsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPackageVersionsRequest,
+  ) => Stream.Stream<
+    PackageVersionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPackageVersionsRequest,
+  output: ListPackageVersionsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "versions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of
  * RepositorySummary
  * objects. Each `RepositorySummary` contains information about a repository in the specified Amazon Web Services account and that matches the input
  * parameters.
  */
-export const listRepositories = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRepositories: {
+  (
     input: ListRepositoriesRequest,
-    output: ListRepositoriesResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "repositories",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRepositoriesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRepositoriesRequest,
+  ) => Stream.Stream<
+    ListRepositoriesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRepositoriesRequest,
+  ) => Stream.Stream<
+    RepositorySummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRepositoriesRequest,
+  output: ListRepositoriesResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "repositories",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Sets the package origin configuration for a package.
  *
@@ -3079,22 +3497,44 @@ export const listRepositories = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * This can be used to preemptively block ingesting or retaining any versions from external connections or upstream repositories, or to block
  * publishing any versions of the package into the repository before connecting any package managers or publishers to the repository.
  */
-export const putPackageOriginConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutPackageOriginConfigurationRequest,
-    output: PutPackageOriginConfigurationResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const putPackageOriginConfiguration: (
+  input: PutPackageOriginConfigurationRequest,
+) => Effect.Effect<
+  PutPackageOriginConfigurationResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutPackageOriginConfigurationRequest,
+  output: PutPackageOriginConfigurationResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a repository.
  */
-export const deleteRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRepository: (
+  input: DeleteRepositoryRequest,
+) => Effect.Effect<
+  DeleteRepositoryResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRepositoryRequest,
   output: DeleteRepositoryResult,
   errors: [
@@ -3113,19 +3553,30 @@ export const deleteRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Use `DeleteRepositoryPermissionsPolicy` with caution. After a policy is deleted, Amazon Web Services users, roles, and accounts lose permissions to perform
  * the repository actions granted by the deleted policy.
  */
-export const deleteRepositoryPermissionsPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRepositoryPermissionsPolicyRequest,
-    output: DeleteRepositoryPermissionsPolicyResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteRepositoryPermissionsPolicy: (
+  input: DeleteRepositoryPermissionsPolicyRequest,
+) => Effect.Effect<
+  DeleteRepositoryPermissionsPolicyResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRepositoryPermissionsPolicyRequest,
+  output: DeleteRepositoryPermissionsPolicyResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the assets in package versions and sets the package versions' status to `Disposed`.
  * A disposed package version cannot be restored in your repository because its assets are deleted.
@@ -3136,44 +3587,75 @@ export const deleteRepositoryPermissionsPolicy =
  *
  * To view information about a disposed package version, use DescribePackageVersion.
  */
-export const disposePackageVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisposePackageVersionsRequest,
-    output: DisposePackageVersionsResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disposePackageVersions: (
+  input: DisposePackageVersionsRequest,
+) => Effect.Effect<
+  DisposePackageVersionsResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisposePackageVersionsRequest,
+  output: DisposePackageVersionsResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns an asset (or file) that is in a package. For example, for a Maven package version, use
  * `GetPackageVersionAsset` to download a `JAR` file, a `POM` file,
  * or any other assets in the package version.
  */
-export const getPackageVersionAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPackageVersionAssetRequest,
-    output: GetPackageVersionAssetResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getPackageVersionAsset: (
+  input: GetPackageVersionAssetRequest,
+) => Effect.Effect<
+  GetPackageVersionAssetResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPackageVersionAssetRequest,
+  output: GetPackageVersionAssetResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a domain. You cannot delete a domain that contains repositories. If you want to delete a domain
  * with repositories, first delete its repositories.
  */
-export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDomain: (
+  input: DeleteDomainRequest,
+) => Effect.Effect<
+  DeleteDomainResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainRequest,
   output: DeleteDomainResult,
   errors: [
@@ -3187,24 +3669,47 @@ export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the resource policy set on a domain.
  */
-export const deleteDomainPermissionsPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDomainPermissionsPolicyRequest,
-    output: DeleteDomainPermissionsPolicyResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteDomainPermissionsPolicy: (
+  input: DeleteDomainPermissionsPolicyRequest,
+) => Effect.Effect<
+  DeleteDomainPermissionsPolicyResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDomainPermissionsPolicyRequest,
+  output: DeleteDomainPermissionsPolicyResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a package and all associated package versions. A deleted package cannot be restored. To delete one or more package versions, use the
  * DeletePackageVersions API.
  */
-export const deletePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePackage: (
+  input: DeletePackageRequest,
+) => Effect.Effect<
+  DeletePackageResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePackageRequest,
   output: DeletePackageResult,
   errors: [
@@ -3223,47 +3728,104 @@ export const deletePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * downloaded from a repository and don't show up with list package APIs (for example,
  * ListPackageVersions), but you can restore them using UpdatePackageVersionsStatus.
  */
-export const deletePackageVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePackageVersionsRequest,
-    output: DeletePackageVersionsResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deletePackageVersions: (
+  input: DeletePackageVersionsRequest,
+) => Effect.Effect<
+  DeletePackageVersionsResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePackageVersionsRequest,
+  output: DeletePackageVersionsResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a list of
  * AssetSummary
  * objects for assets in a package version.
  */
-export const listPackageVersionAssets =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPackageVersionAssets: {
+  (
     input: ListPackageVersionAssetsRequest,
-    output: ListPackageVersionAssetsResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "assets",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPackageVersionAssetsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPackageVersionAssetsRequest,
+  ) => Stream.Stream<
+    ListPackageVersionAssetsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPackageVersionAssetsRequest,
+  ) => Stream.Stream<
+    AssetSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPackageVersionAssetsRequest,
+  output: ListPackageVersionAssetsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "assets",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Adds or updates tags for a resource in CodeArtifact.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResult,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResult,
   errors: [
@@ -3279,48 +3841,103 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Package group
  * definition syntax and matching behavior in the *CodeArtifact User Guide*.
  */
-export const listAssociatedPackages =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssociatedPackages: {
+  (
     input: ListAssociatedPackagesRequest,
-    output: ListAssociatedPackagesResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "packages",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAssociatedPackagesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssociatedPackagesRequest,
+  ) => Stream.Stream<
+    ListAssociatedPackagesResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssociatedPackagesRequest,
+  ) => Stream.Stream<
+    AssociatedPackage,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssociatedPackagesRequest,
+  output: ListAssociatedPackagesResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "packages",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates the status of one or more versions of a package. Using `UpdatePackageVersionsStatus`,
  * you can update the status of package versions to `Archived`, `Published`, or `Unlisted`.
  * To set the status of a package version to `Disposed`, use
  * DisposePackageVersions.
  */
-export const updatePackageVersionsStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePackageVersionsStatusRequest,
-    output: UpdatePackageVersionsStatusResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updatePackageVersionsStatus: (
+  input: UpdatePackageVersionsStatusRequest,
+) => Effect.Effect<
+  UpdatePackageVersionsStatusResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePackageVersionsStatusRequest,
+  output: UpdatePackageVersionsStatusResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a package group. This API cannot be used to update a package group's origin configuration or pattern. To update a
  * package group's origin configuration, use UpdatePackageGroupOriginConfiguration.
  */
-export const updatePackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePackageGroup: (
+  input: UpdatePackageGroupRequest,
+) => Effect.Effect<
+  UpdatePackageGroupResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePackageGroupRequest,
   output: UpdatePackageGroupResult,
   errors: [
@@ -3336,29 +3953,81 @@ export const updatePackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about restriction types
  * and added repository lists, see Package group origin controls in the *CodeArtifact User Guide*.
  */
-export const listAllowedRepositoriesForGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAllowedRepositoriesForGroup: {
+  (
     input: ListAllowedRepositoriesForGroupRequest,
-    output: ListAllowedRepositoriesForGroupResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "allowedRepositories",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAllowedRepositoriesForGroupResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAllowedRepositoriesForGroupRequest,
+  ) => Stream.Stream<
+    ListAllowedRepositoriesForGroupResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAllowedRepositoriesForGroupRequest,
+  ) => Stream.Stream<
+    RepositoryName,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAllowedRepositoriesForGroupRequest,
+  output: ListAllowedRepositoriesForGroupResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "allowedRepositories",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Update the properties of a repository.
  */
-export const updateRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRepository: (
+  input: UpdateRepositoryRequest,
+) => Effect.Effect<
+  UpdateRepositoryResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRepositoryRequest,
   output: UpdateRepositoryResult,
   errors: [
@@ -3378,7 +4047,20 @@ export const updateRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * group's direct parent package group. Therefore, if any of the child groups are inheriting any settings
  * from the parent, those settings could change.
  */
-export const deletePackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePackageGroup: (
+  input: DeletePackageGroupRequest,
+) => Effect.Effect<
+  DeletePackageGroupResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePackageGroupRequest,
   output: DeletePackageGroupResult,
   errors: [
@@ -3394,20 +4076,32 @@ export const deletePackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes an existing external connection from a repository.
  */
-export const disassociateExternalConnection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateExternalConnectionRequest,
-    output: DisassociateExternalConnectionResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateExternalConnection: (
+  input: DisassociateExternalConnectionRequest,
+) => Effect.Effect<
+  DisassociateExternalConnectionResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateExternalConnectionRequest,
+  output: DisassociateExternalConnectionResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new package version containing one or more assets (or files).
  *
@@ -3420,21 +4114,32 @@ export const disassociateExternalConnection =
  * Only generic packages can be published using this API. For more information, see Using generic
  * packages in the *CodeArtifact User Guide*.
  */
-export const publishPackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PublishPackageVersionRequest,
-    output: PublishPackageVersionResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const publishPackageVersion: (
+  input: PublishPackageVersionRequest,
+) => Effect.Effect<
+  PublishPackageVersionResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PublishPackageVersionRequest,
+  output: PublishPackageVersionResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Sets a resource policy on a domain that specifies permissions to access it.
  *
@@ -3442,21 +4147,32 @@ export const publishPackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This ensures that the owner of a domain cannot lock themselves out of the domain, which would prevent them from being
  * able to update the resource policy.
  */
-export const putDomainPermissionsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutDomainPermissionsPolicyRequest,
-    output: PutDomainPermissionsPolicyResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putDomainPermissionsPolicy: (
+  input: PutDomainPermissionsPolicyRequest,
+) => Effect.Effect<
+  PutDomainPermissionsPolicyResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutDomainPermissionsPolicyRequest,
+  output: PutDomainPermissionsPolicyResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Sets the resource policy on a repository that specifies permissions to access it.
  *
@@ -3464,26 +4180,51 @@ export const putDomainPermissionsPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * This ensures that the owner of a repository cannot lock themselves out of the repository, which would prevent them from being
  * able to update the resource policy.
  */
-export const putRepositoryPermissionsPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutRepositoryPermissionsPolicyRequest,
-    output: PutRepositoryPermissionsPolicyResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const putRepositoryPermissionsPolicy: (
+  input: PutRepositoryPermissionsPolicyRequest,
+) => Effect.Effect<
+  PutRepositoryPermissionsPolicyResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRepositoryPermissionsPolicyRequest,
+  output: PutRepositoryPermissionsPolicyResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Copies package versions from one repository to another repository in the same domain.
  *
  * You must specify `versions` or `versionRevisions`. You cannot specify both.
  */
-export const copyPackageVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copyPackageVersions: (
+  input: CopyPackageVersionsRequest,
+) => Effect.Effect<
+  CopyPackageVersionsResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyPackageVersionsRequest,
   output: CopyPackageVersionsResult,
   errors: [
@@ -3506,7 +4247,20 @@ export const copyPackageVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * published artifacts so that your development teams can find and share packages. You can use a second
  * pre-production domain to test changes to the production domain configuration.
  */
-export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDomain: (
+  input: CreateDomainRequest,
+) => Effect.Effect<
+  CreateDomainResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainRequest,
   output: CreateDomainResult,
   errors: [
@@ -3522,7 +4276,20 @@ export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a repository.
  */
-export const createRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRepository: (
+  input: CreateRepositoryRequest,
+) => Effect.Effect<
+  CreateRepositoryResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRepositoryRequest,
   output: CreateRepositoryResult,
   errors: [
@@ -3541,40 +4308,61 @@ export const createRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A repository can have one or more upstream repositories, or an external connection.
  */
-export const associateExternalConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateExternalConnectionRequest,
-    output: AssociateExternalConnectionResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateExternalConnection: (
+  input: AssociateExternalConnectionRequest,
+) => Effect.Effect<
+  AssociateExternalConnectionResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateExternalConnectionRequest,
+  output: AssociateExternalConnectionResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns a
  * PackageVersionDescription
  * object that contains information about the requested package version.
  */
-export const describePackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePackageVersionRequest,
-    output: DescribePackageVersionResult,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describePackageVersion: (
+  input: DescribePackageVersionRequest,
+) => Effect.Effect<
+  DescribePackageVersionResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePackageVersionRequest,
+  output: DescribePackageVersionResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the package origin configuration for a package group.
  *
@@ -3584,23 +4372,47 @@ export const describePackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Package group origin controls
  * in the *CodeArtifact User Guide*.
  */
-export const updatePackageGroupOriginConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdatePackageGroupOriginConfigurationRequest,
-    output: UpdatePackageGroupOriginConfigurationResult,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updatePackageGroupOriginConfiguration: (
+  input: UpdatePackageGroupOriginConfigurationRequest,
+) => Effect.Effect<
+  UpdatePackageGroupOriginConfigurationResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePackageGroupOriginConfigurationRequest,
+  output: UpdatePackageGroupOriginConfigurationResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a package group. For more information about creating package groups, including example CLI commands, see Create a package group in the *CodeArtifact User Guide*.
  */
-export const createPackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPackageGroup: (
+  input: CreatePackageGroupRequest,
+) => Effect.Effect<
+  CreatePackageGroupResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePackageGroupRequest,
   output: CreatePackageGroupResult,
   errors: [

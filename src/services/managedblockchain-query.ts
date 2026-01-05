@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "ManagedBlockchain Query",
   serviceShapeName: "TietonChainQueryService",
@@ -292,6 +300,29 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type QueryTransactionHash = string;
+export type QueryTransactionId = string;
+export type QueryNetwork = string;
+export type NextToken = string;
+export type ChainAddress = string;
+export type QueryTokenId = string;
+export type QueryTokenStandard = string;
+export type ConfirmationStatus = string;
+export type ListFilteredTransactionEventsSortBy = string;
+export type SortOrder = string;
+export type ListTransactionsSortBy = string;
+export type BlockHash = string;
+export type ExecutionStatus = string;
+export type QueryTransactionEventType = string;
+export type ErrorType = string;
+export type ExceptionMessage = string;
+export type ResourceId = string;
+export type ResourceType = string;
+export type ServiceCode = string;
+export type QuotaCode = string;
+export type ValidationExceptionReason = string;
 
 //# Schemas
 export interface GetTransactionInput {
@@ -991,7 +1022,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -1015,7 +1048,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -1033,25 +1068,60 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * The Bitcoin blockchain networks do not support this
  * operation.
  */
-export const listAssetContracts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAssetContracts: {
+  (
     input: ListAssetContractsInput,
-    output: ListAssetContractsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "contracts",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAssetContractsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssetContractsInput,
+  ) => Stream.Stream<
+    ListAssetContractsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssetContractsInput,
+  ) => Stream.Stream<
+    AssetContract,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssetContractsInput,
+  output: ListAssetContractsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "contracts",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets the details of a transaction.
  *
@@ -1059,7 +1129,19 @@ export const listAssetContracts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * that are *confirmed* on the blockchain, even if they have not reached
  * finality.
  */
-export const getTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTransaction: (
+  input: GetTransactionInput,
+) => Effect.Effect<
+  GetTransactionOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTransactionInput,
   output: GetTransactionOutput,
   errors: [
@@ -1078,20 +1160,30 @@ export const getTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Only the native tokens BTC and ETH, and the ERC-20,
  * ERC-721, and ERC 1155 token standards are supported.
  */
-export const batchGetTokenBalance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetTokenBalanceInput,
-    output: BatchGetTokenBalanceOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchGetTokenBalance: (
+  input: BatchGetTokenBalanceInput,
+) => Effect.Effect<
+  BatchGetTokenBalanceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetTokenBalanceInput,
+  output: BatchGetTokenBalanceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the information about a specific contract deployed on the blockchain.
  *
@@ -1101,7 +1193,19 @@ export const batchGetTokenBalance = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - Metadata is currently only available for some `ERC-20` contracts.
  * Metadata will be available for additional contracts in the future.
  */
-export const getAssetContract = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAssetContract: (
+  input: GetAssetContractInput,
+) => Effect.Effect<
+  GetAssetContractOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssetContractInput,
   output: GetAssetContractOutput,
   errors: [
@@ -1126,70 +1230,176 @@ export const getAssetContract = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You must always specify the network property of
  * the `tokenFilter` when using this operation.
  */
-export const listTokenBalances = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTokenBalances: {
+  (
     input: ListTokenBalancesInput,
-    output: ListTokenBalancesOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "tokenBalances",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTokenBalancesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTokenBalancesInput,
+  ) => Stream.Stream<
+    ListTokenBalancesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTokenBalancesInput,
+  ) => Stream.Stream<
+    TokenBalance,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTokenBalancesInput,
+  output: ListTokenBalancesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tokenBalances",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all the transaction events for a transaction.
  */
-export const listTransactions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTransactions: {
+  (
     input: ListTransactionsInput,
-    output: ListTransactionsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "transactions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTransactionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTransactionsInput,
+  ) => Stream.Stream<
+    ListTransactionsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTransactionsInput,
+  ) => Stream.Stream<
+    TransactionOutputItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTransactionsInput,
+  output: ListTransactionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "transactions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all the transaction events for an address on the blockchain.
  *
  * This operation is only supported on the Bitcoin networks.
  */
-export const listFilteredTransactionEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFilteredTransactionEvents: {
+  (
     input: ListFilteredTransactionEventsInput,
-    output: ListFilteredTransactionEventsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "events",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFilteredTransactionEventsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFilteredTransactionEventsInput,
+  ) => Stream.Stream<
+    ListFilteredTransactionEventsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFilteredTransactionEventsInput,
+  ) => Stream.Stream<
+    TransactionEvent,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFilteredTransactionEventsInput,
+  output: ListFilteredTransactionEventsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "events",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all the transaction events for a transaction
  *
@@ -1197,31 +1407,79 @@ export const listFilteredTransactionEvents =
  * that are *confirmed* on the blockchain, even if they have not reached
  * finality.
  */
-export const listTransactionEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTransactionEvents: {
+  (
     input: ListTransactionEventsInput,
-    output: ListTransactionEventsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "events",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTransactionEventsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTransactionEventsInput,
+  ) => Stream.Stream<
+    ListTransactionEventsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTransactionEventsInput,
+  ) => Stream.Stream<
+    TransactionEvent,
+    | AccessDeniedException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTransactionEventsInput,
+  output: ListTransactionEventsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "events",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets the balance of a specific token, including native tokens, for a given address (wallet or contract) on the blockchain.
  *
  * Only the native tokens BTC and ETH, and the ERC-20,
  * ERC-721, and ERC 1155 token standards are supported.
  */
-export const getTokenBalance = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTokenBalance: (
+  input: GetTokenBalanceInput,
+) => Effect.Effect<
+  GetTokenBalanceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTokenBalanceInput,
   output: GetTokenBalanceOutput,
   errors: [

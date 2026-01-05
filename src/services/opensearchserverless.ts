@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "OpenSearchServerless",
   serviceShapeName: "OpenSearchServerless",
@@ -292,6 +300,52 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type CollectionId = string;
+export type CollectionName = string;
+export type VpcEndpointId = string;
+export type LifecyclePolicyType = string;
+export type PolicyName = string;
+export type PolicyDescription = string;
+export type PolicyDocument = string;
+export type ClientToken = string;
+export type SecurityPolicyType = string;
+export type Arn = string;
+export type TagKey = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type AccessPolicyType = string;
+export type PolicyVersion = string;
+export type Resource = string;
+export type CollectionType = string;
+export type StandbyReplicas = string;
+export type IndexName = string;
+export type LifecycleResource = string;
+export type SecurityConfigType = string;
+export type ConfigName = string;
+export type ConfigDescription = string;
+export type SecurityConfigId = string;
+export type VpcEndpointName = string;
+export type VpcId = string;
+export type ResourceName = string;
+export type TagValue = string;
+export type IndexingCapacityValue = number;
+export type SearchCapacityValue = number;
+export type ServerlessVectorAccelerationStatus = string;
+export type CollectionStatus = string;
+export type samlMetadata = string;
+export type samlUserAttribute = string;
+export type samlGroupAttribute = string;
+export type openSearchServerlessEntityId = string;
+export type IamIdentityCenterInstanceArn = string;
+export type IamIdentityCenterUserAttribute = string;
+export type IamIdentityCenterGroupAttribute = string;
+export type iamFederationGroupAttribute = string;
+export type iamFederationUserAttribute = string;
+export type VpcEndpointStatus = string;
+export type IamIdentityCenterApplicationArn = string;
+export type ResourceType = string;
 
 //# Schemas
 export interface GetAccountSettingsRequest {}
@@ -2004,7 +2058,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -2032,7 +2088,13 @@ export class OcuLimitExceededException extends S.TaggedError<OcuLimitExceededExc
 /**
  * Returns statistical information about your OpenSearch Serverless access policies, security configurations, and security policies.
  */
-export const getPoliciesStats = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPoliciesStats: (
+  input: GetPoliciesStatsRequest,
+) => Effect.Effect<
+  GetPoliciesStatsResponse,
+  InternalServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPoliciesStatsRequest,
   output: GetPoliciesStatsResponse,
   errors: [InternalServerException],
@@ -2040,7 +2102,13 @@ export const getPoliciesStats = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns account-level settings related to OpenSearch Serverless.
  */
-export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccountSettings: (
+  input: GetAccountSettingsRequest,
+) => Effect.Effect<
+  GetAccountSettingsResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountSettingsRequest,
   output: GetAccountSettingsResponse,
   errors: [InternalServerException, ValidationException],
@@ -2048,7 +2116,16 @@ export const getAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a configured OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
  */
-export const getSecurityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSecurityPolicy: (
+  input: GetSecurityPolicyRequest,
+) => Effect.Effect<
+  GetSecurityPolicyResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSecurityPolicyRequest,
   output: GetSecurityPolicyResponse,
   errors: [
@@ -2060,7 +2137,17 @@ export const getSecurityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
-export const deleteAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAccessPolicy: (
+  input: DeleteAccessPolicyRequest,
+) => Effect.Effect<
+  DeleteAccessPolicyResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccessPolicyRequest,
   output: DeleteAccessPolicyResponse,
   errors: [
@@ -2073,7 +2160,17 @@ export const deleteAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an index within an OpenSearch Serverless collection. Unlike other OpenSearch indexes, indexes created by this API are automatically configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment in the *OpenSearch User Guide*.
  */
-export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIndex: (
+  input: CreateIndexRequest,
+) => Effect.Effect<
+  CreateIndexResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIndexRequest,
   output: CreateIndexResponse,
   errors: [
@@ -2086,52 +2183,85 @@ export const createIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an OpenSearch Serverless lifecycle policy. For more information, see Deleting data lifecycle policies.
  */
-export const deleteLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteLifecyclePolicyRequest,
-    output: DeleteLifecyclePolicyResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteLifecyclePolicy: (
+  input: DeleteLifecyclePolicyRequest,
+) => Effect.Effect<
+  DeleteLifecyclePolicyResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLifecyclePolicyRequest,
+  output: DeleteLifecyclePolicyResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
-export const deleteSecurityConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSecurityConfigRequest,
-    output: DeleteSecurityConfigResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteSecurityConfig: (
+  input: DeleteSecurityConfigRequest,
+) => Effect.Effect<
+  DeleteSecurityConfigResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSecurityConfigRequest,
+  output: DeleteSecurityConfigResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an OpenSearch Serverless security policy.
  */
-export const deleteSecurityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSecurityPolicyRequest,
-    output: DeleteSecurityPolicyResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteSecurityPolicy: (
+  input: DeleteSecurityPolicyRequest,
+) => Effect.Effect<
+  DeleteSecurityPolicyResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSecurityPolicyRequest,
+  output: DeleteSecurityPolicyResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
  */
-export const deleteIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIndex: (
+  input: DeleteIndexRequest,
+) => Effect.Effect<
+  DeleteIndexResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIndexRequest,
   output: DeleteIndexResponse,
   errors: [
@@ -2143,7 +2273,16 @@ export const deleteIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the tags for an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2155,7 +2294,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag or set of tags from an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2168,7 +2317,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
-export const getAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccessPolicy: (
+  input: GetAccessPolicyRequest,
+) => Effect.Effect<
+  GetAccessPolicyResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessPolicyRequest,
   output: GetAccessPolicyResponse,
   errors: [
@@ -2180,7 +2338,17 @@ export const getAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
-export const updateAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAccessPolicy: (
+  input: UpdateAccessPolicyRequest,
+) => Effect.Effect<
+  UpdateAccessPolicyResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccessPolicyRequest,
   output: UpdateAccessPolicyResponse,
   errors: [
@@ -2193,7 +2361,16 @@ export const updateAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about an index in an OpenSearch Serverless collection, including its schema definition. The index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
  */
-export const getIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIndex: (
+  input: GetIndexRequest,
+) => Effect.Effect<
+  GetIndexResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIndexRequest,
   output: GetIndexResponse,
   errors: [
@@ -2205,7 +2382,17 @@ export const getIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an OpenSearch Serverless collection. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
-export const deleteCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCollection: (
+  input: DeleteCollectionRequest,
+) => Effect.Effect<
+  DeleteCollectionResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCollectionRequest,
   output: DeleteCollectionResponse,
   errors: [
@@ -2218,7 +2405,13 @@ export const deleteCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns attributes for one or more VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
-export const batchGetVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetVpcEndpoint: (
+  input: BatchGetVpcEndpointRequest,
+) => Effect.Effect<
+  BatchGetVpcEndpointResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetVpcEndpointRequest,
   output: BatchGetVpcEndpointResponse,
   errors: [InternalServerException, ValidationException],
@@ -2226,7 +2419,16 @@ export const batchGetVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an OpenSearch Serverless-managed interface endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
-export const updateVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateVpcEndpoint: (
+  input: UpdateVpcEndpointRequest,
+) => Effect.Effect<
+  UpdateVpcEndpointResponse,
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateVpcEndpointRequest,
   output: UpdateVpcEndpointResponse,
   errors: [ConflictException, InternalServerException, ValidationException],
@@ -2234,18 +2436,47 @@ export const updateVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a list of OpenSearch Serverless access policies.
  */
-export const listAccessPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAccessPolicies: {
+  (
     input: ListAccessPoliciesRequest,
-    output: ListAccessPoliciesResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAccessPoliciesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccessPoliciesRequest,
+  ) => Stream.Stream<
+    ListAccessPoliciesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccessPoliciesRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccessPoliciesRequest,
+  output: ListAccessPoliciesResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+}));
 /**
  * Updates an OpenSearch Serverless collection.
  */
-export const updateCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCollection: (
+  input: UpdateCollectionRequest,
+) => Effect.Effect<
+  UpdateCollectionResponse,
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCollectionRequest,
   output: UpdateCollectionResponse,
   errors: [ConflictException, InternalServerException, ValidationException],
@@ -2253,7 +2484,16 @@ export const updateCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
  */
-export const updateIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateIndex: (
+  input: UpdateIndexRequest,
+) => Effect.Effect<
+  UpdateIndexResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIndexRequest,
   output: UpdateIndexResponse,
   errors: [
@@ -2265,52 +2505,133 @@ export const updateIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies.
  */
-export const listLifecyclePolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLifecyclePolicies: {
+  (
     input: ListLifecyclePoliciesRequest,
-    output: ListLifecyclePoliciesResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
-  }));
+  ): Effect.Effect<
+    ListLifecyclePoliciesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLifecyclePoliciesRequest,
+  ) => Stream.Stream<
+    ListLifecyclePoliciesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLifecyclePoliciesRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLifecyclePoliciesRequest,
+  output: ListLifecyclePoliciesResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+}));
 /**
  * Updates a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
-export const updateSecurityConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSecurityConfigRequest,
-    output: UpdateSecurityConfigResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateSecurityConfig: (
+  input: UpdateSecurityConfigRequest,
+) => Effect.Effect<
+  UpdateSecurityConfigResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSecurityConfigRequest,
+  output: UpdateSecurityConfigResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about configured OpenSearch Serverless security configurations. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
-export const listSecurityConfigs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSecurityConfigs: {
+  (
     input: ListSecurityConfigsRequest,
-    output: ListSecurityConfigsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
-  }));
+  ): Effect.Effect<
+    ListSecurityConfigsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecurityConfigsRequest,
+  ) => Stream.Stream<
+    ListSecurityConfigsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecurityConfigsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecurityConfigsRequest,
+  output: ListSecurityConfigsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+}));
 /**
  * Returns information about configured OpenSearch Serverless security policies.
  */
-export const listSecurityPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSecurityPolicies: {
+  (
     input: ListSecurityPoliciesRequest,
-    output: ListSecurityPoliciesResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
-  }));
+  ): Effect.Effect<
+    ListSecurityPoliciesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecurityPoliciesRequest,
+  ) => Stream.Stream<
+    ListSecurityPoliciesResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecurityPoliciesRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecurityPoliciesRequest,
+  output: ListSecurityPoliciesResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+}));
 /**
  * Deletes an OpenSearch Serverless-managed interface endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
-export const deleteVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVpcEndpoint: (
+  input: DeleteVpcEndpointRequest,
+) => Effect.Effect<
+  DeleteVpcEndpointResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpcEndpointRequest,
   output: DeleteVpcEndpointResponse,
   errors: [
@@ -2323,7 +2644,13 @@ export const deleteVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns attributes for one or more collections, including the collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
-export const batchGetCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetCollection: (
+  input: BatchGetCollectionRequest,
+) => Effect.Effect<
+  BatchGetCollectionResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetCollectionRequest,
   output: BatchGetCollectionResponse,
   errors: [InternalServerException, ValidationException],
@@ -2331,54 +2658,100 @@ export const batchGetCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of successful and failed retrievals for the OpenSearch Serverless indexes. For more information, see Viewing data lifecycle policies.
  */
-export const batchGetEffectiveLifecyclePolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetEffectiveLifecyclePolicyRequest,
-    output: BatchGetEffectiveLifecyclePolicyResponse,
-    errors: [InternalServerException, ValidationException],
-  }));
+export const batchGetEffectiveLifecyclePolicy: (
+  input: BatchGetEffectiveLifecyclePolicyRequest,
+) => Effect.Effect<
+  BatchGetEffectiveLifecyclePolicyResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetEffectiveLifecyclePolicyRequest,
+  output: BatchGetEffectiveLifecyclePolicyResponse,
+  errors: [InternalServerException, ValidationException],
+}));
 /**
  * Returns one or more configured OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies.
  */
-export const batchGetLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetLifecyclePolicyRequest,
-    output: BatchGetLifecyclePolicyResponse,
-    errors: [InternalServerException, ValidationException],
-  }),
-);
+export const batchGetLifecyclePolicy: (
+  input: BatchGetLifecyclePolicyRequest,
+) => Effect.Effect<
+  BatchGetLifecyclePolicyResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetLifecyclePolicyRequest,
+  output: BatchGetLifecyclePolicyResponse,
+  errors: [InternalServerException, ValidationException],
+}));
 /**
  * Creates a lifecyle policy to be applied to OpenSearch Serverless indexes. Lifecycle policies define the number of days or hours to retain the data on an OpenSearch Serverless index. For more information, see Creating data lifecycle policies.
  */
-export const createLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLifecyclePolicyRequest,
-    output: CreateLifecyclePolicyResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createLifecyclePolicy: (
+  input: CreateLifecyclePolicyRequest,
+) => Effect.Effect<
+  CreateLifecyclePolicyResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLifecyclePolicyRequest,
+  output: CreateLifecyclePolicyResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all OpenSearch Serverless collections. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  *
  * Make sure to include an empty request body {} if you don't include any collection filters in the request.
  */
-export const listCollections = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCollections: {
+  (
     input: ListCollectionsRequest,
-    output: ListCollectionsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCollectionsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCollectionsRequest,
+  ) => Stream.Stream<
+    ListCollectionsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCollectionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCollectionsRequest,
+  output: ListCollectionsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+}));
 /**
  * Returns information about an OpenSearch Serverless security configuration. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
-export const getSecurityConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSecurityConfig: (
+  input: GetSecurityConfigRequest,
+) => Effect.Effect<
+  GetSecurityConfigResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSecurityConfigRequest,
   output: GetSecurityConfigResponse,
   errors: [
@@ -2390,47 +2763,92 @@ export const getSecurityConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the OpenSearch Serverless-managed interface VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
-export const listVpcEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listVpcEndpoints: {
+  (
     input: ListVpcEndpointsRequest,
-    output: ListVpcEndpointsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListVpcEndpointsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVpcEndpointsRequest,
+  ) => Stream.Stream<
+    ListVpcEndpointsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVpcEndpointsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVpcEndpointsRequest,
+  output: ListVpcEndpointsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+}));
 /**
  * Creates a security policy to be used by one or more OpenSearch Serverless collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS encryption key. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
  */
-export const createSecurityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSecurityPolicyRequest,
-    output: CreateSecurityPolicyResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createSecurityPolicy: (
+  input: CreateSecurityPolicyRequest,
+) => Effect.Effect<
+  CreateSecurityPolicyResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSecurityPolicyRequest,
+  output: CreateSecurityPolicyResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Update the OpenSearch Serverless settings for the current Amazon Web Services account. For more information, see Managing capacity limits for Amazon OpenSearch Serverless.
  */
-export const updateAccountSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAccountSettingsRequest,
-    output: UpdateAccountSettingsResponse,
-    errors: [
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAccountSettings: (
+  input: UpdateAccountSettingsRequest,
+) => Effect.Effect<
+  UpdateAccountSettingsResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountSettingsRequest,
+  output: UpdateAccountSettingsResponse,
+  errors: [
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or network source. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
-export const createAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAccessPolicy: (
+  input: CreateAccessPolicyRequest,
+) => Effect.Effect<
+  CreateAccessPolicyResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccessPolicyRequest,
   output: CreateAccessPolicyResponse,
   errors: [
@@ -2443,22 +2861,40 @@ export const createAccessPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Specifies a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
-export const createSecurityConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSecurityConfigRequest,
-    output: CreateSecurityConfigResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createSecurityConfig: (
+  input: CreateSecurityConfigRequest,
+) => Effect.Effect<
+  CreateSecurityConfigResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSecurityConfigRequest,
+  output: CreateSecurityConfigResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
-export const createVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVpcEndpoint: (
+  input: CreateVpcEndpointRequest,
+) => Effect.Effect<
+  CreateVpcEndpointResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcEndpointRequest,
   output: CreateVpcEndpointResponse,
   errors: [
@@ -2471,39 +2907,68 @@ export const createVpcEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an OpenSearch Serverless access policy. For more information, see Updating data lifecycle policies.
  */
-export const updateLifecyclePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLifecyclePolicyRequest,
-    output: UpdateLifecyclePolicyResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateLifecyclePolicy: (
+  input: UpdateLifecyclePolicyRequest,
+) => Effect.Effect<
+  UpdateLifecyclePolicyResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLifecyclePolicyRequest,
+  output: UpdateLifecyclePolicyResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
  */
-export const updateSecurityPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSecurityPolicyRequest,
-    output: UpdateSecurityPolicyResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateSecurityPolicy: (
+  input: UpdateSecurityPolicyRequest,
+) => Effect.Effect<
+  UpdateSecurityPolicyResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSecurityPolicyRequest,
+  output: UpdateSecurityPolicyResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates tags with an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2517,7 +2982,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new OpenSearch Serverless collection. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
-export const createCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCollection: (
+  input: CreateCollectionRequest,
+) => Effect.Effect<
+  CreateCollectionResponse,
+  | ConflictException
+  | InternalServerException
+  | OcuLimitExceededException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCollectionRequest,
   output: CreateCollectionResponse,
   errors: [

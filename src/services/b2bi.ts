@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "b2bi", serviceShapeName: "B2BI" });
 const auth = T.AwsAuthSigv4({ name: "b2bi" });
 const ver = T.ServiceVersion("2022-06-23");
@@ -290,6 +298,54 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type GenerateMappingInputFileContent = string;
+export type GenerateMappingOutputFileContent = string;
+export type TransformerJobId = string;
+export type TransformerId = string;
+export type AmazonResourceName = string;
+export type TestMappingInputFileContent = string;
+export type MappingTemplate = string;
+export type TagKey = string;
+export type CapabilityName = string;
+export type CapabilityId = string;
+export type PageToken = string;
+export type MaxResults = number;
+export type ProfileId = string;
+export type PartnerName = string;
+export type Email = string;
+export type Phone = string;
+export type PartnershipId = string;
+export type ProfileName = string;
+export type BusinessName = string;
+export type TransformerName = string;
+export type FileLocation = string;
+export type BucketName = string;
+export type S3Key = string;
+export type TagValue = string;
+export type ErrorMessage = string;
+export type ResourceArn = string;
+export type TradingPartnerId = string;
+export type LogGroupName = string;
+export type LineLength = number;
+export type ElementId = string;
+export type ElementPosition = string;
+export type X12IdQualifier = string;
+export type X12SenderId = string;
+export type X12ReceiverId = string;
+export type X12RepetitionSeparator = string;
+export type X12AcknowledgmentRequestedCode = string;
+export type X12UsageIndicatorCode = string;
+export type X12ApplicationSenderCode = string;
+export type X12ApplicationReceiverCode = string;
+export type X12ResponsibleAgencyCode = string;
+export type X12ComponentSeparator = string;
+export type X12DataElementSeparator = string;
+export type X12SegmentTerminator = string;
+export type StartingInterchangeControlNumber = number;
+export type StartingFunctionalGroupControlNumber = number;
+export type StartingTransactionSetControlNumber = number;
+
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
@@ -465,6 +521,7 @@ export const X12Details = S.suspend(() =>
     version: S.optional(S.String),
   }),
 ).annotations({ identifier: "X12Details" }) as any as S.Schema<X12Details>;
+export type EdiType = { x12Details: X12Details };
 export const EdiType = S.Union(S.Struct({ x12Details: X12Details }));
 export interface EdiConfiguration {
   capabilityDirection?: string;
@@ -484,6 +541,7 @@ export const EdiConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "EdiConfiguration",
 }) as any as S.Schema<EdiConfiguration>;
+export type CapabilityConfiguration = { edi: EdiConfiguration };
 export const CapabilityConfiguration = S.Union(
   S.Struct({ edi: EdiConfiguration }),
 );
@@ -679,6 +737,7 @@ export const X12Envelope = S.suspend(() =>
     wrapOptions: S.optional(WrapOptions),
   }),
 ).annotations({ identifier: "X12Envelope" }) as any as S.Schema<X12Envelope>;
+export type OutboundEdiOptions = { x12: X12Envelope };
 export const OutboundEdiOptions = S.Union(S.Struct({ x12: X12Envelope }));
 export interface X12AcknowledgmentOptions {
   functionalAcknowledgment: string;
@@ -934,6 +993,7 @@ export const GetTransformerRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetTransformerRequest",
 }) as any as S.Schema<GetTransformerRequest>;
+export type FormatOptions = { x12: X12Details };
 export const FormatOptions = S.Union(S.Struct({ x12: X12Details }));
 export interface X12SplitOptions {
   splitBy: string;
@@ -978,6 +1038,10 @@ export const X12ElementRequirementValidationRule = S.suspend(() =>
 ).annotations({
   identifier: "X12ElementRequirementValidationRule",
 }) as any as S.Schema<X12ElementRequirementValidationRule>;
+export type X12ValidationRule =
+  | { codeListValidationRule: X12CodeListValidationRule }
+  | { elementLengthValidationRule: X12ElementLengthValidationRule }
+  | { elementRequirementValidationRule: X12ElementRequirementValidationRule };
 export const X12ValidationRule = S.Union(
   S.Struct({ codeListValidationRule: X12CodeListValidationRule }),
   S.Struct({ elementLengthValidationRule: X12ElementLengthValidationRule }),
@@ -1492,13 +1556,17 @@ export const UpdateTransformerResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateTransformerResponse",
 }) as any as S.Schema<UpdateTransformerResponse>;
+export type InputFileSource = { fileContent: string };
 export const InputFileSource = S.Union(S.Struct({ fileContent: S.String }));
+export type ConversionTargetFormatDetails = { x12: X12Details };
 export const ConversionTargetFormatDetails = S.Union(
   S.Struct({ x12: X12Details }),
 );
+export type OutputSampleFileSource = { fileLocation: S3Location };
 export const OutputSampleFileSource = S.Union(
   S.Struct({ fileLocation: S3Location }),
 );
+export type TemplateDetails = { x12: X12Details };
 export const TemplateDetails = S.Union(S.Struct({ x12: X12Details }));
 export interface ConversionSource {
   fileFormat: string;
@@ -1965,7 +2033,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.String },
@@ -1985,7 +2055,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.String },
@@ -2005,7 +2077,16 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Detaches a key-value pair from the specified resource, as identified by its Amazon Resource Name (ARN). Resources are capability, partnership, profile, transformers and other entities.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2017,7 +2098,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a capability, partnership, profile, or transformer.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2039,7 +2129,17 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Use the output from the `TestMapping` operation as either input or output for your GenerateMapping call, along with your sample file.
  */
-export const generateMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const generateMapping: (
+  input: GenerateMappingRequest,
+) => Effect.Effect<
+  GenerateMappingResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateMappingRequest,
   output: GenerateMappingResponse,
   errors: [
@@ -2052,7 +2152,19 @@ export const generateMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified partnership. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
-export const deletePartnership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePartnership: (
+  input: DeletePartnershipRequest,
+) => Effect.Effect<
+  DeletePartnershipResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePartnershipRequest,
   output: DeletePartnershipResponse,
   errors: [
@@ -2067,7 +2179,19 @@ export const deletePartnership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified profile. A profile is the mechanism used to create the concept of a private network.
  */
-export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProfile: (
+  input: DeleteProfileRequest,
+) => Effect.Effect<
+  DeleteProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProfileRequest,
   output: DeleteProfileResponse,
   errors: [
@@ -2082,7 +2206,19 @@ export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
  */
-export const deleteTransformer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTransformer: (
+  input: DeleteTransformerRequest,
+) => Effect.Effect<
+  DeleteTransformerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTransformerRequest,
   output: DeleteTransformerResponse,
   errors: [
@@ -2101,7 +2237,19 @@ export const deleteTransformer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The system stores transformer jobs for 30 days. During that period, you can run GetTransformerJob and supply its `transformerId` and `transformerJobId` to return details of the job.
  */
-export const startTransformerJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startTransformerJob: (
+  input: StartTransformerJobRequest,
+) => Effect.Effect<
+  StartTransformerJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartTransformerJobRequest,
   output: StartTransformerJobResponse,
   errors: [
@@ -2116,7 +2264,19 @@ export const startTransformerJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
  */
-export const deleteCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCapability: (
+  input: DeleteCapabilityRequest,
+) => Effect.Effect<
+  DeleteCapabilityResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCapabilityRequest,
   output: DeleteCapabilityResponse,
   errors: [
@@ -2131,92 +2291,234 @@ export const deleteCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the capabilities associated with your Amazon Web Services account for your current or specified region. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
  */
-export const listCapabilities = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCapabilities: {
+  (
     input: ListCapabilitiesRequest,
-    output: ListCapabilitiesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "capabilities",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCapabilitiesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCapabilitiesRequest,
+  ) => Stream.Stream<
+    ListCapabilitiesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCapabilitiesRequest,
+  ) => Stream.Stream<
+    CapabilitySummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCapabilitiesRequest,
+  output: ListCapabilitiesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "capabilities",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the partnerships associated with your Amazon Web Services account for your current or specified region. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
-export const listPartnerships = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPartnerships: {
+  (
     input: ListPartnershipsRequest,
-    output: ListPartnershipsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "partnerships",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPartnershipsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPartnershipsRequest,
+  ) => Stream.Stream<
+    ListPartnershipsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPartnershipsRequest,
+  ) => Stream.Stream<
+    PartnershipSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPartnershipsRequest,
+  output: ListPartnershipsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "partnerships",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the profiles associated with your Amazon Web Services account for your current or specified region. A profile is the mechanism used to create the concept of a private network.
  */
-export const listProfiles = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProfiles: {
+  (
     input: ListProfilesRequest,
-    output: ListProfilesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "profiles",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProfilesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProfilesRequest,
+  ) => Stream.Stream<
+    ListProfilesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProfilesRequest,
+  ) => Stream.Stream<
+    ProfileSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProfilesRequest,
+  output: ListProfilesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "profiles",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the available transformers. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
  */
-export const listTransformers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTransformers: {
+  (
     input: ListTransformersRequest,
-    output: ListTransformersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "transformers",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTransformersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTransformersRequest,
+  ) => Stream.Stream<
+    ListTransformersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTransformersRequest,
+  ) => Stream.Stream<
+    TransformerSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTransformersRequest,
+  output: ListTransformersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "transformers",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the details for a partnership, based on the partner and profile IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
-export const getPartnership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPartnership: (
+  input: GetPartnershipRequest,
+) => Effect.Effect<
+  GetPartnershipResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPartnershipRequest,
   output: GetPartnershipResponse,
   errors: [
@@ -2230,7 +2532,18 @@ export const getPartnership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the details for the profile specified by the profile ID. A profile is the mechanism used to create the concept of a private network.
  */
-export const getProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getProfile: (
+  input: GetProfileRequest,
+) => Effect.Effect<
+  GetProfileResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProfileRequest,
   output: GetProfileResponse,
   errors: [
@@ -2244,7 +2557,18 @@ export const getProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the details for the transformer specified by the transformer ID. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
  */
-export const getTransformer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTransformer: (
+  input: GetTransformerRequest,
+) => Effect.Effect<
+  GetTransformerResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTransformerRequest,
   output: GetTransformerResponse,
   errors: [
@@ -2260,7 +2584,17 @@ export const getTransformer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * There is no response returned from this call.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2275,7 +2609,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If 30 days have elapsed since your transformer job was started, the system deletes it. So, if you run `GetTransformerJob` and supply a `transformerId` and `transformerJobId` for a job that was started more than 30 days previously, you receive a 404 response.
  */
-export const getTransformerJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTransformerJob: (
+  input: GetTransformerJobRequest,
+) => Effect.Effect<
+  GetTransformerJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTransformerJobRequest,
   output: GetTransformerJobResponse,
   errors: [
@@ -2289,7 +2634,18 @@ export const getTransformerJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Maps the input file according to the provided template file. The API call downloads the file contents from the Amazon S3 location, and passes the contents in as a string, to the `inputFileContent` parameter.
  */
-export const testMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testMapping: (
+  input: TestMappingRequest,
+) => Effect.Effect<
+  TestMappingResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestMappingRequest,
   output: TestMappingResponse,
   errors: [
@@ -2303,7 +2659,18 @@ export const testMapping = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the details for the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
  */
-export const getCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCapability: (
+  input: GetCapabilityRequest,
+) => Effect.Effect<
+  GetCapabilityResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCapabilityRequest,
   output: GetCapabilityResponse,
   errors: [
@@ -2323,21 +2690,41 @@ export const getCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Currently, we only support generating a template that can generate the input to produce an Outbound X12 EDI file.
  */
-export const createStarterMappingTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateStarterMappingTemplateRequest,
-    output: CreateStarterMappingTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const createStarterMappingTemplate: (
+  input: CreateStarterMappingTemplateRequest,
+) => Effect.Effect<
+  CreateStarterMappingTemplateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStarterMappingTemplateRequest,
+  output: CreateStarterMappingTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * This operation mimics the latter half of a typical Outbound EDI request. It takes an input JSON/XML in the B2Bi shape as input, converts it to an X12 EDI string, and return that string.
  */
-export const testConversion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testConversion: (
+  input: TestConversionRequest,
+) => Effect.Effect<
+  TestConversionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestConversionRequest,
   output: TestConversionResponse,
   errors: [
@@ -2351,7 +2738,20 @@ export const testConversion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates some of the parameters for a partnership between a customer and trading partner. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
-export const updatePartnership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePartnership: (
+  input: UpdatePartnershipRequest,
+) => Effect.Effect<
+  UpdatePartnershipResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePartnershipRequest,
   output: UpdatePartnershipResponse,
   errors: [
@@ -2367,7 +2767,20 @@ export const updatePartnership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mechanism used to create the concept of a private network.
  */
-export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProfile: (
+  input: CreateProfileRequest,
+) => Effect.Effect<
+  CreateProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProfileRequest,
   output: CreateProfileResponse,
   errors: [
@@ -2383,7 +2796,20 @@ export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified parameters for a profile. A profile is the mechanism used to create the concept of a private network.
  */
-export const updateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProfile: (
+  input: UpdateProfileRequest,
+) => Effect.Effect<
+  UpdateProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProfileRequest,
   output: UpdateProfileResponse,
   errors: [
@@ -2399,7 +2825,20 @@ export const updateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified parameters for a transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
  */
-export const updateTransformer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTransformer: (
+  input: UpdateTransformerRequest,
+) => Effect.Effect<
+  UpdateTransformerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTransformerRequest,
   output: UpdateTransformerResponse,
   errors: [
@@ -2415,7 +2854,20 @@ export const updateTransformer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates some of the parameters for a capability, based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
  */
-export const updateCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCapability: (
+  input: UpdateCapabilityRequest,
+) => Effect.Effect<
+  UpdateCapabilityResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCapabilityRequest,
   output: UpdateCapabilityResponse,
   errors: [
@@ -2431,7 +2883,20 @@ export const updateCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Instantiates a capability based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
  */
-export const createCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCapability: (
+  input: CreateCapabilityRequest,
+) => Effect.Effect<
+  CreateCapabilityResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCapabilityRequest,
   output: CreateCapabilityResponse,
   errors: [
@@ -2459,7 +2924,20 @@ export const createCapability = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Use either the `inputConversion` or `outputConversion` in place of `ediType`
  */
-export const createTransformer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTransformer: (
+  input: CreateTransformerRequest,
+) => Effect.Effect<
+  CreateTransformerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTransformerRequest,
   output: CreateTransformerResponse,
   errors: [
@@ -2475,7 +2953,18 @@ export const createTransformer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Parses the input EDI (electronic data interchange) file. The input file has a file size limit of 250 KB.
  */
-export const testParsing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testParsing: (
+  input: TestParsingRequest,
+) => Effect.Effect<
+  TestParsingResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestParsingRequest,
   output: TestParsingResponse,
   errors: [
@@ -2489,7 +2978,20 @@ export const testParsing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a partnership between a customer and a trading partner, based on the supplied parameters. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
-export const createPartnership = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPartnership: (
+  input: CreatePartnershipRequest,
+) => Effect.Effect<
+  CreatePartnershipResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePartnershipRequest,
   output: CreatePartnershipResponse,
   errors: [

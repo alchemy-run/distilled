@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "WorkSpaces Web",
   serviceShapeName: "AWSErmineControlPlaneService",
@@ -240,6 +248,78 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type PortalId = string;
+export type SessionId = string;
+export type Username = string;
+export type MaxResults = number;
+export type PaginationToken = string;
+export type ARN = string;
+export type ClientToken = string;
+export type TagKey = string;
+export type keyArn = string;
+export type BrowserPolicy = string;
+export type DisplayNameSafe = string;
+export type DescriptionSafe = string;
+export type IdentityProviderName = string;
+export type IdentityProviderType = string;
+export type SubresourceARN = string;
+export type DisplayName = string;
+export type Description = string;
+export type VpcId = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type AuthenticationType = string;
+export type InstanceType = string;
+export type MaxConcurrentSessions = number;
+export type CertificateThumbprint = string;
+export type KinesisStreamArn = string;
+export type EnabledType = string;
+export type DisconnectTimeoutInMinutes = number;
+export type IdleDisconnectTimeoutInMinutes = number;
+export type TagValue = string;
+export type StringType = string;
+export type UrlPattern = string;
+export type InlineRedactionUrl = string;
+export type ConfidenceLevel = number;
+export type IpRange = string;
+export type ToolbarType = string;
+export type VisualMode = string;
+export type ToolbarItem = string;
+export type MaxDisplayResolution = string;
+export type Markdown = string;
+export type ExceptionMessage = string;
+export type PortalEndpoint = string;
+export type SamlMetadata = string;
+export type BuiltInPatternId = string;
+export type S3Bucket = string;
+export type S3KeyPrefix = string;
+export type S3BucketOwner = string;
+export type CookieDomain = string;
+export type CookieName = string;
+export type CookiePath = string;
+export type S3Uri = string;
+export type IpAddress = string;
+export type RendererType = string;
+export type BrowserType = string;
+export type PortalStatus = string;
+export type StatusReason = string;
+export type CertificatePrincipal = string;
+export type PatternName = string;
+export type Regex = string;
+export type RedactionPlaceHolderType = string;
+export type RedactionPlaceHolderText = string;
+export type BrandingSafeStringType = string;
+export type ContactLinkUrl = string;
+export type RetryAfterSeconds = number;
+export type ResourceId = string;
+export type ResourceType = string;
+export type ServiceCode = string;
+export type QuotaCode = string;
+export type ValidationExceptionReason = string;
+export type TagExceptionMessage = string;
+export type FieldName = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -1559,6 +1639,7 @@ export const GetSessionLoggerRequest = S.suspend(() =>
 }) as any as S.Schema<GetSessionLoggerRequest>;
 export type Events = string[];
 export const Events = S.Array(S.String);
+export type EventFilter = { all: Record<string, never> } | { include: Events };
 export const EventFilter = S.Union(
   S.Struct({ all: S.Struct({}) }),
   S.Struct({ include: Events }),
@@ -2028,10 +2109,12 @@ export const ToolbarConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ToolbarConfiguration",
 }) as any as S.Schema<ToolbarConfiguration>;
+export type IconImageInput = { blob: Uint8Array } | { s3Uri: string };
 export const IconImageInput = S.Union(
   S.Struct({ blob: T.Blob }),
   S.Struct({ s3Uri: S.String }),
 );
+export type WallpaperImageInput = { blob: Uint8Array } | { s3Uri: string };
 export const WallpaperImageInput = S.Union(
   S.Struct({ blob: T.Blob }),
   S.Struct({ s3Uri: S.String }),
@@ -3488,7 +3571,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -3513,7 +3598,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -3541,43 +3628,98 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Retrieves a list of browser settings.
  */
-export const listBrowserSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBrowserSettings: {
+  (
     input: ListBrowserSettingsRequest,
-    output: ListBrowserSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBrowserSettingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBrowserSettingsRequest,
+  ) => Stream.Stream<
+    ListBrowserSettingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBrowserSettingsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBrowserSettingsRequest,
+  output: ListBrowserSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
  */
-export const createNetworkSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateNetworkSettingsRequest,
-    output: CreateNetworkSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createNetworkSettings: (
+  input: CreateNetworkSettingsRequest,
+) => Effect.Effect<
+  CreateNetworkSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNetworkSettingsRequest,
+  output: CreateNetworkSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a session logger.
  */
-export const createSessionLogger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSessionLogger: (
+  input: CreateSessionLoggerRequest,
+) => Effect.Effect<
+  CreateSessionLoggerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSessionLoggerRequest,
   output: CreateSessionLoggerResponse,
   errors: [
@@ -3592,7 +3734,18 @@ export const createSessionLogger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information for a secure browser session.
  */
-export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSession: (
+  input: GetSessionRequest,
+) => Effect.Effect<
+  GetSessionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
   output: GetSessionResponse,
   errors: [
@@ -3606,29 +3759,75 @@ export const getSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists information for multiple secure browser sessions from a specific portal.
  */
-export const listSessions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSessions: {
+  (
     input: ListSessionsRequest,
-    output: ListSessionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "sessions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSessionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSessionsRequest,
+  ) => Stream.Stream<
+    ListSessionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSessionsRequest,
+  ) => Stream.Stream<
+    SessionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSessionsRequest,
+  output: ListSessionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sessions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets browser settings.
  */
-export const getBrowserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBrowserSettings: (
+  input: GetBrowserSettingsRequest,
+) => Effect.Effect<
+  GetBrowserSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBrowserSettingsRequest,
   output: GetBrowserSettingsResponse,
   errors: [
@@ -3642,23 +3841,43 @@ export const getBrowserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the data protection settings.
  */
-export const getDataProtectionSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDataProtectionSettingsRequest,
-    output: GetDataProtectionSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getDataProtectionSettings: (
+  input: GetDataProtectionSettingsRequest,
+) => Effect.Effect<
+  GetDataProtectionSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataProtectionSettingsRequest,
+  output: GetDataProtectionSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the identity provider.
  */
-export const getIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIdentityProvider: (
+  input: GetIdentityProviderRequest,
+) => Effect.Effect<
+  GetIdentityProviderResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdentityProviderRequest,
   output: GetIdentityProviderResponse,
   errors: [
@@ -3672,7 +3891,18 @@ export const getIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the IP access settings.
  */
-export const getIpAccessSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getIpAccessSettings: (
+  input: GetIpAccessSettingsRequest,
+) => Effect.Effect<
+  GetIpAccessSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIpAccessSettingsRequest,
   output: GetIpAccessSettingsResponse,
   errors: [
@@ -3686,7 +3916,18 @@ export const getIpAccessSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the network settings.
  */
-export const getNetworkSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getNetworkSettings: (
+  input: GetNetworkSettingsRequest,
+) => Effect.Effect<
+  GetNetworkSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNetworkSettingsRequest,
   output: GetNetworkSettingsResponse,
   errors: [
@@ -3700,7 +3941,18 @@ export const getNetworkSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the web portal.
  */
-export const getPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPortal: (
+  input: GetPortalRequest,
+) => Effect.Effect<
+  GetPortalResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPortalRequest,
   output: GetPortalResponse,
   errors: [
@@ -3714,7 +3966,18 @@ export const getPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets details about a specific session logger resource.
  */
-export const getSessionLogger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSessionLogger: (
+  input: GetSessionLoggerRequest,
+) => Effect.Effect<
+  GetSessionLoggerResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionLoggerRequest,
   output: GetSessionLoggerResponse,
   errors: [
@@ -3728,7 +3991,18 @@ export const getSessionLogger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the trust store.
  */
-export const getTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTrustStore: (
+  input: GetTrustStoreRequest,
+) => Effect.Effect<
+  GetTrustStoreResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTrustStoreRequest,
   output: GetTrustStoreResponse,
   errors: [
@@ -3742,58 +4016,124 @@ export const getTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the trust store certificate.
  */
-export const getTrustStoreCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTrustStoreCertificateRequest,
-    output: GetTrustStoreCertificateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getTrustStoreCertificate: (
+  input: GetTrustStoreCertificateRequest,
+) => Effect.Effect<
+  GetTrustStoreCertificateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTrustStoreCertificateRequest,
+  output: GetTrustStoreCertificateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a list of trust store certificates.
  */
-export const listTrustStoreCertificates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTrustStoreCertificates: {
+  (
     input: ListTrustStoreCertificatesRequest,
-    output: ListTrustStoreCertificatesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTrustStoreCertificatesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTrustStoreCertificatesRequest,
+  ) => Stream.Stream<
+    ListTrustStoreCertificatesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTrustStoreCertificatesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTrustStoreCertificatesRequest,
+  output: ListTrustStoreCertificatesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets user access logging settings.
  */
-export const getUserAccessLoggingSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetUserAccessLoggingSettingsRequest,
-    output: GetUserAccessLoggingSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getUserAccessLoggingSettings: (
+  input: GetUserAccessLoggingSettingsRequest,
+) => Effect.Effect<
+  GetUserAccessLoggingSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUserAccessLoggingSettingsRequest,
+  output: GetUserAccessLoggingSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the user settings.
  */
-export const updateUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUserSettings: (
+  input: UpdateUserSettingsRequest,
+) => Effect.Effect<
+  UpdateUserSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserSettingsRequest,
   output: UpdateUserSettingsResponse,
   errors: [
@@ -3807,7 +4147,18 @@ export const updateUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of tags for a resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3821,101 +4172,168 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates browser settings.
  */
-export const updateBrowserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateBrowserSettingsRequest,
-    output: UpdateBrowserSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateBrowserSettings: (
+  input: UpdateBrowserSettingsRequest,
+) => Effect.Effect<
+  UpdateBrowserSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBrowserSettingsRequest,
+  output: UpdateBrowserSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates data protection settings.
  */
-export const updateDataProtectionSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDataProtectionSettingsRequest,
-    output: UpdateDataProtectionSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateDataProtectionSettings: (
+  input: UpdateDataProtectionSettingsRequest,
+) => Effect.Effect<
+  UpdateDataProtectionSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataProtectionSettingsRequest,
+  output: UpdateDataProtectionSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the identity provider.
  */
-export const updateIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIdentityProviderRequest,
-    output: UpdateIdentityProviderResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateIdentityProvider: (
+  input: UpdateIdentityProviderRequest,
+) => Effect.Effect<
+  UpdateIdentityProviderResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIdentityProviderRequest,
+  output: UpdateIdentityProviderResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates IP access settings.
  */
-export const updateIpAccessSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIpAccessSettingsRequest,
-    output: UpdateIpAccessSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateIpAccessSettings: (
+  input: UpdateIpAccessSettingsRequest,
+) => Effect.Effect<
+  UpdateIpAccessSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIpAccessSettingsRequest,
+  output: UpdateIpAccessSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates network settings.
  */
-export const updateNetworkSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateNetworkSettingsRequest,
-    output: UpdateNetworkSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateNetworkSettings: (
+  input: UpdateNetworkSettingsRequest,
+) => Effect.Effect<
+  UpdateNetworkSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNetworkSettingsRequest,
+  output: UpdateNetworkSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the service provider metadata.
  */
-export const getPortalServiceProviderMetadata =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetPortalServiceProviderMetadataRequest,
-    output: GetPortalServiceProviderMetadataResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getPortalServiceProviderMetadata: (
+  input: GetPortalServiceProviderMetadataRequest,
+) => Effect.Effect<
+  GetPortalServiceProviderMetadataResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPortalServiceProviderMetadataRequest,
+  output: GetPortalServiceProviderMetadataResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the details of a session logger.
  */
-export const updateSessionLogger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSessionLogger: (
+  input: UpdateSessionLoggerRequest,
+) => Effect.Effect<
+  UpdateSessionLoggerResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSessionLoggerRequest,
   output: UpdateSessionLoggerResponse,
   errors: [
@@ -3929,7 +4347,19 @@ export const updateSessionLogger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the trust store.
  */
-export const updateTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTrustStore: (
+  input: UpdateTrustStoreRequest,
+) => Effect.Effect<
+  UpdateTrustStoreResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrustStoreRequest,
   output: UpdateTrustStoreResponse,
   errors: [
@@ -3944,22 +4374,43 @@ export const updateTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the user access logging settings.
  */
-export const updateUserAccessLoggingSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateUserAccessLoggingSettingsRequest,
-    output: UpdateUserAccessLoggingSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateUserAccessLoggingSettings: (
+  input: UpdateUserAccessLoggingSettingsRequest,
+) => Effect.Effect<
+  UpdateUserAccessLoggingSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserAccessLoggingSettingsRequest,
+  output: UpdateUserAccessLoggingSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3973,23 +4424,45 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates a session logger from a portal.
  */
-export const disassociateSessionLogger = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateSessionLoggerRequest,
-    output: DisassociateSessionLoggerResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateSessionLogger: (
+  input: DisassociateSessionLoggerRequest,
+) => Effect.Effect<
+  DisassociateSessionLoggerResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateSessionLoggerRequest,
+  output: DisassociateSessionLoggerResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a web portal.
  */
-export const createPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPortal: (
+  input: CreatePortalRequest,
+) => Effect.Effect<
+  CreatePortalResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePortalRequest,
   output: CreatePortalResponse,
   errors: [
@@ -4005,7 +4478,20 @@ export const createPortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a web portal.
  */
-export const updatePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePortal: (
+  input: UpdatePortalRequest,
+) => Effect.Effect<
+  UpdatePortalResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePortalRequest,
   output: UpdatePortalResponse,
   errors: [
@@ -4021,91 +4507,154 @@ export const updatePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates a browser settings resource with a web portal.
  */
-export const associateBrowserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateBrowserSettingsRequest,
-    output: AssociateBrowserSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateBrowserSettings: (
+  input: AssociateBrowserSettingsRequest,
+) => Effect.Effect<
+  AssociateBrowserSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateBrowserSettingsRequest,
+  output: AssociateBrowserSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a data protection settings resource with a web portal.
  */
-export const associateDataProtectionSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateDataProtectionSettingsRequest,
-    output: AssociateDataProtectionSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const associateDataProtectionSettings: (
+  input: AssociateDataProtectionSettingsRequest,
+) => Effect.Effect<
+  AssociateDataProtectionSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateDataProtectionSettingsRequest,
+  output: AssociateDataProtectionSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates an IP access settings resource with a web portal.
  */
-export const associateIpAccessSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateIpAccessSettingsRequest,
-    output: AssociateIpAccessSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateIpAccessSettings: (
+  input: AssociateIpAccessSettingsRequest,
+) => Effect.Effect<
+  AssociateIpAccessSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateIpAccessSettingsRequest,
+  output: AssociateIpAccessSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a network settings resource with a web portal.
  */
-export const associateNetworkSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateNetworkSettingsRequest,
-    output: AssociateNetworkSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateNetworkSettings: (
+  input: AssociateNetworkSettingsRequest,
+) => Effect.Effect<
+  AssociateNetworkSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateNetworkSettingsRequest,
+  output: AssociateNetworkSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a session logger with a portal.
  */
-export const associateSessionLogger = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateSessionLoggerRequest,
-    output: AssociateSessionLoggerResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateSessionLogger: (
+  input: AssociateSessionLoggerRequest,
+) => Effect.Effect<
+  AssociateSessionLoggerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateSessionLoggerRequest,
+  output: AssociateSessionLoggerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a trust store with a web portal.
  */
-export const associateTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateTrustStore: (
+  input: AssociateTrustStoreRequest,
+) => Effect.Effect<
+  AssociateTrustStoreResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateTrustStoreRequest,
   output: AssociateTrustStoreResponse,
   errors: [
@@ -4120,448 +4669,914 @@ export const associateTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates a user access logging settings resource with a web portal.
  */
-export const associateUserAccessLoggingSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateUserAccessLoggingSettingsRequest,
-    output: AssociateUserAccessLoggingSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const associateUserAccessLoggingSettings: (
+  input: AssociateUserAccessLoggingSettingsRequest,
+) => Effect.Effect<
+  AssociateUserAccessLoggingSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateUserAccessLoggingSettingsRequest,
+  output: AssociateUserAccessLoggingSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a user settings resource with a web portal.
  */
-export const associateUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateUserSettingsRequest,
-    output: AssociateUserSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateUserSettings: (
+  input: AssociateUserSettingsRequest,
+) => Effect.Effect<
+  AssociateUserSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateUserSettingsRequest,
+  output: AssociateUserSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates browser settings from a web portal.
  */
-export const disassociateBrowserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateBrowserSettingsRequest,
-    output: DisassociateBrowserSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateBrowserSettings: (
+  input: DisassociateBrowserSettingsRequest,
+) => Effect.Effect<
+  DisassociateBrowserSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateBrowserSettingsRequest,
+  output: DisassociateBrowserSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates data protection settings from a web portal.
  */
-export const disassociateDataProtectionSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateDataProtectionSettingsRequest,
-    output: DisassociateDataProtectionSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateDataProtectionSettings: (
+  input: DisassociateDataProtectionSettingsRequest,
+) => Effect.Effect<
+  DisassociateDataProtectionSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateDataProtectionSettingsRequest,
+  output: DisassociateDataProtectionSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates IP access settings from a web portal.
  */
-export const disassociateIpAccessSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateIpAccessSettingsRequest,
-    output: DisassociateIpAccessSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateIpAccessSettings: (
+  input: DisassociateIpAccessSettingsRequest,
+) => Effect.Effect<
+  DisassociateIpAccessSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateIpAccessSettingsRequest,
+  output: DisassociateIpAccessSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates network settings from a web portal.
  */
-export const disassociateNetworkSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateNetworkSettingsRequest,
-    output: DisassociateNetworkSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateNetworkSettings: (
+  input: DisassociateNetworkSettingsRequest,
+) => Effect.Effect<
+  DisassociateNetworkSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateNetworkSettingsRequest,
+  output: DisassociateNetworkSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates a trust store from a web portal.
  */
-export const disassociateTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateTrustStoreRequest,
-    output: DisassociateTrustStoreResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateTrustStore: (
+  input: DisassociateTrustStoreRequest,
+) => Effect.Effect<
+  DisassociateTrustStoreResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateTrustStoreRequest,
+  output: DisassociateTrustStoreResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates user access logging settings from a web portal.
  */
-export const disassociateUserAccessLoggingSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateUserAccessLoggingSettingsRequest,
-    output: DisassociateUserAccessLoggingSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateUserAccessLoggingSettings: (
+  input: DisassociateUserAccessLoggingSettingsRequest,
+) => Effect.Effect<
+  DisassociateUserAccessLoggingSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateUserAccessLoggingSettingsRequest,
+  output: DisassociateUserAccessLoggingSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates user settings from a web portal.
  */
-export const disassociateUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateUserSettingsRequest,
-    output: DisassociateUserSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateUserSettings: (
+  input: DisassociateUserSettingsRequest,
+) => Effect.Effect<
+  DisassociateUserSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateUserSettingsRequest,
+  output: DisassociateUserSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal.
  */
-export const createBrowserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateBrowserSettingsRequest,
-    output: CreateBrowserSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createBrowserSettings: (
+  input: CreateBrowserSettingsRequest,
+) => Effect.Effect<
+  CreateBrowserSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBrowserSettingsRequest,
+  output: CreateBrowserSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an identity provider resource that is then associated with a web portal.
  */
-export const createIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIdentityProviderRequest,
-    output: CreateIdentityProviderResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createIdentityProvider: (
+  input: CreateIdentityProviderRequest,
+) => Effect.Effect<
+  CreateIdentityProviderResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIdentityProviderRequest,
+  output: CreateIdentityProviderResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a list of data protection settings.
  */
-export const listDataProtectionSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataProtectionSettings: {
+  (
     input: ListDataProtectionSettingsRequest,
-    output: ListDataProtectionSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dataProtectionSettings",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataProtectionSettingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataProtectionSettingsRequest,
+  ) => Stream.Stream<
+    ListDataProtectionSettingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataProtectionSettingsRequest,
+  ) => Stream.Stream<
+    DataProtectionSettingsSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataProtectionSettingsRequest,
+  output: ListDataProtectionSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dataProtectionSettings",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of identity providers for a specific web portal.
  */
-export const listIdentityProviders =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIdentityProviders: {
+  (
     input: ListIdentityProvidersRequest,
-    output: ListIdentityProvidersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIdentityProvidersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdentityProvidersRequest,
+  ) => Stream.Stream<
+    ListIdentityProvidersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdentityProvidersRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdentityProvidersRequest,
+  output: ListIdentityProvidersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of IP access settings.
  */
-export const listIpAccessSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listIpAccessSettings: {
+  (
     input: ListIpAccessSettingsRequest,
-    output: ListIpAccessSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListIpAccessSettingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIpAccessSettingsRequest,
+  ) => Stream.Stream<
+    ListIpAccessSettingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIpAccessSettingsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIpAccessSettingsRequest,
+  output: ListIpAccessSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of network settings.
  */
-export const listNetworkSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listNetworkSettings: {
+  (
     input: ListNetworkSettingsRequest,
-    output: ListNetworkSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListNetworkSettingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNetworkSettingsRequest,
+  ) => Stream.Stream<
+    ListNetworkSettingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNetworkSettingsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNetworkSettingsRequest,
+  output: ListNetworkSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list or web portals.
  */
-export const listPortals = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPortals: {
+  (
     input: ListPortalsRequest,
-    output: ListPortalsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPortalsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPortalsRequest,
+  ) => Stream.Stream<
+    ListPortalsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPortalsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPortalsRequest,
+  output: ListPortalsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all available session logger resources.
  */
-export const listSessionLoggers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSessionLoggers: {
+  (
     input: ListSessionLoggersRequest,
-    output: ListSessionLoggersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "sessionLoggers",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSessionLoggersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSessionLoggersRequest,
+  ) => Stream.Stream<
+    ListSessionLoggersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSessionLoggersRequest,
+  ) => Stream.Stream<
+    SessionLoggerSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSessionLoggersRequest,
+  output: ListSessionLoggersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sessionLoggers",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of trust stores.
  */
-export const listTrustStores = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTrustStores: {
+  (
     input: ListTrustStoresRequest,
-    output: ListTrustStoresResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTrustStoresResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTrustStoresRequest,
+  ) => Stream.Stream<
+    ListTrustStoresResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTrustStoresRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTrustStoresRequest,
+  output: ListTrustStoresResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of user access logging settings.
  */
-export const listUserAccessLoggingSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUserAccessLoggingSettings: {
+  (
     input: ListUserAccessLoggingSettingsRequest,
-    output: ListUserAccessLoggingSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListUserAccessLoggingSettingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUserAccessLoggingSettingsRequest,
+  ) => Stream.Stream<
+    ListUserAccessLoggingSettingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUserAccessLoggingSettingsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUserAccessLoggingSettingsRequest,
+  output: ListUserAccessLoggingSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of user settings.
  */
-export const listUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listUserSettings: {
+  (
     input: ListUserSettingsRequest,
-    output: ListUserSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListUserSettingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUserSettingsRequest,
+  ) => Stream.Stream<
+    ListUserSettingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUserSettingsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUserSettingsRequest,
+  output: ListUserSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes browser settings.
  */
-export const deleteBrowserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteBrowserSettingsRequest,
-    output: DeleteBrowserSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteBrowserSettings: (
+  input: DeleteBrowserSettingsRequest,
+) => Effect.Effect<
+  DeleteBrowserSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBrowserSettingsRequest,
+  output: DeleteBrowserSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes data protection settings.
  */
-export const deleteDataProtectionSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDataProtectionSettingsRequest,
-    output: DeleteDataProtectionSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteDataProtectionSettings: (
+  input: DeleteDataProtectionSettingsRequest,
+) => Effect.Effect<
+  DeleteDataProtectionSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataProtectionSettingsRequest,
+  output: DeleteDataProtectionSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes the identity provider.
  */
-export const deleteIdentityProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIdentityProviderRequest,
-    output: DeleteIdentityProviderResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteIdentityProvider: (
+  input: DeleteIdentityProviderRequest,
+) => Effect.Effect<
+  DeleteIdentityProviderResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIdentityProviderRequest,
+  output: DeleteIdentityProviderResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes IP access settings.
  */
-export const deleteIpAccessSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteIpAccessSettingsRequest,
-    output: DeleteIpAccessSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteIpAccessSettings: (
+  input: DeleteIpAccessSettingsRequest,
+) => Effect.Effect<
+  DeleteIpAccessSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIpAccessSettingsRequest,
+  output: DeleteIpAccessSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes network settings.
  */
-export const deleteNetworkSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteNetworkSettingsRequest,
-    output: DeleteNetworkSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteNetworkSettings: (
+  input: DeleteNetworkSettingsRequest,
+) => Effect.Effect<
+  DeleteNetworkSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNetworkSettingsRequest,
+  output: DeleteNetworkSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a web portal.
  */
-export const deletePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePortal: (
+  input: DeletePortalRequest,
+) => Effect.Effect<
+  DeletePortalResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePortalRequest,
   output: DeletePortalResponse,
   errors: [
@@ -4575,7 +5590,18 @@ export const deletePortal = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a session logger resource.
  */
-export const deleteSessionLogger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSessionLogger: (
+  input: DeleteSessionLoggerRequest,
+) => Effect.Effect<
+  DeleteSessionLoggerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSessionLoggerRequest,
   output: DeleteSessionLoggerResponse,
   errors: [
@@ -4589,7 +5615,18 @@ export const deleteSessionLogger = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the trust store.
  */
-export const deleteTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTrustStore: (
+  input: DeleteTrustStoreRequest,
+) => Effect.Effect<
+  DeleteTrustStoreResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrustStoreRequest,
   output: DeleteTrustStoreResponse,
   errors: [
@@ -4603,22 +5640,43 @@ export const deleteTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes user access logging settings.
  */
-export const deleteUserAccessLoggingSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteUserAccessLoggingSettingsRequest,
-    output: DeleteUserAccessLoggingSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteUserAccessLoggingSettings: (
+  input: DeleteUserAccessLoggingSettingsRequest,
+) => Effect.Effect<
+  DeleteUserAccessLoggingSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserAccessLoggingSettingsRequest,
+  output: DeleteUserAccessLoggingSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes user settings.
  */
-export const deleteUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUserSettings: (
+  input: DeleteUserSettingsRequest,
+) => Effect.Effect<
+  DeleteUserSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserSettingsRequest,
   output: DeleteUserSettingsResponse,
   errors: [
@@ -4632,7 +5690,18 @@ export const deleteUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Expires an active secure browser session.
  */
-export const expireSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const expireSession: (
+  input: ExpireSessionRequest,
+) => Effect.Effect<
+  ExpireSessionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExpireSessionRequest,
   output: ExpireSessionResponse,
   errors: [
@@ -4646,7 +5715,19 @@ export const expireSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store.
  */
-export const createTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTrustStore: (
+  input: CreateTrustStoreRequest,
+) => Effect.Effect<
+  CreateTrustStoreResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrustStoreRequest,
   output: CreateTrustStoreResponse,
   errors: [
@@ -4661,57 +5742,103 @@ export const createTrustStore = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a user access logging settings resource that can be associated with a web portal.
  */
-export const createUserAccessLoggingSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateUserAccessLoggingSettingsRequest,
-    output: CreateUserAccessLoggingSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createUserAccessLoggingSettings: (
+  input: CreateUserAccessLoggingSettingsRequest,
+) => Effect.Effect<
+  CreateUserAccessLoggingSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateUserAccessLoggingSettingsRequest,
+  output: CreateUserAccessLoggingSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an IP access settings resource that can be associated with a web portal.
  */
-export const createIpAccessSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateIpAccessSettingsRequest,
-    output: CreateIpAccessSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createIpAccessSettings: (
+  input: CreateIpAccessSettingsRequest,
+) => Effect.Effect<
+  CreateIpAccessSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIpAccessSettingsRequest,
+  output: CreateIpAccessSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a data protection settings resource that can be associated with a web portal.
  */
-export const createDataProtectionSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDataProtectionSettingsRequest,
-    output: CreateDataProtectionSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createDataProtectionSettings: (
+  input: CreateDataProtectionSettingsRequest,
+) => Effect.Effect<
+  CreateDataProtectionSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataProtectionSettingsRequest,
+  output: CreateDataProtectionSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
  */
-export const createUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUserSettings: (
+  input: CreateUserSettingsRequest,
+) => Effect.Effect<
+  CreateUserSettingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserSettingsRequest,
   output: CreateUserSettingsResponse,
   errors: [
@@ -4727,7 +5854,18 @@ export const createUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets user settings.
  */
-export const getUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getUserSettings: (
+  input: GetUserSettingsRequest,
+) => Effect.Effect<
+  GetUserSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserSettingsRequest,
   output: GetUserSettingsResponse,
   errors: [
@@ -4741,7 +5879,19 @@ export const getUserSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds or overwrites one or more tags for the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [

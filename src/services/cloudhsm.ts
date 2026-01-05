@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "CloudHSM",
   serviceShapeName: "CloudHsmFrontendService",
@@ -240,6 +248,31 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Label = string;
+export type SubnetId = string;
+export type SshKey = string;
+export type IpAddress = string;
+export type IamRoleArn = string;
+export type ExternalId = string;
+export type ClientToken = string;
+export type ClientLabel = string;
+export type Certificate = string;
+export type HapgArn = string;
+export type HsmArn = string;
+export type ClientArn = string;
+export type HsmSerialNumber = string;
+export type CertificateFingerprint = string;
+export type AZ = string;
+export type PaginationToken = string;
+export type PartitionSerial = string;
+export type TagKey = string;
+export type TagValue = string;
+export type Timestamp = string;
+export type EniId = string;
+export type VpcId = string;
+export type PartitionArn = string;
 
 //# Schemas
 export interface ListAvailableZonesRequest {}
@@ -811,7 +844,13 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
  * This action can potentially start a workflow to install the new certificate on the
  * client's HSMs.
  */
-export const modifyLunaClient = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyLunaClient: (
+  input: ModifyLunaClientRequest,
+) => Effect.Effect<
+  ModifyLunaClientResponse,
+  CloudHsmServiceException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyLunaClientRequest,
   output: ModifyLunaClientResponse,
   errors: [CloudHsmServiceException],
@@ -830,7 +869,16 @@ export const modifyLunaClient = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Lists the Availability Zones that have available AWS CloudHSM capacity.
  */
-export const listAvailableZones = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listAvailableZones: (
+  input: ListAvailableZonesRequest,
+) => Effect.Effect<
+  ListAvailableZonesResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAvailableZonesRequest,
   output: ListAvailableZonesResponse,
   errors: [
@@ -858,7 +906,16 @@ export const listAvailableZones = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * token that you pass in the next call to `ListHapgs` to retrieve the next set of
  * items.
  */
-export const listHapgs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listHapgs: (
+  input: ListHapgsRequest,
+) => Effect.Effect<
+  ListHapgsResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListHapgsRequest,
   output: ListHapgsResponse,
   errors: [
@@ -887,7 +944,16 @@ export const listHapgs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * token that you pass in the next call to `ListHsms` to retrieve the next set of
  * items.
  */
-export const listHsms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listHsms: (
+  input: ListHsmsRequest,
+) => Effect.Effect<
+  ListHsmsResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListHsmsRequest,
   output: ListHsmsResponse,
   errors: [
@@ -915,7 +981,16 @@ export const listHsms = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * token that you pass in the next call to `ListLunaClients` to retrieve the next set
  * of items.
  */
-export const listLunaClients = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listLunaClients: (
+  input: ListLunaClientsRequest,
+) => Effect.Effect<
+  ListLunaClientsResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLunaClientsRequest,
   output: ListLunaClientsResponse,
   errors: [
@@ -938,7 +1013,16 @@ export const listLunaClients = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Returns a list of all tags for the specified AWS CloudHSM resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -961,7 +1045,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Modifies an existing high-availability partition group.
  */
-export const modifyHapg = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyHapg: (
+  input: ModifyHapgRequest,
+) => Effect.Effect<
+  ModifyHapgResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyHapgRequest,
   output: ModifyHapgResponse,
   errors: [
@@ -989,7 +1082,16 @@ export const modifyHapg = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * that your AWS CloudHSM service is configured for high availability, and consider executing this
  * operation during a maintenance window.
  */
-export const modifyHsm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const modifyHsm: (
+  input: ModifyHsmRequest,
+) => Effect.Effect<
+  ModifyHsmResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyHsmRequest,
   output: ModifyHsmResponse,
   errors: [
@@ -1015,17 +1117,24 @@ export const modifyHsm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To remove a tag, specify only the tag key to remove (not the value). To overwrite the
  * value for an existing tag, use AddTagsToResource.
  */
-export const removeTagsFromResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveTagsFromResourceRequest,
-    output: RemoveTagsFromResourceResponse,
-    errors: [
-      CloudHsmInternalException,
-      CloudHsmServiceException,
-      InvalidRequestException,
-    ],
-  }),
-);
+export const removeTagsFromResource: (
+  input: RemoveTagsFromResourceRequest,
+) => Effect.Effect<
+  RemoveTagsFromResourceResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTagsFromResourceRequest,
+  output: RemoveTagsFromResourceResponse,
+  errors: [
+    CloudHsmInternalException,
+    CloudHsmServiceException,
+    InvalidRequestException,
+  ],
+}));
 /**
  * This is documentation for **AWS CloudHSM Classic**. For
  * more information, see AWS CloudHSM
@@ -1041,7 +1150,16 @@ export const removeTagsFromResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Creates a high-availability partition group. A high-availability partition group is a
  * group of partitions that spans multiple physical HSMs.
  */
-export const createHapg = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createHapg: (
+  input: CreateHapgRequest,
+) => Effect.Effect<
+  CreateHapgResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHapgRequest,
   output: CreateHapgResponse,
   errors: [
@@ -1073,7 +1191,16 @@ export const createHapg = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * status of the HSM with the DescribeHsm operation. The HSM is ready to be
  * initialized when the status changes to `RUNNING`.
  */
-export const createHsm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createHsm: (
+  input: CreateHsmRequest,
+) => Effect.Effect<
+  CreateHsmResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHsmRequest,
   output: CreateHsmResponse,
   errors: [
@@ -1096,7 +1223,16 @@ export const createHsm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Creates an HSM client.
  */
-export const createLunaClient = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLunaClient: (
+  input: CreateLunaClientRequest,
+) => Effect.Effect<
+  CreateLunaClientResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLunaClientRequest,
   output: CreateLunaClientResponse,
   errors: [
@@ -1119,7 +1255,16 @@ export const createLunaClient = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Deletes a high-availability partition group.
  */
-export const deleteHapg = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteHapg: (
+  input: DeleteHapgRequest,
+) => Effect.Effect<
+  DeleteHapgResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHapgRequest,
   output: DeleteHapgResponse,
   errors: [
@@ -1143,7 +1288,16 @@ export const deleteHapg = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an HSM. After completion, this operation cannot be undone and your key material
  * cannot be recovered.
  */
-export const deleteHsm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteHsm: (
+  input: DeleteHsmRequest,
+) => Effect.Effect<
+  DeleteHsmResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHsmRequest,
   output: DeleteHsmResponse,
   errors: [
@@ -1166,7 +1320,16 @@ export const deleteHsm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Deletes a client.
  */
-export const deleteLunaClient = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLunaClient: (
+  input: DeleteLunaClientRequest,
+) => Effect.Effect<
+  DeleteLunaClientResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLunaClientRequest,
   output: DeleteLunaClientResponse,
   errors: [
@@ -1189,7 +1352,16 @@ export const deleteLunaClient = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Retrieves information about a high-availability partition group.
  */
-export const describeHapg = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeHapg: (
+  input: DescribeHapgRequest,
+) => Effect.Effect<
+  DescribeHapgResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHapgRequest,
   output: DescribeHapgResponse,
   errors: [
@@ -1213,7 +1385,16 @@ export const describeHapg = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves information about an HSM. You can identify the HSM by its ARN or its serial
  * number.
  */
-export const describeHsm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeHsm: (
+  input: DescribeHsmRequest,
+) => Effect.Effect<
+  DescribeHsmResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHsmRequest,
   output: DescribeHsmResponse,
   errors: [
@@ -1236,7 +1417,16 @@ export const describeHsm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Retrieves information about an HSM client.
  */
-export const describeLunaClient = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeLunaClient: (
+  input: DescribeLunaClientRequest,
+) => Effect.Effect<
+  DescribeLunaClientResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLunaClientRequest,
   output: DescribeLunaClientResponse,
   errors: [
@@ -1260,7 +1450,16 @@ export const describeLunaClient = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets the configuration files necessary to connect to all high availability partition
  * groups the client is associated with.
  */
-export const getConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConfig: (
+  input: GetConfigRequest,
+) => Effect.Effect<
+  GetConfigResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigRequest,
   output: GetConfigResponse,
   errors: [
@@ -1286,7 +1485,16 @@ export const getConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Each tag consists of a key and a value. Tag keys must be unique to each
  * resource.
  */
-export const addTagsToResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addTagsToResource: (
+  input: AddTagsToResourceRequest,
+) => Effect.Effect<
+  AddTagsToResourceResponse,
+  | CloudHsmInternalException
+  | CloudHsmServiceException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsToResourceRequest,
   output: AddTagsToResourceResponse,
   errors: [

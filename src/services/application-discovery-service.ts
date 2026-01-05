@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://ec2.amazon.com/awsposiedon/V2015_11_01/");
 const svc = T.AwsApiService({
   sdkId: "Application Discovery Service",
@@ -241,6 +249,49 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ApplicationId = string;
+export type ConfigurationId = string;
+export type ImportTaskIdentifier = string;
+export type ApplicationName = string;
+export type ApplicationDescription = string;
+export type ApplicationWave = string;
+export type AgentId = string;
+export type Integer = number;
+export type NextToken = string;
+export type UUID = string;
+export type ConfigurationsExportId = string;
+export type DescribeContinuousExportsMaxResults = number;
+export type DescribeImportTasksMaxResults = number;
+export type Long = number;
+export type S3Bucket = string;
+export type ClientRequestToken = string;
+export type ImportTaskName = string;
+export type ImportURL = string;
+export type TagKey = string;
+export type TagValue = string;
+export type FilterValue = string;
+export type Condition = string;
+export type FilterName = string;
+export type ImportTaskFilterValue = string;
+export type OrderByElementFieldName = string;
+export type DatabaseName = string;
+export type Message = string;
+export type EC2InstanceType = string;
+export type UserPreferredRegion = string;
+export type BatchDeleteImportDataErrorDescription = string;
+export type StringMax255 = string;
+export type ExportStatusMessage = string;
+export type ConfigurationsDownloadUrl = string;
+export type BoxedInteger = number;
+export type S3PresignedUrl = string;
+export type UsageMetricBasisName = string;
+export type UsageMetricPercentageAdjust = number;
+export type ErrorStatusCode = number;
+export type ErrorMessage = string;
+export type WarningCode = number;
+export type WarningText = string;
 
 //# Schemas
 export interface ExportConfigurationsRequest {}
@@ -1539,6 +1590,9 @@ export type Configuration = { [key: string]: string };
 export const Configuration = S.Record({ key: S.String, value: S.String });
 export type Configurations = Configuration[];
 export const Configurations = S.Array(Configuration);
+export type ExportPreferences = {
+  ec2RecommendationsPreferences: Ec2RecommendationsExportPreferences;
+};
 export const ExportPreferences = S.Union(
   S.Struct({
     ec2RecommendationsPreferences: Ec2RecommendationsExportPreferences,
@@ -1699,11 +1753,15 @@ export class InvalidParameterValueException extends S.TaggedError<InvalidParamet
 export class ServerInternalErrorException extends S.TaggedError<ServerInternalErrorException>()(
   "ServerInternalErrorException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class OperationNotPermittedException extends S.TaggedError<OperationNotPermittedException>()(
   "OperationNotPermittedException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -1721,18 +1779,28 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 /**
  * Associates one or more configuration items with an application.
  */
-export const associateConfigurationItemsToApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateConfigurationItemsToApplicationRequest,
-    output: AssociateConfigurationItemsToApplicationResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      ServerInternalErrorException,
-    ],
-  }));
+export const associateConfigurationItemsToApplication: (
+  input: AssociateConfigurationItemsToApplicationRequest,
+) => Effect.Effect<
+  AssociateConfigurationItemsToApplicationResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateConfigurationItemsToApplicationRequest,
+  output: AssociateConfigurationItemsToApplicationResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ServerInternalErrorException,
+  ],
+}));
 /**
  * Begins the export of a discovered data report to an Amazon S3 bucket managed by Amazon Web Services.
  *
@@ -1759,7 +1827,19 @@ export const associateConfigurationItemsToApplication =
  * Changing the attributes of the `ec2RecommendationsPreferences` changes the
  * criteria of the recommendation.
  */
-export const startExportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startExportTask: (
+  input: StartExportTaskRequest,
+) => Effect.Effect<
+  StartExportTaskResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | OperationNotPermittedException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartExportTaskRequest,
   output: StartExportTaskResponse,
   errors: [
@@ -1786,26 +1866,64 @@ export const startExportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Also, all configuration items associated with your user that have tags can be
  * listed if you call `DescribeTags` as is without passing any parameters.
  */
-export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeTags: {
+  (
     input: DescribeTagsRequest,
-    output: DescribeTagsResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ServerInternalErrorException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "tags",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeTagsResponse,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTagsRequest,
+  ) => Stream.Stream<
+    DescribeTagsResponse,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTagsRequest,
+  ) => Stream.Stream<
+    ConfigurationTag,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTagsRequest,
+  output: DescribeTagsResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ServerInternalErrorException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tags",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Starts an import task, which allows you to import details of your on-premises environment
  * directly into Amazon Web Services Migration Hub without having to use the Amazon Web Services Application Discovery
@@ -1836,7 +1954,19 @@ export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * Discovery Service Limits in the Amazon Web Services Application Discovery Service User
  * Guide.
  */
-export const startImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startImportTask: (
+  input: StartImportTaskRequest,
+) => Effect.Effect<
+  StartImportTaskResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ResourceInUseException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartImportTaskRequest,
   output: StartImportTaskResponse,
   errors: [
@@ -1852,50 +1982,107 @@ export const startImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Takes a list of configurationId as input and starts an asynchronous deletion
  * task to remove the configurationItems. Returns a unique deletion task identifier.
  */
-export const startBatchDeleteConfigurationTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartBatchDeleteConfigurationTaskRequest,
-    output: StartBatchDeleteConfigurationTaskResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      LimitExceededException,
-      OperationNotPermittedException,
-      ServerInternalErrorException,
-    ],
-  }));
+export const startBatchDeleteConfigurationTask: (
+  input: StartBatchDeleteConfigurationTaskRequest,
+) => Effect.Effect<
+  StartBatchDeleteConfigurationTaskResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | OperationNotPermittedException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartBatchDeleteConfigurationTaskRequest,
+  output: StartBatchDeleteConfigurationTaskResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    LimitExceededException,
+    OperationNotPermittedException,
+    ServerInternalErrorException,
+  ],
+}));
 /**
  * Lists agents or collectors as specified by ID or other filters. All agents/collectors
  * associated with your user can be listed if you call `DescribeAgents` as is
  * without passing any parameters.
  */
-export const describeAgents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeAgents: {
+  (
     input: DescribeAgentsRequest,
-    output: DescribeAgentsResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      ServerInternalErrorException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "agentsInfo",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeAgentsResponse,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAgentsRequest,
+  ) => Stream.Stream<
+    DescribeAgentsResponse,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAgentsRequest,
+  ) => Stream.Stream<
+    AgentInfo,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAgentsRequest,
+  output: DescribeAgentsResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ServerInternalErrorException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "agentsInfo",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes one or more agents or collectors as specified by ID. Deleting an agent or collector does not
  * delete the previously discovered data.
  * To delete the data collected, use `StartBatchDeleteConfigurationTask`.
  */
-export const batchDeleteAgents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchDeleteAgents: (
+  input: BatchDeleteAgentsRequest,
+) => Effect.Effect<
+  BatchDeleteAgentsResponse,
+  | AuthorizationErrorException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteAgentsRequest,
   output: BatchDeleteAgentsResponse,
   errors: [
@@ -1908,17 +2095,26 @@ export const batchDeleteAgents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Takes a unique deletion task identifier as input and returns metadata about a configuration deletion task.
  */
-export const describeBatchDeleteConfigurationTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeBatchDeleteConfigurationTaskRequest,
-    output: DescribeBatchDeleteConfigurationTaskResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterValueException,
-      ServerInternalErrorException,
-    ],
-  }));
+export const describeBatchDeleteConfigurationTask: (
+  input: DescribeBatchDeleteConfigurationTaskRequest,
+) => Effect.Effect<
+  DescribeBatchDeleteConfigurationTaskResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBatchDeleteConfigurationTaskRequest,
+  output: DescribeBatchDeleteConfigurationTaskResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterValueException,
+    ServerInternalErrorException,
+  ],
+}));
 /**
  * Deletes one or more import tasks, each identified by their import ID. Each import task has
  * a number of records that can identify servers or applications.
@@ -1929,19 +2125,28 @@ export const describeBatchDeleteConfigurationTask =
  * contains records that were used to match, the information in those matched records that comes
  * from the deleted records will also be deleted.
  */
-export const batchDeleteImportData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDeleteImportDataRequest,
-    output: BatchDeleteImportDataResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      ServerInternalErrorException,
-    ],
-  }),
-);
+export const batchDeleteImportData: (
+  input: BatchDeleteImportDataRequest,
+) => Effect.Effect<
+  BatchDeleteImportDataResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteImportDataRequest,
+  output: BatchDeleteImportDataResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ServerInternalErrorException,
+  ],
+}));
 /**
  * Retrieves attributes for a list of configuration item IDs.
  *
@@ -1963,68 +2168,160 @@ export const batchDeleteImportData = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For a complete list of outputs for each asset type, see Using the DescribeConfigurations Action in the Amazon Web Services Application
  * Discovery Service User Guide.
  */
-export const describeConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConfigurationsRequest,
-    output: DescribeConfigurationsResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      ServerInternalErrorException,
-    ],
-  }),
-);
+export const describeConfigurations: (
+  input: DescribeConfigurationsRequest,
+) => Effect.Effect<
+  DescribeConfigurationsResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConfigurationsRequest,
+  output: DescribeConfigurationsResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ServerInternalErrorException,
+  ],
+}));
 /**
  * Retrieve status of one or more export tasks. You can retrieve the status of up to 100
  * export tasks.
  */
-export const describeExportTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeExportTasks: {
+  (
     input: DescribeExportTasksRequest,
-    output: DescribeExportTasksResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      ServerInternalErrorException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "exportsInfo",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeExportTasksResponse,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeExportTasksRequest,
+  ) => Stream.Stream<
+    DescribeExportTasksResponse,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeExportTasksRequest,
+  ) => Stream.Stream<
+    ExportInfo,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeExportTasksRequest,
+  output: DescribeExportTasksResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ServerInternalErrorException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "exportsInfo",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns an array of import tasks for your account, including status information, times,
  * IDs, the Amazon S3 Object URL for the import file, and more.
  */
-export const describeImportTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeImportTasks: {
+  (
     input: DescribeImportTasksRequest,
-    output: DescribeImportTasksResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      ServerInternalErrorException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "tasks",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeImportTasksResponse,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeImportTasksRequest,
+  ) => Stream.Stream<
+    DescribeImportTasksResponse,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeImportTasksRequest,
+  ) => Stream.Stream<
+    ImportTask,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeImportTasksRequest,
+  output: DescribeImportTasksResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ServerInternalErrorException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tasks",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of servers that are one network hop away from a specified
  * server.
  */
-export const listServerNeighbors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listServerNeighbors: (
+  input: ListServerNeighborsRequest,
+) => Effect.Effect<
+  ListServerNeighborsResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListServerNeighborsRequest,
   output: ListServerNeighborsResponse,
   errors: [
@@ -2038,22 +2335,43 @@ export const listServerNeighbors = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Instructs the specified agents to start collecting data.
  */
-export const startDataCollectionByAgentIds =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDataCollectionByAgentIdsRequest,
-    output: StartDataCollectionByAgentIdsResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      ServerInternalErrorException,
-    ],
-  }));
+export const startDataCollectionByAgentIds: (
+  input: StartDataCollectionByAgentIdsRequest,
+) => Effect.Effect<
+  StartDataCollectionByAgentIdsResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDataCollectionByAgentIdsRequest,
+  output: StartDataCollectionByAgentIdsResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ServerInternalErrorException,
+  ],
+}));
 /**
  * Creates an application with the given name and description.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationRequest,
+) => Effect.Effect<
+  CreateApplicationResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
   output: CreateApplicationResponse,
   errors: [
@@ -2070,7 +2388,18 @@ export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This API operation takes no request parameters and is called as is at the command
  * prompt as shown in the example.
  */
-export const getDiscoverySummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDiscoverySummary: (
+  input: GetDiscoverySummaryRequest,
+) => Effect.Effect<
+  GetDiscoverySummaryResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDiscoverySummaryRequest,
   output: GetDiscoverySummaryResponse,
   errors: [
@@ -2084,23 +2413,44 @@ export const getDiscoverySummary = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Instructs the specified agents to stop collecting data.
  */
-export const stopDataCollectionByAgentIds =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopDataCollectionByAgentIdsRequest,
-    output: StopDataCollectionByAgentIdsResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      ServerInternalErrorException,
-    ],
-  }));
+export const stopDataCollectionByAgentIds: (
+  input: StopDataCollectionByAgentIdsRequest,
+) => Effect.Effect<
+  StopDataCollectionByAgentIdsResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopDataCollectionByAgentIdsRequest,
+  output: StopDataCollectionByAgentIdsResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ServerInternalErrorException,
+  ],
+}));
 /**
  * Deletes a list of applications and their associations with configuration
  * items.
  */
-export const deleteApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplications: (
+  input: DeleteApplicationsRequest,
+) => Effect.Effect<
+  DeleteApplicationsResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationsRequest,
   output: DeleteApplicationsResponse,
   errors: [
@@ -2114,22 +2464,43 @@ export const deleteApplications = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates one or more configuration items from an application.
  */
-export const disassociateConfigurationItemsFromApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateConfigurationItemsFromApplicationRequest,
-    output: DisassociateConfigurationItemsFromApplicationResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      ServerInternalErrorException,
-    ],
-  }));
+export const disassociateConfigurationItemsFromApplication: (
+  input: DisassociateConfigurationItemsFromApplicationRequest,
+) => Effect.Effect<
+  DisassociateConfigurationItemsFromApplicationResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateConfigurationItemsFromApplicationRequest,
+  output: DisassociateConfigurationItemsFromApplicationResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ServerInternalErrorException,
+  ],
+}));
 /**
  * Updates metadata about an application.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApplication: (
+  input: UpdateApplicationRequest,
+) => Effect.Effect<
+  UpdateApplicationResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
   output: UpdateApplicationResponse,
   errors: [
@@ -2145,64 +2516,130 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * can be listed if you call `DescribeContinuousExports` as is without passing
  * any parameters.
  */
-export const describeContinuousExports =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeContinuousExports: {
+  (
     input: DescribeContinuousExportsRequest,
-    output: DescribeContinuousExportsResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      OperationNotPermittedException,
-      ResourceNotFoundException,
-      ServerInternalErrorException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "descriptions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeContinuousExportsResponse,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | OperationNotPermittedException
+    | ResourceNotFoundException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeContinuousExportsRequest,
+  ) => Stream.Stream<
+    DescribeContinuousExportsResponse,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | OperationNotPermittedException
+    | ResourceNotFoundException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeContinuousExportsRequest,
+  ) => Stream.Stream<
+    ContinuousExportDescription,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | OperationNotPermittedException
+    | ResourceNotFoundException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeContinuousExportsRequest,
+  output: DescribeContinuousExportsResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    OperationNotPermittedException,
+    ResourceNotFoundException,
+    ServerInternalErrorException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "descriptions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Start the continuous flow of agent's discovered data into Amazon Athena.
  */
-export const startContinuousExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartContinuousExportRequest,
-    output: StartContinuousExportResponse,
-    errors: [
-      AuthorizationErrorException,
-      ConflictErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      OperationNotPermittedException,
-      ResourceInUseException,
-      ServerInternalErrorException,
-    ],
-  }),
-);
+export const startContinuousExport: (
+  input: StartContinuousExportRequest,
+) => Effect.Effect<
+  StartContinuousExportResponse,
+  | AuthorizationErrorException
+  | ConflictErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | OperationNotPermittedException
+  | ResourceInUseException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartContinuousExportRequest,
+  output: StartContinuousExportResponse,
+  errors: [
+    AuthorizationErrorException,
+    ConflictErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    OperationNotPermittedException,
+    ResourceInUseException,
+    ServerInternalErrorException,
+  ],
+}));
 /**
  * Stop the continuous flow of agent's discovered data into Amazon Athena.
  */
-export const stopContinuousExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopContinuousExportRequest,
-    output: StopContinuousExportResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      OperationNotPermittedException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-      ServerInternalErrorException,
-    ],
-  }),
-);
+export const stopContinuousExport: (
+  input: StopContinuousExportRequest,
+) => Effect.Effect<
+  StopContinuousExportResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | OperationNotPermittedException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopContinuousExportRequest,
+  output: StopContinuousExportResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    OperationNotPermittedException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServerInternalErrorException,
+  ],
+}));
 /**
  * Deprecated. Use `StartExportTask` instead.
  *
@@ -2212,74 +2649,173 @@ export const stopContinuousExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * using the *DescribeExportConfigurations* API. The system imposes a limit of
  * two configuration exports in six hours.
  */
-export const exportConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ExportConfigurationsRequest,
-    output: ExportConfigurationsResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      OperationNotPermittedException,
-      ServerInternalErrorException,
-    ],
-  }),
-);
+export const exportConfigurations: (
+  input: ExportConfigurationsRequest,
+) => Effect.Effect<
+  ExportConfigurationsResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | OperationNotPermittedException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportConfigurationsRequest,
+  output: ExportConfigurationsResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    OperationNotPermittedException,
+    ServerInternalErrorException,
+  ],
+}));
 /**
  * Retrieves a list of configuration items as specified by the value passed to the
  * required parameter `configurationType`. Optional filtering may be applied to refine
  * search results.
  */
-export const listConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listConfigurations: {
+  (
     input: ListConfigurationsRequest,
-    output: ListConfigurationsResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ServerInternalErrorException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "configurations",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListConfigurationsResponse,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfigurationsRequest,
+  ) => Stream.Stream<
+    ListConfigurationsResponse,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfigurationsRequest,
+  ) => Stream.Stream<
+    S.Schema.Type<typeof Configuration>,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfigurationsRequest,
+  output: ListConfigurationsResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ServerInternalErrorException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "configurations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * `DescribeExportConfigurations` is deprecated. Use DescribeExportTasks, instead.
  */
-export const describeExportConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeExportConfigurations: {
+  (
     input: DescribeExportConfigurationsRequest,
-    output: DescribeExportConfigurationsResponse,
-    errors: [
-      AuthorizationErrorException,
-      HomeRegionNotSetException,
-      InvalidParameterException,
-      InvalidParameterValueException,
-      ResourceNotFoundException,
-      ServerInternalErrorException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "exportsInfo",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeExportConfigurationsResponse,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeExportConfigurationsRequest,
+  ) => Stream.Stream<
+    DescribeExportConfigurationsResponse,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeExportConfigurationsRequest,
+  ) => Stream.Stream<
+    ExportInfo,
+    | AuthorizationErrorException
+    | HomeRegionNotSetException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | ResourceNotFoundException
+    | ServerInternalErrorException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeExportConfigurationsRequest,
+  output: DescribeExportConfigurationsResponse,
+  errors: [
+    AuthorizationErrorException,
+    HomeRegionNotSetException,
+    InvalidParameterException,
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ServerInternalErrorException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "exportsInfo",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates one or more tags for configuration items. Tags are metadata that help you
  * categorize IT assets. This API accepts a list of multiple configuration items.
  *
  * Do not store sensitive information (like personal data) in tags.
  */
-export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTags: (
+  input: CreateTagsRequest,
+) => Effect.Effect<
+  CreateTagsResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagsRequest,
   output: CreateTagsResponse,
   errors: [
@@ -2295,7 +2831,19 @@ export const createTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes the association between configuration items and one or more tags. This API
  * accepts a list of multiple configuration items.
  */
-export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTags: (
+  input: DeleteTagsRequest,
+) => Effect.Effect<
+  DeleteTagsResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServerInternalErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsRequest,
   output: DeleteTagsResponse,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Route53Profiles",
   serviceShapeName: "Route53Profiles",
@@ -292,6 +300,19 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ResourceId = string;
+export type Name = string;
+export type Arn = string;
+export type ResourceProperties = string;
+export type CreatorRequestId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type TagKey = string;
+export type TagValue = string;
+export type ExceptionMessage = string;
+export type AccountId = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -966,7 +987,17 @@ export class ResourceExistsException extends S.TaggedError<ResourceExistsExcepti
 /**
  * Returns information about a specified Route 53 Profile, such as whether whether the Profile is shared, and the current status of the Profile.
  */
-export const getProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getProfile: (
+  input: GetProfileRequest,
+) => Effect.Effect<
+  GetProfileResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProfileRequest,
   output: GetProfileResponse,
   errors: [
@@ -979,84 +1010,196 @@ export const getProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified Route 53 Profile resourse association.
  */
-export const updateProfileResourceAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateProfileResourceAssociationRequest,
-    output: UpdateProfileResourceAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateProfileResourceAssociation: (
+  input: UpdateProfileResourceAssociationRequest,
+) => Effect.Effect<
+  UpdateProfileResourceAssociationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProfileResourceAssociationRequest,
+  output: UpdateProfileResourceAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about a specified Route 53 Profile resource association.
  */
-export const getProfileResourceAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetProfileResourceAssociationRequest,
-    output: GetProfileResourceAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getProfileResourceAssociation: (
+  input: GetProfileResourceAssociationRequest,
+) => Effect.Effect<
+  GetProfileResourceAssociationResponse,
+  | AccessDeniedException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProfileResourceAssociationRequest,
+  output: GetProfileResourceAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all the VPCs that the specified Route 53 Profile is associated with.
  */
-export const listProfileAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProfileAssociations: {
+  (
     input: ListProfileAssociationsRequest,
-    output: ListProfileAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProfileAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProfileAssociationsResponse,
+    | AccessDeniedException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProfileAssociationsRequest,
+  ) => Stream.Stream<
+    ListProfileAssociationsResponse,
+    | AccessDeniedException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProfileAssociationsRequest,
+  ) => Stream.Stream<
+    ProfileAssociation,
+    | AccessDeniedException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProfileAssociationsRequest,
+  output: ListProfileAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProfileAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the resource associations for the specified Route 53 Profile.
  */
-export const listProfileResourceAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProfileResourceAssociations: {
+  (
     input: ListProfileResourceAssociationsRequest,
-    output: ListProfileResourceAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceErrorException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProfileResourceAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProfileResourceAssociationsResponse,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProfileResourceAssociationsRequest,
+  ) => Stream.Stream<
+    ListProfileResourceAssociationsResponse,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProfileResourceAssociationsRequest,
+  ) => Stream.Stream<
+    ProfileResourceAssociation,
+    | AccessDeniedException
+    | InternalServiceErrorException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProfileResourceAssociationsRequest,
+  output: ListProfileResourceAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProfileResourceAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes the specified Route 53 Profile. Before you can delete a profile, you must first disassociate it from all VPCs.
  */
-export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProfile: (
+  input: DeleteProfileRequest,
+) => Effect.Effect<
+  DeleteProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProfileRequest,
   output: DeleteProfileResponse,
   errors: [
@@ -1070,7 +1213,18 @@ export const deleteProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the tags that you associated with the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1084,22 +1238,40 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs.
  */
-export const getProfileAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetProfileAssociationRequest,
-    output: GetProfileAssociationResponse,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getProfileAssociation: (
+  input: GetProfileAssociationRequest,
+) => Effect.Effect<
+  GetProfileAssociationResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProfileAssociationRequest,
+  output: GetProfileAssociationResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds one or more tags to a specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1112,7 +1284,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes one or more tags from a specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1126,66 +1309,137 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all the Route 53 Profiles associated with your Amazon Web Services account.
  */
-export const listProfiles = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProfiles: {
+  (
     input: ListProfilesRequest,
-    output: ListProfilesResponse,
-    errors: [
-      AccessDeniedException,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProfileSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProfilesResponse,
+    | AccessDeniedException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProfilesRequest,
+  ) => Stream.Stream<
+    ListProfilesResponse,
+    | AccessDeniedException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProfilesRequest,
+  ) => Stream.Stream<
+    ProfileSummary,
+    | AccessDeniedException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProfilesRequest,
+  output: ListProfilesResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProfileSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Dissoaciated a specified resource, from the Route 53 Profile.
  */
-export const disassociateResourceFromProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateResourceFromProfileRequest,
-    output: DisassociateResourceFromProfileResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateResourceFromProfile: (
+  input: DisassociateResourceFromProfileRequest,
+) => Effect.Effect<
+  DisassociateResourceFromProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateResourceFromProfileRequest,
+  output: DisassociateResourceFromProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a DNS reource configuration to a Route 53 Profile.
  */
-export const associateResourceToProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateResourceToProfileRequest,
-    output: AssociateResourceToProfileResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServiceErrorException,
-      InvalidParameterException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateResourceToProfile: (
+  input: AssociateResourceToProfileRequest,
+) => Effect.Effect<
+  AssociateResourceToProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateResourceToProfileRequest,
+  output: AssociateResourceToProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an empty Route 53 Profile.
  */
-export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProfile: (
+  input: CreateProfileRequest,
+) => Effect.Effect<
+  CreateProfileResponse,
+  | AccessDeniedException
+  | InvalidParameterException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProfileRequest,
   output: CreateProfileResponse,
   errors: [
@@ -1199,7 +1453,19 @@ export const createProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Dissociates a specified Route 53 Profile from the specified VPC.
  */
-export const disassociateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateProfile: (
+  input: DisassociateProfileRequest,
+) => Effect.Effect<
+  DisassociateProfileResponse,
+  | AccessDeniedException
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateProfileRequest,
   output: DisassociateProfileResponse,
   errors: [
@@ -1215,7 +1481,21 @@ export const disassociateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota).
  * For more information, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities.
  */
-export const associateProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateProfile: (
+  input: AssociateProfileRequest,
+) => Effect.Effect<
+  AssociateProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateProfileRequest,
   output: AssociateProfileResponse,
   errors: [

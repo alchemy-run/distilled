@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace(
   "http://directoryservicedata.amazonaws.com/doc/2023-05-31/",
 );
@@ -296,6 +304,27 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type DirectoryId = string;
+export type GroupName = string;
+export type MemberName = string;
+export type Realm = string;
+export type ClientToken = string;
+export type UserName = string;
+export type EmailAddress = string;
+export type GivenName = string;
+export type Surname = string;
+export type LdapDisplayName = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type SearchString = string;
+export type ExceptionMessage = string;
+export type SID = string;
+export type DistinguishedName = string;
+export type UserPrincipalName = string;
+export type StringAttributeValue = string;
+export type NumberAttributeValue = number;
+
 //# Schemas
 export type LdapDisplayNameList = string[];
 export const LdapDisplayNameList = S.Array(S.String);
@@ -335,6 +364,11 @@ export const AddGroupMemberResult = S.suspend(() =>
 }) as any as S.Schema<AddGroupMemberResult>;
 export type StringSetAttributeValue = string[];
 export const StringSetAttributeValue = S.Array(S.String);
+export type AttributeValue =
+  | { S: string }
+  | { N: number }
+  | { BOOL: boolean }
+  | { SS: StringSetAttributeValue };
 export const AttributeValue = S.Union(
   S.Struct({ S: S.String }),
   S.Struct({ N: S.Number }),
@@ -1122,7 +1156,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { Message: S.optional(S.String) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -1134,7 +1170,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String), Reason: S.optional(S.String) },
@@ -1152,7 +1190,44 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * You can also specify a maximum number of return results with the `MaxResults`
  * parameter.
  */
-export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGroups: {
+  (
+    input: ListGroupsRequest,
+  ): Effect.Effect<
+    ListGroupsResult,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupsRequest,
+  ) => Stream.Stream<
+    ListGroupsResult,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupsRequest,
+  ) => Stream.Stream<
+    GroupSummary,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGroupsRequest,
   output: ListGroupsResult,
   errors: [
@@ -1180,30 +1255,81 @@ export const listGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * You can also specify a maximum number of return results with the `MaxResults`
  * parameter.
  */
-export const listGroupMembers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listGroupMembers: {
+  (
     input: ListGroupMembersRequest,
-    output: ListGroupMembersResult,
-    errors: [
-      AccessDeniedException,
-      DirectoryUnavailableException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Members",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListGroupMembersResult,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupMembersRequest,
+  ) => Stream.Stream<
+    ListGroupMembersResult,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupMembersRequest,
+  ) => Stream.Stream<
+    Member,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGroupMembersRequest,
+  output: ListGroupMembersResult,
+  errors: [
+    AccessDeniedException,
+    DirectoryUnavailableException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Members",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes a group.
  */
-export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGroup: (
+  input: DeleteGroupRequest,
+) => Effect.Effect<
+  DeleteGroupResult,
+  | AccessDeniedException
+  | ConflictException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupRequest,
   output: DeleteGroupResult,
   errors: [
@@ -1219,7 +1345,20 @@ export const deleteGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a user.
  */
-export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUser: (
+  input: DeleteUserRequest,
+) => Effect.Effect<
+  DeleteUserResult,
+  | AccessDeniedException
+  | ConflictException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserRequest,
   output: DeleteUserResult,
   errors: [
@@ -1237,7 +1376,20 @@ export const deleteUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * account, see ResetUserPassword
  * in the *Directory Service API Reference*.
  */
-export const disableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableUser: (
+  input: DisableUserRequest,
+) => Effect.Effect<
+  DisableUserResult,
+  | AccessDeniedException
+  | ConflictException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableUserRequest,
   output: DisableUserResult,
   errors: [
@@ -1253,7 +1405,20 @@ export const disableUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a member from a group.
  */
-export const removeGroupMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removeGroupMember: (
+  input: RemoveGroupMemberRequest,
+) => Effect.Effect<
+  RemoveGroupMemberResult,
+  | AccessDeniedException
+  | ConflictException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveGroupMemberRequest,
   output: RemoveGroupMemberResult,
   errors: [
@@ -1269,7 +1434,20 @@ export const removeGroupMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates group information.
  */
-export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGroup: (
+  input: UpdateGroupRequest,
+) => Effect.Effect<
+  UpdateGroupResult,
+  | AccessDeniedException
+  | ConflictException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupRequest,
   output: UpdateGroupResult,
   errors: [
@@ -1285,7 +1463,20 @@ export const updateGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates user information.
  */
-export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUser: (
+  input: UpdateUserRequest,
+) => Effect.Effect<
+  UpdateUserResult,
+  | AccessDeniedException
+  | ConflictException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserRequest,
   output: UpdateUserResult,
   errors: [
@@ -1301,7 +1492,19 @@ export const updateUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a specific user.
  */
-export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeUser: (
+  input: DescribeUserRequest,
+) => Effect.Effect<
+  DescribeUserResult,
+  | AccessDeniedException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserRequest,
   output: DescribeUserResult,
   errors: [
@@ -1324,29 +1527,81 @@ export const describeUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can also specify a maximum number of return results with the `MaxResults`
  * parameter.
  */
-export const listGroupsForMember =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listGroupsForMember: {
+  (
     input: ListGroupsForMemberRequest,
-    output: ListGroupsForMemberResult,
-    errors: [
-      AccessDeniedException,
-      DirectoryUnavailableException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Groups",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListGroupsForMemberResult,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroupsForMemberRequest,
+  ) => Stream.Stream<
+    ListGroupsForMemberResult,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroupsForMemberRequest,
+  ) => Stream.Stream<
+    GroupSummary,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGroupsForMemberRequest,
+  output: ListGroupsForMemberResult,
+  errors: [
+    AccessDeniedException,
+    DirectoryUnavailableException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Groups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Adds an existing user, group, or computer as a group member.
  */
-export const addGroupMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addGroupMember: (
+  input: AddGroupMemberRequest,
+) => Effect.Effect<
+  AddGroupMemberResult,
+  | AccessDeniedException
+  | ConflictException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddGroupMemberRequest,
   output: AddGroupMemberResult,
   errors: [
@@ -1370,7 +1625,44 @@ export const addGroupMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can also specify a maximum number of return results with the `MaxResults`
  * parameter.
  */
-export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUsers: {
+  (
+    input: ListUsersRequest,
+  ): Effect.Effect<
+    ListUsersResult,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    ListUsersResult,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUsersRequest,
+  ) => Stream.Stream<
+    UserSummary,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUsersRequest,
   output: ListUsersResult,
   errors: [
@@ -1400,25 +1692,60 @@ export const listUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  * You can also specify a maximum number of return results with the `MaxResults`
  * parameter.
  */
-export const searchGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchGroups: {
+  (
     input: SearchGroupsRequest,
-    output: SearchGroupsResult,
-    errors: [
-      AccessDeniedException,
-      DirectoryUnavailableException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Groups",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchGroupsResult,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchGroupsRequest,
+  ) => Stream.Stream<
+    SearchGroupsResult,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchGroupsRequest,
+  ) => Stream.Stream<
+    Group,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchGroupsRequest,
+  output: SearchGroupsResult,
+  errors: [
+    AccessDeniedException,
+    DirectoryUnavailableException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Groups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Searches the specified directory for a user. You can find users that match the
  * `SearchString` parameter with the value of their attributes included in the
@@ -1432,29 +1759,76 @@ export const searchGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * You can also specify a maximum number of return results with the `MaxResults`
  * parameter.
  */
-export const searchUsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchUsers: {
+  (
     input: SearchUsersRequest,
-    output: SearchUsersResult,
-    errors: [
-      AccessDeniedException,
-      DirectoryUnavailableException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Users",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchUsersResult,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchUsersRequest,
+  ) => Stream.Stream<
+    SearchUsersResult,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchUsersRequest,
+  ) => Stream.Stream<
+    User,
+    | AccessDeniedException
+    | DirectoryUnavailableException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchUsersRequest,
+  output: SearchUsersResult,
+  errors: [
+    AccessDeniedException,
+    DirectoryUnavailableException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Users",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a new user.
  */
-export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUser: (
+  input: CreateUserRequest,
+) => Effect.Effect<
+  CreateUserResult,
+  | AccessDeniedException
+  | ConflictException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserRequest,
   output: CreateUserResult,
   errors: [
@@ -1469,7 +1843,19 @@ export const createUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new group.
  */
-export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGroup: (
+  input: CreateGroupRequest,
+) => Effect.Effect<
+  CreateGroupResult,
+  | AccessDeniedException
+  | ConflictException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupRequest,
   output: CreateGroupResult,
   errors: [
@@ -1484,7 +1870,19 @@ export const createGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a specific group.
  */
-export const describeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeGroup: (
+  input: DescribeGroupRequest,
+) => Effect.Effect<
+  DescribeGroupResult,
+  | AccessDeniedException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeGroupRequest,
   output: DescribeGroupResult,
   errors: [

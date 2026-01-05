@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Service Catalog AppRegistry",
   serviceShapeName: "AWS242AppRegistry",
@@ -260,6 +268,29 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ApplicationSpecifier = string;
+export type AttributeGroupSpecifier = string;
+export type ResourceSpecifier = string;
+export type Name = string;
+export type Description = string;
+export type ClientToken = string;
+export type Attributes = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type Arn = string;
+export type TagKey = string;
+export type TagValue = string;
+export type ApplicationArn = string;
+export type AttributeGroupArn = string;
+export type ApplicationId = string;
+export type AssociationCount = number;
+export type AttributeGroupId = string;
+export type CreatedBy = string;
+export type TagKeyConfig = string;
+export type ResourcesListItemErrorMessage = string;
+export type ResourceItemType = string;
 
 //# Schemas
 export interface GetConfigurationRequest {}
@@ -1316,7 +1347,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -1332,14 +1365,22 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String, serviceCode: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
  * Retrieves a `TagKey` configuration
  * from an account.
  */
-export const getConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConfiguration: (
+  input: GetConfigurationRequest,
+) => Effect.Effect<
+  GetConfigurationResponse,
+  InternalServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigurationRequest,
   output: GetConfigurationResponse,
   errors: [InternalServerException],
@@ -1347,41 +1388,79 @@ export const getConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of all of your applications. Results are paginated.
  */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listApplications: {
+  (
     input: ListApplicationsRequest,
-    output: ListApplicationsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "applications",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListApplicationsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ListApplicationsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ApplicationSummary,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "applications",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates an existing attribute group with new details.
  */
-export const updateAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAttributeGroupRequest,
-    output: UpdateAttributeGroupResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAttributeGroup: (
+  input: UpdateAttributeGroupRequest,
+) => Effect.Effect<
+  UpdateAttributeGroupResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAttributeGroupRequest,
+  output: UpdateAttributeGroupResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves an attribute group
  * by its ARN, ID, or name.
  * The attribute group can be specified
  * by its ARN, ID, or name.
  */
-export const getAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAttributeGroup: (
+  input: GetAttributeGroupRequest,
+) => Effect.Effect<
+  GetAttributeGroupResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAttributeGroupRequest,
   output: GetAttributeGroupResponse,
   errors: [
@@ -1396,7 +1475,16 @@ export const getAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation returns an empty response if the call was successful.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1408,40 +1496,86 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts `AssociateAttributeGroup`.
  */
-export const disassociateAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateAttributeGroupRequest,
-    output: DisassociateAttributeGroupResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateAttributeGroup: (
+  input: DisassociateAttributeGroupRequest,
+) => Effect.Effect<
+  DisassociateAttributeGroupResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateAttributeGroupRequest,
+  output: DisassociateAttributeGroupResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all attribute groups that are associated with specified application. Results are paginated.
  */
-export const listAssociatedAttributeGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssociatedAttributeGroups: {
+  (
     input: ListAssociatedAttributeGroupsRequest,
-    output: ListAssociatedAttributeGroupsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "attributeGroups",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAssociatedAttributeGroupsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssociatedAttributeGroupsRequest,
+  ) => Stream.Stream<
+    ListAssociatedAttributeGroupsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssociatedAttributeGroupsRequest,
+  ) => Stream.Stream<
+    AttributeGroupId,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssociatedAttributeGroupsRequest,
+  output: ListAssociatedAttributeGroupsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "attributeGroups",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all of the tags on the resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1453,7 +1587,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an application that is specified either by its application ID, name, or ARN. All associated attribute groups and resources must be disassociated from it before deleting an application.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplication: (
+  input: DeleteApplicationRequest,
+) => Effect.Effect<
+  DeleteApplicationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResponse,
   errors: [
@@ -1465,56 +1608,123 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an attribute group, specified either by its attribute group ID, name, or ARN.
  */
-export const deleteAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAttributeGroupRequest,
-    output: DeleteAttributeGroupResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAttributeGroup: (
+  input: DeleteAttributeGroupRequest,
+) => Effect.Effect<
+  DeleteAttributeGroupResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAttributeGroupRequest,
+  output: DeleteAttributeGroupResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the details of all attribute groups associated with a specific application. The results display in pages.
  */
-export const listAttributeGroupsForApplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAttributeGroupsForApplication: {
+  (
     input: ListAttributeGroupsForApplicationRequest,
-    output: ListAttributeGroupsForApplicationResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "attributeGroupsDetails",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAttributeGroupsForApplicationResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttributeGroupsForApplicationRequest,
+  ) => Stream.Stream<
+    ListAttributeGroupsForApplicationResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttributeGroupsForApplicationRequest,
+  ) => Stream.Stream<
+    AttributeGroupDetails,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttributeGroupsForApplicationRequest,
+  output: ListAttributeGroupsForApplicationResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "attributeGroupsDetails",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all attribute groups which you have access to. Results are paginated.
  */
-export const listAttributeGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAttributeGroups: {
+  (
     input: ListAttributeGroupsRequest,
-    output: ListAttributeGroupsResponse,
-    errors: [InternalServerException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "attributeGroups",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAttributeGroupsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttributeGroupsRequest,
+  ) => Stream.Stream<
+    ListAttributeGroupsResponse,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttributeGroupsRequest,
+  ) => Stream.Stream<
+    AttributeGroupSummary,
+    InternalServerException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttributeGroupsRequest,
+  output: ListAttributeGroupsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "attributeGroups",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Associates a `TagKey` configuration
  * to an account.
  */
-export const putConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putConfiguration: (
+  input: PutConfigurationRequest,
+) => Effect.Effect<
+  PutConfigurationResponse,
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigurationRequest,
   output: PutConfigurationResponse,
   errors: [ConflictException, InternalServerException, ValidationException],
@@ -1526,7 +1736,16 @@ export const putConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation returns an empty response if the call was successful.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1554,7 +1773,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * that the exact same application is returned or a `ResourceNotFoundException` is thrown,
  * avoiding the ABA addressing problem.
  */
-export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApplication: (
+  input: GetApplicationRequest,
+) => Effect.Effect<
+  GetApplicationResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
   output: GetApplicationResponse,
   errors: [
@@ -1567,17 +1796,24 @@ export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the resource associated with the application.
  */
-export const getAssociatedResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAssociatedResourceRequest,
-    output: GetAssociatedResourceResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAssociatedResource: (
+  input: GetAssociatedResourceRequest,
+) => Effect.Effect<
+  GetAssociatedResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAssociatedResourceRequest,
+  output: GetAssociatedResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all
  * of the resources
@@ -1596,26 +1832,67 @@ export const getAssociatedResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * with it
  * using this API.
  */
-export const listAssociatedResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssociatedResources: {
+  (
     input: ListAssociatedResourcesRequest,
-    output: ListAssociatedResourcesResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "resources",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAssociatedResourcesResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssociatedResourcesRequest,
+  ) => Stream.Stream<
+    ListAssociatedResourcesResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssociatedResourcesRequest,
+  ) => Stream.Stream<
+    ResourceInfo,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssociatedResourcesRequest,
+  output: ListAssociatedResourcesResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "resources",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates an existing application with new attributes.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApplication: (
+  input: UpdateApplicationRequest,
+) => Effect.Effect<
+  UpdateApplicationResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
   output: UpdateApplicationResponse,
   errors: [
@@ -1632,36 +1909,53 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * machine-readable format to facilitate integration with automated workflows and third-party
  * tools.
  */
-export const createAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAttributeGroupRequest,
-    output: CreateAttributeGroupResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAttributeGroup: (
+  input: CreateAttributeGroupRequest,
+) => Effect.Effect<
+  CreateAttributeGroupResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAttributeGroupRequest,
+  output: CreateAttributeGroupResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates an attribute group with an application to augment the application's metadata
  * with the group's attributes. This feature enables applications to be described with
  * user-defined details that are machine-readable, such as third-party integrations.
  */
-export const associateAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateAttributeGroupRequest,
-    output: AssociateAttributeGroupResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateAttributeGroup: (
+  input: AssociateAttributeGroupRequest,
+) => Effect.Effect<
+  AssociateAttributeGroupResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateAttributeGroupRequest,
+  output: AssociateAttributeGroupResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates a resource with an application.
  * The resource can be specified by its ARN or name.
@@ -1687,7 +1981,19 @@ export const associateAttributeGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * In addition, you must have the tagging permission defined by the Amazon Web Services service that creates the resource.
  * For more information, see TagResources in the *Resource Groups Tagging API Reference*.
  */
-export const associateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateResource: (
+  input: AssociateResourceRequest,
+) => Effect.Effect<
+  AssociateResourceResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateResourceRequest,
   output: AssociateResourceResponse,
   errors: [
@@ -1723,24 +2029,43 @@ export const associateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * In addition, you must have the tagging permission defined by the Amazon Web Services service that creates the resource.
  * For more information, see UntagResources in the *Resource Groups Tagging API Reference*.
  */
-export const disassociateResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateResourceRequest,
-    output: DisassociateResourceResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disassociateResource: (
+  input: DisassociateResourceRequest,
+) => Effect.Effect<
+  DisassociateResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateResourceRequest,
+  output: DisassociateResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Syncs the resource with current AppRegistry records.
  *
  * Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
  */
-export const syncResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const syncResource: (
+  input: SyncResourceRequest,
+) => Effect.Effect<
+  SyncResourceResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SyncResourceRequest,
   output: SyncResourceResponse,
   errors: [
@@ -1754,7 +2079,18 @@ export const syncResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new application that is the top-level node in a hierarchy of related cloud resource abstractions.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationRequest,
+) => Effect.Effect<
+  CreateApplicationResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
   output: CreateApplicationResponse,
   errors: [

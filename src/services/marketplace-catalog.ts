@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors as Err,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Marketplace Catalog",
   serviceShapeName: "AWSMPSeymour",
@@ -240,6 +248,73 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Catalog = string;
+export type ResourceId = string;
+export type ResourceARN = string;
+export type ListChangeSetsMaxResultInteger = number;
+export type NextToken = string;
+export type EntityType = string;
+export type ListEntitiesMaxResultInteger = number;
+export type ResourcePolicyJson = string;
+export type ChangeSetName = string;
+export type ClientRequestToken = string;
+export type TagKey = string;
+export type EntityId = string;
+export type FilterName = string;
+export type FilterValueContent = string;
+export type SortBy = string;
+export type ChangeType = string;
+export type Json = string;
+export type ChangeName = string;
+export type TagValue = string;
+export type ARN = string;
+export type ExceptionMessageContent = string;
+export type DateTimeISO8601 = string;
+export type Identifier = string;
+export type DataProductEntityIdString = string;
+export type DataProductTitleString = string;
+export type SaaSProductEntityIdString = string;
+export type SaaSProductTitleString = string;
+export type AmiProductEntityIdString = string;
+export type AmiProductTitleString = string;
+export type OfferEntityIdString = string;
+export type OfferNameString = string;
+export type OfferProductIdString = string;
+export type OfferResaleAuthorizationIdString = string;
+export type OfferBuyerAccountsFilterWildcard = string;
+export type OfferSetIdString = string;
+export type ContainerProductEntityIdString = string;
+export type ContainerProductTitleString = string;
+export type ResaleAuthorizationEntityIdString = string;
+export type ResaleAuthorizationNameString = string;
+export type ResaleAuthorizationNameFilterWildcard = string;
+export type ResaleAuthorizationProductIdString = string;
+export type ResaleAuthorizationProductIdFilterWildcard = string;
+export type ResaleAuthorizationManufacturerAccountIdString = string;
+export type ResaleAuthorizationManufacturerAccountIdFilterWildcard = string;
+export type ResaleAuthorizationProductNameString = string;
+export type ResaleAuthorizationProductNameFilterWildcard = string;
+export type ResaleAuthorizationManufacturerLegalNameString = string;
+export type ResaleAuthorizationManufacturerLegalNameFilterWildcard = string;
+export type ResaleAuthorizationResellerAccountIDString = string;
+export type ResaleAuthorizationResellerAccountIDFilterWildcard = string;
+export type ResaleAuthorizationResellerLegalNameString = string;
+export type ResaleAuthorizationResellerLegalNameFilterWildcard = string;
+export type ResaleAuthorizationOfferExtendedStatusString = string;
+export type MachineLearningProductEntityIdString = string;
+export type MachineLearningProductTitleString = string;
+export type OfferSetEntityIdString = string;
+export type OfferSetNameString = string;
+export type OfferSetAssociatedOfferIdsString = string;
+export type OfferSetSolutionIdString = string;
+export type ErrorCodeString = string;
+export type BatchDescribeErrorCodeString = string;
+export type BatchDescribeErrorMessageContent = string;
+export type EntityNameString = string;
+export type VisibilityValue = string;
+export type OfferBuyerAccountsString = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -730,6 +805,15 @@ export type OfferSetAssociatedOfferIdsFilterValueList = string[];
 export const OfferSetAssociatedOfferIdsFilterValueList = S.Array(S.String);
 export type OfferSetSolutionIdFilterValueList = string[];
 export const OfferSetSolutionIdFilterValueList = S.Array(S.String);
+export type EntityTypeSort =
+  | { DataProductSort: DataProductSort }
+  | { SaaSProductSort: SaaSProductSort }
+  | { AmiProductSort: AmiProductSort }
+  | { OfferSort: OfferSort }
+  | { ContainerProductSort: ContainerProductSort }
+  | { ResaleAuthorizationSort: ResaleAuthorizationSort }
+  | { MachineLearningProductSort: MachineLearningProductSort }
+  | { OfferSetSort: OfferSetSort };
 export const EntityTypeSort = S.Union(
   S.Struct({ DataProductSort: DataProductSort }),
   S.Struct({ SaaSProductSort: SaaSProductSort }),
@@ -1775,6 +1859,15 @@ export const Errors = S.Record({
   key: S.String,
   value: BatchDescribeErrorDetail,
 });
+export type EntityTypeFilters =
+  | { DataProductFilters: DataProductFilters }
+  | { SaaSProductFilters: SaaSProductFilters }
+  | { AmiProductFilters: AmiProductFilters }
+  | { OfferFilters: OfferFilters }
+  | { ContainerProductFilters: ContainerProductFilters }
+  | { ResaleAuthorizationFilters: ResaleAuthorizationFilters }
+  | { MachineLearningProductFilters: MachineLearningProductFilters }
+  | { OfferSetFilters: OfferSetFilters };
 export const EntityTypeFilters = S.Union(
   S.Struct({ DataProductFilters: DataProductFilters }),
   S.Struct({ SaaSProductFilters: SaaSProductFilters }),
@@ -2029,7 +2122,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -2041,7 +2136,9 @@ export class ResourceInUseException extends S.TaggedError<ResourceInUseException
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotSupportedException extends S.TaggedError<ResourceNotSupportedException>()(
   "ResourceNotSupportedException",
   { Message: S.optional(S.String) },
@@ -2060,23 +2157,44 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * Deletes a resource-based policy on an entity that is identified by its resource
  * ARN.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns the metadata and content of the entity.
  */
-export const describeEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeEntity: (
+  input: DescribeEntityRequest,
+) => Effect.Effect<
+  DescribeEntityResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ResourceNotSupportedException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEntityRequest,
   output: DescribeEntityResponse,
   errors: [
@@ -2091,7 +2209,18 @@ export const describeEntity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides information about a given change set.
  */
-export const describeChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeChangeSet: (
+  input: DescribeChangeSetRequest,
+) => Effect.Effect<
+  DescribeChangeSetResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeChangeSetRequest,
   output: DescribeChangeSetResponse,
   errors: [
@@ -2111,31 +2240,75 @@ export const describeChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can describe a change during the 60-day request history retention period for API
  * calls.
  */
-export const listChangeSets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listChangeSets: {
+  (
     input: ListChangeSetsRequest,
-    output: ListChangeSetsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ChangeSetSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListChangeSetsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChangeSetsRequest,
+  ) => Stream.Stream<
+    ListChangeSetsResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChangeSetsRequest,
+  ) => Stream.Stream<
+    ChangeSetSummaryListItem,
+    | AccessDeniedException
+    | InternalServiceException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChangeSetsRequest,
+  output: ListChangeSetsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ChangeSetSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Used to cancel an open change request. Must be sent before the status of the request
  * changes to `APPLYING`, the final stage of completing your change request. You
  * can describe a change during the 60-day request history retention period for API
  * calls.
  */
-export const cancelChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelChangeSet: (
+  input: CancelChangeSetRequest,
+) => Effect.Effect<
+  CancelChangeSetResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelChangeSetRequest,
   output: CancelChangeSetResponse,
   errors: [
@@ -2151,7 +2324,18 @@ export const cancelChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets a resource-based policy of an entity that is identified by its resource
  * ARN.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => Effect.Effect<
+  GetResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
   errors: [
@@ -2165,7 +2349,18 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all tags that have been added to a resource (either an entity or change set).
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2180,7 +2375,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Attaches a resource-based policy to an entity. Examples of an entity include:
  * `AmiProduct` and `ContainerProduct`.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [
@@ -2194,7 +2400,18 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Tags a resource (either an entity or change set).
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2208,7 +2425,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag or list of tags from a resource (either an entity or change set).
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2222,18 +2450,26 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns metadata and content for multiple entities. This is the Batch version of the `DescribeEntity` API and uses the same IAM permission action as `DescribeEntity` API.
  */
-export const batchDescribeEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDescribeEntitiesRequest,
-    output: BatchDescribeEntitiesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchDescribeEntities: (
+  input: BatchDescribeEntitiesRequest,
+) => Effect.Effect<
+  BatchDescribeEntitiesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDescribeEntitiesRequest,
+  output: BatchDescribeEntitiesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Allows you to request changes for your entities. Within a single
  * `ChangeSet`, you can't start the same change type against the same entity
@@ -2254,7 +2490,20 @@ export const batchDescribeEntities = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To download "DetailsDocument" shapes, see Python
  * and Java shapes on GitHub.
  */
-export const startChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startChangeSet: (
+  input: StartChangeSetRequest,
+) => Effect.Effect<
+  StartChangeSetResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Err.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartChangeSetRequest,
   output: StartChangeSetResponse,
   errors: [
@@ -2270,22 +2519,57 @@ export const startChangeSet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides the list of entities of a given type.
  */
-export const listEntities = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEntities: {
+  (
     input: ListEntitiesRequest,
-    output: ListEntitiesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServiceException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EntitySummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEntitiesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEntitiesRequest,
+  ) => Stream.Stream<
+    ListEntitiesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEntitiesRequest,
+  ) => Stream.Stream<
+    EntitySummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Err.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEntitiesRequest,
+  output: ListEntitiesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EntitySummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));

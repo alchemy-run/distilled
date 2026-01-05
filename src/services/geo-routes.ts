@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Geo Routes",
   serviceShapeName: "RoutesService",
@@ -473,6 +481,100 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type TimestampWithTimezoneOffset = string;
+export type GeometryFormat = string;
+export type ApiKey = string;
+export type IsolineOptimizationObjective = string;
+export type RoutingObjective = string;
+export type IsolineTravelMode = string;
+export type RouteMatrixTravelMode = string;
+export type MeasurementSystem = string;
+export type LanguageTag = string;
+export type RouteLegAdditionalFeature = string;
+export type RouteSpanAdditionalFeature = string;
+export type RouteTravelMode = string;
+export type RouteTravelStepType = string;
+export type WaypointOptimizationSequencingObjective = string;
+export type WaypointOptimizationTravelMode = string;
+export type DistanceMeters = number;
+export type RoadSnapTravelMode = string;
+export type TruckRoadType = string;
+export type Heading = number;
+export type DurationSeconds = number;
+export type TrafficUsage = string;
+export type CountryCode = string;
+export type CurrencyCode = string;
+export type RouteTollVehicleCategory = string;
+export type WaypointOptimizationClusteringAlgorithm = string;
+export type WaypointId = string;
+export type WaypointOptimizationServiceTimeTreatment = string;
+export type WaypointIndex = number;
+export type SpeedKilometersPerHour = number;
+export type IsolineZoneCategory = string;
+export type SensitiveString = string;
+export type MatchingStrategy = string;
+export type SideOfStreetMatchingStrategy = string;
+export type IsolineEngineType = string;
+export type SensitiveInteger = number;
+export type WeightKilograms = number;
+export type IsolineHazardousCargoType = string;
+export type DimensionCentimeters = number;
+export type IsolineTruckType = string;
+export type TunnelRestrictionCode = string;
+export type RouteMatrixZoneCategory = string;
+export type RouteMatrixHazardousCargoType = string;
+export type RouteMatrixTruckType = string;
+export type RouteZoneCategory = string;
+export type RouteEngineType = string;
+export type RouteHazardousCargoType = string;
+export type RouteTruckType = string;
+export type WaypointOptimizationHazardousCargoType = string;
+export type WaypointOptimizationTruckType = string;
+export type RoadSnapHazardousCargoType = string;
+export type PolylineRing = string;
+export type SensitiveDouble = number;
+export type DayOfWeek = string;
+export type TimeOfDay = string;
+export type Polyline = string;
+export type RouteMatrixErrorCode = string;
+export type RouteResponseNoticeCode = string;
+export type RouteNoticeImpact = string;
+export type ClusterIndex = number;
+export type RoadSnapNoticeCode = string;
+export type RouteLegTravelMode = string;
+export type RouteLegType = string;
+export type WaypointOptimizationConstraint = string;
+export type RouteDirection = string;
+export type RouteFerryAfterTravelStepType = string;
+export type RouteFerryBeforeTravelStepType = string;
+export type RouteFerryNoticeCode = string;
+export type CountryCode3 = string;
+export type RouteFerryTravelStepType = string;
+export type RoutePedestrianNoticeCode = string;
+export type RouteSpanPedestrianAccessAttribute = string;
+export type RouteSpanRoadAttribute = string;
+export type RoutePedestrianTravelStepType = string;
+export type RouteVehicleIncidentSeverity = string;
+export type RouteVehicleIncidentType = string;
+export type RouteVehicleNoticeCode = string;
+export type RouteSpanCarAccessAttribute = string;
+export type RouteSpanGateAttribute = string;
+export type RouteSpanRailwayCrossingAttribute = string;
+export type RouteSpanScooterAccessAttribute = string;
+export type RouteSpanTruckAccessAttribute = string;
+export type RouteVehicleTravelStepType = string;
+export type RouteSideOfStreet = string;
+export type RouteRoadType = string;
+export type RouteSteeringDirection = string;
+export type TurnAngle = number;
+export type RouteTurnIntensity = string;
+export type RoundaboutAngle = number;
+export type RouteTollPaymentMethod = string;
+export type RouteWeightConstraintType = string;
+export type RouteTollPassValidityPeriodType = string;
+export type ValidationExceptionReason = string;
 
 //# Schemas
 export type Position = number[];
@@ -3666,12 +3768,16 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { Message: S.String.pipe(T.JsonName("message")) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String.pipe(T.JsonName("message")) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -3685,22 +3791,40 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Use `CalculateRouteMatrix` to compute results for all pairs of Origins to Destinations. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destinations positions.
  */
-export const calculateRouteMatrix = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CalculateRouteMatrixRequest,
-    output: CalculateRouteMatrixResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const calculateRouteMatrix: (
+  input: CalculateRouteMatrixRequest,
+) => Effect.Effect<
+  CalculateRouteMatrixResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CalculateRouteMatrixRequest,
+  output: CalculateRouteMatrixResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * `OptimizeWaypoints` calculates the optimal order to travel between a set of waypoints to minimize either the travel time or the distance travelled during the journey, based on road network restrictions and the traffic pattern data.
  */
-export const optimizeWaypoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const optimizeWaypoints: (
+  input: OptimizeWaypointsRequest,
+) => Effect.Effect<
+  OptimizeWaypointsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: OptimizeWaypointsRequest,
   output: OptimizeWaypointsResponse,
   errors: [
@@ -3713,7 +3837,17 @@ export const optimizeWaypoints = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * `SnapToRoads` matches GPS trace to roads most likely traveled on.
  */
-export const snapToRoads = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const snapToRoads: (
+  input: SnapToRoadsRequest,
+) => Effect.Effect<
+  SnapToRoadsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SnapToRoadsRequest,
   output: SnapToRoadsResponse,
   errors: [
@@ -3726,7 +3860,17 @@ export const snapToRoads = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Use the `CalculateIsolines` action to find service areas that can be reached in a given threshold of time, distance.
  */
-export const calculateIsolines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const calculateIsolines: (
+  input: CalculateIsolinesRequest,
+) => Effect.Effect<
+  CalculateIsolinesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CalculateIsolinesRequest,
   output: CalculateIsolinesResponse,
   errors: [
@@ -3739,7 +3883,17 @@ export const calculateIsolines = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * `CalculateRoutes` computes routes given the following required parameters: `Origin` and `Destination`.
  */
-export const calculateRoutes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const calculateRoutes: (
+  input: CalculateRoutesRequest,
+) => Effect.Effect<
+  CalculateRoutesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CalculateRoutesRequest,
   output: CalculateRoutesResponse,
   errors: [

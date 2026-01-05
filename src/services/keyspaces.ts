@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Keyspaces",
   serviceShapeName: "KeyspacesService",
@@ -260,6 +268,39 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type KeyspaceName = string;
+export type TableName = string;
+export type DefaultTimeToLive = number;
+export type TypeName = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type ARN = string;
+export type TagKey = string;
+export type TagValue = string;
+export type rs = string;
+export type region = string;
+export type ThroughputMode = string;
+export type CapacityUnits = number;
+export type EncryptionType = string;
+export type kmsKeyARN = string;
+export type PointInTimeRecoveryStatus = string;
+export type TimeToLiveStatus = string;
+export type ClientSideTimestampsStatus = string;
+export type CdcStatus = string;
+export type ViewType = string;
+export type CdcPropagateTags = string;
+export type GenericString = string;
+export type TableStatus = string;
+export type StreamArn = string;
+export type TypeStatus = string;
+export type Depth = number;
+export type SortOrder = string;
+export type KeyspaceStatus = string;
+export type TablesReplicationProgress = string;
+export type IntegerObject = number;
+export type DoubleObject = number;
 
 //# Schemas
 export interface DeleteKeyspaceRequest {
@@ -1165,7 +1206,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalServerException", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String), resourceArn: S.optional(S.String) },
@@ -1193,7 +1236,18 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  *
  * For more information, see Create a keyspace in the *Amazon Keyspaces Developer Guide*.
  */
-export const createKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createKeyspace: (
+  input: CreateKeyspaceRequest,
+) => Effect.Effect<
+  CreateKeyspaceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateKeyspaceRequest,
   output: CreateKeyspaceResponse,
   errors: [
@@ -1207,31 +1261,103 @@ export const createKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The `ListKeyspaces` operation returns a list of keyspaces.
  */
-export const listKeyspaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listKeyspaces: {
+  (
     input: ListKeyspacesRequest,
-    output: ListKeyspacesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "keyspaces",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListKeyspacesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKeyspacesRequest,
+  ) => Stream.Stream<
+    ListKeyspacesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKeyspacesRequest,
+  ) => Stream.Stream<
+    KeyspaceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKeyspacesRequest,
+  output: ListKeyspacesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "keyspaces",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * The `ListTables` operation returns a list of tables for a specified keyspace.
  *
  * To read keyspace metadata using `ListTables`, the IAM principal needs `Select` action permissions for the system keyspace.
  */
-export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTables: {
+  (
+    input: ListTablesRequest,
+  ): Effect.Effect<
+    ListTablesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTablesRequest,
+  ) => Stream.Stream<
+    ListTablesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTablesRequest,
+  ) => Stream.Stream<
+    TableSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTablesRequest,
   output: ListTablesResponse,
   errors: [
@@ -1251,7 +1377,19 @@ export const listTables = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
  */
-export const updateTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTable: (
+  input: UpdateTableRequest,
+) => Effect.Effect<
+  UpdateTableResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTableRequest,
   output: UpdateTableResponse,
   errors: [
@@ -1268,7 +1406,19 @@ export const updateTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To configure the required permissions, see Permissions to delete a UDT in the *Amazon Keyspaces Developer Guide*.
  */
-export const deleteType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteType: (
+  input: DeleteTypeRequest,
+) => Effect.Effect<
+  DeleteTypeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTypeRequest,
   output: DeleteTypeResponse,
   errors: [
@@ -1309,7 +1459,19 @@ export const deleteType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Amazon CloudWatch metrics and alarms
  */
-export const restoreTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const restoreTable: (
+  input: RestoreTableRequest,
+) => Effect.Effect<
+  RestoreTableResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreTableRequest,
   output: RestoreTableResponse,
   errors: [
@@ -1364,7 +1526,19 @@ export const restoreTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Configure the IAM permissions required to add an Amazon Web Services Region to a keyspace in the *Amazon Keyspaces Developer Guide*.
  */
-export const updateKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateKeyspace: (
+  input: UpdateKeyspaceRequest,
+) => Effect.Effect<
+  UpdateKeyspaceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateKeyspaceRequest,
   output: UpdateKeyspaceResponse,
   errors: [
@@ -1379,7 +1553,19 @@ export const updateKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The `DeleteTable` operation deletes a table and all of its data. After a `DeleteTable` request is received, the specified table is in the `DELETING` state until Amazon Keyspaces completes the deletion. If the table is in the `ACTIVE` state, you can delete it. If a table is either in the `CREATING` or `UPDATING` states, then Amazon Keyspaces returns a `ResourceInUseException`. If the specified table does not exist, Amazon Keyspaces returns a `ResourceNotFoundException`. If the table is already in the `DELETING` state, no error is returned.
  */
-export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTable: (
+  input: DeleteTableRequest,
+) => Effect.Effect<
+  DeleteTableResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTableRequest,
   output: DeleteTableResponse,
   errors: [
@@ -1396,7 +1582,19 @@ export const deleteTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags, see Amazon Keyspaces resource access based on tags in the *Amazon Keyspaces Developer Guide*.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1411,7 +1609,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the association of tags from a Amazon Keyspaces resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1430,7 +1640,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see User-defined types (UDTs) in the *Amazon Keyspaces Developer Guide*.
  */
-export const createType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createType: (
+  input: CreateTypeRequest,
+) => Effect.Effect<
+  CreateTypeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTypeRequest,
   output: CreateTypeResponse,
   errors: [
@@ -1447,30 +1669,103 @@ export const createType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To read keyspace metadata using `ListTagsForResource`, the IAM principal needs `Select` action permissions for the specified resource and the system keyspace.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceRequest,
-    output: ListTagsForResourceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "tags",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    ListTagsForResourceResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    Tag,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tags",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * The `ListTypes` operation returns a list of types for a specified keyspace.
  *
  * To read keyspace metadata using `ListTypes`, the IAM principal needs `Select` action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the *Amazon Keyspaces Developer Guide*.
  */
-export const listTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTypes: {
+  (
+    input: ListTypesRequest,
+  ): Effect.Effect<
+    ListTypesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTypesRequest,
+  ) => Stream.Stream<
+    ListTypesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTypesRequest,
+  ) => Stream.Stream<
+    TypeName,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTypesRequest,
   output: ListTypesResponse,
   errors: [
@@ -1490,7 +1785,19 @@ export const listTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * The `DeleteKeyspace` operation deletes a keyspace and all of its tables.
  */
-export const deleteKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteKeyspace: (
+  input: DeleteKeyspaceRequest,
+) => Effect.Effect<
+  DeleteKeyspaceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeyspaceRequest,
   output: DeleteKeyspaceResponse,
   errors: [
@@ -1505,7 +1812,18 @@ export const deleteKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the name of the specified keyspace, the Amazon Resource Name (ARN), the replication strategy, the Amazon Web Services Regions of a multi-Region keyspace, and the status of newly added Regions after an `UpdateKeyspace` operation.
  */
-export const getKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getKeyspace: (
+  input: GetKeyspaceRequest,
+) => Effect.Effect<
+  GetKeyspaceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetKeyspaceRequest,
   output: GetKeyspaceResponse,
   errors: [
@@ -1521,7 +1839,18 @@ export const getKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To read table metadata using `GetTable`, the IAM principal needs `Select` action permissions for the table and the system keyspace.
  */
-export const getTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTable: (
+  input: GetTableRequest,
+) => Effect.Effect<
+  GetTableResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTableRequest,
   output: GetTableResponse,
   errors: [
@@ -1545,25 +1874,45 @@ export const getTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `application-autoscaling:DescribeScalingPolicies`
  */
-export const getTableAutoScalingSettings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTableAutoScalingSettingsRequest,
-    output: GetTableAutoScalingSettingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ValidationException,
-    ],
-  }),
-);
+export const getTableAutoScalingSettings: (
+  input: GetTableAutoScalingSettingsRequest,
+) => Effect.Effect<
+  GetTableAutoScalingSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTableAutoScalingSettingsRequest,
+  output: GetTableAutoScalingSettingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * The `GetType` operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables.
  *
  * To read keyspace metadata using `GetType`, the IAM principal needs `Select` action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the *Amazon Keyspaces Developer Guide*.
  */
-export const getType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getType: (
+  input: GetTypeRequest,
+) => Effect.Effect<
+  GetTypeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTypeRequest,
   output: GetTypeResponse,
   errors: [
@@ -1581,7 +1930,19 @@ export const getType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see Create a table in the *Amazon Keyspaces Developer Guide*.
  */
-export const createTable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTable: (
+  input: CreateTableRequest,
+) => Effect.Effect<
+  CreateTableResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTableRequest,
   output: CreateTableResponse,
   errors: [

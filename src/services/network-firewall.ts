@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Network Firewall",
   serviceShapeName: "NetworkFirewall_20201112",
@@ -240,6 +248,83 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type TransitGatewayAttachmentId = string;
+export type UpdateToken = string;
+export type ResourceArn = string;
+export type ResourceName = string;
+export type VpcId = string;
+export type Description = string;
+export type TransitGatewayId = string;
+export type NatGatewayId = string;
+export type RulesString = string;
+export type RuleCapacity = number;
+export type AvailabilityZone = string;
+export type VpcEndpointId = string;
+export type FlowOperationId = string;
+export type AzSubnet = string;
+export type AnalysisReportId = string;
+export type AnalysisReportNextToken = string;
+export type PaginationMaxResults = number;
+export type PaginationToken = string;
+export type TagsPaginationMaxResults = number;
+export type PolicyString = string;
+export type Age = number;
+export type TagKey = string;
+export type AvailabilityZoneMappingString = string;
+export type CollectionMember_String = string;
+export type InsertPosition = number;
+export type TagValue = string;
+export type KeyId = string;
+export type NatGatewayPort = number;
+export type Port = string;
+export type ProtocolString = string;
+export type ConditionOperator = string;
+export type ConditionKey = string;
+export type ProxyConditionValue = string;
+export type ErrorMessage = string;
+export type StatusReason = string;
+export type VendorName = string;
+export type ProductId = string;
+export type ListingName = string;
+export type Status = string;
+export type Priority = number;
+export type ActionName = string;
+export type AddressDefinition = string;
+export type ResourceId = string;
+export type NumberOfAssociations = number;
+export type AWSAccountId = string;
+export type VpcEndpointServiceName = string;
+export type PrivateDNSName = string;
+export type FailureCode = string;
+export type FailureMessage = string;
+export type Domain = string;
+export type PacketCount = number;
+export type ByteCount = number;
+export type TcpIdleTimeoutRangeBound = number;
+export type RuleVariableName = string;
+export type IPSetReferenceName = string;
+export type ProtocolNumber = number;
+export type HashMapKey = string;
+export type HashMapValue = string;
+export type AttachmentId = string;
+export type TransitGatewayAttachmentSyncStateMessage = string;
+export type ProxyConfigRuleGroupType = string;
+export type ProxyConfigRuleGroupPriority = number;
+export type Count = number;
+export type VariableDefinition = string;
+export type Source = string;
+export type Destination = string;
+export type Keyword = string;
+export type Setting = string;
+export type PortRangeBound = number;
+export type ProxyRuleGroupPriorityResultPriority = number;
+export type CIDRCount = number;
+export type DimensionValue = string;
+export type EndpointId = string;
+export type StatusMessage = string;
+export type IPSetArn = string;
 
 //# Schemas
 export type EnabledAnalysisTypes = string[];
@@ -4185,18 +4270,48 @@ export class LogDestinationPermissionException extends S.TaggedError<LogDestinat
  * your setting for max results and the number of firewall policies, a single call might not
  * return the full list.
  */
-export const listFirewallPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFirewallPolicies: {
+  (
     input: ListFirewallPoliciesRequest,
-    output: ListFirewallPoliciesResponse,
-    errors: [InternalServerError, InvalidRequestException, ThrottlingException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FirewallPolicies",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFirewallPoliciesResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFirewallPoliciesRequest,
+  ) => Stream.Stream<
+    ListFirewallPoliciesResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFirewallPoliciesRequest,
+  ) => Stream.Stream<
+    FirewallPolicyMetadata,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFirewallPoliciesRequest,
+  output: ListFirewallPoliciesResponse,
+  errors: [InternalServerError, InvalidRequestException, ThrottlingException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FirewallPolicies",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Begins capturing the flows in a firewall, according to the filters you define.
  * Captures are similar, but not identical to snapshots. Capture operations provide visibility into flows that are not closed and are tracked by a firewall's flow table.
@@ -4208,7 +4323,17 @@ export const listFirewallPolicies =
  * To avoid encountering operation limits, you should avoid starting captures with broad filters, like wide IP ranges.
  * Instead, we recommend you define more specific criteria with `FlowFilters`, like narrow IP ranges, ports, or protocols.
  */
-export const startFlowCapture = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startFlowCapture: (
+  input: StartFlowCaptureRequest,
+) => Effect.Effect<
+  StartFlowCaptureResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFlowCaptureRequest,
   output: StartFlowCaptureResponse,
   errors: [
@@ -4221,17 +4346,26 @@ export const startFlowCapture = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates proxy rule group priorities within a proxy configuration.
  */
-export const updateProxyRuleGroupPriorities =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateProxyRuleGroupPrioritiesRequest,
-    output: UpdateProxyRuleGroupPrioritiesResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateProxyRuleGroupPriorities: (
+  input: UpdateProxyRuleGroupPrioritiesRequest,
+) => Effect.Effect<
+  UpdateProxyRuleGroupPrioritiesResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProxyRuleGroupPrioritiesRequest,
+  output: UpdateProxyRuleGroupPrioritiesResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates or updates an IAM policy for your rule group, firewall policy, or firewall. Use this to share these resources between accounts. This operation works in conjunction with the Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for Network Firewall.
  *
@@ -4248,7 +4382,18 @@ export const updateProxyRuleGroupPriorities =
  *
  * For additional information about resource sharing using RAM, see Resource Access Manager User Guide.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | InvalidResourcePolicyException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [
@@ -4262,38 +4407,79 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns key information about a specific flow operation.
  */
-export const describeFlowOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFlowOperationRequest,
-    output: DescribeFlowOperationResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeFlowOperation: (
+  input: DescribeFlowOperationRequest,
+) => Effect.Effect<
+  DescribeFlowOperationResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFlowOperationRequest,
+  output: DescribeFlowOperationResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns a list of all traffic analysis reports generated within the last 30 days.
  */
-export const listAnalysisReports =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAnalysisReports: {
+  (
     input: ListAnalysisReportsRequest,
-    output: ListAnalysisReportsResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AnalysisReports",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAnalysisReportsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAnalysisReportsRequest,
+  ) => Stream.Stream<
+    ListAnalysisReportsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAnalysisReportsRequest,
+  ) => Stream.Stream<
+    AnalysisReport,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAnalysisReportsRequest,
+  output: ListAnalysisReportsResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AnalysisReports",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the results of a specific flow operation.
  *
@@ -4302,23 +4488,56 @@ export const listAnalysisReports =
  * A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules.
  * For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
  */
-export const listFlowOperationResults =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFlowOperationResults: {
+  (
     input: ListFlowOperationResultsRequest,
-    output: ListFlowOperationResultsResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Flows",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFlowOperationResultsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFlowOperationResultsRequest,
+  ) => Stream.Stream<
+    ListFlowOperationResultsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFlowOperationResultsRequest,
+  ) => Stream.Stream<
+    Flow,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFlowOperationResultsRequest,
+  output: ListFlowOperationResultsResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Flows",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of all flow operations ran in a specific firewall.
  * You can optionally narrow the request scope by specifying the operation type or Availability Zone associated with a firewall's flow operations.
@@ -4328,72 +4547,180 @@ export const listFlowOperationResults =
  * A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules.
  * For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
  */
-export const listFlowOperations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFlowOperations: {
+  (
     input: ListFlowOperationsRequest,
-    output: ListFlowOperationsResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FlowOperations",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFlowOperationsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFlowOperationsRequest,
+  ) => Stream.Stream<
+    ListFlowOperationsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFlowOperationsRequest,
+  ) => Stream.Stream<
+    FlowOperationMetadata,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFlowOperationsRequest,
+  output: ListFlowOperationsResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FlowOperations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the metadata for the proxy configuration that you have defined. Depending on
  * your setting for max results and the number of proxy configurations, a single call might not
  * return the full list.
  */
-export const listProxyConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProxyConfigurations: {
+  (
     input: ListProxyConfigurationsRequest,
-    output: ListProxyConfigurationsResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProxyConfigurations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProxyConfigurationsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProxyConfigurationsRequest,
+  ) => Stream.Stream<
+    ListProxyConfigurationsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProxyConfigurationsRequest,
+  ) => Stream.Stream<
+    ProxyConfigurationMetadata,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProxyConfigurationsRequest,
+  output: ListProxyConfigurationsResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProxyConfigurations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the metadata for the proxy rule groups that you have defined. Depending on
  * your setting for max results and the number of proxy rule groups, a single call might not
  * return the full list.
  */
-export const listProxyRuleGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProxyRuleGroups: {
+  (
     input: ListProxyRuleGroupsRequest,
-    output: ListProxyRuleGroupsResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProxyRuleGroups",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProxyRuleGroupsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProxyRuleGroupsRequest,
+  ) => Stream.Stream<
+    ListProxyRuleGroupsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProxyRuleGroupsRequest,
+  ) => Stream.Stream<
+    ProxyRuleGroupMetadata,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProxyRuleGroupsRequest,
+  output: ListProxyRuleGroupsResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProxyRuleGroups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the properties of the specified proxy rule.
  */
-export const updateProxyRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProxyRule: (
+  input: UpdateProxyRuleRequest,
+) => Effect.Effect<
+  UpdateProxyRuleResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProxyRuleRequest,
   output: UpdateProxyRuleResponse,
   errors: [
@@ -4406,22 +4733,40 @@ export const updateProxyRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates proxy rule priorities within a proxy rule group.
  */
-export const updateProxyRulePriorities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateProxyRulePrioritiesRequest,
-    output: UpdateProxyRulePrioritiesResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateProxyRulePriorities: (
+  input: UpdateProxyRulePrioritiesRequest,
+) => Effect.Effect<
+  UpdateProxyRulePrioritiesResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProxyRulePrioritiesRequest,
+  output: UpdateProxyRulePrioritiesResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the data objects for the specified firewall.
  */
-export const describeFirewall = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeFirewall: (
+  input: DescribeFirewallRequest,
+) => Effect.Effect<
+  DescribeFirewallResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFirewallRequest,
   output: DescribeFirewallResponse,
   errors: [
@@ -4434,36 +4779,63 @@ export const describeFirewall = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the data objects for the specified firewall policy.
  */
-export const describeFirewallPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFirewallPolicyRequest,
-    output: DescribeFirewallPolicyResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeFirewallPolicy: (
+  input: DescribeFirewallPolicyRequest,
+) => Effect.Effect<
+  DescribeFirewallPolicyResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFirewallPolicyRequest,
+  output: DescribeFirewallPolicyResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the logging configuration for the specified firewall.
  */
-export const describeLoggingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeLoggingConfigurationRequest,
-    output: DescribeLoggingConfigurationResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeLoggingConfiguration: (
+  input: DescribeLoggingConfigurationRequest,
+) => Effect.Effect<
+  DescribeLoggingConfigurationResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLoggingConfigurationRequest,
+  output: DescribeLoggingConfigurationResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the data objects for the specified proxy configuration for the specified proxy rule group.
  */
-export const describeProxyRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeProxyRule: (
+  input: DescribeProxyRuleRequest,
+) => Effect.Effect<
+  DescribeProxyRuleResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProxyRuleRequest,
   output: DescribeProxyRuleResponse,
   errors: [
@@ -4476,37 +4848,63 @@ export const describeProxyRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the data objects for the specified proxy rule group.
  */
-export const describeProxyRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeProxyRuleGroupRequest,
-    output: DescribeProxyRuleGroupResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeProxyRuleGroup: (
+  input: DescribeProxyRuleGroupRequest,
+) => Effect.Effect<
+  DescribeProxyRuleGroupResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeProxyRuleGroupRequest,
+  output: DescribeProxyRuleGroupResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves a resource policy that you created in a PutResourcePolicy request.
  */
-export const describeResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeResourcePolicyRequest,
-    output: DescribeResourcePolicyResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeResourcePolicy: (
+  input: DescribeResourcePolicyRequest,
+) => Effect.Effect<
+  DescribeResourcePolicyResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeResourcePolicyRequest,
+  output: DescribeResourcePolicyResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the data objects for the specified rule group.
  */
-export const describeRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeRuleGroup: (
+  input: DescribeRuleGroupRequest,
+) => Effect.Effect<
+  DescribeRuleGroupResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRuleGroupRequest,
   output: DescribeRuleGroupResponse,
   errors: [
@@ -4521,62 +4919,97 @@ export const describeRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can use the information provided in the metadata to retrieve and manage a rule group.
  * You can retrieve all objects for a rule group by calling DescribeRuleGroup.
  */
-export const describeRuleGroupMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRuleGroupMetadataRequest,
-    output: DescribeRuleGroupMetadataResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeRuleGroupMetadata: (
+  input: DescribeRuleGroupMetadataRequest,
+) => Effect.Effect<
+  DescribeRuleGroupMetadataResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRuleGroupMetadataRequest,
+  output: DescribeRuleGroupMetadataResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the data objects for the specified TLS inspection configuration.
  */
-export const describeTLSInspectionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTLSInspectionConfigurationRequest,
-    output: DescribeTLSInspectionConfigurationResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeTLSInspectionConfiguration: (
+  input: DescribeTLSInspectionConfigurationRequest,
+) => Effect.Effect<
+  DescribeTLSInspectionConfigurationResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTLSInspectionConfigurationRequest,
+  output: DescribeTLSInspectionConfigurationResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the data object for the specified VPC endpoint association.
  */
-export const describeVpcEndpointAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeVpcEndpointAssociationRequest,
-    output: DescribeVpcEndpointAssociationResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeVpcEndpointAssociation: (
+  input: DescribeVpcEndpointAssociationRequest,
+) => Effect.Effect<
+  DescribeVpcEndpointAssociationResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVpcEndpointAssociationRequest,
+  output: DescribeVpcEndpointAssociationResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Detaches ProxyRuleGroup resources from a ProxyConfiguration
  *
  * A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
  */
-export const detachRuleGroupsFromProxyConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DetachRuleGroupsFromProxyConfigurationRequest,
-    output: DetachRuleGroupsFromProxyConfigurationResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const detachRuleGroupsFromProxyConfiguration: (
+  input: DetachRuleGroupsFromProxyConfigurationRequest,
+) => Effect.Effect<
+  DetachRuleGroupsFromProxyConfigurationResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachRuleGroupsFromProxyConfigurationRequest,
+  output: DetachRuleGroupsFromProxyConfigurationResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves the tags associated with the specified resource. Tags are key:value pairs that
  * you can use to categorize and manage your resources, for purposes like billing. For
@@ -4587,23 +5020,56 @@ export const detachRuleGroupsFromProxyConfiguration =
  * You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall
  * policies, and rule groups.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceRequest,
-    output: ListTagsForResourceResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Tags",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    ListTagsForResourceResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceRequest,
+  ) => Stream.Stream<
+    Tag,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Tags",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the creation of routing components between the transit gateway and firewall endpoints.
  *
@@ -4613,23 +5079,42 @@ export const listTagsForResource =
  *
  * Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
  */
-export const rejectNetworkFirewallTransitGatewayAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RejectNetworkFirewallTransitGatewayAttachmentRequest,
-    output: RejectNetworkFirewallTransitGatewayAttachmentResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const rejectNetworkFirewallTransitGatewayAttachment: (
+  input: RejectNetworkFirewallTransitGatewayAttachmentRequest,
+) => Effect.Effect<
+  RejectNetworkFirewallTransitGatewayAttachmentResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectNetworkFirewallTransitGatewayAttachmentRequest,
+  output: RejectNetworkFirewallTransitGatewayAttachmentResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Generates a traffic analysis report for the timeframe and traffic type you specify.
  *
  * For information on the contents of a traffic analysis report, see AnalysisReport.
  */
-export const startAnalysisReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startAnalysisReport: (
+  input: StartAnalysisReportRequest,
+) => Effect.Effect<
+  StartAnalysisReportResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAnalysisReportRequest,
   output: StartAnalysisReportResponse,
   errors: [
@@ -4648,7 +5133,17 @@ export const startAnalysisReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * temporary increase in midstream traffic metrics. We recommend that you double check your stream exception policy
  * before you perform a flush operation.
  */
-export const startFlowFlush = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startFlowFlush: (
+  input: StartFlowFlushRequest,
+) => Effect.Effect<
+  StartFlowFlushResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFlowFlushRequest,
   output: StartFlowFlushResponse,
   errors: [
@@ -4661,18 +5156,26 @@ export const startFlowFlush = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the properties of the specified proxy configuration.
  */
-export const updateProxyConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateProxyConfigurationRequest,
-    output: UpdateProxyConfigurationResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateProxyConfiguration: (
+  input: UpdateProxyConfigurationRequest,
+) => Effect.Effect<
+  UpdateProxyConfigurationResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProxyConfigurationRequest,
+  output: UpdateProxyConfigurationResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Adds the specified tags to the specified resource. Tags are key:value pairs that you can
  * use to categorize and manage your resources, for purposes like billing. For example, you
@@ -4682,7 +5185,17 @@ export const updateProxyConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall
  * policies, and rule groups.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -4702,7 +5215,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can manage tags for the Amazon Web Services resources that you manage through Network Firewall:
  * firewalls, firewall policies, and rule groups.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -4721,17 +5244,26 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * It can take several minutes for the attachment acceptance to complete and the firewall to become available.
  */
-export const acceptNetworkFirewallTransitGatewayAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AcceptNetworkFirewallTransitGatewayAttachmentRequest,
-    output: AcceptNetworkFirewallTransitGatewayAttachmentResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const acceptNetworkFirewallTransitGatewayAttachment: (
+  input: AcceptNetworkFirewallTransitGatewayAttachmentRequest,
+) => Effect.Effect<
+  AcceptNetworkFirewallTransitGatewayAttachmentResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptNetworkFirewallTransitGatewayAttachmentRequest,
+  output: AcceptNetworkFirewallTransitGatewayAttachmentResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment.
  *
@@ -4739,67 +5271,111 @@ export const acceptNetworkFirewallTransitGatewayAttachment =
  *
  * After you initiate the delete operation, use DescribeFirewall to monitor the deletion status.
  */
-export const deleteNetworkFirewallTransitGatewayAttachment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteNetworkFirewallTransitGatewayAttachmentRequest,
-    output: DeleteNetworkFirewallTransitGatewayAttachmentResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteNetworkFirewallTransitGatewayAttachment: (
+  input: DeleteNetworkFirewallTransitGatewayAttachmentRequest,
+) => Effect.Effect<
+  DeleteNetworkFirewallTransitGatewayAttachmentResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNetworkFirewallTransitGatewayAttachmentRequest,
+  output: DeleteNetworkFirewallTransitGatewayAttachmentResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes the specified ProxyConfiguration.
  */
-export const deleteProxyConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteProxyConfigurationRequest,
-    output: DeleteProxyConfigurationResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteProxyConfiguration: (
+  input: DeleteProxyConfigurationRequest,
+) => Effect.Effect<
+  DeleteProxyConfigurationResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProxyConfigurationRequest,
+  output: DeleteProxyConfigurationResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes the specified ProxyRuleGroup.
  */
-export const deleteProxyRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteProxyRuleGroupRequest,
-    output: DeleteProxyRuleGroupResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteProxyRuleGroup: (
+  input: DeleteProxyRuleGroupRequest,
+) => Effect.Effect<
+  DeleteProxyRuleGroupResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProxyRuleGroupRequest,
+  output: DeleteProxyRuleGroupResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Attaches ProxyRuleGroup resources to a ProxyConfiguration
  *
  * A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
  */
-export const attachRuleGroupsToProxyConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AttachRuleGroupsToProxyConfigurationRequest,
-    output: AttachRuleGroupsToProxyConfigurationResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const attachRuleGroupsToProxyConfiguration: (
+  input: AttachRuleGroupsToProxyConfigurationRequest,
+) => Effect.Effect<
+  AttachRuleGroupsToProxyConfigurationResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachRuleGroupsToProxyConfigurationRequest,
+  output: AttachRuleGroupsToProxyConfigurationResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes the specified ProxyRule(s). currently attached to a ProxyRuleGroup
  */
-export const deleteProxyRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProxyRules: (
+  input: DeleteProxyRulesRequest,
+) => Effect.Effect<
+  DeleteProxyRulesResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProxyRulesRequest,
   output: DeleteProxyRulesResponse,
   errors: [
@@ -4812,34 +5388,53 @@ export const deleteProxyRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a resource policy that you created in a PutResourcePolicy request.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      InvalidResourcePolicyException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | InvalidResourcePolicyException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    InvalidResourcePolicyException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes the specified TLSInspectionConfiguration.
  */
-export const deleteTLSInspectionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteTLSInspectionConfigurationRequest,
-    output: DeleteTLSInspectionConfigurationResponse,
-    errors: [
-      InternalServerError,
-      InvalidOperationException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteTLSInspectionConfiguration: (
+  input: DeleteTLSInspectionConfigurationRequest,
+) => Effect.Effect<
+  DeleteTLSInspectionConfigurationResponse,
+  | InternalServerError
+  | InvalidOperationException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTLSInspectionConfigurationRequest,
+  output: DeleteTLSInspectionConfigurationResponse,
+  errors: [
+    InternalServerError,
+    InvalidOperationException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves the metadata for the firewalls that you have defined. If you provide VPC
  * identifiers in your request, this returns only the firewalls for those VPCs.
@@ -4847,70 +5442,187 @@ export const deleteTLSInspectionConfiguration =
  * Depending on your setting for max results and the number of firewalls, a single call
  * might not return the full list.
  */
-export const listFirewalls = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFirewalls: {
+  (
     input: ListFirewallsRequest,
-    output: ListFirewallsResponse,
-    errors: [InternalServerError, InvalidRequestException, ThrottlingException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Firewalls",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFirewallsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFirewallsRequest,
+  ) => Stream.Stream<
+    ListFirewallsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFirewallsRequest,
+  ) => Stream.Stream<
+    FirewallMetadata,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFirewallsRequest,
+  output: ListFirewallsResponse,
+  errors: [InternalServerError, InvalidRequestException, ThrottlingException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Firewalls",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the metadata for the proxies that you have defined. Depending on
  * your setting for max results and the number of proxies, a single call might not
  * return the full list.
  */
-export const listProxies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProxies: {
+  (
     input: ListProxiesRequest,
-    output: ListProxiesResponse,
-    errors: [InternalServerError, InvalidRequestException, ThrottlingException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Proxies",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProxiesResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProxiesRequest,
+  ) => Stream.Stream<
+    ListProxiesResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProxiesRequest,
+  ) => Stream.Stream<
+    ProxyMetadata,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProxiesRequest,
+  output: ListProxiesResponse,
+  errors: [InternalServerError, InvalidRequestException, ThrottlingException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Proxies",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the metadata for the rule groups that you have defined. Depending on your
  * setting for max results and the number of rule groups, a single call might not return the
  * full list.
  */
-export const listRuleGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRuleGroups: {
+  (
     input: ListRuleGroupsRequest,
-    output: ListRuleGroupsResponse,
-    errors: [InternalServerError, InvalidRequestException, ThrottlingException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "RuleGroups",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRuleGroupsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRuleGroupsRequest,
+  ) => Stream.Stream<
+    ListRuleGroupsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRuleGroupsRequest,
+  ) => Stream.Stream<
+    RuleGroupMetadata,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRuleGroupsRequest,
+  output: ListRuleGroupsResponse,
+  errors: [InternalServerError, InvalidRequestException, ThrottlingException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RuleGroups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the metadata for the TLS inspection configurations that you have defined. Depending on your setting for max results and the number of TLS inspection configurations, a single call might not return the full list.
  */
-export const listTLSInspectionConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTLSInspectionConfigurations: {
+  (
     input: ListTLSInspectionConfigurationsRequest,
-    output: ListTLSInspectionConfigurationsResponse,
-    errors: [InternalServerError, InvalidRequestException, ThrottlingException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TLSInspectionConfigurations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTLSInspectionConfigurationsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTLSInspectionConfigurationsRequest,
+  ) => Stream.Stream<
+    ListTLSInspectionConfigurationsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTLSInspectionConfigurationsRequest,
+  ) => Stream.Stream<
+    TLSInspectionConfigurationMetadata,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTLSInspectionConfigurationsRequest,
+  output: ListTLSInspectionConfigurationsResponse,
+  errors: [InternalServerError, InvalidRequestException, ThrottlingException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TLSInspectionConfigurations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the metadata for the VPC endpoint associations that you have defined. If you specify a fireawll,
  * this returns only the endpoint associations for that firewall.
@@ -4918,18 +5630,48 @@ export const listTLSInspectionConfigurations =
  * Depending on your setting for max results and the number of associations, a single call
  * might not return the full list.
  */
-export const listVpcEndpointAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listVpcEndpointAssociations: {
+  (
     input: ListVpcEndpointAssociationsRequest,
-    output: ListVpcEndpointAssociationsResponse,
-    errors: [InternalServerError, InvalidRequestException, ThrottlingException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "VpcEndpointAssociations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListVpcEndpointAssociationsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVpcEndpointAssociationsRequest,
+  ) => Stream.Stream<
+    ListVpcEndpointAssociationsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVpcEndpointAssociationsRequest,
+  ) => Stream.Stream<
+    VpcEndpointAssociationMetadata,
+    | InternalServerError
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVpcEndpointAssociationsRequest,
+  output: ListVpcEndpointAssociationsResponse,
+  errors: [InternalServerError, InvalidRequestException, ThrottlingException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "VpcEndpointAssociations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates Network Firewall ProxyRule resources.
  *
@@ -4937,7 +5679,16 @@ export const listVpcEndpointAssociations =
  *
  * To retrieve information about individual proxy rules, use DescribeProxyRuleGroup and DescribeProxyRule.
  */
-export const createProxyRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProxyRules: (
+  input: CreateProxyRulesRequest,
+) => Effect.Effect<
+  CreateProxyRulesResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProxyRulesRequest,
   output: CreateProxyRulesResponse,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
@@ -4952,38 +5703,66 @@ export const createProxyRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Availability Zone to remove the firewall endpoint for the association. When the route tables no longer use the firewall endpoint,
  * you can remove the endpoint association safely.
  */
-export const deleteVpcEndpointAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteVpcEndpointAssociationRequest,
-    output: DeleteVpcEndpointAssociationResponse,
-    errors: [
-      InternalServerError,
-      InvalidOperationException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteVpcEndpointAssociation: (
+  input: DeleteVpcEndpointAssociationRequest,
+) => Effect.Effect<
+  DeleteVpcEndpointAssociationResponse,
+  | InternalServerError
+  | InvalidOperationException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpcEndpointAssociationRequest,
+  output: DeleteVpcEndpointAssociationResponse,
+  errors: [
+    InternalServerError,
+    InvalidOperationException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the high-level information about a firewall, including the Availability Zones where the Firewall is
  * currently in use.
  */
-export const describeFirewallMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFirewallMetadataRequest,
-    output: DescribeFirewallMetadataResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeFirewallMetadata: (
+  input: DescribeFirewallMetadataRequest,
+) => Effect.Effect<
+  DescribeFirewallMetadataResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFirewallMetadataRequest,
+  output: DescribeFirewallMetadataResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the data objects for the specified proxy.
  */
-export const describeProxy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeProxy: (
+  input: DescribeProxyRequest,
+) => Effect.Effect<
+  DescribeProxyResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProxyRequest,
   output: DescribeProxyResponse,
   errors: [
@@ -4996,18 +5775,26 @@ export const describeProxy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the data objects for the specified proxy configuration.
  */
-export const describeProxyConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeProxyConfigurationRequest,
-    output: DescribeProxyConfigurationResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeProxyConfiguration: (
+  input: DescribeProxyConfigurationRequest,
+) => Effect.Effect<
+  DescribeProxyConfigurationResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeProxyConfigurationRequest,
+  output: DescribeProxyConfigurationResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns detailed information for a stateful rule group.
  *
@@ -5015,88 +5802,157 @@ export const describeProxyConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To modify how threat information appears in summaries, use the `SummaryConfiguration` parameter in UpdateRuleGroup.
  */
-export const describeRuleGroupSummary = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeRuleGroupSummaryRequest,
-    output: DescribeRuleGroupSummaryResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeRuleGroupSummary: (
+  input: DescribeRuleGroupSummaryRequest,
+) => Effect.Effect<
+  DescribeRuleGroupSummaryResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRuleGroupSummaryRequest,
+  output: DescribeRuleGroupSummaryResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * The results of a `COMPLETED` analysis report generated with StartAnalysisReport.
  *
  * For more information, see AnalysisTypeReportResult.
  */
-export const getAnalysisReportResults =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getAnalysisReportResults: {
+  (
     input: GetAnalysisReportResultsRequest,
-    output: GetAnalysisReportResultsResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AnalysisReportResults",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetAnalysisReportResultsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetAnalysisReportResultsRequest,
+  ) => Stream.Stream<
+    GetAnalysisReportResultsResponse,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetAnalysisReportResultsRequest,
+  ) => Stream.Stream<
+    AnalysisTypeReportResult,
+    | InternalServerError
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetAnalysisReportResultsRequest,
+  output: GetAnalysisReportResultsResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AnalysisReportResults",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Enables specific types of firewall analysis on a specific firewall you define.
  */
-export const updateFirewallAnalysisSettings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateFirewallAnalysisSettingsRequest,
-    output: UpdateFirewallAnalysisSettingsResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      InvalidTokenException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateFirewallAnalysisSettings: (
+  input: UpdateFirewallAnalysisSettingsRequest,
+) => Effect.Effect<
+  UpdateFirewallAnalysisSettingsResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFirewallAnalysisSettingsRequest,
+  output: UpdateFirewallAnalysisSettingsResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    InvalidTokenException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Modifies the description for the specified firewall. Use the description to help you
  * identify the firewall when you're working with it.
  */
-export const updateFirewallDescription = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFirewallDescriptionRequest,
-    output: UpdateFirewallDescriptionResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      InvalidTokenException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateFirewallDescription: (
+  input: UpdateFirewallDescriptionRequest,
+) => Effect.Effect<
+  UpdateFirewallDescriptionResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFirewallDescriptionRequest,
+  output: UpdateFirewallDescriptionResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    InvalidTokenException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the properties of the specified firewall policy.
  */
-export const updateFirewallPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFirewallPolicyRequest,
-    output: UpdateFirewallPolicyResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      InvalidTokenException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateFirewallPolicy: (
+  input: UpdateFirewallPolicyRequest,
+) => Effect.Effect<
+  UpdateFirewallPolicyResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFirewallPolicyRequest,
+  output: UpdateFirewallPolicyResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    InvalidTokenException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the rule settings for the specified rule group. You use a rule group by
  * reference in one or more firewall policies. When you modify a rule group, you modify all
@@ -5106,7 +5962,18 @@ export const updateFirewallPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * current RuleGroup object, update the object as needed, and then provide
  * the updated object to this call.
  */
-export const updateRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRuleGroup: (
+  input: UpdateRuleGroupRequest,
+) => Effect.Effect<
+  UpdateRuleGroupResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleGroupRequest,
   output: UpdateRuleGroupResponse,
   errors: [
@@ -5126,18 +5993,28 @@ export const updateRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * current TLSInspectionConfiguration object, update the object as needed, and then provide
  * the updated object to this call.
  */
-export const updateTLSInspectionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateTLSInspectionConfigurationRequest,
-    output: UpdateTLSInspectionConfigurationResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      InvalidTokenException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateTLSInspectionConfiguration: (
+  input: UpdateTLSInspectionConfigurationRequest,
+) => Effect.Effect<
+  UpdateTLSInspectionConfigurationResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTLSInspectionConfigurationRequest,
+  output: UpdateTLSInspectionConfigurationResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    InvalidTokenException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Removes the specified Availability Zone associations from a transit gateway-attached firewall. This removes the firewall endpoints from these Availability Zones and stops traffic filtering in those zones. Before removing an Availability Zone, ensure you've updated your transit gateway route tables to redirect traffic appropriately.
  *
@@ -5145,25 +6022,48 @@ export const updateTLSInspectionConfiguration =
  *
  * To verify the status of your Availability Zone changes, use DescribeFirewall.
  */
-export const disassociateAvailabilityZones =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateAvailabilityZonesRequest,
-    output: DisassociateAvailabilityZonesResponse,
-    errors: [
-      InternalServerError,
-      InvalidOperationException,
-      InvalidRequestException,
-      InvalidTokenException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const disassociateAvailabilityZones: (
+  input: DisassociateAvailabilityZonesRequest,
+) => Effect.Effect<
+  DisassociateAvailabilityZonesResponse,
+  | InternalServerError
+  | InvalidOperationException
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateAvailabilityZonesRequest,
+  output: DisassociateAvailabilityZonesResponse,
+  errors: [
+    InternalServerError,
+    InvalidOperationException,
+    InvalidRequestException,
+    InvalidTokenException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Removes the specified subnet associations from the firewall. This removes the
  * firewall endpoints from the subnets and removes any network filtering protections that the endpoints
  * were providing.
  */
-export const disassociateSubnets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateSubnets: (
+  input: DisassociateSubnetsRequest,
+) => Effect.Effect<
+  DisassociateSubnetsResponse,
+  | InternalServerError
+  | InvalidOperationException
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateSubnetsRequest,
   output: DisassociateSubnetsResponse,
   errors: [
@@ -5183,40 +6083,61 @@ export const disassociateSubnets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * firewall policy association, and you can use the same firewall policy for multiple
  * firewalls.
  */
-export const associateFirewallPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateFirewallPolicyRequest,
-    output: AssociateFirewallPolicyResponse,
-    errors: [
-      InternalServerError,
-      InvalidOperationException,
-      InvalidRequestException,
-      InvalidTokenException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const associateFirewallPolicy: (
+  input: AssociateFirewallPolicyRequest,
+) => Effect.Effect<
+  AssociateFirewallPolicyResponse,
+  | InternalServerError
+  | InvalidOperationException
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateFirewallPolicyRequest,
+  output: AssociateFirewallPolicyResponse,
+  errors: [
+    InternalServerError,
+    InvalidOperationException,
+    InvalidRequestException,
+    InvalidTokenException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Associates the specified Availability Zones with a transit gateway-attached firewall. For each Availability Zone, Network Firewall creates a firewall endpoint to process traffic. You can specify one or more Availability Zones where you want to deploy the firewall.
  *
  * After adding Availability Zones, you must update your transit gateway route tables to direct traffic through the new firewall endpoints. Use DescribeFirewall to monitor the status of the new endpoints.
  */
-export const associateAvailabilityZones = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateAvailabilityZonesRequest,
-    output: AssociateAvailabilityZonesResponse,
-    errors: [
-      InsufficientCapacityException,
-      InternalServerError,
-      InvalidOperationException,
-      InvalidRequestException,
-      InvalidTokenException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const associateAvailabilityZones: (
+  input: AssociateAvailabilityZonesRequest,
+) => Effect.Effect<
+  AssociateAvailabilityZonesResponse,
+  | InsufficientCapacityException
+  | InternalServerError
+  | InvalidOperationException
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateAvailabilityZonesRequest,
+  output: AssociateAvailabilityZonesResponse,
+  errors: [
+    InsufficientCapacityException,
+    InternalServerError,
+    InvalidOperationException,
+    InvalidRequestException,
+    InvalidTokenException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Associates the specified subnets in the Amazon VPC to the firewall. You can specify one
  * subnet for each of the Availability Zones that the VPC spans.
@@ -5226,7 +6147,20 @@ export const associateAvailabilityZones = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * subnet's Availability Zone, to redirect the traffic that's coming into and going out of the
  * zone through the firewall endpoint.
  */
-export const associateSubnets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateSubnets: (
+  input: AssociateSubnetsRequest,
+) => Effect.Effect<
+  AssociateSubnetsResponse,
+  | InsufficientCapacityException
+  | InternalServerError
+  | InvalidOperationException
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateSubnetsRequest,
   output: AssociateSubnetsResponse,
   errors: [
@@ -5248,19 +6182,28 @@ export const associateSubnets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To retrieve information about proxies, use ListProxyConfigurations and DescribeProxyConfiguration.
  */
-export const createProxyConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateProxyConfigurationRequest,
-    output: CreateProxyConfigurationResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createProxyConfiguration: (
+  input: CreateProxyConfigurationRequest,
+) => Effect.Effect<
+  CreateProxyConfigurationResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProxyConfigurationRequest,
+  output: CreateProxyConfigurationResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates an Network Firewall ProxyRuleGroup
  *
@@ -5272,18 +6215,26 @@ export const createProxyConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To retrieve information about individual proxy rules, use DescribeProxyRuleGroup and DescribeProxyRule.
  */
-export const createProxyRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateProxyRuleGroupRequest,
-    output: CreateProxyRuleGroupResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      LimitExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createProxyRuleGroup: (
+  input: CreateProxyRuleGroupRequest,
+) => Effect.Effect<
+  CreateProxyRuleGroupResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | LimitExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProxyRuleGroupRequest,
+  output: CreateProxyRuleGroupResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    LimitExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC.
  *
@@ -5300,7 +6251,19 @@ export const createProxyRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To generate a report on the last 30 days of traffic monitored by a firewall, use StartAnalysisReport.
  */
-export const createFirewall = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFirewall: (
+  input: CreateFirewallRequest,
+) => Effect.Effect<
+  CreateFirewallResponse,
+  | InsufficientCapacityException
+  | InternalServerError
+  | InvalidOperationException
+  | InvalidRequestException
+  | LimitExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFirewallRequest,
   output: CreateFirewallResponse,
   errors: [
@@ -5317,19 +6280,30 @@ export const createFirewall = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When enabled, you must disable this protection before using AssociateAvailabilityZones or DisassociateAvailabilityZones to modify the firewall's Availability Zone configuration.
  */
-export const updateAvailabilityZoneChangeProtection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAvailabilityZoneChangeProtectionRequest,
-    output: UpdateAvailabilityZoneChangeProtectionResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      InvalidTokenException,
-      ResourceNotFoundException,
-      ResourceOwnerCheckException,
-      ThrottlingException,
-    ],
-  }));
+export const updateAvailabilityZoneChangeProtection: (
+  input: UpdateAvailabilityZoneChangeProtectionRequest,
+) => Effect.Effect<
+  UpdateAvailabilityZoneChangeProtectionResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ResourceOwnerCheckException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAvailabilityZoneChangeProtectionRequest,
+  output: UpdateAvailabilityZoneChangeProtectionResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    InvalidTokenException,
+    ResourceNotFoundException,
+    ResourceOwnerCheckException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates an Network Firewall Proxy
  *
@@ -5339,7 +6313,19 @@ export const updateAvailabilityZoneChangeProtection =
  *
  * To retrieve information about proxies, use ListProxies and DescribeProxy.
  */
-export const createProxy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProxy: (
+  input: CreateProxyRequest,
+) => Effect.Effect<
+  CreateProxyResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProxyRequest,
   output: CreateProxyResponse,
   errors: [
@@ -5357,73 +6343,128 @@ export const createProxy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * against deletion. This setting helps protect against accidentally deleting a firewall
  * that's in use.
  */
-export const updateFirewallDeleteProtection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateFirewallDeleteProtectionRequest,
-    output: UpdateFirewallDeleteProtectionResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      InvalidTokenException,
-      ResourceNotFoundException,
-      ResourceOwnerCheckException,
-      ThrottlingException,
-    ],
-  }));
+export const updateFirewallDeleteProtection: (
+  input: UpdateFirewallDeleteProtectionRequest,
+) => Effect.Effect<
+  UpdateFirewallDeleteProtectionResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ResourceOwnerCheckException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFirewallDeleteProtectionRequest,
+  output: UpdateFirewallDeleteProtectionResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    InvalidTokenException,
+    ResourceNotFoundException,
+    ResourceOwnerCheckException,
+    ThrottlingException,
+  ],
+}));
 /**
  * A complex type that contains settings for encryption of your firewall resources.
  */
-export const updateFirewallEncryptionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateFirewallEncryptionConfigurationRequest,
-    output: UpdateFirewallEncryptionConfigurationResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      InvalidTokenException,
-      ResourceNotFoundException,
-      ResourceOwnerCheckException,
-      ThrottlingException,
-    ],
-  }));
+export const updateFirewallEncryptionConfiguration: (
+  input: UpdateFirewallEncryptionConfigurationRequest,
+) => Effect.Effect<
+  UpdateFirewallEncryptionConfigurationResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ResourceOwnerCheckException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFirewallEncryptionConfigurationRequest,
+  output: UpdateFirewallEncryptionConfigurationResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    InvalidTokenException,
+    ResourceNotFoundException,
+    ResourceOwnerCheckException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Modifies the flag, `ChangeProtection`, which indicates whether it
  * is possible to change the firewall. If the flag is set to `TRUE`, the firewall is protected
  * from changes. This setting helps protect against accidentally changing a firewall that's in use.
  */
-export const updateFirewallPolicyChangeProtection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateFirewallPolicyChangeProtectionRequest,
-    output: UpdateFirewallPolicyChangeProtectionResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      InvalidTokenException,
-      ResourceNotFoundException,
-      ResourceOwnerCheckException,
-      ThrottlingException,
-    ],
-  }));
+export const updateFirewallPolicyChangeProtection: (
+  input: UpdateFirewallPolicyChangeProtectionRequest,
+) => Effect.Effect<
+  UpdateFirewallPolicyChangeProtectionResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ResourceOwnerCheckException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFirewallPolicyChangeProtectionRequest,
+  output: UpdateFirewallPolicyChangeProtectionResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    InvalidTokenException,
+    ResourceNotFoundException,
+    ResourceOwnerCheckException,
+    ThrottlingException,
+  ],
+}));
 /**
  *
  */
-export const updateSubnetChangeProtection =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSubnetChangeProtectionRequest,
-    output: UpdateSubnetChangeProtectionResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      InvalidTokenException,
-      ResourceNotFoundException,
-      ResourceOwnerCheckException,
-      ThrottlingException,
-    ],
-  }));
+export const updateSubnetChangeProtection: (
+  input: UpdateSubnetChangeProtectionRequest,
+) => Effect.Effect<
+  UpdateSubnetChangeProtectionResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | InvalidTokenException
+  | ResourceNotFoundException
+  | ResourceOwnerCheckException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSubnetChangeProtectionRequest,
+  output: UpdateSubnetChangeProtectionResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    InvalidTokenException,
+    ResourceNotFoundException,
+    ResourceOwnerCheckException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the properties of the specified proxy.
  */
-export const updateProxy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProxy: (
+  input: UpdateProxyRequest,
+) => Effect.Effect<
+  UpdateProxyResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProxyRequest,
   output: UpdateProxyResponse,
   errors: [
@@ -5439,7 +6480,18 @@ export const updateProxy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Detaches a Proxy configuration from a NAT Gateway.
  */
-export const deleteProxy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProxy: (
+  input: DeleteProxyRequest,
+) => Effect.Effect<
+  DeleteProxyResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProxyRequest,
   output: DeleteProxyResponse,
   errors: [
@@ -5453,24 +6505,46 @@ export const deleteProxy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified FirewallPolicy.
  */
-export const deleteFirewallPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFirewallPolicyRequest,
-    output: DeleteFirewallPolicyResponse,
-    errors: [
-      InternalServerError,
-      InvalidOperationException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnsupportedOperationException,
-    ],
-  }),
-);
+export const deleteFirewallPolicy: (
+  input: DeleteFirewallPolicyRequest,
+) => Effect.Effect<
+  DeleteFirewallPolicyResponse,
+  | InternalServerError
+  | InvalidOperationException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFirewallPolicyRequest,
+  output: DeleteFirewallPolicyResponse,
+  errors: [
+    InternalServerError,
+    InvalidOperationException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnsupportedOperationException,
+  ],
+}));
 /**
  * Deletes the specified RuleGroup.
  */
-export const deleteRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRuleGroup: (
+  input: DeleteRuleGroupRequest,
+) => Effect.Effect<
+  DeleteRuleGroupResponse,
+  | InternalServerError
+  | InvalidOperationException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleGroupRequest,
   output: DeleteRuleGroupResponse,
   errors: [
@@ -5494,35 +6568,57 @@ export const deleteRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about TLS inspection configurations, see Inspecting SSL/TLS traffic with TLS
  * inspection configurations in the *Network Firewall Developer Guide*.
  */
-export const createTLSInspectionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateTLSInspectionConfigurationRequest,
-    output: CreateTLSInspectionConfigurationResponse,
-    errors: [
-      InsufficientCapacityException,
-      InternalServerError,
-      InvalidRequestException,
-      LimitExceededException,
-      ThrottlingException,
-    ],
-  }));
+export const createTLSInspectionConfiguration: (
+  input: CreateTLSInspectionConfigurationRequest,
+) => Effect.Effect<
+  CreateTLSInspectionConfigurationResponse,
+  | InsufficientCapacityException
+  | InternalServerError
+  | InvalidRequestException
+  | LimitExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTLSInspectionConfigurationRequest,
+  output: CreateTLSInspectionConfigurationResponse,
+  errors: [
+    InsufficientCapacityException,
+    InternalServerError,
+    InvalidRequestException,
+    LimitExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a firewall endpoint for an Network Firewall firewall. This type of firewall endpoint is independent of the firewall endpoints that you specify in the `Firewall` itself, and you define it in addition to those endpoints after the firewall has been created. You can define a VPC endpoint association using a different VPC than the one you used in the firewall specifications.
  */
-export const createVpcEndpointAssociation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateVpcEndpointAssociationRequest,
-    output: CreateVpcEndpointAssociationResponse,
-    errors: [
-      InsufficientCapacityException,
-      InternalServerError,
-      InvalidOperationException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const createVpcEndpointAssociation: (
+  input: CreateVpcEndpointAssociationRequest,
+) => Effect.Effect<
+  CreateVpcEndpointAssociationResponse,
+  | InsufficientCapacityException
+  | InternalServerError
+  | InvalidOperationException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVpcEndpointAssociationRequest,
+  output: CreateVpcEndpointAssociationResponse,
+  errors: [
+    InsufficientCapacityException,
+    InternalServerError,
+    InvalidOperationException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Sets the logging configuration for the specified firewall.
  *
@@ -5549,20 +6645,30 @@ export const createVpcEndpointAssociation =
  * `LogDestinationConfig` object and create a new one, using two separate calls
  * to this update operation.
  */
-export const updateLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLoggingConfigurationRequest,
-    output: UpdateLoggingConfigurationResponse,
-    errors: [
-      InternalServerError,
-      InvalidRequestException,
-      InvalidTokenException,
-      LogDestinationPermissionException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateLoggingConfiguration: (
+  input: UpdateLoggingConfigurationRequest,
+) => Effect.Effect<
+  UpdateLoggingConfigurationResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | InvalidTokenException
+  | LogDestinationPermissionException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLoggingConfigurationRequest,
+  output: UpdateLoggingConfigurationResponse,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    InvalidTokenException,
+    LogDestinationPermissionException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates the firewall policy for the firewall according to the specifications.
  *
@@ -5570,19 +6676,28 @@ export const updateLoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * stateless and stateful rule groups and other settings. You can use one firewall policy for
  * multiple firewalls.
  */
-export const createFirewallPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateFirewallPolicyRequest,
-    output: CreateFirewallPolicyResponse,
-    errors: [
-      InsufficientCapacityException,
-      InternalServerError,
-      InvalidRequestException,
-      LimitExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createFirewallPolicy: (
+  input: CreateFirewallPolicyRequest,
+) => Effect.Effect<
+  CreateFirewallPolicyResponse,
+  | InsufficientCapacityException
+  | InternalServerError
+  | InvalidRequestException
+  | LimitExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFirewallPolicyRequest,
+  output: CreateFirewallPolicyResponse,
+  errors: [
+    InsufficientCapacityException,
+    InternalServerError,
+    InvalidRequestException,
+    LimitExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes the specified Firewall and its FirewallStatus.
  * This operation requires the firewall's `DeleteProtection` flag to be
@@ -5598,7 +6713,19 @@ export const createFirewallPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To delete a firewall, remove the delete protection if you need to using UpdateFirewallDeleteProtection,
  * then delete the firewall by calling DeleteFirewall.
  */
-export const deleteFirewall = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFirewall: (
+  input: DeleteFirewallRequest,
+) => Effect.Effect<
+  DeleteFirewallResponse,
+  | InternalServerError
+  | InvalidOperationException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedOperationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFirewallRequest,
   output: DeleteFirewallResponse,
   errors: [
@@ -5617,7 +6744,18 @@ export const deleteFirewall = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You provide your rule group specification in your request using either
  * `RuleGroup` or `Rules`.
  */
-export const createRuleGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRuleGroup: (
+  input: CreateRuleGroupRequest,
+) => Effect.Effect<
+  CreateRuleGroupResponse,
+  | InsufficientCapacityException
+  | InternalServerError
+  | InvalidRequestException
+  | LimitExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleGroupRequest,
   output: CreateRuleGroupResponse,
   errors: [

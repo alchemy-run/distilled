@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://sagemaker.amazonaws.com/doc/2017-05-13/");
 const svc = T.AwsApiService({
   sdkId: "SageMaker",
@@ -281,6 +289,672 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AssociationEntityArn = string;
+export type ResourceArn = string;
+export type ExperimentEntityName = string;
+export type ClusterArn = string;
+export type ClusterNodeId = string;
+export type VolumeId = string;
+export type ClusterNameOrArn = string;
+export type ClusterNodeLogicalId = string;
+export type ModelPackageArn = string;
+export type String256 = string;
+export type ExperimentDescription = string;
+export type EntityName = string;
+export type EntityDescription = string;
+export type DomainId = string;
+export type UserProfileName = string;
+export type SpaceName = string;
+export type AppName = string;
+export type AppImageConfigName = string;
+export type AutoMLJobName = string;
+export type RoleArn = string;
+export type ClusterName = string;
+export type ContextName = string;
+export type MonitoringJobDefinitionName = string;
+export type DeviceFleetDescription = string;
+export type DomainName = string;
+export type SubnetId = string;
+export type VpcId = string;
+export type KmsKeyId = string;
+export type EdgeVersion = string;
+export type EndpointName = string;
+export type EndpointConfigName = string;
+export type FeatureGroupName = string;
+export type FeatureName = string;
+export type Description = string;
+export type FlowDefinitionName = string;
+export type HubName = string;
+export type HubDescription = string;
+export type HubDisplayName = string;
+export type HubSearchKeyword = string;
+export type HubNameOrArn = string;
+export type HubContentName = string;
+export type HubContentVersion = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type SageMakerPublicHubContentArn = string;
+export type HumanTaskUiName = string;
+export type HyperParameterTuningJobName = string;
+export type ImageDescription = string;
+export type ImageDisplayName = string;
+export type ImageName = string;
+export type ImageBaseImage = string;
+export type ClientToken = string;
+export type SageMakerImageVersionAlias = string;
+export type MLFramework = string;
+export type ProgrammingLang = string;
+export type ReleaseNotes = string;
+export type InferenceComponentName = string;
+export type VariantName = string;
+export type InferenceExperimentName = string;
+export type InferenceExperimentDescription = string;
+export type RecommendationJobName = string;
+export type RecommendationJobDescription = string;
+export type LabelingJobName = string;
+export type LabelAttributeName = string;
+export type S3Uri = string;
+export type MlflowAppName = string;
+export type WeeklyMaintenanceWindowStart = string;
+export type TrackingServerName = string;
+export type MlflowVersion = string;
+export type ModelName = string;
+export type ModelCardContent = string;
+export type ModelCardNameOrArn = string;
+export type Integer = number;
+export type ArnOrName = string;
+export type ModelPackageSourceUri = string;
+export type MonitoringScheduleName = string;
+export type NotebookInstanceName = string;
+export type SecurityGroupId = string;
+export type NotebookInstanceLifecycleConfigName = string;
+export type NotebookInstanceVolumeSizeInGB = number;
+export type CodeRepositoryNameOrUrl = string;
+export type PlatformIdentifier = string;
+export type OptimizationJobMaxInstanceCount = number;
+export type PartnerAppName = string;
+export type NonEmptyString64 = string;
+export type PartnerAppArn = string;
+export type ExpiresInSeconds = number;
+export type SessionExpirationDurationInSeconds = number;
+export type PipelineName = string;
+export type PipelineDefinition = string;
+export type PipelineDescription = string;
+export type IdempotencyToken = string;
+export type LandingUri = string;
+export type MlflowAppArn = string;
+export type ProcessingJobName = string;
+export type ProjectEntityName = string;
+export type StudioLifecycleConfigName = string;
+export type StudioLifecycleConfigContent = string;
+export type TrainingJobName = string;
+export type TrainingPlanName = string;
+export type TrainingPlanOfferingId = string;
+export type SpareInstanceCountPerUltraServer = number;
+export type TransformJobName = string;
+export type MaxConcurrentTransforms = number;
+export type MaxPayloadInMB = number;
+export type SingleSignOnUserIdentifier = string;
+export type WorkforceName = string;
+export type WorkteamName = string;
+export type String200 = string;
+export type ArtifactArn = string;
+export type ClusterSchedulerConfigId = string;
+export type ComputeQuotaId = string;
+export type ImageVersionNumber = number;
+export type VersionedArnOrName = string;
+export type TagKey = string;
+export type DeviceName = string;
+export type ExperimentEntityNameOrArn = string;
+export type EventId = string;
+export type ContextNameOrArn = string;
+export type DeploymentStageMaxResults = number;
+export type FeatureGroupNameOrArn = string;
+export type ModelCardExportJobArn = string;
+export type PipelineNameOrArn = string;
+export type PipelineVersionId = number;
+export type PipelineExecutionArn = string;
+export type ReservedCapacityArn = string;
+export type WorkteamArn = string;
+export type LineageGroupNameOrArn = string;
+export type UtilizationPercentagePerCore = number;
+export type DocumentSchemaVersion = string;
+export type HubContentDisplayName = string;
+export type HubContentDescription = string;
+export type HubContentMarkdown = string;
+export type HubContentDocument = string;
+export type HubContentSearchKeyword = string;
+export type SourceUri = string;
+export type NameContains = string;
+export type AutoMLNameContains = string;
+export type AutoMLMaxResults = number;
+export type CandidateName = string;
+export type AutoMLMaxResultsForTrials = number;
+export type ClusterInstanceGroupName = string;
+export type ClusterEventMaxResults = number;
+export type TrainingPlanArn = string;
+export type CodeRepositoryNameContains = string;
+export type ListMaxResults = number;
+export type PaginationToken = string;
+export type EndpointConfigNameContains = string;
+export type EndpointNameContains = string;
+export type FeatureGroupNameContains = string;
+export type FeatureGroupMaxResults = number;
+export type ImageNameContains = string;
+export type InferenceComponentNameContains = string;
+export type JobReferenceCodeContains = string;
+export type ModelNameContains = string;
+export type MonitoringAlertName = string;
+export type NotebookInstanceLifecycleConfigNameContains = string;
+export type NotebookInstanceNameContains = string;
+export type CodeRepositoryContains = string;
+export type ResourceCatalogName = string;
+export type ListTagsMaxResults = number;
+export type PolicyString = string;
+export type QueryLineageMaxDepth = number;
+export type QueryLineageMaxResults = number;
+export type String8192 = string;
+export type HumanTaskUiArn = string;
+export type ResourcePropertyName = string;
+export type ReservedCapacityInstanceCount = number;
+export type UltraServerType = string;
+export type UltraServerCount = number;
+export type TrainingPlanDurationHoursInput = number;
+export type CallbackToken = string;
+export type PipelineExecutionName = string;
+export type PipelineExecutionDescription = string;
+export type MlflowExperimentEntityName = string;
+export type ResourceIdentifier = string;
+export type InferenceExperimentStatusReason = string;
+export type StringParameterValue = string;
+export type ImageId = string;
+export type FeatureDescription = string;
+export type FeatureParameterKey = string;
+export type ImageDeleteProperty = string;
+export type ApprovalDescription = string;
+export type CustomerMetadataKey = string;
+export type MonitoringDatapointsToAlert = number;
+export type MonitoringEvaluationPeriod = number;
+export type MajorMinorVersion = string;
+export type PipelineArn = string;
+export type PipelineVersionName = string;
+export type PipelineVersionDescription = string;
+export type TrialComponentKey256 = string;
+export type TagValue = string;
+export type BatchAddIncrementCount = number;
+export type MetadataPropertyValue = string;
+export type ContainerImage = string;
+export type ImageDigest = string;
+export type ContentType = string;
+export type ResponseMIMEType = string;
+export type ImageArn = string;
+export type ImageVersionArn = string;
+export type ImageVersionAlias = string;
+export type StudioLifecycleConfigArn = string;
+export type ArtifactPropertyValue = string;
+export type TargetAttributeName = string;
+export type SampleWeightAttributeName = string;
+export type ValidationFraction = number;
+export type ClusterInstanceCount = number;
+export type ClusterThreadsPerCore = number;
+export type ClusterInstanceMemoryAllocationPercentage = number;
+export type GitConfigUrl = string;
+export type Branch = string;
+export type SecretArn = string;
+export type DataInputConfig = string;
+export type FrameworkVersion = string;
+export type CompilerOptions = string;
+export type NeoVpcSecurityGroupId = string;
+export type NeoVpcSubnetId = string;
+export type MaxRuntimeInSeconds = number;
+export type MaxWaitTimeInSeconds = number;
+export type MaxPendingTimeInSeconds = number;
+export type ComputeQuotaTargetTeamName = string;
+export type FairShareWeight = number;
+export type ImageUri = string;
+export type ContainerEntrypointString = string;
+export type ContainerArgument = string;
+export type MonitoringMaxRuntimeInSeconds = number;
+export type InitialTaskCount = number;
+export type VariantWeight = number;
+export type ProductionVariantVolumeSizeInGB = number;
+export type ProductionVariantModelDataDownloadTimeoutInSeconds = number;
+export type ProductionVariantContainerStartupHealthCheckTimeoutInSeconds =
+  number;
+export type SamplingPercentage = number;
+export type DestinationS3Uri = string;
+export type CapacityUnit = number;
+export type FlowDefinitionTaskTitle = string;
+export type FlowDefinitionTaskDescription = string;
+export type FlowDefinitionTaskCount = number;
+export type FlowDefinitionTaskAvailabilityLifetimeInSeconds = number;
+export type FlowDefinitionTaskTimeLimitInSeconds = number;
+export type FlowDefinitionTaskKeyword = string;
+export type S3OutputPath = string;
+export type S3ModelUri = string;
+export type TemplateContent = string;
+export type RandomSeed = number;
+export type HyperParameterTrainingJobDefinitionName = string;
+export type InferenceComponentCopyCount = number;
+export type ModelVariantName = string;
+export type JobDurationInSeconds = number;
+export type SnsTopicArn = string;
+export type MaxHumanLabeledObjectCount = number;
+export type MaxPercentageOfInputDatasetLabeled = number;
+export type LabelingJobAlgorithmSpecificationArn = string;
+export type ModelArn = string;
+export type LambdaFunctionArn = string;
+export type TaskKeyword = string;
+export type TaskTitle = string;
+export type TaskDescription = string;
+export type NumberOfHumanWorkersPerDataObject = number;
+export type TaskTimeLimitInSeconds = number;
+export type TaskAvailabilityLifetimeInSeconds = number;
+export type MaxConcurrentTaskCount = number;
+export type ContainerHostname = string;
+export type Url = string;
+export type InferenceSpecificationName = string;
+export type CustomerMetadataValue = string;
+export type StageDescription = string;
+export type MinimumInstanceMetadataServiceVersion = string;
+export type NotebookInstanceLifecycleConfigContent = string;
+export type NonEmptyString256 = string;
+export type OptimizationVpcSecurityGroupId = string;
+export type OptimizationVpcSubnetId = string;
+export type WeeklyScheduleTimeFormat = string;
+export type GroupNamePattern = string;
+export type BucketName = string;
+export type Key = string;
+export type VersionId = string;
+export type MaxParallelExecutionSteps = number;
+export type ProcessingMaxRuntimeInSeconds = number;
+export type ProcessingEnvironmentKey = string;
+export type ProcessingEnvironmentValue = string;
+export type ServiceCatalogEntityId = string;
+export type HyperParameterKey = string;
+export type HyperParameterValue = string;
+export type AlgorithmImage = string;
+export type TrainingContainerEntrypointString = string;
+export type TrainingContainerArgument = string;
+export type ChannelName = string;
+export type TrainingInstanceCount = number;
+export type OptionalVolumeSizeInGB = number;
+export type KeepAlivePeriodInSeconds = number;
+export type DirectoryPath = string;
+export type RuleConfigurationName = string;
+export type ProfilingIntervalInMilliseconds = number;
+export type TrainingEnvironmentKey = string;
+export type TrainingEnvironmentValue = string;
+export type MaximumRetryAttempts = number;
+export type ServerlessJobBaseModelArn = string;
+export type EvaluatorArn = string;
+export type MlFlowResourceArn = string;
+export type MlflowExperimentName = string;
+export type MlflowRunName = string;
+export type ModelPackageGroupArn = string;
+export type InvocationsTimeoutInSeconds = number;
+export type InvocationsMaxRetries = number;
+export type TransformEnvironmentKey = string;
+export type TransformEnvironmentValue = string;
+export type Accept = string;
+export type TransformInstanceCount = number;
+export type TransformAmiVersion = string;
+export type JsonPath = string;
+export type TrialComponentStatusMessage = string;
+export type TrialComponentKey320 = string;
+export type TrialComponentKey128 = string;
+export type CognitoUserPool = string;
+export type ClientId = string;
+export type ClientSecret = string;
+export type OidcEndpoint = string;
+export type Scope = string;
+export type Cidr = string;
+export type WorkforceVpcId = string;
+export type WorkforceSecurityGroupId = string;
+export type WorkforceSubnetId = string;
+export type NotificationTopicArn = string;
+export type String64 = string;
+export type String40 = string;
+export type DeviceDescription = string;
+export type ThingName = string;
+export type TaskInput = string;
+export type VisibilityConditionsKey = string;
+export type VisibilityConditionsValue = string;
+export type String1024 = string;
+export type PipelineParameterName = string;
+export type WaitTimeIntervalInSeconds = number;
+export type TaskCount = number;
+export type FeatureParameterValue = string;
+export type TrialComponentArn = string;
+export type TrialArn = string;
+export type VolumeDeviceName = string;
+export type FailureReason = string;
+export type ExperimentArn = string;
+export type HubArn = string;
+export type HubContentArn = string;
+export type TrackingServerArn = string;
+export type String2048 = string;
+export type PresignedDomainUrl = string;
+export type MlflowAppUrl = string;
+export type TrackingServerUrl = string;
+export type NotebookInstanceUrl = string;
+export type UserProfileArn = string;
+export type ActionArn = string;
+export type ContextArn = string;
+export type InferenceExperimentArn = string;
+export type LineageGroupArn = string;
+export type AlgorithmArn = string;
+export type ProductId = string;
+export type AppArn = string;
+export type AppImageConfigArn = string;
+export type AutoMLJobArn = string;
+export type AutoMLFailureReason = string;
+export type ClusterSchedulerConfigArn = string;
+export type CodeRepositoryArn = string;
+export type CompilationJobArn = string;
+export type InferenceImage = string;
+export type ComputeQuotaArn = string;
+export type MonitoringJobDefinitionArn = string;
+export type DeviceArn = string;
+export type DeviceFleetArn = string;
+export type IotRoleAlias = string;
+export type DomainArn = string;
+export type ResourceId = string;
+export type SingleSignOnApplicationArn = string;
+export type EdgeDeploymentPlanArn = string;
+export type EdgePackagingJobArn = string;
+export type EndpointArn = string;
+export type EndpointConfigArn = string;
+export type FeatureGroupArn = string;
+export type OnlineStoreTotalSizeBytes = number;
+export type FlowDefinitionArn = string;
+export type ReferenceMinVersion = string;
+export type HyperParameterTuningJobArn = string;
+export type ImageContainerImage = string;
+export type InferenceComponentArn = string;
+export type RecommendationJobArn = string;
+export type JobReferenceCode = string;
+export type LabelingJobArn = string;
+export type ModelCardArn = string;
+export type ModelPackageVersion = number;
+export type MonitoringScheduleArn = string;
+export type NotebookInstanceArn = string;
+export type NetworkInterfaceId = string;
+export type NotebookInstanceLifecycleConfigArn = string;
+export type OptimizationJobArn = string;
+export type PipelineExecutionFailureReason = string;
+export type ProcessingJobArn = string;
+export type ExitMessage = string;
+export type TrainingJobArn = string;
+export type ProjectArn = string;
+export type ProjectId = string;
+export type AvailabilityZone = string;
+export type ReservedCapacityDurationHours = number;
+export type ReservedCapacityDurationMinutes = number;
+export type TotalInstanceCount = number;
+export type AvailableInstanceCount = number;
+export type InUseInstanceCount = number;
+export type SpaceArn = string;
+export type EfsUid = string;
+export type TrainingTimeInSeconds = number;
+export type BillableTimeInSeconds = number;
+export type BillableTokenCount = number;
+export type TrainingPlanStatusMessage = string;
+export type TrainingPlanDurationHours = number;
+export type TrainingPlanDurationMinutes = number;
+export type CurrencyCode = string;
+export type UnhealthyInstanceCount = number;
+export type AvailableSpareInstanceCount = number;
+export type TransformJobArn = string;
+export type ResourcePolicyString = string;
+export type SessionId = string;
+export type StreamUrl = string;
+export type TokenValue = string;
+export type ParameterName = string;
+export type MetricName = string;
+export type MetricRegex = string;
+export type ModelPackageFrameworkVersion = string;
+export type KernelName = string;
+export type KernelDisplayName = string;
+export type MountPath = string;
+export type DefaultUid = number;
+export type DefaultGid = number;
+export type MaxCandidates = number;
+export type MaxRuntimePerTrainingJobInSeconds = number;
+export type MaxAutoMLJobRuntimeInSeconds = number;
+export type ContentColumn = string;
+export type TargetLabelColumn = string;
+export type ForecastFrequency = string;
+export type ForecastHorizon = number;
+export type ForecastQuantile = string;
+export type BaseModelName = string;
+export type ClusterLifeCycleConfigFileName = string;
+export type CronScheduleExpression = string;
+export type EksClusterArn = string;
+export type ClusterSchedulerPriorityClassName = string;
+export type PriorityWeight = number;
+export type InstanceCount = number;
+export type AcceleratorsAmount = number;
+export type VCpuAmount = number;
+export type MemoryInGiBAmount = number;
+export type BorrowLimit = number;
+export type ProcessingLocalPath = string;
+export type ProbabilityThresholdAttribute = number;
+export type MonitoringTimeOffsetString = string;
+export type ExcludeFeaturesAttribute = string;
+export type ProcessingInstanceCount = number;
+export type ProcessingVolumeSizeInGB = number;
+export type Uid = number;
+export type Gid = number;
+export type AccountId = string;
+export type QProfileArn = string;
+export type RegionName = string;
+export type UnifiedStudioDomainId = string;
+export type UnifiedStudioProjectId = string;
+export type UnifiedStudioEnvironmentId = string;
+export type Percentage = number;
+export type TerminationWaitInSeconds = number;
+export type MaximumExecutionTimeoutInSeconds = number;
+export type WaitIntervalInSeconds = number;
+export type ServerlessMemorySizeInMB = number;
+export type ServerlessMaxConcurrency = number;
+export type ServerlessProvisionedConcurrency = number;
+export type ManagedInstanceScalingMinInstanceCount = number;
+export type ManagedInstanceScalingMaxInstanceCount = number;
+export type MlReservationArn = string;
+export type CsvContentType = string;
+export type JsonContentType = string;
+export type MaxConcurrentInvocationsPerInstance = number;
+export type ClarifyEnableExplanations = string;
+export type TtlDurationValue = number;
+export type TableName = string;
+export type Catalog = string;
+export type Database = string;
+export type HumanLoopActivationConditions = string;
+export type MaxNumberOfTrainingJobs = number;
+export type MaxParallelTrainingJobs = number;
+export type HyperParameterTuningMaxRuntimeInSeconds = number;
+export type TargetObjectiveMetricValue = number;
+export type HyperParameterTrainingJobEnvironmentKey = string;
+export type HyperParameterTrainingJobEnvironmentValue = string;
+export type NumberOfCpuCores = number;
+export type NumberOfAcceleratorDevices = number;
+export type MemoryInMb = number;
+export type MaxNumberOfTests = number;
+export type MaxParallelOfTests = number;
+export type RecommendationJobFrameworkVersion = string;
+export type RecommendationJobDataInputConfig = string;
+export type RecommendationJobSupportedResponseMIMEType = string;
+export type RecommendationJobVpcSecurityGroupId = string;
+export type RecommendationJobVpcSubnetId = string;
+export type AdditionalModelChannelName = string;
+export type EnvironmentKey = string;
+export type EnvironmentValue = string;
+export type MonitoringS3Uri = string;
+export type ScheduleExpression = string;
+export type OptimizationContainerImage = string;
+export type ProvisioningParameterKey = string;
+export type ProvisioningParameterValue = string;
+export type CfnTemplateName = string;
+export type CfnTemplateURL = string;
+export type Seed = number;
+export type InstanceGroupName = string;
+export type ConfigKey = string;
+export type ConfigValue = string;
+export type CollectionName = string;
+export type DoubleParameterValue = number;
+export type MediaType = string;
+export type TrialComponentArtifactValue = string;
+export type AuthenticationRequestExtraParamsKey = string;
+export type AuthenticationRequestExtraParamsValue = string;
+export type CognitoUserGroup = string;
+export type Group = string;
+export type PropertyNameHint = string;
+export type FilterValue = string;
+export type AlarmName = string;
+export type CandidateDefinitionNotebookLocation = string;
+export type DataExplorationNotebookLocation = string;
+export type ClusterNonNegativeInstanceCount = number;
+export type InstanceGroupTrainingPlanStatus = string;
+export type ClusterPrivatePrimaryIp = string;
+export type ClusterPrivatePrimaryIpv6 = string;
+export type ClusterPrivateDnsHostname = string;
+export type ArtifactDigest = string;
+export type EdgePresetDeploymentArtifact = string;
+export type ExperimentSourceArn = string;
+export type SourceType = string;
+export type BlockedReason = string;
+export type DependencyOriginPath = string;
+export type DependencyCopyPath = string;
+export type TemplateUrl = string;
+export type TemplateContentSha256 = string;
+export type TrainingJobStatusCounter = number;
+export type ObjectiveStatusCounter = number;
+export type LabelCounter = number;
+export type MLflowArn = string;
+export type ProvisionedProductStatusMessage = string;
+export type ResourceRetainedBillableTimeInSeconds = number;
+export type StatusMessage = string;
+export type Float = number;
+export type StatusDetails = string;
+export type MlflowExperimentId = string;
+export type MlflowRunId = string;
+export type TotalStepCountPerEpoch = number;
+export type TrainingStepIndex = number;
+export type TrainingEpochIndex = number;
+export type TrainingEpochCount = number;
+export type TrialSourceArn = string;
+export type TrialComponentSourceArn = string;
+export type OptionalDouble = number;
+export type OptionalInteger = number;
+export type WorkforceArn = string;
+export type WorkforceFailureReason = string;
+export type Long = number;
+export type OptimizationType = string;
+export type String3072 = string;
+export type StepName = string;
+export type StepDisplayName = string;
+export type StepDescription = string;
+export type ResourceCatalogArn = string;
+export type ResourceCatalogDescription = string;
+export type ConfiguredSpareInstanceCount = number;
+export type RecipeName = string;
+export type TimestampAttributeName = string;
+export type ItemIdentifierAttributeName = string;
+export type GroupingAttributeName = string;
+export type CountryCode = string;
+export type TextGenerationHyperParameterKey = string;
+export type TextGenerationHyperParameterValue = string;
+export type ClusterEbsVolumeSizeInGB = number;
+export type ClusterKubernetesLabelKey = string;
+export type ClusterKubernetesLabelValue = string;
+export type ClusterKubernetesTaintKey = string;
+export type ClusterKubernetesTaintValue = string;
+export type FSxLustreSizeInGiB = number;
+export type FSxLustrePerUnitStorageThroughput = number;
+export type RepositoryUrl = string;
+export type SpaceEbsVolumeSizeInGb = number;
+export type FileSystemId = string;
+export type FileSystemPath = string;
+export type S3SchemaUri = string;
+export type ImageVersionAliasPattern = string;
+export type CapacitySizeValue = number;
+export type ClarifyFeaturesAttribute = string;
+export type ClarifyContentTemplate = string;
+export type ClarifyMaxRecordCount = number;
+export type ClarifyMaxPayloadInMB = number;
+export type ClarifyProbabilityIndex = number;
+export type ClarifyLabelIndex = number;
+export type ClarifyProbabilityAttribute = string;
+export type ClarifyLabelAttribute = string;
+export type ClarifyHeader = string;
+export type ClarifyShapNumberOfSamples = number;
+export type ClarifyShapSeed = number;
+export type Dimension = number;
+export type Dollars = number;
+export type Cents = number;
+export type TenthFractionsOfACent = number;
+export type HyperbandStrategyMinResource = number;
+export type HyperbandStrategyMaxResource = number;
+export type ParameterKey = string;
+export type ParameterValue = string;
+export type MaxNumberOfTrainingJobsNotImproving = number;
+export type VolumeSizeInGB = number;
+export type InitialNumberOfUsers = number;
+export type SpawnRate = number;
+export type TrafficDurationInSeconds = number;
+export type NumberOfSteps = number;
+export type UsersPerStep = number;
+export type RecommendationJobSupportedContentType = string;
+export type RepositoryCredentialsProviderArn = string;
+export type ContentDigest = string;
+export type AthenaCatalog = string;
+export type AthenaDatabase = string;
+export type AthenaQueryString = string;
+export type AthenaWorkGroup = string;
+export type RedshiftClusterId = string;
+export type RedshiftDatabase = string;
+export type RedshiftUserName = string;
+export type RedshiftQueryString = string;
+export type CfnStackParameterKey = string;
+export type CfnStackParameterValue = string;
+export type TrainingRepositoryCredentialsProviderArn = string;
+export type AttributeName = string;
+export type HubDataSetArn = string;
+export type NodeUnavailabilityValue = number;
+export type MetricValue = number;
+export type CandidateStepArn = string;
+export type CandidateStepName = string;
+export type ActiveClusterOperationCount = number;
+export type ClusterAvailabilityZone = string;
+export type ClusterAvailabilityZoneId = string;
+export type VariantStatusMessage = string;
+export type UtilizationMetric = number;
+export type ModelSetupTime = number;
+export type InitialInstanceCount = number;
+export type RecommendationJobCompilationJobName = string;
+export type WorkforceVpcEndpointId = string;
+export type RecommendationFailureReason = string;
+export type TransformationAttributeName = string;
+export type IdleTimeoutInMinutes = number;
+export type ClarifyMimeType = string;
+export type ClarifyShapBaseline = string;
+export type String128 = string;
+export type BatchAddFailureCount = number;
+export type LongS3Uri = string;
+export type LocalPath = string;
+export type ExplainabilityLocation = string;
+export type ModelInsightsLocation = string;
+export type BacktestResultsLocation = string;
+export type Ec2CapacityReservationId = string;
+export type CfnStackName = string;
+export type CfnStackId = string;
+export type CfnStackStatusMessage = string;
+export type FillingTransformationValue = string;
+export type TargetCount = number;
+export type Double = number;
 
 //# Schemas
 export interface DisableSagemakerServicecatalogPortfolioInput {}
@@ -926,6 +1600,7 @@ export interface VectorConfig {
 export const VectorConfig = S.suspend(() =>
   S.Struct({ Dimension: S.Number }),
 ).annotations({ identifier: "VectorConfig" }) as any as S.Schema<VectorConfig>;
+export type CollectionConfig = { VectorConfig: VectorConfig };
 export const CollectionConfig = S.Union(
   S.Struct({ VectorConfig: VectorConfig }),
 );
@@ -2036,6 +2711,10 @@ export const S3FileSystemConfig = S.suspend(() =>
 ).annotations({
   identifier: "S3FileSystemConfig",
 }) as any as S.Schema<S3FileSystemConfig>;
+export type CustomFileSystemConfig =
+  | { EFSFileSystemConfig: EFSFileSystemConfig }
+  | { FSxLustreFileSystemConfig: FSxLustreFileSystemConfig }
+  | { S3FileSystemConfig: S3FileSystemConfig };
 export const CustomFileSystemConfig = S.Union(
   S.Struct({ EFSFileSystemConfig: EFSFileSystemConfig }),
   S.Struct({ FSxLustreFileSystemConfig: FSxLustreFileSystemConfig }),
@@ -8907,6 +9586,9 @@ export const ClusterEbsVolumeConfig = S.suspend(() =>
 ).annotations({
   identifier: "ClusterEbsVolumeConfig",
 }) as any as S.Schema<ClusterEbsVolumeConfig>;
+export type ClusterInstanceStorageConfig = {
+  EbsVolumeConfig: ClusterEbsVolumeConfig;
+};
 export const ClusterInstanceStorageConfig = S.Union(
   S.Struct({ EbsVolumeConfig: ClusterEbsVolumeConfig }),
 );
@@ -10773,6 +11455,10 @@ export interface S3FileSystem {
 export const S3FileSystem = S.suspend(() =>
   S.Struct({ S3Uri: S.String }),
 ).annotations({ identifier: "S3FileSystem" }) as any as S.Schema<S3FileSystem>;
+export type CustomFileSystem =
+  | { EFSFileSystem: EFSFileSystem }
+  | { FSxLustreFileSystem: FSxLustreFileSystem }
+  | { S3FileSystem: S3FileSystem };
 export const CustomFileSystem = S.Union(
   S.Struct({ EFSFileSystem: EFSFileSystem }),
   S.Struct({ FSxLustreFileSystem: FSxLustreFileSystem }),
@@ -10863,6 +11549,9 @@ export const TrialComponentStatus = S.suspend(() =>
 ).annotations({
   identifier: "TrialComponentStatus",
 }) as any as S.Schema<TrialComponentStatus>;
+export type TrialComponentParameterValue =
+  | { StringValue: string }
+  | { NumberValue: number };
 export const TrialComponentParameterValue = S.Union(
   S.Struct({ StringValue: S.String }),
   S.Struct({ NumberValue: S.Number }),
@@ -20643,6 +21332,11 @@ export const ModelSpeculativeDecodingConfig = S.suspend(() =>
 ).annotations({
   identifier: "ModelSpeculativeDecodingConfig",
 }) as any as S.Schema<ModelSpeculativeDecodingConfig>;
+export type OptimizationConfig =
+  | { ModelQuantizationConfig: ModelQuantizationConfig }
+  | { ModelCompilationConfig: ModelCompilationConfig }
+  | { ModelShardingConfig: ModelShardingConfig }
+  | { ModelSpeculativeDecodingConfig: ModelSpeculativeDecodingConfig };
 export const OptimizationConfig = S.Union(
   S.Struct({ ModelQuantizationConfig: ModelQuantizationConfig }),
   S.Struct({ ModelCompilationConfig: ModelCompilationConfig }),
@@ -25183,6 +25877,9 @@ export const EndpointInputConfiguration = S.suspend(() =>
 }) as any as S.Schema<EndpointInputConfiguration>;
 export type EndpointInputConfigurations = EndpointInputConfiguration[];
 export const EndpointInputConfigurations = S.Array(EndpointInputConfiguration);
+export type AutoMLProblemTypeResolvedAttributes =
+  | { TabularResolvedAttributes: TabularResolvedAttributes }
+  | { TextGenerationResolvedAttributes: TextGenerationResolvedAttributes };
 export const AutoMLProblemTypeResolvedAttributes = S.Union(
   S.Struct({ TabularResolvedAttributes: TabularResolvedAttributes }),
   S.Struct({
@@ -26068,6 +26765,12 @@ export const TimeSeriesForecastingJobConfig = S.suspend(() =>
 ).annotations({
   identifier: "TimeSeriesForecastingJobConfig",
 }) as any as S.Schema<TimeSeriesForecastingJobConfig>;
+export type AutoMLProblemTypeConfig =
+  | { ImageClassificationJobConfig: ImageClassificationJobConfig }
+  | { TextClassificationJobConfig: TextClassificationJobConfig }
+  | { TimeSeriesForecastingJobConfig: TimeSeriesForecastingJobConfig }
+  | { TabularJobConfig: TabularJobConfig }
+  | { TextGenerationJobConfig: TextGenerationJobConfig };
 export const AutoMLProblemTypeConfig = S.Union(
   S.Struct({ ImageClassificationJobConfig: ImageClassificationJobConfig }),
   S.Struct({ TextClassificationJobConfig: TextClassificationJobConfig }),
@@ -26972,6 +27675,11 @@ export const PipelineExecutionStep = S.suspend(() =>
 }) as any as S.Schema<PipelineExecutionStep>;
 export type PipelineExecutionStepList = PipelineExecutionStep[];
 export const PipelineExecutionStepList = S.Array(PipelineExecutionStep);
+export type EventMetadata =
+  | { Cluster: ClusterMetadata }
+  | { InstanceGroup: InstanceGroupMetadata }
+  | { InstanceGroupScaling: InstanceGroupScalingMetadata }
+  | { Instance: InstanceMetadata };
 export const EventMetadata = S.Union(
   S.Struct({ Cluster: ClusterMetadata }),
   S.Struct({ InstanceGroup: InstanceGroupMetadata }),
@@ -27451,6 +28159,9 @@ export const ModelDashboardModel = S.suspend(() =>
 ).annotations({
   identifier: "ModelDashboardModel",
 }) as any as S.Schema<ModelDashboardModel>;
+export type MetricSpecification =
+  | { Predefined: PredefinedMetricSpecification }
+  | { Customized: CustomizedMetricSpecification };
 export const MetricSpecification = S.Union(
   S.Struct({ Predefined: PredefinedMetricSpecification }),
   S.Struct({ Customized: CustomizedMetricSpecification }),
@@ -27583,6 +28294,9 @@ export const DescribeClusterEventResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribeClusterEventResponse",
 }) as any as S.Schema<DescribeClusterEventResponse>;
+export type ScalingPolicy = {
+  TargetTracking: TargetTrackingScalingPolicyConfiguration;
+};
 export const ScalingPolicy = S.Union(
   S.Struct({ TargetTracking: TargetTrackingScalingPolicyConfiguration }),
 );
@@ -27757,31 +28471,45 @@ export class ResourceNotFound extends S.TaggedError<ResourceNotFound>()(
 /**
  * Disables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
  */
-export const disableSagemakerServicecatalogPortfolio =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableSagemakerServicecatalogPortfolioInput,
-    output: DisableSagemakerServicecatalogPortfolioOutput,
-    errors: [],
-  }));
+export const disableSagemakerServicecatalogPortfolio: (
+  input: DisableSagemakerServicecatalogPortfolioInput,
+) => Effect.Effect<
+  DisableSagemakerServicecatalogPortfolioOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableSagemakerServicecatalogPortfolioInput,
+  output: DisableSagemakerServicecatalogPortfolioOutput,
+  errors: [],
+}));
 /**
  * Enables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
  */
-export const enableSagemakerServicecatalogPortfolio =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableSagemakerServicecatalogPortfolioInput,
-    output: EnableSagemakerServicecatalogPortfolioOutput,
-    errors: [],
-  }));
+export const enableSagemakerServicecatalogPortfolio: (
+  input: EnableSagemakerServicecatalogPortfolioInput,
+) => Effect.Effect<
+  EnableSagemakerServicecatalogPortfolioOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableSagemakerServicecatalogPortfolioInput,
+  output: EnableSagemakerServicecatalogPortfolioOutput,
+  errors: [],
+}));
 /**
  * Deletes the specified Git repository from your account.
  */
-export const deleteCodeRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCodeRepositoryInput,
-    output: DeleteCodeRepositoryResponse,
-    errors: [],
-  }),
-);
+export const deleteCodeRepository: (
+  input: DeleteCodeRepositoryInput,
+) => Effect.Effect<
+  DeleteCodeRepositoryResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCodeRepositoryInput,
+  output: DeleteCodeRepositoryResponse,
+  errors: [],
+}));
 /**
  * Deletes an endpoint. SageMaker frees up all of the resources that were deployed when the endpoint was created.
  *
@@ -27789,7 +28517,13 @@ export const deleteCodeRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * When you delete your endpoint, SageMaker asynchronously deletes associated endpoint resources such as KMS key grants. You might still see these resources in your account for a few minutes after deleting your endpoint. Do not delete or revoke the permissions for your ` ExecutionRoleArn `, otherwise SageMaker cannot delete these resources.
  */
-export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEndpoint: (
+  input: DeleteEndpointInput,
+) => Effect.Effect<
+  DeleteEndpointResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEndpointInput,
   output: DeleteEndpointResponse,
   errors: [],
@@ -27799,36 +28533,55 @@ export const deleteEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must not delete an `EndpointConfig` in use by an endpoint that is live or while the `UpdateEndpoint` or `CreateEndpoint` operations are being performed on the endpoint. If you delete the `EndpointConfig` of an endpoint that is active or being created or updated you may lose visibility into the instance type the endpoint is using. The endpoint must be deleted in order to stop incurring charges.
  */
-export const deleteEndpointConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEndpointConfigInput,
-    output: DeleteEndpointConfigResponse,
-    errors: [],
-  }),
-);
+export const deleteEndpointConfig: (
+  input: DeleteEndpointConfigInput,
+) => Effect.Effect<
+  DeleteEndpointConfigResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEndpointConfigInput,
+  output: DeleteEndpointConfigResponse,
+  errors: [],
+}));
 /**
  * Deletes a hyperparameter tuning job. The `DeleteHyperParameterTuningJob` API deletes only the tuning job entry that was created in SageMaker when you called the `CreateHyperParameterTuningJob` API. It does not delete training jobs, artifacts, or the IAM role that you specified when creating the model.
  */
-export const deleteHyperParameterTuningJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteHyperParameterTuningJobRequest,
-    output: DeleteHyperParameterTuningJobResponse,
-    errors: [],
-  }));
+export const deleteHyperParameterTuningJob: (
+  input: DeleteHyperParameterTuningJobRequest,
+) => Effect.Effect<
+  DeleteHyperParameterTuningJobResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteHyperParameterTuningJobRequest,
+  output: DeleteHyperParameterTuningJobResponse,
+  errors: [],
+}));
 /**
  * Deletes an inference component.
  */
-export const deleteInferenceComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInferenceComponentInput,
-    output: DeleteInferenceComponentResponse,
-    errors: [],
-  }),
-);
+export const deleteInferenceComponent: (
+  input: DeleteInferenceComponentInput,
+) => Effect.Effect<
+  DeleteInferenceComponentResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInferenceComponentInput,
+  output: DeleteInferenceComponentResponse,
+  errors: [],
+}));
 /**
  * Deletes a model. The `DeleteModel` API deletes only the model entry that was created in SageMaker when you called the `CreateModel` API. It does not delete model artifacts, inference code, or the IAM role that you specified when creating the model.
  */
-export const deleteModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteModel: (
+  input: DeleteModelInput,
+) => Effect.Effect<
+  DeleteModelResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelInput,
   output: DeleteModelResponse,
   errors: [],
@@ -27836,33 +28589,47 @@ export const deleteModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a model group resource policy.
  */
-export const deleteModelPackageGroupPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteModelPackageGroupPolicyInput,
-    output: DeleteModelPackageGroupPolicyResponse,
-    errors: [],
-  }));
+export const deleteModelPackageGroupPolicy: (
+  input: DeleteModelPackageGroupPolicyInput,
+) => Effect.Effect<
+  DeleteModelPackageGroupPolicyResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteModelPackageGroupPolicyInput,
+  output: DeleteModelPackageGroupPolicyResponse,
+  errors: [],
+}));
 /**
  * Deletes an SageMaker AI notebook instance. Before you can delete a notebook instance, you must call the `StopNotebookInstance` API.
  *
  * When you delete a notebook instance, you lose all of your data. SageMaker AI removes the ML compute instance, and deletes the ML storage volume and the network interface associated with the notebook instance.
  */
-export const deleteNotebookInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteNotebookInstanceInput,
-    output: DeleteNotebookInstanceResponse,
-    errors: [],
-  }),
-);
+export const deleteNotebookInstance: (
+  input: DeleteNotebookInstanceInput,
+) => Effect.Effect<
+  DeleteNotebookInstanceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNotebookInstanceInput,
+  output: DeleteNotebookInstanceResponse,
+  errors: [],
+}));
 /**
  * Deletes a notebook instance lifecycle configuration.
  */
-export const deleteNotebookInstanceLifecycleConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteNotebookInstanceLifecycleConfigInput,
-    output: DeleteNotebookInstanceLifecycleConfigResponse,
-    errors: [],
-  }));
+export const deleteNotebookInstanceLifecycleConfig: (
+  input: DeleteNotebookInstanceLifecycleConfigInput,
+) => Effect.Effect<
+  DeleteNotebookInstanceLifecycleConfigResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNotebookInstanceLifecycleConfigInput,
+  output: DeleteNotebookInstanceLifecycleConfigResponse,
+  errors: [],
+}));
 /**
  * Deletes the specified tags from an SageMaker resource.
  *
@@ -27872,7 +28639,13 @@ export const deleteNotebookInstanceLifecycleConfig =
  *
  * When you call this API to delete tags from a SageMaker Domain or User Profile, the deleted tags are not removed from Apps that the SageMaker Domain or User Profile launched before you called this API.
  */
-export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTags: (
+  input: DeleteTagsInput,
+) => Effect.Effect<
+  DeleteTagsOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsInput,
   output: DeleteTagsOutput,
   errors: [],
@@ -27884,7 +28657,13 @@ export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If a private workforce contains one or more work teams, you must use the DeleteWorkteam operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you will receive a `ResourceInUse` error.
  */
-export const deleteWorkforce = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkforce: (
+  input: DeleteWorkforceRequest,
+) => Effect.Effect<
+  DeleteWorkforceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkforceRequest,
   output: DeleteWorkforceResponse,
   errors: [],
@@ -27892,7 +28671,13 @@ export const deleteWorkforce = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deregisters the specified devices. After you deregister a device, you will need to re-register the devices.
  */
-export const deregisterDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deregisterDevices: (
+  input: DeregisterDevicesRequest,
+) => Effect.Effect<
+  DeregisterDevicesResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterDevicesRequest,
   output: DeregisterDevicesResponse,
   errors: [],
@@ -27900,58 +28685,85 @@ export const deregisterDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the status of Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
  */
-export const getSagemakerServicecatalogPortfolioStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetSagemakerServicecatalogPortfolioStatusInput,
-    output: GetSagemakerServicecatalogPortfolioStatusOutput,
-    errors: [],
-  }));
+export const getSagemakerServicecatalogPortfolioStatus: (
+  input: GetSagemakerServicecatalogPortfolioStatusInput,
+) => Effect.Effect<
+  GetSagemakerServicecatalogPortfolioStatusOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSagemakerServicecatalogPortfolioStatusInput,
+  output: GetSagemakerServicecatalogPortfolioStatusOutput,
+  errors: [],
+}));
 /**
  * Starts a stage in an edge deployment plan.
  */
-export const startEdgeDeploymentStage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartEdgeDeploymentStageRequest,
-    output: StartEdgeDeploymentStageResponse,
-    errors: [],
-  }),
-);
+export const startEdgeDeploymentStage: (
+  input: StartEdgeDeploymentStageRequest,
+) => Effect.Effect<
+  StartEdgeDeploymentStageResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartEdgeDeploymentStageRequest,
+  output: StartEdgeDeploymentStageResponse,
+  errors: [],
+}));
 /**
  * Stops a stage in an edge deployment plan.
  */
-export const stopEdgeDeploymentStage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopEdgeDeploymentStageRequest,
-    output: StopEdgeDeploymentStageResponse,
-    errors: [],
-  }),
-);
+export const stopEdgeDeploymentStage: (
+  input: StopEdgeDeploymentStageRequest,
+) => Effect.Effect<
+  StopEdgeDeploymentStageResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopEdgeDeploymentStageRequest,
+  output: StopEdgeDeploymentStageResponse,
+  errors: [],
+}));
 /**
  * Request to stop an edge packaging job.
  */
-export const stopEdgePackagingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopEdgePackagingJobRequest,
-    output: StopEdgePackagingJobResponse,
-    errors: [],
-  }),
-);
+export const stopEdgePackagingJob: (
+  input: StopEdgePackagingJobRequest,
+) => Effect.Effect<
+  StopEdgePackagingJobResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopEdgePackagingJobRequest,
+  output: StopEdgePackagingJobResponse,
+  errors: [],
+}));
 /**
  * Terminates the ML compute instance. Before terminating the instance, SageMaker AI disconnects the ML storage volume from it. SageMaker AI preserves the ML storage volume. SageMaker AI stops charging you for the ML compute instance when you call `StopNotebookInstance`.
  *
  * To access data on the ML storage volume for a notebook instance that has been terminated, call the `StartNotebookInstance` API. `StartNotebookInstance` launches another ML compute instance, configures it, and attaches the preserved ML storage volume so you can continue your work.
  */
-export const stopNotebookInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopNotebookInstanceInput,
-    output: StopNotebookInstanceResponse,
-    errors: [],
-  }),
-);
+export const stopNotebookInstance: (
+  input: StopNotebookInstanceInput,
+) => Effect.Effect<
+  StopNotebookInstanceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopNotebookInstanceInput,
+  output: StopNotebookInstanceResponse,
+  errors: [],
+}));
 /**
  * Updates one or more devices in a fleet.
  */
-export const updateDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDevices: (
+  input: UpdateDevicesRequest,
+) => Effect.Effect<
+  UpdateDevicesResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDevicesRequest,
   output: UpdateDevicesResponse,
   errors: [],
@@ -27959,13 +28771,17 @@ export const updateDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new stage in an existing edge deployment plan.
  */
-export const createEdgeDeploymentStage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEdgeDeploymentStageRequest,
-    output: CreateEdgeDeploymentStageResponse,
-    errors: [ResourceLimitExceeded],
-  }),
-);
+export const createEdgeDeploymentStage: (
+  input: CreateEdgeDeploymentStageRequest,
+) => Effect.Effect<
+  CreateEdgeDeploymentStageResponse,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEdgeDeploymentStageRequest,
+  output: CreateEdgeDeploymentStageResponse,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Creates a SageMaker *experiment*. An experiment is a collection of *trials* that are observed, compared and evaluated as a group. A trial is a set of steps, called *trial components*, that produce a machine learning model.
  *
@@ -27981,7 +28797,13 @@ export const createEdgeDeploymentStage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To get a list of all your experiments, call the ListExperiments API. To view an experiment's properties, call the DescribeExperiment API. To get a list of all the trials associated with an experiment, call the ListTrials API. To create a trial call the CreateTrial API.
  */
-export const createExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createExperiment: (
+  input: CreateExperimentRequest,
+) => Effect.Effect<
+  CreateExperimentResponse,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateExperimentRequest,
   output: CreateExperimentResponse,
   errors: [ResourceLimitExceeded],
@@ -27989,7 +28811,13 @@ export const createExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store.
  */
-export const createMlflowApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMlflowApp: (
+  input: CreateMlflowAppRequest,
+) => Effect.Effect<
+  CreateMlflowAppResponse,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMlflowAppRequest,
   output: CreateMlflowAppResponse,
   errors: [ResourceLimitExceeded],
@@ -27997,23 +28825,31 @@ export const createMlflowApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store. For more information, see Create an MLflow Tracking Server.
  */
-export const createMlflowTrackingServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMlflowTrackingServerRequest,
-    output: CreateMlflowTrackingServerResponse,
-    errors: [ResourceLimitExceeded],
-  }),
-);
+export const createMlflowTrackingServer: (
+  input: CreateMlflowTrackingServerRequest,
+) => Effect.Effect<
+  CreateMlflowTrackingServerResponse,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMlflowTrackingServerRequest,
+  output: CreateMlflowTrackingServerResponse,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Creates a model group. A model group contains a group of model versions.
  */
-export const createModelPackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateModelPackageGroupInput,
-    output: CreateModelPackageGroupOutput,
-    errors: [ResourceLimitExceeded],
-  }),
-);
+export const createModelPackageGroup: (
+  input: CreateModelPackageGroupInput,
+) => Effect.Effect<
+  CreateModelPackageGroupOutput,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateModelPackageGroupInput,
+  output: CreateModelPackageGroupOutput,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the SageMaker AI console, when you choose `Open` next to a notebook instance, SageMaker AI opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page.
  *
@@ -28023,16 +28859,27 @@ export const createModelPackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * The URL that you get from a call to CreatePresignedNotebookInstanceUrl is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the Amazon Web Services console sign-in page.
  */
-export const createPresignedNotebookInstanceUrl =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePresignedNotebookInstanceUrlInput,
-    output: CreatePresignedNotebookInstanceUrlOutput,
-    errors: [],
-  }));
+export const createPresignedNotebookInstanceUrl: (
+  input: CreatePresignedNotebookInstanceUrlInput,
+) => Effect.Effect<
+  CreatePresignedNotebookInstanceUrlOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePresignedNotebookInstanceUrlInput,
+  output: CreatePresignedNotebookInstanceUrlOutput,
+  errors: [],
+}));
 /**
  * Removes the specified algorithm from your account.
  */
-export const deleteAlgorithm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAlgorithm: (
+  input: DeleteAlgorithmInput,
+) => Effect.Effect<
+  DeleteAlgorithmResponse,
+  ConflictException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAlgorithmInput,
   output: DeleteAlgorithmResponse,
   errors: [ConflictException],
@@ -28040,17 +28887,27 @@ export const deleteAlgorithm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an AppImageConfig.
  */
-export const deleteAppImageConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAppImageConfigRequest,
-    output: DeleteAppImageConfigResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const deleteAppImageConfig: (
+  input: DeleteAppImageConfigRequest,
+) => Effect.Effect<
+  DeleteAppImageConfigResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAppImageConfigRequest,
+  output: DeleteAppImageConfigResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Deletes an artifact. Either `ArtifactArn` or `Source` must be specified.
  */
-export const deleteArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteArtifact: (
+  input: DeleteArtifactRequest,
+) => Effect.Effect<
+  DeleteArtifactResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteArtifactRequest,
   output: DeleteArtifactResponse,
   errors: [ResourceNotFound],
@@ -28058,7 +28915,13 @@ export const deleteArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an association.
  */
-export const deleteAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAssociation: (
+  input: DeleteAssociationRequest,
+) => Effect.Effect<
+  DeleteAssociationResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssociationRequest,
   output: DeleteAssociationResponse,
   errors: [ResourceNotFound],
@@ -28066,7 +28929,13 @@ export const deleteAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete a SageMaker HyperPod cluster.
  */
-export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCluster: (
+  input: DeleteClusterRequest,
+) => Effect.Effect<
+  DeleteClusterResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterRequest,
   output: DeleteClusterResponse,
   errors: [ConflictException, ResourceNotFound],
@@ -28074,7 +28943,13 @@ export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an context.
  */
-export const deleteContext = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteContext: (
+  input: DeleteContextRequest,
+) => Effect.Effect<
+  DeleteContextResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteContextRequest,
   output: DeleteContextResponse,
   errors: [ResourceNotFound],
@@ -28082,7 +28957,13 @@ export const deleteContext = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Used to delete a domain. If you onboarded with IAM mode, you will need to delete your domain to onboard again using IAM Identity Center. Use with caution. All of the members of the domain will lose access to their EFS volume, including data, notebooks, and other artifacts.
  */
-export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDomain: (
+  input: DeleteDomainRequest,
+) => Effect.Effect<
+  DeleteDomainResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDomainRequest,
   output: DeleteDomainResponse,
   errors: [ResourceInUse, ResourceNotFound],
@@ -28090,7 +28971,13 @@ export const deleteDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an SageMaker experiment. All trials associated with the experiment must be deleted first. Use the ListTrials API to get a list of the trials associated with the experiment.
  */
-export const deleteExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteExperiment: (
+  input: DeleteExperimentRequest,
+) => Effect.Effect<
+  DeleteExperimentResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteExperimentRequest,
   output: DeleteExperimentResponse,
   errors: [ResourceNotFound],
@@ -28100,17 +28987,27 @@ export const deleteExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation does not delete your endpoint, variants, or any underlying resources. This operation only deletes the metadata of your experiment.
  */
-export const deleteInferenceExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteInferenceExperimentRequest,
-    output: DeleteInferenceExperimentResponse,
-    errors: [ConflictException, ResourceNotFound],
-  }),
-);
+export const deleteInferenceExperiment: (
+  input: DeleteInferenceExperimentRequest,
+) => Effect.Effect<
+  DeleteInferenceExperimentResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInferenceExperimentRequest,
+  output: DeleteInferenceExperimentResponse,
+  errors: [ConflictException, ResourceNotFound],
+}));
 /**
  * Deletes an MLflow App.
  */
-export const deleteMlflowApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMlflowApp: (
+  input: DeleteMlflowAppRequest,
+) => Effect.Effect<
+  DeleteMlflowAppResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMlflowAppRequest,
   output: DeleteMlflowAppResponse,
   errors: [ResourceNotFound],
@@ -28118,17 +29015,27 @@ export const deleteMlflowApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an MLflow Tracking Server. For more information, see Clean up MLflow resources.
  */
-export const deleteMlflowTrackingServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMlflowTrackingServerRequest,
-    output: DeleteMlflowTrackingServerResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const deleteMlflowTrackingServer: (
+  input: DeleteMlflowTrackingServerRequest,
+) => Effect.Effect<
+  DeleteMlflowTrackingServerResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMlflowTrackingServerRequest,
+  output: DeleteMlflowTrackingServerResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Deletes a SageMaker Partner AI App.
  */
-export const deletePartnerApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePartnerApp: (
+  input: DeletePartnerAppRequest,
+) => Effect.Effect<
+  DeletePartnerAppResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePartnerAppRequest,
   output: DeletePartnerAppResponse,
   errors: [ConflictException, ResourceNotFound],
@@ -28136,7 +29043,13 @@ export const deletePartnerApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a pipeline if there are no running instances of the pipeline. To delete a pipeline, you must stop all running instances of the pipeline using the `StopPipelineExecution` API. When you delete a pipeline, all instances of the pipeline are deleted.
  */
-export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePipeline: (
+  input: DeletePipelineRequest,
+) => Effect.Effect<
+  DeletePipelineResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePipelineRequest,
   output: DeletePipelineResponse,
   errors: [ConflictException, ResourceNotFound],
@@ -28144,7 +29057,13 @@ export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified trial. All trial components that make up the trial must be deleted first. Use the DescribeTrialComponent API to get the list of trial components.
  */
-export const deleteTrial = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTrial: (
+  input: DeleteTrialRequest,
+) => Effect.Effect<
+  DeleteTrialResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrialRequest,
   output: DeleteTrialResponse,
   errors: [ResourceNotFound],
@@ -28152,17 +29071,27 @@ export const deleteTrial = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified trial component. A trial component must be disassociated from all trials before the trial component can be deleted. To disassociate a trial component from a trial, call the DisassociateTrialComponent API.
  */
-export const deleteTrialComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTrialComponentRequest,
-    output: DeleteTrialComponentResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const deleteTrialComponent: (
+  input: DeleteTrialComponentRequest,
+) => Effect.Effect<
+  DeleteTrialComponentResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTrialComponentRequest,
+  output: DeleteTrialComponentResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Deletes an existing work team. This operation can't be undone.
  */
-export const deleteWorkteam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkteam: (
+  input: DeleteWorkteamRequest,
+) => Effect.Effect<
+  DeleteWorkteamResponse,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkteamRequest,
   output: DeleteWorkteamResponse,
   errors: [ResourceLimitExceeded],
@@ -28170,7 +29099,13 @@ export const deleteWorkteam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the app.
  */
-export const describeApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeApp: (
+  input: DescribeAppRequest,
+) => Effect.Effect<
+  DescribeAppResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppRequest,
   output: DescribeAppResponse,
   errors: [ResourceNotFound],
@@ -28178,17 +29113,27 @@ export const describeApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes an AppImageConfig.
  */
-export const describeAppImageConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAppImageConfigRequest,
-    output: DescribeAppImageConfigResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeAppImageConfig: (
+  input: DescribeAppImageConfigRequest,
+) => Effect.Effect<
+  DescribeAppImageConfigResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAppImageConfigRequest,
+  output: DescribeAppImageConfigResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Describes an artifact.
  */
-export const describeArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeArtifact: (
+  input: DescribeArtifactRequest,
+) => Effect.Effect<
+  DescribeArtifactResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeArtifactRequest,
   output: DescribeArtifactResponse,
   errors: [ResourceNotFound],
@@ -28196,36 +29141,55 @@ export const describeArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Description of the cluster policy. This policy is used for task prioritization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities.
  */
-export const describeClusterSchedulerConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeClusterSchedulerConfigRequest,
-    output: DescribeClusterSchedulerConfigResponse,
-    errors: [ResourceNotFound],
-  }));
+export const describeClusterSchedulerConfig: (
+  input: DescribeClusterSchedulerConfigRequest,
+) => Effect.Effect<
+  DescribeClusterSchedulerConfigResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeClusterSchedulerConfigRequest,
+  output: DescribeClusterSchedulerConfigResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Gets details about the specified Git repository.
  */
-export const describeCodeRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCodeRepositoryInput,
-    output: DescribeCodeRepositoryOutput,
-    errors: [],
-  }),
-);
+export const describeCodeRepository: (
+  input: DescribeCodeRepositoryInput,
+) => Effect.Effect<
+  DescribeCodeRepositoryOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCodeRepositoryInput,
+  output: DescribeCodeRepositoryOutput,
+  errors: [],
+}));
 /**
  * Description of the compute allocation definition.
  */
-export const describeComputeQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeComputeQuotaRequest,
-    output: DescribeComputeQuotaResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeComputeQuota: (
+  input: DescribeComputeQuotaRequest,
+) => Effect.Effect<
+  DescribeComputeQuotaResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeComputeQuotaRequest,
+  output: DescribeComputeQuotaResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Describes a context.
  */
-export const describeContext = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeContext: (
+  input: DescribeContextRequest,
+) => Effect.Effect<
+  DescribeContextResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeContextRequest,
   output: DescribeContextResponse,
   errors: [ResourceNotFound],
@@ -28233,16 +29197,27 @@ export const describeContext = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the details of a data quality monitoring job definition.
  */
-export const describeDataQualityJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDataQualityJobDefinitionRequest,
-    output: DescribeDataQualityJobDefinitionResponse,
-    errors: [ResourceNotFound],
-  }));
+export const describeDataQualityJobDefinition: (
+  input: DescribeDataQualityJobDefinitionRequest,
+) => Effect.Effect<
+  DescribeDataQualityJobDefinitionResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDataQualityJobDefinitionRequest,
+  output: DescribeDataQualityJobDefinitionResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * A description of the fleet the device belongs to.
  */
-export const describeDeviceFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDeviceFleet: (
+  input: DescribeDeviceFleetRequest,
+) => Effect.Effect<
+  DescribeDeviceFleetResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDeviceFleetRequest,
   output: DescribeDeviceFleetResponse,
   errors: [ResourceNotFound],
@@ -28250,7 +29225,13 @@ export const describeDeviceFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The description of the domain.
  */
-export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDomain: (
+  input: DescribeDomainRequest,
+) => Effect.Effect<
+  DescribeDomainResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDomainRequest,
   output: DescribeDomainResponse,
   errors: [ResourceNotFound],
@@ -28258,37 +29239,55 @@ export const describeDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the description of an endpoint configuration created using the `CreateEndpointConfig` API.
  */
-export const describeEndpointConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEndpointConfigInput,
-    output: DescribeEndpointConfigOutput,
-    errors: [],
-  }),
-);
+export const describeEndpointConfig: (
+  input: DescribeEndpointConfigInput,
+) => Effect.Effect<
+  DescribeEndpointConfigOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEndpointConfigInput,
+  output: DescribeEndpointConfigOutput,
+  errors: [],
+}));
 /**
  * Shows the metadata for a feature within a feature group.
  */
-export const describeFeatureMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFeatureMetadataRequest,
-    output: DescribeFeatureMetadataResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeFeatureMetadata: (
+  input: DescribeFeatureMetadataRequest,
+) => Effect.Effect<
+  DescribeFeatureMetadataResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFeatureMetadataRequest,
+  output: DescribeFeatureMetadataResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Returns information about the specified flow definition.
  */
-export const describeFlowDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFlowDefinitionRequest,
-    output: DescribeFlowDefinitionResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeFlowDefinition: (
+  input: DescribeFlowDefinitionRequest,
+) => Effect.Effect<
+  DescribeFlowDefinitionResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFlowDefinitionRequest,
+  output: DescribeFlowDefinitionResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Describes a hub.
  */
-export const describeHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeHub: (
+  input: DescribeHubRequest,
+) => Effect.Effect<
+  DescribeHubResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHubRequest,
   output: DescribeHubResponse,
   errors: [ResourceNotFound],
@@ -28296,7 +29295,13 @@ export const describeHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes a SageMaker AI image.
  */
-export const describeImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeImage: (
+  input: DescribeImageRequest,
+) => Effect.Effect<
+  DescribeImageResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeImageRequest,
   output: DescribeImageResponse,
   errors: [ResourceNotFound],
@@ -28304,27 +29309,41 @@ export const describeImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes a version of a SageMaker AI image.
  */
-export const describeImageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeImageVersionRequest,
-    output: DescribeImageVersionResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeImageVersion: (
+  input: DescribeImageVersionRequest,
+) => Effect.Effect<
+  DescribeImageVersionResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeImageVersionRequest,
+  output: DescribeImageVersionResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Provides a list of properties for the requested lineage group. For more information, see Cross-Account Lineage Tracking in the *Amazon SageMaker Developer Guide*.
  */
-export const describeLineageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLineageGroupRequest,
-    output: DescribeLineageGroupResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeLineageGroup: (
+  input: DescribeLineageGroupRequest,
+) => Effect.Effect<
+  DescribeLineageGroupResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLineageGroupRequest,
+  output: DescribeLineageGroupResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Returns information about an MLflow App.
  */
-export const describeMlflowApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeMlflowApp: (
+  input: DescribeMlflowAppRequest,
+) => Effect.Effect<
+  DescribeMlflowAppResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeMlflowAppRequest,
   output: DescribeMlflowAppResponse,
   errors: [ResourceNotFound],
@@ -28332,25 +29351,41 @@ export const describeMlflowApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about an MLflow Tracking Server.
  */
-export const describeMlflowTrackingServer =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeMlflowTrackingServerRequest,
-    output: DescribeMlflowTrackingServerResponse,
-    errors: [ResourceNotFound],
-  }));
+export const describeMlflowTrackingServer: (
+  input: DescribeMlflowTrackingServerRequest,
+) => Effect.Effect<
+  DescribeMlflowTrackingServerResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeMlflowTrackingServerRequest,
+  output: DescribeMlflowTrackingServerResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Returns a description of a model bias job definition.
  */
-export const describeModelBiasJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeModelBiasJobDefinitionRequest,
-    output: DescribeModelBiasJobDefinitionResponse,
-    errors: [ResourceNotFound],
-  }));
+export const describeModelBiasJobDefinition: (
+  input: DescribeModelBiasJobDefinitionRequest,
+) => Effect.Effect<
+  DescribeModelBiasJobDefinitionResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeModelBiasJobDefinitionRequest,
+  output: DescribeModelBiasJobDefinitionResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Describes the content, creation time, and security configuration of an Amazon SageMaker Model Card.
  */
-export const describeModelCard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeModelCard: (
+  input: DescribeModelCardRequest,
+) => Effect.Effect<
+  DescribeModelCardResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeModelCardRequest,
   output: DescribeModelCardResponse,
   errors: [ResourceNotFound],
@@ -28358,56 +29393,85 @@ export const describeModelCard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a description of a model explainability job definition.
  */
-export const describeModelExplainabilityJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeModelExplainabilityJobDefinitionRequest,
-    output: DescribeModelExplainabilityJobDefinitionResponse,
-    errors: [ResourceNotFound],
-  }));
+export const describeModelExplainabilityJobDefinition: (
+  input: DescribeModelExplainabilityJobDefinitionRequest,
+) => Effect.Effect<
+  DescribeModelExplainabilityJobDefinitionResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeModelExplainabilityJobDefinitionRequest,
+  output: DescribeModelExplainabilityJobDefinitionResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Gets a description for the specified model group.
  */
-export const describeModelPackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeModelPackageGroupInput,
-    output: DescribeModelPackageGroupOutput,
-    errors: [],
-  }),
-);
+export const describeModelPackageGroup: (
+  input: DescribeModelPackageGroupInput,
+) => Effect.Effect<
+  DescribeModelPackageGroupOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeModelPackageGroupInput,
+  output: DescribeModelPackageGroupOutput,
+  errors: [],
+}));
 /**
  * Returns a description of a model quality job definition.
  */
-export const describeModelQualityJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeModelQualityJobDefinitionRequest,
-    output: DescribeModelQualityJobDefinitionResponse,
-    errors: [ResourceNotFound],
-  }));
+export const describeModelQualityJobDefinition: (
+  input: DescribeModelQualityJobDefinitionRequest,
+) => Effect.Effect<
+  DescribeModelQualityJobDefinitionResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeModelQualityJobDefinitionRequest,
+  output: DescribeModelQualityJobDefinitionResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Returns information about a notebook instance.
  */
-export const describeNotebookInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeNotebookInstanceInput,
-    output: DescribeNotebookInstanceOutput,
-    errors: [],
-  }),
-);
+export const describeNotebookInstance: (
+  input: DescribeNotebookInstanceInput,
+) => Effect.Effect<
+  DescribeNotebookInstanceOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeNotebookInstanceInput,
+  output: DescribeNotebookInstanceOutput,
+  errors: [],
+}));
 /**
  * Returns a description of a notebook instance lifecycle configuration.
  *
  * For information about notebook instance lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
  */
-export const describeNotebookInstanceLifecycleConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeNotebookInstanceLifecycleConfigInput,
-    output: DescribeNotebookInstanceLifecycleConfigOutput,
-    errors: [],
-  }));
+export const describeNotebookInstanceLifecycleConfig: (
+  input: DescribeNotebookInstanceLifecycleConfigInput,
+) => Effect.Effect<
+  DescribeNotebookInstanceLifecycleConfigOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeNotebookInstanceLifecycleConfigInput,
+  output: DescribeNotebookInstanceLifecycleConfigOutput,
+  errors: [],
+}));
 /**
  * Describes the details of a pipeline.
  */
-export const describePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describePipeline: (
+  input: DescribePipelineRequest,
+) => Effect.Effect<
+  DescribePipelineResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePipelineRequest,
   output: DescribePipelineResponse,
   errors: [ResourceNotFound],
@@ -28415,26 +29479,41 @@ export const describePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the details of an execution's pipeline definition.
  */
-export const describePipelineDefinitionForExecution =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribePipelineDefinitionForExecutionRequest,
-    output: DescribePipelineDefinitionForExecutionResponse,
-    errors: [ResourceNotFound],
-  }));
+export const describePipelineDefinitionForExecution: (
+  input: DescribePipelineDefinitionForExecutionRequest,
+) => Effect.Effect<
+  DescribePipelineDefinitionForExecutionResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePipelineDefinitionForExecutionRequest,
+  output: DescribePipelineDefinitionForExecutionResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Returns a description of a processing job.
  */
-export const describeProcessingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeProcessingJobRequest,
-    output: DescribeProcessingJobResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeProcessingJob: (
+  input: DescribeProcessingJobRequest,
+) => Effect.Effect<
+  DescribeProcessingJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeProcessingJobRequest,
+  output: DescribeProcessingJobResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Describes the space.
  */
-export const describeSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeSpace: (
+  input: DescribeSpaceRequest,
+) => Effect.Effect<
+  DescribeSpaceResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSpaceRequest,
   output: DescribeSpaceResponse,
   errors: [ResourceNotFound],
@@ -28442,26 +29521,41 @@ export const describeSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the Amazon SageMaker AI Studio Lifecycle Configuration.
  */
-export const describeStudioLifecycleConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeStudioLifecycleConfigRequest,
-    output: DescribeStudioLifecycleConfigResponse,
-    errors: [ResourceNotFound],
-  }));
+export const describeStudioLifecycleConfig: (
+  input: DescribeStudioLifecycleConfigRequest,
+) => Effect.Effect<
+  DescribeStudioLifecycleConfigResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeStudioLifecycleConfigRequest,
+  output: DescribeStudioLifecycleConfigResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Returns information about a transform job.
  */
-export const describeTransformJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTransformJobRequest,
-    output: DescribeTransformJobResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeTransformJob: (
+  input: DescribeTransformJobRequest,
+) => Effect.Effect<
+  DescribeTransformJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTransformJobRequest,
+  output: DescribeTransformJobResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Describes a user profile. For more information, see `CreateUserProfile`.
  */
-export const describeUserProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeUserProfile: (
+  input: DescribeUserProfileRequest,
+) => Effect.Effect<
+  DescribeUserProfileResponse,
+  ResourceLimitExceeded | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeUserProfileRequest,
   output: DescribeUserProfileResponse,
   errors: [ResourceLimitExceeded, ResourceNotFound],
@@ -28471,49 +29565,74 @@ export const describeUserProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
  */
-export const detachClusterNodeVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetachClusterNodeVolumeRequest,
-    output: DetachClusterNodeVolumeResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const detachClusterNodeVolume: (
+  input: DetachClusterNodeVolumeRequest,
+) => Effect.Effect<
+  DetachClusterNodeVolumeResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachClusterNodeVolumeRequest,
+  output: DetachClusterNodeVolumeResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Disassociates a trial component from a trial. This doesn't effect other trials the component is associated with. Before you can delete a component, you must disassociate the component from all trials it is associated with. To associate a trial component with a trial, call the AssociateTrialComponent API.
  *
  * To get a list of the trials a component is associated with, use the Search API. Specify `ExperimentTrialComponent` for the `Resource` parameter. The list appears in the response under `Results.TrialComponent.Parents`.
  */
-export const disassociateTrialComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisassociateTrialComponentRequest,
-    output: DisassociateTrialComponentResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const disassociateTrialComponent: (
+  input: DisassociateTrialComponentRequest,
+) => Effect.Effect<
+  DisassociateTrialComponentResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateTrialComponentRequest,
+  output: DisassociateTrialComponentResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * The resource policy for the lineage group.
  */
-export const getLineageGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLineageGroupPolicyRequest,
-    output: GetLineageGroupPolicyResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const getLineageGroupPolicy: (
+  input: GetLineageGroupPolicyRequest,
+) => Effect.Effect<
+  GetLineageGroupPolicyResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLineageGroupPolicyRequest,
+  output: GetLineageGroupPolicyResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Gets a resource policy that manages access for a model group. For information about resource policies, see Identity-based policies and resource-based policies in the *Amazon Web Services Identity and Access Management User Guide.*.
  */
-export const getModelPackageGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetModelPackageGroupPolicyInput,
-    output: GetModelPackageGroupPolicyOutput,
-    errors: [],
-  }),
-);
+export const getModelPackageGroupPolicy: (
+  input: GetModelPackageGroupPolicyInput,
+) => Effect.Effect<
+  GetModelPackageGroupPolicyOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetModelPackageGroupPolicyInput,
+  output: GetModelPackageGroupPolicyOutput,
+  errors: [],
+}));
 /**
  * Import hub content.
  */
-export const importHubContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const importHubContent: (
+  input: ImportHubContentRequest,
+) => Effect.Effect<
+  ImportHubContentResponse,
+  | ResourceInUse
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportHubContentRequest,
   output: ImportHubContentResponse,
   errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
@@ -28521,138 +29640,331 @@ export const importHubContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the aliases of a specified image or image version.
  */
-export const listAliases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAliases: {
+  (
     input: ListAliasesRequest,
-    output: ListAliasesResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SageMakerImageVersionAliases",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAliasesResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAliasesRequest,
+  ) => Stream.Stream<
+    ListAliasesResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAliasesRequest,
+  ) => Stream.Stream<
+    SageMakerImageVersionAlias,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAliasesRequest,
+  output: ListAliasesResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SageMakerImageVersionAliases",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the candidates created for the job.
  */
-export const listCandidatesForAutoMLJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCandidatesForAutoMLJob: {
+  (
     input: ListCandidatesForAutoMLJobRequest,
-    output: ListCandidatesForAutoMLJobResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Candidates",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCandidatesForAutoMLJobResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCandidatesForAutoMLJobRequest,
+  ) => Stream.Stream<
+    ListCandidatesForAutoMLJobResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCandidatesForAutoMLJobRequest,
+  ) => Stream.Stream<
+    AutoMLCandidate,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCandidatesForAutoMLJobRequest,
+  output: ListCandidatesForAutoMLJobResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Candidates",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List hub content versions.
  */
-export const listHubContentVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListHubContentVersionsRequest,
-    output: ListHubContentVersionsResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const listHubContentVersions: (
+  input: ListHubContentVersionsRequest,
+) => Effect.Effect<
+  ListHubContentVersionsResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListHubContentVersionsRequest,
+  output: ListHubContentVersionsResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Lists model bias jobs definitions that satisfy various filters.
  */
-export const listModelBiasJobDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listModelBiasJobDefinitions: {
+  (
     input: ListModelBiasJobDefinitionsRequest,
-    output: ListModelBiasJobDefinitionsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "JobDefinitionSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListModelBiasJobDefinitionsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListModelBiasJobDefinitionsRequest,
+  ) => Stream.Stream<
+    ListModelBiasJobDefinitionsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListModelBiasJobDefinitionsRequest,
+  ) => Stream.Stream<
+    MonitoringJobDefinitionSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListModelBiasJobDefinitionsRequest,
+  output: ListModelBiasJobDefinitionsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "JobDefinitionSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists model explainability job definitions that satisfy various filters.
  */
-export const listModelExplainabilityJobDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listModelExplainabilityJobDefinitions: {
+  (
     input: ListModelExplainabilityJobDefinitionsRequest,
-    output: ListModelExplainabilityJobDefinitionsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "JobDefinitionSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListModelExplainabilityJobDefinitionsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListModelExplainabilityJobDefinitionsRequest,
+  ) => Stream.Stream<
+    ListModelExplainabilityJobDefinitionsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListModelExplainabilityJobDefinitionsRequest,
+  ) => Stream.Stream<
+    MonitoringJobDefinitionSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListModelExplainabilityJobDefinitionsRequest,
+  output: ListModelExplainabilityJobDefinitionsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "JobDefinitionSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of model quality monitoring job definitions in your account.
  */
-export const listModelQualityJobDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listModelQualityJobDefinitions: {
+  (
     input: ListModelQualityJobDefinitionsRequest,
-    output: ListModelQualityJobDefinitionsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "JobDefinitionSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListModelQualityJobDefinitionsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListModelQualityJobDefinitionsRequest,
+  ) => Stream.Stream<
+    ListModelQualityJobDefinitionsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListModelQualityJobDefinitionsRequest,
+  ) => Stream.Stream<
+    MonitoringJobDefinitionSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListModelQualityJobDefinitionsRequest,
+  output: ListModelQualityJobDefinitionsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "JobDefinitionSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns list of all monitoring job executions.
  */
-export const listMonitoringExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMonitoringExecutions: {
+  (
     input: ListMonitoringExecutionsRequest,
-    output: ListMonitoringExecutionsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MonitoringExecutionSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMonitoringExecutionsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMonitoringExecutionsRequest,
+  ) => Stream.Stream<
+    ListMonitoringExecutionsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMonitoringExecutionsRequest,
+  ) => Stream.Stream<
+    MonitoringExecutionSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMonitoringExecutionsRequest,
+  output: ListMonitoringExecutionsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MonitoringExecutionSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of parameters for a pipeline execution.
  */
-export const listPipelineParametersForExecution =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPipelineParametersForExecution: {
+  (
     input: ListPipelineParametersForExecutionRequest,
-    output: ListPipelineParametersForExecutionResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PipelineParameters",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPipelineParametersForExecutionResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPipelineParametersForExecutionRequest,
+  ) => Stream.Stream<
+    ListPipelineParametersForExecutionResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPipelineParametersForExecutionRequest,
+  ) => Stream.Stream<
+    Parameter,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPipelineParametersForExecutionRequest,
+  output: ListPipelineParametersForExecutionResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PipelineParameters",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of the work teams that you are subscribed to in the Amazon Web Services Marketplace. The list may be empty if no work team satisfies the filter specified in the `NameContains` parameter.
  */
-export const listSubscribedWorkteams =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSubscribedWorkteams: {
+  (
     input: ListSubscribedWorkteamsRequest,
-    output: ListSubscribedWorkteamsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SubscribedWorkteams",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSubscribedWorkteamsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSubscribedWorkteamsRequest,
+  ) => Stream.Stream<
+    ListSubscribedWorkteamsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSubscribedWorkteamsRequest,
+  ) => Stream.Stream<
+    SubscribedWorkteam,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSubscribedWorkteamsRequest,
+  output: ListSubscribedWorkteamsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SubscribedWorkteams",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the tags for the specified SageMaker resource.
  */
-export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTags: {
+  (
+    input: ListTagsInput,
+  ): Effect.Effect<
+    ListTagsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsInput,
+  ) => Stream.Stream<
+    ListTagsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsInput,
+  ) => Stream.Stream<
+    Tag,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTagsInput,
   output: ListTagsOutput,
   errors: [],
@@ -28666,64 +29978,135 @@ export const listTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Gets a list of TrainingJobSummary objects that describe the training jobs that a hyperparameter tuning job launched.
  */
-export const listTrainingJobsForHyperParameterTuningJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTrainingJobsForHyperParameterTuningJob: {
+  (
     input: ListTrainingJobsForHyperParameterTuningJobRequest,
-    output: ListTrainingJobsForHyperParameterTuningJobResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TrainingJobSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTrainingJobsForHyperParameterTuningJobResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTrainingJobsForHyperParameterTuningJobRequest,
+  ) => Stream.Stream<
+    ListTrainingJobsForHyperParameterTuningJobResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTrainingJobsForHyperParameterTuningJobRequest,
+  ) => Stream.Stream<
+    HyperParameterTrainingJobSummary,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTrainingJobsForHyperParameterTuningJobRequest,
+  output: ListTrainingJobsForHyperParameterTuningJobResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TrainingJobSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Use this operation to list all private and vendor workforces in an Amazon Web Services Region. Note that you can only have one private workforce per Amazon Web Services Region.
  */
-export const listWorkforces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkforces: {
+  (
     input: ListWorkforcesRequest,
-    output: ListWorkforcesResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Workforces",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkforcesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkforcesRequest,
+  ) => Stream.Stream<
+    ListWorkforcesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkforcesRequest,
+  ) => Stream.Stream<
+    Workforce,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkforcesRequest,
+  output: ListWorkforcesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Workforces",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of private work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the `NameContains` parameter.
  */
-export const listWorkteams = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkteams: {
+  (
     input: ListWorkteamsRequest,
-    output: ListWorkteamsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Workteams",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkteamsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkteamsRequest,
+  ) => Stream.Stream<
+    ListWorkteamsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkteamsRequest,
+  ) => Stream.Stream<
+    Workteam,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkteamsRequest,
+  output: ListWorkteamsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Workteams",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Adds a resouce policy to control access to a model group. For information about resoure policies, see Identity-based policies and resource-based policies in the *Amazon Web Services Identity and Access Management User Guide.*.
  */
-export const putModelPackageGroupPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutModelPackageGroupPolicyInput,
-    output: PutModelPackageGroupPolicyOutput,
-    errors: [ConflictException],
-  }),
-);
+export const putModelPackageGroupPolicy: (
+  input: PutModelPackageGroupPolicyInput,
+) => Effect.Effect<
+  PutModelPackageGroupPolicyOutput,
+  ConflictException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutModelPackageGroupPolicyInput,
+  output: PutModelPackageGroupPolicyOutput,
+  errors: [ConflictException],
+}));
 /**
  * Register devices.
  */
-export const registerDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerDevices: (
+  input: RegisterDevicesRequest,
+) => Effect.Effect<
+  RegisterDevicesResponse,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterDevicesRequest,
   output: RegisterDevicesResponse,
   errors: [ResourceLimitExceeded],
@@ -28731,46 +30114,75 @@ export const registerDevices = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retry the execution of the pipeline.
  */
-export const retryPipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RetryPipelineExecutionRequest,
-    output: RetryPipelineExecutionResponse,
-    errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
-  }),
-);
+export const retryPipelineExecution: (
+  input: RetryPipelineExecutionRequest,
+) => Effect.Effect<
+  RetryPipelineExecutionResponse,
+  | ConflictException
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RetryPipelineExecutionRequest,
+  output: RetryPipelineExecutionResponse,
+  errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
+}));
 /**
  * Notifies the pipeline that the execution of a callback step failed, along with a message describing why. When a callback step is run, the pipeline generates a callback token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS).
  */
-export const sendPipelineExecutionStepFailure =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SendPipelineExecutionStepFailureRequest,
-    output: SendPipelineExecutionStepFailureResponse,
-    errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
-  }));
+export const sendPipelineExecutionStepFailure: (
+  input: SendPipelineExecutionStepFailureRequest,
+) => Effect.Effect<
+  SendPipelineExecutionStepFailureResponse,
+  | ConflictException
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendPipelineExecutionStepFailureRequest,
+  output: SendPipelineExecutionStepFailureResponse,
+  errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
+}));
 /**
  * Starts an inference experiment.
  */
-export const startInferenceExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartInferenceExperimentRequest,
-    output: StartInferenceExperimentResponse,
-    errors: [ConflictException, ResourceNotFound],
-  }),
-);
+export const startInferenceExperiment: (
+  input: StartInferenceExperimentRequest,
+) => Effect.Effect<
+  StartInferenceExperimentResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartInferenceExperimentRequest,
+  output: StartInferenceExperimentResponse,
+  errors: [ConflictException, ResourceNotFound],
+}));
 /**
  * Programmatically start an MLflow Tracking Server.
  */
-export const startMlflowTrackingServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMlflowTrackingServerRequest,
-    output: StartMlflowTrackingServerResponse,
-    errors: [ConflictException, ResourceNotFound],
-  }),
-);
+export const startMlflowTrackingServer: (
+  input: StartMlflowTrackingServerRequest,
+) => Effect.Effect<
+  StartMlflowTrackingServerResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMlflowTrackingServerRequest,
+  output: StartMlflowTrackingServerResponse,
+  errors: [ConflictException, ResourceNotFound],
+}));
 /**
  * Initiates a remote connection session between a local integrated development environments (IDEs) and a remote SageMaker space.
  */
-export const startSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startSession: (
+  input: StartSessionRequest,
+) => Effect.Effect<
+  StartSessionResponse,
+  ResourceLimitExceeded | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartSessionRequest,
   output: StartSessionResponse,
   errors: [ResourceLimitExceeded, ResourceNotFound],
@@ -28778,13 +30190,17 @@ export const startSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Programmatically stop an MLflow Tracking Server.
  */
-export const stopMlflowTrackingServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopMlflowTrackingServerRequest,
-    output: StopMlflowTrackingServerResponse,
-    errors: [ConflictException, ResourceNotFound],
-  }),
-);
+export const stopMlflowTrackingServer: (
+  input: StopMlflowTrackingServerRequest,
+) => Effect.Effect<
+  StopMlflowTrackingServerResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopMlflowTrackingServerRequest,
+  output: StopMlflowTrackingServerResponse,
+  errors: [ConflictException, ResourceNotFound],
+}));
 /**
  * Stops a pipeline execution.
  *
@@ -28800,17 +30216,27 @@ export const stopMlflowTrackingServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * A pipeline execution can't be stopped while a lambda step is running because the Lambda function invoked by the lambda step can't be stopped. If you attempt to stop the execution while the Lambda function is running, the pipeline waits for the Lambda function to finish or until the timeout is hit, whichever occurs first, and then stops. If the Lambda function finishes, the pipeline execution status is `Stopped`. If the timeout is hit the pipeline execution status is `Failed`.
  */
-export const stopPipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopPipelineExecutionRequest,
-    output: StopPipelineExecutionResponse,
-    errors: [ConflictException, ResourceNotFound],
-  }),
-);
+export const stopPipelineExecution: (
+  input: StopPipelineExecutionRequest,
+) => Effect.Effect<
+  StopPipelineExecutionResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopPipelineExecutionRequest,
+  output: StopPipelineExecutionResponse,
+  errors: [ConflictException, ResourceNotFound],
+}));
 /**
  * Updates an action.
  */
-export const updateAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAction: (
+  input: UpdateActionRequest,
+) => Effect.Effect<
+  UpdateActionResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateActionRequest,
   output: UpdateActionResponse,
   errors: [ConflictException, ResourceNotFound],
@@ -28818,17 +30244,27 @@ export const updateAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the properties of an AppImageConfig.
  */
-export const updateAppImageConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAppImageConfigRequest,
-    output: UpdateAppImageConfigResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const updateAppImageConfig: (
+  input: UpdateAppImageConfigRequest,
+) => Effect.Effect<
+  UpdateAppImageConfigResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAppImageConfigRequest,
+  output: UpdateAppImageConfigResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Updates an artifact.
  */
-export const updateArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateArtifact: (
+  input: UpdateArtifactRequest,
+) => Effect.Effect<
+  UpdateArtifactResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateArtifactRequest,
   output: UpdateArtifactResponse,
   errors: [ConflictException, ResourceNotFound],
@@ -28836,7 +30272,16 @@ export const updateArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a SageMaker HyperPod cluster.
  */
-export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCluster: (
+  input: UpdateClusterRequest,
+) => Effect.Effect<
+  UpdateClusterResponse,
+  | ConflictException
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateClusterRequest,
   output: UpdateClusterResponse,
   errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
@@ -28844,16 +30289,33 @@ export const updateCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update the cluster policy configuration.
  */
-export const updateClusterSchedulerConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateClusterSchedulerConfigRequest,
-    output: UpdateClusterSchedulerConfigResponse,
-    errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
-  }));
+export const updateClusterSchedulerConfig: (
+  input: UpdateClusterSchedulerConfigRequest,
+) => Effect.Effect<
+  UpdateClusterSchedulerConfigResponse,
+  | ConflictException
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateClusterSchedulerConfigRequest,
+  output: UpdateClusterSchedulerConfigResponse,
+  errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
+}));
 /**
  * Update the compute allocation definition.
  */
-export const updateComputeQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateComputeQuota: (
+  input: UpdateComputeQuotaRequest,
+) => Effect.Effect<
+  UpdateComputeQuotaResponse,
+  | ConflictException
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateComputeQuotaRequest,
   output: UpdateComputeQuotaResponse,
   errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
@@ -28861,7 +30323,13 @@ export const updateComputeQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a context.
  */
-export const updateContext = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateContext: (
+  input: UpdateContextRequest,
+) => Effect.Effect<
+  UpdateContextResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContextRequest,
   output: UpdateContextResponse,
   errors: [ConflictException, ResourceNotFound],
@@ -28869,7 +30337,13 @@ export const updateContext = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds, updates, or removes the description of an experiment. Updates the display name of an experiment.
  */
-export const updateExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateExperiment: (
+  input: UpdateExperimentRequest,
+) => Effect.Effect<
+  UpdateExperimentResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateExperimentRequest,
   output: UpdateExperimentResponse,
   errors: [ConflictException, ResourceNotFound],
@@ -28877,17 +30351,27 @@ export const updateExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the description and parameters of the feature group.
  */
-export const updateFeatureMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateFeatureMetadataRequest,
-    output: UpdateFeatureMetadataResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const updateFeatureMetadata: (
+  input: UpdateFeatureMetadataRequest,
+) => Effect.Effect<
+  UpdateFeatureMetadataResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFeatureMetadataRequest,
+  output: UpdateFeatureMetadataResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Update a hub.
  */
-export const updateHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateHub: (
+  input: UpdateHubRequest,
+) => Effect.Effect<
+  UpdateHubResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHubRequest,
   output: UpdateHubResponse,
   errors: [ResourceNotFound],
@@ -28911,7 +30395,13 @@ export const updateHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you want to update a `ModelReference` resource in your hub, use the `UpdateHubContentResource` API instead.
  */
-export const updateHubContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateHubContent: (
+  input: UpdateHubContentRequest,
+) => Effect.Effect<
+  UpdateHubContentResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHubContentRequest,
   output: UpdateHubContentResponse,
   errors: [ResourceInUse, ResourceNotFound],
@@ -28925,17 +30415,27 @@ export const updateHubContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about adding model references to your hub, see Add models to a private hub.
  */
-export const updateHubContentReference = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateHubContentReferenceRequest,
-    output: UpdateHubContentReferenceResponse,
-    errors: [ResourceInUse, ResourceNotFound],
-  }),
-);
+export const updateHubContentReference: (
+  input: UpdateHubContentReferenceRequest,
+) => Effect.Effect<
+  UpdateHubContentReferenceResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateHubContentReferenceRequest,
+  output: UpdateHubContentReferenceResponse,
+  errors: [ResourceInUse, ResourceNotFound],
+}));
 /**
  * Updates the properties of a SageMaker AI image. To change the image's tags, use the AddTags and DeleteTags APIs.
  */
-export const updateImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateImage: (
+  input: UpdateImageRequest,
+) => Effect.Effect<
+  UpdateImageResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateImageRequest,
   output: UpdateImageResponse,
   errors: [ResourceInUse, ResourceNotFound],
@@ -28943,7 +30443,13 @@ export const updateImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the properties of a SageMaker AI image version.
  */
-export const updateImageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateImageVersion: (
+  input: UpdateImageVersionRequest,
+) => Effect.Effect<
+  UpdateImageVersionResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateImageVersionRequest,
   output: UpdateImageVersionResponse,
   errors: [ResourceInUse, ResourceNotFound],
@@ -28951,26 +30457,41 @@ export const updateImageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Runtime settings for a model that is deployed with an inference component.
  */
-export const updateInferenceComponentRuntimeConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateInferenceComponentRuntimeConfigInput,
-    output: UpdateInferenceComponentRuntimeConfigOutput,
-    errors: [ResourceLimitExceeded],
-  }));
+export const updateInferenceComponentRuntimeConfig: (
+  input: UpdateInferenceComponentRuntimeConfigInput,
+) => Effect.Effect<
+  UpdateInferenceComponentRuntimeConfigOutput,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInferenceComponentRuntimeConfigInput,
+  output: UpdateInferenceComponentRuntimeConfigOutput,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Updates an inference experiment that you created. The status of the inference experiment has to be either `Created`, `Running`. For more information on the status of an inference experiment, see DescribeInferenceExperiment.
  */
-export const updateInferenceExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateInferenceExperimentRequest,
-    output: UpdateInferenceExperimentResponse,
-    errors: [ConflictException, ResourceNotFound],
-  }),
-);
+export const updateInferenceExperiment: (
+  input: UpdateInferenceExperimentRequest,
+) => Effect.Effect<
+  UpdateInferenceExperimentResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInferenceExperimentRequest,
+  output: UpdateInferenceExperimentResponse,
+  errors: [ConflictException, ResourceNotFound],
+}));
 /**
  * Updates an MLflow App.
  */
-export const updateMlflowApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMlflowApp: (
+  input: UpdateMlflowAppRequest,
+) => Effect.Effect<
+  UpdateMlflowAppResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMlflowAppRequest,
   output: UpdateMlflowAppResponse,
   errors: [ConflictException, ResourceNotFound],
@@ -28978,19 +30499,35 @@ export const updateMlflowApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates properties of an existing MLflow Tracking Server.
  */
-export const updateMlflowTrackingServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMlflowTrackingServerRequest,
-    output: UpdateMlflowTrackingServerResponse,
-    errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
-  }),
-);
+export const updateMlflowTrackingServer: (
+  input: UpdateMlflowTrackingServerRequest,
+) => Effect.Effect<
+  UpdateMlflowTrackingServerResponse,
+  | ConflictException
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMlflowTrackingServerRequest,
+  output: UpdateMlflowTrackingServerResponse,
+  errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
+}));
 /**
  * Update an Amazon SageMaker Model Card.
  *
  * You cannot update both model card content and model card status in a single call.
  */
-export const updateModelCard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateModelCard: (
+  input: UpdateModelCardRequest,
+) => Effect.Effect<
+  UpdateModelCardResponse,
+  | ConflictException
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateModelCardRequest,
   output: UpdateModelCardResponse,
   errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
@@ -28998,7 +30535,13 @@ export const updateModelCard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a versioned model.
  */
-export const updateModelPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateModelPackage: (
+  input: UpdateModelPackageInput,
+) => Effect.Effect<
+  UpdateModelPackageOutput,
+  ConflictException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateModelPackageInput,
   output: UpdateModelPackageOutput,
   errors: [ConflictException],
@@ -29006,27 +30549,41 @@ export const updateModelPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update the parameters of a model monitor alert.
  */
-export const updateMonitoringAlert = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMonitoringAlertRequest,
-    output: UpdateMonitoringAlertResponse,
-    errors: [ResourceLimitExceeded, ResourceNotFound],
-  }),
-);
+export const updateMonitoringAlert: (
+  input: UpdateMonitoringAlertRequest,
+) => Effect.Effect<
+  UpdateMonitoringAlertResponse,
+  ResourceLimitExceeded | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMonitoringAlertRequest,
+  output: UpdateMonitoringAlertResponse,
+  errors: [ResourceLimitExceeded, ResourceNotFound],
+}));
 /**
  * Updates a previously created schedule.
  */
-export const updateMonitoringSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMonitoringScheduleRequest,
-    output: UpdateMonitoringScheduleResponse,
-    errors: [ResourceLimitExceeded, ResourceNotFound],
-  }),
-);
+export const updateMonitoringSchedule: (
+  input: UpdateMonitoringScheduleRequest,
+) => Effect.Effect<
+  UpdateMonitoringScheduleResponse,
+  ResourceLimitExceeded | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMonitoringScheduleRequest,
+  output: UpdateMonitoringScheduleResponse,
+  errors: [ResourceLimitExceeded, ResourceNotFound],
+}));
 /**
  * Updates all of the SageMaker Partner AI Apps in an account.
  */
-export const updatePartnerApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePartnerApp: (
+  input: UpdatePartnerAppRequest,
+) => Effect.Effect<
+  UpdatePartnerAppResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePartnerAppRequest,
   output: UpdatePartnerAppResponse,
   errors: [ConflictException, ResourceNotFound],
@@ -29034,7 +30591,13 @@ export const updatePartnerApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a pipeline.
  */
-export const updatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePipeline: (
+  input: UpdatePipelineRequest,
+) => Effect.Effect<
+  UpdatePipelineResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePipelineRequest,
   output: UpdatePipelineResponse,
   errors: [ConflictException, ResourceNotFound],
@@ -29042,29 +30605,46 @@ export const updatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a pipeline execution.
  */
-export const updatePipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePipelineExecutionRequest,
-    output: UpdatePipelineExecutionResponse,
-    errors: [ConflictException, ResourceNotFound],
-  }),
-);
+export const updatePipelineExecution: (
+  input: UpdatePipelineExecutionRequest,
+) => Effect.Effect<
+  UpdatePipelineExecutionResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePipelineExecutionRequest,
+  output: UpdatePipelineExecutionResponse,
+  errors: [ConflictException, ResourceNotFound],
+}));
 /**
  * Updates a pipeline version.
  */
-export const updatePipelineVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePipelineVersionRequest,
-    output: UpdatePipelineVersionResponse,
-    errors: [ConflictException, ResourceNotFound],
-  }),
-);
+export const updatePipelineVersion: (
+  input: UpdatePipelineVersionRequest,
+) => Effect.Effect<
+  UpdatePipelineVersionResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePipelineVersionRequest,
+  output: UpdatePipelineVersionResponse,
+  errors: [ConflictException, ResourceNotFound],
+}));
 /**
  * Updates the settings of a space.
  *
  * You can't edit the app type of a space in the `SpaceSettings`.
  */
-export const updateSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSpace: (
+  input: UpdateSpaceRequest,
+) => Effect.Effect<
+  UpdateSpaceResponse,
+  | ResourceInUse
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSpaceRequest,
   output: UpdateSpaceResponse,
   errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
@@ -29072,7 +30652,13 @@ export const updateSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the display name of a trial.
  */
-export const updateTrial = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTrial: (
+  input: UpdateTrialRequest,
+) => Effect.Effect<
+  UpdateTrialResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrialRequest,
   output: UpdateTrialResponse,
   errors: [ConflictException, ResourceNotFound],
@@ -29080,17 +30666,30 @@ export const updateTrial = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates one or more properties of a trial component.
  */
-export const updateTrialComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTrialComponentRequest,
-    output: UpdateTrialComponentResponse,
-    errors: [ConflictException, ResourceNotFound],
-  }),
-);
+export const updateTrialComponent: (
+  input: UpdateTrialComponentRequest,
+) => Effect.Effect<
+  UpdateTrialComponentResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTrialComponentRequest,
+  output: UpdateTrialComponentResponse,
+  errors: [ConflictException, ResourceNotFound],
+}));
 /**
  * Updates a user profile.
  */
-export const updateUserProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateUserProfile: (
+  input: UpdateUserProfileRequest,
+) => Effect.Effect<
+  UpdateUserProfileResponse,
+  | ResourceInUse
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserProfileRequest,
   output: UpdateUserProfileResponse,
   errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
@@ -29114,7 +30713,13 @@ export const updateUserProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation only applies to private workforces.
  */
-export const updateWorkforce = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWorkforce: (
+  input: UpdateWorkforceRequest,
+) => Effect.Effect<
+  UpdateWorkforceResponse,
+  ConflictException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkforceRequest,
   output: UpdateWorkforceResponse,
   errors: [ConflictException],
@@ -29122,7 +30727,13 @@ export const updateWorkforce = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing work team with new member definitions or description.
  */
-export const updateWorkteam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWorkteam: (
+  input: UpdateWorkteamRequest,
+) => Effect.Effect<
+  UpdateWorkteamResponse,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkteamRequest,
   output: UpdateWorkteamResponse,
   errors: [ResourceLimitExceeded],
@@ -29130,46 +30741,69 @@ export const updateWorkteam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a SageMaker Edge Manager model packaging job. Edge Manager will use the model artifacts from the Amazon Simple Storage Service bucket that you specify. After the model has been packaged, Amazon SageMaker saves the resulting artifacts to an S3 bucket that you specify.
  */
-export const createEdgePackagingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEdgePackagingJobRequest,
-    output: CreateEdgePackagingJobResponse,
-    errors: [ResourceLimitExceeded],
-  }),
-);
+export const createEdgePackagingJob: (
+  input: CreateEdgePackagingJobRequest,
+) => Effect.Effect<
+  CreateEdgePackagingJobResponse,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEdgePackagingJobRequest,
+  output: CreateEdgePackagingJobResponse,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook instance status to `InService`. A notebook instance's status must be `InService` before you can connect to your Jupyter notebook.
  */
-export const startNotebookInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartNotebookInstanceInput,
-    output: StartNotebookInstanceResponse,
-    errors: [ResourceLimitExceeded],
-  }),
-);
+export const startNotebookInstance: (
+  input: StartNotebookInstanceInput,
+) => Effect.Effect<
+  StartNotebookInstanceResponse,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartNotebookInstanceInput,
+  output: StartNotebookInstanceResponse,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements.
  */
-export const updateNotebookInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateNotebookInstanceInput,
-    output: UpdateNotebookInstanceOutput,
-    errors: [ResourceLimitExceeded],
-  }),
-);
+export const updateNotebookInstance: (
+  input: UpdateNotebookInstanceInput,
+) => Effect.Effect<
+  UpdateNotebookInstanceOutput,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNotebookInstanceInput,
+  output: UpdateNotebookInstanceOutput,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Updates a notebook instance lifecycle configuration created with the CreateNotebookInstanceLifecycleConfig API.
  */
-export const updateNotebookInstanceLifecycleConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateNotebookInstanceLifecycleConfigInput,
-    output: UpdateNotebookInstanceLifecycleConfigOutput,
-    errors: [ResourceLimitExceeded],
-  }));
+export const updateNotebookInstanceLifecycleConfig: (
+  input: UpdateNotebookInstanceLifecycleConfigInput,
+) => Effect.Effect<
+  UpdateNotebookInstanceLifecycleConfigOutput,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNotebookInstanceLifecycleConfigInput,
+  output: UpdateNotebookInstanceLifecycleConfigOutput,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Creates an *association* between the source and the destination. A source can be associated with multiple destinations, and a destination can be associated with multiple sources. An association is a lineage tracking entity. For more information, see Amazon SageMaker ML Lineage Tracking.
  */
-export const addAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addAssociation: (
+  input: AddAssociationRequest,
+) => Effect.Effect<
+  AddAssociationResponse,
+  ResourceLimitExceeded | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddAssociationRequest,
   output: AddAssociationResponse,
   errors: [ResourceLimitExceeded, ResourceNotFound],
@@ -29177,17 +30811,27 @@ export const addAssociation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associates a trial component with a trial. A trial component can be associated with multiple trials. To disassociate a trial component from a trial, call the DisassociateTrialComponent API.
  */
-export const associateTrialComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateTrialComponentRequest,
-    output: AssociateTrialComponentResponse,
-    errors: [ResourceLimitExceeded, ResourceNotFound],
-  }),
-);
+export const associateTrialComponent: (
+  input: AssociateTrialComponentRequest,
+) => Effect.Effect<
+  AssociateTrialComponentResponse,
+  ResourceLimitExceeded | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateTrialComponentRequest,
+  output: AssociateTrialComponentResponse,
+  errors: [ResourceLimitExceeded, ResourceNotFound],
+}));
 /**
  * Deletes an Amazon SageMaker Model Card.
  */
-export const deleteModelCard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteModelCard: (
+  input: DeleteModelCardRequest,
+) => Effect.Effect<
+  DeleteModelCardResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelCardRequest,
   output: DeleteModelCardResponse,
   errors: [ConflictException, ResourceNotFound],
@@ -29197,7 +30841,13 @@ export const deleteModelCard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A model package is used to create SageMaker models or list on Amazon Web Services Marketplace. Buyers can subscribe to model packages listed on Amazon Web Services Marketplace to create models in SageMaker.
  */
-export const deleteModelPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteModelPackage: (
+  input: DeleteModelPackageInput,
+) => Effect.Effect<
+  DeleteModelPackageResponse,
+  ConflictException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteModelPackageInput,
   output: DeleteModelPackageResponse,
   errors: [ConflictException],
@@ -29205,17 +30855,27 @@ export const deleteModelPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified model group.
  */
-export const deleteModelPackageGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteModelPackageGroupInput,
-    output: DeleteModelPackageGroupResponse,
-    errors: [ConflictException],
-  }),
-);
+export const deleteModelPackageGroup: (
+  input: DeleteModelPackageGroupInput,
+) => Effect.Effect<
+  DeleteModelPackageGroupResponse,
+  ConflictException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteModelPackageGroupInput,
+  output: DeleteModelPackageGroupResponse,
+  errors: [ConflictException],
+}));
 /**
  * Delete the specified project.
  */
-export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProject: (
+  input: DeleteProjectInput,
+) => Effect.Effect<
+  DeleteProjectResponse,
+  ConflictException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectInput,
   output: DeleteProjectResponse,
   errors: [ConflictException],
@@ -29223,7 +30883,13 @@ export const deleteProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a fleet.
  */
-export const deleteDeviceFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDeviceFleet: (
+  input: DeleteDeviceFleetRequest,
+) => Effect.Effect<
+  DeleteDeviceFleetResponse,
+  ResourceInUse | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeviceFleetRequest,
   output: DeleteDeviceFleetResponse,
   errors: [ResourceInUse],
@@ -29231,37 +30897,55 @@ export const deleteDeviceFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an edge deployment plan if (and only if) all the stages in the plan are inactive or there are no stages in the plan.
  */
-export const deleteEdgeDeploymentPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEdgeDeploymentPlanRequest,
-    output: DeleteEdgeDeploymentPlanResponse,
-    errors: [ResourceInUse],
-  }),
-);
+export const deleteEdgeDeploymentPlan: (
+  input: DeleteEdgeDeploymentPlanRequest,
+) => Effect.Effect<
+  DeleteEdgeDeploymentPlanResponse,
+  ResourceInUse | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEdgeDeploymentPlanRequest,
+  output: DeleteEdgeDeploymentPlanResponse,
+  errors: [ResourceInUse],
+}));
 /**
  * Delete a stage in an edge deployment plan if (and only if) the stage is inactive.
  */
-export const deleteEdgeDeploymentStage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteEdgeDeploymentStageRequest,
-    output: DeleteEdgeDeploymentStageResponse,
-    errors: [ResourceInUse],
-  }),
-);
+export const deleteEdgeDeploymentStage: (
+  input: DeleteEdgeDeploymentStageRequest,
+) => Effect.Effect<
+  DeleteEdgeDeploymentStageResponse,
+  ResourceInUse | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEdgeDeploymentStageRequest,
+  output: DeleteEdgeDeploymentStageResponse,
+  errors: [ResourceInUse],
+}));
 /**
  * Deletes the specified flow definition.
  */
-export const deleteFlowDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteFlowDefinitionRequest,
-    output: DeleteFlowDefinitionResponse,
-    errors: [ResourceInUse, ResourceNotFound],
-  }),
-);
+export const deleteFlowDefinition: (
+  input: DeleteFlowDefinitionRequest,
+) => Effect.Effect<
+  DeleteFlowDefinitionResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFlowDefinitionRequest,
+  output: DeleteFlowDefinitionResponse,
+  errors: [ResourceInUse, ResourceNotFound],
+}));
 /**
  * Delete a hub.
  */
-export const deleteHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteHub: (
+  input: DeleteHubRequest,
+) => Effect.Effect<
+  DeleteHubResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHubRequest,
   output: DeleteHubResponse,
   errors: [ResourceInUse, ResourceNotFound],
@@ -29269,7 +30953,13 @@ export const deleteHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete the contents of a hub.
  */
-export const deleteHubContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteHubContent: (
+  input: DeleteHubContentRequest,
+) => Effect.Effect<
+  DeleteHubContentResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHubContentRequest,
   output: DeleteHubContentResponse,
   errors: [ResourceInUse, ResourceNotFound],
@@ -29277,7 +30967,13 @@ export const deleteHubContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a SageMaker AI image and all versions of the image. The container images aren't deleted.
  */
-export const deleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteImage: (
+  input: DeleteImageRequest,
+) => Effect.Effect<
+  DeleteImageResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImageRequest,
   output: DeleteImageResponse,
   errors: [ResourceInUse, ResourceNotFound],
@@ -29285,7 +30981,13 @@ export const deleteImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a version of a SageMaker AI image. The container image the version represents isn't deleted.
  */
-export const deleteImageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteImageVersion: (
+  input: DeleteImageVersionRequest,
+) => Effect.Effect<
+  DeleteImageVersionResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteImageVersionRequest,
   output: DeleteImageVersionResponse,
   errors: [ResourceInUse, ResourceNotFound],
@@ -29293,7 +30995,13 @@ export const deleteImageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a processing job. After Amazon SageMaker deletes a processing job, all of the metadata for the processing job is lost. You can delete only processing jobs that are in a terminal state (`Stopped`, `Failed`, or `Completed`). You cannot delete a job that is in the `InProgress` or `Stopping` state. After deleting the job, you can reuse its name to create another processing job.
  */
-export const deleteProcessingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProcessingJob: (
+  input: DeleteProcessingJobRequest,
+) => Effect.Effect<
+  DeleteProcessingJobResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProcessingJobRequest,
   output: DeleteProcessingJobResponse,
   errors: [ResourceInUse, ResourceNotFound],
@@ -29301,7 +31009,13 @@ export const deleteProcessingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Used to delete a space.
  */
-export const deleteSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSpace: (
+  input: DeleteSpaceRequest,
+) => Effect.Effect<
+  DeleteSpaceResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSpaceRequest,
   output: DeleteSpaceResponse,
   errors: [ResourceInUse, ResourceNotFound],
@@ -29309,17 +31023,27 @@ export const deleteSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
  */
-export const deleteStudioLifecycleConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteStudioLifecycleConfigRequest,
-    output: DeleteStudioLifecycleConfigResponse,
-    errors: [ResourceInUse, ResourceNotFound],
-  }),
-);
+export const deleteStudioLifecycleConfig: (
+  input: DeleteStudioLifecycleConfigRequest,
+) => Effect.Effect<
+  DeleteStudioLifecycleConfigResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStudioLifecycleConfigRequest,
+  output: DeleteStudioLifecycleConfigResponse,
+  errors: [ResourceInUse, ResourceNotFound],
+}));
 /**
  * Deletes a training job. After SageMaker deletes a training job, all of the metadata for the training job is lost. You can delete only training jobs that are in a terminal state (`Stopped`, `Failed`, or `Completed`) and don't retain an `Available` managed warm pool. You cannot delete a job that is in the `InProgress` or `Stopping` state. After deleting the job, you can reuse its name to create another training job.
  */
-export const deleteTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTrainingJob: (
+  input: DeleteTrainingJobRequest,
+) => Effect.Effect<
+  DeleteTrainingJobResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTrainingJobRequest,
   output: DeleteTrainingJobResponse,
   errors: [ResourceInUse, ResourceNotFound],
@@ -29327,7 +31051,13 @@ export const deleteTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other artifacts.
  */
-export const deleteUserProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteUserProfile: (
+  input: DeleteUserProfileRequest,
+) => Effect.Effect<
+  DeleteUserProfileResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserProfileRequest,
   output: DeleteUserProfileResponse,
   errors: [ResourceInUse, ResourceNotFound],
@@ -29335,7 +31065,13 @@ export const deleteUserProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a fleet of devices.
  */
-export const updateDeviceFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDeviceFleet: (
+  input: UpdateDeviceFleetRequest,
+) => Effect.Effect<
+  UpdateDeviceFleetResponse,
+  ResourceInUse | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDeviceFleetRequest,
   output: UpdateDeviceFleetResponse,
   errors: [ResourceInUse],
@@ -29343,7 +31079,13 @@ export const updateDeviceFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a device fleet.
  */
-export const createDeviceFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDeviceFleet: (
+  input: CreateDeviceFleetRequest,
+) => Effect.Effect<
+  CreateDeviceFleetResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeviceFleetRequest,
   output: CreateDeviceFleetResponse,
   errors: [ResourceInUse, ResourceLimitExceeded],
@@ -29351,17 +31093,30 @@ export const createDeviceFleet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a hub content reference in order to add a model in the JumpStart public hub to a private hub.
  */
-export const createHubContentReference = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateHubContentReferenceRequest,
-    output: CreateHubContentReferenceResponse,
-    errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
-  }),
-);
+export const createHubContentReference: (
+  input: CreateHubContentReferenceRequest,
+) => Effect.Effect<
+  CreateHubContentReferenceResponse,
+  | ResourceInUse
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateHubContentReferenceRequest,
+  output: CreateHubContentReferenceResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
+}));
 /**
  * Creates a custom SageMaker AI image. A SageMaker AI image is a set of image versions. Each image version represents a container image stored in Amazon ECR. For more information, see Bring your own SageMaker AI image.
  */
-export const createImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createImage: (
+  input: CreateImageRequest,
+) => Effect.Effect<
+  CreateImageResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateImageRequest,
   output: CreateImageResponse,
   errors: [ResourceInUse, ResourceLimitExceeded],
@@ -29369,7 +31124,16 @@ export const createImage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a version of the SageMaker AI image specified by `ImageName`. The version represents the Amazon ECR container image specified by `BaseImage`.
  */
-export const createImageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createImageVersion: (
+  input: CreateImageVersionRequest,
+) => Effect.Effect<
+  CreateImageVersionResponse,
+  | ResourceInUse
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateImageVersionRequest,
   output: CreateImageVersionResponse,
   errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
@@ -29377,13 +31141,17 @@ export const createImageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new Amazon SageMaker AI Studio Lifecycle Configuration.
  */
-export const createStudioLifecycleConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateStudioLifecycleConfigRequest,
-    output: CreateStudioLifecycleConfigResponse,
-    errors: [ResourceInUse],
-  }),
-);
+export const createStudioLifecycleConfig: (
+  input: CreateStudioLifecycleConfigRequest,
+) => Effect.Effect<
+  CreateStudioLifecycleConfigResponse,
+  ResourceInUse | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStudioLifecycleConfigRequest,
+  output: CreateStudioLifecycleConfigResponse,
+  errors: [ResourceInUse],
+}));
 /**
  * Creates a new training plan in SageMaker to reserve compute capacity.
  *
@@ -29417,7 +31185,16 @@ export const createStudioLifecycleConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * A plan can consist of one or more Reserved Capacities, each defined by a specific instance type, quantity, Availability Zone, duration, and start and end times. For more information about Reserved Capacity, see ` ReservedCapacitySummary `.
  */
-export const createTrainingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTrainingPlan: (
+  input: CreateTrainingPlanRequest,
+) => Effect.Effect<
+  CreateTrainingPlanResponse,
+  | ResourceInUse
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrainingPlanRequest,
   output: CreateTrainingPlanResponse,
   errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
@@ -29425,7 +31202,13 @@ export const createTrainingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a user profile. A user profile represents a single user within a domain, and is the main way to reference a "person" for the purposes of sharing, reporting, and other user-oriented features. This entity is created when a user onboards to a domain. If an administrator invites a person by email or imports them from IAM Identity Center, a user profile is automatically created. A user profile is the primary holder of settings for an individual user and has a reference to the user's private Amazon Elastic File System home directory.
  */
-export const createUserProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createUserProfile: (
+  input: CreateUserProfileRequest,
+) => Effect.Effect<
+  CreateUserProfileResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserProfileRequest,
   output: CreateUserProfileResponse,
   errors: [ResourceInUse, ResourceLimitExceeded],
@@ -29433,28 +31216,43 @@ export const createUserProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the cluster policy of the cluster.
  */
-export const deleteClusterSchedulerConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteClusterSchedulerConfigRequest,
-    output: DeleteClusterSchedulerConfigResponse,
-    errors: [ResourceNotFound],
-  }));
+export const deleteClusterSchedulerConfig: (
+  input: DeleteClusterSchedulerConfigRequest,
+) => Effect.Effect<
+  DeleteClusterSchedulerConfigResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClusterSchedulerConfigRequest,
+  output: DeleteClusterSchedulerConfigResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Deletes the specified compilation job. This action deletes only the compilation job resource in Amazon SageMaker AI. It doesn't delete other resources that are related to that job, such as the model artifacts that the job creates, the compilation logs in CloudWatch, the compiled model, or the IAM role.
  *
  * You can delete a compilation job only if its current status is `COMPLETED`, `FAILED`, or `STOPPED`. If the job status is `STARTING` or `INPROGRESS`, stop the job, and then delete it after its status becomes `STOPPED`.
  */
-export const deleteCompilationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCompilationJobRequest,
-    output: DeleteCompilationJobResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const deleteCompilationJob: (
+  input: DeleteCompilationJobRequest,
+) => Effect.Effect<
+  DeleteCompilationJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCompilationJobRequest,
+  output: DeleteCompilationJobResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Deletes the compute allocation from the cluster.
  */
-export const deleteComputeQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteComputeQuota: (
+  input: DeleteComputeQuotaRequest,
+) => Effect.Effect<
+  DeleteComputeQuotaResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteComputeQuotaRequest,
   output: DeleteComputeQuotaResponse,
   errors: [ResourceNotFound],
@@ -29462,12 +31260,17 @@ export const deleteComputeQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a data quality monitoring job definition.
  */
-export const deleteDataQualityJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDataQualityJobDefinitionRequest,
-    output: DeleteDataQualityJobDefinitionResponse,
-    errors: [ResourceNotFound],
-  }));
+export const deleteDataQualityJobDefinition: (
+  input: DeleteDataQualityJobDefinitionRequest,
+) => Effect.Effect<
+  DeleteDataQualityJobDefinitionResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataQualityJobDefinitionRequest,
+  output: DeleteDataQualityJobDefinitionResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Delete the `FeatureGroup` and any data that was written to the `OnlineStore` of the `FeatureGroup`. Data cannot be accessed from the `OnlineStore` immediately after `DeleteFeatureGroup` is called.
  *
@@ -29475,7 +31278,13 @@ export const deleteDataQualityJobDefinition =
  *
  * Note that it can take approximately 10-15 minutes to delete an `OnlineStore` `FeatureGroup` with the `InMemory` `StorageType`.
  */
-export const deleteFeatureGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFeatureGroup: (
+  input: DeleteFeatureGroupRequest,
+) => Effect.Effect<
+  DeleteFeatureGroupResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFeatureGroupRequest,
   output: DeleteFeatureGroupResponse,
   errors: [ResourceNotFound],
@@ -29483,19 +31292,29 @@ export const deleteFeatureGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete a hub content reference in order to remove a model from a private hub.
  */
-export const deleteHubContentReference = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteHubContentReferenceRequest,
-    output: DeleteHubContentReferenceResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const deleteHubContentReference: (
+  input: DeleteHubContentReferenceRequest,
+) => Effect.Effect<
+  DeleteHubContentReferenceResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteHubContentReferenceRequest,
+  output: DeleteHubContentReferenceResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Use this operation to delete a human task user interface (worker task template).
  *
  * To see a list of human task user interfaces (work task templates) in your account, use ListHumanTaskUis. When you delete a worker task template, it no longer appears when you call `ListHumanTaskUis`.
  */
-export const deleteHumanTaskUi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteHumanTaskUi: (
+  input: DeleteHumanTaskUiRequest,
+) => Effect.Effect<
+  DeleteHumanTaskUiResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHumanTaskUiRequest,
   output: DeleteHumanTaskUiResponse,
   errors: [ResourceNotFound],
@@ -29503,66 +31322,99 @@ export const deleteHumanTaskUi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an Amazon SageMaker AI model bias job definition.
  */
-export const deleteModelBiasJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteModelBiasJobDefinitionRequest,
-    output: DeleteModelBiasJobDefinitionResponse,
-    errors: [ResourceNotFound],
-  }));
+export const deleteModelBiasJobDefinition: (
+  input: DeleteModelBiasJobDefinitionRequest,
+) => Effect.Effect<
+  DeleteModelBiasJobDefinitionResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteModelBiasJobDefinitionRequest,
+  output: DeleteModelBiasJobDefinitionResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Deletes an Amazon SageMaker AI model explainability job definition.
  */
-export const deleteModelExplainabilityJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteModelExplainabilityJobDefinitionRequest,
-    output: DeleteModelExplainabilityJobDefinitionResponse,
-    errors: [ResourceNotFound],
-  }));
+export const deleteModelExplainabilityJobDefinition: (
+  input: DeleteModelExplainabilityJobDefinitionRequest,
+) => Effect.Effect<
+  DeleteModelExplainabilityJobDefinitionResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteModelExplainabilityJobDefinitionRequest,
+  output: DeleteModelExplainabilityJobDefinitionResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Deletes the secified model quality monitoring job definition.
  */
-export const deleteModelQualityJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteModelQualityJobDefinitionRequest,
-    output: DeleteModelQualityJobDefinitionResponse,
-    errors: [ResourceNotFound],
-  }));
+export const deleteModelQualityJobDefinition: (
+  input: DeleteModelQualityJobDefinitionRequest,
+) => Effect.Effect<
+  DeleteModelQualityJobDefinitionResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteModelQualityJobDefinitionRequest,
+  output: DeleteModelQualityJobDefinitionResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Deletes a monitoring schedule. Also stops the schedule had not already been stopped. This does not delete the job execution history of the monitoring schedule.
  */
-export const deleteMonitoringSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMonitoringScheduleRequest,
-    output: DeleteMonitoringScheduleResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const deleteMonitoringSchedule: (
+  input: DeleteMonitoringScheduleRequest,
+) => Effect.Effect<
+  DeleteMonitoringScheduleResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMonitoringScheduleRequest,
+  output: DeleteMonitoringScheduleResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Deletes an optimization job.
  */
-export const deleteOptimizationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteOptimizationJobRequest,
-    output: DeleteOptimizationJobResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const deleteOptimizationJob: (
+  input: DeleteOptimizationJobRequest,
+) => Effect.Effect<
+  DeleteOptimizationJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOptimizationJobRequest,
+  output: DeleteOptimizationJobResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Starts a previously stopped monitoring schedule.
  *
  * By default, when you successfully create a new schedule, the status of a monitoring schedule is `scheduled`.
  */
-export const startMonitoringSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartMonitoringScheduleRequest,
-    output: StartMonitoringScheduleResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const startMonitoringSchedule: (
+  input: StartMonitoringScheduleRequest,
+) => Effect.Effect<
+  StartMonitoringScheduleResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartMonitoringScheduleRequest,
+  output: StartMonitoringScheduleResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * A method for forcing a running job to shut down.
  */
-export const stopAutoMLJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopAutoMLJob: (
+  input: StopAutoMLJobRequest,
+) => Effect.Effect<
+  StopAutoMLJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopAutoMLJobRequest,
   output: StopAutoMLJobResponse,
   errors: [ResourceNotFound],
@@ -29574,7 +31426,13 @@ export const stopAutoMLJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When it receives a `StopCompilationJob` request, Amazon SageMaker AI changes the `CompilationJobStatus` of the job to `Stopping`. After Amazon SageMaker stops the job, it sets the `CompilationJobStatus` to `Stopped`.
  */
-export const stopCompilationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopCompilationJob: (
+  input: StopCompilationJobRequest,
+) => Effect.Effect<
+  StopCompilationJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopCompilationJobRequest,
   output: StopCompilationJobResponse,
   errors: [ResourceNotFound],
@@ -29584,26 +31442,41 @@ export const stopCompilationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * All model artifacts output from the training jobs are stored in Amazon Simple Storage Service (Amazon S3). All data that the training jobs write to Amazon CloudWatch Logs are still available in CloudWatch. After the tuning job moves to the `Stopped` state, it releases all reserved resources for the tuning job.
  */
-export const stopHyperParameterTuningJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopHyperParameterTuningJobRequest,
-    output: StopHyperParameterTuningJobResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const stopHyperParameterTuningJob: (
+  input: StopHyperParameterTuningJobRequest,
+) => Effect.Effect<
+  StopHyperParameterTuningJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopHyperParameterTuningJobRequest,
+  output: StopHyperParameterTuningJobResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Stops an Inference Recommender job.
  */
-export const stopInferenceRecommendationsJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopInferenceRecommendationsJobRequest,
-    output: StopInferenceRecommendationsJobResponse,
-    errors: [ResourceNotFound],
-  }));
+export const stopInferenceRecommendationsJob: (
+  input: StopInferenceRecommendationsJobRequest,
+) => Effect.Effect<
+  StopInferenceRecommendationsJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopInferenceRecommendationsJobRequest,
+  output: StopInferenceRecommendationsJobResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Stops a running labeling job. A job that is stopped cannot be restarted. Any results obtained before the job is stopped are placed in the Amazon S3 output bucket.
  */
-export const stopLabelingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopLabelingJob: (
+  input: StopLabelingJobRequest,
+) => Effect.Effect<
+  StopLabelingJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopLabelingJobRequest,
   output: StopLabelingJobResponse,
   errors: [ResourceNotFound],
@@ -29611,17 +31484,27 @@ export const stopLabelingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a previously started monitoring schedule.
  */
-export const stopMonitoringSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopMonitoringScheduleRequest,
-    output: StopMonitoringScheduleResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const stopMonitoringSchedule: (
+  input: StopMonitoringScheduleRequest,
+) => Effect.Effect<
+  StopMonitoringScheduleResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopMonitoringScheduleRequest,
+  output: StopMonitoringScheduleResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Ends a running inference optimization job.
  */
-export const stopOptimizationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopOptimizationJob: (
+  input: StopOptimizationJobRequest,
+) => Effect.Effect<
+  StopOptimizationJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopOptimizationJobRequest,
   output: StopOptimizationJobResponse,
   errors: [ResourceNotFound],
@@ -29629,7 +31512,13 @@ export const stopOptimizationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a processing job.
  */
-export const stopProcessingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopProcessingJob: (
+  input: StopProcessingJobRequest,
+) => Effect.Effect<
+  StopProcessingJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopProcessingJobRequest,
   output: StopProcessingJobResponse,
   errors: [ResourceNotFound],
@@ -29639,7 +31528,13 @@ export const stopProcessingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When it receives a `StopTrainingJob` request, SageMaker changes the status of the job to `Stopping`. After SageMaker stops the job, it sets the status to `Stopped`.
  */
-export const stopTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopTrainingJob: (
+  input: StopTrainingJobRequest,
+) => Effect.Effect<
+  StopTrainingJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopTrainingJobRequest,
   output: StopTrainingJobResponse,
   errors: [ResourceNotFound],
@@ -29649,7 +31544,13 @@ export const stopTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When Amazon SageMaker receives a `StopTransformJob` request, the status of the job changes to `Stopping`. After Amazon SageMaker stops the job, the status is set to `Stopped`. When you stop a batch transform job before it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3.
  */
-export const stopTransformJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopTransformJob: (
+  input: StopTransformJobRequest,
+) => Effect.Effect<
+  StopTransformJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopTransformJobRequest,
   output: StopTransformJobResponse,
   errors: [ResourceNotFound],
@@ -29659,22 +31560,31 @@ export const stopTransformJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
  */
-export const attachClusterNodeVolume = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AttachClusterNodeVolumeRequest,
-    output: AttachClusterNodeVolumeResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const attachClusterNodeVolume: (
+  input: AttachClusterNodeVolumeRequest,
+) => Effect.Effect<
+  AttachClusterNodeVolumeResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachClusterNodeVolumeRequest,
+  output: AttachClusterNodeVolumeResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Creates a presigned URL to access an Amazon SageMaker Partner AI App.
  */
-export const createPartnerAppPresignedUrl =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePartnerAppPresignedUrlRequest,
-    output: CreatePartnerAppPresignedUrlResponse,
-    errors: [ResourceNotFound],
-  }));
+export const createPartnerAppPresignedUrl: (
+  input: CreatePartnerAppPresignedUrlRequest,
+) => Effect.Effect<
+  CreatePartnerAppPresignedUrlResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePartnerAppPresignedUrlRequest,
+  output: CreatePartnerAppPresignedUrlResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM.
  *
@@ -29686,32 +31596,45 @@ export const createPartnerAppPresignedUrl =
  *
  * - The JupyterLab session default expiration time is 12 hours. You can configure this value using SessionExpirationDurationInSeconds.
  */
-export const createPresignedDomainUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePresignedDomainUrlRequest,
-    output: CreatePresignedDomainUrlResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const createPresignedDomainUrl: (
+  input: CreatePresignedDomainUrlRequest,
+) => Effect.Effect<
+  CreatePresignedDomainUrlResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePresignedDomainUrlRequest,
+  output: CreatePresignedDomainUrlResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Returns a presigned URL that you can use to connect to the MLflow UI attached to your MLflow App. For more information, see Launch the MLflow UI using a presigned URL.
  */
-export const createPresignedMlflowAppUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePresignedMlflowAppUrlRequest,
-    output: CreatePresignedMlflowAppUrlResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const createPresignedMlflowAppUrl: (
+  input: CreatePresignedMlflowAppUrlRequest,
+) => Effect.Effect<
+  CreatePresignedMlflowAppUrlResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePresignedMlflowAppUrlRequest,
+  output: CreatePresignedMlflowAppUrlResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Returns a presigned URL that you can use to connect to the MLflow UI attached to your tracking server. For more information, see Launch the MLflow UI using a presigned URL.
  */
-export const createPresignedMlflowTrackingServerUrl =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePresignedMlflowTrackingServerUrlRequest,
-    output: CreatePresignedMlflowTrackingServerUrlResponse,
-    errors: [ResourceNotFound],
-  }));
+export const createPresignedMlflowTrackingServerUrl: (
+  input: CreatePresignedMlflowTrackingServerUrlRequest,
+) => Effect.Effect<
+  CreatePresignedMlflowTrackingServerUrlResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePresignedMlflowTrackingServerUrlRequest,
+  output: CreatePresignedMlflowTrackingServerUrlResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Creates an SageMaker *trial*. A trial is a set of steps called *trial components* that produce a machine learning model. A trial is part of a single SageMaker *experiment*.
  *
@@ -29721,7 +31644,13 @@ export const createPresignedMlflowTrackingServerUrl =
  *
  * To get a list of all your trials, call the ListTrials API. To view a trial's properties, call the DescribeTrial API. To create a trial component, call the CreateTrialComponent API.
  */
-export const createTrial = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTrial: (
+  input: CreateTrialRequest,
+) => Effect.Effect<
+  CreateTrialResponse,
+  ResourceLimitExceeded | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrialRequest,
   output: CreateTrialResponse,
   errors: [ResourceLimitExceeded, ResourceNotFound],
@@ -29729,7 +31658,13 @@ export const createTrial = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an action.
  */
-export const deleteAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAction: (
+  input: DeleteActionRequest,
+) => Effect.Effect<
+  DeleteActionResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteActionRequest,
   output: DeleteActionResponse,
   errors: [ResourceNotFound],
@@ -29737,7 +31672,13 @@ export const deleteAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Used to stop and delete an app.
  */
-export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApp: (
+  input: DeleteAppRequest,
+) => Effect.Effect<
+  DeleteAppResponse,
+  ResourceInUse | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppRequest,
   output: DeleteAppResponse,
   errors: [ResourceInUse, ResourceNotFound],
@@ -29751,7 +31692,13 @@ export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Tags that you add to a SageMaker Domain or User Profile by calling this API are also added to any Apps that the Domain or User Profile launches after you call this API, but not to Apps that the Domain or User Profile launched before you called this API. To make sure that the tags associated with a Domain or User Profile are also added to all Apps that the Domain or User Profile launches, add the tags when you first create the Domain or User Profile by specifying them in the `Tags` parameter of CreateDomain or CreateUserProfile.
  */
-export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const addTags: (
+  input: AddTagsInput,
+) => Effect.Effect<
+  AddTagsOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTagsInput,
   output: AddTagsOutput,
   errors: [],
@@ -29763,13 +31710,17 @@ export const addTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - If you want to invoke this API on an existing cluster, you'll first need to patch the cluster by running the UpdateClusterSoftware API. For more information about patching a cluster, see Update the SageMaker HyperPod platform software of a cluster.
  */
-export const batchDeleteClusterNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDeleteClusterNodesRequest,
-    output: BatchDeleteClusterNodesResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const batchDeleteClusterNodes: (
+  input: BatchDeleteClusterNodesRequest,
+) => Effect.Effect<
+  BatchDeleteClusterNodesResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteClusterNodesRequest,
+  output: BatchDeleteClusterNodesResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Reboots specific nodes within a SageMaker HyperPod cluster using a soft recovery mechanism. `BatchRebootClusterNodes` performs a graceful reboot of the specified nodes by calling the Amazon Elastic Compute Cloud `RebootInstances` API, which attempts to cleanly shut down the operating system before restarting the instance.
  *
@@ -29781,13 +31732,17 @@ export const batchDeleteClusterNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - For SageMaker HyperPod clusters using the Slurm workload manager, ensure rebooting nodes will not disrupt critical cluster operations.
  */
-export const batchRebootClusterNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchRebootClusterNodesRequest,
-    output: BatchRebootClusterNodesResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const batchRebootClusterNodes: (
+  input: BatchRebootClusterNodesRequest,
+) => Effect.Effect<
+  BatchRebootClusterNodesResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchRebootClusterNodesRequest,
+  output: BatchRebootClusterNodesResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Replaces specific nodes within a SageMaker HyperPod cluster with new hardware. `BatchReplaceClusterNodes` terminates the specified instances and provisions new replacement instances with the same configuration but fresh hardware. The Amazon Machine Image (AMI) and instance configuration remain the same.
  *
@@ -29801,17 +31756,27 @@ export const batchRebootClusterNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * - You can replace up to 25 nodes in a single request.
  */
-export const batchReplaceClusterNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchReplaceClusterNodesRequest,
-    output: BatchReplaceClusterNodesResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const batchReplaceClusterNodes: (
+  input: BatchReplaceClusterNodesRequest,
+) => Effect.Effect<
+  BatchReplaceClusterNodesResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchReplaceClusterNodesRequest,
+  output: BatchReplaceClusterNodesResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Creates an *action*. An action is a lineage tracking entity that represents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output artifact. For more information, see Amazon SageMaker ML Lineage Tracking.
  */
-export const createAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAction: (
+  input: CreateActionRequest,
+) => Effect.Effect<
+  CreateActionResponse,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateActionRequest,
   output: CreateActionResponse,
   errors: [ResourceLimitExceeded],
@@ -29819,7 +31784,13 @@ export const createAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a running app for the specified UserProfile. This operation is automatically invoked by Amazon SageMaker AI upon access to the associated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously.
  */
-export const createApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApp: (
+  input: CreateAppRequest,
+) => Effect.Effect<
+  CreateAppResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppRequest,
   output: CreateAppResponse,
   errors: [ResourceInUse, ResourceLimitExceeded],
@@ -29829,17 +31800,27 @@ export const createApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The repository can be hosted either in Amazon Web Services CodeCommit or in any other Git repository.
  */
-export const createCodeRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCodeRepositoryInput,
-    output: CreateCodeRepositoryOutput,
-    errors: [],
-  }),
-);
+export const createCodeRepository: (
+  input: CreateCodeRepositoryInput,
+) => Effect.Effect<
+  CreateCodeRepositoryOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCodeRepositoryInput,
+  output: CreateCodeRepositoryOutput,
+  errors: [],
+}));
 /**
  * Creates a *context*. A context is a lineage tracking entity that represents a logical grouping of other tracking or experiment entities. Some examples are an endpoint and a model package. For more information, see Amazon SageMaker ML Lineage Tracking.
  */
-export const createContext = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createContext: (
+  input: CreateContextRequest,
+) => Effect.Effect<
+  CreateContextResponse,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContextRequest,
   output: CreateContextResponse,
   errors: [ResourceLimitExceeded],
@@ -29847,7 +31828,13 @@ export const createContext = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a hub.
  */
-export const createHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createHub: (
+  input: CreateHubRequest,
+) => Effect.Effect<
+  CreateHubResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHubRequest,
   output: CreateHubResponse,
   errors: [ResourceInUse, ResourceLimitExceeded],
@@ -29855,7 +31842,13 @@ export const createHub = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Defines the settings you will use for the human review workflow user interface. Reviewers will see a three-panel interface with an instruction area, the item to review, and an input area.
  */
-export const createHumanTaskUi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createHumanTaskUi: (
+  input: CreateHumanTaskUiRequest,
+) => Effect.Effect<
+  CreateHumanTaskUiResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHumanTaskUiRequest,
   output: CreateHumanTaskUiResponse,
   errors: [ResourceInUse, ResourceLimitExceeded],
@@ -29865,7 +31858,13 @@ export const createHumanTaskUi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For information about how to use model cards, see Amazon SageMaker Model Card.
  */
-export const createModelCard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createModelCard: (
+  input: CreateModelCardRequest,
+) => Effect.Effect<
+  CreateModelCardResponse,
+  ConflictException | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelCardRequest,
   output: CreateModelCardResponse,
   errors: [ConflictException, ResourceLimitExceeded],
@@ -29873,31 +31872,48 @@ export const createModelCard = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon SageMaker Model Card export job.
  */
-export const createModelCardExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateModelCardExportJobRequest,
-    output: CreateModelCardExportJobResponse,
-    errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
-  }),
-);
+export const createModelCardExportJob: (
+  input: CreateModelCardExportJobRequest,
+) => Effect.Effect<
+  CreateModelCardExportJobResponse,
+  | ConflictException
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateModelCardExportJobRequest,
+  output: CreateModelCardExportJobResponse,
+  errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
+}));
 /**
  * Creates the definition for a model explainability job.
  */
-export const createModelExplainabilityJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateModelExplainabilityJobDefinitionRequest,
-    output: CreateModelExplainabilityJobDefinitionResponse,
-    errors: [ResourceInUse, ResourceLimitExceeded],
-  }));
+export const createModelExplainabilityJobDefinition: (
+  input: CreateModelExplainabilityJobDefinitionRequest,
+) => Effect.Effect<
+  CreateModelExplainabilityJobDefinitionResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateModelExplainabilityJobDefinitionRequest,
+  output: CreateModelExplainabilityJobDefinitionResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded],
+}));
 /**
  * Creates a definition for a job that monitors model quality and drift. For information about model monitor, see Amazon SageMaker AI Model Monitor.
  */
-export const createModelQualityJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateModelQualityJobDefinitionRequest,
-    output: CreateModelQualityJobDefinitionResponse,
-    errors: [ResourceInUse, ResourceLimitExceeded],
-  }));
+export const createModelQualityJobDefinition: (
+  input: CreateModelQualityJobDefinitionRequest,
+) => Effect.Effect<
+  CreateModelQualityJobDefinitionResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateModelQualityJobDefinitionRequest,
+  output: CreateModelQualityJobDefinitionResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded],
+}));
 /**
  * Creates an SageMaker AI notebook instance. A notebook instance is a machine learning (ML) compute instance running on a Jupyter notebook.
  *
@@ -29919,13 +31935,17 @@ export const createModelQualityJobDefinition =
  *
  * For more information, see How It Works.
  */
-export const createNotebookInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateNotebookInstanceInput,
-    output: CreateNotebookInstanceOutput,
-    errors: [ResourceLimitExceeded],
-  }),
-);
+export const createNotebookInstance: (
+  input: CreateNotebookInstanceInput,
+) => Effect.Effect<
+  CreateNotebookInstanceOutput,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNotebookInstanceInput,
+  output: CreateNotebookInstanceOutput,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Creates a lifecycle configuration that you can associate with a notebook instance. A *lifecycle configuration* is a collection of shell scripts that run when you create or start a notebook instance.
  *
@@ -29939,16 +31959,30 @@ export const createNotebookInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For information about notebook instance lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
  */
-export const createNotebookInstanceLifecycleConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateNotebookInstanceLifecycleConfigInput,
-    output: CreateNotebookInstanceLifecycleConfigOutput,
-    errors: [ResourceLimitExceeded],
-  }));
+export const createNotebookInstanceLifecycleConfig: (
+  input: CreateNotebookInstanceLifecycleConfigInput,
+) => Effect.Effect<
+  CreateNotebookInstanceLifecycleConfigOutput,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNotebookInstanceLifecycleConfigInput,
+  output: CreateNotebookInstanceLifecycleConfigOutput,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Creates a pipeline using a JSON pipeline definition.
  */
-export const createPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPipeline: (
+  input: CreatePipelineRequest,
+) => Effect.Effect<
+  CreatePipelineResponse,
+  | ConflictException
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePipelineRequest,
   output: CreatePipelineResponse,
   errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
@@ -29958,17 +31992,27 @@ export const createPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To create a model compilation job, use CreateCompilationJob. To get information about multiple model compilation jobs, use ListCompilationJobs.
  */
-export const describeCompilationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCompilationJobRequest,
-    output: DescribeCompilationJobResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeCompilationJob: (
+  input: DescribeCompilationJobRequest,
+) => Effect.Effect<
+  DescribeCompilationJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCompilationJobRequest,
+  output: DescribeCompilationJobResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Describes the device.
  */
-export const describeDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDevice: (
+  input: DescribeDeviceRequest,
+) => Effect.Effect<
+  DescribeDeviceResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDeviceRequest,
   output: DescribeDeviceResponse,
   errors: [ResourceNotFound],
@@ -29976,17 +32020,27 @@ export const describeDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * A description of edge packaging jobs.
  */
-export const describeEdgePackagingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEdgePackagingJobRequest,
-    output: DescribeEdgePackagingJobResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeEdgePackagingJob: (
+  input: DescribeEdgePackagingJobRequest,
+) => Effect.Effect<
+  DescribeEdgePackagingJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEdgePackagingJobRequest,
+  output: DescribeEdgePackagingJobResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Provides a list of an experiment's properties.
  */
-export const describeExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeExperiment: (
+  input: DescribeExperimentRequest,
+) => Effect.Effect<
+  DescribeExperimentResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeExperimentRequest,
   output: DescribeExperimentResponse,
   errors: [ResourceNotFound],
@@ -29994,17 +32048,27 @@ export const describeExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Use this operation to describe a `FeatureGroup`. The response includes information on the creation time, `FeatureGroup` name, the unique identifier for each `FeatureGroup`, and more.
  */
-export const describeFeatureGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeFeatureGroupRequest,
-    output: DescribeFeatureGroupResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeFeatureGroup: (
+  input: DescribeFeatureGroupRequest,
+) => Effect.Effect<
+  DescribeFeatureGroupResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeFeatureGroupRequest,
+  output: DescribeFeatureGroupResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Describe the content of a hub.
  */
-export const describeHubContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeHubContent: (
+  input: DescribeHubContentRequest,
+) => Effect.Effect<
+  DescribeHubContentResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHubContentRequest,
   output: DescribeHubContentResponse,
   errors: [ResourceNotFound],
@@ -30012,7 +32076,13 @@ export const describeHubContent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the requested human task user interface (worker task template).
  */
-export const describeHumanTaskUi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeHumanTaskUi: (
+  input: DescribeHumanTaskUiRequest,
+) => Effect.Effect<
+  DescribeHumanTaskUiResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeHumanTaskUiRequest,
   output: DescribeHumanTaskUiResponse,
   errors: [ResourceNotFound],
@@ -30020,17 +32090,27 @@ export const describeHumanTaskUi = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns details about an inference experiment.
  */
-export const describeInferenceExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInferenceExperimentRequest,
-    output: DescribeInferenceExperimentResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeInferenceExperiment: (
+  input: DescribeInferenceExperimentRequest,
+) => Effect.Effect<
+  DescribeInferenceExperimentResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInferenceExperimentRequest,
+  output: DescribeInferenceExperimentResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Gets information about a labeling job.
  */
-export const describeLabelingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeLabelingJob: (
+  input: DescribeLabelingJobRequest,
+) => Effect.Effect<
+  DescribeLabelingJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeLabelingJobRequest,
   output: DescribeLabelingJobResponse,
   errors: [ResourceNotFound],
@@ -30038,37 +32118,55 @@ export const describeLabelingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes an Amazon SageMaker Model Card export job.
  */
-export const describeModelCardExportJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeModelCardExportJobRequest,
-    output: DescribeModelCardExportJobResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeModelCardExportJob: (
+  input: DescribeModelCardExportJobRequest,
+) => Effect.Effect<
+  DescribeModelCardExportJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeModelCardExportJobRequest,
+  output: DescribeModelCardExportJobResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Describes the schedule for a monitoring job.
  */
-export const describeMonitoringSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeMonitoringScheduleRequest,
-    output: DescribeMonitoringScheduleResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeMonitoringSchedule: (
+  input: DescribeMonitoringScheduleRequest,
+) => Effect.Effect<
+  DescribeMonitoringScheduleResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeMonitoringScheduleRequest,
+  output: DescribeMonitoringScheduleResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Provides the properties of the specified optimization job.
  */
-export const describeOptimizationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeOptimizationJobRequest,
-    output: DescribeOptimizationJobResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeOptimizationJob: (
+  input: DescribeOptimizationJobRequest,
+) => Effect.Effect<
+  DescribeOptimizationJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeOptimizationJobRequest,
+  output: DescribeOptimizationJobResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Gets information about a SageMaker Partner AI App.
  */
-export const describePartnerApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describePartnerApp: (
+  input: DescribePartnerAppRequest,
+) => Effect.Effect<
+  DescribePartnerAppResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePartnerAppRequest,
   output: DescribePartnerAppResponse,
   errors: [ResourceNotFound],
@@ -30076,39 +32174,57 @@ export const describePartnerApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the details of a pipeline execution.
  */
-export const describePipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePipelineExecutionRequest,
-    output: DescribePipelineExecutionResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describePipelineExecution: (
+  input: DescribePipelineExecutionRequest,
+) => Effect.Effect<
+  DescribePipelineExecutionResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePipelineExecutionRequest,
+  output: DescribePipelineExecutionResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Retrieves details about a reserved capacity.
  */
-export const describeReservedCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeReservedCapacityRequest,
-    output: DescribeReservedCapacityResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeReservedCapacity: (
+  input: DescribeReservedCapacityRequest,
+) => Effect.Effect<
+  DescribeReservedCapacityResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeReservedCapacityRequest,
+  output: DescribeReservedCapacityResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Gets information about a work team provided by a vendor. It returns details about the subscription with a vendor in the Amazon Web Services Marketplace.
  */
-export const describeSubscribedWorkteam = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSubscribedWorkteamRequest,
-    output: DescribeSubscribedWorkteamResponse,
-    errors: [],
-  }),
-);
+export const describeSubscribedWorkteam: (
+  input: DescribeSubscribedWorkteamRequest,
+) => Effect.Effect<
+  DescribeSubscribedWorkteamResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSubscribedWorkteamRequest,
+  output: DescribeSubscribedWorkteamResponse,
+  errors: [],
+}));
 /**
  * Returns information about a training job.
  *
  * Some of the attributes below only appear if the training job successfully starts. If the training job fails, `TrainingJobStatus` is `Failed` and, depending on the `FailureReason`, attributes like `TrainingStartTime`, `TrainingTimeInSeconds`, `TrainingEndTime`, and `BillableTimeInSeconds` may not be present in the response.
  */
-export const describeTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTrainingJob: (
+  input: DescribeTrainingJobRequest,
+) => Effect.Effect<
+  DescribeTrainingJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTrainingJobRequest,
   output: DescribeTrainingJobResponse,
   errors: [ResourceNotFound],
@@ -30116,17 +32232,27 @@ export const describeTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a specific training plan.
  */
-export const describeTrainingPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTrainingPlanRequest,
-    output: DescribeTrainingPlanResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeTrainingPlan: (
+  input: DescribeTrainingPlanRequest,
+) => Effect.Effect<
+  DescribeTrainingPlanResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTrainingPlanRequest,
+  output: DescribeTrainingPlanResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Provides a list of a trial's properties.
  */
-export const describeTrial = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTrial: (
+  input: DescribeTrialRequest,
+) => Effect.Effect<
+  DescribeTrialResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTrialRequest,
   output: DescribeTrialResponse,
   errors: [ResourceNotFound],
@@ -30134,17 +32260,27 @@ export const describeTrial = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides a list of a trials component's properties.
  */
-export const describeTrialComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeTrialComponentRequest,
-    output: DescribeTrialComponentResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeTrialComponent: (
+  input: DescribeTrialComponentRequest,
+) => Effect.Effect<
+  DescribeTrialComponentResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTrialComponentRequest,
+  output: DescribeTrialComponentResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Gets information about a specific work team. You can see information such as the creation date, the last updated date, membership information, and the work team's Amazon Resource Name (ARN).
  */
-export const describeWorkteam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeWorkteam: (
+  input: DescribeWorkteamRequest,
+) => Effect.Effect<
+  DescribeWorkteamResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkteamRequest,
   output: DescribeWorkteamResponse,
   errors: [],
@@ -30152,64 +32288,151 @@ export const describeWorkteam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes a fleet.
  */
-export const getDeviceFleetReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDeviceFleetReportRequest,
-    output: GetDeviceFleetReportResponse,
-    errors: [],
-  }),
-);
+export const getDeviceFleetReport: (
+  input: GetDeviceFleetReportRequest,
+) => Effect.Effect<
+  GetDeviceFleetReportResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDeviceFleetReportRequest,
+  output: GetDeviceFleetReportResponse,
+  errors: [],
+}));
 /**
  * Lists the actions in your account and their properties.
  */
-export const listActions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listActions: {
+  (
     input: ListActionsRequest,
-    output: ListActionsResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ActionSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListActionsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListActionsRequest,
+  ) => Stream.Stream<
+    ListActionsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListActionsRequest,
+  ) => Stream.Stream<
+    ActionSummary,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListActionsRequest,
+  output: ListActionsResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ActionSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the machine learning algorithms that have been created.
  */
-export const listAlgorithms = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAlgorithms: {
+  (
     input: ListAlgorithmsInput,
-    output: ListAlgorithmsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AlgorithmSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAlgorithmsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAlgorithmsInput,
+  ) => Stream.Stream<
+    ListAlgorithmsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAlgorithmsInput,
+  ) => Stream.Stream<
+    AlgorithmSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAlgorithmsInput,
+  output: ListAlgorithmsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AlgorithmSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the AppImageConfigs in your account and their properties. The list can be filtered by creation time or modified time, and whether the AppImageConfig name contains a specified string.
  */
-export const listAppImageConfigs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAppImageConfigs: {
+  (
     input: ListAppImageConfigsRequest,
-    output: ListAppImageConfigsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AppImageConfigs",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAppImageConfigsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppImageConfigsRequest,
+  ) => Stream.Stream<
+    ListAppImageConfigsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppImageConfigsRequest,
+  ) => Stream.Stream<
+    AppImageConfigDetails,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppImageConfigsRequest,
+  output: ListAppImageConfigsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AppImageConfigs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists apps.
  */
-export const listApps = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApps: {
+  (
+    input: ListAppsRequest,
+  ): Effect.Effect<
+    ListAppsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppsRequest,
+  ) => Stream.Stream<
+    ListAppsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppsRequest,
+  ) => Stream.Stream<
+    AppDetails,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAppsRequest,
   output: ListAppsResponse,
   errors: [],
@@ -30223,337 +32446,771 @@ export const listApps = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists the artifacts in your account and their properties.
  */
-export const listArtifacts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listArtifacts: {
+  (
     input: ListArtifactsRequest,
-    output: ListArtifactsResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ArtifactSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListArtifactsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListArtifactsRequest,
+  ) => Stream.Stream<
+    ListArtifactsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListArtifactsRequest,
+  ) => Stream.Stream<
+    ArtifactSummary,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListArtifactsRequest,
+  output: ListArtifactsResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ArtifactSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the associations in your account and their properties.
  */
-export const listAssociations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAssociations: {
+  (
     input: ListAssociationsRequest,
-    output: ListAssociationsResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AssociationSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAssociationsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssociationsRequest,
+  ) => Stream.Stream<
+    ListAssociationsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssociationsRequest,
+  ) => Stream.Stream<
+    AssociationSummary,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssociationsRequest,
+  output: ListAssociationsResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AssociationSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Request a list of jobs.
  */
-export const listAutoMLJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAutoMLJobs: {
+  (
     input: ListAutoMLJobsRequest,
-    output: ListAutoMLJobsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AutoMLJobSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAutoMLJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAutoMLJobsRequest,
+  ) => Stream.Stream<
+    ListAutoMLJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAutoMLJobsRequest,
+  ) => Stream.Stream<
+    AutoMLJobSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAutoMLJobsRequest,
+  output: ListAutoMLJobsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AutoMLJobSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of event summaries for a specified HyperPod cluster. The operation supports filtering, sorting, and pagination of results. This functionality is only supported when the `NodeProvisioningMode` is set to `Continuous`.
  */
-export const listClusterEvents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listClusterEvents: {
+  (
     input: ListClusterEventsRequest,
-    output: ListClusterEventsResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Events",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListClusterEventsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClusterEventsRequest,
+  ) => Stream.Stream<
+    ListClusterEventsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClusterEventsRequest,
+  ) => Stream.Stream<
+    ClusterEventSummary,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClusterEventsRequest,
+  output: ListClusterEventsResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Events",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the list of instances (also called *nodes* interchangeably) in a SageMaker HyperPod cluster.
  */
-export const listClusterNodes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listClusterNodes: {
+  (
     input: ListClusterNodesRequest,
-    output: ListClusterNodesResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ClusterNodeSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListClusterNodesResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClusterNodesRequest,
+  ) => Stream.Stream<
+    ListClusterNodesResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClusterNodesRequest,
+  ) => Stream.Stream<
+    ClusterNodeSummary,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClusterNodesRequest,
+  output: ListClusterNodesResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ClusterNodeSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the list of SageMaker HyperPod clusters.
  */
-export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listClusters: {
+  (
     input: ListClustersRequest,
-    output: ListClustersResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ClusterSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListClustersResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClustersRequest,
+  ) => Stream.Stream<
+    ListClustersResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClustersRequest,
+  ) => Stream.Stream<
+    ClusterSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClustersRequest,
+  output: ListClustersResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ClusterSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the cluster policy configurations.
  */
-export const listClusterSchedulerConfigs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listClusterSchedulerConfigs: {
+  (
     input: ListClusterSchedulerConfigsRequest,
-    output: ListClusterSchedulerConfigsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ClusterSchedulerConfigSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListClusterSchedulerConfigsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClusterSchedulerConfigsRequest,
+  ) => Stream.Stream<
+    ListClusterSchedulerConfigsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClusterSchedulerConfigsRequest,
+  ) => Stream.Stream<
+    ClusterSchedulerConfigSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClusterSchedulerConfigsRequest,
+  output: ListClusterSchedulerConfigsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ClusterSchedulerConfigSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of the Git repositories in your account.
  */
-export const listCodeRepositories =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCodeRepositories: {
+  (
     input: ListCodeRepositoriesInput,
-    output: ListCodeRepositoriesOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CodeRepositorySummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCodeRepositoriesOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCodeRepositoriesInput,
+  ) => Stream.Stream<
+    ListCodeRepositoriesOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCodeRepositoriesInput,
+  ) => Stream.Stream<
+    CodeRepositorySummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCodeRepositoriesInput,
+  output: ListCodeRepositoriesOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CodeRepositorySummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists model compilation jobs that satisfy various filters.
  *
  * To create a model compilation job, use CreateCompilationJob. To get information about a particular model compilation job you have created, use DescribeCompilationJob.
  */
-export const listCompilationJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCompilationJobs: {
+  (
     input: ListCompilationJobsRequest,
-    output: ListCompilationJobsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "CompilationJobSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCompilationJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCompilationJobsRequest,
+  ) => Stream.Stream<
+    ListCompilationJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCompilationJobsRequest,
+  ) => Stream.Stream<
+    CompilationJobSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCompilationJobsRequest,
+  output: ListCompilationJobsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CompilationJobSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the resource allocation definitions.
  */
-export const listComputeQuotas = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listComputeQuotas: {
+  (
     input: ListComputeQuotasRequest,
-    output: ListComputeQuotasResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ComputeQuotaSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListComputeQuotasResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComputeQuotasRequest,
+  ) => Stream.Stream<
+    ListComputeQuotasResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComputeQuotasRequest,
+  ) => Stream.Stream<
+    ComputeQuotaSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComputeQuotasRequest,
+  output: ListComputeQuotasResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ComputeQuotaSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the contexts in your account and their properties.
  */
-export const listContexts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listContexts: {
+  (
     input: ListContextsRequest,
-    output: ListContextsResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ContextSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListContextsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContextsRequest,
+  ) => Stream.Stream<
+    ListContextsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContextsRequest,
+  ) => Stream.Stream<
+    ContextSummary,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContextsRequest,
+  output: ListContextsResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ContextSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the data quality job definitions in your account.
  */
-export const listDataQualityJobDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataQualityJobDefinitions: {
+  (
     input: ListDataQualityJobDefinitionsRequest,
-    output: ListDataQualityJobDefinitionsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "JobDefinitionSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataQualityJobDefinitionsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataQualityJobDefinitionsRequest,
+  ) => Stream.Stream<
+    ListDataQualityJobDefinitionsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataQualityJobDefinitionsRequest,
+  ) => Stream.Stream<
+    MonitoringJobDefinitionSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataQualityJobDefinitionsRequest,
+  output: ListDataQualityJobDefinitionsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "JobDefinitionSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of devices in the fleet.
  */
-export const listDeviceFleets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDeviceFleets: {
+  (
     input: ListDeviceFleetsRequest,
-    output: ListDeviceFleetsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DeviceFleetSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDeviceFleetsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeviceFleetsRequest,
+  ) => Stream.Stream<
+    ListDeviceFleetsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeviceFleetsRequest,
+  ) => Stream.Stream<
+    DeviceFleetSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeviceFleetsRequest,
+  output: ListDeviceFleetsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DeviceFleetSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the domains.
  */
-export const listDomains = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDomains: {
+  (
     input: ListDomainsRequest,
-    output: ListDomainsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Domains",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDomainsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDomainsRequest,
+  ) => Stream.Stream<
+    ListDomainsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDomainsRequest,
+  ) => Stream.Stream<
+    DomainDetails,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDomainsRequest,
+  output: ListDomainsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Domains",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all edge deployment plans.
  */
-export const listEdgeDeploymentPlans =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEdgeDeploymentPlans: {
+  (
     input: ListEdgeDeploymentPlansRequest,
-    output: ListEdgeDeploymentPlansResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EdgeDeploymentPlanSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEdgeDeploymentPlansResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEdgeDeploymentPlansRequest,
+  ) => Stream.Stream<
+    ListEdgeDeploymentPlansResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEdgeDeploymentPlansRequest,
+  ) => Stream.Stream<
+    EdgeDeploymentPlanSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEdgeDeploymentPlansRequest,
+  output: ListEdgeDeploymentPlansResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EdgeDeploymentPlanSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of edge packaging jobs.
  */
-export const listEdgePackagingJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEdgePackagingJobs: {
+  (
     input: ListEdgePackagingJobsRequest,
-    output: ListEdgePackagingJobsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EdgePackagingJobSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEdgePackagingJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEdgePackagingJobsRequest,
+  ) => Stream.Stream<
+    ListEdgePackagingJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEdgePackagingJobsRequest,
+  ) => Stream.Stream<
+    EdgePackagingJobSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEdgePackagingJobsRequest,
+  output: ListEdgePackagingJobsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EdgePackagingJobSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists endpoint configurations.
  */
-export const listEndpointConfigs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEndpointConfigs: {
+  (
     input: ListEndpointConfigsInput,
-    output: ListEndpointConfigsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "EndpointConfigs",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEndpointConfigsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEndpointConfigsInput,
+  ) => Stream.Stream<
+    ListEndpointConfigsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEndpointConfigsInput,
+  ) => Stream.Stream<
+    EndpointConfigSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEndpointConfigsInput,
+  output: ListEndpointConfigsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EndpointConfigs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists endpoints.
  */
-export const listEndpoints = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEndpoints: {
+  (
     input: ListEndpointsInput,
-    output: ListEndpointsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Endpoints",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEndpointsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEndpointsInput,
+  ) => Stream.Stream<
+    ListEndpointsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEndpointsInput,
+  ) => Stream.Stream<
+    EndpointSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEndpointsInput,
+  output: ListEndpointsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Endpoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all the experiments in your account. The list can be filtered to show only experiments that were created in a specific time range. The list can be sorted by experiment name or creation time.
  */
-export const listExperiments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listExperiments: {
+  (
     input: ListExperimentsRequest,
-    output: ListExperimentsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ExperimentSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListExperimentsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExperimentsRequest,
+  ) => Stream.Stream<
+    ListExperimentsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExperimentsRequest,
+  ) => Stream.Stream<
+    ExperimentSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExperimentsRequest,
+  output: ListExperimentsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ExperimentSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List `FeatureGroup`s based on given filter and order.
  */
-export const listFeatureGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFeatureGroups: {
+  (
     input: ListFeatureGroupsRequest,
-    output: ListFeatureGroupsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FeatureGroupSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFeatureGroupsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFeatureGroupsRequest,
+  ) => Stream.Stream<
+    ListFeatureGroupsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFeatureGroupsRequest,
+  ) => Stream.Stream<
+    FeatureGroupSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFeatureGroupsRequest,
+  output: ListFeatureGroupsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FeatureGroupSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns information about the flow definitions in your account.
  */
-export const listFlowDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFlowDefinitions: {
+  (
     input: ListFlowDefinitionsRequest,
-    output: ListFlowDefinitionsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "FlowDefinitionSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFlowDefinitionsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFlowDefinitionsRequest,
+  ) => Stream.Stream<
+    ListFlowDefinitionsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFlowDefinitionsRequest,
+  ) => Stream.Stream<
+    FlowDefinitionSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFlowDefinitionsRequest,
+  output: ListFlowDefinitionsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "FlowDefinitionSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the contents of a hub.
  */
-export const listHubContents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listHubContents: (
+  input: ListHubContentsRequest,
+) => Effect.Effect<
+  ListHubContentsResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListHubContentsRequest,
   output: ListHubContentsResponse,
   errors: [ResourceNotFound],
@@ -30561,7 +33218,13 @@ export const listHubContents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List all existing hubs.
  */
-export const listHubs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listHubs: (
+  input: ListHubsRequest,
+) => Effect.Effect<
+  ListHubsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListHubsRequest,
   output: ListHubsResponse,
   errors: [],
@@ -30569,38 +33232,101 @@ export const listHubs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about the human task user interfaces in your account.
  */
-export const listHumanTaskUis = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listHumanTaskUis: {
+  (
     input: ListHumanTaskUisRequest,
-    output: ListHumanTaskUisResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "HumanTaskUiSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListHumanTaskUisResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListHumanTaskUisRequest,
+  ) => Stream.Stream<
+    ListHumanTaskUisResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListHumanTaskUisRequest,
+  ) => Stream.Stream<
+    HumanTaskUiSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListHumanTaskUisRequest,
+  output: ListHumanTaskUisResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "HumanTaskUiSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of HyperParameterTuningJobSummary objects that describe the hyperparameter tuning jobs launched in your account.
  */
-export const listHyperParameterTuningJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listHyperParameterTuningJobs: {
+  (
     input: ListHyperParameterTuningJobsRequest,
-    output: ListHyperParameterTuningJobsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "HyperParameterTuningJobSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListHyperParameterTuningJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListHyperParameterTuningJobsRequest,
+  ) => Stream.Stream<
+    ListHyperParameterTuningJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListHyperParameterTuningJobsRequest,
+  ) => Stream.Stream<
+    HyperParameterTuningJobSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListHyperParameterTuningJobsRequest,
+  output: ListHyperParameterTuningJobsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "HyperParameterTuningJobSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the images in your account and their properties. The list can be filtered by creation time or modified time, and whether the image name contains a specified string.
  */
-export const listImages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listImages: {
+  (
+    input: ListImagesRequest,
+  ): Effect.Effect<
+    ListImagesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImagesRequest,
+  ) => Stream.Stream<
+    ListImagesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImagesRequest,
+  ) => Stream.Stream<
+    Image,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListImagesRequest,
   output: ListImagesResponse,
   errors: [],
@@ -30614,208 +33340,497 @@ export const listImages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists the versions of a specified image and their properties. The list can be filtered by creation time or modified time.
  */
-export const listImageVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listImageVersions: {
+  (
     input: ListImageVersionsRequest,
-    output: ListImageVersionsResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ImageVersions",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListImageVersionsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListImageVersionsRequest,
+  ) => Stream.Stream<
+    ListImageVersionsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListImageVersionsRequest,
+  ) => Stream.Stream<
+    ImageVersion,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListImageVersionsRequest,
+  output: ListImageVersionsResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ImageVersions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the inference components in your account and their properties.
  */
-export const listInferenceComponents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInferenceComponents: {
+  (
     input: ListInferenceComponentsInput,
-    output: ListInferenceComponentsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InferenceComponents",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInferenceComponentsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInferenceComponentsInput,
+  ) => Stream.Stream<
+    ListInferenceComponentsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInferenceComponentsInput,
+  ) => Stream.Stream<
+    InferenceComponentSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInferenceComponentsInput,
+  output: ListInferenceComponentsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InferenceComponents",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns the list of all inference experiments.
  */
-export const listInferenceExperiments =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInferenceExperiments: {
+  (
     input: ListInferenceExperimentsRequest,
-    output: ListInferenceExperimentsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InferenceExperiments",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInferenceExperimentsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInferenceExperimentsRequest,
+  ) => Stream.Stream<
+    ListInferenceExperimentsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInferenceExperimentsRequest,
+  ) => Stream.Stream<
+    InferenceExperimentSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInferenceExperimentsRequest,
+  output: ListInferenceExperimentsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InferenceExperiments",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists recommendation jobs that satisfy various filters.
  */
-export const listInferenceRecommendationsJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInferenceRecommendationsJobs: {
+  (
     input: ListInferenceRecommendationsJobsRequest,
-    output: ListInferenceRecommendationsJobsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "InferenceRecommendationsJobs",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInferenceRecommendationsJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInferenceRecommendationsJobsRequest,
+  ) => Stream.Stream<
+    ListInferenceRecommendationsJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInferenceRecommendationsJobsRequest,
+  ) => Stream.Stream<
+    InferenceRecommendationsJob,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInferenceRecommendationsJobsRequest,
+  output: ListInferenceRecommendationsJobsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InferenceRecommendationsJobs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of labeling jobs.
  */
-export const listLabelingJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLabelingJobs: {
+  (
     input: ListLabelingJobsRequest,
-    output: ListLabelingJobsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LabelingJobSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLabelingJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLabelingJobsRequest,
+  ) => Stream.Stream<
+    ListLabelingJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLabelingJobsRequest,
+  ) => Stream.Stream<
+    LabelingJobSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLabelingJobsRequest,
+  output: ListLabelingJobsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LabelingJobSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * A list of lineage groups shared with your Amazon Web Services account. For more information, see Cross-Account Lineage Tracking in the *Amazon SageMaker Developer Guide*.
  */
-export const listLineageGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLineageGroups: {
+  (
     input: ListLineageGroupsRequest,
-    output: ListLineageGroupsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LineageGroupSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLineageGroupsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLineageGroupsRequest,
+  ) => Stream.Stream<
+    ListLineageGroupsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLineageGroupsRequest,
+  ) => Stream.Stream<
+    LineageGroupSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLineageGroupsRequest,
+  output: ListLineageGroupsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LineageGroupSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all MLflow Apps
  */
-export const listMlflowApps = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMlflowApps: {
+  (
     input: ListMlflowAppsRequest,
-    output: ListMlflowAppsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Summaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMlflowAppsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMlflowAppsRequest,
+  ) => Stream.Stream<
+    ListMlflowAppsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMlflowAppsRequest,
+  ) => Stream.Stream<
+    MlflowAppSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMlflowAppsRequest,
+  output: ListMlflowAppsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Summaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all MLflow Tracking Servers.
  */
-export const listMlflowTrackingServers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMlflowTrackingServers: {
+  (
     input: ListMlflowTrackingServersRequest,
-    output: ListMlflowTrackingServersResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TrackingServerSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMlflowTrackingServersResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMlflowTrackingServersRequest,
+  ) => Stream.Stream<
+    ListMlflowTrackingServersResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMlflowTrackingServersRequest,
+  ) => Stream.Stream<
+    TrackingServerSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMlflowTrackingServersRequest,
+  output: ListMlflowTrackingServersResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TrackingServerSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List the export jobs for the Amazon SageMaker Model Card.
  */
-export const listModelCardExportJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listModelCardExportJobs: {
+  (
     input: ListModelCardExportJobsRequest,
-    output: ListModelCardExportJobsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ModelCardExportJobSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListModelCardExportJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListModelCardExportJobsRequest,
+  ) => Stream.Stream<
+    ListModelCardExportJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListModelCardExportJobsRequest,
+  ) => Stream.Stream<
+    ModelCardExportJobSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListModelCardExportJobsRequest,
+  output: ListModelCardExportJobsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ModelCardExportJobSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List existing model cards.
  */
-export const listModelCards = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listModelCards: {
+  (
     input: ListModelCardsRequest,
-    output: ListModelCardsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ModelCardSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListModelCardsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListModelCardsRequest,
+  ) => Stream.Stream<
+    ListModelCardsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListModelCardsRequest,
+  ) => Stream.Stream<
+    ModelCardSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListModelCardsRequest,
+  output: ListModelCardsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ModelCardSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List existing versions of an Amazon SageMaker Model Card.
  */
-export const listModelCardVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listModelCardVersions: {
+  (
     input: ListModelCardVersionsRequest,
-    output: ListModelCardVersionsResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ModelCardVersionSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListModelCardVersionsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListModelCardVersionsRequest,
+  ) => Stream.Stream<
+    ListModelCardVersionsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListModelCardVersionsRequest,
+  ) => Stream.Stream<
+    ModelCardVersionSummary,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListModelCardVersionsRequest,
+  output: ListModelCardVersionsResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ModelCardVersionSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of the model groups in your Amazon Web Services account.
  */
-export const listModelPackageGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listModelPackageGroups: {
+  (
     input: ListModelPackageGroupsInput,
-    output: ListModelPackageGroupsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ModelPackageGroupSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListModelPackageGroupsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListModelPackageGroupsInput,
+  ) => Stream.Stream<
+    ListModelPackageGroupsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListModelPackageGroupsInput,
+  ) => Stream.Stream<
+    ModelPackageGroupSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListModelPackageGroupsInput,
+  output: ListModelPackageGroupsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ModelPackageGroupSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the model packages that have been created.
  */
-export const listModelPackages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listModelPackages: {
+  (
     input: ListModelPackagesInput,
-    output: ListModelPackagesOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ModelPackageSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListModelPackagesOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListModelPackagesInput,
+  ) => Stream.Stream<
+    ListModelPackagesOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListModelPackagesInput,
+  ) => Stream.Stream<
+    ModelPackageSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListModelPackagesInput,
+  output: ListModelPackagesOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ModelPackageSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists models created with the `CreateModel` API.
  */
-export const listModels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listModels: {
+  (
+    input: ListModelsInput,
+  ): Effect.Effect<
+    ListModelsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListModelsInput,
+  ) => Stream.Stream<
+    ListModelsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListModelsInput,
+  ) => Stream.Stream<
+    ModelSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListModelsInput,
   output: ListModelsOutput,
   errors: [],
@@ -30829,217 +33844,506 @@ export const listModels = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Gets a list of past alerts in a model monitoring schedule.
  */
-export const listMonitoringAlertHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMonitoringAlertHistory: {
+  (
     input: ListMonitoringAlertHistoryRequest,
-    output: ListMonitoringAlertHistoryResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MonitoringAlertHistory",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMonitoringAlertHistoryResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMonitoringAlertHistoryRequest,
+  ) => Stream.Stream<
+    ListMonitoringAlertHistoryResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMonitoringAlertHistoryRequest,
+  ) => Stream.Stream<
+    MonitoringAlertHistorySummary,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMonitoringAlertHistoryRequest,
+  output: ListMonitoringAlertHistoryResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MonitoringAlertHistory",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns list of all monitoring schedules.
  */
-export const listMonitoringSchedules =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMonitoringSchedules: {
+  (
     input: ListMonitoringSchedulesRequest,
-    output: ListMonitoringSchedulesResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MonitoringScheduleSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMonitoringSchedulesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMonitoringSchedulesRequest,
+  ) => Stream.Stream<
+    ListMonitoringSchedulesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMonitoringSchedulesRequest,
+  ) => Stream.Stream<
+    MonitoringScheduleSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMonitoringSchedulesRequest,
+  output: ListMonitoringSchedulesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MonitoringScheduleSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists notebook instance lifestyle configurations created with the CreateNotebookInstanceLifecycleConfig API.
  */
-export const listNotebookInstanceLifecycleConfigs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listNotebookInstanceLifecycleConfigs: {
+  (
     input: ListNotebookInstanceLifecycleConfigsInput,
-    output: ListNotebookInstanceLifecycleConfigsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "NotebookInstanceLifecycleConfigs",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListNotebookInstanceLifecycleConfigsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNotebookInstanceLifecycleConfigsInput,
+  ) => Stream.Stream<
+    ListNotebookInstanceLifecycleConfigsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNotebookInstanceLifecycleConfigsInput,
+  ) => Stream.Stream<
+    NotebookInstanceLifecycleConfigSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNotebookInstanceLifecycleConfigsInput,
+  output: ListNotebookInstanceLifecycleConfigsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "NotebookInstanceLifecycleConfigs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of the SageMaker AI notebook instances in the requester's account in an Amazon Web Services Region.
  */
-export const listNotebookInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listNotebookInstances: {
+  (
     input: ListNotebookInstancesInput,
-    output: ListNotebookInstancesOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "NotebookInstances",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListNotebookInstancesOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNotebookInstancesInput,
+  ) => Stream.Stream<
+    ListNotebookInstancesOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNotebookInstancesInput,
+  ) => Stream.Stream<
+    NotebookInstanceSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListNotebookInstancesInput,
+  output: ListNotebookInstancesOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "NotebookInstances",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the optimization jobs in your account and their properties.
  */
-export const listOptimizationJobs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOptimizationJobs: {
+  (
     input: ListOptimizationJobsRequest,
-    output: ListOptimizationJobsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "OptimizationJobSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOptimizationJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOptimizationJobsRequest,
+  ) => Stream.Stream<
+    ListOptimizationJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOptimizationJobsRequest,
+  ) => Stream.Stream<
+    OptimizationJobSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOptimizationJobsRequest,
+  output: ListOptimizationJobsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "OptimizationJobSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists all of the SageMaker Partner AI Apps in an account.
  */
-export const listPartnerApps = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPartnerApps: {
+  (
     input: ListPartnerAppsRequest,
-    output: ListPartnerAppsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Summaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPartnerAppsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPartnerAppsRequest,
+  ) => Stream.Stream<
+    ListPartnerAppsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPartnerAppsRequest,
+  ) => Stream.Stream<
+    PartnerAppSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPartnerAppsRequest,
+  output: ListPartnerAppsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Summaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of the pipeline executions.
  */
-export const listPipelineExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPipelineExecutions: {
+  (
     input: ListPipelineExecutionsRequest,
-    output: ListPipelineExecutionsResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PipelineExecutionSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPipelineExecutionsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPipelineExecutionsRequest,
+  ) => Stream.Stream<
+    ListPipelineExecutionsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPipelineExecutionsRequest,
+  ) => Stream.Stream<
+    PipelineExecutionSummary,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPipelineExecutionsRequest,
+  output: ListPipelineExecutionsResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PipelineExecutionSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of pipelines.
  */
-export const listPipelines = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPipelines: {
+  (
     input: ListPipelinesRequest,
-    output: ListPipelinesResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PipelineSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPipelinesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPipelinesRequest,
+  ) => Stream.Stream<
+    ListPipelinesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPipelinesRequest,
+  ) => Stream.Stream<
+    PipelineSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPipelinesRequest,
+  output: ListPipelinesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PipelineSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of all versions of the pipeline.
  */
-export const listPipelineVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPipelineVersions: {
+  (
     input: ListPipelineVersionsRequest,
-    output: ListPipelineVersionsResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PipelineVersionSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPipelineVersionsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPipelineVersionsRequest,
+  ) => Stream.Stream<
+    ListPipelineVersionsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPipelineVersionsRequest,
+  ) => Stream.Stream<
+    PipelineVersionSummary,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPipelineVersionsRequest,
+  output: ListPipelineVersionsResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PipelineVersionSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists processing jobs that satisfy various filters.
  */
-export const listProcessingJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProcessingJobs: {
+  (
     input: ListProcessingJobsRequest,
-    output: ListProcessingJobsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ProcessingJobSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProcessingJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProcessingJobsRequest,
+  ) => Stream.Stream<
+    ListProcessingJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProcessingJobsRequest,
+  ) => Stream.Stream<
+    ProcessingJobSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProcessingJobsRequest,
+  output: ListProcessingJobsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProcessingJobSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of the projects in an Amazon Web Services account.
  */
-export const listProjects = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listProjects: {
+  (
     input: ListProjectsInput,
-    output: ListProjectsOutput,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListProjectsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProjectsInput,
+  ) => Stream.Stream<
+    ListProjectsOutput,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProjectsInput,
+  ) => Stream.Stream<
+    unknown,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsInput,
+  output: ListProjectsOutput,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists Amazon SageMaker Catalogs based on given filters and orders. The maximum number of `ResourceCatalog`s viewable is 1000.
  */
-export const listResourceCatalogs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourceCatalogs: {
+  (
     input: ListResourceCatalogsRequest,
-    output: ListResourceCatalogsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ResourceCatalogs",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourceCatalogsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceCatalogsRequest,
+  ) => Stream.Stream<
+    ListResourceCatalogsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceCatalogsRequest,
+  ) => Stream.Stream<
+    ResourceCatalog,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceCatalogsRequest,
+  output: ListResourceCatalogsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourceCatalogs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists devices allocated to the stage, containing detailed device information and deployment status.
  */
-export const listStageDevices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listStageDevices: {
+  (
     input: ListStageDevicesRequest,
-    output: ListStageDevicesResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DeviceDeploymentSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListStageDevicesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStageDevicesRequest,
+  ) => Stream.Stream<
+    ListStageDevicesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStageDevicesRequest,
+  ) => Stream.Stream<
+    DeviceDeploymentSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStageDevicesRequest,
+  output: ListStageDevicesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DeviceDeploymentSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the Amazon SageMaker AI Studio Lifecycle Configurations in your Amazon Web Services Account.
  */
-export const listStudioLifecycleConfigs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listStudioLifecycleConfigs: {
+  (
     input: ListStudioLifecycleConfigsRequest,
-    output: ListStudioLifecycleConfigsResponse,
-    errors: [ResourceInUse],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "StudioLifecycleConfigs",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListStudioLifecycleConfigsResponse,
+    ResourceInUse | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStudioLifecycleConfigsRequest,
+  ) => Stream.Stream<
+    ListStudioLifecycleConfigsResponse,
+    ResourceInUse | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStudioLifecycleConfigsRequest,
+  ) => Stream.Stream<
+    StudioLifecycleConfigDetails,
+    ResourceInUse | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStudioLifecycleConfigsRequest,
+  output: ListStudioLifecycleConfigsResponse,
+  errors: [ResourceInUse],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "StudioLifecycleConfigs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists training jobs.
  *
@@ -31055,35 +34359,75 @@ export const listStudioLifecycleConfigs =
  *
  * `aws sagemaker list-training-jobs --max-results 100 --status-equals InProgress`
  */
-export const listTrainingJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTrainingJobs: {
+  (
     input: ListTrainingJobsRequest,
-    output: ListTrainingJobsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TrainingJobSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTrainingJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTrainingJobsRequest,
+  ) => Stream.Stream<
+    ListTrainingJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTrainingJobsRequest,
+  ) => Stream.Stream<
+    TrainingJobSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTrainingJobsRequest,
+  output: ListTrainingJobsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TrainingJobSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists transform jobs.
  */
-export const listTransformJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTransformJobs: {
+  (
     input: ListTransformJobsRequest,
-    output: ListTransformJobsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TransformJobSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTransformJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTransformJobsRequest,
+  ) => Stream.Stream<
+    ListTransformJobsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTransformJobsRequest,
+  ) => Stream.Stream<
+    TransformJobSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTransformJobsRequest,
+  output: ListTransformJobsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TransformJobSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the trial components in your account. You can sort the list by trial component name or creation time. You can filter the list to show only components that were created in a specific time range. You can also filter on one of the following:
  *
@@ -31093,22 +34437,65 @@ export const listTransformJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - `TrialName`
  */
-export const listTrialComponents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTrialComponents: {
+  (
     input: ListTrialComponentsRequest,
-    output: ListTrialComponentsResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TrialComponentSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTrialComponentsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTrialComponentsRequest,
+  ) => Stream.Stream<
+    ListTrialComponentsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTrialComponentsRequest,
+  ) => Stream.Stream<
+    TrialComponentSummary,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTrialComponentsRequest,
+  output: ListTrialComponentsResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TrialComponentSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the trials in your account. Specify an experiment name to limit the list to the trials that are part of that experiment. Specify a trial component name to limit the list to the trials that associated with that trial component. The list can be filtered to show only trials that were created in a specific time range. The list can be sorted by trial name or creation time.
  */
-export const listTrials = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTrials: {
+  (
+    input: ListTrialsRequest,
+  ): Effect.Effect<
+    ListTrialsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTrialsRequest,
+  ) => Stream.Stream<
+    ListTrialsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTrialsRequest,
+  ) => Stream.Stream<
+    TrialSummary,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTrialsRequest,
   output: ListTrialsResponse,
   errors: [ResourceNotFound],
@@ -31122,63 +34509,120 @@ export const listTrials = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists all UltraServers that are part of a specified reserved capacity.
  */
-export const listUltraServersByReservedCapacity =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUltraServersByReservedCapacity: {
+  (
     input: ListUltraServersByReservedCapacityRequest,
-    output: ListUltraServersByReservedCapacityResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "UltraServers",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListUltraServersByReservedCapacityResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUltraServersByReservedCapacityRequest,
+  ) => Stream.Stream<
+    ListUltraServersByReservedCapacityResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUltraServersByReservedCapacityRequest,
+  ) => Stream.Stream<
+    UltraServer,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUltraServersByReservedCapacityRequest,
+  output: ListUltraServersByReservedCapacityResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "UltraServers",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists user profiles.
  */
-export const listUserProfiles = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listUserProfiles: {
+  (
     input: ListUserProfilesRequest,
-    output: ListUserProfilesResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "UserProfiles",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListUserProfilesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUserProfilesRequest,
+  ) => Stream.Stream<
+    ListUserProfilesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUserProfilesRequest,
+  ) => Stream.Stream<
+    UserProfileDetails,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUserProfilesRequest,
+  output: ListUserProfilesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "UserProfiles",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Notifies the pipeline that the execution of a callback step succeeded and provides a list of the step's output parameters. When a callback step is run, the pipeline generates a callback token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS).
  */
-export const sendPipelineExecutionStepSuccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: SendPipelineExecutionStepSuccessRequest,
-    output: SendPipelineExecutionStepSuccessResponse,
-    errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
-  }));
+export const sendPipelineExecutionStepSuccess: (
+  input: SendPipelineExecutionStepSuccessRequest,
+) => Effect.Effect<
+  SendPipelineExecutionStepSuccessResponse,
+  | ConflictException
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendPipelineExecutionStepSuccessRequest,
+  output: SendPipelineExecutionStepSuccessResponse,
+  errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
+}));
 /**
  * Stops an inference experiment.
  */
-export const stopInferenceExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopInferenceExperimentRequest,
-    output: StopInferenceExperimentResponse,
-    errors: [ConflictException, ResourceNotFound],
-  }),
-);
+export const stopInferenceExperiment: (
+  input: StopInferenceExperimentRequest,
+) => Effect.Effect<
+  StopInferenceExperimentResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopInferenceExperimentRequest,
+  output: StopInferenceExperimentResponse,
+  errors: [ConflictException, ResourceNotFound],
+}));
 /**
  * Updates the specified Git repository with the specified values.
  */
-export const updateCodeRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCodeRepositoryInput,
-    output: UpdateCodeRepositoryOutput,
-    errors: [ConflictException],
-  }),
-);
+export const updateCodeRepository: (
+  input: UpdateCodeRepositoryInput,
+) => Effect.Effect<
+  UpdateCodeRepositoryOutput,
+  ConflictException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCodeRepositoryInput,
+  output: UpdateCodeRepositoryOutput,
+  errors: [ConflictException],
+}));
 /**
  * Deploys the `EndpointConfig` specified in the request to a new fleet of instances. SageMaker shifts endpoint traffic to the new instances with the updated endpoint configuration and then deletes the old instances using the previous `EndpointConfig` (there is no availability loss). For more information about how to control the update and traffic shifting process, see Update models in production.
  *
@@ -31188,7 +34632,13 @@ export const updateCodeRepository = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * If you delete the `EndpointConfig` of an endpoint that is active or being created or updated you may lose visibility into the instance type the endpoint is using. The endpoint must be deleted in order to stop incurring charges.
  */
-export const updateEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEndpoint: (
+  input: UpdateEndpointInput,
+) => Effect.Effect<
+  UpdateEndpointOutput,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEndpointInput,
   output: UpdateEndpointOutput,
   errors: [ResourceLimitExceeded],
@@ -31200,7 +34650,13 @@ export const updateEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can update the online store configuration by using the `OnlineStoreConfig` request parameter. If a `TtlDuration` is specified, the default `TtlDuration` applies for all records added to the feature group *after the feature group is updated*. If a record level `TtlDuration` exists from using the `PutRecord` API, the record level `TtlDuration` applies to that record instead of the default `TtlDuration`. To remove the default `TtlDuration` from an existing feature group, use the `UpdateFeatureGroup` API and set the `TtlDuration` `Unit` and `Value` to `null`.
  */
-export const updateFeatureGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFeatureGroup: (
+  input: UpdateFeatureGroupRequest,
+) => Effect.Effect<
+  UpdateFeatureGroupResponse,
+  ResourceLimitExceeded | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFeatureGroupRequest,
   output: UpdateFeatureGroupResponse,
   errors: [ResourceLimitExceeded, ResourceNotFound],
@@ -31208,7 +34664,13 @@ export const updateFeatureGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update a model training job to request a new Debugger profiling configuration or to change warm pool retention length.
  */
-export const updateTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTrainingJob: (
+  input: UpdateTrainingJobRequest,
+) => Effect.Effect<
+  UpdateTrainingJobResponse,
+  ResourceLimitExceeded | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTrainingJobRequest,
   output: UpdateTrainingJobResponse,
   errors: [ResourceLimitExceeded, ResourceNotFound],
@@ -31218,27 +34680,41 @@ export const updateTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This API is only supported for clusters using `Continuous` as the `NodeProvisioningMode`.
  */
-export const batchAddClusterNodes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchAddClusterNodesRequest,
-    output: BatchAddClusterNodesResponse,
-    errors: [ResourceLimitExceeded, ResourceNotFound],
-  }),
-);
+export const batchAddClusterNodes: (
+  input: BatchAddClusterNodesRequest,
+) => Effect.Effect<
+  BatchAddClusterNodesResponse,
+  ResourceLimitExceeded | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchAddClusterNodesRequest,
+  output: BatchAddClusterNodesResponse,
+  errors: [ResourceLimitExceeded, ResourceNotFound],
+}));
 /**
  * This action batch describes a list of versioned model packages
  */
-export const batchDescribeModelPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDescribeModelPackageInput,
-    output: BatchDescribeModelPackageOutput,
-    errors: [],
-  }),
-);
+export const batchDescribeModelPackage: (
+  input: BatchDescribeModelPackageInput,
+) => Effect.Effect<
+  BatchDescribeModelPackageOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDescribeModelPackageInput,
+  output: BatchDescribeModelPackageOutput,
+  errors: [],
+}));
 /**
  * Creates an *artifact*. An artifact is a lineage tracking entity that represents a URI addressable object or data. Some examples are the S3 URI of a dataset and the ECR registry path of an image. For more information, see Amazon SageMaker ML Lineage Tracking.
  */
-export const createArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createArtifact: (
+  input: CreateArtifactRequest,
+) => Effect.Effect<
+  CreateArtifactResponse,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateArtifactRequest,
   output: CreateArtifactResponse,
   errors: [ResourceLimitExceeded],
@@ -31246,12 +34722,17 @@ export const createArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create cluster policy configuration. This policy is used for task prioritization and fair-share allocation of idle compute. This helps prioritize critical workloads and distributes idle compute across entities.
  */
-export const createClusterSchedulerConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateClusterSchedulerConfigRequest,
-    output: CreateClusterSchedulerConfigResponse,
-    errors: [ConflictException, ResourceLimitExceeded],
-  }));
+export const createClusterSchedulerConfig: (
+  input: CreateClusterSchedulerConfigRequest,
+) => Effect.Effect<
+  CreateClusterSchedulerConfigResponse,
+  ConflictException | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateClusterSchedulerConfigRequest,
+  output: CreateClusterSchedulerConfigResponse,
+  errors: [ConflictException, ResourceLimitExceeded],
+}));
 /**
  * Starts a model compilation job. After the model has been compiled, Amazon SageMaker AI saves the resulting model artifacts to an Amazon Simple Storage Service (Amazon S3) bucket that you specify.
  *
@@ -31271,61 +34752,105 @@ export const createClusterSchedulerConfig =
  *
  * To stop a model compilation job, use StopCompilationJob. To get information about a particular model compilation job, use DescribeCompilationJob. To get information about multiple model compilation jobs, use ListCompilationJobs.
  */
-export const createCompilationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCompilationJobRequest,
-    output: CreateCompilationJobResponse,
-    errors: [ResourceInUse, ResourceLimitExceeded],
-  }),
-);
+export const createCompilationJob: (
+  input: CreateCompilationJobRequest,
+) => Effect.Effect<
+  CreateCompilationJobResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCompilationJobRequest,
+  output: CreateCompilationJobResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded],
+}));
 /**
  * Creates an edge deployment plan, consisting of multiple stages. Each stage may have a different deployment configuration and devices.
  */
-export const createEdgeDeploymentPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEdgeDeploymentPlanRequest,
-    output: CreateEdgeDeploymentPlanResponse,
-    errors: [ResourceLimitExceeded],
-  }),
-);
+export const createEdgeDeploymentPlan: (
+  input: CreateEdgeDeploymentPlanRequest,
+) => Effect.Effect<
+  CreateEdgeDeploymentPlanResponse,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEdgeDeploymentPlanRequest,
+  output: CreateEdgeDeploymentPlanResponse,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Creates presigned URLs for accessing hub content artifacts. This operation generates time-limited, secure URLs that allow direct download of model artifacts and associated files from Amazon SageMaker hub content, including gated models that require end-user license agreement acceptance.
  */
-export const createHubContentPresignedUrls =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const createHubContentPresignedUrls: {
+  (
     input: CreateHubContentPresignedUrlsRequest,
-    output: CreateHubContentPresignedUrlsResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AuthorizedUrlConfigs",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    CreateHubContentPresignedUrlsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: CreateHubContentPresignedUrlsRequest,
+  ) => Stream.Stream<
+    CreateHubContentPresignedUrlsResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: CreateHubContentPresignedUrlsRequest,
+  ) => Stream.Stream<
+    AuthorizedUrl,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: CreateHubContentPresignedUrlsRequest,
+  output: CreateHubContentPresignedUrlsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AuthorizedUrlConfigs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates an inference component, which is a SageMaker AI hosting object that you can use to deploy a model to an endpoint. In the inference component settings, you specify the model, the endpoint, and how the model utilizes the resources that the endpoint hosts. You can optimize resource utilization by tailoring how the required CPU cores, accelerators, and memory are allocated. You can deploy multiple inference components to an endpoint, where each inference component contains one model and the resource utilization needs for that individual model. After you deploy an inference component, you can directly invoke the associated model when you use the InvokeEndpoint API action.
  */
-export const createInferenceComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateInferenceComponentInput,
-    output: CreateInferenceComponentOutput,
-    errors: [ResourceLimitExceeded],
-  }),
-);
+export const createInferenceComponent: (
+  input: CreateInferenceComponentInput,
+) => Effect.Effect<
+  CreateInferenceComponentOutput,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInferenceComponentInput,
+  output: CreateInferenceComponentOutput,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Creates the definition for a model bias job.
  */
-export const createModelBiasJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateModelBiasJobDefinitionRequest,
-    output: CreateModelBiasJobDefinitionResponse,
-    errors: [ResourceInUse, ResourceLimitExceeded],
-  }));
+export const createModelBiasJobDefinition: (
+  input: CreateModelBiasJobDefinitionRequest,
+) => Effect.Effect<
+  CreateModelBiasJobDefinitionResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateModelBiasJobDefinitionRequest,
+  output: CreateModelBiasJobDefinitionResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded],
+}));
 /**
  * Creates an Amazon SageMaker Partner AI App.
  */
-export const createPartnerApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPartnerApp: (
+  input: CreatePartnerAppRequest,
+) => Effect.Effect<
+  CreatePartnerAppResponse,
+  ConflictException | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePartnerAppRequest,
   output: CreatePartnerAppResponse,
   errors: [ConflictException, ResourceLimitExceeded],
@@ -31339,13 +34864,17 @@ export const createPartnerApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can add tags to a trial component and then use the Search API to search for the tags.
  */
-export const createTrialComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTrialComponentRequest,
-    output: CreateTrialComponentResponse,
-    errors: [ResourceLimitExceeded],
-  }),
-);
+export const createTrialComponent: (
+  input: CreateTrialComponentRequest,
+) => Effect.Effect<
+  CreateTrialComponentResponse,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTrialComponentRequest,
+  output: CreateTrialComponentResponse,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Use this operation to create a workforce. This operation will return an error if a workforce already exists in the Amazon Web Services Region that you specify. You can only create one workforce in each Amazon Web Services Region per Amazon Web Services account.
  *
@@ -31355,7 +34884,13 @@ export const createTrialComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * To create a private workforce using your own OIDC Identity Provider (IdP), specify your IdP configuration in `OidcConfig`. Your OIDC IdP must support *groups* because groups are used by Ground Truth and Amazon A2I to create work teams. For more information, see Create a Private Workforce (OIDC IdP).
  */
-export const createWorkforce = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkforce: (
+  input: CreateWorkforceRequest,
+) => Effect.Effect<
+  CreateWorkforceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkforceRequest,
   output: CreateWorkforceResponse,
   errors: [],
@@ -31363,7 +34898,13 @@ export const createWorkforce = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes an action.
  */
-export const describeAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAction: (
+  input: DescribeActionRequest,
+) => Effect.Effect<
+  DescribeActionResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeActionRequest,
   output: DescribeActionResponse,
   errors: [ResourceNotFound],
@@ -31371,7 +34912,13 @@ export const describeAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a description of the specified algorithm that is in your account.
  */
-export const describeAlgorithm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAlgorithm: (
+  input: DescribeAlgorithmInput,
+) => Effect.Effect<
+  DescribeAlgorithmOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAlgorithmInput,
   output: DescribeAlgorithmOutput,
   errors: [],
@@ -31379,7 +34926,13 @@ export const describeAlgorithm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information of a SageMaker HyperPod cluster.
  */
-export const describeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCluster: (
+  input: DescribeClusterRequest,
+) => Effect.Effect<
+  DescribeClusterResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClusterRequest,
   output: DescribeClusterResponse,
   errors: [ResourceNotFound],
@@ -31387,7 +34940,13 @@ export const describeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information of a node (also called a *instance* interchangeably) of a SageMaker HyperPod cluster.
  */
-export const describeClusterNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeClusterNode: (
+  input: DescribeClusterNodeRequest,
+) => Effect.Effect<
+  DescribeClusterNodeResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClusterNodeRequest,
   output: DescribeClusterNodeResponse,
   errors: [ResourceNotFound],
@@ -31395,36 +34954,55 @@ export const describeClusterNode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes an edge deployment plan with deployment status per stage.
  */
-export const describeEdgeDeploymentPlan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEdgeDeploymentPlanRequest,
-    output: DescribeEdgeDeploymentPlanResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeEdgeDeploymentPlan: (
+  input: DescribeEdgeDeploymentPlanRequest,
+) => Effect.Effect<
+  DescribeEdgeDeploymentPlanResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEdgeDeploymentPlanRequest,
+  output: DescribeEdgeDeploymentPlanResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Returns a description of a hyperparameter tuning job, depending on the fields selected. These fields can include the name, Amazon Resource Name (ARN), job status of your tuning job and more.
  */
-export const describeHyperParameterTuningJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeHyperParameterTuningJobRequest,
-    output: DescribeHyperParameterTuningJobResponse,
-    errors: [ResourceNotFound],
-  }));
+export const describeHyperParameterTuningJob: (
+  input: DescribeHyperParameterTuningJobRequest,
+) => Effect.Effect<
+  DescribeHyperParameterTuningJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeHyperParameterTuningJobRequest,
+  output: DescribeHyperParameterTuningJobResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Returns information about an inference component.
  */
-export const describeInferenceComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeInferenceComponentInput,
-    output: DescribeInferenceComponentOutput,
-    errors: [],
-  }),
-);
+export const describeInferenceComponent: (
+  input: DescribeInferenceComponentInput,
+) => Effect.Effect<
+  DescribeInferenceComponentOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInferenceComponentInput,
+  output: DescribeInferenceComponentOutput,
+  errors: [],
+}));
 /**
  * Describes a model that you created using the `CreateModel` API.
  */
-export const describeModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeModel: (
+  input: DescribeModelInput,
+) => Effect.Effect<
+  DescribeModelOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeModelInput,
   output: DescribeModelOutput,
   errors: [],
@@ -31436,19 +35014,29 @@ export const describeModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
  */
-export const describeModelPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeModelPackageInput,
-    output: DescribeModelPackageOutput,
-    errors: [],
-  }),
-);
+export const describeModelPackage: (
+  input: DescribeModelPackageInput,
+) => Effect.Effect<
+  DescribeModelPackageOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeModelPackageInput,
+  output: DescribeModelPackageOutput,
+  errors: [],
+}));
 /**
  * Lists private workforce information, including workforce name, Amazon Resource Name (ARN), and, if applicable, allowed IP address ranges (CIDRs). Allowable IP address ranges are the IP addresses that workers can use to access tasks.
  *
  * This operation applies only to private workforces.
  */
-export const describeWorkforce = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeWorkforce: (
+  input: DescribeWorkforceRequest,
+) => Effect.Effect<
+  DescribeWorkforceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeWorkforceRequest,
   output: DescribeWorkforceResponse,
   errors: [],
@@ -31456,55 +35044,139 @@ export const describeWorkforce = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * A list of devices.
  */
-export const listDevices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDevices: {
+  (
     input: ListDevicesRequest,
-    output: ListDevicesResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "DeviceSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDevicesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDevicesRequest,
+  ) => Stream.Stream<
+    ListDevicesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDevicesRequest,
+  ) => Stream.Stream<
+    DeviceSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDevicesRequest,
+  output: ListDevicesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DeviceSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of the subtasks for an Inference Recommender job.
  *
  * The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types.
  */
-export const listInferenceRecommendationsJobSteps =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInferenceRecommendationsJobSteps: {
+  (
     input: ListInferenceRecommendationsJobStepsRequest,
-    output: ListInferenceRecommendationsJobStepsResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Steps",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInferenceRecommendationsJobStepsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInferenceRecommendationsJobStepsRequest,
+  ) => Stream.Stream<
+    ListInferenceRecommendationsJobStepsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInferenceRecommendationsJobStepsRequest,
+  ) => Stream.Stream<
+    InferenceRecommendationsJobStep,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInferenceRecommendationsJobStepsRequest,
+  output: ListInferenceRecommendationsJobStepsResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Steps",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets a list of labeling jobs assigned to a specified work team.
  */
-export const listLabelingJobsForWorkteam =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listLabelingJobsForWorkteam: {
+  (
     input: ListLabelingJobsForWorkteamRequest,
-    output: ListLabelingJobsForWorkteamResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LabelingJobSummaryList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListLabelingJobsForWorkteamResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLabelingJobsForWorkteamRequest,
+  ) => Stream.Stream<
+    ListLabelingJobsForWorkteamResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLabelingJobsForWorkteamRequest,
+  ) => Stream.Stream<
+    LabelingJobForWorkteamSummary,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLabelingJobsForWorkteamRequest,
+  output: ListLabelingJobsForWorkteamResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LabelingJobSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists spaces.
  */
-export const listSpaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSpaces: {
+  (
+    input: ListSpacesRequest,
+  ): Effect.Effect<
+    ListSpacesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSpacesRequest,
+  ) => Stream.Stream<
+    ListSpacesResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSpacesRequest,
+  ) => Stream.Stream<
+    SpaceDetails,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSpacesRequest,
   output: ListSpacesResponse,
   errors: [],
@@ -31518,23 +35190,49 @@ export const listSpaces = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Retrieves a list of training plans for the current account.
  */
-export const listTrainingPlans = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTrainingPlans: {
+  (
     input: ListTrainingPlansRequest,
-    output: ListTrainingPlansResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "TrainingPlanSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTrainingPlansResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTrainingPlansRequest,
+  ) => Stream.Stream<
+    ListTrainingPlansResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTrainingPlansRequest,
+  ) => Stream.Stream<
+    TrainingPlanSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTrainingPlansRequest,
+  output: ListTrainingPlansResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TrainingPlanSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Renders the UI template so that you can preview the worker's experience.
  */
-export const renderUiTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const renderUiTemplate: (
+  input: RenderUiTemplateRequest,
+) => Effect.Effect<
+  RenderUiTemplateResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RenderUiTemplateRequest,
   output: RenderUiTemplateResponse,
   errors: [ResourceNotFound],
@@ -31548,27 +35246,47 @@ export const renderUiTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about how to reserve GPU capacity for your SageMaker training jobs or SageMaker HyperPod clusters using Amazon SageMaker Training Plan , see ` CreateTrainingPlan `.
  */
-export const searchTrainingPlanOfferings = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SearchTrainingPlanOfferingsRequest,
-    output: SearchTrainingPlanOfferingsResponse,
-    errors: [ResourceLimitExceeded],
-  }),
-);
+export const searchTrainingPlanOfferings: (
+  input: SearchTrainingPlanOfferingsRequest,
+) => Effect.Effect<
+  SearchTrainingPlanOfferingsResponse,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchTrainingPlanOfferingsRequest,
+  output: SearchTrainingPlanOfferingsResponse,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Starts a pipeline execution.
  */
-export const startPipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartPipelineExecutionRequest,
-    output: StartPipelineExecutionResponse,
-    errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
-  }),
-);
+export const startPipelineExecution: (
+  input: StartPipelineExecutionRequest,
+) => Effect.Effect<
+  StartPipelineExecutionResponse,
+  | ConflictException
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartPipelineExecutionRequest,
+  output: StartPipelineExecutionResponse,
+  errors: [ConflictException, ResourceLimitExceeded, ResourceNotFound],
+}));
 /**
  * Updates the default settings for new user profiles in the domain.
  */
-export const updateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDomain: (
+  input: UpdateDomainRequest,
+) => Effect.Effect<
+  UpdateDomainResponse,
+  | ResourceInUse
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDomainRequest,
   output: UpdateDomainResponse,
   errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
@@ -31576,22 +35294,31 @@ export const updateDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates variant weight of one or more variants associated with an existing endpoint, or capacity of one variant associated with an existing endpoint. When it receives the request, SageMaker sets the endpoint status to `Updating`. After updating the endpoint, it sets the status to `InService`. To check the status of an endpoint, use the DescribeEndpoint API.
  */
-export const updateEndpointWeightsAndCapacities =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateEndpointWeightsAndCapacitiesInput,
-    output: UpdateEndpointWeightsAndCapacitiesOutput,
-    errors: [ResourceLimitExceeded],
-  }));
+export const updateEndpointWeightsAndCapacities: (
+  input: UpdateEndpointWeightsAndCapacitiesInput,
+) => Effect.Effect<
+  UpdateEndpointWeightsAndCapacitiesOutput,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEndpointWeightsAndCapacitiesInput,
+  output: UpdateEndpointWeightsAndCapacitiesOutput,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Creates a configuration for running a SageMaker AI image as a KernelGateway app. The configuration specifies the Amazon Elastic File System storage volume on the image, and a list of the kernels in the image.
  */
-export const createAppImageConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAppImageConfigRequest,
-    output: CreateAppImageConfigResponse,
-    errors: [ResourceInUse],
-  }),
-);
+export const createAppImageConfig: (
+  input: CreateAppImageConfigRequest,
+) => Effect.Effect<
+  CreateAppImageConfigResponse,
+  ResourceInUse | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAppImageConfigRequest,
+  output: CreateAppImageConfigResponse,
+  errors: [ResourceInUse],
+}));
 /**
  * Creates an Autopilot job also referred to as Autopilot experiment or AutoML job.
  *
@@ -31607,7 +35334,13 @@ export const createAppImageConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can find the best-performing model after you run an AutoML job by calling DescribeAutoMLJobV2 (recommended) or DescribeAutoMLJob.
  */
-export const createAutoMLJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAutoMLJob: (
+  input: CreateAutoMLJobRequest,
+) => Effect.Effect<
+  CreateAutoMLJobResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAutoMLJobRequest,
   output: CreateAutoMLJobResponse,
   errors: [ResourceInUse, ResourceLimitExceeded],
@@ -31615,7 +35348,13 @@ export const createAutoMLJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon SageMaker HyperPod cluster. SageMaker HyperPod is a capability of SageMaker for creating and managing persistent clusters for developing large machine learning models, such as large language models (LLMs) and diffusion models. To learn more, see Amazon SageMaker HyperPod in the *Amazon SageMaker Developer Guide*.
  */
-export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCluster: (
+  input: CreateClusterRequest,
+) => Effect.Effect<
+  CreateClusterResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterRequest,
   output: CreateClusterResponse,
   errors: [ResourceInUse, ResourceLimitExceeded],
@@ -31623,7 +35362,13 @@ export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create compute allocation definition. This defines how compute is allocated, shared, and borrowed for specified entities. Specifically, how to lend and borrow idle compute and assign a fair-share weight to the specified entities.
  */
-export const createComputeQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createComputeQuota: (
+  input: CreateComputeQuotaRequest,
+) => Effect.Effect<
+  CreateComputeQuotaResponse,
+  ConflictException | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateComputeQuotaRequest,
   output: CreateComputeQuotaResponse,
   errors: [ConflictException, ResourceLimitExceeded],
@@ -31663,7 +35408,13 @@ export const createComputeQuota = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information, see SageMaker API Permissions: Actions, Permissions, and Resources Reference.
  */
-export const createEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEndpoint: (
+  input: CreateEndpointInput,
+) => Effect.Effect<
+  CreateEndpointOutput,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEndpointInput,
   output: CreateEndpointOutput,
   errors: [ResourceLimitExceeded],
@@ -31677,7 +35428,13 @@ export const createEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You must include at least one of `OnlineStoreConfig` and `OfflineStoreConfig` to create a `FeatureGroup`.
  */
-export const createFeatureGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFeatureGroup: (
+  input: CreateFeatureGroupRequest,
+) => Effect.Effect<
+  CreateFeatureGroupResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFeatureGroupRequest,
   output: CreateFeatureGroupResponse,
   errors: [ResourceInUse, ResourceLimitExceeded],
@@ -31685,13 +35442,17 @@ export const createFeatureGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a flow definition.
  */
-export const createFlowDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateFlowDefinitionRequest,
-    output: CreateFlowDefinitionResponse,
-    errors: [ResourceInUse, ResourceLimitExceeded],
-  }),
-);
+export const createFlowDefinition: (
+  input: CreateFlowDefinitionRequest,
+) => Effect.Effect<
+  CreateFlowDefinitionResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFlowDefinitionRequest,
+  output: CreateFlowDefinitionResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded],
+}));
 /**
  * Starts a hyperparameter tuning job. A hyperparameter tuning job finds the best version of a model by running many training jobs on your dataset using the algorithm you choose and values for hyperparameters within ranges that you specify. It then chooses the hyperparameter values that result in a model that performs the best, as measured by an objective metric that you choose.
  *
@@ -31699,12 +35460,17 @@ export const createFlowDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Do not include any security-sensitive information including account access IDs, secrets, or tokens in any hyperparameter fields. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by any security-sensitive information included in the request hyperparameter variable or plain text fields..
  */
-export const createHyperParameterTuningJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateHyperParameterTuningJobRequest,
-    output: CreateHyperParameterTuningJobResponse,
-    errors: [ResourceInUse, ResourceLimitExceeded],
-  }));
+export const createHyperParameterTuningJob: (
+  input: CreateHyperParameterTuningJobRequest,
+) => Effect.Effect<
+  CreateHyperParameterTuningJobResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateHyperParameterTuningJobRequest,
+  output: CreateHyperParameterTuningJobResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded],
+}));
 /**
  * Creates an inference experiment using the configurations specified in the request.
  *
@@ -31714,13 +35480,17 @@ export const createHyperParameterTuningJob =
  *
  * While the experiment is in progress or after it has concluded, you can view metrics that compare your model variants. For more information, see View, monitor, and edit shadow tests.
  */
-export const createInferenceExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateInferenceExperimentRequest,
-    output: CreateInferenceExperimentResponse,
-    errors: [ResourceInUse, ResourceLimitExceeded],
-  }),
-);
+export const createInferenceExperiment: (
+  input: CreateInferenceExperimentRequest,
+) => Effect.Effect<
+  CreateInferenceExperimentResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInferenceExperimentRequest,
+  output: CreateInferenceExperimentResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded],
+}));
 /**
  * Creates a job that uses workers to label the data objects in your input dataset. You can use the labeled data to train machine learning models.
  *
@@ -31740,7 +35510,13 @@ export const createInferenceExperiment = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * You can use this operation to create a static labeling job or a streaming labeling job. A static labeling job stops if all data objects in the input manifest file identified in `ManifestS3Uri` have been labeled. A streaming labeling job runs perpetually until it is manually stopped, or remains idle for 10 days. You can send new data objects to an active (`InProgress`) streaming labeling job in real time. To learn how to create a static labeling job, see Create a Labeling Job (API) in the Amazon SageMaker Developer Guide. To learn how to create a streaming labeling job, see Create a Streaming Labeling Job.
  */
-export const createLabelingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createLabelingJob: (
+  input: CreateLabelingJobRequest,
+) => Effect.Effect<
+  CreateLabelingJobResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLabelingJobRequest,
   output: CreateLabelingJobResponse,
   errors: [ResourceInUse, ResourceLimitExceeded],
@@ -31756,7 +35532,13 @@ export const createLabelingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - Unversioned - a model package that is not part of a model group.
  */
-export const createModelPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createModelPackage: (
+  input: CreateModelPackageInput,
+) => Effect.Effect<
+  CreateModelPackageOutput,
+  ConflictException | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelPackageInput,
   output: CreateModelPackageOutput,
   errors: [ConflictException, ResourceLimitExceeded],
@@ -31764,29 +35546,46 @@ export const createModelPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a schedule that regularly starts Amazon SageMaker AI Processing Jobs to monitor the data captured for an Amazon SageMaker AI Endpoint.
  */
-export const createMonitoringSchedule = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMonitoringScheduleRequest,
-    output: CreateMonitoringScheduleResponse,
-    errors: [ResourceInUse, ResourceLimitExceeded],
-  }),
-);
+export const createMonitoringSchedule: (
+  input: CreateMonitoringScheduleRequest,
+) => Effect.Effect<
+  CreateMonitoringScheduleResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMonitoringScheduleRequest,
+  output: CreateMonitoringScheduleResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded],
+}));
 /**
  * Creates a job that optimizes a model for inference performance. To create the job, you provide the location of a source model, and you provide the settings for the optimization techniques that you want the job to apply. When the job completes successfully, SageMaker uploads the new optimized model to the output destination that you specify.
  *
  * For more information about how to use this action, and about the supported optimization techniques, see Optimize model inference with Amazon SageMaker.
  */
-export const createOptimizationJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateOptimizationJobRequest,
-    output: CreateOptimizationJobResponse,
-    errors: [ResourceInUse, ResourceLimitExceeded],
-  }),
-);
+export const createOptimizationJob: (
+  input: CreateOptimizationJobRequest,
+) => Effect.Effect<
+  CreateOptimizationJobResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOptimizationJobRequest,
+  output: CreateOptimizationJobResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded],
+}));
 /**
  * Creates a processing job.
  */
-export const createProcessingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProcessingJob: (
+  input: CreateProcessingJobRequest,
+) => Effect.Effect<
+  CreateProcessingJobResponse,
+  | ResourceInUse
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProcessingJobRequest,
   output: CreateProcessingJobResponse,
   errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
@@ -31794,7 +35593,13 @@ export const createProcessingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a machine learning (ML) project that can contain one or more templates that set up an ML pipeline from training to deploying an approved model.
  */
-export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProject: (
+  input: CreateProjectInput,
+) => Effect.Effect<
+  CreateProjectOutput,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectInput,
   output: CreateProjectOutput,
   errors: [ResourceLimitExceeded],
@@ -31818,7 +35623,16 @@ export const createProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about how batch transformation works, see Batch Transform.
  */
-export const createTransformJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTransformJob: (
+  input: CreateTransformJobRequest,
+) => Effect.Effect<
+  CreateTransformJobResponse,
+  | ResourceInUse
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTransformJobRequest,
   output: CreateTransformJobResponse,
   errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
@@ -31828,7 +35642,13 @@ export const createTransformJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You cannot create more than 25 work teams in an account and region.
  */
-export const createWorkteam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkteam: (
+  input: CreateWorkteamRequest,
+) => Effect.Effect<
+  CreateWorkteamResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkteamRequest,
   output: CreateWorkteamResponse,
   errors: [ResourceInUse, ResourceLimitExceeded],
@@ -31838,7 +35658,13 @@ export const createWorkteam = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * AutoML jobs created by calling CreateAutoMLJobV2 cannot be described by `DescribeAutoMLJob`.
  */
-export const describeAutoMLJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAutoMLJob: (
+  input: DescribeAutoMLJobRequest,
+) => Effect.Effect<
+  DescribeAutoMLJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAutoMLJobRequest,
   output: DescribeAutoMLJobResponse,
   errors: [ResourceNotFound],
@@ -31846,7 +35672,13 @@ export const describeAutoMLJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about an AutoML job created by calling CreateAutoMLJobV2 or CreateAutoMLJob.
  */
-export const describeAutoMLJobV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAutoMLJobV2: (
+  input: DescribeAutoMLJobV2Request,
+) => Effect.Effect<
+  DescribeAutoMLJobV2Response,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAutoMLJobV2Request,
   output: DescribeAutoMLJobV2Response,
   errors: [ResourceNotFound],
@@ -31854,7 +35686,13 @@ export const describeAutoMLJobV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the description of an endpoint.
  */
-export const describeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeEndpoint: (
+  input: DescribeEndpointInput,
+) => Effect.Effect<
+  DescribeEndpointOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEndpointInput,
   output: DescribeEndpointOutput,
   errors: [],
@@ -31862,16 +35700,27 @@ export const describeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides the results of the Inference Recommender job. One or more recommendation jobs are returned.
  */
-export const describeInferenceRecommendationsJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeInferenceRecommendationsJobRequest,
-    output: DescribeInferenceRecommendationsJobResponse,
-    errors: [ResourceNotFound],
-  }));
+export const describeInferenceRecommendationsJob: (
+  input: DescribeInferenceRecommendationsJobRequest,
+) => Effect.Effect<
+  DescribeInferenceRecommendationsJobResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeInferenceRecommendationsJobRequest,
+  output: DescribeInferenceRecommendationsJobResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Describes the details of a project.
  */
-export const describeProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeProject: (
+  input: DescribeProjectInput,
+) => Effect.Effect<
+  DescribeProjectOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProjectInput,
   output: DescribeProjectOutput,
   errors: [],
@@ -31879,87 +35728,166 @@ export const describeProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * An auto-complete API for the search functionality in the SageMaker console. It returns suggestions of possible matches for the property name to use in `Search` queries. Provides suggestions for `HyperParameters`, `Tags`, and `Metrics`.
  */
-export const getSearchSuggestions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSearchSuggestionsRequest,
-    output: GetSearchSuggestionsResponse,
-    errors: [],
-  }),
-);
+export const getSearchSuggestions: (
+  input: GetSearchSuggestionsRequest,
+) => Effect.Effect<
+  GetSearchSuggestionsResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSearchSuggestionsRequest,
+  output: GetSearchSuggestionsResponse,
+  errors: [],
+}));
 /**
  * Lists the domain, framework, task, and model name of standard machine learning models found in common model zoos.
  */
-export const listModelMetadata = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listModelMetadata: {
+  (
     input: ListModelMetadataRequest,
-    output: ListModelMetadataResponse,
-    errors: [],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ModelMetadataSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListModelMetadataResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListModelMetadataRequest,
+  ) => Stream.Stream<
+    ListModelMetadataResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListModelMetadataRequest,
+  ) => Stream.Stream<
+    ModelMetadataSummary,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListModelMetadataRequest,
+  output: ListModelMetadataResponse,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ModelMetadataSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Gets the alerts for a single monitoring schedule.
  */
-export const listMonitoringAlerts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMonitoringAlerts: {
+  (
     input: ListMonitoringAlertsRequest,
-    output: ListMonitoringAlertsResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "MonitoringAlertSummaries",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMonitoringAlertsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMonitoringAlertsRequest,
+  ) => Stream.Stream<
+    ListMonitoringAlertsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMonitoringAlertsRequest,
+  ) => Stream.Stream<
+    MonitoringAlertSummary,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMonitoringAlertsRequest,
+  output: ListMonitoringAlertsResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MonitoringAlertSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Use this action to inspect your lineage and discover relationships between entities. For more information, see Querying Lineage Entities in the *Amazon SageMaker Developer Guide*.
  */
-export const queryLineage = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const queryLineage: {
+  (
     input: QueryLineageRequest,
-    output: QueryLineageResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    QueryLineageResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: QueryLineageRequest,
+  ) => Stream.Stream<
+    QueryLineageResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: QueryLineageRequest,
+  ) => Stream.Stream<
+    unknown,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: QueryLineageRequest,
+  output: QueryLineageResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the platform software of a SageMaker HyperPod cluster for security patching. To learn how to use this API, see Update the SageMaker HyperPod platform software of a cluster.
  *
  * The `UpgradeClusterSoftware` API call may impact your SageMaker HyperPod cluster uptime and availability. Plan accordingly to mitigate potential disruptions to your workloads.
  */
-export const updateClusterSoftware = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateClusterSoftwareRequest,
-    output: UpdateClusterSoftwareResponse,
-    errors: [ConflictException, ResourceNotFound],
-  }),
-);
+export const updateClusterSoftware: (
+  input: UpdateClusterSoftwareRequest,
+) => Effect.Effect<
+  UpdateClusterSoftwareResponse,
+  ConflictException | ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateClusterSoftwareRequest,
+  output: UpdateClusterSoftwareResponse,
+  errors: [ConflictException, ResourceNotFound],
+}));
 /**
  * Updates an inference component.
  */
-export const updateInferenceComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateInferenceComponentInput,
-    output: UpdateInferenceComponentOutput,
-    errors: [ResourceLimitExceeded],
-  }),
-);
+export const updateInferenceComponent: (
+  input: UpdateInferenceComponentInput,
+) => Effect.Effect<
+  UpdateInferenceComponentOutput,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInferenceComponentInput,
+  output: UpdateInferenceComponentOutput,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Updates a machine learning (ML) project that is created from a template that sets up an ML pipeline from training to deploying an approved model.
  *
  * You must not update a project that is in use. If you update the `ServiceCatalogProvisioningUpdateDetails` of a project that is active or being created, or updated, you may lose resources already created by the project.
  */
-export const updateProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProject: (
+  input: UpdateProjectInput,
+) => Effect.Effect<
+  UpdateProjectOutput,
+  ConflictException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProjectInput,
   output: UpdateProjectOutput,
   errors: [ConflictException],
@@ -31967,7 +35895,13 @@ export const updateProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Create a machine learning algorithm that you can use in SageMaker and list in the Amazon Web Services Marketplace.
  */
-export const createAlgorithm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAlgorithm: (
+  input: CreateAlgorithmInput,
+) => Effect.Effect<
+  CreateAlgorithmOutput,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAlgorithmInput,
   output: CreateAlgorithmOutput,
   errors: [],
@@ -31975,12 +35909,17 @@ export const createAlgorithm = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a definition for a job that monitors data quality and drift. For information about model monitor, see Amazon SageMaker AI Model Monitor.
  */
-export const createDataQualityJobDefinition =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDataQualityJobDefinitionRequest,
-    output: CreateDataQualityJobDefinitionResponse,
-    errors: [ResourceInUse, ResourceLimitExceeded],
-  }));
+export const createDataQualityJobDefinition: (
+  input: CreateDataQualityJobDefinitionRequest,
+) => Effect.Effect<
+  CreateDataQualityJobDefinitionResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataQualityJobDefinitionRequest,
+  output: CreateDataQualityJobDefinitionResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded],
+}));
 /**
  * Creates a `Domain`. A domain consists of an associated Amazon Elastic File System volume, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. Users within a domain can share notebook files and other artifacts with each other.
  *
@@ -32004,7 +35943,13 @@ export const createDataQualityJobDefinition =
  *
  * For more information, see Connect Amazon SageMaker AI Studio Notebooks to Resources in a VPC.
  */
-export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDomain: (
+  input: CreateDomainRequest,
+) => Effect.Effect<
+  CreateDomainResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDomainRequest,
   output: CreateDomainResponse,
   errors: [ResourceInUse, ResourceLimitExceeded],
@@ -32020,22 +35965,31 @@ export const createDomain = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you call CreateEndpoint, a load call is made to DynamoDB to verify that your endpoint configuration exists. When you read data from a DynamoDB table supporting `Eventually Consistent Reads` , the response might not reflect the results of a recently completed write operation. The response might include some stale data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If you repeat your read request after a short time, the response should return the latest data. So retry logic is recommended to handle these possible issues. We also recommend that customers call DescribeEndpointConfig before calling CreateEndpoint to minimize the potential impact of a DynamoDB eventually consistent read.
  */
-export const createEndpointConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateEndpointConfigInput,
-    output: CreateEndpointConfigOutput,
-    errors: [ResourceLimitExceeded],
-  }),
-);
+export const createEndpointConfig: (
+  input: CreateEndpointConfigInput,
+) => Effect.Effect<
+  CreateEndpointConfigOutput,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEndpointConfigInput,
+  output: CreateEndpointConfigOutput,
+  errors: [ResourceLimitExceeded],
+}));
 /**
  * Starts a recommendation job. You can create either an instance recommendation or load test job.
  */
-export const createInferenceRecommendationsJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateInferenceRecommendationsJobRequest,
-    output: CreateInferenceRecommendationsJobResponse,
-    errors: [ResourceInUse, ResourceLimitExceeded],
-  }));
+export const createInferenceRecommendationsJob: (
+  input: CreateInferenceRecommendationsJobRequest,
+) => Effect.Effect<
+  CreateInferenceRecommendationsJobResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInferenceRecommendationsJobRequest,
+  output: CreateInferenceRecommendationsJobResponse,
+  errors: [ResourceInUse, ResourceLimitExceeded],
+}));
 /**
  * Creates a model in SageMaker. In the request, you name the model and describe a primary container. For the primary container, you specify the Docker image that contains inference code, artifacts (from prior training), and a custom environment map that the inference code uses when you deploy the model for predictions.
  *
@@ -32047,7 +36001,13 @@ export const createInferenceRecommendationsJob =
  *
  * In the request, you also provide an IAM role that SageMaker can assume to access model artifacts and docker image for deployment on ML compute hosting instances or for batch transform jobs. In addition, you also use the IAM role to manage permissions the inference code needs. For example, if the inference code access any other Amazon Web Services resources, you grant necessary permissions via this role.
  */
-export const createModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createModel: (
+  input: CreateModelInput,
+) => Effect.Effect<
+  CreateModelOutput,
+  ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateModelInput,
   output: CreateModelOutput,
   errors: [ResourceLimitExceeded],
@@ -32055,7 +36015,13 @@ export const createModel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a private space or a space used for real time collaboration in a domain.
  */
-export const createSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSpace: (
+  input: CreateSpaceRequest,
+) => Effect.Effect<
+  CreateSpaceResponse,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSpaceRequest,
   output: CreateSpaceResponse,
   errors: [ResourceInUse, ResourceLimitExceeded],
@@ -32093,7 +36059,16 @@ export const createSpace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more information about SageMaker, see How It Works.
  */
-export const createTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTrainingJob: (
+  input: CreateTrainingJobRequest,
+) => Effect.Effect<
+  CreateTrainingJobResponse,
+  | ResourceInUse
+  | ResourceLimitExceeded
+  | ResourceNotFound
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTrainingJobRequest,
   output: CreateTrainingJobResponse,
   errors: [ResourceInUse, ResourceLimitExceeded, ResourceNotFound],
@@ -32101,18 +36076,39 @@ export const createTrainingJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a list of `PipeLineExecutionStep` objects.
  */
-export const listPipelineExecutionSteps =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPipelineExecutionSteps: {
+  (
     input: ListPipelineExecutionStepsRequest,
-    output: ListPipelineExecutionStepsResponse,
-    errors: [ResourceNotFound],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PipelineExecutionSteps",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPipelineExecutionStepsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPipelineExecutionStepsRequest,
+  ) => Stream.Stream<
+    ListPipelineExecutionStepsResponse,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPipelineExecutionStepsRequest,
+  ) => Stream.Stream<
+    PipelineExecutionStep,
+    ResourceNotFound | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPipelineExecutionStepsRequest,
+  output: ListPipelineExecutionStepsResponse,
+  errors: [ResourceNotFound],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PipelineExecutionSteps",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2.
  *
@@ -32132,7 +36128,13 @@ export const listPipelineExecutionSteps =
  *
  * You can find the best-performing model after you run an AutoML job V2 by calling DescribeAutoMLJobV2.
  */
-export const createAutoMLJobV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAutoMLJobV2: (
+  input: CreateAutoMLJobV2Request,
+) => Effect.Effect<
+  CreateAutoMLJobV2Response,
+  ResourceInUse | ResourceLimitExceeded | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAutoMLJobV2Request,
   output: CreateAutoMLJobV2Response,
   errors: [ResourceInUse, ResourceLimitExceeded],
@@ -32140,22 +36142,31 @@ export const createAutoMLJobV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a specific event for a given HyperPod cluster. This functionality is only supported when the `NodeProvisioningMode` is set to `Continuous`.
  */
-export const describeClusterEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeClusterEventRequest,
-    output: DescribeClusterEventResponse,
-    errors: [ResourceNotFound],
-  }),
-);
+export const describeClusterEvent: (
+  input: DescribeClusterEventRequest,
+) => Effect.Effect<
+  DescribeClusterEventResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeClusterEventRequest,
+  output: DescribeClusterEventResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Starts an Amazon SageMaker Inference Recommender autoscaling recommendation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint.
  */
-export const getScalingConfigurationRecommendation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetScalingConfigurationRecommendationRequest,
-    output: GetScalingConfigurationRecommendationResponse,
-    errors: [ResourceNotFound],
-  }));
+export const getScalingConfigurationRecommendation: (
+  input: GetScalingConfigurationRecommendationRequest,
+) => Effect.Effect<
+  GetScalingConfigurationRecommendationResponse,
+  ResourceNotFound | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetScalingConfigurationRecommendationRequest,
+  output: GetScalingConfigurationRecommendationResponse,
+  errors: [ResourceNotFound],
+}));
 /**
  * Finds SageMaker resources that match a search query. Matching resources are returned as a list of `SearchRecord` objects in the response. You can sort the search results by any resource property in a ascending or descending order.
  *
@@ -32163,7 +36174,29 @@ export const getScalingConfigurationRecommendation =
  *
  * The Search API may provide access to otherwise restricted data. See Amazon SageMaker API Permissions: Actions, Permissions, and Resources Reference for more information.
  */
-export const search = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const search: {
+  (
+    input: SearchRequest,
+  ): Effect.Effect<
+    SearchResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchRequest,
+  ) => Stream.Stream<
+    SearchResponse,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchRequest,
+  ) => Stream.Stream<
+    SearchRecord,
+    Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchRequest,
   output: SearchResponse,
   errors: [],

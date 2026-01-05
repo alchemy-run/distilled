@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://codepipeline.amazonaws.com/doc/2015-07-09/");
 const svc = T.AwsApiService({
   sdkId: "CodePipeline",
@@ -241,6 +249,117 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type JobId = string;
+export type Nonce = string;
+export type ThirdPartyJobId = string;
+export type ClientToken = string;
+export type ActionProvider = string;
+export type Version = string;
+export type PipelineName = string;
+export type WebhookName = string;
+export type StageName = string;
+export type DisabledReason = string;
+export type ActionTypeOwner = string;
+export type PipelineVersion = number;
+export type PipelineExecutionId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type AWSRegionName = string;
+export type ActionExecutionId = string;
+export type MaxPipelines = number;
+export type ResourceArn = string;
+export type MaxBatchSize = number;
+export type ActionName = string;
+export type ApprovalToken = string;
+export type ContinuationToken = string;
+export type ClientRequestToken = string;
+export type StopPipelineExecutionReason = string;
+export type TagKey = string;
+export type Url = string;
+export type UrlTemplate = string;
+export type ActionConfigurationKey = string;
+export type Description = string;
+export type MinimumArtifactCount = number;
+export type MaximumArtifactCount = number;
+export type TagValue = string;
+export type RoleArn = string;
+export type TargetFilterValue = string;
+export type ActionConfigurationQueryableValue = string;
+export type Revision = string;
+export type RevisionChangeIdentifier = string;
+export type ApprovalSummary = string;
+export type Message = string;
+export type ExecutionId = string;
+export type RevisionSummary = string;
+export type ExecutionSummary = string;
+export type Percentage = number;
+export type OutputVariablesKey = string;
+export type OutputVariablesValue = string;
+export type PipelineVariableName = string;
+export type PipelineVariableValue = string;
+export type ActionTypeDescription = string;
+export type ArtifactStoreLocation = string;
+export type PipelineVariableDescription = string;
+export type JsonPath = string;
+export type MatchEquals = string;
+export type WebhookAuthConfigurationAllowedIPRange = string;
+export type WebhookAuthConfigurationSecretToken = string;
+export type PolicyStatementsTemplate = string;
+export type JobTimeout = number;
+export type MinimumActionTypeArtifactCount = number;
+export type MaximumActionTypeArtifactCount = number;
+export type AllowedAccount = string;
+export type PropertyDescription = string;
+export type AccountId = string;
+export type PipelineArn = string;
+export type PipelineExecutionStatusSummary = string;
+export type WebhookUrl = string;
+export type WebhookErrorMessage = string;
+export type WebhookErrorCode = string;
+export type WebhookArn = string;
+export type ClientId = string;
+export type EncryptionKeyId = string;
+export type BlockerName = string;
+export type ActionRunOrder = number;
+export type Command = string;
+export type OutputVariable = string;
+export type ActionNamespace = string;
+export type ActionTimeout = number;
+export type ArtifactName = string;
+export type TriggerDetail = string;
+export type LastChangedBy = string;
+export type RetryAttempt = number;
+export type RuleProvider = string;
+export type RuleConfigurationKey = string;
+export type ActionConfigurationValue = string;
+export type FilePath = string;
+export type EnvironmentVariableName = string;
+export type EnvironmentVariableValue = string;
+export type LambdaFunctionArn = string;
+export type ServicePrincipal = string;
+export type RuleExecutionId = string;
+export type RuleName = string;
+export type LastUpdatedBy = string;
+export type AccessKeyId = string;
+export type SecretAccessKey = string;
+export type SessionToken = string;
+export type ActionExecutionToken = string;
+export type LogStreamARN = string;
+export type RuleTimeout = number;
+export type GitTagNamePattern = string;
+export type GitBranchNamePattern = string;
+export type GitFilePathPattern = string;
+export type Code = string;
+export type RuleConfigurationValue = string;
+export type ExternalExecutionId = string;
+export type ExternalExecutionSummary = string;
+export type S3BucketName = string;
+export type S3ObjectKey = string;
+export type RuleExecutionToken = string;
+export type S3Bucket = string;
+export type S3Key = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -3558,16 +3677,27 @@ export class PipelineNameInUseException extends S.TaggedError<PipelineNameInUseE
  * and the external tool with events to be detected. Currently supported only for webhooks
  * that target an action type of GitHub.
  */
-export const deregisterWebhookWithThirdParty =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterWebhookWithThirdPartyInput,
-    output: DeregisterWebhookWithThirdPartyOutput,
-    errors: [ValidationException, WebhookNotFoundException],
-  }));
+export const deregisterWebhookWithThirdParty: (
+  input: DeregisterWebhookWithThirdPartyInput,
+) => Effect.Effect<
+  DeregisterWebhookWithThirdPartyOutput,
+  ValidationException | WebhookNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterWebhookWithThirdPartyInput,
+  output: DeregisterWebhookWithThirdPartyOutput,
+  errors: [ValidationException, WebhookNotFoundException],
+}));
 /**
  * Deletes the specified pipeline.
  */
-export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePipeline: (
+  input: DeletePipelineInput,
+) => Effect.Effect<
+  DeletePipelineResponse,
+  ConcurrentModificationException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePipelineInput,
   output: DeletePipelineResponse,
   errors: [ConcurrentModificationException, ValidationException],
@@ -3578,7 +3708,13 @@ export const deletePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * deleted webhook is re-created by calling PutWebhook with the same name, it will have a
  * different URL.
  */
-export const deleteWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWebhook: (
+  input: DeleteWebhookInput,
+) => Effect.Effect<
+  DeleteWebhookOutput,
+  ConcurrentModificationException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWebhookInput,
   output: DeleteWebhookOutput,
   errors: [ConcurrentModificationException, ValidationException],
@@ -3587,12 +3723,17 @@ export const deleteWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Configures a connection between the webhook that was created and the external tool
  * with events to be detected.
  */
-export const registerWebhookWithThirdParty =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterWebhookWithThirdPartyInput,
-    output: RegisterWebhookWithThirdPartyOutput,
-    errors: [ValidationException, WebhookNotFoundException],
-  }));
+export const registerWebhookWithThirdParty: (
+  input: RegisterWebhookWithThirdPartyInput,
+) => Effect.Effect<
+  RegisterWebhookWithThirdPartyOutput,
+  ValidationException | WebhookNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterWebhookWithThirdPartyInput,
+  output: RegisterWebhookWithThirdPartyOutput,
+  errors: [ValidationException, WebhookNotFoundException],
+}));
 /**
  * Marks a custom action as deleted. `PollForJobs` for the custom action
  * fails after the action is marked for deletion. Used for custom actions only.
@@ -3603,34 +3744,51 @@ export const registerWebhookWithThirdParty =
  * that is identical to the deleted action, including the original string in the
  * version field.
  */
-export const deleteCustomActionType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCustomActionTypeInput,
-    output: DeleteCustomActionTypeResponse,
-    errors: [ConcurrentModificationException, ValidationException],
-  }),
-);
+export const deleteCustomActionType: (
+  input: DeleteCustomActionTypeInput,
+) => Effect.Effect<
+  DeleteCustomActionTypeResponse,
+  ConcurrentModificationException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomActionTypeInput,
+  output: DeleteCustomActionTypeResponse,
+  errors: [ConcurrentModificationException, ValidationException],
+}));
 /**
  * Prevents artifacts in a pipeline from transitioning to the next stage in the
  * pipeline.
  */
-export const disableStageTransition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableStageTransitionInput,
-    output: DisableStageTransitionResponse,
-    errors: [
-      PipelineNotFoundException,
-      StageNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const disableStageTransition: (
+  input: DisableStageTransitionInput,
+) => Effect.Effect<
+  DisableStageTransitionResponse,
+  | PipelineNotFoundException
+  | StageNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableStageTransitionInput,
+  output: DisableStageTransitionResponse,
+  errors: [
+    PipelineNotFoundException,
+    StageNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about an action type created for an external provider, where the
  * action is to be used by customers of the external provider. The action can be created
  * with any supported integration model.
  */
-export const getActionType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getActionType: (
+  input: GetActionTypeInput,
+) => Effect.Effect<
+  GetActionTypeOutput,
+  ActionTypeNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetActionTypeInput,
   output: GetActionTypeOutput,
   errors: [ActionTypeNotFoundException, ValidationException],
@@ -3643,48 +3801,76 @@ export const getActionType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the S3 bucket used to store artifacts for the pipeline, if the action requires
  * access to that S3 bucket for input or output artifacts.
  */
-export const pollForThirdPartyJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PollForThirdPartyJobsInput,
-    output: PollForThirdPartyJobsOutput,
-    errors: [ActionTypeNotFoundException, ValidationException],
-  }),
-);
+export const pollForThirdPartyJobs: (
+  input: PollForThirdPartyJobsInput,
+) => Effect.Effect<
+  PollForThirdPartyJobsOutput,
+  ActionTypeNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PollForThirdPartyJobsInput,
+  output: PollForThirdPartyJobsOutput,
+  errors: [ActionTypeNotFoundException, ValidationException],
+}));
 /**
  * Starts the specified pipeline. Specifically, it begins processing the latest commit
  * to the source location specified as part of the pipeline.
  */
-export const startPipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartPipelineExecutionInput,
-    output: StartPipelineExecutionOutput,
-    errors: [
-      ConcurrentPipelineExecutionsLimitExceededException,
-      ConflictException,
-      PipelineNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const startPipelineExecution: (
+  input: StartPipelineExecutionInput,
+) => Effect.Effect<
+  StartPipelineExecutionOutput,
+  | ConcurrentPipelineExecutionsLimitExceededException
+  | ConflictException
+  | PipelineNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartPipelineExecutionInput,
+  output: StartPipelineExecutionOutput,
+  errors: [
+    ConcurrentPipelineExecutionsLimitExceededException,
+    ConflictException,
+    PipelineNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Enables artifacts in a pipeline to transition to a stage in a pipeline.
  */
-export const enableStageTransition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableStageTransitionInput,
-    output: EnableStageTransitionResponse,
-    errors: [
-      PipelineNotFoundException,
-      StageNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const enableStageTransition: (
+  input: EnableStageTransitionInput,
+) => Effect.Effect<
+  EnableStageTransitionResponse,
+  | PipelineNotFoundException
+  | StageNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableStageTransitionInput,
+  output: EnableStageTransitionResponse,
+  errors: [
+    PipelineNotFoundException,
+    StageNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about a specified job and whether that job has been received by
  * the job worker. Used for custom actions only.
  */
-export const acknowledgeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const acknowledgeJob: (
+  input: AcknowledgeJobInput,
+) => Effect.Effect<
+  AcknowledgeJobOutput,
+  | InvalidNonceException
+  | JobNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcknowledgeJobInput,
   output: AcknowledgeJobOutput,
   errors: [InvalidNonceException, JobNotFoundException, ValidationException],
@@ -3694,7 +3880,16 @@ export const acknowledgeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * return the entire structure of a pipeline in JSON format, which can then be modified and
  * used to update the pipeline structure with UpdatePipeline.
  */
-export const getPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPipeline: (
+  input: GetPipelineInput,
+) => Effect.Effect<
+  GetPipelineOutput,
+  | PipelineNotFoundException
+  | PipelineVersionNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPipelineInput,
   output: GetPipelineOutput,
   errors: [
@@ -3707,24 +3902,50 @@ export const getPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets a summary of all CodePipeline action types associated with your
  * account.
  */
-export const listActionTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listActionTypes: {
+  (
     input: ListActionTypesInput,
-    output: ListActionTypesOutput,
-    errors: [InvalidNextTokenException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "actionTypes",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListActionTypesOutput,
+    InvalidNextTokenException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListActionTypesInput,
+  ) => Stream.Stream<
+    ListActionTypesOutput,
+    InvalidNextTokenException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListActionTypesInput,
+  ) => Stream.Stream<
+    ActionType,
+    InvalidNextTokenException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListActionTypesInput,
+  output: ListActionTypesOutput,
+  errors: [InvalidNextTokenException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "actionTypes",
+  } as const,
+}));
 /**
  * Lists the rules for the condition. For more information about conditions, see Stage
  * conditions and How do
  * stage conditions work?.For more information about rules, see the CodePipeline rule reference.
  */
-export const listRuleTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listRuleTypes: (
+  input: ListRuleTypesInput,
+) => Effect.Effect<
+  ListRuleTypesOutput,
+  InvalidNextTokenException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRuleTypesInput,
   output: ListRuleTypesOutput,
   errors: [InvalidNextTokenException, ValidationException],
@@ -3740,7 +3961,13 @@ export const listRuleTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * access to that S3 bucket for input or output artifacts. This API also returns any
  * secret values defined for the action.
  */
-export const pollForJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const pollForJobs: (
+  input: PollForJobsInput,
+) => Effect.Effect<
+  PollForJobsOutput,
+  ActionTypeNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PollForJobsInput,
   output: PollForJobsOutput,
   errors: [ActionTypeNotFoundException, ValidationException],
@@ -3749,7 +3976,18 @@ export const pollForJobs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Provides information to CodePipeline about new revisions to a
  * source.
  */
-export const putActionRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putActionRevision: (
+  input: PutActionRevisionInput,
+) => Effect.Effect<
+  PutActionRevisionOutput,
+  | ActionNotFoundException
+  | ConcurrentPipelineExecutionsLimitExceededException
+  | PipelineNotFoundException
+  | StageNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutActionRevisionInput,
   output: PutActionRevisionOutput,
   errors: [
@@ -3764,7 +4002,16 @@ export const putActionRevision = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Represents the failure of a job as returned to the pipeline by a job worker. Used
  * for custom actions only.
  */
-export const putJobFailureResult = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putJobFailureResult: (
+  input: PutJobFailureResultInput,
+) => Effect.Effect<
+  PutJobFailureResultResponse,
+  | InvalidJobStateException
+  | JobNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutJobFailureResultInput,
   output: PutJobFailureResultResponse,
   errors: [InvalidJobStateException, JobNotFoundException, ValidationException],
@@ -3773,64 +4020,110 @@ export const putJobFailureResult = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Confirms a job worker has received the specified job. Used for partner actions
  * only.
  */
-export const acknowledgeThirdPartyJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcknowledgeThirdPartyJobInput,
-    output: AcknowledgeThirdPartyJobOutput,
-    errors: [
-      InvalidClientTokenException,
-      InvalidNonceException,
-      JobNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const acknowledgeThirdPartyJob: (
+  input: AcknowledgeThirdPartyJobInput,
+) => Effect.Effect<
+  AcknowledgeThirdPartyJobOutput,
+  | InvalidClientTokenException
+  | InvalidNonceException
+  | JobNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcknowledgeThirdPartyJobInput,
+  output: AcknowledgeThirdPartyJobOutput,
+  errors: [
+    InvalidClientTokenException,
+    InvalidNonceException,
+    JobNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Represents the failure of a third party job as returned to the pipeline by a job
  * worker. Used for partner actions only.
  */
-export const putThirdPartyJobFailureResult =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutThirdPartyJobFailureResultInput,
-    output: PutThirdPartyJobFailureResultResponse,
-    errors: [
-      InvalidClientTokenException,
-      InvalidJobStateException,
-      JobNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const putThirdPartyJobFailureResult: (
+  input: PutThirdPartyJobFailureResultInput,
+) => Effect.Effect<
+  PutThirdPartyJobFailureResultResponse,
+  | InvalidClientTokenException
+  | InvalidJobStateException
+  | JobNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutThirdPartyJobFailureResultInput,
+  output: PutThirdPartyJobFailureResultResponse,
+  errors: [
+    InvalidClientTokenException,
+    InvalidJobStateException,
+    JobNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Represents the success of a third party job as returned to the pipeline by a job
  * worker. Used for partner actions only.
  */
-export const putThirdPartyJobSuccessResult =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutThirdPartyJobSuccessResultInput,
-    output: PutThirdPartyJobSuccessResultResponse,
-    errors: [
-      InvalidClientTokenException,
-      InvalidJobStateException,
-      JobNotFoundException,
-      ValidationException,
-    ],
-  }));
+export const putThirdPartyJobSuccessResult: (
+  input: PutThirdPartyJobSuccessResultInput,
+) => Effect.Effect<
+  PutThirdPartyJobSuccessResultResponse,
+  | InvalidClientTokenException
+  | InvalidJobStateException
+  | JobNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutThirdPartyJobSuccessResultInput,
+  output: PutThirdPartyJobSuccessResultResponse,
+  errors: [
+    InvalidClientTokenException,
+    InvalidJobStateException,
+    JobNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a summary of all of the pipelines associated with your account.
  */
-export const listPipelines = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPipelines: {
+  (
     input: ListPipelinesInput,
-    output: ListPipelinesOutput,
-    errors: [InvalidNextTokenException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "pipelines",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPipelinesOutput,
+    InvalidNextTokenException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPipelinesInput,
+  ) => Stream.Stream<
+    ListPipelinesOutput,
+    InvalidNextTokenException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPipelinesInput,
+  ) => Stream.Stream<
+    PipelineSummary,
+    InvalidNextTokenException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPipelinesInput,
+  output: ListPipelinesOutput,
+  errors: [InvalidNextTokenException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "pipelines",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a listing of all the webhooks in this Amazon Web Services Region for this
  * account. The output lists all webhooks and includes the webhook URL and ARN and the
@@ -3838,55 +4131,93 @@ export const listPipelines = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * If a secret token was provided, it will be redacted in the response.
  */
-export const listWebhooks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWebhooks: {
+  (
     input: ListWebhooksInput,
-    output: ListWebhooksOutput,
-    errors: [InvalidNextTokenException, ValidationException],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "webhooks",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWebhooksOutput,
+    InvalidNextTokenException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWebhooksInput,
+  ) => Stream.Stream<
+    ListWebhooksOutput,
+    InvalidNextTokenException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWebhooksInput,
+  ) => Stream.Stream<
+    ListWebhookItem,
+    InvalidNextTokenException | ValidationException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWebhooksInput,
+  output: ListWebhooksOutput,
+  errors: [InvalidNextTokenException, ValidationException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "webhooks",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Used to override a stage condition. For more information about conditions, see Stage
  * conditions and How do
  * stage conditions work?.
  */
-export const overrideStageCondition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: OverrideStageConditionInput,
-    output: OverrideStageConditionResponse,
-    errors: [
-      ConcurrentPipelineExecutionsLimitExceededException,
-      ConditionNotOverridableException,
-      ConflictException,
-      NotLatestPipelineExecutionException,
-      PipelineNotFoundException,
-      StageNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const overrideStageCondition: (
+  input: OverrideStageConditionInput,
+) => Effect.Effect<
+  OverrideStageConditionResponse,
+  | ConcurrentPipelineExecutionsLimitExceededException
+  | ConditionNotOverridableException
+  | ConflictException
+  | NotLatestPipelineExecutionException
+  | PipelineNotFoundException
+  | StageNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: OverrideStageConditionInput,
+  output: OverrideStageConditionResponse,
+  errors: [
+    ConcurrentPipelineExecutionsLimitExceededException,
+    ConditionNotOverridableException,
+    ConflictException,
+    NotLatestPipelineExecutionException,
+    PipelineNotFoundException,
+    StageNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about an execution of a pipeline, including details about
  * artifacts, the pipeline execution ID, and the name, version, and status of the
  * pipeline.
  */
-export const getPipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPipelineExecutionInput,
-    output: GetPipelineExecutionOutput,
-    errors: [
-      PipelineExecutionNotFoundException,
-      PipelineNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getPipelineExecution: (
+  input: GetPipelineExecutionInput,
+) => Effect.Effect<
+  GetPipelineExecutionOutput,
+  | PipelineExecutionNotFoundException
+  | PipelineNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPipelineExecutionInput,
+  output: GetPipelineExecutionOutput,
+  errors: [
+    PipelineExecutionNotFoundException,
+    PipelineNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Requests the details of a job for a third party action. Used for partner actions
  * only.
@@ -3896,18 +4227,26 @@ export const getPipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * access to that S3 bucket for input or output artifacts. This API also returns any
  * secret values defined for the action.
  */
-export const getThirdPartyJobDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetThirdPartyJobDetailsInput,
-    output: GetThirdPartyJobDetailsOutput,
-    errors: [
-      InvalidClientTokenException,
-      InvalidJobException,
-      JobNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const getThirdPartyJobDetails: (
+  input: GetThirdPartyJobDetailsInput,
+) => Effect.Effect<
+  GetThirdPartyJobDetailsOutput,
+  | InvalidClientTokenException
+  | InvalidJobException
+  | JobNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetThirdPartyJobDetailsInput,
+  output: GetThirdPartyJobDetailsOutput,
+  errors: [
+    InvalidClientTokenException,
+    InvalidJobException,
+    JobNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * You can retry a stage that has failed without having to run a pipeline again from
  * the beginning. You do this by either retrying the failed actions in a stage or by
@@ -3918,7 +4257,20 @@ export const getThirdPartyJobDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * can be retried, it must either have all actions failed or some actions failed and some
  * succeeded.
  */
-export const retryStageExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const retryStageExecution: (
+  input: RetryStageExecutionInput,
+) => Effect.Effect<
+  RetryStageExecutionOutput,
+  | ConcurrentPipelineExecutionsLimitExceededException
+  | ConflictException
+  | NotLatestPipelineExecutionException
+  | PipelineNotFoundException
+  | StageNotFoundException
+  | StageNotRetryableException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetryStageExecutionInput,
   output: RetryStageExecutionOutput,
   errors: [
@@ -3935,7 +4287,17 @@ export const retryStageExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Represents the success of a job as returned to the pipeline by a job worker. Used
  * for custom actions only.
  */
-export const putJobSuccessResult = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putJobSuccessResult: (
+  input: PutJobSuccessResultInput,
+) => Effect.Effect<
+  PutJobSuccessResultResponse,
+  | InvalidJobStateException
+  | JobNotFoundException
+  | OutputVariablesSizeExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutJobSuccessResultInput,
   output: PutJobSuccessResultResponse,
   errors: [
@@ -3953,23 +4315,43 @@ export const putJobSuccessResult = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * are completed or abandoned, the pipeline execution is in a `Stopped`
  * state.
  */
-export const stopPipelineExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopPipelineExecutionInput,
-    output: StopPipelineExecutionOutput,
-    errors: [
-      ConflictException,
-      DuplicatedStopRequestException,
-      PipelineExecutionNotStoppableException,
-      PipelineNotFoundException,
-      ValidationException,
-    ],
-  }),
-);
+export const stopPipelineExecution: (
+  input: StopPipelineExecutionInput,
+) => Effect.Effect<
+  StopPipelineExecutionOutput,
+  | ConflictException
+  | DuplicatedStopRequestException
+  | PipelineExecutionNotStoppableException
+  | PipelineNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopPipelineExecutionInput,
+  output: StopPipelineExecutionOutput,
+  errors: [
+    ConflictException,
+    DuplicatedStopRequestException,
+    PipelineExecutionNotStoppableException,
+    PipelineNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes tags from an Amazon Web Services resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceOutput,
+  | ConcurrentModificationException
+  | InvalidArnException
+  | InvalidTagsException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
   errors: [
@@ -3984,40 +4366,82 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Gets the set of key-value pairs (metadata) that are used to manage the
  * resource.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceInput,
-    output: ListTagsForResourceOutput,
-    errors: [
-      InvalidArnException,
-      InvalidNextTokenException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "tags",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceOutput,
+    | InvalidArnException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceInput,
+  ) => Stream.Stream<
+    ListTagsForResourceOutput,
+    | InvalidArnException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceInput,
+  ) => Stream.Stream<
+    Tag,
+    | InvalidArnException
+    | InvalidNextTokenException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
+  errors: [
+    InvalidArnException,
+    InvalidNextTokenException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tags",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a new custom action that can be used in all pipelines associated with the
  * Amazon Web Services account. Only used for custom actions.
  */
-export const createCustomActionType = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCustomActionTypeInput,
-    output: CreateCustomActionTypeOutput,
-    errors: [
-      ConcurrentModificationException,
-      InvalidTagsException,
-      LimitExceededException,
-      TooManyTagsException,
-      ValidationException,
-    ],
-  }),
-);
+export const createCustomActionType: (
+  input: CreateCustomActionTypeInput,
+) => Effect.Effect<
+  CreateCustomActionTypeOutput,
+  | ConcurrentModificationException
+  | InvalidTagsException
+  | LimitExceededException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomActionTypeInput,
+  output: CreateCustomActionTypeOutput,
+  errors: [
+    ConcurrentModificationException,
+    InvalidTagsException,
+    LimitExceededException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets a summary of the most recent executions for a pipeline.
  *
@@ -4025,22 +4449,52 @@ export const createCustomActionType = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * the operation returns all executions in the current pipeline version beginning on
  * February 1, 2024.
  */
-export const listPipelineExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPipelineExecutions: {
+  (
     input: ListPipelineExecutionsInput,
-    output: ListPipelineExecutionsOutput,
-    errors: [
-      InvalidNextTokenException,
-      PipelineNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "pipelineExecutionSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPipelineExecutionsOutput,
+    | InvalidNextTokenException
+    | PipelineNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPipelineExecutionsInput,
+  ) => Stream.Stream<
+    ListPipelineExecutionsOutput,
+    | InvalidNextTokenException
+    | PipelineNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPipelineExecutionsInput,
+  ) => Stream.Stream<
+    PipelineExecutionSummary,
+    | InvalidNextTokenException
+    | PipelineNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPipelineExecutionsInput,
+  output: ListPipelineExecutionsOutput,
+  errors: [
+    InvalidNextTokenException,
+    PipelineNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "pipelineExecutionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Defines a webhook and returns a unique webhook URL generated by CodePipeline.
  * This URL can be supplied to third party source hosting providers to call every time
@@ -4061,7 +4515,21 @@ export const listPipelineExecutions =
  *
  * If a secret token was provided, it will be redacted in the response.
  */
-export const putWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putWebhook: (
+  input: PutWebhookInput,
+) => Effect.Effect<
+  PutWebhookOutput,
+  | ConcurrentModificationException
+  | InvalidTagsException
+  | InvalidWebhookAuthenticationParametersException
+  | InvalidWebhookFilterPatternException
+  | LimitExceededException
+  | PipelineNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutWebhookInput,
   output: PutWebhookOutput,
   errors: [
@@ -4081,7 +4549,16 @@ export const putWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * with the action definition and `UpdateActionType` to provide the full
  * structure.
  */
-export const updateActionType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateActionType: (
+  input: UpdateActionTypeInput,
+) => Effect.Effect<
+  UpdateActionTypeResponse,
+  | ActionTypeNotFoundException
+  | RequestFailedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateActionTypeInput,
   output: UpdateActionTypeResponse,
   errors: [
@@ -4096,7 +4573,19 @@ export const updateActionType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * structure of the pipeline. Updating the pipeline increases the version number of the
  * pipeline by 1.
  */
-export const updatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePipeline: (
+  input: UpdatePipelineInput,
+) => Effect.Effect<
+  UpdatePipelineOutput,
+  | InvalidActionDeclarationException
+  | InvalidBlockerDeclarationException
+  | InvalidStageDeclarationException
+  | InvalidStructureException
+  | LimitExceededException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePipelineInput,
   output: UpdatePipelineOutput,
   errors: [
@@ -4112,7 +4601,19 @@ export const updatePipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Adds to or modifies the tags of the given resource. Tags are metadata that can be used
  * to manage a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceOutput,
+  | ConcurrentModificationException
+  | InvalidArnException
+  | InvalidTagsException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
   errors: [
@@ -4128,7 +4629,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Provides the response to a manual approval request to CodePipeline. Valid
  * responses include Approved and Rejected.
  */
-export const putApprovalResult = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putApprovalResult: (
+  input: PutApprovalResultInput,
+) => Effect.Effect<
+  PutApprovalResultOutput,
+  | ActionNotFoundException
+  | ApprovalAlreadyCompletedException
+  | InvalidApprovalTokenException
+  | PipelineNotFoundException
+  | StageNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutApprovalResultInput,
   output: PutApprovalResultOutput,
   errors: [
@@ -4143,7 +4656,20 @@ export const putApprovalResult = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Rolls back a stage execution.
  */
-export const rollbackStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rollbackStage: (
+  input: RollbackStageInput,
+) => Effect.Effect<
+  RollbackStageOutput,
+  | ConflictException
+  | PipelineExecutionNotFoundException
+  | PipelineExecutionOutdatedException
+  | PipelineNotFoundException
+  | StageNotFoundException
+  | UnableToRollbackStageException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RollbackStageInput,
   output: RollbackStageOutput,
   errors: [
@@ -4164,7 +4690,13 @@ export const rollbackStage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * access to that S3 bucket for input or output artifacts. This API also returns any
  * secret values defined for the action.
  */
-export const getJobDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJobDetails: (
+  input: GetJobDetailsInput,
+) => Effect.Effect<
+  GetJobDetailsOutput,
+  JobNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobDetailsInput,
   output: GetJobDetailsOutput,
   errors: [JobNotFoundException, ValidationException],
@@ -4177,7 +4709,13 @@ export const getJobDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * fields indicate the source revision information, such as the commit ID, for the
  * current state.
  */
-export const getPipelineState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPipelineState: (
+  input: GetPipelineStateInput,
+) => Effect.Effect<
+  GetPipelineStateOutput,
+  PipelineNotFoundException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPipelineStateInput,
   output: GetPipelineStateOutput,
   errors: [PipelineNotFoundException, ValidationException],
@@ -4185,65 +4723,163 @@ export const getPipelineState = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the action executions that have occurred in a pipeline.
  */
-export const listActionExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listActionExecutions: {
+  (
     input: ListActionExecutionsInput,
-    output: ListActionExecutionsOutput,
-    errors: [
-      InvalidNextTokenException,
-      PipelineExecutionNotFoundException,
-      PipelineNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "actionExecutionDetails",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListActionExecutionsOutput,
+    | InvalidNextTokenException
+    | PipelineExecutionNotFoundException
+    | PipelineNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListActionExecutionsInput,
+  ) => Stream.Stream<
+    ListActionExecutionsOutput,
+    | InvalidNextTokenException
+    | PipelineExecutionNotFoundException
+    | PipelineNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListActionExecutionsInput,
+  ) => Stream.Stream<
+    ActionExecutionDetail,
+    | InvalidNextTokenException
+    | PipelineExecutionNotFoundException
+    | PipelineNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListActionExecutionsInput,
+  output: ListActionExecutionsOutput,
+  errors: [
+    InvalidNextTokenException,
+    PipelineExecutionNotFoundException,
+    PipelineNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "actionExecutionDetails",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the targets for the deploy action.
  */
-export const listDeployActionExecutionTargets =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDeployActionExecutionTargets: {
+  (
     input: ListDeployActionExecutionTargetsInput,
-    output: ListDeployActionExecutionTargetsOutput,
-    errors: [
-      ActionExecutionNotFoundException,
-      InvalidNextTokenException,
-      PipelineNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "targets",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDeployActionExecutionTargetsOutput,
+    | ActionExecutionNotFoundException
+    | InvalidNextTokenException
+    | PipelineNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeployActionExecutionTargetsInput,
+  ) => Stream.Stream<
+    ListDeployActionExecutionTargetsOutput,
+    | ActionExecutionNotFoundException
+    | InvalidNextTokenException
+    | PipelineNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeployActionExecutionTargetsInput,
+  ) => Stream.Stream<
+    DeployActionExecutionTarget,
+    | ActionExecutionNotFoundException
+    | InvalidNextTokenException
+    | PipelineNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeployActionExecutionTargetsInput,
+  output: ListDeployActionExecutionTargetsOutput,
+  errors: [
+    ActionExecutionNotFoundException,
+    InvalidNextTokenException,
+    PipelineNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "targets",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the rule executions that have occurred in a pipeline configured for conditions
  * with rules.
  */
-export const listRuleExecutions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRuleExecutions: {
+  (
     input: ListRuleExecutionsInput,
-    output: ListRuleExecutionsOutput,
-    errors: [
-      InvalidNextTokenException,
-      PipelineExecutionNotFoundException,
-      PipelineNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "ruleExecutionDetails",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRuleExecutionsOutput,
+    | InvalidNextTokenException
+    | PipelineExecutionNotFoundException
+    | PipelineNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRuleExecutionsInput,
+  ) => Stream.Stream<
+    ListRuleExecutionsOutput,
+    | InvalidNextTokenException
+    | PipelineExecutionNotFoundException
+    | PipelineNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRuleExecutionsInput,
+  ) => Stream.Stream<
+    RuleExecutionDetail,
+    | InvalidNextTokenException
+    | PipelineExecutionNotFoundException
+    | PipelineNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRuleExecutionsInput,
+  output: ListRuleExecutionsOutput,
+  errors: [
+    InvalidNextTokenException,
+    PipelineExecutionNotFoundException,
+    PipelineNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ruleExecutionDetails",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a pipeline.
  *
@@ -4252,7 +4888,23 @@ export const listRuleExecutions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * create a cross-region action in your pipeline, you must use
  * `artifactStores`.
  */
-export const createPipeline = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPipeline: (
+  input: CreatePipelineInput,
+) => Effect.Effect<
+  CreatePipelineOutput,
+  | ConcurrentModificationException
+  | InvalidActionDeclarationException
+  | InvalidBlockerDeclarationException
+  | InvalidStageDeclarationException
+  | InvalidStructureException
+  | InvalidTagsException
+  | LimitExceededException
+  | PipelineNameInUseException
+  | TooManyTagsException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePipelineInput,
   output: CreatePipelineOutput,
   errors: [

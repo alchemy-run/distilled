@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "m2",
   serviceShapeName: "AwsSupernovaControlPlaneService",
@@ -241,6 +249,43 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type EngineType = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type Arn = string;
+export type TagKey = string;
+export type EntityName = string;
+export type EntityDescription = string;
+export type ClientToken = string;
+export type Identifier = string;
+export type Version = number;
+export type AuthSecretsManagerArn = string;
+export type KMSKeyId = string;
+export type String200 = string;
+export type String100 = string;
+export type BatchJobExecutionStatus = string;
+export type String20 = string;
+export type EngineVersion = string;
+export type String50 = string;
+export type NetworkType = string;
+export type CapacityValue = number;
+export type TagValue = string;
+export type String2000 = string;
+export type StringFree65000 = string;
+export type BatchParamKey = string;
+export type BatchParamValue = string;
+export type ApplicationLifecycle = string;
+export type Integer = number;
+export type ApplicationVersionLifecycle = string;
+export type BatchJobType = string;
+export type DataSetTaskLifecycle = string;
+export type DeploymentLifecycle = string;
+export type EnvironmentLifecycle = string;
+export type LogGroupIdentifier = string;
+export type ApplicationDeploymentLifecycle = string;
+export type ValidationExceptionReason = string;
+
 //# Schemas
 export interface GetSignedBluinsightsUrlRequest {}
 export const GetSignedBluinsightsUrlRequest = S.suspend(() =>
@@ -348,6 +393,7 @@ export const GetApplicationRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetApplicationRequest",
 }) as any as S.Schema<GetApplicationRequest>;
+export type Definition = { s3Location: string } | { content: string };
 export const Definition = S.Union(
   S.Struct({ s3Location: S.String }),
   S.Struct({ content: S.String }),
@@ -1393,6 +1439,7 @@ export const DataSetImportSummary = S.suspend(() =>
 ).annotations({
   identifier: "DataSetImportSummary",
 }) as any as S.Schema<DataSetImportSummary>;
+export type JobIdentifier = { fileName: string } | { scriptName: string };
 export const JobIdentifier = S.Union(
   S.Struct({ fileName: S.String }),
   S.Struct({ scriptName: S.String }),
@@ -1411,6 +1458,11 @@ export const S3BatchJobIdentifier = S.suspend(() =>
 ).annotations({
   identifier: "S3BatchJobIdentifier",
 }) as any as S.Schema<S3BatchJobIdentifier>;
+export type BatchJobIdentifier =
+  | { fileBatchJobIdentifier: FileBatchJobIdentifier }
+  | { scriptBatchJobIdentifier: ScriptBatchJobIdentifier }
+  | { s3BatchJobIdentifier: S3BatchJobIdentifier }
+  | { restartBatchJobIdentifier: RestartBatchJobIdentifier };
 export const BatchJobIdentifier = S.Union(
   S.Struct({ fileBatchJobIdentifier: FileBatchJobIdentifier }),
   S.Struct({ scriptBatchJobIdentifier: ScriptBatchJobIdentifier }),
@@ -1561,6 +1613,9 @@ export const DeploymentSummary = S.suspend(() =>
 }) as any as S.Schema<DeploymentSummary>;
 export type DeploymentList = DeploymentSummary[];
 export const DeploymentList = S.Array(DeploymentSummary);
+export type StorageConfiguration =
+  | { efs: EfsStorageConfiguration }
+  | { fsx: FsxStorageConfiguration };
 export const StorageConfiguration = S.Union(
   S.Struct({ efs: EfsStorageConfiguration }),
   S.Struct({ fsx: FsxStorageConfiguration }),
@@ -1595,6 +1650,7 @@ export const EnvironmentSummary = S.suspend(() =>
 }) as any as S.Schema<EnvironmentSummary>;
 export type EnvironmentSummaryList = EnvironmentSummary[];
 export const EnvironmentSummaryList = S.Array(EnvironmentSummary);
+export type ExternalLocation = { s3Location: string };
 export const ExternalLocation = S.Union(S.Struct({ s3Location: S.String }));
 export interface ListEngineVersionsResponse {
   engineVersions: EngineVersionsSummaryList;
@@ -1946,12 +2002,18 @@ export interface RecordLength {
 export const RecordLength = S.suspend(() =>
   S.Struct({ min: S.Number, max: S.Number }),
 ).annotations({ identifier: "RecordLength" }) as any as S.Schema<RecordLength>;
+export type DataSetExportConfig =
+  | { s3Location: string }
+  | { dataSets: DataSetExportList };
 export const DataSetExportConfig = S.Union(
   S.Struct({ s3Location: S.String }),
   S.Struct({ dataSets: DataSetExportList }),
 );
 export type String20List = string[];
 export const String20List = S.Array(S.String);
+export type BatchJobDefinition =
+  | { fileBatchJobDefinition: FileBatchJobDefinition }
+  | { scriptBatchJobDefinition: ScriptBatchJobDefinition };
 export const BatchJobDefinition = S.Union(
   S.Struct({ fileBatchJobDefinition: FileBatchJobDefinition }),
   S.Struct({ scriptBatchJobDefinition: ScriptBatchJobDefinition }),
@@ -2193,12 +2255,22 @@ export const VsamDetailAttributes = S.suspend(() =>
 ).annotations({
   identifier: "VsamDetailAttributes",
 }) as any as S.Schema<VsamDetailAttributes>;
+export type DatasetOrgAttributes =
+  | { vsam: VsamAttributes }
+  | { gdg: GdgAttributes }
+  | { po: PoAttributes }
+  | { ps: PsAttributes };
 export const DatasetOrgAttributes = S.Union(
   S.Struct({ vsam: VsamAttributes }),
   S.Struct({ gdg: GdgAttributes }),
   S.Struct({ po: PoAttributes }),
   S.Struct({ ps: PsAttributes }),
 );
+export type DatasetDetailOrgAttributes =
+  | { vsam: VsamDetailAttributes }
+  | { gdg: GdgDetailAttributes }
+  | { po: PoDetailAttributes }
+  | { ps: PsDetailAttributes };
 export const DatasetDetailOrgAttributes = S.Union(
   S.Struct({ vsam: VsamDetailAttributes }),
   S.Struct({ gdg: GdgDetailAttributes }),
@@ -2289,6 +2361,9 @@ export const ValidationExceptionField = S.suspend(() =>
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export type DataSetImportConfig =
+  | { s3Location: string }
+  | { dataSets: DataSetImportList };
 export const DataSetImportConfig = S.Union(
   S.Struct({ s3Location: S.String }),
   S.Struct({ dataSets: DataSetImportList }),
@@ -2340,7 +2415,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -2358,7 +2435,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
@@ -2371,7 +2450,9 @@ export class ExecutionTimeoutException extends S.TaggedError<ExecutionTimeoutExc
   "ExecutionTimeoutException",
   { message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -2386,7 +2467,9 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
   "ServiceUnavailableException",
   { message: S.String },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -2400,21 +2483,35 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
  */
-export const getSignedBluinsightsUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetSignedBluinsightsUrlRequest,
-    output: GetSignedBluinsightsUrlResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const getSignedBluinsightsUrl: (
+  input: GetSignedBluinsightsUrlRequest,
+) => Effect.Effect<
+  GetSignedBluinsightsUrlResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSignedBluinsightsUrlRequest,
+  output: GetSignedBluinsightsUrlResponse,
+  errors: [AccessDeniedException, InternalServerException, ThrottlingException],
+}));
 /**
  * Describes the details of a specific application.
  */
-export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getApplication: (
+  input: GetApplicationRequest,
+) => Effect.Effect<
+  GetApplicationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
   output: GetApplicationResponse,
   errors: [
@@ -2430,28 +2527,75 @@ export const getApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * during the application creation. You can use the batch job definitions in the list to start
  * a batch job.
  */
-export const listBatchJobDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBatchJobDefinitions: {
+  (
     input: ListBatchJobDefinitionsRequest,
-    output: ListBatchJobDefinitionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "batchJobDefinitions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBatchJobDefinitionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBatchJobDefinitionsRequest,
+  ) => Stream.Stream<
+    ListBatchJobDefinitionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBatchJobDefinitionsRequest,
+  ) => Stream.Stream<
+    BatchJobDefinition,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBatchJobDefinitionsRequest,
+  output: ListBatchJobDefinitionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "batchJobDefinitions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Describes a specific runtime environment.
  */
-export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEnvironment: (
+  input: GetEnvironmentRequest,
+) => Effect.Effect<
+  GetEnvironmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnvironmentRequest,
   output: GetEnvironmentResponse,
   errors: [
@@ -2465,72 +2609,179 @@ export const getEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the available engine versions.
  */
-export const listEngineVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEngineVersions: {
+  (
     input: ListEngineVersionsRequest,
-    output: ListEngineVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "engineVersions",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEngineVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEngineVersionsRequest,
+  ) => Stream.Stream<
+    ListEngineVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEngineVersionsRequest,
+  ) => Stream.Stream<
+    EngineVersionsSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEngineVersionsRequest,
+  output: ListEngineVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "engineVersions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the applications associated with a specific Amazon Web Services account. You can provide the
  * unique identifier of a specific runtime environment in a query parameter to see all
  * applications associated with that environment.
  */
-export const listApplications = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listApplications: {
+  (
     input: ListApplicationsRequest,
-    output: ListApplicationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "applications",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListApplicationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ListApplicationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationsRequest,
+  ) => Stream.Stream<
+    ApplicationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "applications",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the runtime environments.
  */
-export const listEnvironments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEnvironments: {
+  (
     input: ListEnvironmentsRequest,
-    output: ListEnvironmentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "environments",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEnvironmentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEnvironmentsRequest,
+  ) => Stream.Stream<
+    ListEnvironmentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEnvironmentsRequest,
+  ) => Stream.Stream<
+    EnvironmentSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEnvironmentsRequest,
+  output: ListEnvironmentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "environments",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes a specific application. You cannot delete a running application.
  */
-export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApplication: (
+  input: DeleteApplicationRequest,
+) => Effect.Effect<
+  DeleteApplicationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResponse,
   errors: [
@@ -2546,7 +2797,18 @@ export const deleteApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * applications. If it does, you must delete those applications before you delete the
  * environment.
  */
-export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEnvironment: (
+  input: DeleteEnvironmentRequest,
+) => Effect.Effect<
+  DeleteEnvironmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentRequest,
   output: DeleteEnvironmentResponse,
   errors: [
@@ -2560,7 +2822,19 @@ export const deleteEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an application and creates a new version.
  */
-export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApplication: (
+  input: UpdateApplicationRequest,
+) => Effect.Effect<
+  UpdateApplicationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
   output: UpdateApplicationResponse,
   errors: [
@@ -2575,160 +2849,351 @@ export const updateApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the details of a specific batch job execution for a specific application.
  */
-export const getBatchJobExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBatchJobExecutionRequest,
-    output: GetBatchJobExecutionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getBatchJobExecution: (
+  input: GetBatchJobExecutionRequest,
+) => Effect.Effect<
+  GetBatchJobExecutionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBatchJobExecutionRequest,
+  output: GetBatchJobExecutionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the status of a data set import task initiated with the CreateDataSetExportTask operation.
  */
-export const getDataSetExportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDataSetExportTaskRequest,
-    output: GetDataSetExportTaskResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getDataSetExportTask: (
+  input: GetDataSetExportTaskRequest,
+) => Effect.Effect<
+  GetDataSetExportTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataSetExportTaskRequest,
+  output: GetDataSetExportTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets the status of a data set import task initiated with the CreateDataSetImportTask operation.
  */
-export const getDataSetImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDataSetImportTaskRequest,
-    output: GetDataSetImportTaskResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getDataSetImportTask: (
+  input: GetDataSetImportTaskRequest,
+) => Effect.Effect<
+  GetDataSetImportTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataSetImportTaskRequest,
+  output: GetDataSetImportTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists historical, current, and scheduled batch job executions for a specific
  * application.
  */
-export const listBatchJobExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBatchJobExecutions: {
+  (
     input: ListBatchJobExecutionsRequest,
-    output: ListBatchJobExecutionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "batchJobExecutions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBatchJobExecutionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBatchJobExecutionsRequest,
+  ) => Stream.Stream<
+    ListBatchJobExecutionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBatchJobExecutionsRequest,
+  ) => Stream.Stream<
+    BatchJobExecutionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBatchJobExecutionsRequest,
+  output: ListBatchJobExecutionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "batchJobExecutions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all the job steps for a JCL file to restart a batch job. This is only applicable for Micro Focus engine with versions 8.0.6 and above.
  */
-export const listBatchJobRestartPoints = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListBatchJobRestartPointsRequest,
-    output: ListBatchJobRestartPointsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const listBatchJobRestartPoints: (
+  input: ListBatchJobRestartPointsRequest,
+) => Effect.Effect<
+  ListBatchJobRestartPointsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListBatchJobRestartPointsRequest,
+  output: ListBatchJobRestartPointsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the data set exports for the specified application.
  */
-export const listDataSetExportHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataSetExportHistory: {
+  (
     input: ListDataSetExportHistoryRequest,
-    output: ListDataSetExportHistoryResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dataSetExportTasks",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataSetExportHistoryResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataSetExportHistoryRequest,
+  ) => Stream.Stream<
+    ListDataSetExportHistoryResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataSetExportHistoryRequest,
+  ) => Stream.Stream<
+    DataSetExportTask,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataSetExportHistoryRequest,
+  output: ListDataSetExportHistoryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dataSetExportTasks",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the data set imports for the specified application.
  */
-export const listDataSetImportHistory =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataSetImportHistory: {
+  (
     input: ListDataSetImportHistoryRequest,
-    output: ListDataSetImportHistoryResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dataSetImportTasks",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataSetImportHistoryResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataSetImportHistoryRequest,
+  ) => Stream.Stream<
+    ListDataSetImportHistoryResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataSetImportHistoryRequest,
+  ) => Stream.Stream<
+    DataSetImportTask,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataSetImportHistoryRequest,
+  output: ListDataSetImportHistoryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dataSetImportTasks",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of all deployments of a specific application. A deployment is a
  * combination of a specific application and a specific version of that application. Each
  * deployment is mapped to a particular application version.
  */
-export const listDeployments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDeployments: {
+  (
     input: ListDeploymentsRequest,
-    output: ListDeploymentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "deployments",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDeploymentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeploymentsRequest,
+  ) => Stream.Stream<
+    ListDeploymentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeploymentsRequest,
+  ) => Stream.Stream<
+    DeploymentSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeploymentsRequest,
+  output: ListDeploymentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "deployments",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2742,23 +3207,43 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns details about a specific version of a specific application.
  */
-export const getApplicationVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetApplicationVersionRequest,
-    output: GetApplicationVersionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getApplicationVersion: (
+  input: GetApplicationVersionRequest,
+) => Effect.Effect<
+  GetApplicationVersionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApplicationVersionRequest,
+  output: GetApplicationVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets details of a specific deployment with a given deployment identifier.
  */
-export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeployment: (
+  input: GetDeploymentRequest,
+) => Effect.Effect<
+  GetDeploymentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentRequest,
   output: GetDeploymentResponse,
   errors: [
@@ -2772,28 +3257,75 @@ export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the application versions for a specific application.
  */
-export const listApplicationVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApplicationVersions: {
+  (
     input: ListApplicationVersionsRequest,
-    output: ListApplicationVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "applicationVersions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListApplicationVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationVersionsRequest,
+  ) => Stream.Stream<
+    ListApplicationVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationVersionsRequest,
+  ) => Stream.Stream<
+    ApplicationVersionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationVersionsRequest,
+  output: ListApplicationVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "applicationVersions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2807,43 +3339,76 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels the running of a specific batch job execution.
  */
-export const cancelBatchJobExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelBatchJobExecutionRequest,
-    output: CancelBatchJobExecutionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelBatchJobExecution: (
+  input: CancelBatchJobExecutionRequest,
+) => Effect.Effect<
+  CancelBatchJobExecutionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelBatchJobExecutionRequest,
+  output: CancelBatchJobExecutionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a specific application from the specific runtime environment where it was
  * previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any
  * application has ever been deployed to it. This API removes the association of the
  * application with the runtime environment so you can delete the environment smoothly.
  */
-export const deleteApplicationFromEnvironment =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteApplicationFromEnvironmentRequest,
-    output: DeleteApplicationFromEnvironmentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteApplicationFromEnvironment: (
+  input: DeleteApplicationFromEnvironmentRequest,
+) => Effect.Effect<
+  DeleteApplicationFromEnvironmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationFromEnvironmentRequest,
+  output: DeleteApplicationFromEnvironmentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Starts an application that is currently stopped.
  */
-export const startApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startApplication: (
+  input: StartApplicationRequest,
+) => Effect.Effect<
+  StartApplicationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartApplicationRequest,
   output: StartApplicationResponse,
   errors: [
@@ -2858,7 +3423,19 @@ export const startApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops a running application.
  */
-export const stopApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopApplication: (
+  input: StopApplicationRequest,
+) => Effect.Effect<
+  StopApplicationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopApplicationRequest,
   output: StopApplicationResponse,
   errors: [
@@ -2874,7 +3451,19 @@ export const stopApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates a new application with given parameters. Requires an existing runtime
  * environment and application definition file.
  */
-export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApplication: (
+  input: CreateApplicationRequest,
+) => Effect.Effect<
+  CreateApplicationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
   output: CreateApplicationResponse,
   errors: [
@@ -2889,7 +3478,19 @@ export const createApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a runtime environment for a given runtime engine.
  */
-export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEnvironment: (
+  input: CreateEnvironmentRequest,
+) => Effect.Effect<
+  CreateEnvironmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEnvironmentRequest,
   output: CreateEnvironmentResponse,
   errors: [
@@ -2904,7 +3505,19 @@ export const createEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds one or more tags to the specified resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2920,7 +3533,20 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates and starts a deployment to deploy an application into a runtime
  * environment.
  */
-export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDeployment: (
+  input: CreateDeploymentRequest,
+) => Effect.Effect<
+  CreateDeploymentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentRequest,
   output: CreateDeploymentResponse,
   errors: [
@@ -2936,7 +3562,20 @@ export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the configuration details for a specific runtime environment.
  */
-export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEnvironment: (
+  input: UpdateEnvironmentRequest,
+) => Effect.Effect<
+  UpdateEnvironmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentRequest,
   output: UpdateEnvironmentResponse,
   errors: [
@@ -2952,53 +3591,120 @@ export const updateEnvironment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a data set export task for a specific application.
  */
-export const createDataSetExportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataSetExportTaskRequest,
-    output: CreateDataSetExportTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createDataSetExportTask: (
+  input: CreateDataSetExportTaskRequest,
+) => Effect.Effect<
+  CreateDataSetExportTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataSetExportTaskRequest,
+  output: CreateDataSetExportTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are
  * associated with applications deployed on runtime environments. This is known as importing
  * data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using CreateDataSetImportTask.
  */
-export const listDataSets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDataSets: {
+  (
     input: ListDataSetsRequest,
-    output: ListDataSetsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      ExecutionTimeoutException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dataSets",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDataSetsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | ExecutionTimeoutException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataSetsRequest,
+  ) => Stream.Stream<
+    ListDataSetsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | ExecutionTimeoutException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataSetsRequest,
+  ) => Stream.Stream<
+    DataSetSummary,
+    | AccessDeniedException
+    | ConflictException
+    | ExecutionTimeoutException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataSetsRequest,
+  output: ListDataSetsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ExecutionTimeoutException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dataSets",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Starts a batch job and returns the unique identifier of this execution of the batch job.
  * The associated application must be running in order to start the batch job.
  */
-export const startBatchJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startBatchJob: (
+  input: StartBatchJobRequest,
+) => Effect.Effect<
+  StartBatchJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartBatchJobRequest,
   output: StartBatchJobResponse,
   errors: [
@@ -3013,7 +3719,21 @@ export const startBatchJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the details of a specific data set.
  */
-export const getDataSetDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDataSetDetails: (
+  input: GetDataSetDetailsRequest,
+) => Effect.Effect<
+  GetDataSetDetailsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ExecutionTimeoutException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSetDetailsRequest,
   output: GetDataSetDetailsResponse,
   errors: [
@@ -3030,18 +3750,29 @@ export const getDataSetDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts a data set import task for a specific application.
  */
-export const createDataSetImportTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataSetImportTaskRequest,
-    output: CreateDataSetImportTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createDataSetImportTask: (
+  input: CreateDataSetImportTaskRequest,
+) => Effect.Effect<
+  CreateDataSetImportTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataSetImportTaskRequest,
+  output: CreateDataSetImportTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

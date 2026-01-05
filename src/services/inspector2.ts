@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Inspector2",
   serviceShapeName: "Inspector2",
@@ -240,6 +248,203 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AccountId = string;
+export type FindingArn = string;
+export type MeteringAccountId = string;
+export type ReportId = string;
+export type CisScanName = string;
+export type IntegrationName = string;
+export type ScanConfigurationName = string;
+export type FilterAction = string;
+export type FilterDescription = string;
+export type FilterName = string;
+export type FilterReason = string;
+export type ReportFormat = string;
+export type SbomReportFormat = string;
+export type CisScanConfigurationArn = string;
+export type CodeSecurityIntegrationArn = string;
+export type ScanConfigurationArn = string;
+export type FilterArn = string;
+export type ResourceScanType = string;
+export type ClientToken = string;
+export type CisScanArn = string;
+export type ResourceId = string;
+export type NextToken = string;
+export type GetCisScanResultDetailsMaxResults = number;
+export type GetClustersForImageNextToken = string;
+export type CodeSecurityUuid = string;
+export type Path = string;
+export type Ec2DeepInspectionStatus = string;
+export type NonEmptyString = string;
+export type ScanType = string;
+export type ResourceType = string;
+export type Service = string;
+export type ListAccountPermissionsMaxResults = number;
+export type ListCisScanConfigurationsMaxResults = number;
+export type CisScanResultsMaxResults = number;
+export type ListCisScansMaxResults = number;
+export type ListCoverageMaxResults = number;
+export type GroupKey = string;
+export type ListDelegatedAdminMaxResults = number;
+export type ListFilterMaxResults = number;
+export type AggregationType = string;
+export type ListFindingAggregationsMaxResults = number;
+export type ListFindingsMaxResults = number;
+export type ListMembersMaxResults = number;
+export type Arn = string;
+export type ListUsageTotalsMaxResults = number;
+export type ListUsageTotalsNextToken = string;
+export type UsageAccountId = string;
+export type UUID = string;
+export type CodeSecurityClientToken = string;
+export type TagKey = string;
+export type KmsKeyArn = string;
+export type TargetAccount = string;
+export type MapKey = string;
+export type MapValue = string;
+export type ProjectId = string;
+export type RelationshipStatus = string;
+export type StringComparison = string;
+export type StringInput = string;
+export type SortField = string;
+export type SortOrder = string;
+export type VulnId = string;
+export type RuleId = string;
+export type Reason = string;
+export type BenchmarkVersion = string;
+export type BenchmarkProfile = string;
+export type EcrRescanDuration = string;
+export type EcrPullDateRescanDuration = string;
+export type EcrPullDateRescanMode = string;
+export type Ec2ScanMode = string;
+export type AuthorizationUrl = string;
+export type ExternalReportStatus = string;
+export type ReportingErrorCode = string;
+export type ErrorMessage = string;
+export type TargetResourceTagsKey = string;
+export type TargetResourceTagsValue = string;
+export type InstanceUrl = string;
+export type GitLabAccessToken = string;
+export type FrequencyExpression = string;
+export type MapComparison = string;
+export type Port = number;
+export type ResourceStringComparison = string;
+export type ResourceStringInput = string;
+export type ResourceMapComparison = string;
+export type EcrRescanDurationStatus = string;
+export type Ec2ScanModeStatus = string;
+export type CoverageStringComparison = string;
+export type CoverageStringInput = string;
+export type CoverageMapComparison = string;
+export type AggregationFindingType = string;
+export type AggregationResourceType = string;
+export type AccountSortBy = string;
+export type AmiSortBy = string;
+export type AwsEcrContainerSortBy = string;
+export type Ec2InstanceSortBy = string;
+export type FindingTypeSortBy = string;
+export type ImageLayerSortBy = string;
+export type PackageSortBy = string;
+export type RepositorySortBy = string;
+export type TitleSortBy = string;
+export type LambdaLayerSortBy = string;
+export type LambdaFunctionSortBy = string;
+export type CodeRepositorySortBy = string;
+export type CheckCount = number;
+export type Vendor = string;
+export type Product = string;
+export type PlatformVersion = string;
+export type GitLabAuthCode = string;
+export type GitHubAuthCode = string;
+export type GitHubInstallationId = string;
+export type Status = string;
+export type ErrorCode = string;
+export type CodeSnippetErrorCode = string;
+export type RiskScore = number;
+export type Ttp = string;
+export type Tool = string;
+export type VulnerabilityReferenceUrl = string;
+export type Cwe = string;
+export type FindingDetailsErrorCode = string;
+export type FreeTrialInfoErrorCode = string;
+export type Operation = string;
+export type OwnerId = string;
+export type AggCounts = number;
+export type DelegatedAdminStatus = string;
+export type TimeOfDay = string;
+export type Timezone = string;
+export type CisaAction = string;
+export type EvidenceRule = string;
+export type EvidenceDetail = string;
+export type EvidenceSeverity = string;
+export type FreeTrialType = string;
+export type FreeTrialStatus = string;
+export type UsageType = string;
+export type UsageValue = number;
+export type MonthlyCostEstimate = number;
+export type Currency = string;
+export type AssociationResultStatusMessage = string;
+export type FindingType = string;
+export type FindingDescription = string;
+export type FindingTitle = string;
+export type Severity = string;
+export type FindingStatus = string;
+export type FixAvailable = string;
+export type ExploitAvailable = string;
+export type VulnerabilitySource = string;
+export type VulnerabilityDescription = string;
+export type VendorSeverity = string;
+export type RelatedVulnerability = string;
+export type VulnerabilitySourceUrl = string;
+export type ValidationExceptionReason = string;
+export type NetworkProtocol = string;
+export type VulnerabilityId = string;
+export type LambdaLayerArn = string;
+export type EpssScoreValue = number;
+export type Target = string;
+export type CvssBaseScore = number;
+export type CvssScoringVector = string;
+export type EpssScore = number;
+export type CisFindingArn = string;
+export type CisOwnerId = string;
+export type CoverageResourceType = string;
+export type ScanMode = string;
+export type PackageName = string;
+export type PackageVersion = string;
+export type SourceLayerHash = string;
+export type PackageEpoch = number;
+export type PackageRelease = string;
+export type PackageArchitecture = string;
+export type PackageManager = string;
+export type FilePath = string;
+export type VulnerablePackageRemediation = string;
+export type ScanStatusCode = string;
+export type ScanStatusReason = string;
+export type AmiId = string;
+export type IpV4Address = string;
+export type IpV6Address = string;
+export type Platform = string;
+export type ImageHash = string;
+export type FunctionName = string;
+export type Runtime = string;
+export type Version = string;
+export type ExecutionRoleArn = string;
+export type PackageType = string;
+export type Architecture = string;
+export type CodeRepositoryProjectName = string;
+export type CodeRepositoryIntegrationArn = string;
+export type CodeRepositoryProviderType = string;
+export type Component = string;
+export type ComponentType = string;
+export type ComponentArn = string;
+export type EcrScanFrequency = string;
+export type Ec2Platform = string;
+export type CommitId = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type VpcId = string;
 
 //# Schemas
 export interface DescribeOrganizationConfigurationRequest {}
@@ -1158,6 +1363,7 @@ export const SendCisSessionHealthResponse = S.suspend(() =>
 ).annotations({
   identifier: "SendCisSessionHealthResponse",
 }) as any as S.Schema<SendCisSessionHealthResponse>;
+export type CodeSecurityResource = { projectId: string };
 export const CodeSecurityResource = S.Union(S.Struct({ projectId: S.String }));
 export interface StartCodeSecurityScanRequest {
   clientToken?: string;
@@ -2448,6 +2654,11 @@ export const MonthlySchedule = S.suspend(() =>
 ).annotations({
   identifier: "MonthlySchedule",
 }) as any as S.Schema<MonthlySchedule>;
+export type Schedule =
+  | { oneTime: OneTimeSchedule }
+  | { daily: DailySchedule }
+  | { weekly: WeeklySchedule }
+  | { monthly: MonthlySchedule };
 export const Schedule = S.Union(
   S.Struct({ oneTime: OneTimeSchedule }),
   S.Struct({ daily: DailySchedule }),
@@ -3070,6 +3281,9 @@ export const CreateCisTargets = S.suspend(() =>
 ).annotations({
   identifier: "CreateCisTargets",
 }) as any as S.Schema<CreateCisTargets>;
+export type CreateIntegrationDetail = {
+  gitlabSelfManaged: CreateGitLabSelfManagedIntegrationDetail;
+};
 export const CreateIntegrationDetail = S.Union(
   S.Struct({ gitlabSelfManaged: CreateGitLabSelfManagedIntegrationDetail }),
 );
@@ -3325,6 +3539,19 @@ export const Filter = S.suspend(() =>
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
+export type AggregationRequest =
+  | { accountAggregation: AccountAggregation }
+  | { amiAggregation: AmiAggregation }
+  | { awsEcrContainerAggregation: AwsEcrContainerAggregation }
+  | { ec2InstanceAggregation: Ec2InstanceAggregation }
+  | { findingTypeAggregation: FindingTypeAggregation }
+  | { imageLayerAggregation: ImageLayerAggregation }
+  | { packageAggregation: PackageAggregation }
+  | { repositoryAggregation: RepositoryAggregation }
+  | { titleAggregation: TitleAggregation }
+  | { lambdaLayerAggregation: LambdaLayerAggregation }
+  | { lambdaFunctionAggregation: LambdaFunctionAggregation }
+  | { codeRepositoryAggregation: CodeRepositoryAggregation };
 export const AggregationRequest = S.Union(
   S.Struct({ accountAggregation: AccountAggregation }),
   S.Struct({ amiAggregation: AmiAggregation }),
@@ -3359,6 +3586,9 @@ export const StopCisSessionMessage = S.suspend(() =>
 ).annotations({
   identifier: "StopCisSessionMessage",
 }) as any as S.Schema<StopCisSessionMessage>;
+export type UpdateIntegrationDetails =
+  | { gitlabSelfManaged: UpdateGitLabSelfManagedIntegrationDetail }
+  | { github: UpdateGitHubIntegrationDetail };
 export const UpdateIntegrationDetails = S.Union(
   S.Struct({ gitlabSelfManaged: UpdateGitLabSelfManagedIntegrationDetail }),
   S.Struct({ github: UpdateGitHubIntegrationDetail }),
@@ -5367,6 +5597,19 @@ export const AwsLambdaFunctionDetails = S.suspend(() =>
 ).annotations({
   identifier: "AwsLambdaFunctionDetails",
 }) as any as S.Schema<AwsLambdaFunctionDetails>;
+export type AggregationResponse =
+  | { accountAggregation: AccountAggregationResponse }
+  | { amiAggregation: AmiAggregationResponse }
+  | { awsEcrContainerAggregation: AwsEcrContainerAggregationResponse }
+  | { ec2InstanceAggregation: Ec2InstanceAggregationResponse }
+  | { findingTypeAggregation: FindingTypeAggregationResponse }
+  | { imageLayerAggregation: ImageLayerAggregationResponse }
+  | { packageAggregation: PackageAggregationResponse }
+  | { repositoryAggregation: RepositoryAggregationResponse }
+  | { titleAggregation: TitleAggregationResponse }
+  | { lambdaLayerAggregation: LambdaLayerAggregationResponse }
+  | { lambdaFunctionAggregation: LambdaFunctionAggregationResponse }
+  | { codeRepositoryAggregation: CodeRepositoryAggregationResponse };
 export const AggregationResponse = S.Union(
   S.Struct({ accountAggregation: AccountAggregationResponse }),
   S.Struct({ amiAggregation: AmiAggregationResponse }),
@@ -5383,6 +5626,9 @@ export const AggregationResponse = S.Union(
 );
 export type AggregationResponseList = (typeof AggregationResponse)["Type"][];
 export const AggregationResponseList = S.Array(AggregationResponse);
+export type ClusterMetadata =
+  | { awsEcsMetadataDetails: AwsEcsMetadataDetails }
+  | { awsEksMetadataDetails: AwsEksMetadataDetails };
 export const ClusterMetadata = S.Union(
   S.Struct({ awsEcsMetadataDetails: AwsEcsMetadataDetails }),
   S.Struct({ awsEksMetadataDetails: AwsEksMetadataDetails }),
@@ -5688,7 +5934,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -5704,7 +5952,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String, resourceId: S.String },
@@ -5723,21 +5973,39 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  * Retrieves the activation status of Amazon Inspector deep inspection and custom paths associated
  * with your account.
  */
-export const getEc2DeepInspectionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetEc2DeepInspectionConfigurationRequest,
-    output: GetEc2DeepInspectionConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const getEc2DeepInspectionConfiguration: (
+  input: GetEc2DeepInspectionConfigurationRequest,
+) => Effect.Effect<
+  GetEc2DeepInspectionConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEc2DeepInspectionConfigurationRequest,
+  output: GetEc2DeepInspectionConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves setting configurations for Inspector scans.
  */
-export const getConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConfiguration: (
+  input: GetConfigurationRequest,
+) => Effect.Effect<
+  GetConfigurationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigurationRequest,
   output: GetConfigurationResponse,
   errors: [
@@ -5751,7 +6019,17 @@ export const getConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * delegated administrator this updates the setting for all accounts you manage. Member
  * accounts in an organization cannot update this setting.
  */
-export const updateConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateConfiguration: (
+  input: UpdateConfigurationRequest,
+) => Effect.Effect<
+  UpdateConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigurationRequest,
   output: UpdateConfigurationResponse,
   errors: [
@@ -5767,7 +6045,18 @@ export const updateConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * completed. You can check if the association completed by using ListMembers for multiple
  * accounts or GetMembers for a single account.
  */
-export const associateMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const associateMember: (
+  input: AssociateMemberRequest,
+) => Effect.Effect<
+  AssociateMemberResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateMemberRequest,
   output: AssociateMemberResponse,
   errors: [
@@ -5783,7 +6072,18 @@ export const associateMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
  * this API to start a CIS scan session for the scan ID supplied by the service.
  */
-export const startCisSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startCisSession: (
+  input: StartCisSessionRequest,
+) => Effect.Effect<
+  StartCisSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartCisSessionRequest,
   output: StartCisSessionResponse,
   errors: [
@@ -5797,108 +6097,182 @@ export const startCisSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Initiates a code security scan on a specified repository.
  */
-export const startCodeSecurityScan = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartCodeSecurityScanRequest,
-    output: StartCodeSecurityScanResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startCodeSecurityScan: (
+  input: StartCodeSecurityScanRequest,
+) => Effect.Effect<
+  StartCodeSecurityScanResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartCodeSecurityScanRequest,
+  output: StartCodeSecurityScanResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an existing code security scan configuration.
  */
-export const updateCodeSecurityScanConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCodeSecurityScanConfigurationRequest,
-    output: UpdateCodeSecurityScanConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateCodeSecurityScanConfiguration: (
+  input: UpdateCodeSecurityScanConfigurationRequest,
+) => Effect.Effect<
+  UpdateCodeSecurityScanConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCodeSecurityScanConfigurationRequest,
+  output: UpdateCodeSecurityScanConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to
  * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
  * this API to start a CIS scan session for the scan ID supplied by the service.
  */
-export const sendCisSessionHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendCisSessionHealthRequest,
-    output: SendCisSessionHealthResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const sendCisSessionHealth: (
+  input: SendCisSessionHealthRequest,
+) => Effect.Effect<
+  SendCisSessionHealthResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendCisSessionHealthRequest,
+  output: SendCisSessionHealthResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disables the Amazon Inspector delegated administrator for your organization.
  */
-export const disableDelegatedAdminAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableDelegatedAdminAccountRequest,
-    output: DisableDelegatedAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disableDelegatedAdminAccount: (
+  input: DisableDelegatedAdminAccountRequest,
+) => Effect.Effect<
+  DisableDelegatedAdminAccountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableDelegatedAdminAccountRequest,
+  output: DisableDelegatedAdminAccountResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Enables the Amazon Inspector delegated administrator for your Organizations organization.
  */
-export const enableDelegatedAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableDelegatedAdminAccountRequest,
-    output: EnableDelegatedAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const enableDelegatedAdminAccount: (
+  input: EnableDelegatedAdminAccountRequest,
+) => Effect.Effect<
+  EnableDelegatedAdminAccountResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableDelegatedAdminAccountRequest,
+  output: EnableDelegatedAdminAccountResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates multiple code repositories from an Amazon Inspector code security scan
  * configuration.
  */
-export const batchDisassociateCodeSecurityScanConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDisassociateCodeSecurityScanConfigurationRequest,
-    output: BatchDisassociateCodeSecurityScanConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchDisassociateCodeSecurityScanConfiguration: (
+  input: BatchDisassociateCodeSecurityScanConfigurationRequest,
+) => Effect.Effect<
+  BatchDisassociateCodeSecurityScanConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDisassociateCodeSecurityScanConfigurationRequest,
+  output: BatchDisassociateCodeSecurityScanConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about a specific code security scan.
  */
-export const getCodeSecurityScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCodeSecurityScan: (
+  input: GetCodeSecurityScanRequest,
+) => Effect.Effect<
+  GetCodeSecurityScanResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCodeSecurityScanRequest,
   output: GetCodeSecurityScanResponse,
   errors: [
@@ -5913,7 +6287,18 @@ export const getCodeSecurityScan = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Specifies the action that is to be applied to the findings that match the filter.
  */
-export const updateFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFilter: (
+  input: UpdateFilterRequest,
+) => Effect.Effect<
+  UpdateFilterResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFilterRequest,
   output: UpdateFilterResponse,
   errors: [
@@ -5928,7 +6313,18 @@ export const updateFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Resets an encryption key. After the key is reset your resources will be encrypted by an
  * Amazon Web Services owned key.
  */
-export const resetEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resetEncryptionKey: (
+  input: ResetEncryptionKeyRequest,
+) => Effect.Effect<
+  ResetEncryptionKeyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetEncryptionKeyRequest,
   output: ResetEncryptionKeyResponse,
   errors: [
@@ -5943,7 +6339,18 @@ export const resetEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates an encryption key. A `ResourceNotFoundException` means that an
  * Amazon Web Services owned key is being used for encryption.
  */
-export const updateEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEncryptionKey: (
+  input: UpdateEncryptionKeyRequest,
+) => Effect.Effect<
+  UpdateEncryptionKeyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEncryptionKeyRequest,
   output: UpdateEncryptionKeyResponse,
   errors: [
@@ -5957,23 +6364,43 @@ export const updateEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels the given findings report.
  */
-export const cancelFindingsReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelFindingsReportRequest,
-    output: CancelFindingsReportResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const cancelFindingsReport: (
+  input: CancelFindingsReportRequest,
+) => Effect.Effect<
+  CancelFindingsReportResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelFindingsReportRequest,
+  output: CancelFindingsReportResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Cancels a software bill of materials (SBOM) report.
  */
-export const cancelSbomExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelSbomExport: (
+  input: CancelSbomExportRequest,
+) => Effect.Effect<
+  CancelSbomExportResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelSbomExportRequest,
   output: CancelSbomExportResponse,
   errors: [
@@ -5987,53 +6414,93 @@ export const cancelSbomExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a CIS scan configuration.
  */
-export const deleteCisScanConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCisScanConfigurationRequest,
-    output: DeleteCisScanConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteCisScanConfiguration: (
+  input: DeleteCisScanConfigurationRequest,
+) => Effect.Effect<
+  DeleteCisScanConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCisScanConfigurationRequest,
+  output: DeleteCisScanConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a code security integration.
  */
-export const deleteCodeSecurityIntegration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCodeSecurityIntegrationRequest,
-    output: DeleteCodeSecurityIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteCodeSecurityIntegration: (
+  input: DeleteCodeSecurityIntegrationRequest,
+) => Effect.Effect<
+  DeleteCodeSecurityIntegrationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCodeSecurityIntegrationRequest,
+  output: DeleteCodeSecurityIntegrationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a code security scan configuration.
  */
-export const deleteCodeSecurityScanConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteCodeSecurityScanConfigurationRequest,
-    output: DeleteCodeSecurityScanConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteCodeSecurityScanConfiguration: (
+  input: DeleteCodeSecurityScanConfigurationRequest,
+) => Effect.Effect<
+  DeleteCodeSecurityScanConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCodeSecurityScanConfigurationRequest,
+  output: DeleteCodeSecurityScanConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a filter resource.
  */
-export const deleteFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFilter: (
+  input: DeleteFilterRequest,
+) => Effect.Effect<
+  DeleteFilterResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFilterRequest,
   output: DeleteFilterResponse,
   errors: [
@@ -6047,7 +6514,18 @@ export const deleteFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables Amazon Inspector scans for one or more Amazon Web Services accounts.
  */
-export const enable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enable: (
+  input: EnableRequest,
+) => Effect.Effect<
+  EnableResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableRequest,
   output: EnableResponse,
   errors: [
@@ -6061,7 +6539,18 @@ export const enable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a CIS scan report.
  */
-export const getCisScanReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCisScanReport: (
+  input: GetCisScanReportRequest,
+) => Effect.Effect<
+  GetCisScanReportResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCisScanReportRequest,
   output: GetCisScanReportResponse,
   errors: [
@@ -6075,55 +6564,94 @@ export const getCisScanReport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a code security integration.
  */
-export const getCodeSecurityIntegration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCodeSecurityIntegrationRequest,
-    output: GetCodeSecurityIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getCodeSecurityIntegration: (
+  input: GetCodeSecurityIntegrationRequest,
+) => Effect.Effect<
+  GetCodeSecurityIntegrationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCodeSecurityIntegrationRequest,
+  output: GetCodeSecurityIntegrationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about a code security scan configuration.
  */
-export const getCodeSecurityScanConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetCodeSecurityScanConfigurationRequest,
-    output: GetCodeSecurityScanConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const getCodeSecurityScanConfiguration: (
+  input: GetCodeSecurityScanConfigurationRequest,
+) => Effect.Effect<
+  GetCodeSecurityScanConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCodeSecurityScanConfigurationRequest,
+  output: GetCodeSecurityScanConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about the Amazon Inspector delegated administrator for your
  * organization.
  */
-export const getDelegatedAdminAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDelegatedAdminAccountRequest,
-    output: GetDelegatedAdminAccountResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getDelegatedAdminAccount: (
+  input: GetDelegatedAdminAccountRequest,
+) => Effect.Effect<
+  GetDelegatedAdminAccountResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDelegatedAdminAccountRequest,
+  output: GetDelegatedAdminAccountResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets an encryption key.
  */
-export const getEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEncryptionKey: (
+  input: GetEncryptionKeyRequest,
+) => Effect.Effect<
+  GetEncryptionKeyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEncryptionKeyRequest,
   output: GetEncryptionKeyResponse,
   errors: [
@@ -6137,23 +6665,43 @@ export const getEncryptionKey = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the status of a findings report.
  */
-export const getFindingsReportStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetFindingsReportStatusRequest,
-    output: GetFindingsReportStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getFindingsReportStatus: (
+  input: GetFindingsReportStatusRequest,
+) => Effect.Effect<
+  GetFindingsReportStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFindingsReportStatusRequest,
+  output: GetFindingsReportStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets details of a software bill of materials (SBOM) report.
  */
-export const getSbomExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSbomExport: (
+  input: GetSbomExportRequest,
+) => Effect.Effect<
+  GetSbomExportResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSbomExportRequest,
   output: GetSbomExportResponse,
   errors: [
@@ -6167,7 +6715,17 @@ export const getSbomExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all tags attached to a given resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -6180,7 +6738,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds tags to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -6196,24 +6765,44 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * the report. To see `SUPRESSED` or `CLOSED` findings you must specify
  * a value for the `findingStatus` filter criteria.
  */
-export const createFindingsReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateFindingsReportRequest,
-    output: CreateFindingsReportResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createFindingsReport: (
+  input: CreateFindingsReportRequest,
+) => Effect.Effect<
+  CreateFindingsReportResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFindingsReportRequest,
+  output: CreateFindingsReportResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disables Amazon Inspector scans for one or more Amazon Web Services accounts. Disabling all scan types in an
  * account disables the Amazon Inspector service.
  */
-export const disable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disable: (
+  input: DisableRequest,
+) => Effect.Effect<
+  DisableResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableRequest,
   output: DisableResponse,
   errors: [
@@ -6227,7 +6816,18 @@ export const disable = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets member information for your organization.
  */
-export const getMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMember: (
+  input: GetMemberRequest,
+) => Effect.Effect<
+  GetMemberResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMemberRequest,
   output: GetMemberResponse,
   errors: [
@@ -6242,94 +6842,160 @@ export const getMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists the associations between code repositories and Amazon Inspector code security scan
  * configurations.
  */
-export const listCodeSecurityScanConfigurationAssociations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCodeSecurityScanConfigurationAssociationsRequest,
-    output: ListCodeSecurityScanConfigurationAssociationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const listCodeSecurityScanConfigurationAssociations: (
+  input: ListCodeSecurityScanConfigurationAssociationsRequest,
+) => Effect.Effect<
+  ListCodeSecurityScanConfigurationAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCodeSecurityScanConfigurationAssociationsRequest,
+  output: ListCodeSecurityScanConfigurationAssociationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all code security scan configurations in your account.
  */
-export const listCodeSecurityScanConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCodeSecurityScanConfigurationsRequest,
-    output: ListCodeSecurityScanConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const listCodeSecurityScanConfigurations: (
+  input: ListCodeSecurityScanConfigurationsRequest,
+) => Effect.Effect<
+  ListCodeSecurityScanConfigurationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCodeSecurityScanConfigurationsRequest,
+  output: ListCodeSecurityScanConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your account.
  */
-export const updateEc2DeepInspectionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateEc2DeepInspectionConfigurationRequest,
-    output: UpdateEc2DeepInspectionConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateEc2DeepInspectionConfiguration: (
+  input: UpdateEc2DeepInspectionConfigurationRequest,
+) => Effect.Effect<
+  UpdateEc2DeepInspectionConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEc2DeepInspectionConfigurationRequest,
+  output: UpdateEc2DeepInspectionConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the configurations for your Amazon Inspector organization.
  */
-export const updateOrganizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateOrganizationConfigurationRequest,
-    output: UpdateOrganizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateOrganizationConfiguration: (
+  input: UpdateOrganizationConfigurationRequest,
+) => Effect.Effect<
+  UpdateOrganizationConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOrganizationConfigurationRequest,
+  output: UpdateOrganizationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the Amazon Inspector deep inspection custom paths for your organization. You must be an
  * Amazon Inspector delegated administrator to use this API.
  */
-export const updateOrgEc2DeepInspectionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateOrgEc2DeepInspectionConfigurationRequest,
-    output: UpdateOrgEc2DeepInspectionConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateOrgEc2DeepInspectionConfiguration: (
+  input: UpdateOrgEc2DeepInspectionConfigurationRequest,
+) => Effect.Effect<
+  UpdateOrgEc2DeepInspectionConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOrgEc2DeepInspectionConfigurationRequest,
+  output: UpdateOrgEc2DeepInspectionConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
  */
-export const describeOrganizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeOrganizationConfigurationRequest,
-    output: DescribeOrganizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeOrganizationConfiguration: (
+  input: DescribeOrganizationConfigurationRequest,
+) => Effect.Effect<
+  DescribeOrganizationConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeOrganizationConfigurationRequest,
+  output: DescribeOrganizationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates a member account from an Amazon Inspector delegated administrator.
  */
-export const disassociateMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disassociateMember: (
+  input: DisassociateMemberRequest,
+) => Effect.Effect<
+  DisassociateMemberResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateMemberRequest,
   output: DisassociateMemberResponse,
   errors: [
@@ -6343,170 +7009,377 @@ export const disassociateMember = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * List members associated with the Amazon Inspector delegated administrator for your
  * organization.
  */
-export const listMembers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMembers: {
+  (
     input: ListMembersRequest,
-    output: ListMembersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "members",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMembersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMembersRequest,
+  ) => Stream.Stream<
+    ListMembersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMembersRequest,
+  ) => Stream.Stream<
+    Member,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMembersRequest,
+  output: ListMembersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "members",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves Amazon Inspector deep inspection activation status of multiple member accounts within
  * your organization. You must be the delegated administrator of an organization in Amazon Inspector to
  * use this API.
  */
-export const batchGetMemberEc2DeepInspectionStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchGetMemberEc2DeepInspectionStatusRequest,
-    output: BatchGetMemberEc2DeepInspectionStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchGetMemberEc2DeepInspectionStatus: (
+  input: BatchGetMemberEc2DeepInspectionStatusRequest,
+) => Effect.Effect<
+  BatchGetMemberEc2DeepInspectionStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetMemberEc2DeepInspectionStatusRequest,
+  output: BatchGetMemberEc2DeepInspectionStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Activates or deactivates Amazon Inspector deep inspection for the provided member accounts in your
  * organization. You must be the delegated administrator of an organization in Amazon Inspector to use
  * this API.
  */
-export const batchUpdateMemberEc2DeepInspectionStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchUpdateMemberEc2DeepInspectionStatusRequest,
-    output: BatchUpdateMemberEc2DeepInspectionStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchUpdateMemberEc2DeepInspectionStatus: (
+  input: BatchUpdateMemberEc2DeepInspectionStatusRequest,
+) => Effect.Effect<
+  BatchUpdateMemberEc2DeepInspectionStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateMemberEc2DeepInspectionStatusRequest,
+  output: BatchUpdateMemberEc2DeepInspectionStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the permissions an account has to configure Amazon Inspector.
  * If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
  */
-export const listAccountPermissions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAccountPermissions: {
+  (
     input: ListAccountPermissionsRequest,
-    output: ListAccountPermissionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "permissions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAccountPermissionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccountPermissionsRequest,
+  ) => Stream.Stream<
+    ListAccountPermissionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccountPermissionsRequest,
+  ) => Stream.Stream<
+    Permission,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountPermissionsRequest,
+  output: ListAccountPermissionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "permissions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all code security integrations in your account.
  */
-export const listCodeSecurityIntegrations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListCodeSecurityIntegrationsRequest,
-    output: ListCodeSecurityIntegrationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const listCodeSecurityIntegrations: (
+  input: ListCodeSecurityIntegrationsRequest,
+) => Effect.Effect<
+  ListCodeSecurityIntegrationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCodeSecurityIntegrationsRequest,
+  output: ListCodeSecurityIntegrationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists Amazon Inspector coverage statistics for your environment.
  */
-export const listCoverageStatistics =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCoverageStatistics: {
+  (
     input: ListCoverageStatisticsRequest,
-    output: ListCoverageStatisticsResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "countsByGroup",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCoverageStatisticsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCoverageStatisticsRequest,
+  ) => Stream.Stream<
+    ListCoverageStatisticsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCoverageStatisticsRequest,
+  ) => Stream.Stream<
+    Counts,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCoverageStatisticsRequest,
+  output: ListCoverageStatisticsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "countsByGroup",
+  } as const,
+}));
 /**
  * Lists information about the Amazon Inspector delegated administrator of your organization.
  */
-export const listDelegatedAdminAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDelegatedAdminAccounts: {
+  (
     input: ListDelegatedAdminAccountsRequest,
-    output: ListDelegatedAdminAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "delegatedAdminAccounts",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDelegatedAdminAccountsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDelegatedAdminAccountsRequest,
+  ) => Stream.Stream<
+    ListDelegatedAdminAccountsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDelegatedAdminAccountsRequest,
+  ) => Stream.Stream<
+    DelegatedAdminAccount,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDelegatedAdminAccountsRequest,
+  output: ListDelegatedAdminAccountsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "delegatedAdminAccounts",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the filters associated with your account.
  */
-export const listFilters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFilters: {
+  (
     input: ListFiltersRequest,
-    output: ListFiltersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "filters",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFiltersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFiltersRequest,
+  ) => Stream.Stream<
+    ListFiltersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFiltersRequest,
+  ) => Stream.Stream<
+    Filter,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFiltersRequest,
+  output: ListFiltersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "filters",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to
  * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
  * this API to start a CIS scan session for the scan ID supplied by the service.
  */
-export const sendCisSessionTelemetry = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SendCisSessionTelemetryRequest,
-    output: SendCisSessionTelemetryResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const sendCisSessionTelemetry: (
+  input: SendCisSessionTelemetryRequest,
+) => Effect.Effect<
+  SendCisSessionTelemetryResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendCisSessionTelemetryRequest,
+  output: SendCisSessionTelemetryResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to
  * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
  * this API to stop a CIS scan session for the scan ID supplied by the service.
  */
-export const stopCisSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopCisSession: (
+  input: StopCisSessionRequest,
+) => Effect.Effect<
+  StopCisSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopCisSessionRequest,
   output: StopCisSessionResponse,
   errors: [
@@ -6520,7 +7393,17 @@ export const stopCisSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -6533,57 +7416,96 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a CIS scan configuration.
  */
-export const updateCisScanConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCisScanConfigurationRequest,
-    output: UpdateCisScanConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateCisScanConfiguration: (
+  input: UpdateCisScanConfigurationRequest,
+) => Effect.Effect<
+  UpdateCisScanConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCisScanConfigurationRequest,
+  output: UpdateCisScanConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates multiple code repositories with an Amazon Inspector code security scan
  * configuration.
  */
-export const batchAssociateCodeSecurityScanConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchAssociateCodeSecurityScanConfigurationRequest,
-    output: BatchAssociateCodeSecurityScanConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchAssociateCodeSecurityScanConfiguration: (
+  input: BatchAssociateCodeSecurityScanConfigurationRequest,
+) => Effect.Effect<
+  BatchAssociateCodeSecurityScanConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchAssociateCodeSecurityScanConfigurationRequest,
+  output: BatchAssociateCodeSecurityScanConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the Amazon Inspector status of multiple Amazon Web Services accounts within your environment.
  */
-export const batchGetAccountStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetAccountStatusRequest,
-    output: BatchGetAccountStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchGetAccountStatus: (
+  input: BatchGetAccountStatusRequest,
+) => Effect.Effect<
+  BatchGetAccountStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetAccountStatusRequest,
+  output: BatchGetAccountStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves code snippets from findings that Amazon Inspector detected code vulnerabilities
  * in.
  */
-export const batchGetCodeSnippet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const batchGetCodeSnippet: (
+  input: BatchGetCodeSnippetRequest,
+) => Effect.Effect<
+  BatchGetCodeSnippetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetCodeSnippetRequest,
   output: BatchGetCodeSnippetResponse,
   errors: [
@@ -6596,33 +7518,49 @@ export const batchGetCodeSnippet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets vulnerability details for findings.
  */
-export const batchGetFindingDetails = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetFindingDetailsRequest,
-    output: BatchGetFindingDetailsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchGetFindingDetails: (
+  input: BatchGetFindingDetailsRequest,
+) => Effect.Effect<
+  BatchGetFindingDetailsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetFindingDetailsRequest,
+  output: BatchGetFindingDetailsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets free trial status for multiple Amazon Web Services accounts.
  */
-export const batchGetFreeTrialInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchGetFreeTrialInfoRequest,
-    output: BatchGetFreeTrialInfoResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const batchGetFreeTrialInfo: (
+  input: BatchGetFreeTrialInfoRequest,
+) => Effect.Effect<
+  BatchGetFreeTrialInfoResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetFreeTrialInfoRequest,
+  output: BatchGetFreeTrialInfoResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a code security integration with a source code repository provider.
  *
@@ -6631,40 +7569,74 @@ export const batchGetFreeTrialInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `UpdateCodeSecurityIntegration` operation to provide the `details`
  * to complete the integration setup
  */
-export const createCodeSecurityIntegration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCodeSecurityIntegrationRequest,
-    output: CreateCodeSecurityIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createCodeSecurityIntegration: (
+  input: CreateCodeSecurityIntegrationRequest,
+) => Effect.Effect<
+  CreateCodeSecurityIntegrationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCodeSecurityIntegrationRequest,
+  output: CreateCodeSecurityIntegrationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a scan configuration for code security scanning.
  */
-export const createCodeSecurityScanConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateCodeSecurityScanConfigurationRequest,
-    output: CreateCodeSecurityScanConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createCodeSecurityScanConfiguration: (
+  input: CreateCodeSecurityScanConfigurationRequest,
+) => Effect.Effect<
+  CreateCodeSecurityScanConfigurationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCodeSecurityScanConfigurationRequest,
+  output: CreateCodeSecurityScanConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a filter resource using specified filter criteria. When the filter action is set
  * to `SUPPRESS` this action creates a suppression rule.
  */
-export const createFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFilter: (
+  input: CreateFilterRequest,
+) => Effect.Effect<
+  CreateFilterResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFilterRequest,
   output: CreateFilterResponse,
   errors: [
@@ -6679,7 +7651,18 @@ export const createFilter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a software bill of materials (SBOM) report.
  */
-export const createSbomExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSbomExport: (
+  input: CreateSbomExportRequest,
+) => Effect.Effect<
+  CreateSbomExportResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSbomExportRequest,
   output: CreateSbomExportResponse,
   errors: [
@@ -6693,24 +7676,56 @@ export const createSbomExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the Amazon Inspector usage totals over the last 30 days.
  */
-export const listUsageTotals = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listUsageTotals: {
+  (
     input: ListUsageTotalsRequest,
-    output: ListUsageTotalsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "totals",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListUsageTotalsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUsageTotalsRequest,
+  ) => Stream.Stream<
+    ListUsageTotalsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUsageTotalsRequest,
+  ) => Stream.Stream<
+    UsageTotal,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUsageTotalsRequest,
+  output: ListUsageTotalsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "totals",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates an existing code security integration.
  *
@@ -6719,218 +7734,555 @@ export const listUsageTotals = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * `UpdateCodeSecurityIntegration` operation to provide the `details`
  * to complete the integration setup
  */
-export const updateCodeSecurityIntegration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateCodeSecurityIntegrationRequest,
-    output: UpdateCodeSecurityIntegrationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateCodeSecurityIntegration: (
+  input: UpdateCodeSecurityIntegrationRequest,
+) => Effect.Effect<
+  UpdateCodeSecurityIntegrationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCodeSecurityIntegrationRequest,
+  output: UpdateCodeSecurityIntegrationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a CIS scan configuration.
  */
-export const createCisScanConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCisScanConfigurationRequest,
-    output: CreateCisScanConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createCisScanConfiguration: (
+  input: CreateCisScanConfigurationRequest,
+) => Effect.Effect<
+  CreateCisScanConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCisScanConfigurationRequest,
+  output: CreateCisScanConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves CIS scan result details.
  */
-export const getCisScanResultDetails =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getCisScanResultDetails: {
+  (
     input: GetCisScanResultDetailsRequest,
-    output: GetCisScanResultDetailsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "scanResultDetails",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetCisScanResultDetailsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetCisScanResultDetailsRequest,
+  ) => Stream.Stream<
+    GetCisScanResultDetailsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetCisScanResultDetailsRequest,
+  ) => Stream.Stream<
+    CisScanResultDetails,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetCisScanResultDetailsRequest,
+  output: GetCisScanResultDetailsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "scanResultDetails",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists scan results aggregated by a target resource.
  */
-export const listCisScanResultsAggregatedByTargetResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCisScanResultsAggregatedByTargetResource: {
+  (
     input: ListCisScanResultsAggregatedByTargetResourceRequest,
-    output: ListCisScanResultsAggregatedByTargetResourceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "targetResourceAggregations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCisScanResultsAggregatedByTargetResourceResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCisScanResultsAggregatedByTargetResourceRequest,
+  ) => Stream.Stream<
+    ListCisScanResultsAggregatedByTargetResourceResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCisScanResultsAggregatedByTargetResourceRequest,
+  ) => Stream.Stream<
+    CisTargetResourceAggregation,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCisScanResultsAggregatedByTargetResourceRequest,
+  output: ListCisScanResultsAggregatedByTargetResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "targetResourceAggregations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a CIS scan list.
  */
-export const listCisScans = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCisScans: {
+  (
     input: ListCisScansRequest,
-    output: ListCisScansResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "scans",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCisScansResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCisScansRequest,
+  ) => Stream.Stream<
+    ListCisScansResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCisScansRequest,
+  ) => Stream.Stream<
+    CisScan,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCisScansRequest,
+  output: ListCisScansResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "scans",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists Amazon Inspector coverage details for a specific vulnerability.
  */
-export const searchVulnerabilities =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchVulnerabilities: {
+  (
     input: SearchVulnerabilitiesRequest,
-    output: SearchVulnerabilitiesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "vulnerabilities",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchVulnerabilitiesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchVulnerabilitiesRequest,
+  ) => Stream.Stream<
+    SearchVulnerabilitiesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchVulnerabilitiesRequest,
+  ) => Stream.Stream<
+    Vulnerability,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchVulnerabilitiesRequest,
+  output: SearchVulnerabilitiesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "vulnerabilities",
+  } as const,
+}));
 /**
  * Lists CIS scan configurations.
  */
-export const listCisScanConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCisScanConfigurations: {
+  (
     input: ListCisScanConfigurationsRequest,
-    output: ListCisScanConfigurationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "scanConfigurations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCisScanConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCisScanConfigurationsRequest,
+  ) => Stream.Stream<
+    ListCisScanConfigurationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCisScanConfigurationsRequest,
+  ) => Stream.Stream<
+    CisScanConfiguration,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCisScanConfigurationsRequest,
+  output: ListCisScanConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "scanConfigurations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists scan results aggregated by checks.
  */
-export const listCisScanResultsAggregatedByChecks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCisScanResultsAggregatedByChecks: {
+  (
     input: ListCisScanResultsAggregatedByChecksRequest,
-    output: ListCisScanResultsAggregatedByChecksResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "checkAggregations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCisScanResultsAggregatedByChecksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCisScanResultsAggregatedByChecksRequest,
+  ) => Stream.Stream<
+    ListCisScanResultsAggregatedByChecksResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCisScanResultsAggregatedByChecksRequest,
+  ) => Stream.Stream<
+    CisCheckAggregation,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCisScanResultsAggregatedByChecksRequest,
+  output: ListCisScanResultsAggregatedByChecksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "checkAggregations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists aggregated finding data for your environment based on specific criteria.
  */
-export const listFindingAggregations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listFindingAggregations: {
+  (
     input: ListFindingAggregationsRequest,
-    output: ListFindingAggregationsResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "responses",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListFindingAggregationsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFindingAggregationsRequest,
+  ) => Stream.Stream<
+    ListFindingAggregationsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFindingAggregationsRequest,
+  ) => Stream.Stream<
+    AggregationResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFindingAggregationsRequest,
+  output: ListFindingAggregationsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "responses",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of clusters and metadata associated with an image.
  */
-export const getClustersForImage =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getClustersForImage: {
+  (
     input: GetClustersForImageRequest,
-    output: GetClustersForImageResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "cluster",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetClustersForImageResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetClustersForImageRequest,
+  ) => Stream.Stream<
+    GetClustersForImageResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetClustersForImageRequest,
+  ) => Stream.Stream<
+    ClusterInformation,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetClustersForImageRequest,
+  output: GetClustersForImageResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "cluster",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists findings for your environment.
  */
-export const listFindings = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFindings: {
+  (
     input: ListFindingsRequest,
-    output: ListFindingsResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "findings",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFindingsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFindingsRequest,
+  ) => Stream.Stream<
+    ListFindingsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFindingsRequest,
+  ) => Stream.Stream<
+    Finding,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFindingsRequest,
+  output: ListFindingsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "findings",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists coverage details for your environment.
  */
-export const listCoverage = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCoverage: {
+  (
     input: ListCoverageRequest,
-    output: ListCoverageResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "coveredResources",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCoverageResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCoverageRequest,
+  ) => Stream.Stream<
+    ListCoverageResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCoverageRequest,
+  ) => Stream.Stream<
+    CoveredResource,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCoverageRequest,
+  output: ListCoverageResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "coveredResources",
+    pageSize: "maxResults",
+  } as const,
+}));

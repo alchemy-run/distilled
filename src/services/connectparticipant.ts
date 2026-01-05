@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "ConnectParticipant",
   serviceShapeName: "AmazonConnectParticipantServiceLambda",
@@ -260,6 +268,50 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type SessionId = string;
+export type ParticipantToken = string;
+export type ArtifactId = string;
+export type NonEmptyClientToken = string;
+export type ViewToken = string;
+export type ClientToken = string;
+export type URLExpiryInSeconds = number;
+export type RedirectURI = string;
+export type ContactId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type ChatContentType = string;
+export type ChatContent = string;
+export type ContentType = string;
+export type AttachmentSizeInBytes = number;
+export type AttachmentName = string;
+export type ChatItemId = string;
+export type Instant = string;
+export type MostRecent = number;
+export type Message = string;
+export type PreSignedAttachmentUrl = string;
+export type ISO8601Datetime = string;
+export type AuthenticationUrl = string;
+export type PreSignedConnectionUrl = string;
+export type ViewId = string;
+export type ARN = string;
+export type ViewName = string;
+export type ViewVersion = number;
+export type UploadMetadataUrl = string;
+export type Reason = string;
+export type AttendeeId = string;
+export type JoinToken = string;
+export type GuidString = string;
+export type ViewInputSchema = string;
+export type ViewTemplate = string;
+export type ViewAction = string;
+export type UploadMetadataSignedHeadersKey = string;
+export type UploadMetadataSignedHeadersValue = string;
+export type ParticipantId = string;
+export type DisplayName = string;
+export type URI = string;
+export type ResourceId = string;
 
 //# Schemas
 export type AttachmentIdList = string[];
@@ -891,7 +943,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String },
@@ -899,7 +953,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.String },
@@ -931,23 +987,43 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const cancelParticipantAuthentication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CancelParticipantAuthenticationRequest,
-    output: CancelParticipantAuthenticationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const cancelParticipantAuthentication: (
+  input: CancelParticipantAuthenticationRequest,
+) => Effect.Effect<
+  CancelParticipantAuthenticationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelParticipantAuthenticationRequest,
+  output: CancelParticipantAuthenticationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the view for the specified view token.
  *
  * For security recommendations, see Amazon Connect Chat security best practices.
  */
-export const describeView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeView: (
+  input: DescribeViewRequest,
+) => Effect.Effect<
+  DescribeViewResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeViewRequest,
   output: DescribeViewResponse,
   errors: [
@@ -976,7 +1052,18 @@ export const describeView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const sendEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendEvent: (
+  input: SendEventRequest,
+) => Effect.Effect<
+  SendEventResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendEventRequest,
   output: SendEventResponse,
   errors: [
@@ -998,7 +1085,17 @@ export const sendEvent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const sendMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const sendMessage: (
+  input: SendMessageRequest,
+) => Effect.Effect<
+  SendMessageResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendMessageRequest,
   output: SendMessageResponse,
   errors: [
@@ -1025,7 +1122,17 @@ export const sendMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const getAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAttachment: (
+  input: GetAttachmentRequest,
+) => Effect.Effect<
+  GetAttachmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAttachmentRequest,
   output: GetAttachmentResponse,
   errors: [
@@ -1053,18 +1160,26 @@ export const getAttachment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const getAuthenticationUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAuthenticationUrlRequest,
-    output: GetAuthenticationUrlResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAuthenticationUrl: (
+  input: GetAuthenticationUrlRequest,
+) => Effect.Effect<
+  GetAuthenticationUrlResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAuthenticationUrlRequest,
+  output: GetAuthenticationUrlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disconnects a participant.
  *
@@ -1076,18 +1191,26 @@ export const getAuthenticationUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const disconnectParticipant = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisconnectParticipantRequest,
-    output: DisconnectParticipantResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const disconnectParticipant: (
+  input: DisconnectParticipantRequest,
+) => Effect.Effect<
+  DisconnectParticipantResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisconnectParticipantRequest,
+  output: DisconnectParticipantResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Allows you to confirm that the attachment has been uploaded using the pre-signed URL
  * provided in StartAttachmentUpload API. A conflict exception is thrown when an attachment
@@ -1101,20 +1224,30 @@ export const disconnectParticipant = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const completeAttachmentUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CompleteAttachmentUploadRequest,
-    output: CompleteAttachmentUploadResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const completeAttachmentUpload: (
+  input: CompleteAttachmentUploadRequest,
+) => Effect.Effect<
+  CompleteAttachmentUploadResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CompleteAttachmentUploadRequest,
+  output: CompleteAttachmentUploadResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Provides a pre-signed Amazon S3 URL in response for uploading the file directly to
  * S3.
@@ -1127,19 +1260,28 @@ export const completeAttachmentUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const startAttachmentUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartAttachmentUploadRequest,
-    output: StartAttachmentUploadResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startAttachmentUpload: (
+  input: StartAttachmentUploadRequest,
+) => Effect.Effect<
+  StartAttachmentUploadResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAttachmentUploadRequest,
+  output: StartAttachmentUploadResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates the participant's connection.
  *
@@ -1206,18 +1348,26 @@ export const startAttachmentUpload = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const createParticipantConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateParticipantConnectionRequest,
-    output: CreateParticipantConnectionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createParticipantConnection: (
+  input: CreateParticipantConnectionRequest,
+) => Effect.Effect<
+  CreateParticipantConnectionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateParticipantConnectionRequest,
+  output: CreateParticipantConnectionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a transcript of the session, including details about any attachments. For
  * information about accessing past chat contact transcripts for a persistent chat, see
@@ -1247,20 +1397,52 @@ export const createParticipantConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const getTranscript = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getTranscript: {
+  (
     input: GetTranscriptRequest,
-    output: GetTranscriptResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetTranscriptResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTranscriptRequest,
+  ) => Stream.Stream<
+    GetTranscriptResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTranscriptRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTranscriptRequest,
+  output: GetTranscriptResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));

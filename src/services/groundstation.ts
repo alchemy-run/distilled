@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "GroundStation",
   serviceShapeName: "GroundStation",
@@ -240,6 +248,47 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Uuid = string;
+export type Month = number;
+export type Year = number;
+export type AnyArn = string;
+export type UnboundedString = string;
+export type SafeName = string;
+export type PaginationMaxResults = number;
+export type PaginationToken = string;
+export type MissionProfileArn = string;
+export type satelliteArn = string;
+export type GroundStationName = string;
+export type DataflowEndpointGroupDurationInSeconds = number;
+export type CustomerEphemerisPriority = number;
+export type KeyArn = string;
+export type EphemerisPriority = number;
+export type DurationInSeconds = number;
+export type PositiveDurationInSeconds = number;
+export type ConfigArn = string;
+export type RoleArn = string;
+export type IpV4Address = string;
+export type CapabilityArn = string;
+export type VersionString = string;
+export type InstanceId = string;
+export type InstanceType = string;
+export type ComponentTypeString = string;
+export type KeyAliasArn = string;
+export type KeyAliasName = string;
+export type DataflowEndpointGroupArn = string;
+export type AWSRegion = string;
+export type noradSatelliteID = number;
+export type BucketArn = string;
+export type S3KeyPrefix = string;
+export type ErrorString = string;
+export type JsonString = string;
+export type S3BucketName = string;
+export type S3ObjectKey = string;
+export type S3VersionId = string;
+export type TleLineOne = string;
+export type TleLineTwo = string;
 
 //# Schemas
 export type TagKeys = string[];
@@ -510,6 +559,14 @@ export const S3RecordingConfig = S.suspend(() =>
 ).annotations({
   identifier: "S3RecordingConfig",
 }) as any as S.Schema<S3RecordingConfig>;
+export type ConfigTypeData =
+  | { antennaDownlinkConfig: AntennaDownlinkConfig }
+  | { trackingConfig: TrackingConfig }
+  | { dataflowEndpointConfig: DataflowEndpointConfig }
+  | { antennaDownlinkDemodDecodeConfig: AntennaDownlinkDemodDecodeConfig }
+  | { antennaUplinkConfig: AntennaUplinkConfig }
+  | { uplinkEchoConfig: UplinkEchoConfig }
+  | { s3RecordingConfig: S3RecordingConfig };
 export const ConfigTypeData = S.Union(
   S.Struct({ antennaDownlinkConfig: AntennaDownlinkConfig }),
   S.Struct({ trackingConfig: TrackingConfig }),
@@ -823,6 +880,10 @@ export const GetMissionProfileRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetMissionProfileRequest",
 }) as any as S.Schema<GetMissionProfileRequest>;
+export type KmsKey =
+  | { kmsKeyArn: string }
+  | { kmsAliasArn: string }
+  | { kmsAliasName: string };
 export const KmsKey = S.Union(
   S.Struct({ kmsKeyArn: S.String }),
   S.Struct({ kmsAliasArn: S.String }),
@@ -1215,6 +1276,9 @@ export const UplinkConnectionDetails = S.suspend(() =>
 ).annotations({
   identifier: "UplinkConnectionDetails",
 }) as any as S.Schema<UplinkConnectionDetails>;
+export type UplinkDataflowDetails = {
+  agentConnectionDetails: UplinkConnectionDetails;
+};
 export const UplinkDataflowDetails = S.Union(
   S.Struct({ agentConnectionDetails: UplinkConnectionDetails }),
 );
@@ -1246,6 +1310,9 @@ export const DownlinkConnectionDetails = S.suspend(() =>
 ).annotations({
   identifier: "DownlinkConnectionDetails",
 }) as any as S.Schema<DownlinkConnectionDetails>;
+export type DownlinkDataflowDetails = {
+  agentConnectionDetails: DownlinkConnectionDetails;
+};
 export const DownlinkDataflowDetails = S.Union(
   S.Struct({ agentConnectionDetails: DownlinkConnectionDetails }),
 );
@@ -1523,6 +1590,7 @@ export const EphemerisResponseData = S.suspend(() =>
 ).annotations({
   identifier: "EphemerisResponseData",
 }) as any as S.Schema<EphemerisResponseData>;
+export type EphemerisFilter = { azEl: AzElEphemerisFilter };
 export const EphemerisFilter = S.Union(S.Struct({ azEl: AzElEphemerisFilter }));
 export interface DataflowEndpointListItem {
   dataflowEndpointGroupId?: string;
@@ -1538,6 +1606,11 @@ export const DataflowEndpointListItem = S.suspend(() =>
 }) as any as S.Schema<DataflowEndpointListItem>;
 export type DataflowEndpointGroupList = DataflowEndpointListItem[];
 export const DataflowEndpointGroupList = S.Array(DataflowEndpointListItem);
+export type CreateEndpointDetails =
+  | { uplinkAwsGroundStationAgentEndpoint: UplinkAwsGroundStationAgentEndpoint }
+  | {
+      downlinkAwsGroundStationAgentEndpoint: DownlinkAwsGroundStationAgentEndpoint;
+    };
 export const CreateEndpointDetails = S.Union(
   S.Struct({
     uplinkAwsGroundStationAgentEndpoint: UplinkAwsGroundStationAgentEndpoint,
@@ -1863,6 +1936,7 @@ export const ListSatellitesResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListSatellitesResponse",
 }) as any as S.Schema<ListSatellitesResponse>;
+export type ProgramTrackSettings = { azEl: AzElProgramTrackSettings };
 export const ProgramTrackSettings = S.Union(
   S.Struct({ azEl: AzElProgramTrackSettings }),
 );
@@ -1886,6 +1960,10 @@ export const S3RecordingDetails = S.suspend(() =>
 ).annotations({
   identifier: "S3RecordingDetails",
 }) as any as S.Schema<S3RecordingDetails>;
+export type ConfigDetails =
+  | { endpointDetails: EndpointDetails }
+  | { antennaDemodDecodeDetails: AntennaDemodDecodeDetails }
+  | { s3RecordingDetails: S3RecordingDetails };
 export const ConfigDetails = S.Union(
   S.Struct({ endpointDetails: EndpointDetails }),
   S.Struct({ antennaDemodDecodeDetails: AntennaDemodDecodeDetails }),
@@ -1935,6 +2013,10 @@ export const TrackingOverrides = S.suspend(() =>
 ).annotations({
   identifier: "TrackingOverrides",
 }) as any as S.Schema<TrackingOverrides>;
+export type EphemerisTypeDescription =
+  | { tle: EphemerisDescription }
+  | { oem: EphemerisDescription }
+  | { azEl: EphemerisDescription };
 export const EphemerisTypeDescription = S.Union(
   S.Struct({ tle: EphemerisDescription }),
   S.Struct({ oem: EphemerisDescription }),
@@ -2205,6 +2287,9 @@ export const DataflowDetail = S.suspend(() =>
 }) as any as S.Schema<DataflowDetail>;
 export type DataflowList = DataflowDetail[];
 export const DataflowList = S.Array(DataflowDetail);
+export type AzElSegmentsData =
+  | { s3Object: S3Object }
+  | { azElData: AzElSegments };
 export const AzElSegmentsData = S.Union(
   S.Struct({ s3Object: S3Object }),
   S.Struct({ azElData: AzElSegments }),
@@ -2295,6 +2380,10 @@ export const AzElEphemeris = S.suspend(() =>
 ).annotations({
   identifier: "AzElEphemeris",
 }) as any as S.Schema<AzElEphemeris>;
+export type EphemerisData =
+  | { tle: TLEEphemeris }
+  | { oem: OEMEphemeris }
+  | { azEl: AzElEphemeris };
 export const EphemerisData = S.Union(
   S.Struct({ tle: TLEEphemeris }),
   S.Struct({ oem: OEMEphemeris }),
@@ -2338,7 +2427,9 @@ export const CreateEphemerisRequest = S.suspend(() =>
 export class DependencyException extends S.TaggedError<DependencyException>()(
   "DependencyException",
   { message: S.optional(S.String), parameterName: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
   { message: S.optional(S.String), parameterName: S.optional(S.String) },
@@ -2354,7 +2445,9 @@ export class ResourceInUseException extends S.TaggedError<ResourceInUseException
 export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
   "ResourceLimitExceededException",
   { message: S.optional(S.String), parameterName: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String), parameterName: S.optional(S.String) },
@@ -2364,7 +2457,16 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 /**
  * Deassigns a resource tag.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2378,7 +2480,16 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Registers a new agent with AWS Ground Station.
  */
-export const registerAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerAgent: (
+  input: RegisterAgentRequest,
+) => Effect.Effect<
+  RegisterAgentResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterAgentRequest,
   output: RegisterAgentResponse,
   errors: [
@@ -2392,7 +2503,16 @@ export const registerAgent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Update the status of the agent.
  */
-export const updateAgentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAgentStatus: (
+  input: UpdateAgentStatusRequest,
+) => Effect.Effect<
+  UpdateAgentStatusResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAgentStatusRequest,
   output: UpdateAgentStatusResponse,
   errors: [
@@ -2404,7 +2524,16 @@ export const updateAgentStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve information about an existing ephemeris.
  */
-export const describeEphemeris = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeEphemeris: (
+  input: DescribeEphemerisRequest,
+) => Effect.Effect<
+  DescribeEphemerisResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEphemerisRequest,
   output: DescribeEphemerisResponse,
   errors: [
@@ -2416,7 +2545,17 @@ export const describeEphemeris = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete an ephemeris.
  */
-export const deleteEphemeris = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEphemeris: (
+  input: DeleteEphemerisRequest,
+) => Effect.Effect<
+  EphemerisIdResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEphemerisRequest,
   output: EphemerisIdResponse,
   errors: [
@@ -2429,105 +2568,261 @@ export const deleteEphemeris = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of `Config` objects.
  */
-export const listConfigs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listConfigs: {
+  (
     input: ListConfigsRequest,
-    output: ListConfigsResponse,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "configList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListConfigsResponse,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfigsRequest,
+  ) => Stream.Stream<
+    ListConfigsResponse,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfigsRequest,
+  ) => Stream.Stream<
+    ConfigListItem,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfigsRequest,
+  output: ListConfigsResponse,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "configList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of `DataflowEndpoint` groups.
  */
-export const listDataflowEndpointGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataflowEndpointGroups: {
+  (
     input: ListDataflowEndpointGroupsRequest,
-    output: ListDataflowEndpointGroupsResponse,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dataflowEndpointGroupList",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataflowEndpointGroupsResponse,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataflowEndpointGroupsRequest,
+  ) => Stream.Stream<
+    ListDataflowEndpointGroupsResponse,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataflowEndpointGroupsRequest,
+  ) => Stream.Stream<
+    DataflowEndpointListItem,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataflowEndpointGroupsRequest,
+  output: ListDataflowEndpointGroupsResponse,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dataflowEndpointGroupList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List your existing ephemerides.
  */
-export const listEphemerides = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEphemerides: {
+  (
     input: ListEphemeridesRequest,
-    output: ListEphemeridesResponse,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "ephemerides",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEphemeridesResponse,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEphemeridesRequest,
+  ) => Stream.Stream<
+    ListEphemeridesResponse,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEphemeridesRequest,
+  ) => Stream.Stream<
+    EphemerisItem,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEphemeridesRequest,
+  output: ListEphemeridesResponse,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ephemerides",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of ground stations.
  */
-export const listGroundStations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listGroundStations: {
+  (
     input: ListGroundStationsRequest,
-    output: ListGroundStationsResponse,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "groundStationList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListGroundStationsResponse,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGroundStationsRequest,
+  ) => Stream.Stream<
+    ListGroundStationsResponse,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGroundStationsRequest,
+  ) => Stream.Stream<
+    GroundStationData,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGroundStationsRequest,
+  output: ListGroundStationsResponse,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "groundStationList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of mission profiles.
  */
-export const listMissionProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMissionProfiles: {
+  (
     input: ListMissionProfilesRequest,
-    output: ListMissionProfilesResponse,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "missionProfileList",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMissionProfilesResponse,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMissionProfilesRequest,
+  ) => Stream.Stream<
+    ListMissionProfilesResponse,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMissionProfilesRequest,
+  ) => Stream.Stream<
+    MissionProfileListItem,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMissionProfilesRequest,
+  output: ListMissionProfilesResponse,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "missionProfileList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a satellite.
  */
-export const getSatellite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSatellite: (
+  input: GetSatelliteRequest,
+) => Effect.Effect<
+  GetSatelliteResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSatelliteRequest,
   output: GetSatelliteResponse,
   errors: [
@@ -2539,45 +2834,90 @@ export const getSatellite = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of satellites.
  */
-export const listSatellites = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSatellites: {
+  (
     input: ListSatellitesRequest,
-    output: ListSatellitesResponse,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "satellites",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSatellitesResponse,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSatellitesRequest,
+  ) => Stream.Stream<
+    ListSatellitesResponse,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSatellitesRequest,
+  ) => Stream.Stream<
+    SatelliteListItem,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSatellitesRequest,
+  output: ListSatellitesResponse,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "satellites",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * For use by AWS Ground Station Agent and shouldn't be called directly.
  *
  * Gets the latest configuration information for a registered agent.
  */
-export const getAgentConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAgentConfigurationRequest,
-    output: GetAgentConfigurationResponse,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getAgentConfiguration: (
+  input: GetAgentConfigurationRequest,
+) => Effect.Effect<
+  GetAgentConfigurationResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAgentConfigurationRequest,
+  output: GetAgentConfigurationResponse,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns `Config` information.
  *
  * Only one `Config` response can be returned.
  */
-export const getConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConfig: (
+  input: GetConfigRequest,
+) => Effect.Effect<
+  GetConfigResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigRequest,
   output: GetConfigResponse,
   errors: [
@@ -2591,7 +2931,16 @@ export const getConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Updating a `Config` will not update the execution parameters for existing future contacts scheduled with this `Config`.
  */
-export const updateConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateConfig: (
+  input: UpdateConfigRequest,
+) => Effect.Effect<
+  ConfigIdResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigRequest,
   output: ConfigIdResponse,
   errors: [
@@ -2603,7 +2952,16 @@ export const updateConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels a contact with a specified contact ID.
  */
-export const cancelContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelContact: (
+  input: CancelContactRequest,
+) => Effect.Effect<
+  ContactIdResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelContactRequest,
   output: ContactIdResponse,
   errors: [
@@ -2615,35 +2973,58 @@ export const cancelContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns the dataflow endpoint group.
  */
-export const getDataflowEndpointGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDataflowEndpointGroupRequest,
-    output: GetDataflowEndpointGroupResponse,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getDataflowEndpointGroup: (
+  input: GetDataflowEndpointGroupRequest,
+) => Effect.Effect<
+  GetDataflowEndpointGroupResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataflowEndpointGroupRequest,
+  output: GetDataflowEndpointGroupResponse,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes a dataflow endpoint group.
  */
-export const deleteDataflowEndpointGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDataflowEndpointGroupRequest,
-    output: DataflowEndpointGroupIdResponse,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteDataflowEndpointGroup: (
+  input: DeleteDataflowEndpointGroupRequest,
+) => Effect.Effect<
+  DataflowEndpointGroupIdResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataflowEndpointGroupRequest,
+  output: DataflowEndpointGroupIdResponse,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Update an existing ephemeris.
  */
-export const updateEphemeris = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEphemeris: (
+  input: UpdateEphemerisRequest,
+) => Effect.Effect<
+  EphemerisIdResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEphemerisRequest,
   output: EphemerisIdResponse,
   errors: [
@@ -2657,21 +3038,37 @@ export const updateEphemeris = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * `dataflowEdges` is a list of lists of strings. Each lower level list of strings has two elements: a *from* ARN and a *to* ARN.
  */
-export const createMissionProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMissionProfileRequest,
-    output: MissionProfileIdResponse,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const createMissionProfile: (
+  input: CreateMissionProfileRequest,
+) => Effect.Effect<
+  MissionProfileIdResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMissionProfileRequest,
+  output: MissionProfileIdResponse,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns a mission profile.
  */
-export const getMissionProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMissionProfile: (
+  input: GetMissionProfileRequest,
+) => Effect.Effect<
+  GetMissionProfileResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMissionProfileRequest,
   output: GetMissionProfileResponse,
   errors: [
@@ -2685,21 +3082,37 @@ export const getMissionProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Updating a mission profile will not update the execution parameters for existing future contacts.
  */
-export const updateMissionProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMissionProfileRequest,
-    output: MissionProfileIdResponse,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateMissionProfile: (
+  input: UpdateMissionProfileRequest,
+) => Effect.Effect<
+  MissionProfileIdResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMissionProfileRequest,
+  output: MissionProfileIdResponse,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes a `Config`.
  */
-export const deleteConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConfig: (
+  input: DeleteConfigRequest,
+) => Effect.Effect<
+  ConfigIdResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigRequest,
   output: ConfigIdResponse,
   errors: [
@@ -2711,37 +3124,60 @@ export const deleteConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a mission profile.
  */
-export const deleteMissionProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMissionProfileRequest,
-    output: MissionProfileIdResponse,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteMissionProfile: (
+  input: DeleteMissionProfileRequest,
+) => Effect.Effect<
+  MissionProfileIdResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMissionProfileRequest,
+  output: MissionProfileIdResponse,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * For use by AWS Ground Station Agent and shouldn't be called directly.
  *
  * Gets a presigned URL for uploading agent task response logs.
  */
-export const getAgentTaskResponseUrl = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAgentTaskResponseUrlRequest,
-    output: GetAgentTaskResponseUrlResponse,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const getAgentTaskResponseUrl: (
+  input: GetAgentTaskResponseUrlRequest,
+) => Effect.Effect<
+  GetAgentTaskResponseUrlResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAgentTaskResponseUrlRequest,
+  output: GetAgentTaskResponseUrlResponse,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Returns the number of reserved minutes used by account.
  */
-export const getMinuteUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMinuteUsage: (
+  input: GetMinuteUsageRequest,
+) => Effect.Effect<
+  GetMinuteUsageResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMinuteUsageRequest,
   output: GetMinuteUsageResponse,
   errors: [
@@ -2753,7 +3189,16 @@ export const getMinuteUsage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of tags for a specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2765,7 +3210,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Assigns a tag to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2777,7 +3231,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Reserves a contact using specified parameters.
  */
-export const reserveContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const reserveContact: (
+  input: ReserveContactRequest,
+) => Effect.Effect<
+  ContactIdResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReserveContactRequest,
   output: ContactIdResponse,
   errors: [
@@ -2792,23 +3256,52 @@ export const reserveContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If `statusList` contains AVAILABLE, the request must include `groundStation`, `missionprofileArn`, and `satelliteArn`.
  */
-export const listContacts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listContacts: {
+  (
     input: ListContactsRequest,
-    output: ListContactsResponse,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "contactList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListContactsResponse,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListContactsRequest,
+  ) => Stream.Stream<
+    ListContactsResponse,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListContactsRequest,
+  ) => Stream.Stream<
+    ContactData,
+    | DependencyException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListContactsRequest,
+  output: ListContactsResponse,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "contactList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a `DataflowEndpointGroupV2` containing the specified list of `DataflowEndpoint` objects.
  *
@@ -2816,23 +3309,42 @@ export const listContacts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * When a contact uses multiple `DataflowEndpointConfig` objects, each `Config` must match a `DataflowEndpoint` in the same group.
  */
-export const createDataflowEndpointGroupV2 =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDataflowEndpointGroupV2Request,
-    output: CreateDataflowEndpointGroupV2Response,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-    ],
-  }));
+export const createDataflowEndpointGroupV2: (
+  input: CreateDataflowEndpointGroupV2Request,
+) => Effect.Effect<
+  CreateDataflowEndpointGroupV2Response,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataflowEndpointGroupV2Request,
+  output: CreateDataflowEndpointGroupV2Response,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+  ],
+}));
 /**
  * Creates a `Config` with the specified `configData` parameters.
  *
  * Only one type of `configData` can be specified.
  */
-export const createConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConfig: (
+  input: CreateConfigRequest,
+) => Effect.Effect<
+  ConfigIdResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigRequest,
   output: ConfigIdResponse,
   errors: [
@@ -2845,7 +3357,16 @@ export const createConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes an existing contact.
  */
-export const describeContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeContact: (
+  input: DescribeContactRequest,
+) => Effect.Effect<
+  DescribeContactResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeContactRequest,
   output: DescribeContactResponse,
   errors: [
@@ -2861,21 +3382,37 @@ export const describeContact = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When a contact uses multiple `DataflowEndpointConfig` objects, each `Config` must match a `DataflowEndpoint` in the same group.
  */
-export const createDataflowEndpointGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDataflowEndpointGroupRequest,
-    output: DataflowEndpointGroupIdResponse,
-    errors: [
-      DependencyException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const createDataflowEndpointGroup: (
+  input: CreateDataflowEndpointGroupRequest,
+) => Effect.Effect<
+  DataflowEndpointGroupIdResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataflowEndpointGroupRequest,
+  output: DataflowEndpointGroupIdResponse,
+  errors: [
+    DependencyException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Create an ephemeris with your specified EphemerisData.
  */
-export const createEphemeris = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEphemeris: (
+  input: CreateEphemerisRequest,
+) => Effect.Effect<
+  EphemerisIdResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEphemerisRequest,
   output: EphemerisIdResponse,
   errors: [

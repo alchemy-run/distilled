@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://autoscaling.amazonaws.com/doc/2011-01-01/");
 const svc = T.AwsApiService({
   sdkId: "Auto Scaling",
@@ -261,6 +269,92 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type XmlStringMaxLen19 = string;
+export type XmlStringMaxLen255 = string;
+export type XmlStringMaxLen511 = string;
+export type AsciiStringMaxLen255 = string;
+export type ResourceName = string;
+export type LifecycleActionToken = string;
+export type LifecycleActionResult = string;
+export type AutoScalingGroupMinSize = number;
+export type AutoScalingGroupMaxSize = number;
+export type AutoScalingGroupDesiredCapacity = number;
+export type Cooldown = number;
+export type XmlStringMaxLen32 = string;
+export type HealthCheckGracePeriod = number;
+export type XmlStringMaxLen5000 = string;
+export type XmlStringMaxLen1600 = string;
+export type MaxInstanceLifetime = number;
+export type Context = string;
+export type DefaultInstanceWarmup = number;
+export type XmlString = string;
+export type XmlStringUserData = string;
+export type SpotPrice = string;
+export type XmlStringMaxLen64 = string;
+export type MaxNumberOfAutoScalingGroups = number;
+export type MaxNumberOfLaunchConfigurations = number;
+export type NumberOfAutoScalingGroups = number;
+export type NumberOfLaunchConfigurations = number;
+export type MaxRecords = number;
+export type MetricScale = number;
+export type RequestedCapacity = number;
+export type ClientToken = string;
+export type LifecycleTransition = string;
+export type NotificationTargetResourceName = string;
+export type AnyPrintableAsciiStringMaxLen4000 = string;
+export type HeartbeatTimeout = number;
+export type MinAdjustmentStep = number;
+export type MinAdjustmentMagnitude = number;
+export type PolicyIncrement = number;
+export type EstimatedInstanceWarmup = number;
+export type MaxGroupPreparedCapacity = number;
+export type WarmPoolMinSize = number;
+export type UpdatePlacementGroupParam = string;
+export type LaunchTemplateName = string;
+export type TagKey = string;
+export type TagValue = string;
+export type IntPercentResettable = number;
+export type IntPercent100To200Resettable = number;
+export type InstanceMetadataHttpPutResponseHopLimit = number;
+export type PredictiveScalingSchedulingBufferTime = number;
+export type PredictiveScalingMaxCapacityBuffer = number;
+export type IntPercent = number;
+export type RefreshInstanceWarmup = number;
+export type NonZeroIntPercent = number;
+export type CheckpointDelay = number;
+export type IntPercent100To200 = number;
+export type BakeTime = number;
+export type OnDemandBaseCapacity = number;
+export type OnDemandPercentageAboveBaseCapacity = number;
+export type SpotInstancePools = number;
+export type MixedInstanceSpotPrice = string;
+export type BlockDeviceEbsVolumeSize = number;
+export type BlockDeviceEbsVolumeType = string;
+export type BlockDeviceEbsIops = number;
+export type BlockDeviceEbsThroughput = number;
+export type XmlStringMaxLen1023 = string;
+export type MetricName = string;
+export type MetricNamespace = string;
+export type MetricUnit = string;
+export type MetricGranularityInSeconds = number;
+export type InstancesToUpdate = number;
+export type GlobalTimeout = number;
+export type Progress = number;
+export type AutoScalingGroupState = string;
+export type ImageId = string;
+export type MetricDimensionName = string;
+export type MetricDimensionValue = string;
+export type XmlStringMaxLen2047 = string;
+export type XmlStringMetricLabel = string;
+export type ExcludedInstance = string;
+export type NullablePositiveInteger = number;
+export type AllowedInstanceType = string;
+export type XmlStringMetricStat = string;
+export type AutoScalingGroupPredictedCapacity = number;
+export type WarmPoolSize = number;
+export type NullablePositiveDouble = number;
 
 //# Schemas
 export interface DescribeAccountLimitsRequest {}
@@ -4075,7 +4169,9 @@ export class ResourceContentionFault extends S.TaggedError<ResourceContentionFau
   "ResourceContentionFault",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ResourceContention", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InstanceRefreshInProgressFault extends S.TaggedError<InstanceRefreshInProgressFault>()(
   "InstanceRefreshInProgressFault",
   { message: S.optional(S.String) },
@@ -4105,7 +4201,9 @@ export class ServiceLinkedRoleFailure extends S.TaggedError<ServiceLinkedRoleFai
   "ServiceLinkedRoleFailure",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ServiceLinkedRoleFailure", httpResponseCode: 500 }),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ActiveInstanceRefreshNotFoundFault extends S.TaggedError<ActiveInstanceRefreshNotFoundFault>()(
   "ActiveInstanceRefreshNotFoundFault",
   { message: S.optional(S.String) },
@@ -4169,13 +4267,17 @@ export class IrreversibleInstanceRefreshFault extends S.TaggedError<Irreversible
  * For more information, see Complete a lifecycle
  * action in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const completeLifecycleAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CompleteLifecycleActionType,
-    output: CompleteLifecycleActionAnswer,
-    errors: [ResourceContentionFault],
-  }),
-);
+export const completeLifecycleAction: (
+  input: CompleteLifecycleActionType,
+) => Effect.Effect<
+  CompleteLifecycleActionAnswer,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CompleteLifecycleActionType,
+  output: CompleteLifecycleActionAnswer,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Deletes the specified lifecycle hook.
  *
@@ -4183,7 +4285,13 @@ export const completeLifecycleAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * (`ABANDON` for launching instances, `CONTINUE` for terminating
  * instances).
  */
-export const deleteLifecycleHook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLifecycleHook: (
+  input: DeleteLifecycleHookType,
+) => Effect.Effect<
+  DeleteLifecycleHookAnswer,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLifecycleHookType,
   output: DeleteLifecycleHookAnswer,
   errors: [ResourceContentionFault],
@@ -4191,22 +4299,31 @@ export const deleteLifecycleHook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified notification.
  */
-export const deleteNotificationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteNotificationConfigurationType,
-    output: DeleteNotificationConfigurationResponse,
-    errors: [ResourceContentionFault],
-  }));
+export const deleteNotificationConfiguration: (
+  input: DeleteNotificationConfigurationType,
+) => Effect.Effect<
+  DeleteNotificationConfigurationResponse,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNotificationConfigurationType,
+  output: DeleteNotificationConfigurationResponse,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Deletes the specified scheduled action.
  */
-export const deleteScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteScheduledActionType,
-    output: DeleteScheduledActionResponse,
-    errors: [ResourceContentionFault],
-  }),
-);
+export const deleteScheduledAction: (
+  input: DeleteScheduledActionType,
+) => Effect.Effect<
+  DeleteScheduledActionResponse,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteScheduledActionType,
+  output: DeleteScheduledActionResponse,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Describes the current Amazon EC2 Auto Scaling resource quotas for your account.
  *
@@ -4215,22 +4332,31 @@ export const deleteScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Quotas for
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const describeAccountLimits = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAccountLimitsRequest,
-    output: DescribeAccountLimitsAnswer,
-    errors: [ResourceContentionFault],
-  }),
-);
+export const describeAccountLimits: (
+  input: DescribeAccountLimitsRequest,
+) => Effect.Effect<
+  DescribeAccountLimitsAnswer,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccountLimitsRequest,
+  output: DescribeAccountLimitsAnswer,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Describes the notification types that are supported by Amazon EC2 Auto Scaling.
  */
-export const describeAutoScalingNotificationTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAutoScalingNotificationTypesRequest,
-    output: DescribeAutoScalingNotificationTypesAnswer,
-    errors: [ResourceContentionFault],
-  }));
+export const describeAutoScalingNotificationTypes: (
+  input: DescribeAutoScalingNotificationTypesRequest,
+) => Effect.Effect<
+  DescribeAutoScalingNotificationTypesAnswer,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAutoScalingNotificationTypesRequest,
+  output: DescribeAutoScalingNotificationTypesAnswer,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Describes the available types of lifecycle hooks.
  *
@@ -4240,13 +4366,17 @@ export const describeAutoScalingNotificationTypes =
  *
  * - `autoscaling:EC2_INSTANCE_TERMINATING`
  */
-export const describeLifecycleHookTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLifecycleHookTypesRequest,
-    output: DescribeLifecycleHookTypesAnswer,
-    errors: [ResourceContentionFault],
-  }),
-);
+export const describeLifecycleHookTypes: (
+  input: DescribeLifecycleHookTypesRequest,
+) => Effect.Effect<
+  DescribeLifecycleHookTypesAnswer,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLifecycleHookTypesRequest,
+  output: DescribeLifecycleHookTypesAnswer,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Describes the termination policies supported by Amazon EC2 Auto Scaling.
  *
@@ -4254,12 +4384,17 @@ export const describeLifecycleHookTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * termination policies for Amazon EC2 Auto Scaling in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const describeTerminationPolicyTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeTerminationPolicyTypesRequest,
-    output: DescribeTerminationPolicyTypesAnswer,
-    errors: [ResourceContentionFault],
-  }));
+export const describeTerminationPolicyTypes: (
+  input: DescribeTerminationPolicyTypesRequest,
+) => Effect.Effect<
+  DescribeTerminationPolicyTypesAnswer,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTerminationPolicyTypesRequest,
+  output: DescribeTerminationPolicyTypesAnswer,
+  errors: [ResourceContentionFault],
+}));
 /**
  * This API operation is superseded by DetachTrafficSources, which
  * can detach multiple traffic sources types. We recommend using
@@ -4278,7 +4413,13 @@ export const describeTerminationPolicyTypes =
  * can no longer describe the load balancer using the DescribeLoadBalancers
  * API call. The instances remain running.
  */
-export const detachLoadBalancers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detachLoadBalancers: (
+  input: DetachLoadBalancersType,
+) => Effect.Effect<
+  DetachLoadBalancersResultType,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachLoadBalancersType,
   output: DetachLoadBalancersResultType,
   errors: [ResourceContentionFault],
@@ -4303,12 +4444,17 @@ export const detachLoadBalancers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * AttachLoadBalancerTargetGroups, but not for target groups that
  * were attached by using AttachTrafficSources.
  */
-export const detachLoadBalancerTargetGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DetachLoadBalancerTargetGroupsType,
-    output: DetachLoadBalancerTargetGroupsResultType,
-    errors: [ResourceContentionFault],
-  }));
+export const detachLoadBalancerTargetGroups: (
+  input: DetachLoadBalancerTargetGroupsType,
+) => Effect.Effect<
+  DetachLoadBalancerTargetGroupsResultType,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachLoadBalancerTargetGroupsType,
+  output: DetachLoadBalancerTargetGroupsResultType,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Detaches one or more traffic sources from the specified Auto Scaling group.
  *
@@ -4318,23 +4464,31 @@ export const detachLoadBalancerTargetGroups =
  * DescribeTrafficSources
  * API call. The instances continue to run.
  */
-export const detachTrafficSources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetachTrafficSourcesType,
-    output: DetachTrafficSourcesResultType,
-    errors: [ResourceContentionFault],
-  }),
-);
+export const detachTrafficSources: (
+  input: DetachTrafficSourcesType,
+) => Effect.Effect<
+  DetachTrafficSourcesResultType,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachTrafficSourcesType,
+  output: DetachTrafficSourcesResultType,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Disables group metrics collection for the specified Auto Scaling group.
  */
-export const disableMetricsCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisableMetricsCollectionQuery,
-    output: DisableMetricsCollectionResponse,
-    errors: [ResourceContentionFault],
-  }),
-);
+export const disableMetricsCollection: (
+  input: DisableMetricsCollectionQuery,
+) => Effect.Effect<
+  DisableMetricsCollectionResponse,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableMetricsCollectionQuery,
+  output: DisableMetricsCollectionResponse,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Enables group metrics collection for the specified Auto Scaling group.
  *
@@ -4344,13 +4498,17 @@ export const disableMetricsCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * CloudWatch metrics for your Auto Scaling groups and instances in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const enableMetricsCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: EnableMetricsCollectionQuery,
-    output: EnableMetricsCollectionResponse,
-    errors: [ResourceContentionFault],
-  }),
-);
+export const enableMetricsCollection: (
+  input: EnableMetricsCollectionQuery,
+) => Effect.Effect<
+  EnableMetricsCollectionResponse,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableMetricsCollectionQuery,
+  output: EnableMetricsCollectionResponse,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Records a heartbeat for the lifecycle action associated with the specified token or
  * instance. This extends the timeout by the length of time defined using the
@@ -4383,12 +4541,17 @@ export const enableMetricsCollection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Amazon EC2 Auto Scaling lifecycle
  * hooks in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const recordLifecycleActionHeartbeat =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RecordLifecycleActionHeartbeatType,
-    output: RecordLifecycleActionHeartbeatAnswer,
-    errors: [ResourceContentionFault],
-  }));
+export const recordLifecycleActionHeartbeat: (
+  input: RecordLifecycleActionHeartbeatType,
+) => Effect.Effect<
+  RecordLifecycleActionHeartbeatAnswer,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RecordLifecycleActionHeartbeatType,
+  output: RecordLifecycleActionHeartbeatAnswer,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Sets the health status of the specified instance.
  *
@@ -4396,7 +4559,13 @@ export const recordLifecycleActionHeartbeat =
  * health check for your Auto Scaling group in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const setInstanceHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setInstanceHealth: (
+  input: SetInstanceHealthQuery,
+) => Effect.Effect<
+  SetInstanceHealthResponse,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetInstanceHealthQuery,
   output: SetInstanceHealthResponse,
   errors: [ResourceContentionFault],
@@ -4413,33 +4582,46 @@ export const setInstanceHealth = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - `PercentChangeInCapacity`
  */
-export const describeAdjustmentTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAdjustmentTypesRequest,
-    output: DescribeAdjustmentTypesAnswer,
-    errors: [ResourceContentionFault],
-  }),
-);
+export const describeAdjustmentTypes: (
+  input: DescribeAdjustmentTypesRequest,
+) => Effect.Effect<
+  DescribeAdjustmentTypesAnswer,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAdjustmentTypesRequest,
+  output: DescribeAdjustmentTypesAnswer,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling.
  */
-export const describeMetricCollectionTypes =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeMetricCollectionTypesRequest,
-    output: DescribeMetricCollectionTypesAnswer,
-    errors: [ResourceContentionFault],
-  }));
+export const describeMetricCollectionTypes: (
+  input: DescribeMetricCollectionTypesRequest,
+) => Effect.Effect<
+  DescribeMetricCollectionTypesAnswer,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeMetricCollectionTypesRequest,
+  output: DescribeMetricCollectionTypesAnswer,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Describes the scaling process types for use with the ResumeProcesses
  * and SuspendProcesses APIs.
  */
-export const describeScalingProcessTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeScalingProcessTypesRequest,
-    output: ProcessesType,
-    errors: [ResourceContentionFault],
-  }),
-);
+export const describeScalingProcessTypes: (
+  input: DescribeScalingProcessTypesRequest,
+) => Effect.Effect<
+  ProcessesType,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeScalingProcessTypesRequest,
+  output: ProcessesType,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Removes one or more instances from the specified Auto Scaling group.
  *
@@ -4456,7 +4638,13 @@ export const describeScalingProcessTypes = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Detach
  * or attach instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const detachInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detachInstances: (
+  input: DetachInstancesQuery,
+) => Effect.Effect<
+  DetachInstancesAnswer,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachInstancesQuery,
   output: DetachInstancesAnswer,
   errors: [ResourceContentionFault],
@@ -4476,7 +4664,13 @@ export const detachInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * instances from your Auto Scaling group in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const enterStandby = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enterStandby: (
+  input: EnterStandbyQuery,
+) => Effect.Effect<
+  EnterStandbyAnswer,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnterStandbyQuery,
   output: EnterStandbyAnswer,
   errors: [ResourceContentionFault],
@@ -4491,7 +4685,13 @@ export const enterStandby = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * instances from your Auto Scaling group in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const exitStandby = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const exitStandby: (
+  input: ExitStandbyQuery,
+) => Effect.Effect<
+  ExitStandbyAnswer,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExitStandbyQuery,
   output: ExitStandbyAnswer,
   errors: [ResourceContentionFault],
@@ -4511,7 +4711,16 @@ export const exitStandby = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Warm pools for
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const putWarmPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putWarmPool: (
+  input: PutWarmPoolType,
+) => Effect.Effect<
+  PutWarmPoolAnswer,
+  | InstanceRefreshInProgressFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutWarmPoolType,
   output: PutWarmPoolAnswer,
   errors: [
@@ -4531,7 +4740,13 @@ export const putWarmPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To resume processes that have been suspended, call the ResumeProcesses API.
  */
-export const suspendProcesses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const suspendProcesses: (
+  input: ScalingProcessQuery,
+) => Effect.Effect<
+  SuspendProcessesResponse,
+  ResourceContentionFault | ResourceInUseFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalingProcessQuery,
   output: SuspendProcessesResponse,
   errors: [ResourceContentionFault, ResourceInUseFault],
@@ -4550,12 +4765,20 @@ export const suspendProcesses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you try to schedule your action in the past, Amazon EC2 Auto Scaling returns an error
  * message.
  */
-export const putScheduledUpdateGroupAction =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutScheduledUpdateGroupActionType,
-    output: PutScheduledUpdateGroupActionResponse,
-    errors: [AlreadyExistsFault, LimitExceededFault, ResourceContentionFault],
-  }));
+export const putScheduledUpdateGroupAction: (
+  input: PutScheduledUpdateGroupActionType,
+) => Effect.Effect<
+  PutScheduledUpdateGroupActionResponse,
+  | AlreadyExistsFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutScheduledUpdateGroupActionType,
+  output: PutScheduledUpdateGroupActionResponse,
+  errors: [AlreadyExistsFault, LimitExceededFault, ResourceContentionFault],
+}));
 /**
  * Creates or updates a lifecycle hook for the specified Auto Scaling group.
  *
@@ -4597,7 +4820,13 @@ export const putScheduledUpdateGroupAction =
  * DescribeLifecycleHooks API call. If you are no longer using a lifecycle
  * hook, you can delete it by calling the DeleteLifecycleHook API.
  */
-export const putLifecycleHook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putLifecycleHook: (
+  input: PutLifecycleHookType,
+) => Effect.Effect<
+  PutLifecycleHookAnswer,
+  LimitExceededFault | ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLifecycleHookType,
   output: PutLifecycleHookAnswer,
   errors: [LimitExceededFault, ResourceContentionFault],
@@ -4613,13 +4842,17 @@ export const putLifecycleHook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call
  * fails.
  */
-export const setInstanceProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetInstanceProtectionQuery,
-    output: SetInstanceProtectionAnswer,
-    errors: [LimitExceededFault, ResourceContentionFault],
-  }),
-);
+export const setInstanceProtection: (
+  input: SetInstanceProtectionQuery,
+) => Effect.Effect<
+  SetInstanceProtectionAnswer,
+  LimitExceededFault | ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetInstanceProtectionQuery,
+  output: SetInstanceProtectionAnswer,
+  errors: [LimitExceededFault, ResourceContentionFault],
+}));
 /**
  * Creates or updates tags for the specified Auto Scaling group.
  *
@@ -4629,7 +4862,17 @@ export const setInstanceProtection = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Tag Auto Scaling groups and
  * instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const createOrUpdateTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createOrUpdateTags: (
+  input: CreateOrUpdateTagsType,
+) => Effect.Effect<
+  CreateOrUpdateTagsResponse,
+  | AlreadyExistsFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | ResourceInUseFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrUpdateTagsType,
   output: CreateOrUpdateTagsResponse,
   errors: [
@@ -4654,7 +4897,13 @@ export const createOrUpdateTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Detach
  * or attach instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const attachInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const attachInstances: (
+  input: AttachInstancesQuery,
+) => Effect.Effect<
+  AttachInstancesResponse,
+  ResourceContentionFault | ServiceLinkedRoleFailure | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachInstancesQuery,
   output: AttachInstancesResponse,
   errors: [ResourceContentionFault, ServiceLinkedRoleFailure],
@@ -4683,34 +4932,51 @@ export const attachInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Delete your Auto Scaling
  * infrastructure in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const deleteAutoScalingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAutoScalingGroupType,
-    output: DeleteAutoScalingGroupResponse,
-    errors: [
-      ResourceContentionFault,
-      ResourceInUseFault,
-      ScalingActivityInProgressFault,
-    ],
-  }),
-);
+export const deleteAutoScalingGroup: (
+  input: DeleteAutoScalingGroupType,
+) => Effect.Effect<
+  DeleteAutoScalingGroupResponse,
+  | ResourceContentionFault
+  | ResourceInUseFault
+  | ScalingActivityInProgressFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAutoScalingGroupType,
+  output: DeleteAutoScalingGroupResponse,
+  errors: [
+    ResourceContentionFault,
+    ResourceInUseFault,
+    ScalingActivityInProgressFault,
+  ],
+}));
 /**
  * Deletes the specified launch configuration.
  *
  * The launch configuration must not be attached to an Auto Scaling group. When this call
  * completes, the launch configuration is no longer available for use.
  */
-export const deleteLaunchConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: LaunchConfigurationNameType,
-    output: DeleteLaunchConfigurationResponse,
-    errors: [ResourceContentionFault, ResourceInUseFault],
-  }),
-);
+export const deleteLaunchConfiguration: (
+  input: LaunchConfigurationNameType,
+) => Effect.Effect<
+  DeleteLaunchConfigurationResponse,
+  ResourceContentionFault | ResourceInUseFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: LaunchConfigurationNameType,
+  output: DeleteLaunchConfigurationResponse,
+  errors: [ResourceContentionFault, ResourceInUseFault],
+}));
 /**
  * Deletes the specified tags.
  */
-export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTags: (
+  input: DeleteTagsType,
+) => Effect.Effect<
+  DeleteTagsResponse,
+  ResourceContentionFault | ResourceInUseFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsType,
   output: DeleteTagsResponse,
   errors: [ResourceContentionFault, ResourceInUseFault],
@@ -4722,7 +4988,13 @@ export const deleteTags = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Suspend and resume
  * Amazon EC2 Auto Scaling processes in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const resumeProcesses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const resumeProcesses: (
+  input: ScalingProcessQuery,
+) => Effect.Effect<
+  ResumeProcessesResponse,
+  ResourceContentionFault | ResourceInUseFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScalingProcessQuery,
   output: ResumeProcessesResponse,
   errors: [ResourceContentionFault, ResourceInUseFault],
@@ -4733,7 +5005,17 @@ export const resumeProcesses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Warm pools for
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const deleteWarmPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWarmPool: (
+  input: DeleteWarmPoolType,
+) => Effect.Effect<
+  DeleteWarmPoolAnswer,
+  | LimitExceededFault
+  | ResourceContentionFault
+  | ResourceInUseFault
+  | ScalingActivityInProgressFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWarmPoolType,
   output: DeleteWarmPoolAnswer,
   errors: [
@@ -4747,7 +5029,15 @@ export const deleteWarmPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Executes the specified policy. This can be useful for testing the design of your
  * scaling policy.
  */
-export const executePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const executePolicy: (
+  input: ExecutePolicyType,
+) => Effect.Effect<
+  ExecutePolicyResponse,
+  | ResourceContentionFault
+  | ScalingActivityInProgressFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecutePolicyType,
   output: ExecutePolicyResponse,
   errors: [ResourceContentionFault, ScalingActivityInProgressFault],
@@ -4762,7 +5052,15 @@ export const executePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information, see Manual
  * scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const setDesiredCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setDesiredCapacity: (
+  input: SetDesiredCapacityType,
+) => Effect.Effect<
+  SetDesiredCapacityResponse,
+  | ResourceContentionFault
+  | ScalingActivityInProgressFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetDesiredCapacityType,
   output: SetDesiredCapacityResponse,
   errors: [ResourceContentionFault, ScalingActivityInProgressFault],
@@ -4785,12 +5083,19 @@ export const setDesiredCapacity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * terminate instances in other zones. For more information, see Manual
  * scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const terminateInstanceInAutoScalingGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: TerminateInstanceInAutoScalingGroupType,
-    output: ActivityType,
-    errors: [ResourceContentionFault, ScalingActivityInProgressFault],
-  }));
+export const terminateInstanceInAutoScalingGroup: (
+  input: TerminateInstanceInAutoScalingGroupType,
+) => Effect.Effect<
+  ActivityType,
+  | ResourceContentionFault
+  | ScalingActivityInProgressFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TerminateInstanceInAutoScalingGroupType,
+  output: ActivityType,
+  errors: [ResourceContentionFault, ScalingActivityInProgressFault],
+}));
 /**
  * Deletes the specified scaling policy.
  *
@@ -4801,7 +5106,13 @@ export const terminateInstanceInAutoScalingGroup =
  * For more information, see Delete a scaling
  * policy in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePolicy: (
+  input: DeletePolicyType,
+) => Effect.Effect<
+  DeletePolicyResponse,
+  ResourceContentionFault | ServiceLinkedRoleFailure | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyType,
   output: DeletePolicyResponse,
   errors: [ResourceContentionFault, ServiceLinkedRoleFailure],
@@ -4828,7 +5139,16 @@ export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * distribute traffic across the instances in your Auto Scaling group in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const attachLoadBalancers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const attachLoadBalancers: (
+  input: AttachLoadBalancersType,
+) => Effect.Effect<
+  AttachLoadBalancersResultType,
+  | InstanceRefreshInProgressFault
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachLoadBalancersType,
   output: AttachLoadBalancersResultType,
   errors: [
@@ -4860,17 +5180,24 @@ export const attachLoadBalancers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * group. To detach a traffic source from the Auto Scaling group, call the
  * DetachTrafficSources API.
  */
-export const attachTrafficSources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AttachTrafficSourcesType,
-    output: AttachTrafficSourcesResultType,
-    errors: [
-      InstanceRefreshInProgressFault,
-      ResourceContentionFault,
-      ServiceLinkedRoleFailure,
-    ],
-  }),
-);
+export const attachTrafficSources: (
+  input: AttachTrafficSourcesType,
+) => Effect.Effect<
+  AttachTrafficSourcesResultType,
+  | InstanceRefreshInProgressFault
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachTrafficSourcesType,
+  output: AttachTrafficSourcesResultType,
+  errors: [
+    InstanceRefreshInProgressFault,
+    ResourceContentionFault,
+    ServiceLinkedRoleFailure,
+  ],
+}));
 /**
  * **We strongly recommend that all Auto Scaling groups use launch templates to ensure full functionality for Amazon EC2 Auto Scaling and Amazon EC2.**
  *
@@ -4914,17 +5241,24 @@ export const attachTrafficSources = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * group, call the DescribePolicies API. If the group has scaling
  * policies, you can update them by calling the PutScalingPolicy API.
  */
-export const updateAutoScalingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAutoScalingGroupType,
-    output: UpdateAutoScalingGroupResponse,
-    errors: [
-      ResourceContentionFault,
-      ScalingActivityInProgressFault,
-      ServiceLinkedRoleFailure,
-    ],
-  }),
-);
+export const updateAutoScalingGroup: (
+  input: UpdateAutoScalingGroupType,
+) => Effect.Effect<
+  UpdateAutoScalingGroupResponse,
+  | ResourceContentionFault
+  | ScalingActivityInProgressFault
+  | ServiceLinkedRoleFailure
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAutoScalingGroupType,
+  output: UpdateAutoScalingGroupResponse,
+  errors: [
+    ResourceContentionFault,
+    ScalingActivityInProgressFault,
+    ServiceLinkedRoleFailure,
+  ],
+}));
 /**
  * This API operation is superseded by AttachTrafficSources, which
  * can attach multiple traffic sources types. We recommend using
@@ -4956,16 +5290,24 @@ export const updateAutoScalingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * distribute traffic across the instances in your Auto Scaling group in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const attachLoadBalancerTargetGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AttachLoadBalancerTargetGroupsType,
-    output: AttachLoadBalancerTargetGroupsResultType,
-    errors: [
-      InstanceRefreshInProgressFault,
-      ResourceContentionFault,
-      ServiceLinkedRoleFailure,
-    ],
-  }));
+export const attachLoadBalancerTargetGroups: (
+  input: AttachLoadBalancerTargetGroupsType,
+) => Effect.Effect<
+  AttachLoadBalancerTargetGroupsResultType,
+  | InstanceRefreshInProgressFault
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachLoadBalancerTargetGroupsType,
+  output: AttachLoadBalancerTargetGroupsResultType,
+  errors: [
+    InstanceRefreshInProgressFault,
+    ResourceContentionFault,
+    ServiceLinkedRoleFailure,
+  ],
+}));
 /**
  * Configures an Auto Scaling group to send notifications when specified events take place.
  * Subscribers to the specified topic can have messages delivered to an endpoint such as a
@@ -4980,35 +5322,55 @@ export const attachLoadBalancerTargetGroups =
  * If you exceed your maximum limit of SNS topics, which is 10 per Auto Scaling group, the call
  * fails.
  */
-export const putNotificationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutNotificationConfigurationType,
-    output: PutNotificationConfigurationResponse,
-    errors: [
-      LimitExceededFault,
-      ResourceContentionFault,
-      ServiceLinkedRoleFailure,
-    ],
-  }));
+export const putNotificationConfiguration: (
+  input: PutNotificationConfigurationType,
+) => Effect.Effect<
+  PutNotificationConfigurationResponse,
+  | LimitExceededFault
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutNotificationConfigurationType,
+  output: PutNotificationConfigurationResponse,
+  errors: [
+    LimitExceededFault,
+    ResourceContentionFault,
+    ServiceLinkedRoleFailure,
+  ],
+}));
 /**
  * Deletes one or more scheduled actions for the specified Auto Scaling group.
  */
-export const batchDeleteScheduledAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchDeleteScheduledActionType,
-    output: BatchDeleteScheduledActionAnswer,
-    errors: [ResourceContentionFault],
-  }),
-);
+export const batchDeleteScheduledAction: (
+  input: BatchDeleteScheduledActionType,
+) => Effect.Effect<
+  BatchDeleteScheduledActionAnswer,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteScheduledActionType,
+  output: BatchDeleteScheduledActionAnswer,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Creates or updates one or more scheduled scaling actions for an Auto Scaling group.
  */
-export const batchPutScheduledUpdateGroupAction =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchPutScheduledUpdateGroupActionType,
-    output: BatchPutScheduledUpdateGroupActionAnswer,
-    errors: [AlreadyExistsFault, LimitExceededFault, ResourceContentionFault],
-  }));
+export const batchPutScheduledUpdateGroupAction: (
+  input: BatchPutScheduledUpdateGroupActionType,
+) => Effect.Effect<
+  BatchPutScheduledUpdateGroupActionAnswer,
+  | AlreadyExistsFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchPutScheduledUpdateGroupActionType,
+  output: BatchPutScheduledUpdateGroupActionAnswer,
+  errors: [AlreadyExistsFault, LimitExceededFault, ResourceContentionFault],
+}));
 /**
  * Cancels an instance refresh or rollback that is in progress. If an instance refresh or
  * rollback is not in progress, an `ActiveInstanceRefreshNotFound` error
@@ -5021,17 +5383,24 @@ export const batchPutScheduledUpdateGroupAction =
  * When you cancel an instance refresh, this does not roll back any changes that it made.
  * Use the RollbackInstanceRefresh API to roll back instead.
  */
-export const cancelInstanceRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelInstanceRefreshType,
-    output: CancelInstanceRefreshAnswer,
-    errors: [
-      ActiveInstanceRefreshNotFoundFault,
-      LimitExceededFault,
-      ResourceContentionFault,
-    ],
-  }),
-);
+export const cancelInstanceRefresh: (
+  input: CancelInstanceRefreshType,
+) => Effect.Effect<
+  CancelInstanceRefreshAnswer,
+  | ActiveInstanceRefreshNotFoundFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelInstanceRefreshType,
+  output: CancelInstanceRefreshAnswer,
+  errors: [
+    ActiveInstanceRefreshNotFoundFault,
+    LimitExceededFault,
+    ResourceContentionFault,
+  ],
+}));
 /**
  * Creates a launch configuration.
  *
@@ -5048,23 +5417,34 @@ export const cancelInstanceRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * launch configurations. They do not provide full functionality for Amazon EC2 Auto Scaling or Amazon EC2.
  * For information about using launch templates, see Launch templates in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const createLaunchConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateLaunchConfigurationType,
-    output: CreateLaunchConfigurationResponse,
-    errors: [AlreadyExistsFault, LimitExceededFault, ResourceContentionFault],
-  }),
-);
+export const createLaunchConfiguration: (
+  input: CreateLaunchConfigurationType,
+) => Effect.Effect<
+  CreateLaunchConfigurationResponse,
+  | AlreadyExistsFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLaunchConfigurationType,
+  output: CreateLaunchConfigurationResponse,
+  errors: [AlreadyExistsFault, LimitExceededFault, ResourceContentionFault],
+}));
 /**
  * Gets information about the lifecycle hooks for the specified Auto Scaling group.
  */
-export const describeLifecycleHooks = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeLifecycleHooksType,
-    output: DescribeLifecycleHooksAnswer,
-    errors: [ResourceContentionFault],
-  }),
-);
+export const describeLifecycleHooks: (
+  input: DescribeLifecycleHooksType,
+) => Effect.Effect<
+  DescribeLifecycleHooksAnswer,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLifecycleHooksType,
+  output: DescribeLifecycleHooksAnswer,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Retrieves the forecast data for a predictive scaling policy.
  *
@@ -5079,52 +5459,111 @@ export const describeLifecycleHooks = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see Predictive
  * scaling for Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const getPredictiveScalingForecast =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetPredictiveScalingForecastType,
-    output: GetPredictiveScalingForecastAnswer,
-    errors: [ResourceContentionFault],
-  }));
+export const getPredictiveScalingForecast: (
+  input: GetPredictiveScalingForecastType,
+) => Effect.Effect<
+  GetPredictiveScalingForecastAnswer,
+  ResourceContentionFault | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPredictiveScalingForecastType,
+  output: GetPredictiveScalingForecastAnswer,
+  errors: [ResourceContentionFault],
+}));
 /**
  * Gets information about the Auto Scaling instances in the account and Region.
  */
-export const describeAutoScalingInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAutoScalingInstances: {
+  (
     input: DescribeAutoScalingInstancesType,
-    output: AutoScalingInstancesType,
-    errors: [InvalidNextToken, ResourceContentionFault],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AutoScalingInstances",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    AutoScalingInstancesType,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeAutoScalingInstancesType,
+  ) => Stream.Stream<
+    AutoScalingInstancesType,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeAutoScalingInstancesType,
+  ) => Stream.Stream<
+    AutoScalingInstanceDetails,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeAutoScalingInstancesType,
+  output: AutoScalingInstancesType,
+  errors: [InvalidNextToken, ResourceContentionFault],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AutoScalingInstances",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Gets information about the scaling policies in the account and Region.
  */
-export const describePolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describePolicies: {
+  (
     input: DescribePoliciesType,
-    output: PoliciesType,
-    errors: [
-      InvalidNextToken,
-      ResourceContentionFault,
-      ServiceLinkedRoleFailure,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ScalingPolicies",
-      pageSize: "MaxRecords",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    PoliciesType,
+    | InvalidNextToken
+    | ResourceContentionFault
+    | ServiceLinkedRoleFailure
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribePoliciesType,
+  ) => Stream.Stream<
+    PoliciesType,
+    | InvalidNextToken
+    | ResourceContentionFault
+    | ServiceLinkedRoleFailure
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribePoliciesType,
+  ) => Stream.Stream<
+    ScalingPolicy,
+    | InvalidNextToken
+    | ResourceContentionFault
+    | ServiceLinkedRoleFailure
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribePoliciesType,
+  output: PoliciesType,
+  errors: [InvalidNextToken, ResourceContentionFault, ServiceLinkedRoleFailure],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ScalingPolicies",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Launches a specified number of instances in an Auto Scaling group. Returns instance IDs and
  * other details if launch is successful or error details if launch is unsuccessful.
  */
-export const launchInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const launchInstances: (
+  input: LaunchInstancesRequest,
+) => Effect.Effect<
+  LaunchInstancesResult,
+  | IdempotentParameterMismatchError
+  | ResourceContentionFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LaunchInstancesRequest,
   output: LaunchInstancesResult,
   errors: [IdempotentParameterMismatchError, ResourceContentionFault],
@@ -5158,17 +5597,24 @@ export const launchInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * preferences. Otherwise, to roll back an instance refresh before it finishes, use the
  * RollbackInstanceRefresh API.
  */
-export const startInstanceRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartInstanceRefreshType,
-    output: StartInstanceRefreshAnswer,
-    errors: [
-      InstanceRefreshInProgressFault,
-      LimitExceededFault,
-      ResourceContentionFault,
-    ],
-  }),
-);
+export const startInstanceRefresh: (
+  input: StartInstanceRefreshType,
+) => Effect.Effect<
+  StartInstanceRefreshAnswer,
+  | InstanceRefreshInProgressFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartInstanceRefreshType,
+  output: StartInstanceRefreshAnswer,
+  errors: [
+    InstanceRefreshInProgressFault,
+    LimitExceededFault,
+    ResourceContentionFault,
+  ],
+}));
 /**
  * Cancels an instance refresh that is in progress and rolls back any changes that it
  * made. Amazon EC2 Auto Scaling replaces any instances that were replaced during the instance refresh.
@@ -5193,33 +5639,62 @@ export const startInstanceRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * begins replacing instances. You can check the status of this operation through the
  * DescribeInstanceRefreshes API operation.
  */
-export const rollbackInstanceRefresh = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RollbackInstanceRefreshType,
-    output: RollbackInstanceRefreshAnswer,
-    errors: [
-      ActiveInstanceRefreshNotFoundFault,
-      IrreversibleInstanceRefreshFault,
-      LimitExceededFault,
-      ResourceContentionFault,
-    ],
-  }),
-);
+export const rollbackInstanceRefresh: (
+  input: RollbackInstanceRefreshType,
+) => Effect.Effect<
+  RollbackInstanceRefreshAnswer,
+  | ActiveInstanceRefreshNotFoundFault
+  | IrreversibleInstanceRefreshFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RollbackInstanceRefreshType,
+  output: RollbackInstanceRefreshAnswer,
+  errors: [
+    ActiveInstanceRefreshNotFoundFault,
+    IrreversibleInstanceRefreshFault,
+    LimitExceededFault,
+    ResourceContentionFault,
+  ],
+}));
 /**
  * Gets information about the launch configurations in the account and Region.
  */
-export const describeLaunchConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeLaunchConfigurations: {
+  (
     input: LaunchConfigurationNamesType,
-    output: LaunchConfigurationsType,
-    errors: [InvalidNextToken, ResourceContentionFault],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "LaunchConfigurations",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    LaunchConfigurationsType,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: LaunchConfigurationNamesType,
+  ) => Stream.Stream<
+    LaunchConfigurationsType,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: LaunchConfigurationNamesType,
+  ) => Stream.Stream<
+    LaunchConfiguration,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: LaunchConfigurationNamesType,
+  output: LaunchConfigurationsType,
+  errors: [InvalidNextToken, ResourceContentionFault],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LaunchConfigurations",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * This API operation is superseded by DescribeTrafficSources,
  * which can describe multiple traffic sources types. We recommend using
@@ -5256,17 +5731,38 @@ export const describeLaunchConfigurations =
  * distribute traffic across the instances in your Auto Scaling group in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const describeLoadBalancers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeLoadBalancers: {
+  (
     input: DescribeLoadBalancersRequest,
-    output: DescribeLoadBalancersResponse,
-    errors: [InvalidNextToken, ResourceContentionFault],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeLoadBalancersResponse,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeLoadBalancersRequest,
+  ) => Stream.Stream<
+    DescribeLoadBalancersResponse,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeLoadBalancersRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeLoadBalancersRequest,
+  output: DescribeLoadBalancersResponse,
+  errors: [InvalidNextToken, ResourceContentionFault],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * This API operation is superseded by DescribeTrafficSources,
  * which can describe multiple traffic sources types. We recommend using
@@ -5303,33 +5799,75 @@ export const describeLoadBalancers =
  * AttachLoadBalancerTargetGroups, but not for target groups that
  * were attached by using AttachTrafficSources.
  */
-export const describeLoadBalancerTargetGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeLoadBalancerTargetGroups: {
+  (
     input: DescribeLoadBalancerTargetGroupsRequest,
-    output: DescribeLoadBalancerTargetGroupsResponse,
-    errors: [InvalidNextToken, ResourceContentionFault],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeLoadBalancerTargetGroupsResponse,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeLoadBalancerTargetGroupsRequest,
+  ) => Stream.Stream<
+    DescribeLoadBalancerTargetGroupsResponse,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeLoadBalancerTargetGroupsRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeLoadBalancerTargetGroupsRequest,
+  output: DescribeLoadBalancerTargetGroupsResponse,
+  errors: [InvalidNextToken, ResourceContentionFault],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Gets information about the Amazon SNS notifications that are configured for one or more
  * Auto Scaling groups.
  */
-export const describeNotificationConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeNotificationConfigurations: {
+  (
     input: DescribeNotificationConfigurationsType,
-    output: DescribeNotificationConfigurationsAnswer,
-    errors: [InvalidNextToken, ResourceContentionFault],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "NotificationConfigurations",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeNotificationConfigurationsAnswer,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeNotificationConfigurationsType,
+  ) => Stream.Stream<
+    DescribeNotificationConfigurationsAnswer,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeNotificationConfigurationsType,
+  ) => Stream.Stream<
+    NotificationConfiguration,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeNotificationConfigurationsType,
+  output: DescribeNotificationConfigurationsAnswer,
+  errors: [InvalidNextToken, ResourceContentionFault],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "NotificationConfigurations",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Gets information about the scaling activities in the account and Region.
  *
@@ -5343,18 +5881,39 @@ export const describeNotificationConfigurations =
  * the `StatusMessage` element in the response indicates the cause of the
  * failure. For help interpreting the `StatusMessage`, see Troubleshooting Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const describeScalingActivities =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeScalingActivities: {
+  (
     input: DescribeScalingActivitiesType,
-    output: ActivitiesType,
-    errors: [InvalidNextToken, ResourceContentionFault],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Activities",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ActivitiesType,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeScalingActivitiesType,
+  ) => Stream.Stream<
+    ActivitiesType,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeScalingActivitiesType,
+  ) => Stream.Stream<
+    Activity,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeScalingActivitiesType,
+  output: ActivitiesType,
+  errors: [InvalidNextToken, ResourceContentionFault],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Activities",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Gets information about the scheduled actions that haven't run or that have not reached
  * their end time.
@@ -5362,18 +5921,39 @@ export const describeScalingActivities =
  * To describe the scaling activities for scheduled actions that have already run, call
  * the DescribeScalingActivities API.
  */
-export const describeScheduledActions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeScheduledActions: {
+  (
     input: DescribeScheduledActionsType,
-    output: ScheduledActionsType,
-    errors: [InvalidNextToken, ResourceContentionFault],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ScheduledUpdateGroupActions",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ScheduledActionsType,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeScheduledActionsType,
+  ) => Stream.Stream<
+    ScheduledActionsType,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeScheduledActionsType,
+  ) => Stream.Stream<
+    ScheduledUpdateGroupAction,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeScheduledActionsType,
+  output: ScheduledActionsType,
+  errors: [InvalidNextToken, ResourceContentionFault],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ScheduledUpdateGroupActions",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Describes the specified tags.
  *
@@ -5388,19 +5968,39 @@ export const describeScheduledActions =
  * For more information, see Tag Auto Scaling groups and
  * instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeTags: {
+  (
     input: DescribeTagsType,
-    output: TagsType,
-    errors: [InvalidNextToken, ResourceContentionFault],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Tags",
-      pageSize: "MaxRecords",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    TagsType,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTagsType,
+  ) => Stream.Stream<
+    TagsType,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTagsType,
+  ) => Stream.Stream<
+    TagDescription,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTagsType,
+  output: TagsType,
+  errors: [InvalidNextToken, ResourceContentionFault],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Tags",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Gets information about the traffic sources for the specified Auto Scaling group.
  *
@@ -5410,36 +6010,86 @@ export const describeTags = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * If you do not provide a traffic source type, then the results include all the traffic
  * sources for the specified Auto Scaling group.
  */
-export const describeTrafficSources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTrafficSources: {
+  (
     input: DescribeTrafficSourcesRequest,
-    output: DescribeTrafficSourcesResponse,
-    errors: [InvalidNextToken, ResourceContentionFault],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTrafficSourcesResponse,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTrafficSourcesRequest,
+  ) => Stream.Stream<
+    DescribeTrafficSourcesResponse,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTrafficSourcesRequest,
+  ) => Stream.Stream<
+    unknown,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTrafficSourcesRequest,
+  output: DescribeTrafficSourcesResponse,
+  errors: [InvalidNextToken, ResourceContentionFault],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Gets information about a warm pool and its instances.
  *
  * For more information, see Warm pools for
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const describeWarmPool = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeWarmPool: {
+  (
     input: DescribeWarmPoolType,
-    output: DescribeWarmPoolAnswer,
-    errors: [InvalidNextToken, LimitExceededFault, ResourceContentionFault],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Instances",
-      pageSize: "MaxRecords",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeWarmPoolAnswer,
+    | InvalidNextToken
+    | LimitExceededFault
+    | ResourceContentionFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeWarmPoolType,
+  ) => Stream.Stream<
+    DescribeWarmPoolAnswer,
+    | InvalidNextToken
+    | LimitExceededFault
+    | ResourceContentionFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeWarmPoolType,
+  ) => Stream.Stream<
+    Instance,
+    | InvalidNextToken
+    | LimitExceededFault
+    | ResourceContentionFault
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeWarmPoolType,
+  output: DescribeWarmPoolAnswer,
+  errors: [InvalidNextToken, LimitExceededFault, ResourceContentionFault],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Instances",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Gets information about the Auto Scaling groups in the account and Region.
  *
@@ -5452,18 +6102,39 @@ export const describeWarmPool = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * information about the instances in a warm pool, you must call the
  * DescribeWarmPool API.
  */
-export const describeAutoScalingGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeAutoScalingGroups: {
+  (
     input: AutoScalingGroupNamesType,
-    output: AutoScalingGroupsType,
-    errors: [InvalidNextToken, ResourceContentionFault],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "AutoScalingGroups",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    AutoScalingGroupsType,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: AutoScalingGroupNamesType,
+  ) => Stream.Stream<
+    AutoScalingGroupsType,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: AutoScalingGroupNamesType,
+  ) => Stream.Stream<
+    AutoScalingGroup,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: AutoScalingGroupNamesType,
+  output: AutoScalingGroupsType,
+  errors: [InvalidNextToken, ResourceContentionFault],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AutoScalingGroups",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Gets information about the instance refreshes for the specified Auto Scaling group from the
  * previous six weeks.
@@ -5479,17 +6150,38 @@ export const describeAutoScalingGroups =
  * is initiated while an instance refresh is in progress, Amazon EC2 Auto Scaling also returns information
  * about the rollback of the instance refresh.
  */
-export const describeInstanceRefreshes =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeInstanceRefreshes: {
+  (
     input: DescribeInstanceRefreshesType,
-    output: DescribeInstanceRefreshesAnswer,
-    errors: [InvalidNextToken, ResourceContentionFault],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxRecords",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeInstanceRefreshesAnswer,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeInstanceRefreshesType,
+  ) => Stream.Stream<
+    DescribeInstanceRefreshesAnswer,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeInstanceRefreshesType,
+  ) => Stream.Stream<
+    unknown,
+    InvalidNextToken | ResourceContentionFault | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeInstanceRefreshesType,
+  output: DescribeInstanceRefreshesAnswer,
+  errors: [InvalidNextToken, ResourceContentionFault],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxRecords",
+  } as const,
+}));
 /**
  * Creates or updates a scaling policy for an Auto Scaling group. Scaling policies are used to
  * scale an Auto Scaling group based on configurable metrics. If no policies are defined, the
@@ -5506,7 +6198,16 @@ export const describeInstanceRefreshes =
  * DescribePolicies API call. If you are no longer using a scaling policy,
  * you can delete it by calling the DeletePolicy API.
  */
-export const putScalingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putScalingPolicy: (
+  input: PutScalingPolicyType,
+) => Effect.Effect<
+  PolicyARNType,
+  | LimitExceededFault
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutScalingPolicyType,
   output: PolicyARNType,
   errors: [
@@ -5534,15 +6235,23 @@ export const putScalingPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * that defines weights for the instance types, you must specify these sizes with the same
  * units that you use for weighting instances.
  */
-export const createAutoScalingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAutoScalingGroupType,
-    output: CreateAutoScalingGroupResponse,
-    errors: [
-      AlreadyExistsFault,
-      LimitExceededFault,
-      ResourceContentionFault,
-      ServiceLinkedRoleFailure,
-    ],
-  }),
-);
+export const createAutoScalingGroup: (
+  input: CreateAutoScalingGroupType,
+) => Effect.Effect<
+  CreateAutoScalingGroupResponse,
+  | AlreadyExistsFault
+  | LimitExceededFault
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAutoScalingGroupType,
+  output: CreateAutoScalingGroupResponse,
+  errors: [
+    AlreadyExistsFault,
+    LimitExceededFault,
+    ResourceContentionFault,
+    ServiceLinkedRoleFailure,
+  ],
+}));

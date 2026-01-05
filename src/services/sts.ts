@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials as Creds,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("https://sts.amazonaws.com/doc/2011-06-15/");
 const svc = T.AwsApiService({
   sdkId: "STS",
@@ -627,6 +635,60 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type arnType = string;
+export type roleSessionNameType = string;
+export type unrestrictedSessionPolicyDocumentType = string;
+export type roleDurationSecondsType = number;
+export type tagKeyType = string;
+export type externalIdType = string;
+export type serialNumberType = string;
+export type tokenCodeType = string;
+export type sourceIdentityType = string;
+export type SAMLAssertionType = string;
+export type sessionPolicyDocumentType = string;
+export type clientTokenType = string;
+export type urlType = string;
+export type TargetPrincipalType = string;
+export type RootDurationSecondsType = number;
+export type encodedMessageType = string;
+export type accessKeyIdType = string;
+export type userIdType = string;
+export type accountType = string;
+export type tradeInTokenType = string;
+export type userNameType = string;
+export type durationSecondsType = number;
+export type webIdentityTokenAudienceStringType = string;
+export type webIdentityTokenDurationSecondsType = number;
+export type jwtAlgorithmType = string;
+export type tagValueType = string;
+export type contextAssertionType = string;
+export type nonNegativeIntegerType = number;
+export type Subject = string;
+export type SubjectType = string;
+export type Issuer = string;
+export type Audience = string;
+export type NameQualifier = string;
+export type webIdentitySubjectType = string;
+export type decodedMessageType = string;
+export type webIdentityTokenType = string;
+export type accessKeySecretType = string;
+export type tokenType = string;
+export type assumedRoleIdType = string;
+export type federatedIdType = string;
+export type expiredIdentityTokenMessage = string;
+export type invalidAuthorizationMessage = string;
+export type expiredTradeInTokenExceptionMessage = string;
+export type regionDisabledMessage = string;
+export type JWTPayloadSizeExceededException2 = string;
+export type idpCommunicationErrorMessage = string;
+export type packedPolicyTooLargeMessage = string;
+export type malformedPolicyDocumentMessage = string;
+export type OutboundWebIdentityFederationDisabledException2 = string;
+export type idpRejectedClaimMessage = string;
+export type SessionDurationEscalationException2 = string;
+export type invalidIdentityTokenMessage = string;
+
 //# Schemas
 export interface GetCallerIdentityRequest {}
 export const GetCallerIdentityRequest = S.suspend(() =>
@@ -1217,7 +1279,13 @@ export class InvalidIdentityTokenException extends S.TaggedError<InvalidIdentity
  * denied. To view an example response, see I Am Not Authorized to Perform: iam:DeleteVirtualMFADevice in the
  * *IAM User Guide*.
  */
-export const getCallerIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCallerIdentity: (
+  input: GetCallerIdentityRequest,
+) => Effect.Effect<
+  GetCallerIdentityResponse,
+  Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCallerIdentityRequest,
   output: GetCallerIdentityResponse,
   errors: [],
@@ -1244,7 +1312,13 @@ export const getCallerIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * inactive, or deleted. Active keys might not have permissions to perform an operation.
  * Providing a deleted access key might return an error that the key doesn't exist.
  */
-export const getAccessKeyInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAccessKeyInfo: (
+  input: GetAccessKeyInfoRequest,
+) => Effect.Effect<
+  GetAccessKeyInfoResponse,
+  Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccessKeyInfoRequest,
   output: GetAccessKeyInfoResponse,
   errors: [],
@@ -1282,13 +1356,17 @@ export const getAccessKeyInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - The values of condition keys in the context of the user's request.
  */
-export const decodeAuthorizationMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DecodeAuthorizationMessageRequest,
-    output: DecodeAuthorizationMessageResponse,
-    errors: [InvalidAuthorizationMessageException],
-  }),
-);
+export const decodeAuthorizationMessage: (
+  input: DecodeAuthorizationMessageRequest,
+) => Effect.Effect<
+  DecodeAuthorizationMessageResponse,
+  InvalidAuthorizationMessageException | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DecodeAuthorizationMessageRequest,
+  output: DecodeAuthorizationMessageResponse,
+  errors: [InvalidAuthorizationMessageException],
+}));
 /**
  * Returns a set of temporary credentials for an Amazon Web Services account or IAM user.
  * The credentials consist of an access key ID, a secret access key, and a security token.
@@ -1346,7 +1424,13 @@ export const decodeAuthorizationMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * Credentials for Users in Untrusted Environments in the
  * *IAM User Guide*.
  */
-export const getSessionToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSessionToken: (
+  input: GetSessionTokenRequest,
+) => Effect.Effect<
+  GetSessionTokenResponse,
+  RegionDisabledException | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSessionTokenRequest,
   output: GetSessionTokenResponse,
   errors: [RegionDisabledException],
@@ -1374,7 +1458,13 @@ export const getSessionToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * policies (SCPs) to manage and limit permissions in your organization. See General examples in the Organizations User
  * Guide for more information on SCPs.
  */
-export const assumeRoot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const assumeRoot: (
+  input: AssumeRootRequest,
+) => Effect.Effect<
+  AssumeRootResponse,
+  ExpiredTokenException | RegionDisabledException | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssumeRootRequest,
   output: AssumeRootResponse,
   errors: [ExpiredTokenException, RegionDisabledException],
@@ -1385,17 +1475,24 @@ export const assumeRoot = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * a specific principal based on a trade-in token, enabling delegation of access to Amazon Web Services
  * resources.
  */
-export const getDelegatedAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetDelegatedAccessTokenRequest,
-    output: GetDelegatedAccessTokenResponse,
-    errors: [
-      ExpiredTradeInTokenException,
-      PackedPolicyTooLargeException,
-      RegionDisabledException,
-    ],
-  }),
-);
+export const getDelegatedAccessToken: (
+  input: GetDelegatedAccessTokenRequest,
+) => Effect.Effect<
+  GetDelegatedAccessTokenResponse,
+  | ExpiredTradeInTokenException
+  | PackedPolicyTooLargeException
+  | RegionDisabledException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDelegatedAccessTokenRequest,
+  output: GetDelegatedAccessTokenResponse,
+  errors: [
+    ExpiredTradeInTokenException,
+    PackedPolicyTooLargeException,
+    RegionDisabledException,
+  ],
+}));
 /**
  * Returns a set of temporary security credentials (consisting of an access key ID, a
  * secret access key, and a security token) for a user. A typical use is in a proxy
@@ -1489,7 +1586,16 @@ export const getDelegatedAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * and `department` are not saved as separate tags, and the session tag passed in
  * the request takes precedence over the user tag.
  */
-export const getFederationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getFederationToken: (
+  input: GetFederationTokenRequest,
+) => Effect.Effect<
+  GetFederationTokenResponse,
+  | MalformedPolicyDocumentException
+  | PackedPolicyTooLargeException
+  | RegionDisabledException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFederationTokenRequest,
   output: GetFederationTokenResponse,
   errors: [
@@ -1593,7 +1699,17 @@ export const getFederationToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The `TokenCode` is the time-based one-time password (TOTP) that the MFA device
  * produces.
  */
-export const assumeRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const assumeRole: (
+  input: AssumeRoleRequest,
+) => Effect.Effect<
+  AssumeRoleResponse,
+  | ExpiredTokenException
+  | MalformedPolicyDocumentException
+  | PackedPolicyTooLargeException
+  | RegionDisabledException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssumeRoleRequest,
   output: AssumeRoleResponse,
   errors: [
@@ -1608,7 +1724,16 @@ export const assumeRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * The returned JWT can be used to authenticate with external services that support OIDC discovery.
  * The token is signed by Amazon Web Services STS and can be publicly verified using the verification keys published at the issuer's JWKS endpoint.
  */
-export const getWebIdentityToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWebIdentityToken: (
+  input: GetWebIdentityTokenRequest,
+) => Effect.Effect<
+  GetWebIdentityTokenResponse,
+  | JWTPayloadSizeExceededException
+  | OutboundWebIdentityFederationDisabledException
+  | SessionDurationEscalationException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWebIdentityTokenRequest,
   output: GetWebIdentityTokenResponse,
   errors: [
@@ -1743,7 +1868,19 @@ export const getWebIdentityToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * - Creating a Role for SAML 2.0 Federation in the
  * *IAM User Guide*.
  */
-export const assumeRoleWithSAML = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const assumeRoleWithSAML: (
+  input: AssumeRoleWithSAMLRequest,
+) => Effect.Effect<
+  AssumeRoleWithSAMLResponse,
+  | ExpiredTokenException
+  | IDPRejectedClaimException
+  | InvalidIdentityTokenException
+  | MalformedPolicyDocumentException
+  | PackedPolicyTooLargeException
+  | RegionDisabledException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssumeRoleWithSAMLRequest,
   output: AssumeRoleWithSAMLResponse,
   errors: [
@@ -1875,18 +2012,29 @@ export const assumeRoleWithSAML = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * show how to use the information from these providers to get and use temporary
  * security credentials.
  */
-export const assumeRoleWithWebIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssumeRoleWithWebIdentityRequest,
-    output: AssumeRoleWithWebIdentityResponse,
-    errors: [
-      ExpiredTokenException,
-      IDPCommunicationErrorException,
-      IDPRejectedClaimException,
-      InvalidIdentityTokenException,
-      MalformedPolicyDocumentException,
-      PackedPolicyTooLargeException,
-      RegionDisabledException,
-    ],
-  }),
-);
+export const assumeRoleWithWebIdentity: (
+  input: AssumeRoleWithWebIdentityRequest,
+) => Effect.Effect<
+  AssumeRoleWithWebIdentityResponse,
+  | ExpiredTokenException
+  | IDPCommunicationErrorException
+  | IDPRejectedClaimException
+  | InvalidIdentityTokenException
+  | MalformedPolicyDocumentException
+  | PackedPolicyTooLargeException
+  | RegionDisabledException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssumeRoleWithWebIdentityRequest,
+  output: AssumeRoleWithWebIdentityResponse,
+  errors: [
+    ExpiredTokenException,
+    IDPCommunicationErrorException,
+    IDPRejectedClaimException,
+    InvalidIdentityTokenException,
+    MalformedPolicyDocumentException,
+    PackedPolicyTooLargeException,
+    RegionDisabledException,
+  ],
+}));

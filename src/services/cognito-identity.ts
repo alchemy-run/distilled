@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials as Creds,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace(
   "http://cognito-identity.amazonaws.com/doc/2014-06-30/",
 );
@@ -319,6 +327,34 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type IdentityPoolName = string;
+export type DeveloperProviderName = string;
+export type ARNString = string;
+export type IdentityId = string;
+export type IdentityPoolId = string;
+export type AccountId = string;
+export type TokenDuration = number;
+export type IdentityProviderName = string;
+export type QueryLimit = number;
+export type PaginationKey = string;
+export type DeveloperUserIdentifier = string;
+export type TagKeysType = string;
+export type IdentityProviderId = string;
+export type CognitoIdentityProviderName = string;
+export type CognitoIdentityProviderClientId = string;
+export type TagValueType = string;
+export type IdentityProviderToken = string;
+export type PrincipalTagID = string;
+export type PrincipalTagValue = string;
+export type RoleType = string;
+export type OIDCToken = string;
+export type ClaimName = string;
+export type ClaimValue = string;
+export type AccessKeyString = string;
+export type SecretKeyString = string;
+export type SessionTokenString = string;
 
 //# Schemas
 export type OIDCProviderList = string[];
@@ -1216,7 +1252,9 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -1238,7 +1276,16 @@ export class ResourceConflictException extends S.TaggedError<ResourceConflictExc
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const deleteIdentities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIdentities: (
+  input: DeleteIdentitiesInput,
+) => Effect.Effect<
+  DeleteIdentitiesResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIdentitiesInput,
   output: DeleteIdentitiesResponse,
   errors: [
@@ -1254,7 +1301,18 @@ export const deleteIdentities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const deleteIdentityPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteIdentityPool: (
+  input: DeleteIdentityPoolInput,
+) => Effect.Effect<
+  DeleteIdentityPoolResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIdentityPoolInput,
   output: DeleteIdentityPoolResponse,
   errors: [
@@ -1283,66 +1341,124 @@ export const deleteIdentityPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const getOpenIdTokenForDeveloperIdentity =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetOpenIdTokenForDeveloperIdentityInput,
-    output: GetOpenIdTokenForDeveloperIdentityResponse,
-    errors: [
-      DeveloperUserAlreadyRegisteredException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }));
+export const getOpenIdTokenForDeveloperIdentity: (
+  input: GetOpenIdTokenForDeveloperIdentityInput,
+) => Effect.Effect<
+  GetOpenIdTokenForDeveloperIdentityResponse,
+  | DeveloperUserAlreadyRegisteredException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOpenIdTokenForDeveloperIdentityInput,
+  output: GetOpenIdTokenForDeveloperIdentityResponse,
+  errors: [
+    DeveloperUserAlreadyRegisteredException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action.
  *
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const setIdentityPoolRoles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetIdentityPoolRolesInput,
-    output: SetIdentityPoolRolesResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const setIdentityPoolRoles: (
+  input: SetIdentityPoolRolesInput,
+) => Effect.Effect<
+  SetIdentityPoolRolesResponse,
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetIdentityPoolRolesInput,
+  output: SetIdentityPoolRolesResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Lists all of the Cognito identity pools registered for your account.
  *
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const listIdentityPools = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listIdentityPools: {
+  (
     input: ListIdentityPoolsInput,
-    output: ListIdentityPoolsResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "IdentityPools",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListIdentityPoolsResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdentityPoolsInput,
+  ) => Stream.Stream<
+    ListIdentityPoolsResponse,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdentityPoolsInput,
+  ) => Stream.Stream<
+    IdentityPoolShortDescription,
+    | InternalErrorException
+    | InvalidParameterException
+    | NotAuthorizedException
+    | ResourceNotFoundException
+    | TooManyRequestsException
+    | Errors.CommonErrors,
+    Creds.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdentityPoolsInput,
+  output: ListIdentityPoolsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IdentityPools",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns metadata related to the given identity, including when the identity was
  * created and any associated linked logins.
@@ -1350,7 +1466,18 @@ export const listIdentityPools = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const describeIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeIdentity: (
+  input: DescribeIdentityInput,
+) => Effect.Effect<
+  IdentityDescription,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIdentityInput,
   output: IdentityDescription,
   errors: [
@@ -1365,26 +1492,46 @@ export const describeIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Use `GetPrincipalTagAttributeMap` to list all mappings between
  * `PrincipalTags` and user attributes.
  */
-export const getPrincipalTagAttributeMap = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPrincipalTagAttributeMapInput,
-    output: GetPrincipalTagAttributeMapResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getPrincipalTagAttributeMap: (
+  input: GetPrincipalTagAttributeMapInput,
+) => Effect.Effect<
+  GetPrincipalTagAttributeMapResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPrincipalTagAttributeMapInput,
+  output: GetPrincipalTagAttributeMapResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Lists the identities in an identity pool.
  *
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const listIdentities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listIdentities: (
+  input: ListIdentitiesInput,
+) => Effect.Effect<
+  ListIdentitiesResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListIdentitiesInput,
   output: ListIdentitiesResponse,
   errors: [
@@ -1403,7 +1550,18 @@ export const listIdentities = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can use this action up to 10 times per second, per account.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1418,19 +1576,28 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can use this operation to use default (username and clientID) attribute or custom
  * attribute mappings.
  */
-export const setPrincipalTagAttributeMap = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetPrincipalTagAttributeMapInput,
-    output: SetPrincipalTagAttributeMapResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const setPrincipalTagAttributeMap: (
+  input: SetPrincipalTagAttributeMapInput,
+) => Effect.Effect<
+  SetPrincipalTagAttributeMapResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetPrincipalTagAttributeMapInput,
+  output: SetPrincipalTagAttributeMapResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets details about a particular identity pool, including the pool name, ID
  * description, creation date, and current number of users.
@@ -1438,19 +1605,28 @@ export const setPrincipalTagAttributeMap = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const describeIdentityPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeIdentityPoolInput,
-    output: IdentityPool,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const describeIdentityPool: (
+  input: DescribeIdentityPoolInput,
+) => Effect.Effect<
+  IdentityPool,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIdentityPoolInput,
+  output: IdentityPool,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Assigns a set of tags to the specified Amazon Cognito identity pool. A tag is a label
  * that you can use to categorize and manage identity pools in different ways, such as by
@@ -1471,7 +1647,18 @@ export const describeIdentityPool = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You can use this action up to 5 times per second, per account. An identity pool can have
  * as many as 50 tags.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceInput,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceResponse,
   errors: [
@@ -1486,7 +1673,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes the specified tags from the specified Amazon Cognito identity pool. You can use
  * this action up to 5 times per second, per account
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceInput,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceResponse,
   errors: [
@@ -1505,7 +1703,21 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const updateIdentityPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateIdentityPool: (
+  input: IdentityPool,
+) => Effect.Effect<
+  IdentityPool,
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IdentityPool,
   output: IdentityPool,
   errors: [
@@ -1525,20 +1737,30 @@ export const updateIdentityPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const getIdentityPoolRoles = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIdentityPoolRolesInput,
-    output: GetIdentityPoolRolesResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getIdentityPoolRoles: (
+  input: GetIdentityPoolRolesInput,
+) => Effect.Effect<
+  GetIdentityPoolRolesResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdentityPoolRolesInput,
+  output: GetIdentityPoolRolesResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Retrieves the `IdentityID` associated with a
  * `DeveloperUserIdentifier` or the list of `DeveloperUserIdentifier`
@@ -1560,20 +1782,30 @@ export const getIdentityPoolRoles = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const lookupDeveloperIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: LookupDeveloperIdentityInput,
-    output: LookupDeveloperIdentityResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const lookupDeveloperIdentity: (
+  input: LookupDeveloperIdentityInput,
+) => Effect.Effect<
+  LookupDeveloperIdentityResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: LookupDeveloperIdentityInput,
+  output: LookupDeveloperIdentityResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Merges two users having different `IdentityId`s, existing in the same
  * identity pool, and identified by the same developer provider. You can use this action to
@@ -1592,20 +1824,30 @@ export const lookupDeveloperIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const mergeDeveloperIdentities = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: MergeDeveloperIdentitiesInput,
-    output: MergeDeveloperIdentitiesResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const mergeDeveloperIdentities: (
+  input: MergeDeveloperIdentitiesInput,
+) => Effect.Effect<
+  MergeDeveloperIdentitiesResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: MergeDeveloperIdentitiesInput,
+  output: MergeDeveloperIdentitiesResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Unlinks a federated identity from an existing account. Unlinked logins will be
  * considered new identities next time they are seen. Removing the last linked login will make
@@ -1613,7 +1855,20 @@ export const mergeDeveloperIdentities = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This is a public API. You do not need any credentials to call this API.
  */
-export const unlinkIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const unlinkIdentity: (
+  input: UnlinkIdentityInput,
+) => Effect.Effect<
+  UnlinkIdentityResponse,
+  | ExternalServiceException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnlinkIdentityInput,
   output: UnlinkIdentityResponse,
   errors: [
@@ -1635,20 +1890,30 @@ export const unlinkIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const unlinkDeveloperIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UnlinkDeveloperIdentityInput,
-    output: UnlinkDeveloperIdentityResponse,
-    errors: [
-      InternalErrorException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const unlinkDeveloperIdentity: (
+  input: UnlinkDeveloperIdentityInput,
+) => Effect.Effect<
+  UnlinkDeveloperIdentityResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UnlinkDeveloperIdentityInput,
+  output: UnlinkDeveloperIdentityResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by
  * GetId. You can optionally add additional logins for the identity.
@@ -1658,7 +1923,20 @@ export const unlinkDeveloperIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * This is a public API. You do not need any credentials to call this API.
  */
-export const getOpenIdToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getOpenIdToken: (
+  input: GetOpenIdTokenInput,
+) => Effect.Effect<
+  GetOpenIdTokenResponse,
+  | ExternalServiceException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOpenIdTokenInput,
   output: GetOpenIdTokenResponse,
   errors: [
@@ -1693,7 +1971,19 @@ export const getOpenIdToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const createIdentityPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createIdentityPool: (
+  input: CreateIdentityPoolInput,
+) => Effect.Effect<
+  IdentityPool,
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIdentityPoolInput,
   output: IdentityPool,
   errors: [
@@ -1711,7 +2001,21 @@ export const createIdentityPool = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This is a public API. You do not need any credentials to call this API.
  */
-export const getId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getId: (
+  input: GetIdInput,
+) => Effect.Effect<
+  GetIdResponse,
+  | ExternalServiceException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdInput,
   output: GetIdResponse,
   errors: [
@@ -1732,19 +2036,31 @@ export const getId = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This is a public API. You do not need any credentials to call this API.
  */
-export const getCredentialsForIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCredentialsForIdentityInput,
-    output: GetCredentialsForIdentityResponse,
-    errors: [
-      ExternalServiceException,
-      InternalErrorException,
-      InvalidIdentityPoolConfigurationException,
-      InvalidParameterException,
-      NotAuthorizedException,
-      ResourceConflictException,
-      ResourceNotFoundException,
-      TooManyRequestsException,
-    ],
-  }),
-);
+export const getCredentialsForIdentity: (
+  input: GetCredentialsForIdentityInput,
+) => Effect.Effect<
+  GetCredentialsForIdentityResponse,
+  | ExternalServiceException
+  | InternalErrorException
+  | InvalidIdentityPoolConfigurationException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | Errors.CommonErrors,
+  Creds.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCredentialsForIdentityInput,
+  output: GetCredentialsForIdentityResponse,
+  errors: [
+    ExternalServiceException,
+    InternalErrorException,
+    InvalidIdentityPoolConfigurationException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));

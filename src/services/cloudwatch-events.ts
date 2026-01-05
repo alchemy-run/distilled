@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const ns = T.XmlNamespace("http://events.amazonaws.com/doc/2015-10-07");
 const svc = T.AwsApiService({
   sdkId: "CloudWatch Events",
@@ -269,6 +277,95 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type EventSourceName = string;
+export type ReplayName = string;
+export type ApiDestinationName = string;
+export type ApiDestinationDescription = string;
+export type ConnectionArn = string;
+export type HttpsEndpoint = string;
+export type ApiDestinationInvocationRateLimitPerSecond = number;
+export type ArchiveName = string;
+export type Arn = string;
+export type ArchiveDescription = string;
+export type EventPattern = string;
+export type RetentionDays = number;
+export type ConnectionName = string;
+export type ConnectionDescription = string;
+export type EventBusName = string;
+export type AccountId = string;
+export type RuleName = string;
+export type EventBusNameOrArn = string;
+export type NextToken = string;
+export type LimitMax100 = number;
+export type EventSourceNamePrefix = string;
+export type PartnerEventSourceNamePrefix = string;
+export type TargetArn = string;
+export type NonPartnerEventBusName = string;
+export type Action = string;
+export type Principal = string;
+export type StatementId = string;
+export type ScheduleExpression = string;
+export type RuleDescription = string;
+export type RoleArn = string;
+export type TargetId = string;
+export type ReplayDescription = string;
+export type TagKey = string;
+export type TagValue = string;
+export type EventResource = string;
+export type NonPartnerEventBusNameOrArn = string;
+export type TraceHeader = string;
+export type TargetInput = string;
+export type TargetInputPath = string;
+export type ErrorMessage = string;
+export type ReplayArn = string;
+export type ReplayStateReason = string;
+export type ApiDestinationArn = string;
+export type ArchiveArn = string;
+export type ArchiveStateReason = string;
+export type Long = number;
+export type ConnectionStateReason = string;
+export type SecretsManagerSecretArn = string;
+export type RuleArn = string;
+export type ManagedBy = string;
+export type CreatedBy = string;
+export type Integer = number;
+export type AuthHeaderParameters = string;
+export type AuthHeaderParametersSensitive = string;
+export type TransformerInput = string;
+export type TargetPartitionKeyPath = string;
+export type LimitMin1 = number;
+export type ReferenceId = string;
+export type MessageGroupId = string;
+export type PathParameter = string;
+export type RedshiftSecretManagerArn = string;
+export type Database = string;
+export type DbUser = string;
+export type Sql = string;
+export type StatementName = string;
+export type ResourceArn = string;
+export type MaximumRetryAttempts = number;
+export type MaximumEventAgeInSeconds = number;
+export type ErrorCode = string;
+export type HeaderKey = string;
+export type HeaderValueSensitive = string;
+export type QueryStringKey = string;
+export type QueryStringValueSensitive = string;
+export type SensitiveString = string;
+export type InputTransformerPathKey = string;
+export type RunCommandTargetKey = string;
+export type RunCommandTargetValue = string;
+export type CapacityProvider = string;
+export type CapacityProviderStrategyItemWeight = number;
+export type CapacityProviderStrategyItemBase = number;
+export type PlacementConstraintExpression = string;
+export type PlacementStrategyField = string;
+export type HeaderValue = string;
+export type QueryStringValue = string;
+export type SageMakerPipelineParameterName = string;
+export type SageMakerPipelineParameterValue = string;
+export type EventId = string;
 
 //# Schemas
 export type TargetIdList = string[];
@@ -3050,7 +3147,13 @@ export class PolicyLengthExceededException extends S.TaggedError<PolicyLengthExc
 /**
  * Retrieves a list of API destination in the account in the current Region.
  */
-export const listApiDestinations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listApiDestinations: (
+  input: ListApiDestinationsRequest,
+) => Effect.Effect<
+  ListApiDestinationsResponse,
+  InternalException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListApiDestinationsRequest,
   output: ListApiDestinationsResponse,
   errors: [InternalException],
@@ -3058,7 +3161,13 @@ export const listApiDestinations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a list of connections from the account.
  */
-export const listConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listConnections: (
+  input: ListConnectionsRequest,
+) => Effect.Effect<
+  ListConnectionsResponse,
+  InternalException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListConnectionsRequest,
   output: ListConnectionsResponse,
   errors: [InternalException],
@@ -3067,7 +3176,13 @@ export const listConnections = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists all the event buses in your account, including the default event bus, custom event
  * buses, and partner event buses.
  */
-export const listEventBuses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listEventBuses: (
+  input: ListEventBusesRequest,
+) => Effect.Effect<
+  ListEventBusesResponse,
+  InternalException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListEventBusesRequest,
   output: ListEventBusesResponse,
   errors: [InternalException],
@@ -3076,7 +3191,13 @@ export const listEventBuses = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists your replays. You can either list all the replays or you can provide a prefix to
  * match to the replay names. Filter parameters are exclusive.
  */
-export const listReplays = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listReplays: (
+  input: ListReplaysRequest,
+) => Effect.Effect<
+  ListReplaysResponse,
+  InternalException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListReplaysRequest,
   output: ListReplaysResponse,
   errors: [InternalException],
@@ -3085,7 +3206,13 @@ export const listReplays = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes the specified custom event bus or partner event bus. All rules associated with
  * this event bus need to be deleted. You can't delete your account's default event bus.
  */
-export const deleteEventBus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEventBus: (
+  input: DeleteEventBusRequest,
+) => Effect.Effect<
+  DeleteEventBusResponse,
+  ConcurrentModificationException | InternalException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEventBusRequest,
   output: DeleteEventBusResponse,
   errors: [ConcurrentModificationException, InternalException],
@@ -3093,7 +3220,17 @@ export const deleteEventBus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Cancels the specified replay.
  */
-export const cancelReplay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelReplay: (
+  input: CancelReplayRequest,
+) => Effect.Effect<
+  CancelReplayResponse,
+  | ConcurrentModificationException
+  | IllegalStatusException
+  | InternalException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelReplayRequest,
   output: CancelReplayResponse,
   errors: [
@@ -3107,7 +3244,13 @@ export const cancelReplay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can use this to see all the partner event sources that have been shared with your Amazon Web Services
  * account. For more information about partner event sources, see CreateEventBus.
  */
-export const listEventSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listEventSources: (
+  input: ListEventSourcesRequest,
+) => Effect.Effect<
+  ListEventSourcesResponse,
+  InternalException | OperationDisabledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListEventSourcesRequest,
   output: ListEventSourcesResponse,
   errors: [InternalException, OperationDisabledException],
@@ -3115,7 +3258,13 @@ export const listEventSources = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Sends custom events to Amazon EventBridge so that they can be matched to rules.
  */
-export const putEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putEvents: (
+  input: PutEventsRequest,
+) => Effect.Effect<
+  PutEventsResponse,
+  InternalException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEventsRequest,
   output: PutEventsResponse,
   errors: [InternalException],
@@ -3124,7 +3273,13 @@ export const putEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * This is used by SaaS partners to write events to a customer's partner event bus. Amazon Web Services
  * customers do not use this operation.
  */
-export const putPartnerEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putPartnerEvents: (
+  input: PutPartnerEventsRequest,
+) => Effect.Effect<
+  PutPartnerEventsResponse,
+  InternalException | OperationDisabledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPartnerEventsRequest,
   output: PutPartnerEventsResponse,
   errors: [InternalException, OperationDisabledException],
@@ -3140,7 +3295,17 @@ export const putPartnerEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * happens, `FailedEntryCount` is non-zero in the response and each entry in
  * `FailedEntries` provides the ID of the failed target and the error code.
  */
-export const removeTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removeTargets: (
+  input: RemoveTargetsRequest,
+) => Effect.Effect<
+  RemoveTargetsResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTargetsRequest,
   output: RemoveTargetsResponse,
   errors: [
@@ -3153,7 +3318,16 @@ export const removeTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details about an archive.
  */
-export const describeArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeArchive: (
+  input: DescribeArchiveRequest,
+) => Effect.Effect<
+  DescribeArchiveResponse,
+  | InternalException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeArchiveRequest,
   output: DescribeArchiveResponse,
   errors: [
@@ -3167,7 +3341,20 @@ export const describeArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * use to receive events from your custom applications and services, or it can be a partner event
  * bus which can be matched to a partner event source.
  */
-export const createEventBus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEventBus: (
+  input: CreateEventBusRequest,
+) => Effect.Effect<
+  CreateEventBusResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | InvalidStateException
+  | LimitExceededException
+  | OperationDisabledException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEventBusRequest,
   output: CreateEventBusResponse,
   errors: [
@@ -3189,24 +3376,39 @@ export const createEventBus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * To activate a deactivated partner event source, use ActivateEventSource.
  */
-export const deactivateEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeactivateEventSourceRequest,
-    output: DeactivateEventSourceResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalException,
-      InvalidStateException,
-      OperationDisabledException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deactivateEventSource: (
+  input: DeactivateEventSourceRequest,
+) => Effect.Effect<
+  DeactivateEventSourceResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | InvalidStateException
+  | OperationDisabledException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeactivateEventSourceRequest,
+  output: DeactivateEventSourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    InvalidStateException,
+    OperationDisabledException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Lists your archives. You can either list all the archives or you can provide a prefix to
  * match to the archive names. Filter parameters are exclusive.
  */
-export const listArchives = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listArchives: (
+  input: ListArchivesRequest,
+) => Effect.Effect<
+  ListArchivesResponse,
+  InternalException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListArchivesRequest,
   output: ListArchivesResponse,
   errors: [InternalException, ResourceNotFoundException],
@@ -3218,7 +3420,13 @@ export const listArchives = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * ListRules does not list the targets of a rule. To see the targets associated with a rule,
  * use ListTargetsByRule.
  */
-export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listRules: (
+  input: ListRulesRequest,
+) => Effect.Effect<
+  ListRulesResponse,
+  InternalException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRulesRequest,
   output: ListRulesResponse,
   errors: [InternalException, ResourceNotFoundException],
@@ -3227,21 +3435,37 @@ export const listRules = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes all authorization parameters from the connection. This lets you remove the secret
  * from the connection so you can reuse it without having to create a new connection.
  */
-export const deauthorizeConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeauthorizeConnectionRequest,
-    output: DeauthorizeConnectionResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deauthorizeConnection: (
+  input: DeauthorizeConnectionRequest,
+) => Effect.Effect<
+  DeauthorizeConnectionResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeauthorizeConnectionRequest,
+  output: DeauthorizeConnectionResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes a connection.
  */
-export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConnection: (
+  input: DeleteConnectionRequest,
+) => Effect.Effect<
+  DeleteConnectionResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionRequest,
   output: DeleteConnectionResponse,
   errors: [
@@ -3253,13 +3477,17 @@ export const deleteConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details about an API destination.
  */
-export const describeApiDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeApiDestinationRequest,
-    output: DescribeApiDestinationResponse,
-    errors: [InternalException, ResourceNotFoundException],
-  }),
-);
+export const describeApiDestination: (
+  input: DescribeApiDestinationRequest,
+) => Effect.Effect<
+  DescribeApiDestinationResponse,
+  InternalException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeApiDestinationRequest,
+  output: DescribeApiDestinationResponse,
+  errors: [InternalException, ResourceNotFoundException],
+}));
 /**
  * Displays details about an event bus in your account. This can include the external Amazon Web Services
  * accounts that are permitted to write events to your default event bus, and the associated
@@ -3271,7 +3499,13 @@ export const describeApiDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * For more information about partner event buses, see CreateEventBus.
  */
-export const describeEventBus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeEventBus: (
+  input: DescribeEventBusRequest,
+) => Effect.Effect<
+  DescribeEventBusResponse,
+  InternalException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventBusRequest,
   output: DescribeEventBusResponse,
   errors: [InternalException, ResourceNotFoundException],
@@ -3287,7 +3521,13 @@ export const describeEventBus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * `EventLastReplayedTime` indicates the time within the specified time range
  * associated with the last event replayed.
  */
-export const describeReplay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeReplay: (
+  input: DescribeReplayRequest,
+) => Effect.Effect<
+  DescribeReplayResponse,
+  InternalException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeReplayRequest,
   output: DescribeReplayResponse,
   errors: [InternalException, ResourceNotFoundException],
@@ -3298,7 +3538,13 @@ export const describeReplay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * DescribeRule does not list the targets of a rule. To see the targets associated with a
  * rule, use ListTargetsByRule.
  */
-export const describeRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeRule: (
+  input: DescribeRuleRequest,
+) => Effect.Effect<
+  DescribeRuleResponse,
+  InternalException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRuleRequest,
   output: DescribeRuleResponse,
   errors: [InternalException, ResourceNotFoundException],
@@ -3307,18 +3553,28 @@ export const describeRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists the rules for the specified target. You can see which of the rules in Amazon
  * EventBridge can invoke a specific target in your account.
  */
-export const listRuleNamesByTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListRuleNamesByTargetRequest,
-    output: ListRuleNamesByTargetResponse,
-    errors: [InternalException, ResourceNotFoundException],
-  }),
-);
+export const listRuleNamesByTarget: (
+  input: ListRuleNamesByTargetRequest,
+) => Effect.Effect<
+  ListRuleNamesByTargetResponse,
+  InternalException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRuleNamesByTargetRequest,
+  output: ListRuleNamesByTargetResponse,
+  errors: [InternalException, ResourceNotFoundException],
+}));
 /**
  * Displays the tags associated with an EventBridge resource. In EventBridge, rules and event
  * buses can be tagged.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  InternalException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [InternalException, ResourceNotFoundException],
@@ -3326,7 +3582,13 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the targets assigned to the specified rule.
  */
-export const listTargetsByRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTargetsByRule: (
+  input: ListTargetsByRuleRequest,
+) => Effect.Effect<
+  ListTargetsByRuleResponse,
+  InternalException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTargetsByRuleRequest,
   output: ListTargetsByRuleResponse,
   errors: [InternalException, ResourceNotFoundException],
@@ -3334,21 +3596,37 @@ export const listTargetsByRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified API destination.
  */
-export const deleteApiDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteApiDestinationRequest,
-    output: DeleteApiDestinationResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteApiDestination: (
+  input: DeleteApiDestinationRequest,
+) => Effect.Effect<
+  DeleteApiDestinationResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApiDestinationRequest,
+  output: DeleteApiDestinationResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes the specified archive.
  */
-export const deleteArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteArchive: (
+  input: DeleteArchiveRequest,
+) => Effect.Effect<
+  DeleteArchiveResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteArchiveRequest,
   output: DeleteArchiveResponse,
   errors: [
@@ -3362,32 +3640,53 @@ export const deleteArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * partner event source name is associated with. This operation is not used by Amazon Web Services
  * customers.
  */
-export const listPartnerEventSourceAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListPartnerEventSourceAccountsRequest,
-    output: ListPartnerEventSourceAccountsResponse,
-    errors: [
-      InternalException,
-      OperationDisabledException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const listPartnerEventSourceAccounts: (
+  input: ListPartnerEventSourceAccountsRequest,
+) => Effect.Effect<
+  ListPartnerEventSourceAccountsResponse,
+  | InternalException
+  | OperationDisabledException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPartnerEventSourceAccountsRequest,
+  output: ListPartnerEventSourceAccountsResponse,
+  errors: [
+    InternalException,
+    OperationDisabledException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * An SaaS partner can use this operation to list all the partner event source names that
  * they have created. This operation is not used by Amazon Web Services customers.
  */
-export const listPartnerEventSources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListPartnerEventSourcesRequest,
-    output: ListPartnerEventSourcesResponse,
-    errors: [InternalException, OperationDisabledException],
-  }),
-);
+export const listPartnerEventSources: (
+  input: ListPartnerEventSourcesRequest,
+) => Effect.Effect<
+  ListPartnerEventSourcesResponse,
+  InternalException | OperationDisabledException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPartnerEventSourcesRequest,
+  output: ListPartnerEventSourcesResponse,
+  errors: [InternalException, OperationDisabledException],
+}));
 /**
  * This operation lists details about a partner event source that is shared with your
  * account.
  */
-export const describeEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeEventSource: (
+  input: DescribeEventSourceRequest,
+) => Effect.Effect<
+  DescribeEventSourceResponse,
+  | InternalException
+  | OperationDisabledException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEventSourceRequest,
   output: DescribeEventSourceResponse,
   errors: [
@@ -3402,17 +3701,24 @@ export const describeEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * to see details about a partner event source that is
  * shared with them.
  */
-export const describePartnerEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePartnerEventSourceRequest,
-    output: DescribePartnerEventSourceResponse,
-    errors: [
-      InternalException,
-      OperationDisabledException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const describePartnerEventSource: (
+  input: DescribePartnerEventSourceRequest,
+) => Effect.Effect<
+  DescribePartnerEventSourceResponse,
+  | InternalException
+  | OperationDisabledException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePartnerEventSourceRequest,
+  output: DescribePartnerEventSourceResponse,
+  errors: [
+    InternalException,
+    OperationDisabledException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * This operation is used by SaaS partners to delete a partner event source. This operation
  * is not used by Amazon Web Services customers.
@@ -3420,24 +3726,41 @@ export const describePartnerEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * When you delete an event source, the status of the corresponding partner event bus in the
  * Amazon Web Services customer account becomes DELETED.
  */
-export const deletePartnerEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePartnerEventSourceRequest,
-    output: DeletePartnerEventSourceResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalException,
-      OperationDisabledException,
-    ],
-  }),
-);
+export const deletePartnerEventSource: (
+  input: DeletePartnerEventSourceRequest,
+) => Effect.Effect<
+  DeletePartnerEventSourceResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | OperationDisabledException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePartnerEventSourceRequest,
+  output: DeletePartnerEventSourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    OperationDisabledException,
+  ],
+}));
 /**
  * Revokes the permission of another Amazon Web Services account to be able to put events to the specified
  * event bus. Specify the account to revoke by the `StatementId` value that you
  * associated with the account when you granted it permission with `PutPermission`.
  * You can find the `StatementId` by using DescribeEventBus.
  */
-export const removePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const removePermission: (
+  input: RemovePermissionRequest,
+) => Effect.Effect<
+  RemovePermissionResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | OperationDisabledException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemovePermissionRequest,
   output: RemovePermissionResponse,
   errors: [
@@ -3451,7 +3774,18 @@ export const removePermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Activates a partner event source that has been deactivated. Once activated, your matching
  * event bus will start receiving events from the event source.
  */
-export const activateEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const activateEventSource: (
+  input: ActivateEventSourceRequest,
+) => Effect.Effect<
+  ActivateEventSourceResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | InvalidStateException
+  | OperationDisabledException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateEventSourceRequest,
   output: ActivateEventSourceResponse,
   errors: [
@@ -3479,7 +3813,17 @@ export const activateEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * can delete these rules using the `Force` option, but you should do so only if you
  * are sure the other service is not still using that rule.
  */
-export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRule: (
+  input: DeleteRuleRequest,
+) => Effect.Effect<
+  DeleteRuleResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleRequest,
   output: DeleteRuleResponse,
   errors: [
@@ -3496,7 +3840,17 @@ export const deleteRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * When you disable a rule, incoming events might continue to match to the disabled rule.
  * Allow a short period of time for changes to take effect.
  */
-export const disableRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableRule: (
+  input: DisableRuleRequest,
+) => Effect.Effect<
+  DisableRuleResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableRuleRequest,
   output: DisableRuleResponse,
   errors: [
@@ -3512,7 +3866,17 @@ export const disableRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * When you enable a rule, incoming events might not immediately start matching to a newly
  * enabled rule. Allow a short period of time for changes to take effect.
  */
-export const enableRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableRule: (
+  input: EnableRuleRequest,
+) => Effect.Effect<
+  EnableRuleResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableRuleRequest,
   output: EnableRuleResponse,
   errors: [
@@ -3538,7 +3902,17 @@ export const enableRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can associate as many as 50 tags with a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3552,7 +3926,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge
  * (CloudWatch Events), rules and event buses can be tagged.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3569,7 +3953,19 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * archive, all events are sent to the archive except replayed events. Replayed events are not
  * sent to an archive.
  */
-export const createArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createArchive: (
+  input: CreateArchiveRequest,
+) => Effect.Effect<
+  CreateArchiveResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | InvalidEventPatternException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateArchiveRequest,
   output: CreateArchiveResponse,
   errors: [
@@ -3633,7 +4029,19 @@ export const createArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see Managing Your Costs with
  * Budgets.
  */
-export const putRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putRule: (
+  input: PutRuleRequest,
+) => Effect.Effect<
+  PutRuleResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | InvalidEventPatternException
+  | LimitExceededException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutRuleRequest,
   output: PutRuleResponse,
   errors: [
@@ -3653,7 +4061,13 @@ export const putRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * correct ARN characters when creating event patterns so that they match the ARN syntax in the
  * event you want to match.
  */
-export const testEventPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testEventPattern: (
+  input: TestEventPatternRequest,
+) => Effect.Effect<
+  TestEventPatternResponse,
+  InternalException | InvalidEventPatternException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestEventPatternRequest,
   output: TestEventPatternResponse,
   errors: [InternalException, InvalidEventPatternException],
@@ -3661,7 +4075,18 @@ export const testEventPattern = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified archive.
  */
-export const updateArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateArchive: (
+  input: UpdateArchiveRequest,
+) => Effect.Effect<
+  UpdateArchiveResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | InvalidEventPatternException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateArchiveRequest,
   output: UpdateArchiveResponse,
   errors: [
@@ -3699,34 +4124,51 @@ export const updateArchive = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * *event_namespace* and *event_name* should help Amazon Web Services
  * customers decide whether to create an event bus to receive these events.
  */
-export const createPartnerEventSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePartnerEventSourceRequest,
-    output: CreatePartnerEventSourceResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalException,
-      LimitExceededException,
-      OperationDisabledException,
-      ResourceAlreadyExistsException,
-    ],
-  }),
-);
+export const createPartnerEventSource: (
+  input: CreatePartnerEventSourceRequest,
+) => Effect.Effect<
+  CreatePartnerEventSourceResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | LimitExceededException
+  | OperationDisabledException
+  | ResourceAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePartnerEventSourceRequest,
+  output: CreatePartnerEventSourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    LimitExceededException,
+    OperationDisabledException,
+    ResourceAlreadyExistsException,
+  ],
+}));
 /**
  * Updates an API destination.
  */
-export const updateApiDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateApiDestinationRequest,
-    output: UpdateApiDestinationResponse,
-    errors: [
-      ConcurrentModificationException,
-      InternalException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateApiDestination: (
+  input: UpdateApiDestinationRequest,
+) => Effect.Effect<
+  UpdateApiDestinationResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApiDestinationRequest,
+  output: UpdateApiDestinationResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Starts the specified replay. Events are not necessarily replayed in the exact same order
  * that they were added to the archive. A replay processes events to replay based on the time in
@@ -3738,7 +4180,18 @@ export const updateApiDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * indicates the time within the specified time range associated with the last event
  * replayed.
  */
-export const startReplay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startReplay: (
+  input: StartReplayRequest,
+) => Effect.Effect<
+  StartReplayResponse,
+  | InternalException
+  | InvalidEventPatternException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartReplayRequest,
   output: StartReplayResponse,
   errors: [
@@ -3753,23 +4206,40 @@ export const startReplay = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Creates an API destination, which is an HTTP invocation endpoint configured as a target
  * for events.
  */
-export const createApiDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateApiDestinationRequest,
-    output: CreateApiDestinationResponse,
-    errors: [
-      InternalException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const createApiDestination: (
+  input: CreateApiDestinationRequest,
+) => Effect.Effect<
+  CreateApiDestinationResponse,
+  | InternalException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApiDestinationRequest,
+  output: CreateApiDestinationResponse,
+  errors: [
+    InternalException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a connection. A connection defines the authorization type and credentials to use
  * for authorization with an API destination HTTP endpoint.
  */
-export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConnection: (
+  input: CreateConnectionRequest,
+) => Effect.Effect<
+  CreateConnectionResponse,
+  | InternalException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConnectionRequest,
   output: CreateConnectionResponse,
   errors: [
@@ -3781,7 +4251,13 @@ export const createConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves details about a connection.
  */
-export const describeConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeConnection: (
+  input: DescribeConnectionRequest,
+) => Effect.Effect<
+  DescribeConnectionResponse,
+  InternalException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConnectionRequest,
   output: DescribeConnectionResponse,
   errors: [InternalException, ResourceNotFoundException],
@@ -3789,7 +4265,17 @@ export const describeConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates settings for a connection.
  */
-export const updateConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateConnection: (
+  input: UpdateConnectionRequest,
+) => Effect.Effect<
+  UpdateConnectionResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectionRequest,
   output: UpdateConnectionResponse,
   errors: [
@@ -3822,7 +4308,18 @@ export const updateConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The permission policy on the event bus cannot exceed 10 KB in size.
  */
-export const putPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putPermission: (
+  input: PutPermissionRequest,
+) => Effect.Effect<
+  PutPermissionResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | OperationDisabledException
+  | PolicyLengthExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPermissionRequest,
   output: PutPermissionResponse,
   errors: [
@@ -3964,7 +4461,18 @@ export const putPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * happens, `FailedEntryCount` is non-zero in the response and each entry in
  * `FailedEntries` provides the ID of the failed target and the error code.
  */
-export const putTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putTargets: (
+  input: PutTargetsRequest,
+) => Effect.Effect<
+  PutTargetsResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | LimitExceededException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTargetsRequest,
   output: PutTargetsResponse,
   errors: [

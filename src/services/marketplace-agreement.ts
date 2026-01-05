@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Marketplace Agreement",
   serviceShapeName: "AWSMPCommerceService_v20200301",
@@ -292,6 +300,28 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type ResourceId = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type Catalog = string;
+export type FilterName = string;
+export type FilterValue = string;
+export type SortBy = string;
+export type AgreementType = string;
+export type AWSAccountId = string;
+export type CurrencyCode = string;
+export type BoundedString = string;
+export type OfferId = string;
+export type OfferSetId = string;
+export type AgreementResourceType = string;
+export type UnversionedTermType = string;
+export type PositiveIntegerWithDefaultValueOne = number;
+export type ISO8601Duration = string;
+export type ZeroValueInteger = number;
+export type RequestId = string;
+export type ExceptionMessage = string;
 
 //# Schemas
 export interface DescribeAgreementInput {
@@ -761,6 +791,19 @@ export const ConfigurableUpfrontPricingTerm = S.suspend(() =>
 ).annotations({
   identifier: "ConfigurableUpfrontPricingTerm",
 }) as any as S.Schema<ConfigurableUpfrontPricingTerm>;
+export type AcceptedTerm =
+  | { legalTerm: LegalTerm }
+  | { supportTerm: SupportTerm }
+  | { renewalTerm: RenewalTerm }
+  | { usageBasedPricingTerm: UsageBasedPricingTerm }
+  | { configurableUpfrontPricingTerm: ConfigurableUpfrontPricingTerm }
+  | { byolPricingTerm: ByolPricingTerm }
+  | { recurringPaymentTerm: RecurringPaymentTerm }
+  | { validityTerm: ValidityTerm }
+  | { paymentScheduleTerm: PaymentScheduleTerm }
+  | { freeTrialPricingTerm: FreeTrialPricingTerm }
+  | { fixedUpfrontPricingTerm: FixedUpfrontPricingTerm }
+  | { variablePaymentTerm: VariablePaymentTerm };
 export const AcceptedTerm = S.Union(
   S.Struct({ legalTerm: LegalTerm }),
   S.Struct({ supportTerm: SupportTerm }),
@@ -809,7 +852,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { requestId: S.optional(S.String), message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
@@ -822,7 +867,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { requestId: S.optional(S.String), message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -913,23 +960,55 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
  *
  * To filter by `EndTime`, you can use either `BeforeEndTime` or `AfterEndTime`. Only `EndTime` is supported for sorting.
  */
-export const searchAgreements = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchAgreements: {
+  (
     input: SearchAgreementsInput,
-    output: SearchAgreementsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchAgreementsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchAgreementsInput,
+  ) => Stream.Stream<
+    SearchAgreementsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchAgreementsInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchAgreementsInput,
+  output: SearchAgreementsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Obtains details about the terms in an agreement that you participated in as proposer or acceptor.
  *
@@ -943,28 +1022,74 @@ export const searchAgreements = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * - `Configuration` – The buyer/acceptor's selection at the time of agreement creation, such as the number of units purchased for a dimension or setting the `EnableAutoRenew` flag.
  */
-export const getAgreementTerms = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getAgreementTerms: {
+  (
     input: GetAgreementTermsInput,
-    output: GetAgreementTermsOutput,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetAgreementTermsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetAgreementTermsInput,
+  ) => Stream.Stream<
+    GetAgreementTermsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetAgreementTermsInput,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetAgreementTermsInput,
+  output: GetAgreementTermsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Provides details about an agreement, such as the proposer, acceptor, start date, and end date.
  */
-export const describeAgreement = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAgreement: (
+  input: DescribeAgreementInput,
+) => Effect.Effect<
+  DescribeAgreementOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAgreementInput,
   output: DescribeAgreementOutput,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "resiliencehub",
   serviceShapeName: "AwsResilienceHub",
@@ -240,6 +248,45 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type Arn = string;
+export type EntityName = string;
+export type EntityDescription = string;
+export type ClientToken = string;
+export type String255 = string;
+export type String2048 = string;
+export type AwsRegion = string;
+export type CustomerId = string;
+export type Uuid = string;
+export type EntityVersion = string;
+export type NextToken = string;
+export type MaxResults = number;
+export type AppTemplateBody = string;
+export type TagKey = string;
+export type SpecReferenceId = string;
+export type EntityName255 = string;
+export type TagValue = string;
+export type IamRoleName = string;
+export type IamRoleArn = string;
+export type String128WithoutWhitespace = string;
+export type String1024 = string;
+export type S3Url = string;
+export type EksNamespace = string;
+export type String500 = string;
+export type LongOptional = number;
+export type Seconds = number;
+export type Double = number;
+export type IntegerOptional = number;
+export type ErrorMessage = string;
+export type EntityId = string;
+export type Integer = number;
+export type DocumentName = string;
+export type ResourceId = string;
+export type ResourceType = string;
+export type CurrencyCode = string;
+export type RetryAfterSeconds = number;
+export type Long = number;
 
 //# Schemas
 export type AppComponentNameList = string[];
@@ -3730,7 +3777,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
@@ -3746,7 +3795,9 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String), retryAfterSeconds: S.optional(S.Number) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },
@@ -3756,26 +3807,71 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Lists the recommendation templates for the Resilience Hub applications.
  */
-export const listRecommendationTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRecommendationTemplates: {
+  (
     input: ListRecommendationTemplatesRequest,
-    output: ListRecommendationTemplatesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRecommendationTemplatesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRecommendationTemplatesRequest,
+  ) => Stream.Stream<
+    ListRecommendationTemplatesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommendationTemplatesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommendationTemplatesRequest,
+  output: ListRecommendationTemplatesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates an application.
  */
-export const updateApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateApp: (
+  input: UpdateAppRequest,
+) => Effect.Effect<
+  UpdateAppResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAppRequest,
   output: UpdateAppResponse,
   errors: [
@@ -3794,7 +3890,19 @@ export const updateApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * information for running resiliency assessments, you must publish the Resilience Hub
  * application using the `PublishAppVersion` API.
  */
-export const updateAppVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAppVersion: (
+  input: UpdateAppVersionRequest,
+) => Effect.Effect<
+  UpdateAppVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAppVersionRequest,
   output: UpdateAppVersionResponse,
   errors: [
@@ -3813,19 +3921,30 @@ export const updateAppVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Application Component for running assessments, you must publish the Resilience Hub
  * application using the `PublishAppVersion` API.
  */
-export const updateAppVersionAppComponent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAppVersionAppComponentRequest,
-    output: UpdateAppVersionAppComponentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateAppVersionAppComponent: (
+  input: UpdateAppVersionAppComponentRequest,
+) => Effect.Effect<
+  UpdateAppVersionAppComponentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAppVersionAppComponentRequest,
+  output: UpdateAppVersionAppComponentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the resource details in the Resilience Hub application.
  *
@@ -3838,21 +3957,32 @@ export const updateAppVersionAppComponent =
  * - To update application version with new `physicalResourceID`, you must
  * call `ResolveAppVersionResources` API.
  */
-export const updateAppVersionResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAppVersionResourceRequest,
-    output: UpdateAppVersionResourceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAppVersionResource: (
+  input: UpdateAppVersionResourceRequest,
+) => Effect.Effect<
+  UpdateAppVersionResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAppVersionResourceRequest,
+  output: UpdateAppVersionResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a resiliency policy.
  *
@@ -3864,25 +3994,47 @@ export const updateAppVersionResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * status for your application will be set to Policy
  * breached.
  */
-export const updateResiliencyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateResiliencyPolicyRequest,
-    output: UpdateResiliencyPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateResiliencyPolicy: (
+  input: UpdateResiliencyPolicyRequest,
+) => Effect.Effect<
+  UpdateResiliencyPolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateResiliencyPolicyRequest,
+  output: UpdateResiliencyPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an Resilience Hub application assessment. This is a destructive action
  * that can't be undone.
  */
-export const deleteAppAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAppAssessment: (
+  input: DeleteAppAssessmentRequest,
+) => Effect.Effect<
+  DeleteAppAssessmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppAssessmentRequest,
   output: DeleteAppAssessmentResponse,
   errors: [
@@ -3897,36 +4049,57 @@ export const deleteAppAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a resiliency policy. This is a destructive action that can't be undone.
  */
-export const deleteResiliencyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResiliencyPolicyRequest,
-    output: DeleteResiliencyPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResiliencyPolicy: (
+  input: DeleteResiliencyPolicyRequest,
+) => Effect.Effect<
+  DeleteResiliencyPolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResiliencyPolicyRequest,
+  output: DeleteResiliencyPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes an Application Component in the Resilience Hub application.
  */
-export const describeAppVersionAppComponent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAppVersionAppComponentRequest,
-    output: DescribeAppVersionAppComponentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeAppVersionAppComponent: (
+  input: DescribeAppVersionAppComponentRequest,
+) => Effect.Effect<
+  DescribeAppVersionAppComponentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAppVersionAppComponentRequest,
+  output: DescribeAppVersionAppComponentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes a resource of the Resilience Hub application.
  *
@@ -3939,66 +4112,166 @@ export const describeAppVersionAppComponent =
  * - `physicalResourceId` (Along with `physicalResourceId`, you can
  * also provide `awsAccountId`, and `awsRegion`)
  */
-export const describeAppVersionResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAppVersionResourceRequest,
-    output: DescribeAppVersionResourceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeAppVersionResource: (
+  input: DescribeAppVersionResourceRequest,
+) => Effect.Effect<
+  DescribeAppVersionResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAppVersionResourceRequest,
+  output: DescribeAppVersionResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all the Application Components in the Resilience Hub application.
  */
-export const listAppVersionAppComponents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAppVersionAppComponents: {
+  (
     input: ListAppVersionAppComponentsRequest,
-    output: ListAppVersionAppComponentsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAppVersionAppComponentsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppVersionAppComponentsRequest,
+  ) => Stream.Stream<
+    ListAppVersionAppComponentsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppVersionAppComponentsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppVersionAppComponentsRequest,
+  output: ListAppVersionAppComponentsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all the resources in an Resilience Hub application.
  */
-export const listAppVersionResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAppVersionResources: {
+  (
     input: ListAppVersionResourcesRequest,
-    output: ListAppVersionResourcesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAppVersionResourcesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppVersionResourcesRequest,
+  ) => Stream.Stream<
+    ListAppVersionResourcesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppVersionResourcesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppVersionResourcesRequest,
+  output: ListAppVersionResourcesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Publishes a new version of a specific Resilience Hub application.
  */
-export const publishAppVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const publishAppVersion: (
+  input: PublishAppVersionRequest,
+) => Effect.Effect<
+  PublishAppVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishAppVersionRequest,
   output: PublishAppVersionResponse,
   errors: [
@@ -4014,57 +4287,101 @@ export const publishAppVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Adds or updates the app template for an Resilience Hub application draft
  * version.
  */
-export const putDraftAppVersionTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutDraftAppVersionTemplateRequest,
-    output: PutDraftAppVersionTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const putDraftAppVersionTemplate: (
+  input: PutDraftAppVersionTemplateRequest,
+) => Effect.Effect<
+  PutDraftAppVersionTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutDraftAppVersionTemplateRequest,
+  output: PutDraftAppVersionTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes resource mappings from a draft application version.
  */
-export const removeDraftAppVersionResourceMappings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveDraftAppVersionResourceMappingsRequest,
-    output: RemoveDraftAppVersionResourceMappingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const removeDraftAppVersionResourceMappings: (
+  input: RemoveDraftAppVersionResourceMappingsRequest,
+) => Effect.Effect<
+  RemoveDraftAppVersionResourceMappingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveDraftAppVersionResourceMappingsRequest,
+  output: RemoveDraftAppVersionResourceMappingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Resolves the resources for an application version.
  */
-export const resolveAppVersionResources = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResolveAppVersionResourcesRequest,
-    output: ResolveAppVersionResourcesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const resolveAppVersionResources: (
+  input: ResolveAppVersionResourcesRequest,
+) => Effect.Effect<
+  ResolveAppVersionResourcesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResolveAppVersionResourcesRequest,
+  output: ResolveAppVersionResourcesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new application assessment for an application.
  */
-export const startAppAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startAppAssessment: (
+  input: StartAppAssessmentRequest,
+) => Effect.Effect<
+  StartAppAssessmentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartAppAssessmentRequest,
   output: StartAppAssessmentResponse,
   errors: [
@@ -4080,19 +4397,30 @@ export const startAppAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts grouping recommendation task.
  */
-export const startResourceGroupingRecommendationTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartResourceGroupingRecommendationTaskRequest,
-    output: StartResourceGroupingRecommendationTaskResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const startResourceGroupingRecommendationTask: (
+  input: StartResourceGroupingRecommendationTaskRequest,
+) => Effect.Effect<
+  StartResourceGroupingRecommendationTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartResourceGroupingRecommendationTaskRequest,
+  output: StartResourceGroupingRecommendationTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an Resilience Hub application. An Resilience Hub application is a
  * collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an
@@ -4107,7 +4435,20 @@ export const startResourceGroupingRecommendationTask =
  * until you achieve your goals for recovery time objective (RTO) and recovery point objective
  * (RPO).
  */
-export const createApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createApp: (
+  input: CreateAppRequest,
+) => Effect.Effect<
+  CreateAppResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppRequest,
   output: CreateAppResponse,
   errors: [
@@ -4127,20 +4468,32 @@ export const createApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Application Component for running assessments, you must publish the Resilience Hub
  * application using the `PublishAppVersion` API.
  */
-export const createAppVersionAppComponent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateAppVersionAppComponentRequest,
-    output: CreateAppVersionAppComponentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createAppVersionAppComponent: (
+  input: CreateAppVersionAppComponentRequest,
+) => Effect.Effect<
+  CreateAppVersionAppComponentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAppVersionAppComponentRequest,
+  output: CreateAppVersionAppComponentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds a resource to the Resilience Hub application and assigns it to the specified
  * Application Components. If you specify a new Application Component, Resilience Hub will
@@ -4155,42 +4508,76 @@ export const createAppVersionAppComponent =
  * - To update application version with new `physicalResourceID`, you must
  * call `ResolveAppVersionResources` API.
  */
-export const createAppVersionResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAppVersionResourceRequest,
-    output: CreateAppVersionResourceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAppVersionResource: (
+  input: CreateAppVersionResourceRequest,
+) => Effect.Effect<
+  CreateAppVersionResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAppVersionResourceRequest,
+  output: CreateAppVersionResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new recommendation template for the Resilience Hub application.
  */
-export const createRecommendationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateRecommendationTemplateRequest,
-    output: CreateRecommendationTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createRecommendationTemplate: (
+  input: CreateRecommendationTemplateRequest,
+) => Effect.Effect<
+  CreateRecommendationTemplateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRecommendationTemplateRequest,
+  output: CreateRecommendationTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes one or more tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -4205,22 +4592,43 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes a recommendation template. This is a destructive action that can't be
  * undone.
  */
-export const deleteRecommendationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteRecommendationTemplateRequest,
-    output: DeleteRecommendationTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteRecommendationTemplate: (
+  input: DeleteRecommendationTemplateRequest,
+) => Effect.Effect<
+  DeleteRecommendationTemplateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRecommendationTemplateRequest,
+  output: DeleteRecommendationTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes the Resilience Hub application version.
  */
-export const describeAppVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAppVersion: (
+  input: DescribeAppVersionRequest,
+) => Effect.Effect<
+  DescribeAppVersionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppVersionRequest,
   output: DescribeAppVersionResponse,
   errors: [
@@ -4236,116 +4644,264 @@ export const describeAppVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * version. If `resolutionId` is not specified, the current resolution status is
  * returned.
  */
-export const describeAppVersionResourcesResolutionStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAppVersionResourcesResolutionStatusRequest,
-    output: DescribeAppVersionResourcesResolutionStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeAppVersionResourcesResolutionStatus: (
+  input: DescribeAppVersionResourcesResolutionStatusRequest,
+) => Effect.Effect<
+  DescribeAppVersionResourcesResolutionStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAppVersionResourcesResolutionStatusRequest,
+  output: DescribeAppVersionResourcesResolutionStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes details about an Resilience Hub application.
  */
-export const describeAppVersionTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAppVersionTemplateRequest,
-    output: DescribeAppVersionTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeAppVersionTemplate: (
+  input: DescribeAppVersionTemplateRequest,
+) => Effect.Effect<
+  DescribeAppVersionTemplateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAppVersionTemplateRequest,
+  output: DescribeAppVersionTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes the resource grouping recommendation tasks run by Resilience Hub for your application.
  */
-export const describeResourceGroupingRecommendationTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeResourceGroupingRecommendationTaskRequest,
-    output: DescribeResourceGroupingRecommendationTaskResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeResourceGroupingRecommendationTask: (
+  input: DescribeResourceGroupingRecommendationTaskRequest,
+) => Effect.Effect<
+  DescribeResourceGroupingRecommendationTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeResourceGroupingRecommendationTaskRequest,
+  output: DescribeResourceGroupingRecommendationTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists how the resources in an application version are mapped/sourced from. Mappings can be
  * physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry
  * app.
  */
-export const listAppVersionResourceMappings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAppVersionResourceMappings: {
+  (
     input: ListAppVersionResourceMappingsRequest,
-    output: ListAppVersionResourceMappingsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAppVersionResourceMappingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppVersionResourceMappingsRequest,
+  ) => Stream.Stream<
+    ListAppVersionResourceMappingsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppVersionResourceMappingsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppVersionResourceMappingsRequest,
+  output: ListAppVersionResourceMappingsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the resiliency policies for the Resilience Hub applications.
  */
-export const listResiliencyPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResiliencyPolicies: {
+  (
     input: ListResiliencyPoliciesRequest,
-    output: ListResiliencyPoliciesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResiliencyPoliciesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResiliencyPoliciesRequest,
+  ) => Stream.Stream<
+    ListResiliencyPoliciesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResiliencyPoliciesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResiliencyPoliciesRequest,
+  output: ListResiliencyPoliciesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the suggested resiliency policies for the Resilience Hub
  * applications.
  */
-export const listSuggestedResiliencyPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSuggestedResiliencyPolicies: {
+  (
     input: ListSuggestedResiliencyPoliciesRequest,
-    output: ListSuggestedResiliencyPoliciesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSuggestedResiliencyPoliciesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSuggestedResiliencyPoliciesRequest,
+  ) => Stream.Stream<
+    ListSuggestedResiliencyPoliciesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSuggestedResiliencyPoliciesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSuggestedResiliencyPoliciesRequest,
+  output: ListSuggestedResiliencyPoliciesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the tags for your resources in your Resilience Hub applications.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -4360,7 +4916,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes an Resilience Hub application. This is a destructive action that can't be
  * undone.
  */
-export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteApp: (
+  input: DeleteAppRequest,
+) => Effect.Effect<
+  DeleteAppResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppRequest,
   output: DeleteAppResponse,
   errors: [
@@ -4375,20 +4942,30 @@ export const deleteApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes the input source and all of its imported resources from the Resilience Hub
  * application.
  */
-export const deleteAppInputSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAppInputSourceRequest,
-    output: DeleteAppInputSourceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAppInputSource: (
+  input: DeleteAppInputSourceRequest,
+) => Effect.Effect<
+  DeleteAppInputSourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAppInputSourceRequest,
+  output: DeleteAppInputSourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an Application Component from the Resilience Hub application.
  *
@@ -4399,19 +4976,30 @@ export const deleteAppInputSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - You will not be able to delete an Application Component if it has resources associated
  * with it.
  */
-export const deleteAppVersionAppComponent =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAppVersionAppComponentRequest,
-    output: DeleteAppVersionAppComponentResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteAppVersionAppComponent: (
+  input: DeleteAppVersionAppComponentRequest,
+) => Effect.Effect<
+  DeleteAppVersionAppComponentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAppVersionAppComponentRequest,
+  output: DeleteAppVersionAppComponentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a resource from the Resilience Hub application.
  *
@@ -4424,24 +5012,45 @@ export const deleteAppVersionAppComponent =
  * resource for running resiliency assessments, you must publish the Resilience Hub
  * application using the `PublishAppVersion` API.
  */
-export const deleteAppVersionResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAppVersionResourceRequest,
-    output: DeleteAppVersionResourceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteAppVersionResource: (
+  input: DeleteAppVersionResourceRequest,
+) => Effect.Effect<
+  DeleteAppVersionResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAppVersionResourceRequest,
+  output: DeleteAppVersionResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes an Resilience Hub application.
  */
-export const describeApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeApp: (
+  input: DescribeAppRequest,
+) => Effect.Effect<
+  DescribeAppResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAppRequest,
   output: DescribeAppResponse,
   errors: [
@@ -4461,250 +5070,566 @@ export const describeApp = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * calling `describeDraftAppVersionResourcesImportStatus` to obtain the
  * status.
  */
-export const describeDraftAppVersionResourcesImportStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDraftAppVersionResourcesImportStatusRequest,
-    output: DescribeDraftAppVersionResourcesImportStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const describeDraftAppVersionResourcesImportStatus: (
+  input: DescribeDraftAppVersionResourcesImportStatusRequest,
+) => Effect.Effect<
+  DescribeDraftAppVersionResourcesImportStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDraftAppVersionResourcesImportStatusRequest,
+  output: DescribeDraftAppVersionResourcesImportStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes the metrics of the application configuration being exported.
  */
-export const describeMetricsExport = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeMetricsExportRequest,
-    output: DescribeMetricsExportResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeMetricsExport: (
+  input: DescribeMetricsExportRequest,
+) => Effect.Effect<
+  DescribeMetricsExportResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeMetricsExportRequest,
+  output: DescribeMetricsExportResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Describes a specified resiliency policy for an Resilience Hub application. The
  * returned policy object includes creation time, data location constraints, the Amazon Resource
  * Name (ARN) for the policy, tags, tier, and more.
  */
-export const describeResiliencyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeResiliencyPolicyRequest,
-    output: DescribeResiliencyPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeResiliencyPolicy: (
+  input: DescribeResiliencyPolicyRequest,
+) => Effect.Effect<
+  DescribeResiliencyPolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeResiliencyPolicyRequest,
+  output: DescribeResiliencyPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Imports resources to Resilience Hub application draft version from different input
  * sources. For more information about the input sources supported by Resilience Hub, see
  * Discover the structure and describe your Resilience Hub application.
  */
-export const importResourcesToDraftAppVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ImportResourcesToDraftAppVersionRequest,
-    output: ImportResourcesToDraftAppVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const importResourcesToDraftAppVersion: (
+  input: ImportResourcesToDraftAppVersionRequest,
+) => Effect.Effect<
+  ImportResourcesToDraftAppVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportResourcesToDraftAppVersionRequest,
+  output: ImportResourcesToDraftAppVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the assessments for an Resilience Hub application. You can use request
  * parameters to refine the results for the response object.
  */
-export const listAppAssessments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAppAssessments: {
+  (
     input: ListAppAssessmentsRequest,
-    output: ListAppAssessmentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAppAssessmentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppAssessmentsRequest,
+  ) => Stream.Stream<
+    ListAppAssessmentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppAssessmentsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppAssessmentsRequest,
+  output: ListAppAssessmentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the compliances for an Resilience Hub Application Component.
  */
-export const listAppComponentCompliances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAppComponentCompliances: {
+  (
     input: ListAppComponentCompliancesRequest,
-    output: ListAppComponentCompliancesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAppComponentCompliancesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppComponentCompliancesRequest,
+  ) => Stream.Stream<
+    ListAppComponentCompliancesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppComponentCompliancesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppComponentCompliancesRequest,
+  output: ListAppComponentCompliancesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all the input sources of the Resilience Hub application. For more
  * information about the input sources supported by Resilience Hub, see Discover
  * the structure and describe your Resilience Hub application.
  */
-export const listAppInputSources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAppInputSources: {
+  (
     input: ListAppInputSourcesRequest,
-    output: ListAppInputSourcesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAppInputSourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppInputSourcesRequest,
+  ) => Stream.Stream<
+    ListAppInputSourcesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppInputSourcesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppInputSourcesRequest,
+  output: ListAppInputSourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the different versions for the Resilience Hub applications.
  */
-export const listAppVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAppVersions: {
+  (
     input: ListAppVersionsRequest,
-    output: ListAppVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAppVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppVersionsRequest,
+  ) => Stream.Stream<
+    ListAppVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppVersionsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppVersionsRequest,
+  output: ListAppVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
  */
-export const listSopRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSopRecommendations: {
+  (
     input: ListSopRecommendationsRequest,
-    output: ListSopRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSopRecommendationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSopRecommendationsRequest,
+  ) => Stream.Stream<
+    ListSopRecommendationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSopRecommendationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSopRecommendationsRequest,
+  output: ListSopRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the test recommendations for the Resilience Hub application.
  */
-export const listTestRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTestRecommendations: {
+  (
     input: ListTestRecommendationsRequest,
-    output: ListTestRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTestRecommendationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTestRecommendationsRequest,
+  ) => Stream.Stream<
+    ListTestRecommendationsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTestRecommendationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTestRecommendationsRequest,
+  output: ListTestRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the resources that are not currently supported in Resilience Hub. An
  * unsupported resource is a resource that exists in the object that was used to create an app,
  * but is not supported by Resilience Hub.
  */
-export const listUnsupportedAppVersionResources =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listUnsupportedAppVersionResources: {
+  (
     input: ListUnsupportedAppVersionResourcesRequest,
-    output: ListUnsupportedAppVersionResourcesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListUnsupportedAppVersionResourcesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListUnsupportedAppVersionResourcesRequest,
+  ) => Stream.Stream<
+    ListUnsupportedAppVersionResourcesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUnsupportedAppVersionResourcesRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListUnsupportedAppVersionResourcesRequest,
+  output: ListUnsupportedAppVersionResourcesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Rejects resource grouping recommendations.
  */
-export const rejectResourceGroupingRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RejectResourceGroupingRecommendationsRequest,
-    output: RejectResourceGroupingRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const rejectResourceGroupingRecommendations: (
+  input: RejectResourceGroupingRecommendationsRequest,
+) => Effect.Effect<
+  RejectResourceGroupingRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectResourceGroupingRecommendationsRequest,
+  output: RejectResourceGroupingRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Accepts the resource grouping recommendations suggested by Resilience Hub for your application.
  */
-export const acceptResourceGroupingRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AcceptResourceGroupingRecommendationsRequest,
-    output: AcceptResourceGroupingRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const acceptResourceGroupingRecommendations: (
+  input: AcceptResourceGroupingRecommendationsRequest,
+) => Effect.Effect<
+  AcceptResourceGroupingRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptResourceGroupingRecommendationsRequest,
+  output: AcceptResourceGroupingRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Adds the source of resource-maps to the draft version of an application. During
  * assessment, Resilience Hub will use these resource-maps to resolve the latest physical
@@ -4713,41 +5638,89 @@ export const acceptResourceGroupingRecommendations =
  * Step
  * 2: How is your application managed? in the Resilience Hub User Guide.
  */
-export const addDraftAppVersionResourceMappings =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AddDraftAppVersionResourceMappingsRequest,
-    output: AddDraftAppVersionResourceMappingsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const addDraftAppVersionResourceMappings: (
+  input: AddDraftAppVersionResourceMappingsRequest,
+) => Effect.Effect<
+  AddDraftAppVersionResourceMappingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddDraftAppVersionResourceMappingsRequest,
+  output: AddDraftAppVersionResourceMappingsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the resource grouping recommendations suggested by Resilience Hub for your application.
  */
-export const listResourceGroupingRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourceGroupingRecommendations: {
+  (
     input: ListResourceGroupingRecommendationsRequest,
-    output: ListResourceGroupingRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "groupingRecommendations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourceGroupingRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceGroupingRecommendationsRequest,
+  ) => Stream.Stream<
+    ListResourceGroupingRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceGroupingRecommendationsRequest,
+  ) => Stream.Stream<
+    GroupingRecommendation,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceGroupingRecommendationsRequest,
+  output: ListResourceGroupingRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "groupingRecommendations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a resiliency policy for an application.
  *
@@ -4759,40 +5732,83 @@ export const listResourceGroupingRecommendations =
  * status for your application will be set to Policy
  * breached.
  */
-export const createResiliencyPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateResiliencyPolicyRequest,
-    output: CreateResiliencyPolicyResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createResiliencyPolicy: (
+  input: CreateResiliencyPolicyRequest,
+) => Effect.Effect<
+  CreateResiliencyPolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateResiliencyPolicyRequest,
+  output: CreateResiliencyPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * List of compliance drifts that were detected while running an
  * assessment.
  */
-export const listAppAssessmentComplianceDrifts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAppAssessmentComplianceDrifts: {
+  (
     input: ListAppAssessmentComplianceDriftsRequest,
-    output: ListAppAssessmentComplianceDriftsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAppAssessmentComplianceDriftsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppAssessmentComplianceDriftsRequest,
+  ) => Stream.Stream<
+    ListAppAssessmentComplianceDriftsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppAssessmentComplianceDriftsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppAssessmentComplianceDriftsRequest,
+  output: ListAppAssessmentComplianceDriftsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists your Resilience Hub applications.
  *
@@ -4803,7 +5819,41 @@ export const listAppAssessmentComplianceDrifts =
  * An error occurred (ValidationException) when calling the ListApps operation: Only
  * one filter is supported for this operation.
  */
-export const listApps = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApps: {
+  (
+    input: ListAppsRequest,
+  ): Effect.Effect<
+    ListAppsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppsRequest,
+  ) => Stream.Stream<
+    ListAppsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAppsRequest,
   output: ListAppsResponse,
   errors: [
@@ -4821,49 +5871,125 @@ export const listApps = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Lists the metrics that can be exported.
  */
-export const listMetrics = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMetrics: {
+  (
     input: ListMetricsRequest,
-    output: ListMetricsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "rows",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMetricsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMetricsRequest,
+  ) => Stream.Stream<
+    ListMetricsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMetricsRequest,
+  ) => Stream.Stream<
+    S.Schema.Type<typeof Row>,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMetricsRequest,
+  output: ListMetricsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "rows",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List of resource drifts that were detected while running an
  * assessment.
  */
-export const listAppAssessmentResourceDrifts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAppAssessmentResourceDrifts: {
+  (
     input: ListAppAssessmentResourceDriftsRequest,
-    output: ListAppAssessmentResourceDriftsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "resourceDrifts",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAppAssessmentResourceDriftsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppAssessmentResourceDriftsRequest,
+  ) => Stream.Stream<
+    ListAppAssessmentResourceDriftsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppAssessmentResourceDriftsRequest,
+  ) => Stream.Stream<
+    ResourceDrift,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppAssessmentResourceDriftsRequest,
+  output: ListAppAssessmentResourceDriftsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "resourceDrifts",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Applies one or more tags to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -4877,7 +6003,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Initiates the export task of metrics.
  */
-export const startMetricsExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startMetricsExport: (
+  input: StartMetricsExportRequest,
+) => Effect.Effect<
+  StartMetricsExportResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartMetricsExportRequest,
   output: StartMetricsExportResponse,
   errors: [
@@ -4892,71 +6030,162 @@ export const startMetricsExport = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Enables you to include or exclude one or more operational recommendations.
  */
-export const batchUpdateRecommendationStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchUpdateRecommendationStatusRequest,
-    output: BatchUpdateRecommendationStatusResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchUpdateRecommendationStatus: (
+  input: BatchUpdateRecommendationStatusRequest,
+) => Effect.Effect<
+  BatchUpdateRecommendationStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchUpdateRecommendationStatusRequest,
+  output: BatchUpdateRecommendationStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the alarm recommendations for an Resilience Hub application.
  */
-export const listAlarmRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAlarmRecommendations: {
+  (
     input: ListAlarmRecommendationsRequest,
-    output: ListAlarmRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAlarmRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAlarmRecommendationsRequest,
+  ) => Stream.Stream<
+    ListAlarmRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAlarmRecommendationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAlarmRecommendationsRequest,
+  output: ListAlarmRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Describes an assessment for an Resilience Hub application.
  */
-export const describeAppAssessment = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAppAssessmentRequest,
-    output: DescribeAppAssessmentResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const describeAppAssessment: (
+  input: DescribeAppAssessmentRequest,
+) => Effect.Effect<
+  DescribeAppAssessmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAppAssessmentRequest,
+  output: DescribeAppAssessmentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the recommendations for an Resilience Hub Application Component.
  */
-export const listAppComponentRecommendations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAppComponentRecommendations: {
+  (
     input: ListAppComponentRecommendationsRequest,
-    output: ListAppComponentRecommendationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAppComponentRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppComponentRecommendationsRequest,
+  ) => Stream.Stream<
+    ListAppComponentRecommendationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppComponentRecommendationsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppComponentRecommendationsRequest,
+  output: ListAppComponentRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));

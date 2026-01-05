@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Personalize Events",
   serviceShapeName: "AmazonPersonalizeEvents",
@@ -241,6 +249,22 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type StringType = string;
+export type Arn = string;
+export type UserId = string;
+export type ActionId = string;
+export type RecommendationId = string;
+export type SynthesizedJsonActionInteractionProperties = string;
+export type SynthesizedJsonActionProperties = string;
+export type FloatType = number;
+export type ItemId = string;
+export type SynthesizedJsonEventPropertiesJSON = string;
+export type SynthesizedJsonItemProperties = string;
+export type SynthesizedJsonUserProperties = string;
+export type EventAttributionSource = string;
+export type ErrorMessage = string;
+
 //# Schemas
 export type ActionImpression = string[];
 export const ActionImpression = S.Array(S.String);
@@ -477,7 +501,13 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
  * Records item interaction event data. For more information see
  * Recording item interaction events.
  */
-export const putEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putEvents: (
+  input: PutEventsRequest,
+) => Effect.Effect<
+  PutEventsResponse,
+  InvalidInputException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutEventsRequest,
   output: PutEventsResponse,
   errors: [InvalidInputException],
@@ -489,22 +519,38 @@ export const putEvents = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * For more information about recording action interactions, see Recording action interaction events.
  * For more information about actions in an Actions dataset, see Actions dataset.
  */
-export const putActionInteractions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: PutActionInteractionsRequest,
-    output: PutActionInteractionsResponse,
-    errors: [
-      InvalidInputException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const putActionInteractions: (
+  input: PutActionInteractionsRequest,
+) => Effect.Effect<
+  PutActionInteractionsResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutActionInteractionsRequest,
+  output: PutActionInteractionsResponse,
+  errors: [
+    InvalidInputException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Adds one or more actions to an Actions dataset. For more information see
  * Importing actions individually.
  */
-export const putActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putActions: (
+  input: PutActionsRequest,
+) => Effect.Effect<
+  PutActionsResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutActionsRequest,
   output: PutActionsResponse,
   errors: [
@@ -517,7 +563,16 @@ export const putActions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Adds one or more items to an Items dataset. For more information see
  * Importing items individually.
  */
-export const putItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putItems: (
+  input: PutItemsRequest,
+) => Effect.Effect<
+  PutItemsResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutItemsRequest,
   output: PutItemsResponse,
   errors: [
@@ -530,7 +585,16 @@ export const putItems = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Adds one or more users to a Users dataset. For more information see
  * Importing users individually.
  */
-export const putUsers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putUsers: (
+  input: PutUsersRequest,
+) => Effect.Effect<
+  PutUsersResponse,
+  | InvalidInputException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutUsersRequest,
   output: PutUsersResponse,
   errors: [

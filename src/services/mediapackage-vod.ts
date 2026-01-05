@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "MediaPackage Vod",
   serviceShapeName: "MediaPackageVod",
@@ -240,6 +248,11 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type __string = string;
+export type MaxResults = number;
+export type __integer = number;
 
 //# Schemas
 export type __listOf__string = string[];
@@ -1338,7 +1351,9 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
@@ -1346,11 +1361,15 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class UnprocessableEntityException extends S.TaggedError<UnprocessableEntityException>()(
   "UnprocessableEntityException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
@@ -1360,7 +1379,13 @@ export class UnprocessableEntityException extends S.TaggedError<UnprocessableEnt
 /**
  * Removes tags from the specified resource. You can specify one or more tags to remove.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [],
@@ -1368,7 +1393,13 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the tags assigned to the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [],
@@ -1376,7 +1407,13 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds tags to the specified resource. You can specify one or more tags to add.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [],
@@ -1384,7 +1421,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing MediaPackage VOD Asset resource.
  */
-export const deleteAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAsset: (
+  input: DeleteAssetRequest,
+) => Effect.Effect<
+  DeleteAssetResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAssetRequest,
   output: DeleteAssetResponse,
   errors: [
@@ -1399,7 +1448,19 @@ export const deleteAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a description of a MediaPackage VOD Asset resource.
  */
-export const describeAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAsset: (
+  input: DescribeAssetRequest,
+) => Effect.Effect<
+  DescribeAssetResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAssetRequest,
   output: DescribeAssetResponse,
   errors: [
@@ -1414,7 +1475,47 @@ export const describeAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a collection of MediaPackage VOD Asset resources.
  */
-export const listAssets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAssets: {
+  (
+    input: ListAssetsRequest,
+  ): Effect.Effect<
+    ListAssetsResponse,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssetsRequest,
+  ) => Stream.Stream<
+    ListAssetsResponse,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssetsRequest,
+  ) => Stream.Stream<
+    AssetShallow,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAssetsRequest,
   output: ListAssetsResponse,
   errors: [
@@ -1435,134 +1536,276 @@ export const listAssets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns a collection of MediaPackage VOD PackagingConfiguration resources.
  */
-export const listPackagingConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPackagingConfigurations: {
+  (
     input: ListPackagingConfigurationsRequest,
-    output: ListPackagingConfigurationsResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PackagingConfigurations",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPackagingConfigurationsResponse,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPackagingConfigurationsRequest,
+  ) => Stream.Stream<
+    ListPackagingConfigurationsResponse,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPackagingConfigurationsRequest,
+  ) => Stream.Stream<
+    PackagingConfiguration,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPackagingConfigurationsRequest,
+  output: ListPackagingConfigurationsResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PackagingConfigurations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a collection of MediaPackage VOD PackagingGroup resources.
  */
-export const listPackagingGroups =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPackagingGroups: {
+  (
     input: ListPackagingGroupsRequest,
-    output: ListPackagingGroupsResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "PackagingGroups",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPackagingGroupsResponse,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPackagingGroupsRequest,
+  ) => Stream.Stream<
+    ListPackagingGroupsResponse,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPackagingGroupsRequest,
+  ) => Stream.Stream<
+    PackagingGroup,
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnprocessableEntityException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPackagingGroupsRequest,
+  output: ListPackagingGroupsResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PackagingGroups",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a description of a MediaPackage VOD PackagingConfiguration resource.
  */
-export const describePackagingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribePackagingConfigurationRequest,
-    output: DescribePackagingConfigurationResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }));
+export const describePackagingConfiguration: (
+  input: DescribePackagingConfigurationRequest,
+) => Effect.Effect<
+  DescribePackagingConfigurationResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePackagingConfigurationRequest,
+  output: DescribePackagingConfigurationResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
 /**
  * Returns a description of a MediaPackage VOD PackagingGroup resource.
  */
-export const describePackagingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribePackagingGroupRequest,
-    output: DescribePackagingGroupResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
+export const describePackagingGroup: (
+  input: DescribePackagingGroupRequest,
+) => Effect.Effect<
+  DescribePackagingGroupResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePackagingGroupRequest,
+  output: DescribePackagingGroupResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
 /**
  * Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
  */
-export const updatePackagingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePackagingGroupRequest,
-    output: UpdatePackagingGroupResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
+export const updatePackagingGroup: (
+  input: UpdatePackagingGroupRequest,
+) => Effect.Effect<
+  UpdatePackagingGroupResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePackagingGroupRequest,
+  output: UpdatePackagingGroupResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
 /**
  * Deletes a MediaPackage VOD PackagingConfiguration resource.
  */
-export const deletePackagingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeletePackagingConfigurationRequest,
-    output: DeletePackagingConfigurationResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }));
+export const deletePackagingConfiguration: (
+  input: DeletePackagingConfigurationRequest,
+) => Effect.Effect<
+  DeletePackagingConfigurationResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePackagingConfigurationRequest,
+  output: DeletePackagingConfigurationResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
 /**
  * Deletes a MediaPackage VOD PackagingGroup resource.
  */
-export const deletePackagingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePackagingGroupRequest,
-    output: DeletePackagingGroupResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
+export const deletePackagingGroup: (
+  input: DeletePackagingGroupRequest,
+) => Effect.Effect<
+  DeletePackagingGroupResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePackagingGroupRequest,
+  output: DeletePackagingGroupResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
 /**
  * Changes the packaging group's properities to configure log subscription
  */
-export const configureLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const configureLogs: (
+  input: ConfigureLogsRequest,
+) => Effect.Effect<
+  ConfigureLogsResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfigureLogsRequest,
   output: ConfigureLogsResponse,
   errors: [
@@ -1577,7 +1820,19 @@ export const configureLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new MediaPackage VOD Asset resource.
  */
-export const createAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAsset: (
+  input: CreateAssetRequest,
+) => Effect.Effect<
+  CreateAssetResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAssetRequest,
   output: CreateAssetResponse,
   errors: [
@@ -1592,33 +1847,54 @@ export const createAsset = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new MediaPackage VOD PackagingGroup resource.
  */
-export const createPackagingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePackagingGroupRequest,
-    output: CreatePackagingGroupResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }),
-);
+export const createPackagingGroup: (
+  input: CreatePackagingGroupRequest,
+) => Effect.Effect<
+  CreatePackagingGroupResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePackagingGroupRequest,
+  output: CreatePackagingGroupResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));
 /**
  * Creates a new MediaPackage VOD PackagingConfiguration resource.
  */
-export const createPackagingConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreatePackagingConfigurationRequest,
-    output: CreatePackagingConfigurationResponse,
-    errors: [
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnprocessableEntityException,
-    ],
-  }));
+export const createPackagingConfiguration: (
+  input: CreatePackagingConfigurationRequest,
+) => Effect.Effect<
+  CreatePackagingConfigurationResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePackagingConfigurationRequest,
+  output: CreatePackagingConfigurationResponse,
+  errors: [
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnprocessableEntityException,
+  ],
+}));

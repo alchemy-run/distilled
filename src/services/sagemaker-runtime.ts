@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker Runtime",
   serviceShapeName: "AmazonSageMakerRuntime",
@@ -281,6 +289,27 @@ const rules = T.EndpointRuleSet({
   ],
 });
 
+//# Newtypes
+export type EndpointName = string;
+export type Header = string;
+export type CustomAttributesHeader = string;
+export type TargetModelHeader = string;
+export type TargetVariantHeader = string;
+export type TargetContainerHostnameHeader = string;
+export type InferenceId = string;
+export type EnableExplanationsHeader = string;
+export type InferenceComponentHeader = string;
+export type SessionIdOrNewSessionConstantHeader = string;
+export type InputLocationHeader = string;
+export type RequestTTLSecondsHeader = number;
+export type InvocationTimeoutSecondsHeader = number;
+export type SessionIdHeader = string;
+export type NewSessionResponseHeader = string;
+export type Message = string;
+export type ErrorCode = string;
+export type StatusCode = number;
+export type LogStreamArn = string;
+
 //# Schemas
 export interface InvokeEndpointInput {
   EndpointName: string;
@@ -533,15 +562,21 @@ export const InvokeEndpointWithResponseStreamOutput = S.suspend(() =>
 export class InternalDependencyException extends S.TaggedError<InternalDependencyException>()(
   "InternalDependencyException",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InternalFailure extends S.TaggedError<InternalFailure>()(
   "InternalFailure",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ServiceUnavailable extends S.TaggedError<ServiceUnavailable>()(
   "ServiceUnavailable",
   { Message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InternalStreamFailure extends S.TaggedError<InternalStreamFailure>()(
   "InternalStreamFailure",
   { Message: S.optional(S.String) },
@@ -564,7 +599,9 @@ export class ModelNotReadyException extends S.TaggedError<ModelNotReadyException
   "ModelNotReadyException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ModelNotReadyException", httpResponseCode: 429 }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
@@ -584,7 +621,13 @@ export class ModelNotReadyException extends S.TaggedError<ModelNotReadyException
  * Calls to `InvokeEndpointAsync` are authenticated by using Amazon Web Services Signature Version 4. For information, see Authenticating
  * Requests (Amazon Web Services Signature Version 4) in the *Amazon S3 API Reference*.
  */
-export const invokeEndpointAsync = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const invokeEndpointAsync: (
+  input: InvokeEndpointAsyncInput,
+) => Effect.Effect<
+  InvokeEndpointAsyncOutput,
+  InternalFailure | ServiceUnavailable | ValidationError | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeEndpointAsyncInput,
   output: InvokeEndpointAsyncOutput,
   errors: [InternalFailure, ServiceUnavailable, ValidationError],
@@ -613,7 +656,19 @@ export const invokeEndpointAsync = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * not contain the account ID, but Amazon SageMaker AI determines the account ID from
  * the authentication token that is supplied by the caller.
  */
-export const invokeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const invokeEndpoint: (
+  input: InvokeEndpointInput,
+) => Effect.Effect<
+  InvokeEndpointOutput,
+  | InternalDependencyException
+  | InternalFailure
+  | ModelError
+  | ModelNotReadyException
+  | ServiceUnavailable
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeEndpointInput,
   output: InvokeEndpointOutput,
   errors: [
@@ -651,16 +706,27 @@ export const invokeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Amazon Web Services Signature Version 4. For information, see Authenticating Requests (Amazon Web Services Signature Version 4) in the
  * *Amazon S3 API Reference*.
  */
-export const invokeEndpointWithResponseStream =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: InvokeEndpointWithResponseStreamInput,
-    output: InvokeEndpointWithResponseStreamOutput,
-    errors: [
-      InternalFailure,
-      InternalStreamFailure,
-      ModelError,
-      ModelStreamError,
-      ServiceUnavailable,
-      ValidationError,
-    ],
-  }));
+export const invokeEndpointWithResponseStream: (
+  input: InvokeEndpointWithResponseStreamInput,
+) => Effect.Effect<
+  InvokeEndpointWithResponseStreamOutput,
+  | InternalFailure
+  | InternalStreamFailure
+  | ModelError
+  | ModelStreamError
+  | ServiceUnavailable
+  | ValidationError
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InvokeEndpointWithResponseStreamInput,
+  output: InvokeEndpointWithResponseStreamOutput,
+  errors: [
+    InternalFailure,
+    InternalStreamFailure,
+    ModelError,
+    ModelStreamError,
+    ServiceUnavailable,
+    ValidationError,
+  ],
+}));

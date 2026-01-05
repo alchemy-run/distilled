@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "SecurityLake",
   serviceShapeName: "SecurityLake",
@@ -292,6 +300,31 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type SubscriptionProtocol = string;
+export type SafeString = string;
+export type Region = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type AmazonResourceName = string;
+export type TagKey = string;
+export type CustomLogSourceName = string;
+export type CustomLogSourceVersion = string;
+export type OcsfEventClass = string;
+export type RoleArn = string;
+export type AwsAccountId = string;
+export type DescriptionString = string;
+export type UUID = string;
+export type TagValue = string;
+export type AwsLogSourceVersion = string;
+export type AwsPrincipal = string;
+export type ExternalId = string;
+export type S3BucketArn = string;
+export type ResourceShareArn = string;
+export type ResourceShareName = string;
+export type DataLakeStorageClass = string;
+export type S3URI = string;
 
 //# Schemas
 export interface DeleteDataLakeExceptionSubscriptionRequest {}
@@ -886,6 +919,9 @@ export const CustomLogSourceResource = S.suspend(() =>
 ).annotations({
   identifier: "CustomLogSourceResource",
 }) as any as S.Schema<CustomLogSourceResource>;
+export type LogSourceResource =
+  | { awsLogSource: AwsLogSourceResource }
+  | { customLogSource: CustomLogSourceResource };
 export const LogSourceResource = S.Union(
   S.Struct({ awsLogSource: AwsLogSourceResource }),
   S.Struct({ customLogSource: CustomLogSourceResource }),
@@ -1013,6 +1049,9 @@ export const HttpsNotificationConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "HttpsNotificationConfiguration",
 }) as any as S.Schema<HttpsNotificationConfiguration>;
+export type NotificationConfiguration =
+  | { sqsNotificationConfiguration: SqsNotificationConfiguration }
+  | { httpsNotificationConfiguration: HttpsNotificationConfiguration };
 export const NotificationConfiguration = S.Union(
   S.Struct({ sqsNotificationConfiguration: SqsNotificationConfiguration }),
   S.Struct({ httpsNotificationConfiguration: HttpsNotificationConfiguration }),
@@ -1588,7 +1627,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.optional(S.String) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
@@ -1606,49 +1647,100 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
  * Deletes the specified notification subscription in Amazon Security Lake for the organization
  * you specify.
  */
-export const deleteDataLakeExceptionSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDataLakeExceptionSubscriptionRequest,
-    output: DeleteDataLakeExceptionSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteDataLakeExceptionSubscription: (
+  input: DeleteDataLakeExceptionSubscriptionRequest,
+) => Effect.Effect<
+  DeleteDataLakeExceptionSubscriptionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataLakeExceptionSubscriptionRequest,
+  output: DeleteDataLakeExceptionSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves the log sources.
  */
-export const listLogSources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLogSources: {
+  (
     input: ListLogSourcesRequest,
-    output: ListLogSourcesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "sources",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLogSourcesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLogSourcesRequest,
+  ) => Stream.Stream<
+    ListLogSourcesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLogSourcesRequest,
+  ) => Stream.Stream<
+    LogSource,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLogSourcesRequest,
+  output: ListLogSourcesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sources",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Initializes an Amazon Security Lake instance with the provided (or default) configuration. You
  * can enable Security Lake in Amazon Web Services Regions with customized settings before enabling
@@ -1666,7 +1758,19 @@ export const listLogSources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * more information, see the Amazon Security Lake User
  * Guide.
  */
-export const createDataLake = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDataLake: (
+  input: CreateDataLakeRequest,
+) => Effect.Effect<
+  CreateDataLakeResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDataLakeRequest,
   output: CreateDataLakeResponse,
   errors: [
@@ -1682,7 +1786,19 @@ export const createDataLake = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves the Amazon Security Lake configuration object for the specified Amazon Web Services Regions. You can use this operation to determine whether
  * Security Lake is enabled for a Region.
  */
-export const listDataLakes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listDataLakes: (
+  input: ListDataLakesRequest,
+) => Effect.Effect<
+  ListDataLakesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDataLakesRequest,
   output: ListDataLakesResponse,
   errors: [
@@ -1703,85 +1819,183 @@ export const listDataLakes = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * location for log files from the custom source. In addition, this operation also creates an
  * associated Glue table and an Glue crawler.
  */
-export const createCustomLogSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCustomLogSourceRequest,
-    output: CreateCustomLogSourceResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createCustomLogSource: (
+  input: CreateCustomLogSourceRequest,
+) => Effect.Effect<
+  CreateCustomLogSourceResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomLogSourceRequest,
+  output: CreateCustomLogSourceResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves a snapshot of the current Region, including whether Amazon Security Lake is enabled
  * for those accounts and which sources Security Lake is collecting data from.
  */
-export const getDataLakeSources = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const getDataLakeSources: {
+  (
     input: GetDataLakeSourcesRequest,
-    output: GetDataLakeSourcesResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dataLakeSources",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    GetDataLakeSourcesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetDataLakeSourcesRequest,
+  ) => Stream.Stream<
+    GetDataLakeSourcesResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetDataLakeSourcesRequest,
+  ) => Stream.Stream<
+    DataLakeSource,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetDataLakeSourcesRequest,
+  output: GetDataLakeSourcesResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dataLakeSources",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Notifies the subscriber when new data is written to the data lake for the sources that
  * the subscriber consumes in Security Lake. You can create only one subscriber notification per
  * subscriber.
  */
-export const createSubscriberNotification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateSubscriberNotificationRequest,
-    output: CreateSubscriberNotificationResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const createSubscriberNotification: (
+  input: CreateSubscriberNotificationRequest,
+) => Effect.Effect<
+  CreateSubscriberNotificationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSubscriberNotificationRequest,
+  output: CreateSubscriberNotificationResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Lists the Amazon Security Lake exceptions that you can use to find the source of problems and
  * fix them.
  */
-export const listDataLakeExceptions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDataLakeExceptions: {
+  (
     input: ListDataLakeExceptionsRequest,
-    output: ListDataLakeExceptionsResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "exceptions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDataLakeExceptionsResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDataLakeExceptionsRequest,
+  ) => Stream.Stream<
+    ListDataLakeExceptionsResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDataLakeExceptionsRequest,
+  ) => Stream.Stream<
+    DataLakeException,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDataLakeExceptionsRequest,
+  output: ListDataLakeExceptionsResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "exceptions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Adds a natively supported Amazon Web Services service as an Amazon Security Lake source. Enables
  * source types for member accounts in required Amazon Web Services Regions, based on the
@@ -1792,7 +2006,19 @@ export const listDataLakeExceptions =
  * source. Use `CreateCustomLogSource` to enable data collection from a custom
  * source.
  */
-export const createAwsLogSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAwsLogSource: (
+  input: CreateAwsLogSourceRequest,
+) => Effect.Effect<
+  CreateAwsLogSourceResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAwsLogSourceRequest,
   output: CreateAwsLogSourceResponse,
   errors: [
@@ -1811,24 +2037,47 @@ export const createAwsLogSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This operation merges the new data lake organization configuration with the existing configuration for Security Lake in your organization. If you want to create a new data lake organization configuration, you must delete the existing one using DeleteDataLakeOrganizationConfiguration.
  */
-export const createDataLakeOrganizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDataLakeOrganizationConfigurationRequest,
-    output: CreateDataLakeOrganizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const createDataLakeOrganizationConfiguration: (
+  input: CreateDataLakeOrganizationConfigurationRequest,
+) => Effect.Effect<
+  CreateDataLakeOrganizationConfigurationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataLakeOrganizationConfigurationRequest,
+  output: CreateDataLakeOrganizationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a subscriber for accounts that are already enabled in Amazon Security Lake. You can
  * create a subscriber with access to data in the current Amazon Web Services Region.
  */
-export const createSubscriber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSubscriber: (
+  input: CreateSubscriberRequest,
+) => Effect.Effect<
+  CreateSubscriberResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubscriberRequest,
   output: CreateSubscriberResponse,
   errors: [
@@ -1844,7 +2093,19 @@ export const createSubscriber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves the subscription information for the specified subscription ID. You can get
  * information about a specific subscriber.
  */
-export const getSubscriber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSubscriber: (
+  input: GetSubscriberRequest,
+) => Effect.Effect<
+  GetSubscriberResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSubscriberRequest,
   output: GetSubscriberResponse,
   errors: [
@@ -1860,7 +2121,19 @@ export const getSubscriber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves the tags (keys and values) that are associated with an Amazon Security Lake resource: a subscriber, or the data lake configuration for
  * your Amazon Web Services account in a particular Amazon Web Services Region.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1882,7 +2155,19 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Tagging Amazon Security Lake resources in the
  * *Amazon Security Lake User Guide*.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1904,7 +2189,19 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * You can choose any source type in any Amazon Web Services Region for either accounts that
  * are part of a trusted organization or standalone accounts.
  */
-export const deleteAwsLogSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAwsLogSource: (
+  input: DeleteAwsLogSourceRequest,
+) => Effect.Effect<
+  DeleteAwsLogSourceResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAwsLogSourceRequest,
   output: DeleteAwsLogSourceResponse,
   errors: [
@@ -1931,7 +2228,19 @@ export const deleteAwsLogSource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * For more details about lifecycle management and how to update retention settings for one or more Regions after enabling Security Lake, see the Amazon Security Lake User Guide.
  */
-export const updateDataLake = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDataLake: (
+  input: UpdateDataLakeRequest,
+) => Effect.Effect<
+  UpdateDataLakeResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataLakeRequest,
   output: UpdateDataLakeResponse,
   errors: [
@@ -1947,7 +2256,19 @@ export const updateDataLake = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates an existing subscription for the given Amazon Security Lake account ID. You can update
  * a subscriber by changing the sources that the subscriber consumes data from.
  */
-export const updateSubscriber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSubscriber: (
+  input: UpdateSubscriberRequest,
+) => Effect.Effect<
+  UpdateSubscriberResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSubscriberRequest,
   output: UpdateSubscriberResponse,
   errors: [
@@ -1963,82 +2284,165 @@ export const updateSubscriber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Lists all subscribers for the specific Amazon Security Lake account ID. You can retrieve a list
  * of subscriptions associated with a specific organization or Amazon Web Services account.
  */
-export const listSubscribers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSubscribers: {
+  (
     input: ListSubscribersRequest,
-    output: ListSubscribersResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "subscribers",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSubscribersResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSubscribersRequest,
+  ) => Stream.Stream<
+    ListSubscribersResponse,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSubscribersRequest,
+  ) => Stream.Stream<
+    SubscriberResource,
+    | AccessDeniedException
+    | BadRequestException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSubscribersRequest,
+  output: ListSubscribersResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "subscribers",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates an existing notification method for the subscription (SQS or HTTPs endpoint) or
  * switches the notification subscription endpoint for a subscriber.
  */
-export const updateSubscriberNotification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateSubscriberNotificationRequest,
-    output: UpdateSubscriberNotificationResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateSubscriberNotification: (
+  input: UpdateSubscriberNotificationRequest,
+) => Effect.Effect<
+  UpdateSubscriberNotificationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSubscriberNotificationRequest,
+  output: UpdateSubscriberNotificationResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves the protocol and endpoint that were provided when subscribing to Amazon SNS topics for exception notifications.
  */
-export const getDataLakeExceptionSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDataLakeExceptionSubscriptionRequest,
-    output: GetDataLakeExceptionSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const getDataLakeExceptionSubscription: (
+  input: GetDataLakeExceptionSubscriptionRequest,
+) => Effect.Effect<
+  GetDataLakeExceptionSubscriptionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataLakeExceptionSubscriptionRequest,
+  output: GetDataLakeExceptionSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Designates the Amazon Security Lake delegated administrator account for the organization. This
  * API can only be called by the organization management account. The organization management
  * account cannot be the delegated administrator account.
  */
-export const registerDataLakeDelegatedAdministrator =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterDataLakeDelegatedAdministratorRequest,
-    output: RegisterDataLakeDelegatedAdministratorResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const registerDataLakeDelegatedAdministrator: (
+  input: RegisterDataLakeDelegatedAdministratorRequest,
+) => Effect.Effect<
+  RegisterDataLakeDelegatedAdministratorResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterDataLakeDelegatedAdministratorRequest,
+  output: RegisterDataLakeDelegatedAdministratorResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Removes one or more tags (keys and values) from an Amazon Security Lake resource: a subscriber, or the data lake configuration for your
  * Amazon Web Services account in a particular Amazon Web Services Region.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2054,37 +2458,58 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Updates the specified notification subscription in Amazon Security Lake for the organization
  * you specify.
  */
-export const updateDataLakeExceptionSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateDataLakeExceptionSubscriptionRequest,
-    output: UpdateDataLakeExceptionSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const updateDataLakeExceptionSubscription: (
+  input: UpdateDataLakeExceptionSubscriptionRequest,
+) => Effect.Effect<
+  UpdateDataLakeExceptionSubscriptionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataLakeExceptionSubscriptionRequest,
+  output: UpdateDataLakeExceptionSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Removes a custom log source from Amazon Security Lake, to stop sending data from the custom
  * source to Security Lake.
  */
-export const deleteCustomLogSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCustomLogSourceRequest,
-    output: DeleteCustomLogSourceResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteCustomLogSource: (
+  input: DeleteCustomLogSourceRequest,
+) => Effect.Effect<
+  DeleteCustomLogSourceResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomLogSourceRequest,
+  output: DeleteCustomLogSourceResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * When you disable Amazon Security Lake from your account, Security Lake is disabled in all Amazon Web Services Regions and it stops collecting data from your sources. Also, this API
  * automatically takes steps to remove the account from Security Lake. However, Security Lake retains
@@ -2096,7 +2521,19 @@ export const deleteCustomLogSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * information, see the Amazon Security Lake User
  * Guide.
  */
-export const deleteDataLake = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDataLake: (
+  input: DeleteDataLakeRequest,
+) => Effect.Effect<
+  DeleteDataLakeResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDataLakeRequest,
   output: DeleteDataLakeResponse,
   errors: [
@@ -2113,44 +2550,78 @@ export const deleteDataLake = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Security Lake administrator for an organization can perform this operation. If the delegated Security Lake administrator performs this operation, new member
  * accounts won't automatically contribute data to the data lake.
  */
-export const deleteDataLakeOrganizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteDataLakeOrganizationConfigurationRequest,
-    output: DeleteDataLakeOrganizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteDataLakeOrganizationConfiguration: (
+  input: DeleteDataLakeOrganizationConfigurationRequest,
+) => Effect.Effect<
+  DeleteDataLakeOrganizationConfigurationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataLakeOrganizationConfigurationRequest,
+  output: DeleteDataLakeOrganizationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Retrieves the configuration that will be automatically set up for accounts added to the
  * organization after the organization has onboarded to Amazon Security Lake. This API does not take
  * input parameters.
  */
-export const getDataLakeOrganizationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetDataLakeOrganizationConfigurationRequest,
-    output: GetDataLakeOrganizationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const getDataLakeOrganizationConfiguration: (
+  input: GetDataLakeOrganizationConfigurationRequest,
+) => Effect.Effect<
+  GetDataLakeOrganizationConfigurationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataLakeOrganizationConfigurationRequest,
+  output: GetDataLakeOrganizationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes the subscription permission and all notification settings for accounts that are
  * already enabled in Amazon Security Lake. When you run `DeleteSubscriber`, the
  * subscriber will no longer consume data from Security Lake and the subscriber is removed. This
  * operation deletes the subscriber and removes access to data in the current Amazon Web Services Region.
  */
-export const deleteSubscriber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSubscriber: (
+  input: DeleteSubscriberRequest,
+) => Effect.Effect<
+  DeleteSubscriberResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubscriberRequest,
   output: DeleteSubscriberResponse,
   errors: [
@@ -2166,51 +2637,84 @@ export const deleteSubscriber = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Deletes the specified subscription notification in Amazon Security Lake for the organization
  * you specify.
  */
-export const deleteSubscriberNotification =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteSubscriberNotificationRequest,
-    output: DeleteSubscriberNotificationResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteSubscriberNotification: (
+  input: DeleteSubscriberNotificationRequest,
+) => Effect.Effect<
+  DeleteSubscriberNotificationResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSubscriberNotificationRequest,
+  output: DeleteSubscriberNotificationResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes the Amazon Security Lake delegated administrator account for the organization. This API
  * can only be called by the organization management account. The organization management
  * account cannot be the delegated administrator account.
  */
-export const deregisterDataLakeDelegatedAdministrator =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeregisterDataLakeDelegatedAdministratorRequest,
-    output: DeregisterDataLakeDelegatedAdministratorResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deregisterDataLakeDelegatedAdministrator: (
+  input: DeregisterDataLakeDelegatedAdministratorRequest,
+) => Effect.Effect<
+  DeregisterDataLakeDelegatedAdministratorResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterDataLakeDelegatedAdministratorRequest,
+  output: DeregisterDataLakeDelegatedAdministratorResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates the specified notification subscription in Amazon Security Lake for the organization
  * you specify. The notification subscription is created for exceptions that cannot be resolved by Security Lake automatically.
  */
-export const createDataLakeExceptionSubscription =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateDataLakeExceptionSubscriptionRequest,
-    output: CreateDataLakeExceptionSubscriptionResponse,
-    errors: [
-      AccessDeniedException,
-      BadRequestException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const createDataLakeExceptionSubscription: (
+  input: CreateDataLakeExceptionSubscriptionRequest,
+) => Effect.Effect<
+  CreateDataLakeExceptionSubscriptionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataLakeExceptionSubscriptionRequest,
+  output: CreateDataLakeExceptionSubscriptionResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock AgentCore Control",
   serviceShapeName: "AmazonBedrockAgentCoreControl",
@@ -292,6 +300,128 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type BedrockAgentcoreResourceArn = string;
+export type TokenVaultIdType = string;
+export type TaggableResourcesArn = string;
+export type ResourcePolicyBody = string;
+export type TagKey = string;
+export type AgentRuntimeId = string;
+export type EndpointName = string;
+export type AgentRuntimeVersion = string;
+export type AgentEndpointDescription = string;
+export type ClientToken = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type AgentRuntimeName = string;
+export type RoleArn = string;
+export type Description = string;
+export type CredentialProviderName = string;
+export type ApiKeyType = string;
+export type SandboxName = string;
+export type BrowserId = string;
+export type CodeInterpreterId = string;
+export type CustomEvaluatorName = string;
+export type EvaluatorDescription = string;
+export type EvaluatorId = string;
+export type GatewayName = string;
+export type GatewayDescription = string;
+export type KmsKeyArn = string;
+export type GatewayIdentifier = string;
+export type GatewayMaxResults = number;
+export type GatewayNextToken = string;
+export type TargetName = string;
+export type TargetDescription = string;
+export type TargetId = string;
+export type TargetMaxResults = number;
+export type TargetNextToken = string;
+export type NonEmptyString = string;
+export type Name = string;
+export type Arn = string;
+export type MemoryId = string;
+export type EvaluationConfigName = string;
+export type EvaluationConfigDescription = string;
+export type OnlineEvaluationConfigId = string;
+export type PolicyEngineName = string;
+export type ResourceId = string;
+export type PolicyGenerationName = string;
+export type PolicyName = string;
+export type WorkloadIdentityNameType = string;
+export type ResourceOauth2ReturnUrlType = string;
+export type TagValue = string;
+export type HeaderName = string;
+export type EnvironmentVariableKey = string;
+export type EnvironmentVariableValue = string;
+export type GatewayPolicyEngineArn = string;
+export type HttpHeaderName = string;
+export type HttpQueryParameterName = string;
+export type NaturalLanguage = string;
+export type NonBlankString = string;
+export type AgentRuntimeEndpointArn = string;
+export type AgentRuntimeArn = string;
+export type AgentRuntimeEndpointId = string;
+export type ApiKeyCredentialProviderArnType = string;
+export type BrowserArn = string;
+export type CodeInterpreterArn = string;
+export type EvaluatorArn = string;
+export type EvaluatorName = string;
+export type GatewayId = string;
+export type StatusReason = string;
+export type GatewayArn = string;
+export type GatewayUrl = string;
+export type CredentialProviderArnType = string;
+export type OnlineEvaluationConfigArn = string;
+export type PolicyEngineArn = string;
+export type PolicyGenerationArn = string;
+export type PolicyArn = string;
+export type WorkloadIdentityArnType = string;
+export type RuntimeContainerUri = string;
+export type entryPoint = string;
+export type SecurityGroupId = string;
+export type SubnetId = string;
+export type DiscoveryUrl = string;
+export type AllowedAudience = string;
+export type AllowedClient = string;
+export type AllowedScopeType = string;
+export type EvaluatorInstructions = string;
+export type McpVersion = string;
+export type McpInstructions = string;
+export type Namespace = string;
+export type ClientIdType = string;
+export type ClientSecretType = string;
+export type TenantIdType = string;
+export type IssuerUrlType = string;
+export type AuthorizationEndpointType = string;
+export type TokenEndpointType = string;
+export type SamplingPercentage = number;
+export type LogGroupName = string;
+export type ServiceName = string;
+export type Statement = string;
+export type WorkloadIdentityArn = string;
+export type SecretArn = string;
+export type MemoryArn = string;
+export type InboundTokenClaimNameType = string;
+export type LambdaFunctionArn = string;
+export type InlinePayload = string;
+export type OAuthCredentialProviderArn = string;
+export type OAuthScope = string;
+export type OAuthDefaultReturnUrl = string;
+export type ApiKeyCredentialProviderArn = string;
+export type ApiKeyCredentialParameterName = string;
+export type ApiKeyCredentialPrefix = string;
+export type DiscoveryUrlType = string;
+export type MemoryStrategyId = string;
+export type ModelId = string;
+export type S3BucketUri = string;
+export type AwsAccountId = string;
+export type OAuthCustomParametersKey = string;
+export type OAuthCustomParametersValue = string;
+export type ResponseType = string;
+export type TokenAuthMethod = string;
+export type MatchValueString = string;
+export type Prompt = string;
+export type CustomEvaluatorArn = string;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -601,6 +731,7 @@ export const S3Location = S.suspend(() =>
     versionId: S.optional(S.String),
   }),
 ).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export type Code = { s3: S3Location };
 export const Code = S.Union(S.Struct({ s3: S3Location }));
 export type EntryPoints = string[];
 export const EntryPoints = S.Array(S.String);
@@ -614,6 +745,9 @@ export const CodeConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "CodeConfiguration",
 }) as any as S.Schema<CodeConfiguration>;
+export type AgentRuntimeArtifact =
+  | { containerConfiguration: ContainerConfiguration }
+  | { codeConfiguration: CodeConfiguration };
 export const AgentRuntimeArtifact = S.Union(
   S.Struct({ containerConfiguration: ContainerConfiguration }),
   S.Struct({ codeConfiguration: CodeConfiguration }),
@@ -646,6 +780,9 @@ export type AllowedScopesType = string[];
 export const AllowedScopesType = S.Array(S.String);
 export type MatchValueStringList = string[];
 export const MatchValueStringList = S.Array(S.String);
+export type ClaimMatchValueType =
+  | { matchValueString: string }
+  | { matchValueStringList: MatchValueStringList };
 export const ClaimMatchValueType = S.Union(
   S.Struct({ matchValueString: S.String }),
   S.Struct({ matchValueStringList: MatchValueStringList }),
@@ -696,11 +833,17 @@ export const CustomJWTAuthorizerConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "CustomJWTAuthorizerConfiguration",
 }) as any as S.Schema<CustomJWTAuthorizerConfiguration>;
+export type AuthorizerConfiguration = {
+  customJWTAuthorizer: CustomJWTAuthorizerConfiguration;
+};
 export const AuthorizerConfiguration = S.Union(
   S.Struct({ customJWTAuthorizer: CustomJWTAuthorizerConfiguration }),
 );
 export type RequestHeaderAllowlist = string[];
 export const RequestHeaderAllowlist = S.Array(S.String);
+export type RequestHeaderConfiguration = {
+  requestHeaderAllowlist: RequestHeaderAllowlist;
+};
 export const RequestHeaderConfiguration = S.Union(
   S.Struct({ requestHeaderAllowlist: RequestHeaderAllowlist }),
 );
@@ -1117,6 +1260,9 @@ export const CategoricalScaleDefinition = S.suspend(() =>
 }) as any as S.Schema<CategoricalScaleDefinition>;
 export type CategoricalScaleDefinitions = CategoricalScaleDefinition[];
 export const CategoricalScaleDefinitions = S.Array(CategoricalScaleDefinition);
+export type RatingScale =
+  | { numerical: NumericalScaleDefinitions }
+  | { categorical: CategoricalScaleDefinitions };
 export const RatingScale = S.Union(
   S.Struct({ numerical: NumericalScaleDefinitions }),
   S.Struct({ categorical: CategoricalScaleDefinitions }),
@@ -1153,6 +1299,9 @@ export const BedrockEvaluatorModelConfig = S.suspend(() =>
 ).annotations({
   identifier: "BedrockEvaluatorModelConfig",
 }) as any as S.Schema<BedrockEvaluatorModelConfig>;
+export type EvaluatorModelConfig = {
+  bedrockEvaluatorModelConfig: BedrockEvaluatorModelConfig;
+};
 export const EvaluatorModelConfig = S.Union(
   S.Struct({ bedrockEvaluatorModelConfig: BedrockEvaluatorModelConfig }),
 );
@@ -1170,6 +1319,7 @@ export const LlmAsAJudgeEvaluatorConfig = S.suspend(() =>
 ).annotations({
   identifier: "LlmAsAJudgeEvaluatorConfig",
 }) as any as S.Schema<LlmAsAJudgeEvaluatorConfig>;
+export type EvaluatorConfig = { llmAsAJudge: LlmAsAJudgeEvaluatorConfig };
 export const EvaluatorConfig = S.Union(
   S.Struct({ llmAsAJudge: LlmAsAJudgeEvaluatorConfig }),
 );
@@ -1313,6 +1463,7 @@ export const MCPGatewayConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "MCPGatewayConfiguration",
 }) as any as S.Schema<MCPGatewayConfiguration>;
+export type GatewayProtocolConfiguration = { mcp: MCPGatewayConfiguration };
 export const GatewayProtocolConfiguration = S.Union(
   S.Struct({ mcp: MCPGatewayConfiguration }),
 );
@@ -1324,6 +1475,9 @@ export const LambdaInterceptorConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "LambdaInterceptorConfiguration",
 }) as any as S.Schema<LambdaInterceptorConfiguration>;
+export type InterceptorConfiguration = {
+  lambda: LambdaInterceptorConfiguration;
+};
 export const InterceptorConfiguration = S.Union(
   S.Struct({ lambda: LambdaInterceptorConfiguration }),
 );
@@ -1513,6 +1667,9 @@ export const S3Configuration = S.suspend(() =>
 ).annotations({
   identifier: "S3Configuration",
 }) as any as S.Schema<S3Configuration>;
+export type ApiSchemaConfiguration =
+  | { s3: S3Configuration }
+  | { inlinePayload: string };
 export const ApiSchemaConfiguration = S.Union(
   S.Struct({ s3: S3Configuration }),
   S.Struct({ inlinePayload: S.String }),
@@ -1563,6 +1720,9 @@ export const ToolDefinition = S.suspend(() =>
 }) as any as S.Schema<ToolDefinition>;
 export type ToolDefinitions = ToolDefinition[];
 export const ToolDefinitions = S.Array(ToolDefinition);
+export type ToolSchema =
+  | { s3: S3Configuration }
+  | { inlinePayload: ToolDefinitions };
 export const ToolSchema = S.Union(
   S.Struct({ s3: S3Configuration }),
   S.Struct({ inlinePayload: ToolDefinitions }),
@@ -1641,6 +1801,12 @@ export const ApiGatewayTargetConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ApiGatewayTargetConfiguration",
 }) as any as S.Schema<ApiGatewayTargetConfiguration>;
+export type McpTargetConfiguration =
+  | { openApiSchema: (typeof ApiSchemaConfiguration)["Type"] }
+  | { smithyModel: (typeof ApiSchemaConfiguration)["Type"] }
+  | { lambda: McpLambdaTargetConfiguration }
+  | { mcpServer: McpServerTargetConfiguration }
+  | { apiGateway: ApiGatewayTargetConfiguration };
 export const McpTargetConfiguration = S.Union(
   S.Struct({ openApiSchema: ApiSchemaConfiguration }),
   S.Struct({ smithyModel: ApiSchemaConfiguration }),
@@ -1648,6 +1814,9 @@ export const McpTargetConfiguration = S.Union(
   S.Struct({ mcpServer: McpServerTargetConfiguration }),
   S.Struct({ apiGateway: ApiGatewayTargetConfiguration }),
 );
+export type TargetConfiguration = {
+  mcp: (typeof McpTargetConfiguration)["Type"];
+};
 export const TargetConfiguration = S.Union(
   S.Struct({ mcp: McpTargetConfiguration }),
 );
@@ -1692,6 +1861,9 @@ export const GatewayApiKeyCredentialProvider = S.suspend(() =>
 ).annotations({
   identifier: "GatewayApiKeyCredentialProvider",
 }) as any as S.Schema<GatewayApiKeyCredentialProvider>;
+export type CredentialProvider =
+  | { oauthCredentialProvider: OAuthCredentialProvider }
+  | { apiKeyCredentialProvider: GatewayApiKeyCredentialProvider };
 export const CredentialProvider = S.Union(
   S.Struct({ oauthCredentialProvider: OAuthCredentialProvider }),
   S.Struct({ apiKeyCredentialProvider: GatewayApiKeyCredentialProvider }),
@@ -1870,6 +2042,9 @@ export const Oauth2AuthorizationServerMetadata = S.suspend(() =>
 ).annotations({
   identifier: "Oauth2AuthorizationServerMetadata",
 }) as any as S.Schema<Oauth2AuthorizationServerMetadata>;
+export type Oauth2Discovery =
+  | { discoveryUrl: string }
+  | { authorizationServerMetadata: Oauth2AuthorizationServerMetadata };
 export const Oauth2Discovery = S.Union(
   S.Struct({ discoveryUrl: S.String }),
   S.Struct({ authorizationServerMetadata: Oauth2AuthorizationServerMetadata }),
@@ -1974,6 +2149,16 @@ export const IncludedOauth2ProviderConfigInput = S.suspend(() =>
 ).annotations({
   identifier: "IncludedOauth2ProviderConfigInput",
 }) as any as S.Schema<IncludedOauth2ProviderConfigInput>;
+export type Oauth2ProviderConfigInput =
+  | { customOauth2ProviderConfig: CustomOauth2ProviderConfigInput }
+  | { googleOauth2ProviderConfig: GoogleOauth2ProviderConfigInput }
+  | { githubOauth2ProviderConfig: GithubOauth2ProviderConfigInput }
+  | { slackOauth2ProviderConfig: SlackOauth2ProviderConfigInput }
+  | { salesforceOauth2ProviderConfig: SalesforceOauth2ProviderConfigInput }
+  | { microsoftOauth2ProviderConfig: MicrosoftOauth2ProviderConfigInput }
+  | { atlassianOauth2ProviderConfig: AtlassianOauth2ProviderConfigInput }
+  | { linkedinOauth2ProviderConfig: LinkedinOauth2ProviderConfigInput }
+  | { includedOauth2ProviderConfig: IncludedOauth2ProviderConfigInput };
 export const Oauth2ProviderConfigInput = S.Union(
   S.Struct({ customOauth2ProviderConfig: CustomOauth2ProviderConfigInput }),
   S.Struct({ googleOauth2ProviderConfig: GoogleOauth2ProviderConfigInput }),
@@ -2099,6 +2284,10 @@ export const SamplingConfig = S.suspend(() =>
 ).annotations({
   identifier: "SamplingConfig",
 }) as any as S.Schema<SamplingConfig>;
+export type FilterValue =
+  | { stringValue: string }
+  | { doubleValue: number }
+  | { booleanValue: boolean };
 export const FilterValue = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ doubleValue: S.Number }),
@@ -2150,9 +2339,11 @@ export const CloudWatchLogsInputConfig = S.suspend(() =>
 ).annotations({
   identifier: "CloudWatchLogsInputConfig",
 }) as any as S.Schema<CloudWatchLogsInputConfig>;
+export type DataSourceConfig = { cloudWatchLogs: CloudWatchLogsInputConfig };
 export const DataSourceConfig = S.Union(
   S.Struct({ cloudWatchLogs: CloudWatchLogsInputConfig }),
 );
+export type EvaluatorReference = { evaluatorId: string };
 export const EvaluatorReference = S.Union(S.Struct({ evaluatorId: S.String }));
 export type EvaluatorList = (typeof EvaluatorReference)["Type"][];
 export const EvaluatorList = S.Array(EvaluatorReference);
@@ -2450,6 +2641,7 @@ export interface CedarPolicy {
 export const CedarPolicy = S.suspend(() =>
   S.Struct({ statement: S.String }),
 ).annotations({ identifier: "CedarPolicy" }) as any as S.Schema<CedarPolicy>;
+export type PolicyDefinition = { cedar: CedarPolicy };
 export const PolicyDefinition = S.Union(S.Struct({ cedar: CedarPolicy }));
 export interface UpdatePolicyRequest {
   policyEngineId: string;
@@ -2683,7 +2875,9 @@ export type StatusReasons = string[];
 export const StatusReasons = S.Array(S.String);
 export type PolicyStatusReasons = string[];
 export const PolicyStatusReasons = S.Array(S.String);
+export type Resource = { arn: string };
 export const Resource = S.Union(S.Struct({ arn: S.String }));
+export type Content = { rawText: string };
 export const Content = S.Union(S.Struct({ rawText: S.String }));
 export type NamespacesList = string[];
 export const NamespacesList = S.Array(S.String);
@@ -3386,6 +3580,16 @@ export const IncludedOauth2ProviderConfigOutput = S.suspend(() =>
 ).annotations({
   identifier: "IncludedOauth2ProviderConfigOutput",
 }) as any as S.Schema<IncludedOauth2ProviderConfigOutput>;
+export type Oauth2ProviderConfigOutput =
+  | { customOauth2ProviderConfig: CustomOauth2ProviderConfigOutput }
+  | { googleOauth2ProviderConfig: GoogleOauth2ProviderConfigOutput }
+  | { githubOauth2ProviderConfig: GithubOauth2ProviderConfigOutput }
+  | { slackOauth2ProviderConfig: SlackOauth2ProviderConfigOutput }
+  | { salesforceOauth2ProviderConfig: SalesforceOauth2ProviderConfigOutput }
+  | { microsoftOauth2ProviderConfig: MicrosoftOauth2ProviderConfigOutput }
+  | { atlassianOauth2ProviderConfig: AtlassianOauth2ProviderConfigOutput }
+  | { linkedinOauth2ProviderConfig: LinkedinOauth2ProviderConfigOutput }
+  | { includedOauth2ProviderConfig: IncludedOauth2ProviderConfigOutput };
 export const Oauth2ProviderConfigOutput = S.Union(
   S.Struct({ customOauth2ProviderConfig: CustomOauth2ProviderConfigOutput }),
   S.Struct({ googleOauth2ProviderConfig: GoogleOauth2ProviderConfigOutput }),
@@ -4795,6 +4999,14 @@ export const InvocationConfigurationInput = S.suspend(() =>
 ).annotations({
   identifier: "InvocationConfigurationInput",
 }) as any as S.Schema<InvocationConfigurationInput>;
+export type CustomExtractionConfigurationInput =
+  | { semanticExtractionOverride: SemanticOverrideExtractionConfigurationInput }
+  | {
+      userPreferenceExtractionOverride: UserPreferenceOverrideExtractionConfigurationInput;
+    }
+  | {
+      episodicExtractionOverride: EpisodicOverrideExtractionConfigurationInput;
+    };
 export const CustomExtractionConfigurationInput = S.Union(
   S.Struct({
     semanticExtractionOverride: SemanticOverrideExtractionConfigurationInput,
@@ -4807,6 +5019,19 @@ export const CustomExtractionConfigurationInput = S.Union(
     episodicExtractionOverride: EpisodicOverrideExtractionConfigurationInput,
   }),
 );
+export type CustomConsolidationConfigurationInput =
+  | {
+      semanticConsolidationOverride: SemanticOverrideConsolidationConfigurationInput;
+    }
+  | {
+      summaryConsolidationOverride: SummaryOverrideConsolidationConfigurationInput;
+    }
+  | {
+      userPreferenceConsolidationOverride: UserPreferenceOverrideConsolidationConfigurationInput;
+    }
+  | {
+      episodicConsolidationOverride: EpisodicOverrideConsolidationConfigurationInput;
+    };
 export const CustomConsolidationConfigurationInput = S.Union(
   S.Struct({
     semanticConsolidationOverride:
@@ -4825,6 +5050,9 @@ export const CustomConsolidationConfigurationInput = S.Union(
       EpisodicOverrideConsolidationConfigurationInput,
   }),
 );
+export type CustomReflectionConfigurationInput = {
+  episodicReflectionOverride: EpisodicOverrideReflectionConfigurationInput;
+};
 export const CustomReflectionConfigurationInput = S.Union(
   S.Struct({
     episodicReflectionOverride: EpisodicOverrideReflectionConfigurationInput,
@@ -5025,16 +5253,27 @@ export const EpisodicOverrideConfigurationInput = S.suspend(() =>
 ).annotations({
   identifier: "EpisodicOverrideConfigurationInput",
 }) as any as S.Schema<EpisodicOverrideConfigurationInput>;
+export type ModifyExtractionConfiguration = {
+  customExtractionConfiguration: (typeof CustomExtractionConfigurationInput)["Type"];
+};
 export const ModifyExtractionConfiguration = S.Union(
   S.Struct({
     customExtractionConfiguration: CustomExtractionConfigurationInput,
   }),
 );
+export type ModifyConsolidationConfiguration = {
+  customConsolidationConfiguration: (typeof CustomConsolidationConfigurationInput)["Type"];
+};
 export const ModifyConsolidationConfiguration = S.Union(
   S.Struct({
     customConsolidationConfiguration: CustomConsolidationConfigurationInput,
   }),
 );
+export type ModifyReflectionConfiguration =
+  | { episodicReflectionConfiguration: EpisodicReflectionConfigurationInput }
+  | {
+      customReflectionConfiguration: (typeof CustomReflectionConfigurationInput)["Type"];
+    };
 export const ModifyReflectionConfiguration = S.Union(
   S.Struct({
     episodicReflectionConfiguration: EpisodicReflectionConfigurationInput,
@@ -5067,6 +5306,10 @@ export const TimeBasedTriggerInput = S.suspend(() =>
 ).annotations({
   identifier: "TimeBasedTriggerInput",
 }) as any as S.Schema<TimeBasedTriggerInput>;
+export type TriggerConditionInput =
+  | { messageBasedTrigger: MessageBasedTriggerInput }
+  | { tokenBasedTrigger: TokenBasedTriggerInput }
+  | { timeBasedTrigger: TimeBasedTriggerInput };
 export const TriggerConditionInput = S.Union(
   S.Struct({ messageBasedTrigger: MessageBasedTriggerInput }),
   S.Struct({ tokenBasedTrigger: TokenBasedTriggerInput }),
@@ -5369,6 +5612,12 @@ export const TimeBasedTrigger = S.suspend(() =>
 ).annotations({
   identifier: "TimeBasedTrigger",
 }) as any as S.Schema<TimeBasedTrigger>;
+export type CustomConfigurationInput =
+  | { semanticOverride: SemanticOverrideConfigurationInput }
+  | { summaryOverride: SummaryOverrideConfigurationInput }
+  | { userPreferenceOverride: UserPreferenceOverrideConfigurationInput }
+  | { episodicOverride: EpisodicOverrideConfigurationInput }
+  | { selfManagedConfiguration: SelfManagedConfigurationInput };
 export const CustomConfigurationInput = S.Union(
   S.Struct({ semanticOverride: SemanticOverrideConfigurationInput }),
   S.Struct({ summaryOverride: SummaryOverrideConfigurationInput }),
@@ -5394,6 +5643,12 @@ export const CustomMemoryStrategyInput = S.suspend(() =>
 ).annotations({
   identifier: "CustomMemoryStrategyInput",
 }) as any as S.Schema<CustomMemoryStrategyInput>;
+export type MemoryStrategyInput =
+  | { semanticMemoryStrategy: SemanticMemoryStrategyInput }
+  | { summaryMemoryStrategy: SummaryMemoryStrategyInput }
+  | { userPreferenceMemoryStrategy: UserPreferenceMemoryStrategyInput }
+  | { customMemoryStrategy: CustomMemoryStrategyInput }
+  | { episodicMemoryStrategy: EpisodicMemoryStrategyInput };
 export const MemoryStrategyInput = S.Union(
   S.Struct({ semanticMemoryStrategy: SemanticMemoryStrategyInput }),
   S.Struct({ summaryMemoryStrategy: SummaryMemoryStrategyInput }),
@@ -5485,6 +5740,10 @@ export const CreateEvaluatorRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateEvaluatorRequest",
 }) as any as S.Schema<CreateEvaluatorRequest>;
+export type CustomExtractionConfiguration =
+  | { semanticExtractionOverride: SemanticExtractionOverride }
+  | { userPreferenceExtractionOverride: UserPreferenceExtractionOverride }
+  | { episodicExtractionOverride: EpisodicExtractionOverride };
 export const CustomExtractionConfiguration = S.Union(
   S.Struct({ semanticExtractionOverride: SemanticExtractionOverride }),
   S.Struct({
@@ -5492,6 +5751,11 @@ export const CustomExtractionConfiguration = S.Union(
   }),
   S.Struct({ episodicExtractionOverride: EpisodicExtractionOverride }),
 );
+export type CustomConsolidationConfiguration =
+  | { semanticConsolidationOverride: SemanticConsolidationOverride }
+  | { summaryConsolidationOverride: SummaryConsolidationOverride }
+  | { userPreferenceConsolidationOverride: UserPreferenceConsolidationOverride }
+  | { episodicConsolidationOverride: EpisodicConsolidationOverride };
 export const CustomConsolidationConfiguration = S.Union(
   S.Struct({ semanticConsolidationOverride: SemanticConsolidationOverride }),
   S.Struct({ summaryConsolidationOverride: SummaryConsolidationOverride }),
@@ -5500,9 +5764,16 @@ export const CustomConsolidationConfiguration = S.Union(
   }),
   S.Struct({ episodicConsolidationOverride: EpisodicConsolidationOverride }),
 );
+export type CustomReflectionConfiguration = {
+  episodicReflectionOverride: EpisodicReflectionOverride;
+};
 export const CustomReflectionConfiguration = S.Union(
   S.Struct({ episodicReflectionOverride: EpisodicReflectionOverride }),
 );
+export type TriggerCondition =
+  | { messageBasedTrigger: MessageBasedTrigger }
+  | { tokenBasedTrigger: TokenBasedTrigger }
+  | { timeBasedTrigger: TimeBasedTrigger };
 export const TriggerCondition = S.Union(
   S.Struct({ messageBasedTrigger: MessageBasedTrigger }),
   S.Struct({ tokenBasedTrigger: TokenBasedTrigger }),
@@ -5557,14 +5828,25 @@ export const CreateOauth2CredentialProviderResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateOauth2CredentialProviderResponse",
 }) as any as S.Schema<CreateOauth2CredentialProviderResponse>;
+export type ExtractionConfiguration = {
+  customExtractionConfiguration: (typeof CustomExtractionConfiguration)["Type"];
+};
 export const ExtractionConfiguration = S.Union(
   S.Struct({ customExtractionConfiguration: CustomExtractionConfiguration }),
 );
+export type ConsolidationConfiguration = {
+  customConsolidationConfiguration: (typeof CustomConsolidationConfiguration)["Type"];
+};
 export const ConsolidationConfiguration = S.Union(
   S.Struct({
     customConsolidationConfiguration: CustomConsolidationConfiguration,
   }),
 );
+export type ReflectionConfiguration =
+  | {
+      customReflectionConfiguration: (typeof CustomReflectionConfiguration)["Type"];
+    }
+  | { episodicReflectionConfiguration: EpisodicReflectionConfiguration };
 export const ReflectionConfiguration = S.Union(
   S.Struct({ customReflectionConfiguration: CustomReflectionConfiguration }),
   S.Struct({
@@ -5828,7 +6110,9 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String) },
@@ -5848,7 +6132,9 @@ export class ConcurrentModificationException extends S.TaggedError<ConcurrentMod
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
@@ -5865,7 +6151,9 @@ export class ServiceException extends S.TaggedError<ServiceException>()(
   "ServiceException",
   { message: S.optional(S.String) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
   "ResourceLimitExceededException",
   { message: S.optional(S.String) },
@@ -5882,13 +6170,26 @@ export class ThrottledException extends S.TaggedError<ThrottledException>()(
   "ThrottledException",
   { message: S.optional(S.String) },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
  * Gets information about a custom browser.
  */
-export const getBrowser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBrowser: (
+  input: GetBrowserRequest,
+) => Effect.Effect<
+  GetBrowserResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBrowserRequest,
   output: GetBrowserResponse,
   errors: [
@@ -5902,7 +6203,18 @@ export const getBrowser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about a custom code interpreter.
  */
-export const getCodeInterpreter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCodeInterpreter: (
+  input: GetCodeInterpreterRequest,
+) => Effect.Effect<
+  GetCodeInterpreterResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCodeInterpreterRequest,
   output: GetCodeInterpreterResponse,
   errors: [
@@ -5916,23 +6228,43 @@ export const getCodeInterpreter = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an AAgentCore Runtime endpoint.
  */
-export const deleteAgentRuntimeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAgentRuntimeEndpointRequest,
-    output: DeleteAgentRuntimeEndpointResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteAgentRuntimeEndpoint: (
+  input: DeleteAgentRuntimeEndpointRequest,
+) => Effect.Effect<
+  DeleteAgentRuntimeEndpointResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAgentRuntimeEndpointRequest,
+  output: DeleteAgentRuntimeEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes an Amazon Bedrock AgentCore Runtime.
  */
-export const deleteAgentRuntime = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAgentRuntime: (
+  input: DeleteAgentRuntimeRequest,
+) => Effect.Effect<
+  DeleteAgentRuntimeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAgentRuntimeRequest,
   output: DeleteAgentRuntimeResponse,
   errors: [
@@ -5946,124 +6278,276 @@ export const deleteAgentRuntime = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all endpoints for a specific Amazon Secure Agent.
  */
-export const listAgentRuntimeEndpoints =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAgentRuntimeEndpoints: {
+  (
     input: ListAgentRuntimeEndpointsRequest,
-    output: ListAgentRuntimeEndpointsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "runtimeEndpoints",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAgentRuntimeEndpointsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAgentRuntimeEndpointsRequest,
+  ) => Stream.Stream<
+    ListAgentRuntimeEndpointsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAgentRuntimeEndpointsRequest,
+  ) => Stream.Stream<
+    AgentRuntimeEndpoint,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAgentRuntimeEndpointsRequest,
+  output: ListAgentRuntimeEndpointsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "runtimeEndpoints",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a new OAuth2 credential provider.
  */
-export const createOauth2CredentialProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateOauth2CredentialProviderRequest,
-    output: CreateOauth2CredentialProviderResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DecryptionFailure,
-      EncryptionFailure,
-      InternalServerException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }));
+export const createOauth2CredentialProvider: (
+  input: CreateOauth2CredentialProviderRequest,
+) => Effect.Effect<
+  CreateOauth2CredentialProviderResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DecryptionFailure
+  | EncryptionFailure
+  | InternalServerException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOauth2CredentialProviderRequest,
+  output: CreateOauth2CredentialProviderResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DecryptionFailure,
+    EncryptionFailure,
+    InternalServerException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists the available Amazon Bedrock AgentCore Memory resources in the current Amazon Web Services Region.
  */
-export const listMemories = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMemories: {
+  (
     input: ListMemoriesInput,
-    output: ListMemoriesOutput,
-    errors: [
-      AccessDeniedException,
-      ResourceNotFoundException,
-      ServiceException,
-      ThrottledException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "memories",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMemoriesOutput,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ServiceException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMemoriesInput,
+  ) => Stream.Stream<
+    ListMemoriesOutput,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ServiceException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMemoriesInput,
+  ) => Stream.Stream<
+    MemorySummary,
+    | AccessDeniedException
+    | ResourceNotFoundException
+    | ServiceException
+    | ThrottledException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMemoriesInput,
+  output: ListMemoriesOutput,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceException,
+    ThrottledException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "memories",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a custom code interpreter.
  */
-export const createCodeInterpreter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCodeInterpreterRequest,
-    output: CreateCodeInterpreterResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createCodeInterpreter: (
+  input: CreateCodeInterpreterRequest,
+) => Effect.Effect<
+  CreateCodeInterpreterResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCodeInterpreterRequest,
+  output: CreateCodeInterpreterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves detailed information about an online evaluation configuration, including its rules, data sources, evaluators, and execution status.
  */
-export const getOnlineEvaluationConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetOnlineEvaluationConfigRequest,
-    output: GetOnlineEvaluationConfigResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getOnlineEvaluationConfig: (
+  input: GetOnlineEvaluationConfigRequest,
+) => Effect.Effect<
+  GetOnlineEvaluationConfigResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOnlineEvaluationConfigRequest,
+  output: GetOnlineEvaluationConfigResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Cedar policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options.
  */
-export const listPolicyGenerationAssets =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPolicyGenerationAssets: {
+  (
     input: ListPolicyGenerationAssetsRequest,
-    output: ListPolicyGenerationAssetsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "policyGenerationAssets",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPolicyGenerationAssetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPolicyGenerationAssetsRequest,
+  ) => Stream.Stream<
+    ListPolicyGenerationAssetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPolicyGenerationAssetsRequest,
+  ) => Stream.Stream<
+    PolicyGenerationAsset,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPolicyGenerationAssetsRequest,
+  output: ListPolicyGenerationAssetsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "policyGenerationAssets",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using the Cedar policy language, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input schemas, which defines the available tools, their parameters, and expected data types. This is an asynchronous operation. Use the GetPolicy operation to poll the `status` field to track completion.
  */
-export const createPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPolicy: (
+  input: CreatePolicyRequest,
+) => Effect.Effect<
+  CreatePolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePolicyRequest,
   output: CreatePolicyResponse,
   errors: [
@@ -6079,25 +6563,47 @@ export const createPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an AgentCore Runtime endpoint.
  */
-export const createAgentRuntimeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAgentRuntimeEndpointRequest,
-    output: CreateAgentRuntimeEndpointResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createAgentRuntimeEndpoint: (
+  input: CreateAgentRuntimeEndpointRequest,
+) => Effect.Effect<
+  CreateAgentRuntimeEndpointResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAgentRuntimeEndpointRequest,
+  output: CreateAgentRuntimeEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets an Amazon Bedrock AgentCore Runtime.
  */
-export const getAgentRuntime = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getAgentRuntime: (
+  input: GetAgentRuntimeRequest,
+) => Effect.Effect<
+  GetAgentRuntimeResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAgentRuntimeRequest,
   output: GetAgentRuntimeResponse,
   errors: [
@@ -6111,88 +6617,192 @@ export const getAgentRuntime = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The gateway targets.
  */
-export const synchronizeGatewayTargets = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SynchronizeGatewayTargetsRequest,
-    output: SynchronizeGatewayTargetsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const synchronizeGatewayTargets: (
+  input: SynchronizeGatewayTargetsRequest,
+) => Effect.Effect<
+  SynchronizeGatewayTargetsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SynchronizeGatewayTargetsRequest,
+  output: SynchronizeGatewayTargetsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Initiates the AI-powered generation of Cedar policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Cedar policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated policy assets are automatically deleted after 7 days, so you should review and create policies from the generated assets within this timeframe. Once created, policies are permanent and not subject to this expiration. Generated policies should be reviewed and tested in log-only mode before deploying to production. Use this when you want to describe policy intent naturally rather than learning Cedar syntax, though generated policies may require refinement for complex scenarios.
  */
-export const startPolicyGeneration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartPolicyGenerationRequest,
-    output: StartPolicyGenerationResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const startPolicyGeneration: (
+  input: StartPolicyGenerationRequest,
+) => Effect.Effect<
+  StartPolicyGenerationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartPolicyGenerationRequest,
+  output: StartPolicyGenerationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves a list of policy generation requests within the AgentCore Policy system. This operation supports pagination and filtering to help track and manage AI-powered policy generation operations.
  */
-export const listPolicyGenerations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPolicyGenerations: {
+  (
     input: ListPolicyGenerationsRequest,
-    output: ListPolicyGenerationsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "policyGenerations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPolicyGenerationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPolicyGenerationsRequest,
+  ) => Stream.Stream<
+    ListPolicyGenerationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPolicyGenerationsRequest,
+  ) => Stream.Stream<
+    PolicyGeneration,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPolicyGenerationsRequest,
+  output: ListPolicyGenerationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "policyGenerations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of policies within the AgentCore Policy engine. This operation supports pagination and filtering to help administrators manage and discover policies across policy engines. Results can be filtered by policy engine or resource associations.
  */
-export const listPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPolicies: {
+  (
     input: ListPoliciesRequest,
-    output: ListPoliciesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "policies",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPoliciesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPoliciesRequest,
+  ) => Stream.Stream<
+    ListPoliciesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPoliciesRequest,
+  ) => Stream.Stream<
+    Policy,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPoliciesRequest,
+  output: ListPoliciesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "policies",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves the resource-based policy for a specified resource.
  *
  * This feature is currently available only for AgentCore Runtime and Gateway.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => Effect.Effect<
+  GetResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
   errors: [
@@ -6208,7 +6818,18 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -6224,7 +6845,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This feature is currently available only for AgentCore Runtime and Gateway.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [
@@ -6240,7 +6872,19 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -6255,44 +6899,100 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about an Amazon Secure AgentEndpoint.
  */
-export const getAgentRuntimeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetAgentRuntimeEndpointRequest,
-    output: GetAgentRuntimeEndpointResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getAgentRuntimeEndpoint: (
+  input: GetAgentRuntimeEndpointRequest,
+) => Effect.Effect<
+  GetAgentRuntimeEndpointResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAgentRuntimeEndpointRequest,
+  output: GetAgentRuntimeEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all versions of a specific Amazon Secure Agent.
  */
-export const listAgentRuntimeVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAgentRuntimeVersions: {
+  (
     input: ListAgentRuntimeVersionsRequest,
-    output: ListAgentRuntimeVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "agentRuntimes",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAgentRuntimeVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAgentRuntimeVersionsRequest,
+  ) => Stream.Stream<
+    ListAgentRuntimeVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAgentRuntimeVersionsRequest,
+  ) => Stream.Stream<
+    AgentRuntime,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAgentRuntimeVersionsRequest,
+  output: ListAgentRuntimeVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "agentRuntimes",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves detailed information about an evaluator, including its configuration, status, and metadata. Works with both built-in and custom evaluators.
  */
-export const getEvaluator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getEvaluator: (
+  input: GetEvaluatorRequest,
+) => Effect.Effect<
+  GetEvaluatorResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEvaluatorRequest,
   output: GetEvaluatorResponse,
   errors: [
@@ -6306,7 +7006,18 @@ export const getEvaluator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a specific Gateway.
  */
-export const getGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGateway: (
+  input: GetGatewayRequest,
+) => Effect.Effect<
+  GetGatewayResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGatewayRequest,
   output: GetGatewayResponse,
   errors: [
@@ -6320,7 +7031,18 @@ export const getGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a specific gateway target.
  */
-export const getGatewayTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getGatewayTarget: (
+  input: GetGatewayTargetRequest,
+) => Effect.Effect<
+  GetGatewayTargetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGatewayTargetRequest,
   output: GetGatewayTargetResponse,
   errors: [
@@ -6334,7 +7056,18 @@ export const getGatewayTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a specific policy engine within the AgentCore Policy system. This operation returns the complete policy engine configuration, metadata, and current status, allowing administrators to review and manage policy engine settings.
  */
-export const getPolicyEngine = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicyEngine: (
+  input: GetPolicyEngineRequest,
+) => Effect.Effect<
+  GetPolicyEngineResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyEngineRequest,
   output: GetPolicyEngineResponse,
   errors: [
@@ -6348,7 +7081,18 @@ export const getPolicyEngine = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Cedar policy statements using AI-powered translation, enabling non-technical users to create policies.
  */
-export const getPolicyGeneration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicyGeneration: (
+  input: GetPolicyGenerationRequest,
+) => Effect.Effect<
+  GetPolicyGenerationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyGenerationRequest,
   output: GetPolicyGenerationResponse,
   errors: [
@@ -6362,7 +7106,18 @@ export const getPolicyGeneration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves detailed information about a specific policy within the AgentCore Policy system. This operation returns the complete policy definition, metadata, and current status, allowing administrators to review and manage policy configurations.
  */
-export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicy: (
+  input: GetPolicyRequest,
+) => Effect.Effect<
+  GetPolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyRequest,
   output: GetPolicyResponse,
   errors: [
@@ -6378,7 +7133,18 @@ export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -6392,25 +7158,49 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing Amazon Bedrock AgentCore Runtime endpoint.
  */
-export const updateAgentRuntimeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAgentRuntimeEndpointRequest,
-    output: UpdateAgentRuntimeEndpointResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateAgentRuntimeEndpoint: (
+  input: UpdateAgentRuntimeEndpointRequest,
+) => Effect.Effect<
+  UpdateAgentRuntimeEndpointResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAgentRuntimeEndpointRequest,
+  output: UpdateAgentRuntimeEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an existing Amazon Secure Agent.
  */
-export const updateAgentRuntime = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAgentRuntime: (
+  input: UpdateAgentRuntimeRequest,
+) => Effect.Effect<
+  UpdateAgentRuntimeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAgentRuntimeRequest,
   output: UpdateAgentRuntimeResponse,
   errors: [
@@ -6426,7 +7216,20 @@ export const updateAgentRuntime = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a custom browser.
  */
-export const deleteBrowser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBrowser: (
+  input: DeleteBrowserRequest,
+) => Effect.Effect<
+  DeleteBrowserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBrowserRequest,
   output: DeleteBrowserResponse,
   errors: [
@@ -6442,25 +7245,49 @@ export const deleteBrowser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a custom code interpreter.
  */
-export const deleteCodeInterpreter = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCodeInterpreterRequest,
-    output: DeleteCodeInterpreterResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteCodeInterpreter: (
+  input: DeleteCodeInterpreterRequest,
+) => Effect.Effect<
+  DeleteCodeInterpreterResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCodeInterpreterRequest,
+  output: DeleteCodeInterpreterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a custom evaluator's configuration, description, or evaluation level. Built-in evaluators cannot be updated. The evaluator must not be locked for modification.
  */
-export const updateEvaluator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateEvaluator: (
+  input: UpdateEvaluatorRequest,
+) => Effect.Effect<
+  UpdateEvaluatorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEvaluatorRequest,
   output: UpdateEvaluatorResponse,
   errors: [
@@ -6476,7 +7303,19 @@ export const updateEvaluator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a custom evaluator. Builtin evaluators cannot be deleted. The evaluator must not be referenced by any active online evaluation configurations.
  */
-export const deleteEvaluator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteEvaluator: (
+  input: DeleteEvaluatorRequest,
+) => Effect.Effect<
+  DeleteEvaluatorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteEvaluatorRequest,
   output: DeleteEvaluatorResponse,
   errors: [
@@ -6491,7 +7330,19 @@ export const deleteEvaluator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a gateway.
  */
-export const deleteGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGateway: (
+  input: DeleteGatewayRequest,
+) => Effect.Effect<
+  DeleteGatewayResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGatewayRequest,
   output: DeleteGatewayResponse,
   errors: [
@@ -6506,7 +7357,20 @@ export const deleteGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing gateway.
  */
-export const updateGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGateway: (
+  input: UpdateGatewayRequest,
+) => Effect.Effect<
+  UpdateGatewayResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGatewayRequest,
   output: UpdateGatewayResponse,
   errors: [
@@ -6522,7 +7386,19 @@ export const updateGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a gateway target.
  */
-export const deleteGatewayTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteGatewayTarget: (
+  input: DeleteGatewayTargetRequest,
+) => Effect.Effect<
+  DeleteGatewayTargetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGatewayTargetRequest,
   output: DeleteGatewayTargetResponse,
   errors: [
@@ -6537,7 +7413,20 @@ export const deleteGatewayTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing gateway target.
  */
-export const updateGatewayTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateGatewayTarget: (
+  input: UpdateGatewayTargetRequest,
+) => Effect.Effect<
+  UpdateGatewayTargetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGatewayTargetRequest,
   output: UpdateGatewayTargetResponse,
   errors: [
@@ -6553,40 +7442,75 @@ export const updateGatewayTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an online evaluation configuration's settings, including rules, data sources, evaluators, and execution status. Changes take effect immediately for ongoing evaluations.
  */
-export const updateOnlineEvaluationConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateOnlineEvaluationConfigRequest,
-    output: UpdateOnlineEvaluationConfigResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const updateOnlineEvaluationConfig: (
+  input: UpdateOnlineEvaluationConfigRequest,
+) => Effect.Effect<
+  UpdateOnlineEvaluationConfigResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOnlineEvaluationConfigRequest,
+  output: UpdateOnlineEvaluationConfigResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an online evaluation configuration and stops any ongoing evaluation processes associated with it.
  */
-export const deleteOnlineEvaluationConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteOnlineEvaluationConfigRequest,
-    output: DeleteOnlineEvaluationConfigResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const deleteOnlineEvaluationConfig: (
+  input: DeleteOnlineEvaluationConfigRequest,
+) => Effect.Effect<
+  DeleteOnlineEvaluationConfigResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOnlineEvaluationConfigRequest,
+  output: DeleteOnlineEvaluationConfigResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an existing policy engine within the AgentCore Policy system. This operation allows modification of the policy engine description while maintaining its identity. This is an asynchronous operation. Use the `GetPolicyEngine` operation to poll the `status` field to track completion.
  */
-export const updatePolicyEngine = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePolicyEngine: (
+  input: UpdatePolicyEngineRequest,
+) => Effect.Effect<
+  UpdatePolicyEngineResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePolicyEngineRequest,
   output: UpdatePolicyEngineResponse,
   errors: [
@@ -6601,7 +7525,19 @@ export const updatePolicyEngine = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing policy engine from the AgentCore Policy system. The policy engine must not have any associated policies before deletion. Once deleted, the policy engine and all its configurations become unavailable for policy management and evaluation. This is an asynchronous operation. Use the `GetPolicyEngine` operation to poll the `status` field to track completion.
  */
-export const deletePolicyEngine = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePolicyEngine: (
+  input: DeletePolicyEngineRequest,
+) => Effect.Effect<
+  DeletePolicyEngineResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyEngineRequest,
   output: DeletePolicyEngineResponse,
   errors: [
@@ -6616,7 +7552,19 @@ export const deletePolicyEngine = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing policy within the AgentCore Policy system. This operation allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is validated against the Cedar schema before being applied. This is an asynchronous operation. Use the `GetPolicy` operation to poll the `status` field to track completion.
  */
-export const updatePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePolicy: (
+  input: UpdatePolicyRequest,
+) => Effect.Effect<
+  UpdatePolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePolicyRequest,
   output: UpdatePolicyResponse,
   errors: [
@@ -6631,7 +7579,19 @@ export const updatePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes an existing policy from the AgentCore Policy system. Once deleted, the policy can no longer be used for agent behavior control and all references to it become invalid. This is an asynchronous operation. Use the `GetPolicy` operation to poll the `status` field to track completion.
  */
-export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePolicy: (
+  input: DeletePolicyRequest,
+) => Effect.Effect<
+  DeletePolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyRequest,
   output: DeletePolicyResponse,
   errors: [
@@ -6646,191 +7606,470 @@ export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all Amazon Secure Agents in your account.
  */
-export const listAgentRuntimes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAgentRuntimes: {
+  (
     input: ListAgentRuntimesRequest,
-    output: ListAgentRuntimesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "agentRuntimes",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAgentRuntimesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAgentRuntimesRequest,
+  ) => Stream.Stream<
+    ListAgentRuntimesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAgentRuntimesRequest,
+  ) => Stream.Stream<
+    AgentRuntime,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAgentRuntimesRequest,
+  output: ListAgentRuntimesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "agentRuntimes",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all custom browsers in your account.
  */
-export const listBrowsers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBrowsers: {
+  (
     input: ListBrowsersRequest,
-    output: ListBrowsersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "browserSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBrowsersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBrowsersRequest,
+  ) => Stream.Stream<
+    ListBrowsersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBrowsersRequest,
+  ) => Stream.Stream<
+    BrowserSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBrowsersRequest,
+  output: ListBrowsersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "browserSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all custom code interpreters in your account.
  */
-export const listCodeInterpreters =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCodeInterpreters: {
+  (
     input: ListCodeInterpretersRequest,
-    output: ListCodeInterpretersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "codeInterpreterSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCodeInterpretersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCodeInterpretersRequest,
+  ) => Stream.Stream<
+    ListCodeInterpretersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCodeInterpretersRequest,
+  ) => Stream.Stream<
+    CodeInterpreterSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCodeInterpretersRequest,
+  output: ListCodeInterpretersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "codeInterpreterSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all available evaluators, including both builtin evaluators provided by the service and custom evaluators created by the user.
  */
-export const listEvaluators = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listEvaluators: {
+  (
     input: ListEvaluatorsRequest,
-    output: ListEvaluatorsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "evaluators",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListEvaluatorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEvaluatorsRequest,
+  ) => Stream.Stream<
+    ListEvaluatorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEvaluatorsRequest,
+  ) => Stream.Stream<
+    EvaluatorSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEvaluatorsRequest,
+  output: ListEvaluatorsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "evaluators",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all gateways in the account.
  */
-export const listGateways = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listGateways: {
+  (
     input: ListGatewaysRequest,
-    output: ListGatewaysResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListGatewaysResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGatewaysRequest,
+  ) => Stream.Stream<
+    ListGatewaysResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGatewaysRequest,
+  ) => Stream.Stream<
+    GatewaySummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGatewaysRequest,
+  output: ListGatewaysResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all targets for a specific gateway.
  */
-export const listGatewayTargets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listGatewayTargets: {
+  (
     input: ListGatewayTargetsRequest,
-    output: ListGatewayTargetsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListGatewayTargetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGatewayTargetsRequest,
+  ) => Stream.Stream<
+    ListGatewayTargetsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGatewayTargetsRequest,
+  ) => Stream.Stream<
+    TargetSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGatewayTargetsRequest,
+  output: ListGatewayTargetsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all online evaluation configurations in the account, providing summary information about each configuration's status and settings.
  */
-export const listOnlineEvaluationConfigs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOnlineEvaluationConfigs: {
+  (
     input: ListOnlineEvaluationConfigsRequest,
-    output: ListOnlineEvaluationConfigsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "onlineEvaluationConfigs",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOnlineEvaluationConfigsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOnlineEvaluationConfigsRequest,
+  ) => Stream.Stream<
+    ListOnlineEvaluationConfigsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOnlineEvaluationConfigsRequest,
+  ) => Stream.Stream<
+    OnlineEvaluationConfigSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOnlineEvaluationConfigsRequest,
+  output: ListOnlineEvaluationConfigsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "onlineEvaluationConfigs",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a list of policy engines within the AgentCore Policy system. This operation supports pagination to help administrators discover and manage policy engines across their account. Each policy engine serves as a container for related policies.
  */
-export const listPolicyEngines = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPolicyEngines: {
+  (
     input: ListPolicyEnginesRequest,
-    output: ListPolicyEnginesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "policyEngines",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPolicyEnginesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPolicyEnginesRequest,
+  ) => Stream.Stream<
+    ListPolicyEnginesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPolicyEnginesRequest,
+  ) => Stream.Stream<
+    PolicyEngine,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPolicyEnginesRequest,
+  output: ListPolicyEnginesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "policyEngines",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes the resource-based policy for a specified resource.
  *
  * This feature is currently available only for AgentCore Runtime and Gateway.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new policy engine within the AgentCore Policy system. A policy engine is a collection of policies that evaluates and authorizes agent tool calls. When associated with Gateways (each Gateway can be associated with at most one policy engine, but multiple Gateways can be associated with the same engine), the policy engine intercepts all agent requests and determines whether to allow or deny each action based on the defined policies. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the `status` field to track completion.
  */
-export const createPolicyEngine = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPolicyEngine: (
+  input: CreatePolicyEngineRequest,
+) => Effect.Effect<
+  CreatePolicyEngineResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePolicyEngineRequest,
   output: CreatePolicyEngineResponse,
   errors: [
@@ -6845,7 +8084,19 @@ export const createPolicyEngine = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a custom browser.
  */
-export const createBrowser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBrowser: (
+  input: CreateBrowserRequest,
+) => Effect.Effect<
+  CreateBrowserResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBrowserRequest,
   output: CreateBrowserResponse,
   errors: [
@@ -6862,7 +8113,19 @@ export const createBrowser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * If you specify `CUSTOM_JWT` as the `authorizerType`, you must provide an `authorizerConfiguration`.
  */
-export const createGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGateway: (
+  input: CreateGatewayRequest,
+) => Effect.Effect<
+  CreateGatewayResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGatewayRequest,
   output: CreateGatewayResponse,
   errors: [
@@ -6877,125 +8140,287 @@ export const createGateway = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves information about an OAuth2 credential provider.
  */
-export const getOauth2CredentialProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetOauth2CredentialProviderRequest,
-    output: GetOauth2CredentialProviderResponse,
-    errors: [
-      AccessDeniedException,
-      DecryptionFailure,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const getOauth2CredentialProvider: (
+  input: GetOauth2CredentialProviderRequest,
+) => Effect.Effect<
+  GetOauth2CredentialProviderResponse,
+  | AccessDeniedException
+  | DecryptionFailure
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOauth2CredentialProviderRequest,
+  output: GetOauth2CredentialProviderResponse,
+  errors: [
+    AccessDeniedException,
+    DecryptionFailure,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates an online evaluation configuration for continuous monitoring of agent performance. Online evaluation automatically samples live traffic from CloudWatch logs at specified rates and applies evaluators to assess agent quality in production.
  */
-export const createOnlineEvaluationConfig =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateOnlineEvaluationConfigRequest,
-    output: CreateOnlineEvaluationConfigResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const createOnlineEvaluationConfig: (
+  input: CreateOnlineEvaluationConfigRequest,
+) => Effect.Effect<
+  CreateOnlineEvaluationConfigResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateOnlineEvaluationConfigRequest,
+  output: CreateOnlineEvaluationConfigResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about an API key credential provider.
  */
-export const getApiKeyCredentialProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetApiKeyCredentialProviderRequest,
-    output: GetApiKeyCredentialProviderResponse,
-    errors: [
-      AccessDeniedException,
-      DecryptionFailure,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const getApiKeyCredentialProvider: (
+  input: GetApiKeyCredentialProviderRequest,
+) => Effect.Effect<
+  GetApiKeyCredentialProviderResponse,
+  | AccessDeniedException
+  | DecryptionFailure
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApiKeyCredentialProviderRequest,
+  output: GetApiKeyCredentialProviderResponse,
+  errors: [
+    AccessDeniedException,
+    DecryptionFailure,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all API key credential providers in your account.
  */
-export const listApiKeyCredentialProviders =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listApiKeyCredentialProviders: {
+  (
     input: ListApiKeyCredentialProvidersRequest,
-    output: ListApiKeyCredentialProvidersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "credentialProviders",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListApiKeyCredentialProvidersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApiKeyCredentialProvidersRequest,
+  ) => Stream.Stream<
+    ListApiKeyCredentialProvidersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApiKeyCredentialProvidersRequest,
+  ) => Stream.Stream<
+    ApiKeyCredentialProviderItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApiKeyCredentialProvidersRequest,
+  output: ListApiKeyCredentialProvidersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "credentialProviders",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all OAuth2 credential providers in your account.
  */
-export const listOauth2CredentialProviders =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOauth2CredentialProviders: {
+  (
     input: ListOauth2CredentialProvidersRequest,
-    output: ListOauth2CredentialProvidersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "credentialProviders",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOauth2CredentialProvidersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOauth2CredentialProvidersRequest,
+  ) => Stream.Stream<
+    ListOauth2CredentialProvidersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOauth2CredentialProvidersRequest,
+  ) => Stream.Stream<
+    Oauth2CredentialProviderItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOauth2CredentialProvidersRequest,
+  output: ListOauth2CredentialProvidersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "credentialProviders",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all workload identities in your account.
  */
-export const listWorkloadIdentities =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWorkloadIdentities: {
+  (
     input: ListWorkloadIdentitiesRequest,
-    output: ListWorkloadIdentitiesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "workloadIdentities",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWorkloadIdentitiesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkloadIdentitiesRequest,
+  ) => Stream.Stream<
+    ListWorkloadIdentitiesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkloadIdentitiesRequest,
+  ) => Stream.Stream<
+    WorkloadIdentityType,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkloadIdentitiesRequest,
+  output: ListWorkloadIdentitiesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workloadIdentities",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves information about a token vault.
  */
-export const getTokenVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTokenVault: (
+  input: GetTokenVaultRequest,
+) => Effect.Effect<
+  GetTokenVaultResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTokenVaultRequest,
   output: GetTokenVaultResponse,
   errors: [
@@ -7010,24 +8435,46 @@ export const getTokenVault = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new workload identity.
  */
-export const createWorkloadIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWorkloadIdentityRequest,
-    output: CreateWorkloadIdentityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const createWorkloadIdentity: (
+  input: CreateWorkloadIdentityRequest,
+) => Effect.Effect<
+  CreateWorkloadIdentityResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWorkloadIdentityRequest,
+  output: CreateWorkloadIdentityResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves information about a workload identity.
  */
-export const getWorkloadIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkloadIdentity: (
+  input: GetWorkloadIdentityRequest,
+) => Effect.Effect<
+  GetWorkloadIdentityResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkloadIdentityRequest,
   output: GetWorkloadIdentityResponse,
   errors: [
@@ -7042,93 +8489,163 @@ export const getWorkloadIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing workload identity.
  */
-export const updateWorkloadIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateWorkloadIdentityRequest,
-    output: UpdateWorkloadIdentityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateWorkloadIdentity: (
+  input: UpdateWorkloadIdentityRequest,
+) => Effect.Effect<
+  UpdateWorkloadIdentityResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkloadIdentityRequest,
+  output: UpdateWorkloadIdentityResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an API key credential provider.
  */
-export const deleteApiKeyCredentialProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteApiKeyCredentialProviderRequest,
-    output: DeleteApiKeyCredentialProviderResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }));
+export const deleteApiKeyCredentialProvider: (
+  input: DeleteApiKeyCredentialProviderRequest,
+) => Effect.Effect<
+  DeleteApiKeyCredentialProviderResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApiKeyCredentialProviderRequest,
+  output: DeleteApiKeyCredentialProviderResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an OAuth2 credential provider.
  */
-export const deleteOauth2CredentialProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteOauth2CredentialProviderRequest,
-    output: DeleteOauth2CredentialProviderResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }));
+export const deleteOauth2CredentialProvider: (
+  input: DeleteOauth2CredentialProviderRequest,
+) => Effect.Effect<
+  DeleteOauth2CredentialProviderResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteOauth2CredentialProviderRequest,
+  output: DeleteOauth2CredentialProviderResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a workload identity.
  */
-export const deleteWorkloadIdentity = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWorkloadIdentityRequest,
-    output: DeleteWorkloadIdentityResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteWorkloadIdentity: (
+  input: DeleteWorkloadIdentityRequest,
+) => Effect.Effect<
+  DeleteWorkloadIdentityResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkloadIdentityRequest,
+  output: DeleteWorkloadIdentityResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates an existing API key credential provider.
  */
-export const updateApiKeyCredentialProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateApiKeyCredentialProviderRequest,
-    output: UpdateApiKeyCredentialProviderResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DecryptionFailure,
-      EncryptionFailure,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }));
+export const updateApiKeyCredentialProvider: (
+  input: UpdateApiKeyCredentialProviderRequest,
+) => Effect.Effect<
+  UpdateApiKeyCredentialProviderResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DecryptionFailure
+  | EncryptionFailure
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApiKeyCredentialProviderRequest,
+  output: UpdateApiKeyCredentialProviderResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DecryptionFailure,
+    EncryptionFailure,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Sets the customer master key (CMK) for a token vault.
  */
-export const setTokenVaultCMK = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setTokenVaultCMK: (
+  input: SetTokenVaultCMKRequest,
+) => Effect.Effect<
+  SetTokenVaultCMKResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetTokenVaultCMKRequest,
   output: SetTokenVaultCMKResponse,
   errors: [
@@ -7144,48 +8661,91 @@ export const setTokenVaultCMK = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing OAuth2 credential provider.
  */
-export const updateOauth2CredentialProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateOauth2CredentialProviderRequest,
-    output: UpdateOauth2CredentialProviderResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DecryptionFailure,
-      EncryptionFailure,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }));
+export const updateOauth2CredentialProvider: (
+  input: UpdateOauth2CredentialProviderRequest,
+) => Effect.Effect<
+  UpdateOauth2CredentialProviderResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DecryptionFailure
+  | EncryptionFailure
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateOauth2CredentialProviderRequest,
+  output: UpdateOauth2CredentialProviderResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DecryptionFailure,
+    EncryptionFailure,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new API key credential provider.
  */
-export const createApiKeyCredentialProvider =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateApiKeyCredentialProviderRequest,
-    output: CreateApiKeyCredentialProviderResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      DecryptionFailure,
-      EncryptionFailure,
-      InternalServerException,
-      ResourceLimitExceededException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UnauthorizedException,
-      ValidationException,
-    ],
-  }));
+export const createApiKeyCredentialProvider: (
+  input: CreateApiKeyCredentialProviderRequest,
+) => Effect.Effect<
+  CreateApiKeyCredentialProviderResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DecryptionFailure
+  | EncryptionFailure
+  | InternalServerException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApiKeyCredentialProviderRequest,
+  output: CreateApiKeyCredentialProviderResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DecryptionFailure,
+    EncryptionFailure,
+    InternalServerException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes an Amazon Bedrock AgentCore Memory resource.
  */
-export const deleteMemory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteMemory: (
+  input: DeleteMemoryInput,
+) => Effect.Effect<
+  DeleteMemoryOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | ThrottledException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMemoryInput,
   output: DeleteMemoryOutput,
   errors: [
@@ -7200,7 +8760,19 @@ export const deleteMemory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates an Amazon Bedrock AgentCore Runtime.
  */
-export const createAgentRuntime = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAgentRuntime: (
+  input: CreateAgentRuntimeRequest,
+) => Effect.Effect<
+  CreateAgentRuntimeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAgentRuntimeRequest,
   output: CreateAgentRuntimeResponse,
   errors: [
@@ -7215,7 +8787,19 @@ export const createAgentRuntime = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a custom evaluator for agent quality assessment. Custom evaluators use LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings to evaluate agent performance at tool call, trace, or session levels.
  */
-export const createEvaluator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createEvaluator: (
+  input: CreateEvaluatorRequest,
+) => Effect.Effect<
+  CreateEvaluatorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEvaluatorRequest,
   output: CreateEvaluatorResponse,
   errors: [
@@ -7230,7 +8814,20 @@ export const createEvaluator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update an Amazon Bedrock AgentCore Memory resource memory.
  */
-export const updateMemory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMemory: (
+  input: UpdateMemoryInput,
+) => Effect.Effect<
+  UpdateMemoryOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMemoryInput,
   output: UpdateMemoryOutput,
   errors: [
@@ -7246,7 +8843,20 @@ export const updateMemory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new Amazon Bedrock AgentCore Memory resource.
  */
-export const createMemory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createMemory: (
+  input: CreateMemoryInput,
+) => Effect.Effect<
+  CreateMemoryOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMemoryInput,
   output: CreateMemoryOutput,
   errors: [
@@ -7262,7 +8872,18 @@ export const createMemory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve an existing Amazon Bedrock AgentCore Memory resource.
  */
-export const getMemory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getMemory: (
+  input: GetMemoryInput,
+) => Effect.Effect<
+  GetMemoryOutput,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceException
+  | ThrottledException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMemoryInput,
   output: GetMemoryOutput,
   errors: [
@@ -7276,7 +8897,20 @@ export const getMemory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a target for a gateway. A target defines an endpoint that the gateway can connect to.
  */
-export const createGatewayTarget = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createGatewayTarget: (
+  input: CreateGatewayTargetRequest,
+) => Effect.Effect<
+  CreateGatewayTargetResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGatewayTargetRequest,
   output: CreateGatewayTargetResponse,
   errors: [

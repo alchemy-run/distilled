@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "drs",
   serviceShapeName: "ElasticDisasterRecoveryService",
@@ -240,6 +248,93 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type SourceServerARN = string;
+export type LaunchActionResourceId = string;
+export type LaunchActionId = string;
+export type LargeBoundedString = string;
+export type AccountID = string;
+export type MaxResultsReplicatingSourceServers = number;
+export type PaginationToken = string;
+export type MaxResultsType = number;
+export type ARN = string;
+export type SsmDocumentName = string;
+export type LaunchActionOrder = number;
+export type LaunchActionName = string;
+export type LaunchActionVersion = string;
+export type LaunchActionCategory = string;
+export type LaunchActionDescription = string;
+export type TagKey = string;
+export type JobID = string;
+export type StrictlyPositiveInteger = number;
+export type LaunchDisposition = string;
+export type TargetInstanceTypeRightSizingMethod = string;
+export type LaunchConfigurationTemplateID = string;
+export type RecoveryInstanceID = string;
+export type BoundedString = string;
+export type PositiveInteger = number;
+export type SubnetID = string;
+export type SecurityGroupID = string;
+export type EC2InstanceType = string;
+export type ReplicationConfigurationDefaultLargeStagingDiskType = string;
+export type ReplicationConfigurationEbsEncryption = string;
+export type ReplicationConfigurationDataPlaneRouting = string;
+export type ReplicationConfigurationTemplateID = string;
+export type VpcID = string;
+export type AwsRegion = string;
+export type SourceNetworkID = string;
+export type CfnStackName = string;
+export type SourceServerID = string;
+export type RecoverySnapshotsOrder = string;
+export type SmallBoundedString = string;
+export type TagValue = string;
+export type LaunchActionParameterName = string;
+export type ISO8601DatetimeString = string;
+export type PITPolicyRuleUnits = string;
+export type EC2InstanceID = string;
+export type ReplicationConfigurationReplicatedDiskStagingDiskType = string;
+export type RecoverySnapshotID = string;
+export type LastLaunchResult = string;
+export type ReplicationDirection = string;
+export type AgentVersion = string;
+export type LaunchActionParameterValue = string;
+export type LaunchActionParameterType = string;
+export type JobLogEvent = string;
+export type JobType = string;
+export type InitiatedBy = string;
+export type JobStatus = string;
+export type ReplicationStatus = string;
+export type SensitiveBoundedString = string;
+export type ISO8601DurationString = string;
+export type DataReplicationState = string;
+export type AwsAvailabilityZone = string;
+export type OutpostARN = string;
+export type ExtensionStatus = string;
+export type LaunchStatus = string;
+export type RecoveryResult = string;
+export type VolumeStatus = string;
+export type DataReplicationErrorString = string;
+export type LaunchActionType = string;
+export type EC2InstanceState = string;
+export type OriginEnvironment = string;
+export type EbsSnapshot = string;
+export type DataReplicationInitiationStepName = string;
+export type DataReplicationInitiationStepStatus = string;
+export type LastLaunchType = string;
+export type ValidationExceptionReason = string;
+export type FailbackState = string;
+export type FailbackLaunchType = string;
+export type RecoveryInstanceDataReplicationState = string;
+export type LaunchActionRunId = string;
+export type LaunchActionRunStatus = string;
+export type FailureReason = string;
+export type FailbackReplicationError = string;
+export type EbsVolumeID = string;
+export type ProductCodeId = string;
+export type ProductCodeMode = string;
+export type RecoveryInstanceDataReplicationInitiationStepName = string;
+export type RecoveryInstanceDataReplicationInitiationStepStatus = string;
 
 //# Schemas
 export interface InitializeServiceRequest {}
@@ -1581,6 +1676,7 @@ export const ParticipatingServer = S.suspend(() =>
 }) as any as S.Schema<ParticipatingServer>;
 export type ParticipatingServers = ParticipatingServer[];
 export const ParticipatingServers = S.Array(ParticipatingServer);
+export type ParticipatingResourceID = { sourceNetworkID: string };
 export const ParticipatingResourceID = S.Union(
   S.Struct({ sourceNetworkID: S.String }),
 );
@@ -2652,6 +2748,7 @@ export const ValidationExceptionField = S.suspend(() =>
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export type EventResourceData = { sourceNetworkData: SourceNetworkData };
 export const EventResourceData = S.Union(
   S.Struct({ sourceNetworkData: SourceNetworkData }),
 );
@@ -2940,7 +3037,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -2978,7 +3077,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class UninitializedAccountException extends S.TaggedError<UninitializedAccountException>()(
   "UninitializedAccountException",
   { message: S.optional(S.String), code: S.optional(S.String) },
@@ -2997,7 +3098,18 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Deletes a single Job by ID.
  */
-export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteJob: (
+  input: DeleteJobRequest,
+) => Effect.Effect<
+  DeleteJobResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobRequest,
   output: DeleteJobResponse,
   errors: [
@@ -3011,52 +3123,89 @@ export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
  */
-export const getFailbackReplicationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetFailbackReplicationConfigurationRequest,
-    output: GetFailbackReplicationConfigurationResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-    ],
-  }));
+export const getFailbackReplicationConfiguration: (
+  input: GetFailbackReplicationConfigurationRequest,
+) => Effect.Effect<
+  GetFailbackReplicationConfigurationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFailbackReplicationConfigurationRequest,
+  output: GetFailbackReplicationConfigurationResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Gets a LaunchConfiguration, filtered by Source Server IDs.
  */
-export const getLaunchConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetLaunchConfigurationRequest,
-    output: LaunchConfiguration,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-    ],
-  }),
-);
+export const getLaunchConfiguration: (
+  input: GetLaunchConfigurationRequest,
+) => Effect.Effect<
+  LaunchConfiguration,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLaunchConfigurationRequest,
+  output: LaunchConfiguration,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Gets a ReplicationConfiguration, filtered by Source Server ID.
  */
-export const getReplicationConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetReplicationConfigurationRequest,
-    output: ReplicationConfiguration,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-    ],
-  }),
-);
+export const getReplicationConfiguration: (
+  input: GetReplicationConfigurationRequest,
+) => Effect.Effect<
+  ReplicationConfiguration,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetReplicationConfigurationRequest,
+  output: ReplicationConfiguration,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Starts replication for a stopped Source Server. This action would make the Source Server protected again and restart billing for it.
  */
-export const startReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startReplication: (
+  input: StartReplicationRequest,
+) => Effect.Effect<
+  StartReplicationResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartReplicationRequest,
   output: StartReplicationResponse,
   errors: [
@@ -3070,7 +3219,18 @@ export const startReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops replication for a Source Server. This action would make the Source Server unprotected, delete its existing snapshots and stop billing for it.
  */
-export const stopReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopReplication: (
+  input: StopReplicationRequest,
+) => Effect.Effect<
+  StopReplicationResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopReplicationRequest,
   output: StopReplicationResponse,
   errors: [
@@ -3084,7 +3244,17 @@ export const stopReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAILBACK_NOT_STARTED.
  */
-export const stopFailback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopFailback: (
+  input: StopFailbackRequest,
+) => Effect.Effect<
+  StopFailbackResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopFailbackRequest,
   output: StopFailbackResponse,
   errors: [
@@ -3097,69 +3267,120 @@ export const stopFailback = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Allows you to update the failback replication configuration of a Recovery Instance by ID.
  */
-export const updateFailbackReplicationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateFailbackReplicationConfigurationRequest,
-    output: UpdateFailbackReplicationConfigurationResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-    ],
-  }));
+export const updateFailbackReplicationConfiguration: (
+  input: UpdateFailbackReplicationConfigurationRequest,
+) => Effect.Effect<
+  UpdateFailbackReplicationConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateFailbackReplicationConfigurationRequest,
+  output: UpdateFailbackReplicationConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Deletes a single Launch Configuration Template by ID.
  */
-export const deleteLaunchConfigurationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteLaunchConfigurationTemplateRequest,
-    output: DeleteLaunchConfigurationTemplateResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-    ],
-  }));
+export const deleteLaunchConfigurationTemplate: (
+  input: DeleteLaunchConfigurationTemplateRequest,
+) => Effect.Effect<
+  DeleteLaunchConfigurationTemplateResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteLaunchConfigurationTemplateRequest,
+  output: DeleteLaunchConfigurationTemplateResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Disconnect a Recovery Instance from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Recovery Instance will be terminated / deleted within 90 minutes. If the agent on the Recovery Instance has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the Recovery Instance will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
-export const disconnectRecoveryInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisconnectRecoveryInstanceRequest,
-    output: DisconnectRecoveryInstanceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-    ],
-  }),
-);
+export const disconnectRecoveryInstance: (
+  input: DisconnectRecoveryInstanceRequest,
+) => Effect.Effect<
+  DisconnectRecoveryInstanceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisconnectRecoveryInstanceRequest,
+  output: DisconnectRecoveryInstanceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Deletes a single Replication Configuration Template by ID
  */
-export const deleteReplicationConfigurationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteReplicationConfigurationTemplateRequest,
-    output: DeleteReplicationConfigurationTemplateResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-    ],
-  }));
+export const deleteReplicationConfigurationTemplate: (
+  input: DeleteReplicationConfigurationTemplateRequest,
+) => Effect.Effect<
+  DeleteReplicationConfigurationTemplateResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReplicationConfigurationTemplateRequest,
+  output: DeleteReplicationConfigurationTemplateResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Delete Source Network resource.
  */
-export const deleteSourceNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSourceNetwork: (
+  input: DeleteSourceNetworkRequest,
+) => Effect.Effect<
+  DeleteSourceNetworkResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSourceNetworkRequest,
   output: DeleteSourceNetworkResponse,
   errors: [
@@ -3173,7 +3394,18 @@ export const deleteSourceNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a single Source Server by ID. The Source Server must be disconnected first.
  */
-export const deleteSourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSourceServer: (
+  input: DeleteSourceServerRequest,
+) => Effect.Effect<
+  DeleteSourceServerResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSourceServerRequest,
   output: DeleteSourceServerResponse,
   errors: [
@@ -3187,39 +3419,68 @@ export const deleteSourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a single Recovery Instance by ID. This deletes the Recovery Instance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it.
  */
-export const deleteRecoveryInstance = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRecoveryInstanceRequest,
-    output: DeleteRecoveryInstanceResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      UninitializedAccountException,
-    ],
-  }),
-);
+export const deleteRecoveryInstance: (
+  input: DeleteRecoveryInstanceRequest,
+) => Effect.Effect<
+  DeleteRecoveryInstanceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRecoveryInstanceRequest,
+  output: DeleteRecoveryInstanceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery Instances from the Elastic Disaster Recovery service.
  */
-export const terminateRecoveryInstances = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TerminateRecoveryInstancesRequest,
-    output: TerminateRecoveryInstancesResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UninitializedAccountException,
-    ],
-  }),
-);
+export const terminateRecoveryInstances: (
+  input: TerminateRecoveryInstancesRequest,
+) => Effect.Effect<
+  TerminateRecoveryInstancesResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TerminateRecoveryInstancesRequest,
+  output: TerminateRecoveryInstancesResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Launches Recovery Instances for the specified Source Servers. For each Source Server you may choose a point in time snapshot to launch from, or use an on demand snapshot.
  */
-export const startRecovery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startRecovery: (
+  input: StartRecoveryRequest,
+) => Effect.Effect<
+  StartRecoveryResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartRecoveryRequest,
   output: StartRecoveryResponse,
   errors: [
@@ -3233,60 +3494,124 @@ export const startRecovery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists resource launch actions.
  */
-export const listLaunchActions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLaunchActions: {
+  (
     input: ListLaunchActionsRequest,
-    output: ListLaunchActionsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UninitializedAccountException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLaunchActionsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | UninitializedAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLaunchActionsRequest,
+  ) => Stream.Stream<
+    ListLaunchActionsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | UninitializedAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLaunchActionsRequest,
+  ) => Stream.Stream<
+    LaunchAction,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | UninitializedAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLaunchActionsRequest,
+  output: ListLaunchActionsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UninitializedAccountException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Starts replication for a Source Network. This action would make the Source Network protected.
  */
-export const startSourceNetworkReplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartSourceNetworkReplicationRequest,
-    output: StartSourceNetworkReplicationResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-    ],
-  }));
+export const startSourceNetworkReplication: (
+  input: StartSourceNetworkReplicationRequest,
+) => Effect.Effect<
+  StartSourceNetworkReplicationResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSourceNetworkReplicationRequest,
+  output: StartSourceNetworkReplicationResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Source Server will be terminated / deleted within 90 minutes. You cannot disconnect a Source Server if it has a Recovery Instance. If the agent on the Source Server has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
-export const disconnectSourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DisconnectSourceServerRequest,
-    output: SourceServer,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-    ],
-  }),
-);
+export const disconnectSourceServer: (
+  input: DisconnectSourceServerRequest,
+) => Effect.Effect<
+  SourceServer,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisconnectSourceServerRequest,
+  output: SourceServer,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+  ],
+}));
 /**
  * Initialize Elastic Disaster Recovery.
  */
-export const initializeService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const initializeService: (
+  input: InitializeServiceRequest,
+) => Effect.Effect<
+  InitializeServiceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitializeServiceRequest,
   output: InitializeServiceResponse,
   errors: [
@@ -3299,7 +3624,18 @@ export const initializeService = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List all tags for your Elastic Disaster Recovery resources.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -3313,7 +3649,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds or overwrites only the specified tags for the specified Elastic Disaster Recovery resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -3327,7 +3674,18 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified set of tags from the specified set of Elastic Disaster Recovery resources.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -3341,30 +3699,79 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
  */
-export const describeLaunchConfigurationTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeLaunchConfigurationTemplates: {
+  (
     input: DescribeLaunchConfigurationTemplatesRequest,
-    output: DescribeLaunchConfigurationTemplatesResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeLaunchConfigurationTemplatesResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeLaunchConfigurationTemplatesRequest,
+  ) => Stream.Stream<
+    DescribeLaunchConfigurationTemplatesResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeLaunchConfigurationTemplatesRequest,
+  ) => Stream.Stream<
+    LaunchConfigurationTemplate,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeLaunchConfigurationTemplatesRequest,
+  output: DescribeLaunchConfigurationTemplatesResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Start replication to origin / target region - applies only to protected instances that originated in EC2.
  * For recovery instances on target region - starts replication back to origin region.
  * For failback instances on origin region - starts replication to target region to re-protect them.
  */
-export const reverseReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const reverseReplication: (
+  input: ReverseReplicationRequest,
+) => Effect.Effect<
+  ReverseReplicationResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReverseReplicationRequest,
   output: ReverseReplicationResponse,
   errors: [
@@ -3380,44 +3787,104 @@ export const reverseReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a ReplicationConfigurationTemplate by ID.
  */
-export const updateReplicationConfigurationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateReplicationConfigurationTemplateRequest,
-    output: ReplicationConfigurationTemplate,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }));
+export const updateReplicationConfigurationTemplate: (
+  input: UpdateReplicationConfigurationTemplateRequest,
+) => Effect.Effect<
+  ReplicationConfigurationTemplate,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateReplicationConfigurationTemplateRequest,
+  output: ReplicationConfigurationTemplate,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
  */
-export const describeReplicationConfigurationTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeReplicationConfigurationTemplates: {
+  (
     input: DescribeReplicationConfigurationTemplatesRequest,
-    output: DescribeReplicationConfigurationTemplatesResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeReplicationConfigurationTemplatesResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeReplicationConfigurationTemplatesRequest,
+  ) => Stream.Stream<
+    DescribeReplicationConfigurationTemplatesResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeReplicationConfigurationTemplatesRequest,
+  ) => Stream.Stream<
+    ReplicationConfigurationTemplate,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeReplicationConfigurationTemplatesRequest,
+  output: DescribeReplicationConfigurationTemplatesResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Create a new Source Network resource for a provided VPC ID.
  */
-export const createSourceNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSourceNetwork: (
+  input: CreateSourceNetworkRequest,
+) => Effect.Effect<
+  CreateSourceNetworkResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSourceNetworkRequest,
   output: CreateSourceNetworkResponse,
   errors: [
@@ -3433,158 +3900,266 @@ export const createSourceNetwork = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Associate a Source Network to an existing CloudFormation Stack and modify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks.
  */
-export const associateSourceNetworkStack = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateSourceNetworkStackRequest,
-    output: AssociateSourceNetworkStackResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }),
-);
+export const associateSourceNetworkStack: (
+  input: AssociateSourceNetworkStackRequest,
+) => Effect.Effect<
+  AssociateSourceNetworkStackResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateSourceNetworkStackRequest,
+  output: AssociateSourceNetworkStackResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Export the Source Network CloudFormation template to an S3 bucket.
  */
-export const exportSourceNetworkCfnTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExportSourceNetworkCfnTemplateRequest,
-    output: ExportSourceNetworkCfnTemplateResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }));
+export const exportSourceNetworkCfnTemplate: (
+  input: ExportSourceNetworkCfnTemplateRequest,
+) => Effect.Effect<
+  ExportSourceNetworkCfnTemplateResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExportSourceNetworkCfnTemplateRequest,
+  output: ExportSourceNetworkCfnTemplateResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Stops replication for a Source Network. This action would make the Source Network unprotected.
  */
-export const stopSourceNetworkReplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StopSourceNetworkReplicationRequest,
-    output: StopSourceNetworkReplicationResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }));
+export const stopSourceNetworkReplication: (
+  input: StopSourceNetworkReplicationRequest,
+) => Effect.Effect<
+  StopSourceNetworkReplicationResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopSourceNetworkReplicationRequest,
+  output: StopSourceNetworkReplicationResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates a LaunchConfiguration by Source Server ID.
  */
-export const updateLaunchConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateLaunchConfigurationRequest,
-    output: LaunchConfiguration,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }),
-);
+export const updateLaunchConfiguration: (
+  input: UpdateLaunchConfigurationRequest,
+) => Effect.Effect<
+  LaunchConfiguration,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLaunchConfigurationRequest,
+  output: LaunchConfiguration,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Allows you to update a ReplicationConfiguration by Source Server ID.
  */
-export const updateReplicationConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateReplicationConfigurationRequest,
-    output: ReplicationConfiguration,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }));
+export const updateReplicationConfiguration: (
+  input: UpdateReplicationConfigurationRequest,
+) => Effect.Effect<
+  ReplicationConfiguration,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateReplicationConfigurationRequest,
+  output: ReplicationConfiguration,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * WARNING: RetryDataReplication is deprecated.
  * Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
  */
-export const retryDataReplication = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RetryDataReplicationRequest,
-    output: SourceServer,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }),
-);
+export const retryDataReplication: (
+  input: RetryDataReplicationRequest,
+) => Effect.Effect<
+  SourceServer,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RetryDataReplicationRequest,
+  output: SourceServer,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Create an extended source server in the target Account based on the source server in staging account.
  */
-export const createExtendedSourceServer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateExtendedSourceServerRequest,
-    output: CreateExtendedSourceServerResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }),
-);
+export const createExtendedSourceServer: (
+  input: CreateExtendedSourceServerRequest,
+) => Effect.Effect<
+  CreateExtendedSourceServerResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateExtendedSourceServerRequest,
+  output: CreateExtendedSourceServerResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new ReplicationConfigurationTemplate.
  */
-export const createReplicationConfigurationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateReplicationConfigurationTemplateRequest,
-    output: ReplicationConfigurationTemplate,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }));
+export const createReplicationConfigurationTemplate: (
+  input: CreateReplicationConfigurationTemplateRequest,
+) => Effect.Effect<
+  ReplicationConfigurationTemplate,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateReplicationConfigurationTemplateRequest,
+  output: ReplicationConfigurationTemplate,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new Launch Configuration Template.
  */
-export const createLaunchConfigurationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateLaunchConfigurationTemplateRequest,
-    output: CreateLaunchConfigurationTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }));
+export const createLaunchConfigurationTemplate: (
+  input: CreateLaunchConfigurationTemplateRequest,
+) => Effect.Effect<
+  CreateLaunchConfigurationTemplateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLaunchConfigurationTemplateRequest,
+  output: CreateLaunchConfigurationTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a resource launch action.
  */
-export const deleteLaunchAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteLaunchAction: (
+  input: DeleteLaunchActionRequest,
+) => Effect.Effect<
+  DeleteLaunchActionResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLaunchActionRequest,
   output: DeleteLaunchActionResponse,
   errors: [
@@ -3600,143 +4175,346 @@ export const deleteLaunchAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * a. The source server is not already extended into this Account.
  * b. The source server on the Account we’re reading from is not an extension of another source server.
  */
-export const listExtensibleSourceServers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listExtensibleSourceServers: {
+  (
     input: ListExtensibleSourceServersRequest,
-    output: ListExtensibleSourceServersResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListExtensibleSourceServersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListExtensibleSourceServersRequest,
+  ) => Stream.Stream<
+    ListExtensibleSourceServersResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListExtensibleSourceServersRequest,
+  ) => Stream.Stream<
+    StagingSourceServer,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListExtensibleSourceServersRequest,
+  output: ListExtensibleSourceServersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns an array of staging accounts for existing extended source servers.
  */
-export const listStagingAccounts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listStagingAccounts: {
+  (
     input: ListStagingAccountsRequest,
-    output: ListStagingAccountsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "accounts",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListStagingAccountsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStagingAccountsRequest,
+  ) => Stream.Stream<
+    ListStagingAccountsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStagingAccountsRequest,
+  ) => Stream.Stream<
+    Account,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStagingAccountsRequest,
+  output: ListStagingAccountsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "accounts",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
  */
-export const describeJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const describeJobs: {
+  (
     input: DescribeJobsRequest,
-    output: DescribeJobsResponse,
-    errors: [
-      InternalServerException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    DescribeJobsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeJobsRequest,
+  ) => Stream.Stream<
+    DescribeJobsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeJobsRequest,
+  ) => Stream.Stream<
+    Job,
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeJobsRequest,
+  output: DescribeJobsResponse,
+  errors: [
+    InternalServerException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates an existing Launch Configuration Template by ID.
  */
-export const updateLaunchConfigurationTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateLaunchConfigurationTemplateRequest,
-    output: UpdateLaunchConfigurationTemplateResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }));
+export const updateLaunchConfigurationTemplate: (
+  input: UpdateLaunchConfigurationTemplateRequest,
+) => Effect.Effect<
+  UpdateLaunchConfigurationTemplateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLaunchConfigurationTemplateRequest,
+  output: UpdateLaunchConfigurationTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all Source Networks or multiple Source Networks filtered by ID.
  */
-export const describeSourceNetworks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeSourceNetworks: {
+  (
     input: DescribeSourceNetworksRequest,
-    output: DescribeSourceNetworksResponse,
-    errors: [
-      InternalServerException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeSourceNetworksResponse,
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSourceNetworksRequest,
+  ) => Stream.Stream<
+    DescribeSourceNetworksResponse,
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSourceNetworksRequest,
+  ) => Stream.Stream<
+    SourceNetwork,
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSourceNetworksRequest,
+  output: DescribeSourceNetworksResponse,
+  errors: [
+    InternalServerException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated CloudFormation stack.
  */
-export const startSourceNetworkRecovery = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartSourceNetworkRecoveryRequest,
-    output: StartSourceNetworkRecoveryResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-  }),
-);
+export const startSourceNetworkRecovery: (
+  input: StartSourceNetworkRecoveryRequest,
+) => Effect.Effect<
+  StartSourceNetworkRecoveryResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSourceNetworkRecoveryRequest,
+  output: StartSourceNetworkRecoveryResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+}));
 /**
  * Lists all Source Servers or multiple Source Servers filtered by ID.
  */
-export const describeSourceServers =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeSourceServers: {
+  (
     input: DescribeSourceServersRequest,
-    output: DescribeSourceServersResponse,
-    errors: [
-      InternalServerException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeSourceServersResponse,
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSourceServersRequest,
+  ) => Stream.Stream<
+    DescribeSourceServersResponse,
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSourceServersRequest,
+  ) => Stream.Stream<
+    SourceServer,
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSourceServersRequest,
+  output: DescribeSourceServersResponse,
+  errors: [
+    InternalServerException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Puts a resource launch action.
  */
-export const putLaunchAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putLaunchAction: (
+  input: PutLaunchActionRequest,
+) => Effect.Effect<
+  PutLaunchActionResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutLaunchActionRequest,
   output: PutLaunchActionResponse,
   errors: [
@@ -3751,28 +4529,76 @@ export const putLaunchAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all Recovery Snapshots for a single Source Server.
  */
-export const describeRecoverySnapshots =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRecoverySnapshots: {
+  (
     input: DescribeRecoverySnapshotsRequest,
-    output: DescribeRecoverySnapshotsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRecoverySnapshotsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRecoverySnapshotsRequest,
+  ) => Stream.Stream<
+    DescribeRecoverySnapshotsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRecoverySnapshotsRequest,
+  ) => Stream.Stream<
+    RecoverySnapshot,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRecoverySnapshotsRequest,
+  output: DescribeRecoverySnapshotsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the failback process.
  */
-export const startFailbackLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startFailbackLaunch: (
+  input: StartFailbackLaunchRequest,
+) => Effect.Effect<
+  StartFailbackLaunchResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartFailbackLaunchRequest,
   output: StartFailbackLaunchResponse,
   errors: [
@@ -3787,40 +4613,106 @@ export const startFailbackLaunch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves a detailed Job log with pagination.
  */
-export const describeJobLogItems =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeJobLogItems: {
+  (
     input: DescribeJobLogItemsRequest,
-    output: DescribeJobLogItemsResponse,
-    errors: [
-      InternalServerException,
-      ThrottlingException,
-      UninitializedAccountException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeJobLogItemsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeJobLogItemsRequest,
+  ) => Stream.Stream<
+    DescribeJobLogItemsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeJobLogItemsRequest,
+  ) => Stream.Stream<
+    JobLog,
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeJobLogItemsRequest,
+  output: DescribeJobLogItemsResponse,
+  errors: [
+    InternalServerException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all Recovery Instances or multiple Recovery Instances by ID.
  */
-export const describeRecoveryInstances =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeRecoveryInstances: {
+  (
     input: DescribeRecoveryInstancesRequest,
-    output: DescribeRecoveryInstancesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      UninitializedAccountException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "items",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeRecoveryInstancesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeRecoveryInstancesRequest,
+  ) => Stream.Stream<
+    DescribeRecoveryInstancesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeRecoveryInstancesRequest,
+  ) => Stream.Stream<
+    RecoveryInstance,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | UninitializedAccountException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeRecoveryInstancesRequest,
+  output: DescribeRecoveryInstancesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    UninitializedAccountException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+}));

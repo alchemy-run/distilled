@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Secrets Manager",
   serviceShapeName: "secretsmanager",
@@ -340,6 +348,43 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type SecretIdType = string;
+export type MaxResultsBatchType = number;
+export type NextTokenType = string;
+export type NameType = string;
+export type ClientRequestTokenType = string;
+export type DescriptionType = string;
+export type KmsKeyIdType = string;
+export type SecretStringType = string;
+export type MedeaTypeType = string;
+export type RecoveryWindowInDaysType = number;
+export type PasswordLengthType = number;
+export type ExcludeCharactersType = string;
+export type SecretVersionIdType = string;
+export type SecretVersionStageType = string;
+export type MaxResultsType = number;
+export type NonEmptyResourcePolicyType = string;
+export type RotationTokenType = string;
+export type RegionType = string;
+export type RotationLambdaARNType = string;
+export type RoleARNType = string;
+export type TagKeyType = string;
+export type FilterValueStringType = string;
+export type TagValueType = string;
+export type AutomaticallyRotateAfterDaysType = number;
+export type DurationType = string;
+export type ScheduleExpressionType = string;
+export type ExternalSecretRotationMetadataItemKeyType = string;
+export type ExternalSecretRotationMetadataItemValueType = string;
+export type SecretARNType = string;
+export type SecretNameType = string;
+export type OwningServiceType = string;
+export type RandomPasswordType = string;
+export type ErrorMessage = string;
+export type StatusMessageType = string;
+export type ErrorCode = string;
 
 //# Schemas
 export type SecretIdListType = string[];
@@ -1338,7 +1383,16 @@ export class PublicPolicyException extends S.TaggedError<PublicPolicyException>(
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const describeSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeSecret: (
+  input: DescribeSecretRequest,
+) => Effect.Effect<
+  DescribeSecretResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSecretRequest,
   output: DescribeSecretResponse,
   errors: [
@@ -1366,7 +1420,17 @@ export const describeSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1398,7 +1462,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const cancelRotateSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelRotateSecret: (
+  input: CancelRotateSecretRequest,
+) => Effect.Effect<
+  CancelRotateSecretResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelRotateSecretRequest,
   output: CancelRotateSecretResponse,
   errors: [
@@ -1420,18 +1494,26 @@ export const cancelRotateSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      InternalServiceError,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    InternalServiceError,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes a secret and all of its versions. You can specify a recovery window during
  * which you can restore the secret. The minimum recovery window is 7 days. The default
@@ -1472,7 +1554,17 @@ export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const deleteSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSecret: (
+  input: DeleteSecretRequest,
+) => Effect.Effect<
+  DeleteSecretResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSecretRequest,
   output: DeleteSecretResponse,
   errors: [
@@ -1498,7 +1590,16 @@ export const deleteSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const getRandomPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRandomPassword: (
+  input: GetRandomPasswordRequest,
+) => Effect.Effect<
+  GetRandomPasswordResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRandomPasswordRequest,
   output: GetRandomPasswordResponse,
   errors: [
@@ -1519,7 +1620,17 @@ export const getRandomPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => Effect.Effect<
+  GetResourcePolicyResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
   errors: [
@@ -1542,17 +1653,26 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const removeRegionsFromReplication =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RemoveRegionsFromReplicationRequest,
-    output: RemoveRegionsFromReplicationResponse,
-    errors: [
-      InternalServiceError,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const removeRegionsFromReplication: (
+  input: RemoveRegionsFromReplicationRequest,
+) => Effect.Effect<
+  RemoveRegionsFromReplicationResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveRegionsFromReplicationRequest,
+  output: RemoveRegionsFromReplicationResponse,
+  errors: [
+    InternalServiceError,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Replicates the secret to a new Regions. See Multi-Region secrets.
  *
@@ -1569,18 +1689,26 @@ export const removeRegionsFromReplication =
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const replicateSecretToRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ReplicateSecretToRegionsRequest,
-    output: ReplicateSecretToRegionsResponse,
-    errors: [
-      InternalServiceError,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const replicateSecretToRegions: (
+  input: ReplicateSecretToRegionsRequest,
+) => Effect.Effect<
+  ReplicateSecretToRegionsResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReplicateSecretToRegionsRequest,
+  output: ReplicateSecretToRegionsResponse,
+  errors: [
+    InternalServiceError,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Cancels the scheduled deletion of a secret by removing the `DeletedDate`
  * time stamp. You can access a secret again after it has been restored.
@@ -1593,7 +1721,17 @@ export const replicateSecretToRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const restoreSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const restoreSecret: (
+  input: RestoreSecretRequest,
+) => Effect.Effect<
+  RestoreSecretResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreSecretRequest,
   output: RestoreSecretResponse,
   errors: [
@@ -1618,18 +1756,26 @@ export const restoreSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const stopReplicationToReplica = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopReplicationToReplicaRequest,
-    output: StopReplicationToReplicaResponse,
-    errors: [
-      InternalServiceError,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const stopReplicationToReplica: (
+  input: StopReplicationToReplicaRequest,
+) => Effect.Effect<
+  StopReplicationToReplicaResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopReplicationToReplicaRequest,
+  output: StopReplicationToReplicaResponse,
+  errors: [
+    InternalServiceError,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Retrieves the contents of the encrypted fields `SecretString` or
  * `SecretBinary` from the specified version of a secret, whichever contains
@@ -1654,7 +1800,18 @@ export const stopReplicationToReplica = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const getSecretValue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getSecretValue: (
+  input: GetSecretValueRequest,
+) => Effect.Effect<
+  GetSecretValueResponse,
+  | DecryptionFailure
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSecretValueRequest,
   output: GetSecretValueResponse,
   errors: [
@@ -1693,7 +1850,17 @@ export const getSecretValue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * need `lambda:InvokeFunction` permissions on the rotation function. For more
  * information, see Permissions for rotation.
  */
-export const rotateSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rotateSecret: (
+  input: RotateSecretRequest,
+) => Effect.Effect<
+  RotateSecretResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RotateSecretRequest,
   output: RotateSecretResponse,
   errors: [
@@ -1728,23 +1895,55 @@ export const rotateSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const listSecrets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSecrets: {
+  (
     input: ListSecretsRequest,
-    output: ListSecretsResponse,
-    errors: [
-      InternalServiceError,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      InvalidRequestException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSecretsResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecretsRequest,
+  ) => Stream.Stream<
+    ListSecretsResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecretsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | InvalidRequestException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecretsRequest,
+  output: ListSecretsResponse,
+  errors: [
+    InternalServiceError,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    InvalidRequestException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Attaches tags to a secret. Tags consist of a key name and a value. Tags are part of
  * the secret's metadata. They are not associated with specific versions of the secret.
@@ -1766,7 +1965,17 @@ export const listSecrets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1791,22 +2000,55 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const listSecretVersionIds =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSecretVersionIds: {
+  (
     input: ListSecretVersionIdsRequest,
-    output: ListSecretVersionIdsResponse,
-    errors: [
-      InternalServiceError,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSecretVersionIdsResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecretVersionIdsRequest,
+  ) => Stream.Stream<
+    ListSecretVersionIdsResponse,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecretVersionIdsRequest,
+  ) => Stream.Stream<
+    unknown,
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecretVersionIdsRequest,
+  output: ListSecretVersionIdsResponse,
+  errors: [
+    InternalServiceError,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Retrieves the contents of the encrypted fields `SecretString` or
  * `SecretBinary` for up to 20 secrets. To retrieve a single secret, call
@@ -1832,24 +2074,63 @@ export const listSecretVersionIds =
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const batchGetSecretValue =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const batchGetSecretValue: {
+  (
     input: BatchGetSecretValueRequest,
-    output: BatchGetSecretValueResponse,
-    errors: [
-      DecryptionFailure,
-      InternalServiceError,
-      InvalidNextTokenException,
-      InvalidParameterException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    BatchGetSecretValueResponse,
+    | DecryptionFailure
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: BatchGetSecretValueRequest,
+  ) => Stream.Stream<
+    BatchGetSecretValueResponse,
+    | DecryptionFailure
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: BatchGetSecretValueRequest,
+  ) => Stream.Stream<
+    unknown,
+    | DecryptionFailure
+    | InternalServiceError
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: BatchGetSecretValueRequest,
+  output: BatchGetSecretValueResponse,
+  errors: [
+    DecryptionFailure,
+    InternalServiceError,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Validates that a resource policy does not grant a wide range of principals access to
  * your secret. A resource-based policy is optional for secrets.
@@ -1873,19 +2154,28 @@ export const batchGetSecretValue =
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const validateResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ValidateResourcePolicyRequest,
-    output: ValidateResourcePolicyResponse,
-    errors: [
-      InternalServiceError,
-      InvalidParameterException,
-      InvalidRequestException,
-      MalformedPolicyDocumentException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const validateResourcePolicy: (
+  input: ValidateResourcePolicyRequest,
+) => Effect.Effect<
+  ValidateResourcePolicyResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | MalformedPolicyDocumentException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ValidateResourcePolicyRequest,
+  output: ValidateResourcePolicyResponse,
+  errors: [
+    InternalServiceError,
+    InvalidParameterException,
+    InvalidRequestException,
+    MalformedPolicyDocumentException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Modifies the staging labels attached to a version of a secret. Secrets Manager uses staging
  * labels to track a version as it progresses through the secret rotation process. Each
@@ -1916,19 +2206,28 @@ export const validateResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const updateSecretVersionStage = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSecretVersionStageRequest,
-    output: UpdateSecretVersionStageResponse,
-    errors: [
-      InternalServiceError,
-      InvalidParameterException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updateSecretVersionStage: (
+  input: UpdateSecretVersionStageRequest,
+) => Effect.Effect<
+  UpdateSecretVersionStageResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSecretVersionStageRequest,
+  output: UpdateSecretVersionStageResponse,
+  errors: [
+    InternalServiceError,
+    InvalidParameterException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a new version of your secret by creating a new encrypted value and attaching
  * it to the secret. version can contain a new `SecretString` value or a new
@@ -1969,7 +2268,21 @@ export const updateSecretVersionStage = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * When you enter commands in a command shell, there is a risk of the command history being accessed or utilities having access to your command parameters. This is a concern if the command includes the value of a secret. Learn how to Mitigate the risks of using command-line tools to store Secrets Manager secrets.
  */
-export const putSecretValue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putSecretValue: (
+  input: PutSecretValueRequest,
+) => Effect.Effect<
+  PutSecretValueResponse,
+  | DecryptionFailure
+  | EncryptionFailure
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSecretValueRequest,
   output: PutSecretValueResponse,
   errors: [
@@ -2030,7 +2343,23 @@ export const putSecretValue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you enter commands in a command shell, there is a risk of the command history being accessed or utilities having access to your command parameters. This is a concern if the command includes the value of a secret. Learn how to Mitigate the risks of using command-line tools to store Secrets Manager secrets.
  */
-export const updateSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSecret: (
+  input: UpdateSecretRequest,
+) => Effect.Effect<
+  UpdateSecretResponse,
+  | DecryptionFailure
+  | EncryptionFailure
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | PreconditionNotMetException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSecretRequest,
   output: UpdateSecretResponse,
   errors: [
@@ -2060,7 +2389,19 @@ export const updateSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | MalformedPolicyDocumentException
+  | PublicPolicyException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [
@@ -2129,7 +2470,23 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * When you enter commands in a command shell, there is a risk of the command history being accessed or utilities having access to your command parameters. This is a concern if the command includes the value of a secret. Learn how to Mitigate the risks of using command-line tools to store Secrets Manager secrets.
  */
-export const createSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSecret: (
+  input: CreateSecretRequest,
+) => Effect.Effect<
+  CreateSecretResponse,
+  | DecryptionFailure
+  | EncryptionFailure
+  | InternalServiceError
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | PreconditionNotMetException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSecretRequest,
   output: CreateSecretResponse,
   errors: [

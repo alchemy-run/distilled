@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "schemas", serviceShapeName: "schemas" });
 const auth = T.AwsAuthSigv4({ name: "schemas" });
 const ver = T.ServiceVersion("2019-12-02");
@@ -237,6 +245,17 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type __stringMin0Max256 = string;
+export type __stringMin20Max1600 = string;
+export type __string = string;
+export type __stringMin1Max100000 = string;
+export type GetDiscoveredSchemaVersionItemInput = string;
+export type __integer = number;
+export type SynthesizedJson__string = string;
+export type __stringMin0Max36 = string;
+export type __long = number;
 
 //# Schemas
 export type __listOfGetDiscoveredSchemaVersionItemInput = string[];
@@ -1496,7 +1515,9 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { Code: S.String, Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class GoneException extends S.TaggedError<GoneException>()(
   "GoneException",
   { Code: S.String, Message: S.String },
@@ -1508,7 +1529,9 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Code: S.String, Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
   { Code: S.String, Message: S.String },
@@ -1516,7 +1539,9 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Code: S.String, Message: S.String },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class PreconditionFailedException extends S.TaggedError<PreconditionFailedException>()(
   "PreconditionFailedException",
   { Code: S.String, Message: S.String },
@@ -1526,7 +1551,17 @@ export class PreconditionFailedException extends S.TaggedError<PreconditionFaile
 /**
  * Get tags for resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -1541,7 +1576,18 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Inactive schemas will be deleted after two years.
  */
-export const updateSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSchema: (
+  input: UpdateSchemaRequest,
+) => Effect.Effect<
+  UpdateSchemaResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSchemaRequest,
   output: UpdateSchemaResponse,
   errors: [
@@ -1555,7 +1601,17 @@ export const updateSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Add tags to a resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -1568,7 +1624,17 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes tags from a resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -1583,7 +1649,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Inactive schemas will be deleted after two years.
  */
-export const createSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSchema: (
+  input: CreateSchemaRequest,
+) => Effect.Effect<
+  CreateSchemaResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSchemaRequest,
   output: CreateSchemaResponse,
   errors: [
@@ -1596,29 +1672,77 @@ export const createSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Search the schemas
  */
-export const searchSchemas = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchSchemas: {
+  (
     input: SearchSchemasRequest,
-    output: SearchSchemasResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Schemas",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchSchemasResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchSchemasRequest,
+  ) => Stream.Stream<
+    SearchSchemasResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchSchemasRequest,
+  ) => Stream.Stream<
+    SearchSchemaSummary,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchSchemasRequest,
+  output: SearchSchemasResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Schemas",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Put code binding URI
  */
-export const putCodeBinding = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putCodeBinding: (
+  input: PutCodeBindingRequest,
+) => Effect.Effect<
+  PutCodeBindingResponse,
+  | BadRequestException
+  | ForbiddenException
+  | GoneException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutCodeBindingRequest,
   output: PutCodeBindingResponse,
   errors: [
@@ -1634,7 +1758,20 @@ export const putCodeBinding = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * The name of the policy.
  */
-export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => Effect.Effect<
+  PutResourcePolicyResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | PreconditionFailedException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
   errors: [
@@ -1650,30 +1787,80 @@ export const putResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Provides a list of the schema versions and related information.
  */
-export const listSchemaVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSchemaVersions: {
+  (
     input: ListSchemaVersionsRequest,
-    output: ListSchemaVersionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SchemaVersions",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSchemaVersionsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSchemaVersionsRequest,
+  ) => Stream.Stream<
+    ListSchemaVersionsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSchemaVersionsRequest,
+  ) => Stream.Stream<
+    SchemaVersionSummary,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSchemaVersionsRequest,
+  output: ListSchemaVersionsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SchemaVersions",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Describes the discoverer.
  */
-export const describeDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDiscoverer: (
+  input: DescribeDiscovererRequest,
+) => Effect.Effect<
+  DescribeDiscovererResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDiscovererRequest,
   output: DescribeDiscovererResponse,
   errors: [
@@ -1688,7 +1875,19 @@ export const describeDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describes the registry.
  */
-export const describeRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeRegistry: (
+  input: DescribeRegistryRequest,
+) => Effect.Effect<
+  DescribeRegistryResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRegistryRequest,
   output: DescribeRegistryResponse,
   errors: [
@@ -1703,7 +1902,19 @@ export const describeRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieve the schema definition.
  */
-export const describeSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeSchema: (
+  input: DescribeSchemaRequest,
+) => Effect.Effect<
+  DescribeSchemaResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSchemaRequest,
   output: DescribeSchemaResponse,
   errors: [
@@ -1718,7 +1929,19 @@ export const describeSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Retrieves the resource-based policy attached to a given registry.
  */
-export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => Effect.Effect<
+  GetResourcePolicyResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
   errors: [
@@ -1733,7 +1956,19 @@ export const getResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Starts the discoverer
  */
-export const startDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const startDiscoverer: (
+  input: StartDiscovererRequest,
+) => Effect.Effect<
+  StartDiscovererResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartDiscovererRequest,
   output: StartDiscovererResponse,
   errors: [
@@ -1748,7 +1983,19 @@ export const startDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Stops the discoverer
  */
-export const stopDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const stopDiscoverer: (
+  input: StopDiscovererRequest,
+) => Effect.Effect<
+  StopDiscovererResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopDiscovererRequest,
   output: StopDiscovererResponse,
   errors: [
@@ -1763,7 +2010,19 @@ export const stopDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the discoverer
  */
-export const updateDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDiscoverer: (
+  input: UpdateDiscovererRequest,
+) => Effect.Effect<
+  UpdateDiscovererResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDiscovererRequest,
   output: UpdateDiscovererResponse,
   errors: [
@@ -1778,7 +2037,19 @@ export const updateDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a registry.
  */
-export const updateRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRegistry: (
+  input: UpdateRegistryRequest,
+) => Effect.Effect<
+  UpdateRegistryResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRegistryRequest,
   output: UpdateRegistryResponse,
   errors: [
@@ -1793,7 +2064,19 @@ export const updateRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a Registry.
  */
-export const deleteRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRegistry: (
+  input: DeleteRegistryRequest,
+) => Effect.Effect<
+  DeleteRegistryResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRegistryRequest,
   output: DeleteRegistryResponse,
   errors: [
@@ -1808,24 +2091,46 @@ export const deleteRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete the resource-based policy attached to the specified registry.
  */
-export const deleteResourcePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteResourcePolicyRequest,
-    output: DeleteResourcePolicyResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => Effect.Effect<
+  DeleteResourcePolicyResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Delete a schema definition.
  */
-export const deleteSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSchema: (
+  input: DeleteSchemaRequest,
+) => Effect.Effect<
+  DeleteSchemaResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSchemaRequest,
   output: DeleteSchemaResponse,
   errors: [
@@ -1840,7 +2145,19 @@ export const deleteSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Delete the schema version definition
  */
-export const deleteSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteSchemaVersion: (
+  input: DeleteSchemaVersionRequest,
+) => Effect.Effect<
+  DeleteSchemaVersionResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSchemaVersionRequest,
   output: DeleteSchemaVersionResponse,
   errors: [
@@ -1855,73 +2172,190 @@ export const deleteSchemaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List the discoverers.
  */
-export const listDiscoverers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDiscoverers: {
+  (
     input: ListDiscoverersRequest,
-    output: ListDiscoverersResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Discoverers",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDiscoverersResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDiscoverersRequest,
+  ) => Stream.Stream<
+    ListDiscoverersResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDiscoverersRequest,
+  ) => Stream.Stream<
+    DiscovererSummary,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDiscoverersRequest,
+  output: ListDiscoverersResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Discoverers",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * List the registries.
  */
-export const listRegistries = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRegistries: {
+  (
     input: ListRegistriesRequest,
-    output: ListRegistriesResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Registries",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRegistriesResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRegistriesRequest,
+  ) => Stream.Stream<
+    ListRegistriesResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRegistriesRequest,
+  ) => Stream.Stream<
+    RegistrySummary,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRegistriesRequest,
+  output: ListRegistriesResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Registries",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * List the schemas.
  */
-export const listSchemas = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSchemas: {
+  (
     input: ListSchemasRequest,
-    output: ListSchemasResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Schemas",
-      pageSize: "Limit",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSchemasResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSchemasRequest,
+  ) => Stream.Stream<
+    ListSchemasResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSchemasRequest,
+  ) => Stream.Stream<
+    SchemaSummary,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSchemasRequest,
+  output: ListSchemasResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Schemas",
+    pageSize: "Limit",
+  } as const,
+}));
 /**
  * Creates a registry.
  */
-export const createRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRegistry: (
+  input: CreateRegistryRequest,
+) => Effect.Effect<
+  CreateRegistryResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRegistryRequest,
   output: CreateRegistryResponse,
   errors: [
@@ -1936,7 +2370,18 @@ export const createRegistry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get the discovered schema that was generated based on sampled events.
  */
-export const getDiscoveredSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDiscoveredSchema: (
+  input: GetDiscoveredSchemaRequest,
+) => Effect.Effect<
+  GetDiscoveredSchemaResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDiscoveredSchemaRequest,
   output: GetDiscoveredSchemaResponse,
   errors: [
@@ -1950,7 +2395,19 @@ export const getDiscoveredSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a discoverer.
  */
-export const createDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDiscoverer: (
+  input: CreateDiscovererRequest,
+) => Effect.Effect<
+  CreateDiscovererResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDiscovererRequest,
   output: CreateDiscovererResponse,
   errors: [
@@ -1965,7 +2422,19 @@ export const createDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a discoverer.
  */
-export const deleteDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDiscoverer: (
+  input: DeleteDiscovererRequest,
+) => Effect.Effect<
+  DeleteDiscovererResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDiscovererRequest,
   output: DeleteDiscovererResponse,
   errors: [
@@ -1980,7 +2449,19 @@ export const deleteDiscoverer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Describe the code binding URI.
  */
-export const describeCodeBinding = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCodeBinding: (
+  input: DescribeCodeBindingRequest,
+) => Effect.Effect<
+  DescribeCodeBindingResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCodeBindingRequest,
   output: DescribeCodeBindingResponse,
   errors: [
@@ -1995,7 +2476,20 @@ export const describeCodeBinding = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  *
  */
-export const exportSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const exportSchema: (
+  input: ExportSchemaRequest,
+) => Effect.Effect<
+  ExportSchemaResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportSchemaRequest,
   output: ExportSchemaResponse,
   errors: [
@@ -2011,17 +2505,27 @@ export const exportSchema = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Get the code binding source URI.
  */
-export const getCodeBindingSource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCodeBindingSourceRequest,
-    output: GetCodeBindingSourceResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getCodeBindingSource: (
+  input: GetCodeBindingSourceRequest,
+) => Effect.Effect<
+  GetCodeBindingSourceResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCodeBindingSourceRequest,
+  output: GetCodeBindingSourceResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));

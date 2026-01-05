@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Strm from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT",
   serviceShapeName: "AWSIotService",
@@ -300,6 +308,407 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type CertificateId = string;
+export type BillingGroupName = string;
+export type BillingGroupArn = string;
+export type ThingName = string;
+export type ThingArn = string;
+export type ThingGroupName = string;
+export type ThingGroupArn = string;
+export type PackageName = string;
+export type VersionName = string;
+export type ClientToken = string;
+export type TargetArn = string;
+export type JobId = string;
+export type Comment = string;
+export type NamespaceId = string;
+export type PolicyName = string;
+export type PolicyTarget = string;
+export type Principal = string;
+export type SecurityProfileName = string;
+export type SecurityProfileTargetArn = string;
+export type MitigationActionsTaskId = string;
+export type AuditTaskId = string;
+export type ReasonCode = string;
+export type ExpectedVersion = number;
+export type ErrorMessage2 = string;
+export type ConfirmationToken = string;
+export type AuditCheckName = string;
+export type AuditDescription = string;
+export type ClientRequestToken = string;
+export type AuthorizerName = string;
+export type AuthorizerFunctionArn = string;
+export type TokenKeyName = string;
+export type CertificateSigningRequest = string;
+export type CertificateProviderName = string;
+export type CertificateProviderFunctionArn = string;
+export type CommandId = string;
+export type DisplayName = string;
+export type CommandDescription = string;
+export type CommandPayloadTemplateString = string;
+export type RoleArn = string;
+export type MetricName = string;
+export type CustomMetricDisplayName = string;
+export type DimensionName = string;
+export type DimensionStringValue = string;
+export type DomainConfigurationName = string;
+export type DomainName = string;
+export type AcmCertificateArn = string;
+export type IndexName = string;
+export type QueryString = string;
+export type QueryVersion = string;
+export type FleetMetricName = string;
+export type FleetMetricPeriod = number;
+export type AggregationField = string;
+export type FleetMetricDescription = string;
+export type JobDocumentSource = string;
+export type JobDocument = string;
+export type JobDescription = string;
+export type JobTemplateArn = string;
+export type PackageVersionArn = string;
+export type JobTemplateId = string;
+export type JobArn = string;
+export type MitigationActionName = string;
+export type OTAUpdateId = string;
+export type OTAUpdateDescription = string;
+export type Target = string;
+export type ResourceDescription = string;
+export type PackageVersionRecipe = string;
+export type PolicyDocument = string;
+export type TemplateName = string;
+export type TemplateDescription = string;
+export type TemplateBody = string;
+export type RoleAlias = string;
+export type CredentialDurationSeconds = number;
+export type DayOfMonth = string;
+export type ScheduledAuditName = string;
+export type SecurityProfileDescription = string;
+export type BehaviorMetric = string;
+export type StreamId = string;
+export type StreamDescription = string;
+export type ThingTypeName = string;
+export type RuleName = string;
+export type OptionalVersion = number;
+export type CommandExecutionId = string;
+export type ExecutionNumber = number;
+export type PolicyVersionId = string;
+export type TemplateVersionId = number;
+export type AwsArn = string;
+export type LogTargetName = string;
+export type FindingId = string;
+export type ReservedDomainConfigurationName = string;
+export type KmsKeyArn = string;
+export type KmsAccessRoleArn = string;
+export type EndpointType = string;
+export type ManagedJobTemplateName = string;
+export type ManagedTemplateVersion = string;
+export type TaskId = string;
+export type TinyMaxResults = number;
+export type NextToken = string;
+export type CognitoIdentityPoolId = string;
+export type Percent = number;
+export type RegistrationCode = string;
+export type ConnectivityApiThingName = string;
+export type DeviceDefenderThingName = string;
+export type MaxResults = number;
+export type Marker = string;
+export type PageSize = number;
+export type RegistryMaxResults = number;
+export type CommandMaxResults = number;
+export type CommandArn = string;
+export type CommandParameterName = string;
+export type ViolationId = string;
+export type QueryMaxResults = number;
+export type LaserMaxResults = number;
+export type ThingGroupId = string;
+export type PackageCatalogMaxResults = number;
+export type ResourceArn = string;
+export type AttributeName = string;
+export type AttributeValue = string;
+export type TopicRuleDestinationMaxResults = number;
+export type Topic = string;
+export type TopicRuleMaxResults = number;
+export type SkyfallMaxResults = number;
+export type VerificationStateDescription = string;
+export type CertificatePem = string;
+export type Message = string;
+export type SearchQueryMaxResults = number;
+export type RegistryS3BucketName = string;
+export type RegistryS3KeyName = string;
+export type ClientId = string;
+export type Token = string;
+export type TokenSignature = string;
+export type AwsAccountId = string;
+export type TagKey = string;
+export type DetailsKey = string;
+export type DetailsValue = string;
+export type RoleAliasArn = string;
+export type CertificateArn = string;
+export type KeyName = string;
+export type KeyValue = string;
+export type TagValue = string;
+export type BillingGroupDescription = string;
+export type MimeType = string;
+export type CommandParameterDescription = string;
+export type SecurityPolicy = string;
+export type OCSPLambdaArn = string;
+export type ClientCertificateCallbackArn = string;
+export type ThingGroupDescription = string;
+export type AggregationTypeValue = string;
+export type ExpiresInSec = number;
+export type MaxJobExecutionsPerMin = number;
+export type InProgressTimeoutInMinutes = number;
+export type ParameterKey = string;
+export type ParameterValue = string;
+export type StringDateTime = string;
+export type CronExpression = string;
+export type DurationInMinutes = number;
+export type MaximumPerMinute = number;
+export type ExpiresInSeconds = number;
+export type AwsJobTimeoutInProgressTimeoutInMinutes = number;
+export type FileName = string;
+export type FileType = number;
+export type OTAUpdateFileVersion = string;
+export type AttributeKey = string;
+export type Value = string;
+export type ResourceAttributeKey = string;
+export type ResourceAttributeValue = string;
+export type PayloadVersion = string;
+export type BehaviorName = string;
+export type MqttTopic = string;
+export type FileId = number;
+export type ThingTypeDescription = string;
+export type SQL = string;
+export type Description = string;
+export type AwsIotSqlVersion = string;
+export type AuthorizerArn = string;
+export type ErrorCode = string;
+export type ErrorMessage = string;
+export type Parameter = string;
+export type LogEventType = string;
+export type LogDestination = string;
+export type Resource = string;
+export type HttpQueryString = string;
+export type MqttUsername = string;
+export type MqttClientId = string;
+export type ServerName = string;
+export type CertificateProviderArn = string;
+export type CustomMetricArn = string;
+export type DimensionArn = string;
+export type PolicyArn = string;
+export type TemplateArn = string;
+export type ScheduledAuditArn = string;
+export type StatusCode = number;
+export type resourceId = string;
+export type BillingGroupId = string;
+export type Version = number;
+export type DomainConfigurationArn = string;
+export type EndpointAddress = string;
+export type FleetMetricArn = string;
+export type IndexSchema = string;
+export type Environment = string;
+export type MitigationActionArn = string;
+export type MitigationActionId = string;
+export type SecurityProfileArn = string;
+export type ThingId = string;
+export type Count = number;
+export type Percentage = number;
+export type ThingTypeId = string;
+export type ThingTypeArn = string;
+export type CommandExecutionTimeoutInSeconds = number;
+export type PackageArn = string;
+export type PackageVersionErrorReason = string;
+export type GenerationId = string;
+export type RuleArn = string;
+export type PrincipalArn = string;
+export type S3FileUrl = string;
+export type StreamArn = string;
+export type StreamVersion = number;
+export type S3Bucket = string;
+export type S3Key = string;
+export type S3Version = string;
+export type IssuerCertificateSubject = string;
+export type IssuerId = string;
+export type IssuerCertificateSerialNumber = string;
+export type StringParameterValue = string;
+export type IntegerParameterValue = number;
+export type LongParameterValue = number;
+export type DoubleParameterValue = number;
+export type UnsignedLongParameterValue = string;
+export type RolloutRatePerMinute = number;
+export type IncrementFactor = number;
+export type AbortThresholdPercentage = number;
+export type MinimumNumberOfExecutedThings = number;
+export type NumberOfRetries = number;
+export type SnsTopicArn = string;
+export type AwsJobRolloutRatePerMinute = number;
+export type AwsJobRolloutIncrementFactor = number;
+export type AwsJobAbortCriteriaAbortThresholdPercentage = number;
+export type AwsJobAbortCriteriaMinimumNumberOfExecutedThings = number;
+export type SigningJobId = string;
+export type DurationSeconds = number;
+export type ConsecutiveDatapointsToAlarm = number;
+export type ConsecutiveDatapointsToClear = number;
+export type AlertTargetArn = string;
+export type Url = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type VpcId = string;
+export type MaxBuckets = number;
+export type FieldName = string;
+export type ShadowName = string;
+export type ReasonForNonComplianceCode = string;
+export type HttpHeaderName = string;
+export type HttpHeaderValue = string;
+export type PublicKey = string;
+export type PrivateKey = string;
+export type ReasonForNonCompliance = string;
+export type TotalChecksCount = number;
+export type InProgressChecksCount = number;
+export type WaitingForDataCollectionChecksCount = number;
+export type CompliantChecksCount = number;
+export type NonCompliantChecksCount = number;
+export type FailedChecksCount = number;
+export type CanceledChecksCount = number;
+export type CustomerVersion = number;
+export type ServerCertificateStatusDetail = string;
+export type VersionNumber = number;
+export type ApproximateSecondsBeforeTimedOut = number;
+export type Regex = string;
+export type Example = string;
+export type DataCollectionPercentage = number;
+export type StatusReasonCode = string;
+export type StatusReasonDescription = string;
+export type CommandExecutionResultName = string;
+export type OTAUpdateArn = string;
+export type AwsIotJobId = string;
+export type AwsIotJobArn = string;
+export type PercentValue = number;
+export type Average = number;
+export type Sum = number;
+export type Minimum = number;
+export type Maximum = number;
+export type SumOfSquares = number;
+export type Variance = number;
+export type StdDeviation = number;
+export type DetectMitigationActionExecutionErrorCode = string;
+export type SbomValidationErrorMessage = string;
+export type TopicPattern = string;
+export type JsonDocument = string;
+export type NumberOfThings = number;
+export type AwsJobRateIncreaseCriteriaNumberOfThings = number;
+export type SigningProfileName = string;
+export type HashAlgorithm = string;
+export type SignatureAlgorithm = string;
+export type UnsignedLong = number;
+export type Cidr = string;
+export type Port = number;
+export type stringValue = string;
+export type EvaluationStatistic = string;
+export type UserPropertyKeyName = string;
+export type ConnectionAttributeName = string;
+export type TableName = string;
+export type DynamoOperation = string;
+export type HashKeyField = string;
+export type HashKeyValue = string;
+export type RangeKeyField = string;
+export type RangeKeyValue = string;
+export type PayloadField = string;
+export type FunctionArn = string;
+export type QueueUrl = string;
+export type StreamName = string;
+export type PartitionKey = string;
+export type Qos = number;
+export type BucketName = string;
+export type Key = string;
+export type DeliveryStreamName = string;
+export type FirehoseSeparator = string;
+export type AlarmName = string;
+export type StateReason = string;
+export type StateValue = string;
+export type LogGroupName = string;
+export type ElasticsearchEndpoint = string;
+export type ElasticsearchIndex = string;
+export type ElasticsearchType = string;
+export type ElasticsearchId = string;
+export type SalesforceToken = string;
+export type SalesforceEndpoint = string;
+export type ChannelName = string;
+export type InputName = string;
+export type MessageId = string;
+export type ExecutionNamePrefix = string;
+export type StateMachineName = string;
+export type TimestreamDatabaseName = string;
+export type TimestreamTableName = string;
+export type ConfigValue = string;
+export type TargetFieldName = string;
+export type TotalFindingsCount = number;
+export type FailedFindingsCount = number;
+export type SucceededFindingsCount = number;
+export type SkippedFindingsCount = number;
+export type CanceledFindingsCount = number;
+export type TotalResourcesCount = number;
+export type NonCompliantResourcesCount = number;
+export type SuppressedNonCompliantResourcesCount = number;
+export type GenericLongValue = number;
+export type ProcessingTargetName = string;
+export type CanceledThings = number;
+export type SucceededThings = number;
+export type FailedThings = number;
+export type RejectedThings = number;
+export type QueuedThings = number;
+export type InProgressThings = number;
+export type RemovedThings = number;
+export type TimedOutThings = number;
+export type StringCommandExecutionResult = string;
+export type Code = string;
+export type OTAUpdateErrorMessage = string;
+export type RetryAttempt = number;
+export type ConnectivityTimestamp = number;
+export type DisconnectReason = string;
+export type Platform = string;
+export type CertificatePathOnDevice = string;
+export type CertificateName = string;
+export type InlineDocument = string;
+export type PayloadFormatIndicator = string;
+export type ContentType = string;
+export type ResponseTopic = string;
+export type CorrelationData = string;
+export type MessageExpiry = string;
+export type AssetPropertyEntryId = string;
+export type AssetId = string;
+export type AssetPropertyId = string;
+export type AssetPropertyAlias = string;
+export type TimestreamDimensionName = string;
+export type TimestreamDimensionValue = string;
+export type TimestreamTimestampValue = string;
+export type TimestreamTimestampUnit = string;
+export type HeaderKey = string;
+export type HeaderValue = string;
+export type MaxBatchOpenMs = number;
+export type MaxBatchSize = number;
+export type MaxBatchSizeBytes = number;
+export type KafkaHeaderKey = string;
+export type KafkaHeaderValue = string;
+export type ResourceLogicalId = string;
+export type MissingContextValue = string;
+export type Prefix = string;
+export type UserPropertyKey = string;
+export type UserPropertyValue = string;
+export type AssetPropertyQuality = string;
+export type SigningRegion = string;
+export type ServiceName = string;
+export type PrincipalId = string;
+export type Seconds = number;
+export type AssetPropertyStringValue = string;
+export type AssetPropertyIntegerValue = string;
+export type AssetPropertyDoubleValue = string;
+export type AssetPropertyBooleanValue = string;
+export type AssetPropertyTimeInSeconds = string;
+export type AssetPropertyOffsetInNanos = string;
+export type BucketKeyValue = string;
 
 //# Schemas
 export interface ClearDefaultAuthorizerRequest {}
@@ -5458,6 +5867,11 @@ export const IotEventsAction = S.suspend(() =>
 ).annotations({
   identifier: "IotEventsAction",
 }) as any as S.Schema<IotEventsAction>;
+export type AssetPropertyVariant =
+  | { stringValue: string }
+  | { integerValue: string }
+  | { doubleValue: string }
+  | { booleanValue: string };
 export const AssetPropertyVariant = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ integerValue: S.String }),
@@ -13640,7 +14054,9 @@ export const CreateTopicRuleResponse = S.suspend(() =>
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { message: S.optional(S.String) },
@@ -13664,11 +14080,15 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class InternalException extends S.TaggedError<InternalException>()(
   "InternalException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class IndexNotReadyException extends S.TaggedError<IndexNotReadyException>()(
   "IndexNotReadyException",
   { message: S.optional(S.String) },
@@ -13680,7 +14100,9 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { message: S.optional(S.String) },
@@ -13780,51 +14202,81 @@ export class InvalidResponseException extends S.TaggedError<InvalidResponseExcep
  *
  * Requires permission to access the DescribeBillingGroup action.
  */
-export const describeBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeBillingGroupRequest,
-    output: DescribeBillingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeBillingGroup: (
+  input: DescribeBillingGroupRequest,
+) => Effect.Effect<
+  DescribeBillingGroupResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeBillingGroupRequest,
+  output: DescribeBillingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes event configurations.
  *
  * Requires permission to access the DescribeEventConfigurations action.
  */
-export const describeEventConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeEventConfigurationsRequest,
-    output: DescribeEventConfigurationsResponse,
-    errors: [InternalFailureException, ThrottlingException],
-  }),
-);
+export const describeEventConfigurations: (
+  input: DescribeEventConfigurationsRequest,
+) => Effect.Effect<
+  DescribeEventConfigurationsResponse,
+  InternalFailureException | ThrottlingException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEventConfigurationsRequest,
+  output: DescribeEventConfigurationsResponse,
+  errors: [InternalFailureException, ThrottlingException],
+}));
 /**
  * View details of a managed job template.
  */
-export const describeManagedJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeManagedJobTemplateRequest,
-    output: DescribeManagedJobTemplateResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeManagedJobTemplate: (
+  input: DescribeManagedJobTemplateRequest,
+) => Effect.Effect<
+  DescribeManagedJobTemplateResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeManagedJobTemplateRequest,
+  output: DescribeManagedJobTemplateResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describe a thing group.
  *
  * Requires permission to access the DescribeThingGroup action.
  */
-export const describeThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeThingGroup: (
+  input: DescribeThingGroupRequest,
+) => Effect.Effect<
+  DescribeThingGroupResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeThingGroupRequest,
   output: DescribeThingGroupResponse,
   errors: [
@@ -13839,29 +14291,71 @@ export const describeThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetBehaviorModelTrainingSummaries action.
  */
-export const getBehaviorModelTrainingSummaries =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getBehaviorModelTrainingSummaries: {
+  (
     input: GetBehaviorModelTrainingSummariesRequest,
-    output: GetBehaviorModelTrainingSummariesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "summaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetBehaviorModelTrainingSummariesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetBehaviorModelTrainingSummariesRequest,
+  ) => Strm.Stream<
+    GetBehaviorModelTrainingSummariesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetBehaviorModelTrainingSummariesRequest,
+  ) => Strm.Stream<
+    BehaviorModelTrainingSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetBehaviorModelTrainingSummariesRequest,
+  output: GetBehaviorModelTrainingSummariesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "summaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets the fine grained logging options.
  *
  * Requires permission to access the GetV2LoggingOptions action.
  */
-export const getV2LoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getV2LoggingOptions: (
+  input: GetV2LoggingOptionsRequest,
+) => Effect.Effect<
+  GetV2LoggingOptionsResponse,
+  | InternalException
+  | NotConfiguredException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetV2LoggingOptionsRequest,
   output: GetV2LoggingOptionsResponse,
   errors: [
@@ -13876,159 +14370,407 @@ export const getV2LoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the ListAuditMitigationActionsExecutions action.
  */
-export const listAuditMitigationActionsExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAuditMitigationActionsExecutions: {
+  (
     input: ListAuditMitigationActionsExecutionsRequest,
-    output: ListAuditMitigationActionsExecutionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "actionsExecutions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAuditMitigationActionsExecutionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAuditMitigationActionsExecutionsRequest,
+  ) => Strm.Stream<
+    ListAuditMitigationActionsExecutionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAuditMitigationActionsExecutionsRequest,
+  ) => Strm.Stream<
+    AuditMitigationActionExecutionMetadata,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAuditMitigationActionsExecutionsRequest,
+  output: ListAuditMitigationActionsExecutionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "actionsExecutions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of audit mitigation action tasks that match the specified filters.
  *
  * Requires permission to access the ListAuditMitigationActionsTasks action.
  */
-export const listAuditMitigationActionsTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAuditMitigationActionsTasks: {
+  (
     input: ListAuditMitigationActionsTasksRequest,
-    output: ListAuditMitigationActionsTasksResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "tasks",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAuditMitigationActionsTasksResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAuditMitigationActionsTasksRequest,
+  ) => Strm.Stream<
+    ListAuditMitigationActionsTasksResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAuditMitigationActionsTasksRequest,
+  ) => Strm.Stream<
+    AuditMitigationActionsTaskMetadata,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAuditMitigationActionsTasksRequest,
+  output: ListAuditMitigationActionsTasksResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tasks",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists your Device Defender audit listings.
  *
  * Requires permission to access the ListAuditSuppressions action.
  */
-export const listAuditSuppressions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAuditSuppressions: {
+  (
     input: ListAuditSuppressionsRequest,
-    output: ListAuditSuppressionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "suppressions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAuditSuppressionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAuditSuppressionsRequest,
+  ) => Strm.Stream<
+    ListAuditSuppressionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAuditSuppressionsRequest,
+  ) => Strm.Stream<
+    AuditSuppression,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAuditSuppressionsRequest,
+  output: ListAuditSuppressionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "suppressions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the Device Defender audits that have been performed during a given
  * time period.
  *
  * Requires permission to access the ListAuditTasks action.
  */
-export const listAuditTasks = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAuditTasks: {
+  (
     input: ListAuditTasksRequest,
-    output: ListAuditTasksResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "tasks",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAuditTasksResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAuditTasksRequest,
+  ) => Strm.Stream<
+    ListAuditTasksResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAuditTasksRequest,
+  ) => Strm.Stream<
+    AuditTaskMetadata,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAuditTasksRequest,
+  output: ListAuditTasksResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tasks",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the billing groups you have created.
  *
  * Requires permission to access the ListBillingGroups action.
  */
-export const listBillingGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listBillingGroups: {
+  (
     input: ListBillingGroupsRequest,
-    output: ListBillingGroupsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "billingGroups",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListBillingGroupsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBillingGroupsRequest,
+  ) => Strm.Stream<
+    ListBillingGroupsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBillingGroupsRequest,
+  ) => Strm.Stream<
+    GroupNameAndArn,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBillingGroupsRequest,
+  output: ListBillingGroupsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "billingGroups",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists mitigation actions executions for a Device Defender ML Detect Security Profile.
  *
  * Requires permission to access the ListDetectMitigationActionsExecutions action.
  */
-export const listDetectMitigationActionsExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDetectMitigationActionsExecutions: {
+  (
     input: ListDetectMitigationActionsExecutionsRequest,
-    output: ListDetectMitigationActionsExecutionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "actionsExecutions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDetectMitigationActionsExecutionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDetectMitigationActionsExecutionsRequest,
+  ) => Strm.Stream<
+    ListDetectMitigationActionsExecutionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDetectMitigationActionsExecutionsRequest,
+  ) => Strm.Stream<
+    DetectMitigationActionExecution,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDetectMitigationActionsExecutionsRequest,
+  output: ListDetectMitigationActionsExecutionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "actionsExecutions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the job executions for the specified thing.
  *
  * Requires permission to access the ListJobExecutionsForThing action.
  */
-export const listJobExecutionsForThing =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listJobExecutionsForThing: {
+  (
     input: ListJobExecutionsForThingRequest,
-    output: ListJobExecutionsForThingResponse,
-    errors: [
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "executionSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListJobExecutionsForThingResponse,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobExecutionsForThingRequest,
+  ) => Strm.Stream<
+    ListJobExecutionsForThingResponse,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobExecutionsForThingRequest,
+  ) => Strm.Stream<
+    JobExecutionSummaryForThing,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListJobExecutionsForThingRequest,
+  output: ListJobExecutionsForThingResponse,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "executionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists jobs.
  *
  * Requires permission to access the ListJobs action.
  */
-export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listJobs: {
+  (
+    input: ListJobsRequest,
+  ): Effect.Effect<
+    ListJobsResponse,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobsRequest,
+  ) => Strm.Stream<
+    ListJobsResponse,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobsRequest,
+  ) => Strm.Stream<
+    JobSummary,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListJobsRequest,
   output: ListJobsResponse,
   errors: [
@@ -14049,107 +14791,261 @@ export const listJobs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * Requires permission to access the ListJobTemplates action.
  */
-export const listJobTemplates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listJobTemplates: {
+  (
     input: ListJobTemplatesRequest,
-    output: ListJobTemplatesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "jobTemplates",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListJobTemplatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobTemplatesRequest,
+  ) => Strm.Stream<
+    ListJobTemplatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobTemplatesRequest,
+  ) => Strm.Stream<
+    JobTemplateSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListJobTemplatesRequest,
+  output: ListJobTemplatesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobTemplates",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Returns a list of managed job templates.
  */
-export const listManagedJobTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listManagedJobTemplates: {
+  (
     input: ListManagedJobTemplatesRequest,
-    output: ListManagedJobTemplatesResponse,
-    errors: [
-      InternalServerException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "managedJobTemplates",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListManagedJobTemplatesResponse,
+    | InternalServerException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListManagedJobTemplatesRequest,
+  ) => Strm.Stream<
+    ListManagedJobTemplatesResponse,
+    | InternalServerException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListManagedJobTemplatesRequest,
+  ) => Strm.Stream<
+    ManagedJobTemplateSummary,
+    | InternalServerException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListManagedJobTemplatesRequest,
+  output: ListManagedJobTemplatesResponse,
+  errors: [
+    InternalServerException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "managedJobTemplates",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric)
  * by the given thing during the specified time period.
  */
-export const listMetricValues = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listMetricValues: {
+  (
     input: ListMetricValuesRequest,
-    output: ListMetricValuesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "metricDatumList",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListMetricValuesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMetricValuesRequest,
+  ) => Strm.Stream<
+    ListMetricValuesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMetricValuesRequest,
+  ) => Strm.Stream<
+    MetricDatum,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMetricValuesRequest,
+  output: ListMetricValuesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "metricDatumList",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Gets a list of all mitigation actions that match the specified filter criteria.
  *
  * Requires permission to access the ListMitigationActions action.
  */
-export const listMitigationActions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listMitigationActions: {
+  (
     input: ListMitigationActionsRequest,
-    output: ListMitigationActionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "actionIdentifiers",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListMitigationActionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMitigationActionsRequest,
+  ) => Strm.Stream<
+    ListMitigationActionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMitigationActionsRequest,
+  ) => Strm.Stream<
+    MitigationActionIdentifier,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMitigationActionsRequest,
+  output: ListMitigationActionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "actionIdentifiers",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all of your scheduled audits.
  *
  * Requires permission to access the ListScheduledAudits action.
  */
-export const listScheduledAudits =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listScheduledAudits: {
+  (
     input: ListScheduledAuditsRequest,
-    output: ListScheduledAuditsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "scheduledAudits",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListScheduledAuditsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListScheduledAuditsRequest,
+  ) => Strm.Stream<
+    ListScheduledAuditsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListScheduledAuditsRequest,
+  ) => Strm.Stream<
+    ScheduledAuditMetadata,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListScheduledAuditsRequest,
+  output: ListScheduledAuditsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "scheduledAudits",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the Device Defender security profiles
  * you've
@@ -14159,89 +15055,221 @@ export const listScheduledAudits =
  *
  * `dimensionName` and `metricName` cannot be used in the same request.
  */
-export const listSecurityProfiles =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSecurityProfiles: {
+  (
     input: ListSecurityProfilesRequest,
-    output: ListSecurityProfilesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "securityProfileIdentifiers",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSecurityProfilesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecurityProfilesRequest,
+  ) => Strm.Stream<
+    ListSecurityProfilesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecurityProfilesRequest,
+  ) => Strm.Stream<
+    SecurityProfileIdentifier,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecurityProfilesRequest,
+  output: ListSecurityProfilesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "securityProfileIdentifiers",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the Device Defender security profiles attached to a target (thing group).
  *
  * Requires permission to access the ListSecurityProfilesForTarget action.
  */
-export const listSecurityProfilesForTarget =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSecurityProfilesForTarget: {
+  (
     input: ListSecurityProfilesForTargetRequest,
-    output: ListSecurityProfilesForTargetResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "securityProfileTargetMappings",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSecurityProfilesForTargetResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSecurityProfilesForTargetRequest,
+  ) => Strm.Stream<
+    ListSecurityProfilesForTargetResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSecurityProfilesForTargetRequest,
+  ) => Strm.Stream<
+    SecurityProfileTargetMapping,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSecurityProfilesForTargetRequest,
+  output: ListSecurityProfilesForTargetResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "securityProfileTargetMappings",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the targets (thing groups) associated with a given Device Defender security profile.
  *
  * Requires permission to access the ListTargetsForSecurityProfile action.
  */
-export const listTargetsForSecurityProfile =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTargetsForSecurityProfile: {
+  (
     input: ListTargetsForSecurityProfileRequest,
-    output: ListTargetsForSecurityProfileResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "securityProfileTargets",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTargetsForSecurityProfileResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTargetsForSecurityProfileRequest,
+  ) => Strm.Stream<
+    ListTargetsForSecurityProfileResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTargetsForSecurityProfileRequest,
+  ) => Strm.Stream<
+    SecurityProfileTarget,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTargetsForSecurityProfileRequest,
+  output: ListTargetsForSecurityProfileResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "securityProfileTargets",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists logging levels.
  *
  * Requires permission to access the ListV2LoggingLevels action.
  */
-export const listV2LoggingLevels =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listV2LoggingLevels: {
+  (
     input: ListV2LoggingLevelsRequest,
-    output: ListV2LoggingLevelsResponse,
-    errors: [
-      InternalException,
-      InvalidRequestException,
-      NotConfiguredException,
-      ServiceUnavailableException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "logTargetConfigurations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListV2LoggingLevelsResponse,
+    | InternalException
+    | InvalidRequestException
+    | NotConfiguredException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListV2LoggingLevelsRequest,
+  ) => Strm.Stream<
+    ListV2LoggingLevelsResponse,
+    | InternalException
+    | InvalidRequestException
+    | NotConfiguredException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListV2LoggingLevelsRequest,
+  ) => Strm.Stream<
+    LogTargetConfiguration,
+    | InternalException
+    | InvalidRequestException
+    | NotConfiguredException
+    | ServiceUnavailableException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListV2LoggingLevelsRequest,
+  output: ListV2LoggingLevelsResponse,
+  errors: [
+    InternalException,
+    InvalidRequestException,
+    NotConfiguredException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "logTargetConfigurations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the Device Defender security profile violations discovered during the given time period.
  * You can use filters to limit the results to those alerts issued for a particular security profile,
@@ -14249,37 +15277,75 @@ export const listV2LoggingLevels =
  *
  * Requires permission to access the ListViolationEvents action.
  */
-export const listViolationEvents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listViolationEvents: {
+  (
     input: ListViolationEventsRequest,
-    output: ListViolationEventsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "violationEvents",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListViolationEventsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListViolationEventsRequest,
+  ) => Strm.Stream<
+    ListViolationEventsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListViolationEventsRequest,
+  ) => Strm.Stream<
+    ViolationEvent,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListViolationEventsRequest,
+  output: ListViolationEventsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "violationEvents",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Validates a Device Defender security profile behaviors specification.
  *
  * Requires permission to access the ValidateSecurityProfileBehaviors action.
  */
-export const validateSecurityProfileBehaviors =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ValidateSecurityProfileBehaviorsRequest,
-    output: ValidateSecurityProfileBehaviorsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }));
+export const validateSecurityProfileBehaviors: (
+  input: ValidateSecurityProfileBehaviorsRequest,
+) => Effect.Effect<
+  ValidateSecurityProfileBehaviorsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ValidateSecurityProfileBehaviorsRequest,
+  output: ValidateSecurityProfileBehaviorsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a job and its related job executions.
  *
@@ -14293,7 +15359,19 @@ export const validateSecurityProfileBehaviors =
  *
  * Requires permission to access the DeleteJob action.
  */
-export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteJob: (
+  input: DeleteJobRequest,
+) => Effect.Effect<
+  DeleteJobResponse,
+  | InvalidRequestException
+  | InvalidStateTransitionException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobRequest,
   output: DeleteJobResponse,
   errors: [
@@ -14310,147 +15388,314 @@ export const deleteJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the UpdateProvisioningTemplate action.
  */
-export const updateProvisioningTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateProvisioningTemplateRequest,
-    output: UpdateProvisioningTemplateResponse,
-    errors: [
-      ConflictingResourceUpdateException,
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateProvisioningTemplate: (
+  input: UpdateProvisioningTemplateRequest,
+) => Effect.Effect<
+  UpdateProvisioningTemplateResponse,
+  | ConflictingResourceUpdateException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProvisioningTemplateRequest,
+  output: UpdateProvisioningTemplateResponse,
+  errors: [
+    ConflictingResourceUpdateException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes a logging level.
  *
  * Requires permission to access the DeleteV2LoggingLevel action.
  */
-export const deleteV2LoggingLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteV2LoggingLevelRequest,
-    output: DeleteV2LoggingLevelResponse,
-    errors: [
-      InternalException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-    ],
-  }),
-);
+export const deleteV2LoggingLevel: (
+  input: DeleteV2LoggingLevelRequest,
+) => Effect.Effect<
+  DeleteV2LoggingLevelResponse,
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteV2LoggingLevelRequest,
+  output: DeleteV2LoggingLevelResponse,
+  errors: [
+    InternalException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+  ],
+}));
 /**
  * Retrieves the encryption configuration for resources and data of your Amazon Web Services account in
  * Amazon Web Services IoT Core. For more information, see Data encryption at rest in
  * the *Amazon Web Services IoT Core Developer Guide*.
  */
-export const describeEncryptionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeEncryptionConfigurationRequest,
-    output: DescribeEncryptionConfigurationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }));
+export const describeEncryptionConfiguration: (
+  input: DescribeEncryptionConfigurationRequest,
+) => Effect.Effect<
+  DescribeEncryptionConfigurationResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEncryptionConfigurationRequest,
+  output: DescribeEncryptionConfigurationResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * List the device certificates signed by the specified CA certificate.
  *
  * Requires permission to access the ListCertificatesByCA action.
  */
-export const listCertificatesByCA =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCertificatesByCA: {
+  (
     input: ListCertificatesByCARequest,
-    output: ListCertificatesByCAResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "nextMarker",
-      items: "certificates",
-      pageSize: "pageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCertificatesByCAResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCertificatesByCARequest,
+  ) => Strm.Stream<
+    ListCertificatesByCAResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCertificatesByCARequest,
+  ) => Strm.Stream<
+    Certificate,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCertificatesByCARequest,
+  output: ListCertificatesByCAResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "nextMarker",
+    items: "certificates",
+    pageSize: "pageSize",
+  } as const,
+}));
 /**
  * Lists the search indices.
  *
  * Requires permission to access the ListIndices action.
  */
-export const listIndices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listIndices: {
+  (
     input: ListIndicesRequest,
-    output: ListIndicesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "indexNames",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListIndicesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIndicesRequest,
+  ) => Strm.Stream<
+    ListIndicesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIndicesRequest,
+  ) => Strm.Stream<
+    IndexName,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIndicesRequest,
+  output: ListIndicesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "indexNames",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists your policies.
  *
  * Requires permission to access the ListPolicies action.
  */
-export const listPolicies = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPolicies: {
+  (
     input: ListPoliciesRequest,
-    output: ListPoliciesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "nextMarker",
-      items: "policies",
-      pageSize: "pageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPoliciesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPoliciesRequest,
+  ) => Strm.Stream<
+    ListPoliciesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPoliciesRequest,
+  ) => Strm.Stream<
+    Policy,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPoliciesRequest,
+  output: ListPoliciesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "nextMarker",
+    items: "policies",
+    pageSize: "pageSize",
+  } as const,
+}));
 /**
  * Lists the role aliases registered in your account.
  *
  * Requires permission to access the ListRoleAliases action.
  */
-export const listRoleAliases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listRoleAliases: {
+  (
     input: ListRoleAliasesRequest,
-    output: ListRoleAliasesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "nextMarker",
-      items: "roleAliases",
-      pageSize: "pageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListRoleAliasesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRoleAliasesRequest,
+  ) => Strm.Stream<
+    ListRoleAliasesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoleAliasesRequest,
+  ) => Strm.Stream<
+    RoleAlias,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRoleAliasesRequest,
+  output: ListRoleAliasesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "nextMarker",
+    items: "roleAliases",
+    pageSize: "pageSize",
+  } as const,
+}));
 /**
  * Sets the logging options.
  *
@@ -14459,7 +15704,16 @@ export const listRoleAliases = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * Requires permission to access the SetLoggingOptions action.
  */
-export const setLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setLoggingOptions: (
+  input: SetLoggingOptionsRequest,
+) => Effect.Effect<
+  SetLoggingOptionsResponse,
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetLoggingOptionsRequest,
   output: SetLoggingOptionsResponse,
   errors: [
@@ -14473,7 +15727,16 @@ export const setLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the SetV2LoggingOptions action.
  */
-export const setV2LoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setV2LoggingOptions: (
+  input: SetV2LoggingOptionsRequest,
+) => Effect.Effect<
+  SetV2LoggingOptionsResponse,
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetV2LoggingOptionsRequest,
   output: SetV2LoggingOptionsResponse,
   errors: [
@@ -14487,38 +15750,57 @@ export const setV2LoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DeleteRegistrationCode action.
  */
-export const deleteRegistrationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteRegistrationCodeRequest,
-    output: DeleteRegistrationCodeResponse,
-    errors: [
-      InternalFailureException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteRegistrationCode: (
+  input: DeleteRegistrationCodeRequest,
+) => Effect.Effect<
+  DeleteRegistrationCodeResponse,
+  | InternalFailureException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRegistrationCodeRequest,
+  output: DeleteRegistrationCodeResponse,
+  errors: [
+    InternalFailureException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes the specified domain configuration.
  *
  * Requires permission to access the DeleteDomainConfiguration action.
  */
-export const deleteDomainConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDomainConfigurationRequest,
-    output: DeleteDomainConfigurationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteDomainConfiguration: (
+  input: DeleteDomainConfigurationRequest,
+) => Effect.Effect<
+  DeleteDomainConfigurationResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDomainConfigurationRequest,
+  output: DeleteDomainConfigurationResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes the specified thing type. You cannot delete a thing type if it has things
  * associated with it. To delete a thing type, first mark it as deprecated by calling DeprecateThingType, then remove any associated things by calling UpdateThing to change the thing type on any associated thing, and
@@ -14526,7 +15808,19 @@ export const deleteDomainConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the DeleteThingType action.
  */
-export const deleteThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteThingType: (
+  input: DeleteThingTypeRequest,
+) => Effect.Effect<
+  DeleteThingTypeResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThingTypeRequest,
   output: DeleteThingTypeResponse,
   errors: [
@@ -14544,7 +15838,19 @@ export const deleteThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DeprecateThingType action.
  */
-export const deprecateThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deprecateThingType: (
+  input: DeprecateThingTypeRequest,
+) => Effect.Effect<
+  DeprecateThingTypeResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeprecateThingTypeRequest,
   output: DeprecateThingTypeResponse,
   errors: [
@@ -14564,20 +15870,30 @@ export const deprecateThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DetachPrincipalPolicy action.
  */
-export const detachPrincipalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetachPrincipalPolicyRequest,
-    output: DetachPrincipalPolicyResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const detachPrincipalPolicy: (
+  input: DetachPrincipalPolicyRequest,
+) => Effect.Effect<
+  DetachPrincipalPolicyResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachPrincipalPolicyRequest,
+  output: DetachPrincipalPolicyResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Detaches the specified principal from the specified thing. A principal can be X.509
  * certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
@@ -14588,20 +15904,30 @@ export const detachPrincipalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the DetachThingPrincipal action.
  */
-export const detachThingPrincipal = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetachThingPrincipalRequest,
-    output: DetachThingPrincipalResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const detachThingPrincipal: (
+  input: DetachThingPrincipalRequest,
+) => Effect.Effect<
+  DetachThingPrincipalResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachThingPrincipalRequest,
+  output: DetachThingPrincipalResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Gets a registration code used to register a CA certificate with IoT.
  *
@@ -14611,7 +15937,18 @@ export const detachThingPrincipal = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the GetRegistrationCode action.
  */
-export const getRegistrationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getRegistrationCode: (
+  input: GetRegistrationCodeRequest,
+) => Effect.Effect<
+  GetRegistrationCodeResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegistrationCodeRequest,
   output: GetRegistrationCodeResponse,
   errors: [
@@ -14630,26 +15967,48 @@ export const getRegistrationCode = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the SetDefaultPolicyVersion action.
  */
-export const setDefaultPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetDefaultPolicyVersionRequest,
-    output: SetDefaultPolicyVersionResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const setDefaultPolicyVersion: (
+  input: SetDefaultPolicyVersionRequest,
+) => Effect.Effect<
+  SetDefaultPolicyVersionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetDefaultPolicyVersionRequest,
+  output: SetDefaultPolicyVersionResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates a registered CA certificate.
  *
  * Requires permission to access the UpdateCACertificate action.
  */
-export const updateCACertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCACertificate: (
+  input: UpdateCACertificateRequest,
+) => Effect.Effect<
+  UpdateCACertificateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCACertificateRequest,
   output: UpdateCACertificateResponse,
   errors: [
@@ -14668,42 +16027,71 @@ export const updateCACertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Before using this API, you must set up permissions for Amazon Web Services IoT Core to access KMS. For more information, see Data encryption at rest in the *Amazon Web Services IoT Core Developer Guide*.
  */
-export const updateEncryptionConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateEncryptionConfigurationRequest,
-    output: UpdateEncryptionConfigurationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }));
+export const updateEncryptionConfiguration: (
+  input: UpdateEncryptionConfigurationRequest,
+) => Effect.Effect<
+  UpdateEncryptionConfigurationResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEncryptionConfigurationRequest,
+  output: UpdateEncryptionConfigurationResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates the search configuration.
  *
  * Requires permission to access the UpdateIndexingConfiguration action.
  */
-export const updateIndexingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateIndexingConfigurationRequest,
-    output: UpdateIndexingConfigurationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateIndexingConfiguration: (
+  input: UpdateIndexingConfigurationRequest,
+) => Effect.Effect<
+  UpdateIndexingConfigurationResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateIndexingConfigurationRequest,
+  output: UpdateIndexingConfigurationResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates supported fields of the specified job.
  *
  * Requires permission to access the UpdateJob action.
  */
-export const updateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateJob: (
+  input: UpdateJobRequest,
+) => Effect.Effect<
+  UpdateJobResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobRequest,
   output: UpdateJobResponse,
   errors: [
@@ -14716,7 +16104,19 @@ export const updateJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates a thing type.
  */
-export const updateThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateThingType: (
+  input: UpdateThingTypeRequest,
+) => Effect.Effect<
+  UpdateThingTypeResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThingTypeRequest,
   output: UpdateThingTypeResponse,
   errors: [
@@ -14734,26 +16134,47 @@ export const updateThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the AttachThingPrincipal action.
  */
-export const attachThingPrincipal = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AttachThingPrincipalRequest,
-    output: AttachThingPrincipalResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const attachThingPrincipal: (
+  input: AttachThingPrincipalRequest,
+) => Effect.Effect<
+  AttachThingPrincipalResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachThingPrincipalRequest,
+  output: AttachThingPrincipalResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes the rule.
  *
  * Requires permission to access the DeleteTopicRule action.
  */
-export const deleteTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTopicRule: (
+  input: DeleteTopicRuleRequest,
+) => Effect.Effect<
+  DeleteTopicRuleResponse,
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTopicRuleRequest,
   output: DeleteTopicRuleResponse,
   errors: [
@@ -14769,25 +16190,45 @@ export const deleteTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DeleteTopicRuleDestination action.
  */
-export const deleteTopicRuleDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteTopicRuleDestinationRequest,
-    output: DeleteTopicRuleDestinationResponse,
-    errors: [
-      ConflictingResourceUpdateException,
-      InternalException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteTopicRuleDestination: (
+  input: DeleteTopicRuleDestinationRequest,
+) => Effect.Effect<
+  DeleteTopicRuleDestinationResponse,
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTopicRuleDestinationRequest,
+  output: DeleteTopicRuleDestinationResponse,
+  errors: [
+    ConflictingResourceUpdateException,
+    InternalException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Disables the rule.
  *
  * Requires permission to access the DisableTopicRule action.
  */
-export const disableTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const disableTopicRule: (
+  input: DisableTopicRuleRequest,
+) => Effect.Effect<
+  DisableTopicRuleResponse,
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableTopicRuleRequest,
   output: DisableTopicRuleResponse,
   errors: [
@@ -14803,7 +16244,18 @@ export const disableTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the EnableTopicRule action.
  */
-export const enableTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const enableTopicRule: (
+  input: EnableTopicRuleRequest,
+) => Effect.Effect<
+  EnableTopicRuleResponse,
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableTopicRuleRequest,
   output: EnableTopicRuleResponse,
   errors: [
@@ -14820,19 +16272,28 @@ export const enableTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the UpdateTopicRuleDestination action.
  */
-export const updateTopicRuleDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateTopicRuleDestinationRequest,
-    output: UpdateTopicRuleDestinationResponse,
-    errors: [
-      ConflictingResourceUpdateException,
-      InternalException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateTopicRuleDestination: (
+  input: UpdateTopicRuleDestinationRequest,
+) => Effect.Effect<
+  UpdateTopicRuleDestinationResponse,
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTopicRuleDestinationRequest,
+  output: UpdateTopicRuleDestinationResponse,
+  errors: [
+    ConflictingResourceUpdateException,
+    InternalException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes a certificate provider.
  *
@@ -14842,21 +16303,32 @@ export const updateTopicRuleDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * `CreateCertificateFromCsr` will resume, and IoT will create
  * certificates signed by IoT from a certificate signing request (CSR).
  */
-export const deleteCertificateProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCertificateProviderRequest,
-    output: DeleteCertificateProviderResponse,
-    errors: [
-      DeleteConflictException,
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteCertificateProvider: (
+  input: DeleteCertificateProviderRequest,
+) => Effect.Effect<
+  DeleteCertificateProviderResponse,
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCertificateProviderRequest,
+  output: DeleteCertificateProviderResponse,
+  errors: [
+    DeleteConflictException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes the specified policy.
  *
@@ -14875,7 +16347,20 @@ export const deleteCertificateProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the DeletePolicy action.
  */
-export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePolicy: (
+  input: DeletePolicyRequest,
+) => Effect.Effect<
+  DeletePolicyResponse,
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyRequest,
   output: DeletePolicyResponse,
   errors: [
@@ -14895,7 +16380,20 @@ export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DeletePolicyVersion action.
  */
-export const deletePolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePolicyVersion: (
+  input: DeletePolicyVersionRequest,
+) => Effect.Effect<
+  DeletePolicyVersionResponse,
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyVersionRequest,
   output: DeletePolicyVersionResponse,
   errors: [
@@ -14913,7 +16411,20 @@ export const deletePolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DeleteRoleAlias action.
  */
-export const deleteRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteRoleAlias: (
+  input: DeleteRoleAliasRequest,
+) => Effect.Effect<
+  DeleteRoleAliasResponse,
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRoleAliasRequest,
   output: DeleteRoleAliasResponse,
   errors: [
@@ -14931,7 +16442,20 @@ export const deleteRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DeleteStream action.
  */
-export const deleteStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteStream: (
+  input: DeleteStreamRequest,
+) => Effect.Effect<
+  DeleteStreamResponse,
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteStreamRequest,
   output: DeleteStreamResponse,
   errors: [
@@ -14953,7 +16477,21 @@ export const deleteStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DeleteCertificate action.
  */
-export const deleteCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCertificate: (
+  input: DeleteCertificateRequest,
+) => Effect.Effect<
+  DeleteCertificateResponse,
+  | CertificateStateException
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCertificateRequest,
   output: DeleteCertificateResponse,
   errors: [
@@ -14980,7 +16518,20 @@ export const deleteCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * state, IoT disconnects all devices that used that certificate to connect. Devices cannot
  * use a certificate that is not in the ACTIVE state to reconnect.
  */
-export const updateCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCertificate: (
+  input: UpdateCertificateRequest,
+) => Effect.Effect<
+  UpdateCertificateResponse,
+  | CertificateStateException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCertificateRequest,
   output: UpdateCertificateResponse,
   errors: [
@@ -15001,7 +16552,16 @@ export const updateCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetLoggingOptions action.
  */
-export const getLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getLoggingOptions: (
+  input: GetLoggingOptionsRequest,
+) => Effect.Effect<
+  GetLoggingOptionsResponse,
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoggingOptionsRequest,
   output: GetLoggingOptionsResponse,
   errors: [
@@ -15018,81 +16578,134 @@ export const getLoggingOptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the ConfirmTopicRuleDestination action.
  */
-export const confirmTopicRuleDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ConfirmTopicRuleDestinationRequest,
-    output: ConfirmTopicRuleDestinationResponse,
-    errors: [
-      ConflictingResourceUpdateException,
-      InternalException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const confirmTopicRuleDestination: (
+  input: ConfirmTopicRuleDestinationRequest,
+) => Effect.Effect<
+  ConfirmTopicRuleDestinationResponse,
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ConfirmTopicRuleDestinationRequest,
+  output: ConfirmTopicRuleDestinationResponse,
+  errors: [
+    ConflictingResourceUpdateException,
+    InternalException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Retrieves the live connectivity status per device.
  */
-export const getThingConnectivityData = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetThingConnectivityDataRequest,
-    output: GetThingConnectivityDataResponse,
-    errors: [
-      IndexNotReadyException,
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getThingConnectivityData: (
+  input: GetThingConnectivityDataRequest,
+) => Effect.Effect<
+  GetThingConnectivityDataResponse,
+  | IndexNotReadyException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetThingConnectivityDataRequest,
+  output: GetThingConnectivityDataResponse,
+  errors: [
+    IndexNotReadyException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Clears the default authorizer.
  *
  * Requires permission to access the ClearDefaultAuthorizer action.
  */
-export const clearDefaultAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ClearDefaultAuthorizerRequest,
-    output: ClearDefaultAuthorizerResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const clearDefaultAuthorizer: (
+  input: ClearDefaultAuthorizerRequest,
+) => Effect.Effect<
+  ClearDefaultAuthorizerResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ClearDefaultAuthorizerRequest,
+  output: ClearDefaultAuthorizerResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a provisioning claim.
  *
  * Requires permission to access the CreateProvisioningClaim action.
  */
-export const createProvisioningClaim = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateProvisioningClaimRequest,
-    output: CreateProvisioningClaimResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createProvisioningClaim: (
+  input: CreateProvisioningClaimRequest,
+) => Effect.Effect<
+  CreateProvisioningClaimResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProvisioningClaimRequest,
+  output: CreateProvisioningClaimResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes an authorizer.
  *
  * Requires permission to access the DeleteAuthorizer action.
  */
-export const deleteAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteAuthorizer: (
+  input: DeleteAuthorizerRequest,
+) => Effect.Effect<
+  DeleteAuthorizerResponse,
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAuthorizerRequest,
   output: DeleteAuthorizerResponse,
   errors: [
@@ -15110,7 +16723,20 @@ export const deleteAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DeleteCACertificate action.
  */
-export const deleteCACertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCACertificate: (
+  input: DeleteCACertificateRequest,
+) => Effect.Effect<
+  DeleteCACertificateResponse,
+  | CertificateStateException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCACertificateRequest,
   output: DeleteCACertificateResponse,
   errors: [
@@ -15128,7 +16754,19 @@ export const deleteCACertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DescribeAuthorizer action.
  */
-export const describeAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAuthorizer: (
+  input: DescribeAuthorizerRequest,
+) => Effect.Effect<
+  DescribeAuthorizerResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAuthorizerRequest,
   output: DescribeAuthorizerResponse,
   errors: [
@@ -15145,45 +16783,77 @@ export const describeAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DescribeCertificateProvider action.
  */
-export const describeCertificateProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCertificateProviderRequest,
-    output: DescribeCertificateProviderResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const describeCertificateProvider: (
+  input: DescribeCertificateProviderRequest,
+) => Effect.Effect<
+  DescribeCertificateProviderResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCertificateProviderRequest,
+  output: DescribeCertificateProviderResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Describes the default authorizer.
  *
  * Requires permission to access the DescribeDefaultAuthorizer action.
  */
-export const describeDefaultAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDefaultAuthorizerRequest,
-    output: DescribeDefaultAuthorizerResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const describeDefaultAuthorizer: (
+  input: DescribeDefaultAuthorizerRequest,
+) => Effect.Effect<
+  DescribeDefaultAuthorizerResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDefaultAuthorizerRequest,
+  output: DescribeDefaultAuthorizerResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Gets information about the specified fleet metric.
  *
  * Requires permission to access the DescribeFleetMetric action.
  */
-export const describeFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeFleetMetric: (
+  input: DescribeFleetMetricRequest,
+) => Effect.Effect<
+  DescribeFleetMetricResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeFleetMetricRequest,
   output: DescribeFleetMetricResponse,
   errors: [
@@ -15200,7 +16870,19 @@ export const describeFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DescribeIndex action.
  */
-export const describeIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeIndex: (
+  input: DescribeIndexRequest,
+) => Effect.Effect<
+  DescribeIndexResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeIndexRequest,
   output: DescribeIndexResponse,
   errors: [
@@ -15217,7 +16899,19 @@ export const describeIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DescribeThing action.
  */
-export const describeThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeThing: (
+  input: DescribeThingRequest,
+) => Effect.Effect<
+  DescribeThingResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeThingRequest,
   output: DescribeThingResponse,
   errors: [
@@ -15234,7 +16928,17 @@ export const describeThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetJobDocument action.
  */
-export const getJobDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getJobDocument: (
+  input: GetJobDocumentRequest,
+) => Effect.Effect<
+  GetJobDocumentResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobDocumentRequest,
   output: GetJobDocumentResponse,
   errors: [
@@ -15250,7 +16954,19 @@ export const getJobDocument = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetPolicy action.
  */
-export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicy: (
+  input: GetPolicyRequest,
+) => Effect.Effect<
+  GetPolicyResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyRequest,
   output: GetPolicyResponse,
   errors: [
@@ -15267,7 +16983,19 @@ export const getPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetPolicyVersion action.
  */
-export const getPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPolicyVersion: (
+  input: GetPolicyVersionRequest,
+) => Effect.Effect<
+  GetPolicyVersionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyVersionRequest,
   output: GetPolicyVersionResponse,
   errors: [
@@ -15287,25 +17015,64 @@ export const getPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the ListPolicyPrincipals action.
  */
-export const listPolicyPrincipals =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPolicyPrincipals: {
+  (
     input: ListPolicyPrincipalsRequest,
-    output: ListPolicyPrincipalsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "nextMarker",
-      items: "principals",
-      pageSize: "pageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPolicyPrincipalsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPolicyPrincipalsRequest,
+  ) => Strm.Stream<
+    ListPolicyPrincipalsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPolicyPrincipalsRequest,
+  ) => Strm.Stream<
+    PrincipalArn,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPolicyPrincipalsRequest,
+  output: ListPolicyPrincipalsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "nextMarker",
+    items: "principals",
+    pageSize: "pageSize",
+  } as const,
+}));
 /**
  * Lists the policies attached to the specified principal. If you use an Cognito
  * identity, the ID must be in AmazonCognito Identity format.
@@ -15315,25 +17082,64 @@ export const listPolicyPrincipals =
  *
  * Requires permission to access the ListPrincipalPolicies action.
  */
-export const listPrincipalPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPrincipalPolicies: {
+  (
     input: ListPrincipalPoliciesRequest,
-    output: ListPrincipalPoliciesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "nextMarker",
-      items: "policies",
-      pageSize: "pageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPrincipalPoliciesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPrincipalPoliciesRequest,
+  ) => Strm.Stream<
+    ListPrincipalPoliciesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPrincipalPoliciesRequest,
+  ) => Strm.Stream<
+    Policy,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPrincipalPoliciesRequest,
+  output: ListPrincipalPoliciesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "nextMarker",
+    items: "policies",
+    pageSize: "pageSize",
+  } as const,
+}));
 /**
  * Lists the things associated with the specified principal. A principal can be X.509
  * certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
@@ -15341,25 +17147,64 @@ export const listPrincipalPolicies =
  *
  * Requires permission to access the ListPrincipalThings action.
  */
-export const listPrincipalThings =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPrincipalThings: {
+  (
     input: ListPrincipalThingsRequest,
-    output: ListPrincipalThingsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "things",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPrincipalThingsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPrincipalThingsRequest,
+  ) => Strm.Stream<
+    ListPrincipalThingsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPrincipalThingsRequest,
+  ) => Strm.Stream<
+    ThingName,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPrincipalThingsRequest,
+  output: ListPrincipalThingsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "things",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the principals associated with the specified thing. A principal can be X.509
  * certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
@@ -15367,44 +17212,93 @@ export const listPrincipalThings =
  *
  * Requires permission to access the ListThingPrincipals action.
  */
-export const listThingPrincipals =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listThingPrincipals: {
+  (
     input: ListThingPrincipalsRequest,
-    output: ListThingPrincipalsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "principals",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListThingPrincipalsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListThingPrincipalsRequest,
+  ) => Strm.Stream<
+    ListThingPrincipalsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListThingPrincipalsRequest,
+  ) => Strm.Stream<
+    PrincipalArn,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListThingPrincipalsRequest,
+  output: ListThingPrincipalsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "principals",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates a certificate provider.
  *
  * Requires permission to access the UpdateCertificateProvider action.
  */
-export const updateCertificateProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateCertificateProviderRequest,
-    output: UpdateCertificateProviderResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateCertificateProvider: (
+  input: UpdateCertificateProviderRequest,
+) => Effect.Effect<
+  UpdateCertificateProviderResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCertificateProviderRequest,
+  output: UpdateCertificateProviderResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates a role alias.
  *
@@ -15417,7 +17311,19 @@ export const updateCertificateProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * information, see Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services
  * Identity and Access Management User Guide.
  */
-export const updateRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRoleAlias: (
+  input: UpdateRoleAliasRequest,
+) => Effect.Effect<
+  UpdateRoleAliasResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRoleAliasRequest,
   output: UpdateRoleAliasResponse,
   errors: [
@@ -15437,7 +17343,18 @@ export const updateRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CreateCustomMetric action.
  */
-export const createCustomMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCustomMetric: (
+  input: CreateCustomMetricRequest,
+) => Effect.Effect<
+  CreateCustomMetricResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomMetricRequest,
   output: CreateCustomMetricResponse,
   errors: [
@@ -15454,7 +17371,18 @@ export const createCustomMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CreateDimension action.
  */
-export const createDimension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDimension: (
+  input: CreateDimensionRequest,
+) => Effect.Effect<
+  CreateDimensionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDimensionRequest,
   output: CreateDimensionResponse,
   errors: [
@@ -15477,7 +17405,20 @@ export const createDimension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services Identity and Access Management User Guide.
  */
-export const createRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createRoleAlias: (
+  input: CreateRoleAliasRequest,
+) => Effect.Effect<
+  CreateRoleAliasResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRoleAliasRequest,
   output: CreateRoleAliasResponse,
   errors: [
@@ -15496,50 +17437,112 @@ export const createRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CreateScheduledAudit action.
  */
-export const createScheduledAudit = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateScheduledAuditRequest,
-    output: CreateScheduledAuditResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createScheduledAudit: (
+  input: CreateScheduledAuditRequest,
+) => Effect.Effect<
+  CreateScheduledAuditResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateScheduledAuditRequest,
+  output: CreateScheduledAuditResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ThrottlingException,
+  ],
+}));
 /**
  * List targets for the specified policy.
  *
  * Requires permission to access the ListTargetsForPolicy action.
  */
-export const listTargetsForPolicy =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTargetsForPolicy: {
+  (
     input: ListTargetsForPolicyRequest,
-    output: ListTargetsForPolicyResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "nextMarker",
-      items: "targets",
-      pageSize: "pageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTargetsForPolicyResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTargetsForPolicyRequest,
+  ) => Strm.Stream<
+    ListTargetsForPolicyResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTargetsForPolicyRequest,
+  ) => Strm.Stream<
+    PolicyTarget,
+    | InternalFailureException
+    | InvalidRequestException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTargetsForPolicyRequest,
+  output: ListTargetsForPolicyResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "nextMarker",
+    items: "targets",
+    pageSize: "pageSize",
+  } as const,
+}));
 /**
  * Sets the logging level.
  *
  * Requires permission to access the SetV2LoggingLevel action.
  */
-export const setV2LoggingLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const setV2LoggingLevel: (
+  input: SetV2LoggingLevelRequest,
+) => Effect.Effect<
+  SetV2LoggingLevelResponse,
+  | InternalException
+  | InvalidRequestException
+  | LimitExceededException
+  | NotConfiguredException
+  | ServiceUnavailableException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetV2LoggingLevelRequest,
   output: SetV2LoggingLevelResponse,
   errors: [
@@ -15555,24 +17558,45 @@ export const setV2LoggingLevel = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the StartOnDemandAuditTask action.
  */
-export const startOnDemandAuditTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartOnDemandAuditTaskRequest,
-    output: StartOnDemandAuditTaskResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const startOnDemandAuditTask: (
+  input: StartOnDemandAuditTaskRequest,
+) => Effect.Effect<
+  StartOnDemandAuditTaskResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartOnDemandAuditTaskRequest,
+  output: StartOnDemandAuditTaskResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates an authorizer.
  *
  * Requires permission to access the UpdateAuthorizer action.
  */
-export const updateAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAuthorizer: (
+  input: UpdateAuthorizerRequest,
+) => Effect.Effect<
+  UpdateAuthorizerResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAuthorizerRequest,
   output: UpdateAuthorizerResponse,
   errors: [
@@ -15590,7 +17614,20 @@ export const updateAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the UpdateStream action.
  */
-export const updateStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateStream: (
+  input: UpdateStreamRequest,
+) => Effect.Effect<
+  UpdateStreamResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStreamRequest,
   output: UpdateStreamResponse,
   errors: [
@@ -15611,7 +17648,19 @@ export const updateStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DetachPolicy action.
  */
-export const detachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const detachPolicy: (
+  input: DetachPolicyRequest,
+) => Effect.Effect<
+  DetachPolicyResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachPolicyRequest,
   output: DetachPolicyResponse,
   errors: [
@@ -15629,7 +17678,18 @@ export const detachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the TagResource action.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -15646,7 +17706,20 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the AttachPolicy action.
  */
-export const attachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const attachPolicy: (
+  input: AttachPolicyRequest,
+) => Effect.Effect<
+  AttachPolicyResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachPolicyRequest,
   output: AttachPolicyResponse,
   errors: [
@@ -15668,21 +17741,32 @@ export const attachPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the AttachPrincipalPolicy action.
  */
-export const attachPrincipalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AttachPrincipalPolicyRequest,
-    output: AttachPrincipalPolicyResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const attachPrincipalPolicy: (
+  input: AttachPrincipalPolicyRequest,
+) => Effect.Effect<
+  AttachPrincipalPolicyResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachPrincipalPolicyRequest,
+  output: AttachPrincipalPolicyResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Associates a group with a continuous job. The following criteria must be met:
  *
@@ -15696,25 +17780,45 @@ export const attachPrincipalPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the AssociateTargetsWithJob action.
  */
-export const associateTargetsWithJob = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateTargetsWithJobRequest,
-    output: AssociateTargetsWithJobResponse,
-    errors: [
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const associateTargetsWithJob: (
+  input: AssociateTargetsWithJobRequest,
+) => Effect.Effect<
+  AssociateTargetsWithJobResponse,
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateTargetsWithJobRequest,
+  output: AssociateTargetsWithJobResponse,
+  errors: [
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Cancels a job.
  *
  * Requires permission to access the CancelJob action.
  */
-export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelJob: (
+  input: CancelJobRequest,
+) => Effect.Effect<
+  CancelJobResponse,
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobRequest,
   output: CancelJobResponse,
   errors: [
@@ -15730,25 +17834,47 @@ export const cancelJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CreateAuditSuppression action.
  */
-export const createAuditSuppression = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateAuditSuppressionRequest,
-    output: CreateAuditSuppressionResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createAuditSuppression: (
+  input: CreateAuditSuppressionRequest,
+) => Effect.Effect<
+  CreateAuditSuppressionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAuditSuppressionRequest,
+  output: CreateAuditSuppressionResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates an authorizer.
  *
  * Requires permission to access the CreateAuthorizer action.
  */
-export const createAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAuthorizer: (
+  input: CreateAuthorizerRequest,
+) => Effect.Effect<
+  CreateAuthorizerResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAuthorizerRequest,
   output: CreateAuthorizerResponse,
   errors: [
@@ -15767,21 +17893,32 @@ export const createAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the SetDefaultAuthorizer action.
  */
-export const setDefaultAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: SetDefaultAuthorizerRequest,
-    output: SetDefaultAuthorizerResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const setDefaultAuthorizer: (
+  input: SetDefaultAuthorizerRequest,
+) => Effect.Effect<
+  SetDefaultAuthorizerResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetDefaultAuthorizerRequest,
+  output: SetDefaultAuthorizerResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a billing group. If this call is made multiple times using
  * the same billing group name and configuration, the call will succeed. If this call is made with
@@ -15789,7 +17926,17 @@ export const setDefaultAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the CreateBillingGroup action.
  */
-export const createBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createBillingGroup: (
+  input: CreateBillingGroupRequest,
+) => Effect.Effect<
+  CreateBillingGroupResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBillingGroupRequest,
   output: CreateBillingGroupResponse,
   errors: [
@@ -15814,21 +17961,32 @@ export const createBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * certificate provider to create the certificates. It can take up to a few minutes for
  * this behavior to change after a certificate provider is created.
  */
-export const createCertificateProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCertificateProviderRequest,
-    output: CreateCertificateProviderResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createCertificateProvider: (
+  input: CreateCertificateProviderRequest,
+) => Effect.Effect<
+  CreateCertificateProviderResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCertificateProviderRequest,
+  output: CreateCertificateProviderResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates an IoT policy.
  *
@@ -15838,7 +17996,20 @@ export const createCertificateProvider = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the CreatePolicy action.
  */
-export const createPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPolicy: (
+  input: CreatePolicyRequest,
+) => Effect.Effect<
+  CreatePolicyResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | MalformedPolicyException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePolicyRequest,
   output: CreatePolicyResponse,
   errors: [
@@ -15856,20 +18027,30 @@ export const createPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CreateProvisioningTemplate action.
  */
-export const createProvisioningTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateProvisioningTemplateRequest,
-    output: CreateProvisioningTemplateResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createProvisioningTemplate: (
+  input: CreateProvisioningTemplateRequest,
+) => Effect.Effect<
+  CreateProvisioningTemplateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProvisioningTemplateRequest,
+  output: CreateProvisioningTemplateResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data
  * bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files
@@ -15877,7 +18058,21 @@ export const createProvisioningTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the CreateStream action.
  */
-export const createStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createStream: (
+  input: CreateStreamRequest,
+) => Effect.Effect<
+  CreateStreamResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStreamRequest,
   output: CreateStreamResponse,
   errors: [
@@ -15899,7 +18094,17 @@ export const createStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DescribeEndpoint action.
  */
-export const describeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeEndpoint: (
+  input: DescribeEndpointRequest,
+) => Effect.Effect<
+  DescribeEndpointResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeEndpointRequest,
   output: DescribeEndpointResponse,
   errors: [
@@ -15914,160 +18119,355 @@ export const describeEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetPackageConfiguration action.
  */
-export const getPackageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetPackageConfigurationRequest,
-    output: GetPackageConfigurationResponse,
-    errors: [InternalServerException, ThrottlingException],
-  }),
-);
+export const getPackageConfiguration: (
+  input: GetPackageConfigurationRequest,
+) => Effect.Effect<
+  GetPackageConfigurationResponse,
+  InternalServerException | ThrottlingException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPackageConfigurationRequest,
+  output: GetPackageConfigurationResponse,
+  errors: [InternalServerException, ThrottlingException],
+}));
 /**
  * Lists the findings (results) of a Device Defender audit or of the audits
  * performed during a specified time period. (Findings are retained for 90 days.)
  *
  * Requires permission to access the ListAuditFindings action.
  */
-export const listAuditFindings = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAuditFindings: {
+  (
     input: ListAuditFindingsRequest,
-    output: ListAuditFindingsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "findings",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAuditFindingsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAuditFindingsRequest,
+  ) => Strm.Stream<
+    ListAuditFindingsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAuditFindingsRequest,
+  ) => Strm.Stream<
+    AuditFinding,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAuditFindingsRequest,
+  output: ListAuditFindingsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "findings",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists your Device Defender detect custom metrics.
  *
  * Requires permission to access the ListCustomMetrics action.
  */
-export const listCustomMetrics = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCustomMetrics: {
+  (
     input: ListCustomMetricsRequest,
-    output: ListCustomMetricsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "metricNames",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCustomMetricsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCustomMetricsRequest,
+  ) => Strm.Stream<
+    ListCustomMetricsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCustomMetricsRequest,
+  ) => Strm.Stream<
+    MetricName,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCustomMetricsRequest,
+  output: ListCustomMetricsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "metricNames",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List of Device Defender ML Detect mitigation actions tasks.
  *
  * Requires permission to access the ListDetectMitigationActionsTasks action.
  */
-export const listDetectMitigationActionsTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDetectMitigationActionsTasks: {
+  (
     input: ListDetectMitigationActionsTasksRequest,
-    output: ListDetectMitigationActionsTasksResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "tasks",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDetectMitigationActionsTasksResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDetectMitigationActionsTasksRequest,
+  ) => Strm.Stream<
+    ListDetectMitigationActionsTasksResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDetectMitigationActionsTasksRequest,
+  ) => Strm.Stream<
+    DetectMitigationActionsTaskSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDetectMitigationActionsTasksRequest,
+  output: ListDetectMitigationActionsTasksResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tasks",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List the set of dimensions that are defined for your Amazon Web Services accounts.
  *
  * Requires permission to access the ListDimensions action.
  */
-export const listDimensions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDimensions: {
+  (
     input: ListDimensionsRequest,
-    output: ListDimensionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "dimensionNames",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDimensionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDimensionsRequest,
+  ) => Strm.Stream<
+    ListDimensionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDimensionsRequest,
+  ) => Strm.Stream<
+    DimensionName,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDimensionsRequest,
+  output: ListDimensionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dimensionNames",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Information about the thing registration tasks.
  */
-export const listThingRegistrationTaskReports =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listThingRegistrationTaskReports: {
+  (
     input: ListThingRegistrationTaskReportsRequest,
-    output: ListThingRegistrationTaskReportsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "resourceLinks",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListThingRegistrationTaskReportsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListThingRegistrationTaskReportsRequest,
+  ) => Strm.Stream<
+    ListThingRegistrationTaskReportsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListThingRegistrationTaskReportsRequest,
+  ) => Strm.Stream<
+    S3FileUrl,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListThingRegistrationTaskReportsRequest,
+  output: ListThingRegistrationTaskReportsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "resourceLinks",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List bulk thing provisioning tasks.
  *
  * Requires permission to access the ListThingRegistrationTasks action.
  */
-export const listThingRegistrationTasks =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listThingRegistrationTasks: {
+  (
     input: ListThingRegistrationTasksRequest,
-    output: ListThingRegistrationTasksResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "taskIds",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListThingRegistrationTasksResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListThingRegistrationTasksRequest,
+  ) => Strm.Stream<
+    ListThingRegistrationTasksResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListThingRegistrationTasksRequest,
+  ) => Strm.Stream<
+    TaskId,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListThingRegistrationTasksRequest,
+  output: ListThingRegistrationTasksResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "taskIds",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a bulk thing provisioning task.
  *
  * Requires permission to access the StartThingRegistrationTask action.
  */
-export const startThingRegistrationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StartThingRegistrationTaskRequest,
-    output: StartThingRegistrationTaskResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const startThingRegistrationTask: (
+  input: StartThingRegistrationTaskRequest,
+) => Effect.Effect<
+  StartThingRegistrationTaskResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartThingRegistrationTaskRequest,
+  output: StartThingRegistrationTaskResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Restores the default settings for Device Defender audits for this account. Any
  * configuration data you entered is deleted and all audit checks are reset to
@@ -16075,33 +18475,49 @@ export const startThingRegistrationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the DeleteAccountAuditConfiguration action.
  */
-export const deleteAccountAuditConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteAccountAuditConfigurationRequest,
-    output: DeleteAccountAuditConfigurationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const deleteAccountAuditConfiguration: (
+  input: DeleteAccountAuditConfigurationRequest,
+) => Effect.Effect<
+  DeleteAccountAuditConfigurationResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountAuditConfigurationRequest,
+  output: DeleteAccountAuditConfigurationResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a Device Defender audit suppression.
  *
  * Requires permission to access the DeleteAuditSuppression action.
  */
-export const deleteAuditSuppression = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteAuditSuppressionRequest,
-    output: DeleteAuditSuppressionResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteAuditSuppression: (
+  input: DeleteAuditSuppressionRequest,
+) => Effect.Effect<
+  DeleteAuditSuppressionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAuditSuppressionRequest,
+  output: DeleteAuditSuppressionResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a Device Defender detect custom metric.
  *
@@ -16114,7 +18530,16 @@ export const deleteAuditSuppression = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * profile associated with the custom metric can be found using the ListSecurityProfiles
  * API with `metricName` set to your custom metric name.
  */
-export const deleteCustomMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCustomMetric: (
+  input: DeleteCustomMetricRequest,
+) => Effect.Effect<
+  DeleteCustomMetricResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomMetricRequest,
   output: DeleteCustomMetricResponse,
   errors: [
@@ -16128,7 +18553,16 @@ export const deleteCustomMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DeleteDimension action.
  */
-export const deleteDimension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDimension: (
+  input: DeleteDimensionRequest,
+) => Effect.Effect<
+  DeleteDimensionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDimensionRequest,
   output: DeleteDimensionResponse,
   errors: [
@@ -16140,7 +18574,17 @@ export const deleteDimension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified job template.
  */
-export const deleteJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteJobTemplate: (
+  input: DeleteJobTemplateRequest,
+) => Effect.Effect<
+  DeleteJobTemplateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobTemplateRequest,
   output: DeleteJobTemplateResponse,
   errors: [
@@ -16155,64 +18599,95 @@ export const deleteJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DeleteMitigationAction action.
  */
-export const deleteMitigationAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteMitigationActionRequest,
-    output: DeleteMitigationActionResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteMitigationAction: (
+  input: DeleteMitigationActionRequest,
+) => Effect.Effect<
+  DeleteMitigationActionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMitigationActionRequest,
+  output: DeleteMitigationActionResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a scheduled audit.
  *
  * Requires permission to access the DeleteScheduledAudit action.
  */
-export const deleteScheduledAudit = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteScheduledAuditRequest,
-    output: DeleteScheduledAuditResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const deleteScheduledAudit: (
+  input: DeleteScheduledAuditRequest,
+) => Effect.Effect<
+  DeleteScheduledAuditResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteScheduledAuditRequest,
+  output: DeleteScheduledAuditResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Disassociates a Device Defender security profile from a thing group or from this account.
  *
  * Requires permission to access the DetachSecurityProfile action.
  */
-export const detachSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DetachSecurityProfileRequest,
-    output: DetachSecurityProfileResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const detachSecurityProfile: (
+  input: DetachSecurityProfileRequest,
+) => Effect.Effect<
+  DetachSecurityProfileResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DetachSecurityProfileRequest,
+  output: DetachSecurityProfileResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Set a verification state and provide a description of that verification state on a violation (detect alarm).
  */
-export const putVerificationStateOnViolation =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: PutVerificationStateOnViolationRequest,
-    output: PutVerificationStateOnViolationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }));
+export const putVerificationStateOnViolation: (
+  input: PutVerificationStateOnViolationRequest,
+) => Effect.Effect<
+  PutVerificationStateOnViolationResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutVerificationStateOnViolationRequest,
+  output: PutVerificationStateOnViolationResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Removes the given thing from the billing group.
  *
@@ -16220,18 +18695,26 @@ export const putVerificationStateOnViolation =
  *
  * This call is asynchronous. It might take several seconds for the detachment to propagate.
  */
-export const removeThingFromBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveThingFromBillingGroupRequest,
-    output: RemoveThingFromBillingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const removeThingFromBillingGroup: (
+  input: RemoveThingFromBillingGroupRequest,
+) => Effect.Effect<
+  RemoveThingFromBillingGroupResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveThingFromBillingGroupRequest,
+  output: RemoveThingFromBillingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Remove the specified thing from the specified group.
  *
@@ -16242,42 +18725,69 @@ export const removeThingFromBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the RemoveThingFromThingGroup action.
  */
-export const removeThingFromThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RemoveThingFromThingGroupRequest,
-    output: RemoveThingFromThingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const removeThingFromThingGroup: (
+  input: RemoveThingFromThingGroupRequest,
+) => Effect.Effect<
+  RemoveThingFromThingGroupResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveThingFromThingGroupRequest,
+  output: RemoveThingFromThingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Cancels a bulk thing provisioning task.
  *
  * Requires permission to access the StopThingRegistrationTask action.
  */
-export const stopThingRegistrationTask = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: StopThingRegistrationTaskRequest,
-    output: StopThingRegistrationTaskResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const stopThingRegistrationTask: (
+  input: StopThingRegistrationTaskRequest,
+) => Effect.Effect<
+  StopThingRegistrationTaskResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopThingRegistrationTaskRequest,
+  output: StopThingRegistrationTaskResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Removes the given tags (metadata) from the resource.
  *
  * Requires permission to access the UntagResource action.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -16294,98 +18804,145 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the UpdateAccountAuditConfiguration action.
  */
-export const updateAccountAuditConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateAccountAuditConfigurationRequest,
-    output: UpdateAccountAuditConfigurationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }));
+export const updateAccountAuditConfiguration: (
+  input: UpdateAccountAuditConfigurationRequest,
+) => Effect.Effect<
+  UpdateAccountAuditConfigurationResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountAuditConfigurationRequest,
+  output: UpdateAccountAuditConfigurationResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a Device Defender audit suppression.
  */
-export const updateAuditSuppression = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateAuditSuppressionRequest,
-    output: UpdateAuditSuppressionResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateAuditSuppression: (
+  input: UpdateAuditSuppressionRequest,
+) => Effect.Effect<
+  UpdateAuditSuppressionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAuditSuppressionRequest,
+  output: UpdateAuditSuppressionResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the event configurations.
  *
  * Requires permission to access the UpdateEventConfigurations action.
  */
-export const updateEventConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateEventConfigurationsRequest,
-    output: UpdateEventConfigurationsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateEventConfigurations: (
+  input: UpdateEventConfigurationsRequest,
+) => Effect.Effect<
+  UpdateEventConfigurationsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEventConfigurationsRequest,
+  output: UpdateEventConfigurationsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates the groups to which the thing belongs.
  *
  * Requires permission to access the UpdateThingGroupsForThing action.
  */
-export const updateThingGroupsForThing = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateThingGroupsForThingRequest,
-    output: UpdateThingGroupsForThingResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateThingGroupsForThing: (
+  input: UpdateThingGroupsForThingRequest,
+) => Effect.Effect<
+  UpdateThingGroupsForThingResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateThingGroupsForThingRequest,
+  output: UpdateThingGroupsForThingResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Adds a thing to a billing group.
  *
  * Requires permission to access the AddThingToBillingGroup action.
  */
-export const addThingToBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddThingToBillingGroupRequest,
-    output: AddThingToBillingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const addThingToBillingGroup: (
+  input: AddThingToBillingGroupRequest,
+) => Effect.Effect<
+  AddThingToBillingGroupResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddThingToBillingGroupRequest,
+  output: AddThingToBillingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Adds a thing to a thing group.
  *
  * Requires permission to access the AddThingToThingGroup action.
  */
-export const addThingToThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AddThingToThingGroupRequest,
-    output: AddThingToThingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const addThingToThingGroup: (
+  input: AddThingToThingGroupRequest,
+) => Effect.Effect<
+  AddThingToThingGroupResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddThingToThingGroupRequest,
+  output: AddThingToThingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Cancels a mitigation action task that is in progress. If the task
  * is not
@@ -16393,23 +18950,42 @@ export const addThingToThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the CancelAuditMitigationActionsTask action.
  */
-export const cancelAuditMitigationActionsTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CancelAuditMitigationActionsTaskRequest,
-    output: CancelAuditMitigationActionsTaskResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const cancelAuditMitigationActionsTask: (
+  input: CancelAuditMitigationActionsTaskRequest,
+) => Effect.Effect<
+  CancelAuditMitigationActionsTaskResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelAuditMitigationActionsTaskRequest,
+  output: CancelAuditMitigationActionsTaskResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an "InvalidRequestException" occurs.
  *
  * Requires permission to access the CancelAuditTask action.
  */
-export const cancelAuditTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelAuditTask: (
+  input: CancelAuditTaskRequest,
+) => Effect.Effect<
+  CancelAuditTaskResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelAuditTaskRequest,
   output: CancelAuditTaskResponse,
   errors: [
@@ -16424,94 +19000,152 @@ export const cancelAuditTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CancelDetectMitigationActionsTask action.
  */
-export const cancelDetectMitigationActionsTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CancelDetectMitigationActionsTaskRequest,
-    output: CancelDetectMitigationActionsTaskResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const cancelDetectMitigationActionsTask: (
+  input: CancelDetectMitigationActionsTaskRequest,
+) => Effect.Effect<
+  CancelDetectMitigationActionsTaskResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelDetectMitigationActionsTaskRequest,
+  output: CancelDetectMitigationActionsTaskResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes a provisioning template.
  *
  * Requires permission to access the DeleteProvisioningTemplate action.
  */
-export const deleteProvisioningTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteProvisioningTemplateRequest,
-    output: DeleteProvisioningTemplateResponse,
-    errors: [
-      ConflictingResourceUpdateException,
-      DeleteConflictException,
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const deleteProvisioningTemplate: (
+  input: DeleteProvisioningTemplateRequest,
+) => Effect.Effect<
+  DeleteProvisioningTemplateResponse,
+  | ConflictingResourceUpdateException
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProvisioningTemplateRequest,
+  output: DeleteProvisioningTemplateResponse,
+  errors: [
+    ConflictingResourceUpdateException,
+    DeleteConflictException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes a provisioning template version.
  *
  * Requires permission to access the DeleteProvisioningTemplateVersion action.
  */
-export const deleteProvisioningTemplateVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteProvisioningTemplateVersionRequest,
-    output: DeleteProvisioningTemplateVersionResponse,
-    errors: [
-      ConflictingResourceUpdateException,
-      DeleteConflictException,
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }));
+export const deleteProvisioningTemplateVersion: (
+  input: DeleteProvisioningTemplateVersionRequest,
+) => Effect.Effect<
+  DeleteProvisioningTemplateVersionResponse,
+  | ConflictingResourceUpdateException
+  | DeleteConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProvisioningTemplateVersionRequest,
+  output: DeleteProvisioningTemplateVersionResponse,
+  errors: [
+    ConflictingResourceUpdateException,
+    DeleteConflictException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Gets information about a Device Defender audit suppression.
  */
-export const describeAuditSuppression = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAuditSuppressionRequest,
-    output: DescribeAuditSuppressionResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeAuditSuppression: (
+  input: DescribeAuditSuppressionRequest,
+) => Effect.Effect<
+  DescribeAuditSuppressionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAuditSuppressionRequest,
+  output: DescribeAuditSuppressionResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets information about a Device Defender detect custom metric.
  *
  * Requires permission to access the DescribeCustomMetric action.
  */
-export const describeCustomMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCustomMetricRequest,
-    output: DescribeCustomMetricResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeCustomMetric: (
+  input: DescribeCustomMetricRequest,
+) => Effect.Effect<
+  DescribeCustomMetricResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCustomMetricRequest,
+  output: DescribeCustomMetricResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Provides details about a dimension that is defined in your Amazon Web Services accounts.
  *
  * Requires permission to access the DescribeDimension action.
  */
-export const describeDimension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeDimension: (
+  input: DescribeDimensionRequest,
+) => Effect.Effect<
+  DescribeDimensionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeDimensionRequest,
   output: DescribeDimensionResponse,
   errors: [
@@ -16524,7 +19158,17 @@ export const describeDimension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns information about a job template.
  */
-export const describeJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeJobTemplate: (
+  input: DescribeJobTemplateRequest,
+) => Effect.Effect<
+  DescribeJobTemplateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobTemplateRequest,
   output: DescribeJobTemplateResponse,
   errors: [
@@ -16539,220 +19183,448 @@ export const describeJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DescribeMitigationAction action.
  */
-export const describeMitigationAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeMitigationActionRequest,
-    output: DescribeMitigationActionResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeMitigationAction: (
+  input: DescribeMitigationActionRequest,
+) => Effect.Effect<
+  DescribeMitigationActionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeMitigationActionRequest,
+  output: DescribeMitigationActionResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns information about a provisioning template.
  *
  * Requires permission to access the DescribeProvisioningTemplate action.
  */
-export const describeProvisioningTemplate =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeProvisioningTemplateRequest,
-    output: DescribeProvisioningTemplateResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }));
+export const describeProvisioningTemplate: (
+  input: DescribeProvisioningTemplateRequest,
+) => Effect.Effect<
+  DescribeProvisioningTemplateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeProvisioningTemplateRequest,
+  output: DescribeProvisioningTemplateResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Returns information about a provisioning template version.
  *
  * Requires permission to access the DescribeProvisioningTemplateVersion action.
  */
-export const describeProvisioningTemplateVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeProvisioningTemplateVersionRequest,
-    output: DescribeProvisioningTemplateVersionResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }));
+export const describeProvisioningTemplateVersion: (
+  input: DescribeProvisioningTemplateVersionRequest,
+) => Effect.Effect<
+  DescribeProvisioningTemplateVersionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeProvisioningTemplateVersionRequest,
+  output: DescribeProvisioningTemplateVersionResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Gets information about a scheduled audit.
  *
  * Requires permission to access the DescribeScheduledAudit action.
  */
-export const describeScheduledAudit = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeScheduledAuditRequest,
-    output: DescribeScheduledAuditResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeScheduledAudit: (
+  input: DescribeScheduledAuditRequest,
+) => Effect.Effect<
+  DescribeScheduledAuditResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeScheduledAuditRequest,
+  output: DescribeScheduledAuditResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets information about a Device Defender security profile.
  *
  * Requires permission to access the DescribeSecurityProfile action.
  */
-export const describeSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeSecurityProfileRequest,
-    output: DescribeSecurityProfileResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeSecurityProfile: (
+  input: DescribeSecurityProfileRequest,
+) => Effect.Effect<
+  DescribeSecurityProfileResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSecurityProfileRequest,
+  output: DescribeSecurityProfileResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes a bulk thing provisioning task.
  *
  * Requires permission to access the DescribeThingRegistrationTask action.
  */
-export const describeThingRegistrationTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeThingRegistrationTaskRequest,
-    output: DescribeThingRegistrationTaskResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }));
+export const describeThingRegistrationTask: (
+  input: DescribeThingRegistrationTaskRequest,
+) => Effect.Effect<
+  DescribeThingRegistrationTaskResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeThingRegistrationTaskRequest,
+  output: DescribeThingRegistrationTaskResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Lists the tags (metadata) you have assigned to the resource.
  *
  * Requires permission to access the ListTagsForResource action.
  */
-export const listTagsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTagsForResource: {
+  (
     input: ListTagsForResourceRequest,
-    output: ListTagsForResourceResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "tags",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTagsForResourceResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsForResourceRequest,
+  ) => Strm.Stream<
+    ListTagsForResourceResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsForResourceRequest,
+  ) => Strm.Stream<
+    Tag,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tags",
+  } as const,
+}));
 /**
  * List the thing groups in your account.
  *
  * Requires permission to access the ListThingGroups action.
  */
-export const listThingGroups = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listThingGroups: {
+  (
     input: ListThingGroupsRequest,
-    output: ListThingGroupsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "thingGroups",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListThingGroupsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListThingGroupsRequest,
+  ) => Strm.Stream<
+    ListThingGroupsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListThingGroupsRequest,
+  ) => Strm.Stream<
+    GroupNameAndArn,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListThingGroupsRequest,
+  output: ListThingGroupsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "thingGroups",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List the thing groups to which the specified thing belongs.
  *
  * Requires permission to access the ListThingGroupsForThing action.
  */
-export const listThingGroupsForThing =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listThingGroupsForThing: {
+  (
     input: ListThingGroupsForThingRequest,
-    output: ListThingGroupsForThingResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "thingGroups",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListThingGroupsForThingResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListThingGroupsForThingRequest,
+  ) => Strm.Stream<
+    ListThingGroupsForThingResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListThingGroupsForThingRequest,
+  ) => Strm.Stream<
+    GroupNameAndArn,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListThingGroupsForThingRequest,
+  output: ListThingGroupsForThingResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "thingGroups",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the things you have added to the given billing group.
  *
  * Requires permission to access the ListThingsInBillingGroup action.
  */
-export const listThingsInBillingGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listThingsInBillingGroup: {
+  (
     input: ListThingsInBillingGroupRequest,
-    output: ListThingsInBillingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "things",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListThingsInBillingGroupResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListThingsInBillingGroupRequest,
+  ) => Strm.Stream<
+    ListThingsInBillingGroupResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListThingsInBillingGroupRequest,
+  ) => Strm.Stream<
+    ThingName,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListThingsInBillingGroupRequest,
+  output: ListThingsInBillingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "things",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the things in the specified group.
  *
  * Requires permission to access the ListThingsInThingGroup action.
  */
-export const listThingsInThingGroup =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listThingsInThingGroup: {
+  (
     input: ListThingsInThingGroupRequest,
-    output: ListThingsInThingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "things",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListThingsInThingGroupResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListThingsInThingGroupRequest,
+  ) => Strm.Stream<
+    ListThingsInThingGroupResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListThingsInThingGroupRequest,
+  ) => Strm.Stream<
+    ThingName,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListThingsInThingGroupRequest,
+  output: ListThingsInThingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "things",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Updates a
  * Device Defender detect custom metric.
  *
  * Requires permission to access the UpdateCustomMetric action.
  */
-export const updateCustomMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCustomMetric: (
+  input: UpdateCustomMetricRequest,
+) => Effect.Effect<
+  UpdateCustomMetricResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCustomMetricRequest,
   output: UpdateCustomMetricResponse,
   errors: [
@@ -16772,7 +19644,17 @@ export const updateCustomMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the UpdateDimension action.
  */
-export const updateDimension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateDimension: (
+  input: UpdateDimensionRequest,
+) => Effect.Effect<
+  UpdateDimensionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDimensionRequest,
   output: UpdateDimensionResponse,
   errors: [
@@ -16787,36 +19669,52 @@ export const updateDimension = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the UpdateMitigationAction action.
  */
-export const updateMitigationAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateMitigationActionRequest,
-    output: UpdateMitigationActionResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateMitigationAction: (
+  input: UpdateMitigationActionRequest,
+) => Effect.Effect<
+  UpdateMitigationActionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMitigationActionRequest,
+  output: UpdateMitigationActionResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a scheduled audit, including which checks are performed and
  * how often the audit takes place.
  *
  * Requires permission to access the UpdateScheduledAudit action.
  */
-export const updateScheduledAudit = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateScheduledAuditRequest,
-    output: UpdateScheduledAuditResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const updateScheduledAudit: (
+  input: UpdateScheduledAuditRequest,
+) => Effect.Effect<
+  UpdateScheduledAuditResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateScheduledAuditRequest,
+  output: UpdateScheduledAuditResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates an X.509 certificate using the specified certificate signing
  * request.
@@ -16863,25 +19761,46 @@ export const updateScheduledAudit = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * > forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr
  * --certificate-signing-request file://@path"
  */
-export const createCertificateFromCsr = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateCertificateFromCsrRequest,
-    output: CreateCertificateFromCsrResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createCertificateFromCsr: (
+  input: CreateCertificateFromCsrRequest,
+) => Effect.Effect<
+  CreateCertificateFromCsrResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCertificateFromCsrRequest,
+  output: CreateCertificateFromCsrResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a job template.
  *
  * Requires permission to access the CreateJobTemplate action.
  */
-export const createJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createJobTemplate: (
+  input: CreateJobTemplateRequest,
+) => Effect.Effect<
+  CreateJobTemplateResponse,
+  | ConflictException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobTemplateRequest,
   output: CreateJobTemplateResponse,
   errors: [
@@ -16903,19 +19822,28 @@ export const createJobTemplate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CreateKeysAndCertificate action.
  */
-export const createKeysAndCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateKeysAndCertificateRequest,
-    output: CreateKeysAndCertificateResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createKeysAndCertificate: (
+  input: CreateKeysAndCertificateRequest,
+) => Effect.Effect<
+  CreateKeysAndCertificateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateKeysAndCertificateRequest,
+  output: CreateKeysAndCertificateResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Create a thing group.
  *
@@ -16927,7 +19855,17 @@ export const createKeysAndCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the CreateThingGroup action.
  */
-export const createThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createThingGroup: (
+  input: CreateThingGroupRequest,
+) => Effect.Effect<
+  CreateThingGroupResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateThingGroupRequest,
   output: CreateThingGroupResponse,
   errors: [
@@ -16943,42 +19881,65 @@ export const createThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the UpdateDomainConfiguration action.
  */
-export const updateDomainConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDomainConfigurationRequest,
-    output: UpdateDomainConfigurationResponse,
-    errors: [
-      CertificateValidationException,
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateDomainConfiguration: (
+  input: UpdateDomainConfigurationRequest,
+) => Effect.Effect<
+  UpdateDomainConfigurationResponse,
+  | CertificateValidationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDomainConfigurationRequest,
+  output: UpdateDomainConfigurationResponse,
+  errors: [
+    CertificateValidationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a domain configuration.
  *
  * Requires permission to access the CreateDomainConfiguration action.
  */
-export const createDomainConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDomainConfigurationRequest,
-    output: CreateDomainConfigurationResponse,
-    errors: [
-      CertificateValidationException,
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createDomainConfiguration: (
+  input: CreateDomainConfigurationRequest,
+) => Effect.Effect<
+  CreateDomainConfigurationResponse,
+  | CertificateValidationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDomainConfigurationRequest,
+  output: CreateDomainConfigurationResponse,
+  errors: [
+    CertificateValidationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Registers a device certificate with IoT in the same certificate mode as the signing CA. If you have more than one CA certificate that has the same subject field, you must
  * specify the CA certificate that was used to sign the device certificate being
@@ -16986,7 +19947,22 @@ export const createDomainConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the RegisterCertificate action.
  */
-export const registerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerCertificate: (
+  input: RegisterCertificateRequest,
+) => Effect.Effect<
+  RegisterCertificateResponse,
+  | CertificateConflictException
+  | CertificateStateException
+  | CertificateValidationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterCertificateRequest,
   output: RegisterCertificateResponse,
   errors: [
@@ -17006,27 +19982,53 @@ export const registerCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CreateDynamicThingGroup action.
  */
-export const createDynamicThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateDynamicThingGroupRequest,
-    output: CreateDynamicThingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidQueryException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createDynamicThingGroup: (
+  input: CreateDynamicThingGroupRequest,
+) => Effect.Effect<
+  CreateDynamicThingGroupResponse,
+  | InternalFailureException
+  | InvalidQueryException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDynamicThingGroupRequest,
+  output: CreateDynamicThingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidQueryException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Returns the approximate count of unique values that match the query.
  *
  * Requires permission to access the GetCardinality action.
  */
-export const getCardinality = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCardinality: (
+  input: GetCardinalityRequest,
+) => Effect.Effect<
+  GetCardinalityResponse,
+  | IndexNotReadyException
+  | InternalFailureException
+  | InvalidAggregationException
+  | InvalidQueryException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCardinalityRequest,
   output: GetCardinalityResponse,
   errors: [
@@ -17046,7 +20048,24 @@ export const getCardinality = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CreateFleetMetric action.
  */
-export const createFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createFleetMetric: (
+  input: CreateFleetMetricRequest,
+) => Effect.Effect<
+  CreateFleetMetricResponse,
+  | IndexNotReadyException
+  | InternalFailureException
+  | InvalidAggregationException
+  | InvalidQueryException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFleetMetricRequest,
   output: CreateFleetMetricResponse,
   errors: [
@@ -17076,7 +20095,22 @@ export const createFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetPercentiles action.
  */
-export const getPercentiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPercentiles: (
+  input: GetPercentilesRequest,
+) => Effect.Effect<
+  GetPercentilesResponse,
+  | IndexNotReadyException
+  | InternalFailureException
+  | InvalidAggregationException
+  | InvalidQueryException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPercentilesRequest,
   output: GetPercentilesResponse,
   errors: [
@@ -17098,7 +20132,22 @@ export const getPercentiles = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetStatistics action.
  */
-export const getStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getStatistics: (
+  input: GetStatisticsRequest,
+) => Effect.Effect<
+  GetStatisticsResponse,
+  | IndexNotReadyException
+  | InternalFailureException
+  | InvalidAggregationException
+  | InvalidQueryException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStatisticsRequest,
   output: GetStatisticsResponse,
   errors: [
@@ -17118,7 +20167,18 @@ export const getStatistics = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DeleteJobExecution action.
  */
-export const deleteJobExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteJobExecution: (
+  input: DeleteJobExecutionRequest,
+) => Effect.Effect<
+  DeleteJobExecutionResponse,
+  | InvalidRequestException
+  | InvalidStateTransitionException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobExecutionRequest,
   output: DeleteJobExecutionResponse,
   errors: [
@@ -17134,26 +20194,48 @@ export const deleteJobExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DescribeDomainConfiguration action.
  */
-export const describeDomainConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeDomainConfigurationRequest,
-    output: DescribeDomainConfigurationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const describeDomainConfiguration: (
+  input: DescribeDomainConfigurationRequest,
+) => Effect.Effect<
+  DescribeDomainConfigurationResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDomainConfigurationRequest,
+  output: DescribeDomainConfigurationResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Describes a role alias.
  *
  * Requires permission to access the DescribeRoleAlias action.
  */
-export const describeRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeRoleAlias: (
+  input: DescribeRoleAliasRequest,
+) => Effect.Effect<
+  DescribeRoleAliasResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRoleAliasRequest,
   output: DescribeRoleAliasResponse,
   errors: [
@@ -17170,7 +20252,19 @@ export const describeRoleAlias = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DescribeStream action.
  */
-export const describeStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeStream: (
+  input: DescribeStreamRequest,
+) => Effect.Effect<
+  DescribeStreamResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeStreamRequest,
   output: DescribeStreamResponse,
   errors: [
@@ -17187,7 +20281,19 @@ export const describeStream = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DescribeThingType action.
  */
-export const describeThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeThingType: (
+  input: DescribeThingTypeRequest,
+) => Effect.Effect<
+  DescribeThingTypeResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeThingTypeRequest,
   output: DescribeThingTypeResponse,
   errors: [
@@ -17205,27 +20311,48 @@ export const describeThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetEffectivePolicies action.
  */
-export const getEffectivePolicies = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetEffectivePoliciesRequest,
-    output: GetEffectivePoliciesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getEffectivePolicies: (
+  input: GetEffectivePoliciesRequest,
+) => Effect.Effect<
+  GetEffectivePoliciesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEffectivePoliciesRequest,
+  output: GetEffectivePoliciesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Gets information about the rule.
  *
  * Requires permission to access the GetTopicRule action.
  */
-export const getTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getTopicRule: (
+  input: GetTopicRuleRequest,
+) => Effect.Effect<
+  GetTopicRuleResponse,
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTopicRuleRequest,
   output: GetTopicRuleResponse,
   errors: [
@@ -17240,50 +20367,127 @@ export const getTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the ListAttachedPolicies action.
  */
-export const listAttachedPolicies =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAttachedPolicies: {
+  (
     input: ListAttachedPoliciesRequest,
-    output: ListAttachedPoliciesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "nextMarker",
-      items: "policies",
-      pageSize: "pageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAttachedPoliciesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttachedPoliciesRequest,
+  ) => Strm.Stream<
+    ListAttachedPoliciesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttachedPoliciesRequest,
+  ) => Strm.Stream<
+    Policy,
+    | InternalFailureException
+    | InvalidRequestException
+    | LimitExceededException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttachedPoliciesRequest,
+  output: ListAttachedPoliciesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "nextMarker",
+    items: "policies",
+    pageSize: "pageSize",
+  } as const,
+}));
 /**
  * Lists the authorizers registered in your account.
  *
  * Requires permission to access the ListAuthorizers action.
  */
-export const listAuthorizers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listAuthorizers: {
+  (
     input: ListAuthorizersRequest,
-    output: ListAuthorizersResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "nextMarker",
-      items: "authorizers",
-      pageSize: "pageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListAuthorizersResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAuthorizersRequest,
+  ) => Strm.Stream<
+    ListAuthorizersResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAuthorizersRequest,
+  ) => Strm.Stream<
+    AuthorizerSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAuthorizersRequest,
+  output: ListAuthorizersResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "nextMarker",
+    items: "authorizers",
+    pageSize: "pageSize",
+  } as const,
+}));
 /**
  * Lists the CA certificates registered for your Amazon Web Services account.
  *
@@ -17292,43 +20496,87 @@ export const listAuthorizers = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  *
  * Requires permission to access the ListCACertificates action.
  */
-export const listCACertificates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCACertificates: {
+  (
     input: ListCACertificatesRequest,
-    output: ListCACertificatesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "nextMarker",
-      items: "certificates",
-      pageSize: "pageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCACertificatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCACertificatesRequest,
+  ) => Strm.Stream<
+    ListCACertificatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCACertificatesRequest,
+  ) => Strm.Stream<
+    CACertificate,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCACertificatesRequest,
+  output: ListCACertificatesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "nextMarker",
+    items: "certificates",
+    pageSize: "pageSize",
+  } as const,
+}));
 /**
  * Lists all your certificate providers in your Amazon Web Services account.
  *
  * Requires permission to access the ListCertificateProviders action.
  */
-export const listCertificateProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListCertificateProvidersRequest,
-    output: ListCertificateProvidersResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const listCertificateProviders: (
+  input: ListCertificateProvidersRequest,
+) => Effect.Effect<
+  ListCertificateProvidersResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListCertificateProvidersRequest,
+  output: ListCertificateProvidersResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Lists the certificates registered in your Amazon Web Services account.
  *
@@ -17337,127 +20585,316 @@ export const listCertificateProviders = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the ListCertificates action.
  */
-export const listCertificates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCertificates: {
+  (
     input: ListCertificatesRequest,
-    output: ListCertificatesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "nextMarker",
-      items: "certificates",
-      pageSize: "pageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCertificatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCertificatesRequest,
+  ) => Strm.Stream<
+    ListCertificatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCertificatesRequest,
+  ) => Strm.Stream<
+    Certificate,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCertificatesRequest,
+  output: ListCertificatesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "nextMarker",
+    items: "certificates",
+    pageSize: "pageSize",
+  } as const,
+}));
 /**
  * Gets a list of domain configurations for the user. This list is sorted
  * alphabetically by domain configuration name.
  *
  * Requires permission to access the ListDomainConfigurations action.
  */
-export const listDomainConfigurations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listDomainConfigurations: {
+  (
     input: ListDomainConfigurationsRequest,
-    output: ListDomainConfigurationsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "nextMarker",
-      items: "domainConfigurations",
-      pageSize: "pageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListDomainConfigurationsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDomainConfigurationsRequest,
+  ) => Strm.Stream<
+    ListDomainConfigurationsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDomainConfigurationsRequest,
+  ) => Strm.Stream<
+    DomainConfigurationSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDomainConfigurationsRequest,
+  output: ListDomainConfigurationsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "nextMarker",
+    items: "domainConfigurations",
+    pageSize: "pageSize",
+  } as const,
+}));
 /**
  * Lists all your fleet metrics.
  *
  * Requires permission to access the ListFleetMetrics action.
  */
-export const listFleetMetrics = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listFleetMetrics: {
+  (
     input: ListFleetMetricsRequest,
-    output: ListFleetMetricsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "fleetMetrics",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListFleetMetricsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListFleetMetricsRequest,
+  ) => Strm.Stream<
+    ListFleetMetricsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListFleetMetricsRequest,
+  ) => Strm.Stream<
+    FleetMetricNameAndArn,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListFleetMetricsRequest,
+  output: ListFleetMetricsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "fleetMetrics",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists OTA updates.
  *
  * Requires permission to access the ListOTAUpdates action.
  */
-export const listOTAUpdates = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listOTAUpdates: {
+  (
     input: ListOTAUpdatesRequest,
-    output: ListOTAUpdatesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "otaUpdates",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListOTAUpdatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOTAUpdatesRequest,
+  ) => Strm.Stream<
+    ListOTAUpdatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOTAUpdatesRequest,
+  ) => Strm.Stream<
+    OTAUpdateSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOTAUpdatesRequest,
+  output: ListOTAUpdatesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "otaUpdates",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists certificates that are being transferred but not yet accepted.
  *
  * Requires permission to access the ListOutgoingCertificates action.
  */
-export const listOutgoingCertificates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOutgoingCertificates: {
+  (
     input: ListOutgoingCertificatesRequest,
-    output: ListOutgoingCertificatesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "marker",
-      outputToken: "nextMarker",
-      items: "outgoingCertificates",
-      pageSize: "pageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOutgoingCertificatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOutgoingCertificatesRequest,
+  ) => Strm.Stream<
+    ListOutgoingCertificatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOutgoingCertificatesRequest,
+  ) => Strm.Stream<
+    OutgoingCertificate,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOutgoingCertificatesRequest,
+  output: ListOutgoingCertificatesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "nextMarker",
+    items: "outgoingCertificates",
+    pageSize: "pageSize",
+  } as const,
+}));
 /**
  * Lists the versions of the specified policy and identifies the default
  * version.
  *
  * Requires permission to access the ListPolicyVersions action.
  */
-export const listPolicyVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listPolicyVersions: (
+  input: ListPolicyVersionsRequest,
+) => Effect.Effect<
+  ListPolicyVersionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPolicyVersionsRequest,
   output: ListPolicyVersionsResponse,
   errors: [
@@ -17475,119 +20912,301 @@ export const listPolicyVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the ListPrincipalThings action.
  */
-export const listPrincipalThingsV2 =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPrincipalThingsV2: {
+  (
     input: ListPrincipalThingsV2Request,
-    output: ListPrincipalThingsV2Response,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "principalThingObjects",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPrincipalThingsV2Response,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPrincipalThingsV2Request,
+  ) => Strm.Stream<
+    ListPrincipalThingsV2Response,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPrincipalThingsV2Request,
+  ) => Strm.Stream<
+    PrincipalThingObject,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPrincipalThingsV2Request,
+  output: ListPrincipalThingsV2Response,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "principalThingObjects",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the provisioning templates in your Amazon Web Services account.
  *
  * Requires permission to access the ListProvisioningTemplates action.
  */
-export const listProvisioningTemplates =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProvisioningTemplates: {
+  (
     input: ListProvisioningTemplatesRequest,
-    output: ListProvisioningTemplatesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "templates",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProvisioningTemplatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProvisioningTemplatesRequest,
+  ) => Strm.Stream<
+    ListProvisioningTemplatesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProvisioningTemplatesRequest,
+  ) => Strm.Stream<
+    ProvisioningTemplateSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProvisioningTemplatesRequest,
+  output: ListProvisioningTemplatesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "templates",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * A list of provisioning template versions.
  *
  * Requires permission to access the ListProvisioningTemplateVersions action.
  */
-export const listProvisioningTemplateVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProvisioningTemplateVersions: {
+  (
     input: ListProvisioningTemplateVersionsRequest,
-    output: ListProvisioningTemplateVersionsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "versions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProvisioningTemplateVersionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProvisioningTemplateVersionsRequest,
+  ) => Strm.Stream<
+    ListProvisioningTemplateVersionsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProvisioningTemplateVersionsRequest,
+  ) => Strm.Stream<
+    ProvisioningTemplateVersionSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProvisioningTemplateVersionsRequest,
+  output: ListProvisioningTemplateVersionsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "versions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all of the streams in your Amazon Web Services account.
  *
  * Requires permission to access the ListStreams action.
  */
-export const listStreams = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listStreams: {
+  (
     input: ListStreamsRequest,
-    output: ListStreamsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "streams",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListStreamsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListStreamsRequest,
+  ) => Strm.Stream<
+    ListStreamsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListStreamsRequest,
+  ) => Strm.Stream<
+    StreamSummary,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListStreamsRequest,
+  output: ListStreamsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "streams",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the principals associated with the specified thing. A principal can be an X.509
  * certificate or an Amazon Cognito ID.
  *
  * Requires permission to access the ListThingPrincipals action.
  */
-export const listThingPrincipalsV2 =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listThingPrincipalsV2: {
+  (
     input: ListThingPrincipalsV2Request,
-    output: ListThingPrincipalsV2Response,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "thingPrincipalObjects",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListThingPrincipalsV2Response,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListThingPrincipalsV2Request,
+  ) => Strm.Stream<
+    ListThingPrincipalsV2Response,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListThingPrincipalsV2Request,
+  ) => Strm.Stream<
+    ThingPrincipalObject,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListThingPrincipalsV2Request,
+  output: ListThingPrincipalsV2Response,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "thingPrincipalObjects",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists your things. Use the **attributeName** and **attributeValue** parameters to filter your things. For example,
  * calling `ListThings` with attributeName=Color and attributeValue=Red
@@ -17599,7 +21218,44 @@ export const listThingPrincipalsV2 =
  *
  * You will not be charged for calling this API if an `Access denied` error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
  */
-export const listThings = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listThings: {
+  (
+    input: ListThingsRequest,
+  ): Effect.Effect<
+    ListThingsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListThingsRequest,
+  ) => Strm.Stream<
+    ListThingsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListThingsRequest,
+  ) => Strm.Stream<
+    ThingAttribute,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListThingsRequest,
   output: ListThingsResponse,
   errors: [
@@ -17621,87 +21277,176 @@ export const listThings = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
  *
  * Requires permission to access the ListThingTypes action.
  */
-export const listThingTypes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listThingTypes: {
+  (
     input: ListThingTypesRequest,
-    output: ListThingTypesResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "thingTypes",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListThingTypesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListThingTypesRequest,
+  ) => Strm.Stream<
+    ListThingTypesResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListThingTypesRequest,
+  ) => Strm.Stream<
+    ThingTypeDefinition,
+    | InternalFailureException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListThingTypesRequest,
+  output: ListThingTypesResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "thingTypes",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the rules for the specific topic.
  *
  * Requires permission to access the ListTopicRules action.
  */
-export const listTopicRules = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTopicRules: {
+  (
     input: ListTopicRulesRequest,
-    output: ListTopicRulesResponse,
-    errors: [
-      InternalException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "rules",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTopicRulesResponse,
+    | InternalException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTopicRulesRequest,
+  ) => Strm.Stream<
+    ListTopicRulesResponse,
+    | InternalException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTopicRulesRequest,
+  ) => Strm.Stream<
+    TopicRuleListItem,
+    | InternalException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTopicRulesRequest,
+  output: ListTopicRulesResponse,
+  errors: [
+    InternalException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "rules",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Register a certificate that does not have a certificate authority (CA).
  * For supported certificates, consult
  * Certificate signing algorithms supported by IoT.
  */
-export const registerCertificateWithoutCA =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: RegisterCertificateWithoutCARequest,
-    output: RegisterCertificateWithoutCAResponse,
-    errors: [
-      CertificateStateException,
-      CertificateValidationException,
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceAlreadyExistsException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }));
+export const registerCertificateWithoutCA: (
+  input: RegisterCertificateWithoutCARequest,
+) => Effect.Effect<
+  RegisterCertificateWithoutCAResponse,
+  | CertificateStateException
+  | CertificateValidationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterCertificateWithoutCARequest,
+  output: RegisterCertificateWithoutCAResponse,
+  errors: [
+    CertificateStateException,
+    CertificateValidationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Only certain types of mitigation actions can be applied to specific check names.
  * For more information, see Mitigation actions. Each mitigation action can apply only one type of change.
  *
  * Requires permission to access the CreateMitigationAction action.
  */
-export const createMitigationAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateMitigationActionRequest,
-    output: CreateMitigationActionResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceAlreadyExistsException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createMitigationAction: (
+  input: CreateMitigationActionRequest,
+) => Effect.Effect<
+  CreateMitigationActionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMitigationActionRequest,
+  output: CreateMitigationActionResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a thing record in the registry. If this call is made multiple times using
  * the same thing name and configuration, the call will succeed. If this call is made with
@@ -17713,7 +21458,20 @@ export const createMitigationAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the CreateThing action.
  */
-export const createThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createThing: (
+  input: CreateThingRequest,
+) => Effect.Effect<
+  CreateThingResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateThingRequest,
   output: CreateThingResponse,
   errors: [
@@ -17731,20 +21489,30 @@ export const createThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CreateTopicRuleDestination action.
  */
-export const createTopicRuleDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateTopicRuleDestinationRequest,
-    output: CreateTopicRuleDestinationResponse,
-    errors: [
-      ConflictingResourceUpdateException,
-      InternalException,
-      InvalidRequestException,
-      ResourceAlreadyExistsException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const createTopicRuleDestination: (
+  input: CreateTopicRuleDestinationRequest,
+) => Effect.Effect<
+  CreateTopicRuleDestinationResponse,
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTopicRuleDestinationRequest,
+  output: CreateTopicRuleDestinationResponse,
+  errors: [
+    ConflictingResourceUpdateException,
+    InternalException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Deletes a specific version from a software package.
  *
@@ -17752,7 +21520,16 @@ export const createTopicRuleDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the DeletePackageVersion action.
  */
-export const deletePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePackage: (
+  input: DeletePackageRequest,
+) => Effect.Effect<
+  DeletePackageResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePackageRequest,
   output: DeletePackageResponse,
   errors: [InternalServerException, ThrottlingException, ValidationException],
@@ -17764,12 +21541,17 @@ export const deletePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DescribeAccountAuditConfiguration action.
  */
-export const describeAccountAuditConfiguration =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAccountAuditConfigurationRequest,
-    output: DescribeAccountAuditConfigurationResponse,
-    errors: [InternalFailureException, ThrottlingException],
-  }));
+export const describeAccountAuditConfiguration: (
+  input: DescribeAccountAuditConfigurationRequest,
+) => Effect.Effect<
+  DescribeAccountAuditConfigurationResponse,
+  InternalFailureException | ThrottlingException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAccountAuditConfigurationRequest,
+  output: DescribeAccountAuditConfigurationResponse,
+  errors: [InternalFailureException, ThrottlingException],
+}));
 /**
  * Gets information about a single audit finding. Properties include the reason for
  * noncompliance, the severity of the issue,
@@ -17779,38 +21561,65 @@ export const describeAccountAuditConfiguration =
  *
  * Requires permission to access the DescribeAuditFinding action.
  */
-export const describeAuditFinding = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeAuditFindingRequest,
-    output: DescribeAuditFindingResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeAuditFinding: (
+  input: DescribeAuditFindingRequest,
+) => Effect.Effect<
+  DescribeAuditFindingResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAuditFindingRequest,
+  output: DescribeAuditFindingResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics.
  */
-export const describeAuditMitigationActionsTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeAuditMitigationActionsTaskRequest,
-    output: DescribeAuditMitigationActionsTaskResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeAuditMitigationActionsTask: (
+  input: DescribeAuditMitigationActionsTaskRequest,
+) => Effect.Effect<
+  DescribeAuditMitigationActionsTaskResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAuditMitigationActionsTaskRequest,
+  output: DescribeAuditMitigationActionsTaskResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets information about a Device Defender audit.
  *
  * Requires permission to access the DescribeAuditTask action.
  */
-export const describeAuditTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeAuditTask: (
+  input: DescribeAuditTaskRequest,
+) => Effect.Effect<
+  DescribeAuditTaskResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAuditTaskRequest,
   output: DescribeAuditTaskResponse,
   errors: [
@@ -17825,26 +21634,48 @@ export const describeAuditTask = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DescribeCACertificate action.
  */
-export const describeCACertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCACertificateRequest,
-    output: DescribeCACertificateResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const describeCACertificate: (
+  input: DescribeCACertificateRequest,
+) => Effect.Effect<
+  DescribeCACertificateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCACertificateRequest,
+  output: DescribeCACertificateResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Gets information about the specified certificate.
  *
  * Requires permission to access the DescribeCertificate action.
  */
-export const describeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCertificate: (
+  input: DescribeCertificateRequest,
+) => Effect.Effect<
+  DescribeCertificateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeCertificateRequest,
   output: DescribeCertificateResponse,
   errors: [
@@ -17861,23 +21692,42 @@ export const describeCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DescribeDetectMitigationActionsTask action.
  */
-export const describeDetectMitigationActionsTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeDetectMitigationActionsTaskRequest,
-    output: DescribeDetectMitigationActionsTaskResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-  }));
+export const describeDetectMitigationActionsTask: (
+  input: DescribeDetectMitigationActionsTaskRequest,
+) => Effect.Effect<
+  DescribeDetectMitigationActionsTaskResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDetectMitigationActionsTaskRequest,
+  output: DescribeDetectMitigationActionsTaskResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Describes a job.
  *
  * Requires permission to access the DescribeJob action.
  */
-export const describeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeJob: (
+  input: DescribeJobRequest,
+) => Effect.Effect<
+  DescribeJobResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeJobRequest,
   output: DescribeJobResponse,
   errors: [
@@ -17892,22 +21742,40 @@ export const describeJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DescribeJobExecution action.
  */
-export const describeJobExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeJobExecutionRequest,
-    output: DescribeJobExecutionResponse,
-    errors: [
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const describeJobExecution: (
+  input: DescribeJobExecutionRequest,
+) => Effect.Effect<
+  DescribeJobExecutionResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeJobExecutionRequest,
+  output: DescribeJobExecutionResponse,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Gets information about the specific command execution on a single device.
  */
-export const getCommandExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCommandExecution: (
+  input: GetCommandExecutionRequest,
+) => Effect.Effect<
+  GetCommandExecutionResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCommandExecutionRequest,
   output: GetCommandExecutionResponse,
   errors: [
@@ -17922,25 +21790,46 @@ export const getCommandExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetIndexingConfiguration action.
  */
-export const getIndexingConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetIndexingConfigurationRequest,
-    output: GetIndexingConfigurationResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getIndexingConfiguration: (
+  input: GetIndexingConfigurationRequest,
+) => Effect.Effect<
+  GetIndexingConfigurationResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIndexingConfigurationRequest,
+  output: GetIndexingConfigurationResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Gets an OTA update.
  *
  * Requires permission to access the GetOTAUpdate action.
  */
-export const getOTAUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getOTAUpdate: (
+  input: GetOTAUpdateRequest,
+) => Effect.Effect<
+  GetOTAUpdateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOTAUpdateRequest,
   output: GetOTAUpdateResponse,
   errors: [
@@ -17957,40 +21846,81 @@ export const getOTAUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetTopicRuleDestination action.
  */
-export const getTopicRuleDestination = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetTopicRuleDestinationRequest,
-    output: GetTopicRuleDestinationResponse,
-    errors: [
-      InternalException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getTopicRuleDestination: (
+  input: GetTopicRuleDestinationRequest,
+) => Effect.Effect<
+  GetTopicRuleDestinationResponse,
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTopicRuleDestinationRequest,
+  output: GetTopicRuleDestinationResponse,
+  errors: [
+    InternalException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Lists the active violations for a given Device Defender security profile.
  *
  * Requires permission to access the ListActiveViolations action.
  */
-export const listActiveViolations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listActiveViolations: {
+  (
     input: ListActiveViolationsRequest,
-    output: ListActiveViolationsResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "activeViolations",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListActiveViolationsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListActiveViolationsRequest,
+  ) => Strm.Stream<
+    ListActiveViolationsResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListActiveViolationsRequest,
+  ) => Strm.Stream<
+    ActiveViolation,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListActiveViolationsRequest,
+  output: ListActiveViolationsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "activeViolations",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * List all command executions.
  *
@@ -18009,45 +21939,111 @@ export const listActiveViolations =
  * List
  * command executions in your account (CLI).
  */
-export const listCommandExecutions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listCommandExecutions: {
+  (
     input: ListCommandExecutionsRequest,
-    output: ListCommandExecutionsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "commandExecutions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListCommandExecutionsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCommandExecutionsRequest,
+  ) => Strm.Stream<
+    ListCommandExecutionsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCommandExecutionsRequest,
+  ) => Strm.Stream<
+    CommandExecutionSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCommandExecutionsRequest,
+  output: ListCommandExecutionsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "commandExecutions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the job executions for a job.
  *
  * Requires permission to access the ListJobExecutionsForJob action.
  */
-export const listJobExecutionsForJob =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listJobExecutionsForJob: {
+  (
     input: ListJobExecutionsForJobRequest,
-    output: ListJobExecutionsForJobResponse,
-    errors: [
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "executionSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListJobExecutionsForJobResponse,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListJobExecutionsForJobRequest,
+  ) => Strm.Stream<
+    ListJobExecutionsForJobResponse,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListJobExecutionsForJobRequest,
+  ) => Strm.Stream<
+    JobExecutionSummaryForJob,
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListJobExecutionsForJobRequest,
+  output: ListJobExecutionsForJobResponse,
+  errors: [
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "executionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * The related resources of an Audit finding.
  * The following resources can be returned from calling this API:
@@ -18075,51 +22071,131 @@ export const listJobExecutionsForJob =
  * When calling DescribeAuditFinding for the intermediate CA revoked for
  * active device certificates check, RelatedResources will not be populated. You must use this API, ListRelatedResourcesForAuditFinding, to list the certificates.
  */
-export const listRelatedResourcesForAuditFinding =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listRelatedResourcesForAuditFinding: {
+  (
     input: ListRelatedResourcesForAuditFindingRequest,
-    output: ListRelatedResourcesForAuditFindingResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "relatedResources",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListRelatedResourcesForAuditFindingResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRelatedResourcesForAuditFindingRequest,
+  ) => Strm.Stream<
+    ListRelatedResourcesForAuditFindingResponse,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRelatedResourcesForAuditFindingRequest,
+  ) => Strm.Stream<
+    RelatedResource,
+    | InternalFailureException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRelatedResourcesForAuditFindingRequest,
+  output: ListRelatedResourcesForAuditFindingResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "relatedResources",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists all the topic rule destinations in your Amazon Web Services account.
  *
  * Requires permission to access the ListTopicRuleDestinations action.
  */
-export const listTopicRuleDestinations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTopicRuleDestinations: {
+  (
     input: ListTopicRuleDestinationsRequest,
-    output: ListTopicRuleDestinationsResponse,
-    errors: [
-      InternalException,
-      InvalidRequestException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "destinationSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListTopicRuleDestinationsResponse,
+    | InternalException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTopicRuleDestinationsRequest,
+  ) => Strm.Stream<
+    ListTopicRuleDestinationsResponse,
+    | InternalException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTopicRuleDestinationsRequest,
+  ) => Strm.Stream<
+    TopicRuleDestinationSummary,
+    | InternalException
+    | InvalidRequestException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTopicRuleDestinationsRequest,
+  output: ListTopicRuleDestinationsResponse,
+  errors: [
+    InternalException,
+    InvalidRequestException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "destinationSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * The query search index.
  *
  * Requires permission to access the SearchIndex action.
  */
-export const searchIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const searchIndex: (
+  input: SearchIndexRequest,
+) => Effect.Effect<
+  SearchIndexResponse,
+  | IndexNotReadyException
+  | InternalFailureException
+  | InvalidQueryException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchIndexRequest,
   output: SearchIndexResponse,
   errors: [
@@ -18138,37 +22214,57 @@ export const searchIndex = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the StartDetectMitigationActionsTask action.
  */
-export const startDetectMitigationActionsTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartDetectMitigationActionsTaskRequest,
-    output: StartDetectMitigationActionsTaskResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      TaskAlreadyExistsException,
-      ThrottlingException,
-    ],
-  }));
+export const startDetectMitigationActionsTask: (
+  input: StartDetectMitigationActionsTaskRequest,
+) => Effect.Effect<
+  StartDetectMitigationActionsTaskResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | TaskAlreadyExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDetectMitigationActionsTaskRequest,
+  output: StartDetectMitigationActionsTaskResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    TaskAlreadyExistsException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Updates a dynamic thing group.
  *
  * Requires permission to access the UpdateDynamicThingGroup action.
  */
-export const updateDynamicThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateDynamicThingGroupRequest,
-    output: UpdateDynamicThingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidQueryException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      VersionConflictException,
-    ],
-  }),
-);
+export const updateDynamicThingGroup: (
+  input: UpdateDynamicThingGroupRequest,
+) => Effect.Effect<
+  UpdateDynamicThingGroupResponse,
+  | InternalFailureException
+  | InvalidQueryException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | VersionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDynamicThingGroupRequest,
+  output: UpdateDynamicThingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidQueryException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    VersionConflictException,
+  ],
+}));
 /**
  * Rejects a pending certificate transfer. After IoT rejects a certificate transfer,
  * the certificate status changes from **PENDING_TRANSFER** to
@@ -18182,21 +22278,32 @@ export const updateDynamicThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the RejectCertificateTransfer action.
  */
-export const rejectCertificateTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectCertificateTransferRequest,
-    output: RejectCertificateTransferResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      TransferAlreadyCompletedException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const rejectCertificateTransfer: (
+  input: RejectCertificateTransferRequest,
+) => Effect.Effect<
+  RejectCertificateTransferResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | TransferAlreadyCompletedException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectCertificateTransferRequest,
+  output: RejectCertificateTransferResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    TransferAlreadyCompletedException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Replaces the rule. You must specify all parameters for the new rule. Creating rules
  * is an administrator-level action. Any user who has permission to create rules will be able
@@ -18204,7 +22311,19 @@ export const rejectCertificateTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the ReplaceTopicRule action.
  */
-export const replaceTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const replaceTopicRule: (
+  input: ReplaceTopicRuleRequest,
+) => Effect.Effect<
+  ReplaceTopicRuleResponse,
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | SqlParseException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReplaceTopicRuleRequest,
   output: ReplaceTopicRuleResponse,
   errors: [
@@ -18245,7 +22364,21 @@ export const replaceTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * - If the transfer is rejected or cancelled: The certificate is protected by the source account's customer managed key configuration.
  */
-export const transferCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const transferCertificate: (
+  input: TransferCertificateRequest,
+) => Effect.Effect<
+  TransferCertificateResponse,
+  | CertificateStateException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | TransferConflictException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TransferCertificateRequest,
   output: TransferCertificateResponse,
   errors: [
@@ -18264,37 +22397,57 @@ export const transferCertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CreatePackageVersion and GetIndexingConfiguration actions.
  */
-export const createPackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePackageVersionRequest,
-    output: CreatePackageVersionResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createPackageVersion: (
+  input: CreatePackageVersionRequest,
+) => Effect.Effect<
+  CreatePackageVersionResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePackageVersionRequest,
+  output: CreatePackageVersionResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Associates the selected software bill of materials (SBOM) with a specific software package version.
  *
  * Requires permission to access the AssociateSbomWithPackageVersion action.
  */
-export const associateSbomWithPackageVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateSbomWithPackageVersionRequest,
-    output: AssociateSbomWithPackageVersionResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const associateSbomWithPackageVersion: (
+  input: AssociateSbomWithPackageVersionRequest,
+) => Effect.Effect<
+  AssociateSbomWithPackageVersionResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateSbomWithPackageVersionRequest,
+  output: AssociateSbomWithPackageVersionResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new version of the specified IoT policy. To update a policy, create a
  * new policy version. A managed policy can have up to five versions. If the policy has five
@@ -18307,7 +22460,21 @@ export const associateSbomWithPackageVersion =
  *
  * Requires permission to access the CreatePolicyVersion action.
  */
-export const createPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPolicyVersion: (
+  input: CreatePolicyVersionRequest,
+) => Effect.Effect<
+  CreatePolicyVersionResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | MalformedPolicyException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | VersionsLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePolicyVersionRequest,
   output: CreatePolicyVersionResponse,
   errors: [
@@ -18324,99 +22491,241 @@ export const createPolicyVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * List all commands in your account.
  */
-export const listCommands = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCommands: {
+  (
     input: ListCommandsRequest,
-    output: ListCommandsResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "commands",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCommandsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCommandsRequest,
+  ) => Strm.Stream<
+    ListCommandsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCommandsRequest,
+  ) => Strm.Stream<
+    CommandSummary,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCommandsRequest,
+  output: ListCommandsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "commands",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the software packages associated to the account.
  *
  * Requires permission to access the ListPackages action.
  */
-export const listPackages = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPackages: {
+  (
     input: ListPackagesRequest,
-    output: ListPackagesResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "packageSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPackagesResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPackagesRequest,
+  ) => Strm.Stream<
+    ListPackagesResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPackagesRequest,
+  ) => Strm.Stream<
+    PackageSummary,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPackagesRequest,
+  output: ListPackagesResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "packageSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Lists the software package versions associated to the account.
  *
  * Requires permission to access the ListPackageVersions action.
  */
-export const listPackageVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPackageVersions: {
+  (
     input: ListPackageVersionsRequest,
-    output: ListPackageVersionsResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "packageVersionSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPackageVersionsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPackageVersionsRequest,
+  ) => Strm.Stream<
+    ListPackageVersionsResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPackageVersionsRequest,
+  ) => Strm.Stream<
+    PackageVersionSummary,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPackageVersionsRequest,
+  output: ListPackageVersionsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "packageVersionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * The validation results for all software bill of materials (SBOM) attached to a specific software package version.
  *
  * Requires permission to access the ListSbomValidationResults action.
  */
-export const listSbomValidationResults =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listSbomValidationResults: {
+  (
     input: ListSbomValidationResultsRequest,
-    output: ListSbomValidationResultsResponse,
-    errors: [
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "validationResultSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListSbomValidationResultsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSbomValidationResultsRequest,
+  ) => Strm.Stream<
+    ListSbomValidationResultsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSbomValidationResultsRequest,
+  ) => Strm.Stream<
+    SbomValidationResultSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSbomValidationResultsRequest,
+  output: ListSbomValidationResultsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "validationResultSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Disassociates the selected software bill of materials (SBOM) from a specific software package version.
  *
  * Requires permission to access the DisassociateSbomWithPackageVersion action.
  */
-export const disassociateSbomFromPackageVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateSbomFromPackageVersionRequest,
-    output: DisassociateSbomFromPackageVersionResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const disassociateSbomFromPackageVersion: (
+  input: DisassociateSbomFromPackageVersionRequest,
+) => Effect.Effect<
+  DisassociateSbomFromPackageVersionResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateSbomFromPackageVersionRequest,
+  output: DisassociateSbomFromPackageVersionResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the supported fields for a specific software package.
  *
  * Requires permission to access the UpdatePackage and GetIndexingConfiguration actions.
  */
-export const updatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePackage: (
+  input: UpdatePackageRequest,
+) => Effect.Effect<
+  UpdatePackageResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePackageRequest,
   output: UpdatePackageResponse,
   errors: [
@@ -18432,40 +22741,67 @@ export const updatePackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the UpdatePackageConfiguration and iam:PassRole actions.
  */
-export const updatePackageConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePackageConfigurationRequest,
-    output: UpdatePackageConfigurationResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updatePackageConfiguration: (
+  input: UpdatePackageConfigurationRequest,
+) => Effect.Effect<
+  UpdatePackageConfigurationResponse,
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePackageConfigurationRequest,
+  output: UpdatePackageConfigurationResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Updates the supported fields for a specific package version.
  *
  * Requires permission to access the UpdatePackageVersion and GetIndexingConfiguration actions.
  */
-export const updatePackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePackageVersionRequest,
-    output: UpdatePackageVersionResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const updatePackageVersion: (
+  input: UpdatePackageVersionRequest,
+) => Effect.Effect<
+  UpdatePackageVersionResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePackageVersionRequest,
+  output: UpdatePackageVersionResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Delete a command resource.
  */
-export const deleteCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCommand: (
+  input: DeleteCommandRequest,
+) => Effect.Effect<
+  DeleteCommandResponse,
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCommandRequest,
   output: DeleteCommandResponse,
   errors: [
@@ -18480,35 +22816,60 @@ export const deleteCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * **Note:** If a package version is designated as default, you must remove the designation from the software package using the UpdatePackage action.
  */
-export const deletePackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePackageVersionRequest,
-    output: DeletePackageVersionResponse,
-    errors: [InternalServerException, ThrottlingException, ValidationException],
-  }),
-);
+export const deletePackageVersion: (
+  input: DeletePackageVersionRequest,
+) => Effect.Effect<
+  DeletePackageVersionResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePackageVersionRequest,
+  output: DeletePackageVersionResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+}));
 /**
  * Delete a command execution.
  *
  * Only command executions that enter a terminal state can be deleted from
  * your account.
  */
-export const deleteCommandExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteCommandExecutionRequest,
-    output: DeleteCommandExecutionResponse,
-    errors: [
-      ConflictException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteCommandExecution: (
+  input: DeleteCommandExecutionRequest,
+) => Effect.Effect<
+  DeleteCommandExecutionResponse,
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCommandExecutionRequest,
+  output: DeleteCommandExecutionResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Gets information about the specified command.
  */
-export const getCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCommand: (
+  input: GetCommandRequest,
+) => Effect.Effect<
+  GetCommandResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCommandRequest,
   output: GetCommandResponse,
   errors: [
@@ -18523,7 +22884,17 @@ export const getCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetPackage action.
  */
-export const getPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPackage: (
+  input: GetPackageRequest,
+) => Effect.Effect<
+  GetPackageResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPackageRequest,
   output: GetPackageResponse,
   errors: [
@@ -18538,7 +22909,17 @@ export const getPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetPackageVersion action.
  */
-export const getPackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getPackageVersion: (
+  input: GetPackageVersionRequest,
+) => Effect.Effect<
+  GetPackageVersionResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPackageVersionRequest,
   output: GetPackageVersionResponse,
   errors: [
@@ -18551,7 +22932,18 @@ export const getPackageVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Update information about a command or mark a command for deprecation.
  */
-export const updateCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateCommand: (
+  input: UpdateCommandRequest,
+) => Effect.Effect<
+  UpdateCommandResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCommandRequest,
   output: UpdateCommandResponse,
   errors: [
@@ -18567,7 +22959,18 @@ export const updateCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CreatePackage and GetIndexingConfiguration actions.
  */
-export const createPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPackage: (
+  input: CreatePackageRequest,
+) => Effect.Effect<
+  CreatePackageResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePackageRequest,
   output: CreatePackageResponse,
   errors: [
@@ -18585,48 +22988,84 @@ export const createPackage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the RegisterCACertificate action.
  */
-export const registerCACertificate = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RegisterCACertificateRequest,
-    output: RegisterCACertificateResponse,
-    errors: [
-      CertificateValidationException,
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      RegistrationCodeValidationException,
-      ResourceAlreadyExistsException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const registerCACertificate: (
+  input: RegisterCACertificateRequest,
+) => Effect.Effect<
+  RegisterCACertificateResponse,
+  | CertificateValidationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | RegistrationCodeValidationException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterCACertificateRequest,
+  output: RegisterCACertificateResponse,
+  errors: [
+    CertificateValidationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    RegistrationCodeValidationException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Starts a task that applies a set of mitigation actions to the specified target.
  *
  * Requires permission to access the StartAuditMitigationActionsTask action.
  */
-export const startAuditMitigationActionsTask =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: StartAuditMitigationActionsTaskRequest,
-    output: StartAuditMitigationActionsTaskResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      TaskAlreadyExistsException,
-      ThrottlingException,
-    ],
-  }));
+export const startAuditMitigationActionsTask: (
+  input: StartAuditMitigationActionsTaskRequest,
+) => Effect.Effect<
+  StartAuditMitigationActionsTaskResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | TaskAlreadyExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAuditMitigationActionsTaskRequest,
+  output: StartAuditMitigationActionsTaskResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    TaskAlreadyExistsException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Deletes the specified fleet metric.
  * Returns successfully with no error if the deletion is successful or you specify a fleet metric that doesn't exist.
  *
  * Requires permission to access the DeleteFleetMetric action.
  */
-export const deleteFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteFleetMetric: (
+  input: DeleteFleetMetricRequest,
+) => Effect.Effect<
+  DeleteFleetMetricResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | VersionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFleetMetricRequest,
   output: DeleteFleetMetricResponse,
   errors: [
@@ -18643,7 +23082,20 @@ export const deleteFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DeleteOTAUpdate action.
  */
-export const deleteOTAUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteOTAUpdate: (
+  input: DeleteOTAUpdateRequest,
+) => Effect.Effect<
+  DeleteOTAUpdateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | VersionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOTAUpdateRequest,
   output: DeleteOTAUpdateResponse,
   errors: [
@@ -18662,7 +23114,20 @@ export const deleteOTAUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DeleteThing action.
  */
-export const deleteThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteThing: (
+  input: DeleteThingRequest,
+) => Effect.Effect<
+  DeleteThingResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | VersionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThingRequest,
   output: DeleteThingResponse,
   errors: [
@@ -18680,7 +23145,20 @@ export const deleteThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the UpdateThing action.
  */
-export const updateThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateThing: (
+  input: UpdateThingRequest,
+) => Effect.Effect<
+  UpdateThingResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | VersionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThingRequest,
   output: UpdateThingResponse,
   errors: [
@@ -18699,26 +23177,46 @@ export const updateThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the AttachSecurityProfile action.
  */
-export const attachSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AttachSecurityProfileRequest,
-    output: AttachSecurityProfileResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      VersionConflictException,
-    ],
-  }),
-);
+export const attachSecurityProfile: (
+  input: AttachSecurityProfileRequest,
+) => Effect.Effect<
+  AttachSecurityProfileResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | VersionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AttachSecurityProfileRequest,
+  output: AttachSecurityProfileResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    VersionConflictException,
+  ],
+}));
 /**
  * Deletes the billing group.
  *
  * Requires permission to access the DeleteBillingGroup action.
  */
-export const deleteBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteBillingGroup: (
+  input: DeleteBillingGroupRequest,
+) => Effect.Effect<
+  DeleteBillingGroupResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | VersionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBillingGroupRequest,
   output: DeleteBillingGroupResponse,
   errors: [
@@ -18733,41 +23231,67 @@ export const deleteBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the DeleteDynamicThingGroup action.
  */
-export const deleteDynamicThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteDynamicThingGroupRequest,
-    output: DeleteDynamicThingGroupResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-      VersionConflictException,
-    ],
-  }),
-);
+export const deleteDynamicThingGroup: (
+  input: DeleteDynamicThingGroupRequest,
+) => Effect.Effect<
+  DeleteDynamicThingGroupResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | VersionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDynamicThingGroupRequest,
+  output: DeleteDynamicThingGroupResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+    VersionConflictException,
+  ],
+}));
 /**
  * Deletes a Device Defender security profile.
  *
  * Requires permission to access the DeleteSecurityProfile action.
  */
-export const deleteSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteSecurityProfileRequest,
-    output: DeleteSecurityProfileResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ThrottlingException,
-      VersionConflictException,
-    ],
-  }),
-);
+export const deleteSecurityProfile: (
+  input: DeleteSecurityProfileRequest,
+) => Effect.Effect<
+  DeleteSecurityProfileResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | VersionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSecurityProfileRequest,
+  output: DeleteSecurityProfileResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+    VersionConflictException,
+  ],
+}));
 /**
  * Deletes a thing group.
  *
  * Requires permission to access the DeleteThingGroup action.
  */
-export const deleteThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteThingGroup: (
+  input: DeleteThingGroupRequest,
+) => Effect.Effect<
+  DeleteThingGroupResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | VersionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteThingGroupRequest,
   output: DeleteThingGroupResponse,
   errors: [
@@ -18782,7 +23306,18 @@ export const deleteThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the UpdateBillingGroup action.
  */
-export const updateBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBillingGroup: (
+  input: UpdateBillingGroupRequest,
+) => Effect.Effect<
+  UpdateBillingGroupResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | VersionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBillingGroupRequest,
   output: UpdateBillingGroupResponse,
   errors: [
@@ -18798,25 +23333,45 @@ export const updateBillingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the UpdateSecurityProfile action.
  */
-export const updateSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateSecurityProfileRequest,
-    output: UpdateSecurityProfileResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      VersionConflictException,
-    ],
-  }),
-);
+export const updateSecurityProfile: (
+  input: UpdateSecurityProfileRequest,
+) => Effect.Effect<
+  UpdateSecurityProfileResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | VersionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSecurityProfileRequest,
+  output: UpdateSecurityProfileResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    VersionConflictException,
+  ],
+}));
 /**
  * Update a thing group.
  *
  * Requires permission to access the UpdateThingGroup action.
  */
-export const updateThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateThingGroup: (
+  input: UpdateThingGroupRequest,
+) => Effect.Effect<
+  UpdateThingGroupResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | VersionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateThingGroupRequest,
   output: UpdateThingGroupResponse,
   errors: [
@@ -18832,7 +23387,19 @@ export const updateThingGroup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CancelJobExecution action.
  */
-export const cancelJobExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelJobExecution: (
+  input: CancelJobExecutionRequest,
+) => Effect.Effect<
+  CancelJobExecutionResponse,
+  | InvalidRequestException
+  | InvalidStateTransitionException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | VersionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelJobExecutionRequest,
   output: CancelJobExecutionResponse,
   errors: [
@@ -18849,7 +23416,23 @@ export const cancelJobExecution = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the UpdateFleetMetric action.
  */
-export const updateFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateFleetMetric: (
+  input: UpdateFleetMetricRequest,
+) => Effect.Effect<
+  UpdateFleetMetricResponse,
+  | IndexNotReadyException
+  | InternalFailureException
+  | InvalidAggregationException
+  | InvalidQueryException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | VersionConflictException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFleetMetricRequest,
   output: UpdateFleetMetricResponse,
   errors: [
@@ -18874,21 +23457,32 @@ export const updateFleetMetric = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the AcceptCertificateTransfer action.
  */
-export const acceptCertificateTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptCertificateTransferRequest,
-    output: AcceptCertificateTransferResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      TransferAlreadyCompletedException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const acceptCertificateTransfer: (
+  input: AcceptCertificateTransferRequest,
+) => Effect.Effect<
+  AcceptCertificateTransferResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | TransferAlreadyCompletedException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptCertificateTransferRequest,
+  output: AcceptCertificateTransferResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    TransferAlreadyCompletedException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Cancels a pending transfer for the specified certificate.
  *
@@ -18902,46 +23496,81 @@ export const acceptCertificateTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the CancelCertificateTransfer action.
  */
-export const cancelCertificateTransfer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CancelCertificateTransferRequest,
-    output: CancelCertificateTransferResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      TransferAlreadyCompletedException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const cancelCertificateTransfer: (
+  input: CancelCertificateTransferRequest,
+) => Effect.Effect<
+  CancelCertificateTransferResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | TransferAlreadyCompletedException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelCertificateTransferRequest,
+  output: CancelCertificateTransferResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    TransferAlreadyCompletedException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a new version of a provisioning template.
  *
  * Requires permission to access the CreateProvisioningTemplateVersion action.
  */
-export const createProvisioningTemplateVersion =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateProvisioningTemplateVersionRequest,
-    output: CreateProvisioningTemplateVersionResponse,
-    errors: [
-      ConflictingResourceUpdateException,
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      UnauthorizedException,
-      VersionsLimitExceededException,
-    ],
-  }));
+export const createProvisioningTemplateVersion: (
+  input: CreateProvisioningTemplateVersionRequest,
+) => Effect.Effect<
+  CreateProvisioningTemplateVersionResponse,
+  | ConflictingResourceUpdateException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | VersionsLimitExceededException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProvisioningTemplateVersionRequest,
+  output: CreateProvisioningTemplateVersionResponse,
+  errors: [
+    ConflictingResourceUpdateException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    VersionsLimitExceededException,
+  ],
+}));
 /**
  * Creates a job.
  *
  * Requires permission to access the CreateJob action.
  */
-export const createJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createJob: (
+  input: CreateJobRequest,
+) => Effect.Effect<
+  CreateJobResponse,
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobRequest,
   output: CreateJobResponse,
   errors: [
@@ -18958,18 +23587,26 @@ export const createJob = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CreateSecurityProfile action.
  */
-export const createSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateSecurityProfileRequest,
-    output: CreateSecurityProfileResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      ResourceAlreadyExistsException,
-      ThrottlingException,
-    ],
-  }),
-);
+export const createSecurityProfile: (
+  input: CreateSecurityProfileRequest,
+) => Effect.Effect<
+  CreateSecurityProfileResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSecurityProfileRequest,
+  output: CreateSecurityProfileResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceAlreadyExistsException,
+    ThrottlingException,
+  ],
+}));
 /**
  * Creates a new thing type. If this call is made multiple times using
  * the same thing type name and configuration, the call will succeed. If this call is made with
@@ -18977,7 +23614,19 @@ export const createSecurityProfile = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the CreateThingType action.
  */
-export const createThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createThingType: (
+  input: CreateThingTypeRequest,
+) => Effect.Effect<
+  CreateThingTypeResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateThingTypeRequest,
   output: CreateThingTypeResponse,
   errors: [
@@ -18994,23 +23643,36 @@ export const createThingType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the GetBucketsAggregation action.
  */
-export const getBucketsAggregation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetBucketsAggregationRequest,
-    output: GetBucketsAggregationResponse,
-    errors: [
-      IndexNotReadyException,
-      InternalFailureException,
-      InvalidAggregationException,
-      InvalidQueryException,
-      InvalidRequestException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getBucketsAggregation: (
+  input: GetBucketsAggregationRequest,
+) => Effect.Effect<
+  GetBucketsAggregationResponse,
+  | IndexNotReadyException
+  | InternalFailureException
+  | InvalidAggregationException
+  | InvalidQueryException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBucketsAggregationRequest,
+  output: GetBucketsAggregationResponse,
+  errors: [
+    IndexNotReadyException,
+    InternalFailureException,
+    InvalidAggregationException,
+    InvalidQueryException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Provisions a thing in the device registry. RegisterThing calls other IoT control
  * plane APIs. These calls might exceed your account level
@@ -19019,7 +23681,20 @@ export const getBucketsAggregation = /*@__PURE__*/ /*#__PURE__*/ API.make(
  *
  * Requires permission to access the RegisterThing action.
  */
-export const registerThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const registerThing: (
+  input: RegisterThingRequest,
+) => Effect.Effect<
+  RegisterThingResponse,
+  | ConflictingResourceUpdateException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceRegistrationFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterThingRequest,
   output: RegisterThingResponse,
   errors: [
@@ -19039,26 +23714,48 @@ export const registerThing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the TestInvokeAuthorizer action.
  */
-export const testInvokeAuthorizer = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TestInvokeAuthorizerRequest,
-    output: TestInvokeAuthorizerResponse,
-    errors: [
-      InternalFailureException,
-      InvalidRequestException,
-      InvalidResponseException,
-      ResourceNotFoundException,
-      ServiceUnavailableException,
-      ThrottlingException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const testInvokeAuthorizer: (
+  input: TestInvokeAuthorizerRequest,
+) => Effect.Effect<
+  TestInvokeAuthorizerResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | InvalidResponseException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestInvokeAuthorizerRequest,
+  output: TestInvokeAuthorizerResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    InvalidResponseException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Creates a command. A command contains reusable configurations that can be applied
  * before they are sent to the devices.
  */
-export const createCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCommand: (
+  input: CreateCommandRequest,
+) => Effect.Effect<
+  CreateCommandResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCommandRequest,
   output: CreateCommandResponse,
   errors: [
@@ -19076,7 +23773,20 @@ export const createCommand = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the TestAuthorization action.
  */
-export const testAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const testAuthorization: (
+  input: TestAuthorizationRequest,
+) => Effect.Effect<
+  TestAuthorizationResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestAuthorizationRequest,
   output: TestAuthorizationResponse,
   errors: [
@@ -19094,7 +23804,21 @@ export const testAuthorization = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CreateOTAUpdate action.
  */
-export const createOTAUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createOTAUpdate: (
+  input: CreateOTAUpdateRequest,
+) => Effect.Effect<
+  CreateOTAUpdateResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOTAUpdateRequest,
   output: CreateOTAUpdateResponse,
   errors: [
@@ -19114,7 +23838,20 @@ export const createOTAUpdate = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * Requires permission to access the CreateTopicRule action.
  */
-export const createTopicRule = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTopicRule: (
+  input: CreateTopicRuleRequest,
+) => Effect.Effect<
+  CreateTopicRuleResponse,
+  | ConflictingResourceUpdateException
+  | InternalException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ServiceUnavailableException
+  | SqlParseException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTopicRuleRequest,
   output: CreateTopicRuleResponse,
   errors: [

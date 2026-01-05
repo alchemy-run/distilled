@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Nova Act",
   serviceShapeName: "AmazonNovaAgentsDataPlane",
@@ -273,6 +281,26 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type WorkflowDefinitionName = string;
+export type UuidString = string;
+export type Task = string;
+export type ClientToken = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type WorkflowDescription = string;
+export type ModelId = string;
+export type CloudWatchLogGroupName = string;
+export type ToolName = string;
+export type ToolDescription = string;
+export type CallId = string;
+export type SensitiveString = string;
+export type S3BucketName = string;
+export type S3KeyPrefix = string;
+export type NonBlankString = string;
+export type WorkflowDefinitionArn = string;
+export type WorkflowRunArn = string;
 
 //# Schemas
 export interface ListActsRequest {
@@ -764,7 +792,9 @@ export const DeleteWorkflowRunResponse = S.suspend(() =>
 ).annotations({
   identifier: "DeleteWorkflowRunResponse",
 }) as any as S.Schema<DeleteWorkflowRunResponse>;
+export type ToolInputSchema = { json: any };
 export const ToolInputSchema = S.Union(S.Struct({ json: S.Any }));
+export type CallResultContent = { text: string };
 export const CallResultContent = S.Union(S.Struct({ text: S.String }));
 export type CallResultContents = (typeof CallResultContent)["Type"][];
 export const CallResultContents = S.Array(CallResultContent);
@@ -1125,7 +1155,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     reason: S.optional(S.String),
   },
   T.Retryable(),
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -1149,7 +1181,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
   T.Retryable({ throttling: true }),
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -1163,7 +1197,16 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 /**
  * Lists all available AI models that can be used for workflow execution, including their status and compatibility information.
  */
-export const listModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listModels: (
+  input: ListModelsRequest,
+) => Effect.Effect<
+  ListModelsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListModelsRequest,
   output: ListModelsResponse,
   errors: [AccessDeniedException, InternalServerException, ThrottlingException],
@@ -1171,27 +1214,72 @@ export const listModels = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all workflow definitions in your account with optional filtering and pagination.
  */
-export const listWorkflowDefinitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listWorkflowDefinitions: {
+  (
     input: ListWorkflowDefinitionsRequest,
-    output: ListWorkflowDefinitionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "workflowDefinitionSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListWorkflowDefinitionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowDefinitionsRequest,
+  ) => Stream.Stream<
+    ListWorkflowDefinitionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowDefinitionsRequest,
+  ) => Stream.Stream<
+    WorkflowDefinitionSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowDefinitionsRequest,
+  output: ListWorkflowDefinitionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workflowDefinitionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Terminates and cleans up a workflow run, stopping all associated acts and sessions.
  */
-export const deleteWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteWorkflowRun: (
+  input: DeleteWorkflowRunRequest,
+) => Effect.Effect<
+  DeleteWorkflowRunResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkflowRunRequest,
   output: DeleteWorkflowRunResponse,
   errors: [
@@ -1206,7 +1294,19 @@ export const deleteWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates an existing act's configuration, status, or error information.
  */
-export const updateAct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateAct: (
+  input: UpdateActRequest,
+) => Effect.Effect<
+  UpdateActResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateActRequest,
   output: UpdateActResponse,
   errors: [
@@ -1221,7 +1321,20 @@ export const updateAct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new session context within a workflow run to manage conversation state and acts.
  */
-export const createSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createSession: (
+  input: CreateSessionRequest,
+) => Effect.Effect<
+  CreateSessionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSessionRequest,
   output: CreateSessionResponse,
   errors: [
@@ -1237,24 +1350,46 @@ export const createSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a workflow definition and all associated resources. This operation cannot be undone.
  */
-export const deleteWorkflowDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteWorkflowDefinitionRequest,
-    output: DeleteWorkflowDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const deleteWorkflowDefinition: (
+  input: DeleteWorkflowDefinitionRequest,
+) => Effect.Effect<
+  DeleteWorkflowDefinitionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkflowDefinitionRequest,
+  output: DeleteWorkflowDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves the current state, configuration, and execution details of a workflow run.
  */
-export const getWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getWorkflowRun: (
+  input: GetWorkflowRunRequest,
+) => Effect.Effect<
+  GetWorkflowRunResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowRunRequest,
   output: GetWorkflowRunResponse,
   errors: [
@@ -1269,30 +1404,80 @@ export const getWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all sessions within a specific workflow run.
  */
-export const listSessions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listSessions: {
+  (
     input: ListSessionsRequest,
-    output: ListSessionsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "sessionSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListSessionsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSessionsRequest,
+  ) => Stream.Stream<
+    ListSessionsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSessionsRequest,
+  ) => Stream.Stream<
+    SessionSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSessionsRequest,
+  output: ListSessionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sessionSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a new execution instance of a workflow definition with specified parameters.
  */
-export const createWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createWorkflowRun: (
+  input: CreateWorkflowRunRequest,
+) => Effect.Effect<
+  CreateWorkflowRunResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateWorkflowRunRequest,
   output: CreateWorkflowRunResponse,
   errors: [
@@ -1307,7 +1492,19 @@ export const createWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the configuration or state of an active workflow run.
  */
-export const updateWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateWorkflowRun: (
+  input: UpdateWorkflowRunRequest,
+) => Effect.Effect<
+  UpdateWorkflowRunResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWorkflowRunRequest,
   output: UpdateWorkflowRunResponse,
   errors: [
@@ -1322,30 +1519,81 @@ export const updateWorkflowRun = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all workflow runs for a specific workflow definition with optional filtering and pagination.
  */
-export const listWorkflowRuns = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listWorkflowRuns: {
+  (
     input: ListWorkflowRunsRequest,
-    output: ListWorkflowRunsResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "workflowRunSummaries",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListWorkflowRunsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowRunsRequest,
+  ) => Stream.Stream<
+    ListWorkflowRunsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowRunsRequest,
+  ) => Stream.Stream<
+    WorkflowRunSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowRunsRequest,
+  output: ListWorkflowRunsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workflowRunSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Creates a new AI task (act) within a session that can interact with tools and perform specific actions.
  */
-export const createAct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createAct: (
+  input: CreateActRequest,
+) => Effect.Effect<
+  CreateActResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateActRequest,
   output: CreateActResponse,
   errors: [
@@ -1361,7 +1609,47 @@ export const createAct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all acts within a specific session with their current status and execution details.
  */
-export const listActs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listActs: {
+  (
+    input: ListActsRequest,
+  ): Effect.Effect<
+    ListActsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListActsRequest,
+  ) => Stream.Stream<
+    ListActsResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListActsRequest,
+  ) => Stream.Stream<
+    ActSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListActsRequest,
   output: ListActsResponse,
   errors: [
@@ -1382,40 +1670,72 @@ export const listActs = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Retrieves the details and configuration of a specific workflow definition.
  */
-export const getWorkflowDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetWorkflowDefinitionRequest,
-    output: GetWorkflowDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getWorkflowDefinition: (
+  input: GetWorkflowDefinitionRequest,
+) => Effect.Effect<
+  GetWorkflowDefinitionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkflowDefinitionRequest,
+  output: GetWorkflowDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a new workflow definition template that can be used to execute multiple workflow runs.
  */
-export const createWorkflowDefinition = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateWorkflowDefinitionRequest,
-    output: CreateWorkflowDefinitionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createWorkflowDefinition: (
+  input: CreateWorkflowDefinitionRequest,
+) => Effect.Effect<
+  CreateWorkflowDefinitionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWorkflowDefinitionRequest,
+  output: CreateWorkflowDefinitionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Executes the next step of an act, processing tool call results and returning new tool calls if needed.
  */
-export const invokeActStep = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const invokeActStep: (
+  input: InvokeActStepRequest,
+) => Effect.Effect<
+  InvokeActStepResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InvokeActStepRequest,
   output: InvokeActStepResponse,
   errors: [

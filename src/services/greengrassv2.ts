@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "GreengrassV2",
   serviceShapeName: "GreengrassV2",
@@ -312,6 +320,58 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type IoTThingName = string;
+export type NonEmptyString = string;
+export type ClientTokenString = string;
+export type TargetARN = string;
+export type DeploymentNameString = string;
+export type ThingGroupARN = string;
+export type ComponentVersionARN = string;
+export type CoreDeviceThingName = string;
+export type DefaultMaxResults = number;
+export type NextTokenString = string;
+export type ComponentARN = string;
+export type CoreDeviceRuntimeString = string;
+export type GenericV2ARN = string;
+export type TagKey = string;
+export type ComponentNameString = string;
+export type ComponentVersionString = string;
+export type TagValue = string;
+export type PortNumberInt = number;
+export type PublisherString = string;
+export type DescriptionString = string;
+export type RetryAfterSeconds = number;
+export type GGCVersion = string;
+export type CoreDevicePlatformString = string;
+export type CoreDeviceArchitectureString = string;
+export type NullableString = string;
+export type IoTJobARN = string;
+export type OptionalInteger = number;
+export type LambdaExecArg = string;
+export type IoTJobMaxExecutionsPerMin = number;
+export type IoTJobInProgressTimeoutInMinutes = number;
+export type DeploymentID = string;
+export type DeploymentName = string;
+export type IoTJobId = string;
+export type Description = string;
+export type Reason = string;
+export type LifecycleStateDetails = string;
+export type InstalledComponentLifecycleStatusCode = string;
+export type TopicString = string;
+export type ComponentConfigurationString = string;
+export type ComponentConfigurationPath = string;
+export type IoTJobRolloutBaseRatePerMinute = number;
+export type IoTJobRolloutIncrementFactor = number;
+export type IoTJobAbortThresholdPercentage = number;
+export type IoTJobMinimumNumberOfExecutedThings = number;
+export type EffectiveDeploymentErrorCode = string;
+export type EffectiveDeploymentErrorType = string;
+export type Memory = number;
+export type CPU = number;
+export type IoTJobNumberOfThings = number;
+export type FileSystemPath = string;
 
 //# Schemas
 export interface DisassociateServiceRoleFromAccountRequest {}
@@ -2051,7 +2111,9 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -2068,7 +2130,9 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     serviceCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
@@ -2099,25 +2163,34 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
  * connectivity information. For more information, see Greengrass service role in
  * the *IoT Greengrass Version 2 Developer Guide*.
  */
-export const disassociateServiceRoleFromAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateServiceRoleFromAccountRequest,
-    output: DisassociateServiceRoleFromAccountResponse,
-    errors: [InternalServerException],
-  }));
+export const disassociateServiceRoleFromAccount: (
+  input: DisassociateServiceRoleFromAccountRequest,
+) => Effect.Effect<
+  DisassociateServiceRoleFromAccountResponse,
+  InternalServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateServiceRoleFromAccountRequest,
+  output: DisassociateServiceRoleFromAccountResponse,
+  errors: [InternalServerException],
+}));
 /**
  * Gets the service role associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
  * IoT Greengrass uses this role to verify the identity of client devices and manage core device
  * connectivity information. For more information, see Greengrass service role in
  * the *IoT Greengrass Version 2 Developer Guide*.
  */
-export const getServiceRoleForAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetServiceRoleForAccountRequest,
-    output: GetServiceRoleForAccountResponse,
-    errors: [InternalServerException],
-  }),
-);
+export const getServiceRoleForAccount: (
+  input: GetServiceRoleForAccountRequest,
+) => Effect.Effect<
+  GetServiceRoleForAccountResponse,
+  InternalServerException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceRoleForAccountRequest,
+  output: GetServiceRoleForAccountResponse,
+  errors: [InternalServerException],
+}));
 /**
  * Retrieves connectivity information for a Greengrass core device.
  *
@@ -2128,7 +2201,13 @@ export const getServiceRoleForAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * connect. For more information, see Connect client devices to
  * core devices in the *IoT Greengrass Version 2 Developer Guide*.
  */
-export const getConnectivityInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getConnectivityInfo: (
+  input: GetConnectivityInfoRequest,
+) => Effect.Effect<
+  GetConnectivityInfoResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectivityInfoRequest,
   output: GetConnectivityInfoResponse,
   errors: [InternalServerException, ValidationException],
@@ -2137,90 +2216,233 @@ export const getConnectivityInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Retrieves a paginated list of component summaries. This list includes components that you
  * have permission to view.
  */
-export const listComponents = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listComponents: {
+  (
     input: ListComponentsRequest,
-    output: ListComponentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "components",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListComponentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComponentsRequest,
+  ) => Stream.Stream<
+    ListComponentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComponentsRequest,
+  ) => Stream.Stream<
+    Component,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComponentsRequest,
+  output: ListComponentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "components",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a paginated list of deployment jobs that IoT Greengrass sends to Greengrass core devices.
  */
-export const listEffectiveDeployments =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listEffectiveDeployments: {
+  (
     input: ListEffectiveDeploymentsRequest,
-    output: ListEffectiveDeploymentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "effectiveDeployments",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListEffectiveDeploymentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEffectiveDeploymentsRequest,
+  ) => Stream.Stream<
+    ListEffectiveDeploymentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEffectiveDeploymentsRequest,
+  ) => Stream.Stream<
+    EffectiveDeployment,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEffectiveDeploymentsRequest,
+  output: ListEffectiveDeploymentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "effectiveDeployments",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a paginated list of client devices that are associated with a core
  * device.
  */
-export const listClientDevicesAssociatedWithCoreDevice =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listClientDevicesAssociatedWithCoreDevice: {
+  (
     input: ListClientDevicesAssociatedWithCoreDeviceRequest,
-    output: ListClientDevicesAssociatedWithCoreDeviceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "associatedClientDevices",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListClientDevicesAssociatedWithCoreDeviceResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClientDevicesAssociatedWithCoreDeviceRequest,
+  ) => Stream.Stream<
+    ListClientDevicesAssociatedWithCoreDeviceResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClientDevicesAssociatedWithCoreDeviceRequest,
+  ) => Stream.Stream<
+    AssociatedClientDevice,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClientDevicesAssociatedWithCoreDeviceRequest,
+  output: ListClientDevicesAssociatedWithCoreDeviceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "associatedClientDevices",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a paginated list of all versions for a component. Greater versions are listed
  * first.
  */
-export const listComponentVersions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listComponentVersions: {
+  (
     input: ListComponentVersionsRequest,
-    output: ListComponentVersionsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "componentVersions",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListComponentVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComponentVersionsRequest,
+  ) => Stream.Stream<
+    ListComponentVersionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComponentVersionsRequest,
+  ) => Stream.Stream<
+    ComponentVersionListItem,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComponentVersionsRequest,
+  output: ListComponentVersionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "componentVersions",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a paginated list of Greengrass core devices.
  *
@@ -2248,45 +2470,109 @@ export const listComponentVersions =
  * - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and
  * cloud deployment
  */
-export const listCoreDevices = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listCoreDevices: {
+  (
     input: ListCoreDevicesRequest,
-    output: ListCoreDevicesResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "coreDevices",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListCoreDevicesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCoreDevicesRequest,
+  ) => Stream.Stream<
+    ListCoreDevicesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCoreDevicesRequest,
+  ) => Stream.Stream<
+    CoreDevice,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCoreDevicesRequest,
+  output: ListCoreDevicesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "coreDevices",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a paginated list of deployments.
  */
-export const listDeployments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listDeployments: {
+  (
     input: ListDeploymentsRequest,
-    output: ListDeploymentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "deployments",
-      pageSize: "maxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListDeploymentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeploymentsRequest,
+  ) => Stream.Stream<
+    ListDeploymentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeploymentsRequest,
+  ) => Stream.Stream<
+    Deployment,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeploymentsRequest,
+  output: ListDeploymentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "deployments",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Retrieves a paginated list of the components that a Greengrass core device runs. By default,
  * this list doesn't include components that are deployed as dependencies of other components. To
@@ -2312,31 +2598,79 @@ export const listDeployments = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
  * - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and
  * cloud deployment
  */
-export const listInstalledComponents =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listInstalledComponents: {
+  (
     input: ListInstalledComponentsRequest,
-    output: ListInstalledComponentsResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-    pagination: {
-      inputToken: "nextToken",
-      outputToken: "nextToken",
-      items: "installedComponents",
-      pageSize: "maxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListInstalledComponentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInstalledComponentsRequest,
+  ) => Stream.Stream<
+    ListInstalledComponentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInstalledComponentsRequest,
+  ) => Stream.Stream<
+    InstalledComponent,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInstalledComponentsRequest,
+  output: ListInstalledComponentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "installedComponents",
+    pageSize: "maxResults",
+  } as const,
+}));
 /**
  * Deletes a Greengrass core device, which is an IoT thing. This operation removes the core
  * device from the list of core devices. This operation doesn't delete the IoT thing. For more
  * information about how to delete the IoT thing, see DeleteThing in the
  * *IoT API Reference*.
  */
-export const deleteCoreDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCoreDevice: (
+  input: DeleteCoreDeviceRequest,
+) => Effect.Effect<
+  DeleteCoreDeviceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoreDeviceRequest,
   output: DeleteCoreDeviceResponse,
   errors: [
@@ -2356,7 +2690,19 @@ export const deleteCoreDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * devices store the deployment's configuration on the device. Additionally, core devices can
  * roll back to a previous deployment that has been deleted.
  */
-export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteDeployment: (
+  input: DeleteDeploymentRequest,
+) => Effect.Effect<
+  DeleteDeploymentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDeploymentRequest,
   output: DeleteDeploymentResponse,
   errors: [
@@ -2373,7 +2719,19 @@ export const deleteDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * received it. If a device already received the deployment, this operation doesn't change
  * anything for that device.
  */
-export const cancelDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const cancelDeployment: (
+  input: CancelDeploymentRequest,
+) => Effect.Effect<
+  CancelDeploymentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelDeploymentRequest,
   output: CancelDeploymentResponse,
   errors: [
@@ -2390,19 +2748,28 @@ export const cancelDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * call this operation to identify the URL that they can use to download an artifact to
  * install.
  */
-export const getComponentVersionArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetComponentVersionArtifactRequest,
-    output: GetComponentVersionArtifactResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const getComponentVersionArtifact: (
+  input: GetComponentVersionArtifactRequest,
+) => Effect.Effect<
+  GetComponentVersionArtifactResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetComponentVersionArtifactRequest,
+  output: GetComponentVersionArtifactResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves metadata for a Greengrass core device.
  *
@@ -2425,7 +2792,18 @@ export const getComponentVersionArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and
  * cloud deployment
  */
-export const getCoreDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getCoreDevice: (
+  input: GetCoreDeviceRequest,
+) => Effect.Effect<
+  GetCoreDeviceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoreDeviceRequest,
   output: GetCoreDeviceResponse,
   errors: [
@@ -2439,7 +2817,18 @@ export const getCoreDevice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets a deployment. Deployments define the components that run on Greengrass core devices.
  */
-export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getDeployment: (
+  input: GetDeploymentRequest,
+) => Effect.Effect<
+  GetDeploymentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDeploymentRequest,
   output: GetDeploymentResponse,
   errors: [
@@ -2458,7 +2847,19 @@ export const getDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * component version, you can remove the component from the deployment or update the deployment
  * to use a valid version.
  */
-export const deleteComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteComponent: (
+  input: DeleteComponentRequest,
+) => Effect.Effect<
+  DeleteComponentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteComponentRequest,
   output: DeleteComponentResponse,
   errors: [
@@ -2483,39 +2884,70 @@ export const deleteComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * see Interact with
  * local IoT devices in the *IoT Greengrass V2 Developer Guide*.
  */
-export const batchAssociateClientDeviceWithCoreDevice =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchAssociateClientDeviceWithCoreDeviceRequest,
-    output: BatchAssociateClientDeviceWithCoreDeviceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchAssociateClientDeviceWithCoreDevice: (
+  input: BatchAssociateClientDeviceWithCoreDeviceRequest,
+) => Effect.Effect<
+  BatchAssociateClientDeviceWithCoreDeviceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchAssociateClientDeviceWithCoreDeviceRequest,
+  output: BatchAssociateClientDeviceWithCoreDeviceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates a list of client devices from a core device. After you disassociate a client
  * device from a core device, the client device won't be able to use cloud discovery to retrieve
  * the core device's connectivity information and certificates.
  */
-export const batchDisassociateClientDeviceFromCoreDevice =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDisassociateClientDeviceFromCoreDeviceRequest,
-    output: BatchDisassociateClientDeviceFromCoreDeviceResponse,
-    errors: [
-      AccessDeniedException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }));
+export const batchDisassociateClientDeviceFromCoreDevice: (
+  input: BatchDisassociateClientDeviceFromCoreDeviceRequest,
+) => Effect.Effect<
+  BatchDisassociateClientDeviceFromCoreDeviceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDisassociateClientDeviceFromCoreDeviceRequest,
+  output: BatchDisassociateClientDeviceFromCoreDeviceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Retrieves metadata for a version of a component.
  */
-export const describeComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeComponent: (
+  input: DescribeComponentRequest,
+) => Effect.Effect<
+  DescribeComponentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeComponentRequest,
   output: DescribeComponentResponse,
   errors: [
@@ -2533,12 +2965,17 @@ export const describeComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * defines equivalent permissions for the IoT Greengrass features that you use. For more information, see
  * Greengrass service role in the *IoT Greengrass Version 2 Developer Guide*.
  */
-export const associateServiceRoleToAccount =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateServiceRoleToAccountRequest,
-    output: AssociateServiceRoleToAccountResponse,
-    errors: [InternalServerException, ValidationException],
-  }));
+export const associateServiceRoleToAccount: (
+  input: AssociateServiceRoleToAccountRequest,
+) => Effect.Effect<
+  AssociateServiceRoleToAccountResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateServiceRoleToAccountRequest,
+  output: AssociateServiceRoleToAccountResponse,
+  errors: [InternalServerException, ValidationException],
+}));
 /**
  * Updates connectivity information for a Greengrass core device.
  *
@@ -2549,17 +2986,30 @@ export const associateServiceRoleToAccount =
  * connect. For more information, see Connect client devices to
  * core devices in the *IoT Greengrass Version 2 Developer Guide*.
  */
-export const updateConnectivityInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateConnectivityInfoRequest,
-    output: UpdateConnectivityInfoResponse,
-    errors: [InternalServerException, ValidationException],
-  }),
-);
+export const updateConnectivityInfo: (
+  input: UpdateConnectivityInfoRequest,
+) => Effect.Effect<
+  UpdateConnectivityInfoResponse,
+  InternalServerException | ValidationException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConnectivityInfoRequest,
+  output: UpdateConnectivityInfoResponse,
+  errors: [InternalServerException, ValidationException],
+}));
 /**
  * Retrieves the list of tags for an IoT Greengrass resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -2572,7 +3022,16 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Adds tags to an IoT Greengrass resource. If a tag already exists for the resource, this operation
  * updates the tag's value.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -2584,7 +3043,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes a tag from an IoT Greengrass resource.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -2596,7 +3064,18 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the recipe for a version of a component.
  */
-export const getComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getComponent: (
+  input: GetComponentRequest,
+) => Effect.Effect<
+  GetComponentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetComponentRequest,
   output: GetComponentResponse,
   errors: [
@@ -2625,20 +3104,30 @@ export const getComponent = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * To use this operation, you must use the data plane API endpoint and authenticate with an
  * IoT device certificate. For more information, see IoT Greengrass endpoints and quotas.
  */
-export const resolveComponentCandidates = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ResolveComponentCandidatesRequest,
-    output: ResolveComponentCandidatesResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      ResourceNotFoundException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const resolveComponentCandidates: (
+  input: ResolveComponentCandidatesRequest,
+) => Effect.Effect<
+  ResolveComponentCandidatesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResolveComponentCandidatesRequest,
+  output: ResolveComponentCandidatesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Creates a continuous deployment for a target, which is a Greengrass core device or group of core
  * devices. When you add a new core device to a group of core devices that has a deployment, IoT Greengrass
@@ -2655,7 +3144,20 @@ export const resolveComponentCandidates = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * For more information, see the Create deployments in the
  * *IoT Greengrass V2 Developer Guide*.
  */
-export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createDeployment: (
+  input: CreateDeploymentRequest,
+) => Effect.Effect<
+  CreateDeploymentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestAlreadyInProgressException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDeploymentRequest,
   output: CreateDeploymentResponse,
   errors: [
@@ -2700,18 +3202,29 @@ export const createDeployment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * IoT Greengrass currently supports Lambda functions on only Linux core devices.
  */
-export const createComponentVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateComponentVersionRequest,
-    output: CreateComponentVersionResponse,
-    errors: [
-      AccessDeniedException,
-      ConflictException,
-      InternalServerException,
-      RequestAlreadyInProgressException,
-      ServiceQuotaExceededException,
-      ThrottlingException,
-      ValidationException,
-    ],
-  }),
-);
+export const createComponentVersion: (
+  input: CreateComponentVersionRequest,
+) => Effect.Effect<
+  CreateComponentVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestAlreadyInProgressException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateComponentVersionRequest,
+  output: CreateComponentVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    RequestAlreadyInProgressException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));

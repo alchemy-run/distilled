@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({ sdkId: "Kafka", serviceShapeName: "Kafka" });
 const auth = T.AwsAuthSigv4({ name: "kafka" });
 const ver = T.ServiceVersion("2018-11-14");
@@ -257,6 +265,22 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type __string = string;
+export type __stringMin1Max64 = string;
+export type __stringMin1Max128 = string;
+export type __integerMin1Max15 = number;
+export type __stringMax1024 = string;
+export type __stringMin1Max128Pattern09AZaZ09AZaZ0 = string;
+export type __long = number;
+export type MaxResults = number;
+export type __integer = number;
+export type __stringMin5Max32 = string;
+export type __stringMax256 = string;
+export type __stringMax249 = string;
+export type __integerMin1Max16384 = number;
+export type __double = number;
 
 //# Schemas
 export type __listOf__string = string[];
@@ -4143,7 +4167,9 @@ export class InternalServerErrorException extends S.TaggedError<InternalServerEr
     InvalidParameter: S.optional(S.String).pipe(T.JsonName("invalidParameter")),
     Message: S.optional(S.String).pipe(T.JsonName("message")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   {
@@ -4157,7 +4183,9 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
     InvalidParameter: S.optional(S.String).pipe(T.JsonName("invalidParameter")),
     Message: S.optional(S.String).pipe(T.JsonName("message")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
+) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
   {
@@ -4171,13 +4199,24 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
     InvalidParameter: S.optional(S.String).pipe(T.JsonName("invalidParameter")),
     Message: S.optional(S.String).pipe(T.JsonName("message")),
   },
-).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
+).pipe(
+  ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
+) {}
 
 //# Operations
 /**
  * Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request.
  */
-export const putClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const putClusterPolicy: (
+  input: PutClusterPolicyRequest,
+) => Effect.Effect<
+  PutClusterPolicyResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutClusterPolicyRequest,
   output: PutClusterPolicyResponse,
   errors: [
@@ -4189,7 +4228,16 @@ export const putClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the tags associated with the specified resource.
  */
-export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => Effect.Effect<
+  ListTagsForResourceResponse,
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
   errors: [
@@ -4201,27 +4249,70 @@ export const listTagsForResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of all the operations that have been performed on the specified MSK cluster.
  */
-export const listClusterOperations =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listClusterOperations: {
+  (
     input: ListClusterOperationsRequest,
-    output: ListClusterOperationsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ClusterOperationInfoList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListClusterOperationsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClusterOperationsRequest,
+  ) => Stream.Stream<
+    ListClusterOperationsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClusterOperationsRequest,
+  ) => Stream.Stream<
+    ClusterOperationInfo,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClusterOperationsRequest,
+  output: ListClusterOperationsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ClusterOperationInfoList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Deletes an MSK Configuration.
  */
-export const deleteConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConfiguration: (
+  input: DeleteConfigurationRequest,
+) => Effect.Effect<
+  DeleteConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigurationRequest,
   output: DeleteConfigurationResponse,
   errors: [
@@ -4234,7 +4325,17 @@ export const deleteConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a MSK VPC connection.
  */
-export const deleteVpcConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteVpcConnection: (
+  input: DeleteVpcConnectionRequest,
+) => Effect.Effect<
+  DeleteVpcConnectionResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVpcConnectionRequest,
   output: DeleteVpcConnectionResponse,
   errors: [
@@ -4247,40 +4348,72 @@ export const deleteVpcConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a description of this MSK configuration.
  */
-export const describeConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeConfigurationRequest,
-    output: DescribeConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const describeConfiguration: (
+  input: DescribeConfigurationRequest,
+) => Effect.Effect<
+  DescribeConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConfigurationRequest,
+  output: DescribeConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Returns a description of this revision of the configuration.
  */
-export const describeConfigurationRevision =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeConfigurationRevisionRequest,
-    output: DescribeConfigurationRevisionResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }));
+export const describeConfigurationRevision: (
+  input: DescribeConfigurationRevisionRequest,
+) => Effect.Effect<
+  DescribeConfigurationRevisionResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConfigurationRevisionRequest,
+  output: DescribeConfigurationRevisionResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Returns topic details of this topic on a MSK cluster.
  */
-export const describeTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTopic: (
+  input: DescribeTopicRequest,
+) => Effect.Effect<
+  DescribeTopicResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTopicRequest,
   output: DescribeTopicResponse,
   errors: [
@@ -4294,24 +4427,44 @@ export const describeTopic = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a description of this MSK VPC connection.
  */
-export const describeVpcConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeVpcConnectionRequest,
-    output: DescribeVpcConnectionResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const describeVpcConnection: (
+  input: DescribeVpcConnectionRequest,
+) => Effect.Effect<
+  DescribeVpcConnectionResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVpcConnectionRequest,
+  output: DescribeVpcConnectionResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
  */
-export const getClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getClusterPolicy: (
+  input: GetClusterPolicyRequest,
+) => Effect.Effect<
+  GetClusterPolicyResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetClusterPolicyRequest,
   output: GetClusterPolicyResponse,
   errors: [
@@ -4324,46 +4477,107 @@ export const getClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of all the MSK configurations in this Region.
  */
-export const listConfigurationRevisions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConfigurationRevisions: {
+  (
     input: ListConfigurationRevisionsRequest,
-    output: ListConfigurationRevisionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Revisions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConfigurationRevisionsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfigurationRevisionsRequest,
+  ) => Stream.Stream<
+    ListConfigurationRevisionsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfigurationRevisionsRequest,
+  ) => Stream.Stream<
+    ConfigurationRevision,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfigurationRevisionsRequest,
+  output: ListConfigurationRevisionsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Revisions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the cluster with the configuration that is specified in the request body.
  */
-export const updateClusterConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateClusterConfigurationRequest,
-    output: UpdateClusterConfigurationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateClusterConfiguration: (
+  input: UpdateClusterConfigurationRequest,
+) => Effect.Effect<
+  UpdateClusterConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateClusterConfigurationRequest,
+  output: UpdateClusterConfigurationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates an MSK configuration.
  */
-export const updateConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateConfiguration: (
+  input: UpdateConfigurationRequest,
+) => Effect.Effect<
+  UpdateConfigurationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigurationRequest,
   output: UpdateConfigurationResponse,
   errors: [
@@ -4378,7 +4592,17 @@ export const updateConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
  */
-export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteCluster: (
+  input: DeleteClusterRequest,
+) => Effect.Effect<
+  DeleteClusterResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterRequest,
   output: DeleteClusterResponse,
   errors: [
@@ -4391,7 +4615,16 @@ export const deleteCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Adds tags to the specified MSK resource.
  */
-export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const tagResource: (
+  input: TagResourceRequest,
+) => Effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
@@ -4403,7 +4636,16 @@ export const tagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Removes the tags associated with the keys that are provided in the query.
  */
-export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const untagResource: (
+  input: UntagResourceRequest,
+) => Effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
   errors: [
@@ -4415,7 +4657,17 @@ export const untagResource = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
  */
-export const deleteClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteClusterPolicy: (
+  input: DeleteClusterPolicyRequest,
+) => Effect.Effect<
+  DeleteClusterPolicyResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClusterPolicyRequest,
   output: DeleteClusterPolicyResponse,
   errors: [
@@ -4428,28 +4680,75 @@ export const deleteClusterPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns partition details of this topic on a MSK cluster.
  */
-export const describeTopicPartitions =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describeTopicPartitions: {
+  (
     input: DescribeTopicPartitionsRequest,
-    output: DescribeTopicPartitionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Partitions",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribeTopicPartitionsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeTopicPartitionsRequest,
+  ) => Stream.Stream<
+    DescribeTopicPartitionsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeTopicPartitionsRequest,
+  ) => Stream.Stream<
+    TopicPartitionInfo,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeTopicPartitionsRequest,
+  output: DescribeTopicPartitionsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Partitions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
  */
-export const describeClusterV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeClusterV2: (
+  input: DescribeClusterV2Request,
+) => Effect.Effect<
+  DescribeClusterV2Response,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClusterV2Request,
   output: DescribeClusterV2Response,
   errors: [
@@ -4463,7 +4762,41 @@ export const describeClusterV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the broker nodes in the cluster.
  */
-export const listNodes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listNodes: {
+  (
+    input: ListNodesRequest,
+  ): Effect.Effect<
+    ListNodesResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListNodesRequest,
+  ) => Stream.Stream<
+    ListNodesResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNodesRequest,
+  ) => Stream.Stream<
+    NodeInfo,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListNodesRequest,
   output: ListNodesResponse,
   errors: [
@@ -4482,29 +4815,75 @@ export const listNodes = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns a list of all the VPC connections in this Region.
  */
-export const listVpcConnections = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listVpcConnections: {
+  (
     input: ListVpcConnectionsRequest,
-    output: ListVpcConnectionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "VpcConnections",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListVpcConnectionsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVpcConnectionsRequest,
+  ) => Stream.Stream<
+    ListVpcConnectionsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVpcConnectionsRequest,
+  ) => Stream.Stream<
+    VpcConnection,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVpcConnectionsRequest,
+  output: ListVpcConnectionsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "VpcConnections",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Updates the EBS storage associated with MSK brokers.
  */
-export const updateBrokerStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBrokerStorage: (
+  input: UpdateBrokerStorageRequest,
+) => Effect.Effect<
+  UpdateBrokerStorageResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBrokerStorageRequest,
   output: UpdateBrokerStorageResponse,
   errors: [
@@ -4518,7 +4897,18 @@ export const updateBrokerStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the number of broker nodes in the cluster.
  */
-export const updateBrokerCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBrokerCount: (
+  input: UpdateBrokerCountRequest,
+) => Effect.Effect<
+  UpdateBrokerCountResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBrokerCountRequest,
   output: UpdateBrokerCountResponse,
   errors: [
@@ -4532,7 +4922,18 @@ export const updateBrokerCount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.
  */
-export const updateMonitoring = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateMonitoring: (
+  input: UpdateMonitoringRequest,
+) => Effect.Effect<
+  UpdateMonitoringResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMonitoringRequest,
   output: UpdateMonitoringResponse,
   errors: [
@@ -4546,108 +4947,263 @@ export const updateMonitoring = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns empty response.
  */
-export const rejectClientVpcConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectClientVpcConnectionRequest,
-    output: RejectClientVpcConnectionResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const rejectClientVpcConnection: (
+  input: RejectClientVpcConnectionRequest,
+) => Effect.Effect<
+  RejectClientVpcConnectionResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectClientVpcConnectionRequest,
+  output: RejectClientVpcConnectionResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Returns a list of all the VPC connections in this Region.
  */
-export const listClientVpcConnections =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listClientVpcConnections: {
+  (
     input: ListClientVpcConnectionsRequest,
-    output: ListClientVpcConnectionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ClientVpcConnections",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListClientVpcConnectionsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClientVpcConnectionsRequest,
+  ) => Stream.Stream<
+    ListClientVpcConnectionsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClientVpcConnectionsRequest,
+  ) => Stream.Stream<
+    ClientVpcConnection,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClientVpcConnectionsRequest,
+  output: ListClientVpcConnectionsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ClientVpcConnections",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of all the MSK configurations in this Region.
  */
-export const listConfigurations = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listConfigurations: {
+  (
     input: ListConfigurationsRequest,
-    output: ListConfigurationsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      ServiceUnavailableException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Configurations",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListConfigurationsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConfigurationsRequest,
+  ) => Stream.Stream<
+    ListConfigurationsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConfigurationsRequest,
+  ) => Stream.Stream<
+    Configuration,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConfigurationsRequest,
+  output: ListConfigurationsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Configurations",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of all the MSK clusters in the current Region.
  */
-export const listClusters = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listClusters: {
+  (
     input: ListClustersRequest,
-    output: ListClustersResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ClusterInfoList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListClustersResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClustersRequest,
+  ) => Stream.Stream<
+    ListClustersResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClustersRequest,
+  ) => Stream.Stream<
+    ClusterInfo,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClustersRequest,
+  output: ListClustersResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ClusterInfoList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of all the MSK clusters in the current Region.
  */
-export const listClustersV2 = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listClustersV2: {
+  (
     input: ListClustersV2Request,
-    output: ListClustersV2Response,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ClusterInfoList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListClustersV2Response,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClustersV2Request,
+  ) => Stream.Stream<
+    ListClustersV2Response,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClustersV2Request,
+  ) => Stream.Stream<
+    Cluster,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClustersV2Request,
+  output: ListClustersV2Response,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ClusterInfoList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * A list of brokers that a client application can use to bootstrap. This list doesn't necessarily include all of the brokers in the cluster. The following Python 3.6 example shows how you can use the Amazon Resource Name (ARN) of a cluster to get its bootstrap brokers. If you don't know the ARN of your cluster, you can use the `ListClusters` operation to get the ARNs of all the clusters in this account and Region.
  */
-export const getBootstrapBrokers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const getBootstrapBrokers: (
+  input: GetBootstrapBrokersRequest,
+) => Effect.Effect<
+  GetBootstrapBrokersResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBootstrapBrokersRequest,
   output: GetBootstrapBrokersResponse,
   errors: [
@@ -4661,28 +5217,97 @@ export const getBootstrapBrokers = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of Apache Kafka versions.
  */
-export const listKafkaVersions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listKafkaVersions: {
+  (
     input: ListKafkaVersionsRequest,
-    output: ListKafkaVersionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "KafkaVersions",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListKafkaVersionsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKafkaVersionsRequest,
+  ) => Stream.Stream<
+    ListKafkaVersionsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKafkaVersionsRequest,
+  ) => Stream.Stream<
+    KafkaVersion,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKafkaVersionsRequest,
+  output: ListKafkaVersionsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "KafkaVersions",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * List topics in a MSK cluster.
  */
-export const listTopics = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listTopics: {
+  (
+    input: ListTopicsRequest,
+  ): Effect.Effect<
+    ListTopicsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTopicsRequest,
+  ) => Stream.Stream<
+    ListTopicsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTopicsRequest,
+  ) => Stream.Stream<
+    TopicInfo,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | ServiceUnavailableException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTopicsRequest,
   output: ListTopicsResponse,
   errors: [
@@ -4702,41 +5327,74 @@ export const listTopics = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
 /**
  * Returns a description of the cluster operation specified by the ARN.
  */
-export const describeClusterOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeClusterOperationRequest,
-    output: DescribeClusterOperationResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const describeClusterOperation: (
+  input: DescribeClusterOperationRequest,
+) => Effect.Effect<
+  DescribeClusterOperationResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeClusterOperationRequest,
+  output: DescribeClusterOperationResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates replication info of a replicator.
  */
-export const updateReplicationInfo = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateReplicationInfoRequest,
-    output: UpdateReplicationInfoResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateReplicationInfo: (
+  input: UpdateReplicationInfoRequest,
+) => Effect.Effect<
+  UpdateReplicationInfoResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateReplicationInfoRequest,
+  output: UpdateReplicationInfoResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Updates cluster broker volume size (or) sets cluster storage mode to TIERED.
  */
-export const updateStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateStorage: (
+  input: UpdateStorageRequest,
+) => Effect.Effect<
+  UpdateStorageResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateStorageRequest,
   output: UpdateStorageResponse,
   errors: [
@@ -4752,7 +5410,20 @@ export const updateStorage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes a replicator.
  */
-export const deleteReplicator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteReplicator: (
+  input: DeleteReplicatorRequest,
+) => Effect.Effect<
+  DeleteReplicatorResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReplicatorRequest,
   output: DeleteReplicatorResponse,
   errors: [
@@ -4768,31 +5439,85 @@ export const deleteReplicator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
  */
-export const listScramSecrets = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listScramSecrets: {
+  (
     input: ListScramSecretsRequest,
-    output: ListScramSecretsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "SecretArnList",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListScramSecretsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListScramSecretsRequest,
+  ) => Stream.Stream<
+    ListScramSecretsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListScramSecretsRequest,
+  ) => Stream.Stream<
+    __string,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListScramSecretsRequest,
+  output: ListScramSecretsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SecretArnList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Reboots brokers.
  */
-export const rebootBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const rebootBroker: (
+  input: RebootBrokerRequest,
+) => Effect.Effect<
+  RebootBrokerResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootBrokerRequest,
   output: RebootBrokerResponse,
   errors: [
@@ -4808,7 +5533,20 @@ export const rebootBroker = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates EC2 instance type.
  */
-export const updateBrokerType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateBrokerType: (
+  input: UpdateBrokerTypeRequest,
+) => Effect.Effect<
+  UpdateBrokerTypeResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBrokerTypeRequest,
   output: UpdateBrokerTypeResponse,
   errors: [
@@ -4824,25 +5562,49 @@ export const updateBrokerType = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the Apache Kafka version for the cluster.
  */
-export const updateClusterKafkaVersion = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateClusterKafkaVersionRequest,
-    output: UpdateClusterKafkaVersionResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const updateClusterKafkaVersion: (
+  input: UpdateClusterKafkaVersionRequest,
+) => Effect.Effect<
+  UpdateClusterKafkaVersionResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateClusterKafkaVersionRequest,
+  output: UpdateClusterKafkaVersionResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Use this resource to update the intelligent rebalancing status of an Amazon MSK Provisioned cluster with Express brokers.
  */
-export const updateRebalancing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateRebalancing: (
+  input: UpdateRebalancingRequest,
+) => Effect.Effect<
+  UpdateRebalancingResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRebalancingRequest,
   output: UpdateRebalancingResponse,
   errors: [
@@ -4858,7 +5620,20 @@ export const updateRebalancing = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the security settings for the cluster. You can use this operation to specify encryption and authentication on existing clusters.
  */
-export const updateSecurity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateSecurity: (
+  input: UpdateSecurityRequest,
+) => Effect.Effect<
+  UpdateSecurityResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSecurityRequest,
   output: UpdateSecurityResponse,
   errors: [
@@ -4874,42 +5649,78 @@ export const updateSecurity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates one or more Scram Secrets from an Amazon MSK cluster.
  */
-export const batchDisassociateScramSecret =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDisassociateScramSecretRequest,
-    output: BatchDisassociateScramSecretResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }));
+export const batchDisassociateScramSecret: (
+  input: BatchDisassociateScramSecretRequest,
+) => Effect.Effect<
+  BatchDisassociateScramSecretResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDisassociateScramSecretRequest,
+  output: BatchDisassociateScramSecretResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Associates one or more Scram Secrets with an Amazon MSK cluster.
  */
-export const batchAssociateScramSecret = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: BatchAssociateScramSecretRequest,
-    output: BatchAssociateScramSecretResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const batchAssociateScramSecret: (
+  input: BatchAssociateScramSecretRequest,
+) => Effect.Effect<
+  BatchAssociateScramSecretResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchAssociateScramSecretRequest,
+  output: BatchAssociateScramSecretResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Describes a replicator.
  */
-export const describeReplicator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeReplicator: (
+  input: DescribeReplicatorRequest,
+) => Effect.Effect<
+  DescribeReplicatorResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeReplicatorRequest,
   output: DescribeReplicatorResponse,
   errors: [
@@ -4925,72 +5736,178 @@ export const describeReplicator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the Apache Kafka versions to which you can update the MSK cluster.
  */
-export const getCompatibleKafkaVersions = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: GetCompatibleKafkaVersionsRequest,
-    output: GetCompatibleKafkaVersionsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const getCompatibleKafkaVersions: (
+  input: GetCompatibleKafkaVersionsRequest,
+) => Effect.Effect<
+  GetCompatibleKafkaVersionsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCompatibleKafkaVersionsRequest,
+  output: GetCompatibleKafkaVersionsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Returns a list of all the operations that have been performed on the specified MSK cluster.
  */
-export const listClusterOperationsV2 =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listClusterOperationsV2: {
+  (
     input: ListClusterOperationsV2Request,
-    output: ListClusterOperationsV2Response,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "ClusterOperationInfoList",
-      pageSize: "MaxResults",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListClusterOperationsV2Response,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClusterOperationsV2Request,
+  ) => Stream.Stream<
+    ListClusterOperationsV2Response,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClusterOperationsV2Request,
+  ) => Stream.Stream<
+    ClusterOperationV2Summary,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClusterOperationsV2Request,
+  output: ListClusterOperationsV2Response,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ClusterOperationInfoList",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Lists the replicators.
  */
-export const listReplicators = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listReplicators: {
+  (
     input: ListReplicatorsRequest,
-    output: ListReplicatorsResponse,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-    pagination: {
-      inputToken: "NextToken",
-      outputToken: "NextToken",
-      items: "Replicators",
-      pageSize: "MaxResults",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListReplicatorsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListReplicatorsRequest,
+  ) => Stream.Stream<
+    ListReplicatorsResponse,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListReplicatorsRequest,
+  ) => Stream.Stream<
+    ReplicatorSummary,
+    | BadRequestException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceUnavailableException
+    | TooManyRequestsException
+    | UnauthorizedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListReplicatorsRequest,
+  output: ListReplicatorsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Replicators",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Creates a new MSK VPC connection.
  */
-export const createVpcConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createVpcConnection: (
+  input: CreateVpcConnectionRequest,
+) => Effect.Effect<
+  CreateVpcConnectionResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcConnectionRequest,
   output: CreateVpcConnectionResponse,
   errors: [
@@ -5005,7 +5922,20 @@ export const createVpcConnection = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new MSK configuration.
  */
-export const createConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConfiguration: (
+  input: CreateConfigurationRequest,
+) => Effect.Effect<
+  CreateConfigurationResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigurationRequest,
   output: CreateConfigurationResponse,
   errors: [
@@ -5021,7 +5951,20 @@ export const createConfiguration = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new MSK cluster.
  */
-export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createCluster: (
+  input: CreateClusterRequest,
+) => Effect.Effect<
+  CreateClusterResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterRequest,
   output: CreateClusterResponse,
   errors: [
@@ -5037,7 +5980,20 @@ export const createCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a new MSK cluster.
  */
-export const createClusterV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createClusterV2: (
+  input: CreateClusterV2Request,
+) => Effect.Effect<
+  CreateClusterV2Response,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClusterV2Request,
   output: CreateClusterV2Response,
   errors: [
@@ -5053,7 +6009,21 @@ export const createClusterV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates the replicator.
  */
-export const createReplicator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createReplicator: (
+  input: CreateReplicatorRequest,
+) => Effect.Effect<
+  CreateReplicatorResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReplicatorRequest,
   output: CreateReplicatorResponse,
   errors: [
@@ -5070,25 +6040,47 @@ export const createReplicator = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Returns a description of the cluster operation specified by the ARN.
  */
-export const describeClusterOperationV2 = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeClusterOperationV2Request,
-    output: DescribeClusterOperationV2Response,
-    errors: [
-      BadRequestException,
-      ForbiddenException,
-      InternalServerErrorException,
-      NotFoundException,
-      ServiceUnavailableException,
-      TooManyRequestsException,
-      UnauthorizedException,
-    ],
-  }),
-);
+export const describeClusterOperationV2: (
+  input: DescribeClusterOperationV2Request,
+) => Effect.Effect<
+  DescribeClusterOperationV2Response,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeClusterOperationV2Request,
+  output: DescribeClusterOperationV2Response,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+}));
 /**
  * Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
  */
-export const describeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeCluster: (
+  input: DescribeClusterRequest,
+) => Effect.Effect<
+  DescribeClusterResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeClusterRequest,
   output: DescribeClusterResponse,
   errors: [
@@ -5102,7 +6094,19 @@ export const describeCluster = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the cluster's connectivity configuration.
  */
-export const updateConnectivity = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateConnectivity: (
+  input: UpdateConnectivityRequest,
+) => Effect.Effect<
+  UpdateConnectivityResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConnectivityRequest,
   output: UpdateConnectivityResponse,
   errors: [

@@ -1,7 +1,15 @@
+import { HttpClient } from "@effect/platform";
+import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
-import * as T from "../traits.ts";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  Credentials,
+  Region,
+  Traits as T,
+  ErrorCategory,
+  Errors,
+} from "../index.ts";
 const svc = T.AwsApiService({
   sdkId: "Service Catalog",
   serviceShapeName: "AWS242ServiceCatalogService",
@@ -240,6 +248,123 @@ const rules = T.EndpointRuleSet({
     },
   ],
 });
+
+//# Newtypes
+export type AcceptLanguage = string;
+export type Id = string;
+export type BudgetName = string;
+export type PrincipalARN = string;
+export type IdempotencyToken = string;
+export type ResourceId = string;
+export type TagOptionId = string;
+export type ProductArn = string;
+export type ProductViewName = string;
+export type ConstraintParameters = string;
+export type ConstraintType = string;
+export type ConstraintDescription = string;
+export type PortfolioDisplayName = string;
+export type PortfolioDescription = string;
+export type ProviderName = string;
+export type AccountId = string;
+export type ProductViewOwner = string;
+export type ProductViewShortDescription = string;
+export type SupportDescription = string;
+export type SupportEmail = string;
+export type SupportUrl = string;
+export type ProvisionedProductPlanName = string;
+export type NotificationArn = string;
+export type ProvisionedProductName = string;
+export type ServiceActionName = string;
+export type ServiceActionDescription = string;
+export type TagOptionKey = string;
+export type TagOptionValue = string;
+export type PageToken = string;
+export type PageSizeMax100 = number;
+export type PageSize = number;
+export type ProvisioningArtifactName = string;
+export type ErrorMessage = string;
+export type OutputKey = string;
+export type PhysicalId = string;
+export type ResourceType = string;
+export type EngineWorkflowToken = string;
+export type EngineWorkflowFailureReason = string;
+export type SortField = string;
+export type SearchProvisionedProductsPageSize = number;
+export type ProvisionedProductNameOrArn = string;
+export type TagKey = string;
+export type ProvisioningArtifactDescription = string;
+export type ProvisioningArtifactPropertyValue = string;
+export type TagValue = string;
+export type OrganizationNodeValue = string;
+export type ParameterKey = string;
+export type ParameterValue = string;
+export type ServiceActionDefinitionValue = string;
+export type ExecutionParameterKey = string;
+export type ExecutionParameterValue = string;
+export type AccessLevelFilterValue = string;
+export type SearchFilterKey = string;
+export type SearchFilterValue = string;
+export type OutputValue = string;
+export type Description = string;
+export type Region = string;
+export type StackSetFailureToleranceCount = number;
+export type StackSetFailureTolerancePercentage = number;
+export type StackSetMaxConcurrencyCount = number;
+export type StackSetMaxConcurrencyPercentage = number;
+export type ProductViewFilterValue = string;
+export type ProvisionedProductViewFilterValue = string;
+export type PropertyValue = string;
+export type StatusDetail = string;
+export type ProvisioningArtifactInfoKey = string;
+export type ProvisioningArtifactInfoValue = string;
+export type UniqueTagKey = string;
+export type UniqueTagValue = string;
+export type ServiceActionAssociationErrorMessage = string;
+export type SourceRevision = string;
+export type Owner = string;
+export type ResourceARN = string;
+export type ProductViewDistributor = string;
+export type PortfolioName = string;
+export type ProvisionedProductType = string;
+export type ProvisionedProductId = string;
+export type ProvisionedProductStatusMessage = string;
+export type LastRequestId = string;
+export type RoleArn = string;
+export type CloudWatchDashboardName = string;
+export type StatusMessage = string;
+export type LogicalResourceId = string;
+export type PhysicalResourceId = string;
+export type PlanResourceType = string;
+export type DefaultValue = string;
+export type ParameterType = string;
+export type InstructionType = string;
+export type InstructionValue = string;
+export type ProvisioningArtifactOutputKey = string;
+export type OutputDescription = string;
+export type RecordType = string;
+export type ExecutionParameterType = string;
+export type ResourceDetailId = string;
+export type ResourceDetailARN = string;
+export type ResourceDetailName = string;
+export type ResourceDetailDescription = string;
+export type CodeStarConnectionArn = string;
+export type Repository = string;
+export type RepositoryBranch = string;
+export type RepositoryArtifactPath = string;
+export type TotalResultsCount = number;
+export type Message = string;
+export type CausingEntity = string;
+export type ErrorCode = string;
+export type ErrorDescription = string;
+export type RecordTagKey = string;
+export type RecordTagValue = string;
+export type ProductViewAggregationType = string;
+export type UserArn = string;
+export type UserArnSession = string;
+export type LastSyncStatusMessage = string;
+export type PropertyName = string;
+export type AttributeValue = string;
+export type ApproximateCount = number;
 
 //# Schemas
 export interface DisableAWSOrganizationsAccessInput {}
@@ -3968,39 +4093,79 @@ export class TagOptionNotMigratedException extends S.TaggedError<TagOptionNotMig
 /**
  * Disassociates the specified budget from the specified resource.
  */
-export const disassociateBudgetFromResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateBudgetFromResourceInput,
-    output: DisassociateBudgetFromResourceOutput,
-    errors: [ResourceNotFoundException],
-  }));
+export const disassociateBudgetFromResource: (
+  input: DisassociateBudgetFromResourceInput,
+) => Effect.Effect<
+  DisassociateBudgetFromResourceOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateBudgetFromResourceInput,
+  output: DisassociateBudgetFromResourceOutput,
+  errors: [ResourceNotFoundException],
+}));
 /**
  * Provisions or modifies a product based on the resource changes for the specified plan.
  */
-export const executeProvisionedProductPlan =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExecuteProvisionedProductPlanInput,
-    output: ExecuteProvisionedProductPlanOutput,
-    errors: [
-      InvalidParametersException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const executeProvisionedProductPlan: (
+  input: ExecuteProvisionedProductPlanInput,
+) => Effect.Effect<
+  ExecuteProvisionedProductPlanOutput,
+  | InvalidParametersException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecuteProvisionedProductPlanInput,
+  output: ExecuteProvisionedProductPlanOutput,
+  errors: [
+    InvalidParametersException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * This API takes either a `ProvisonedProductId` or a `ProvisionedProductName`, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.
  */
-export const getProvisionedProductOutputs =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const getProvisionedProductOutputs: {
+  (
     input: GetProvisionedProductOutputsInput,
-    output: GetProvisionedProductOutputsOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    GetProvisionedProductOutputsOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetProvisionedProductOutputsInput,
+  ) => Stream.Stream<
+    GetProvisionedProductOutputsOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetProvisionedProductOutputsInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetProvisionedProductOutputsInput,
+  output: GetProvisionedProductOutputsOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Requests the import of a resource as an Service Catalog provisioned product
  * that is associated to an Service Catalog product and provisioning artifact.
@@ -4029,62 +4194,151 @@ export const getProvisionedProductOutputs =
  * You can only import one provisioned product at a time. The product's CloudFormation stack must have the
  * `IMPORT_COMPLETE` status before you import another.
  */
-export const importAsProvisionedProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ImportAsProvisionedProductInput,
-    output: ImportAsProvisionedProductOutput,
-    errors: [
-      DuplicateResourceException,
-      InvalidParametersException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const importAsProvisionedProduct: (
+  input: ImportAsProvisionedProductInput,
+) => Effect.Effect<
+  ImportAsProvisionedProductOutput,
+  | DuplicateResourceException
+  | InvalidParametersException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ImportAsProvisionedProductInput,
+  output: ImportAsProvisionedProductOutput,
+  errors: [
+    DuplicateResourceException,
+    InvalidParametersException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Lists all imported portfolios for which account-to-account shares were accepted by
  * this account. By specifying the `PortfolioShareType`, you can list portfolios for which
  * organizational shares were accepted by this account.
  */
-export const listAcceptedPortfolioShares =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listAcceptedPortfolioShares: {
+  (
     input: ListAcceptedPortfolioSharesInput,
-    output: ListAcceptedPortfolioSharesOutput,
-    errors: [InvalidParametersException, OperationNotSupportedException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListAcceptedPortfolioSharesOutput,
+    | InvalidParametersException
+    | OperationNotSupportedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAcceptedPortfolioSharesInput,
+  ) => Stream.Stream<
+    ListAcceptedPortfolioSharesOutput,
+    | InvalidParametersException
+    | OperationNotSupportedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAcceptedPortfolioSharesInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParametersException
+    | OperationNotSupportedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAcceptedPortfolioSharesInput,
+  output: ListAcceptedPortfolioSharesOutput,
+  errors: [InvalidParametersException, OperationNotSupportedException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Lists all the budgets associated to the specified resource.
  */
-export const listBudgetsForResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listBudgetsForResource: {
+  (
     input: ListBudgetsForResourceInput,
-    output: ListBudgetsForResourceOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListBudgetsForResourceOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBudgetsForResourceInput,
+  ) => Stream.Stream<
+    ListBudgetsForResourceOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBudgetsForResourceInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBudgetsForResourceInput,
+  output: ListBudgetsForResourceOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Lists the constraints for the specified portfolio and product.
  */
-export const listConstraintsForPortfolio =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listConstraintsForPortfolio: {
+  (
     input: ListConstraintsForPortfolioInput,
-    output: ListConstraintsForPortfolioOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListConstraintsForPortfolioOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConstraintsForPortfolioInput,
+  ) => Stream.Stream<
+    ListConstraintsForPortfolioOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConstraintsForPortfolioInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConstraintsForPortfolioInput,
+  output: ListConstraintsForPortfolioOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Lists the organization nodes that have access to the specified portfolio. This API can
  * only be called by the management account in the organization or by a delegated
@@ -4092,116 +4346,282 @@ export const listConstraintsForPortfolio =
  *
  * If a delegated admin is de-registered, they can no longer perform this operation.
  */
-export const listOrganizationPortfolioAccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listOrganizationPortfolioAccess: {
+  (
     input: ListOrganizationPortfolioAccessInput,
-    output: ListOrganizationPortfolioAccessOutput,
-    errors: [
-      InvalidParametersException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListOrganizationPortfolioAccessOutput,
+    | InvalidParametersException
+    | OperationNotSupportedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOrganizationPortfolioAccessInput,
+  ) => Stream.Stream<
+    ListOrganizationPortfolioAccessOutput,
+    | InvalidParametersException
+    | OperationNotSupportedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOrganizationPortfolioAccessInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParametersException
+    | OperationNotSupportedException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOrganizationPortfolioAccessInput,
+  output: ListOrganizationPortfolioAccessOutput,
+  errors: [
+    InvalidParametersException,
+    OperationNotSupportedException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Lists the account IDs that have access to the specified portfolio.
  *
  * A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
  */
-export const listPortfolioAccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPortfolioAccess: {
+  (
     input: ListPortfolioAccessInput,
-    output: ListPortfolioAccessOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPortfolioAccessOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPortfolioAccessInput,
+  ) => Stream.Stream<
+    ListPortfolioAccessOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPortfolioAccessInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPortfolioAccessInput,
+  output: ListPortfolioAccessOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Lists all portfolios in the catalog.
  */
-export const listPortfolios = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listPortfolios: {
+  (
     input: ListPortfoliosInput,
-    output: ListPortfoliosOutput,
-    errors: [InvalidParametersException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListPortfoliosOutput,
+    InvalidParametersException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPortfoliosInput,
+  ) => Stream.Stream<
+    ListPortfoliosOutput,
+    InvalidParametersException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPortfoliosInput,
+  ) => Stream.Stream<
+    unknown,
+    InvalidParametersException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPortfoliosInput,
+  output: ListPortfoliosOutput,
+  errors: [InvalidParametersException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Lists all portfolios that the specified product is associated with.
  */
-export const listPortfoliosForProduct =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPortfoliosForProduct: {
+  (
     input: ListPortfoliosForProductInput,
-    output: ListPortfoliosForProductOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPortfoliosForProductOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPortfoliosForProductInput,
+  ) => Stream.Stream<
+    ListPortfoliosForProductOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPortfoliosForProductInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPortfoliosForProductInput,
+  output: ListPortfoliosForProductOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Lists all provisioning artifacts (also known as versions) for the specified product.
  */
-export const listProvisioningArtifacts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListProvisioningArtifactsInput,
-    output: ListProvisioningArtifactsOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }),
-);
+export const listProvisioningArtifacts: (
+  input: ListProvisioningArtifactsInput,
+) => Effect.Effect<
+  ListProvisioningArtifactsOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProvisioningArtifactsInput,
+  output: ListProvisioningArtifactsOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID.
  */
-export const listServiceActionsForProvisioningArtifact =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listServiceActionsForProvisioningArtifact: {
+  (
     input: ListServiceActionsForProvisioningArtifactInput,
-    output: ListServiceActionsForProvisioningArtifactOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListServiceActionsForProvisioningArtifactOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceActionsForProvisioningArtifactInput,
+  ) => Stream.Stream<
+    ListServiceActionsForProvisioningArtifactOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceActionsForProvisioningArtifactInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceActionsForProvisioningArtifactInput,
+  output: ListServiceActionsForProvisioningArtifactOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Lists the provisioned products that are available (not terminated).
  *
  * To use additional filtering, see SearchProvisionedProducts.
  */
-export const scanProvisionedProducts = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ScanProvisionedProductsInput,
-    output: ScanProvisionedProductsOutput,
-    errors: [InvalidParametersException],
-  }),
-);
+export const scanProvisionedProducts: (
+  input: ScanProvisionedProductsInput,
+) => Effect.Effect<
+  ScanProvisionedProductsOutput,
+  InvalidParametersException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ScanProvisionedProductsInput,
+  output: ScanProvisionedProductsOutput,
+  errors: [InvalidParametersException],
+}));
 /**
  * Gets information about the products for the specified portfolio or all products.
  */
-export const searchProductsAsAdmin =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchProductsAsAdmin: {
+  (
     input: SearchProductsAsAdminInput,
-    output: SearchProductsAsAdminOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchProductsAsAdminOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchProductsAsAdminInput,
+  ) => Stream.Stream<
+    SearchProductsAsAdminOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchProductsAsAdminInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchProductsAsAdminInput,
+  output: SearchProductsAsAdminOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Terminates the specified provisioned product.
  *
@@ -4209,17 +4629,27 @@ export const searchProductsAsAdmin =
  *
  * You can check the status of this request using DescribeRecord.
  */
-export const terminateProvisionedProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: TerminateProvisionedProductInput,
-    output: TerminateProvisionedProductOutput,
-    errors: [ResourceNotFoundException],
-  }),
-);
+export const terminateProvisionedProduct: (
+  input: TerminateProvisionedProductInput,
+) => Effect.Effect<
+  TerminateProvisionedProductOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TerminateProvisionedProductInput,
+  output: TerminateProvisionedProductOutput,
+  errors: [ResourceNotFoundException],
+}));
 /**
  * Updates the specified constraint.
  */
-export const updateConstraint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateConstraint: (
+  input: UpdateConstraintInput,
+) => Effect.Effect<
+  UpdateConstraintOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConstraintInput,
   output: UpdateConstraintOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
@@ -4245,34 +4675,52 @@ export const updateConstraint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Service Catalog recommends using `PrincipalType` as `IAM`. With this configuration,
  * the `PrincipalARN` must already exist in the recipient account before it can be associated.
  */
-export const updatePortfolioShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdatePortfolioShareInput,
-    output: UpdatePortfolioShareOutput,
-    errors: [
-      InvalidParametersException,
-      InvalidStateException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const updatePortfolioShare: (
+  input: UpdatePortfolioShareInput,
+) => Effect.Effect<
+  UpdatePortfolioShareOutput,
+  | InvalidParametersException
+  | InvalidStateException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePortfolioShareInput,
+  output: UpdatePortfolioShareOutput,
+  errors: [
+    InvalidParametersException,
+    InvalidStateException,
+    OperationNotSupportedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Updates the specified provisioning artifact (also known as a version) for the specified product.
  *
  * You cannot update a provisioning artifact for a product that was shared with you.
  */
-export const updateProvisioningArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateProvisioningArtifactInput,
-    output: UpdateProvisioningArtifactOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }),
-);
+export const updateProvisioningArtifact: (
+  input: UpdateProvisioningArtifactInput,
+) => Effect.Effect<
+  UpdateProvisioningArtifactOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProvisioningArtifactInput,
+  output: UpdateProvisioningArtifactOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Updates a self-service action.
  */
-export const updateServiceAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateServiceAction: (
+  input: UpdateServiceActionInput,
+) => Effect.Effect<
+  UpdateServiceActionOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateServiceActionInput,
   output: UpdateServiceActionOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
@@ -4282,7 +4730,13 @@ export const updateServiceAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const deleteConstraint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteConstraint: (
+  input: DeleteConstraintInput,
+) => Effect.Effect<
+  DeleteConstraintOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConstraintInput,
   output: DeleteConstraintOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
@@ -4290,12 +4744,17 @@ export const deleteConstraint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Deletes the specified plan.
  */
-export const deleteProvisionedProductPlan =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DeleteProvisionedProductPlanInput,
-    output: DeleteProvisionedProductPlanOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
+export const deleteProvisionedProductPlan: (
+  input: DeleteProvisionedProductPlanInput,
+) => Effect.Effect<
+  DeleteProvisionedProductPlanOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProvisionedProductPlanInput,
+  output: DeleteProvisionedProductPlanOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Deletes the specified provisioning artifact (also known as a version) for the specified product.
  *
@@ -4303,21 +4762,37 @@ export const deleteProvisionedProductPlan =
  * You cannot delete the last provisioning artifact for a product, because a product must have at
  * least one provisioning artifact.
  */
-export const deleteProvisioningArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeleteProvisioningArtifactInput,
-    output: DeleteProvisioningArtifactOutput,
-    errors: [
-      InvalidParametersException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deleteProvisioningArtifact: (
+  input: DeleteProvisioningArtifactInput,
+) => Effect.Effect<
+  DeleteProvisioningArtifactOutput,
+  | InvalidParametersException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProvisioningArtifactInput,
+  output: DeleteProvisioningArtifactOutput,
+  errors: [
+    InvalidParametersException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Deletes a self-service action.
  */
-export const deleteServiceAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteServiceAction: (
+  input: DeleteServiceActionInput,
+) => Effect.Effect<
+  DeleteServiceActionOutput,
+  | InvalidParametersException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServiceActionInput,
   output: DeleteServiceActionOutput,
   errors: [
@@ -4348,66 +4823,101 @@ export const deleteServiceAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * and then ensure you disassociate any `IAM_PATTERN` principals that match the principal
  * whose access you are removing.
  */
-export const disassociatePrincipalFromPortfolio =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociatePrincipalFromPortfolioInput,
-    output: DisassociatePrincipalFromPortfolioOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
+export const disassociatePrincipalFromPortfolio: (
+  input: DisassociatePrincipalFromPortfolioInput,
+) => Effect.Effect<
+  DisassociatePrincipalFromPortfolioOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociatePrincipalFromPortfolioInput,
+  output: DisassociatePrincipalFromPortfolioOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Disassociates the specified product from the specified portfolio.
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const disassociateProductFromPortfolio =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateProductFromPortfolioInput,
-    output: DisassociateProductFromPortfolioOutput,
-    errors: [
-      InvalidParametersException,
-      ResourceInUseException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const disassociateProductFromPortfolio: (
+  input: DisassociateProductFromPortfolioInput,
+) => Effect.Effect<
+  DisassociateProductFromPortfolioOutput,
+  | InvalidParametersException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateProductFromPortfolioInput,
+  output: DisassociateProductFromPortfolioOutput,
+  errors: [
+    InvalidParametersException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Disassociates the specified self-service action association from the specified provisioning artifact.
  */
-export const disassociateServiceActionFromProvisioningArtifact =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateServiceActionFromProvisioningArtifactInput,
-    output: DisassociateServiceActionFromProvisioningArtifactOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
+export const disassociateServiceActionFromProvisioningArtifact: (
+  input: DisassociateServiceActionFromProvisioningArtifactInput,
+) => Effect.Effect<
+  DisassociateServiceActionFromProvisioningArtifactOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateServiceActionFromProvisioningArtifactInput,
+  output: DisassociateServiceActionFromProvisioningArtifactOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Notifies the result
  * of the terminate engine execution.
  */
-export const notifyTerminateProvisionedProductEngineWorkflowResult =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: NotifyTerminateProvisionedProductEngineWorkflowResultInput,
-    output: NotifyTerminateProvisionedProductEngineWorkflowResultOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
+export const notifyTerminateProvisionedProductEngineWorkflowResult: (
+  input: NotifyTerminateProvisionedProductEngineWorkflowResultInput,
+) => Effect.Effect<
+  NotifyTerminateProvisionedProductEngineWorkflowResultOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: NotifyTerminateProvisionedProductEngineWorkflowResultInput,
+  output: NotifyTerminateProvisionedProductEngineWorkflowResultOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Notifies the result
  * of the update engine execution.
  */
-export const notifyUpdateProvisionedProductEngineWorkflowResult =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: NotifyUpdateProvisionedProductEngineWorkflowResultInput,
-    output: NotifyUpdateProvisionedProductEngineWorkflowResultOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
+export const notifyUpdateProvisionedProductEngineWorkflowResult: (
+  input: NotifyUpdateProvisionedProductEngineWorkflowResultInput,
+) => Effect.Effect<
+  NotifyUpdateProvisionedProductEngineWorkflowResultOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: NotifyUpdateProvisionedProductEngineWorkflowResultInput,
+  output: NotifyUpdateProvisionedProductEngineWorkflowResultOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Get the Access Status for Organizations portfolio share feature. This API can only be
  * called by the management account in the organization or by a delegated admin.
  */
-export const getAWSOrganizationsAccessStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: GetAWSOrganizationsAccessStatusInput,
-    output: GetAWSOrganizationsAccessStatusOutput,
-    errors: [OperationNotSupportedException, ResourceNotFoundException],
-  }));
+export const getAWSOrganizationsAccessStatus: (
+  input: GetAWSOrganizationsAccessStatusInput,
+) => Effect.Effect<
+  GetAWSOrganizationsAccessStatusOutput,
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAWSOrganizationsAccessStatusInput,
+  output: GetAWSOrganizationsAccessStatusOutput,
+  errors: [OperationNotSupportedException, ResourceNotFoundException],
+}));
 /**
  * Enable portfolio sharing feature through Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the
  * current structure. This API can only be called by the management account in the organization.
@@ -4424,16 +4934,24 @@ export const getAWSOrganizationsAccessStatus =
  * might still be able to create or manage Amazon Web Services resources when it is no longer
  * authorized to do so. Amazon Web Services is working to resolve this issue.
  */
-export const enableAWSOrganizationsAccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: EnableAWSOrganizationsAccessInput,
-    output: EnableAWSOrganizationsAccessOutput,
-    errors: [
-      InvalidStateException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const enableAWSOrganizationsAccess: (
+  input: EnableAWSOrganizationsAccessInput,
+) => Effect.Effect<
+  EnableAWSOrganizationsAccessOutput,
+  | InvalidStateException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableAWSOrganizationsAccessInput,
+  output: EnableAWSOrganizationsAccessOutput,
+  errors: [
+    InvalidStateException,
+    OperationNotSupportedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Stops sharing the specified portfolio with the specified account or organization
  * node. Shares to an organization node can only be deleted by the management account of an
@@ -4441,32 +4959,50 @@ export const enableAWSOrganizationsAccess =
  *
  * Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
  */
-export const deletePortfolioShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DeletePortfolioShareInput,
-    output: DeletePortfolioShareOutput,
-    errors: [
-      InvalidParametersException,
-      InvalidStateException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const deletePortfolioShare: (
+  input: DeletePortfolioShareInput,
+) => Effect.Effect<
+  DeletePortfolioShareOutput,
+  | InvalidParametersException
+  | InvalidStateException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePortfolioShareInput,
+  output: DeletePortfolioShareOutput,
+  errors: [
+    InvalidParametersException,
+    InvalidStateException,
+    OperationNotSupportedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Rejects an offer to share the specified portfolio.
  */
-export const rejectPortfolioShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: RejectPortfolioShareInput,
-    output: RejectPortfolioShareOutput,
-    errors: [ResourceNotFoundException],
-  }),
-);
+export const rejectPortfolioShare: (
+  input: RejectPortfolioShareInput,
+) => Effect.Effect<
+  RejectPortfolioShareOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RejectPortfolioShareInput,
+  output: RejectPortfolioShareOutput,
+  errors: [ResourceNotFoundException],
+}));
 /**
  * Gets information about the specified constraint.
  */
-export const describeConstraint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeConstraint: (
+  input: DescribeConstraintInput,
+) => Effect.Effect<
+  DescribeConstraintOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeConstraintInput,
   output: DescribeConstraintOutput,
   errors: [ResourceNotFoundException],
@@ -4474,17 +5010,27 @@ export const describeConstraint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets the status of the specified copy product operation.
  */
-export const describeCopyProductStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeCopyProductStatusInput,
-    output: DescribeCopyProductStatusOutput,
-    errors: [ResourceNotFoundException],
-  }),
-);
+export const describeCopyProductStatus: (
+  input: DescribeCopyProductStatusInput,
+) => Effect.Effect<
+  DescribeCopyProductStatusOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCopyProductStatusInput,
+  output: DescribeCopyProductStatusOutput,
+  errors: [ResourceNotFoundException],
+}));
 /**
  * Gets information about the specified product.
  */
-export const describeProductView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeProductView: (
+  input: DescribeProductViewInput,
+) => Effect.Effect<
+  DescribeProductViewOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProductViewInput,
   output: DescribeProductViewOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
@@ -4505,48 +5051,73 @@ export const describeProductView = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * structure. Specifically, accounts that you removed from the organization after
  * disabling Service Catalog access will retain access to the previously shared portfolio.
  */
-export const disableAWSOrganizationsAccess =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisableAWSOrganizationsAccessInput,
-    output: DisableAWSOrganizationsAccessOutput,
-    errors: [
-      InvalidStateException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const disableAWSOrganizationsAccess: (
+  input: DisableAWSOrganizationsAccessInput,
+) => Effect.Effect<
+  DisableAWSOrganizationsAccessOutput,
+  | InvalidStateException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableAWSOrganizationsAccessInput,
+  output: DisableAWSOrganizationsAccessOutput,
+  errors: [
+    InvalidStateException,
+    OperationNotSupportedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Accepts an offer to share the specified portfolio.
  */
-export const acceptPortfolioShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AcceptPortfolioShareInput,
-    output: AcceptPortfolioShareOutput,
-    errors: [
-      InvalidParametersException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const acceptPortfolioShare: (
+  input: AcceptPortfolioShareInput,
+) => Effect.Effect<
+  AcceptPortfolioShareOutput,
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AcceptPortfolioShareInput,
+  output: AcceptPortfolioShareOutput,
+  errors: [
+    InvalidParametersException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Associates multiple self-service actions with provisioning artifacts.
  */
-export const batchAssociateServiceActionWithProvisioningArtifact =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchAssociateServiceActionWithProvisioningArtifactInput,
-    output: BatchAssociateServiceActionWithProvisioningArtifactOutput,
-    errors: [InvalidParametersException],
-  }));
+export const batchAssociateServiceActionWithProvisioningArtifact: (
+  input: BatchAssociateServiceActionWithProvisioningArtifactInput,
+) => Effect.Effect<
+  BatchAssociateServiceActionWithProvisioningArtifactOutput,
+  InvalidParametersException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchAssociateServiceActionWithProvisioningArtifactInput,
+  output: BatchAssociateServiceActionWithProvisioningArtifactOutput,
+  errors: [InvalidParametersException],
+}));
 /**
  * Disassociates a batch of self-service actions from the specified provisioning artifact.
  */
-export const batchDisassociateServiceActionFromProvisioningArtifact =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: BatchDisassociateServiceActionFromProvisioningArtifactInput,
-    output: BatchDisassociateServiceActionFromProvisioningArtifactOutput,
-    errors: [InvalidParametersException],
-  }));
+export const batchDisassociateServiceActionFromProvisioningArtifact: (
+  input: BatchDisassociateServiceActionFromProvisioningArtifactInput,
+) => Effect.Effect<
+  BatchDisassociateServiceActionFromProvisioningArtifactOutput,
+  InvalidParametersException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDisassociateServiceActionFromProvisioningArtifactInput,
+  output: BatchDisassociateServiceActionFromProvisioningArtifactOutput,
+  errors: [InvalidParametersException],
+}));
 /**
  * Copies the specified source product to the specified target product or a new
  * product.
@@ -4558,7 +5129,13 @@ export const batchDisassociateServiceActionFromProvisioningArtifact =
  * This operation is performed asynchronously. To track the progress of the
  * operation, use DescribeCopyProductStatus.
  */
-export const copyProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const copyProduct: (
+  input: CopyProductInput,
+) => Effect.Effect<
+  CopyProductOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyProductInput,
   output: CopyProductOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
@@ -4568,7 +5145,17 @@ export const copyProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const createConstraint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createConstraint: (
+  input: CreateConstraintInput,
+) => Effect.Effect<
+  CreateConstraintOutput,
+  | DuplicateResourceException
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConstraintInput,
   output: CreateConstraintOutput,
   errors: [
@@ -4601,19 +5188,28 @@ export const createConstraint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Service Catalog recommends using `PrincipalType` as `IAM`. With this configuration,
  * the `PrincipalARN` must already exist in the recipient account before it can be associated.
  */
-export const createPortfolioShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreatePortfolioShareInput,
-    output: CreatePortfolioShareOutput,
-    errors: [
-      InvalidParametersException,
-      InvalidStateException,
-      LimitExceededException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const createPortfolioShare: (
+  input: CreatePortfolioShareInput,
+) => Effect.Effect<
+  CreatePortfolioShareOutput,
+  | InvalidParametersException
+  | InvalidStateException
+  | LimitExceededException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePortfolioShareInput,
+  output: CreatePortfolioShareOutput,
+  errors: [
+    InvalidParametersException,
+    InvalidStateException,
+    LimitExceededException,
+    OperationNotSupportedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a plan.
  *
@@ -4627,16 +5223,24 @@ export const createPortfolioShare = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * To view the resource changes in the change set, use DescribeProvisionedProductPlan.
  * To create or modify the provisioned product, use ExecuteProvisionedProductPlan.
  */
-export const createProvisionedProductPlan =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: CreateProvisionedProductPlanInput,
-    output: CreateProvisionedProductPlanOutput,
-    errors: [
-      InvalidParametersException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const createProvisionedProductPlan: (
+  input: CreateProvisionedProductPlanInput,
+) => Effect.Effect<
+  CreateProvisionedProductPlanOutput,
+  | InvalidParametersException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProvisionedProductPlanInput,
+  output: CreateProvisionedProductPlanOutput,
+  errors: [
+    InvalidParametersException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a provisioning artifact (also known as a version) for the specified product.
  *
@@ -4646,21 +5250,34 @@ export const createProvisionedProductPlan =
  * IAM policy permission. This policy permission is required when using the
  * `ImportFromPhysicalId` template source in the information data section.
  */
-export const createProvisioningArtifact = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: CreateProvisioningArtifactInput,
-    output: CreateProvisioningArtifactOutput,
-    errors: [
-      InvalidParametersException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const createProvisioningArtifact: (
+  input: CreateProvisioningArtifactInput,
+) => Effect.Effect<
+  CreateProvisioningArtifactOutput,
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProvisioningArtifactInput,
+  output: CreateProvisioningArtifactOutput,
+  errors: [
+    InvalidParametersException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Creates a self-service action.
  */
-export const createServiceAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createServiceAction: (
+  input: CreateServiceActionInput,
+) => Effect.Effect<
+  CreateServiceActionOutput,
+  InvalidParametersException | LimitExceededException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceActionInput,
   output: CreateServiceActionOutput,
   errors: [InvalidParametersException, LimitExceededException],
@@ -4670,7 +5287,13 @@ export const createServiceAction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const describePortfolio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describePortfolio: (
+  input: DescribePortfolioInput,
+) => Effect.Effect<
+  DescribePortfolioOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePortfolioInput,
   output: DescribePortfolioOutput,
   errors: [ResourceNotFoundException],
@@ -4684,17 +5307,44 @@ export const describePortfolio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * The `PortfolioId` and `Type` parameters are both required.
  */
-export const describePortfolioShares =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const describePortfolioShares: {
+  (
     input: DescribePortfolioSharesInput,
-    output: DescribePortfolioSharesOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    DescribePortfolioSharesOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribePortfolioSharesInput,
+  ) => Stream.Stream<
+    DescribePortfolioSharesOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribePortfolioSharesInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribePortfolioSharesInput,
+  output: DescribePortfolioSharesOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Gets information about the specified product.
  *
@@ -4704,7 +5354,13 @@ export const describePortfolioShares =
  * in a failure.
  * DescribeProductAsAdmin should be used instead.
  */
-export const describeProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeProduct: (
+  input: DescribeProductInput,
+) => Effect.Effect<
+  DescribeProductOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeProductInput,
   output: DescribeProductOutput,
   errors: [InvalidParametersException, ResourceNotFoundException],
@@ -4712,13 +5368,17 @@ export const describeProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about the specified provisioned product.
  */
-export const describeProvisionedProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeProvisionedProductInput,
-    output: DescribeProvisionedProductOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }),
-);
+export const describeProvisionedProduct: (
+  input: DescribeProvisionedProductInput,
+) => Effect.Effect<
+  DescribeProvisionedProductOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeProvisionedProductInput,
+  output: DescribeProvisionedProductOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Gets information about the configuration required to provision the specified product using
  * the specified provisioning artifact.
@@ -4730,44 +5390,66 @@ export const describeProvisionedProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(
  * "Parameter validation failed: Missing required parameter in Tags[*N*]:*Value*".
  * Tag the provisioned product with the value `sc-tagoption-conflict-portfolioId-productId`.
  */
-export const describeProvisioningParameters =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeProvisioningParametersInput,
-    output: DescribeProvisioningParametersOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
+export const describeProvisioningParameters: (
+  input: DescribeProvisioningParametersInput,
+) => Effect.Effect<
+  DescribeProvisioningParametersOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeProvisioningParametersInput,
+  output: DescribeProvisioningParametersOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Describes a self-service action.
  */
-export const describeServiceAction = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeServiceActionInput,
-    output: DescribeServiceActionOutput,
-    errors: [ResourceNotFoundException],
-  }),
-);
+export const describeServiceAction: (
+  input: DescribeServiceActionInput,
+) => Effect.Effect<
+  DescribeServiceActionOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeServiceActionInput,
+  output: DescribeServiceActionOutput,
+  errors: [ResourceNotFoundException],
+}));
 /**
  * Finds the default parameters for a specific self-service action on a specific provisioned product and returns a map of the results to the user.
  */
-export const describeServiceActionExecutionParameters =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeServiceActionExecutionParametersInput,
-    output: DescribeServiceActionExecutionParametersOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
+export const describeServiceActionExecutionParameters: (
+  input: DescribeServiceActionExecutionParametersInput,
+) => Effect.Effect<
+  DescribeServiceActionExecutionParametersOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeServiceActionExecutionParametersInput,
+  output: DescribeServiceActionExecutionParametersOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Executes a self-service action against a provisioned product.
  */
-export const executeProvisionedProductServiceAction =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ExecuteProvisionedProductServiceActionInput,
-    output: ExecuteProvisionedProductServiceActionOutput,
-    errors: [
-      InvalidParametersException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const executeProvisionedProductServiceAction: (
+  input: ExecuteProvisionedProductServiceActionInput,
+) => Effect.Effect<
+  ExecuteProvisionedProductServiceActionOutput,
+  | InvalidParametersException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecuteProvisionedProductServiceActionInput,
+  output: ExecuteProvisionedProductServiceActionOutput,
+  errors: [
+    InvalidParametersException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Lists the paths
  * to the specified product.
@@ -4791,50 +5473,136 @@ export const executeProvisionedProductServiceAction =
  * see Granting users access
  * in the *Service Catalog User Guide*.
  */
-export const listLaunchPaths = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listLaunchPaths: {
+  (
     input: ListLaunchPathsInput,
-    output: ListLaunchPathsOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListLaunchPathsOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLaunchPathsInput,
+  ) => Stream.Stream<
+    ListLaunchPathsOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLaunchPathsInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLaunchPathsInput,
+  output: ListLaunchPathsOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Lists all `PrincipalARN`s and corresponding `PrincipalType`s associated with the specified portfolio.
  */
-export const listPrincipalsForPortfolio =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listPrincipalsForPortfolio: {
+  (
     input: ListPrincipalsForPortfolioInput,
-    output: ListPrincipalsForPortfolioOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListPrincipalsForPortfolioOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPrincipalsForPortfolioInput,
+  ) => Stream.Stream<
+    ListPrincipalsForPortfolioOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPrincipalsForPortfolioInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPrincipalsForPortfolioInput,
+  output: ListPrincipalsForPortfolioOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Lists all provisioning artifacts (also known as versions) for the specified self-service action.
  */
-export const listProvisioningArtifactsForServiceAction =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listProvisioningArtifactsForServiceAction: {
+  (
     input: ListProvisioningArtifactsForServiceActionInput,
-    output: ListProvisioningArtifactsForServiceActionOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListProvisioningArtifactsForServiceActionOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProvisioningArtifactsForServiceActionInput,
+  ) => Stream.Stream<
+    ListProvisioningArtifactsForServiceActionOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProvisioningArtifactsForServiceActionInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProvisioningArtifactsForServiceActionInput,
+  output: ListProvisioningArtifactsForServiceActionOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Lists the specified requests or all performed requests.
  */
-export const listRecordHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const listRecordHistory: (
+  input: ListRecordHistoryInput,
+) => Effect.Effect<
+  ListRecordHistoryOutput,
+  InvalidParametersException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRecordHistoryInput,
   output: ListRecordHistoryOutput,
   errors: [InvalidParametersException],
@@ -4842,37 +5610,67 @@ export const listRecordHistory = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists all self-service actions.
  */
-export const listServiceActions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listServiceActions: {
+  (
     input: ListServiceActionsInput,
-    output: ListServiceActionsOutput,
-    errors: [InvalidParametersException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListServiceActionsOutput,
+    InvalidParametersException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServiceActionsInput,
+  ) => Stream.Stream<
+    ListServiceActionsOutput,
+    InvalidParametersException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServiceActionsInput,
+  ) => Stream.Stream<
+    unknown,
+    InvalidParametersException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceActionsInput,
+  output: ListServiceActionsOutput,
+  errors: [InvalidParametersException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Returns summary information about stack instances that are associated with the specified `CFN_STACKSET` type provisioned product. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region.
  */
-export const listStackInstancesForProvisionedProduct =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: ListStackInstancesForProvisionedProductInput,
-    output: ListStackInstancesForProvisionedProductOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
+export const listStackInstancesForProvisionedProduct: (
+  input: ListStackInstancesForProvisionedProductInput,
+) => Effect.Effect<
+  ListStackInstancesForProvisionedProductOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListStackInstancesForProvisionedProductInput,
+  output: ListStackInstancesForProvisionedProductOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Notifies the result
  * of the provisioning engine execution.
  */
-export const notifyProvisionProductEngineWorkflowResult =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: NotifyProvisionProductEngineWorkflowResultInput,
-    output: NotifyProvisionProductEngineWorkflowResultOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
+export const notifyProvisionProductEngineWorkflowResult: (
+  input: NotifyProvisionProductEngineWorkflowResultInput,
+) => Effect.Effect<
+  NotifyProvisionProductEngineWorkflowResultOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: NotifyProvisionProductEngineWorkflowResultInput,
+  output: NotifyProvisionProductEngineWorkflowResultOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Provisions the specified product.
  *
@@ -4905,7 +5703,16 @@ export const notifyProvisionProductEngineWorkflowResult =
  * see Granting users access
  * in the *Service Catalog User Guide*.
  */
-export const provisionProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const provisionProduct: (
+  input: ProvisionProductInput,
+) => Effect.Effect<
+  ProvisionProductOutput,
+  | DuplicateResourceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionProductInput,
   output: ProvisionProductOutput,
   errors: [
@@ -4917,7 +5724,16 @@ export const provisionProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Updates the specified product.
  */
-export const updateProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateProduct: (
+  input: UpdateProductInput,
+) => Effect.Effect<
+  UpdateProductOutput,
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProductInput,
   output: UpdateProductOutput,
   errors: [
@@ -4935,47 +5751,77 @@ export const updateProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * You can check the status of this request using DescribeRecord.
  */
-export const updateProvisionedProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: UpdateProvisionedProductInput,
-    output: UpdateProvisionedProductOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }),
-);
+export const updateProvisionedProduct: (
+  input: UpdateProvisionedProductInput,
+) => Effect.Effect<
+  UpdateProvisionedProductOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProvisionedProductInput,
+  output: UpdateProvisionedProductOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Requests updates to the properties of the specified provisioned product.
  */
-export const updateProvisionedProductProperties =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: UpdateProvisionedProductPropertiesInput,
-    output: UpdateProvisionedProductPropertiesOutput,
-    errors: [
-      InvalidParametersException,
-      InvalidStateException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const updateProvisionedProductProperties: (
+  input: UpdateProvisionedProductPropertiesInput,
+) => Effect.Effect<
+  UpdateProvisionedProductPropertiesOutput,
+  | InvalidParametersException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProvisionedProductPropertiesInput,
+  output: UpdateProvisionedProductPropertiesOutput,
+  errors: [
+    InvalidParametersException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Associates the specified budget with the specified resource.
  */
-export const associateBudgetWithResource = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: AssociateBudgetWithResourceInput,
-    output: AssociateBudgetWithResourceOutput,
-    errors: [
-      DuplicateResourceException,
-      InvalidParametersException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }),
-);
+export const associateBudgetWithResource: (
+  input: AssociateBudgetWithResourceInput,
+) => Effect.Effect<
+  AssociateBudgetWithResourceOutput,
+  | DuplicateResourceException
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateBudgetWithResourceInput,
+  output: AssociateBudgetWithResourceOutput,
+  errors: [
+    DuplicateResourceException,
+    InvalidParametersException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Updates the specified portfolio.
  *
  * You cannot update a product that was shared with you.
  */
-export const updatePortfolio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updatePortfolio: (
+  input: UpdatePortfolioInput,
+) => Effect.Effect<
+  UpdatePortfolioOutput,
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePortfolioInput,
   output: UpdatePortfolioOutput,
   errors: [
@@ -5004,65 +5850,111 @@ export const updatePortfolio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  * Service Catalog recommends using `PrincipalType` as `IAM`. With this configuration,
  * the `PrincipalARN` must already exist in the recipient account before it can be associated.
  */
-export const associatePrincipalWithPortfolio =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociatePrincipalWithPortfolioInput,
-    output: AssociatePrincipalWithPortfolioOutput,
-    errors: [
-      InvalidParametersException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const associatePrincipalWithPortfolio: (
+  input: AssociatePrincipalWithPortfolioInput,
+) => Effect.Effect<
+  AssociatePrincipalWithPortfolioOutput,
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociatePrincipalWithPortfolioInput,
+  output: AssociatePrincipalWithPortfolioOutput,
+  errors: [
+    InvalidParametersException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Associates the specified product with the specified portfolio.
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const associateProductWithPortfolio =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateProductWithPortfolioInput,
-    output: AssociateProductWithPortfolioOutput,
-    errors: [
-      InvalidParametersException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const associateProductWithPortfolio: (
+  input: AssociateProductWithPortfolioInput,
+) => Effect.Effect<
+  AssociateProductWithPortfolioOutput,
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateProductWithPortfolioInput,
+  output: AssociateProductWithPortfolioOutput,
+  errors: [
+    InvalidParametersException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Associates a self-service action with a provisioning artifact.
  */
-export const associateServiceActionWithProvisioningArtifact =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateServiceActionWithProvisioningArtifactInput,
-    output: AssociateServiceActionWithProvisioningArtifactOutput,
-    errors: [
-      DuplicateResourceException,
-      InvalidParametersException,
-      LimitExceededException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const associateServiceActionWithProvisioningArtifact: (
+  input: AssociateServiceActionWithProvisioningArtifactInput,
+) => Effect.Effect<
+  AssociateServiceActionWithProvisioningArtifactOutput,
+  | DuplicateResourceException
+  | InvalidParametersException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateServiceActionWithProvisioningArtifactInput,
+  output: AssociateServiceActionWithProvisioningArtifactOutput,
+  errors: [
+    DuplicateResourceException,
+    InvalidParametersException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Associate the specified TagOption with the specified portfolio or product.
  */
-export const associateTagOptionWithResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: AssociateTagOptionWithResourceInput,
-    output: AssociateTagOptionWithResourceOutput,
-    errors: [
-      DuplicateResourceException,
-      InvalidParametersException,
-      InvalidStateException,
-      LimitExceededException,
-      ResourceNotFoundException,
-      TagOptionNotMigratedException,
-    ],
-  }));
+export const associateTagOptionWithResource: (
+  input: AssociateTagOptionWithResourceInput,
+) => Effect.Effect<
+  AssociateTagOptionWithResourceOutput,
+  | DuplicateResourceException
+  | InvalidParametersException
+  | InvalidStateException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateTagOptionWithResourceInput,
+  output: AssociateTagOptionWithResourceOutput,
+  errors: [
+    DuplicateResourceException,
+    InvalidParametersException,
+    InvalidStateException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    TagOptionNotMigratedException,
+  ],
+}));
 /**
  * Updates the specified TagOption.
  */
-export const updateTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const updateTagOption: (
+  input: UpdateTagOptionInput,
+) => Effect.Effect<
+  UpdateTagOptionOutput,
+  | DuplicateResourceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTagOptionInput,
   output: UpdateTagOptionOutput,
   errors: [
@@ -5080,7 +5972,17 @@ export const updateTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const deletePortfolio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deletePortfolio: (
+  input: DeletePortfolioInput,
+) => Effect.Effect<
+  DeletePortfolioOutput,
+  | InvalidParametersException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePortfolioInput,
   output: DeletePortfolioOutput,
   errors: [
@@ -5097,7 +5999,17 @@ export const deletePortfolio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const deleteProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteProduct: (
+  input: DeleteProductInput,
+) => Effect.Effect<
+  DeleteProductOutput,
+  | InvalidParametersException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProductInput,
   output: DeleteProductOutput,
   errors: [
@@ -5110,18 +6022,34 @@ export const deleteProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Disassociates the specified TagOption from the specified resource.
  */
-export const disassociateTagOptionFromResource =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DisassociateTagOptionFromResourceInput,
-    output: DisassociateTagOptionFromResourceOutput,
-    errors: [ResourceNotFoundException, TagOptionNotMigratedException],
-  }));
+export const disassociateTagOptionFromResource: (
+  input: DisassociateTagOptionFromResourceInput,
+) => Effect.Effect<
+  DisassociateTagOptionFromResourceOutput,
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateTagOptionFromResourceInput,
+  output: DisassociateTagOptionFromResourceOutput,
+  errors: [ResourceNotFoundException, TagOptionNotMigratedException],
+}));
 /**
  * Deletes the specified TagOption.
  *
  * You cannot delete a TagOption if it is associated with a product or portfolio.
  */
-export const deleteTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const deleteTagOption: (
+  input: DeleteTagOptionInput,
+) => Effect.Effect<
+  DeleteTagOptionOutput,
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagOptionInput,
   output: DeleteTagOptionOutput,
   errors: [
@@ -5133,7 +6061,15 @@ export const deleteTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about the specified TagOption.
  */
-export const describeTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeTagOption: (
+  input: DescribeTagOptionInput,
+) => Effect.Effect<
+  DescribeTagOptionOutput,
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTagOptionInput,
   output: DescribeTagOptionOutput,
   errors: [ResourceNotFoundException, TagOptionNotMigratedException],
@@ -5143,7 +6079,16 @@ export const describeTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const createPortfolio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createPortfolio: (
+  input: CreatePortfolioInput,
+) => Effect.Effect<
+  CreatePortfolioOutput,
+  | InvalidParametersException
+  | LimitExceededException
+  | TagOptionNotMigratedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePortfolioInput,
   output: CreatePortfolioOutput,
   errors: [
@@ -5155,7 +6100,16 @@ export const createPortfolio = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Creates a TagOption.
  */
-export const createTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createTagOption: (
+  input: CreateTagOptionInput,
+) => Effect.Effect<
+  CreateTagOptionOutput,
+  | DuplicateResourceException
+  | LimitExceededException
+  | TagOptionNotMigratedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagOptionInput,
   output: CreateTagOptionOutput,
   errors: [
@@ -5167,59 +6121,128 @@ export const createTagOption = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the resources associated with the specified TagOption.
  */
-export const listResourcesForTagOption =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const listResourcesForTagOption: {
+  (
     input: ListResourcesForTagOptionInput,
-    output: ListResourcesForTagOptionOutput,
-    errors: [
-      InvalidParametersException,
-      ResourceNotFoundException,
-      TagOptionNotMigratedException,
-    ],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "PageToken",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    ListResourcesForTagOptionOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | TagOptionNotMigratedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourcesForTagOptionInput,
+  ) => Stream.Stream<
+    ListResourcesForTagOptionOutput,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | TagOptionNotMigratedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourcesForTagOptionInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | TagOptionNotMigratedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourcesForTagOptionInput,
+  output: ListResourcesForTagOptionOutput,
+  errors: [
+    InvalidParametersException,
+    ResourceNotFoundException,
+    TagOptionNotMigratedException,
+  ],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "PageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Lists the specified TagOptions or all TagOptions.
  */
-export const listTagOptions = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const listTagOptions: {
+  (
     input: ListTagOptionsInput,
-    output: ListTagOptionsOutput,
-    errors: [InvalidParametersException, TagOptionNotMigratedException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "PageToken",
-      pageSize: "PageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    ListTagOptionsOutput,
+    | InvalidParametersException
+    | TagOptionNotMigratedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagOptionsInput,
+  ) => Stream.Stream<
+    ListTagOptionsOutput,
+    | InvalidParametersException
+    | TagOptionNotMigratedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagOptionsInput,
+  ) => Stream.Stream<
+    unknown,
+    | InvalidParametersException
+    | TagOptionNotMigratedException
+    | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagOptionsInput,
+  output: ListTagOptionsOutput,
+  errors: [InvalidParametersException, TagOptionNotMigratedException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "PageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Gets the status of the specified portfolio share operation. This API can only be called
  * by the management account in the organization or by a delegated admin.
  */
-export const describePortfolioShareStatus =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribePortfolioShareStatusInput,
-    output: DescribePortfolioShareStatusOutput,
-    errors: [
-      InvalidParametersException,
-      OperationNotSupportedException,
-      ResourceNotFoundException,
-    ],
-  }));
+export const describePortfolioShareStatus: (
+  input: DescribePortfolioShareStatusInput,
+) => Effect.Effect<
+  DescribePortfolioShareStatusOutput,
+  | InvalidParametersException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribePortfolioShareStatusInput,
+  output: DescribePortfolioShareStatusOutput,
+  errors: [
+    InvalidParametersException,
+    OperationNotSupportedException,
+    ResourceNotFoundException,
+  ],
+}));
 /**
  * Gets information about the specified provisioning artifact (also known as a version) for the specified product.
  */
-export const describeProvisioningArtifact =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeProvisioningArtifactInput,
-    output: DescribeProvisioningArtifactOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
+export const describeProvisioningArtifact: (
+  input: DescribeProvisioningArtifactInput,
+) => Effect.Effect<
+  DescribeProvisioningArtifactOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeProvisioningArtifactInput,
+  output: DescribeProvisioningArtifactOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Gets information about the specified request operation.
  *
@@ -5230,7 +6253,13 @@ export const describeProvisioningArtifact =
  * will be able to describe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to
  * use ListRecordHistory to see the product's history from when he was the owner.
  */
-export const describeRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const describeRecord: (
+  input: DescribeRecordInput,
+) => Effect.Effect<
+  DescribeRecordOutput,
+  ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRecordInput,
   output: DescribeRecordOutput,
   errors: [ResourceNotFoundException],
@@ -5238,27 +6267,52 @@ export const describeRecord = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Lists the plans for the specified provisioned product or all plans to which the user has access.
  */
-export const listProvisionedProductPlans = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: ListProvisionedProductPlansInput,
-    output: ListProvisionedProductPlansOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }),
-);
+export const listProvisionedProductPlans: (
+  input: ListProvisionedProductPlansInput,
+) => Effect.Effect<
+  ListProvisionedProductPlansOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProvisionedProductPlansInput,
+  output: ListProvisionedProductPlansOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Gets information about the provisioned products that meet the specified criteria.
  */
-export const searchProvisionedProducts =
-  /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+export const searchProvisionedProducts: {
+  (
     input: SearchProvisionedProductsInput,
-    output: SearchProvisionedProductsOutput,
-    errors: [InvalidParametersException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }));
+  ): Effect.Effect<
+    SearchProvisionedProductsOutput,
+    InvalidParametersException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchProvisionedProductsInput,
+  ) => Stream.Stream<
+    SearchProvisionedProductsOutput,
+    InvalidParametersException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchProvisionedProductsInput,
+  ) => Stream.Stream<
+    unknown,
+    InvalidParametersException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchProvisionedProductsInput,
+  output: SearchProvisionedProductsOutput,
+  errors: [InvalidParametersException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
 /**
  * Creates a product.
  *
@@ -5269,7 +6323,16 @@ export const searchProvisionedProducts =
  * required when using the `ImportFromPhysicalId` template source in the
  * information data section.
  */
-export const createProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const createProduct: (
+  input: CreateProductInput,
+) => Effect.Effect<
+  CreateProductOutput,
+  | InvalidParametersException
+  | LimitExceededException
+  | TagOptionNotMigratedException
+  | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProductInput,
   output: CreateProductOutput,
   errors: [
@@ -5281,34 +6344,63 @@ export const createProduct = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
 /**
  * Gets information about the specified product. This operation is run with administrator access.
  */
-export const describeProductAsAdmin = /*@__PURE__*/ /*#__PURE__*/ API.make(
-  () => ({
-    input: DescribeProductAsAdminInput,
-    output: DescribeProductAsAdminOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }),
-);
+export const describeProductAsAdmin: (
+  input: DescribeProductAsAdminInput,
+) => Effect.Effect<
+  DescribeProductAsAdminOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeProductAsAdminInput,
+  output: DescribeProductAsAdminOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Gets information about the resource changes for the specified plan.
  */
-export const describeProvisionedProductPlan =
-  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-    input: DescribeProvisionedProductPlanInput,
-    output: DescribeProvisionedProductPlanOutput,
-    errors: [InvalidParametersException, ResourceNotFoundException],
-  }));
+export const describeProvisionedProductPlan: (
+  input: DescribeProvisionedProductPlanInput,
+) => Effect.Effect<
+  DescribeProvisionedProductPlanOutput,
+  InvalidParametersException | ResourceNotFoundException | Errors.CommonErrors,
+  Credentials.Credentials | Region.Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeProvisionedProductPlanInput,
+  output: DescribeProvisionedProductPlanOutput,
+  errors: [InvalidParametersException, ResourceNotFoundException],
+}));
 /**
  * Gets information about the products to which the caller has access.
  */
-export const searchProducts = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(
-  () => ({
+export const searchProducts: {
+  (
     input: SearchProductsInput,
-    output: SearchProductsOutput,
-    errors: [InvalidParametersException],
-    pagination: {
-      inputToken: "PageToken",
-      outputToken: "NextPageToken",
-      pageSize: "PageSize",
-    } as const,
-  }),
-);
+  ): Effect.Effect<
+    SearchProductsOutput,
+    InvalidParametersException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchProductsInput,
+  ) => Stream.Stream<
+    SearchProductsOutput,
+    InvalidParametersException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchProductsInput,
+  ) => Stream.Stream<
+    unknown,
+    InvalidParametersException | Errors.CommonErrors,
+    Credentials.Credentials | Region.Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchProductsInput,
+  output: SearchProductsOutput,
+  errors: [InvalidParametersException],
+  pagination: {
+    inputToken: "PageToken",
+    outputToken: "NextPageToken",
+    pageSize: "PageSize",
+  } as const,
+}));
